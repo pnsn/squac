@@ -124,5 +124,10 @@
       }
     }
   },
-  "defaultProject": "squac-ui"
+  "defaultProject": "squac-ui",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
