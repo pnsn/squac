@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -32,6 +33,9 @@ import { StationDetailComponent } from './station-detail/station-detail.componen
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
+import { ChannelGroupsDetailComponent } from './channel-groups-detail/channel-groups-detail.component';
+import { ChannelGroupsCreateComponent } from './channel-groups-create/channel-groups-create.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,10 +44,15 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     StationsComponent,
     StationDetailComponent,
     DashboardComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ChannelGroupsComponent,
+    ChannelGroupsDetailComponent,
+    ChannelGroupsCreateComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
