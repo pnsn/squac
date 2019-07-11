@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GroupsComponent } from './groups/groups.component';
 import { MetricsComponent } from './metrics/metrics.component';
-import { EditGroupsComponent } from './groups/edit-groups/edit-groups.component';
-import { EditMetricsComponent } from './metrics/edit-metrics/edit-metrics.component';
+import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
+import { MetricDetailComponent } from './metrics/metric-detail/metric-detail.component';
+import { DashboardEditComponent } from './dashboard/dashboard-edit/dashboard-edit.component';
 
 @NgModule({
   declarations: [
@@ -15,8 +16,9 @@ import { EditMetricsComponent } from './metrics/edit-metrics/edit-metrics.compon
     DashboardComponent,
     GroupsComponent,
     MetricsComponent,
-    EditGroupsComponent,
-    EditMetricsComponent
+    MetricsEditComponent,
+    MetricDetailComponent,
+    DashboardEditComponent
   ],
   imports: [
     BrowserModule,
