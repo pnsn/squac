@@ -16,34 +16,36 @@ export class GroupsService {
   //in future get metrics from request;
   constructor() { }
 
-  // private getIndexFromId(id: number) : number{
-  //   for (let i=0; i < this.metrics.length; i++) {
-  //     if (this.metrics[i].id === id) {
-  //         return i;
-  //     }
-  //   }
-  // }
+  private getIndexFromId(id: number) : number{
+    for (let i=0; i < this.groups.length; i++) {
+      if (this.groups[i].id === id) {
+          return i;
+      }
+    }
+  }
 
   getGroups(){
     return this.groups.slice();
   }
 
-  // getMetric(id: number) : Metric{
-  //   let index = this.getIndexFromId(id);
-  //   return this.metrics[index];
-  // }
+  getGroup(id: number) : Group{
+    let index = this.getIndexFromId(id);
+    return this.groups[index];
+  }
 
-  // addMetric(name: String) { //can't know id yet
-  // this.metricsChange();
-  // };
+  addGroup(name: String) { //can't know id yet
+    this.groupsChange();
+  };
 
-  // updateMetric(id: number, metric: Metric) {
-  //   let index = this.getIndexFromId(id);
+  updateGroup(id: number, group: Group) {
+    let index = this.getIndexFromId(id);
 
-  //   this.metrics[index] = new Metric(id, metric.name);
-  //   console.log(this.metrics)
-  //   this.metricsChange();
-  // }
+    this.groups[index] = new Group(id, group.name);
+    this.groups[index].updateMetrics(group.metrics);
+    console.log(this.groups)
+
+    this.groupsChange();
+  }
 
   private groupsChange(){
     this.groupsChanged.next(this.groups.slice());

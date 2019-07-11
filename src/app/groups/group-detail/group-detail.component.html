@@ -1,3 +1,10 @@
 <p>
-  group-detail works!
+    group-detail works!
 </p>
+<h3>{{group.name}} {{id}}</h3>
+<ul>
+  <li *ngFor="let metric of group.metrics">
+    {{metric.name}}
+  </li>
+</ul>
+<button (click)="editMetric()">edit {{id}}</button>

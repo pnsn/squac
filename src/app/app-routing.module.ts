@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { MetricDetailComponent } from './metrics/metric-detail/metric-detail.component';
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
+import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
+import { GroupEditComponent } from './groups/group-edit/group-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

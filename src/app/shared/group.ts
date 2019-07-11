@@ -3,11 +3,15 @@ import { Station } from './station';
 
 //Wtf does a group look like
 export class Group {
-  private id: number;
-  private name: string;
-  private description: string;
-  private metrics: Metric[];
-  private stations: Station[];
+  public id: number;
+  public name: string;
+  public description: string;
+  public metrics: Metric[] = [
+    new Metric(11, "metric 1"),
+    new Metric(12, "metric 2"),
+    new Metric(13, "metric 3")
+  ];
+  public stations: Station[];
 
   constructor(id: number, name: string) {
     this.id = id;
@@ -16,5 +20,9 @@ export class Group {
 
   addMetric(metric: Metric){
     this.metrics.push(metric);
+  }
+
+  updateMetrics(metrics: Metric[]) {
+    this.metrics = metrics;
   }
 }
