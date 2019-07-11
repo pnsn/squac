@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MetricsService } from '../metrics.service';
+import { Subscription } from 'rxjs';
+import { Metric } from '../shared/metric';
+import { GroupsService } from '../groups.service';
+import { Group } from '../shared/group';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,10 +11,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  groups: Group[];
+  subscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private groupsService: GroupsService) {
+
+  }
 
   ngOnInit() {
+    this.groups = this.groupsService.getGroups();
+    this.subscription.add(this.groupsService.groupsChanged.subscribe(
+      (groups: Group[]) => {
+        this.groups = groups;
+      }
+    ));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

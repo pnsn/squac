@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Metric } from './shared/metric';
-
+import { Subject } from 'rxjs';
 
 //should I use index or id
 @Injectable({
   providedIn: 'root'
 })
 export class MetricsService {
-  metrics: Metric[] = [
-    { id: 1, name: "metric 1"},
-    { id: 2, name: "metric 2"},
-    { id: 3, name: "metric 3"}
-  ]
+  private metrics: Metric[] = [
+    new Metric(1, "metric a"),
+    new Metric(2, "metric b"), 
+    new Metric(3, "metric c") 
+  ];
+  metricsChanged = new Subject<Metric[]>();
   //in future get metrics from request;
   constructor() { }
 
@@ -32,12 +33,19 @@ export class MetricsService {
     return this.metrics[index];
   }
 
-  addMetric(metricName: String) { //can't know id yet
-
+  addMetric(name: String) { //can't know id yet
+  this.metricsChange();
   };
 
-  updateMetric(id: number) {
+  updateMetric(id: number, metric: Metric) {
     let index = this.getIndexFromId(id);
-    return this.metrics[index];
+
+    this.metrics[index] = new Metric(id, metric.name);
+    console.log(this.metrics)
+    this.metricsChange();
+  }
+
+  private metricsChange(){
+    this.metricsChanged.next(this.metrics.slice());
   }
 }

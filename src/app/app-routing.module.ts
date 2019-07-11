@@ -15,7 +15,12 @@ const routes: Routes = [
       { path: ':id/edit', component: MetricsEditComponent },
     ]
   },
-  { path: 'groups', component: GroupsComponent}
+  { path: 'groups', component: GroupsComponent,
+    children: [
+      { path: ':id', component: GroupDetailComponent},
+      { path: ':id/edit', component: GroupEditComponent },
+    ]
+  },
 ];
 
 @NgModule({

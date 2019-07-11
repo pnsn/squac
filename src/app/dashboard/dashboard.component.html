@@ -1,3 +1,19 @@
-<p>
-  dashboard works!
-</p>
+<h2>
+  Here is the dashboard!
+</h2>
+<hr>
+<div> 
+  <h3> Metrics </h3>
+  <ul>
+    <li *ngFor="let metric of metrics"> {{metric.name}} </li>
+  </ul>
+</div>
+
+<div> 
+    <h3> Groups </h3>
+    <ul>
+      <li *ngFor="let group of groups"> {{group.name}} </li>
+    </ul>
+</div>
+
+
