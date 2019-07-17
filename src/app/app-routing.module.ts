@@ -12,8 +12,8 @@ import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit
 import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: DashboardComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'metric-groups', component: MetricGroupsComponent,
     children: [
       { path: 'new', component: MetricGroupsEditComponent},

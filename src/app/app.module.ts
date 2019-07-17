@@ -14,6 +14,8 @@ import { GroupEditComponent } from './groups/group-edit/group-edit.component';
 import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
 import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
 import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
+import { ViewDetailComponent } from './dashboard/view-detail/view-detail.component';
+import { ViewEditComponent } from './dashboard/view-edit/view-edit.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-de
     GroupEditComponent,
     ChannelGroupsComponent,
     ChannelGroupsEditComponent,
-    ChannelGroupsDetailComponent
+    ChannelGroupsDetailComponent,
+    ViewDetailComponent,
+    ViewEditComponent
   ],
   imports: [
     BrowserModule,
