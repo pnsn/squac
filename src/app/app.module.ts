@@ -11,10 +11,9 @@ import { DashboardEditComponent } from './dashboards/dashboard-edit/dashboard-ed
 import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
 import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
 import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
-import { ViewDetailComponent } from './views/view-detail/view-detail.component';
-import { ViewEditComponent } from './views/view-edit/view-edit.component';
-import { ViewsComponent } from './views/views.component';
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
+import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
+import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget-edit/widget-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +26,9 @@ import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboar
     ChannelGroupsComponent,
     ChannelGroupsEditComponent,
     ChannelGroupsDetailComponent,
-    ViewDetailComponent,
-    ViewEditComponent,
-    ViewsComponent,
-    DashboardDetailComponent
+    DashboardDetailComponent,
+    WidgetComponent,
+    WidgetEditComponent
   ],
   imports: [
     BrowserModule,

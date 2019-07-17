@@ -1,7 +1,7 @@
 import { MetricGroup } from './metric-group';
 import { ChannelGroup } from './channel-group';
 
-export class View {
+export class Widget {
   public id: number;
   public name: string;
   public description: string;

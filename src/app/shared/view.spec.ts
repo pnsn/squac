@@ -1,7 +1,7 @@
-import { View } from './view';
+import { Widget } from './widget';
 
-describe('View', () => {
+describe('Widget', () => {
   it('should create an instance', () => {
-    expect(new View()).toBeTruthy();
+    expect(new Widget(1, "name")).toBeTruthy();
   });
 });

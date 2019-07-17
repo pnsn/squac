@@ -1,10 +1,10 @@
-import { View } from './view';
+import { Widget } from './widget';
 
 export class Dashboard {
   public id: number;
   public name: string;
   public description: string;
-  public views: View[];
+  public widgets: Widget[];
 
   constructor(id: number, name: string){
     this.id = id;
