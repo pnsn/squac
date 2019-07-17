@@ -7,6 +7,9 @@ import { MetricGroupsDetailComponent } from './metric-groups/metric-groups-detai
 import { MetricGroupsEditComponent } from './metric-groups/metric-groups-edit/metric-groups-edit.component';
 import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
 import { GroupEditComponent } from './groups/group-edit/group-edit.component';
+import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
+import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
+import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,6 +28,13 @@ const routes: Routes = [
       { path: ':id/edit', component: GroupEditComponent },
     ]
   },
+  { path: 'channel-groups', component: ChannelGroupsComponent,
+  children: [
+    { path: 'new', component: ChannelGroupsEditComponent},
+    { path: ':id', component: ChannelGroupsDetailComponent},
+    { path: ':id/edit', component: ChannelGroupsEditComponent },
+  ]
+}
 ];
 
 @NgModule({
