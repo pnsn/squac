@@ -4,6 +4,7 @@
 
 <div>
   <h2>Available Metrics</h2>
+  <button (click)="addMetric()">Add Metric</button>
   <ul>
       <li *ngFor="let metric of metrics"> 
       <a [routerLink]="[metric.id]" routerLinkActive="active">{{metric.name}}</a>

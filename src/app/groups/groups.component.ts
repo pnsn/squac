@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Metric } from '../shared/metric';
 import { Group } from '../shared/group';
 import { Subscription } from 'rxjs';
-import { MetricsService } from '../metrics.service';
+import { MetricGroupsService } from '../metric-groups.service';
 import { GroupsService } from '../groups.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-groups',
@@ -15,13 +16,17 @@ export class GroupsComponent implements OnInit {
   groups: Group[];
   subscription: Subscription = new Subscription();
 
-  constructor(private metricsService: MetricsService, private groupsService: GroupsService) {
+  constructor(
+    private MetricGroupsService: MetricGroupsService,
+    private groupsService: GroupsService,
+    private router: Router,
+    private route: ActivatedRoute) {
 
   }
 
   ngOnInit() {
-    this.metrics = this.metricsService.getMetrics();
-    this.subscription.add(this.metricsService.metricsChanged.subscribe(
+    this.metrics = this.MetricGroupsService.getMetrics();
+    this.subscription.add(this.MetricGroupsService.metricsChanged.subscribe(
       (metrics: Metric[]) => {
         this.metrics = metrics;
       }
@@ -33,6 +38,10 @@ export class GroupsComponent implements OnInit {
         this.groups = groups;
       }
     ));
+  }
+
+  addGroup() {
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
   ngOnDestroy(): void {

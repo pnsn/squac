@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Group } from '../../shared/group';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MetricsService } from '../../metrics.service';
+import { MetricGroupsService } from '../../metric-groups.service';
 import { GroupsService } from '../../groups.service';
 import { Metric } from '../../shared/metric';
 
@@ -17,7 +17,7 @@ export class GroupEditComponent implements OnInit {
   metric: Metric;
   editMode : boolean;
   groupForm : FormGroup;
-  constructor(private router: Router, private route: ActivatedRoute, private metricService : MetricsService, private groupService : GroupsService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private metricGroupService : MetricGroupsService, private groupService : GroupsService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -70,9 +70,16 @@ export class GroupEditComponent implements OnInit {
 
   save() {
     //save metric
-    this.groupService.updateGroup(this.id, this.groupForm.value);
-    this.router.navigate(['../'], {relativeTo: this.route});
+    let id = this.groupService.updateGroup(this.id, this.groupForm.value);
+    
+    if(this.editMode) {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../' + id], {relativeTo: this.route});
+    }
   }
 
-
+  cancel() {
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
 }

@@ -8,9 +8,9 @@ import { Subject } from 'rxjs';
 })
 export class GroupsService {
   private groups: Group[] = [
-    new Group(1, "group A"),
-    new Group(2, "group B"),
-    new Group(3, "group C"), 
+    new Group(12398724, "group A"),
+    new Group(2232437, "group B"),
+    new Group(3131242, "group C"), 
   ];
   groupsChanged = new Subject<Group[]>();
   //in future get metrics from request;
@@ -33,18 +33,21 @@ export class GroupsService {
     return this.groups[index];
   }
 
-  addGroup(name: String) { //can't know id yet
+  addGroup(group: Group) : number{ //can't know id yet
+    this.groups.push(new Group(this.groups.length, group.name, group.metrics));
     this.groupsChange();
+    console.log(this.groups)
+    return this.groups.length - 1;
   };
 
-  updateGroup(id: number, group: Group) {
-    let index = this.getIndexFromId(id);
-
-    this.groups[index] = new Group(id, group.name);
-    this.groups[index].updateMetrics(group.metrics);
-    console.log(this.groups)
-
-    this.groupsChange();
+  updateGroup(id: number, group: Group) : number {
+    if (id) {
+      let index = this.getIndexFromId(id);
+      this.groups[index] = new Group(id, group.name, group.metrics);
+      this.groupsChange();
+    } else {
+      return this.addGroup(group);
+    }
   }
 
   private groupsChange(){

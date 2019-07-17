@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MetricsService } from '../metrics.service';
+import { MetricGroupsService } from '../metric-groups.service';
 import { Subscription } from 'rxjs';
 import { Metric } from '../shared/metric';
 import { GroupsService } from '../groups.service';

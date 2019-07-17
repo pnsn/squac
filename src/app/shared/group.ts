@@ -1,5 +1,5 @@
 import { Metric } from './metric';
-import { Station } from './station';
+import { Channel } from './channel';
 
 //Wtf does a group look like
 export class Group {
@@ -11,11 +11,12 @@ export class Group {
     new Metric(12, "metric 2"),
     new Metric(13, "metric 3")
   ];
-  public stations: Station[];
+  public stations: Channel[];
 
-  constructor(id: number, name: string) {
+  constructor(id: number, name: string, metrics?: Metric[]) {
     this.id = id;
     this.name = name;
+    this.metrics = metrics;
   }
 
   addMetric(metric: Metric){

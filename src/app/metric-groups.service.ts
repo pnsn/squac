@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MetricsService {
+export class MetricGroupsService {
   private metrics: Metric[] = [
     new Metric(1, "metric a"),
     new Metric(2, "metric b"), 
@@ -33,14 +33,22 @@ export class MetricsService {
     return this.metrics[index];
   }
 
-  addMetric(name: String) { //can't know id yet
-  this.metricsChange();
+  addMetric(metric: Metric) : number{ //can't know id yet
+    this.metrics.push(new Metric(this.metrics.length, metric.name));
+    this.metricsChange();
+
+    return this.metrics.length;
   };
 
-  updateMetric(id: number, metric: Metric) {
-    let index = this.getIndexFromId(id);
+  updateMetric(id: number, metric: Metric) : number{
+    if(id) {
+      let index = this.getIndexFromId(id);
+      this.metrics[index] = new Metric(id, metric.name);
+      this.metricsChange();
+    } else {
+      return this.addMetric(metric);
+    }
 
-    this.metrics[index] = new Metric(id, metric.name);
     console.log(this.metrics)
     this.metricsChange();
   }

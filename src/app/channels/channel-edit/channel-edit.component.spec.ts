@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MetricsEditComponent } from './metrics-edit.component';
+import { ChannelEditComponent } from './channel-edit.component';
 
-describe('MetricsEditComponent', () => {
-  let component: MetricsEditComponent;
-  let fixture: ComponentFixture<MetricsEditComponent>;
+describe('ChannelEditComponent', () => {
+  let component: ChannelEditComponent;
+  let fixture: ComponentFixture<ChannelEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MetricsEditComponent ]
+      declarations: [ ChannelEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MetricsEditComponent);
+    fixture = TestBed.createComponent(ChannelEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,6 +5,7 @@
 
 <div> 
     <h3> Groups </h3>
+    <button (click)="addGroup()">Add Group</button>
     <ul>
       <li *ngFor="let group of groups">
         <a [routerLink]="[group.id]" routerLinkActive="active">{{group.name}}</a>

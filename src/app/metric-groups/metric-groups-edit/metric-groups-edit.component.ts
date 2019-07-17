@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Metric } from '../../shared/metric';
-import { MetricsService } from '../../metrics.service';
+import { MetricGroupsService } from '../../metric-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-metrics-edit',
-  templateUrl: './metrics-edit.component.html',
-  styleUrls: ['./metrics-edit.component.scss']
-})
-export class MetricsEditComponent implements OnInit {
+  selector: 'app-metric-group-edit',
+  templateUrl: './metric-groups-edit.component.html',
+  styleUrls: ['./metric-groups-edit.component.scss']
+}) 
+export class MetricGroupsEditComponent implements OnInit {
   id: number;
   metric: Metric;
   editMode : boolean;
   metricForm : FormGroup;
-  constructor(private router: Router, private route: ActivatedRoute, private metricService : MetricsService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private metricGroupService : MetricGroupsService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -31,7 +31,7 @@ export class MetricsEditComponent implements OnInit {
     let metricName = "";
 
     if (this.editMode) {
-      const metric = this.metricService.getMetric(this.id);
+      const metric = this.metricGroupService.getMetric(this.id);
       metricName = metric.name;
     }
 
@@ -42,7 +42,11 @@ export class MetricsEditComponent implements OnInit {
 
   save() {
     //save metric
-    this.metricService.updateMetric(this.id, this.metricForm.value);
+    this.metricGroupService.updateMetric(this.id, this.metricForm.value);
+    this.cancel();
+  }
+
+  cancel() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 

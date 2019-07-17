@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MetricsService } from './metrics.service';
+import { MetricGroupsService } from './metric-groups.service';
 
-describe('MetricsService', () => {
+describe('MetricGroupsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: MetricsService = TestBed.get(MetricsService);
+    const service: MetricGroupsService = TestBed.get(MetricGroupsService);
     expect(service).toBeTruthy();
   });
 });
