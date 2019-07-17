@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GroupEditComponent } from './group-edit.component';
+import { DashboardsComponent } from './dashboards.component';
 
-describe('GroupEditComponent', () => {
-  let component: GroupEditComponent;
-  let fixture: ComponentFixture<GroupEditComponent>;
+describe('DashboardComponent', () => {
+  let component: DashboardsComponent;
+  let fixture: ComponentFixture<DashboardsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupEditComponent ]
+      declarations: [ DashboardsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GroupEditComponent);
+    fixture = TestBed.createComponent(DashboardsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

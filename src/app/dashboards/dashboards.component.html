@@ -1,0 +1,15 @@
+<!-- make this dahsboard component? -->
+<div id="sidebar">
+  <ul>
+    <li *ngFor="let dashboard of dashboards" >
+      <a [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}}</a>
+    </li>
+  </ul>
+
+  <button (click)="newDashboard()">Create New Dashboard</button>
+</div>
+
+
+<div id="content">
+    <router-outlet></router-outlet>
+  </div>
