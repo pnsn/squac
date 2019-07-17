@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Metric } from '../shared/metric';
+import { MetricGroup } from '../shared/metric-group';
 import { MetricGroupsService } from '../metric-groups.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-metrics',
+  selector: 'app-metric-groups',
   templateUrl: './metric-groups.component.html',
   styleUrls: ['./metric-groups.component.scss']
 })
 export class MetricGroupsComponent implements OnInit, OnDestroy {
-  metrics: Metric[];
+  metricGroups: MetricGroup[];
   subscription: Subscription;
   constructor(  
     private MetricGroupsService: MetricGroupsService,
@@ -20,10 +20,10 @@ export class MetricGroupsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.metrics = this.MetricGroupsService.getMetrics();
-    this.subscription = this.MetricGroupsService.metricsChanged.subscribe(
-      (metrics: Metric[]) => {
-        this.metrics = metrics;
+    this.metricGroups = this.MetricGroupsService.getMetricGroups();
+    this.subscription = this.MetricGroupsService.metricGroupsChanged.subscribe(
+      (metricGroups: MetricGroup[]) => {
+        this.metricGroups = metricGroups;
       }
     )
   }
@@ -32,7 +32,7 @@ export class MetricGroupsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  addMetric() {
+  addMetricGroup() {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 

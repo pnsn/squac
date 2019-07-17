@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MetricGroupsService } from '../metric-groups.service';
 import { Subscription } from 'rxjs';
-import { Metric } from '../shared/metric';
+import { MetricGroup } from '../shared/metric-group';
 import { GroupsService } from '../groups.service';
 import { Group } from '../shared/group';
 

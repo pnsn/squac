@@ -13,7 +13,7 @@ export class GroupsService {
     new Group(3131242, "group C"), 
   ];
   groupsChanged = new Subject<Group[]>();
-  //in future get metrics from request;
+
   constructor() { }
 
   private getIndexFromId(id: number) : number{
@@ -34,7 +34,7 @@ export class GroupsService {
   }
 
   addGroup(group: Group) : number{ //can't know id yet
-    this.groups.push(new Group(this.groups.length, group.name, group.metrics));
+    this.groups.push(new Group(this.groups.length, group.name, group.metricGroups));
     this.groupsChange();
     console.log(this.groups)
     return this.groups.length - 1;
@@ -43,7 +43,7 @@ export class GroupsService {
   updateGroup(id: number, group: Group) : number {
     if (id) {
       let index = this.getIndexFromId(id);
-      this.groups[index] = new Group(id, group.name, group.metrics);
+      this.groups[index] = new Group(id, group.name, group.metricGroups);
       this.groupsChange();
     } else {
       return this.addGroup(group);

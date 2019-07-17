@@ -1,4 +1,4 @@
-export class Metric {
+export class MetricGroup {
   public id: number;
   public name: string;
   constructor(id: number, name: string) {

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { MetricGroupsService } from '../../metric-groups.service';
-import { Metric } from '../../shared/metric';
+import { MetricGroup } from '../../shared/metric-group';
 
 @Component({
-  selector: 'app-metric-group-detail',
+  selector: 'app-metric-groups-detail',
   templateUrl: './metric-groups-detail.component.html',
   styleUrls: ['./metric-groups-detail.component.scss']
 })
 export class MetricGroupsDetailComponent implements OnInit {
   id: number;
-  metric: Metric;
+  metricGroup: MetricGroup;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -21,11 +21,11 @@ export class MetricGroupsDetailComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
-        this.metric = this.MetricGroupsService.getMetric(this.id);
+        this.metricGroup = this.MetricGroupsService.getMetricGroup(this.id);
       }
     )
   }
-  editMetric() {
+  editMetricGroup() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 

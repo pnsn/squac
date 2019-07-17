@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Metric } from '../shared/metric';
+import { MetricGroup } from '../shared/metric-group';
 import { Group } from '../shared/group';
 import { Subscription } from 'rxjs';
 import { MetricGroupsService } from '../metric-groups.service';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent implements OnInit {
-  metrics: Metric[];
+  metricGroups: MetricGroup[];
   groups: Group[];
   subscription: Subscription = new Subscription();
 
@@ -25,10 +25,10 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.metrics = this.MetricGroupsService.getMetrics();
-    this.subscription.add(this.MetricGroupsService.metricsChanged.subscribe(
-      (metrics: Metric[]) => {
-        this.metrics = metrics;
+    this.metricGroups = this.MetricGroupsService.getMetricGroups();
+    this.subscription.add(this.MetricGroupsService.metricGroupsChanged.subscribe(
+      (metricGroups: MetricGroup[]) => {
+        this.metricGroups = metricGroups;
       }
     ));
 

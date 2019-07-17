@@ -11,7 +11,7 @@ import { GroupEditComponent } from './groups/group-edit/group-edit.component';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: DashboardComponent },
-  { path: 'metrics', component: MetricGroupsComponent,
+  { path: 'metric-groups', component: MetricGroupsComponent,
     children: [
       { path: 'new', component: MetricGroupsEditComponent},
       { path: ':id', component: MetricGroupsDetailComponent},

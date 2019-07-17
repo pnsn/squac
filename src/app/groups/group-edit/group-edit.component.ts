@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MetricGroupsService } from '../../metric-groups.service';
 import { GroupsService } from '../../groups.service';
-import { Metric } from '../../shared/metric';
+import { MetricGroup } from '../../shared/metric-group';
 
 @Component({
   selector: 'app-group-edit',
@@ -14,7 +14,7 @@ import { Metric } from '../../shared/metric';
 export class GroupEditComponent implements OnInit {
   id: number;
   group: Group;
-  metric: Metric;
+  metricGroup: MetricGroup;
   editMode : boolean;
   groupForm : FormGroup;
   constructor(private router: Router, private route: ActivatedRoute, private metricGroupService : MetricGroupsService, private groupService : GroupsService) { }
@@ -31,16 +31,16 @@ export class GroupEditComponent implements OnInit {
 
   private initForm() {
     let groupName = "";
-    let groupMetrics = new FormArray([]);
+    let groupMetricGroups = new FormArray([]);
 
     if (this.editMode) {
       const group = this.groupService.getGroup(this.id);
       groupName = group.name;
-      if (group['metrics']) {
-        for( let metric of group.metrics) {
-          groupMetrics.push(
+      if (group['metricGroups']) {
+        for( let metricGroup of group.metricGroups) {
+          groupMetricGroups.push(
             new FormGroup({
-              'name': new FormControl(metric.name, Validators.required)
+              'name': new FormControl(metricGroup.name, Validators.required)
             })
           );
         }
@@ -48,12 +48,12 @@ export class GroupEditComponent implements OnInit {
     }
     this.groupForm = new FormGroup({
       'name' : new FormControl(groupName, Validators.required),
-      'metrics' : groupMetrics
+      'metricGroups' : groupMetricGroups
     });
   }
 
   addMetric() {
-    (<FormArray>this.groupForm.get('metrics')).push(
+    (<FormArray>this.groupForm.get('metricGroups')).push(
       new FormGroup({
         'name': new FormControl(null, Validators.required)
       })
@@ -61,11 +61,11 @@ export class GroupEditComponent implements OnInit {
   }
 
   getControls() {
-    return (<FormArray>this.groupForm.get('metrics')).controls;
+    return (<FormArray>this.groupForm.get('metricGroups')).controls;
   }
 
   deleteMetric(index:number) {
-    (<FormArray>this.groupForm.get('metrics')).removeAt(index);
+    (<FormArray>this.groupForm.get('metricGroups')).removeAt(index);
   }
 
   save() {
