@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ChannelGroup } from '../../shared/channel-group';
-import { ChannelGroupsService } from '../../channel-groups.service';
+import { ChannelGroupsService } from '../../shared/channel-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators } from '@angular/forms';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MetricGroup } from '../shared/metric-group';
-import { MetricGroupsService } from '../metric-groups.service';
+import { MetricGroupsService } from '../shared/metric-groups.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,11 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MetricGroupsComponent implements OnInit, OnDestroy {
   metricGroups: MetricGroup[];
   subscription: Subscription;
+
   constructor(  
     private MetricGroupsService: MetricGroupsService,
     private router: Router,
     private route: ActivatedRoute) {
-
   }
 
   ngOnInit() {
@@ -37,3 +37,4 @@ export class MetricGroupsComponent implements OnInit, OnDestroy {
   }
 
 }
+ 

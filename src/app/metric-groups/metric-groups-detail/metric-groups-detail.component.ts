@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { MetricGroupsService } from '../../metric-groups.service';
+import { MetricGroupsService } from '../../shared/metric-groups.service';
 import { MetricGroup } from '../../shared/metric-group';
 
 @Component({

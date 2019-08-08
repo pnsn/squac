@@ -9,9 +9,11 @@ import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit
 import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
 import { DashboardEditComponent } from './dashboards/dashboard-edit/dashboard-edit.component';
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
+import { AuthComponent } from './auth/auth.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
+  { path: 'login', component: AuthComponent},
   { path: 'dashboards', component: DashboardsComponent,
     children: [
       { path: 'new', component: DashboardEditComponent},

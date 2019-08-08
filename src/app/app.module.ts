@@ -14,6 +14,11 @@ import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-de
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
 import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
 import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget-edit/widget-edit.component';
+import { AuthInterceptor } from './auth-interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthComponent } from './auth/auth.component';
+import { HeaderComponent } from './header/header.component';
+import { ClassComponent } from './class/class.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,10 @@ import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget
     ChannelGroupsDetailComponent,
     DashboardDetailComponent,
     WidgetComponent,
-    WidgetEditComponent
+    WidgetEditComponent,
+    AuthComponent,
+    HeaderComponent,
+    ClassComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +44,13 @@ import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { 
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

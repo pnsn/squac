@@ -1,12 +1,12 @@
 
 <h2>
-  Dashboard {{dashboard.name}}
+  {{dashboard.name}}
 </h2>
 <hr>
-<button>Do something with views</button>
+<button (click)="editDashboard()">Edit Dashboard</button>
 <div> 
-    <h3> Views </h3>
+    <h3> Widgets </h3>
     <ul>
-      <li *ngFor="let view of views"> {{view.name}} </li>
+      <li *ngFor="let widget of widgets"> {{widget.name}} </li>
     </ul>
 </div>

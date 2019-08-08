@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Dashboard } from '../../shared/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { DashboardsService } from '../../dashboards.service';
+import { DashboardsService } from '../../shared/dashboards.service';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -26,7 +26,7 @@ export class DashboardDetailComponent implements OnInit {
       }
     )
   }
-  editMetricGroup() {
+  editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 }

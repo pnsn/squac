@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DashboardsService } from '../dashboards.service';
+import { DashboardsService } from '../shared/dashboards.service';
 import { Dashboard } from '../shared/dashboard';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class DashboardsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboards = this.dashboards=this.dashboardsService.getDashboards();
+    this.dashboards = this.dashboardsService.getDashboards();
     this.subscription.add(this.dashboardsService.dashboardsChanged.subscribe(
       (dashboards: Dashboard[]) => {
         this.dashboards = dashboards;

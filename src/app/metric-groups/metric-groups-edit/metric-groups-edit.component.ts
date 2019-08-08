@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MetricGroup } from '../../shared/metric-group';
-import { MetricGroupsService } from '../../metric-groups.service';
+import { MetricGroupsService } from '../../shared/metric-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators } from '@angular/forms';
 
 @Component({
@@ -29,20 +29,21 @@ export class MetricGroupsEditComponent implements OnInit {
 
   private initForm() {
     let metricGroupName = "";
-
+    let metricGroupDescription = "";
     if (this.editMode) {
       const metricGroup = this.metricGroupService.getMetricGroup(this.id);
+      metricGroupDescription = metricGroup.description;
       metricGroupName = metricGroup.name;
     }
 
     this.metricGroupForm = new FormGroup({
-      'name' : new FormControl(metricGroupName, Validators.required)
+      'name' : new FormControl(metricGroupName, Validators.required),
+      'description': new FormControl(metricGroupDescription, Validators.required)
     });
   }
 
   save() {
-    //save metric
-    this.metricGroupService.updateMetricGroup(this.id, this.metricGroupForm.value);
+    this.metricGroupService.updateMetricGroup(this.metricGroupForm.value, this.id);
     this.cancel();
   }
 

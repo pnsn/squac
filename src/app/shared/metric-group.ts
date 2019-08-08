@@ -1,8 +1,13 @@
+import { Metric } from './metric';
+
 export class MetricGroup {
   public id: number;
   public name: string;
-  constructor(id: number, name: string) {
-    this.id = id;
+  public description: string;
+  public metrics: Metric[];
+  constructor(name: string, description: string, id?: number) {
     this.name = name;
+    this.description = description;
+    this.id = id;
   }
 }
