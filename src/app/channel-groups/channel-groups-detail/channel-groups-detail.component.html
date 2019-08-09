@@ -1,6 +1,15 @@
 <h2> Channel Group Detail</h2>
 <p>
-  channel-detail works!
   {{channelGroup.name}}
 </p>
+<p>
+  {{channelGroup.description}}
+</p>
+<h3>Channels</h3>
+<ul>
+  <li *ngFor="let channel of channelGroup.channels">
+    {{channel.nslc}}
+  </li>
+</ul>
+
 <button (click)="editChannelGroup()">edit {{id}}</button>

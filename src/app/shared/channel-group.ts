@@ -1,14 +1,12 @@
-export class ChannelGroup {
-  public id: number;
-  public name: string;
-  public description: string;
-  public channels : string[];
+import { Channel } from './channel';
 
-  constructor(id: number, name: string, description: string, channels?:string[]) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.channels = channels;
+export class ChannelGroup {
+  constructor(
+    public id: number,
+    public name: string,
+    public description: string, 
+    public channels?:Channel[]
+  ) {
   }
 
 }

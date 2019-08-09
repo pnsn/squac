@@ -28,27 +28,27 @@
                 formControlName="description"
               class="form-control"></textarea>
           </div>
-          <fieldset >      
-              <!-- <legend>Selected Channels</legend>
-              <ng-container *ngFor="let channel of selectedChannels">
-                <input type="checkbox" value="channel"/> {{channel.nslc}} <br>  
-              </ng-container> -->
-          </fieldset>  
+          <ul>
+            <li *ngFor="let channel of selectedChannels">
+              {{channel.nslc}}
+            </li>
+          </ul>
         </div>
       </div>
     </form>
 
-    <form #channelsForm="ngForm">
-      <fieldset>      
-          <legend>Available Channels</legend>
-          <ng-container *ngFor="let channel of availableChannels">
-            <input type="checkbox" id="{{channel.nslc}}" name="seletedChannels" value="channel"/> 
-            <label for="{{channel.nslc}}">{{channel.nslc}}</label>
-            <br>  
-          </ng-container>
-      </fieldset>   
+    <form [formGroup]="channelsForm" action="" *ngIf="availableChannels">
+      <fieldset>
+          <label formArrayName="channels" *ngFor="let channel of availableChannels; let i = index">
+            <input type="checkbox" [formControlName]="i">
+            {{channel.nslc}}
+            <br>
+          </label>  
+      </fieldset>
+    
+      <button (click)="addSelectedChannels()">addSelectedChannels</button>  
     </form>
 
-    <button (click)="showChannels()">show</button>
+
   </div>
 </div>

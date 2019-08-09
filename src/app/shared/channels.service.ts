@@ -21,6 +21,7 @@ export class ChannelsService {
 
   setChannels(channels : Channel[]) {
     this.channels.next(channels);
+    console.log(channels)
   }
 
   fetchNslcs() {
@@ -31,7 +32,7 @@ export class ChannelsService {
       ).pipe(
         //this needs to be improved in the future
         map(networks => {
-
+          console.log(networks)
           let channels : Channel[] = [];
 
           networks.forEach(network => {

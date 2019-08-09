@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ChannelGroup } from '../../shared/channel-group';
 import { ChannelGroupsService } from '../../shared/channel-groups.service';
-import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, FormBuilder } from '@angular/forms';
 import { ChannelsService } from '../../shared/channels.service';
 import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
@@ -17,21 +17,24 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   channelGroup: ChannelGroup;
   editMode : boolean;
   channelGroupForm : FormGroup;
+  channelsForm : FormGroup;
   availableChannels : Channel[];
   subscriptions : Subscription = new Subscription();
-  @ViewChild('channelsForm') channelsForm: NgForm;
+  
   selectedChannels : Channel[];
 
   constructor(  
     private router: Router, 
     private route: ActivatedRoute, 
     private channelGroupService : ChannelGroupsService,
-    private channelsService : ChannelsService
+    private channelsService : ChannelsService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     const sub1 = this.channelsService.channels.subscribe(channels => {
       this.availableChannels = channels;
+      this.initChannelsForm();
     })
 
     const sub2 = this.route.params.subscribe(
@@ -44,8 +47,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
     )
     this.subscriptions.add(sub1);
     this.subscriptions.add(sub2);
-
-    this.selectedChannels = this.channelsForm.value;
   }
 
   ngOnDestroy() {
@@ -62,20 +63,36 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
       channelGroupDescription = channelGroup.description;
     }
 
-    this.channelGroupForm = new FormGroup({
+    this.channelGroupForm = this.formBuilder.group({
       'name' : new FormControl(channelGroupName, Validators.required),
       'description': new FormControl(channelGroupDescription, Validators.required)
     });
 
   }
 
-  showChannels(){
-    console.log(this.channelsForm.value);
+  //TODO: break into new component
+  private initChannelsForm() {
+
+    this.channelsForm = this.formBuilder.group({
+      'channels' : new FormArray([])
+    });
+
+    this.availableChannels.map((o, i) => {
+      const control = new FormControl(); // if first item set to true, else false
+      (this.channelsForm.controls.channels as FormArray).push(control);
+    });
+
+  }
+  
+  addSelectedChannels() {
+    this.selectedChannels =  this.channelsForm.value.channels
+      .map((v, i) => v ? this.availableChannels[i] : null)
+      .filter(v => v !== null);
   }
 
   save() {
     //save channel
-    this.channelGroupService.updateChannelGroup(this.id, this.channelGroupForm.value);
+    this.channelGroupService.updateChannelGroup(this.id, this.channelGroupForm.value, this.selectedChannels);
     this.cancel();
   }
 
