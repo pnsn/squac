@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,11 +15,11 @@ import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-de
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
 import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
 import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget-edit/widget-edit.component';
-import { AuthInterceptor } from './auth-interceptor.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthComponent } from './auth/auth.component';
 import { HeaderComponent } from './header/header.component';
-import { ClassComponent } from './class/class.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { MetricGroupsViewComponent } from './metric-groups/metric-groups-view/metric-groups-view.component';
+import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view/channel-groups-view.component';
 
 @NgModule({
   declarations: [
@@ -36,18 +37,20 @@ import { ClassComponent } from './class/class.component';
     WidgetEditComponent,
     AuthComponent,
     HeaderComponent,
-    ClassComponent
+    MetricGroupsViewComponent,
+    ChannelGroupsViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     { 
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: AuthInterceptorService,
       multi: true
     }
   ],

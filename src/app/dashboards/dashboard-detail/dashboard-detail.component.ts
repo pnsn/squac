@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Dashboard } from '../../shared/dashboard';
+import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { DashboardsService } from '../../shared/dashboards.service';
+import { DashboardsService } from '../dashboards.service';
 
 @Component({
   selector: 'app-dashboard-detail',

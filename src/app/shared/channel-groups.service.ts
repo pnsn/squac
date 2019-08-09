@@ -8,9 +8,9 @@ import { Subject } from 'rxjs';
 })
 export class ChannelGroupsService {
   private channelGroups: ChannelGroup[] = [
-    new ChannelGroup(1, "channel a"),
-    new ChannelGroup(2, "channel b"), 
-    new ChannelGroup(3, "channel c") 
+    new ChannelGroup(1, "channel group a", "description"),
+    new ChannelGroup(2, "channel group b", "description"), 
+    new ChannelGroup(3, "channel group c", "description") 
   ];
   channelGroupsChanged = new Subject<ChannelGroup[]>();
 
@@ -34,7 +34,7 @@ export class ChannelGroupsService {
   }
 
   addChannelGroup(channelGroup: ChannelGroup) : number{ //can't know id yet
-    this.channelGroups.push(new ChannelGroup(this.channelGroups.length, channelGroup.name));
+    this.channelGroups.push(new ChannelGroup(this.channelGroups.length, channelGroup.name, channelGroup.description));
     this.channelGroupsChange();
 
     return this.channelGroups.length;
@@ -43,7 +43,7 @@ export class ChannelGroupsService {
   updateChannelGroup(id: number, channelGroup: ChannelGroup) : number{
     if(id) {
       let index = this.getIndexFromId(id);
-      this.channelGroups[index] = new ChannelGroup(id, channelGroup.name);
+      this.channelGroups[index] = new ChannelGroup(id, channelGroup.name, channelGroup.description);
       this.channelGroupsChange();
     } else {
       return this.addChannelGroup(channelGroup);

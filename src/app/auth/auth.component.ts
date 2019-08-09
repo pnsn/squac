@@ -7,22 +7,18 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  isLoginMode : boolean = true;
   isLoading : boolean = false;
   error : string = null;
+
   constructor(
     private authService : AuthService,
     private router : Router
   ) { }
 
   ngOnInit() {
-  }
-
-  switchMode() {
-    this.isLoginMode = !this.isLoginMode;
   }
 
   onSubmit(form : NgForm) {
@@ -34,19 +30,13 @@ export class AuthComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
 
-    let authObs : Observable<AuthResponseData>;
-
     this.isLoading = true;
-    if(this.isLoginMode) {
-      authObs = this.authService.login(email, password);
-    } else {
-      authObs = this.authService.signup(email, password);
-    }
 
-    authObs.subscribe(
+    this.authService.login(email, password).subscribe(
       resData => {
+        console.log("dashboard!");
         this.isLoading = false;
-        this.router.navigate(['/recipes']);
+        this.router.navigate(['/dashboards']);
       },
       error => {
         this.error = 'An error occured';
@@ -55,10 +45,6 @@ export class AuthComponent implements OnInit {
     );
 
     form.reset();
-  }
-
-  onHandleError() {
-    this.error = null;
   }
 
 }

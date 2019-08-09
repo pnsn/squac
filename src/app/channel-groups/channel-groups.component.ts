@@ -3,6 +3,7 @@ import { ChannelGroup } from '../shared/channel-group';
 import { ChannelGroupsService } from '../shared/channel-groups.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelsService } from '../shared/channels.service';
 
 @Component({
   selector: 'app-channel-groups',
@@ -11,21 +12,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ChannelGroupsComponent implements OnInit, OnDestroy {
   channelGroups: ChannelGroup[];
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
+
   constructor(  
     private ChannelGroupsService: ChannelGroupsService,
     private router: Router,
-    private route: ActivatedRoute) {
-
-  }
+    private route: ActivatedRoute,
+    private channelsService: ChannelsService
+  ) {}
 
   ngOnInit() {
+    const sub1 = this.channelsService.fetchNslcs().subscribe();
     this.channelGroups = this.ChannelGroupsService.getChannelGroups();
-    this.subscription = this.ChannelGroupsService.channelGroupsChanged.subscribe(
+
+    const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(
       (channelGroups: ChannelGroup[]) => {
         this.channelGroups = channelGroups;
       }
     )
+    
+    this.subscription.add(sub1);
+    this.subscription.add(sub);
   }
 
   ngOnDestroy(): void {

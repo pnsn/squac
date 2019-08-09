@@ -10,30 +10,42 @@ import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-de
 import { DashboardEditComponent } from './dashboards/dashboard-edit/dashboard-edit.component';
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
+import { MetricGroupsViewComponent } from './metric-groups/metric-groups-view/metric-groups-view.component';
+import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view/channel-groups-view.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'login', component: AuthComponent},
-  { path: 'dashboards', component: DashboardsComponent,
+  { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
+
+  { path: 'dashboards', 
+    component: DashboardsComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'new', component: DashboardEditComponent},
       { path: ':id', component: DashboardDetailComponent},
       { path: ':id/edit', component: DashboardEditComponent },
     ]
   },
-  { path: 'metric-groups', component: MetricGroupsComponent,
+  { path: 'metric-groups', 
+    component: MetricGroupsComponent,
+    canActivate: [AuthGuard],
     children: [
+      { path: '', component: MetricGroupsViewComponent, pathMatch: 'full'},
       { path: 'new', component: MetricGroupsEditComponent},
       { path: ':id', component: MetricGroupsDetailComponent},
       { path: ':id/edit', component: MetricGroupsEditComponent },
     ]
   },
-  { path: 'channel-groups', component: ChannelGroupsComponent,
-  children: [
-    { path: 'new', component: ChannelGroupsEditComponent},
-    { path: ':id', component: ChannelGroupsDetailComponent},
-    { path: ':id/edit', component: ChannelGroupsEditComponent },
-  ]
+  { path: 'channel-groups', 
+    component: ChannelGroupsComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'},
+      { path: 'new', component: ChannelGroupsEditComponent},
+      { path: ':id', component: ChannelGroupsDetailComponent},
+      { path: ':id/edit', component: ChannelGroupsEditComponent },
+    ]
 }
 ];
 

@@ -1,11 +1,14 @@
 <div class="row">
+  <h1>
+    {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
+  </h1>
   <div class="col-xs-12">
     <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
       <div class="row">
         <div class="col-xs-12">
           <button class="btn btn-primary" 
             type="submit"
-            [disabled]='!channelForm.valid'
+            [disabled]='!channelGroupForm.valid'
           >
           Save</button>
           <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
@@ -19,8 +22,33 @@
               formControlName="name"
             class="form-control">
           </div>
+          <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description"
+                formControlName="description"
+              class="form-control"></textarea>
+          </div>
+          <fieldset >      
+              <!-- <legend>Selected Channels</legend>
+              <ng-container *ngFor="let channel of selectedChannels">
+                <input type="checkbox" value="channel"/> {{channel.nslc}} <br>  
+              </ng-container> -->
+          </fieldset>  
         </div>
       </div>
     </form>
+
+    <form #channelsForm="ngForm">
+      <fieldset>      
+          <legend>Available Channels</legend>
+          <ng-container *ngFor="let channel of availableChannels">
+            <input type="checkbox" id="{{channel.nslc}}" name="seletedChannels" value="channel"/> 
+            <label for="{{channel.nslc}}">{{channel.nslc}}</label>
+            <br>  
+          </ng-container>
+      </fieldset>   
+    </form>
+
+    <button (click)="showChannels()">show</button>
   </div>
 </div>

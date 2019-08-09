@@ -6,7 +6,16 @@ header {
     margin: 5px;
   }
 
-  #header-right {
+  #header-right, #header-left {
     display: inline-block;
+  }
+
+  #header-right{
+    position:fixed;
+    top: 12px;
+    right:10px;
+    a {
+      cursor: pointer;
+    }
   }
 }

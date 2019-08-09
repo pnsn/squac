@@ -1,9 +1,6 @@
 <div class="row">
   <h1>Please log in...</h1>
-  <!-- <app-alert [message]="error" *ngIf="error" (closed)="onHandleError()"></app-alert> -->
-  <div *ngIf="isLoading" style="text-align: center">
-    <!-- <app-loading></app-loading> -->
-  </div>
+  
   <form #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" *ngIf="!isLoading">
     <div class="form-group">
       <label for="email">E-Mail: </label>

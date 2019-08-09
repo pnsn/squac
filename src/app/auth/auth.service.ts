@@ -2,24 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
-import { User } from '../shared/user';
+import { User } from './user';
 import { Router } from '@angular/router';
 
 export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
+  token: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  API_KEY = "AIzaSyDvoZMMXe5rlgERC1JJtl-dSCH_dhnI5vI"; //DO NOT USE OUTSIDE OF TESTING
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
@@ -28,32 +21,16 @@ export class AuthService {
     private router: Router
   ) { }
 
-  signup(email: string, password: string) {
-    return this.http.post<AuthResponseData>('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + this.API_KEY,
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }
-    ).pipe(
-      catchError(this.handleError),
-      tap(resData => {
-        this.handleAuth(resData.email, resData.localId, resData.idToken, +resData.expiresIn)
-      })
-    );
-  }
-
   autologin() {
     const userData: {
       email: string,
-      id: string,
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
       return;
     }
-    const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+    const loadedUser = new User(userData.email, userData._token, new Date(userData._tokenExpirationDate));
 
     if (loadedUser.token) {
       const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
@@ -63,16 +40,19 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<AuthResponseData>('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + this.API_KEY,
+    return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
       {
         email: email,
-        password: password,
-        returnSecureToken: true
+        password: password
+      },
+      {
+        withCredentials: true
       }
     ).pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuth(resData.email, resData.localId, resData.idToken, +resData.expiresIn)
+        //TODO: Get expiration time from Jon
+        this.handleAuth(email, resData.token, 3600)
       })
     );
   }
@@ -87,12 +67,14 @@ export class AuthService {
   }
 
   autologout(expirationDuration: number) {
+    console.log(expirationDuration / (1000*60));
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
+    console.log(errorRes.error);
     let errorMessage = "An unknown error occured!";
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
@@ -111,11 +93,10 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  private handleAuth(email: string, userId: string, token: string, expiresIn: number) {
+  private handleAuth(email: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(
       email,
-      userId,
       token,
       expirationDate
     );

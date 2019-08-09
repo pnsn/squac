@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DashboardsService } from '../shared/dashboards.service';
-import { Dashboard } from '../shared/dashboard';
+import { DashboardsService } from './dashboards.service';
+import { Dashboard } from './dashboard';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
