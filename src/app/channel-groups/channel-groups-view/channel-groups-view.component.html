@@ -1,0 +1,14 @@
+<h1>
+    Channel Groups
+  </h1>
+  
+  <div>
+    <h2>Available Channel Groups</h2>
+    <button (click)="addChannelGroup()">Add Channel Group</button>
+    <ul>
+        <li *ngFor="let channelGroup of channelGroups"> 
+        <a [routerLink]="[channelGroup.id]" routerLinkActive="active">{{channelGroup.name}}</a>
+        </li>
+    </ul>
+  
+  </div>
