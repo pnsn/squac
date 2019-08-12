@@ -20,8 +20,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   channelsForm : FormGroup;
   availableChannels : Channel[];
   subscriptions : Subscription = new Subscription();
-  filteredChannels : Channel[];
-  selectedChannels : Channel[];
+  filteredChannels : Channel[] = [];
+  selectedChannels : Channel[] = [];
 
   constructor(  
     private router: Router, 
@@ -78,48 +78,64 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   // Sets up channels form 
   private initChannelsForm() {
 
-    //initiate form
-    this.channelsForm = this.formBuilder.group({
-      'channels' : new FormArray([])
-    });
 
-    //add availble channels that are not already selected
-    this.filteredChannels = [...this.availableChannels]
+    if(this.availableChannels.length > 0) {
+      //add availble channels that are not already selected
+      this.createChannelSelectors();
+    } else {
+      this.channelsForm = this.formBuilder.group({});
+    }
+  }
+
+  // Creates a form control 
+  private createChannelSelectors() {
+    this.channelsForm = this.formBuilder.group({});
+    let formChannels = new FormArray([]);
+
+    let _filteredChannels = [...this.availableChannels]
       .filter(channel => {
         return !this.contains(this.selectedChannels, channel);
       });
 
     //Add form control for each channel
-    this.filteredChannels.map((channel, i) => {
-      this.addChannelToForm(channel);
+    _filteredChannels.map((channel, i) => {
+      formChannels.push(new FormControl());
     });
-  }
 
-  // Creates a form control 
-  private addChannelToForm(channel) {
-    const control = new FormControl(); // if first item set to true, else false
-    (this.channelsForm.controls.channels as FormArray).push(control);
+    this.filteredChannels = [..._filteredChannels];
+    this.channelsForm.addControl("channels", formChannels);
   }
-
+  
+  // TODO: check if this is too slow for large data sets
   // Adds selected channels from form to channel group
-  addSelectedChannels() {
-
-    // Take selected channels
-    let chans = this.channelsForm.value.channels
+  addSelectedChannelsToGroup() {
+    //clear form
+    //take selected channels
+    let _channels = this.channelsForm.value.channels
       .map((value, i) => {
-        if (value) {
-          // and remove them from form
-          (this.channelsForm.controls.channels as FormArray).removeAt(i);
-          let chan = this.filteredChannels[i]
-          this.filteredChannels.splice(i, 1);
-          return chan;
-        }         
-        return null;
+        return value ? this.filteredChannels[i] : null;
       })
-      .filter(v => v !== null);
+      .filter(value => value !== null);
 
-    // Add channel to group
-    this.selectedChannels.push(...chans);  
+    this.channelsForm.removeControl("channels");
+
+    this.selectedChannels.push(..._channels); 
+
+    this.createChannelSelectors();
+  }
+
+  // Returns true if channel object is in array of channels
+  private contains(array: Channel[], channel: Channel) : boolean {
+    return array.some(chan => (chan.nslc === channel.nslc));
+  }
+
+  // Remove channel from channel group
+  removeChannelFromGroup(i: number) {
+    //remove channel from selected channels
+    this.selectedChannels.splice(i, 1);
+
+    //Add channel back to available 
+    this.createChannelSelectors();
   }
 
   // Save channel information
@@ -133,21 +149,4 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   cancel() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
-
-  // Returns true if channel object is in array of channels
-  private contains(array: Channel[], channel: Channel) : boolean {
-    return array.some(chan => (chan.nslc === channel.nslc));
-  }
-
-  // Remove channel from station
-  removeChannel(channel: Channel) {
-
-    //remove channel from selected channels
-    this.selectedChannels.splice(this.selectedChannels.indexOf(channel), 1);
-    
-    //Add channel back to available 
-    this.addChannelToForm(channel);
-    this.filteredChannels.push(channel);
-  }
-
 }
