@@ -28,9 +28,11 @@
                 formControlName="description"
               class="form-control"></textarea>
           </div>
+          <h3> Channels</h3>
           <ul>
             <li *ngFor="let channel of selectedChannels">
               {{channel.nslc}}
+              <button (click)="removeChannel(channel)" type="button">X</button>
             </li>
           </ul>
         </div>
@@ -38,15 +40,16 @@
     </form>
 
     <form [formGroup]="channelsForm" action="" *ngIf="availableChannels">
+      <h3> Available Channels</h3>
       <fieldset>
-          <label formArrayName="channels" *ngFor="let channel of availableChannels; let i = index">
+          <label formArrayName="channels" *ngFor="let channel of filteredChannels; let i = index">
             <input type="checkbox" [formControlName]="i">
-            {{channel.nslc}}
+            {{channel.nslc}} 
             <br>
           </label>  
       </fieldset>
     
-      <button (click)="addSelectedChannels()">addSelectedChannels</button>  
+      <button (click)="addSelectedChannels()" >Add Selected Channels</button>  
     </form>
 
 

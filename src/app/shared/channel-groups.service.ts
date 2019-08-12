@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChannelGroup } from './channel-group';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Channel } from './channel';
 
 //should I use index or id
@@ -9,39 +9,37 @@ import { Channel } from './channel';
 })
 export class ChannelGroupsService {
   testChannelArray = [
-    {
-      "chaName": "EHZ",
-      "cha": "ehz",
-      "sample_rate": -1,
-      "lat": 46.08924,
-      "lon": -123.45173,
-      "elev": 826,
-      "loc": "--",
-      "staName": "Nicolai Mt., Oregon",
-      "sta": "nlo",
-      "net": "uw",
-      "netName": "University of Washington",
-      "nslc" : "uw.nlo.--.ehz"
-    },
-    {
-      "chaName": "EHZ",
-      "cha": "ehz",
-      "sample_rate": -1,
-      "lat": 45.83878,
-      "lon": -120.81479,
-      "elev": 610,
-      "loc": "--",
-      "staName": "Goldendale Observatory, WA, USA",
-      "sta": "gldo",
-      "net": "uw",
-      "netName": "University of Washington",
-      "nslc": "uw.gldo.--.ehz"
-    }
+    new Channel(
+      "EHZ",
+      "ehz",
+      -1,
+      46.08924,
+      -123.45173,
+      826,
+      "--",
+      "Nicolai Mt., Oregon",
+      "nlo",
+      "uw",
+      "University of Washington"
+    ),
+    new Channel(
+      "EHZ",
+      "ehz",
+       -1,
+      45.83878,
+      -120.81479,
+      610,
+      "--",
+      "Goldendale Observatory, WA, USA",
+      "gldo",
+      "uw",
+      "University of Washington",
+    )
   ];
   private channelGroups: ChannelGroup[] = [
-    new ChannelGroup(1, "channel group a", "description", this.testChannelArray),
-    new ChannelGroup(2, "channel group b", "description", this.testChannelArray), 
-    new ChannelGroup(3, "channel group c", "description", this.testChannelArray) 
+    new ChannelGroup(1, "channel group a", "channel group a description", this.testChannelArray),
+    new ChannelGroup(2, "channel group b", "channel group b description", this.testChannelArray), 
+    new ChannelGroup(3, "channel group c", "channel group c description", this.testChannelArray) 
   ];
   channelGroupsChanged = new Subject<ChannelGroup[]>();
 

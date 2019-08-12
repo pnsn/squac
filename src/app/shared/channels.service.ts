@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap, filter } from 'rxjs/operators';
 import { Channel } from './channel';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 
 export interface SquacResponseData {
@@ -17,11 +17,10 @@ export class ChannelsService {
   constructor(
     private http : HttpClient
   ) { }
-  channels = new Subject<Channel[]>();
+  channels = new BehaviorSubject<Channel[]>([]);
 
   setChannels(channels : Channel[]) {
     this.channels.next(channels);
-    console.log(channels)
   }
 
   fetchNslcs() {
@@ -32,7 +31,6 @@ export class ChannelsService {
       ).pipe(
         //this needs to be improved in the future
         map(networks => {
-          console.log(networks)
           let channels : Channel[] = [];
 
           networks.forEach(network => {
