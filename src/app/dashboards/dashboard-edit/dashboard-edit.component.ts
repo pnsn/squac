@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MetricGroupsService } from '../../shared/metric-groups.service';
 import { DashboardsService } from '../dashboards.service';
 
 @Component({

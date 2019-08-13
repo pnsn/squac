@@ -1,11 +1,11 @@
-import { MetricGroup } from '../shared/metric-group';
 import { ChannelGroup } from '../shared/channel-group';
+import { Metric } from '../shared/metric';
 
 export class Widget {
   public id: number;
   public name: string;
   public description: string;
-  public metricGroups: MetricGroup[];
+  public metrics: Metric[];
   public channelGroups : ChannelGroup[];
 
   constructor(id: number, name:string) {

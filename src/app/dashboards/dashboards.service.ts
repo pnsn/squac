@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
 import { Subject } from 'rxjs';
-import { ChannelGroup } from '../shared/channel-group';
-import { Channel } from '../shared/channel';
 import { Widget } from './widget';
 
 //should I use index or id
@@ -15,36 +13,7 @@ export class DashboardsService {
       1, 
       "dashboard A", 
       "description",
-      [],
-      [],
-      new ChannelGroup(1, "channel group a", "channel group a description", [
-        new Channel(
-          "EHZ",
-          "ehz",
-          -1,
-          46.08924,
-          -123.45173,
-          826,
-          "--",
-          "Nicolai Mt., Oregon",
-          "nlo",
-          "uw",
-          "University of Washington"
-        ),
-        new Channel(
-          "EHZ",
-          "ehz",
-           -1,
-          45.83878,
-          -120.81479,
-          610,
-          "--",
-          "Goldendale Observatory, WA, USA",
-          "gldo",
-          "uw",
-          "University of Washington",
-        )
-      ]),
+      []
     )
   ];
   dashboardsChanged = new Subject<Dashboard[]>();
@@ -74,9 +43,7 @@ export class DashboardsService {
       dashboard.id,
       dashboard.name,
       dashboard.description,
-      dashboard.widgets,
-      dashboard.metrics,
-      dashboard.channelGroup
+      dashboard.widgets
     )
     this.dashboards.push(newDashboard);
     this.dashboardsChange();
