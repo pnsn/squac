@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardsComponent } from './dashboards/dashboards.component';
-import { MetricGroupsComponent } from './metric-groups/metric-groups.component';
-import { MetricGroupsDetailComponent } from './metric-groups/metric-groups-detail/metric-groups-detail.component';
-import { MetricGroupsEditComponent } from './metric-groups/metric-groups-edit/metric-groups-edit.component';
 import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
 import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
 import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
@@ -11,8 +8,11 @@ import { DashboardEditComponent } from './dashboards/dashboard-edit/dashboard-ed
 import { DashboardDetailComponent } from './dashboards/dashboard-detail/dashboard-detail.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
-import { MetricGroupsViewComponent } from './metric-groups/metric-groups-view/metric-groups-view.component';
 import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view/channel-groups-view.component';
+import { MetricsComponent } from './metrics/metrics.component';
+import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
+import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
+import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent},
@@ -27,14 +27,14 @@ const routes: Routes = [
       { path: ':id/edit', component: DashboardEditComponent },
     ]
   },
-  { path: 'metric-groups', 
-    component: MetricGroupsComponent,
+  { path: 'metrics', 
+    component: MetricsComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: MetricGroupsViewComponent, pathMatch: 'full'},
-      { path: 'new', component: MetricGroupsEditComponent},
-      { path: ':id', component: MetricGroupsDetailComponent},
-      { path: ':id/edit', component: MetricGroupsEditComponent },
+      { path: '', component: MetricsViewComponent, pathMatch: 'full'},
+      { path: 'new', component: MetricsEditComponent},
+      { path: ':id', component: MetricsDetailComponent},
+      { path: ':id/edit', component: MetricsEditComponent },
     ]
   },
   { path: 'channel-groups', 
