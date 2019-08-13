@@ -64,16 +64,24 @@ export class ChannelGroupsService {
 
   //http this stuff
   addChannelGroup(channelGroup: ChannelGroup) : number{ //can't know id yet
-    this.channelGroups.push(new ChannelGroup(this.channelGroups.length, channelGroup.name, channelGroup.description));
+    //make id
+    let newChannelGroup = new ChannelGroup(
+      channelGroup.id,
+      channelGroup.name,
+      channelGroup.description,
+      channelGroup.channels
+    )
+    this.channelGroups.push(newChannelGroup);
     this.channelGroupsChange();
 
-    return this.channelGroups.length;
+    return this.channelGroups.length; //return ID
   };
 
-  updateChannelGroup(id: number, channelGroup: ChannelGroup, channels: Channel[]) : number{
+  //TODO: check if dangerous due to same group reference
+  updateChannelGroup(id: number, channelGroup: ChannelGroup) : number{
     if(id) {
       let index = this.getIndexFromId(id);
-      this.channelGroups[index] = new ChannelGroup(id, channelGroup.name, channelGroup.description, channels);
+      this.channelGroups[index] = channelGroup; 
       this.channelGroupsChange();
     } else {
       return this.addChannelGroup(channelGroup);

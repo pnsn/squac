@@ -77,8 +77,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   //TODO: break select form into new component
   // Sets up channels form 
   private initChannelsForm() {
-
-
     if(this.availableChannels.length > 0) {
       //add availble channels that are not already selected
       this.createChannelSelectors();
@@ -140,7 +138,15 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
   // Save channel information
   save() {
-    this.channelGroupService.updateChannelGroup(this.id, this.channelGroupForm.value, this.selectedChannels);
+    let values = this.channelGroupForm.value;
+    this.channelGroupService.updateChannelGroup(this.id, 
+      new ChannelGroup(
+        this.id,
+        values.name,
+        values.description, 
+        this.selectedChannels
+      )
+    );
     this.cancel();
   }
 

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MetricGroup } from '../../shared/metric-group';
 import { MetricGroupsService } from '../../shared/metric-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators } from '@angular/forms';
+import { Metric } from '../../shared/metric';
 
 @Component({
   selector: 'app-metric-group-edit',
@@ -14,6 +15,7 @@ export class MetricGroupsEditComponent implements OnInit {
   metricGroup: MetricGroup;
   editMode : boolean;
   metricGroupForm : FormGroup;
+  selectedMetrics : Metric[];
   constructor(private router: Router, private route: ActivatedRoute, private metricGroupService : MetricGroupsService) { }
 
   ngOnInit() {
@@ -43,7 +45,7 @@ export class MetricGroupsEditComponent implements OnInit {
   }
 
   save() {
-    this.metricGroupService.updateMetricGroup(this.metricGroupForm.value, this.id);
+    this.metricGroupService.updateMetricGroup(this.id, this.metricGroupForm.value, this.selectedMetrics);
     this.cancel();
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MetricGroup } from './metric-group';
 import { Subject } from 'rxjs';
+import { Metric } from './metric';
 
 //should I use index or id
 @Injectable({
@@ -8,9 +9,9 @@ import { Subject } from 'rxjs';
 })
 export class MetricGroupsService {
   private metricGroups: MetricGroup[] = [
-    new MetricGroup("metric a", "metric a description", 13454534),
-    new MetricGroup("metric b", "metric b description", 235235), 
-    new MetricGroup("metric c", "metric c description", 23433) 
+    new MetricGroup(0, "metric a", "metric a description", []),
+    new MetricGroup(1, "metric b", "metric b description", []), 
+    new MetricGroup(2, "metric c", "metric c description", []) 
   ];
 
   metricGroupsChanged = new Subject<MetricGroup[]>();
@@ -43,7 +44,7 @@ export class MetricGroupsService {
     return this.metricGroups.length;
   };
 
-  updateMetricGroup(metricGroup: MetricGroup, id?: number) : number {
+  updateMetricGroup(id: number, metricGroup: MetricGroup, metrics: Metric[]) : number {
     //make up ID here
 
     if(id) {
