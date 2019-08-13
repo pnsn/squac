@@ -20,6 +20,10 @@ import { HeaderComponent } from './header/header.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { MetricGroupsViewComponent } from './metric-groups/metric-groups-view/metric-groups-view.component';
 import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view/channel-groups-view.component';
+import { MetricsComponent } from './metrics/metrics.component';
+import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
+import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
+import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,11 @@ import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view
     AuthComponent,
     HeaderComponent,
     MetricGroupsViewComponent,
-    ChannelGroupsViewComponent
+    ChannelGroupsViewComponent,
+    MetricsComponent,
+    MetricsDetailComponent,
+    MetricsViewComponent,
+    MetricsEditComponent
   ],
   imports: [
     BrowserModule,

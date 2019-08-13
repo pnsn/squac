@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MetricGroupsDetailComponent } from './metric-groups-detail.component';
+import { MetricsEditComponent } from './metrics-edit.component';
 
-describe('MetricDetailComponent', () => {
-  let component: MetricGroupsDetailComponent;
-  let fixture: ComponentFixture<MetricGroupsDetailComponent>;
+describe('MetricsEditComponent', () => {
+  let component: MetricsEditComponent;
+  let fixture: ComponentFixture<MetricsEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MetricGroupsDetailComponent ]
+      declarations: [ MetricsEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MetricGroupsDetailComponent);
+    fixture = TestBed.createComponent(MetricsEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
