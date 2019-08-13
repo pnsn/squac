@@ -1,3 +1,47 @@
-<p>
-  metrics-edit works!
-</p>
+<div class="row">
+    <h1>
+      {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
+    </h1>
+    <div class="col-xs-12">
+      <form action="" [formGroup]="metricForm" (ngSubmit)="save()">
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-primary" 
+              type="submit"
+              [disabled]='!metricForm.valid'
+            >
+            Save</button>
+            <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name"
+                formControlName="name"
+              class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description"
+                  formControlName="description"
+                class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="source">Source</label>
+                <input type="text" id="source"
+                  formControlName="source"
+                class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="unit">Unit</label>
+                <input type="text" id="unit"
+                  formControlName="unit"
+                class="form-control"/>
+            </div>
+          </div>
+        </div>
+      </form> 
+    </div>
+  </div>

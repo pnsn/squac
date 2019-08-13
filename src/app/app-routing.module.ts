@@ -17,7 +17,6 @@ import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.
 const routes: Routes = [
   { path: 'login', component: AuthComponent},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-
   { path: 'dashboards', 
     component: DashboardsComponent,
     canActivate: [AuthGuard],

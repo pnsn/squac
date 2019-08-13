@@ -62,11 +62,17 @@ export class ChannelGroupsService {
     return this.channelGroups[index];
   }
 
+  //temp: just until JOn gets this db going
+  private generateID() : number{
+    return this.channelGroups.length + 1; 
+  }
+  
+
   //http this stuff
   addChannelGroup(channelGroup: ChannelGroup) : number{ //can't know id yet
     //make id
     let newChannelGroup = new ChannelGroup(
-      channelGroup.id,
+      this.generateID(),
       channelGroup.name,
       channelGroup.description,
       channelGroup.channels

@@ -1,3 +1,14 @@
+<h2> Metric Detail</h2>
 <p>
-  metrics-detail works!
+  {{metric.name}}
 </p>
+<p>
+  {{metric.description}}
+</p>
+<p> {{metric.source}}
+</p>
+<p>
+  {{metric.unit}}
+</p>
+
+<button (click)="editMetric()">edit {{id}}</button>

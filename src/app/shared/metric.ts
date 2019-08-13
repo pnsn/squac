@@ -1,8 +1,10 @@
 export class Metric {
-  id: number;
-
   constructor(
+    public id: number,
     public name: string, 
-    public description: string) {
+    public description: string,
+    public source: string,
+    public unit: string
+  ) {
   }
 }

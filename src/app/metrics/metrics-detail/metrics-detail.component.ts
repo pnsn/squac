@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { MetricsService } from '../../shared/metrics.service';
+import { Metric } from '../../shared/metric';
 
 @Component({
   selector: 'app-metrics-detail',
@@ -6,10 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./metrics-detail.component.scss']
 })
 export class MetricsDetailComponent implements OnInit {
-
-  constructor() { }
+  id: number;
+  metric: Metric;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private metricsService: MetricsService
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params['id'];
+        this.metric = this.metricsService.getMetric(this.id);
+      }
+    )
+  }
+  editMetric() {
+    this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
 }
