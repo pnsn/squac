@@ -13,7 +13,16 @@ export class DashboardsService {
       1, 
       "dashboard A", 
       "description",
-      []
+      [
+        new Widget(
+          1,
+          "widget 1"
+        ),
+        new Widget(
+          2,
+          "widget 2"
+        )
+      ]
     )
   ];
   dashboardsChanged = new Subject<Dashboard[]>();

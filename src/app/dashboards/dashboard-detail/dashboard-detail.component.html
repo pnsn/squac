@@ -13,8 +13,14 @@
 
 <hr>
 <div> 
-    <h3> Widgets </h3>
+    <h3> Widgets ({{widgets.length}})</h3>
     <ul>
-      <li *ngFor="let widget of widgets"> {{widget.name}} </li>
+
+      <app-widget 
+        *ngFor="let widget of widgets"
+        [widget]="widget">
+      </app-widget>
     </ul>
 </div>
+
+<router-outlet></router-outlet>

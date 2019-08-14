@@ -1,3 +1,7 @@
 <p>
-  widget-edit works!
+{{ editMode ? "Edit widget" + id : "New Widget"}}
 </p>
+
+<button (click)="cancel()">
+  cancel
+</button>

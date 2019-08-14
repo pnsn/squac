@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
+import { Widget } from '../widget';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -12,6 +13,7 @@ export class DashboardDetailComponent implements OnInit {
 
   id: number;
   dashboard: Dashboard;
+  widgets: Widget[];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -23,13 +25,15 @@ export class DashboardDetailComponent implements OnInit {
       (params: Params) => {
         this.id = +params['id'];
         this.dashboard = this.DashboardsService.getDashboard(this.id);
+        this.widgets = this.dashboard.widgets;
       }
     )
   }
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+
   addWidget(){
-    this.router.navigate(['widget/edit']);
+    this.router.navigate(['widget','new'], {relativeTo: this.route});
   }
 }

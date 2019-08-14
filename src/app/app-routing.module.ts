@@ -13,6 +13,8 @@ import { MetricsComponent } from './metrics/metrics.component';
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
+import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget-edit/widget-edit.component';
+import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent},
@@ -22,7 +24,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'new', component: DashboardEditComponent},
-      { path: ':id', component: DashboardDetailComponent},
+      { path: ':id', 
+        component: DashboardDetailComponent,
+        children: [
+          { path: 'widget',
+            children: [
+              { path: 'new', component: WidgetEditComponent},
+              { path: ':id', component: WidgetComponent},
+              { path: ':id/edit', component: WidgetEditComponent },
+            ]
+          }
+        ]
+      },
       { path: ':id/edit', component: DashboardEditComponent },
     ]
   },

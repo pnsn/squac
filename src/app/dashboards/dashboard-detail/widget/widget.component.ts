@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Widget } from '../../widget';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-widget',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit {
-
-  constructor() { }
+  @Input("widget") widget : Widget;
+  
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+
   }
 
+
+  editWidget() {
+    this.router.navigate(['widget', this.widget.id, 'edit'], {relativeTo: this.route});
+  }
 }
