@@ -1,12 +1,16 @@
 <header>
-  <h1>SQUAC</h1>
-  <div id="header-left" *ngIf="isAuthenticated">
-      <a [routerLink]="[ '/' ]" routerLinkActive="active">Home</a>
-      <a [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
-      <a [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>    
+  <h1>
+    <a [routerLink]="[ '/' ]" routerLinkActive="active">
+      SQUAC
+    </a>
+  </h1>
+  <div id="header-left" >
+
   </div>
 
-  <div id="header-right">
-    <a (click)="logout()" *ngIf="isAuthenticated">Log Out</a>  
+  <div id="header-right" *ngIf="isAuthenticated">
+    <a [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
+    <a [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>    
+    <a (click)="logout()" >Log Out</a>  
   </div>
 </header>
