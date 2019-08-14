@@ -20,6 +20,7 @@ import { MetricsComponent } from './metrics/metrics.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
+import { DashboardViewComponent } from './dashboards/dashboard-view/dashboard-view.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.compon
     MetricsComponent,
     MetricsDetailComponent,
     MetricsViewComponent,
-    MetricsEditComponent
+    MetricsEditComponent,
+    DashboardViewComponent
   ],
   imports: [
     BrowserModule,
