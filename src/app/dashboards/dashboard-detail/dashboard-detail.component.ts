@@ -29,4 +29,7 @@ export class DashboardDetailComponent implements OnInit {
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+  addWidget(){
+    this.router.navigate(['widget/edit']);
+  }
 }

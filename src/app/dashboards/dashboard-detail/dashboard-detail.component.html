@@ -1,9 +1,17 @@
+<div id="dashboard-header">
+    <h2>
+      {{dashboard.name}}
+    </h2>
 
-<h2>
-  {{dashboard.name}}
-</h2>
+    <div id="header-controls">
+        <div>~Select date here~</div>
+        <button (click)="editDashboard()">Edit Dashboard Properties</button>
+        <button (click)="addWidget()">Add Widget</button>
+    </div>
+
+</div>
+
 <hr>
-<button (click)="editDashboard()">Edit Dashboard</button>
 <div> 
     <h3> Widgets </h3>
     <ul>

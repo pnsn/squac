@@ -23,6 +23,9 @@ export class DashboardsComponent implements OnInit {
 
   ngOnInit() {
     this.dashboards = this.dashboardsService.getDashboards();
+
+    //TODO: first or favorited dashboard
+    this.router.navigate([this.dashboards[0].id], {relativeTo: this.route});
     this.subscription.add(this.dashboardsService.dashboardsChanged.subscribe(
       (dashboards: Dashboard[]) => {
         this.dashboards = dashboards;

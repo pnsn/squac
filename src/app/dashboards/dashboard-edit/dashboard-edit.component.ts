@@ -36,8 +36,8 @@ export class DashboardEditComponent implements OnInit {
     let dashboardName = "";
 
     if (this.editMode) {
-      const dashboard = this.dashboardService.getDashboard(this.id);
-      dashboardName = dashboard.name;
+      this.dashboard = this.dashboardService.getDashboard(this.id);
+      dashboardName = this.dashboard.name;
     }
 
     this.dashboardForm = new FormGroup({
