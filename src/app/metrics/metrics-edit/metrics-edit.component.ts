@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Metric } from '../../shared/metric';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MetricsService } from '../../shared/metrics.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { subscribeOn } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-metrics-edit',
   templateUrl: './metrics-edit.component.html',
   styleUrls: ['./metrics-edit.component.scss']
 })
-export class MetricsEditComponent implements OnInit {
+export class MetricsEditComponent implements OnInit, OnDestroy {
   id: number;
   metric: Metric;
   editMode: boolean;
   metricForm: FormGroup;
+  subscriptions : Subscription = new Subscription();
 
   constructor(
     private router: Router, 
@@ -23,7 +26,20 @@ export class MetricsEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initForm();
+    const sub = this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params['id'];
+        this.editMode = params['id'] != null;
+
+        this.initForm();
+      }
+    );
+
+    this.subscriptions.add(sub);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   initForm() {
