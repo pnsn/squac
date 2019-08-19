@@ -22,7 +22,9 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const sub1 = this.channelsService.fetchNslcs().subscribe();
+    const sub1 = this.channelsService.fetchNslcs().subscribe(result => {
+      console.log(result);
+    });
     this.channelGroups = this.ChannelGroupsService.getChannelGroups();
 
     const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(

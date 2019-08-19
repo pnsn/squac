@@ -3,23 +3,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WidgetComponent } from './widget.component';
 
 describe('WidgetComponent', () => {
-  let component: WidgetComponent;
-  let fixture: ComponentFixture<WidgetComponent>;
+  // let component: WidgetComponent;
+  // let fixture: ComponentFixture<WidgetComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ WidgetComponent ]
-    })
-    .compileComponents();
-  }));
+  // beforeEach(async(() => {
+  //   TestBed.configureTestingModule({
+  //     declarations: [ WidgetComponent ]
+  //   })
+  //   .compileComponents();
+  // }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  // beforeEach(() => {
+  //   fixture = TestBed.createComponent(WidgetComponent);
+  //   component = fixture.componentInstance;
+  //   fixture.detectChanges();
+  // });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
 });
