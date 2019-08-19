@@ -27,12 +27,11 @@ describe('ChannelsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
-    })
+    });
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     channelsService = new ChannelsService(<any> httpClientSpy);
 
-    TestBed.configureTestingModule({})}
-  );
+  });
 
   it('should be created', () => {
     const service: ChannelsService = TestBed.get(ChannelsService);

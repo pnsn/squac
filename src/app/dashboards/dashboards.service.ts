@@ -37,6 +37,11 @@ export class DashboardsService {
     }
   }
 
+  //temp: just until JOn gets this db going
+  private generateID() : number{
+    return this.dashboards.length + 1; 
+  }
+
   getDashboards(){
     return this.dashboards.slice();
   }
@@ -48,8 +53,9 @@ export class DashboardsService {
 
   addDashboard(dashboard: Dashboard) : number { //can't know id yet
     //figure out ID
+    let id = this.generateID();
     let newDashboard = new Dashboard(
-      dashboard.id,
+      id,
       dashboard.name,
       dashboard.description,
       dashboard.widgets
@@ -57,7 +63,7 @@ export class DashboardsService {
     this.dashboards.push(newDashboard);
     this.dashboardsChange();
     console.log(this.dashboards)
-    return this.dashboards.length - 1; //return ID
+    return id; //return ID
   };
 
   updateDashboard(id: number, dashboard: Dashboard) : number {

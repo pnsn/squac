@@ -41,6 +41,7 @@ export class ChannelGroupsService {
     new ChannelGroup(2, "channel group b", "channel group b description", this.testChannelArray), 
     new ChannelGroup(3, "channel group c", "channel group c description", this.testChannelArray) 
   ];
+
   channelGroupsChanged = new Subject<ChannelGroup[]>();
 
   constructor() { }
@@ -71,8 +72,9 @@ export class ChannelGroupsService {
   //http this stuff
   addChannelGroup(channelGroup: ChannelGroup) : number{ //can't know id yet
     //make id
+    let id = this.generateID();
     let newChannelGroup = new ChannelGroup(
-      this.generateID(),
+      id,
       channelGroup.name,
       channelGroup.description,
       channelGroup.channels
@@ -80,7 +82,7 @@ export class ChannelGroupsService {
     this.channelGroups.push(newChannelGroup);
     this.channelGroupsChange();
 
-    return this.channelGroups.length; //return ID
+    return id; //return ID
   };
 
   //TODO: check if dangerous due to same group reference
