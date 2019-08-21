@@ -46,7 +46,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
     const sub1 = this.networksService.networks.subscribe(networks => {
       this.availableNetworks = networks;
-      this.initChannelsForm();
+      this.getChannelsForStation()
     });
 
     this.subscriptions.add(paramsSub);
@@ -60,7 +60,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   //after filter applied do this 
 
   getChannelsForStation(){
-    this.channelsService.fetchChannels("UW");
+    this.channelsService.fetchChannels(
+      new Network(
+        1,
+        "UW",
+        "unive of wa",
+        null
+      )
+    );
     
     let channelsSub = this.channelsService.channels.subscribe(channels => {
       this.availableChannels = channels;

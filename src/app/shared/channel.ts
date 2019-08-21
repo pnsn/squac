@@ -16,7 +16,7 @@ export class Channel {
 
     //from net
     public net : string,
-    public netName : string
+    public netName? : string
   ){}
 
   get nslc() : string {

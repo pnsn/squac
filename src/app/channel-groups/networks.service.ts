@@ -8,17 +8,18 @@ import { Network } from './network';
 })
 export class NetworksService {
 
-  private networks: Network[] = [];
-
+  networks = new BehaviorSubject<Network[]>([]);
   constructor(
     private http : HttpClient
   ) {
   }
 
-
-  getNetworks() {
-    return this.networks.slice();
+  setNetworks(networks : Network[]) {
+    this.networks.next(networks);
   }
+  // getNetworks() {
+  //   return this.networks.slice();
+  // }
 
   fetchNetworks(){
     this.http.get<any>(
@@ -41,7 +42,7 @@ export class NetworksService {
       )
     )
     .subscribe(networks => {
-      this.networks = networks;
+      this.setNetworks(networks);
       console.log(this.networks);
     });
   }
