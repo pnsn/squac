@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ChannelGroup } from './channel-group';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Channel } from './channel';
+import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 //should I use index or id
 @Injectable({
@@ -36,15 +38,12 @@ export class ChannelGroupsService {
       "University of Washington",
     )
   ];
-  private channelGroups: ChannelGroup[] = [
-    new ChannelGroup(1, "channel group a", "channel group a description", this.testChannelArray),
-    new ChannelGroup(2, "channel group b", "channel group b description", this.testChannelArray), 
-    new ChannelGroup(3, "channel group c", "channel group c description", this.testChannelArray) 
-  ];
+  
+  private channelGroups: ChannelGroup[] = [];
 
   channelGroupsChanged = new Subject<ChannelGroup[]>();
 
-  constructor() { }
+  constructor(private http : HttpClient) { }
 
   private getIndexFromId(id: number) : number{
     for (let i=0; i < this.channelGroups.length; i++) {
@@ -52,6 +51,36 @@ export class ChannelGroupsService {
           return i;
       }
     }
+  }
+
+  getChannelGroupsFromServer() {
+    //temp 
+    this.http.get<any>(
+      'https://squac.pnsn.org/v1.0/nslc/groups/'
+    ).pipe(
+      map(
+        results => {
+          let channelGroups : ChannelGroup[] = [];
+          results.forEach(cG => {
+            let chanGroup = new ChannelGroup(
+              cG.id,
+              cG.name,
+              cG.description,
+              []
+            )
+            channelGroups.push(chanGroup);
+          });
+          return channelGroups;
+        }
+      ),
+      tap( channelGroups => {
+        this.channelGroups.push(...channelGroups);
+      })
+    )
+    .subscribe(result => {
+      console.log(result)
+      console.log(this.channelGroups)
+    });
   }
 
   getChannelGroups(){
@@ -81,6 +110,18 @@ export class ChannelGroupsService {
     )
     this.channelGroups.push(newChannelGroup);
     this.channelGroupsChange();
+
+
+    //temp 
+    this.http.post<any>(
+      'https://squac.pnsn.org/v1.0/nslc/groups/',
+      {
+        "name" : channelGroup.name,
+        "description" : channelGroup.description
+      }
+    ).subscribe(result => {
+      console.log(result)
+    });
 
     return id; //return ID
   };

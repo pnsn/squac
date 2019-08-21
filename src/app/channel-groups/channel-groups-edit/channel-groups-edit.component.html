@@ -53,7 +53,7 @@
 
       </fieldset>
     
-      <button (click)="addSelectedChannelsToGroup()" type="button" >Add Selected Channels</button>  
+      <button (click)="addSelectedChannelsToGroup()" type="button" [disabled]="!channelsForm.values">Add Selected Channels</button>  
     </form>
 
 

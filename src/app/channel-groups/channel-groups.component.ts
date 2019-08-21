@@ -11,7 +11,7 @@ import { ChannelsService } from '../shared/channels.service';
   styleUrls: ['./channel-groups.component.scss']
 })
 export class ChannelGroupsComponent implements OnInit, OnDestroy {
-  channelGroups: ChannelGroup[];
+  // channelGroups: ChannelGroup[];
   subscription: Subscription = new Subscription();
 
   constructor(  
@@ -22,19 +22,20 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    //Gets channels but doesn't use
     const sub1 = this.channelsService.fetchNslcs().subscribe(result => {
       console.log(result);
     });
-    this.channelGroups = this.ChannelGroupsService.getChannelGroups();
+    // this.channelGroups = this.ChannelGroupsService.getChannelGroups();
 
-    const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(
-      (channelGroups: ChannelGroup[]) => {
-        this.channelGroups = channelGroups;
-      }
-    )
+    // const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(
+    //   (channelGroups: ChannelGroup[]) => {
+    //     this.channelGroups = channelGroups;
+    //   }
+    // )
     
     this.subscription.add(sub1);
-    this.subscription.add(sub);
+    // this.subscription.add(sub);
   }
 
   ngOnDestroy(): void {

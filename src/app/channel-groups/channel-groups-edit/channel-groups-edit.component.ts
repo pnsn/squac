@@ -45,6 +45,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
       this.availableChannels = channels;
       this.initChannelsForm();
     });
+
     this.subscriptions.add(sub1);
     this.subscriptions.add(sub2);
   }
@@ -109,17 +110,21 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   addSelectedChannelsToGroup() {
     //clear form
     //take selected channels
-    let _channels = this.channelsForm.value.channels
+    if (this.channelsForm.value.channels) {
+      let _channels = this.channelsForm.value.channels
       .map((value, i) => {
         return value ? this.filteredChannels[i] : null;
       })
       .filter(value => value !== null);
 
-    this.channelsForm.removeControl("channels");
+      this.channelsForm.removeControl("channels");
 
-    this.selectedChannels.push(..._channels); 
+      this.selectedChannels.push(..._channels); 
+  
+      this.createChannelSelectors();
+    
+    }
 
-    this.createChannelSelectors();
   }
 
   // Returns true if channel object is in array of channels
