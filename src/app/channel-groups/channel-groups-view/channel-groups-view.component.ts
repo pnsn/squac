@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChannelGroup } from '../../shared/channel-group';
 import { Subscription } from 'rxjs';
-import { ChannelGroupsService } from '../../shared/channel-groups.service';
+import { ChannelGroupsService } from '../channel-groups.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { map, tap, filter, catchError } from 'rxjs/operators';
 import { Channel } from './channel';
 import { Subject, BehaviorSubject, throwError } from 'rxjs';
@@ -23,18 +23,23 @@ export class ChannelsService {
     this.channels.next(channels);
   }
 
-  fetchNslcs() {
+  fetchChannels(network : string) {
     return this.http
       .get<any>(
-        'https://squac.pnsn.org/v1.0/nslc/networks/'
+        'https://squac.pnsn.org/v1.0/nslc/stations/',
+        {
+          params : {
+            "net" : network
+          }
+        }
       ).pipe(
         catchError(this.handleError),
         //this needs to be improved in the future
-        map(networks => this.processNslcs(networks)),
+        map(this.processNslcs),
         tap( channels => {
           this.setChannels(channels);
         })
-    );
+    ).subscribe();
   }
 
   //TODO: this will change with the schema changes on jon's end

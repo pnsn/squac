@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { ChannelGroupsService } from '../../shared/channel-groups.service';
+import { ChannelGroupsService } from '../channel-groups.service';
 import { ChannelGroup } from '../../shared/channel-group';
 
 @Component({

@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ChannelGroup } from '../../shared/channel-group';
-import { ChannelGroupsService } from '../../shared/channel-groups.service';
+import { ChannelGroupsService } from '../channel-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, FormBuilder } from '@angular/forms';
 import { ChannelsService } from '../../shared/channels.service';
 import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
+import { Network } from '../network';
+import { NetworksService } from '../networks.service';
 
 @Component({
   selector: 'app-channel-group-edit',
@@ -22,17 +24,18 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   subscriptions : Subscription = new Subscription();
   filteredChannels : Channel[] = [];
   selectedChannels : Channel[] = [];
-
+  availableNetworks : Network[] = [];
   constructor(  
     private router: Router, 
     private route: ActivatedRoute, 
     private channelGroupService : ChannelGroupsService,
     private channelsService : ChannelsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private networksService : NetworksService
   ) { }
 
   ngOnInit() {
-    const sub2 = this.route.params.subscribe(
+    const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
         this.editMode = params['id'] != null;
@@ -41,17 +44,30 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
       }
     );
 
-    const sub1 = this.channelsService.channels.subscribe(channels => {
-      this.availableChannels = channels;
+    const sub1 = this.networksService.networks.subscribe(networks => {
+      this.availableNetworks = networks;
       this.initChannelsForm();
     });
 
+    this.subscriptions.add(paramsSub);
     this.subscriptions.add(sub1);
-    this.subscriptions.add(sub2);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  //after filter applied do this 
+
+  getChannelsForStation(){
+    this.channelsService.fetchChannels("UW");
+    
+    let channelsSub = this.channelsService.channels.subscribe(channels => {
+      this.availableChannels = channels;
+      this.initChannelsForm();
+    });
+
+    this.subscriptions.add(channelsSub);
   }
 
 
