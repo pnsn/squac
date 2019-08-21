@@ -20,19 +20,20 @@ export class ChannelsService {
   ) { }
   channels = new BehaviorSubject<Channel[]>([]);
   private filteredNetwork : Network;
-  
+
   private setChannels(channels : Channel[]) {
     this.channels.next(channels);
   }
 
   fetchChannels(network : Network) {
     this.filteredNetwork = network;
+    console.log("network: " + network.code);
     this.http
       .get<any>(
         'https://squac.pnsn.org/v1.0/nslc/stations/',
         {
           params : {
-            "net" : network.code
+            "network" : network.code
           }
         }
       ).pipe(
@@ -40,13 +41,15 @@ export class ChannelsService {
         //this needs to be improved in the future
         map(stations => {
           let channels : Channel[] = [];
-
+          let filteredNetwork = this.filteredNetwork;
+          console.log(filteredNetwork);
           stations.forEach(station => {
             const sta = station.code;
             const staName = station.name;
       
               station.channels.forEach(channel => {
                 let channelObject = new Channel(
+                  channel.id,
                   channel.name,
                   channel.code,
                   channel.sample_rate,
@@ -56,8 +59,8 @@ export class ChannelsService {
                   channel.loc,
                   staName,
                   sta,
-                  this.filteredNetwork.code,
-                  this.filteredNetwork.name
+                  filteredNetwork.code,
+                  filteredNetwork.name
                 );
                 channels.push(channelObject);
               });
@@ -66,6 +69,7 @@ export class ChannelsService {
         })
     ).subscribe(channels => {
       console.log("done!")
+      console.log(channels);
       this.setChannels(channels);
     });
   }

@@ -18,6 +18,8 @@ export class ChannelGroupsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    //FIXME: throws error if directly accessed since view componennt pulls data
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];

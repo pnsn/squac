@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelsService } from '../shared/channels.service';
 import { NetworksService } from './networks.service';
+import { ChannelGroupsService } from './channel-groups.service';
 
 @Component({
   selector: 'app-channel-groups',
@@ -17,14 +18,14 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
   constructor(  
     private router: Router,
     private route: ActivatedRoute,
-    private channelsService: ChannelsService,
+    private channelGroupsService : ChannelGroupsService,
     private networksService : NetworksService
   ) {}
 
   ngOnInit() {
     //Gets channels but doesn't use
     const sub1 = this.networksService.fetchNetworks();
-    // this.channelGroups = this.ChannelGroupsService.getChannelGroups();
+    const sub2 = this.channelGroupsService.fetchChannelGroups();
 
     // const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(
     //   (channelGroups: ChannelGroup[]) => {
@@ -33,7 +34,7 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
     // )
     
     this.subscription.add(sub1);
-    // this.subscription.add(sub);
+    this.subscription.add(sub2);
   }
 
   ngOnDestroy(): void {

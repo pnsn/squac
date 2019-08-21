@@ -9,51 +9,21 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelGroupsService {
-  testChannelArray = [
-    new Channel(
-      "EHZ",
-      "ehz",
-      -1,
-      46.08924,
-      -123.45173,
-      826,
-      "--",
-      "Nicolai Mt., Oregon",
-      "nlo",
-      "uw",
-      "University of Washington"
-    ),
-    new Channel(
-      "EHZ",
-      "ehz",
-       -1,
-      45.83878,
-      -120.81479,
-      610,
-      "--",
-      "Goldendale Observatory, WA, USA",
-      "gldo",
-      "uw",
-      "University of Washington",
-    )
-  ];
-  
-  private channelGroups: ChannelGroup[] = [];
+export class ChannelGroupsService {  
+  channelGroups = new Subject<ChannelGroup[]>();
 
-  channelGroupsChanged = new Subject<ChannelGroup[]>();
-
+  private localGroups : ChannelGroup[] = [];
   constructor(private http : HttpClient) { }
 
-  private getIndexFromId(id: number) : number{
-    for (let i=0; i < this.channelGroups.length; i++) {
-      if (this.channelGroups[i].id === id) {
-          return i;
+  private getChannelGroupFromId(id: number) : ChannelGroup{
+    for (let i=0; i < this.localGroups.length; i++) {
+      if (this.localGroups[i].id === id) {
+          return this.localGroups[i];
       }
     }
   }
 
-  getChannelGroupsFromServer() {
+  fetchChannelGroups() {
     //temp 
     this.http.get<any>(
       'https://squac.pnsn.org/v1.0/nslc/groups/'
@@ -61,84 +31,62 @@ export class ChannelGroupsService {
       map(
         results => {
           let channelGroups : ChannelGroup[] = [];
+          console.log(results)
           results.forEach(cG => {
             let chanGroup = new ChannelGroup(
               cG.id,
               cG.name,
               cG.description,
-              []
+              cG.channels //TODO: channels are in weird type
             )
             channelGroups.push(chanGroup);
           });
           return channelGroups;
         }
-      ),
-      tap( channelGroups => {
-        this.channelGroups.push(...channelGroups);
-      })
+      )
     )
-    .subscribe(result => {
-      console.log(result)
-      console.log(this.channelGroups)
+    .subscribe(channelGroups => {
+      this.channelGroups.next(channelGroups);
+      this.localGroups = channelGroups;
     });
   }
 
-  getChannelGroups(){
-    return this.channelGroups.slice();
-  }
-
   getChannelGroup(id: number) : ChannelGroup{
-    let index = this.getIndexFromId(id);
-    return this.channelGroups[index];
+    console.log(this.getChannelGroupFromId(id))
+    return this.getChannelGroupFromId(id);
   }
-
-  //temp: just until JOn gets this db going
-  private generateID() : number{
-    return this.channelGroups.length + 1; 
-  }
-  
 
   //http this stuff
-  addChannelGroup(channelGroup: ChannelGroup) : number{ //can't know id yet
-    //make id
-    let id = this.generateID();
-    let newChannelGroup = new ChannelGroup(
-      id,
-      channelGroup.name,
-      channelGroup.description,
-      channelGroup.channels
-    )
-    this.channelGroups.push(newChannelGroup);
-    this.channelGroupsChange();
-
-
+  addChannelGroup(channelGroup: ChannelGroup) { //can't know id yet
     //temp 
     this.http.post<any>(
       'https://squac.pnsn.org/v1.0/nslc/groups/',
       {
         "name" : channelGroup.name,
-        "description" : channelGroup.description
+        "description" : channelGroup.description,
+        "channels" : channelGroup.channelsIdsArray
       }
     ).subscribe(result => {
       console.log(result)
+      this.fetchChannelGroups();
     });
 
-    return id; //return ID
   };
 
   //TODO: check if dangerous due to same group reference
-  updateChannelGroup(id: number, channelGroup: ChannelGroup) : number{
+  updateChannelGroup(id: number, channelGroup: ChannelGroup){
     if(id) {
-      let index = this.getIndexFromId(id);
-      this.channelGroups[index] = channelGroup; 
-      this.channelGroupsChange();
+
+      //figure out updating
+      // let index = this.getIndexFromId(id);
+      // this.channelGroups[index] = channelGroup; 
+      // this.channelGroupsChange();
     } else {
-      return this.addChannelGroup(channelGroup);
+      this.addChannelGroup(channelGroup);
     }
-    this.channelGroupsChange();
   }
 
   private channelGroupsChange(){
-    this.channelGroupsChanged.next(this.channelGroups.slice());
+    // this.channelGroupsChanged.next(this.channelGroups.slice());
   }
 }

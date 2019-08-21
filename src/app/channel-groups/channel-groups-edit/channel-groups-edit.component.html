@@ -39,9 +39,21 @@
       </div>
     </form>
 
-    <form [formGroup]="channelsForm" action="">
+    <!-- TODO: put this better -->
+    <form [formGroup]="filtersForm">
+        <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
+          <option disabled="true">Please select a station</option>
+          <option  *ngFor="let network of availableNetworks" [ngValue]="network">
+            {{network.code}} - {{network.name}}
+          </option>
+
+        </select>
+    </form>
+
+
+    <form [formGroup]="channelsForm" action="" *ngIf="selectedNetwork">
       <h3> Available Channels ({{filteredChannels.length}})</h3>
-      <fieldset  *ngIf="filteredChannels.length > 0">
+      <fieldset  *ngIf="filteredChannels.length > 0 && availableChannels.length > 0">
           <ng-container formArrayName="channels" *ngFor="let channel of channelsForm.controls.channels.controls; let i = index">
             <label>
               <input type="checkbox" [formControlName]="i">
@@ -53,7 +65,7 @@
 
       </fieldset>
     
-      <button (click)="addSelectedChannelsToGroup()" type="button" [disabled]="!channelsForm.values">Add Selected Channels</button>  
+      <button (click)="addSelectedChannelsToGroup()" type="button">Add Selected Channels</button>  
     </form>
 
 

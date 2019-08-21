@@ -9,4 +9,13 @@ export class ChannelGroup {
   ) {
   }
 
+  get channelsIdsArray() : string[] {
+    let array = [];
+
+    this.channels.forEach(channel => {
+      array.push(channel.id);
+    })
+
+    return array;
+  }
 }

@@ -1,5 +1,6 @@
 export class Channel {
   constructor(
+    public id: number,
     public chaName : string,
     public cha : string,
     public sample_rate : number,
@@ -19,7 +20,7 @@ export class Channel {
     public netName? : string
   ){}
 
-  get nslc() : string {
+get nslc() : string {
     return this.net + "." + this.sta + "." + this.loc+ "." + this.cha;
   }
 }

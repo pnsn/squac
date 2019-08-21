@@ -16,16 +16,12 @@ export class ChannelGroupsViewComponent implements OnInit {
     private ChannelGroupsService: ChannelGroupsService,
     private router: Router,
     private route: ActivatedRoute) {
-
   }
 
   ngOnInit() {
-    this.channelGroups = this.ChannelGroupsService.getChannelGroups();
-    this.subscription = this.ChannelGroupsService.channelGroupsChanged.subscribe(
-      (channelGroups: ChannelGroup[]) => {
-        this.channelGroups = channelGroups;
-      }
-    )
+    this.subscription = this.ChannelGroupsService.channelGroups.subscribe(channelGroups => {
+      this.channelGroups = channelGroups;
+    });
   }
 
   ngOnDestroy(): void {

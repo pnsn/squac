@@ -24,7 +24,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   subscriptions : Subscription = new Subscription();
   filteredChannels : Channel[] = [];
   selectedChannels : Channel[] = [];
+
   availableNetworks : Network[] = [];
+  selectedNetwork : Network;
+  filtersForm : FormGroup;
+
   constructor(  
     private router: Router, 
     private route: ActivatedRoute, 
@@ -46,7 +50,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
     const sub1 = this.networksService.networks.subscribe(networks => {
       this.availableNetworks = networks;
-      this.getChannelsForStation()
+      this.filtersForm = this.formBuilder.group({
+        "networks": new FormControl([])
+      })
     });
 
     this.subscriptions.add(paramsSub);
@@ -57,24 +63,27 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
     this.subscriptions.unsubscribe();
   }
 
+
+  //other filters do on front end
+
   //after filter applied do this 
+  getChannelsForNetwork(){
 
-  getChannelsForStation(){
-    this.channelsService.fetchChannels(
-      new Network(
-        1,
-        "UW",
-        "unive of wa",
-        null
-      )
-    );
-    
-    let channelsSub = this.channelsService.channels.subscribe(channels => {
-      this.availableChannels = channels;
-      this.initChannelsForm();
-    });
+    this.selectedNetwork = this.filtersForm.value.networks;
+    if(this.selectedNetwork) {
+      this.channelsService.fetchChannels(
+        this.selectedNetwork
+      );
 
-    this.subscriptions.add(channelsSub);
+      let channelsSub = this.channelsService.channels.subscribe(channels => {
+        this.availableChannels = channels;
+        console.log("Channels");
+        this.initChannelsForm();
+      });
+  
+      this.subscriptions.add(channelsSub);
+    }
+
   }
 
 
