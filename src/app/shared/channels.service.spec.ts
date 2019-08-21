@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 describe('ChannelsService', () => {
   let httpClientSpy : { get : jasmine.Spy};
   let channelsService : ChannelsService;
+  
   let expectedChannels : Channel[] = [
     new Channel (
       "channel",

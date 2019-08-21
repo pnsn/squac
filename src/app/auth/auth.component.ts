@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService , AuthResponseData} from './auth.service';
+import { AuthService} from './auth.service';
 import { onErrorResumeNext, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
   }
 
   onSubmit(form : NgForm) {

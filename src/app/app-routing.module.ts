@@ -17,7 +17,7 @@ import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget
 import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
 import { DashboardViewComponent } from './dashboards/dashboard-view/dashboard-view.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'login', component: AuthComponent},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'dashboards', 
