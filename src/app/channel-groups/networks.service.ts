@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Network } from './network';
@@ -8,7 +8,7 @@ import { SquacApiService } from '../squacapi';
   providedIn: 'root'
 })
 export class NetworksService extends SquacApiService{
-
+  private localNetworks : {} = {};
   networks = new BehaviorSubject<Network[]>([]);
 
   constructor(
@@ -36,6 +36,8 @@ export class NetworksService extends SquacApiService{
               network.name,
               network.description
             )
+            this.localNetworks[network.id] = net;
+
             nets.push(net);
           });
           return nets;
@@ -48,20 +50,23 @@ export class NetworksService extends SquacApiService{
   }
 
     //TODO: figure out stations service 
-    getNetwork(id: number) : Observable<Network>{
-      //temp 
-      return super.get(id).pipe(
-        map(
-          network => {
-            let networkObject = new Network(
-              network.id,
-              network.code,
-              network.name,
-              network.description
-            );
-            return networkObject;
-          }
-        )
-      );
+    getNetwork(id: number) :Observable<Network>{
+      if(this.localNetworks[id]) {
+        return of(this.localNetworks[id]);
+      } else {
+        return super.get(id).pipe(
+          map(
+            network => {
+              let networkObject = new Network(
+                network.id,
+                network.code,
+                network.name,
+                network.description
+              );
+              return networkObject;
+            }
+          )
+        );
+      }
     }
 }
