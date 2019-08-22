@@ -83,7 +83,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       result => {
         this.cancel(result.id)
       }
-    );;
+    );
   }
 
   // Exit page

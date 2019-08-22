@@ -22,15 +22,16 @@ export class DashboardsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboards = this.dashboardsService.getDashboards();
-
+    this.dashboardsService.fetchDashboards();
     //TODO: first or favorited dashboard
-    this.router.navigate([this.dashboards[0].id], {relativeTo: this.route});
-    this.subscription.add(this.dashboardsService.dashboardsChanged.subscribe(
+    // this.router.navigate([this.dashboards[0].id], {relativeTo: this.route});
+    const dashboardsService = this.dashboardsService.getDashboards.subscribe(
       (dashboards: Dashboard[]) => {
         this.dashboards = dashboards;
       }
-    ));
+    );
+
+    this.subscription.add(dashboardsService);
   }
 
   ngOnDestroy(): void {

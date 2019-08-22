@@ -24,8 +24,13 @@ export class DashboardDetailComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
-        this.dashboard = this.DashboardsService.getDashboard(this.id);
-        this.widgets = this.dashboard.widgets;
+        this.DashboardsService.getDashboard(this.id).subscribe(
+          dashboard => {
+            this.dashboard = dashboard;
+            this.widgets = this.dashboard.widgets;
+          }
+        );
+
       }
     )
   }

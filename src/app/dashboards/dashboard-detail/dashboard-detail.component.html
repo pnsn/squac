@@ -1,25 +1,30 @@
-<div id="dashboard-header">
-    <h2>
-      {{dashboard.name}}
-    </h2>
+<div *ngIf="dashboard">
+    <div id="dashboard-header" >
+        <h2>
+            {{dashboard.name}}
+        </h2>
 
-    <div id="header-controls">
-        <div>~Select date here~</div>
-        <button (click)="editDashboard()">Edit Dashboard Properties</button>
-        <button (click)="addWidget()">Add Widget</button>
+        <div id="header-controls">
+            <div>~Select date here~</div>
+            <button (click)="editDashboard()">Edit Dashboard Properties</button>
+            <button (click)="addWidget()">Add Widget</button>
+        </div>
+
     </div>
 
+    <hr>
+    <div> 
+        <h3> Widgets ({{widgets.length}})</h3>
+        <ul>
+        <app-widget 
+            *ngFor="let widget of widgets"
+            [widget]="widget">
+        </app-widget>
+        </ul>
+    </div>
+        
+    <router-outlet></router-outlet>
 </div>
-
-<hr>
-<div> 
-    <h3> Widgets ({{widgets.length}})</h3>
-    <ul>
-    <app-widget 
-      *ngFor="let widget of widgets"
-      [widget]="widget">
-    </app-widget>
-    </ul>
+<div *ngIf="!dashboard">
+    <p>Please select a dashboard </p>
 </div>
-
-<router-outlet></router-outlet>

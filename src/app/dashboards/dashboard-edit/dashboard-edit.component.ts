@@ -36,8 +36,12 @@ export class DashboardEditComponent implements OnInit {
     let dashboardName = "";
 
     if (this.editMode) {
-      this.dashboard = this.dashboardService.getDashboard(this.id);
-      dashboardName = this.dashboard.name;
+      this.dashboardService.getDashboard(this.id).subscribe(
+        dashboard => {
+          dashboardName = dashboard.name;
+        }
+      );
+
     }
 
     this.dashboardForm = new FormGroup({
@@ -46,12 +50,28 @@ export class DashboardEditComponent implements OnInit {
   }
 
   save() {
-    //save metric
-    this.dashboardService.updateDashboard(this.id, this.dashboardForm.value);
+    let values = this.dashboardForm.value;
+    this.dashboardService.updateDashboard(
+      new Dashboard(
+        this.id,
+        values.name,
+        values.description, 
+        values.channelGroupId,
+        values.widgets
+      )
+    ).subscribe(
+      result => {
+        this.cancel(result.id)
+      }
+    );
     this.cancel();
   }
 
-  cancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+  cancel(id?: number) {
+    if(id && !this.id) {
+      this.router.navigate(['../', id], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 }

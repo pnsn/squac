@@ -1,82 +1,91 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { Widget } from './widget';
+import { SquacApiService } from '../squacapi';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
+interface DashboardsHttpData {
+  name: string,
+  description: string,
+  group: number, 
+  widgets: any,
+  id?: number
+}
 //should I use index or id
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardsService {
-  private dashboards: Dashboard[] = [
-    new Dashboard(
-      1, 
-      "dashboard A", 
-      "description",
-      [
-        new Widget(
-          1,
-          "widget 1"
-        ),
-        new Widget(
-          2,
-          "widget 2"
-        )
-      ]
-    )
-  ];
-  dashboardsChanged = new Subject<Dashboard[]>();
+export class DashboardsService extends SquacApiService{
 
-  constructor() { }
+  getDashboards = new BehaviorSubject<Dashboard[]>([]);
 
-  private getIndexFromId(id: number) : number{
-    for (let i=0; i < this.dashboards.length; i++) {
-      if (this.dashboards[i].id === id) {
-          return i;
-      }
-    }
+  constructor(
+    http : HttpClient
+  ) {
+    super("dashboard/dashboards/", http);
   }
 
-  //temp: just until JOn gets this db going
-  private generateID() : number{
-    return this.dashboards.length + 1; 
-  }
-
-  getDashboards(){
-    return this.dashboards.slice();
-  }
-
-  getDashboard(id: number) : Dashboard{
-    let index = this.getIndexFromId(id);
-    return this.dashboards[index];
-  }
-
-  addDashboard(dashboard: Dashboard) : number { //can't know id yet
-    //figure out ID
-    let id = this.generateID();
-    let newDashboard = new Dashboard(
-      id,
-      dashboard.name,
-      dashboard.description,
-      dashboard.widgets
-    )
-    this.dashboards.push(newDashboard);
-    this.dashboardsChange();
-    console.log(this.dashboards)
-    return id; //return ID
+  private updateDashboards(dashboards: Dashboard[]) {
+    this.getDashboards.next(dashboards);
   };
 
-  updateDashboard(id: number, dashboard: Dashboard) : number {
-    if (id) {
-      let index = this.getIndexFromId(id);
-      this.dashboards[index] = dashboard;
-      this.dashboardsChange();
-    } else {
-      return this.addDashboard(dashboard);
-    }
+  // Gets channel groups from server
+  fetchDashboards() : void {
+    //temp 
+    super.get().pipe(
+      map(
+        results => {
+          let dashboards : Dashboard[] = [];
+
+          results.forEach(d => {
+            let dashboard = new Dashboard(
+              d.id,
+              d.name,
+              d.description,
+              d.group,
+              d.widgets
+            )
+            dashboards.push(dashboard);
+          });
+          return dashboards;
+        }
+      )
+    )
+    .subscribe(result => {
+      this.updateDashboards(result);
+    });
   }
 
-  private dashboardsChange(){
-    this.dashboardsChanged.next(this.dashboards.slice());
+  getDashboard(id: number) : Observable<Dashboard>{
+    //temp 
+    return super.get(id).pipe(
+      map(
+        result => {
+          let dashboard = new Dashboard(
+              result.id,
+              result.name,
+              result.description,
+              result.group,
+              result.widgets
+          );
+          return dashboard;
+        }
+      )
+    );
+  }
+
+  updateDashboard(dashboard: Dashboard) : Observable<Dashboard> {
+    let postData : DashboardsHttpData = {
+      name: dashboard.name,
+      description: dashboard.description,
+      group: dashboard.channelGroupId,
+      widgets: dashboard.widgets
+    }
+    if(dashboard.id) {
+      postData.id = dashboard.id;
+    }
+    return super.post(postData);
   }
 }
