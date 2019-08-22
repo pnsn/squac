@@ -23,13 +23,14 @@ export class Channel {
     public lon: number,
     public elev : number,
     public loc : string,
+    public station? : Station
   ){}
 
-  set station (station : Station) {
-    this.station = station;
+  get network(){
+    return this.station.network;
   }
 
-get nslc() : string {
-    return this.networkCode + "." + this.station.code + "." + this.loc+ "." + this.code;
+  get nslc() : string {
+    return this.network.code + "." + this.station.code + "." + this.loc+ "." + this.code;
   }
 }

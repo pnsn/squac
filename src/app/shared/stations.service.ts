@@ -63,13 +63,14 @@ export class StationsService extends SquacApiService {
       stations => {
         let channels = [];
         stations.forEach(station => {
-          this.localStations[station.id] = new Station(
+          let sta = new Station(
             station.id,
             station.code,
             station.name,
             station.description,
             network
-          );
+          )
+          this.localStations[station.id] = sta;
 
           station.channels.forEach(channel => {
             let channelObject = new Channel(
@@ -80,9 +81,9 @@ export class StationsService extends SquacApiService {
               channel.lat,
               channel.lon,
               channel.elev,
-              channel.loc
+              channel.loc,
+              sta
             );
-            channelObject.station = this.localStations[station.id];
             channels.push(channelObject);
           });
         });
