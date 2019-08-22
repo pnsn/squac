@@ -14,6 +14,8 @@ import { NetworksService } from '../networks.service';
   templateUrl: './channel-groups-edit.component.html',
   styleUrls: ['./channel-groups-edit.component.scss']
 }) 
+
+//TODO: this is getting massive - consider restructuring
 export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   id: number;
   channelGroup: ChannelGroup;

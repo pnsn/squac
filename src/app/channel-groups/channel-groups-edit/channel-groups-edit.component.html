@@ -42,7 +42,7 @@
     <!-- TODO: put this better -->
     <form [formGroup]="filtersForm">
         <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
-          <option disabled="true">Please select a station</option>
+          <option disabled="true">Please select a network</option>
           <option  *ngFor="let network of availableNetworks" [ngValue]="network">
             {{network.code}} - {{network.name}}
           </option>
