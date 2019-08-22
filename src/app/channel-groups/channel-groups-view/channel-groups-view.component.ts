@@ -19,12 +19,14 @@ export class ChannelGroupsViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.ChannelGroupsService.channelGroups.subscribe(channelGroups => {
+    console.log("create view componeent");
+    this.subscription = this.ChannelGroupsService.getChannelGroups.subscribe(channelGroups => {
       this.channelGroups = channelGroups;
     });
   }
 
   ngOnDestroy(): void {
+    console.log("destroy view componenent")
     this.subscription.unsubscribe();
   }
 

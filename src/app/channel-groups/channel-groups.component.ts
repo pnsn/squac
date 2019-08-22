@@ -24,17 +24,11 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //Gets channels but doesn't use
-    const sub1 = this.networksService.fetchNetworks();
-    const sub2 = this.channelGroupsService.fetchChannelGroups();
-
-    // const sub = this.ChannelGroupsService.channelGroupsChanged.subscribe(
-    //   (channelGroups: ChannelGroup[]) => {
-    //     this.channelGroups = channelGroups;
-    //   }
-    // )
+    const networksService = this.networksService.fetchNetworks();
+    const channelGroupsService = this.channelGroupsService.fetchChannelGroups();
     
-    this.subscription.add(sub1);
-    this.subscription.add(sub2);
+    this.subscription.add(networksService);
+    this.subscription.add(channelGroupsService);
   }
 
   ngOnDestroy(): void {

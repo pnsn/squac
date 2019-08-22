@@ -94,10 +94,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
     // if editing existing group, populate with the info
     if (this.editMode) {
-      const channelGroup = this.channelGroupService.getChannelGroup(this.id);
-      channelGroupName = channelGroup.name;
-      channelGroupDescription = channelGroup.description;
-      this.selectedChannels = channelGroup.channels;
+      this.channelGroupService.getChannelGroup(this.id).subscribe(
+        channelGroup => {
+          channelGroupName = channelGroup.name;
+          channelGroupDescription = channelGroup.description;
+          this.selectedChannels = channelGroup.channels;
+        }
+      );
     }
 
     this.channelGroupForm = this.formBuilder.group({
@@ -176,20 +179,27 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   // Save channel information
   save() {
     let values = this.channelGroupForm.value;
-    this.channelGroupService.updateChannelGroup(this.id, 
+    this.channelGroupService.updateChannelGroup(
       new ChannelGroup(
         this.id,
         values.name,
         values.description, 
         this.selectedChannels
       )
+    ).subscribe(
+      result => {
+        this.cancel(result.id)
+      }
     );
-    this.cancel();
   }
 
   // Exit page
   //TODO: warn if unsaved
-  cancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+  cancel(id?: number) {
+    if(id && !this.id) {
+      this.router.navigate(['../', id], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 }

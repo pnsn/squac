@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
 import { ChannelGroup } from '../shared/channel-group';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { Channel } from '../shared/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+
+interface ChannelGroupsHttpData {
+  name: string, 
+  description: string,
+  channels: string[],
+  id?: number
+}
 
 //should I use index or id
 @Injectable({
   providedIn: 'root'
 })
 export class ChannelGroupsService {  
-  channelGroups = new Subject<ChannelGroup[]>();
+  getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
 
-  private localGroups : ChannelGroup[] = [];
   constructor(private http : HttpClient) { }
 
-  private getChannelGroupFromId(id: number) : ChannelGroup{
-    for (let i=0; i < this.localGroups.length; i++) {
-      if (this.localGroups[i].id === id) {
-          return this.localGroups[i];
-      }
-    }
-  }
+  updateChannelGroups(channelGroups: ChannelGroup[]) {
+    console.log(this.getChannelGroups);
+    this.getChannelGroups.next(channelGroups);
+  };
 
-  fetchChannelGroups() {
+  // Gets channel groups from server
+  fetchChannelGroups() : void {
     //temp 
     this.http.get<any>(
       'https://squac.pnsn.org/v1.0/nslc/groups/'
@@ -31,13 +35,12 @@ export class ChannelGroupsService {
       map(
         results => {
           let channelGroups : ChannelGroup[] = [];
-          console.log(results)
+
           results.forEach(cG => {
             let chanGroup = new ChannelGroup(
               cG.id,
               cG.name,
-              cG.description,
-              cG.channels //TODO: channels are in weird type
+              cG.description
             )
             channelGroups.push(chanGroup);
           });
@@ -45,48 +48,64 @@ export class ChannelGroupsService {
         }
       )
     )
-    .subscribe(channelGroups => {
-      this.channelGroups.next(channelGroups);
-      this.localGroups = channelGroups;
+    .subscribe(result => {
+      this.updateChannelGroups(result);
     });
   }
 
-  getChannelGroup(id: number) : ChannelGroup{
-    console.log(this.getChannelGroupFromId(id))
-    return this.getChannelGroupFromId(id);
+  //Gets a specific channel group from server
+  getChannelGroup(id: number) : Observable<ChannelGroup>{
+            //temp 
+      return this.http.get<any>(
+        'https://squac.pnsn.org/v1.0/nslc/groups/' + id
+      ).pipe(
+        map(
+          result => {
+            console.log("result ", result);
+            let channelGroup : ChannelGroup;
+
+            channelGroup = new ChannelGroup(
+              result.id,
+              result.name, 
+              result.description
+            )
+
+            result.channels.forEach(channel => {
+              let chan = new Channel(
+                channel.id,
+                channel.name,
+                channel.code,
+                channel.sample_rate,
+                channel.lat,
+                channel.lon,
+                channel.elev,
+                channel.loc
+              );
+
+              chan.stationId = channel.station;
+              //FIXME - doesn't have station/network information
+              channelGroup.channels.push(chan);
+            });
+
+            return channelGroup;
+          }
+        )
+      )
   }
 
-  //http this stuff
-  addChannelGroup(channelGroup: ChannelGroup) { //can't know id yet
-    //temp 
-    this.http.post<any>(
-      'https://squac.pnsn.org/v1.0/nslc/groups/',
-      {
-        "name" : channelGroup.name,
-        "description" : channelGroup.description,
-        "channels" : channelGroup.channelsIdsArray
-      }
-    ).subscribe(result => {
-      console.log(result)
-      this.fetchChannelGroups();
-    });
-
-  };
-
-  //TODO: check if dangerous due to same group reference
-  updateChannelGroup(id: number, channelGroup: ChannelGroup){
-    if(id) {
-
-      //figure out updating
-      // let index = this.getIndexFromId(id);
-      // this.channelGroups[index] = channelGroup; 
-      // this.channelGroupsChange();
-    } else {
-      this.addChannelGroup(channelGroup);
+  updateChannelGroup(channelGroup: ChannelGroup) : Observable<ChannelGroup> {
+    let postData : ChannelGroupsHttpData = {
+      name: channelGroup.name,
+      description: channelGroup.description,
+      channels : channelGroup.channelsIdsArray
     }
+    if(channelGroup.id) {
+      postData.id = channelGroup.id;
+    }
+    return this.http.post<any>(
+      'https://squac.pnsn.org/v1.0/nslc/groups/',
+      postData
+    );
   }
 
-  private channelGroupsChange(){
-    // this.channelGroupsChanged.next(this.channelGroups.slice());
-  }
 }

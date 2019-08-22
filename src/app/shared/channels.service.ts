@@ -44,9 +44,6 @@ export class ChannelsService {
           let filteredNetwork = this.filteredNetwork;
           console.log(filteredNetwork);
           stations.forEach(station => {
-            const sta = station.code;
-            const staName = station.name;
-      
               station.channels.forEach(channel => {
                 let channelObject = new Channel(
                   channel.id,
@@ -56,9 +53,15 @@ export class ChannelsService {
                   channel.lat,
                   channel.lon,
                   channel.elev,
-                  channel.loc,
-                  staName,
-                  sta,
+                  channel.loc
+                );
+                channelObject.setStation(
+                  station.id,
+                  station.code,
+                  station.name
+                );
+                channelObject.setNetwork(
+                  filteredNetwork.id,
                   filteredNetwork.code,
                   filteredNetwork.name
                 );

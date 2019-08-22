@@ -1,8 +1,19 @@
 export class Channel {
+
+  //from sta
+  public stationId : number;
+  public stationName : string;
+  public stationCode : string;
+  //from net
+
+  public networkId : number;
+  public  networkCode : string;
+  public  networkName : string;
+
   constructor(
     public id: number,
-    public chaName : string,
-    public cha : string,
+    public name : string,
+    public code : string,
     public sample_rate : number,
 
     //from loc
@@ -10,17 +21,21 @@ export class Channel {
     public lon: number,
     public elev : number,
     public loc : string,
-
-    //from sta
-    public staName : string,
-    public sta : string,
-
-    //from net
-    public net : string,
-    public netName? : string
   ){}
 
+  setStation(id: number, code: string, name: string){
+    this.stationId = id;
+    this.stationCode = code;
+    this.stationName = name;
+  }
+
+  setNetwork(id: number, code: string, name: string){
+    this.networkId = id;
+    this.networkCode = code;
+    this.networkName = name;
+  }
+
 get nslc() : string {
-    return this.net + "." + this.sta + "." + this.loc+ "." + this.cha;
+    return this.networkCode + "." + this.stationCode + "." + this.loc+ "." + this.code;
   }
 }
