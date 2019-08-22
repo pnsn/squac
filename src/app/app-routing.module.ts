@@ -15,7 +15,6 @@ import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.compon
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 import { WidgetEditComponent } from './dashboards/dashboard-detail/widget/widget-edit/widget-edit.component';
 import { WidgetComponent } from './dashboards/dashboard-detail/widget/widget.component';
-import { DashboardViewComponent } from './dashboards/dashboard-view/dashboard-view.component';
 
 export const routes: Routes = [
   { path: 'login', component: AuthComponent},
@@ -24,7 +23,6 @@ export const routes: Routes = [
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component:DashboardViewComponent, pathMatch:'full'},
       { path: 'new', component: DashboardEditComponent},
       { path: ':id', 
         component: DashboardDetailComponent,
