@@ -21,7 +21,11 @@ export class MetricsDetailComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
-        this.metric = this.metricsService.getMetric(this.id);
+        this.metricsService.getMetric(this.id).subscribe(
+          metric => {
+            console.log(metric)
+            this.metric = metric;
+          });
       }
     )
   }

@@ -21,8 +21,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.metrics = this.metricsService.getMetrics();
-    this.subscription = this.metricsService.metricsChanged.subscribe(
+    this.subscription = this.metricsService.getMetrics.subscribe(
       (metrics: Metric[]) => {
         this.metrics = metrics;
       }

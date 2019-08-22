@@ -49,12 +49,16 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     let metricUnit = "";
 
     if (this.editMode) {
-      const metric = this.metricsService.getMetric(this.id);
-      metricName = metric.name;
-      metricDescription = metric.description;
-      metricSource = metric.source;
-      metricUnit = metric.unit;
+      this.metricsService.getMetric(this.id).subscribe(
+        metric => {
+          metricName = metric.name;
+          metricDescription = metric.description;
+          metricSource = metric.source;
+          metricUnit = metric.unit;
+        });
     } 
+
+    
 
     this.metricForm = this.formBuilder.group({
       'name' : new FormControl(metricName, Validators.required),
@@ -68,7 +72,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   save() {
     let values = this.metricForm.value;
     this.metricsService.updateMetric(
-      this.id, 
       new Metric(
         this.id,
         values.name,
@@ -76,14 +79,21 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         values.source,
         values.unit
       )
-    );
-    this.cancel();
+    ).subscribe(
+      result => {
+        this.cancel(result.id)
+      }
+    );;
   }
 
   // Exit page
   //TODO: warn if unsaved
-  cancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+  cancel(id? : number) {
+    if(id && !this.id) {
+      this.router.navigate(['../', id], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 
 }

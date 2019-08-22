@@ -19,7 +19,10 @@ interface ChannelGroupsHttpData {
 export class ChannelGroupsService {  
   getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
 
-  constructor(private http : HttpClient) { }
+  private url = 'https://squac.pnsn.org/v1.0/nslc/groups/';
+  constructor(
+    private http : HttpClient
+  ) { }
 
   updateChannelGroups(channelGroups: ChannelGroup[]) {
     console.log(this.getChannelGroups);
@@ -30,7 +33,7 @@ export class ChannelGroupsService {
   fetchChannelGroups() : void {
     //temp 
     this.http.get<any>(
-      'https://squac.pnsn.org/v1.0/nslc/groups/'
+      this.url
     ).pipe(
       map(
         results => {
@@ -57,7 +60,7 @@ export class ChannelGroupsService {
   getChannelGroup(id: number) : Observable<ChannelGroup>{
             //temp 
       return this.http.get<any>(
-        'https://squac.pnsn.org/v1.0/nslc/groups/' + id
+        this.url + id
       ).pipe(
         map(
           result => {
@@ -103,7 +106,7 @@ export class ChannelGroupsService {
       postData.id = channelGroup.id;
     }
     return this.http.post<any>(
-      'https://squac.pnsn.org/v1.0/nslc/groups/',
+      this.url,
       postData
     );
   }

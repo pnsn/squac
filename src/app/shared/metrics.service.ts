@@ -1,72 +1,95 @@
 import { Injectable } from '@angular/core';
 import { Metric } from './metric';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
+interface MetricsHttpData {
+  name: string, 
+  description: string,
+  url: string,
+  unit: string,
+  id?: number
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetricsService {
-  private metrics : Metric[] = [
-    new Metric(1, "metric a", "metric a description", "source for a", "unit for a"),
-    new Metric(2, "metric b", "metric b description", "source for b", "unit for b"),
-    new Metric(3, "metric c", "metric c description", "source for c", "unit for c"),
-  ]
-  constructor() { }
+  getMetrics = new BehaviorSubject<Metric[]>([]);
+  private url = 'https://squac.pnsn.org/v1.0/measurement/metrics/';
+  constructor(
+    private http : HttpClient
+  ) { }
 
-  metricsChanged = new Subject<Metric[]>();
-
-  private getIndexFromId(id: number) : number{
-    for (let i=0; i < this.metrics.length; i++) {
-      if (this.metrics[i].id === id) {
-          return i;
-      }
-    }
-  }
-
-  getMetrics(){
-    return this.metrics.slice();
-  }
-
-  getMetric(id: number) : Metric{
-    let index = this.getIndexFromId(id);
-    return this.metrics[index];
-  }
-
-
-  //temp: just until JOn gets this db going
-  private generateID() : number{
-    return this.metrics.length + 1; 
-  }
-
-  //http this stuff
-  addMetric(metric: Metric) : number{ //can't know id yet
-    //make id
-    let newMetric = new Metric(
-      this.generateID(),
-      metric.name,
-      metric.description,
-      metric.source,
-      metric.unit
-    )
-    this.metrics.push(newMetric);
-    this.metricsChange();
-
-    return this.metrics.length; //return ID
+  updateMetrics(metrics: Metric[]) {
+    this.getMetrics.next(metrics);
   };
 
-  //TODO: check if dangerous due to same group reference
-  updateMetric(id: number, metric: Metric) : number{
-    if(id) {
-      let index = this.getIndexFromId(id);
-      this.metrics[index] = metric; 
-      this.metricsChange();
-    } else {
-      return this.addMetric(metric);
-    }
-    this.metricsChange();
+  // Gets channel groups from server
+  fetchMetrics() : void {
+    //temp 
+    this.http.get<any>(
+      this.url
+    ).pipe(
+      map(
+        results => {
+          console.log("metrics", results);
+          let metrics : Metric[] = [];
+
+          results.forEach(m => {
+            let metric = new Metric(
+              m.id,
+              m.name,
+              m.description,
+              m.source,
+              m.unit
+            )
+            metrics.push(metric);
+          });
+          return metrics;
+        }
+      )
+    )
+    .subscribe(result => {
+      this.updateMetrics(result);
+    });
   }
 
-  private metricsChange(){
-    this.metricsChanged.next(this.metrics.slice());
+
+  getMetric(id: number) : Observable<Metric>{
+    //temp 
+    return this.http.get<any>(
+      this.url + id
+    ).pipe(
+      map(
+        result => {
+          let metric = new Metric(
+              result.id,
+              result.name,
+              result.description,
+              result.source,
+              result.unit
+          );
+          return metric;
+        }
+      )
+    );
+  }
+
+  updateMetric(metric: Metric) : Observable<Metric> {
+    let postData : MetricsHttpData = {
+      name: metric.name,
+      description: metric.description,
+      url : metric.source,
+      unit : metric.unit
+    }
+    if(metric.id) {
+      postData.id = metric.id;
+    }
+    return this.http.post<any>(
+      'https://squac.pnsn.org/v1.0/measurements/metrics',
+      postData
+    );
   }
 }
