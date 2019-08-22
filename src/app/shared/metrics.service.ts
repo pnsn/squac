@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Metric } from './metric';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi';
 
 interface MetricsHttpData {
@@ -34,9 +34,9 @@ export class MetricsService extends SquacApiService{
   fetchMetrics() : void {
     //temp 
     super.get().pipe(
+      catchError(super.handleError),
       map(
         results => {
-          console.log("metrics", results);
           let metrics : Metric[] = [];
 
           results.forEach(m => {

@@ -1,10 +1,11 @@
 import { environment } from '../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 // Generic class for interacting with squac api
 export class SquacApiService {
 
-  protected baseUrl : string;
+  protected baseUrl : string;st
 
   constructor (
     private url: string, 
@@ -15,15 +16,13 @@ export class SquacApiService {
   }
 
   get( id ? : number ) {
-    let url = this.baseUrl + this.url + (id ? id : "")
+    let url = this.baseUrl + this.url + (id ? id : "");
     return this.http.get<any>( url );
   }
 
-  post(data) {
-    return this.http.post<any>(
-      this.baseUrl + this.url,
-      data
-    )
+  post(data, id? : number ) {
+    let url = this.baseUrl + this.url + (id ? id : "");
+    return this.http.post<any>( url, data );
   }
 
   put() {
@@ -33,4 +32,18 @@ export class SquacApiService {
   delete() {
 
   }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(errorMessage);
+  }
+  
 }

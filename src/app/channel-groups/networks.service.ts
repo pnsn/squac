@@ -3,16 +3,19 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Network } from './network';
+import { SquacApiService } from '../squacapi';
 @Injectable({
   providedIn: 'root'
 })
-export class NetworksService {
+export class NetworksService extends SquacApiService{
 
   networks = new BehaviorSubject<Network[]>([]);
+
   constructor(
-    private http : HttpClient
-  ) {
-  }
+    http : HttpClient
+ ) {
+   super("nslc/networks/", http);
+ }
 
   setNetworks(networks : Network[]) {
     this.networks.next(networks);
@@ -22,9 +25,7 @@ export class NetworksService {
   // }
 
   fetchNetworks(){
-    this.http.get<any>(
-      'https://squac.pnsn.org/v1.0/nslc/networks/'
-    ).pipe(
+    super.get().pipe(
       map(
         networks => {
           let nets : Network[] = [];
@@ -43,7 +44,6 @@ export class NetworksService {
     )
     .subscribe(networks => {
       this.setNetworks(networks);
-      console.log(this.networks);
     });
   }
 }

@@ -27,7 +27,6 @@ export class ChannelGroupsService extends SquacApiService{
   }
 
   private updateChannelGroups(channelGroups: ChannelGroup[]) {
-    console.log(this.getChannelGroups);
     this.getChannelGroups.next(channelGroups);
   };
 
