@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Network } from './network';
@@ -46,4 +46,22 @@ export class NetworksService extends SquacApiService{
       this.setNetworks(networks);
     });
   }
+
+    //TODO: figure out stations service 
+    getNetwork(id: number) : Observable<Network>{
+      //temp 
+      return super.get(id).pipe(
+        map(
+          network => {
+            let networkObject = new Network(
+              network.id,
+              network.code,
+              network.name,
+              network.description
+            );
+            return networkObject;
+          }
+        )
+      );
+    }
 }
