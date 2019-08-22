@@ -3,6 +3,7 @@ import { Metric } from './metric';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { SquacApiService } from '../squacapi';
 
 interface MetricsHttpData {
   name: string, 
@@ -15,23 +16,24 @@ interface MetricsHttpData {
 @Injectable({
   providedIn: 'root'
 })
-export class MetricsService {
-  getMetrics = new BehaviorSubject<Metric[]>([]);
-  private url = 'https://squac.pnsn.org/v1.0/measurement/metrics/';
-  constructor(
-    private http : HttpClient
-  ) { }
 
-  updateMetrics(metrics: Metric[]) {
+export class MetricsService extends SquacApiService{
+  getMetrics = new BehaviorSubject<Metric[]>([]);
+
+  constructor(
+    http : HttpClient
+  ) {
+    super("measurement/metrics/", http);
+  }
+
+  private updateMetrics(metrics: Metric[]) {
     this.getMetrics.next(metrics);
   };
 
   // Gets channel groups from server
   fetchMetrics() : void {
     //temp 
-    this.http.get<any>(
-      this.url
-    ).pipe(
+    super.get().pipe(
       map(
         results => {
           console.log("metrics", results);
@@ -59,9 +61,7 @@ export class MetricsService {
 
   getMetric(id: number) : Observable<Metric>{
     //temp 
-    return this.http.get<any>(
-      this.url + id
-    ).pipe(
+    return super.get(id).pipe(
       map(
         result => {
           let metric = new Metric(
@@ -87,9 +87,6 @@ export class MetricsService {
     if(metric.id) {
       postData.id = metric.id;
     }
-    return this.http.post<any>(
-      'https://squac.pnsn.org/v1.0/measurements/metrics',
-      postData
-    );
+    return super.post(postData);
   }
 }

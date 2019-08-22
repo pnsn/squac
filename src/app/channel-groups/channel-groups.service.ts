@@ -4,6 +4,7 @@ import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { Channel } from '../shared/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { SquacApiService } from '../squacapi';
 
 interface ChannelGroupsHttpData {
   name: string, 
@@ -16,15 +17,16 @@ interface ChannelGroupsHttpData {
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelGroupsService {  
+export class ChannelGroupsService extends SquacApiService{  
   getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
 
-  private url = 'https://squac.pnsn.org/v1.0/nslc/groups/';
   constructor(
-    private http : HttpClient
-  ) { }
+     http : HttpClient
+  ) {
+    super("nslc/groups/", http);
+  }
 
-  updateChannelGroups(channelGroups: ChannelGroup[]) {
+  private updateChannelGroups(channelGroups: ChannelGroup[]) {
     console.log(this.getChannelGroups);
     this.getChannelGroups.next(channelGroups);
   };
@@ -32,9 +34,7 @@ export class ChannelGroupsService {
   // Gets channel groups from server
   fetchChannelGroups() : void {
     //temp 
-    this.http.get<any>(
-      this.url
-    ).pipe(
+    super.get().pipe(
       map(
         results => {
           let channelGroups : ChannelGroup[] = [];
@@ -59,9 +59,7 @@ export class ChannelGroupsService {
   //Gets a specific channel group from server
   getChannelGroup(id: number) : Observable<ChannelGroup>{
             //temp 
-      return this.http.get<any>(
-        this.url + id
-      ).pipe(
+      return super.get(id).pipe(
         map(
           result => {
             console.log("result ", result);
@@ -105,10 +103,7 @@ export class ChannelGroupsService {
     if(channelGroup.id) {
       postData.id = channelGroup.id;
     }
-    return this.http.post<any>(
-      this.url,
-      postData
-    );
+    return super.post(postData);
   }
 
 }
