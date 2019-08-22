@@ -117,6 +117,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
       //add availble channels that are not already selected
       this.createChannelSelectors();
     } else {
+      this.filteredChannels = [];
       this.channelsForm = this.formBuilder.group({});
     }
   }
