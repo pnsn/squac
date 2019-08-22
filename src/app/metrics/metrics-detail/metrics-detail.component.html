@@ -1,14 +1,19 @@
 <h2> Metric Detail</h2>
-<p>
-  {{metric.name}}
-</p>
-<p>
-  {{metric.description}}
-</p>
-<p> {{metric.source}}
-</p>
-<p>
-  {{metric.unit}}
-</p>
-
-<button (click)="editMetric()">edit {{id}}</button>
+<div *ngIf="!metric">
+  Could not load metric...or its still loading. 
+</div>
+<div *ngIf="metric">
+    <p>
+        {{metric.name}}
+      </p>
+      <p>
+        {{metric.description}}
+      </p>
+      <p> {{metric.source}}
+      </p>
+      <p>
+        {{metric.unit}}
+      </p>
+      
+      <button (click)="editMetric()">edit {{id}}</button>
+</div>

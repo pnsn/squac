@@ -79,7 +79,7 @@ describe('ChannelsService', () => {
 
     httpClientSpy.get.and.returnValue(asyncData(networks));
   
-    channelsService.fetchNslcs().subscribe(
+    channelsService.fetchChannels().subscribe(
       channels => expect(channels).toEqual(expectedChannels, 'expected channels'),
       fail
     );
@@ -94,7 +94,7 @@ describe('ChannelsService', () => {
   
     httpClientSpy.get.and.returnValue(asyncError(errorResponse));
   
-    channelsService.fetchNslcs().subscribe(
+    channelsService.fetchChannels().subscribe(
       channels => fail('expected an error, not heroes'),
       (error : HttpErrorResponse)  => {
         expect(error).toContain('Something bad happened; please try again later')

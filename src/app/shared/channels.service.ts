@@ -4,20 +4,18 @@ import { map, tap, filter, catchError } from 'rxjs/operators';
 import { Channel } from './channel';
 import { Subject, BehaviorSubject, throwError } from 'rxjs';
 import { Network } from '../channel-groups/network';
-
-
-export interface SquacResponseData {
-
-}
+import { SquacApiService } from '../squacapi';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ChannelsService {
+export class ChannelsService extends SquacApiService {
   constructor(
-    private http : HttpClient
-  ) { }
+    http : HttpClient
+ ) {
+   super("nslc/stations/", http);
+ }
   channels = new BehaviorSubject<Channel[]>([]);
   private filteredNetwork : Network;
 
@@ -28,16 +26,11 @@ export class ChannelsService {
   fetchChannels(network : Network) {
     this.filteredNetwork = network;
     console.log("network: " + network.code);
-    this.http
-      .get<any>(
-        'https://squac.pnsn.org/v1.0/nslc/stations/',
-        {
-          params : {
-            "network" : network.code
-          }
-        }
-      ).pipe(
-        catchError(this.handleError),
+    super.get(null, 
+      {
+        "network" : network.code
+      }
+    ).pipe(
         //this needs to be improved in the future
         map(stations => {
           let channels : Channel[] = [];
@@ -76,27 +69,4 @@ export class ChannelsService {
       this.setChannels(channels);
     });
   }
-
-  //TODO: this will change with the schema changes on jon's end
-  // private processNslcs(stations : any) : Channel[]{
-
-  // }
-
-  private handleError(error: HttpErrorResponse) {
-    console.error(error)
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred: ${error.error.message}');
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        'Backend returned code ${error.status}, ' +
-        'body was: ${error.error}');
-    }
-    // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.'
-    );
-  };
 }

@@ -1,6 +1,7 @@
 import { environment } from '../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
+import { Params } from '@angular/router';
 
 // Generic class for interacting with squac api
 export class SquacApiService {
@@ -15,12 +16,12 @@ export class SquacApiService {
     console.log("baseUrl", this.baseUrl)
   }
 
-  get( id ? : number ) {
+  get( id ? : number, params?: Params ) : Observable<any> {
     let url = this.baseUrl + this.url + (id ? id : "");
     return this.http.get<any>( url );
   }
 
-  post(data, id? : number ) {
+  post(data, id? : number ) : Observable<any> {
     let url = this.baseUrl + this.url + (id ? id : "");
     return this.http.post<any>( url, data );
   }
@@ -31,19 +32,6 @@ export class SquacApiService {
 
   delete() {
 
-  }
-
-  handleError(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
   }
   
 }

@@ -1,15 +1,20 @@
 <h2> Channel Group Detail</h2>
-<p>
-  {{channelGroup.name}}
-</p>
-<p>
-  {{channelGroup.description}}
-</p>
-<h3>Channels</h3>
-<ul>
-  <li *ngFor="let channel of channelGroup.channels">
-    {{channel.nslc}}
-  </li>
-</ul>
-
-<button (click)="editChannelGroup()">edit {{id}}</button>
+<div *ngIf="!channelGroup">
+  Could not load channel Group (or loading still?)
+</div>
+<div *ngIf="channelGroup">
+    <p>
+      {{channelGroup.name}}
+    </p>
+    <p>
+      {{channelGroup.description}}
+    </p>
+    <h3>Channels</h3>
+    <ul>
+      <li *ngFor="let channel of channelGroup.channels">
+        {{channel.nslc}}
+      </li>
+    </ul>
+    
+    <button (click)="editChannelGroup()">edit {{id}}</button>
+  </div>

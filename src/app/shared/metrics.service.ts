@@ -34,7 +34,6 @@ export class MetricsService extends SquacApiService{
   fetchMetrics() : void {
     //temp 
     super.get().pipe(
-      catchError(super.handleError),
       map(
         results => {
           let metrics : Metric[] = [];
