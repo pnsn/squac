@@ -33,20 +33,21 @@ export class DashboardEditComponent implements OnInit {
   }
 
   private initForm() {
-    let dashboardName = "";
+    this.dashboardForm = new FormGroup({
+      'name' : new FormControl("", Validators.required)
+    });
 
     if (this.editMode) {
       this.dashboardService.getDashboard(this.id).subscribe(
         dashboard => {
-          dashboardName = dashboard.name;
+          this.dashboardForm.patchValue(
+            {
+              "name" : dashboard.name
+            }
+          );
         }
       );
-
     }
-
-    this.dashboardForm = new FormGroup({
-      'name' : new FormControl(dashboardName, Validators.required)
-    });
   }
 
   save() {
