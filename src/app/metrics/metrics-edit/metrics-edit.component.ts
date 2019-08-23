@@ -43,30 +43,25 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    let metricName = "";
-    let metricDescription = "";
-    let metricSource = "";
-    let metricUnit = "";
+    this.metricForm = this.formBuilder.group({
+      'name' : new FormControl("", Validators.required),
+      'description': new FormControl("", Validators.required),
+      'source': new FormControl("", Validators.required),
+      'unit': new FormControl("", Validators.required)
+    });
 
     if (this.editMode) {
       this.metricsService.getMetric(this.id).subscribe(
         metric => {
-          metricName = metric.name;
-          metricDescription = metric.description;
-          metricSource = metric.source;
-          metricUnit = metric.unit;
-        });
-    } 
-
-    
-
-    this.metricForm = this.formBuilder.group({
-      'name' : new FormControl(metricName, Validators.required),
-      'description': new FormControl(metricDescription, Validators.required),
-      'source': new FormControl(metricSource, Validators.required),
-      'unit': new FormControl(metricUnit, Validators.required)
-    });
-
+          this.metricForm.patchValue({
+            "name" : metric.name,
+            "description" : metric.description,
+            "dource" : metric.source,
+            "unit" : metric.unit
+          });
+        }
+      );
+    }
   }
   // Save channel information
   save() {
