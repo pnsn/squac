@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChannelGroup } from '../shared/channel-group';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { Channel } from '../shared/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,8 @@ interface ChannelGroupsHttpData {
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelGroupsService extends SquacApiService{  
+export class ChannelGroupsService extends SquacApiService{ 
+  localChannelGroups : {} = {}; //Will want to store temporarily (redo on save?)  
   getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
 
   constructor(
@@ -44,6 +45,7 @@ export class ChannelGroupsService extends SquacApiService{
               cG.name,
               cG.description
             )
+            this.localChannelGroups[cG.id] = chanGroup;
             channelGroups.push(chanGroup);
           });
           return channelGroups;
@@ -57,19 +59,20 @@ export class ChannelGroupsService extends SquacApiService{
 
   //Gets a specific channel group from server
   getChannelGroup(id: number) : Observable<ChannelGroup>{
-            //temp 
+    if(this.localChannelGroups[id]) {
+      return of(this.localChannelGroups[id]);
+    } else {
       return super.get(id).pipe(
         map(
           result => {
-            console.log("result ", result);
             let channelGroup : ChannelGroup;
-
+  
             channelGroup = new ChannelGroup(
               result.id,
               result.name, 
               result.description
             )
-
+  
             result.channels.forEach(channel => {
               let chan = new Channel(
                 channel.id,
@@ -81,16 +84,16 @@ export class ChannelGroupsService extends SquacApiService{
                 channel.elev,
                 channel.loc
               );
-
+  
               chan.stationId = channel.station;
               //FIXME - doesn't have station/network information
               channelGroup.channels.push(chan);
             });
-
             return channelGroup;
           }
         )
       )
+    }
   }
 
   updateChannelGroup(channelGroup: ChannelGroup) : Observable<ChannelGroup> {
@@ -101,6 +104,7 @@ export class ChannelGroupsService extends SquacApiService{
     }
     if(channelGroup.id) {
       postData.id = channelGroup.id;
+      this.localChannelGroups[channelGroup.id] = null;
     }
     return super.post(postData);
   }

@@ -79,7 +79,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
       let channelsSub = this.channelsService.channels.subscribe(channels => {
         this.availableChannels = channels;
-        console.log("Channels");
         this.initChannelsForm();
       });
   
@@ -91,24 +90,24 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
   // Inits group edit form
   private initForm() {
-    let channelGroupName = "";
-    let channelGroupDescription = "";
+    this.channelGroupForm = this.formBuilder.group({
+      'name' : new FormControl("", Validators.required),
+      'description': new FormControl("", Validators.required)
+    });
 
     // if editing existing group, populate with the info
+    //TODO: redudant - fix for observable
     if (this.editMode) {
       this.channelGroupService.getChannelGroup(this.id).subscribe(
         channelGroup => {
-          channelGroupName = channelGroup.name;
-          channelGroupDescription = channelGroup.description;
-          this.selectedChannels = channelGroup.channels;
+          this.channelGroupForm.patchValue({
+            'name' : channelGroup.name,
+            'description' : channelGroup.description
+          });
+          this.selectedChannels = channelGroup.channels ? channelGroup.channels : [];
         }
       );
     }
-
-    this.channelGroupForm = this.formBuilder.group({
-      'name' : new FormControl(channelGroupName, Validators.required),
-      'description': new FormControl(channelGroupDescription, Validators.required)
-    });
 
   }
 
@@ -128,7 +127,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   private createChannelSelectors() {
     this.channelsForm = this.formBuilder.group({});
     let formChannels = new FormArray([]);
-
     let _filteredChannels = [...this.availableChannels]
       .filter(channel => {
         return !this.contains(this.selectedChannels, channel);

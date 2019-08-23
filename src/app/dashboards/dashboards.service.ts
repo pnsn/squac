@@ -18,7 +18,7 @@ interface DashboardsHttpData {
   providedIn: 'root'
 })
 export class DashboardsService extends SquacApiService{
-
+  // private localDashboards
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
 
   constructor(
@@ -34,6 +34,7 @@ export class DashboardsService extends SquacApiService{
   // Gets channel groups from server
   fetchDashboards() : void {
     //temp 
+    console.log("fetch dashboards")
     super.get().pipe(
       map(
         results => {

@@ -29,7 +29,7 @@ export class DashboardViewComponent implements OnInit {
     );
 
     this.subscription.add(dashboardsService);
-    this.dashboardsService.fetchDashboards();
+    // this.dashboardsService.fetchDashboards();
     //TODO: first or favorited dashboard
     // this.router.navigate([this.dashboards[0].id], {relativeTo: this.route});
 

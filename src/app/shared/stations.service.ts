@@ -32,7 +32,8 @@ export class StationsService extends SquacApiService {
       }
     ).pipe(
         //this needs to be improved in the future
-        map(stations => {
+        map(
+          stations => {
           let stas : Station[] = [];
           let filteredNetwork = this.filteredNetwork;
           console.log(filteredNetwork);
@@ -61,7 +62,6 @@ export class StationsService extends SquacApiService {
       }
     ).pipe(map(
       stations => {
-        console.log("StationS" , stations)
         let channels = [];
         stations.forEach(station => {
           let sta = new Station(
