@@ -43,7 +43,7 @@ export class MetricsService extends SquacApiService{
               m.id,
               m.name,
               m.description,
-              m.source,
+              m.url,
               m.unit
             )
             metrics.push(metric);
@@ -67,7 +67,7 @@ export class MetricsService extends SquacApiService{
               result.id,
               result.name,
               result.description,
-              result.source,
+              result.url,
               result.unit
           );
           return metric;

@@ -56,7 +56,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
           this.metricForm.patchValue({
             "name" : metric.name,
             "description" : metric.description,
-            "dource" : metric.source,
+            "source" : metric.source,
             "unit" : metric.unit
           });
         }
