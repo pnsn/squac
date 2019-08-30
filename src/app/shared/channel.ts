@@ -1,4 +1,3 @@
-import { Station } from '../channel-groups/station';
 
 // Describes a channel object
 export class Channel {
