@@ -17,7 +17,6 @@ import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.compon
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
 import { HttpErrorInterceptor } from './http-error-interceptor.service';
 import { DashboardsModule } from './dashboards/dashboards.module';
-import { DashboardsRoutingModule } from './dashboards/dashboards-routing.module';
 
 @NgModule({
   declarations: [
