@@ -5,7 +5,6 @@ import { Channel } from './channel';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { asyncError, asyncData} from '../../testing/async-observables-helpers';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StationsService } from './stations.service';
 describe('ChannelsService', () => {
   let httpClientSpy : { get : jasmine.Spy};
   let channelsService : ChannelsService;
@@ -20,6 +19,8 @@ describe('ChannelsService', () => {
       1.00,
       1,
       "--",
+      "",
+      ""
     )
   ];
 

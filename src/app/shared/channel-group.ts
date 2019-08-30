@@ -1,5 +1,6 @@
 import { Channel } from './channel';
 
+// Describes a channel group object
 export class ChannelGroup {
   constructor(
     public id: number,
@@ -9,6 +10,8 @@ export class ChannelGroup {
   ) {
   }
 
+  // get ids from the channels
+  //TODO: shoould always store channel id only?
   get channelsIdsArray() : string[] {
     let array = [];
 
