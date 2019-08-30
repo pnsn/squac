@@ -24,16 +24,16 @@ describe('ChannelsService', () => {
     )
   ];
 
-  // beforeEach(() => {
-  //   TestBed.configureTestingModule({
-  //     imports: [HttpClientTestingModule]
-  //   });
-  //   httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-  //   channelsService = new ChannelsService(
-  //     <any> httpClientSpy
-  //   );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    channelsService = new ChannelsService(
+      <any> httpClientSpy
+    );
 
-  // });
+  });
 
   // it('should be created', () => {
   //   const service: ChannelsService = TestBed.get(ChannelsService);

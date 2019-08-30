@@ -1,3 +1,4 @@
+// Describes a metric object
 export class Metric {
   constructor(
     public id: number,
