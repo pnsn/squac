@@ -5,20 +5,20 @@ import { Channel } from './channel';
 import { Subject, BehaviorSubject, throwError, Observable, of } from 'rxjs';
 import { Network } from '../channel-groups/network';
 import { SquacApiService } from '../squacapi';
-import { StationsService } from './stations.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ChannelsService extends SquacApiService {
-  private localChannels : {} = {};
+  private localChannels : {} = {}; 
+  private filteredNetwork : Network;
+
   constructor(
     http : HttpClient,
-    private stationsService : StationsService
- ) {
-   super("nslc/channels/", http);
- }
+  ) {
+    super("nslc/channels/", http);
+  }
   channels = new BehaviorSubject<Channel[]>([]);
 
   private setChannels(channels : Channel[]) {
@@ -26,13 +26,36 @@ export class ChannelsService extends SquacApiService {
   }
 
   fetchChannels(network : Network) {
-    this.stationsService.fetchChannels(network)
-      .subscribe(channels => {
-        this.setChannels(channels);
-      });
+   super.get(null, 
+      {
+        "network" : network.code
+      }
+    ).pipe(map(
+      channels => {
+        let _channels = [];
+        channels.forEach(channel => {
+          let channelObject = new Channel(
+            channel.id,
+            channel.name,
+            channel.code,
+            channel.sample_rate,
+            channel.lat,
+            channel.lon,
+            channel.elev,
+            channel.loc,
+            channel.station_code,
+            channel.network
+          );
+          _channels.push(channelObject);
+        });
+        return _channels;
+      }
+    ))
+    .subscribe(channels => {
+      this.setChannels(channels);
+    });
   }
 
-  //TODO: figure out stations service 
   getChannel(id: number) : Observable<Channel>{
     if(this.localChannels[id]) {
       return of(this.localChannels[id]);
@@ -48,16 +71,18 @@ export class ChannelsService extends SquacApiService {
               channel.lat,
               channel.lon,
               channel.elev,
-              channel.loc
+              channel.loc,
+              channel.station_code,
+              channel.network
             );
-            this.stationsService.getStation(channel.station).subscribe(station=>{
-              channelObject.station = station;
-            }); 
+            this.localChannels[channel.id] = channelObject;
             return channelObject;
           }
         )
       );
     }
   }
+
+  
 
 }

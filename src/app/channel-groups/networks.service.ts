@@ -20,9 +20,6 @@ export class NetworksService extends SquacApiService{
   setNetworks(networks : Network[]) {
     this.networks.next(networks);
   }
-  // getNetworks() {
-  //   return this.networks.slice();
-  // }
 
   fetchNetworks(){
     super.get().pipe(
@@ -63,6 +60,7 @@ export class NetworksService extends SquacApiService{
                 network.name,
                 network.description
               );
+              this.localNetworks[network.id] = networkObject;
               return networkObject;
             }
           )

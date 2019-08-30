@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '../squacapi';
 
+// Describes format of post data 
 interface ChannelGroupsHttpData {
   name: string, 
   description: string,
@@ -33,7 +34,6 @@ export class ChannelGroupsService extends SquacApiService{
 
   // Gets channel groups from server
   fetchChannelGroups() : void {
-    //temp 
     super.get().pipe(
       map(
         results => {
@@ -59,21 +59,21 @@ export class ChannelGroupsService extends SquacApiService{
 
   //Gets a specific channel group from server
   getChannelGroup(id: number) : Observable<ChannelGroup>{
-    if(this.localChannelGroups[id]) {
+    if(this.localChannelGroups[id] && this.localChannelGroups[id].channels) {
       return of(this.localChannelGroups[id]);
     } else {
       return super.get(id).pipe(
         map(
-          result => {
-            let channelGroup : ChannelGroup;
+          channelGroup => {
+            let _channelGroup : ChannelGroup;
   
-            channelGroup = new ChannelGroup(
-              result.id,
-              result.name, 
-              result.description
+            _channelGroup = new ChannelGroup(
+              channelGroup.id,
+              channelGroup.name, 
+              channelGroup.description
             )
   
-            result.channels.forEach(channel => {
+            channelGroup.channels.forEach(channel => {
               let chan = new Channel(
                 channel.id,
                 channel.name,
@@ -82,20 +82,22 @@ export class ChannelGroupsService extends SquacApiService{
                 channel.lat,
                 channel.lon,
                 channel.elev,
-                channel.loc
+                channel.loc,
+                channel.station_code,
+                channel.network
               );
-  
-              chan.stationId = channel.station;
-              //FIXME - doesn't have station/network information
-              channelGroup.channels.push(chan);
+
+              _channelGroup.channels.push(chan);
             });
-            return channelGroup;
+            this.localChannelGroups[channelGroup.id] = _channelGroup;
+            return _channelGroup;
           }
         )
       )
     }
   }
 
+  // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup) : Observable<ChannelGroup> {
     let postData : ChannelGroupsHttpData = {
       name: channelGroup.name,

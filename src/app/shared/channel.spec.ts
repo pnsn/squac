@@ -10,7 +10,9 @@ describe('Channel', () => {
       46.08924,
       -123.45173,
       826,
-      "--"
+      "--",
+      "",
+      ""
     )).toBeTruthy();
   });
 
@@ -23,7 +25,9 @@ describe('Channel', () => {
       46.08924,
       -123.45173,
       826,
-      "--"
+      "--",
+      "nlo",
+      "uw"
     );
 
     expect(chan.nslc).toEqual('uw.nlo.--.ehz');
