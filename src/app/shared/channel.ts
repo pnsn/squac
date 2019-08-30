@@ -1,16 +1,17 @@
 import { Station } from '../channel-groups/station';
 
+// Describes a channel object
 export class Channel {
 
-  //from sta
-  public stationId : number;
-  public stationName : string;
-  public stationCode : string;
-  //from net
+  // //from sta
+  // public stationId : number;
+  // public stationName : string;
+  // public stationCode : string;
+  // //from net
 
-  public networkId : number;
-  public  networkCode : string;
-  public  networkName : string;
+  // public networkId : number;
+  // public  networkCode : string;
+  // public  networkName : string;
 
   constructor(
     public id: number,
@@ -23,14 +24,11 @@ export class Channel {
     public lon: number,
     public elev : number,
     public loc : string,
-    public station? : Station
+    public stationCode : string, 
+    public networkCode : string
   ){}
 
-  get network(){
-    return this.station.network;
-  }
-
   get nslc() : string {
-    return this.network.code + "." + this.station.code + "." + this.loc+ "." + this.code;
+    return this.networkCode + "." + this.stationCode + "." + this.loc+ "." + this.code;
   }
 }
