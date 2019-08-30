@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
+
+// This component handles the login page
 export class AuthComponent implements OnInit {
-  isLoading : boolean = false;
-  error : string = null;
+  isLoading : boolean = false; // Currently loading/in progress?
+  error : string = null; // Has there been an error?
 
   constructor(
     private authService : AuthService,
@@ -22,6 +24,7 @@ export class AuthComponent implements OnInit {
     
   }
 
+  // After user presses submit
   onSubmit(form : NgForm) {
 
     if (!form.valid) {
@@ -33,6 +36,7 @@ export class AuthComponent implements OnInit {
 
     this.isLoading = true;
 
+    // Try to log in
     this.authService.login(email, password).subscribe(
       resData => {
         console.log("dashboard!");

@@ -11,6 +11,7 @@ import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.compon
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 
+//TODO:consider breaking into module for creation stuff
 export const appRoutes: Routes = [
   { path: 'login', component: AuthComponent},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},

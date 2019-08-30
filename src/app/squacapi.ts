@@ -16,6 +16,7 @@ export class SquacApiService {
     console.log("baseUrl", this.baseUrl)
   }
 
+  // http get with optional id & params
   get( id ? : number, params?: Params ) : Observable<any> {
     let url = this.baseUrl + this.url + (id ? id : "");
     return this.http.get<any>( url , {
@@ -23,6 +24,7 @@ export class SquacApiService {
     });
   }
 
+  // http post with data & optional id
   post(data, id? : number ) : Observable<any> {
     let url = this.baseUrl + this.url + (id ? id : "");
     return this.http.post<any>( url, data );

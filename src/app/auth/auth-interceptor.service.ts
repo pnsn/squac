@@ -4,6 +4,9 @@ import { AuthService } from './auth.service';
 import { take, exhaustMap } from 'rxjs/operators';
 
 @Injectable()
+
+//Intercepts http requests and adds auth token.
+//TODO: change to just SQUAC API requests
 export class AuthInterceptorService implements HttpInterceptor {
 
   constructor(private authService : AuthService) { }

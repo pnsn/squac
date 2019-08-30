@@ -1,3 +1,4 @@
+// Describes a user object
 export class User {
   constructor(
     public email : string,

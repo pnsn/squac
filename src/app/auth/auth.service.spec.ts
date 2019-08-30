@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { routes } from '../app-routing.module';
+import { appRoutes } from '../app-routing.module';
 
 describe('AuthService', () => {
   let router : Router;
@@ -15,7 +15,7 @@ describe('AuthService', () => {
     TestBed.configureTestingModule({
       imports: [  
         HttpClientTestingModule, 
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(appRoutes)
       ]
     });
 

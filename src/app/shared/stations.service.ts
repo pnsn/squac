@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { map, tap, filter, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { Channel } from './channel';
-import { Subject, BehaviorSubject, throwError, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Network } from '../channel-groups/network';
 import { SquacApiService } from '../squacapi';
 import { Station } from '../channel-groups/station';
@@ -12,6 +12,7 @@ import { NetworksService } from '../channel-groups/networks.service';
   providedIn: 'root'
 })
 
+// Service for contacting squac
 export class StationsService extends SquacApiService {
   private localStations : {} = {};
   constructor(

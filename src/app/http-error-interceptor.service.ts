@@ -3,7 +3,6 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
-  HttpResponse,
   HttpErrorResponse
  } from '@angular/common/http';
  import { Observable, throwError } from 'rxjs';

@@ -5,6 +5,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Router } from '@angular/router';
 
+// Data returned from server
 export interface AuthResponseData {
   token: string;
 }
@@ -12,24 +13,32 @@ export interface AuthResponseData {
 @Injectable({
   providedIn: 'root'
 })
+
+// Handles log in logic and API requests for login
 export class AuthService {
-  user = new BehaviorSubject<User>(null);
-  private tokenExpirationTimer: any;
+  user = new BehaviorSubject<User>(null); // Currently active user
+  private tokenExpirationTimer: any; // Time left before token expires
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) { }
 
+  //Checks if user data exists in browser
   autologin() {
+
+    // Looks for local user data
     const userData: {
       email: string,
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'));
+
     if (!userData) {
       return;
     }
+
+    //if there's a user, log them in
     const loadedUser = new User(userData.email, userData._token, new Date(userData._tokenExpirationDate));
 
     if (loadedUser.token) {
@@ -39,6 +48,7 @@ export class AuthService {
     }
   }
 
+  // after user enters data, log them in
   login(email: string, password: string) {
     return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
       {
@@ -54,6 +64,7 @@ export class AuthService {
     );
   }
 
+  // after user hits log out, wipe server
   logout() {
     this.user.next(null);
     this.router.navigate(['/login']);
@@ -62,7 +73,8 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
   }
-
+  
+  // Logs out user after expiration time passes
   autologout(expirationDuration: number) {
     console.log("expires in (Minutes)", expirationDuration / (1000*60));
     this.tokenExpirationTimer = setTimeout(() => {
@@ -70,6 +82,8 @@ export class AuthService {
     }, expirationDuration);
   }
 
+  // Handles login errors
+  // TODO: match to errors passed from server
   private handleError(errorRes: HttpErrorResponse) {
     console.log(errorRes.error);
     let errorMessage = "An unknown error occured!";
@@ -90,6 +104,7 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
+  // after login, save user data 
   private handleAuth(email: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(

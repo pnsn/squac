@@ -6,12 +6,15 @@ import { AuthService } from './auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
+// App parent component
 export class AppComponent{
   title = 'squac-ui';
   constructor(private authService: AuthService) {
 
   }
   
+  // Check if logged in
   ngOnInit(){
     this.authService.autologin();
   }
