@@ -1,6 +1,8 @@
 import { Widget } from './widget';
+import { ChannelGroup } from '../shared/channel-group';
 
 export class Dashboard {
+  public channelGroup: ChannelGroup;
 
   constructor(
     public id: number,
@@ -10,4 +12,6 @@ export class Dashboard {
     public widgets?: Widget[]
   ){
   }
+
+
 }

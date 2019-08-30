@@ -5,6 +5,7 @@ import { Widget } from './widget';
 import { SquacApiService } from '../squacapi';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
 
 interface DashboardsHttpData {
   name: string,
@@ -22,7 +23,8 @@ export class DashboardsService extends SquacApiService{
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
 
   constructor(
-    http : HttpClient
+    http : HttpClient,
+    private channelGroupsService : ChannelGroupsService
   ) {
     super("dashboard/dashboards/", http);
   }
@@ -37,25 +39,25 @@ export class DashboardsService extends SquacApiService{
     console.log("fetch dashboards")
     super.get().pipe(
       map(
-        results => {
-          let dashboards : Dashboard[] = [];
+        dashboards => {
+          let _dashboards : Dashboard[] = [];
 
-          results.forEach(d => {
-            let dashboard = new Dashboard(
+          dashboards.forEach(d => {
+            let _dashboard = new Dashboard(
               d.id,
               d.name,
               d.description,
               d.group,
-              d.widgets
+              d.widgets ? d.widgets : []
             )
-            dashboards.push(dashboard);
+            _dashboards.push(_dashboard);
           });
-          return dashboards;
+          return _dashboards;
         }
       )
     )
-    .subscribe(result => {
-      this.updateDashboards(result);
+    .subscribe(dashboard => {
+      this.updateDashboards(dashboard);
     });
   }
 
@@ -63,15 +65,22 @@ export class DashboardsService extends SquacApiService{
     //temp 
     return super.get(id).pipe(
       map(
-        result => {
-          let dashboard = new Dashboard(
-              result.id,
-              result.name,
-              result.description,
-              result.group,
-              result.widgets
+        dashboard => {
+          let _dashboard = new Dashboard(
+              dashboard.id,
+              dashboard.name,
+              dashboard.description,
+              dashboard.group,
+              dashboard.widgets
           );
-          return dashboard;
+          
+          this.channelGroupsService.getChannelGroup(dashboard.group).subscribe(
+            channelGroup => {
+              _dashboard.channelGroup = channelGroup;
+            }
+          )
+
+          return _dashboard;
         }
       )
     );

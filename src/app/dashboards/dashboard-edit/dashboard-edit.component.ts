@@ -34,7 +34,8 @@ export class DashboardEditComponent implements OnInit {
 
   private initForm() {
     this.dashboardForm = new FormGroup({
-      'name' : new FormControl("", Validators.required)
+      'name' : new FormControl("", Validators.required),
+      "description" : new FormControl("", Validators.required)
     });
 
     if (this.editMode) {
@@ -42,7 +43,8 @@ export class DashboardEditComponent implements OnInit {
         dashboard => {
           this.dashboardForm.patchValue(
             {
-              "name" : dashboard.name
+              "name" : dashboard.name,
+              "descritiption" : dashboard.description
             }
           );
         }
@@ -58,7 +60,7 @@ export class DashboardEditComponent implements OnInit {
         values.name,
         values.description, 
         values.channelGroupId,
-        values.widgets
+        []
       )
     ).subscribe(
       result => {
