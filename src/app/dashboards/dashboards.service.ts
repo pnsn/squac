@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { Widget } from './widget';
 import { SquacApiService } from '../squacapi';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, concatMap, switchMap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
 
 interface DashboardsHttpData {
@@ -61,26 +61,24 @@ export class DashboardsService extends SquacApiService{
     });
   }
 
-  getDashboard(id: number) : Observable<Dashboard>{
-    //temp 
+  // Gets dashboard by id from SQUAC
+  getDashboard(id: number) : any{
+    let _dashboard : Dashboard;
     return super.get(id).pipe(
-      map(
-        dashboard => {
-          let _dashboard = new Dashboard(
-              dashboard.id,
-              dashboard.name,
-              dashboard.description,
-              dashboard.group,
-              dashboard.widgets
-          );
-          
-          this.channelGroupsService.getChannelGroup(dashboard.group).subscribe(
-            channelGroup => {
-              _dashboard.channelGroup = channelGroup;
-            }
+      switchMap (
+        dashboard => this.channelGroupsService.getChannelGroup(dashboard.group),
+        ( dashboard, channelGroup ) => {
+          _dashboard = new Dashboard(
+            dashboard.id,
+            dashboard.name, 
+            dashboard.description,
+            dashboard.group,
+            dashboard.widgets
           )
-
+          _dashboard.channelGroup = channelGroup;
+          console.log(_dashboard);
           return _dashboard;
+
         }
       )
     );

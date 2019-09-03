@@ -51,7 +51,7 @@ export class DashboardEditComponent implements OnInit {
           );
 
           if(this.dashboard.channelGroup) {
-            console.log(dashboard.channelGroup)
+            console.log("channel group" , dashboard.channelGroup)
           }
         }
       );
