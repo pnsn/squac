@@ -70,9 +70,10 @@ export class ChannelGroupsService extends SquacApiService{
             _channelGroup = new ChannelGroup(
               channelGroup.id,
               channelGroup.name, 
-              channelGroup.description
+              channelGroup.description,
+              []
             )
-  
+ 
             channelGroup.channels.forEach(channel => {
               let chan = new Channel(
                 channel.id,

@@ -24,6 +24,7 @@ export class ChannelGroupsDetailComponent implements OnInit {
         this.id = +params['id'];
         this.ChannelGroupsService.getChannelGroup(this.id).subscribe(channelGroup => {
           this.channelGroup = channelGroup;
+          console.log(channelGroup.name)
         });
       }
     )

@@ -41,12 +41,18 @@ export class DashboardEditComponent implements OnInit {
     if (this.editMode) {
       this.dashboardService.getDashboard(this.id).subscribe(
         dashboard => {
+          this.dashboard = dashboard;
+          console.log("dashboard fetched", dashboard.name)
           this.dashboardForm.patchValue(
             {
               "name" : dashboard.name,
-              "descritiption" : dashboard.description
+              "description" : dashboard.description
             }
           );
+
+          if(this.dashboard.channelGroup) {
+            console.log(dashboard.channelGroup)
+          }
         }
       );
     }
