@@ -28,17 +28,24 @@
       </div>
     </div>
 
+    <label for="channelGroup">Channel Group</label>
+    <select formControlName="channelGroup" *ngIf="availableChannelGroups" (change)="getChannelsForChannelGroup()">
+      <option disabled="true">Please select a channelGroup</option>
+      <option  *ngFor="let channelGroup of availableChannelGroups" [ngValue]="channelGroup.id">
+        {{channelGroup.name}}
+      </option>
 
-    <div *ngIf="dashboard && dashboard.channelGroup">
-      {{dashboard.channelGroup.name}}
+    </select>
+
+    <div *ngIf="selectedChannelGroup">
+      Channels:
       <ul>
-        <li *ngFor="let channel of dashboard.channelGroup.channels">
+        <li *ngFor="let channel of selectedChannelGroup.channels">
           {{channel.nslc}}
         </li>
       </ul>
     </div>
 
   </form>
-
 
 <!-- TODO: Make generic else template -->

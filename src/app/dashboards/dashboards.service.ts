@@ -76,9 +76,7 @@ export class DashboardsService extends SquacApiService{
             dashboard.widgets
           )
           _dashboard.channelGroup = channelGroup;
-          console.log(_dashboard);
           return _dashboard;
-
         }
       )
     );
