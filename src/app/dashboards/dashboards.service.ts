@@ -82,6 +82,7 @@ export class DashboardsService extends SquacApiService{
     );
   }
 
+  // FIXME: currently creates a copy
   updateDashboard(dashboard: Dashboard) : Observable<Dashboard> {
     let postData : DashboardsHttpData = {
       name: dashboard.name,
