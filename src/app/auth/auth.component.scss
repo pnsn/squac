@@ -1,10 +1,55 @@
 
+header {
+  display: block;
+  text-align: center;
+  min-height: 200px;
+  height: 33%;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+}
+
+img {
+  margin: 50px;
+  height: 100px;
+  width: auto;
+}
+
+form {
+  text-align: center;
+}
+
+label {
+  line-height: 0.1em;
+  margin-top: 25px;
+}
+
+input {
+  width: 250px;
+  line-height: 2em;
+  border: 2px solid var(--sq-gray);
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 30px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
 #login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 400px;
-  form {
-    text-align: center;
-  }
+  width: 400px;
+  margin: 200px auto;
+  z-index: 1;
+}
+
+#pw-reset, #no-acct {
+  font-size: 12pt;
+  color: var(--sq-gray);
+  line-height: 0;
 }
