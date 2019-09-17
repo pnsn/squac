@@ -2,43 +2,17 @@
 header {
   display: block;
   text-align: center;
-  min-height: 200px;
-  height: 33%;
+  height: 325px;
   width: 100%;
   position: fixed;
   z-index: -1;
   top: 0;
-}
 
-img {
-  margin: 50px;
-  height: 100px;
-  width: auto;
-}
-
-form {
-  text-align: center;
-}
-
-label {
-  line-height: 0.1em;
-  margin-top: 25px;
-}
-
-input {
-  width: 250px;
-  line-height: 2em;
-  border: 2px solid var(--sq-gray);
-  border-radius: 5px;
-}
-
-button {
-  margin-top: 30px;
-}
-
-.form-group {
-  text-align: left;
-  margin-bottom: 30px;
+  img {
+    margin: 50px;
+    height: 100px;
+    width: auto;
+  }
 }
 
 #login {
@@ -46,6 +20,31 @@ button {
   width: 400px;
   margin: 200px auto;
   z-index: 1;
+
+  form {
+    text-align: left;
+
+    .form-group {
+      margin-bottom: 30px;
+
+      label {
+        line-height: 0.1em;
+        margin-top: 25px;
+      }
+      
+      input {
+        width: 275px;
+        line-height: 2em;
+        border: 2px solid var(--sq-gray);
+        border-radius: 5px;
+      }
+    }
+
+    button {
+      margin-top: 30px;
+      width: 275px;
+    }
+  }
 }
 
 #pw-reset, #no-acct {
