@@ -22,9 +22,10 @@ header {
   z-index: 1;
 
   form {
-    text-align: left;
+    text-align: center;
 
     .form-group {
+      text-align: left;
       margin-bottom: 30px;
 
       label {
@@ -48,7 +49,6 @@ header {
 }
 
 #pw-reset, #no-acct {
-  font-size: 12pt;
   color: var(--sq-gray);
   line-height: 0;
 }
