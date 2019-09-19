@@ -1,3 +1,4 @@
+@import 'src/variables.scss';
 
 header {
   display: block;
@@ -22,24 +23,6 @@ header {
   z-index: 1;
 
   form {
-    text-align: center;
-
-    .form-group {
-      text-align: left;
-      margin-bottom: 30px;
-
-      label {
-        line-height: 0.1em;
-        margin-top: 25px;
-      }
-      
-      input {
-        width: 275px;
-        line-height: 2em;
-        border: 2px solid var(--sq-gray);
-        border-radius: 5px;
-      }
-    }
 
     button {
       margin-top: 30px;
@@ -49,6 +32,6 @@ header {
 }
 
 #pw-reset, #no-acct {
-  color: var(--sq-gray);
+  color: $sq-gray;
   line-height: 0;
 }

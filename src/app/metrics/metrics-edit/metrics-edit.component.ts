@@ -91,4 +91,19 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Check if form has unsaved fields
+  formUnsaved(form) {
+    if (this.metricForm.dirty) {
+      let popup = document.getElementById("metric-popup");
+      popup.style.display = "block";
+    } else {
+      this.cancel();
+    }
+  }
+
+  closePopup() {
+    let popup = document.getElementById("metric-popup");
+    popup.style.display = "none";
+  }
+
 }

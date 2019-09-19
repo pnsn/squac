@@ -1,52 +1,50 @@
+@import './variables.scss';
+
 /* You can add global styles to this file, and also import other style files */
 
-body {
-  padding: 0px;
-  margin: 0px;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-size: 12pt;
   font-family: "Source Sans Pro", sans-serif;
-
-  /* Colors */
-  --sq-yellow: rgb(265, 165, 45);
-  --sq-dk-blue: rgb(1, 58, 86);
-  --sq-blue: rgb(51, 97, 120);
-  --sq-lt-blue: rgba(51, 97, 120, 0.75);
-  --sq-gray: rgb(112, 112, 112);
-  --sq-lt-gray: rgb(217, 217, 217);
 }
 
 /* Background color */
 
 .blue {
-  background-color: var(--sq-blue);
+  background-color: $sq-blue;
 }
 
 /* Text styles */
 
 h1 {
-  font-size: 28pt;
+  margin-top: 15px;
+  font-size: 2rem;
   font-weight: 600;
 }
 
 h2 {
-  font-size: 14pt;
+  margin-top: 25px;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
 p {
-  font-size: 14pt;
+  margin-top: 25px;
+  font-size: 1.1rem;
   font-weight: 400;
 }
 
 .unselect-links {
-  font-size: 22pt;
+  font-size: 1.3rem;
   color: white;
   font-weight: 400;
 }
 
 .select-links {
-  font-size: 22pt;
-  color: var(--sq-lt-blue);
+  font-size: 1.3rem;
+  color: $sq-lt-blue;
   font-weight: 600;
 }
 
@@ -57,39 +55,79 @@ p {
   min-width: 150px;
   width: fit-content;
   text-align: center;
-  font-size: 18pt;
+  font-size: 1.3rem;
   color: white;
   line-height: 0.9em;
+  border: 0;
   border-radius: 10px;
+  margin-top: 25px;
+  margin-right: 15px;
   padding: 5px 15px;
 }
 
 .btn-primary {
-  background-color: var(--sq-yellow);
+  background-color: $sq-yellow;
 }
 
 .btn-secondary {
-  background-color: var(--sq-lt-blue);
+  background-color: $sq-lt-blue;
 }
 
 .btn-negative {
-  color: var(--sq-yellow);
+  color: $sq-yellow;
   background-color: white;
-  border: 2px solid var(--sq-yellow);
+  border: 2px solid $sq-yellow;
 }
 
 button:disabled {
   background-color: rgba(265, 165, 45, 0.5);
 }
 
+form {
+  text-align: center;
+
+  .form-group {
+    text-align: left;
+    margin-bottom: 30px;
+
+    label {
+      margin-top: 25px;
+    }
+    
+    input,
+    textarea {
+      width: 300px;
+      line-height: 2em;
+      border: 2px solid $sq-gray;
+      border-radius: 5px;
+      padding-left: 5px;
+    }
+  }
+}
 
 /* Box containers for widgets */
 
 .box {
   display: flex;
+  text-align: center;
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 2px solid var(--sq-lt-gray);
+  border: 2px solid $sq-lt-gray;
   border-radius: 10px;
+}
+
+/* Popup formatting */
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 9;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.7);
 }
