@@ -1,43 +1,56 @@
-<div >
+<div class="box" id="new-metric">
     <h1>
-      {{editMode ? "Edit Metric" : "Create Metric"}}
+      {{editMode ? "Edit Metric" : "New Metric"}}
     </h1>
-    <div>
-      <form action="" [formGroup]="metricForm" (ngSubmit)="save()">
-        <div>
-            <button class="btn btn-primary" 
-              type="submit"
-              [disabled]='!metricForm.valid'
-            >
-            Save</button>
-            <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-        </div>
-        <div>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name"
-                formControlName="name"
-              class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description"
-                  formControlName="description"
-                class="form-control"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="source">Source</label>
-                <input type="text" id="source"
-                  formControlName="source"
-                class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="unit">Unit</label>
-                <input type="text" id="unit"
-                  formControlName="unit"
-                class="form-control"/>
-            </div>
-        </div>
-      </form> 
+    <form action="" [formGroup]="metricForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="name"><p>Name</p></label>
+        <input type="text" id="name"
+          formControlName="name"
+        class="form-control">
+      </div>
+      <div class="form-group">
+          <label for="description"><p>Description</p></label>
+          <textarea id="description"
+            formControlName="description"
+          class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+          <label for="source"><p>Source</p></label>
+          <input type="text" id="source"
+            formControlName="source"
+          class="form-control"/>
+      </div>
+      <div class="form-group">
+          <label for="unit"><p>Unit</p></label>
+          <input type="text" id="unit"
+            formControlName="unit"
+          class="form-control"/>
+      </div>
+      <div>
+        <button type="button" 
+          class="btn btn-secondary" 
+          (click)="formUnsaved()"
+        >Cancel</button>
+        <button class="btn btn-primary" 
+          type="submit" 
+          [disabled]='!metricForm.valid'
+        >Save</button>
+    </div>
+  </form>
+  <div id="metric-popup" class="popup">
+    <div id="metric-box" class="box">
+      <p>Your new metric will not be saved.<br/>
+      Would you like to continue?</p>
+      <div>
+        <button type="button" 
+          class="btn btn-secondary" 
+          (click)="closePopup()"
+        >Cancel</button>
+        <button class="btn btn-primary"
+        (click)="cancel()"  
+        >Continue</button>
+      </div>
     </div>
   </div>
+</div>
