@@ -5,8 +5,6 @@ import { MetricsService } from '../../shared/metrics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { subscribeOn } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { element } from '@angular/core/src/render3';
-import { BlockingProxy } from 'blocking-proxy';
 
 @Component({
   selector: 'app-metrics-edit',
