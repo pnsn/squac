@@ -92,7 +92,10 @@ export class DashboardsService extends SquacApiService{
     }
     if(dashboard.id) {
       postData.id = dashboard.id;
+      return super.put(postData, dashboard.id);
+    } else {
+      return super.post(postData);
     }
-    return super.post(postData);
+
   }
 }

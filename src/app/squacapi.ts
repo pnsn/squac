@@ -6,7 +6,7 @@ import { Params } from '@angular/router';
 // Generic class for interacting with squac api
 export class SquacApiService {
 
-  protected baseUrl : string;st
+  protected baseUrl : string;
 
   constructor (
     private url: string, 
@@ -24,14 +24,16 @@ export class SquacApiService {
     });
   }
 
-  // http post with data & optional id
+  // http post with data & optional id for new 
   post(data, id? : number ) : Observable<any> {
     let url = this.baseUrl + this.url + (id ? id : "");
-    return this.http.post<any>( url, data );
+    return this.http.post<any>(url, data );
   }
 
-  put() {
-
+  // for updating 
+  put(data, id? : number) : Observable<any>{
+    let url = this.baseUrl + this.url + (id ? id + "/" : "");
+    return this.http.put<any>(url, data);
   }
 
   delete() {

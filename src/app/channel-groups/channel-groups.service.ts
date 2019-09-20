@@ -108,8 +108,10 @@ export class ChannelGroupsService extends SquacApiService{
     if(channelGroup.id) {
       postData.id = channelGroup.id;
       this.localChannelGroups[channelGroup.id] = null;
+      return super.put(postData, channelGroup.id);
+    } else {
+      return super.post(postData);
     }
-    return super.post(postData);
   }
 
 }

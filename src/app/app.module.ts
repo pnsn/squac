@@ -19,6 +19,7 @@ import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.compon
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
 import { HttpErrorInterceptor } from './http-error-interceptor.service';
 import { DashboardsModule } from './dashboards/dashboards.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -37,10 +38,9 @@ import { DashboardsModule } from './dashboards/dashboards.module';
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
     AppRoutingModule,
-    DashboardsModule
+    DashboardsModule,
+    SharedModule
   ],
   providers: [
     { 

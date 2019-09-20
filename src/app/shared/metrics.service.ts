@@ -85,7 +85,9 @@ export class MetricsService extends SquacApiService{
     }
     if(metric.id) {
       postData.id = metric.id;
+      return super.put(postData, metric.id);
+    } else {
+      return super.post(postData);
     }
-    return super.post(postData);
   }
 }

@@ -1,8 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { DashboardsComponent } from './dashboards.component';
 import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.component';
@@ -11,6 +7,7 @@ import { DashboardViewComponent } from './dashboard-view/dashboard-view.componen
 import { WidgetComponent } from './dashboard-detail/widget/widget.component';
 import { WidgetEditComponent } from './dashboard-detail/widget/widget-edit/widget-edit.component';
 import { DashboardsRoutingModule } from './dashboards-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -23,19 +20,17 @@ import { DashboardsRoutingModule } from './dashboards-routing.module';
     WidgetEditComponent
   ],
   imports: [
-    RouterModule,
-    CommonModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    DashboardsRoutingModule
+
+    DashboardsRoutingModule,
+    SharedModule
   ],
   exports: [
-    DashboardsComponent,
-    DashboardDetailComponent,
-    DashboardEditComponent,
-    DashboardViewComponent,
-    WidgetComponent,
-    WidgetEditComponent
+    // DashboardsComponent,
+    // DashboardDetailComponent,
+    // DashboardEditComponent,
+    // DashboardViewComponent,
+    // WidgetComponent,
+    // WidgetEditComponent
   ]
 })
 export class DashboardsModule { }
