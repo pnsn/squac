@@ -18,15 +18,15 @@ interface DashboardsHttpData {
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardsService extends SquacApiService{
+export class DashboardsService {
   // private localDashboards
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
 
   constructor(
-    http : HttpClient,
-    private channelGroupsService : ChannelGroupsService
+    private channelGroupsService : ChannelGroupsService,
+    private squacApi : SquacApiService
   ) {
-    super("dashboard/dashboards/", http);
+    this.squacApi.url = "dashboard/dashboards/";
   }
 
   private updateDashboards(dashboards: Dashboard[]) {
@@ -37,7 +37,7 @@ export class DashboardsService extends SquacApiService{
   fetchDashboards() : void {
     //temp 
     console.log("fetch dashboards")
-    super.get().pipe(
+    this.squacApi.get().pipe(
       map(
         dashboards => {
           let _dashboards : Dashboard[] = [];
@@ -64,7 +64,7 @@ export class DashboardsService extends SquacApiService{
   // Gets dashboard by id from SQUAC
   getDashboard(id: number) : any{
     let _dashboard : Dashboard;
-    return super.get(id).pipe(
+    return this.squacApi.get(id).pipe(
       switchMap (
         dashboard => this.channelGroupsService.getChannelGroup(dashboard.group),
         ( dashboard, channelGroup ) => {
@@ -92,9 +92,9 @@ export class DashboardsService extends SquacApiService{
     }
     if(dashboard.id) {
       postData.id = dashboard.id;
-      return super.put(postData, dashboard.id);
+      return this.squacApi.put(postData, dashboard.id);
     } else {
-      return super.post(postData);
+      return this.squacApi.post(postData);
     }
 
   }

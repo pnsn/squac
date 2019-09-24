@@ -18,14 +18,14 @@ interface ChannelGroupsHttpData {
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelGroupsService extends SquacApiService{ 
+export class ChannelGroupsService { 
   localChannelGroups : {} = {}; //Will want to store temporarily (redo on save?)  
   getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
 
   constructor(
-     http : HttpClient
+    private squacApi : SquacApiService
   ) {
-    super("nslc/groups/", http);
+    squacApi.url = "nslc/groups/";
   }
 
   private updateChannelGroups(channelGroups: ChannelGroup[]) {
@@ -34,7 +34,7 @@ export class ChannelGroupsService extends SquacApiService{
 
   // Gets channel groups from server
   fetchChannelGroups() : void {
-    super.get().pipe(
+    this.squacApi.get().pipe(
       map(
         results => {
           let channelGroups : ChannelGroup[] = [];
@@ -62,7 +62,7 @@ export class ChannelGroupsService extends SquacApiService{
     if(this.localChannelGroups[id] && this.localChannelGroups[id].channels) {
       return of(this.localChannelGroups[id]);
     } else {
-      return super.get(id).pipe(
+      return this.squacApi.get(id).pipe(
         map(
           channelGroup => {
             let _channelGroup : ChannelGroup;
@@ -108,9 +108,9 @@ export class ChannelGroupsService extends SquacApiService{
     if(channelGroup.id) {
       postData.id = channelGroup.id;
       this.localChannelGroups[channelGroup.id] = null;
-      return super.put(postData, channelGroup.id);
+      return this.squacApi.put(postData, channelGroup.id);
     } else {
-      return super.post(postData);
+      return this.squacApi.post(postData);
     }
   }
 

@@ -17,13 +17,13 @@ interface MetricsHttpData {
   providedIn: 'root'
 })
 
-export class MetricsService extends SquacApiService{
+export class MetricsService {
   getMetrics = new BehaviorSubject<Metric[]>([]);
 
   constructor(
-    http : HttpClient
+    private squacApi : SquacApiService
   ) {
-    super("measurement/metrics/", http);
+    squacApi.url = "measurement/metrics/";
   }
 
   private updateMetrics(metrics: Metric[]) {
@@ -33,7 +33,7 @@ export class MetricsService extends SquacApiService{
   // Gets channel groups from server
   fetchMetrics() : void {
     //temp 
-    super.get().pipe(
+    this.squacApi.get().pipe(
       map(
         results => {
           let metrics : Metric[] = [];
@@ -60,7 +60,7 @@ export class MetricsService extends SquacApiService{
 
   getMetric(id: number) : Observable<Metric>{
     //temp 
-    return super.get(id).pipe(
+    return this.squacApi.get(id).pipe(
       map(
         result => {
           let metric = new Metric(
@@ -85,9 +85,9 @@ export class MetricsService extends SquacApiService{
     }
     if(metric.id) {
       postData.id = metric.id;
-      return super.put(postData, metric.id);
+      return this.squacApi.put(postData, metric.id);
     } else {
-      return super.post(postData);
+      return this.squacApi.post(postData);
     }
   }
 }

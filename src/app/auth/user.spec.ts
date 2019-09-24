@@ -6,7 +6,8 @@ describe('User', () => {
   });
 
   it('should have a token if not expired', () => {
-   let user = new User('','token',new Date());
+    let dateInFuture = new Date((new Date()).getTime() + 100000);
+    let user = new User('','token', dateInFuture);
 
    expect(user.token).toEqual('token');
   }) ;

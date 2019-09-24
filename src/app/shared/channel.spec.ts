@@ -4,8 +4,8 @@ describe('Channel', () => {
   it('should create an instance', () => {
     expect(new Channel(
       1,
-      "EHZ",
       "ehz",
+      "EHZ",
       -1,
       46.08924,
       -123.45173,
@@ -19,8 +19,8 @@ describe('Channel', () => {
   it('should have an nslc', ()=> {
     const chan = new Channel(
       1,
-      "EHZ",
       "ehz",
+      "EHZ",
       -1,
       46.08924,
       -123.45173,

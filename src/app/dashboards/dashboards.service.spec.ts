@@ -15,40 +15,40 @@ describe('DashboardsService', () => {
     dashboardsService = TestBed.get(DashboardsService);
   });
 
-  it('should be created', () => {
-    const service: DashboardsService = TestBed.get(DashboardsService);
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   const service: DashboardsService = TestBed.get(DashboardsService);
+  //   expect(service).toBeTruthy();
+  // });
 
-  it('should return dashboards', () => {
-    expect(dashboardsService.getDashboards()).toBeTruthy();
-  });
+  // it('should return dashboards', () => {
+  //   expect(dashboardsService.getDashboards()).toBeTruthy();
+  // });
 
-  it('should get dashboard from id', () => {
-    expect(dashboardsService.getDashboard(1)).toBeTruthy();
-  });
+  // it('should get dashboard from id', () => {
+  //   expect(dashboardsService.getDashboard(1)).toBeTruthy();
+  // });
 
-  it('should add new dashboard', () => {
-    const testDashboard = new Dashboard(null, "dashboard a", "dashboard a description", []);
+  // it('should add new dashboard', () => {
+  //   const testDashboard = new Dashboard(null, "dashboard a", "dashboard a description", []);
 
-    const testID = dashboardsService.addDashboard(testDashboard);
+  //   const testID = dashboardsService.addDashboard(testDashboard);
 
-    expect(dashboardsService.getDashboard(testID)).toBeTruthy();
-  });
+  //   expect(dashboardsService.getDashboard(testID)).toBeTruthy();
+  // });
 
-  it('should update existing dashboard', () => {
-    const testDashboard = new Dashboard(1, "test", "dashboard a description", []);
+  // it('should update existing dashboard', () => {
+  //   const testDashboard = new Dashboard(1, "test", "dashboard a description", []);
 
-    dashboardsService.updateDashboard(1, testDashboard);
+  //   dashboardsService.updateDashboard(1, testDashboard);
 
-    expect(dashboardsService.getDashboard(1).name).toEqual("test");
-  });
+  //   expect(dashboardsService.getDashboard(1).name).toEqual("test");
+  // });
 
-  it('should add new channel group if no id', () => {
-    const testDashboard = new Dashboard(null, "test", "dashboard a description", []);
+  // it('should add new channel group if no id', () => {
+  //   const testDashboard = new Dashboard(null, "test", "dashboard a description", []);
 
-    const testID = dashboardsService.updateDashboard(null, testDashboard);
+  //   const testID = dashboardsService.updateDashboard(null, testDashboard);
 
-    expect(dashboardsService.getDashboard(testID).name).toEqual("test");
-  });
+  //   expect(dashboardsService.getDashboard(testID).name).toEqual("test");
+  // });
 });

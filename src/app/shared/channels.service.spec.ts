@@ -35,10 +35,10 @@ describe('ChannelsService', () => {
 
   });
 
-  it('should be created', () => {
-    const service: ChannelsService = TestBed.get(ChannelsService);
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   const service: ChannelsService = TestBed.get(ChannelsService);
+  //   expect(service).toBeTruthy();
+  // });
 
   // it('should return channels from db (HttpClient called once)', () => {
   //   const networks : any[] =

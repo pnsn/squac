@@ -1,0 +1,32 @@
+import { environment } from '../environments/environment';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { SquacApiService } from './squacapi';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+// Used to test services that use the squac api class
+export class MockSquacApiService {
+  protected baseUrl : string = "baseUrl";
+
+  constructor (
+    private testData : any
+  ) {
+    console.log("created", testData)
+  };
+
+  get(id?: number, params? : any) : Observable<any>{
+    return of(id ? this.testData : [this.testData]);
+  }
+
+  post(data : any, id? : number) : Observable<any> {
+    return of(this.testData);
+  }
+
+  put(data, id? : number) : Observable<any> {
+    return of(this.testData);
+  }
+}

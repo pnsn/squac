@@ -1,24 +1,49 @@
 import { TestBed } from '@angular/core/testing';
-import { ChannelGroupsService } from './channel-groups.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChannelGroup } from '../shared/channel-group';
 
-describe('ChannelGroupsService', () => {
-  let httpClientSpy : { get : jasmine.Spy};
-  let channelGroupsService : ChannelGroupsService;
+import { SquacApiService } from '../squacapi';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockSquacApiService } from '../squacapi.service.mock';
+import { Network } from './network';
+import { ChannelGroupsService } from './channel-groups.service';
+
+describe('NetworksService', () => {
+  let networksService : ChannelGroupsService;
+
+  let testChannelGroup : Network = new Network(
+    1,
+    "code",
+    "name",
+    "description"
+  );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      // imports: [HttpClientTestingModule]
-    })
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    channelGroupsService = TestBed.get(ChannelGroupsService);
+      imports: [HttpClientTestingModule],
+      providers: [{
+        provide: SquacApiService, useClass: MockSquacApiService
+      }]
+    });
+
+    // networksService = TestBed.get(NetworksService);
   });
 
-  it('should be created', () => {
-    const service: ChannelGroupsService = TestBed.get(ChannelGroupsService);
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   const service: NetworksService = TestBed.get(NetworksService);
+
+  //   expect(service).toBeTruthy();
+  // });
+
+
+  // it('should fetch networks', (done: DoneFn) => {
+  //   networksService.fetchNetworks();
+    
+  //   networksService.networks.subscribe(networks => {
+  //     expect(networks).toEqual([]);
+  //     done();
+  //   });
+    
+  // });
 
   // it('should return channelGroups', () => {
   //   expect(channelGroupsService.getChannelGroups()).toBeTruthy();

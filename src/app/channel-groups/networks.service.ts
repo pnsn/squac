@@ -4,25 +4,34 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Network } from './network';
 import { SquacApiService } from '../squacapi';
+
 @Injectable({
   providedIn: 'root'
 })
-export class NetworksService extends SquacApiService{
+
+// Service for handling networks
+export class NetworksService {
+
+  // Copy of networks searched
   private localNetworks : {} = {};
+
+  // Subscribeable networks 
   networks = new BehaviorSubject<Network[]>([]);
 
   constructor(
-    http : HttpClient
- ) {
-   super("nslc/networks/", http);
- }
+    private squacApi : SquacApiService
+  ) {
+    squacApi.url = "nslc/networks/";
+  }
 
-  setNetworks(networks : Network[]) {
+  // Broadcast updated networks
+  private setNetworks(networks : Network[]) {
     this.networks.next(networks);
   }
 
+  // Get all networks from api
   fetchNetworks(){
-    super.get().pipe(
+    this.squacApi.get().pipe(
       map(
         networks => {
           let nets : Network[] = [];
@@ -37,7 +46,7 @@ export class NetworksService extends SquacApiService{
 
             nets.push(net);
           });
-          return nets;
+          return nets;[]
         }
       )
     )
@@ -46,25 +55,27 @@ export class NetworksService extends SquacApiService{
     });
   }
 
-    //TODO: figure out stations service 
-    getNetwork(id: number) :Observable<Network>{
-      if(this.localNetworks[id]) {
-        return of(this.localNetworks[id]);
-      } else {
-        return super.get(id).pipe(
-          map(
-            network => {
-              let networkObject = new Network(
-                network.id,
-                network.code,
-                network.name,
-                network.description
-              );
-              this.localNetworks[network.id] = networkObject;
-              return networkObject;
-            }
-          )
-        );
-      }
+
+  //Get network with given ID, will search local
+  // or return from server
+  getNetwork(id: number) :Observable<Network>{
+    if(this.localNetworks[id]) {
+      return of(this.localNetworks[id]);
+    } else {
+      return this.squacApi.get(id).pipe(
+        map(
+          network => {
+            let networkObject = new Network(
+              network.id,
+              network.code,
+              network.name,
+              network.description
+            );
+            this.localNetworks[network.id] = networkObject;
+            return networkObject;
+          }
+        )
+      );
     }
+  }
 }
