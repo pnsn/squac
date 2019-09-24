@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Network } from './network';
 import { of, Observable } from 'rxjs';
 import { TestingCompiler } from '@angular/core/testing/src/test_compiler';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MockSquacApiService } from '../squacapi.service.mock';
 
 describe('NetworksService', () => {
@@ -18,21 +18,17 @@ describe('NetworksService', () => {
     "name",
     "description"
   );
-
+  let squacApiService;
   let mockSquacApiService = new MockSquacApiService( testData );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    });
-
-    TestBed.overrideComponent(NetworksService, {
-      set: {
-        providers: [{ provide: SquacApiService, useValue: mockSquacApiService }]
-      }
+      imports: [HttpClientTestingModule],
+      providers: [{ provide: SquacApiService, useValue: mockSquacApiService }]
     });
 
     networksService = TestBed.get(NetworksService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
   it('should be created', () => {
@@ -52,11 +48,11 @@ describe('NetworksService', () => {
     
   });
 
-  // it('should get network with id', (done: DoneFn)=>{
-  //   networksService.getNetwork(1).subscribe(network => {
-  //     expect(network).toEqual(testData);
-  //     done();
-  //   });
-  // });
+  it('should get network with id', (done: DoneFn)=>{
+    networksService.getNetwork(1).subscribe(network => {
+      expect(network).toEqual(testData);
+      done();
+    });
+  });
 
 });

@@ -19,6 +19,7 @@ export class MockSquacApiService {
   };
 
   get(id?: number, params? : any) : Observable<any>{
+    console.log("Getme");
     return of(id ? this.testData : [this.testData]);
   }
 
