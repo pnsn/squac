@@ -56,7 +56,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
           this.metricForm.patchValue({
             "name" : metric.name,
             "description" : metric.description,
-            "source" : metric.source,
+            "source" : metric.url,
             "unit" : metric.unit
           });
         }
@@ -71,7 +71,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         this.id,
         values.name,
         values.description, 
-        values.source,
+        values.url,
         values.unit
       )
     ).subscribe(

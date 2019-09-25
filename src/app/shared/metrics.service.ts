@@ -80,7 +80,7 @@ export class MetricsService {
     let postData : MetricsHttpData = {
       name: metric.name,
       description: metric.description,
-      url : metric.source,
+      url : metric.url,
       unit : metric.unit
     }
     if(metric.id) {
