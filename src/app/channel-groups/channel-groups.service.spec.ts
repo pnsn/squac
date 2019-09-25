@@ -42,7 +42,7 @@ describe('ChannelGroupsService', () => {
   it('should fetch channelGroups', (done: DoneFn) => {
     channelGroupsService.fetchChannelGroups();
     
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+    channelGroupsService.channelGroups.subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
     });
@@ -50,7 +50,7 @@ describe('ChannelGroupsService', () => {
   });
 
   it('should return channelGroups', () => {
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+    channelGroupsService.channelGroups.subscribe(channelGroups => {
       expect(channelGroups).toBeTruthy();
     });
   });

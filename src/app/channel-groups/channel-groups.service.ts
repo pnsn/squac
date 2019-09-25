@@ -20,7 +20,7 @@ interface ChannelGroupsHttpData {
 })
 export class ChannelGroupsService { 
   localChannelGroups : {} = {}; //Will want to store temporarily (redo on save?)  
-  getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
+  channelGroups = new BehaviorSubject<ChannelGroup[]>([]);
   private url = "nslc/groups/";
   constructor(
     private squacApi : SquacApiService
@@ -28,7 +28,7 @@ export class ChannelGroupsService {
   }
 
   private updateChannelGroups(channelGroups: ChannelGroup[]) {
-    this.getChannelGroups.next(channelGroups);
+    this.channelGroups.next(channelGroups);
   };
 
   // Gets channel groups from server

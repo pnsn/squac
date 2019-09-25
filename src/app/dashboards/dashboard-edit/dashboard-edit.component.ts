@@ -38,7 +38,7 @@ export class DashboardEditComponent implements OnInit {
       }
     )
     this.channelGroupsService.fetchChannelGroups();
-    const sub1 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+    const sub1 = this.channelGroupsService.channelGroups.subscribe(channelGroups => {
       this.availableChannelGroups = channelGroups;
       console.log(this.availableChannelGroups)
     });

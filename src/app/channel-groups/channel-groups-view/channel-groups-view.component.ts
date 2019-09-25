@@ -20,7 +20,7 @@ export class ChannelGroupsViewComponent implements OnInit {
 
   ngOnInit() {
     console.log("create view componeent");
-    this.subscription = this.ChannelGroupsService.getChannelGroups.subscribe(channelGroups => {
+    this.subscription = this.ChannelGroupsService.channelGroups.subscribe(channelGroups => {
       this.channelGroups = channelGroups;
     });
   }
