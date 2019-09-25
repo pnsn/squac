@@ -58,7 +58,7 @@ export class DashboardEditComponent implements OnInit {
       let dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
         dashboard => {
           this.dashboard = dashboard;
-          console.log("dashboard fetched", dashboard.name)
+          console.log("dashboard fetched", dashboard.description)
           this.dashboardForm.patchValue(
             {
               "name" : dashboard.name,

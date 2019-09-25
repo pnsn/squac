@@ -4,7 +4,7 @@ import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { Channel } from '../shared/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { SquacApiService } from '../squacapi';
+import { SquacApiService } from '../squacapi.service';
 
 // Describes format of post data 
 interface ChannelGroupsHttpData {

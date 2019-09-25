@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '../squacapi';
+import { SquacApiService } from '../squacapi.service';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { MetricsService } from './metrics.service';
 import { Metric } from '../shared/metric';

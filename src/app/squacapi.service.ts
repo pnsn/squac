@@ -18,8 +18,6 @@ export class SquacApiService {
   }
   //TODO test
 
-
-
   // http get with optional id & params
   get( path : string , id ? : number, params?: Params ) : Observable<any> {
     let url = this.baseUrl + path + (id ? id : "");
@@ -37,6 +35,7 @@ export class SquacApiService {
   // for updating 
   put(path : string, id: number, data: any ) : Observable<any>{
     let url = this.baseUrl + path + (id ? id + "/" : "");
+    console.log(url)
     return this.http.put<any>(url, data);
   }
 

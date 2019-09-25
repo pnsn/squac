@@ -3,7 +3,7 @@ import { Metric } from './metric';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { SquacApiService } from '../squacapi';
+import { SquacApiService } from '../squacapi.service';
 
 interface MetricsHttpData {
   name: string, 

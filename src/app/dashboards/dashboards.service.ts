@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { Widget } from './widget';
-import { SquacApiService } from '../squacapi';
+import { SquacApiService } from '../squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, concatMap, switchMap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';

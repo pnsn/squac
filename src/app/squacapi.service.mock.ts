@@ -2,7 +2,7 @@ import { environment } from '../environments/environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { SquacApiService } from './squacapi';
+import { SquacApiService } from './squacapi.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -15,11 +15,9 @@ export class MockSquacApiService {
   constructor (
     private testData : any
   ) {
-    console.log("created", testData)
   };
 
   get(path : string, id?: number, params? : any) : Observable<any>{
-    console.log("Getme");
     return of(id ? this.testData : [this.testData]);
   }
 

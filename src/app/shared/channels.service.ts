@@ -4,7 +4,7 @@ import { map, tap, filter, catchError } from 'rxjs/operators';
 import { Channel } from './channel';
 import { Subject, BehaviorSubject, throwError, Observable, of } from 'rxjs';
 import { Network } from '../channel-groups/network';
-import { SquacApiService } from '../squacapi';
+import { SquacApiService } from '../squacapi.service';
 
 @Injectable({
   providedIn: 'root'
