@@ -106,7 +106,7 @@ export class ChannelGroupsService {
     }
     if(channelGroup.id) {
       postData.id = channelGroup.id;
-      this.localChannelGroups[channelGroup.id] = null;
+      this.localChannelGroups[channelGroup.id] = channelGroup;
       return this.squacApi.put(this.url, channelGroup.id, postData);
     } else {
       return this.squacApi.post(this.url, postData);

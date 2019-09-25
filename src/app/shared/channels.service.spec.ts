@@ -1,99 +1,71 @@
 import { TestBed } from '@angular/core/testing';
-import { ChannelsService} from './channels.service';
-import {of} from 'rxjs';
-import { Channel } from './channel';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { asyncError, asyncData} from '../../testing/async-observables-helpers';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import { SquacApiService } from '../squacapi';
+import { MockSquacApiService } from '../squacapi.service.mock';
+import { ChannelsService } from './channels.service';
+import { Channel } from '../shared/channel';
+import { Network } from '../channel-groups/network';
+
 describe('ChannelsService', () => {
-  let httpClientSpy : { get : jasmine.Spy};
-  let channelsService : ChannelsService;
-  
-  let expectedChannels : Channel[] = [
-    new Channel (
-      1,
-      "cha",
-      "channel",
-      1,
-      1.00,
-      1.00,
-      1,
-      "--",
-      "",
-      ""
-    )
-  ];
+  let channelGroupsService : ChannelsService;
+
+  let testChannel : Channel = new Channel(
+    1,
+    "code",
+    "name",
+    0,
+    0,
+    0,
+    0,
+    "loc",
+    "stationCode",
+    "networkCode"
+  );
+  let squacApiService;
+
+  let apiSpy; 
+  let mockSquacApiService = new MockSquacApiService( testChannel );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [{
+        provide: SquacApiService, useValue: mockSquacApiService
+      }]
     });
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    channelsService = new ChannelsService(
-      <any> httpClientSpy
-    );
 
+    channelGroupsService = TestBed.get(ChannelsService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
-  // it('should be created', () => {
-  //   const service: ChannelsService = TestBed.get(ChannelsService);
-  //   expect(service).toBeTruthy();
-  // });
+  it('should be created', () => {
+    const service: ChannelsService = TestBed.get(ChannelsService);
 
-  // it('should return channels from db (HttpClient called once)', () => {
-  //   const networks : any[] =
-  //     [
-  //       { 
-  //         code: "net",
-  //         name: 'network',
-  //         stations : [
-  //           {
-  //             code: "sta",
-  //             name: "station",
-  //             locations: [
-  //               {
-  //                 lat: 1.00,
-  //                 lon: 1.00,
-  //                 elev: 1,
-  //                 code: "--",
-  //                 channels: [
-  //                   {
-  //                     name: "channel",
-  //                     code: "cha",
-  //                     sample_rate: 1
-  //                   }
-  //                 ]
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ];
-
-  //   httpClientSpy.get.and.returnValue(asyncData(networks));
-  
-  //   channelsService.fetchChannels().subscribe(
-  //     channels => expect(channels).toEqual(expectedChannels, 'expected channels'),
-  //     fail
-  //   );
-  //   expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
-  // });
-
-  // it('should return an error when the server returns a 404', () => {
-  //   const errorResponse = new HttpErrorResponse({
-  //     error: 'test 404 error',
-  //     status: 404, statusText: 'Not Found'
-  //   });
-  
-  //   httpClientSpy.get.and.returnValue(asyncError(errorResponse));
-  
-  //   channelsService.fetchChannels().subscribe(
-  //     channels => fail('expected an error, not heroes'),
-  //     (error : HttpErrorResponse)  => {
-  //       expect(error).toContain('Something bad happened; please try again later')
-  //     }
-  //   );
-  // });
+    expect(service).toBeTruthy();
+  });
 
 
+  it('should fetch channels', (done: DoneFn) => {
+    channelGroupsService.fetchChannels(({code: "test"} as Network));
+    
+    channelGroupsService.channels.subscribe(channelGroups => {
+      expect(channelGroups[0].id).toEqual(testChannel.id);
+      done();
+    });
+    
+  });
+
+  it('should return channels', () => {
+    channelGroupsService.channels.subscribe(channelGroups => {
+      expect(channelGroups).toBeTruthy();
+    });
+  });
+
+  it('should get channel with id', (done: DoneFn)=>{
+    channelGroupsService.getChannel(1).subscribe(channelGroup => {
+      expect(channelGroup.id).toEqual(testChannel.id);
+      done();
+    });
+  });
 });

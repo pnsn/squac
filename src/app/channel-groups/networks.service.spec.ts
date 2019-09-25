@@ -1,25 +1,22 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-
-import { NetworksService } from './networks.service';
-import { SquacApiService } from '../squacapi';
-
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Network } from './network';
-import { of, Observable } from 'rxjs';
-import { TestingCompiler } from '@angular/core/testing/src/test_compiler';
-import { Injectable, inject } from '@angular/core';
+
+import { SquacApiService } from '../squacapi';
 import { MockSquacApiService } from '../squacapi.service.mock';
+import { NetworksService } from './networks.service';
+import { Network } from './network';
+
 
 describe('NetworksService', () => {
   let networksService : NetworksService;
-  let testData: Network = new Network(
+  let testNetwork: Network = new Network(
     1,
     "code",
     "name",
     "description"
   );
   let squacApiService;
-  let mockSquacApiService = new MockSquacApiService( testData );
+  let mockSquacApiService = new MockSquacApiService( testNetwork );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +39,7 @@ describe('NetworksService', () => {
     networksService.fetchNetworks();
     
     networksService.networks.subscribe(networks => {
-      expect(networks).toEqual([testData]);
+      expect(networks).toEqual([testNetwork]);
       done();
     });
     
@@ -50,7 +47,7 @@ describe('NetworksService', () => {
 
   it('should get network with id', (done: DoneFn)=>{
     networksService.getNetwork(1).subscribe(network => {
-      expect(network).toEqual(testData);
+      expect(network).toEqual(testNetwork);
       done();
     });
   });

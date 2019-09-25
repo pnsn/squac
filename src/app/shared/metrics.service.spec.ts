@@ -1,53 +1,98 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+import { SquacApiService } from '../squacapi';
+import { MockSquacApiService } from '../squacapi.service.mock';
 import { MetricsService } from './metrics.service';
-import { Metric } from './metric';
+import { Metric } from '../shared/metric';
 
 describe('MetricsService', () => {
-  let httpClientSpy : { get : jasmine.Spy};
   let metricsService : MetricsService;
+
+  let testMetric : Metric = new Metric(
+    1,
+    "name",
+    "description",
+    "source",
+    "unit"
+  );
+  let squacApiService;
+
+  let apiSpy; 
+  let mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      // imports: [HttpClientTestingModule]
-    })
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+      imports: [HttpClientTestingModule],
+      providers: [{
+        provide: SquacApiService, useValue: mockSquacApiService
+      }]
+    });
+
     metricsService = TestBed.get(MetricsService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
-  // it('should be created', () => {
-  //   const service: MetricsService = TestBed.get(MetricsService);
-  //   expect(service).toBeTruthy();
-  // });
+  it('should be created', () => {
+    const service: MetricsService = TestBed.get(MetricsService);
 
-  // it('should return metrics', () => {
-  //   // expect(metricsService.getMetrics().subscribe()).toBeTruthy();
-  // });
+    expect(service).toBeTruthy();
+  });
 
-  // it('should get metric from id', () => {
-  //   expect(metricsService.getMetric(1)).toBeTruthy();
-  // });
 
-  // it('should add new metric', () => {
-  //   const testMetric = new Metric(null, "metric a", "metric a description", "metricsource", "unit");
+  it('should fetch metrics', (done: DoneFn) => {
+    metricsService.fetchMetrics();
+    
+    metricsService.getMetrics.subscribe(metrics => {
+      expect(metrics[0].id).toEqual(testMetric.id);
+      done();
+    });
+    
+  });
 
-  //   const testID = metricsService.addMetric(testMetric);
+  it('should return metrics', () => {
+    metricsService.getMetrics.subscribe(metrics => {
+      expect(metrics).toBeTruthy();
+    });
+  });
 
-  //   expect(metricsService.getMetric(testID)).toBeTruthy();
-  // });
+  it('should get metric with id', (done: DoneFn)=>{
+    metricsService.getMetric(1).subscribe(metric => {
+      expect(metric.name).toEqual(testMetric.name);
+      done();
+    });
+  });
 
-  // it('should update existing metric', () => {
-  //   const testMetric = new Metric(1, "test", "metric a description", "metricsource", "unit");
+  it('should update channel group', (done: DoneFn) => {
+    metricsService.updateMetric(testMetric);
 
-  //   metricsService.updateMetric(1, testMetric);
+    metricsService.getMetric(1).subscribe(metric => {
+      expect(metric.name).toEqual(testMetric.name);
+      done();
+    });
+  });
 
-  //   expect(metricsService.getMetric(1).name).toEqual("test");
-  // });
+  it('should post channel group with id', () => {
+    apiSpy = spyOn(squacApiService, 'put');
 
-  // it('should add new metric if no id', () => {
-  //   const testMetric = new Metric(null, "test", "metric a description", "metricsource", "unit");
+    metricsService.updateMetric(testMetric);
 
-  //   const testID = metricsService.updateMetric(null, testMetric);
+    expect(apiSpy).toHaveBeenCalled();
+  });
 
-  //   expect(metricsService.getMetric(testID).name).toEqual("test");
-  // });
+  it('should put channel group without id', () => {
+    apiSpy = spyOn(squacApiService, 'post');
+
+    let newMetric = new Metric(
+      null,
+      "name",
+      "description",
+      "source",
+      "unit"
+    );
+
+    metricsService.updateMetric(newMetric);
+
+    expect(apiSpy).toHaveBeenCalled();
+  });
 });

@@ -35,8 +35,8 @@ export class ChannelsService {
         channels.forEach(channel => {
           let channelObject = new Channel(
             channel.id,
-            channel.name,
             channel.code,
+            channel.name,
             channel.sample_rate,
             channel.lat,
             channel.lon,
@@ -64,8 +64,8 @@ export class ChannelsService {
           channel => {
             let channelObject = new Channel(
               channel.id,
-              channel.name,
               channel.code,
+              channel.name,
               channel.sample_rate,
               channel.lat,
               channel.lon,

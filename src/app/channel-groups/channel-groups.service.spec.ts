@@ -1,79 +1,96 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { SquacApiService } from '../squacapi';
-
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockSquacApiService } from '../squacapi.service.mock';
-import { Network } from './network';
 import { ChannelGroupsService } from './channel-groups.service';
+import { ChannelGroup } from '../shared/channel-group';
 
-describe('NetworksService', () => {
-  let networksService : ChannelGroupsService;
+describe('ChannelGroupsService', () => {
+  let channelGroupsService : ChannelGroupsService;
 
-  let testChannelGroup : Network = new Network(
+  let testChannelGroup : ChannelGroup = new ChannelGroup(
     1,
-    "code",
     "name",
-    "description"
+    "description",
+    []
   );
+  let squacApiService;
+
+  let apiSpy; 
+  let mockSquacApiService = new MockSquacApiService( testChannelGroup );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{
-        provide: SquacApiService, useClass: MockSquacApiService
+        provide: SquacApiService, useValue: mockSquacApiService
       }]
     });
 
-    // networksService = TestBed.get(NetworksService);
+    channelGroupsService = TestBed.get(ChannelGroupsService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
-  // it('should be created', () => {
-  //   const service: NetworksService = TestBed.get(NetworksService);
+  it('should be created', () => {
+    const service: ChannelGroupsService = TestBed.get(ChannelGroupsService);
 
-  //   expect(service).toBeTruthy();
-  // });
+    expect(service).toBeTruthy();
+  });
 
 
-  // it('should fetch networks', (done: DoneFn) => {
-  //   networksService.fetchNetworks();
+  it('should fetch channelGroups', (done: DoneFn) => {
+    channelGroupsService.fetchChannelGroups();
     
-  //   networksService.networks.subscribe(networks => {
-  //     expect(networks).toEqual([]);
-  //     done();
-  //   });
+    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+      expect(channelGroups[0].id).toEqual(testChannelGroup.id);
+      done();
+    });
     
-  // });
+  });
 
-  // it('should return channelGroups', () => {
-  //   expect(channelGroupsService.getChannelGroups()).toBeTruthy();
-  // });
+  it('should return channelGroups', () => {
+    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+      expect(channelGroups).toBeTruthy();
+    });
+  });
 
-  // it('should get channelGroup from id', () => {
-  //   expect(channelGroupsService.getChannelGroup(1)).toBeTruthy();
-  // });
+  it('should get channelGroup with id', (done: DoneFn)=>{
+    channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
+      expect(channelGroup).toEqual(testChannelGroup);
+      done();
+    });
+  });
 
-  // it('should add channelgroup', () => {
-  //   const testGroup = new ChannelGroup(null, "channel group a", "channel group a description", []);
+  it('should update channel group', (done: DoneFn) => {
+    channelGroupsService.updateChannelGroup(testChannelGroup);
 
-  //   const testID = channelGroupsService.addChannelGroup(testGroup);
+    channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
+      expect(channelGroup.name).toEqual(testChannelGroup.name);
+      done();
+    });
+  });
 
-  //   expect(channelGroupsService.getChannelGroup(testID)).toBeTruthy();
-  // });
+  it('should post channel group with id', () => {
+    apiSpy = spyOn(squacApiService, 'put');
 
-  // it('should update channel group', () => {
-  //   const testGroup = new ChannelGroup(1, "test", "channel group a description", []);
+    channelGroupsService.updateChannelGroup(testChannelGroup);
 
-  //   channelGroupsService.updateChannelGroup(1, testGroup);
+    expect(apiSpy).toHaveBeenCalled();
+  });
 
-  //   expect(channelGroupsService.getChannelGroup(1).name).toEqual("test");
-  // });
+  it('should put channel group without id', () => {
+    apiSpy = spyOn(squacApiService, 'post');
 
-  // it('should add new channel group if no id', () => {
-  //   const testGroup = new ChannelGroup(null, "test", "channel group a description", []);
+    let newChannelGroup = new ChannelGroup(
+      null,
+      "name",
+      "description",
+      []
+    );
 
-  //   const testID = channelGroupsService.updateChannelGroup(null, testGroup);
+    channelGroupsService.updateChannelGroup(newChannelGroup);
 
-  //   expect(channelGroupsService.getChannelGroup(testID).name).toEqual("test");
-  // });
+    expect(apiSpy).toHaveBeenCalled();
+  });
 });
