@@ -9,35 +9,34 @@ import { Injectable } from '@angular/core';
 })
 // Generic class for interacting with squac api
 export class SquacApiService {
-
   protected baseUrl : string;
-  public url : string;
 
   constructor (
     private http: HttpClient
   ) {
     this.baseUrl = environment.apiUrl;
-    console.log("baseUrl", this.baseUrl)
   }
+  //TODO test
+
 
 
   // http get with optional id & params
-  get( id ? : number, params?: Params ) : Observable<any> {
-    let url = this.baseUrl + this.url + (id ? id : "");
+  get( path : string , id ? : number, params?: Params ) : Observable<any> {
+    let url = this.baseUrl + path + (id ? id : "");
     return this.http.get<any>( url , {
       params: params
     });
   }
 
-  // http post with data & optional id for new 
-  post(data : any, id? : number ) : Observable<any> {
-    let url = this.baseUrl + this.url + (id ? id : "");
+  // http post with data
+  post(path : string, data : any) : Observable<any> {
+    let url = this.baseUrl + path;
     return this.http.post<any>(url, data );
   }
 
   // for updating 
-  put(data, id? : number) : Observable<any>{
-    let url = this.baseUrl + this.url + (id ? id + "/" : "");
+  put(path : string, id: number, data: any ) : Observable<any>{
+    let url = this.baseUrl + path + (id ? id + "/" : "");
     return this.http.put<any>(url, data);
   }
 

@@ -18,16 +18,16 @@ export class MockSquacApiService {
     console.log("created", testData)
   };
 
-  get(id?: number, params? : any) : Observable<any>{
+  get(path : string, id?: number, params? : any) : Observable<any>{
     console.log("Getme");
     return of(id ? this.testData : [this.testData]);
   }
 
-  post(data : any, id? : number) : Observable<any> {
+  post(path : string, data : any) : Observable<any> {
     return of(this.testData);
   }
 
-  put(data, id? : number) : Observable<any> {
+  put(path : string, id : number, data : any) : Observable<any> {
     return of(this.testData);
   }
 }

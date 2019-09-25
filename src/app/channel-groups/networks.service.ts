@@ -14,14 +14,13 @@ export class NetworksService {
 
   // Copy of networks searched
   private localNetworks : {} = {};
-
+  private url = "nslc/networks/";
   // Subscribeable networks 
   networks = new BehaviorSubject<Network[]>([]);
 
   constructor(
     private squacApi : SquacApiService
   ) {
-    squacApi.url = "nslc/networks/";
   }
 
   // Broadcast updated networks
@@ -31,7 +30,7 @@ export class NetworksService {
 
   // Get all networks from api
   fetchNetworks(){
-    this.squacApi.get().pipe(
+    this.squacApi.get(this.url).pipe(
       map(
         networks => {
           let nets : Network[] = [];
@@ -46,7 +45,7 @@ export class NetworksService {
 
             nets.push(net);
           });
-          return nets;[]
+          return nets;
         }
       )
     )
@@ -62,7 +61,7 @@ export class NetworksService {
     if(this.localNetworks[id]) {
       return of(this.localNetworks[id]);
     } else {
-      return this.squacApi.get(id).pipe(
+      return this.squacApi.get(this.url, id).pipe(
         map(
           network => {
             let networkObject = new Network(

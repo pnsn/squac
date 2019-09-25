@@ -19,11 +19,11 @@ interface MetricsHttpData {
 
 export class MetricsService {
   getMetrics = new BehaviorSubject<Metric[]>([]);
+  private url = "measurement/metrics/";
 
   constructor(
     private squacApi : SquacApiService
   ) {
-    squacApi.url = "measurement/metrics/";
   }
 
   private updateMetrics(metrics: Metric[]) {
@@ -33,7 +33,7 @@ export class MetricsService {
   // Gets channel groups from server
   fetchMetrics() : void {
     //temp 
-    this.squacApi.get().pipe(
+    this.squacApi.get(this.url).pipe(
       map(
         results => {
           let metrics : Metric[] = [];
@@ -60,7 +60,7 @@ export class MetricsService {
 
   getMetric(id: number) : Observable<Metric>{
     //temp 
-    return this.squacApi.get(id).pipe(
+    return this.squacApi.get(this.url, id).pipe(
       map(
         result => {
           let metric = new Metric(
@@ -85,9 +85,9 @@ export class MetricsService {
     }
     if(metric.id) {
       postData.id = metric.id;
-      return this.squacApi.put(postData, metric.id);
+      return this.squacApi.put(this.url, metric.id, postData);
     } else {
-      return this.squacApi.post(postData);
+      return this.squacApi.post(this.url, postData);
     }
   }
 }

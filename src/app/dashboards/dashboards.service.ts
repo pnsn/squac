@@ -21,12 +21,11 @@ interface DashboardsHttpData {
 export class DashboardsService {
   // private localDashboards
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
-
+  private url = "dashboard/dashboards/";
   constructor(
     private channelGroupsService : ChannelGroupsService,
     private squacApi : SquacApiService
   ) {
-    this.squacApi.url = "dashboard/dashboards/";
   }
 
   private updateDashboards(dashboards: Dashboard[]) {
@@ -37,7 +36,7 @@ export class DashboardsService {
   fetchDashboards() : void {
     //temp 
     console.log("fetch dashboards")
-    this.squacApi.get().pipe(
+    this.squacApi.get(this.url).pipe(
       map(
         dashboards => {
           let _dashboards : Dashboard[] = [];
@@ -64,7 +63,7 @@ export class DashboardsService {
   // Gets dashboard by id from SQUAC
   getDashboard(id: number) : any{
     let _dashboard : Dashboard;
-    return this.squacApi.get(id).pipe(
+    return this.squacApi.get(this.url, id).pipe(
       switchMap (
         dashboard => this.channelGroupsService.getChannelGroup(dashboard.group),
         ( dashboard, channelGroup ) => {
@@ -92,9 +91,9 @@ export class DashboardsService {
     }
     if(dashboard.id) {
       postData.id = dashboard.id;
-      return this.squacApi.put(postData, dashboard.id);
+      return this.squacApi.put(this.url, dashboard.id, postData);
     } else {
-      return this.squacApi.post(postData);
+      return this.squacApi.post(this.url, postData);
     }
 
   }

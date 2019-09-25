@@ -21,11 +21,10 @@ interface ChannelGroupsHttpData {
 export class ChannelGroupsService { 
   localChannelGroups : {} = {}; //Will want to store temporarily (redo on save?)  
   getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
-
+  private url = "nslc/groups/";
   constructor(
     private squacApi : SquacApiService
   ) {
-    squacApi.url = "nslc/groups/";
   }
 
   private updateChannelGroups(channelGroups: ChannelGroup[]) {
@@ -34,7 +33,7 @@ export class ChannelGroupsService {
 
   // Gets channel groups from server
   fetchChannelGroups() : void {
-    this.squacApi.get().pipe(
+    this.squacApi.get(this.url).pipe(
       map(
         results => {
           let channelGroups : ChannelGroup[] = [];
@@ -62,7 +61,7 @@ export class ChannelGroupsService {
     if(this.localChannelGroups[id] && this.localChannelGroups[id].channels) {
       return of(this.localChannelGroups[id]);
     } else {
-      return this.squacApi.get(id).pipe(
+      return this.squacApi.get(this.url, id).pipe(
         map(
           channelGroup => {
             let _channelGroup : ChannelGroup;
@@ -108,9 +107,9 @@ export class ChannelGroupsService {
     if(channelGroup.id) {
       postData.id = channelGroup.id;
       this.localChannelGroups[channelGroup.id] = null;
-      return this.squacApi.put(postData, channelGroup.id);
+      return this.squacApi.put(this.url, channelGroup.id, postData);
     } else {
-      return this.squacApi.post(postData);
+      return this.squacApi.post(this.url, postData);
     }
   }
 
