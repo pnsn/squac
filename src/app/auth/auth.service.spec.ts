@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthComponent} from './auth.component';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -24,7 +23,7 @@ describe('AuthService', () => {
     authService = new AuthService(<any> httpClientSpy, router);
   });
 
-  // it('should do nothing', () => {
+  // it('should be created', () => {
   //   // expect(authService).toBeTruthy();
   // });
 
