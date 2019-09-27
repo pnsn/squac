@@ -16,11 +16,9 @@ describe('DashboardComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ DashboardsComponent ],
+      declarations: [ DashboardsComponent , DashboardViewComponent],
       providers: [
-        DashboardsService,
-        DashboardViewComponent
-      ]
+        DashboardsService      ]
     })
     .compileComponents();
   }));
