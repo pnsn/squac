@@ -1,8 +1,4 @@
-import { environment } from '../environments/environment';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { SquacApiService } from './squacapi.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,7 +9,7 @@ export class MockSquacApiService {
   protected baseUrl = 'baseUrl';
 
   constructor(
-    private testData: any
+    private testData?: any
   ) {
   }
 
