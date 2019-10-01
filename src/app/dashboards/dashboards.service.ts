@@ -66,17 +66,19 @@ export class DashboardsService {
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         (response) => {
-          return this.channelGroupsService.getChannelGroup(response.group).subscribe( channelGroup => {
-            dashboard = new Dashboard(
-              response.id,
-              response.name,
-              response.description,
-              response.group,
-              response.widgets
-            );
-            dashboard.channelGroup = channelGroup;
-            return dashboard;
-          });
+          return this.channelGroupsService.getChannelGroup(response.group).pipe(
+            map ( channelGroup => {
+              dashboard = new Dashboard(
+                response.id,
+                response.name,
+                response.description,
+                response.group,
+                response.widgets
+              );
+              dashboard.channelGroup = channelGroup;
+              return dashboard;
+            })
+          );
         }
       )
     );
