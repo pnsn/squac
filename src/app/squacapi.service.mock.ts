@@ -1,9 +1,5 @@
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
 // Used to test services that use the squac api class
 export class MockSquacApiService {
   protected baseUrl = 'baseUrl';
