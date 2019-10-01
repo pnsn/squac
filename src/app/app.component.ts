@@ -8,7 +8,7 @@ import { AuthService } from './auth/auth.service';
 })
 
 // App parent component
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'squac-ui';
   loggedIn: boolean;
   constructor(private authService: AuthService) {

@@ -30,24 +30,24 @@ export class ChannelsService {
         network : network.code
       }
     ).pipe(map(
-      channels => {
-        const _channels = [];
-        channels.forEach(channel => {
-          const channelObject = new Channel(
-            channel.id,
-            channel.code,
-            channel.name,
-            channel.sample_rate,
-            channel.lat,
-            channel.lon,
-            channel.elev,
-            channel.loc,
-            channel.station_code,
-            channel.network
+      response => {
+        const channels = [];
+        response.forEach(c => {
+          const channel = new Channel(
+            c.id,
+            c.code,
+            c.name,
+            c.sample_rate,
+            c.lat,
+            c.lon,
+            c.elev,
+            c.loc,
+            c.station_code,
+            c.network
           );
-          _channels.push(channelObject);
+          channels.push(channel);
         });
-        return _channels;
+        return channels;
       }
     ))
     .subscribe(channels => {

@@ -92,7 +92,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   }
 
   // Check if form has unsaved fields
-  formUnsaved(form) {
+  formUnsaved() {
     if (this.metricForm.dirty) {
       const popup = document.getElementById('metric-popup');
       popup.style.display = 'block';

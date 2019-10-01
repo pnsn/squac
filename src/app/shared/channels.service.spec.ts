@@ -23,8 +23,6 @@ describe('ChannelsService', () => {
     'networkCode'
   );
   let squacApiService;
-
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testChannel );
 
   beforeEach(() => {

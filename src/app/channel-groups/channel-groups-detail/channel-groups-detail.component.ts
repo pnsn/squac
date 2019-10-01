@@ -14,7 +14,7 @@ export class ChannelGroupsDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private ChannelGroupsService: ChannelGroupsService
+    private channelGroupsService: ChannelGroupsService
   ) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class ChannelGroupsDetailComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.ChannelGroupsService.getChannelGroup(this.id).subscribe(channelGroup => {
+        this.channelGroupsService.getChannelGroup(this.id).subscribe(channelGroup => {
           this.channelGroup = channelGroup;
           console.log(channelGroup.name);
         });

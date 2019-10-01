@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { Dashboard } from '../dashboard';
   templateUrl: './dashboard-view.component.html',
   styleUrls: ['./dashboard-view.component.scss']
 })
-export class DashboardViewComponent implements OnInit {
+export class DashboardViewComponent implements OnInit, OnDestroy {
   dashboards: Dashboard[];
   subscription: Subscription = new Subscription();
 

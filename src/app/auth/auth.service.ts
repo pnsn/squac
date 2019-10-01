@@ -49,17 +49,17 @@ export class AuthService {
   }
 
   // after user enters data, log them in
-  login(email: string, password: string) {
+  login(userEmail: string, userPassword: string) {
     return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
       {
-        'email' : email,
-        'password' : password
+        email : userEmail,
+        password : userPassword
       }
     ).pipe(
       catchError(this.handleError),
       tap(resData => {
         // TODO: Get expiration time from Jon
-        this.handleAuth(email, resData.token, 3600);
+        this.handleAuth(userEmail, resData.token, 3600);
       })
     );
   }

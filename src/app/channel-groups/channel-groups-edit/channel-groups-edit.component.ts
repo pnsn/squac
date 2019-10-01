@@ -127,17 +127,17 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   private createChannelSelectors() {
     this.channelsForm = this.formBuilder.group({});
     const formChannels = new FormArray([]);
-    const _filteredChannels = [...this.availableChannels]
+    const filteredChannels = [...this.availableChannels]
       .filter(channel => {
         return !this.contains(this.selectedChannels, channel);
       });
 
     // Add form control for each channel
-    _filteredChannels.map((channel, i) => {
+    filteredChannels.map((channel, i) => {
       formChannels.push(new FormControl());
     });
 
-    this.filteredChannels = [..._filteredChannels];
+    this.filteredChannels = [...filteredChannels];
     this.channelsForm.addControl('channels', formChannels);
   }
 
@@ -147,7 +147,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     // clear form
     // take selected channels
     if (this.channelsForm.value.channels) {
-      const _channels = this.channelsForm.value.channels
+      const channels = this.channelsForm.value.channels
       .map((value, i) => {
         return value ? this.filteredChannels[i] : null;
       })
@@ -155,7 +155,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
       this.channelsForm.removeControl('channels');
 
-      this.selectedChannels.push(..._channels);
+      this.selectedChannels.push(...channels);
 
       this.createChannelSelectors();
 

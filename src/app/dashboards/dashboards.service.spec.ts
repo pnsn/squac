@@ -11,7 +11,7 @@ describe('DashboardsService', () => {
     TestBed.configureTestingModule({
       // imports: [HttpClientTestingModule]
     });
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     dashboardsService = TestBed.get(DashboardsService);
   });
 

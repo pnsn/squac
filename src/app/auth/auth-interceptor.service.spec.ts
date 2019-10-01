@@ -64,7 +64,7 @@ describe(`AuthInterceptor`, () => {
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
       .subscribe(response => {
-        expect(response).toBeTruthy;
+        expect(response).toBeTruthy();
       }
     );
     const httpRequest = httpTestingController.expectOne('https://test.test.test/');
@@ -82,7 +82,7 @@ describe(`AuthInterceptor`, () => {
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
       .subscribe(response => {
-        expect(response).toBeTruthy;
+        expect(response).toBeTruthy();
       }
     );
 

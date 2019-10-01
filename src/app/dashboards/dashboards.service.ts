@@ -38,20 +38,20 @@ export class DashboardsService {
     console.log('fetch dashboards');
     this.squacApi.get(this.url).pipe(
       map(
-        dashboards => {
-          const _dashboards: Dashboard[] = [];
+        response => {
+          const dashboards: Dashboard[] = [];
 
-          dashboards.forEach(d => {
-            const _dashboard = new Dashboard(
+          response.forEach(d => {
+            const dashboard = new Dashboard(
               d.id,
               d.name,
               d.description,
               d.group,
               d.widgets ? d.widgets : []
             );
-            _dashboards.push(_dashboard);
+            dashboards.push(dashboard);
           });
-          return _dashboards;
+          return dashboards;
         }
       )
     )
@@ -62,20 +62,21 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): any {
-    let _dashboard: Dashboard;
+    let dashboard: Dashboard;
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
-        dashboard => this.channelGroupsService.getChannelGroup(dashboard.group),
-        ( dashboard, channelGroup ) => {
-          _dashboard = new Dashboard(
-            dashboard.id,
-            dashboard.name,
-            dashboard.description,
-            dashboard.group,
-            dashboard.widgets
-          );
-          _dashboard.channelGroup = channelGroup;
-          return _dashboard;
+        (response) => {
+          return this.channelGroupsService.getChannelGroup(response.group).subscribe( channelGroup => {
+            dashboard = new Dashboard(
+              response.id,
+              response.name,
+              response.description,
+              response.group,
+              response.widgets
+            );
+            dashboard.channelGroup = channelGroup;
+            return dashboard;
+          });
         }
       )
     );

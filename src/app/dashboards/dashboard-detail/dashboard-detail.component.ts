@@ -17,14 +17,14 @@ export class DashboardDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private DashboardsService: DashboardsService
+    private dashboardsService: DashboardsService
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.DashboardsService.getDashboard(this.id).subscribe(
+        this.dashboardsService.getDashboard(this.id).subscribe(
           dashboard => {
             this.dashboard = dashboard;
             this.widgets = this.dashboard.widgets;
