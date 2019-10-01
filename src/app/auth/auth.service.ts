@@ -52,8 +52,8 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
       {
-        email,
-        password
+        'email' : email,
+        'password' : password
       }
     ).pipe(
       catchError(this.handleError),
