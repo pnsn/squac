@@ -7,19 +7,19 @@ import { MetricsService } from './metrics.service';
 import { Metric } from '../shared/metric';
 
 describe('MetricsService', () => {
-  let metricsService : MetricsService;
+  let metricsService: MetricsService;
 
-  let testMetric : Metric = new Metric(
+  const testMetric: Metric = new Metric(
     1,
-    "name",
-    "description",
-    "source",
-    "unit"
+    'name',
+    'description',
+    'source',
+    'unit'
   );
   let squacApiService;
 
-  let apiSpy; 
-  let mockSquacApiService = new MockSquacApiService( testMetric );
+  let apiSpy;
+  const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,12 +42,12 @@ describe('MetricsService', () => {
 
   it('should fetch metrics', (done: DoneFn) => {
     metricsService.fetchMetrics();
-    
+
     metricsService.getMetrics.subscribe(metrics => {
       expect(metrics[0].id).toEqual(testMetric.id);
       done();
     });
-    
+
   });
 
   it('should return metrics', () => {
@@ -56,7 +56,7 @@ describe('MetricsService', () => {
     });
   });
 
-  it('should get metric with id', (done: DoneFn)=>{
+  it('should get metric with id', (done: DoneFn) => {
     metricsService.getMetric(1).subscribe(metric => {
       expect(metric.name).toEqual(testMetric.name);
       done();
@@ -83,12 +83,12 @@ describe('MetricsService', () => {
   it('should put channel group without id', () => {
     apiSpy = spyOn(squacApiService, 'post');
 
-    let newMetric = new Metric(
+    const newMetric = new Metric(
       null,
-      "name",
-      "description",
-      "source",
-      "unit"
+      'name',
+      'description',
+      'source',
+      'unit'
     );
 
     metricsService.updateMetric(newMetric);

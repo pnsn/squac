@@ -6,11 +6,11 @@ import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi.service';
 
 interface MetricsHttpData {
-  name: string, 
-  description: string,
-  url: string,
-  unit: string,
-  id?: number
+  name: string;
+  description: string;
+  url: string;
+  unit: string;
+  id?: number;
 }
 
 @Injectable({
@@ -19,33 +19,33 @@ interface MetricsHttpData {
 
 export class MetricsService {
   getMetrics = new BehaviorSubject<Metric[]>([]);
-  private url = "measurement/metrics/";
+  private url = 'measurement/metrics/';
 
   constructor(
-    private squacApi : SquacApiService
+    private squacApi: SquacApiService
   ) {
   }
 
   private updateMetrics(metrics: Metric[]) {
     this.getMetrics.next(metrics);
-  };
+  }
 
   // Gets channel groups from server
-  fetchMetrics() : void {
-    //temp 
+  fetchMetrics(): void {
+    // temp
     this.squacApi.get(this.url).pipe(
       map(
         results => {
-          let metrics : Metric[] = [];
+          const metrics: Metric[] = [];
 
           results.forEach(m => {
-            let metric = new Metric(
+            const metric = new Metric(
               m.id,
               m.name,
               m.description,
               m.url,
               m.unit
-            )
+            );
             metrics.push(metric);
           });
           return metrics;
@@ -58,12 +58,12 @@ export class MetricsService {
   }
 
 
-  getMetric(id: number) : Observable<Metric>{
-    //temp 
+  getMetric(id: number): Observable<Metric> {
+    // temp
     return this.squacApi.get(this.url, id).pipe(
       map(
         result => {
-          let metric = new Metric(
+          const metric = new Metric(
               result.id,
               result.name,
               result.description,
@@ -76,14 +76,14 @@ export class MetricsService {
     );
   }
 
-  updateMetric(metric: Metric) : Observable<Metric> {
-    let postData : MetricsHttpData = {
+  updateMetric(metric: Metric): Observable<Metric> {
+    const postData: MetricsHttpData = {
       name: metric.name,
       description: metric.description,
       url : metric.url,
       unit : metric.unit
-    }
-    if(metric.id) {
+    };
+    if (metric.id) {
       postData.id = metric.id;
       return this.squacApi.put(this.url, metric.id, postData);
     } else {

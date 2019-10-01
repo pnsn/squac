@@ -24,7 +24,7 @@ export class AuthService {
     private router: Router
   ) { }
 
-  //Checks if user data exists in browser
+  // Checks if user data exists in browser
   autologin() {
 
     // Looks for local user data
@@ -38,7 +38,7 @@ export class AuthService {
       return;
     }
 
-    //if there's a user, log them in
+    // if there's a user, log them in
     const loadedUser = new User(userData.email, userData._token, new Date(userData._tokenExpirationDate));
 
     if (loadedUser.token) {
@@ -52,14 +52,14 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
       {
-        email: email,
-        password: password
+        email,
+        password
       }
     ).pipe(
       catchError(this.handleError),
       tap(resData => {
-        //TODO: Get expiration time from Jon
-        this.handleAuth(email, resData.token, 3600)
+        // TODO: Get expiration time from Jon
+        this.handleAuth(email, resData.token, 3600);
       })
     );
   }
@@ -73,10 +73,10 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
   }
-  
+
   // Logs out user after expiration time passes
   autologout(expirationDuration: number) {
-    console.log("expires in (Minutes)", expirationDuration / (1000*60));
+    console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
@@ -86,7 +86,7 @@ export class AuthService {
   // TODO: match to errors passed from server
   private handleError(errorRes: HttpErrorResponse) {
     console.log(errorRes.error);
-    let errorMessage = "An unknown error occured!";
+    let errorMessage = 'An unknown error occured!';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
     }
@@ -104,7 +104,7 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  // after login, save user data 
+  // after login, save user data
   private handleAuth(email: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(

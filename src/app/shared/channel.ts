@@ -14,20 +14,20 @@ export class Channel {
 
   constructor(
     public id: number,
-    public code : string,
-    public name : string,
-    public sample_rate : number,
+    public code: string,
+    public name: string,
+    public sampleRate: number,
 
-    //from loc
-    public lat : number,
+    // from loc
+    public lat: number,
     public lon: number,
-    public elev : number,
-    public loc : string,
-    public stationCode : string, 
-    public networkCode : string
-  ){}
+    public elev: number,
+    public loc: string,
+    public stationCode: string,
+    public networkCode: string
+  ) {}
 
-  get nslc() : string {
-    return this.networkCode + "." + this.stationCode + "." + this.loc+ "." + this.code;
+  get nslc(): string {
+    return this.networkCode + '.' + this.stationCode + '.' + this.loc + '.' + this.code;
   }
 }

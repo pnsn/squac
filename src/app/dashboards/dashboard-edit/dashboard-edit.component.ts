@@ -15,32 +15,32 @@ import { ChannelGroup } from '../../shared/channel-group';
 export class DashboardEditComponent implements OnInit {
   id: number;
   dashboard: Dashboard;
-  editMode : boolean;
-  dashboardForm : FormGroup;
-  subscriptions : Subscription= new Subscription();
-  availableChannelGroups : ChannelGroup[];
-  selectedChannelGroup : ChannelGroup;
+  editMode: boolean;
+  dashboardForm: FormGroup;
+  subscriptions: Subscription = new Subscription();
+  availableChannelGroups: ChannelGroup[];
+  selectedChannelGroup: ChannelGroup;
 
-  constructor(  
+  constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dashboardService : DashboardsService,
-    private channelGroupsService : ChannelGroupsService
+    private dashboardService: DashboardsService,
+    private channelGroupsService: ChannelGroupsService
   ) { }
 
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
+        this.id = +params.id;
+        this.editMode = params.id != null;
 
         this.initForm();
       }
-    )
+    );
     this.channelGroupsService.fetchChannelGroups();
     const sub1 = this.channelGroupsService.channelGroups.subscribe(channelGroups => {
       this.availableChannelGroups = channelGroups;
-      console.log(this.availableChannelGroups)
+      console.log(this.availableChannelGroups);
     });
 
     this.subscriptions.add(paramsSub);
@@ -49,21 +49,21 @@ export class DashboardEditComponent implements OnInit {
 
   private initForm() {
     this.dashboardForm = new FormGroup({
-      'name' : new FormControl("", Validators.required),
-      "description" : new FormControl("", Validators.required),
-      "channelGroup" : new FormControl([], Validators.required)
+      name : new FormControl('', Validators.required),
+      description : new FormControl('', Validators.required),
+      channelGroup : new FormControl([], Validators.required)
     });
 
     if (this.editMode) {
-      let dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
+      const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
         dashboard => {
           this.dashboard = dashboard;
-          console.log("dashboard fetched", dashboard.description)
+          console.log('dashboard fetched', dashboard.description);
           this.dashboardForm.patchValue(
             {
-              "name" : dashboard.name,
-              "description" : dashboard.description,
-              "channelGroup" : dashboard.channelGroupId
+              name : dashboard.name,
+              description : dashboard.description,
+              channelGroup : dashboard.channelGroupId
             }
           );
           this.selectedChannelGroup = dashboard.channelGroup;
@@ -73,43 +73,43 @@ export class DashboardEditComponent implements OnInit {
     }
   }
 
-  getChannelsForChannelGroup(){
+  getChannelsForChannelGroup() {
 
-    let selectedChannelGroupId = this.dashboardForm.value.channelGroup;
-    if(selectedChannelGroupId) {
-      let channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
+    const selectedChannelGroupId = this.dashboardForm.value.channelGroup;
+    if (selectedChannelGroupId) {
+      const channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
         channelGroup => {
           this.selectedChannelGroup = channelGroup;
         }
       );
-  
+
       this.subscriptions.add(channelGroupsSub);
     }
 
   }
 
   save() {
-    let values = this.dashboardForm.value;
-    console.log(values)
+    const values = this.dashboardForm.value;
+    console.log(values);
     this.dashboardService.updateDashboard(
       new Dashboard(
         this.id,
         values.name,
-        values.description, 
+        values.description,
         values.channelGroup,
         []
       )
     ).subscribe(
       result => {
-        console.log(result.id)
-        this.cancel(result.id)
+        console.log(result.id);
+        this.cancel(result.id);
       }
     );
     this.cancel();
   }
 
   cancel(id?: number) {
-    if(id && !this.id) {
+    if (id && !this.id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});

@@ -11,29 +11,29 @@ import { SquacApiService } from '../squacapi.service';
 })
 
 export class ChannelsService {
-  private localChannels : {} = {}; 
-  private filteredNetwork : Network;
-  private url = "nslc/channels/";
+  private localChannels: {} = {};
+  private filteredNetwork: Network;
+  private url = 'nslc/channels/';
   constructor(
-    private squacApi : SquacApiService
+    private squacApi: SquacApiService
   ) {
   }
   channels = new BehaviorSubject<Channel[]>([]);
 
-  private setChannels(channels : Channel[]) {
+  private setChannels(channels: Channel[]) {
     this.channels.next(channels);
   }
 
-  fetchChannels(network : Network) {
-   this.squacApi.get(this.url, null, 
+  fetchChannels(network: Network) {
+   this.squacApi.get(this.url, null,
       {
-        "network" : network.code
+        network : network.code
       }
     ).pipe(map(
       channels => {
-        let _channels = [];
+        const _channels = [];
         channels.forEach(channel => {
-          let channelObject = new Channel(
+          const channelObject = new Channel(
             channel.id,
             channel.code,
             channel.name,
@@ -55,14 +55,14 @@ export class ChannelsService {
     });
   }
 
-  getChannel(id: number) : Observable<Channel>{
-    if(this.localChannels[id]) {
+  getChannel(id: number): Observable<Channel> {
+    if (this.localChannels[id]) {
       return of(this.localChannels[id]);
     } else {
       return this.squacApi.get(this.url, id).pipe(
         map(
           channel => {
-            let channelObject = new Channel(
+            const channelObject = new Channel(
               channel.id,
               channel.code,
               channel.name,
@@ -82,6 +82,6 @@ export class ChannelsService {
     }
   }
 
-  
+
 
 }

@@ -6,11 +6,11 @@ export class Widget {
   public name: string;
   public description: string;
   public metrics: Metric[];
-  public channelGroups : ChannelGroup[];
+  public channelGroups: ChannelGroup[];
 
-  constructor(id: number, name:string) {
+  constructor(id: number, name: string) {
     this.id = id;
     this.name = name;
   }
-  //json of settings
+  // json of settings
 }

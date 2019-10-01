@@ -13,38 +13,38 @@ import { NetworksService } from '../networks.service';
   selector: 'app-channel-group-edit',
   templateUrl: './channel-groups-edit.component.html',
   styleUrls: ['./channel-groups-edit.component.scss']
-}) 
+})
 
-//TODO: this is getting massive - consider restructuring
-export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
+// TODO: this is getting massive - consider restructuring
+export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   id: number;
   channelGroup: ChannelGroup;
-  editMode : boolean;
-  channelGroupForm : FormGroup;
-  channelsForm : FormGroup;
-  availableChannels : Channel[];
-  subscriptions : Subscription = new Subscription();
-  filteredChannels : Channel[] = [];
-  selectedChannels : Channel[] = [];
+  editMode: boolean;
+  channelGroupForm: FormGroup;
+  channelsForm: FormGroup;
+  availableChannels: Channel[];
+  subscriptions: Subscription = new Subscription();
+  filteredChannels: Channel[] = [];
+  selectedChannels: Channel[] = [];
 
-  availableNetworks : Network[] = [];
-  selectedNetwork : Network;
-  filtersForm : FormGroup;
+  availableNetworks: Network[] = [];
+  selectedNetwork: Network;
+  filtersForm: FormGroup;
 
-  constructor(  
-    private router: Router, 
-    private route: ActivatedRoute, 
-    private channelGroupService : ChannelGroupsService,
-    private channelsService : ChannelsService,
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private channelGroupService: ChannelGroupsService,
+    private channelsService: ChannelsService,
     private formBuilder: FormBuilder,
-    private networksService : NetworksService
+    private networksService: NetworksService
   ) { }
 
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
+        this.id = +params.id;
+        this.editMode = params.id != null;
 
         this.initForm();
       }
@@ -53,8 +53,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
     const sub1 = this.networksService.networks.subscribe(networks => {
       this.availableNetworks = networks;
       this.filtersForm = this.formBuilder.group({
-        "networks": new FormControl([])
-      })
+        networks: new FormControl([])
+      });
     });
 
     this.subscriptions.add(paramsSub);
@@ -66,22 +66,22 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   }
 
 
-  //other filters do on front end
+  // other filters do on front end
 
-  //after filter applied do this 
-  getChannelsForNetwork(){
+  // after filter applied do this
+  getChannelsForNetwork() {
 
     this.selectedNetwork = this.filtersForm.value.networks;
-    if(this.selectedNetwork) {
+    if (this.selectedNetwork) {
       this.channelsService.fetchChannels(
         this.selectedNetwork
       );
 
-      let channelsSub = this.channelsService.channels.subscribe(channels => {
+      const channelsSub = this.channelsService.channels.subscribe(channels => {
         this.availableChannels = channels;
         this.initChannelsForm();
       });
-  
+
       this.subscriptions.add(channelsSub);
     }
 
@@ -91,18 +91,18 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
   // Inits group edit form
   private initForm() {
     this.channelGroupForm = this.formBuilder.group({
-      'name' : new FormControl("", Validators.required),
-      'description': new FormControl("", Validators.required)
+      name : new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required)
     });
 
     // if editing existing group, populate with the info
-    //TODO: redudant - fix for observable
+    // TODO: redudant - fix for observable
     if (this.editMode) {
       this.channelGroupService.getChannelGroup(this.id).subscribe(
         channelGroup => {
           this.channelGroupForm.patchValue({
-            'name' : channelGroup.name,
-            'description' : channelGroup.description
+            name : channelGroup.name,
+            description : channelGroup.description
           });
           this.selectedChannels = channelGroup.channels ? channelGroup.channels : [];
         }
@@ -111,11 +111,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
 
   }
 
-  //TODO: break select form into new component
-  // Sets up channels form 
+  // TODO: break select form into new component
+  // Sets up channels form
   private initChannelsForm() {
-    if(this.availableChannels.length > 0) {
-      //add availble channels that are not already selected
+    if (this.availableChannels.length > 0) {
+      // add availble channels that are not already selected
       this.createChannelSelectors();
     } else {
       this.filteredChannels = [];
@@ -123,81 +123,81 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy{
     }
   }
 
-  // Creates a form control 
+  // Creates a form control
   private createChannelSelectors() {
     this.channelsForm = this.formBuilder.group({});
-    let formChannels = new FormArray([]);
-    let _filteredChannels = [...this.availableChannels]
+    const formChannels = new FormArray([]);
+    const _filteredChannels = [...this.availableChannels]
       .filter(channel => {
         return !this.contains(this.selectedChannels, channel);
       });
 
-    //Add form control for each channel
+    // Add form control for each channel
     _filteredChannels.map((channel, i) => {
       formChannels.push(new FormControl());
     });
 
     this.filteredChannels = [..._filteredChannels];
-    this.channelsForm.addControl("channels", formChannels);
+    this.channelsForm.addControl('channels', formChannels);
   }
-  
+
   // TODO: check if this is too slow for large data sets
   // Adds selected channels from form to channel group
   addSelectedChannelsToGroup() {
-    //clear form
-    //take selected channels
+    // clear form
+    // take selected channels
     if (this.channelsForm.value.channels) {
-      let _channels = this.channelsForm.value.channels
+      const _channels = this.channelsForm.value.channels
       .map((value, i) => {
         return value ? this.filteredChannels[i] : null;
       })
       .filter(value => value !== null);
 
-      this.channelsForm.removeControl("channels");
+      this.channelsForm.removeControl('channels');
 
-      this.selectedChannels.push(..._channels); 
-  
+      this.selectedChannels.push(..._channels);
+
       this.createChannelSelectors();
-    
+
     }
 
   }
 
   // Returns true if channel object is in array of channels
-  private contains(array: Channel[], channel: Channel) : boolean {
+  private contains(array: Channel[], channel: Channel): boolean {
     return array.some(chan => (chan.nslc === channel.nslc));
   }
 
   // Remove channel from channel group
   removeChannelFromGroup(i: number) {
-    //remove channel from selected channels
+    // remove channel from selected channels
     this.selectedChannels.splice(i, 1);
 
-    //Add channel back to available 
+    // Add channel back to available
     this.createChannelSelectors();
   }
 
   // Save channel information
   save() {
-    let values = this.channelGroupForm.value;
+    const values = this.channelGroupForm.value;
     this.channelGroupService.updateChannelGroup(
       new ChannelGroup(
         this.id,
         values.name,
-        values.description, 
+        values.description,
         this.selectedChannels
       )
     ).subscribe(
       result => {
-        this.cancel(result.id)
+        this.cancel(result.id);
       }
     );
   }
 
   // Exit page
-  //TODO: warn if unsaved
+  // TODO: warn if unsaved
   cancel(id?: number) {
-    if(id && !this.id) {
+    if (id && !this.id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});

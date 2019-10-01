@@ -12,8 +12,8 @@ class MockAuthService {
 
   logIn() {
     this.user.next(new User(
-      "email",
-      "token",
+      'email',
+      'token',
       new Date()
     ));
   }

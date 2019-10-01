@@ -10,18 +10,18 @@ import { Subscription } from 'rxjs';
 export class MetricsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   constructor(
-    private metricsService : MetricsService
+    private metricsService: MetricsService
   ) { }
 
   ngOnInit() {
-    
+
     const metricsService = this.metricsService.fetchMetrics();
     this.subscription.add(metricsService);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    
+
   }
 
 }

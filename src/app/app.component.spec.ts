@@ -8,16 +8,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   let fixture;
-  let appComponent : AppComponent;
-  let authServiceStub : Partial<AuthService>;
-  let authService : AuthService; 
+  let appComponent: AppComponent;
+  let authServiceStub: Partial<AuthService>;
+  let authService: AuthService;
   beforeEach(async(() => {
 
     authServiceStub = {
 
-      autologin: function(){
+      autologin() {
         return true;
-      } 
+      }
     };
 
     TestBed.configureTestingModule({

@@ -11,10 +11,10 @@ describe('WidgetEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
       ],
-      providers: [ 
+      providers: [
         {
           provide: ActivatedRoute,
           useValue: {

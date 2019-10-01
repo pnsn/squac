@@ -16,20 +16,20 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   metric: Metric;
   editMode: boolean;
   metricForm: FormGroup;
-  subscriptions : Subscription = new Subscription();
+  subscriptions: Subscription = new Subscription();
 
   constructor(
-    private router: Router, 
-    private route: ActivatedRoute, 
-    private metricsService : MetricsService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private metricsService: MetricsService,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     const sub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
+        this.id = +params.id;
+        this.editMode = params.id != null;
 
         this.initForm();
       }
@@ -44,20 +44,20 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.metricForm = this.formBuilder.group({
-      'name' : new FormControl("", Validators.required),
-      'description': new FormControl("", Validators.required),
-      'source': new FormControl("", Validators.required),
-      'unit': new FormControl("", Validators.required)
+      name : new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      source: new FormControl('', Validators.required),
+      unit: new FormControl('', Validators.required)
     });
 
     if (this.editMode) {
       this.metricsService.getMetric(this.id).subscribe(
         metric => {
           this.metricForm.patchValue({
-            "name" : metric.name,
-            "description" : metric.description,
-            "source" : metric.url,
-            "unit" : metric.unit
+            name : metric.name,
+            description : metric.description,
+            source : metric.url,
+            unit : metric.unit
           });
         }
       );
@@ -65,26 +65,26 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   }
   // Save channel information
   save() {
-    let values = this.metricForm.value;
+    const values = this.metricForm.value;
     this.metricsService.updateMetric(
       new Metric(
         this.id,
         values.name,
-        values.description, 
+        values.description,
         values.url,
         values.unit
       )
     ).subscribe(
       result => {
-        this.cancel(result.id)
+        this.cancel(result.id);
       }
     );
   }
 
   // Exit page
-  //TODO: warn if unsaved
-  cancel(id? : number) {
-    if(id && !this.id) {
+  // TODO: warn if unsaved
+  cancel(id?: number) {
+    if (id && !this.id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});
@@ -94,16 +94,16 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   // Check if form has unsaved fields
   formUnsaved(form) {
     if (this.metricForm.dirty) {
-      let popup = document.getElementById("metric-popup");
-      popup.style.display = "block";
+      const popup = document.getElementById('metric-popup');
+      popup.style.display = 'block';
     } else {
       this.cancel();
     }
   }
 
   closePopup() {
-    let popup = document.getElementById("metric-popup");
-    popup.style.display = "none";
+    const popup = document.getElementById('metric-popup');
+    popup.style.display = 'none';
   }
 
 }

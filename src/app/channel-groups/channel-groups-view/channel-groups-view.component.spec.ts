@@ -13,12 +13,12 @@ describe('ChannelGroupsViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule
       ],
       declarations: [ ChannelGroupsViewComponent ],
-      providers: [ 
+      providers: [
         ChannelGroupsService,
         {
           provide: ActivatedRoute,

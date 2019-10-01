@@ -14,7 +14,7 @@ import { PopupComponent } from './popup/popup.component';
   imports: [
     CommonModule
   ],
-  exports:[
+  exports: [
     ModalComponent,
     CommonModule,
     RouterModule,

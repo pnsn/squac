@@ -43,7 +43,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule
   ],
   providers: [
-    { 
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true

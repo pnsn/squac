@@ -2,7 +2,7 @@
 export class Metric {
   constructor(
     public id: number,
-    public name: string, 
+    public name: string,
     public description: string,
     public url: string,
     public unit: string

@@ -16,7 +16,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private metricsService : MetricsService
+    private metricsService: MetricsService
   ) {
   }
 
@@ -25,7 +25,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
       (metrics: Metric[]) => {
         this.metrics = metrics;
       }
-    )
+    );
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

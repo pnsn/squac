@@ -8,15 +8,15 @@ import { AuthService } from './auth/auth.service';
 })
 
 // App parent component
-export class AppComponent{
+export class AppComponent {
   title = 'squac-ui';
-  loggedIn : boolean;
+  loggedIn: boolean;
   constructor(private authService: AuthService) {
 
   }
-  
+
   // Check if logged in
-  ngOnInit(){
+  ngOnInit() {
     this.authService.user.subscribe(user => {
       this.loggedIn = !!user;
     });

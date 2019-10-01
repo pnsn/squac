@@ -8,24 +8,24 @@ import { Channel } from '../shared/channel';
 import { Network } from '../channel-groups/network';
 
 describe('ChannelsService', () => {
-  let channelGroupsService : ChannelsService;
+  let channelGroupsService: ChannelsService;
 
-  let testChannel : Channel = new Channel(
+  const testChannel: Channel = new Channel(
     1,
-    "code",
-    "name",
+    'code',
+    'name',
     0,
     0,
     0,
     0,
-    "loc",
-    "stationCode",
-    "networkCode"
+    'loc',
+    'stationCode',
+    'networkCode'
   );
   let squacApiService;
 
-  let apiSpy; 
-  let mockSquacApiService = new MockSquacApiService( testChannel );
+  let apiSpy;
+  const mockSquacApiService = new MockSquacApiService( testChannel );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,13 +47,13 @@ describe('ChannelsService', () => {
 
 
   it('should fetch channels', (done: DoneFn) => {
-    channelGroupsService.fetchChannels(({code: "test"} as Network));
-    
+    channelGroupsService.fetchChannels(({code: 'test'} as Network));
+
     channelGroupsService.channels.subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannel.id);
       done();
     });
-    
+
   });
 
   it('should return channels', () => {
@@ -62,7 +62,7 @@ describe('ChannelsService', () => {
     });
   });
 
-  it('should get channel with id', (done: DoneFn)=>{
+  it('should get channel with id', (done: DoneFn) => {
     channelGroupsService.getChannel(1).subscribe(channelGroup => {
       expect(channelGroup.id).toEqual(testChannel.id);
       done();

@@ -10,12 +10,12 @@ import { AuthGuard } from '../auth/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'dashboards', 
+    path: 'dashboards',
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     children: [
       { path: 'new', component: DashboardEditComponent},
-      { path: ':id', 
+      { path: ':id',
         component: DashboardDetailComponent,
         children: [
           { path: 'widget',

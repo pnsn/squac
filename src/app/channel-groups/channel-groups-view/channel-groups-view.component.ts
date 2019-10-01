@@ -12,21 +12,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ChannelGroupsViewComponent implements OnInit {
   channelGroups: ChannelGroup[];
   subscription: Subscription;
-  constructor(  
+  constructor(
     private ChannelGroupsService: ChannelGroupsService,
     private router: Router,
     private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    console.log("create view componeent");
+    console.log('create view componeent');
     this.subscription = this.ChannelGroupsService.channelGroups.subscribe(channelGroups => {
       this.channelGroups = channelGroups;
     });
   }
 
   ngOnDestroy(): void {
-    console.log("destroy view componenent")
+    console.log('destroy view componenent');
     this.subscription.unsubscribe();
   }
 

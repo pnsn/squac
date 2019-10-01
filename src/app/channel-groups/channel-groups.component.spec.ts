@@ -14,12 +14,12 @@ describe('ChannelGroupsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule
       ],
       declarations: [ ChannelGroupsComponent ],
-      providers: [ 
+      providers: [
         ChannelGroupsService,
         NetworksService,
         {

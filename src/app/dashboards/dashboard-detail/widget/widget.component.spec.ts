@@ -12,10 +12,10 @@ describe('WidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
       ],
-      providers: [ 
+      providers: [
         {
           provide: ActivatedRoute,
           useValue: {
@@ -33,7 +33,7 @@ describe('WidgetComponent', () => {
     component = fixture.componentInstance;
     component.widget = new Widget(
       1,
-      "name"
+      'name'
     );
     fixture.detectChanges();
   });

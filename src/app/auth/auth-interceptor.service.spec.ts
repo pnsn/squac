@@ -16,8 +16,8 @@ class MockAuthService {
 
   logIn() {
     this.user.next(new User(
-      "email",
-      "token",
+      'email',
+      'token',
       new Date()
     ));
   }
@@ -31,7 +31,7 @@ class MockAuthService {
 describe(`AuthInterceptor`, () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  let testUrl = "data/";
+  const testUrl = 'data/';
   let service;
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe(`AuthInterceptor`, () => {
           multi: true,
         }
       ]
-      
+
     });
 
     // Inject the http service and test controller for each test
@@ -54,22 +54,22 @@ describe(`AuthInterceptor`, () => {
     service = TestBed.get(AuthService);
   });
 
-  afterEach(()=>{
+  afterEach(() => {
     httpTestingController.verify();
   });
 
   it('should add an Authorization header if user logged in', () => {
     service.logIn();
-      
+
       // Make an HTTP GET request
-    httpClient.get("https://test.test.test/")
+    httpClient.get('https://test.test.test/')
       .subscribe(response => {
-        expect(response).toBeTruthy
+        expect(response).toBeTruthy;
       }
     );
-    const httpRequest = httpTestingController.expectOne("https://test.test.test/");
+    const httpRequest = httpTestingController.expectOne('https://test.test.test/');
 
-    expect(httpRequest.request.headers.has('Authorization')).toEqual(true);   
+    expect(httpRequest.request.headers.has('Authorization')).toEqual(true);
 
     // expect(httpRequest.request.headers.get('Authorization')).toBe(
     //   'Token token',
@@ -78,17 +78,17 @@ describe(`AuthInterceptor`, () => {
 
   it('should not add an Authorization header if user not logged in', () => {
     service.logOut();
-      
+
       // Make an HTTP GET request
-    httpClient.get("https://test.test.test/")
+    httpClient.get('https://test.test.test/')
       .subscribe(response => {
-        expect(response).toBeTruthy
+        expect(response).toBeTruthy;
       }
     );
 
-    const httpRequest = httpTestingController.expectOne("https://test.test.test/");
+    const httpRequest = httpTestingController.expectOne('https://test.test.test/');
 
     expect(httpRequest.request.headers.has('Authorization')).toEqual(false);
-  });  
+  });
 
 });

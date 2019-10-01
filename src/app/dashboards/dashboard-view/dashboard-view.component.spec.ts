@@ -13,12 +13,12 @@ describe('DashboardViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
       ],
       declarations: [ DashboardViewComponent ],
-      providers: [ 
+      providers: [
         DashboardsService,
         {
           provide: ActivatedRoute,

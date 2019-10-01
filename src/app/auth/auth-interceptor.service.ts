@@ -5,24 +5,24 @@ import { take, exhaustMap } from 'rxjs/operators';
 
 @Injectable()
 
-//Intercepts http requests and adds auth token.
-//TODO: change to just SQUAC API requests
+// Intercepts http requests and adds auth token.
+// TODO: change to just SQUAC API requests
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(private authService : AuthService) { }
+  constructor(private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.user.pipe(
       take(1),
       exhaustMap ( user => {
-        if(!user) {
+        if (!user) {
           return next.handle(req);
         }
 
         const modifiedReq = req.clone({
           headers : new HttpHeaders(
             {
-              'Authorization' : "Token "+ user.token
+              Authorization : 'Token ' + user.token
             }
           )
         });

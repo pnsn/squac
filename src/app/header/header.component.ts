@@ -8,29 +8,29 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  private userSub : Subscription;
-  isAuthenticated : boolean = false;
+  private userSub: Subscription;
+  isAuthenticated = false;
   constructor(
-    private authService : AuthService
+    private authService: AuthService
   ) { }
 
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
       this.isAuthenticated = !!user;
-      console.log("is authenticated", this.isAuthenticated);
-      if(user) {
-        //do stuff
+      console.log('is authenticated', this.isAuthenticated);
+      if (user) {
+        // do stuff
       }
     });
   }
 
   ngOnDestroy(): void {
-    if(this.userSub) {
+    if (this.userSub) {
       this.userSub.unsubscribe();
     }
   }
-  
+
   logout() {
     this.authService.logout();
   }

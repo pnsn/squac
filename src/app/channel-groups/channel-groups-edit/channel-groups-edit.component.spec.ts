@@ -16,13 +16,13 @@ describe('ChannelGroupsEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule
       ],
       declarations: [ ChannelGroupsEditComponent ],
-      providers: [ 
+      providers: [
         ChannelGroupsService,
         ChannelsService,
         NetworksService,

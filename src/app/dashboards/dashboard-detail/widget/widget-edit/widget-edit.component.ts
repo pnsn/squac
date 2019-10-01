@@ -6,8 +6,8 @@ import { Route, ActivatedRoute, Router, Params } from '@angular/router';
   templateUrl: './widget-edit.component.html',
   styleUrls: ['./widget-edit.component.scss']
 })
-export class WidgetEditComponent implements OnInit { 
-  id : number;
+export class WidgetEditComponent implements OnInit {
+  id: number;
   editMode: boolean;
 
   constructor(
@@ -18,21 +18,21 @@ export class WidgetEditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
-        console.log(this.editMode)
+        this.id = +params.id;
+        this.editMode = params.id != null;
+        console.log(this.editMode);
       }
-    )
+    );
   }
 
 
   save() {
-    //save it to dashboard
+    // save it to dashboard
     this.cancel();
   }
 
-  cancel(){
-    if(this.editMode) {
+  cancel() {
+    if (this.editMode) {
       this.router.navigate(['../../../'], {relativeTo: this.route});
     } else {
       this.router.navigate(['../../'], {relativeTo: this.route});

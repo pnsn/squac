@@ -23,7 +23,7 @@ export class DashboardDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
+        this.id = +params.id;
         this.DashboardsService.getDashboard(this.id).subscribe(
           dashboard => {
             this.dashboard = dashboard;
@@ -32,13 +32,13 @@ export class DashboardDetailComponent implements OnInit {
         );
 
       }
-    )
+    );
   }
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  addWidget(){
-    this.router.navigate(['widget','new'], {relativeTo: this.route});
+  addWidget() {
+    this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
 }

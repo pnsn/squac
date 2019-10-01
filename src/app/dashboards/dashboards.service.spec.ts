@@ -4,13 +4,13 @@ import { DashboardsService } from './dashboards.service';
 import { Dashboard } from './dashboard';
 
 describe('DashboardsService', () => {
-  let httpClientSpy : { get : jasmine.Spy};
-  let dashboardsService : DashboardsService;
+  let httpClientSpy: { get: jasmine.Spy};
+  let dashboardsService: DashboardsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       // imports: [HttpClientTestingModule]
-    })
+    });
     // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     dashboardsService = TestBed.get(DashboardsService);
   });

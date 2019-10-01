@@ -10,9 +10,9 @@ import { map, take } from 'rxjs/operators';
 
 // Ensures user is logged in before allowing access to protected routes
 export class AuthGuard implements CanActivate {
-  constructor (
-    private authService : AuthService,
-    private router : Router
+  constructor(
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   // returns true if there is a user or forces user to stay on login
@@ -30,6 +30,6 @@ export class AuthGuard implements CanActivate {
         return this.router.createUrlTree(['/login']);
       })
     );
-  } 
-  
+  }
+
 }

@@ -15,13 +15,13 @@ describe('DashboardEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [  
-        RouterTestingModule.withRoutes([]), 
+      imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule
       ],
       declarations: [ DashboardEditComponent ],
-      providers: [ 
+      providers: [
         ChannelGroupsService,
         DashboardsService,
         {

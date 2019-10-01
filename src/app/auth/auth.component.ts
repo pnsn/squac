@@ -12,24 +12,24 @@ import { Router } from '@angular/router';
 
 // This component handles the login page
 export class AuthComponent implements OnInit {
-  isLoading : boolean = false; // Currently loading/in progress?
-  error : string = null; // Has there been an error?
+  isLoading = false; // Currently loading/in progress?
+  error: string = null; // Has there been an error?
 
   constructor(
-    private authService : AuthService,
-    private router : Router
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    
+
   }
 
   // After user presses submit
-  onSubmit(form : NgForm) {
+  onSubmit(form: NgForm) {
 
     if (!form.valid) {
       return;
-    } 
+    }
 
     const email = form.value.email;
     const password = form.value.password;
@@ -39,7 +39,7 @@ export class AuthComponent implements OnInit {
     // Try to log in
     this.authService.login(email, password).subscribe(
       resData => {
-        console.log("dashboard!");
+        console.log('dashboard!');
         this.isLoading = false;
         this.router.navigate(['/dashboards']);
       },

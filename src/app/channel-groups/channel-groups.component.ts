@@ -15,18 +15,18 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
   // channelGroups: ChannelGroup[];
   subscription: Subscription = new Subscription();
 
-  constructor(  
+  constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private channelGroupsService : ChannelGroupsService,
-    private networksService : NetworksService
+    private channelGroupsService: ChannelGroupsService,
+    private networksService: NetworksService
   ) {}
 
   ngOnInit() {
-    //Gets channels but doesn't use
+    // Gets channels but doesn't use
     const networksService = this.networksService.fetchNetworks();
     const channelGroupsService = this.channelGroupsService.fetchChannelGroups();
-    
+
     this.subscription.add(networksService);
     this.subscription.add(channelGroupsService);
   }

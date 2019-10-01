@@ -8,47 +8,47 @@ import { map, mergeMap, concatMap, switchMap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
 
 interface DashboardsHttpData {
-  name: string,
-  description: string,
-  group: number, 
-  widgets: any,
-  id?: number
+  name: string;
+  description: string;
+  group: number;
+  widgets: any;
+  id?: number;
 }
-//should I use index or id
+// should I use index or id
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardsService {
   // private localDashboards
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
-  private url = "dashboard/dashboards/";
+  private url = 'dashboard/dashboards/';
   constructor(
-    private channelGroupsService : ChannelGroupsService,
-    private squacApi : SquacApiService
+    private channelGroupsService: ChannelGroupsService,
+    private squacApi: SquacApiService
   ) {
   }
 
   private updateDashboards(dashboards: Dashboard[]) {
     this.getDashboards.next(dashboards);
-  };
+  }
 
   // Gets channel groups from server
-  fetchDashboards() : void {
-    //temp 
-    console.log("fetch dashboards")
+  fetchDashboards(): void {
+    // temp
+    console.log('fetch dashboards');
     this.squacApi.get(this.url).pipe(
       map(
         dashboards => {
-          let _dashboards : Dashboard[] = [];
+          const _dashboards: Dashboard[] = [];
 
           dashboards.forEach(d => {
-            let _dashboard = new Dashboard(
+            const _dashboard = new Dashboard(
               d.id,
               d.name,
               d.description,
               d.group,
               d.widgets ? d.widgets : []
-            )
+            );
             _dashboards.push(_dashboard);
           });
           return _dashboards;
@@ -61,19 +61,19 @@ export class DashboardsService {
   }
 
   // Gets dashboard by id from SQUAC
-  getDashboard(id: number) : any{
-    let _dashboard : Dashboard;
+  getDashboard(id: number): any {
+    let _dashboard: Dashboard;
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         dashboard => this.channelGroupsService.getChannelGroup(dashboard.group),
         ( dashboard, channelGroup ) => {
           _dashboard = new Dashboard(
             dashboard.id,
-            dashboard.name, 
+            dashboard.name,
             dashboard.description,
             dashboard.group,
             dashboard.widgets
-          )
+          );
           _dashboard.channelGroup = channelGroup;
           return _dashboard;
         }
@@ -82,14 +82,14 @@ export class DashboardsService {
   }
 
   // FIXME: currently creates a copy
-  updateDashboard(dashboard: Dashboard) : Observable<Dashboard> {
-    let postData : DashboardsHttpData = {
+  updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
+    const postData: DashboardsHttpData = {
       name: dashboard.name,
       description: dashboard.description,
       group: dashboard.channelGroupId,
       widgets: dashboard.widgets
-    }
-    if(dashboard.id) {
+    };
+    if (dashboard.id) {
       postData.id = dashboard.id;
       return this.squacApi.put(this.url, dashboard.id, postData);
     } else {

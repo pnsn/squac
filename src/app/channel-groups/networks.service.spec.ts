@@ -8,15 +8,15 @@ import { Network } from './network';
 
 
 describe('NetworksService', () => {
-  let networksService : NetworksService;
-  let testNetwork: Network = new Network(
+  let networksService: NetworksService;
+  const testNetwork: Network = new Network(
     1,
-    "code",
-    "name",
-    "description"
+    'code',
+    'name',
+    'description'
   );
   let squacApiService;
-  let mockSquacApiService = new MockSquacApiService( testNetwork );
+  const mockSquacApiService = new MockSquacApiService( testNetwork );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,15 +37,15 @@ describe('NetworksService', () => {
 
   it('should fetch networks', (done: DoneFn) => {
     networksService.fetchNetworks();
-    
+
     networksService.networks.subscribe(networks => {
       expect(networks).toEqual([testNetwork]);
       done();
     });
-    
+
   });
 
-  it('should get network with id', (done: DoneFn)=>{
+  it('should get network with id', (done: DoneFn) => {
     networksService.getNetwork(1).subscribe(network => {
       expect(network).toEqual(testNetwork);
       done();

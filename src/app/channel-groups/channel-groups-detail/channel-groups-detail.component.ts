@@ -21,13 +21,13 @@ export class ChannelGroupsDetailComponent implements OnInit {
 
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
+        this.id = +params.id;
         this.ChannelGroupsService.getChannelGroup(this.id).subscribe(channelGroup => {
           this.channelGroup = channelGroup;
-          console.log(channelGroup.name)
+          console.log(channelGroup.name);
         });
       }
-    )
+    );
   }
   editChannelGroup() {
     this.router.navigate(['edit'], {relativeTo: this.route});

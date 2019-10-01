@@ -5,19 +5,19 @@ export class ChannelGroup {
   constructor(
     public id: number,
     public name: string,
-    public description: string, 
-    public channels?:Channel[]
+    public description: string,
+    public channels?: Channel[]
   ) {
   }
 
   // get ids from the channels
-  //TODO: shoould always store channel id only?
-  get channelsIdsArray() : string[] {
-    let array = [];
+  // TODO: shoould always store channel id only?
+  get channelsIdsArray(): string[] {
+    const array = [];
 
     this.channels.forEach(channel => {
       array.push(channel.id);
-    })
+    });
 
     return array;
   }

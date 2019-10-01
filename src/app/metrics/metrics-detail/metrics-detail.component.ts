@@ -20,14 +20,14 @@ export class MetricsDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params['id'];
+        this.id = +params.id;
         this.metricsService.getMetric(this.id).subscribe(
           metric => {
-            console.log(metric)
+            console.log(metric);
             this.metric = metric;
           });
       }
-    )
+    );
   }
   editMetric() {
     this.router.navigate(['edit'], {relativeTo: this.route});

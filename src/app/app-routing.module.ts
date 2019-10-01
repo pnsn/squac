@@ -11,11 +11,11 @@ import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.compon
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 
-//TODO:consider breaking into module for creation stuff
+// TODO:consider breaking into module for creation stuff
 export const appRoutes: Routes = [
   { path: 'login', component: AuthComponent},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-  { path: 'metrics', 
+  { path: 'metrics',
     component: MetricsComponent,
     canActivate: [AuthGuard],
     children: [
@@ -25,7 +25,7 @@ export const appRoutes: Routes = [
       { path: ':id/edit', component: MetricsEditComponent },
     ]
   },
-  { path: 'channel-groups', 
+  { path: 'channel-groups',
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard],
     children: [

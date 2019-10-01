@@ -8,8 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit {
-  @Input("widget") widget : Widget;
-  
+  @Input('widget') widget: Widget;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router

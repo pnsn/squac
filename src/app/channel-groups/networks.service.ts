@@ -13,34 +13,34 @@ import { SquacApiService } from '../squacapi.service';
 export class NetworksService {
 
   // Copy of networks searched
-  private localNetworks : {} = {};
-  private url = "nslc/networks/";
-  // Subscribeable networks 
+  private localNetworks: {} = {};
+  private url = 'nslc/networks/';
+  // Subscribeable networks
   networks = new BehaviorSubject<Network[]>([]);
 
   constructor(
-    private squacApi : SquacApiService
+    private squacApi: SquacApiService
   ) {
   }
 
   // Broadcast updated networks
-  private setNetworks(networks : Network[]) {
+  private setNetworks(networks: Network[]) {
     this.networks.next(networks);
   }
 
   // Get all networks from api
-  fetchNetworks(){
+  fetchNetworks() {
     this.squacApi.get(this.url).pipe(
       map(
         networks => {
-          let nets : Network[] = [];
+          const nets: Network[] = [];
           networks.forEach(network => {
-            let net = new Network(
+            const net = new Network(
               network.id,
               network.code,
               network.name,
               network.description
-            )
+            );
             this.localNetworks[network.id] = net;
 
             nets.push(net);
@@ -55,16 +55,16 @@ export class NetworksService {
   }
 
 
-  //Get network with given ID, will search local
+  // Get network with given ID, will search local
   // or return from server
-  getNetwork(id: number) :Observable<Network>{
-    if(this.localNetworks[id]) {
+  getNetwork(id: number): Observable<Network> {
+    if (this.localNetworks[id]) {
       return of(this.localNetworks[id]);
     } else {
       return this.squacApi.get(this.url, id).pipe(
         map(
           network => {
-            let networkObject = new Network(
+            const networkObject = new Network(
               network.id,
               network.code,
               network.name,

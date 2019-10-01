@@ -7,18 +7,18 @@ import { ChannelGroupsService } from './channel-groups.service';
 import { ChannelGroup } from '../shared/channel-group';
 
 describe('ChannelGroupsService', () => {
-  let channelGroupsService : ChannelGroupsService;
+  let channelGroupsService: ChannelGroupsService;
 
-  let testChannelGroup : ChannelGroup = new ChannelGroup(
+  const testChannelGroup: ChannelGroup = new ChannelGroup(
     1,
-    "name",
-    "description",
+    'name',
+    'description',
     []
   );
   let squacApiService;
 
-  let apiSpy; 
-  let mockSquacApiService = new MockSquacApiService( testChannelGroup );
+  let apiSpy;
+  const mockSquacApiService = new MockSquacApiService( testChannelGroup );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,12 +41,12 @@ describe('ChannelGroupsService', () => {
 
   it('should fetch channelGroups', (done: DoneFn) => {
     channelGroupsService.fetchChannelGroups();
-    
+
     channelGroupsService.channelGroups.subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
     });
-    
+
   });
 
   it('should return channelGroups', () => {
@@ -55,7 +55,7 @@ describe('ChannelGroupsService', () => {
     });
   });
 
-  it('should get channelGroup with id', (done: DoneFn)=>{
+  it('should get channelGroup with id', (done: DoneFn) => {
     channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
       expect(channelGroup).toEqual(testChannelGroup);
       done();
@@ -82,10 +82,10 @@ describe('ChannelGroupsService', () => {
   it('should put channel group without id', () => {
     apiSpy = spyOn(squacApiService, 'post');
 
-    let newChannelGroup = new ChannelGroup(
+    const newChannelGroup = new ChannelGroup(
       null,
-      "name",
-      "description",
+      'name',
+      'description',
       []
     );
 
