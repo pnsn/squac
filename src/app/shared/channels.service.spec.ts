@@ -8,7 +8,7 @@ import { Channel } from '../shared/channel';
 import { Network } from '../channel-groups/network';
 
 describe('ChannelsService', () => {
-  let channelGroupsService: ChannelsService;
+  let channelsService: ChannelsService;
 
   const testChannel: Channel = new Channel(
     1,
@@ -33,7 +33,7 @@ describe('ChannelsService', () => {
       }]
     });
 
-    channelGroupsService = TestBed.get(ChannelsService);
+    channelService = TestBed.get(ChannelsService);
     squacApiService = TestBed.get(SquacApiService);
   });
 
@@ -45,9 +45,9 @@ describe('ChannelsService', () => {
 
 
   it('should fetch channels', (done: DoneFn) => {
-    channelGroupsService.fetchChannels(({code: 'test'} as Network));
+    channelsService.fetchChannels(({code: 'test'} as Network));
 
-    channelGroupsService.channels.subscribe(channelGroups => {
+    channelsService.channels.subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannel.id);
       done();
     });
@@ -55,13 +55,13 @@ describe('ChannelsService', () => {
   });
 
   it('should return channels', () => {
-    channelGroupsService.channels.subscribe(channelGroups => {
+    channelsService.channels.subscribe(channelGroups => {
       expect(channelGroups).toBeTruthy();
     });
   });
 
   it('should get channel with id', (done: DoneFn) => {
-    channelGroupsService.getChannel(1).subscribe(channelGroup => {
+    channelsService.getChannel(1).subscribe(channelGroup => {
       expect(channelGroup.id).toEqual(testChannel.id);
       done();
     });
