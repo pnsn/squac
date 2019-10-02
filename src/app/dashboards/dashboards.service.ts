@@ -66,10 +66,11 @@ export class DashboardsService {
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): any {
     let dashboard: Dashboard;
-    console.log(id);
+
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         (response) => {
+          console.log("Response", response)
           return this.channelGroupsService.getChannelGroup(response.group).pipe(
             map ( channelGroup => {
               dashboard = new Dashboard(
@@ -79,7 +80,6 @@ export class DashboardsService {
                 response.group,
                 response.widgets
               );
-              console.log("channelGroup");
               dashboard.channelGroup = channelGroup;
               return dashboard;
             })
@@ -88,12 +88,10 @@ export class DashboardsService {
       ),
       switchMap (
         (response) => {
-          console.log("wdigets");
-          return response.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
+          console.log(dashboard)
+          return dashboard.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
             map ( widgets => {
-              console.log("widgets after");
               dashboard.widgets = widgets;
-              console.log(widgets);
               return dashboard;
             })
           ) : of(dashboard);
@@ -102,7 +100,6 @@ export class DashboardsService {
     );
   }
 
-  // FIXME: currently creates a copy
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
     const postData: DashboardsHttpData = {
       name: dashboard.name,

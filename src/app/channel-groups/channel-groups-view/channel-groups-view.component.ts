@@ -20,7 +20,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('create view componeent');
-    this.subscription = this.channelGroupsService.channelGroups.subscribe(channelGroups => {
+    this.subscription = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
       this.channelGroups = channelGroups;
     });
   }

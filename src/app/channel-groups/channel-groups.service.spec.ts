@@ -42,7 +42,7 @@ describe('ChannelGroupsService', () => {
   it('should fetch channelGroups', (done: DoneFn) => {
     channelGroupsService.fetchChannelGroups();
 
-    channelGroupsService.channelGroups.subscribe(channelGroups => {
+    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
     });
@@ -50,7 +50,7 @@ describe('ChannelGroupsService', () => {
   });
 
   it('should return channelGroups', () => {
-    channelGroupsService.channelGroups.subscribe(channelGroups => {
+    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
       expect(channelGroups).toBeTruthy();
     });
   });
@@ -71,7 +71,7 @@ describe('ChannelGroupsService', () => {
     });
   });
 
-  it('should post channel group with id', () => {
+  it('should put channel group with id', () => {
     apiSpy = spyOn(squacApiService, 'put');
 
     channelGroupsService.updateChannelGroup(testChannelGroup);
@@ -79,7 +79,7 @@ describe('ChannelGroupsService', () => {
     expect(apiSpy).toHaveBeenCalled();
   });
 
-  it('should put channel group without id', () => {
+  it('should post channel group without id', () => {
     apiSpy = spyOn(squacApiService, 'post');
 
     const newChannelGroup = new ChannelGroup(

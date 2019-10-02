@@ -9,7 +9,7 @@ export class Dashboard {
     public name: string,
     public description: string,
     public channelGroupId: number,
-    public widgetIds?: []
+    public widgetIds?: number[]
   ) {
   }
 

@@ -1,54 +1,123 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { DashboardsService } from './dashboards.service';
+import { SquacApiService } from '../squacapi.service';
+import { MockSquacApiService } from '../squacapi.service.mock';
 import { Dashboard } from './dashboard';
+import { Widget } from './widget';
+import { HttpClient } from '@angular/common/http';
+
+import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
+import { WidgetsService } from './widgets.service';
+import { DashboardsService } from './dashboards.service';
+import { Observable, of } from 'rxjs';
+import { ChannelGroup } from '../shared/channel-group';
+
+class MockWidgetsService {
+  getWidgets(ids: number[]) : Observable<Widget[]>{
+    return of([])
+  }
+}
+
+class MockChannelGroupsService {
+  getChannelGroup(id: number) : Observable<ChannelGroup>{
+    return of(new ChannelGroup(
+      1,
+      "name",
+      "Description"
+    ));
+  }
+}
 
 describe('DashboardsService', () => {
-  let httpClientSpy: { get: jasmine.Spy};
   let dashboardsService: DashboardsService;
+
+  const testDashboard = {
+    id: "1",
+    name: "name",
+    description: "description",
+    group: 1,
+    widgets: [1]
+  }
+
+  let squacApiService;
+
+  let apiSpy;
+  const mockSquacApiService = new MockSquacApiService( testDashboard );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      // imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [
+        {provide: SquacApiService, useValue: mockSquacApiService},
+        {provide: ChannelGroupsService, useClass: MockChannelGroupsService},
+        {provide: WidgetsService, useClass: MockWidgetsService}
+      ]
     });
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+
     dashboardsService = TestBed.get(DashboardsService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
-  // it('should be created', () => {
-  //   const service: DashboardsService = TestBed.get(DashboardsService);
-  //   expect(service).toBeTruthy();
-  // });
+  it('should be created', () => {
+    const service: DashboardsService = TestBed.get(DashboardsService);
 
-  // it('should return dashboards', () => {
-  //   expect(dashboardsService.getDashboards()).toBeTruthy();
-  // });
+    expect(service).toBeTruthy();
+  });
 
-  // it('should get dashboard from id', () => {
-  //   expect(dashboardsService.getDashboard(1)).toBeTruthy();
-  // });
 
-  // it('should add new dashboard', () => {
-  //   const testDashboard = new Dashboard(null, "dashboard a", "dashboard a description", []);
+  it('should fetch dashboards', (done: DoneFn) => {
+    dashboardsService.fetchDashboards();
 
-  //   const testID = dashboardsService.addDashboard(testDashboard);
+    dashboardsService.getDashboards.subscribe(dashboards => {
+      expect(dashboards[0].id).toEqual(testDashboard.id);
+      done();
+    });
 
-  //   expect(dashboardsService.getDashboard(testID)).toBeTruthy();
-  // });
+  });
 
-  // it('should update existing dashboard', () => {
-  //   const testDashboard = new Dashboard(1, "test", "dashboard a description", []);
+  it('should return dashboards', () => {
+    dashboardsService.getDashboards.subscribe(dashboards => {
+      expect(dashboards).toBeTruthy();
+    });
+  });
 
-  //   dashboardsService.updateDashboard(1, testDashboard);
+  it('should get dashboard with id', (done: DoneFn) => {
+    dashboardsService.getDashboard(1).subscribe(dashboard => {
+      expect(dashboard.id).toEqual(testDashboard.id);
+      done();
+    });
+  });
 
-  //   expect(dashboardsService.getDashboard(1).name).toEqual("test");
-  // });
+  it('should put dashboard with id', () => {
+    apiSpy = spyOn(squacApiService, 'put');
 
-  // it('should add new channel group if no id', () => {
-  //   const testDashboard = new Dashboard(null, "test", "dashboard a description", []);
+    dashboardsService.updateDashboard(new Dashboard(
+      1,
+      "name",
+      "description",
+      1,
+      []
+    ));
 
-  //   const testID = dashboardsService.updateDashboard(null, testDashboard);
+    expect(apiSpy).toHaveBeenCalled();
+  });
 
-  //   expect(dashboardsService.getDashboard(testID).name).toEqual("test");
-  // });
+  it('should post dashboard without id', () => {
+    apiSpy = spyOn(squacApiService, 'post');
+
+    const newDashboard = new Dashboard(
+      null,
+      'name',
+      'description',
+      1,
+      [1]
+    );
+
+    dashboardsService.updateDashboard(newDashboard);
+
+    expect(apiSpy).toHaveBeenCalled();
+  });
 });
+
+

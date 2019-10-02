@@ -33,7 +33,8 @@ describe('WidgetComponent', () => {
     component = fixture.componentInstance;
     component.widget = new Widget(
       1,
-      'name'
+      'name',
+      []
     );
     fixture.detectChanges();
   });

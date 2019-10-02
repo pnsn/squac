@@ -34,8 +34,14 @@ describe('WidgetsService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should get widget with id', (done: DoneFn) => {
+    widgetsService.getWidgets([1,1,1]).subscribe(widgets => {
+      expect(widgets.length).toEqual(3);
+      done();
+    });
+  });
 
-  it('should get channel with id', (done: DoneFn) => {
+  it('should get widget with id', (done: DoneFn) => {
     widgetsService.getWidget(1).subscribe(widget => {
       expect(widget.id).toEqual(testWidget.id);
       done();

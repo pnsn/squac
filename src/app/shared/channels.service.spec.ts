@@ -47,22 +47,22 @@ describe('ChannelsService', () => {
   it('should fetch channels', (done: DoneFn) => {
     channelsService.fetchChannels(({code: 'test'} as Network));
 
-    channelsService.channels.subscribe(channelGroups => {
-      expect(channelGroups[0].id).toEqual(testChannel.id);
+    channelsService.channels.subscribe(channels => {
+      expect(channels[0].id).toEqual(testChannel.id);
       done();
     });
 
   });
 
   it('should return channels', () => {
-    channelsService.channels.subscribe(channelGroups => {
-      expect(channelGroups).toBeTruthy();
+    channelsService.channels.subscribe(channels => {
+      expect(channels).toBeTruthy();
     });
   });
 
   it('should get channel with id', (done: DoneFn) => {
-    channelsService.getChannel(1).subscribe(channelGroup => {
-      expect(channelGroup.id).toEqual(testChannel.id);
+    channelsService.getChannel(1).subscribe(channel => {
+      expect(channel.id).toEqual(testChannel.id);
       done();
     });
   });
