@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of, empty } from 'rxjs';
 import { Widget } from './widget';
 import { SquacApiService } from '../squacapi.service';
 import { HttpClient } from '@angular/common/http';
@@ -66,6 +66,7 @@ export class DashboardsService {
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): any {
     let dashboard: Dashboard;
+    console.log(id);
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         (response) => {
@@ -78,6 +79,7 @@ export class DashboardsService {
                 response.group,
                 response.widgets
               );
+              console.log("channelGroup");
               dashboard.channelGroup = channelGroup;
               return dashboard;
             })
@@ -86,13 +88,15 @@ export class DashboardsService {
       ),
       switchMap (
         (response) => {
-          return this.widgetsService.getWidgets(response.widgetIds).pipe(
+          console.log("wdigets");
+          return response.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
             map ( widgets => {
+              console.log("widgets after");
               dashboard.widgets = widgets;
               console.log(widgets);
               return dashboard;
             })
-          );
+          ) : of(dashboard);
         }
       )
     );

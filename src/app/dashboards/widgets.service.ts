@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, empty } from 'rxjs';
 import { Widget } from './widget';
 import { map } from 'rxjs/operators';
 import { Metric } from '../shared/metric';

@@ -14,10 +14,10 @@
 
     <hr>
     <div> 
-        <h3> Widgets ({{widgets.length}})</h3>
+        <h3> Widgets ({{dashboard.widgets?.length}})</h3>
         <ul>
         <app-widget 
-            *ngFor="let widget of widgets"
+            *ngFor="let widget of dashboard.widgets"
             [widget]="widget">
         </app-widget>
         </ul>

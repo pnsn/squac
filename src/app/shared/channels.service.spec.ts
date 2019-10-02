@@ -33,7 +33,7 @@ describe('ChannelsService', () => {
       }]
     });
 
-    channelService = TestBed.get(ChannelsService);
+    channelsService = TestBed.get(ChannelsService);
     squacApiService = TestBed.get(SquacApiService);
   });
 
