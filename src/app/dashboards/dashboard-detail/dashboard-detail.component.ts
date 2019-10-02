@@ -30,7 +30,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.dashboardsService.getDashboard(this.id).subscribe(
           dashboard => {
             this.dashboard = dashboard;
-            console.log("dashboard resolved");
+            console.log('dashboard resolved');
           }
         );
 

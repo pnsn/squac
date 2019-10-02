@@ -14,17 +14,17 @@ import { Observable, of } from 'rxjs';
 import { ChannelGroup } from '../shared/channel-group';
 
 class MockWidgetsService {
-  getWidgets(ids: number[]) : Observable<Widget[]>{
-    return of([])
+  getWidgets(ids: number[]): Observable<Widget[]> {
+    return of([]);
   }
 }
 
 class MockChannelGroupsService {
-  getChannelGroup(id: number) : Observable<ChannelGroup>{
+  getChannelGroup(id: number): Observable<ChannelGroup> {
     return of(new ChannelGroup(
       1,
-      "name",
-      "Description"
+      'name',
+      'Description'
     ));
   }
 }
@@ -33,12 +33,12 @@ describe('DashboardsService', () => {
   let dashboardsService: DashboardsService;
 
   const testDashboard = {
-    id: "1",
-    name: "name",
-    description: "description",
+    id: 1,
+    name: 'name',
+    description: 'description',
     group: 1,
     widgets: [1]
-  }
+  };
 
   let squacApiService;
 
@@ -94,8 +94,8 @@ describe('DashboardsService', () => {
 
     dashboardsService.updateDashboard(new Dashboard(
       1,
-      "name",
-      "description",
+      'name',
+      'description',
       1,
       []
     ));

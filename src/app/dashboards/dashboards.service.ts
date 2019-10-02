@@ -70,7 +70,7 @@ export class DashboardsService {
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         (response) => {
-          console.log("Response", response)
+          console.log('Response', response);
           return this.channelGroupsService.getChannelGroup(response.group).pipe(
             map ( channelGroup => {
               dashboard = new Dashboard(
@@ -88,7 +88,7 @@ export class DashboardsService {
       ),
       switchMap (
         (response) => {
-          console.log(dashboard)
+          console.log(dashboard);
           return dashboard.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
             map ( widgets => {
               dashboard.widgets = widgets;

@@ -18,8 +18,8 @@ export class WidgetsService {
     private squacApi: SquacApiService
   ) {
   }
-  
-  getWidgets(widgetIds: number[]) : Observable<Widget[]> {
+
+  getWidgets(widgetIds: number[]): Observable<Widget[]> {
 
     const widgetRequests = widgetIds.map(id => {
       return this.getWidget(id);

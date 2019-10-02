@@ -9,7 +9,7 @@ import { Widget } from './widget';
 describe('WidgetsService', () => {
   const testWidget: Widget = new Widget(
     1,
-    "test",
+    'test',
     []
   );
 
@@ -35,7 +35,7 @@ describe('WidgetsService', () => {
   });
 
   it('should get widget with id', (done: DoneFn) => {
-    widgetsService.getWidgets([1,1,1]).subscribe(widgets => {
+    widgetsService.getWidgets([1, 1, 1]).subscribe(widgets => {
       expect(widgets.length).toEqual(3);
       done();
     });
