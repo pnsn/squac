@@ -6,6 +6,7 @@ import { SquacApiService } from '../squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, concatMap, switchMap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
+import { WidgetsService } from './widgets.service';
 
 interface DashboardsHttpData {
   name: string;
@@ -24,6 +25,7 @@ export class DashboardsService {
   private url = 'dashboard/dashboards/';
   constructor(
     private channelGroupsService: ChannelGroupsService,
+    private widgetsService: WidgetsService,
     private squacApi: SquacApiService
   ) {
   }
@@ -49,6 +51,7 @@ export class DashboardsService {
               d.group,
               d.widgets ? d.widgets : []
             );
+            console.log(dashboard.widgetIds);
             dashboards.push(dashboard);
           });
           return dashboards;
@@ -80,6 +83,17 @@ export class DashboardsService {
             })
           );
         }
+      ),
+      switchMap (
+        (response) => {
+          return this.widgetsService.getWidgets(response.widgetIds).pipe(
+            map ( widgets => {
+              dashboard.widgets = widgets;
+              console.log(widgets);
+              return dashboard;
+            })
+          );
+        }
       )
     );
   }
@@ -90,7 +104,7 @@ export class DashboardsService {
       name: dashboard.name,
       description: dashboard.description,
       group: dashboard.channelGroupId,
-      widgets: dashboard.widgets
+      widgets: dashboard.widgetIds
     };
     if (dashboard.id) {
       postData.id = dashboard.id;

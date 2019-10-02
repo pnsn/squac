@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Widget } from './widget';
 import { map } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
@@ -12,11 +12,20 @@ import { Metric } from '../shared/metric';
 // Class for widget interaction with squac
 export class WidgetsService {
 
-  private url = 'nslc/widgets/';
+  private url = 'dashboard/widgets/';
 
   constructor(
     private squacApi: SquacApiService
   ) {
+  }
+  
+  getWidgets(widgetIds: number[]) : Observable<Widget[]> {
+
+    const widgetRequests = widgetIds.map(id => {
+      return this.getWidget(id);
+    });
+
+    return forkJoin(widgetRequests);
   }
 
   getWidget(id: number): Observable<Widget> {
