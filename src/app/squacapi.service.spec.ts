@@ -10,6 +10,7 @@ describe('SquacApiService', () => {
   let httpTestingController: HttpTestingController;
   let service: SquacApiService;
   const testUrl = 'data/';
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

@@ -12,7 +12,7 @@ import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.compon
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 
 // TODO:consider breaking into module for creation stuff
-export const appRoutes: Routes = [
+const appRoutes: Routes = [
   { path: 'login', component: AuthComponent},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'metrics',

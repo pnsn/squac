@@ -38,7 +38,7 @@ describe('MeasurementsService', () => {
   });
 
   it('should get measurement with id', (done: DoneFn) => {
-    measurementsService.getMeasurements("1", "1", "date", "date").subscribe(measurements => {
+    measurementsService.getMeasurements('1', '1', 'date', 'date').subscribe(measurements => {
       expect(measurements[0].id).toEqual(1);
       done();
     });
