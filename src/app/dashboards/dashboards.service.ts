@@ -36,8 +36,7 @@ export class DashboardsService {
 
   // Gets channel groups from server
   fetchDashboards(): void {
-    // temp
-    console.log('fetch dashboards');
+
     this.squacApi.get(this.url).pipe(
       map(
         response => {
@@ -51,7 +50,7 @@ export class DashboardsService {
               d.group,
               d.widgets ? d.widgets : []
             );
-            console.log(dashboard.widgetIds);
+
             dashboards.push(dashboard);
           });
           return dashboards;
@@ -70,7 +69,6 @@ export class DashboardsService {
     return this.squacApi.get(this.url, id).pipe(
       switchMap (
         (response) => {
-          console.log('Response', response);
           return this.channelGroupsService.getChannelGroup(response.group).pipe(
             map ( channelGroup => {
               dashboard = new Dashboard(
@@ -88,7 +86,6 @@ export class DashboardsService {
       ),
       switchMap (
         (response) => {
-          console.log(dashboard);
           return dashboard.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
             map ( widgets => {
               dashboard.widgets = widgets;

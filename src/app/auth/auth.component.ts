@@ -39,7 +39,6 @@ export class AuthComponent implements OnInit {
     // Try to log in
     this.authService.login(email, password).subscribe(
       resData => {
-        console.log('dashboard!');
         this.isLoading = false;
         this.router.navigate(['/dashboards']);
       },

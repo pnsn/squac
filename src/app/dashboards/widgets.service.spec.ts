@@ -34,7 +34,7 @@ describe('WidgetsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get widget with id', (done: DoneFn) => {
+  it('should get widgets with multiple ids', (done: DoneFn) => {
     widgetsService.getWidgets([1, 1, 1]).subscribe(widgets => {
       expect(widgets.length).toEqual(3);
       done();

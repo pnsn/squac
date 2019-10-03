@@ -40,7 +40,6 @@ export class DashboardEditComponent implements OnInit {
     this.channelGroupsService.fetchChannelGroups();
     const sub1 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
       this.availableChannelGroups = channelGroups;
-      console.log(this.availableChannelGroups);
     });
 
     this.subscriptions.add(paramsSub);
@@ -58,7 +57,6 @@ export class DashboardEditComponent implements OnInit {
       const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
         dashboard => {
           this.dashboard = dashboard;
-          console.log('dashboard fetched', dashboard.description);
           this.dashboardForm.patchValue(
             {
               name : dashboard.name,
@@ -90,7 +88,6 @@ export class DashboardEditComponent implements OnInit {
 
   save() {
     const values = this.dashboardForm.value;
-    console.log(values);
     this.dashboardService.updateDashboard(
       new Dashboard(
         this.id,
@@ -101,7 +98,6 @@ export class DashboardEditComponent implements OnInit {
       )
     ).subscribe(
       result => {
-        console.log(result.id);
         this.cancel(result.id);
       }
     );
