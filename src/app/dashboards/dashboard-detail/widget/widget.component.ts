@@ -28,12 +28,8 @@ export class WidgetComponent implements OnInit {
     )
   }
 
-  getData(channelId, metricId) : Array<any>{
-    if(this.data[channelId] && this.data[channelId][metricId]) {
-      return this.data[channelId][metricId];
-    } else {
-      return [];
-    }
+  hasData(channelId, metricId) : boolean {
+    return this.data[channelId] && this.data[channelId][metricId];
   }
 
   editWidget() {

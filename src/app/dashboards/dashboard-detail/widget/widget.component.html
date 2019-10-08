@@ -12,17 +12,22 @@
               </th>
             </tr>
             <tr *ngFor="let channel of channelGroup.channels">
-      
               <td>
                 {{channel.name}} {{channel.id}}
               </td>
               <ng-container *ngFor="let metric of widget.metrics">
-
-                <td *ngIf="getData(channel.id, metric.id) | measurement:'average' as value; else elseTemplate">
-                  {{value}}
-                </td>
-                <ng-template #elseTemplate>
-                    <td>No data</td>
+                <ng-container *ngIf="hasData(channel.id, metric.id); else noData">
+                  <!-- use value to calculate coloring -->
+                  <td *ngIf="data[channel.id][metric.id] | measurement:'average' as value; else zero">
+                    {{value | number:'1.0-2'}}
+                  </td>
+                  <ng-template #zero>
+                      <td> {{0 | number:'1.0-2'}}</td>
+                  </ng-template>
+                
+                </ng-container>
+                <ng-template #noData>
+                  <td>No data</td>
                 </ng-template>
 
               </ng-container>
