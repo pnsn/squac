@@ -15,4 +15,19 @@ export class Widget {
     this.metrics = metrics;
   }
   // json of settings
+
+  // get ids from the channels
+  get metricsIdsArray(): string[] {
+    const array = [];
+
+    this.metrics.forEach(channel => {
+      array.push(channel.id);
+    });
+
+    return array;
+  }
+
+  get metricsString() : string {
+    return this.metricsIdsArray.toString();
+  } 
 }

@@ -11,7 +11,6 @@ export class ChannelGroup {
   }
 
   // get ids from the channels
-  // TODO: shoould always store channel id only?
   get channelsIdsArray(): string[] {
     const array = [];
 
@@ -21,4 +20,8 @@ export class ChannelGroup {
 
     return array;
   }
+
+  get channelsString() : string {
+    return this.channelsIdsArray.toString();
+  } 
 }

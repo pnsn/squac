@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, empty } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi.service';
@@ -20,20 +20,45 @@ interface MeasurementsHttpData {
 export class MeasurementsService {
   private url = 'measurement/measurements/';
 
-  // "?metric=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19&channel=2,6&starttime=2018-01-01&endtime=2019-10-02"
-
   constructor(
     private squacApi: SquacApiService
   ) {}
 
-  getMeasurements(metrics: string, channels: string, start: string, end: string ): Observable<Measurement> {
-    return this.squacApi.get(this.url, null,
-      {
-         metric: metrics,
-         channel: channels,
-         starttime: start,
-         endtime: end,
-      }
-    ).pipe();
+  getMeasurements(metrics: string, channels: string, start: string, end: string ): Observable<any> {
+    //TODO: find a better way for this
+    if(metrics && channels && start && end) {
+      return this.squacApi.get(this.url, null,
+        {
+           metric: metrics,
+           channel: channels,
+           starttime: start,
+           endtime: end,
+        }
+      ).pipe(
+        map(response => {
+          const data = {};
+          response.forEach(m => {
+            if(!data[m.channel]) {
+              data[m.channel] = {};
+            } 
+            if(!data[m.channel][m.metric]) {
+              data[m.channel][m.metric] = [];
+            }
+            data[m.channel][m.metric].push(
+              new Measurement(
+                m.id,
+                m.metric,
+                m.channel,
+                m.value,
+                m.starttime,
+                m.endtime
+              )
+            )
+          });
+          return data;
+        })
+      );
+    }
+    return empty();
   }
 }

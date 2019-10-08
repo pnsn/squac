@@ -3,4 +3,26 @@
 
     <button (click)="editWidget()"> Edit widget </button>
 
+    <div id="widget-content">
+        <table *ngIf="data">
+            <tr>
+              <th>Channels</th>
+              <th *ngFor="let metric of widget.metrics">
+                {{metric.name}}
+              </th>
+            </tr>
+            <tr *ngFor="let channel of channelGroup.channels">
+      
+              <td>
+                {{channel.name}} {{channel.id}}
+              </td>
+              <td *ngFor="let metric of widget.metrics">
+                <ng-container *ngIf="data[channel.id] && data[channel.id][metric.id]">
+                    {{data[channel.id][metric.id] | measurement:"average" | number:'1.0-2'}}
+                </ng-container>
+              </td>
+            </tr>
+          </table>
+    </div>
+
 </div>

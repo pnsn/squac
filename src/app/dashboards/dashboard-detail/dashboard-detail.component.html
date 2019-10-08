@@ -18,7 +18,8 @@
         <ul>
         <app-widget 
             *ngFor="let widget of dashboard.widgets"
-            [widget]="widget">
+            [widget]="widget" 
+            [channelGroup]="dashboard.channelGroup">
         </app-widget>
         </ul>
     </div>

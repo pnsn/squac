@@ -1,5 +1,27 @@
 #widget-container {
-  height: 200px;
-  width: 200px;
+  max-height: 500px;
+  max-width: 600px;
   margin: 5px;
+  overflow:hidden;
+}
+
+#widget-content {
+  max-height: 400px;
+  max-width: 580px;
+  overflow:scroll;
+  padding: 10px;
+}
+table {
+  height: auto;
+  width: auto;
+  overflow: scroll;
+  border-collapse: collapse;
+  &, th, td {
+    border: 1px solid black;
+  }
+
+  th, td {
+    max-width: 50px;
+    overflow-wrap: break-word;
+  }
 }

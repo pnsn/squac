@@ -8,6 +8,7 @@ import { WidgetComponent } from './dashboard-detail/widget/widget.component';
 import { WidgetEditComponent } from './dashboard-detail/widget/widget-edit/widget-edit.component';
 import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { MeasurementPipe } from './measurement.pipe';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/shared.module';
     DashboardEditComponent,
     DashboardViewComponent,
     WidgetComponent,
-    WidgetEditComponent
+    WidgetEditComponent,
+    MeasurementPipe
   ],
   imports: [
 
