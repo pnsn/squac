@@ -23,11 +23,18 @@ export class WidgetComponent implements OnInit {
     this.measurementsService.getMeasurements(this.widget.metricsString, this.channelGroup.channelsString, "2018-01-01","2019-10-02").subscribe(
       response => {
         this.data = response;
-        console.log(this.data)
+        console.log(response)
       }
     )
   }
 
+  getData(channelId, metricId) : Array<any>{
+    if(this.data[channelId] && this.data[channelId][metricId]) {
+      return this.data[channelId][metricId];
+    } else {
+      return [];
+    }
+  }
 
   editWidget() {
     this.router.navigate(['widget', this.widget.id, 'edit'], {relativeTo: this.route});

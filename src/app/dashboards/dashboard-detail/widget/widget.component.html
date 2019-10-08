@@ -8,7 +8,7 @@
             <tr>
               <th>Channels</th>
               <th *ngFor="let metric of widget.metrics">
-                {{metric.name}}
+                {{metric.name}} {{metric.id}}
               </th>
             </tr>
             <tr *ngFor="let channel of channelGroup.channels">
@@ -16,11 +16,17 @@
               <td>
                 {{channel.name}} {{channel.id}}
               </td>
-              <td *ngFor="let metric of widget.metrics">
-                <ng-container *ngIf="data[channel.id] && data[channel.id][metric.id]">
-                    {{data[channel.id][metric.id] | measurement:"average" | number:'1.0-2'}}
-                </ng-container>
-              </td>
+              <ng-container *ngFor="let metric of widget.metrics">
+
+                <td *ngIf="getData(channel.id, metric.id) | measurement:'average' as value; else elseTemplate">
+                  {{value}}
+                </td>
+                <ng-template #elseTemplate>
+                    <td>No data</td>
+                </ng-template>
+
+              </ng-container>
+            
             </tr>
           </table>
     </div>

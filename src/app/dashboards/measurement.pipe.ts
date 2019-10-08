@@ -56,10 +56,10 @@ private min(values) : number {
 
   transform(values: any, type: any): any {
     let sortedValues = this.sort(values);
-
     if(values.length > 0) {
       switch (type) {
         case "average":
+        console.log(this.average(sortedValues))
           return this.average(sortedValues);
       
         case "median":
@@ -75,6 +75,6 @@ private min(values) : number {
           return null;
       }
     } 
-    return "no data";
+    return null;
   }
 }

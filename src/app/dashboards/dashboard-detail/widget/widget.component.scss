@@ -11,6 +11,7 @@
   overflow:scroll;
   padding: 10px;
 }
+
 table {
   height: auto;
   width: auto;
@@ -21,7 +22,7 @@ table {
   }
 
   th, td {
-    max-width: 50px;
+    max-width: 100px;
     overflow-wrap: break-word;
   }
 }
