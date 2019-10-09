@@ -9,7 +9,7 @@ import { WidgetEditComponent } from './dashboard-detail/widget/widget-edit/widge
 import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { MeasurementPipe } from './measurement.pipe';
-import { TabularComponent } from './widgets/widget-types/tabular/tabular.component';
+import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular/tabular.component';
 
 
 @NgModule({

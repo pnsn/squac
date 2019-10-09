@@ -39,10 +39,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  hasData(channelId, metricId): boolean {
-    return this.data[channelId] && this.data[channelId][metricId];
-  }
-
   getData(){
     return this.measurementsService.getMeasurements(
       this.widget.metricsString,

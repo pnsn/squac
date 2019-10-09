@@ -4,36 +4,19 @@
     <button (click)="editWidget()"> Edit widget </button>
 
     <div id="widget-content">
-        <table *ngIf="data">
-            <tr>
-              <th>Channels</th>
-              <th *ngFor="let metric of widget.metrics">
-                {{metric.name}} {{metric.id}}
-              </th>
-            </tr>
-            <tr *ngFor="let channel of channelGroup.channels">
-              <td>
-                {{channel.name}} {{channel.id}}
-              </td>
-              <ng-container *ngFor="let metric of widget.metrics">
-                <ng-container *ngIf="hasData(channel.id, metric.id); else noData">
-                  <!-- use value to calculate coloring -->
-                  <td *ngIf="data[channel.id][metric.id] | measurement:'average' as value; else zero">
-                    {{value | number:'1.0-2'}}
-                  </td>
-                  <ng-template #zero>
-                      <td> {{0 | number:'1.0-2'}}</td>
-                  </ng-template>
-                
-                </ng-container>
-                <ng-template #noData>
-                  <td>No data</td>
-                </ng-template>
+      
+      <ng-container [ngSwitch]="widget.type">
+        <!-- <tabular *ngSwitchCase="tabular">
+      
+        </tabular> -->
+        <tabular *ngSwitchDefault 
+          [data]="data"
+          [metrics]="widget.metrics"
+          [channels]="channelGroup.channels"
+        ></tabular>
+        
 
-              </ng-container>
-            
-            </tr>
-          </table>
+
+      </ng-container>
     </div>
-
 </div>
