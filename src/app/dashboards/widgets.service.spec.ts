@@ -7,15 +7,18 @@ import { WidgetsService } from './widgets.service';
 import { Widget } from './widget';
 
 describe('WidgetsService', () => {
-  const testWidget: Widget = new Widget(
-    1,
-    'test',
-    []
-  );
+  const testData = {
+    id: 1,
+    name: 'test',
+    widgettype : {
+      type: 'type'
+    },
+    metrics: []
+  };
 
   let squacApiService;
   let widgetsService: WidgetsService;
-  const mockSquacApiService = new MockSquacApiService( testWidget );
+  const mockSquacApiService = new MockSquacApiService( testData );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,7 +46,7 @@ describe('WidgetsService', () => {
 
   it('should get widget with id', (done: DoneFn) => {
     widgetsService.getWidget(1).subscribe(widget => {
-      expect(widget.id).toEqual(testWidget.id);
+      expect(widget.id).toEqual(testData.id);
       done();
     });
   });

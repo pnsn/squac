@@ -47,6 +47,7 @@ export class WidgetsService {
           const widget = new Widget(
             response.id,
             response.name,
+            response.widgettype.type,
             metrics
           );
           return widget;
