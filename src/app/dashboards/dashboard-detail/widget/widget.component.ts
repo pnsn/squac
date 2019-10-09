@@ -23,13 +23,13 @@ export class WidgetComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    //show loading
-    var sub = this.getData();
+    // show loading
+    let sub = this.getData();
 
-    var sub1 = this.reload.subscribe(reload => { 
-      if(reload) {
+    const sub1 = this.reload.subscribe(reload => {
+      if (reload) {
         sub = this.getData();
-      } 
+      }
     });
     this.subscription.add(sub);
     this.subscription.add(sub1);
@@ -39,7 +39,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getData(){
+  getData() {
     return this.measurementsService.getMeasurements(
       this.widget.metricsString,
       this.channelGroup.channelsString,
@@ -48,7 +48,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     ).subscribe(
       response => {
         this.data = response;
-        //hiding loading
+        // hiding loading
       }
     );
   }

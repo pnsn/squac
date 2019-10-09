@@ -8,6 +8,7 @@ import { DashboardsService } from '../dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WidgetComponent } from './widget/widget.component';
 import { MeasurementPipe } from '../measurement.pipe';
+import { TabularComponent } from './widget/widget-types/tabular/tabular.component';
 
 describe('DashboardDetailComponent', () => {
   let component: DashboardDetailComponent;
@@ -31,6 +32,7 @@ describe('DashboardDetailComponent', () => {
       declarations: [
         DashboardDetailComponent,
         WidgetComponent,
+        TabularComponent,
         MeasurementPipe
       ]
     })

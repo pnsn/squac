@@ -50,7 +50,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    //send refresh request to widgets listening
+    // send refresh request to widgets listening
     this.reload.next(true);
   }
 

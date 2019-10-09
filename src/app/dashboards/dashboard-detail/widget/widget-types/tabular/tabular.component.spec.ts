@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TabularComponent } from './tabular.component';
+import { MeasurementPipe } from '../../../../measurement.pipe';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;
@@ -8,7 +9,7 @@ describe('TabularComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabularComponent ]
+      declarations: [ TabularComponent , MeasurementPipe]
     })
     .compileComponents();
   }));
@@ -16,6 +17,9 @@ describe('TabularComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabularComponent);
     component = fixture.componentInstance;
+    component.data = {};
+    component.metrics = [];
+    component.channels = [];
     fixture.detectChanges();
   });
 
