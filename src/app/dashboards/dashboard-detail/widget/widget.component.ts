@@ -12,7 +12,7 @@ import { MeasurementsService } from '../../measurements.service';
 export class WidgetComponent implements OnInit {
   @Input() widget: Widget;
   @Input() channelGroup: ChannelGroup;
-  data : any;
+  data: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -20,15 +20,19 @@ export class WidgetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.measurementsService.getMeasurements(this.widget.metricsString, this.channelGroup.channelsString, "2018-01-01","2019-10-02").subscribe(
+    this.measurementsService.getMeasurements(
+      this.widget.metricsString,
+      this.channelGroup.channelsString,
+      '2018-01-01',
+      '2019-10-02'
+    ).subscribe(
       response => {
         this.data = response;
-        console.log(response)
       }
-    )
+    );
   }
 
-  hasData(channelId, metricId) : boolean {
+  hasData(channelId, metricId): boolean {
     return this.data[channelId] && this.data[channelId][metricId];
   }
 

@@ -2,9 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, EMPTY } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Widget } from '../../widget';
+import { MeasurementPipe } from '../../measurement.pipe';
+import { MeasurementsService } from '../../measurements.service';
+import { ChannelGroup } from '../../../shared/channel-group';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -21,9 +24,17 @@ describe('WidgetComponent', () => {
           useValue: {
             params: of({id: 123})
           }
+        },
+        {
+          provide: MeasurementsService,
+          useValue: {
+            getMeasurements(metricsString, channelsString, startdate, enddate ) {
+              return EMPTY;
+            }
+          }
         }
       ],
-      declarations: [WidgetComponent]
+      declarations: [WidgetComponent, MeasurementPipe]
     })
     .compileComponents();
   }));
@@ -36,6 +47,14 @@ describe('WidgetComponent', () => {
       'name',
       []
     );
+
+    component.channelGroup = new ChannelGroup(
+      1,
+      'name',
+      'description',
+      []
+    );
+
     fixture.detectChanges();
   });
 

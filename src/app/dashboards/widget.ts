@@ -27,7 +27,7 @@ export class Widget {
     return array;
   }
 
-  get metricsString() : string {
+  get metricsString(): string {
     return this.metricsIdsArray.toString();
-  } 
+  }
 }

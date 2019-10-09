@@ -7,18 +7,18 @@ import { MeasurementsService } from './measurements.service';
 import { Measurement } from './measurement';
 
 describe('MeasurementsService', () => {
-  const testMeasurement: Measurement = new Measurement(
-    1,
-    1,
-    1,
-    1,
-    new Date(),
-    new Date()
-  );
+  const testData = {
+    id: 1,
+    metric: 1,
+    channel: 1,
+    value: 1,
+    starttime: 'start',
+    endtime: 'end'
+  };
 
   let squacApiService;
   let measurementsService: MeasurementsService;
-  const mockSquacApiService = new MockSquacApiService( testMeasurement );
+  const mockSquacApiService = new MockSquacApiService( testData );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,9 +37,9 @@ describe('MeasurementsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get measurement with id', (done: DoneFn) => {
+  it('should get measurements', (done: DoneFn) => {
     measurementsService.getMeasurements('1', '1', 'date', 'date').subscribe(measurements => {
-      expect(measurements[0].id).toEqual(1);
+      expect(measurements[1][1][0].id).toEqual(1);
       done();
     });
   });

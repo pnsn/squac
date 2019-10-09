@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { DashboardsService } from '../dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WidgetComponent } from './widget/widget.component';
+import { MeasurementPipe } from '../measurement.pipe';
 
 describe('DashboardDetailComponent', () => {
   let component: DashboardDetailComponent;
@@ -29,7 +30,8 @@ describe('DashboardDetailComponent', () => {
       ],
       declarations: [
         DashboardDetailComponent,
-        WidgetComponent
+        WidgetComponent,
+        MeasurementPipe
       ]
     })
     .compileComponents();

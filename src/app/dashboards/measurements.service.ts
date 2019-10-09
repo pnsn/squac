@@ -25,8 +25,8 @@ export class MeasurementsService {
   ) {}
 
   getMeasurements(metrics: string, channels: string, start: string, end: string ): Observable<any> {
-    //TODO: find a better way for this
-    if(metrics && channels && start && end) {
+    // TODO: find a better way for this
+    if (metrics && channels && start && end) {
       return this.squacApi.get(this.url, null,
         {
            metric: metrics,
@@ -38,10 +38,10 @@ export class MeasurementsService {
         map(response => {
           const data = {};
           response.forEach(m => {
-            if(!data[m.channel]) {
+            if (!data[m.channel]) {
               data[m.channel] = {};
-            } 
-            if(!data[m.channel][m.metric]) {
+            }
+            if (!data[m.channel][m.metric]) {
               data[m.channel][m.metric] = [];
             }
             data[m.channel][m.metric].push(
@@ -53,12 +53,12 @@ export class MeasurementsService {
                 m.starttime,
                 m.endtime
               )
-            )
+            );
           });
           return data;
         })
       );
     }
-    return empty();
+    return null;
   }
 }
