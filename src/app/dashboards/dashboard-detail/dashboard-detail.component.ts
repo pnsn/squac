@@ -3,7 +3,7 @@ import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Widget } from '../widget';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -16,6 +16,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
+  reload: Subject<boolean> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +47,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
+  refreshData() {
+    //send refresh request to widgets listening
+    this.reload.next(true);
   }
 
   addWidget() {

@@ -1,18 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Widget } from '../../widget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '../../../shared/channel-group';
 import { MeasurementsService } from '../../measurements.service';
+import { Subscription, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss']
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
   @Input() channelGroup: ChannelGroup;
+  @Input() reload: Subject<boolean>;
   data: any;
+  subscription = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -20,7 +23,28 @@ export class WidgetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.measurementsService.getMeasurements(
+    //show loading
+    var sub = this.getData();
+
+    var sub1 = this.reload.subscribe(reload => { 
+      if(reload) {
+        sub = this.getData();
+      } 
+    });
+    this.subscription.add(sub);
+    this.subscription.add(sub1);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  hasData(channelId, metricId): boolean {
+    return this.data[channelId] && this.data[channelId][metricId];
+  }
+
+  getData(){
+    return this.measurementsService.getMeasurements(
       this.widget.metricsString,
       this.channelGroup.channelsString,
       '2018-01-01',
@@ -28,12 +52,9 @@ export class WidgetComponent implements OnInit {
     ).subscribe(
       response => {
         this.data = response;
+        //hiding loading
       }
     );
-  }
-
-  hasData(channelId, metricId): boolean {
-    return this.data[channelId] && this.data[channelId][metricId];
   }
 
   editWidget() {
