@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable, empty } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, empty, EMPTY } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi.service';
@@ -59,6 +59,6 @@ export class MeasurementsService {
         })
       );
     }
-    return null;
+    return EMPTY;
   }
 }

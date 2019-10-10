@@ -24,15 +24,17 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // show loading
-    let sub = this.getData();
+    if (this.widget.metrics && this.channelGroup) {
+      let sub = this.getData();
 
-    const sub1 = this.reload.subscribe(reload => {
-      if (reload) {
-        sub = this.getData();
-      }
-    });
-    this.subscription.add(sub);
-    this.subscription.add(sub1);
+      const sub1 = this.reload.subscribe(reload => {
+        if (reload) {
+          sub = this.getData();
+        }
+      });
+      this.subscription.add(sub);
+      this.subscription.add(sub1);
+    }
   }
 
   ngOnDestroy(): void {

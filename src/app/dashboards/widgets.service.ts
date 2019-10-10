@@ -5,10 +5,19 @@ import { Widget } from './widget';
 import { map } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
 
+
+interface WidgetHttpData {
+  name: string;
+  description: string;
+  metrics: string[];
+  dashboard: number;
+  widgettype: number;
+  id?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-
 // Class for widget interaction with squac
 export class WidgetsService {
 
@@ -47,13 +56,35 @@ export class WidgetsService {
           const widget = new Widget(
             response.id,
             response.name,
-            response.widgettype.type,
-            metrics
+            response.widgettype.id,
+            response.dashboard.id,
+            response.metrics
           );
+
+          widget.metrics = metrics;
+          widget.type = response.widgettype.type;
+          
           return widget;
         }
       )
     );
   }
+
+  updateWidget(widget: Widget): Observable<Widget> {
+    const postData: WidgetHttpData = {
+      name: widget.name,
+      description: widget.description,
+      metrics: widget.metricIds,
+      widgettype: widget.typeId,
+      dashboard: widget.dashboardId
+    };
+    if (widget.id) {
+      postData.id = widget.id;
+      return this.squacApi.put(this.url, widget.id, postData);
+    } else {
+      return this.squacApi.post(this.url, postData);
+    }
+  }
+
 }
 
