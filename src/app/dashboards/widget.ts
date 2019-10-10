@@ -8,13 +8,13 @@ export class Widget {
   public type: string;
 
   constructor(
-    public id: number, 
-    public name: string, 
-    public typeId: number, 
+    public id: number,
+    public name: string,
+    public typeId: number,
     public dashboardId: number,
     public metrics: Metric[]
   ) {
-    
+
   }
   // json of settings
 

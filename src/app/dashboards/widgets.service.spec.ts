@@ -11,7 +11,11 @@ describe('WidgetsService', () => {
     id: 1,
     name: 'test',
     widgettype : {
+      id: 1,
       type: 'type'
+    },
+    dashboard: {
+      id: 1
     },
     metrics: []
   };

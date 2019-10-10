@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://squac.pnsn.org/v1.0/'
+  apiUrl: 'https://squacapi.pnsn.org/v1.0/'
 };
 
 /*
