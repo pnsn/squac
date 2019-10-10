@@ -1,7 +1,56 @@
-<p>
+<h1>
 {{ editMode ? "Edit widget" + id : "New Widget"}}
-</p>
+</h1>
 
-<button (click)="cancel()">
-  cancel
-</button>
+<form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
+  <div >
+      <button class="btn btn-primary" 
+        type="submit"
+        [disabled]='!widgetForm.valid'
+      >
+      Save</button>
+      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+  </div>
+  <div >
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name"
+        formControlName="name"
+      class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description"
+        formControlName="description"
+      class="form-control">
+      </textarea>
+    </div>
+    <div>
+        <select formControlName="type" *ngIf="widgetTypes">
+          <option disabled="true" >Please select a widget type</option>
+          <option  *ngFor="let type of widgetTypes" [ngValue]="type.id">
+            {{type.type}}
+          </option>
+      
+        </select>
+    
+    </div>
+
+    <div *ngIf="selectedMetrics">
+        Metrics:
+        <span *ngFor="let metric of selectedMetrics">
+          {{metric.name}},
+        </span>
+      </div>
+  </div>
+
+  <label for="metrics">Metrics</label>
+  <select id="metricSelect" formControlName="metrics" *ngIf="availableMetrics" multiple (change)="updateMetrics()">
+    <option disabled="true">Please select metrics</option>
+    <option  *ngFor="let metric of availableMetrics" [ngValue]="metric">
+      {{metric.name}}
+    </option>
+
+  </select>
+
+</form>

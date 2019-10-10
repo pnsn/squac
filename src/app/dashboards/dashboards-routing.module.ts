@@ -21,8 +21,8 @@ export const routes: Routes = [
           { path: 'widget',
             children: [
               { path: 'new', component: WidgetEditComponent},
-              { path: ':id', component: WidgetComponent},
-              { path: ':id/edit', component: WidgetEditComponent },
+              { path: ':widgetid', component: DashboardDetailComponent},
+              { path: ':widgetid/edit', component: WidgetEditComponent },
             ]
           }
         ]

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
-import { Observable, forkJoin, empty } from 'rxjs';
+import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
 import { Widget } from './widget';
 import { map } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
@@ -56,6 +56,7 @@ export class WidgetsService {
           const widget = new Widget(
             response.id,
             response.name,
+            response.description,
             response.widgettype.id,
             response.dashboard.id,
             metrics
@@ -69,7 +70,8 @@ export class WidgetsService {
     );
   }
 
-  updateWidget(widget: Widget): Observable<Widget> {
+  updateWidget(widget: Widget) {
+
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,
@@ -77,6 +79,7 @@ export class WidgetsService {
       widgettype: widget.typeId,
       dashboard: widget.dashboardId
     };
+
     if (widget.id) {
       postData.id = widget.id;
       return this.squacApi.put(this.url, widget.id, postData);

@@ -3,13 +3,12 @@ import { Metric } from '../shared/metric';
 import { Dashboard } from './dashboard';
 
 export class Widget {
-
-  public description: string;
   public type: string;
 
   constructor(
     public id: number,
     public name: string,
+    public description: string, 
     public typeId: number,
     public dashboardId: number,
     public metrics: Metric[]

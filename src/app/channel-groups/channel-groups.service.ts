@@ -70,8 +70,8 @@ export class ChannelGroupsService {
             response.channels.forEach(c => {
               const channel = new Channel(
                 c.id,
-                c.name,
                 c.code,
+                c.name,
                 c.sample_rate,
                 c.lat,
                 c.lon,

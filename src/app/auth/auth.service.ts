@@ -50,7 +50,7 @@ export class AuthService {
 
   // after user enters data, log them in
   login(userEmail: string, userPassword: string) {
-    return this.http.post<AuthResponseData>('https://squac.pnsn.org/user/token/',
+    return this.http.post<AuthResponseData>('https://squacapi.pnsn.org/user/token/',
       {
         email : userEmail,
         password : userPassword

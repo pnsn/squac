@@ -7,7 +7,7 @@
     </tr>
     <tr *ngFor="let channel of channels">
       <td>
-        {{channel.name}} {{channel.id}}
+        {{channel.nslc}} {{channel.id}}
       </td>
       <ng-container *ngFor="let metric of metrics">
         <ng-container *ngIf="hasData(channel.id, metric.id); else noData">
