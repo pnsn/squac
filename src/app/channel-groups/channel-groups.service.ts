@@ -64,14 +64,8 @@ export class ChannelGroupsService {
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
-            let channelGroup: ChannelGroup;
-
-            channelGroup = new ChannelGroup(
-              response.id,
-              response.name,
-              response.description,
-              []
-            );
+            let channels = [];
+            let channelGroup : ChannelGroup;
 
             response.channels.forEach(c => {
               const channel = new Channel(
@@ -85,10 +79,18 @@ export class ChannelGroupsService {
                 c.loc,
                 c.station_code,
                 c.network
-              );
-
-              channelGroup.channels.push(channel);
+              ); 
+              
+              channels.push(channel);
             });
+
+            channelGroup = new ChannelGroup(
+              response.id,
+              response.name,
+              response.description,
+              channels
+            );
+
             this.localChannelGroups[channelGroup.id] = channelGroup;
             return channelGroup;
           }

@@ -58,12 +58,11 @@ export class WidgetsService {
             response.name,
             response.widgettype.id,
             response.dashboard.id,
-            response.metrics
+            metrics
           );
 
-          widget.metrics = metrics;
           widget.type = response.widgettype.type;
-          
+
           return widget;
         }
       )
@@ -74,7 +73,7 @@ export class WidgetsService {
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,
-      metrics: widget.metricIds,
+      metrics: widget.metricsIds,
       widgettype: widget.typeId,
       dashboard: widget.dashboardId
     };
