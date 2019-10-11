@@ -26,7 +26,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
     // show loading
     if (this.widget && this.widget.metrics && this.channelGroup) {
       let sub = this.getData();
-
       const sub1 = this.reload.subscribe(reload => {
         if (reload) {
           sub = this.getData();
