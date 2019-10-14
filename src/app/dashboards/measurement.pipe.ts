@@ -59,7 +59,6 @@ private min(values): number {
     if (values.length > 0) {
       switch (type) {
         case 'average':
-        console.log(this.average(sortedValues));
         return this.average(sortedValues);
 
         case 'median':

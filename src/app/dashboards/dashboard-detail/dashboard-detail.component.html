@@ -6,7 +6,24 @@
 
         <div id="header-controls">
             <a (click)="refreshData()"> refresh data </a>
-            <div>~Select date here~</div>
+            <form #dateForm="ngForm">
+                <div>
+                  <label for="startdate">start:</label>
+                  <input 
+                    type="date" 
+                    id="startdate" 
+                    name="startdate"
+                    [(ngModel)]="startdate" required
+                  >
+                  <label for="enddate">end:</label>
+                  <input 
+                    type="date"
+                    id="enddate" 
+                    name="enddate"
+                    [(ngModel)]="enddate" required
+                  >
+                </div>
+            </form>
             <button (click)="editDashboard()">Edit Dashboard Properties</button>
             <button (click)="addWidget()">Add Widget</button>
         </div>
@@ -22,6 +39,8 @@
             [widget]="widget" 
             [channelGroup]="dashboard.channelGroup"
             [reload]="reload"
+            [startdate]="startdate"
+            [enddate]="enddate"
             >
         </app-widget>
         </ul>

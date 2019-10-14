@@ -14,6 +14,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
   @Input() channelGroup: ChannelGroup;
   @Input() reload: Subject<boolean>;
+  @Input() startdate: string;
+  @Input() enddate: string;
   data: any;
   subscription = new Subscription();
   constructor(
@@ -44,8 +46,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
     return this.measurementsService.getMeasurements(
       this.widget.metricsString,
       this.channelGroup.channelsString,
-      '2019-10-01',
-      '2019-10-31'
+      this.startdate,
+      this.enddate
     ).subscribe(
       response => {
         this.data = response;
