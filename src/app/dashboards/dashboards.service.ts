@@ -70,7 +70,7 @@ export class DashboardsService {
         (response) => {
           return this.channelGroupsService.getChannelGroup(response.group).pipe(
             map ( channelGroup => {
-              console.log(response)
+              console.log(response);
               dashboard = new Dashboard(
                 response.id,
                 response.name,

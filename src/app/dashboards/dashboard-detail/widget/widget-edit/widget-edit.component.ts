@@ -21,14 +21,14 @@ export class WidgetEditComponent implements OnInit {
   availableMetrics: Metric[];
   selectedMetrics: Metric[];
   dashboardId: number;
-  widgetTypes = [
+  widgetTypes = [ //TODO: get from squac, this is for test
     {
       id: 1,
-      type: "tabular"
+      type: 'tabular'
     },
     {
       id: 1,
-      type: "some chart"
+      type: 'some chart'
     }
   ];
 
@@ -49,7 +49,7 @@ export class WidgetEditComponent implements OnInit {
         this.initForm();
       }
     );
-    console.log(this.route.snapshot.paramMap)
+
     const idSub = this.route.parent.parent.params.subscribe(params => {
       this.dashboardId = +params.id;
     });
@@ -59,7 +59,7 @@ export class WidgetEditComponent implements OnInit {
     const sub1 = this.metricsService.getMetrics.subscribe(metrics => {
       this.availableMetrics = metrics;
     });
-    this.subscriptions.add(idSub)
+    this.subscriptions.add(idSub);
     this.subscriptions.add(paramsSub);
     this.subscriptions.add(sub1);
   }

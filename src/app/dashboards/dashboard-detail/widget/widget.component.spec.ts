@@ -47,6 +47,7 @@ describe('WidgetComponent', () => {
     component.widget = new Widget(
       1,
       'name',
+      'description',
       1,
       1,
       []

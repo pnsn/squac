@@ -13,10 +13,10 @@
         <ng-container *ngIf="hasData(channel.id, metric.id); else noData">
           <!-- use value to calculate coloring for average -->
           <td *ngIf="data[channel.id][metric.id] | measurement:'average' as value; else zero">
-            {{value | number:'1.0-2'}}
+            {{value | number:'1.2-2'}}
           </td>
           <ng-template #zero>
-              <td> {{0 | number:'1.0-2'}}</td>
+              <td> {{0 | number:'1.2-2'}}</td>
           </ng-template>
         
         </ng-container>
