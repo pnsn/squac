@@ -4,5 +4,5 @@
     <a [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}}</a>
   </li>
 </ul>
-
+<app-loading *ngIf="!dashboards"></app-loading>
 <button (click)="newDashboard()">Create New Dashboard</button>

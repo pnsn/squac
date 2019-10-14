@@ -5,11 +5,13 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PopupComponent } from './popup/popup.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     ModalComponent,
-    PopupComponent
+    PopupComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule
@@ -19,7 +21,8 @@ import { PopupComponent } from './popup/popup.component';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    LoadingComponent
   ]
 })
 export class SharedModule { }

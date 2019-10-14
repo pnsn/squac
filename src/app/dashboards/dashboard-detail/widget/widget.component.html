@@ -4,7 +4,7 @@
     <button (click)="editWidget()"> Edit widget </button>
 
     <div id="widget-content">
-      
+      <app-loading *ngIf="!data"></app-loading>
       <ng-container [ngSwitch]="widget.type">
         <!-- <tabular *ngSwitchCase="tabular">
       
