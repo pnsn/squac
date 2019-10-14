@@ -5,6 +5,7 @@ import { DashboardsService } from './dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { LoadingComponent } from '../shared/loading/loading.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;
@@ -16,7 +17,7 @@ describe('DashboardComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ DashboardsComponent , DashboardViewComponent],
+      declarations: [ DashboardsComponent , DashboardViewComponent, LoadingComponent],
       providers: [
         DashboardsService      ]
     })

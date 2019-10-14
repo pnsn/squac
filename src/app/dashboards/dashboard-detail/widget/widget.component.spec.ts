@@ -9,6 +9,7 @@ import { MeasurementPipe } from '../../measurement.pipe';
 import { MeasurementsService } from '../../measurements.service';
 import { ChannelGroup } from '../../../shared/channel-group';
 import { TabularComponent } from './widget-types/tabular/tabular.component';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -35,7 +36,7 @@ describe('WidgetComponent', () => {
           }
         }
       ],
-      declarations: [WidgetComponent, MeasurementPipe, TabularComponent]
+      declarations: [WidgetComponent, MeasurementPipe, TabularComponent, LoadingComponent]
     })
     .compileComponents();
   }));
