@@ -18,7 +18,7 @@ describe('DashboardViewComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
       ],
-      declarations: [ 
+      declarations: [
         DashboardViewComponent,
         LoadingComponent
       ],

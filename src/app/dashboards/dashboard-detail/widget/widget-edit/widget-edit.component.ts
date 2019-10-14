@@ -21,7 +21,7 @@ export class WidgetEditComponent implements OnInit {
   availableMetrics: Metric[];
   selectedMetrics: Metric[];
   dashboardId: number;
-  widgetTypes = [ //TODO: get from squac, this is for test
+  widgetTypes = [ // TODO: get from squac, this is for test
     {
       id: 1,
       type: 'tabular'

@@ -32,8 +32,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.dashboardsService.getDashboard(this.id).subscribe(
           dashboard => {
             this.dashboard = dashboard;
-            this.startdate = "2019-10-01";
-            this.enddate="2019-10-31";
+            this.startdate = '2019-10-01';
+            this.enddate = '2019-10-31';
             console.log('dashboard resolved');
           }
         );
