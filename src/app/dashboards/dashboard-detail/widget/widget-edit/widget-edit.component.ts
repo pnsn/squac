@@ -31,6 +31,12 @@ export class WidgetEditComponent implements OnInit {
       type: 'some chart'
     }
   ];
+  calcMethods = [
+    "average",
+    "median",
+    "max",
+    "min"
+  ];
 
   constructor(
     private router: Router,
@@ -69,6 +75,7 @@ export class WidgetEditComponent implements OnInit {
       name : new FormControl('', Validators.required),
       description : new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
+      method: new FormControl('', Validators.required),
       metrics: new FormControl([], Validators.required)
     });
 

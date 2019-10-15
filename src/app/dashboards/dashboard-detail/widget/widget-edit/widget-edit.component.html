@@ -1,7 +1,7 @@
-<div>
-  <h1>
+<div id="edit-container">
+  <h2>
     {{ editMode ? "Edit widget" + id : "New Widget"}}
-    </h1>
+    </h2>
     
     <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
       <div >
@@ -34,7 +34,13 @@
               </option>
           
             </select>
-        
+
+            <select formControlName="method" *ngIf="widgetForm.get('type').value == 1">
+                <option disabled="true" >Please select a calculation method</option>
+                <option  *ngFor="let method of calcMethods" [ngValue]="method">
+                  {{method}}
+                </option>
+            </select>
         </div>
     
         <div *ngIf="selectedMetrics">
