@@ -59,7 +59,7 @@ export class AuthService {
       catchError(this.handleError),
       tap(resData => {
         // TODO: Get expiration time from Jon
-        this.handleAuth(userEmail, resData.token, 3600);
+        this.handleAuth(userEmail, resData.token, 7200);
       })
     );
   }

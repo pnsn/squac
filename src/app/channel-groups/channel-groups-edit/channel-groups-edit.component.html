@@ -3,37 +3,7 @@
     {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
   </h1>
 
-    <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
-      <div>
-          <button class="btn btn-primary" 
-            type="submit"
-            [disabled]='!channelGroupForm.valid'
-          >
-          Save</button>
-      </div>
-      <div>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name"
-              formControlName="name"
-            class="form-control">
-          </div>
-          <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="description"
-                formControlName="description"
-              class="form-control"></textarea>
-          </div>
-          <h3> Channels </h3>
-          <ul>
-            <li *ngFor="let channel of selectedChannels; let i = index">
-              {{channel.nslc}}
-              <button (click)="removeChannelFromGroup(i)" type="button">X</button>
-            </li>
-          </ul>
-      </div>
-    </form>
-
+  <div id="channel-selection-container">
     <!-- TODO: put this better -->
     <form [formGroup]="filtersForm">
         <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
@@ -62,4 +32,40 @@
     
       <button (click)="addSelectedChannelsToGroup()" type="button">Add Selected Channels</button>  
     </form>
+  </div>
+  <div id="channel-group-container">
+      <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
+          <div>
+              <button class="btn btn-primary" 
+                type="submit"
+                [disabled]='!channelGroupForm.valid'
+              >
+              Save</button>
+              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+          </div>
+          <div>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name"
+                  formControlName="name"
+                class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description"
+                    formControlName="description"
+                  class="form-control"></textarea>
+              </div>
+              <h3> Channels </h3>
+              <ul>
+                <li *ngFor="let channel of selectedChannels; let i = index">
+                  {{channel.nslc}}
+                  <button (click)="removeChannelFromGroup(i)" type="button">X</button>
+                </li>
+              </ul>
+          </div>
+        </form>
+  </div>
+
+
 </div>

@@ -32,10 +32,10 @@ export class WidgetEditComponent implements OnInit {
     }
   ];
   calcMethods = [
-    "average",
-    "median",
-    "max",
-    "min"
+    'average',
+    'median',
+    'max',
+    'min'
   ];
 
   constructor(
