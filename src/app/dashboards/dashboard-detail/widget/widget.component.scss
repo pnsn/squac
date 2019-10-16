@@ -1,13 +1,13 @@
 #widget-container {
   max-height: 500px;
-  max-width: 600px;
+  width: 800px;
   margin: 5px;
   overflow:hidden;
 }
 
 #widget-content {
-  max-height: 400px;
-  max-width: 580px;
+  max-height: 100%;
+  max-width: 100%;
   overflow:scroll;
   padding: 10px;
 }

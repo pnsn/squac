@@ -1,5 +1,10 @@
 #dashboard-container {
   position: relative;
+
+  #widget-container {
+    display:flex;
+    flex-wrap: wrap;
+  }
 }
 #dashboard-header{
   width: 100%;

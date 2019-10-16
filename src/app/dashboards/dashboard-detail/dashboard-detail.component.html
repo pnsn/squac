@@ -31,19 +31,16 @@
     </div>
 
     <hr>
-    <div> 
-        <h3> Widgets ({{dashboard.widgets?.length}})</h3>
-        <ul>
-        <app-widget 
-            *ngFor="let widget of dashboard.widgets"
-            [widget]="widget" 
-            [channelGroup]="dashboard.channelGroup"
-            [reload]="reload"
-            [startdate]="startdate"
-            [enddate]="enddate"
-            >
-        </app-widget>
-        </ul>
+    <div id="widget-container"> 
+      <app-widget 
+          *ngFor="let widget of dashboard.widgets"
+          [widget]="widget" 
+          [channelGroup]="dashboard.channelGroup"
+          [reload]="reload"
+          [startdate]="startdate"
+          [enddate]="enddate"
+          >
+      </app-widget>
     </div>
         
     <router-outlet></router-outlet>
