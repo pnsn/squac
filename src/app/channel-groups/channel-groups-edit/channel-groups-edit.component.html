@@ -20,13 +20,18 @@
           <label for="description">Description</label>
           <textarea id="description" formControlName="description" class="form-control"></textarea>
         </div>
-        <h3> Channels </h3>
-        <ul>
-          <li *ngFor="let channel of selectedChannels; let i = index">
-            {{channel.nslc}}
-            <button (click)="removeChannelFromGroup(i)" type="button">X</button>
-          </li>
-        </ul>
+        <div class="selected-column">
+            <h4>
+              Selections <small>({{ selectedChannels?.length }})</small>
+            </h4>
+            <ul>
+              <li *ngFor="let sel of selectedChannels; let i = index">
+                {{ sel.nslc }} 
+                <button (click)="removeChannel(i)">X</button>
+              </li>
+              <li *ngIf="!selectedChannels?.length">Please select one or more channels</li>
+            </ul>
+          </div>
       </div>
     </form>
   </div>
@@ -52,7 +57,7 @@
         [headerHeight]="50"
         [footerHeight]="50" 
         rowHeight="40" 
-        [selected]="selected" 
+        [selected]="selectedChannels" 
         [selectionType]="SelectionType.checkbox"
         (select)="onSelect($event)"
         [limit]="10"
@@ -93,18 +98,7 @@
       <app-loading></app-loading>
     </ng-template>
 
-    <div class="selected-column">
-        <h4>
-          Selections <small>({{ selected?.length }})</small>
-        </h4>
-        <ul>
-          <li *ngFor="let sel of selected; let i = index">
-            {{ sel.nslc }} 
-            <button (click)="removeItem(i)">X</button>
-          </li>
-          <li *ngIf="!selected?.length">Please select one or more channels</li>
-        </ul>
-      </div>
+
 
 
 

@@ -30,9 +30,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   SortType = SortType;
-
-
-  selected=[];
   availableNetworks: Network[] = [];
   selectedNetwork: Network;
   filtersForm: FormGroup;
@@ -85,7 +82,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
       const channelsSub = this.channelsService.channels.subscribe(channels => {
         this.availableChannels = channels;
-        this.initChannelsForm();
       });
 
       this.subscriptions.add(channelsSub);
@@ -94,19 +90,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   onSelect({ selected }) {
-    this.selected.splice(0, this.selected.length);
-    console.log(this.selected)
-    this.selected.push(...selected);
+    this.selectedChannels.splice(0, this.selectedChannels.length);
+    console.log(this.selectedChannels)
+    this.selectedChannels.push(...selected);
   }
 
-  remove() {
-    this.selected = [];
-    console.log("remoce")
-  }
-
-  removeItem(index) {
-    this.selected.splice(index, 1);
-    this.selected = [...this.selected];
+  removeChannel(index) {
+    this.selectedChannels.splice(index, 1);
+    this.selectedChannels = [...this.selectedChannels];
   }
 
   add() {
@@ -141,72 +132,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       );
     }
 
-  }
-
-  // TODO: break select form into new component
-  // Sets up channels form
-  private initChannelsForm() {
-    if (this.availableChannels.length > 0) {
-      // add availble channels that are not already selected
-      this.createChannelSelectors();
-    } else {
-      this.filteredChannels = [];
-      this.channelsForm = this.formBuilder.group({});
-    }
-  }
-
-  // Creates a form control
-  private createChannelSelectors() {
-    this.channelsForm = this.formBuilder.group({});
-    const formChannels = new FormArray([]);
-    const filteredChannels = [...this.availableChannels]
-      .filter(channel => {
-        return !this.contains(this.selectedChannels, channel);
-      });
-
-    // Add form control for each channel
-    filteredChannels.map((channel, i) => {
-      formChannels.push(new FormControl());
-    });
-
-    this.filteredChannels = [...filteredChannels];
-    this.channelsForm.addControl('channels', formChannels);
-  }
-
-  // TODO: check if this is too slow for large data sets
-  // Adds selected channels from form to channel group
-  addSelectedChannelsToGroup() {
-    // clear form
-    // take selected channels
-    if (this.channelsForm.value.channels) {
-      const channels = this.channelsForm.value.channels
-      .map((value, i) => {
-        return value ? this.filteredChannels[i] : null;
-      })
-      .filter(value => value !== null);
-
-      this.channelsForm.removeControl('channels');
-
-      this.selectedChannels.push(...channels);
-
-      this.createChannelSelectors();
-
-    }
-
-  }
-
-  // Returns true if channel object is in array of channels
-  private contains(array: Channel[], channel: Channel): boolean {
-    return array.some(chan => (chan.nslc === channel.nslc));
-  }
-
-  // Remove channel from channel group
-  removeChannelFromGroup(i: number) {
-    // remove channel from selected channels
-    this.selectedChannels.splice(i, 1);
-
-    // Add channel back to available
-    this.createChannelSelectors();
   }
 
   // Save channel information
