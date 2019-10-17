@@ -1,64 +1,61 @@
 <div id="edit-container">
-  <h2>
-    {{ editMode ? "Edit widget" + id : "New Widget"}}
-    </h2>
-    
-    <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
-      <div >
-          <button class="btn btn-primary" 
-            type="submit"
-            [disabled]='!widgetForm.valid'
-          >
-          Save</button>
-          <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-      </div>
-      <div >
+  <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
+    <div class="stepper-header">
+      <h3>
+        {{ editMode ? "Edit widget" + id : "New Widget"}}
+      </h3>
+      <button class="btn btn-primary" type="submit" [disabled]='!widgetForm.valid'>
+        Save</button>
+      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+    </div>
+    <div class="stepper-content">
+      <div class="stepper-page page-1">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name"
-            formControlName="name"
-          class="form-control">
+          <input type="text" id="name" formControlName="name" class="form-control">
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea id="description"
-            formControlName="description"
-          class="form-control">
-          </textarea>
+          <textarea id="description" formControlName="description" class="form-control">
+                </textarea>
         </div>
         <div>
-            <select formControlName="type" *ngIf="widgetTypes">
-              <option disabled="true" >Please select a widget type</option>
-              <option  *ngFor="let type of widgetTypes" [ngValue]="type.id">
-                {{type.type}}
-              </option>
-          
-            </select>
+          <select formControlName="type" *ngIf="widgetTypes">
+            <option disabled="true">Please select a widget type</option>
+            <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
+              {{type.type}}
+            </option>
 
-            <select formControlName="method" *ngIf="widgetForm.get('type').value == 1">
-                <option disabled="true" >Please select a calculation method</option>
-                <option  *ngFor="let method of calcMethods" [ngValue]="method">
-                  {{method}}
-                </option>
-            </select>
+          </select>
+
+          <select formControlName="method" *ngIf="widgetForm.get('type').value == 1">
+            <option disabled="true">Please select a calculation method</option>
+            <option *ngFor="let method of calcMethods" [ngValue]="method">
+              {{method}}
+            </option>
+          </select>
         </div>
-    
-        <div *ngIf="selectedMetrics">
-            Metrics:
-            <span *ngFor="let metric of selectedMetrics">
-              {{metric.name}},
-            </span>
-          </div>
       </div>
-    
-      <label for="metrics">Metrics</label>
-      <select id="metricSelect" formControlName="metrics" *ngIf="availableMetrics" multiple (change)="updateMetrics()">
-        <option disabled="true">Please select metrics</option>
-        <option  *ngFor="let metric of availableMetrics" [ngValue]="metric">
-          {{metric.name}}
-        </option>
-    
-      </select>
-    
-    </form>
+      <div id="metric-select-container" class="stepper-page page-2">
+        Metrics:
+        <select id="metric-select" formControlName="metrics" *ngIf="availableMetrics" multiple
+          (change)="updateMetrics()">
+          <option disabled="true">Please select metrics</option>
+          <option *ngFor="let metric of availableMetrics" [ngValue]="metric">
+            {{metric.name}}
+          </option>
+
+        </select>
+        <div *ngIf="selectedMetrics" id="selected-metrics">
+          <ol>
+            <li *ngFor="let metric of selectedMetrics">{{metric.name}}</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="stepper-page page 3">
+
+      </div>
+    </div>
+  </form>
 </div>

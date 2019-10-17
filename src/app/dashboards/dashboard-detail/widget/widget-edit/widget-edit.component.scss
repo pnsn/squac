@@ -1,11 +1,26 @@
 #edit-container {
+  padding: 10px;
   z-index: 10;
   border: solid black 1px;
   position: absolute;
   top: 60px;
   background-color: white;
 }
-#metricSelect{
-  height:500px;
-  width: 400px;
+
+#metric-select-container{
+  display:flex;
+  #selected-metrics, #metric-select{
+    display: inline-block;
+  }
+  #selected-metrics {
+    text-align: left;
+    padding-left: 20px;
+    li[selected="selected"] {
+      background-color: red;
+    }
+  }
+}
+#metric-select{
+  height:300px;
+  width: auto;
 }

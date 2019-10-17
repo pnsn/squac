@@ -27,7 +27,7 @@ export class WidgetEditComponent implements OnInit {
       type: 'tabular'
     },
     {
-      id: 1,
+      id: 2,
       type: 'some chart'
     }
   ];
