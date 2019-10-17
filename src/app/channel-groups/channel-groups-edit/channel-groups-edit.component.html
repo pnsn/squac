@@ -20,18 +20,19 @@
           <label for="description">Description</label>
           <textarea id="description" formControlName="description" class="form-control"></textarea>
         </div>
-        <div class="selected-column">
-            <h4>
-              Selections <small>({{ selectedChannels?.length }})</small>
-            </h4>
-            <ul>
-              <li *ngFor="let sel of selectedChannels; let i = index">
-                {{ sel.nslc }} 
-                <button (click)="removeChannel(i)">X</button>
-              </li>
-              <li *ngIf="!selectedChannels?.length">Please select one or more channels</li>
-            </ul>
-          </div>
+
+        <div class="">
+          <h4>
+            Selections <small>({{ selectedChannels?.length }})</small>
+          </h4>
+          <ul>
+            <li *ngFor="let sel of selectedChannels; let i = index">
+              {{ sel.nslc }}
+              <button (click)="removeChannel(i)">X</button>
+            </li>
+            <li *ngIf="!selectedChannels?.length">Please select one or more channels</li>
+          </ul>
+        </div>
       </div>
     </form>
   </div>
@@ -50,19 +51,9 @@
 
     <div *ngIf="selectedNetwork && availableChannels.length > 0; else elseTemplate">
 
-      <ngx-datatable id="channel-group-selector"
-        class="material"
-        [rows]="availableChannels" 
-        [columnMode]="ColumnMode.force" 
-        [headerHeight]="50"
-        [footerHeight]="50" 
-        rowHeight="40" 
-        [selected]="selectedChannels" 
-        [selectionType]="SelectionType.checkbox"
-        (select)="onSelect($event)"
-        [limit]="10"
-        [sortType]="SortType.multi"
-      >
+      <ngx-datatable id="channel-selector" class="material" [rows]="availableChannels" [columnMode]="ColumnMode.force"
+        [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
+        [selectionType]="SelectionType.checkbox" (select)="onSelect($event)" [limit]="10" [sortType]="SortType.multi">
         <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
           [resizeable]="false">
           <ng-template ngx-datatable-header-template let-value="value">
@@ -73,20 +64,17 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="network" [draggable]="false" [sortable]="false"
-        [resizeable]="false">
+        <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.networkCode }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="station" [draggable]="false" [sortable]="false"
-        [resizeable]="false">
+        <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             {{row.stationCode}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="channels" [draggable]="false" [sortable]="false"
-        [resizeable]="false">
+        <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             {{row.code}}
           </ng-template>

@@ -21,18 +21,20 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean;
-  channelGroupForm: FormGroup;
-  channelsForm: FormGroup;
-  availableChannels: Channel[];
   subscriptions: Subscription = new Subscription();
-  filteredChannels: Channel[] = [];
-  selectedChannels: Channel[] = [];
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
-  SortType = SortType;
+
+  //form stuff
+  channelGroupForm: FormGroup;
   availableNetworks: Network[] = [];
   selectedNetwork: Network;
   filtersForm: FormGroup;
+  availableChannels: Channel[];
+  selectedChannels: Channel[] = [];
+
+  // table stuff
+  SelectionType = SelectionType;
+  ColumnMode = ColumnMode;
+  SortType = SortType;
 
   constructor(
     private router: Router,
@@ -91,7 +93,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onSelect({ selected }) {
     this.selectedChannels.splice(0, this.selectedChannels.length);
-    console.log(this.selectedChannels)
     this.selectedChannels.push(...selected);
   }
 
@@ -99,17 +100,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.selectedChannels.splice(index, 1);
     this.selectedChannels = [...this.selectedChannels];
   }
-
-  add() {
-    console.log("add")
-    // this.selected.push(this.rows[1], this.rows[3]);
-  }
-
-  update() {
-    console.log("update")
-    // this.selected = [this.rows[1], this.rows[3]];
-  }
-
 
   // Inits group edit form
   private initForm() {
