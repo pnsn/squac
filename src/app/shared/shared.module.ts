@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoadingComponent } from './loading/loading.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    LoadingComponent
+    LoadingComponent,
+    NgxDatatableModule  
   ]
 })
 export class SharedModule { }
