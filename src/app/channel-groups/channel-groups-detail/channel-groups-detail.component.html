@@ -1,7 +1,7 @@
 
-<div *ngIf="!channelGroup">
-  Could not load channel Group (or loading still?)
-</div>
+<app-loading *ngIf="!channelGroup">
+
+</app-loading>
 <div *ngIf="channelGroup">
     <h2> Channel Group Detail</h2>
     <p>

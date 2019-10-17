@@ -84,6 +84,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
       const channelsSub = this.channelsService.channels.subscribe(channels => {
         this.availableChannels = channels;
+        this.updateChannels();
       });
 
       this.subscriptions.add(channelsSub);
@@ -98,6 +99,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   removeChannel(index) {
     this.selectedChannels.splice(index, 1);
+    this.updateChannels();
+  }
+
+  updateChannels() {
     this.selectedChannels = [...this.selectedChannels];
   }
 

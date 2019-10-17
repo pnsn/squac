@@ -1,9 +1,23 @@
-#channel-selection-container {
-  width:50%;
-}
+
 
 #channel-selector {
   // height: 50vh;
   width: 100%;
   display: inline-block;
+}
+#channel-group-edit-container{
+  display: flex;
+}
+
+#channel-selection-container{
+  width: 33%;
+}
+
+#channel-group-container{
+  width: 33%
+}
+
+#station-map-container{
+  width: 33%;
+  height: 75vh;
 }
