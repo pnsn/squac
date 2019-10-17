@@ -1,71 +1,130 @@
-<div >
+<div>
   <h1>
     {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
   </h1>
 
+
+  <div id="channel-group-container">
+    <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
+      <div>
+        <button class="btn btn-primary" type="submit" [disabled]='!channelGroupForm.valid'>
+          Save</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+      </div>
+      <div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" formControlName="description" class="form-control"></textarea>
+        </div>
+        <h3> Channels </h3>
+        <ul>
+          <li *ngFor="let channel of selectedChannels; let i = index">
+            {{channel.nslc}}
+            <button (click)="removeChannelFromGroup(i)" type="button">X</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+
   <div id="channel-selection-container">
     <!-- TODO: put this better -->
     <form [formGroup]="filtersForm">
-        <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
-          <option disabled="true">Please select a network</option>
-          <option  *ngFor="let network of availableNetworks" [ngValue]="network">
-            {{network.code}} - {{network.name}}
-          </option>
+      <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
+        <option disabled="true">Please select a network</option>
+        <option *ngFor="let network of availableNetworks" [ngValue]="network">
+          {{network.code}} - {{network.name}}
+        </option>
 
-        </select>
+      </select>
     </form>
 
+    <div *ngIf="selectedNetwork && availableChannels.length > 0; else elseTemplate">
 
-    <form [formGroup]="channelsForm" action="" *ngIf="selectedNetwork">
-      <h3> Available Channels ({{filteredChannels.length}})</h3>
-      <fieldset  *ngIf="filteredChannels.length > 0 && availableChannels.length > 0">
-          <ng-container formArrayName="channels" *ngFor="let channel of channelsForm.controls.channels.controls; let i = index">
-            <label>
-              <input type="checkbox" [formControlName]="i">
-              {{filteredChannels[i].nslc}} {{i}}
-              <br>
-            </label>  
-          </ng-container>
-          
+      <ngx-datatable id="channel-group-selector"
+        class="material"
+        [rows]="availableChannels" 
+        [columnMode]="ColumnMode.force" 
+        [headerHeight]="50"
+        [footerHeight]="50" 
+        rowHeight="40" 
+        [selected]="selected" 
+        [selectionType]="SelectionType.checkbox"
+        (select)="onSelect($event)"
+        [limit]="10"
+        [sortType]="SortType.multi"
+      >
+        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+          [resizeable]="false">
+          <ng-template ngx-datatable-header-template let-value="value">
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+            let-onCheckboxChangeFn="onCheckboxChangeFn">
+            <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+          </ng-template>
+        </ngx-datatable-column>
 
-      </fieldset>
-    
-      <button (click)="addSelectedChannelsToGroup()" type="button">Add Selected Channels</button>  
-    </form>
+        <ngx-datatable-column name="network" [draggable]="false" [sortable]="false"
+        [resizeable]="false">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.networkCode }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="station" [draggable]="false" [sortable]="false"
+        [resizeable]="false">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row.stationCode}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="channels" [draggable]="false" [sortable]="false"
+        [resizeable]="false">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row.code}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+
+    <ng-template #elseTemplate>
+      <app-loading></app-loading>
+    </ng-template>
+
+    <div class="selected-column">
+        <h4>
+          Selections <small>({{ selected?.length }})</small>
+        </h4>
+        <ul>
+          <li *ngFor="let sel of selected; let i = index">
+            {{ sel.nslc }} 
+            <button (click)="removeItem(i)">X</button>
+          </li>
+          <li *ngIf="!selected?.length">Please select one or more channels</li>
+        </ul>
+      </div>
+
+
+
+
+    <!-- <form [formGroup]="channelsForm" action="" *ngIf="selectedNetwork">
+        <h3> Available Channels ({{filteredChannels.length}})</h3>
+        <fieldset  *ngIf="filteredChannels.length > 0 && availableChannels.length > 0">
+            <ng-container formArrayName="channels" *ngFor="let channel of channelsForm.controls.channels.controls; let i = index">
+              <label>
+                <input type="checkbox" [formControlName]="i">
+                {{filteredChannels[i].nslc}} {{i}}
+                <br>
+              </label>  
+            </ng-container>
+            
+  
+        </fieldset>
+      
+        <button (click)="addSelectedChannelsToGroup()" type="button">Add Selected Channels</button>  
+      </form> -->
   </div>
-  <div id="channel-group-container">
-      <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
-          <div>
-              <button class="btn btn-primary" 
-                type="submit"
-                [disabled]='!channelGroupForm.valid'
-              >
-              Save</button>
-              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-          </div>
-          <div>
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name"
-                  formControlName="name"
-                class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea id="description"
-                    formControlName="description"
-                  class="form-control"></textarea>
-              </div>
-              <h3> Channels </h3>
-              <ul>
-                <li *ngFor="let channel of selectedChannels; let i = index">
-                  {{channel.nslc}}
-                  <button (click)="removeChannelFromGroup(i)" type="button">X</button>
-                </li>
-              </ul>
-          </div>
-        </form>
-  </div>
-
 
 </div>

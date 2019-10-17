@@ -8,6 +8,7 @@ import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
 import { Network } from '../network';
 import { NetworksService } from '../networks.service';
+import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-channel-group-edit',
@@ -26,7 +27,12 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   filteredChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
+  SelectionType = SelectionType;
+  ColumnMode = ColumnMode;
+  SortType = SortType;
 
+
+  selected=[];
   availableNetworks: Network[] = [];
   selectedNetwork: Network;
   filtersForm: FormGroup;
@@ -85,6 +91,32 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.subscriptions.add(channelsSub);
     }
 
+  }
+
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    console.log(this.selected)
+    this.selected.push(...selected);
+  }
+
+  remove() {
+    this.selected = [];
+    console.log("remoce")
+  }
+
+  removeItem(index) {
+    this.selected.splice(index, 1);
+    this.selected = [...this.selected];
+  }
+
+  add() {
+    console.log("add")
+    // this.selected.push(this.rows[1], this.rows[3]);
+  }
+
+  update() {
+    console.log("update")
+    // this.selected = [this.rows[1], this.rows[3]];
   }
 
 
