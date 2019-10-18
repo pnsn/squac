@@ -6,6 +6,7 @@ import { ChannelGroupsService } from '../channel-groups.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 describe('ChannelGroupsDetailComponent', () => {
   let component: ChannelGroupsDetailComponent;
@@ -14,7 +15,7 @@ describe('ChannelGroupsDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
-      declarations: [ ChannelGroupsDetailComponent ],
+      declarations: [ ChannelGroupsDetailComponent , LoadingComponent],
       providers: [ ChannelGroupsService ,
         {
           provide: ActivatedRoute,

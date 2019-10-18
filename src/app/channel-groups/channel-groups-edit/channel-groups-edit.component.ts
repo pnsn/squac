@@ -23,7 +23,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   subscriptions: Subscription = new Subscription();
 
-  //form stuff
+  // form stuff
   channelGroupForm: FormGroup;
   availableNetworks: Network[] = [];
   selectedNetwork: Network;

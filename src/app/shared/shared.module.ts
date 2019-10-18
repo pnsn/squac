@@ -25,7 +25,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     FormsModule,
     HttpClientModule,
     LoadingComponent,
-    NgxDatatableModule  
+    NgxDatatableModule
   ]
 })
 export class SharedModule { }
