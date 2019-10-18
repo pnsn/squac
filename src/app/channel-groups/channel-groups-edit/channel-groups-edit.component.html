@@ -11,10 +11,11 @@
 
 
   <div id="channel-selection-container">
+    <h3>Available Channels</h3>
     <!-- TODO: put this better -->
-    <form [formGroup]="filtersForm">
+    <h4>Select a network</h4>
+    <form class="form" [formGroup]="filtersForm">
       <select formControlName="networks" *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
-        <option disabled="true">Please select a network</option>
         <option *ngFor="let network of availableNetworks" [ngValue]="network">
           {{network.code}} - {{network.name}}
         </option>
@@ -22,8 +23,8 @@
       </select>
     </form>
 
-    <h3>Available Channels</h3>
-    <div *ngIf="selectedNetwork && availableChannels.length > 0; else elseTemplate">
+
+    <div *ngIf="availableChannels && availableChannels.length > 0; else elseTemplate">
 
       <ngx-datatable id="channel-selector" class="material" [rows]="availableChannels" [columnMode]="ColumnMode.force"
         [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
@@ -61,7 +62,7 @@
     </ng-template>
   </div>
   <div id="channel-group-container">
-      <form action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
+      <form class="form" action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
         <div>
           <button class="btn btn-primary" type="submit" [disabled]='!channelGroupForm.valid'>
             Save</button>

@@ -2,7 +2,7 @@
     <h1>
       {{editMode ? "Edit Metric" : "New Metric"}}
     </h1>
-    <form action="" [formGroup]="metricForm" (ngSubmit)="save()">
+    <form class="form" action="" [formGroup]="metricForm" (ngSubmit)="save()">
       <div class="form-group">
         <label for="name"><p>Name</p></label>
         <input type="text" id="name"

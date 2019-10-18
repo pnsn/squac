@@ -6,7 +6,7 @@
 
 <div class="box" id="login">
   <h1>Sign In</h1>
-  <form #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" *ngIf="!isLoading">
+  <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" *ngIf="!isLoading">
     <div class="form-group">
       <label for="email"><p>Email</p></label>
       <input type="email" id="email" class="form-control" ngModel name="email" required email />
