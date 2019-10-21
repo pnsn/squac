@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi.service';
 import { Measurement } from './measurement';
+import { Widget } from './widget';
+import { ChannelGroup } from '../shared/channel-group';
 
 interface MeasurementsHttpData {
   name: string;
@@ -24,26 +26,26 @@ export class MeasurementsService {
     private squacApi: SquacApiService
   ) {}
 
-  getMeasurements(metrics: string, channels: string, start: string, end: string ): Observable<any> {
+  getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: string, end: string ): Observable<any> {
     // TODO: find a better way for this
-    if (metrics && channels && start && end) {
+    if (widget.metrics && channelGroup.channels && start && end) {
+      const data = {};
+      channelGroup.channels.forEach(channel => {
+        data[channel.id]={};
+        widget.metrics.forEach(metric => {
+          data[channel.id][metric.id]=[];
+        })
+      });
       return this.squacApi.get(this.url, null,
         {
-           metric: metrics,
-           channel: channels,
+           metric: widget.metricsString,
+           channel: channelGroup.channelsString,
            starttime: start,
            endtime: end,
         }
       ).pipe(
         map(response => {
-          const data = {};
           response.forEach(m => {
-            if (!data[m.channel]) {
-              data[m.channel] = {};
-            }
-            if (!data[m.channel][m.metric]) {
-              data[m.channel][m.metric] = [];
-            }
             data[m.channel][m.metric].push(
               new Measurement(
                 m.id,

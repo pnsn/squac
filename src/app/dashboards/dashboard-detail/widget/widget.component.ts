@@ -44,8 +44,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
   getData() {
     return this.measurementsService.getMeasurements(
-      this.widget.metricsString,
-      this.channelGroup.channelsString,
+      this.widget,
+      this.channelGroup,
       this.startdate,
       this.enddate
     ).subscribe(

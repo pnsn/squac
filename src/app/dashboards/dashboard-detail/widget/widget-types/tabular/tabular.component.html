@@ -1,31 +1,37 @@
-<table *ngIf="data">
-    <tr>
-      <th>Channels</th>
-      <th *ngFor="let metric of metrics">
-        {{metric.name}} {{metric.id}}
-      </th>
-    </tr>
-    <tr *ngFor="let channel of channels">
-      <td>
-        {{channel.nslc}} {{channel.id}}
-      </td>
-      <ng-container *ngFor="let metric of metrics">
-        <ng-container *ngIf="hasData(channel.id, metric.id); else noData">
-          <!-- use value to calculate coloring for average -->
-          <td *ngIf="data[channel.id][metric.id] | measurement:'average' as value; else zero">
-            {{value | number:'1.2-2'}}
-          </td>
-          <ng-template #zero>
-              <td> {{0 | number:'1.2-2'}}</td>
-          </ng-template>
-        
+  <ngx-datatable 
+    class="material" 
+    [rows]="channels"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="auto"
+    *ngIf="formattedData"
+  >
+    <ngx-datatable-column 
+      name="Channels"
+    >
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
+        {{row.nslc}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column *ngFor="let metric of metrics">
+
+      <ng-template ngx-datatable-header-template>
+        {{metric.name}}
+      </ng-template>
+
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+        <ng-container *ngIf="formattedData[row.id][metric.id] !== null; else noData">
+          {{ formattedData[row.id][metric.id] | number:'1.0-2'}}
         </ng-container>
         <ng-template #noData>
-          <td>No data</td>
+            No Data
         </ng-template>
+      </ng-template>
 
-      </ng-container>
-    
-    </tr>
-  </table>
 
+      
+
+
+    </ngx-datatable-column>
+  </ngx-datatable>

@@ -5,7 +5,7 @@
   </div>
   <div id="widget-content">
     <app-loading *ngIf="!data"></app-loading>
-    <ng-container [ngSwitch]="widget.type">
+    <ng-container [ngSwitch]="widget.type" *ngIf="data">
       <!-- <tabular *ngSwitchCase="tabular">
     
       </tabular> -->

@@ -55,25 +55,26 @@ private min(values): number {
 }
 
   transform(values: any, type: any): any {
-    const sortedValues = this.sort(values);
-    if (values.length > 0) {
-      switch (type) {
-        case 'average':
-        return this.average(sortedValues);
-
-        case 'median':
-          return this.median(sortedValues);
-
-        case 'max':
-          return this.max(sortedValues);
-
-        case 'min':
-          return this.min(sortedValues);
-
-        default:
-          return null;
-      }
+    if (values && values.length > 0) {
+      const sortedValues = this.sort(values);
+        switch (type) {
+          case 'average':
+          return this.average(sortedValues);
+  
+          case 'median':
+            return this.median(sortedValues);
+  
+          case 'max':
+            return this.max(sortedValues);
+  
+          case 'min':
+            return this.min(sortedValues);
+  
+          default:
+            return null;
+        }
+    } else {
+      return null;
     }
-    return null;
   }
 }
