@@ -14,7 +14,7 @@ export class TabularComponent implements OnInit {
   @Input() data: any;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
-  @ViewChild('myTable') table: any;
+  @ViewChild('dataTable') table: any;
   ColumnMode = ColumnMode;
   formattedData = {};
   // rows = [];
@@ -39,8 +39,6 @@ export class TabularComponent implements OnInit {
   }
 
   toggleExpandGroup(group) {
-
-    console.log('Toggled Expand Group!', group);
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
   }

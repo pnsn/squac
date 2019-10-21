@@ -26,9 +26,40 @@
 
     <div *ngIf="availableChannels && availableChannels.length > 0; else elseTemplate">
 
-      <ngx-datatable id="channel-selector" class="material" [rows]="availableChannels" [columnMode]="ColumnMode.force"
-        [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
-        [selectionType]="SelectionType.checkbox" (select)="onSelect($event)" [limit]="10" [sortType]="SortType.multi">
+      <ngx-datatable 
+        #channelTable
+        id="channel-selector"
+        class="material" 
+        [rows]="availableChannels" 
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50" 
+        [footerHeight]="50" 
+        rowHeight="auto" 
+        [selected]="selectedChannels"
+        [selectionType]="SelectionType.checkbox" 
+        (select)="onSelect($event)" 
+        [limit]="10" 
+        [sortType]="SortType.multi"
+        [groupRowsBy]="'stationCode'"
+        [groupExpansionDefault]="true"
+        >
+        <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
+            <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+              <div style="padding-left:5px;">
+                <a
+                  href="#"
+                  [class.datatable-icon-right]="!expanded"
+                  [class.datatable-icon-down]="expanded"
+                  title="Expand/Collapse Group"
+                  (click)="toggleExpandGroup(group)"
+                >
+                  <span> {{group.value[0].networkCode | uppercase }} </span>
+                  <span> {{ group.value[0].stationCode | uppercase}} </span>
+                  <span> ({{group.value.length}} {{group.value.length == 1? "channel" : "channels"}})</span>
+                </a>
+              </div>
+            </ng-template>
+          </ngx-datatable-group-header>
         <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
           [resizeable]="false">
           <ng-template ngx-datatable-header-template let-value="value">

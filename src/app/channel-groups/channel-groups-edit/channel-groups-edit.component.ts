@@ -36,6 +36,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
+  @ViewChild('channelTable') table: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -154,5 +156,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
+  }
+
+  toggleExpandGroup(group) {
+    this.table.groupHeader.toggleExpandGroup(group);
+    return false;
   }
 }
