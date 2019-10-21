@@ -12,6 +12,7 @@ interface WidgetHttpData {
   metrics: string[];
   dashboard: number;
   widgettype: number;
+  stattype: number;
   id?: number;
 }
 
@@ -77,7 +78,8 @@ export class WidgetsService {
       description: widget.description,
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
-      dashboard: widget.dashboardId
+      dashboard: widget.dashboardId,
+      stattype: 1
     };
 
     if (widget.id) {
