@@ -11,15 +11,16 @@
     <div class="stepper-content">
       <div class="stepper-page page-1">
         <div class="form-group">
-          <label for="name">Name</label>
+          <label for="name">Name: </label>
           <input type="text" id="name" formControlName="name" class="form-control">
         </div>
         <div class="form-group">
-          <label for="description">Description</label>
+          <label for="description">Description: </label>
           <textarea id="description" formControlName="description" class="form-control">
                 </textarea>
         </div>
         <div>
+          <label for="type">Widget Type: </label>
           <select formControlName="type" *ngIf="widgetTypes">
             <option disabled="true">Please select a widget type</option>
             <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
@@ -27,9 +28,12 @@
             </option>
 
           </select>
+        </div>
 
-          <select formControlName="method" *ngIf="widgetForm.get('type').value == 1">
-            <option disabled="true">Please select a calculation method</option>
+        <div *ngIf="widgetForm.get('type').value == 1">
+          <label for="method">Statistical method: </label>
+          <select formControlName="method" >
+            <option disabled="true">Calculation Type</option>
             <option *ngFor="let method of calcMethods" [ngValue]="method">
               {{method}}
             </option>

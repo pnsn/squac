@@ -4,13 +4,13 @@
     <button (click)="editWidget()"> Edit widget </button>
   </div>
   <div id="widget-content">
-    <app-loading *ngIf="!data"></app-loading>
-    <ng-container [ngSwitch]="widget.type" *ngIf="data">
+    <app-loading *ngIf="!hasData"></app-loading>
+    <ng-container [ngSwitch]="widget.type">
       <!-- <tabular *ngSwitchCase="tabular">
     
       </tabular> -->
       <app-tabular *ngSwitchDefault 
-        [data]="data"
+        [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
         [channels]="channelGroup.channels"
       ></app-tabular>

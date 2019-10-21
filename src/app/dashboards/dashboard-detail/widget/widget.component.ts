@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Widget } from '../../widget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '../../../shared/channel-group';
@@ -16,8 +16,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input() reload: Subject<boolean>;
   @Input() startdate: string;
   @Input() enddate: string;
-  data: any;
+  hasData: boolean = false;
   subscription = new Subscription();
+  dataUpdate = new Subject<any>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -50,7 +52,9 @@ export class WidgetComponent implements OnInit, OnDestroy {
       this.enddate
     ).subscribe(
       response => {
-        this.data = response;
+        this.hasData = true;
+        console.log("fire pew pew")
+        this.dataUpdate.next(response);
         // hiding loading
       }
     );

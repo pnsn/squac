@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter } from '@angular/core';
 import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../../measurement.pipe';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tabular',
@@ -11,31 +12,39 @@ import { MeasurementPipe } from '../../../../measurement.pipe';
   providers: [MeasurementPipe]
 })
 export class TabularComponent implements OnInit {
-  @Input() data: any;
+  @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
   @ViewChild('dataTable') table: any;
   ColumnMode = ColumnMode;
   formattedData = {};
+  dataReady: boolean = false;
   // rows = [];
   constructor(
     private measurement: MeasurementPipe
   ) { }
 
   ngOnInit() {
-    if(this.data) {
-      this.buildRows();
-    }
+    console.log("subscribe")
+    this.dataUpdate.subscribe(data =>{
+      console.log("new data")
+      this.buildRows(data)
+    });
   }
 
   //FIXME: This is awful, find a more efficient way
-  private buildRows() {
+  private buildRows(data) {
+    console.log("build rows")
     this.channels.forEach(channel => {
       this.formattedData[channel.id] = {};
       this.metrics.forEach(metric => {
-        this.formattedData[channel.id][metric.id]=this.measurement.transform(this.data[channel.id][metric.id], 'average');
+        this.formattedData[channel.id][metric.id]=this.measurement.transform(data[channel.id][metric.id], 'average');
       })
     });
+    this.channels=[...this.channels];
+    console.log(this.metrics)
+    this.metrics=[...this.metrics];
+    this.dataReady = true;
   }
 
   toggleExpandGroup(group) {
@@ -43,6 +52,12 @@ export class TabularComponent implements OnInit {
     return false;
   }
 
+  ngOnDestroy(): void {
+    this.dataUpdate.unsubscribe();
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    
+  }
 
 
 }
