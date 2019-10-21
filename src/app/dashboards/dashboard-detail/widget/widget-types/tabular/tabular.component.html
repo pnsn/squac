@@ -1,13 +1,37 @@
   <ngx-datatable 
-    class="material" 
+    #myTable
+    class="material expandable" 
     [rows]="channels"
+    [groupRowsBy]="'stationCode'"
     [headerHeight]="50"
     [footerHeight]="50"
     [rowHeight]="auto"
+    [groupExpansionDefault]="true"
+
     *ngIf="formattedData"
   >
+    <!-- Group Header Template -->
+    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
+        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+          <div style="padding-left:5px;">
+            <a
+              href="#"
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Group"
+              (click)="toggleExpandGroup(group)"
+            >
+              <span> {{group.value[0].networkCode | uppercase }} </span>
+              <span> {{ group.value[0].stationCode | uppercase}} </span>
+              <span> ({{group.value.length}} {{group.value.length == 1? "channel" : "channels"}})</span>
+            </a>
+          </div>
+        </ng-template>
+      </ngx-datatable-group-header>
+
     <ngx-datatable-column 
       name="Channels"
+      frozenLeft="True"
     >
       <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
         {{row.nslc}}

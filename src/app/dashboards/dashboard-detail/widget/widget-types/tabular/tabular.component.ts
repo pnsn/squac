@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -14,6 +14,7 @@ export class TabularComponent implements OnInit {
   @Input() data: any;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
+  @ViewChild('myTable') table: any;
   ColumnMode = ColumnMode;
   formattedData = {};
   // rows = [];
@@ -35,6 +36,15 @@ export class TabularComponent implements OnInit {
         this.formattedData[channel.id][metric.id]=this.measurement.transform(this.data[channel.id][metric.id], 'average');
       })
     });
-    console.log(this.formattedData)
   }
+
+  toggleExpandGroup(group) {
+
+    console.log('Toggled Expand Group!', group);
+    this.table.groupHeader.toggleExpandGroup(group);
+    return false;
+  }
+
+
+
 }
