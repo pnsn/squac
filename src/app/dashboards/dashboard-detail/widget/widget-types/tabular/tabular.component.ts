@@ -67,15 +67,12 @@ export class TabularComponent implements OnInit {
     console.log(column.value)
   }
 
-  checkThreshold(value){
-    console.log(value)
-    console.log(
-      {
-        'above-max': this.threshold.max && value > this.threshold.max,
-        'below-min': this.threshold.min && value < this.threshold.min
-      }
-    )
-    return ;
+  checkThreshold(channelId, metricId, value){
+    return {
+      'above-max': this.threshold.max && value > this.threshold.max,
+      'below-min': this.threshold.min && value < this.threshold.min,
+      'no-threshold': !this.threshold
+    };
 
   }
 }

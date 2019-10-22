@@ -12,7 +12,6 @@
 //     overflow-wrap: break-word;
 //   }
 // }
-
-.out-of-range {
+.below-min, .above-max {
   background-color: red;
 }

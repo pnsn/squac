@@ -41,7 +41,6 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column *ngFor="let metric of metrics">
-
       <ng-template ngx-datatable-header-template>
         {{metric.name}}
       </ng-template>
@@ -53,7 +52,7 @@
         let-value="formattedData[row.id][metric.id]"
         >
         <ng-container *ngIf="formattedData[row.id][metric.id];let val; else noData">
-          {{ val| number:'1.0-2'}}
+          <div [ngClass]="checkThreshold(row.id, metric.id, val)">{{ val| number:'1.0-2'}}</div>
         </ng-container>
         <ng-template #noData class="no-data">
           No Data
