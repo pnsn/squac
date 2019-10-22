@@ -19,6 +19,14 @@ export class TabularComponent implements OnInit {
   ColumnMode = ColumnMode;
   formattedData = {};
   dataReady: boolean = false;
+
+  threshold = {
+    min:1 ,
+    max: 10,
+    widget: 1,
+    metric: 1
+  };
+
   // rows = [];
   constructor(
     private measurement: MeasurementPipe
@@ -34,16 +42,12 @@ export class TabularComponent implements OnInit {
 
   //FIXME: This is awful, find a more efficient way
   private buildRows(data) {
-    console.log("build rows")
     this.channels.forEach(channel => {
       this.formattedData[channel.id] = {};
       this.metrics.forEach(metric => {
         this.formattedData[channel.id][metric.id]=this.measurement.transform(data[channel.id][metric.id], 'average');
       })
     });
-    this.channels=[...this.channels];
-    console.log(this.metrics)
-    this.metrics=[...this.metrics];
     this.dataReady = true;
   }
 
@@ -59,5 +63,19 @@ export class TabularComponent implements OnInit {
     
   }
 
+  getCellClass(column): any {
+    console.log(column.value)
+  }
 
+  checkThreshold(value){
+    console.log(value)
+    console.log(
+      {
+        'above-max': this.threshold.max && value > this.threshold.max,
+        'below-min': this.threshold.min && value < this.threshold.min
+      }
+    )
+    return ;
+
+  }
 }

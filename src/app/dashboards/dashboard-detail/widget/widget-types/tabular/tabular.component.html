@@ -1,7 +1,9 @@
+
   <ngx-datatable 
     #dataTable
     class="material expandable" 
     [rows]="channels"
+    [columns]="metrics"
     [groupRowsBy]="'stationCode'"
     [headerHeight]="50"
     [footerHeight]="50"
@@ -44,18 +46,19 @@
         {{metric.name}}
       </ng-template>
 
-      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-        <ng-container *ngIf="formattedData[row.id][metric.id] !== null; else noData">
-          {{ formattedData[row.id][metric.id] | number:'1.0-2'}}
+      <ng-template 
+        ngx-datatable-cell-template
+        let-row="row"
+        let-column="metric"
+        let-value="formattedData[row.id][metric.id]"
+        >
+        <ng-container *ngIf="formattedData[row.id][metric.id];let val; else noData">
+          {{ val| number:'1.0-2'}}
         </ng-container>
-        <ng-template #noData>
-            No Data
+        <ng-template #noData class="no-data">
+          No Data
         </ng-template>
+
       </ng-template>
-
-
-      
-
-
     </ngx-datatable-column>
   </ngx-datatable>
