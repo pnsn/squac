@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Route, ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { Metric } from '../../../../shared/metric';
 import { MetricsService } from '../../../../shared/metrics.service';
 import { WidgetsService } from '../../../widgets.service';
@@ -48,7 +48,6 @@ export class WidgetEditComponent implements OnInit {
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
-        console.log(params);
         this.id = +params.widgetid;
         this.editMode = params.widgetid != null;
 
@@ -117,6 +116,7 @@ export class WidgetEditComponent implements OnInit {
       )
     ).subscribe(
       result => {
+        this.widgetService.widgetUpdated.emit(result.id);
         this.cancel();
       }
     );

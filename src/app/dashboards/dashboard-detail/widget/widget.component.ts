@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { Widget } from '../../widget';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '../../../shared/channel-group';
@@ -31,6 +31,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     if (this.widget && this.widget.metrics && this.channelGroup) {
       let sub = this.getData();
       const sub1 = this.reload.subscribe(reload => {
+        console.log(this.widget.metrics)
         if (reload) {
           sub = this.getData();
         }
