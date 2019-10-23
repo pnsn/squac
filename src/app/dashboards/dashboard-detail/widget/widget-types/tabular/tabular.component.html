@@ -2,19 +2,18 @@
   <ngx-datatable 
     #dataTable
     class="material expandable" 
-    [rows]="channels"
+    [rows]="rows"
     [columns]="metrics"
-    [groupRowsBy]="'stationCode'"
     [headerHeight]="50"
+    [sortType]="SortType.multi"
     [footerHeight]="50"
     [rowHeight]="auto"
-    [groupExpansionDefault]="true"
-
+    [sorts]="[{ prop: 'agg', dir: 'desc' }]"
     *ngIf="dataReady"
   >
     <!-- Group Header Template -->
-    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
-        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+    <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader> -->
+        <!-- <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
           <div style="padding-left:5px;">
             <a
               href="#"
@@ -29,7 +28,25 @@
             </a>
           </div>
         </ng-template>
-      </ngx-datatable-group-header>
+      </ngx-datatable-group-header> -->
+
+
+      <ngx-datatable-column
+      name="agg"
+      frozenLeft="true"
+      [width]="20"
+      [sortable]="true"
+      >
+        <ng-template 
+        ngx-datatable-cell-template
+        let-row="row"
+        >
+        {{row.agg}}
+  
+        </ng-template>
+          <!-- TODO: most recent instead of average -->
+    
+      </ngx-datatable-column>
 
     <ngx-datatable-column 
       name="Channels"
@@ -38,26 +55,22 @@
       <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
         {{row.nslc}}
       </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> 
 
-    <ngx-datatable-column *ngFor="let metric of metrics">
-      <ng-template ngx-datatable-header-template>
-        {{metric.name}}
-      </ng-template>
+    <ng-container *ngFor="let metric of metrics">
+      <ngx-datatable-column  prop="{{metric.id}}" [cellClass]="getCellClass">
+          <ng-template let-column="column" ngx-datatable-header-template> 
+              {{metric.name}}
+            </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
+              {{value.value != null ? value.value : "No Data"}}
+          </ng-template>
+      </ngx-datatable-column>
+    </ng-container>
 
-      <ng-template 
-        ngx-datatable-cell-template
-        let-row="row"
-        let-column="metric"
-        let-value="formattedData[row.id][metric.id]"
-        >
-        <ng-container *ngIf="formattedData[row.id][metric.id];let val; else noData">
-          <div [ngClass]="checkThreshold(row.id, metric.id, val)">{{ val| number:'1.0-2'}}</div>
-        </ng-container>
-        <ng-template #noData class="no-data">
-          No Data
-        </ng-template>
 
-      </ng-template>
-    </ngx-datatable-column>
   </ngx-datatable>
+
+  <!-- aggregate count # of fails right side column-->
+  <!-- color time table thing -->
+  <!-- line with dots  -->
