@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef } from '@angular/core';
 import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -16,17 +16,14 @@ export class TabularComponent implements OnInit {
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
   @ViewChild('dataTable') table: any;
+  @ViewChild('metricTmpl') metricTmpl: TemplateRef<any>;
+  @ViewChild('hdrTpl') hdrTpl: TemplateRef<any>;
   ColumnMode = ColumnMode;
   SortType = SortType
   formattedData = {};
   dataReady: boolean = false;
   rows = [];
-  threshold = {
-    min:1 ,
-    max: 101,
-    widget: 1,
-    metric: 1
-  };
+  columns=[];
 
   // rows = [];
   constructor(
@@ -56,6 +53,20 @@ export class TabularComponent implements OnInit {
 
   private buildRows2(data){
     console.log(data);
+    this.columns = [
+      {prop:"agg", name: "Agg.", frozenLeft: true, width:"50"},
+      {prop:"nslc", name: "Channels", frozenLeft: true}
+    ];
+
+    this.metrics.forEach(metric => {
+      this.columns.push({
+        prop:metric.id,
+        name:metric.name,
+        cellTemplate: this.metricTmpl,
+        headerTemplate: this.hdrTpl
+      });
+    })
+    
     this.rows = this.channels.map((channel, index)=>{
       let row = {};
 
@@ -67,9 +78,10 @@ export class TabularComponent implements OnInit {
       let agg = 0;
 
       this.metrics.forEach(metric => {
+
         const val = this.measurement.transform(data[channel.id][metric.id], '');
 
-        let inThreshold = this.checkThresholds(metric, val);
+        let inThreshold = this.checkThresholds(metric.threshold, val);
 
         if(val !=null && inThreshold) {
           agg++;
@@ -80,7 +92,7 @@ export class TabularComponent implements OnInit {
           classes: {
             'out-of-spec' : val !== null && !inThreshold ,
             'in-spec' : val !== null && inThreshold ,
-            'has-threshold' : !!this.threshold
+            'has-threshold' : !!metric.threshold
           }
         };
 
@@ -88,8 +100,9 @@ export class TabularComponent implements OnInit {
       row['agg'] = agg;
       return row;
     });
-    console.log(this.rows);
     this.dataReady = true;
+    this.columns=[...this.columns];
+    this.rows=[...this.rows];
   }
 
   toggleExpandGroup(group) {
@@ -109,15 +122,15 @@ export class TabularComponent implements OnInit {
   }
 
   //TODO: yes, this is bad boolean but I'm going to change it
-  checkThresholds(metric, value) : boolean {
+  checkThresholds(threshold, value) : boolean {
     let withinThresholds = true;
-    if(this.threshold.max && value != null && value > this.threshold.max) {
+    if(threshold.max && value != null && value > threshold.max) {
       withinThresholds = false;
     }
-    if(this.threshold.min && value != null && value < this.threshold.min) {
+    if(threshold.min && value != null && value < threshold.min) {
       withinThresholds = false;
     }
-    if(!this.threshold.min && !this.threshold.max) {
+    if(!threshold.min && !threshold.max) {
       withinThresholds = false;
     }
     return withinThresholds;

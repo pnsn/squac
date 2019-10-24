@@ -134,3 +134,11 @@ button:disabled {
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.7);
 }
+
+/* Data Table*/
+datatable-scroller {
+  width: 100% !important;
+}
+ngx-datatable {
+  width: 100% !important;
+}

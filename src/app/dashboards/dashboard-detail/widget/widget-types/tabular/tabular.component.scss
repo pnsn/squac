@@ -12,10 +12,6 @@
 //     overflow-wrap: break-word;
 //   }
 // }
-:host ::ng-deep .ngx-datatable {
-  width: .5vw;
-  overflow: scroll;
-}
 
 :host ::ng-deep .in-spec {
   background-color: rgb(129, 182, 231) !important;
