@@ -20,8 +20,6 @@ export class TabularComponent implements OnInit {
   @ViewChild('hdrTpl') hdrTpl: TemplateRef<any>;
   ColumnMode = ColumnMode;
   SortType = SortType
-  formattedData = {};
-  dataReady: boolean = false;
   rows = [];
   columns=[];
 
@@ -111,7 +109,6 @@ export class TabularComponent implements OnInit {
     });
     this.rows = [...rows];
     console.log(rows)
-    this.dataReady = true;
   }
 
   getChannelsForStation(stationId){

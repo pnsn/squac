@@ -10,6 +10,7 @@ import { MeasurementPipe } from '../measurement.pipe';
 import { TabularComponent } from './widget/widget-types/tabular/tabular.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('DashboardDetailComponent', () => {
   let component: DashboardDetailComponent;
@@ -20,7 +21,8 @@ describe('DashboardDetailComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
-        FormsModule
+        FormsModule,
+        NgxDatatableModule
       ],
       providers: [
         DashboardsService,

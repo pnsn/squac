@@ -141,4 +141,8 @@ datatable-scroller {
 }
 ngx-datatable {
   width: 100% !important;
+  .datatable-header-cell, .datatable-body-cell {
+    padding: 10px !important;
+  }
 }
+
