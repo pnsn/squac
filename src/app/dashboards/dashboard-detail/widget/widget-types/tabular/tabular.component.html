@@ -7,8 +7,10 @@
     [headerHeight]="50"
     [sortType]="SortType.multi"
     [footerHeight]="50"
+    [virtualization]="false"
+    [columnMode]="force"
     [rowHeight]="auto"
-    [sorts]="[{ prop: 'agg', dir: 'desc' }]"
+    [sorts]="[{prop:'nslc', dir:'desc'},{ prop: 'agg', dir: 'desc' }]"
     *ngIf="dataReady"
   >
     <!-- Group Header Template -->
@@ -51,6 +53,7 @@
     <ngx-datatable-column 
       name="Channels"
       frozenLeft="True"
+      [width]="100"
     >
       <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
         {{row.nslc}}
@@ -58,12 +61,12 @@
     </ngx-datatable-column> 
 
     <ng-container *ngFor="let metric of metrics">
-      <ngx-datatable-column  prop="{{metric.id}}" [cellClass]="getCellClass">
+      <ngx-datatable-column  prop="{{metric.id}}" [cellClass]="getCellClass" [width]="50">
           <ng-template let-column="column" ngx-datatable-header-template> 
               {{metric.name}}
             </ng-template>
           <ng-template ngx-datatable-cell-template let-value="value" let-row="row" >
-              {{value.value != null ? value.value : "No Data"}}
+              {{value.value}}
           </ng-template>
       </ngx-datatable-column>
     </ng-container>
