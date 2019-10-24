@@ -3,12 +3,12 @@
 export class Channel {
 
   // //from sta
-  // public stationId : number;
+  public stationId : number;
   // public stationName : string;
   // public stationCode : string;
   // //from net
 
-  // public networkId : number;
+  public networkId : number;
   // public  networkCode : string;
   // public  networkName : string;
 

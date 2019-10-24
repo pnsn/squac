@@ -20,6 +20,10 @@
   background-color: rgb(250, 154, 154) !important;
 }
 
+:host ::ng-deep .datatable-tree-button:disabled {
+  display:none;
+}
+
 .ngx-datatable{
   width: 100% !important;
 }
