@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MeasurementPipe implements PipeTransform {
 
-  //most recent?
+  // most recent?
   // Calculates the values for the channel
   private sort(values): Array<any> {
     if ( !values || values.length === 0 ) {
@@ -59,20 +59,20 @@ private min(values): number {
   transform(values: any, type: any): any {
     if (values && values.length > 0) {
       const sortedValues = this.sort(values);
-        switch (type) {
+      switch (type) {
           case 'average':
           return this.average(sortedValues);
-  
+
           case 'median':
             return this.median(sortedValues);
-  
+
           case 'max':
             return this.max(sortedValues);
-  
+
           case 'min':
             return this.min(sortedValues);
-  
-          default://most recent
+
+          default: // most recent
             return values[values.length - 1].value;
         }
     } else {

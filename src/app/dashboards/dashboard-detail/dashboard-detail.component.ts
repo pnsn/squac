@@ -38,7 +38,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
       this.updateDashboard();
-      //TODO: update just the widget
+      // TODO: update just the widget
     });
 
     this.subscription.add(dashboardsSub);
@@ -64,8 +64,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   updateWidget(id) {
-    console.log("refresh widget", id)
-    //refresh the widget
+    console.log('refresh widget', id);
+    // refresh the widget
   }
 
   refreshData() {

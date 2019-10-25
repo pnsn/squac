@@ -27,14 +27,14 @@ export class MeasurementsService {
   ) {}
 
   getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: string, end: string ): Observable<any> {
-    // TODO: find a better way for this
-    if (widget.metrics && channelGroup.channels && start && end) {
+    //  TODO: may need to rethink for a more general structure
+    if (widget.metrics.length > 0 && channelGroup.channels.length > 0 && start && end) {
       const data = {};
       channelGroup.channels.forEach(channel => {
-        data[channel.id]={};
+        data[channel.id] = {};
         widget.metrics.forEach(metric => {
-          data[channel.id][metric.id]=[];
-        })
+          data[channel.id][metric.id] = [];
+        });
       });
       return this.squacApi.get(this.url, null,
         {
@@ -60,7 +60,9 @@ export class MeasurementsService {
           return data;
         })
       );
+    } else {
+      return new Observable<any>();
     }
-    return EMPTY;
+
   }
 }

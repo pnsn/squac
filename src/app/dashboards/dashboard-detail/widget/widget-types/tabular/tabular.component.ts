@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
 import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./tabular.component.scss'],
   providers: [MeasurementPipe]
 })
-export class TabularComponent implements OnInit {
+export class TabularComponent implements OnInit, OnDestroy{
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
@@ -19,9 +19,9 @@ export class TabularComponent implements OnInit {
   @ViewChild('metricTmpl') metricTmpl: TemplateRef<any>;
   @ViewChild('hdrTpl') hdrTpl: TemplateRef<any>;
   ColumnMode = ColumnMode;
-  SortType = SortType
+  SortType = SortType;
   rows = [];
-  columns=[];
+  columns = [];
 
   // rows = [];
   constructor(
@@ -29,9 +29,9 @@ export class TabularComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("subscribe")
-    this.dataUpdate.subscribe(data =>{
-      console.log("new data")
+    console.log('subscribe');
+    this.dataUpdate.subscribe(data => {
+      console.log('new data');
       // this.buildRows(data);
       this.buildRows2(data);
     });
@@ -42,27 +42,27 @@ export class TabularComponent implements OnInit {
   }
 
   private worstChannel(channels) {
-    let worstChannel = [];
+    const worstChannel = [];
     return worstChannel;
   }
 
-  private buildRows2(data){
+  private buildRows2(data) {
     const rows = [];
     const stations = [];
 
-    this.channels.forEach((channel, index)=>{
-      const identifier = channel.networkCode+"."+channel.stationCode;
+    this.channels.forEach((channel, index) => {
+      const identifier = channel.networkCode + '.' + channel.stationCode;
 
 
       let agg = 0;
 
       const rowMetrics = {};
-      
+
       this.metrics.forEach(metric => {
         const val = this.measurement.transform(data[channel.id][metric.id], '');
-        let inThreshold = this.checkThresholds(metric.threshold, val);
+        const inThreshold = this.checkThresholds(metric.threshold, val);
 
-        if(val !=null && inThreshold) {
+        if (val != null && inThreshold) {
           agg++;
         }
 
@@ -78,40 +78,40 @@ export class TabularComponent implements OnInit {
       });
 
       let row = {
-        title: channel.loc +"."+channel.code,
+        title: channel.loc + '.' + channel.code,
         id: channel.id,
         nslc: channel.nslc,
         parentId: identifier,
-        treeStatus: "disabled",
-        agg: agg
+        treeStatus: 'disabled',
+        agg
       };
-      row = {...row, ...rowMetrics}
-      if(!stations.includes(identifier)) {
+      row = {...row, ...rowMetrics};
+      if (!stations.includes(identifier)) {
         stations.push(identifier);
         rows.push(
-          { 
+          {
             ...{
-          title: channel.networkCode + "." + channel.stationCode,
+          title: channel.networkCode + '.' + channel.stationCode,
           id: identifier,
-          treeStatus: "collapsed",
+          treeStatus: 'collapsed',
           staCode: channel.stationCode,
           netCode: channel.networkCode,
-          agg: agg
+          agg
           },
           ...rowMetrics
         }
-        )
+        );
       } else {
-        //check if agg if worse than current agg
+        // check if agg if worse than current agg
       }
 
       rows.push(row);
     });
     this.rows = [...rows];
-    console.log(rows)
+    console.log(rows);
   }
 
-  getChannelsForStation(stationId){
+  getChannelsForStation(stationId) {
     return [];
   }
 
@@ -130,25 +130,25 @@ export class TabularComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dataUpdate.unsubscribe();
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+
   }
 
   getCellClass({ row, column, value }): any {
     return row[column.prop].classes;
   }
 
-  //TODO: yes, this is bad boolean but I'm going to change it
-  checkThresholds(threshold, value) : boolean {
+  // TODO: yes, this is bad boolean but I'm going to change it
+  checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if(threshold.max && value != null && value > threshold.max) {
+    if (threshold.max && value != null && value > threshold.max) {
       withinThresholds = false;
     }
-    if(threshold.min && value != null && value < threshold.min) {
+    if (threshold.min && value != null && value < threshold.min) {
       withinThresholds = false;
     }
-    if(!threshold.min && !threshold.max) {
+    if (!threshold.min && !threshold.max) {
       withinThresholds = false;
     }
     return withinThresholds;

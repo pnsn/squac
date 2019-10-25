@@ -16,7 +16,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input() reload: Subject<boolean>;
   @Input() startdate: string;
   @Input() enddate: string;
-  hasData: boolean = false;
+  hasData = false;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
 
@@ -31,7 +31,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     if (this.widget && this.widget.metrics && this.channelGroup) {
       let sub = this.getData();
       const sub1 = this.reload.subscribe(reload => {
-        console.log(this.widget.metrics)
+        console.log(this.widget.metrics);
         if (reload) {
           sub = this.getData();
         }
@@ -54,7 +54,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     ).subscribe(
       response => {
         this.hasData = true;
-        console.log("fire pew pew")
+        console.log('fire pew pew');
         this.dataUpdate.next(response);
         // hiding loading
       }

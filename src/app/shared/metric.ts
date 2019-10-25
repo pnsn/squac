@@ -11,5 +11,5 @@ export class Metric {
   public threshold = {
     max: 101,
     min: 1
-  }
+  };
 }
