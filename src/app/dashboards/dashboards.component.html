@@ -8,7 +8,10 @@
 
   <mat-sidenav-content>
     <div class="sidenav-toggle-container" id="close-button">
-      <button mat-mini-fab (click)="sidenav.toggle()">toggle</button>
+      <button mat-mini-fab (click)="sidenav.toggle()">
+          <mat-icon *ngIf="opened">close</mat-icon>
+          <mat-icon *ngIf="!opened">arrow_forward_ios</mat-icon>    
+      </button>
     </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
