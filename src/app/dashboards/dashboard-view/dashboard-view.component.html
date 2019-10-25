@@ -1,8 +1,8 @@
 
 <ul>
-  <li *ngFor="let dashboard of dashboards" >
-    <a [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}}</a>
-  </li>
+  <mat-nav-list dense *ngFor="let dashboard of dashboards" >
+    <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}} </a>
+  </mat-nav-list>
 </ul>
 <app-loading *ngIf="!dashboards"></app-loading>
-<button class="btn btn-primary" (click)="newDashboard()">Create New Dashboard</button>
+<button mat-button class="btn btn-primary" (click)="newDashboard()"> Add Dashboard</button>

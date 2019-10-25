@@ -5,25 +5,14 @@
   bottom:0;
   right: 0;
 }
-
-#sidenav-toggle {
+.sidenav-toggle-container {
   position: absolute;
-  z-index: 10;
-  left: -25px;
-  background-color: red;
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  color: white;
-}
-.active {
-  color: orangered;
-}
-
-#sidebar {
-  padding: 10px;
-}
-
-#content {
-  width: 100%;
+  z-index: 10 !important;
+  visibility: visible !important;
+  button {
+    color: white; 
+  }
+  #close-button {
+    left: -25px
+  }
 }
