@@ -29,7 +29,8 @@ $sq-yellow: mat-color($squac-ui-accent);
 $sq-dk-blue: mat-color($squac-ui-primary, darker);
 $sq-blue: mat-color($squac-ui-primary);
 $sq-lt-blue: mat-color($squac-ui-primary, lighter);
-$sq-gray: mat-color($squac-ui-neutral);
+$sq-dk-gray: mat-color($squac-ui-neutral);
+$sq-gray: mat-color($squac-ui-neutral, 100);
 $sq-lt-gray: mat-color($squac-ui-neutral, 50);
 
 /* You can add global styles to this file, and also import other style files */
@@ -134,7 +135,7 @@ button:disabled {
     textarea {
       width: 300px;
       line-height: 2em;
-      border: 2px solid $sq-gray;
+      border: 1px solid $sq-gray;
       border-radius: 5px;
       padding-left: 5px;
     }
@@ -149,8 +150,8 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 2px solid $sq-lt-gray;
-  border-radius: 10px;
+  border: 1px solid $sq-gray;
+  border-radius: 5px;
 }
 
 /* Popup formatting */
@@ -199,7 +200,9 @@ ngx-datatable {
     }
    }
 }
-
+#dashboard-header {
+  background-color: $sq-lt-gray;
+}
 #dashboard-sidenav.mat-sidenav {
   border-right: none;
 }
@@ -208,12 +211,11 @@ ngx-datatable {
   z-index: 3;
   overflow: unset;
   margin-left: 20px;
-  border-left: mat-color($squac-ui-neutral, 100);
+  border-left: $sq-gray;
 }
 
 .widget-container {
   @extend .box;
-  border-color: mat-color($squac-ui-neutral, 100);
 }
 
 html, body { height: 100%; }

@@ -13,8 +13,7 @@
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
-  z-index: 3;
-  background-color: transparent !important;
+  z-index: 100;
   // h2 {
   //   margin-top: 10px;
   // }
@@ -24,7 +23,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 40px; 
+  height: 44px; 
   #header-controls {
     // height: 20px;
     display: flex;

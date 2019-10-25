@@ -1,11 +1,24 @@
-#widget-container {
+.widget-container {
   width: 800px;
   margin: 5px;
   overflow:hidden;
   text-align: left;
 }
 
-#widget-content {
+.widget-header {
+  width: 100%;
+  h4 {
+    display:inline;
+    // margin-top: 10px;
+    // margin-right: 2-
+    // float:left;
+  }
+  button {
+    float:right;
+  }
+}
+
+.widget-content {
   max-height: 100%;
   width: 100%;
   overflow:scroll;
