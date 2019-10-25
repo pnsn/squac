@@ -1,5 +1,5 @@
 
-<mat-nav-list dense *ngFor="let dashboard of dashboards" >
+<mat-nav-list class="mat-nac-list-dense" dense *ngFor="let dashboard of dashboards" >
   <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}} </a>
 </mat-nav-list>
 

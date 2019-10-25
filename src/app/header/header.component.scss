@@ -1,26 +1,16 @@
-header {
+mat-toolbar {
+  display: flex;
   height: 60px;
+  align-items: center;
+  justify-content: space-between;
   img{
+    padding-top:5px;
     height: 40px;
     width: auto;
   }
-  background-color: #336178;
   h1, a {
     color: white;
     display: inline-block;
     margin: 5px;
-  }
-
-  #header-right, #header-left {
-    display: inline-block;
-  }
-
-  #header-right{
-    position:fixed;
-    top: 12px;
-    right:10px;
-    a {
-      cursor: pointer;
-    }
   }
 }

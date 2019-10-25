@@ -1,12 +1,19 @@
 #dashboard-container {
   position: relative;
-
+  height: 100%;
+  overflow: scroll;
   #widget-container {
+
     display:flex;
     flex-wrap: wrap;
+
   }
 }
 #dashboard-header{
+  top: 0px;
+  position: sticky;
+  position: -webkit-sticky;
+  z-index: 20;
   background-color: transparent !important;
   // h2 {
   //   margin-top: 10px;
@@ -17,6 +24,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: 40px; 
   #header-controls {
     // height: 20px;
     display: flex;
@@ -33,9 +41,4 @@
     height: 40px;
     font-size: 10pt !important;
   }
-}
-
-button.mat-menu-item {
-  height: 30px !important;
-  line-height: 10px;
 }

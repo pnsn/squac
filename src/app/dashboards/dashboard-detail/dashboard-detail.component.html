@@ -29,6 +29,7 @@
                         [matDatepicker]="enddatepicker"
                         type="date" 
                         id="enddate" 
+                        name="enddate"
                         [(ngModel)]="enddate">
                       <mat-datepicker-toggle matSuffix [for]="enddatepicker">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -38,7 +39,7 @@
             </form>
 
 
-            <mat-menu #appMenu="matMenu" dense yPosition="below" xPosition="before">
+            <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
                 <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
                 <button mat-menu-item >Edit Widgets</button>
                 <button mat-menu-item >Delete Dashboard</button>
