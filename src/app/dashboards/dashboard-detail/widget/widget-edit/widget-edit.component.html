@@ -1,12 +1,12 @@
-<div id="edit-container">
+<div id="edit-container" class="box">
   <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
     <div class="stepper-header">
       <h3>
         {{ editMode ? "Edit widget" + id : "New Widget"}}
       </h3>
-      <button class="btn btn-primary" type="submit" [disabled]='!widgetForm.valid'>
+      <button mat-flat-button color="primary" type="submit" [disabled]='!widgetForm.valid'>
         Save</button>
-      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+      <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
     </div>
     <div class="stepper-content">
       <div class="stepper-page page-1">

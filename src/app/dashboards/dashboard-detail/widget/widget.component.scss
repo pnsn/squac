@@ -7,13 +7,17 @@
 
 .widget-header {
   width: 100%;
+  padding: 10px 10px 0px 10px;
   h4 {
-    display:inline;
+    display:inline-block;
     // margin-top: 10px;
     // margin-right: 2-
     // float:left;
   }
   button {
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
     float:right;
   }
 }
