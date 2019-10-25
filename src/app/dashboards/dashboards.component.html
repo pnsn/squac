@@ -1,8 +1,14 @@
-<div id="dashboard-body">
-  <div id="sidebar">
-    <app-dashboard-view></app-dashboard-view>
-  </div>
-  <div id="content">
+
+
+
+<mat-sidenav-container id="dashboard-container" >
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+               (closed)="events.push('close!')">
+    <app-dashboard-view></app-dashboard-view> 
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button mat-button id="sidenav-toggle" (click)="sidenav.toggle()">{{opened ? "c" : "o"}}</button>
     <router-outlet></router-outlet>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
