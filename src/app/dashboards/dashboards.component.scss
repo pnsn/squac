@@ -10,14 +10,11 @@ mat-sidenav{
 }
 .sidenav-toggle-container {
   margin-top: 5px;
-  // margin-left: -20px;
+  margin-left: -20px;
   position: absolute;
   z-index: 10 !important;
   visibility: visible !important;
   button {
     color: white; 
-  }
-  &.drawer-closed {
-    margin-left: 0px;
   }
 }
