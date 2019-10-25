@@ -51,9 +51,9 @@
 
       </mat-toolbar>
     <div id="widget-container"> 
-        <button mat-mini-fab (click)="addWidget()">
+        <!-- <button mat-mini-fab (click)="addWidget()">
             <mat-icon >add</mat-icon>    
-        </button>
+        </button> -->
       <app-widget 
           *ngFor="let widget of dashboard.widgets"
           [widget]="widget" 
