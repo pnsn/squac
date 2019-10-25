@@ -201,14 +201,19 @@ ngx-datatable {
 }
 
 #dashboard-sidenav.mat-sidenav {
-  // border-right: none;
+  border-right: none;
 }
 
 #dashboard-sidenav-content.mat-sidenav-content {
   z-index: 3;
   overflow: unset;
   margin-left: 20px;
-  border-left:solid 1px rgba(0, 0, 0, 0.12);
+  border-left: mat-color($squac-ui-neutral, 100);
+}
+
+.widget-container {
+  @extend .box;
+  border-color: mat-color($squac-ui-neutral, 100);
 }
 
 html, body { height: 100%; }
