@@ -22,6 +22,17 @@ export class TabularComponent implements OnInit, OnDestroy{
   SortType = SortType;
   rows = [];
   columns = [];
+  messages={
+      // Message to show when array is presented
+  // but contains no values
+    emptyMessage: 'Loading data.',
+
+    // Footer total message
+    totalMessage: 'total',
+
+    // Footer selected message
+    selectedMessage: 'selected'
+  }
 
   // rows = [];
   constructor(
