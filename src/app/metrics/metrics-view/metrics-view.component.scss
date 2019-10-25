@@ -9,13 +9,18 @@ h1 {
     display: inline-block;
 }
 
+div {
+    margin: 25px 5%;
+}
+
 .btn {
     margin-right: 0;
     float: right;
 }
 
 #metric-table {
-    margin: 25px 5%;
     border: 2px solid $sq-lt-gray;
     border-radius: 10px;
+    height: 45rem;
+    overflow-y: scroll;
 }
