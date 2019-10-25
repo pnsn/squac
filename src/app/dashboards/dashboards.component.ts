@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboards.component.scss']
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
-  opened: boolean = true;
+  opened = true;
 
   constructor(
     private dashboardsService: DashboardsService,

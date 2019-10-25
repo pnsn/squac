@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./tabular.component.scss'],
   providers: [MeasurementPipe]
 })
-export class TabularComponent implements OnInit, OnDestroy{
+export class TabularComponent implements OnInit, OnDestroy {
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
@@ -20,7 +20,7 @@ export class TabularComponent implements OnInit, OnDestroy{
   SortType = SortType;
   rows = [];
   columns = [];
-  messages={
+  messages = {
       // Message to show when array is presented
   // but contains no values
     emptyMessage: 'Loading data.',
@@ -30,7 +30,7 @@ export class TabularComponent implements OnInit, OnDestroy{
 
     // Footer selected message
     selectedMessage: 'selected'
-  }
+  };
 
   // rows = [];
   constructor(
@@ -38,11 +38,8 @@ export class TabularComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit() {
-    console.log('subscribe');
     this.dataUpdate.subscribe(data => {
-      console.log('new data');
-      // this.buildRows(data);
-      this.buildRows2(data);
+      this.buildRows(data);
     });
   }
 
@@ -55,7 +52,7 @@ export class TabularComponent implements OnInit, OnDestroy{
     return worstChannel;
   }
 
-  private buildRows2(data) {
+  private buildRows(data) {
     const rows = [];
     const stations = [];
 
@@ -113,11 +110,8 @@ export class TabularComponent implements OnInit, OnDestroy{
       } else {
         // check if agg if worse than current agg
       }
-
-      rows.push(row);
     });
     this.rows = [...rows];
-    console.log(rows);
   }
 
   getChannelsForStation(stationId) {

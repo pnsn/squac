@@ -11,6 +11,8 @@ import { TabularComponent } from './widget/widget-types/tabular/tabular.componen
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MaterialModule } from 'src/app/shared/material.module';
+
 
 describe('DashboardDetailComponent', () => {
   let component: DashboardDetailComponent;
@@ -22,7 +24,8 @@ describe('DashboardDetailComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         FormsModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        MaterialModule
       ],
       providers: [
         DashboardsService,

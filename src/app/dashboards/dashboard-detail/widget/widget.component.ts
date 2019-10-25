@@ -54,7 +54,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
     ).subscribe(
       response => {
         this.hasData = true;
-        console.log('fire pew pew');
         this.dataUpdate.next(response);
         // hiding loading
       }

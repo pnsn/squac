@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../shared/loading/loading.component';
+import { MaterialModule } from '../shared/material.module';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;
@@ -15,7 +16,8 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        MaterialModule
       ],
       declarations: [ DashboardsComponent , DashboardViewComponent, LoadingComponent],
       providers: [

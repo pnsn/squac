@@ -35,7 +35,6 @@ export class SquacApiService {
   // for updating
   put(path: string, id: number, data: any ): Observable<any> {
     const url = this.baseUrl + path + (id ? id + '/' : '');
-    console.log(url);
     return this.http.put<any>(url, data);
   }
 

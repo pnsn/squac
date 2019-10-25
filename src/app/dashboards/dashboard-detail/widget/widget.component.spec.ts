@@ -11,6 +11,7 @@ import { ChannelGroup } from '../../../shared/channel-group';
 import { TabularComponent } from './widget-types/tabular/tabular.component';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -20,7 +21,8 @@ describe('WidgetComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
-        NgxDatatableModule
+        NgxDatatableModule,
+        MaterialModule
       ],
       providers: [
         {
