@@ -15,9 +15,7 @@ export class TabularComponent implements OnInit, OnDestroy{
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
-  @ViewChild('dataTable') table: any;
-  @ViewChild('metricTmpl') metricTmpl: TemplateRef<any>;
-  @ViewChild('hdrTpl') hdrTpl: TemplateRef<any>;
+  @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];

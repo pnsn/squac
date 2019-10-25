@@ -36,7 +36,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
-  @ViewChild('channelTable') table: any;
+  @ViewChild('channelTable', { static: false }) table: any;
 
   constructor(
     private router: Router,
