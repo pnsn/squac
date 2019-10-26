@@ -47,15 +47,20 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   }
 
-  private worstChannel(channels) {
-    const worstChannel = [];
-    return worstChannel;
+  private findWorstChannel(channel, station) {
+    if ( channel.agg > station.agg ) {
+      const newStation = Object.assign(station, channel);
+      newStation.treeStatus = 'collapsed';
+      newStation.id = station.id;
+      return newStation;
+    }
+    return  station;
   }
 
   private buildRows(data) {
     const rows = [];
     const stations = [];
-
+    const stationRows = [];
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
 
@@ -92,9 +97,10 @@ export class TabularComponent implements OnInit, OnDestroy {
         agg
       };
       row = {...row, ...rowMetrics};
+      rows.push(row);
       if (!stations.includes(identifier)) {
         stations.push(identifier);
-        rows.push(
+        stationRows.push(
           {
             ...{
           title: channel.networkCode + '.' + channel.stationCode,
@@ -108,10 +114,14 @@ export class TabularComponent implements OnInit, OnDestroy {
         }
         );
       } else {
+        const staIndex = stations.indexOf(identifier);
+        stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
       }
+
     });
-    this.rows = [...rows];
+    this.rows = [...stationRows, ...rows];
+    console.log(this.rows.length);
   }
 
   getChannelsForStation(stationId) {
