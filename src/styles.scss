@@ -11,7 +11,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 
 $squac-ui-primary: mat-palette($mat-sqblue);
-$squac-ui-accent: mat-palette($mat-sqyellow);
+$squac-ui-accent: mat-palette($mat-sqyellow, 500, 900, A100);
 $squac-ui-neutral: mat-palette($mat-sqgray);
 
 // The warn palette is optional (defaults to red).

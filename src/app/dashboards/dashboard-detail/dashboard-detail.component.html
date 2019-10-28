@@ -51,22 +51,25 @@
         </div>
 
       </mat-toolbar>
-    <div id="widget-container"> 
-        <!-- <button mat-mini-fab (click)="addWidget()">
-            <mat-icon >add</mat-icon>    
-        </button> -->
-      <app-widget 
-          *ngFor="let widget of dashboard.widgets"
-          [widget]="widget" 
-          [channelGroup]="dashboard.channelGroup"
-          [reload]="reload"
-          [startdate]="startdate"
-          [enddate]="enddate"
-          >
-      </app-widget>
-    </div>
-        
-    <router-outlet></router-outlet>
+      <div id="dashboard-content">
+          <div id="widget-container"> 
+              <!-- <button mat-mini-fab (click)="addWidget()">
+                  <mat-icon >add</mat-icon>    
+              </button> -->
+            <app-widget 
+                *ngFor="let widget of dashboard.widgets"
+                [widget]="widget" 
+                [channelGroup]="dashboard.channelGroup"
+                [reload]="reload"
+                [startdate]="startdate"
+                [enddate]="enddate"
+                >
+            </app-widget>
+          </div>
+              
+          <router-outlet></router-outlet>
+      </div>
+
 </div>
 
 <app-loading *ngIf="!dashboard"></app-loading>
