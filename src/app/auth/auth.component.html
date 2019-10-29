@@ -8,7 +8,9 @@
   <h1>Sign In</h1>
   <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" >
     
-    <mat-form-field>
+    <mat-form-field
+      appearance="outline"
+    >
       <mat-label>
         Username
       </mat-label>
@@ -18,11 +20,12 @@
         ngModel
         placeholder="Username" 
         name="email" 
-        appearance="outline"
         required >
     </mat-form-field>
     
-    <mat-form-field>
+    <mat-form-field
+      appearance="outline"
+    >
       <mat-label>
         Password
       </mat-label>
