@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
+import { MaterialModule } from '../shared/material.module';
 
 class MockAuthService {
   user = new BehaviorSubject<User>(null);
@@ -31,7 +32,7 @@ describe('AuthComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthComponent ],
-      imports: [ FormsModule ],
+      imports: [ FormsModule , MaterialModule],
       providers: [
         { provide: AuthService, useValue: new MockAuthService() },
         { provide: Router }

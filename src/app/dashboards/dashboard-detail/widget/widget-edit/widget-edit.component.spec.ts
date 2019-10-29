@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -16,7 +17,8 @@ describe('WidgetEditComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MaterialModule
       ],
       providers: [
         {
