@@ -17,21 +17,25 @@ header {
 }
 
 #login {
-  height: 400px;
-  width: 400px;
+  width: 350px;
   margin: 200px auto;
   z-index: 1;
+  padding: 20px;
 
   form {
-
-    button {
-      margin-top: 30px;
-      width: 275px;
+    display:flex;
+    flex-direction: column;
+    mat-form-field {
+      margin-top: 15px ;
+    }
+    #forgot-password {
+      align-self: flex-start;
+      margin-bottom: 20px;
     }
   }
 }
 
-#pw-reset, #no-acct {
+#forgot-password, #no-acct {
   color: $sq-gray;
-  line-height: 0;
+  font-size: 10pt;
 }

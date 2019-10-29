@@ -4,22 +4,44 @@
   </div>
 </header>
 
-<div class="box" id="login">
+<div class="box" id="login" *ngIf="!isLoading">
   <h1>Sign In</h1>
-  <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" *ngIf="!isLoading">
-    <div class="form-group">
-      <label for="email"><p>Email</p></label>
-      <input type="email" id="email" class="form-control" ngModel name="email" required email />
-    </div>
-    <div class="form-group">
-      <label for="password"><p>Password</p></label>
-      <input type="password" id="password" class="form-control" ngModel name="password" required minlength="6" />
-      <p id="pw-reset">Forgot password?</p>
-    </div>
-    <div>
-      <button class="btn btn-primary" type="submit" [disabled]="!logInForm.valid">
-        Sign In </button>
-      <p id="no-acct">Don't have an account? Contact XXXXXXXX</p>
-    </div>
+  <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" >
+    
+    <mat-form-field>
+      <mat-label>
+        Username
+      </mat-label>
+      <input matInput 
+        type="email" 
+        id="email" 
+        ngModel
+        placeholder="Username" 
+        name="email" 
+        appearance="outline"
+        required >
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>
+        Password
+      </mat-label>
+      <input matInput 
+        ngModel
+        appearance="outline"
+        placeholder="Password"
+        [type]="hide ? 'password' : 'text'"
+        name="password"
+        required
+        minlength="8"
+      >
+      <button mat-icon-button matSuffix type="button" (click)="hide = !hide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <a id="forgot-password"> Forgot your password?</a>
+    <button mat-raised-button color="accent" type="submit" [disabled]="!logInForm.valid">
+      Sign In </button>
+    <p id="no-acct">Don't have an account? Contact XXXXXXXX</p>
   </form>
 </div>

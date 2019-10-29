@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
   isLoading = false; // Currently loading/in progress?
   error: string = null; // Has there been an error?
+  hide = true;
 
   constructor(
     private authService: AuthService,
