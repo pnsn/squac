@@ -22,7 +22,6 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
   }
 
   // After user presses submit

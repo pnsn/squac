@@ -49,9 +49,11 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   private findWorstChannel(channel, station) {
     if ( channel.agg > station.agg ) {
-      const newStation = Object.assign(station, channel);
-      newStation.treeStatus = 'collapsed';
+      const newStation = {...channel};
+      newStation.treeStatus = station.treeStatus;
       newStation.id = station.id;
+      newStation.title = station.title;
+      newStation.parentId = null; 
       return newStation;
     }
     return  station;
@@ -73,7 +75,7 @@ export class TabularComponent implements OnInit, OnDestroy {
         const val = this.measurement.transform(data[channel.id][metric.id], '');
         const inThreshold = this.checkThresholds(metric.threshold, val);
 
-        if (val != null && inThreshold) {
+        if (val != null && !inThreshold) {
           agg++;
         }
 
@@ -121,7 +123,8 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(this.rows.length);
+    console.log(stationRows)
+    console.log(rows)
   }
 
   getChannelsForStation(stationId) {
