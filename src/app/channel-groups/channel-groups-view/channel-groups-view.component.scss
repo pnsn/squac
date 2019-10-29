@@ -22,7 +22,7 @@ h1 {
 
 #map-box {
     width: 20%;
-    height: 20rem;
+    height: 35vh;
     margin: 0 2% 0 0;
     float: left;
     justify-content: center;
@@ -32,7 +32,7 @@ h1 {
     border: 2px solid $sq-lt-gray;
     border-radius: 10px;
     width: 68%;
-    height: 20rem;
+    height: 35vh;
     overflow-y: scroll;
 }
 
@@ -40,6 +40,6 @@ h1 {
     border: 2px solid $sq-lt-gray;
     border-radius: 10px;
     margin: 15px 5% 10px 5%;
-    height: 25rem;
+    height: 40vh;
     overflow-y: scroll;
 }

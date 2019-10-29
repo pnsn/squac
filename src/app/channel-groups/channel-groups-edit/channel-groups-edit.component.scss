@@ -1,23 +1,84 @@
+@import './../../../variables.scss';
 
-
-#channel-selector {
-  // height: 50vh;
-  width: 100%;
-  display: inline-block;
+h1{
+  margin-left: 5%;
 }
+
 #channel-group-edit-container{
   display: flex;
+  margin: 15px 5% 0 5%;
+
+  #station-map-container{
+    width: 25%;
+    height: 75vh;
+    margin-right: 1%;
+    min-width: 200px;
+  
+    #station-map-box{
+      height: 100%;
+      margin-top: 15px;
+      justify-content: center;
+    }
+  }
+
+  #channel-selection-container{
+    width: 40%;
+    height: 75vh;
+    margin-right: 1%;
+    min-width: 300px;
+  
+    #channel-selection-box{
+      height: 100%;
+      width: 100%;
+      margin-top: 15px;
+  
+      #network-btn{
+        margin-top: 0;
+        width: 100%;
+      }
+  
+      #channel-selector {
+        height: 65vh;
+        width: 35vw;
+        min-width: 250px;
+        margin-top: 10px;
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  #channel-group-container{
+    width: 35%;
+    height: 75vh;
+    min-width: 500px;
+  
+    #channel-group-box{
+      height: 100%;
+      margin-top: 15px;
+    }
+  
+    #channel-group-form{
+      width: 100%;
+    
+      .form-group{
+        margin: 10px 2%;
+    
+        #name, #description{
+          width: 100%;
+        }
+      }
+
+      #channels-selected{
+        margin-top: 15px;
+        height: 47vh;
+        overflow-y: scroll;
+      }
+    }
+  }
 }
 
-#channel-selection-container{
-  width: 33%;
-}
-
-#channel-group-container{
-  width: 33%
-}
-
-#station-map-container{
-  width: 33%;
-  height: 75vh;
+#channel-group-popup-box {
+  margin: 200px auto;
+  width: 450px;
+  height: 150px;
 }

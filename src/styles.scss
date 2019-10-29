@@ -82,6 +82,11 @@ p {
   border: 2px solid $sq-yellow;
 }
 
+.btn-blue-negative {
+  color: black;
+  border: 2px solid $sq-lt-blue;
+}
+
 button:disabled {
   background-color: rgba(265, 165, 45, 0.5);
 }
