@@ -2,7 +2,7 @@
   <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
     <div class="stepper-header">
       <h3>
-        {{ editMode ? "Edit widget" + id : "New Widget"}}
+        {{ editMode ? "Edit Widget" : "New Widget"}}
       </h3>
       <button mat-flat-button color="primary" type="submit" [disabled]='!widgetForm.valid'>
         Save</button>
@@ -29,6 +29,7 @@
             >
           </textarea>
         </mat-form-field>
+
         <div>
           <label for="type">Widget Type: </label>
           <select formControlName="type" *ngIf="widgetTypes">
