@@ -14,7 +14,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
   metrics: Metric[];
   subscription: Subscription;
 
-  //Table stuff
+  // Table stuff
   ColumnMode = ColumnMode;
 
   constructor(
@@ -22,7 +22,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private metricsService: MetricsService
   ) {
-  } 
+  }
 
   ngOnInit() {
     this.subscription = this.metricsService.getMetrics.subscribe(

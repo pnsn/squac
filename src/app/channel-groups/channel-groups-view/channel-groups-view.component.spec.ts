@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChannelGroupsService } from '../channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -15,7 +16,8 @@ describe('ChannelGroupsViewComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        NgxDatatableModule
       ],
       declarations: [ ChannelGroupsViewComponent ],
       providers: [
