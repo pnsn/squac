@@ -97,6 +97,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   onSelect({ selected }) {
     this.selectedChannels.splice(0, this.selectedChannels.length);
     this.selectedChannels.push(...selected);
+    this.updateChannels();
   }
 
   removeChannel(index) {
@@ -157,7 +158,21 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
+  // Check if form has unsaved fields
+  formUnsaved() {
+    if (this.channelGroupForm.dirty) {
+      const popup = document.getElementById('channel-group-popup');
+      popup.style.display = 'block';
+    } else {
+      this.cancel();
+    }
+  }
 
+  closePopup() {
+    const popup = document.getElementById('channel-group-popup');
+    popup.style.display = 'none';
+  }
+  
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
     return false;

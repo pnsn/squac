@@ -1,14 +1,27 @@
-<h1>
-  Metrics
-</h1>
+<header>
+  <h1>
+    Metrics
+  </h1>
+  <button class="btn btn-primary" (click)="addMetric()">+ Add Metric</button>
+</header> 
 
 <div>
-  <button (click)="addMetric()">Add Metric</button>
-  <h2>Available Metrics</h2>
-  <ul>
-      <li *ngFor="let metric of metrics"> 
-      <a [routerLink]="[metric.id]" routerLinkActive="active">{{metric.name}}</a>
-      </li>
-  </ul>
-
+  <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.force"
+        [headerHeight]="50" [footerHeight]="50" rowHeight="auto">
+    <ngx-datatable-column name="Name" [width]="75" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.name }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Unit" [width]="75" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.unit }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Description" [width]="800" [draggable]="false" [sortable]="false">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.description }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>

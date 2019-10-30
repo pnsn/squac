@@ -1,0 +1,45 @@
+@import './../../../variables.scss';
+
+header {
+    margin: 15px 5% 10px 5%;
+}
+
+header 
+h1 {
+    display: inline-block;
+}
+
+.btn {
+    margin-right: 0;
+    float: right;
+}
+
+#map-and-channel-group {
+    margin: 30px 5%;
+    width: 100%;
+    display: inline-flexbox;
+}
+
+#map-box {
+    width: 20%;
+    height: 35vh;
+    margin: 0 2% 0 0;
+    float: left;
+    justify-content: center;
+}
+
+#channel-group-table {
+    border: 2px solid $sq-lt-gray;
+    border-radius: 10px;
+    width: 68%;
+    height: 35vh;
+    overflow-y: scroll;
+}
+
+#channel-table {
+    border: 2px solid $sq-lt-gray;
+    border-radius: 10px;
+    margin: 15px 5% 10px 5%;
+    height: 40vh;
+    overflow-y: scroll;
+}

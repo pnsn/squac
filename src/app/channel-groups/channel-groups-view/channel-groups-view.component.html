@@ -1,14 +1,50 @@
-<h1>
+<header>
+  <h1>
     Channel Groups
-</h1>
+  </h1>
+  <button class="btn btn-primary" (click)="addChannelGroup()">Add Channel Group</button>
+</header>
 
-<div>
-  <button (click)="addChannelGroup()">Add Channel Group</button>
-  <h2>Available Channel Groups</h2>
-  <ul>
-      <li *ngFor="let channelGroup of channelGroups"> 
-      <a [routerLink]="[channelGroup.id]" routerLinkActive="active">{{channelGroup.name}}</a>
-      </li>
-  </ul>
-
+<div id="map-and-channel-group">
+  <div id="map-box" class="box">
+    <h2>Someday a very nice map will go here.</h2>
+  </div>
+  <ngx-datatable id="channel-group-table" class="material" [rows]="channelGroups" [columnMode]="ColumnMode.force"
+        [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+        [selectionType]=SelectionType.single (select)="onSelect($event)">
+    <ngx-datatable-column name="Name" [width]="auto" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.name }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Description" [width]="auto" [draggable]="false" [sortable]="false">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.description }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>
+
+<ngx-datatable id="channel-table" class="material" [rows]="selectedChannels" [columnMode]="ColumnMode.force"
+    [headerHeight]="50" [footerHeight]="50" rowHeight="auto">
+  <ngx-datatable-column name="Network" [width]="auto" [draggable]="false" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.networkCode }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Station" [width]="auto" [draggable]="false" [sortable]="false">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{ row.stationCode }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Channel" [width]="auto" [draggable]="false" [sortable]="false">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{ row.code }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Location" [width]="auto" [draggable]="false" [sortable]="false">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{ row.name }}
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

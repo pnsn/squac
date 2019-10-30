@@ -105,5 +105,4 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     const popup = document.getElementById('metric-popup');
     popup.style.display = 'none';
   }
-
 }

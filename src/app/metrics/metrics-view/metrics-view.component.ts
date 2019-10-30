@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Metric } from '../../shared/metric';
 import { MetricsService } from '../../shared/metrics.service';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-metrics-view',
@@ -12,6 +13,9 @@ import { MetricsService } from '../../shared/metrics.service';
 export class MetricsViewComponent implements OnInit, OnDestroy {
   metrics: Metric[];
   subscription: Subscription;
+
+  // Table stuff
+  ColumnMode = ColumnMode;
 
   constructor(
     private router: Router,
