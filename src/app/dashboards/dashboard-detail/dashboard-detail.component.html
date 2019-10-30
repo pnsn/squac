@@ -1,37 +1,60 @@
 <div *ngIf="dashboard" id="dashboard-container">
-    <div id="dashboard-header" >
+    <mat-toolbar id="dashboard-header" >
         <h2>
             {{dashboard.name}}
         </h2>
 
         <div id="header-controls">
-            <a (click)="refreshData()"> refresh data </a>
-            <form #dateForm="ngForm">
-                <div>
-                  <label for="startdate">start:</label>
-                  <input 
-                    type="date" 
-                    id="startdate" 
-                    name="startdate"
-                    [(ngModel)]="startdate" required
-                  >
-                  <label for="enddate">end:</label>
-                  <input 
-                    type="date"
-                    id="enddate" 
-                    name="enddate"
-                    [(ngModel)]="enddate" required
-                  >
-                </div>
+          <button mat-icon-button (click)="refreshData">
+              <mat-icon >refresh</mat-icon>  
+          </button>
+
+            <form #dateForm="ngForm" id="dateselectform">
+                <mat-form-field >
+                    <input 
+                      matInput
+                      [matDatepicker]="startdatepicker"
+                      type="date" 
+                      name="startdate"
+                      id="startdate" 
+                      [(ngModel)]="startdate">
+                    <mat-datepicker-toggle matSuffix [for]="startdatepicker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #startdatepicker></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field >
+                      <input 
+                        matInput
+                        [matDatepicker]="enddatepicker"
+                        type="date" 
+                        id="enddate" 
+                        name="enddate"
+                        [(ngModel)]="enddate">
+                      <mat-datepicker-toggle matSuffix [for]="enddatepicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #enddatepicker></mat-datepicker>
+                    </mat-form-field>
             </form>
-            <button (click)="editDashboard()">Edit Dashboard Properties</button>
-            <button (click)="addWidget()">Add Widget</button>
+
+
+            <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
+                <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
+                <button mat-menu-item >Edit Widgets</button>
+                <button mat-menu-item >Delete Dashboard</button>
+              </mat-menu>
+              
+              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>menu</mat-icon>
+              </button>
         </div>
 
-    </div>
-
-    <hr>
+      </mat-toolbar>
     <div id="widget-container"> 
+        <!-- <button mat-mini-fab (click)="addWidget()">
+            <mat-icon >add</mat-icon>    
+        </button> -->
       <app-widget 
           *ngFor="let widget of dashboard.widgets"
           [widget]="widget" 

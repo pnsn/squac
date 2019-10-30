@@ -36,6 +36,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
+  @ViewChild('channelTable', { static: false }) table: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -156,7 +158,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
-
   // Check if form has unsaved fields
   formUnsaved() {
     if (this.channelGroupForm.dirty) {
@@ -170,5 +171,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   closePopup() {
     const popup = document.getElementById('channel-group-popup');
     popup.style.display = 'none';
+  }
+  
+  toggleExpandGroup(group) {
+    this.table.groupHeader.toggleExpandGroup(group);
+    return false;
   }
 }

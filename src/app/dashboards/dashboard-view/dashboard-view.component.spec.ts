@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 describe('DashboardViewComponent', () => {
   let component: DashboardViewComponent;
@@ -17,6 +18,7 @@ describe('DashboardViewComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
+        MaterialModule
       ],
       declarations: [
         DashboardViewComponent,

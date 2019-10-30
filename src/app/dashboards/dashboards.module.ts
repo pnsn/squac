@@ -27,14 +27,6 @@ import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular
 
     DashboardsRoutingModule,
     SharedModule
-  ],
-  exports: [
-    // DashboardsComponent,
-    // DashboardDetailComponent,
-    // DashboardEditComponent,
-    // DashboardViewComponent,
-    // WidgetComponent,
-    // WidgetEditComponent
   ]
 })
 export class DashboardsModule { }

@@ -8,4 +8,8 @@ export class Metric {
     public unit: string
   ) {
   }
+  public threshold = {
+    max: 101,
+    min: 1
+  };
 }

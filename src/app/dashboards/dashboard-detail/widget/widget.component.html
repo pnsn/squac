@@ -1,16 +1,20 @@
-<div id="widget-container" class="box">
-  <div id="widget-header">
+<div class="widget-container">
+  <div class="widget-header">
     <h4>{{widget.name}}</h4>
-    <button (click)="editWidget()"> Edit widget </button>
+    <button mat-icon-button (click)="editWidget()"> 
+      <mat-icon>
+        edit
+      </mat-icon>
+    </button>
   </div>
-  <div id="widget-content">
-    <app-loading *ngIf="!data"></app-loading>
+  <div class="widget-content">
+    <app-loading *ngIf="!hasData"></app-loading>
     <ng-container [ngSwitch]="widget.type">
       <!-- <tabular *ngSwitchCase="tabular">
     
       </tabular> -->
       <app-tabular *ngSwitchDefault 
-        [data]="data"
+        [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
         [channels]="channelGroup.channels"
       ></app-tabular>

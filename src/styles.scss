@@ -2,6 +2,36 @@
 @import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
+@import './squac-theme.scss';
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+
+$squac-ui-primary: mat-palette($mat-sqblue);
+$squac-ui-accent: mat-palette($mat-sqyellow);
+$squac-ui-neutral: mat-palette($mat-sqgray);
+
+// The warn palette is optional (defaults to red).
+$squac-ui-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$squac-ui-theme: mat-light-theme($squac-ui-primary, $squac-ui-accent, $squac-ui-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($squac-ui-theme);
+
+$sq-yellow: mat-color($squac-ui-accent);
+$sq-dk-blue: mat-color($squac-ui-primary, darker);
+$sq-blue: mat-color($squac-ui-primary);
+$sq-lt-blue: mat-color($squac-ui-primary, lighter);
+$sq-dk-gray: mat-color($squac-ui-neutral);
+$sq-gray: mat-color($squac-ui-neutral, 100);
+$sq-lt-gray: mat-color($squac-ui-neutral, 50);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -17,6 +47,10 @@
 
 .blue {
   background-color: $sq-blue;
+}
+
+.gray-background {
+  background-color: $sq-lt-gray;
 }
 
 /* Text styles */
@@ -106,7 +140,7 @@ button:disabled {
     textarea {
       width: 300px;
       line-height: 2em;
-      border: 2px solid $sq-gray;
+      border: 1px solid $sq-gray;
       border-radius: 5px;
       padding-left: 5px;
     }
@@ -121,8 +155,8 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 2px solid $sq-lt-gray;
-  border-radius: 10px;
+  border: 1px solid $sq-gray;
+  border-radius: 5px;
 }
 
 /* Popup formatting */
@@ -138,4 +172,58 @@ button:disabled {
   overflow: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.7);
+}
+
+/* Data Table*/
+datatable-scroller {
+  width: 100% !important;
+}
+ngx-datatable {
+  width: 100% !important;
+  .datatable-header-cell, .datatable-body-cell {
+    padding: 10px !important;
+  }
+}
+
+
+// Material overrides
+.mat-list-item.active {
+  color: $sq-dk-blue;
+  background-color: $sq-lt-gray;
+}
+
+.mat-menu-dense {
+  button.mat-menu-item {
+    height: 30px !important;
+    line-height: 10px;
+  }
+}
+.mat-nav-list-dense {
+  .mat-nav-list {
+    a {
+      height: 30px !important;
+    }
+   }
+}
+#dashboard-header {
+  background-color: $sq-lt-gray;
+}
+#dashboard-sidenav.mat-sidenav {
+  border-right: none;
+}
+
+#dashboard-sidenav-content.mat-sidenav-content {
+  z-index: 3;
+  overflow: unset;
+  margin-left: 20px;
+  border-left: $sq-gray;
+}
+
+.widget-container {
+  @extend .box;
+}
+
+html, body { height: 100%; }
+body { 
+  margin: 0 
 }

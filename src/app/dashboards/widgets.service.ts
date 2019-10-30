@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
 import { Widget } from './widget';
@@ -12,6 +12,7 @@ interface WidgetHttpData {
   metrics: string[];
   dashboard: number;
   widgettype: number;
+  stattype: number;
   id?: number;
 }
 
@@ -27,6 +28,8 @@ export class WidgetsService {
     private squacApi: SquacApiService
   ) {
   }
+
+  widgetUpdated = new EventEmitter<number>();
 
   getWidgets(widgetIds: number[]): Observable<Widget[]> {
 
@@ -77,9 +80,9 @@ export class WidgetsService {
       description: widget.description,
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
-      dashboard: widget.dashboardId
+      dashboard: widget.dashboardId,
+      stattype: 1
     };
-
     if (widget.id) {
       postData.id = widget.id;
       return this.squacApi.put(this.url, widget.id, postData);

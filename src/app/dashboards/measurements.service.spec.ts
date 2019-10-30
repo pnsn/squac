@@ -5,6 +5,10 @@ import { SquacApiService } from '.././squacapi.service';
 import { MockSquacApiService } from '.././squacapi.service.mock';
 import { MeasurementsService } from './measurements.service';
 import { Measurement } from './measurement';
+import { Widget } from './widget';
+import { ChannelGroup } from '../shared/channel-group';
+import { Metric } from '../shared/metric';
+import { Channel } from '../shared/channel';
 
 describe('MeasurementsService', () => {
   const testData = {
@@ -38,7 +42,16 @@ describe('MeasurementsService', () => {
   });
 
   it('should get measurements', (done: DoneFn) => {
-    measurementsService.getMeasurements('1', '1', 'date', 'date').subscribe(measurements => {
+    measurementsService.getMeasurements(
+      new Widget(1, '', '', 1, 1, [
+        new Metric(1, '', '', '', '')
+      ]),
+      new ChannelGroup(1, '', '', [
+        new Channel(1, '', '', 0, 0, 0, 0, '', '', '')
+      ]),
+      'date',
+      'date'
+    ).subscribe(measurements => {
       expect(measurements[1][1][0].id).toEqual(1);
       done();
     });

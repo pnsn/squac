@@ -1,18 +1,20 @@
-#dashboard-body {
-  height: 100%;
-  width: 100vw;
-  display:flex;
-  flex-direction: row;
+#dashboard-container {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  bottom:0;
+  right: 0;
 }
-
-.active {
-  color: orangered;
+mat-sidenav{
+  width: 200px;
 }
-
-#sidebar {
-  padding: 10px;
-}
-
-#content {
-  width: 100%;
+.sidenav-toggle-container {
+  margin-top: 5px;
+  margin-left: -20px;
+  position: absolute;
+  z-index: 1000 !important;
+  visibility: visible !important;
+  button {
+    color: white; 
+  }
 }

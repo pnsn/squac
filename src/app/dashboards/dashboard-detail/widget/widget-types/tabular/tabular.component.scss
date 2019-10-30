@@ -1,14 +1,30 @@
-table {
-  height: auto;
-  width: auto;
-  overflow: scroll;
-  border-collapse: collapse;
-  &, th, td {
-    border: 1px solid black;
-  }
+// table {
+//   height: auto;
+//   width: auto;
+//   overflow: scroll;
+//   border-collapse: collapse;
+//   &, th, td {
+//     border: 1px solid black;
+//   }
 
-  th, td {
-    padding: 2px;
-    overflow-wrap: break-word;
-  }
+//   th, td {
+//     padding: 2px;
+//     overflow-wrap: break-word;
+//   }
+// }
+
+:host ::ng-deep .in-spec {
+  background-color: rgb(129, 182, 231) !important;
+}
+:host ::ng-deep .out-of-spec {
+  background-color: rgb(250, 154, 154) !important;
+}
+
+:host ::ng-deep .datatable-tree-button:disabled {
+  display:none;
+}
+
+.ngx-datatable{
+  width: 100% !important;
+  height: 500px;
 }

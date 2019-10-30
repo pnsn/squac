@@ -1,14 +1,22 @@
-<header>
-    <a [routerLink]="[ '/' ]" routerLinkActive="active">
-      <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
-    </a>
-  <div id="header-left" >
-    <h1>BETA</h1>
-  </div>
+<mat-toolbar color="primary">
+  <a [routerLink]="[ '/' ]" routerLinkActive="active">
+    <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
+  </a>
 
   <div id="header-right" *ngIf="isAuthenticated">
-    <a [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
-    <a [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>    
-    <a (click)="logout()" >Log Out</a>  
+
+    <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
+
+    <a mat-button [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>  
+
+    <mat-menu #appMenu="matMenu" class="mat-menu-dense">
+        <button mat-menu-item >User Settings</button>
+        <button mat-menu-item (click)="logout()">Log Out</button>
+        <button mat-menu-item>Help</button>
+      </mat-menu>
+      
+      <button mat-mini-fab [matMenuTriggerFor]="appMenu">
+        User
+      </button>
   </div>
-</header>
+</mat-toolbar>

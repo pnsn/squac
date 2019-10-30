@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -15,9 +16,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     LoadingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [
+    MaterialModule,
     ModalComponent,
     CommonModule,
     RouterModule,
@@ -28,4 +31,5 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     NgxDatatableModule
   ]
 })
+
 export class SharedModule { }

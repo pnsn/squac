@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthService } from './auth/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 describe('AppComponent', () => {
@@ -23,7 +25,9 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatMenuModule,
+        MatToolbarModule
       ],
       declarations: [
         AppComponent,
@@ -31,7 +35,7 @@ describe('AppComponent', () => {
       ],
       providers: [{
         provide: AuthService, useValue: authServiceStub
-      }]
+      }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

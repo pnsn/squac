@@ -1,8 +1,18 @@
-<div id="dashboard-body">
-  <div id="sidebar">
-    <app-dashboard-view></app-dashboard-view>
-  </div>
-  <div id="content">
+
+
+
+<mat-sidenav-container id="dashboard-container" >
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" id="dashboard-sidenav">
+    <app-dashboard-view></app-dashboard-view> 
+  </mat-sidenav>
+
+  <mat-sidenav-content id="dashboard-sidenav-content" class="gray-background">
+    <div class="sidenav-toggle-container " id="close-button" >
+      <button mat-mini-fab (click)="sidenav.toggle()">
+          <mat-icon *ngIf="opened">close</mat-icon>
+          <mat-icon *ngIf="!opened">arrow_forward_ios</mat-icon>    
+      </button>
+    </div>
     <router-outlet></router-outlet>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
