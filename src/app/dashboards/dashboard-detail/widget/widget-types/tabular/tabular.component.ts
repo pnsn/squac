@@ -53,7 +53,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       newStation.treeStatus = station.treeStatus;
       newStation.id = station.id;
       newStation.title = station.title;
-      newStation.parentId = null; 
+      newStation.parentId = null;
       return newStation;
     }
     return  station;
@@ -123,8 +123,8 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(stationRows)
-    console.log(rows)
+    console.log(stationRows);
+    console.log(rows);
   }
 
   getChannelsForStation(stationId) {

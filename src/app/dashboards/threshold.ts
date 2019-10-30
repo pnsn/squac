@@ -6,7 +6,7 @@ export class Threshold {
     public metricId: number,
     public min: number,
     public max: number
-  ){
+  ) {
 
   }
 }

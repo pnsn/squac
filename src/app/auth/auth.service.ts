@@ -45,7 +45,7 @@ export class AuthService {
       const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
       this.autologout(expirationDuration);
       this.user.next(loadedUser);
-      //FIXME autolog in not doing its thing
+      // FIXME autolog in not doing its thing
     }
   }
 

@@ -8,11 +8,11 @@ import { Threshold } from './threshold';
 
 
 interface ThresholdHttpData {
-  widget: number, 
-  metric : number, 
-  maxval: number, 
-  minval: number,
-  id?: number
+  widget: number;
+  metric: number;
+  maxval: number;
+  minval: number;
+  id?: number;
 }
 
 @Injectable({
@@ -30,7 +30,7 @@ export class ThresholdsService {
 
   updateThreshold(threshold: Threshold) {
 
-    const postData: ThresholdHttpData = { 
+    const postData: ThresholdHttpData = {
       widget: threshold.widgetId,
       metric: threshold.metricId,
       minval: threshold.min,
