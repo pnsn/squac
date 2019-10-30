@@ -172,7 +172,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     const popup = document.getElementById('channel-group-popup');
     popup.style.display = 'none';
   }
-  
+
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
