@@ -19,6 +19,16 @@ export class WidgetComponent implements OnInit, OnDestroy {
   hasData = false;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
+  //temp 
+  columns = 7;
+  rows = 3;
+  columnWidth = 100;
+  rowHeight = 100;
+
+  styles = {
+    "width" : this.columns * this.columnWidth + "px",
+    "height" : this.rows * this.rowHeight +"px"
+  }
 
   constructor(
     private route: ActivatedRoute,

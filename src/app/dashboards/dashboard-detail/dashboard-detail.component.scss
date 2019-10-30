@@ -2,13 +2,17 @@
   position: relative;
   height: 100%;
   overflow: scroll;
-  #widget-container {
-
+  #dashboard-content {
     display:flex;
+    flex-direction: row;
     flex-wrap: wrap;
-
+    align-content: flex-start;
+    align-items:flex-start;
+    height: 100%;
+    width:100%;
+    overflow:auto;
+    padding:5px;
   }
-
 }
 
 #dashboard-header{

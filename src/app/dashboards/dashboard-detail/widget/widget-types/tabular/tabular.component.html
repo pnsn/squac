@@ -8,7 +8,6 @@
     [sortType]="SortType.multi"
     [footerHeight]="0"
     [rowHeight]="40"
-    [columnMode]="ColumnMode.force"
     [scrollbarH]="true"
     [scrollbarV]="true"
     [messages]="messages"
@@ -25,9 +24,9 @@
         </ng-template>
       </ngx-datatable-column> -->
       
-      <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [frozenLeft]="true">
+      <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [frozenLeft]="true" [resizeable]="false">
       </ngx-datatable-column>
-      <ngx-datatable-column name="agg" [width]="50" [frozenLeft]="true" >
+      <ngx-datatable-column name="agg" [width]="50" [frozenLeft]="true" [resizeable]="false">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
