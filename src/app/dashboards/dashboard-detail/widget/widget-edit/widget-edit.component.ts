@@ -28,7 +28,7 @@ export class WidgetEditComponent implements OnInit {
     },
     {
       id: 2,
-      type: 'some chart'
+      type: 'timeline'
     }
   ];
   calcMethods = [

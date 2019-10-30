@@ -10,6 +10,7 @@ import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { MeasurementPipe } from './measurement.pipe';
 import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular/tabular.component';
+import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/timeline.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular
     WidgetComponent,
     WidgetEditComponent,
     MeasurementPipe,
-    TabularComponent
+    TabularComponent,
+    TimelineComponent
   ],
   imports: [
 
