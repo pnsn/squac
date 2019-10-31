@@ -1,4 +1,5 @@
 <div class="widget-container"
+  *ngIf="widget"
   [ngStyle]="styles"
   mwlResizable
   [enableGhostResize]="true"
@@ -24,12 +25,14 @@
         [channels]="channelGroup.channels"
         [startdate]="startdate"
         [enddate]="enddate"
+        [resize]="resize"
       >
       </app-timeline>
       <app-tabular *ngSwitchCase="'tabular'" 
         [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
         [channels]="channelGroup.channels"
+        [resize]="resize"
       >
 
       </app-tabular>

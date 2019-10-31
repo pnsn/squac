@@ -3,7 +3,7 @@ import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../../measurement.pipe';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/dashboards/measurement';
 
 @Component({
@@ -19,6 +19,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   @Input() startdate: string;
   @Input() enddate: string;
   @ViewChild('dataTable', { static: false }) table: any;
+  @Input() resize: Subject<boolean>;
+  subscription = new Subscription();
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];
@@ -43,11 +45,16 @@ export class TimelineComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dataUpdate.subscribe(data => {
+    this.subscription.add(this.dataUpdate.subscribe(data => {
       this.currentMetric = this.metrics[0];
       console.log(this.currentMetric)
       this.buildRows(data);
-    });
+    }));
+
+
+    this.subscription.add(this.resize.subscribe(reload => {
+      this.table.recalculate();
+    }));
   }
 
   private replaceChannel(channel, station) {
@@ -153,7 +160,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dataUpdate.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   // TODO: yes, this is bad boolean but I'm going to change it

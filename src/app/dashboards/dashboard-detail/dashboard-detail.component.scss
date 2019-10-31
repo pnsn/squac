@@ -1,6 +1,11 @@
 #dashboard-container {
   position: relative;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   #dashboard-content {
     display:flex;
     flex-direction: row;

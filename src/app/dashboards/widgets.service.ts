@@ -66,7 +66,7 @@ export class WidgetsService {
             response.widgettype.id,
             response.dashboard.id,
             response.columns,
-            response.row,
+            response.rows,
             response.order,
             metrics
           );

@@ -3,7 +3,7 @@ import { Metric } from '../../../../../shared/metric';
 import { Channel } from '../../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../../measurement.pipe';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tabular',
@@ -15,7 +15,8 @@ export class TabularComponent implements OnInit, OnDestroy {
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
-
+  @Input() resize: Subject<boolean>;
+  subscription = new Subscription();
   @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -39,14 +40,17 @@ export class TabularComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dataUpdate.subscribe(data => {
+    this.subscription.add(this.dataUpdate.subscribe(data => {
       this.buildRows(data);
-    });
+    }));
+
+    this.subscription.add(this.resize.subscribe(reload => {
+      console.log("reload!")
+      this.columns = [...this.columns];
+      this.table.recalculate();
+    }));
   }
 
-  private buildStationRows(data) {
-
-  }
 
   private findWorstChannel(channel, station) {
     if ( channel.agg > station.agg ) {
@@ -144,10 +148,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dataUpdate.unsubscribe();
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
-
+    this.subscription.unsubscribe();
   }
 
   getCellClass({ row, column, value }): any {

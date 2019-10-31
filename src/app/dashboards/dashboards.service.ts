@@ -82,16 +82,6 @@ export class DashboardsService {
             })
           );
         }
-      ),
-      switchMap (
-        (response) => {
-          return dashboard.widgetIds.length > 0 ? this.widgetsService.getWidgets(response.widgetIds).pipe(
-            map ( widgets => {
-              dashboard.widgets = widgets;
-              return dashboard;
-            })
-          ) : of(dashboard);
-        }
       )
     );
   }

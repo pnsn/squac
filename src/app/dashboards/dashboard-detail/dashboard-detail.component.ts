@@ -32,7 +32,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.updateDashboard();
-
       }
     );
 
@@ -51,6 +50,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.dashboard = dashboard;
         this.startdate = '2019-10-18';
         this.enddate = '2019-10-31';
+        console.log(this.dashboard)
       }
     ));
   }

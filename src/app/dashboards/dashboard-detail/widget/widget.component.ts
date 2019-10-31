@@ -5,6 +5,8 @@ import { ChannelGroup } from '../../../shared/channel-group';
 import { MeasurementsService } from '../../measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { ResizeEvent } from 'angular-resizable-element';
+import { WidgetsService } from '../../widgets.service';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget',
@@ -12,14 +14,16 @@ import { ResizeEvent } from 'angular-resizable-element';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit, OnDestroy {
-  @Input() widget: Widget;
+  @Input('widgetId') id: number;
   @Input() channelGroup: ChannelGroup;
   @Input() reload: Subject<boolean>;
   @Input() startdate: string;
   @Input() enddate: string;
+  widget: Widget;
   hasData = false;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
+  resize: Subject<boolean> = new Subject();
   //temp 
   columnWidth = 100;
   rowHeight = 100;
@@ -29,27 +33,37 @@ export class WidgetComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private widgetsService: WidgetsService,
     private measurementsService: MeasurementsService
   ) { }
 
   ngOnInit() {
-    // show loading
-    if (this.widget && this.widget.metrics && this.channelGroup) {
-      this.styles = {
-        "width.px" : this.widget.columns * this.columnWidth,
-        "height.px" : this.widget.rows * this.rowHeight,
-        "order": this.widget.order
-      }
-      let sub = this.getData();
-      const sub1 = this.reload.subscribe(reload => {
-        console.log(this.widget.metrics);
-        if (reload) {
-          sub = this.getData();
+    this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
+      widget => {
+        this.widget = widget;
+
+            // show loading
+        if (this.widget && this.widget.metrics && this.channelGroup) {
+          console.log(this.widget)
+          this.styles = {
+            "width.px" : this.widget.columns * this.columnWidth,
+            "height.px" : this.widget.rows * this.rowHeight,
+            "order": this.widget.order
+          }
+          let sub = this.getData();
+          const sub1 = this.reload.subscribe(reload => {
+            console.log(this.widget.metrics);
+            if (reload) {
+              sub = this.getData();
+            }
+          });
+          this.subscription.add(sub);
+          this.subscription.add(sub1);
         }
-      });
-      this.subscription.add(sub);
-      this.subscription.add(sub1);
-    }
+      }
+    ));
+
+
   }
 
   ngOnDestroy(): void {
@@ -84,6 +98,11 @@ export class WidgetComponent implements OnInit, OnDestroy {
       "height.px" : this.widget.rows * this.rowHeight,
       "order": this.widget.order
     };
+
+    this.widgetsService.updateWidget(this.widget).subscribe();
+    setTimeout(()=>{
+      window.dispatchEvent(new Event('resize'))
+    }, 100);
   }
 
   editWidget() {
