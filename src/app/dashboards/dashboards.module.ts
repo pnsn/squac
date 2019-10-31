@@ -11,6 +11,8 @@ import { SharedModule } from '../shared/shared.module';
 import { MeasurementPipe } from './measurement.pipe';
 import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular/tabular.component';
 import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/timeline.component';
+import { ResizableModule } from 'angular-resizable-element';
+
 @NgModule({
   declarations: [
     DashboardsComponent,
@@ -24,7 +26,7 @@ import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeli
     TimelineComponent
   ],
   imports: [
-
+    ResizableModule,
     DashboardsRoutingModule,
     SharedModule
   ]

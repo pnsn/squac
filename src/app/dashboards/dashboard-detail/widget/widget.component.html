@@ -1,4 +1,12 @@
-<div class="widget-container" [ngStyle]="styles">
+<div class="widget-container"
+  [ngStyle]="styles"
+  mwlResizable
+  [enableGhostResize]="true"
+  [allowNegativeResizes]="true"
+  (validateResize)="validateResize($event)"
+  [resizeSnapGrid]="{left: columnWidth, bottom: rowHeight}"
+  [resizeEdges]="{bottom: true, right: true, top: false, left: false}"
+  (resizeEnd)="onResizeEnd($event)">
   <div class="widget-header">
     <h4>{{widget.name}}</h4>
     <button mat-icon-button (click)="editWidget()"> 
@@ -31,4 +39,5 @@
         </p>
     </ng-container>
   </div>
+  
 </div>

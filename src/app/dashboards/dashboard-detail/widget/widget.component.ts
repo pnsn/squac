@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '../../../shared/channel-group';
 import { MeasurementsService } from '../../measurements.service';
 import { Subscription, Subject } from 'rxjs';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-widget',
@@ -36,7 +37,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
     if (this.widget && this.widget.metrics && this.channelGroup) {
       this.styles = {
         "width.px" : this.widget.columns * this.columnWidth,
-        "height.px" : this.widget.rows * this.rowHeight
+        "height.px" : this.widget.rows * this.rowHeight,
+        "order": this.widget.order
       }
       let sub = this.getData();
       const sub1 = this.reload.subscribe(reload => {
@@ -67,6 +69,21 @@ export class WidgetComponent implements OnInit, OnDestroy {
         // hiding loading
       }
     );
+  }
+
+  onResizeEnd(event: ResizeEvent): void {
+    const row = Math.round(event.rectangle.height / this.rowHeight);
+    const column = Math.round(event.rectangle.width / this.columnWidth);
+
+
+    this.widget.rows = row > 0 ? row : 1;
+    this.widget.columns = column > 0 ? column : 1;
+
+    this.styles = {
+      "width.px" : this.widget.columns * this.columnWidth,
+      "height.px" : this.widget.rows * this.rowHeight,
+      "order": this.widget.order
+    };
   }
 
   editWidget() {
