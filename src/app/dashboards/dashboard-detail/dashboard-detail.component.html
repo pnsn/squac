@@ -53,12 +53,13 @@
       </mat-toolbar>
       <div id="dashboard-content">
         <app-widget 
-          *ngFor="let widgetId of dashboard.widgetIds"
+          *ngFor="let widgetId of dashboard.widgetIds; let index"
           [widgetId]="widgetId" 
           [channelGroup]="dashboard.channelGroup"
           [reload]="reload"
           [startdate]="startdate"
           [enddate]="enddate"
+          [ngStyle]="{order: index}"
         >
         </app-widget>
 

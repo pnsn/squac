@@ -44,7 +44,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
 
             // show loading
         if (this.widget && this.widget.metrics && this.channelGroup) {
-          console.log(this.widget)
           this.styles = {
             "width.px" : this.widget.columns * this.columnWidth,
             "height.px" : this.widget.rows * this.rowHeight,
@@ -52,7 +51,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
           }
           let sub = this.getData();
           const sub1 = this.reload.subscribe(reload => {
-            console.log(this.widget.metrics);
             if (reload) {
               sub = this.getData();
             }

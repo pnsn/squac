@@ -73,8 +73,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const starttimeInSec = new Date(this.startdate).getTime()/1000;
     const endtimeInSec = new Date(this.enddate).getTime()/1000;
 
-    console.log(data);
-
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
       const timeline = [];
@@ -96,16 +94,16 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 'width' : (end - start) / (endtimeInSec - starttimeInSec) * 100 + "%",
                 'left' : (start - starttimeInSec)/(endtimeInSec - starttimeInSec) * 100 + '%'
               },
+              info: measurement.starttime + " " + measurement.endtime + " " + measurement.value,
               threshold: inThreshold
             }
           );
-
+          
           if(index == 0 && !inThreshold) {
             isBad = true;
           }
         }
       );
-      console.log(isBad);
       let row = {
         title: channel.loc + '.' + channel.code,
         id: channel.id,
@@ -143,7 +141,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     });
 
     this.rows = [...stationRows, ...rows];
-    console.log(this.rows)
   }
 
   onTreeAction(event: any) {
