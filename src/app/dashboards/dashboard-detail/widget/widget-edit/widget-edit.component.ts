@@ -31,11 +31,13 @@ export class WidgetEditComponent implements OnInit {
       type: 'timeline'
     }
   ];
+
   calcMethods = [
     'average',
     'median',
     'max',
-    'min'
+    'min',
+    'raw'
   ];
 
   constructor(

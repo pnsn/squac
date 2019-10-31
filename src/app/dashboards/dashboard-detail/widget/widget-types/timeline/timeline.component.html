@@ -1,1 +1,27 @@
-<p>timeline works!</p>
+<ngx-datatable 
+ #dataTable
+ class="material expandable" 
+ [rows]="rows"
+ [headerHeight]="50"
+ [sortType]="SortType.multi"
+ [footerHeight]="0"
+ [rowHeight]="40"
+ [scrollbarH]="true"
+ [scrollbarV]="true"
+ [messages]="messages"
+ [treeFromRelation]="'parentId'"
+ [treeToRelation]="'id'"
+ (treeAction)="onTreeAction($event)"
+ [sorts]="[{ prop: 'agg', dir: 'desc' }]"
+>      
+ <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [frozenLeft]="true" [resizeable]="false">
+ </ngx-datatable-column>
+  <ngx-datatable-column name="chartData" [width]="auto">
+    <ng-template ngx-datatable-header-template>
+        {{currentMetric?.name}}
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

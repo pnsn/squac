@@ -9,15 +9,26 @@
   </div>
   <div class="widget-content">
     <app-loading *ngIf="!hasData"></app-loading>
-    <ng-container [ngSwitch]="widget.type">
-      <!-- <tabular *ngSwitchCase="tabular">
-    
-      </tabular> -->
-      <app-tabular *ngSwitchDefault 
+    <ng-container [ngSwitch]="widget?.type">
+      <app-timeline *ngSwitchCase="'timeline'"
         [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
         [channels]="channelGroup.channels"
-      ></app-tabular>
+        [startdate]="startdate"
+        [enddate]="enddate"
+      >
+      </app-timeline>
+      <app-tabular *ngSwitchCase="'tabular'" 
+        [dataUpdate]="dataUpdate"
+        [metrics]="widget.metrics"
+        [channels]="channelGroup.channels"
+      >
+
+      </app-tabular>
+      <p *ngSwitchDefault>
+          Something went wrong...
+          {{widget?.type}}
+        </p>
     </ng-container>
   </div>
 </div>

@@ -1,6 +1,5 @@
 #dashboard-container {
   position: relative;
-  height: 100%;
   overflow: scroll;
   #dashboard-content {
     display:flex;
@@ -8,7 +7,6 @@
     flex-wrap: wrap;
     align-content: flex-start;
     align-items:flex-start;
-    height: 100%;
     width:100%;
     overflow:auto;
     padding:5px;

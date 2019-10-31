@@ -15,6 +15,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
+
   @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -123,8 +124,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(stationRows);
-    console.log(rows);
   }
 
   getChannelsForStation(stationId) {

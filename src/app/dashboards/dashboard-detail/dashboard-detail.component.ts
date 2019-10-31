@@ -76,4 +76,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   addWidget() {
     this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
+
+  editWidgets(){
+    console.log("edit!!")
+    this.addWidget();
+  }
 }
