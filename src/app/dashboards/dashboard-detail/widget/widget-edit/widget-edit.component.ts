@@ -114,6 +114,9 @@ export class WidgetEditComponent implements OnInit {
         values.description,
         values.type,
         this.dashboardId,
+        7,
+        6,
+        1,
         this.selectedMetrics
       )
     ).subscribe(

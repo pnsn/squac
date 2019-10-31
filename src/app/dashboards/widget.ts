@@ -11,6 +11,9 @@ export class Widget {
     public description: string,
     public typeId: number,
     public dashboardId: number,
+    public columns: number,
+    public rows: number,
+    public order: number,
     public metrics: Metric[]
   ) {
 

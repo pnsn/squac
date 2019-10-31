@@ -13,6 +13,9 @@ interface WidgetHttpData {
   dashboard: number;
   widgettype: number;
   stattype: number;
+  columns: number;
+  rows: number;
+  order: number;
   id?: number;
 }
 
@@ -62,6 +65,9 @@ export class WidgetsService {
             response.description,
             response.widgettype.id,
             response.dashboard.id,
+            response.columns,
+            response.row,
+            response.order,
             metrics
           );
 
@@ -81,6 +87,9 @@ export class WidgetsService {
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
       dashboard: widget.dashboardId,
+      columns: widget.columns,
+      rows: widget.rows,
+      order: widget.order,
       stattype: 1
     };
     if (widget.id) {

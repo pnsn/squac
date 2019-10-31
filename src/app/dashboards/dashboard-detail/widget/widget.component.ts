@@ -20,15 +20,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   //temp 
-  columns = 7;
-  rows = 3;
   columnWidth = 100;
   rowHeight = 100;
 
-  styles = {
-    "width" : this.columns * this.columnWidth + "px",
-    "height" : this.rows * this.rowHeight +"px"
-  }
+  styles : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +34,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // show loading
     if (this.widget && this.widget.metrics && this.channelGroup) {
+      this.styles = {
+        "width.px" : this.widget.columns * this.columnWidth,
+        "height.px" : this.widget.rows * this.rowHeight
+      }
       let sub = this.getData();
       const sub1 = this.reload.subscribe(reload => {
         console.log(this.widget.metrics);
