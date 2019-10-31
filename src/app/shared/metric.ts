@@ -9,7 +9,7 @@ export class Metric {
   ) {
   }
   public threshold = {
-    max: 101,
+    max: 100,
     min: 1
   };
 }

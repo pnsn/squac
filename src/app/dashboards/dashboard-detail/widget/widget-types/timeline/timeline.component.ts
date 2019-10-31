@@ -4,6 +4,7 @@ import { Channel } from '../../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../../measurement.pipe';
 import { Subject } from 'rxjs';
+import { Measurement } from 'src/app/dashboards/measurement';
 
 @Component({
   selector: 'app-timeline',
@@ -65,40 +66,37 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
+    const starttimeInSec = new Date(this.startdate).getTime()/1000;
+    const endtimeInSec = new Date(this.enddate).getTime()/1000;
+
+    console.log(starttimeInSec, endtimeInSec);
+
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
-      const inSpec = [];
-      const outOfSpec = [];
+      const timeline = [];
 
       let agg = 0;
 
-      const rowMetrics = {};
+
 
       data[channel.id][this.currentMetric.id].forEach(
-        measurement => {
-          if(this.checkThresholds(this.currentMetric.threshold, measurement.value)){
-            inSpec.push({
-              "starting_time": new Date(measurement.starttime), "ending_time": new Date(measurement.endtime)
-            });
-          } else {
-            outOfSpec.push({
-              "starting_time": new Date(measurement.starttime), "ending_time": new Date(measurement.endtime)
-            });
-          }
+       (measurement : Measurement )=> {
+          const start = new Date(measurement.starttime).getTime() / 1000;
+          const end = new Date(measurement.endtime).getTime() / 1000;
+
+          timeline.push(
+            
+            {
+              end: (end - starttimeInSec)/(endtimeInSec - starttimeInSec),
+              styles: {
+                'width' : (end - start) / (endtimeInSec - starttimeInSec) * 100 + "%",
+                'left' : (start - starttimeInSec)/(endtimeInSec - starttimeInSec) * 100 + '%'
+              },
+              threshold: this.checkThresholds(this.currentMetric.threshold, measurement.value)
+            }
+          )
         }
       );
-
-      const chartData = [{ 
-        class: "out-of-spec",
-        label: "Out of spec",
-        times: outOfSpec
-      },
-        {
-          class: "in-spec",
-          label: "In spec", 
-          times: inSpec
-        }
-      ];
 
       let row = {
         title: channel.loc + '.' + channel.code,
@@ -106,7 +104,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
         nslc: channel.nslc,
         parentId: identifier,
         treeStatus: 'disabled',
-        chartData: chartData
+        timeline: timeline
       };
 
       if (!stations.includes(identifier)) {
@@ -119,7 +117,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
             treeStatus: 'collapsed',
             staCode: channel.stationCode,
             netCode: channel.networkCode,
-            chartData: chartData
+            timeline: timeline
           },
         }
         );

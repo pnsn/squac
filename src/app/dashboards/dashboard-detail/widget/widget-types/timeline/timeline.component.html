@@ -4,7 +4,8 @@
  [rows]="rows"
  [headerHeight]="50"
  [sortType]="SortType.multi"
- [footerHeight]="0"
+ [columnMode]="ColumnMode.force"
+ [footerHeight]="40"
  [rowHeight]="40"
  [scrollbarH]="true"
  [scrollbarV]="true"
@@ -16,16 +17,32 @@
 >      
  <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [frozenLeft]="true" [resizeable]="false">
  </ngx-datatable-column>
-  <ngx-datatable-column name="chartData" [width]="auto">
+  <ngx-datatable-column name="timeline" [width]="auto">
     <ng-template ngx-datatable-header-template>
         {{currentMetric?.name}}
     </ng-template>
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <app-d3-timeline
-        [data]="value"
-        [id]="row.id"
-      >
-      </app-d3-timeline>
+        <div *ngFor="let segment of value" class="cell" [ngClass]="{'in-spec': segment.threshold, 'out-of-spec': !segment.threshold}"
+          [ngStyle]="segment.styles"
+        >
+        
+      </div>
     </ng-template>
   </ngx-datatable-column>
+
+  <ngx-datatable-footer>
+    <ng-template
+    ngx-datatable-footer-template
+    let-rowCount="rowCount"
+    let-pageSize="pageSize"
+    let-selectedCount="selectedCount"
+    let-curPage="curPage"
+    let-offset="offset"
+    >
+    <div>
+      "Footer"
+    </div>
+      </ng-template>
+    </ngx-datatable-footer>
+    
 </ngx-datatable>

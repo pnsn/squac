@@ -21,3 +21,11 @@
     width: 5px;
   }
 }
+
+:host ::ng-deep .cell {
+  display: inline-block;
+    height: 15px;
+    position: absolute;
+  }
+
+
