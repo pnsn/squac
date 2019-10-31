@@ -78,11 +78,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
         measurement => {
           if(this.checkThresholds(this.currentMetric.threshold, measurement.value)){
             inSpec.push({
-              "starting_time": measurement.starttime, "ending_time": measurement.endtime
+              "starting_time": new Date(measurement.starttime), "ending_time": new Date(measurement.endtime)
             });
           } else {
             outOfSpec.push({
-              "starting_time": measurement.starttime, "ending_time": measurement.endtime
+              "starting_time": new Date(measurement.starttime), "ending_time": new Date(measurement.endtime)
             });
           }
         }

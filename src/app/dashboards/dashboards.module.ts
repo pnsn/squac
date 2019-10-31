@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MeasurementPipe } from './measurement.pipe';
 import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular/tabular.component';
 import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/timeline.component';
+import { D3TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/d3-timeline/d3-timeline.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeli
     WidgetEditComponent,
     MeasurementPipe,
     TabularComponent,
-    TimelineComponent
+    TimelineComponent,
+    D3TimelineComponent
   ],
   imports: [
 

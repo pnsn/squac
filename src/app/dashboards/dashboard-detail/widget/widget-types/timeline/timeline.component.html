@@ -20,8 +20,12 @@
     <ng-template ngx-datatable-header-template>
         {{currentMetric?.name}}
     </ng-template>
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      {{value}}
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <app-d3-timeline
+        [data]="value"
+        [id]="row.id"
+      >
+      </app-d3-timeline>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>
