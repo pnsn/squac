@@ -50,16 +50,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
     });
   }
 
-  private findWorstChannel(channel, station) {
-    if ( channel.agg > station.agg ) {
-      const newStation = {...channel};
-      newStation.treeStatus = station.treeStatus;
-      newStation.id = station.id;
-      newStation.title = station.title;
-      newStation.parentId = null;
-      return newStation;
-    }
-    return  station;
+  private replaceChannel(channel, station) {
+    const newStation = {...channel};
+    newStation.treeStatus = station.treeStatus;
+    newStation.id = station.id;
+    newStation.title = station.title;
+    newStation.parentId = null;
+    return newStation;
   }
 
   private buildRows(data) {
@@ -69,7 +66,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const starttimeInSec = new Date(this.startdate).getTime()/1000;
     const endtimeInSec = new Date(this.enddate).getTime()/1000;
 
-    console.log(starttimeInSec, endtimeInSec);
+    console.log(data);
 
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
@@ -77,13 +74,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
       let agg = 0;
 
-
+      let isBad = false;
 
       data[channel.id][this.currentMetric.id].forEach(
-       (measurement : Measurement )=> {
+       (measurement : Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
           const end = new Date(measurement.endtime).getTime() / 1000;
-
+          const inThreshold = this.checkThresholds(this.currentMetric.threshold, measurement.value);
           timeline.push(
             
             {
@@ -92,12 +89,16 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 'width' : (end - start) / (endtimeInSec - starttimeInSec) * 100 + "%",
                 'left' : (start - starttimeInSec)/(endtimeInSec - starttimeInSec) * 100 + '%'
               },
-              threshold: this.checkThresholds(this.currentMetric.threshold, measurement.value)
+              threshold: inThreshold
             }
-          )
+          );
+
+          if(index == 0 && !inThreshold) {
+            isBad = true;
+          }
         }
       );
-
+      console.log(isBad);
       let row = {
         title: channel.loc + '.' + channel.code,
         id: channel.id,
@@ -122,11 +123,14 @@ export class TimelineComponent implements OnInit, OnDestroy {
         }
         );
       } 
-      // else {
-      //   const staIndex = stations.indexOf(identifier);
-      //   stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
-      //   // check if agg if worse than current agg
-      // }
+      else {
+        if(isBad) {
+          const staIndex = stations.indexOf(identifier);
+          stationRows[staIndex] = this.replaceChannel(row, stationRows[staIndex]);
+        }
+
+        // check if agg if worse than current agg
+      }
 
       rows.push(row)
     });

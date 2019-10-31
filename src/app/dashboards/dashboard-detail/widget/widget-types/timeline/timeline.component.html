@@ -2,11 +2,10 @@
  #dataTable
  class="material expandable" 
  [rows]="rows"
- [headerHeight]="50"
  [sortType]="SortType.multi"
  [columnMode]="ColumnMode.force"
  [footerHeight]="40"
- [rowHeight]="40"
+ [rowHeight]="24"
  [scrollbarH]="true"
  [scrollbarV]="true"
  [messages]="messages"
@@ -15,9 +14,9 @@
  (treeAction)="onTreeAction($event)"
  [sorts]="[{ prop: 'agg', dir: 'desc' }]"
 >      
- <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [frozenLeft]="true" [resizeable]="false">
+ <ngx-datatable-column name="title" [isTreeColumn]="true" [maxWidth]="120" [frozenLeft]="true" [resizeable]="false">
  </ngx-datatable-column>
-  <ngx-datatable-column name="timeline" [width]="auto">
+  <ngx-datatable-column name="timeline" [canAutoResize]="true">
     <ng-template ngx-datatable-header-template>
         {{currentMetric?.name}}
     </ng-template>

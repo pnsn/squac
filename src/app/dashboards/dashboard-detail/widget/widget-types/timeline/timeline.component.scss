@@ -22,10 +22,12 @@
   }
 }
 
-:host ::ng-deep .cell {
+.cell {
   display: inline-block;
-    height: 15px;
+    height: 90%;
     position: absolute;
   }
 
-
+:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
+  padding: 0px !important;
+}
