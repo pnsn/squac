@@ -68,7 +68,7 @@
 
       </div>
       <div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
-        <div id="widget-drag-container"
+        <div class="widget-drag-container"
           *ngFor="let widgetId of dashboard.widgetIds; let index"
           cdkDrag
           [cdkDragDisabled]="!editMode"

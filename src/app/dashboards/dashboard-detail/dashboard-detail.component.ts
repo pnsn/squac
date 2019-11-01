@@ -91,6 +91,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   saveDashboard() {
     this.dashboardsService.updateDashboard(this.dashboard).subscribe();
+    this.cancelEdit();
   }
 
   addWidget() {
