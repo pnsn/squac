@@ -5,6 +5,7 @@ import { DashboardsService } from '../dashboards.service';
 import { Widget } from '../widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from '../widgets.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -71,6 +72,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   refreshData() {
     // send refresh request to widgets listening
     this.reload.next(true);
+  }
+
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(
+      this.dashboard.widgetIds, 
+      event.previousIndex, 
+      event.currentIndex
+     );
   }
 
   addWidget() {

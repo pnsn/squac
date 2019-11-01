@@ -51,17 +51,28 @@
         </div>
 
       </mat-toolbar>
-      <div id="dashboard-content">
-        <app-widget 
+      <div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div id="widget-drag-container"
           *ngFor="let widgetId of dashboard.widgetIds; let index"
-          [widgetId]="widgetId" 
-          [channelGroup]="dashboard.channelGroup"
-          [reload]="reload"
-          [startdate]="startdate"
-          [enddate]="enddate"
-          [ngStyle]="{order: index}"
+          cdkDrag
         >
-        </app-widget>
+          <div class="example-handle" cdkDragHandle>
+              <mat-icon>drag_indicator</mat-icon>
+          </div>
+
+          <app-widget 
+            [widgetId]="widgetId" 
+            [channelGroup]="dashboard.channelGroup"
+            [reload]="reload"
+            [startdate]="startdate"
+            [enddate]="enddate"
+            >
+
+          </app-widget>
+  
+ 
+            </div>
+
 
         <router-outlet></router-outlet>
       </div>
