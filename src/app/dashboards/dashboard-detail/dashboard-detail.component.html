@@ -7,40 +7,26 @@
           <span>
               {{dashboard.channelGroup?.name}}
           </span>
+          {{startdate | date}}
+          {{enddate | date}}
       </div>
         <div id="header-controls">
           <button mat-icon-button (click)="refreshData" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
-          <form #dateForm="ngForm" id="dateselectform">
-              <mat-form-field >
-                  <input 
-                    matInput
-                    [matDatepicker]="startdatepicker"
-                    type="date" 
-                    name="startdate"
-                    id="startdate" 
-                    [(ngModel)]="startdate">
-                  <mat-datepicker-toggle matSuffix [for]="startdatepicker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #startdatepicker></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field >
-                    <input 
-                      matInput
-                      [matDatepicker]="enddatepicker"
-                      type="date" 
-                      id="enddate" 
-                      name="enddate"
-                      [(ngModel)]="enddate">
-                    <mat-datepicker-toggle matSuffix [for]="enddatepicker">
-                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #enddatepicker></mat-datepicker>
-                  </mat-form-field>
-          </form>
-
+          <mat-form-field id="date-range">
+              <mat-select 
+                [(value)]="selectedDateRange"
+                (selectionChange)="selectDateRange($event)"
+                placeholder="Time range"
+                >
+                <mat-option *ngFor="let range of dateRanges"
+                  [value]="range"
+                >
+                  {{range.name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
 
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>

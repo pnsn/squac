@@ -19,9 +19,23 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   widgets: Widget[];
   subscription: Subscription = new Subscription();
   reload: Subject<boolean> = new Subject();
-  startdate: string;
-  enddate: string;
-
+  dateRanges = [
+    {
+      name: "last hour",
+      value: 1
+    },
+    {
+      name: "last 24 hours ",
+      value: 24
+    },
+    {
+      name: "last week",
+      value: 24 * 7
+    }
+  ];
+  startdate: Date;
+  enddate: Date;
+  selectedDateRange = this.dateRanges[0];
   editMode: boolean = false;
 
   constructor(
@@ -35,9 +49,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
+        this.enddate = new Date();
+        this.startdate = this.calcDateRange(1);
         this.updateDashboard();
+
       }
     );
+
+    console.log(this.dateRanges)
 
     const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
       this.updateDashboard();
@@ -52,9 +71,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
       dashboard => {
         this.dashboard = dashboard;
-        this.startdate = '2019-10-19';
-        this.enddate = '2019-10-31';
-        console.log(this.dashboard)
       }
     ));
   }
@@ -70,6 +86,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   updateWidget(id) {
     console.log('refresh widget', id);
     // refresh the widget
+  }
+
+  selectDateRange(event) {
+    this.enddate = new Date();
+    this.startdate = this.calcDateRange(event.value.value);
+    setTimeout(()=>{
+      this.refreshData()
+    }, 10)
+  }
+
+  calcDateRange(hours){
+    return new Date(new Date().getTime() - (hours*60*60*1000));
   }
 
   refreshData() {

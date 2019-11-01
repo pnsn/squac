@@ -16,8 +16,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
-  @Input() startdate: string;
-  @Input() enddate: string;
+  @Input() startdate: Date;
+  @Input() enddate: Date;
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
@@ -70,8 +70,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    const starttimeInSec = new Date(this.startdate).getTime()/1000;
-    const endtimeInSec = new Date(this.enddate).getTime()/1000;
+    const starttimeInSec =this.startdate.getTime()/1000;
+    const endtimeInSec = this.enddate.getTime()/1000;
 
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;

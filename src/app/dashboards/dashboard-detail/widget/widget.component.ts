@@ -6,7 +6,6 @@ import { MeasurementsService } from '../../measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { ResizeEvent } from 'angular-resizable-element';
 import { WidgetsService } from '../../widgets.service';
-import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget',
@@ -17,8 +16,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input('widgetId') id: number;
   @Input() channelGroup: ChannelGroup;
   @Input() reload: Subject<boolean>;
-  @Input() startdate: string;
-  @Input() enddate: string;
+  @Input() startdate: Date;
+  @Input() enddate: Date;
   widget: Widget;
   hasData = false;
   subscription = new Subscription();
@@ -51,6 +50,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
           }
           let sub = this.getData();
           const sub1 = this.reload.subscribe(reload => {
+            console.log(this.startdate, this.enddate)
             if (reload) {
               sub = this.getData();
             }
