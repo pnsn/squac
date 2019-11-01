@@ -21,6 +21,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   reload: Subject<boolean> = new Subject();
   startdate: string;
   enddate: string;
+
+  editMode: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -82,12 +85,20 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
      );
   }
 
+  cancelEdit() {
+    this.editMode = false;
+  }
+
+  saveDashboard() {
+    this.dashboardsService.updateDashboard(this.dashboard).subscribe();
+  }
+
   addWidget() {
     this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
 
   editWidgets(){
-    console.log("edit!!")
-    this.addWidget();
+    this.editMode = true;
+    // this.addWidget();
   }
 }
