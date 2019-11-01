@@ -77,7 +77,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   // after filter applied do this
   getChannelsForNetwork() {
-
     this.selectedNetwork = this.filtersForm.value.networks;
     if (this.selectedNetwork) {
       this.channelsService.fetchChannels(
