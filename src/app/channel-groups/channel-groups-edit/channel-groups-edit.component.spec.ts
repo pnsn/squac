@@ -11,6 +11,7 @@ import { NetworksService } from '../networks.service';
 import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -22,7 +23,8 @@ describe('ChannelGroupsEditComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        MaterialModule
       ],
       declarations: [ ChannelGroupsEditComponent , LoadingComponent],
       providers: [
