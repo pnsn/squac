@@ -30,10 +30,10 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     const dashboardsService = this.dashboardsService.getDashboards.subscribe(
       (dashboards: Dashboard[]) => {
         this.dashboards = dashboards;
-        if(dashboards && dashboards[0] && !this.activeDashboardId) {
-          //TODO: user favorite dashboard
-          this.router.navigate([dashboards[0].id], {relativeTo: this.route});
-        }
+        // if(dashboards && dashboards[0] && !this.activeDashboardId) {
+        //   //TODO: user favorite dashboard
+        //   this.router.navigate([dashboards[0].id], {relativeTo: this.route});
+        // }
 
       }
     );

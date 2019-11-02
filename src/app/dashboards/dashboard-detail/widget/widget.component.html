@@ -36,8 +36,16 @@
       >
 
       </app-tabular>
+      <app-timeseries *ngSwitchCase="'timeseries'" 
+      [dataUpdate]="dataUpdate"
+      [metrics]="widget.metrics"
+      [channels]="channelGroup.channels"
+      [resize]="resize"
+    >
+
+    </app-timeseries>
       <p *ngSwitchDefault>
-          Something went wrong...
+          Error: could not load widget...
           {{widget?.type}}
         </p>
     </ng-container>

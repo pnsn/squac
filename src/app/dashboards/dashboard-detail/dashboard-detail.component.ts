@@ -30,7 +30,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     },
     {
       name: "last week",
-      value: 24 * 7
+      value: 168
     }
   ];
   startdate: Date;
@@ -50,7 +50,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.enddate = new Date();
-        this.startdate = this.calcDateRange(1);
+        this.startdate = this.calcDateRange(168);
         this.updateDashboard();
 
       }
@@ -73,7 +73,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
-  
+
   selectDateRange(event) {
     this.enddate = new Date();
     this.startdate = this.calcDateRange(event.value.value);

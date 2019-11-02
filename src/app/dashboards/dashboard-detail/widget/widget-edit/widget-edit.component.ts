@@ -24,11 +24,18 @@ export class WidgetEditComponent implements OnInit {
   widgetTypes = [ // TODO: get from squac, this is for test
     {
       id: 1,
-      type: 'tabular'
+      type: 'tabular',
+      name: 'tabular'
     },
     {
       id: 2,
-      type: 'timeline'
+      type: 'timeline',
+      name: 'timeline'
+    },
+    {
+      id: 3,
+      type: 'timeseries',
+      name: 'time series'
     }
   ];
 

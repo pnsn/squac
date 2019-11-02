@@ -13,6 +13,7 @@ import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular
 import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/timeline.component';
 import { ResizableModule } from 'angular-resizable-element';
 import { TimeseriesComponent } from './dashboard-detail/widget/widget-types/timeseries/timeseries.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -25,12 +26,13 @@ import { TimeseriesComponent } from './dashboard-detail/widget/widget-types/time
     MeasurementPipe,
     TabularComponent,
     TimelineComponent,
-    TimeseriesComponent
+    TimeseriesComponent,
   ],
   imports: [
     ResizableModule,
     DashboardsRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule
   ]
 })
 export class DashboardsModule { }

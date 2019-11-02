@@ -35,7 +35,7 @@
           <select formControlName="type" *ngIf="widgetTypes">
             <option disabled="true">Please select a widget type</option>
             <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
-              {{type.type}}
+              {{type.name}}
             </option>
 
           </select>
