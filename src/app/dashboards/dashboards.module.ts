@@ -12,6 +12,7 @@ import { MeasurementPipe } from './measurement.pipe';
 import { TabularComponent } from './dashboard-detail/widget/widget-types/tabular/tabular.component';
 import { TimelineComponent } from './dashboard-detail/widget/widget-types/timeline/timeline.component';
 import { ResizableModule } from 'angular-resizable-element';
+import { TimeseriesComponent } from './dashboard-detail/widget/widget-types/timeseries/timeseries.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ResizableModule } from 'angular-resizable-element';
     WidgetEditComponent,
     MeasurementPipe,
     TabularComponent,
-    TimelineComponent
+    TimelineComponent,
+    TimeseriesComponent
   ],
   imports: [
     ResizableModule,
