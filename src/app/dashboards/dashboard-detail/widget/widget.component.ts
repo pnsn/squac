@@ -37,31 +37,36 @@ export class WidgetComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.updateWidget();
+    const sub1 = this.reload.subscribe(reload => {
+      if (reload) {
+        this.getData();
+      }
+    });
+
+    const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
+      this.updateWidget();
+
+    });
+
+    this.subscription.add(sub1);
+    this.subscription.add(widgetSub);
+    
+  }
+
+  updateWidget() {
     this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
       widget => {
         this.widget = widget;
-
-            // show loading
-        if (this.widget && this.widget.metrics && this.channelGroup) {
-          this.styles = {
-            "width.px" : this.widget.columns * this.columnWidth,
-            "height.px" : this.widget.rows * this.rowHeight,
-            "order": this.widget.order
-          }
-          let sub = this.getData();
-          const sub1 = this.reload.subscribe(reload => {
-            console.log(this.startdate, this.enddate)
-            if (reload) {
-              sub = this.getData();
-            }
-          });
-          this.subscription.add(sub);
-          this.subscription.add(sub1);
+        console.log("fgot widget", widget);
+        this.styles = {
+          "width.px" : this.widget.columns * this.columnWidth,
+          "height.px" : this.widget.rows * this.rowHeight,
+          "order": this.widget.order
         }
+        this.getData();
       }
     ));
-
-
   }
 
   ngOnDestroy(): void {
@@ -69,7 +74,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    return this.measurementsService.getMeasurements(
+    this.subscription.add(this.measurementsService.getMeasurements(
       this.widget,
       this.channelGroup,
       this.startdate,
@@ -80,7 +85,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
         this.dataUpdate.next(response);
         // hiding loading
       }
-    );
+    ));
   }
 
   onResizeEnd(event: ResizeEvent): void {

@@ -55,16 +55,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
       }
     );
-
-    console.log(this.dateRanges)
-
-    const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
-      this.updateDashboard();
-      // TODO: update just the widget
-    });
-
     this.subscription.add(dashboardsSub);
-    this.subscription.add(widgetSub);
   }
 
   updateDashboard() {
@@ -82,12 +73,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
-
-  updateWidget(id) {
-    console.log('refresh widget', id);
-    // refresh the widget
-  }
-
+  
   selectDateRange(event) {
     this.enddate = new Date();
     this.startdate = this.calcDateRange(event.value.value);

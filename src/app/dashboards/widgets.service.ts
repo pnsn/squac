@@ -4,6 +4,7 @@ import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
 import { Widget } from './widget';
 import { map } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
+import { Threshold } from './threshold';
 
 
 interface WidgetHttpData {
@@ -48,6 +49,18 @@ export class WidgetsService {
       map(
         response => {
           const metrics = [];
+          const thresholds = {};
+          response.thresholds.forEach(t => {
+            const threshold = new Threshold (
+              t.id,
+              t.widget, 
+              t.metric, 
+              t.minval,
+              t.maxval
+            );
+            thresholds[t.metric] = threshold;
+          })
+
           response.metrics.forEach(m => {
             const metric = new Metric(
               m.id,
@@ -56,6 +69,9 @@ export class WidgetsService {
               m.url,
               m.unit
             );
+            if(thresholds[m.id]) {
+              metric.threshold = thresholds[m.id];
+            }
             metrics.push( metric );
           });
 

@@ -72,7 +72,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const stationRows = [];
     const starttimeInSec =this.startdate.getTime()/1000;
     const endtimeInSec = this.enddate.getTime()/1000;
-
+    const rangeInSec = endtimeInSec - starttimeInSec;
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
       const timeline = [];
@@ -80,7 +80,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       let agg = 0;
 
       let isBad = false;
-
+      console.log(this.currentMetric.id)
       data[channel.id][this.currentMetric.id].forEach(
        (measurement : Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
@@ -89,16 +89,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
           timeline.push(
             
             {
-              end: (end - starttimeInSec)/(endtimeInSec - starttimeInSec),
+              end: (end - starttimeInSec)/rangeInSec,
               styles: {
-                'width' : (end - start) / (endtimeInSec - starttimeInSec) * 100 + "%",
-                'left' : (start - starttimeInSec)/(endtimeInSec - starttimeInSec) * 100 + '%'
+                'width' : (end - start) / rangeInSec * 100 + "%",
+                'left' : (start - starttimeInSec)/rangeInSec * 100 + '%'
               },
               info: measurement.starttime + " " + measurement.endtime + " " + measurement.value,
               threshold: inThreshold
             }
           );
-          
           if(index == 0 && !inThreshold) {
             isBad = true;
           }

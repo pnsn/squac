@@ -78,16 +78,16 @@ export class TabularComponent implements OnInit, OnDestroy {
 
       this.metrics.forEach(metric => {
         const val = this.measurement.transform(data[channel.id][metric.id], '');
-        const inThreshold = this.checkThresholds(metric.threshold, val);
+        const inThreshold = metric.threshold ? this.checkThresholds(metric.threshold, val) : false;
 
-        if (val != null && !inThreshold) {
+        if (metric.threshold && val != null && !inThreshold) {
           agg++;
         }
 
         rowMetrics[metric.id] = {
           value: val,
           classes: {
-            'out-of-spec' : val !== null && !inThreshold ,
+            'out-of-spec' : val !== null && !inThreshold && metric.threshold,
             'in-spec' : val !== null && inThreshold ,
             'has-threshold' : !!metric.threshold
           }
@@ -158,10 +158,10 @@ export class TabularComponent implements OnInit, OnDestroy {
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if (threshold.max && value != null && value > threshold.max) {
+    if (threshold.max && value != null && value >= threshold.max) {
       withinThresholds = false;
     }
-    if (threshold.min && value != null && value < threshold.min) {
+    if (threshold.min && value != null && value <= threshold.min) {
       withinThresholds = false;
     }
     if (!threshold.min && !threshold.max) {

@@ -40,6 +40,9 @@ export class WidgetEditComponent implements OnInit {
     'raw'
   ];
 
+
+  rows = 3;
+  columns = 6;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -85,6 +88,8 @@ export class WidgetEditComponent implements OnInit {
         widget => {
           this.widget = widget;
           this.selectedMetrics = widget.metrics;
+          this.rows = widget.rows;
+          this.columns = widget.columns;
           this.widgetForm.patchValue(
             {
               name : widget.name,

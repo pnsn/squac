@@ -1,3 +1,5 @@
+import { Threshold } from '../dashboards/threshold'
+
 // Describes a metric object
 export class Metric {
   constructor(
@@ -8,8 +10,5 @@ export class Metric {
     public unit: string
   ) {
   }
-  public threshold = {
-    max: 100,
-    min: 1
-  };
+  public threshold : Threshold;
 }

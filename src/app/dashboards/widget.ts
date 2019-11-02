@@ -1,6 +1,7 @@
 import { ChannelGroup } from '../shared/channel-group';
 import { Metric } from '../shared/metric';
 import { Dashboard } from './dashboard';
+import { Threshold } from './threshold';
 
 export class Widget {
   public type: string;
