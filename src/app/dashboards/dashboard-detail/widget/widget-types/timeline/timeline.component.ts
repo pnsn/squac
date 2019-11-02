@@ -85,7 +85,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
        (measurement : Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
           const end = new Date(measurement.endtime).getTime() / 1000;
-          const inThreshold = this.checkThresholds(this.currentMetric.threshold, measurement.value);
+          const inThreshold = this.currentMetric.threshold ? this.checkThresholds(this.currentMetric.threshold, measurement. value) : false;
           timeline.push(
             
             {
@@ -98,7 +98,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
               threshold: inThreshold
             }
           );
-          if(index == 0 && !inThreshold) {
+          if(index == 0 && !inThreshold && this.currentMetric.threshold) {
             isBad = true;
           }
         }

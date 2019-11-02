@@ -88,7 +88,7 @@ export class TabularComponent implements OnInit, OnDestroy {
           value: val,
           classes: {
             'out-of-spec' : val !== null && !inThreshold && metric.threshold,
-            'in-spec' : val !== null && inThreshold ,
+            'in-spec' : val !== null && inThreshold,
             'has-threshold' : !!metric.threshold
           }
         };
