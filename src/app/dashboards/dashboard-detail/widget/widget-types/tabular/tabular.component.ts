@@ -73,7 +73,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
 
       let agg = 0;
-
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
@@ -88,7 +87,7 @@ export class TabularComponent implements OnInit, OnDestroy {
           value: val,
           classes: {
             'out-of-spec' : val !== null && !inThreshold && metric.threshold,
-            'in-spec' : val !== null && inThreshold,
+            'in-spec' : val !== null && inThreshold && metric.threshold,
             'has-threshold' : !!metric.threshold
           }
         };
@@ -105,7 +104,9 @@ export class TabularComponent implements OnInit, OnDestroy {
       };
       row = {...row, ...rowMetrics};
       rows.push(row);
-      if (!stations.includes(identifier)) {
+
+      const staIndex = stations.indexOf(identifier);
+      if (staIndex < 0) {
         stations.push(identifier);
         stationRows.push(
           {

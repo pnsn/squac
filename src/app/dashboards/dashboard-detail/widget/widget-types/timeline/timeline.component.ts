@@ -112,30 +112,24 @@ export class TimelineComponent implements OnInit, OnDestroy {
         timeline: timeline
       };
 
-      if (!stations.includes(identifier)) {
+      const staIndex = stations.indexOf(identifier);
+      if (staIndex < 0) {
         stations.push(identifier);
         stationRows.push(
           {
             ...{
-            title: channel.networkCode + '.' + channel.stationCode,
-            id: identifier,
-            treeStatus: 'collapsed',
-            staCode: channel.stationCode,
-            netCode: channel.networkCode,
-            timeline: timeline
-          },
-        }
+              title: channel.networkCode + '.' + channel.stationCode,
+              id: identifier,
+              treeStatus: 'collapsed',
+              staCode: channel.stationCode,
+              netCode: channel.networkCode,
+              timeline: timeline
+            },
+          }
         );
+      } else if(isBad || stationRows[staIndex].timeline.length == 0) {
+        stationRows[staIndex] = this.replaceChannel(row, stationRows[staIndex]);
       } 
-      else {
-        if(isBad) {
-          const staIndex = stations.indexOf(identifier);
-          stationRows[staIndex] = this.replaceChannel(row, stationRows[staIndex]);
-        }
-
-        // check if agg if worse than current agg
-      }
-
       rows.push(row)
     });
 
