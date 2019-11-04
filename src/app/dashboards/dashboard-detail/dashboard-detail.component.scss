@@ -15,8 +15,19 @@
     align-content: flex-start;
     align-items:flex-start;
     width:100%;
-    overflow:auto;
-    padding:5px;
+    overflow-x:hidden;
+    overflow-y: auto;
+    margin: 0px;
+    .widget-drag-container {
+      position: relative;
+      margin: 5px;
+    }
+    .drag-handle {
+      display: inline-block;
+      position: absolute;
+      margin: 10px;
+    }
+    
   }
 }
 
@@ -58,12 +69,4 @@
     width: 120px;
     margin-left:10px;
     margin-right:10px;
-}
-.widget-drag-container {
-  position: relative;
-}
-.drag-handle {
-  display: inline-block;
-  position: absolute;
-  margin: 10px;
 }

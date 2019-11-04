@@ -34,7 +34,7 @@ export class WidgetsService {
   }
 
   widgetUpdated = new EventEmitter<number>();
-
+  
   getWidgets(widgetIds: number[]): Observable<Widget[]> {
 
     const widgetRequests = widgetIds.map(id => {

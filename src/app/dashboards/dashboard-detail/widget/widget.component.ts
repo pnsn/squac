@@ -13,12 +13,11 @@ import { WidgetsService } from '../../widgets.service';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit, OnDestroy {
-  @Input('widgetId') id: number;
+  @Input() widget: Widget;
   @Input() channelGroup: ChannelGroup;
   @Input() reload: Subject<boolean>;
   @Input() startdate: Date;
   @Input() enddate: Date;
-  widget: Widget;
   hasData = false;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
@@ -37,36 +36,40 @@ export class WidgetComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.updateWidget();
+    if(this.widget) {
+      this.updateWidget();
+    }
+
     const sub1 = this.reload.subscribe(reload => {
       if (reload) {
         this.getData();
       }
     });
 
-    const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
-      this.updateWidget();
+    // const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
+    //   this.updateWidget();
 
-    });
+    // });
 
     this.subscription.add(sub1);
-    this.subscription.add(widgetSub);
+    // this.subscription.add(widgetSub);
     
   }
 
   updateWidget() {
-    this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
-      widget => {
-        this.widget = widget;
-        console.log("fgot widget", widget);
-        this.styles = {
-          "width.px" : this.widget.columns * this.columnWidth,
-          "height.px" : this.widget.rows * this.rowHeight,
-          "order": this.widget.order
-        }
-        this.getData();
-      }
-    ));
+    this.styles = {
+      "width.px" : this.widget.columns * this.columnWidth,
+      "height.px" : this.widget.rows * this.rowHeight,
+      "order": this.widget.order
+    }
+    this.getData();
+    // this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
+    //   widget => {
+    //     this.widget = widget;
+    //     console.log("fgot widget", widget);
+
+    //   }
+    // ));
   }
 
   ngOnDestroy(): void {

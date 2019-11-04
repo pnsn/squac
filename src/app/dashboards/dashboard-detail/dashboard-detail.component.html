@@ -53,16 +53,17 @@
       </div>
       <div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
         <div class="widget-drag-container"
-          *ngFor="let widgetId of dashboard.widgetIds; let index"
+          *ngFor="let widget of dashboard.widgets; let index"
           cdkDrag
           [cdkDragDisabled]="!editMode"
+          [style.order]="widget.order"
           >
           <div class="drag-handle" cdkDragHandle *ngIf="editMode">
               <mat-icon>drag_indicator</mat-icon>
           </div>
 
           <app-widget 
-            [widgetId]="widgetId" 
+            [widget]="widget" 
             [channelGroup]="dashboard.channelGroup"
             [reload]="reload"
             [startdate]="startdate"

@@ -30,12 +30,16 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     },
     {
       name: "last week",
-      value: 168
+      value: 24 * 7
+    },
+    {
+      name: "last 2 weeks",
+      value: 168 * 2
     }
   ];
   startdate: Date;
   enddate: Date;
-  selectedDateRange = this.dateRanges[0];
+  selectedDateRange = this.dateRanges[2];
   editMode: boolean = false;
 
   constructor(
@@ -50,7 +54,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.enddate = new Date();
-        this.startdate = this.calcDateRange(168);
+        this.startdate = this.calcDateRange(this.selectedDateRange.value);
         this.updateDashboard();
 
       }
@@ -62,6 +66,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
       dashboard => {
         this.dashboard = dashboard;
+        
       }
     ));
   }
@@ -97,6 +102,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       event.previousIndex, 
       event.currentIndex
      );
+
+     //TODO: figure out ordering that saves
   }
 
   cancelEdit() {
