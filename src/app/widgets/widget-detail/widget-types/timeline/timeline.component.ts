@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
-import { Metric } from '../../../../../shared/metric';
-import { Channel } from '../../../../../shared/channel';
+import { Metric } from '../../../../shared/metric';
+import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
-import { MeasurementPipe } from '../../../../measurement.pipe';
+import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
-import { Measurement } from 'src/app/dashboards/measurement';
+import { Measurement } from 'src/app/widgets/measurement';
 
 @Component({
   selector: 'app-timeline',

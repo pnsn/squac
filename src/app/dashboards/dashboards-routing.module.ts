@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { DashboardsComponent } from './dashboards.component';
 import { DashboardEditComponent } from './dashboard-edit/dashboard-edit.component';
 import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.component';
-import { WidgetEditComponent } from './dashboard-detail/widget/widget-edit/widget-edit.component';
-import { WidgetComponent } from './dashboard-detail/widget/widget.component';
+import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.component';
+import { WidgetComponent } from '../widgets/widget.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 

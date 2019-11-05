@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TabularComponent } from './tabular.component';
-import { MeasurementPipe } from '../../../../measurement.pipe';
+import { MeasurementPipe } from '../../../measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MeasurementsService } from '../../../../measurements.service';
+import { MeasurementsService } from '../../../measurements.service';
 import { EMPTY, of, Subject } from 'rxjs';
 
 describe('TabularComponent', () => {

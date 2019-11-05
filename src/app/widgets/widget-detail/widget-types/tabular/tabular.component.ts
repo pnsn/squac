@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
-import { Metric } from '../../../../../shared/metric';
-import { Channel } from '../../../../../shared/channel';
+import { Metric } from '../../../../shared/metric';
+import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
-import { MeasurementPipe } from '../../../../measurement.pipe';
+import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
 
 @Component({

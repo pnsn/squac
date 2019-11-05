@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Widget } from '../../widget';
+import { Widget } from './widget';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelGroup } from '../../../shared/channel-group';
-import { MeasurementsService } from '../../measurements.service';
+import { ChannelGroup } from '../shared/channel-group';
+import { MeasurementsService } from './measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { ResizeEvent } from 'angular-resizable-element';
-import { WidgetsService } from '../../widgets.service';
+import { WidgetsService } from './widgets.service';
 
 @Component({
   selector: 'app-widget',

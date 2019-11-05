@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
-import { Widget } from '../widget';
+import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
-import { WidgetsService } from '../widgets.service';
+import { WidgetsService } from '../../widgets/widgets.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ResizeEvent } from 'angular-resizable-element';
 

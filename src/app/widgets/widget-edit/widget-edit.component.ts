@@ -2,10 +2,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Route, ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
-import { Metric } from '../../../../shared/metric';
-import { MetricsService } from '../../../../shared/metrics.service';
-import { WidgetsService } from '../../../widgets.service';
-import { Widget } from '../../../widget';
+import { Metric } from '../../shared/metric';
+import { MetricsService } from '../../shared/metrics.service';
+import { WidgetsService } from '../widgets.service';
+import { Widget } from '../widget';
 
 @Component({
   selector: 'app-widget-edit',

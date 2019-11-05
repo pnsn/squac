@@ -1,4 +1,4 @@
-import { Widget } from './widget';
+import { Widget } from '../widgets/widget';
 import { ChannelGroup } from '../shared/channel-group';
 
 export class Dashboard {

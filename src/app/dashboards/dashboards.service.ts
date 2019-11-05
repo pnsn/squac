@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
 import { Subject, BehaviorSubject, Observable, of, empty } from 'rxjs';
-import { Widget } from './widget';
+import { Widget } from '../widgets/widget';
 import { SquacApiService } from '../squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, concatMap, switchMap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
-import { WidgetsService } from './widgets.service';
+import { WidgetsService } from '../widgets/widgets.service';
 
 interface DashboardsHttpData {
   name: string;

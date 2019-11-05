@@ -1,4 +1,4 @@
-import { Threshold } from '../dashboards/threshold'
+import { Threshold } from '../widgets/threshold'
 
 // Describes a metric object
 export class Metric {

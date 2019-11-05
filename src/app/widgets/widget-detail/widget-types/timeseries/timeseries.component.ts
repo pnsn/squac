@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { Measurement } from 'src/app/widgets/measurement';
 import { Metric } from 'src/app/shared/metric';
 import { Channel } from 'src/app/shared/channel';
-import { Measurement } from 'src/app/dashboards/measurement';
 
 @Component({
   selector: 'app-timeseries',
