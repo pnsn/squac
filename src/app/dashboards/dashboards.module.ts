@@ -5,9 +5,7 @@ import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.co
 import { DashboardEditComponent } from './dashboard-edit/dashboard-edit.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { DashboardsRoutingModule } from './dashboards-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import { ResizableModule } from 'angular-resizable-element';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 import { WidgetsModule } from '../widgets/widgets.module';
 @NgModule({
   declarations: [
