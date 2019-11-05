@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
+import { WidgetComponent } from 'src/app/widgets/widget.component';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -15,7 +16,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-  reload: Subject<boolean> = new Subject();
+
+  @ViewChild(WidgetComponent, {static: false})
+  private widgetComponent: WidgetComponent;
+
   dateRanges = [
     {
       name: "last hour",
@@ -89,7 +93,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   refreshData() {
     // send refresh request to widgets listening
-    this.reload.next(true);
+    this.widgetComponent.refresh()
   }
 
 
@@ -99,6 +103,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   saveDashboard() {
+    this.widgetComponent.save();
     this.dashboardsService.updateDashboard(this.dashboard).subscribe();
     this.cancelEdit();
   }
