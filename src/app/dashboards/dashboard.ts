@@ -6,7 +6,7 @@ export class Dashboard {
   public widgets: Widget[];
   public startdate: Date;
   public enddate: Date;
-  
+
   constructor(
     public id: number,
     public name: string,

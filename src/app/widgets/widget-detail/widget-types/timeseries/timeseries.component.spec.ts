@@ -21,10 +21,10 @@ describe('TimeseriesComponent', () => {
     fixture = TestBed.createComponent(TimeseriesComponent);
     component = fixture.componentInstance;
 
-    component.dataUpdate= new Subject();
+    component.dataUpdate = new Subject();
     component.metrics = [];
-    component.channels= [];
-    component.resize= new Subject();
+    component.channels = [];
+    component.resize = new Subject();
     fixture.detectChanges();
   });
 

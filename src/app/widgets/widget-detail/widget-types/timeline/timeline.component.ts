@@ -69,45 +69,45 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    const starttimeInSec =this.startdate.getTime()/1000;
-    const endtimeInSec = this.enddate.getTime()/1000;
+    const starttimeInSec = this.startdate.getTime() / 1000;
+    const endtimeInSec = this.enddate.getTime() / 1000;
     const rangeInSec = endtimeInSec - starttimeInSec;
-    this.channels.forEach((channel, index) => {
+    this.channels.forEach((channel) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
       const timeline = [];
 
-      let agg = 0;
+      const agg = 0;
 
       let isBad = false;
       data[channel.id][this.currentMetric.id].forEach(
-       (measurement : Measurement, index) => {
+       (measurement: Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
           const end = new Date(measurement.endtime).getTime() / 1000;
           const inThreshold = this.currentMetric.threshold ? this.checkThresholds(this.currentMetric.threshold, measurement. value) : false;
           timeline.push(
-            
+
             {
-              end: (end - starttimeInSec)/rangeInSec,
+              end: (end - starttimeInSec) / rangeInSec,
               styles: {
-                'width' : (end - start) / rangeInSec * 100 + "%",
-                'left' : (start - starttimeInSec)/rangeInSec * 100 + '%'
+                width : (end - start) / rangeInSec * 100 + '%',
+                left : (start - starttimeInSec) / rangeInSec * 100 + '%'
               },
-              info: measurement.starttime + " " + measurement.endtime + " " + measurement.value,
+              info: measurement.starttime + ' ' + measurement.endtime + ' ' + measurement.value,
               threshold: inThreshold
             }
           );
-          if(index == 0 && !inThreshold && this.currentMetric.threshold) {
+          if (index === 0 && !inThreshold && this.currentMetric.threshold) {
             isBad = true;
           }
         }
       );
-      let row = {
+      const row = {
         title: channel.loc + '.' + channel.code,
         id: channel.id,
         nslc: channel.nslc,
         parentId: identifier,
         treeStatus: 'disabled',
-        timeline: timeline
+        timeline
       };
 
       const staIndex = stations.indexOf(identifier);
@@ -121,14 +121,14 @@ export class TimelineComponent implements OnInit, OnDestroy {
               treeStatus: 'collapsed',
               staCode: channel.stationCode,
               netCode: channel.networkCode,
-              timeline: timeline
+              timeline
             },
           }
         );
-      } else if(isBad || stationRows[staIndex].timeline.length == 0) {
+      } else if (isBad || stationRows[staIndex].timeline.length === 0) {
         stationRows[staIndex] = this.replaceChannel(row, stationRows[staIndex]);
-      } 
-      rows.push(row)
+      }
+      rows.push(row);
     });
 
     this.rows = [...stationRows, ...rows];

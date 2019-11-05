@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {MaterialModule} from '../../shared/material.module'
+import {MaterialModule} from '../../shared/material.module';
 import { WidgetDetailComponent } from './widget-detail.component';
 import { WidgetsModule } from '../widgets.module';
 import { ActivatedRoute } from '@angular/router';

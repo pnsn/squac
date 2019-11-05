@@ -45,7 +45,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     }));
 
     this.subscription.add(this.resize.subscribe(reload => {
-      console.log("reload!")
+      console.log('reload!');
       this.columns = [...this.columns];
       this.table.recalculate();
     }));
@@ -122,7 +122,6 @@ export class TabularComponent implements OnInit, OnDestroy {
         }
         );
       } else {
-        const staIndex = stations.indexOf(identifier);
         stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
       }

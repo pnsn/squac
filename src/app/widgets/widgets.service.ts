@@ -34,7 +34,7 @@ export class WidgetsService {
   }
 
   widgetUpdated = new EventEmitter<number>();
-  
+
   getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
     return this.squacApi.get(this.url, null,
       {
@@ -43,12 +43,12 @@ export class WidgetsService {
       ).pipe(
         map(
         response => {
-          const widgets : Widget[] = [];
+          const widgets: Widget[] = [];
 
 
           response.forEach(w => {
             widgets.push(this.mapWidget(w));
-          })
+          });
 
           return widgets;
         }
@@ -71,20 +71,20 @@ export class WidgetsService {
     );
   }
 
-  private mapWidget(response : any) : Widget {
+  private mapWidget(response: any): Widget {
     const metrics = [];
     const thresholds = {};
 
     response.thresholds.forEach(t => {
       const threshold = new Threshold (
         t.id,
-        t.widget, 
-        t.metric, 
+        t.widget,
+        t.metric,
         t.minval,
         t.maxval
       );
       thresholds[t.metric] = threshold;
-    })
+    });
 
     response.metrics.forEach(m => {
       const metric = new Metric(
@@ -94,7 +94,7 @@ export class WidgetsService {
         m.url,
         m.unit
       );
-      if(thresholds[m.id]) {
+      if (thresholds[m.id]) {
         metric.threshold = thresholds[m.id];
       }
       metrics.push( metric );

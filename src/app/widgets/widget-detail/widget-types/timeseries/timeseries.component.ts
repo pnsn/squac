@@ -15,10 +15,10 @@ export class TimeseriesComponent implements OnInit {
   @Input() channels: Channel[];
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
-  results:Array<any>;
+  results: Array<any>;
 
   xAxisLabel = 'Measurement Start Date';
-  yAxisLabel : string;
+  yAxisLabel: string;
 
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -38,25 +38,25 @@ export class TimeseriesComponent implements OnInit {
     const currentMetric = this.metrics[0];
     this.yAxisLabel = currentMetric.name;
     this.channels.forEach(
-      channel=>{
-        let channelObj = {
-          "name" : channel.nslc,
-          "series" : []
-        }
+      channel => {
+        const channelObj = {
+          name : channel.nslc,
+          series : []
+        };
 
         data[channel.id][currentMetric.id].forEach(
-          (measurement : Measurement) =>{
-            channelObj["series"].push(
+          (measurement: Measurement) => {
+            channelObj.series.push(
               {
                 name: measurement.starttime,
                 value: measurement.value
               }
-            )
+            );
           }
-        )
+        );
 
-      this.results.push(channelObj);
+        this.results.push(channelObj);
       }
-    )
+    );
   }
 }

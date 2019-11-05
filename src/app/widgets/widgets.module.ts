@@ -25,7 +25,7 @@ import { GridsterModule } from 'angular-gridster2';
     CommonModule,
     SharedModule,
     NgxChartsModule,
-    GridsterModule  
+    GridsterModule
   ],
   exports: [
     WidgetComponent,

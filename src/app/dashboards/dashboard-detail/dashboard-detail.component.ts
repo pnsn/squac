@@ -22,26 +22,26 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   dateRanges = [
     {
-      name: "last hour",
+      name: 'last hour',
       value: 1
     },
     {
-      name: "last 24 hours ",
+      name: 'last 24 hours ',
       value: 24
     },
     {
-      name: "last week",
+      name: 'last week',
       value: 24 * 7
     },
     {
-      name: "last 2 weeks",
+      name: 'last 2 weeks',
       value: 168 * 2
     }
   ];
   startdate: Date;
   enddate: Date;
   selectedDateRange = this.dateRanges[2];
-  editMode: boolean = false;
+  editMode = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,7 +66,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
       dashboard => {
         this.dashboard = dashboard;
-        
+
       }
     ));
   }
@@ -82,18 +82,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   selectDateRange(event) {
     this.enddate = new Date();
     this.startdate = this.calcDateRange(event.value.value);
-    setTimeout(()=>{
-      this.refreshData()
-    }, 10)
+    setTimeout(() => {
+      this.refreshData();
+    }, 10);
   }
 
-  calcDateRange(hours){
-    return new Date(new Date().getTime() - (hours*60*60*1000));
+  calcDateRange(hours) {
+    return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }
 
   refreshData() {
     // send refresh request to widgets listening
-    this.widgetComponent.refresh()
+    this.widgetComponent.refresh();
   }
 
 
@@ -110,7 +110,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   addWidget() {
     this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
-  editWidgets(){
+  editWidgets() {
     this.editMode = true;
     // this.addWidget();
   }

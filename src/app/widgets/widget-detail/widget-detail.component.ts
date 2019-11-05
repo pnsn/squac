@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Widget } from '../widget';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { Subject, Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { MeasurementsService } from '../measurements.service';
   templateUrl: './widget-detail.component.html',
   styleUrls: ['./widget-detail.component.scss']
 })
-export class WidgetDetailComponent implements OnInit {
+export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   @Input() widget: Widget;
   @Input() channelGroup: ChannelGroup;
@@ -21,9 +21,9 @@ export class WidgetDetailComponent implements OnInit {
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   resize: Subject<boolean> = new Subject();
-  //temp 
+  // temp
 
-  styles : any;
+  styles: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +33,7 @@ export class WidgetDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.widget) {
+    if (this.widget) {
       this.updateWidget();
     }
 
@@ -50,7 +50,7 @@ export class WidgetDetailComponent implements OnInit {
 
     // this.subscription.add(sub1);
     // this.subscription.add(widgetSub);
-    
+
   }
 
   updateWidget() {

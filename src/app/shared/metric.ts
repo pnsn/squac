@@ -1,4 +1,4 @@
-import { Threshold } from '../widgets/threshold'
+import { Threshold } from '../widgets/threshold';
 
 // Describes a metric object
 export class Metric {
@@ -10,5 +10,5 @@ export class Metric {
     public unit: string
   ) {
   }
-  public threshold : Threshold;
+  public threshold: Threshold;
 }
