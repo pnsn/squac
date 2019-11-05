@@ -29,7 +29,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   ],
   exports: [
     WidgetComponent,
-    WidgetDetailComponent,
     WidgetEditComponent,
     SharedModule
   ]

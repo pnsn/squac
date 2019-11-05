@@ -4,9 +4,6 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
-import { WidgetsService } from '../../widgets/widgets.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -42,14 +39,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   selectedDateRange = this.dateRanges[2];
   editMode: boolean = false;
 
-  columnWidth = 100;
-  rowHeight = 100;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dashboardsService: DashboardsService,
-    private widgetsService: WidgetsService
+    private dashboardsService: DashboardsService
   ) { }
 
   ngOnInit() {
@@ -99,15 +92,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.reload.next(true);
   }
 
-  drop(event: CdkDragDrop<any>) {
-    moveItemInArray(
-      this.dashboard.widgetIds, 
-      event.previousIndex, 
-      event.currentIndex
-     );
 
-     //TODO: figure out ordering that saves
-  }
 
   cancelEdit() {
     this.editMode = false;
@@ -117,35 +102,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.dashboardsService.updateDashboard(this.dashboard).subscribe();
     this.cancelEdit();
   }
-
   addWidget() {
     this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
-
   editWidgets(){
     this.editMode = true;
     // this.addWidget();
-  }
-
-  onResizeEnd(event: ResizeEvent): void {
-    const row = Math.round(event.rectangle.height / this.rowHeight);
-    const column = Math.round(event.rectangle.width / this.columnWidth);
-
-
-  //   this.widget.rows = row > 0 ? row : 1;
-  //   this.widget.columns = column > 0 ? column : 1;
-
-  //   this.styles = {
-  //     "width.px" : this.widget.columns * this.columnWidth,
-  //     "height.px" : this.widget.rows * this.rowHeight,
-  //     "order": this.widget.order
-  //   };
-
-  //   this.widgetsService.updateWidget(this.widget).subscribe();
-  //   setTimeout(()=>{
-  //     window.dispatchEvent(new Event('resize'))
-  //   }, 100);
-  // }
   }
 
 }

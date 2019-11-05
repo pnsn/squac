@@ -58,6 +58,5 @@ export class TimeseriesComponent implements OnInit {
       this.results.push(channelObj);
       }
     )
-    console.log(this.results);
   }
 }

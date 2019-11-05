@@ -1,1 +1,46 @@
-<p>widget-detail works!</p>
+<div class="widget-container"
+  *ngIf="widget"
+  >
+  <div class="widget-header">
+    <h4>{{widget.name}}</h4>
+    <button mat-icon-button (click)="editWidget()"> 
+      <mat-icon>
+        edit
+      </mat-icon>
+    </button>
+  </div>
+  <div class="widget-content">
+    <app-loading *ngIf="!hasData"></app-loading>
+    <ng-container [ngSwitch]="widget?.type">
+      <app-timeline *ngSwitchCase="'timeline'"
+        [dataUpdate]="dataUpdate"
+        [metrics]="widget.metrics"
+        [channels]="channelGroup.channels"
+        [startdate]="startdate"
+        [enddate]="enddate"
+        [resize]="resize"
+      >
+      </app-timeline>
+      <app-tabular *ngSwitchCase="'tabular'" 
+        [dataUpdate]="dataUpdate"
+        [metrics]="widget.metrics"
+        [channels]="channelGroup.channels"
+        [resize]="resize"
+      >
+
+      </app-tabular>
+      <app-timeseries *ngSwitchCase="'timeseries'" 
+      [dataUpdate]="dataUpdate"
+      [metrics]="widget.metrics"
+      [channels]="channelGroup.channels"
+      [resize]="resize"
+    >
+
+    </app-timeseries>
+      <p *ngSwitchDefault>
+          Error: could not load widget...
+          {{widget?.type}}
+        </p>
+    </ng-container>
+  </div>
+</div>

@@ -51,42 +51,12 @@
         </button>
 
       </div>
-      <div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
-        <div class="widget-drag-container"
-          *ngFor="let widget of dashboard.widgets; let index"
-          cdkDrag
-          [cdkDragDisabled]="!editMode"
-          [style.order]="widget.order"
-          [style.width.px]="widget.columns * columnWidth"
-          [style.height.px]="widget.rows * rowHeight"
-          mwlResizable
-          [enableGhostResize]="true" 
-          [allowNegativeResizes]="true"
-          (validateResize)="validateResize($event)"
-          [resizeSnapGrid]="{left: columnWidth, bottom: rowHeight}"
-          [resizeEdges]="{bottom: true, right: true, top: false, left: false}"
-          (resizeEnd)="onResizeEnd($event)"
-          >
-          <div class="drag-handle" cdkDragHandle *ngIf="editMode">
-              <mat-icon>drag_indicator</mat-icon>
-          </div>
-
-          <app-widget 
-            [widget]="widget" 
-            [channelGroup]="dashboard.channelGroup"
-            [reload]="reload"
-            [startdate]="startdate"
-            [enddate]="enddate"
-            >
-
-          </app-widget>
-  
- 
-            </div>
-
-
-
-      </div>
+      <app-widget 
+        [dashboardId]="dashboard.id"
+        [channelGroup]="dashboard.channelGroup"
+        [startdate]="startdate"
+        [enddate]="enddate">
+      </app-widget>
       <router-outlet></router-outlet>
 
 </div>

@@ -1,46 +1,36 @@
-<div class="widget-container"
-  *ngIf="widget"
-  >
-  <div class="widget-header">
-    <h4>{{widget.name}}</h4>
-    <button mat-icon-button (click)="editWidget()"> 
-      <mat-icon>
-        edit
-      </mat-icon>
-    </button>
-  </div>
-  <div class="widget-content">
-    <app-loading *ngIf="!hasData"></app-loading>
-    <ng-container [ngSwitch]="widget?.type">
-      <app-timeline *ngSwitchCase="'timeline'"
-        [dataUpdate]="dataUpdate"
-        [metrics]="widget.metrics"
-        [channels]="channelGroup.channels"
-        [startdate]="startdate"
-        [enddate]="enddate"
-        [resize]="resize"
-      >
-      </app-timeline>
-      <app-tabular *ngSwitchCase="'tabular'" 
-        [dataUpdate]="dataUpdate"
-        [metrics]="widget.metrics"
-        [channels]="channelGroup.channels"
-        [resize]="resize"
-      >
 
-      </app-tabular>
-      <app-timeseries *ngSwitchCase="'timeseries'" 
-      [dataUpdate]="dataUpdate"
-      [metrics]="widget.metrics"
-      [channels]="channelGroup.channels"
-      [resize]="resize"
+<div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="widget-drag-container"
+    *ngFor="let widget of widgets"
+    cdkDrag
+    [cdkDragDisabled]="!editMode"
+    [style.order]="widget.order"
+    [style.width.px]="widget.columns * columnWidth"
+    [style.height.px]="widget.rows * rowHeight"
+    mwlResizable
+    [enableGhostResize]="true" 
+    [allowNegativeResizes]="true"
+    (validateResize)="validateResize($event)"
+    [resizeSnapGrid]="{left: columnWidth, bottom: rowHeight}"
+    [resizeEdges]="{bottom: true, right: true, top: false, left: false}"
+    (resizeEnd)="onResizeEnd($event, widget)"
     >
+    <div class="drag-handle" cdkDragHandle>
+        <mat-icon>drag_indicator</mat-icon>
+    </div>
 
-    </app-timeseries>
-      <p *ngSwitchDefault>
-          Error: could not load widget...
-          {{widget?.type}}
-        </p>
-    </ng-container>
-  </div>
+    <app-widget-detail 
+      [widget]="widget" 
+      [channelGroup]="channelGroup"
+      [startdate]="startdate"
+      [enddate]="enddate"
+      >
+
+    </app-widget-detail>
+
+
+      </div>
+
+
+
 </div>

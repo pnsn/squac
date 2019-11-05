@@ -15,9 +15,7 @@ import { WidgetsModule } from '../widgets/widgets.module';
     DashboardViewComponent
   ],
   imports: [
-    ResizableModule,
     DashboardsRoutingModule,
-    NgxChartsModule,
     WidgetsModule
   ]
 })

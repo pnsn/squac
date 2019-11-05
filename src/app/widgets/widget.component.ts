@@ -5,6 +5,7 @@ import { ChannelGroup } from '../shared/channel-group';
 import { MeasurementsService } from './measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { ResizeEvent } from 'angular-resizable-element';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetsService } from './widgets.service';
 
 @Component({
@@ -13,80 +14,57 @@ import { WidgetsService } from './widgets.service';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit, OnDestroy {
-  @Input() widget: Widget;
+  @Input() dashboardId: number;
   @Input() channelGroup: ChannelGroup;
-  @Input() reload: Subject<boolean>;
   @Input() startdate: Date;
   @Input() enddate: Date;
-  hasData = false;
-  subscription = new Subscription();
-  dataUpdate = new Subject<any>();
-  resize: Subject<boolean> = new Subject();
-  //temp 
-
-  styles : any;
-
+  columnWidth = 100;
+  rowHeight = 100;
+  widgets : Widget[];
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private widgetsService: WidgetsService,
-    private measurementsService: MeasurementsService
-  ) { }
+    private widgetService: WidgetsService
+  ){
 
-  ngOnInit() {
-    if(this.widget) {
-      this.updateWidget();
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    if(this.dashboardId) {
+      this.widgetService.getWidgetsByDashboardId(this.dashboardId).subscribe(
+        (widgets: Widget[]) => {
+          this.widgets = widgets;
+        }
+      )
     }
-
-    const sub1 = this.reload.subscribe(reload => {
-      if (reload) {
-        this.getData();
-      }
-    });
-
-    // const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
-    //   this.updateWidget();
-
-    // });
-
-    this.subscription.add(sub1);
-    // this.subscription.add(widgetSub);
-    
   }
 
-  updateWidget() {
+  ngOnDestroy(){
 
-    this.getData();
-    // this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
-    //   widget => {
-    //     this.widget = widget;
-    //     console.log("fgot widget", widget);
-
-    //   }
-    // ));
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  drop(event: CdkDragDrop<any>) {
+    console.log(event)
+    // moveItemInArray(
+    //   widgetIds, 
+    //   event.previousIndex, 
+    //   event.currentIndex
+    //  );
+
+     //TODO: figure out ordering that saves
   }
 
-  getData() {
-    this.subscription.add(this.measurementsService.getMeasurements(
-      this.widget,
-      this.channelGroup,
-      this.startdate,
-      this.enddate
-    ).subscribe(
-      response => {
-        this.hasData = true;
-        this.dataUpdate.next(response);
-        // hiding loading
-      }
-    ));
-  }
+  onResizeEnd(event: ResizeEvent, widget: Widget): void {
+    console.log(event, widget);
+    const row = Math.round(event.rectangle.height / this.rowHeight);
+    const column = Math.round(event.rectangle.width / this.columnWidth);
 
 
-  editWidget() {
-    this.router.navigate(['widget', this.widget.id, 'edit'], {relativeTo: this.route});
+    widget.rows = row > 0 ? row : 1;
+    widget.columns = column > 0 ? column : 1;
+    setTimeout(()=>{
+      window.dispatchEvent(new Event('resize'))
+    }, 1);
+    this.widgetService.updateWidget(widget).subscribe();
   }
+  
 }

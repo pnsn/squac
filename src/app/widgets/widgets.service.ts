@@ -35,64 +35,84 @@ export class WidgetsService {
 
   widgetUpdated = new EventEmitter<number>();
   
-  getWidgets(widgetIds: number[]): Observable<Widget[]> {
-
-    const widgetRequests = widgetIds.map(id => {
-      return this.getWidget(id);
-    });
-
-    return forkJoin(widgetRequests);
-  }
-
-  getWidget(id: number): Observable<Widget> {
-    return this.squacApi.get(this.url, id).pipe(
-      map(
+  getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
+    return this.squacApi.get(this.url, null,
+      {
+        dashboard : dashboardId
+      }
+      ).pipe(
+        map(
         response => {
-          const metrics = [];
-          const thresholds = {};
-          response.thresholds.forEach(t => {
-            const threshold = new Threshold (
-              t.id,
-              t.widget, 
-              t.metric, 
-              t.minval,
-              t.maxval
-            );
-            thresholds[t.metric] = threshold;
+          const widgets : Widget[] = [];
+
+
+          response.forEach(w => {
+            widgets.push(this.mapWidget(w));
           })
 
-          response.metrics.forEach(m => {
-            const metric = new Metric(
-              m.id,
-              m.name,
-              m.description,
-              m.url,
-              m.unit
-            );
-            if(thresholds[m.id]) {
-              metric.threshold = thresholds[m.id];
-            }
-            metrics.push( metric );
-          });
-
-          const widget = new Widget(
-            response.id,
-            response.name,
-            response.description,
-            response.widgettype.id,
-            response.dashboard.id,
-            response.columns,
-            response.rows,
-            response.order,
-            metrics
-          );
-
-          widget.type = response.widgettype.type;
-
-          return widget;
+          return widgets;
         }
       )
     );
+  }
+
+  // getWidgets(widgetIds: number[]): Observable<Widget[]> {
+
+  //   const widgetRequests = widgetIds.map(id => {
+  //     return this.getWidget(id);
+  //   });
+
+  //   return forkJoin(widgetRequests);
+  // }
+
+  getWidget(id: number): Observable<Widget> {
+    return this.squacApi.get(this.url, id).pipe(
+      map(this.mapWidget)
+    );
+  }
+
+  private mapWidget(response : any) : Widget {
+    const metrics = [];
+    const thresholds = {};
+    response.thresholds.forEach(t => {
+      const threshold = new Threshold (
+        t.id,
+        t.widget, 
+        t.metric, 
+        t.minval,
+        t.maxval
+      );
+      thresholds[t.metric] = threshold;
+    })
+
+    response.metrics.forEach(m => {
+      const metric = new Metric(
+        m.id,
+        m.name,
+        m.description,
+        m.url,
+        m.unit
+      );
+      if(thresholds[m.id]) {
+        metric.threshold = thresholds[m.id];
+      }
+      metrics.push( metric );
+    });
+
+    const widget = new Widget(
+      response.id,
+      response.name,
+      response.description,
+      response.widgettype.id,
+      response.dashboard.id,
+      response.columns,
+      response.rows,
+      response.order,
+      metrics
+    );
+
+    widget.type = response.widgettype.type;
+    return widget;
   }
 
   updateWidget(widget: Widget) {

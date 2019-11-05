@@ -1,0 +1,30 @@
+.widget-container {
+  text-align: left;
+  height: 100%;
+  width: 100%;
+}
+
+.widget-header {
+  width: 100%;
+  padding: 10px 10px 0px 10px;
+  h4 {
+    margin-left: 20px;
+    display:inline-block;
+    // margin-top: 10px;
+    // margin-right: 2-
+    // float:left;
+  }
+  button {
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    float:right;
+  }
+}
+
+.widget-content {
+  height: 100%;
+  width: 100%;
+  overflow:hidden;
+  padding: 10px;
+}

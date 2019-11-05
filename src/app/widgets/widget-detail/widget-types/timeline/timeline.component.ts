@@ -47,7 +47,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription.add(this.dataUpdate.subscribe(data => {
       this.currentMetric = this.metrics[0];
-      console.log(this.currentMetric)
       this.buildRows(data);
     }));
 
@@ -80,7 +79,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
       let agg = 0;
 
       let isBad = false;
-      console.log(this.currentMetric.id)
       data[channel.id][this.currentMetric.id].forEach(
        (measurement : Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
