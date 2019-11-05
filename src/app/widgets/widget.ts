@@ -5,7 +5,7 @@ import { Threshold } from './threshold';
 
 export class Widget {
   public type: string;
-
+  public dashboard: Dashboard;
   constructor(
     public id: number,
     public name: string,

@@ -8,8 +8,8 @@ import { TabularComponent } from './widget-detail/widget-types/tabular/tabular.c
 import { TimelineComponent } from './widget-detail/widget-types/timeline/timeline.component';
 import { TimeseriesComponent } from './widget-detail/widget-types/timeseries/timeseries.component';
 import { SharedModule } from '../shared/shared.module';
-import { ResizableModule } from 'angular-resizable-element';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GridsterModule } from 'angular-gridster2';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     CommonModule,
     SharedModule,
     ResizableModule,
-    NgxChartsModule
+    NgxChartsModule,
+    GridsterModule  
   ],
   exports: [
     WidgetComponent,

@@ -1,37 +1,17 @@
 
-<div id="dashboard-content" cdkDropList (cdkDropListDropped)="drop($event)">
-  <div class="widget-drag-container"
-    *ngFor="let widget of widgets"
-    cdkDrag
-    cdkDropListDisabled = "!editMode"
-    [cdkDragData]="widget"
-    [style.order]="widget.order"
-    [style.width.px]="widget.columns * columnWidth"
-    [style.height.px]="widget.rows * rowHeight"
-    mwlResizable
-    [enableGhostResize]="true" 
-    [allowNegativeResizes]="true"
-    (validateResize)="validateResize($event)"
-    [resizeSnapGrid]="{left: columnWidth, bottom: rowHeight}"
-    [resizeEdges]="{bottom: editMode, right: editMode, top: false, left: false}"
-    (resizeEnd)="onResizeEnd($event, widget)"
-    >
-    <div class="drag-handle" cdkDragHandle *ngIf="editMode">
-        <mat-icon>drag_indicator</mat-icon>
-    </div>
-
-    <app-widget-detail 
-      [widget]="widget" 
-      [channelGroup]="channelGroup"
-      [startdate]="startdate"
-      [enddate]="enddate"
-      >
-
-    </app-widget-detail>
-
-
-      </div>
-
-
-
-</div>
+<gridster id="dashboard-content" [options]="options">
+    <gridster-item [item]="item" *ngFor="let item of widgets">
+        <button mat-icon-button class="drag-handler">
+            <mat-icon>open_with</mat-icon>
+          </button>  
+        <app-widget-detail
+          class="widget-detail"
+          [widget]="item.widget" 
+          [channelGroup]="channelGroup"
+          [startdate]="startdate"
+          [enddate]="enddate"
+          >
+    
+        </app-widget-detail>
+    </gridster-item>
+  </gridster>

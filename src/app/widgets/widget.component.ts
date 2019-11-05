@@ -7,7 +7,7 @@ import { Subscription, Subject } from 'rxjs';
 import { ResizeEvent } from 'angular-resizable-element';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetsService } from './widgets.service';
-import { preserveWhitespacesDefault } from '@angular/compiler';
+import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
 @Component({
   selector: 'app-widget',
@@ -20,61 +20,87 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input() startdate: Date;
   @Input() enddate: Date;
   @Input() editMode: boolean;
-  columnWidth = 100;
-  rowHeight = 100;
-  widgets : Widget[];
+  inited : number = 0;
   subscription: Subscription = new Subscription();
   constructor(
     private widgetService: WidgetsService
-  ){
+  ){}
 
+  options: GridsterConfig = {
+    draggable: {
+      delayStart: 0,
+      enabled: true,
+      ignoreContentClass: 'widget-detail',
+      ignoreContent: false,
+      dragHandleClass: 'drag-handler',
+      dropOverItems: false
+    },
+    gridType: 'scrollVertical',
+    pushItems: true,
+    resizable: {
+      enabled: true,
+      handles: {s: true, e: true, n: false, w: false, se: true, ne:true, sw: true, nw: true}
+    },
+    compactType: 'compactUp&Left',
+    displayGrid: 'onDrag&Resize',
+    itemChangeCallback: this.itemChange,
+    itemInitCallback : (item)=>{console.log("inited", item); this.inited++}
+  };
+
+widgets: Array<GridsterItem> = [];
+
+itemChange(item, itemComponent) {
+  if(this.widgets) {
+    console.log(this.inited, this.widgets.length)
   }
+  if(this.widgets && this.inited === this.widgets.length) {
+    console.log("save item", item);
+  }
+  console.log("item changed", item);
+  item.widget.columns = item.cols;
+  item.widget.rows = item.rows;
+  item.widget.x = item.x;
+  item.widget.y = item.y;
+  // this.widgetService.updateWidget(item.widget).subscribe();
+}
+
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     if(this.dashboardId) {
       const widgetSub = this.widgetService.getWidgetsByDashboardId(this.dashboardId).subscribe(
         (widgets: Widget[]) => {
-          this.widgets = widgets;
+
+          widgets.forEach(widget => {
+            this.widgets.push({
+              cols: widget.columns,
+              rows: widget.rows,
+              y:0,
+              x:0,
+              widget: widget
+            })
+          });
+          this.options.api.resize();
+ 
         }
       )
+
       this.subscription.add(widgetSub);
     }
+
+  }
+
+  
+  removeItem(item) {
+    this.widgets.splice(this.widgets.indexOf(item), 1);
+  }
+  
+  addItem() {
+    this.widgets.push({cols: 2, rows: 1, y: 0, x: 0});
   }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
-  }
-
-  drop(event: CdkDragDrop<any>) {
-    const widget = event.item.data;
-    widget.order = event.currentIndex;
-
-    moveItemInArray(
-      this.widgets, 
-      event.previousIndex, 
-      event.currentIndex
-    );
-
-    this.widgets.forEach(
-      (widget, index) =>{
-        widget.order = index;
-      }
-    )
-  }
-
-  onResizeEnd(event: ResizeEvent, widget: Widget): void {
-    console.log(event, widget);
-    const row = Math.round(event.rectangle.height / this.rowHeight);
-    const column = Math.round(event.rectangle.width / this.columnWidth);
-
-
-    widget.rows = row > 0 ? row : 1;
-    widget.columns = column > 0 ? column : 1;
-    setTimeout(()=>{
-      window.dispatchEvent(new Event('resize'))
-    }, 1);
-
   }
 
   refresh() {
@@ -82,13 +108,14 @@ export class WidgetComponent implements OnInit, OnDestroy {
   }
 
   save(){
-
-     //TODO: figure out ordering that saves all widgets
-     // Probably just save all widgets
-    for (let widget of this.widgets) {
-      this.widgetService.updateWidget(widget).subscribe();
-    }
+    // for (let widget of this.widgets) {
+    //   this.widgetService.updateWidget(widget).subscribe();
+    // }
     console.log("save widgets!")
   }
   
 }
+
+
+
+

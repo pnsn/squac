@@ -1,21 +1,10 @@
-#dashboard-content {
-  display:flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  align-items:flex-start;
-  width:100%;
-  overflow-x:hidden;
-  overflow-y: auto;
-  margin: 0px;
-  .widget-drag-container {
-    position: relative;
-    margin: 5px;
-  }
-  .drag-handle {
-    display: inline-block;
-    position: absolute;
-    margin: 10px;
-  }
+gridster {
+  background: unset;
+}
+
+.drag-handler {
+  line-height:24px;
+  display: inline;
+  position: absolute;
   
 }
