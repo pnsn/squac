@@ -23,8 +23,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
   dataUpdate = new Subject<any>();
   resize: Subject<boolean> = new Subject();
   //temp 
-  columnWidth = 100;
-  rowHeight = 100;
 
   styles : any;
 
@@ -57,11 +55,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   }
 
   updateWidget() {
-    this.styles = {
-      "width.px" : this.widget.columns * this.columnWidth,
-      "height.px" : this.widget.rows * this.rowHeight,
-      "order": this.widget.order
-    }
+
     this.getData();
     // this.subscription.add(this.widgetsService.getWidget(this.id).subscribe(
     //   widget => {
@@ -91,25 +85,6 @@ export class WidgetComponent implements OnInit, OnDestroy {
     ));
   }
 
-  onResizeEnd(event: ResizeEvent): void {
-    const row = Math.round(event.rectangle.height / this.rowHeight);
-    const column = Math.round(event.rectangle.width / this.columnWidth);
-
-
-    this.widget.rows = row > 0 ? row : 1;
-    this.widget.columns = column > 0 ? column : 1;
-
-    this.styles = {
-      "width.px" : this.widget.columns * this.columnWidth,
-      "height.px" : this.widget.rows * this.rowHeight,
-      "order": this.widget.order
-    };
-
-    this.widgetsService.updateWidget(this.widget).subscribe();
-    setTimeout(()=>{
-      window.dispatchEvent(new Event('resize'))
-    }, 100);
-  }
 
   editWidget() {
     this.router.navigate(['widget', this.widget.id, 'edit'], {relativeTo: this.route});

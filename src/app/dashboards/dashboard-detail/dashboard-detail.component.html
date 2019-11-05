@@ -57,6 +57,15 @@
           cdkDrag
           [cdkDragDisabled]="!editMode"
           [style.order]="widget.order"
+          [style.width.px]="widget.columns * columnWidth"
+          [style.height.px]="widget.rows * rowHeight"
+          mwlResizable
+          [enableGhostResize]="true" 
+          [allowNegativeResizes]="true"
+          (validateResize)="validateResize($event)"
+          [resizeSnapGrid]="{left: columnWidth, bottom: rowHeight}"
+          [resizeEdges]="{bottom: true, right: true, top: false, left: false}"
+          (resizeEnd)="onResizeEnd($event)"
           >
           <div class="drag-handle" cdkDragHandle *ngIf="editMode">
               <mat-icon>drag_indicator</mat-icon>

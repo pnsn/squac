@@ -6,6 +6,7 @@ import { Widget } from '../widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from '../widgets.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -13,7 +14,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./dashboard-detail.component.scss']
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
-
   id: number;
   dashboard: Dashboard;
   widgets: Widget[];
@@ -41,6 +41,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   enddate: Date;
   selectedDateRange = this.dateRanges[2];
   editMode: boolean = false;
+
+  columnWidth = 100;
+  rowHeight = 100;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,4 +126,26 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.editMode = true;
     // this.addWidget();
   }
+
+  onResizeEnd(event: ResizeEvent): void {
+    const row = Math.round(event.rectangle.height / this.rowHeight);
+    const column = Math.round(event.rectangle.width / this.columnWidth);
+
+
+  //   this.widget.rows = row > 0 ? row : 1;
+  //   this.widget.columns = column > 0 ? column : 1;
+
+  //   this.styles = {
+  //     "width.px" : this.widget.columns * this.columnWidth,
+  //     "height.px" : this.widget.rows * this.rowHeight,
+  //     "order": this.widget.order
+  //   };
+
+  //   this.widgetsService.updateWidget(this.widget).subscribe();
+  //   setTimeout(()=>{
+  //     window.dispatchEvent(new Event('resize'))
+  //   }, 100);
+  // }
+  }
+
 }
