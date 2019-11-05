@@ -27,12 +27,12 @@
             formControlName="unit"
           class="form-control"/>
       </div>
-      <div>
-        <button type="button" 
-          class="btn btn-secondary" 
+      <div class="btn-container">
+        <button mat-raised-button color="primary"
+          type="button"  
           (click)="formUnsaved()"
         >Cancel</button>
-        <button class="btn btn-primary" 
+        <button mat-raised-button color="accent" disabled 
           type="submit" 
           [disabled]='!metricForm.valid'
         >Save</button>
@@ -42,12 +42,11 @@
     <div id="metric-popup-box" class="box">
       <p>Your new metric will not be saved.<br/>
       Would you like to continue?</p>
-      <div>
-        <button type="button" 
-          class="btn btn-secondary" 
+      <div class="btn-container">
+        <button mat-raised-button color="primary" type="button"  
           (click)="closePopup()"
         >Cancel</button>
-        <button class="btn btn-primary"
+        <button mat-raised-button color="accent"
         (click)="cancel()"  
         >Continue</button>
       </div>

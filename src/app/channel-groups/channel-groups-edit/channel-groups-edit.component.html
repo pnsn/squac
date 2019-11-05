@@ -16,12 +16,15 @@
     <div id="channel-selection-box" class="box">
       <h4>Select a network</h4>
       <form class="form" [formGroup]="filtersForm">
-        <select id="network-btn" formControlName="networks" class="btn btn-blue-negative" 
-          *ngIf="availableNetworks" (change)="getChannelsForNetwork()">
-          <option *ngFor="let network of availableNetworks" [ngValue]="network">
-            {{network.code}} - {{network.name}}
-          </option>
-        </select>
+        <mat-form-field>
+          <mat-label>Available networks</mat-label>
+          <mat-select id="network-btn" formControlName="networks" 
+            *ngIf="availableNetworks" (selectionChange)="getChannelsForNetwork()">
+            <mat-option *ngFor="let network of availableNetworks" [value]="network">
+              {{network.code}} - {{network.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </form>
 
     <div *ngIf="availableChannels && availableChannels.length > 0; else elseTemplate">
@@ -139,22 +142,24 @@
           </div>
         </div>
 
-        <div>
-          <button type="button" class="btn btn-secondary" (click)="formUnsaved()">Cancel</button>
-          <button class="btn btn-primary" type="submit" [disabled]='!channelGroupForm.valid'>
-            Save</button>
+        <div class="btn-container">
+          <button mat-raised-button color="primary"
+             type="button" (click)="formUnsaved()"
+            >Cancel</button>
+          <button mat-raised-button color="accent" disabled
+            type="submit" [disabled]='!channelGroupForm.valid'
+          >Save</button>
         </div>
       </form>
       <div id="channel-group-popup" class="popup">
         <div id="channel-group-popup-box" class="box">
           <p>Your new metric will not be saved.<br/>
           Would you like to continue?</p>
-          <div>
-            <button type="button" 
-              class="btn btn-secondary" 
-              (click)="closePopup()"
+          <div class="btn-container">
+            <button mat-raised-button color="primary"
+              type="button" (click)="closePopup()"
             >Cancel</button>
-            <button class="btn btn-primary"
+            <button mat-raised-button color="accent"
             (click)="cancel()"  
             >Continue</button>
           </div>

@@ -55,44 +55,15 @@ p {
   font-weight: 600;
 }
 
-
-/* Button styles */
-
-.btn {
-  min-width: 150px;
-  width: fit-content;
-  text-align: center;
-  font-size: 1.3rem;
-  color: white;
-  line-height: 0.9em;
-  border: 0;
-  border-radius: 10px;
-  margin-top: 25px;
-  margin-right: 15px;
-  padding: 5px 15px;
+.btn-container button {
+  margin-right: 25px;
+  margin-top: 15px;
 }
 
-.btn-primary {
-  background-color: $sq-yellow;
-}
-
-.btn-secondary {
-  background-color: $sq-lt-blue;
-}
-
-.btn-negative {
-  color: $sq-yellow;
-  background-color: white;
-  border: 2px solid $sq-yellow;
-}
-
-.btn-blue-negative {
-  color: black;
-  border: 2px solid $sq-lt-blue;
-}
-
-button:disabled {
-  background-color: rgba(265, 165, 45, 0.5);
+.add-btn {
+  margin-right: 5px;
+  margin-top: 15px;
+  float: right;
 }
 
 .form {
