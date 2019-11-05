@@ -19,6 +19,9 @@ export class Widget {
   ) {
 
   }
+
+  public x: number;
+  public y: number;
   // json of settings
 
   // get ids from the channels

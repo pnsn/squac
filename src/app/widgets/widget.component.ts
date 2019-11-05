@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '../shared/channel-group';
 import { MeasurementsService } from './measurements.service';
 import { Subscription, Subject } from 'rxjs';
-import { ResizeEvent } from 'angular-resizable-element';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetsService } from './widgets.service';
 import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
@@ -43,25 +41,21 @@ export class WidgetComponent implements OnInit, OnDestroy {
     },
     compactType: 'compactUp&Left',
     displayGrid: 'onDrag&Resize',
-    itemChangeCallback: this.itemChange,
+    itemChangeCallback: (item)=>{this.itemChange(item)},
     itemInitCallback : (item)=>{console.log("inited", item); this.inited++}
   };
 
 widgets: Array<GridsterItem> = [];
 
-itemChange(item, itemComponent) {
-  if(this.widgets) {
-    console.log(this.inited, this.widgets.length)
-  }
-  if(this.widgets && this.inited === this.widgets.length) {
-    console.log("save item", item);
-  }
-  console.log("item changed", item);
+itemChange(item) {
   item.widget.columns = item.cols;
   item.widget.rows = item.rows;
   item.widget.x = item.x;
   item.widget.y = item.y;
-  // this.widgetService.updateWidget(item.widget).subscribe();
+  if(this.widgets && this.inited === this.widgets.length) {
+    this.widgetService.updateWidget(item.widget).subscribe();
+  }
+  console.log("item changed", item);
 }
 
   ngOnInit(): void {
@@ -75,8 +69,8 @@ itemChange(item, itemComponent) {
             this.widgets.push({
               cols: widget.columns,
               rows: widget.rows,
-              y:0,
-              x:0,
+              y:widget.y,
+              x:widget.x,
               widget: widget
             })
           });

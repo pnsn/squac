@@ -111,6 +111,9 @@ export class WidgetsService {
       metrics
     );
 
+    widget.x = response.x ? response.x : 0;
+    widget.y = response.y ? response.y : 0;
+
     widget.type = response.widgettype.type;
     return widget;
   }

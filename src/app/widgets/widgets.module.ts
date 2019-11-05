@@ -24,7 +24,6 @@ import { GridsterModule } from 'angular-gridster2';
   imports: [
     CommonModule,
     SharedModule,
-    ResizableModule,
     NgxChartsModule,
     GridsterModule  
   ],
