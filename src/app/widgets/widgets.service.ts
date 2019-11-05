@@ -74,6 +74,7 @@ export class WidgetsService {
   private mapWidget(response : any) : Widget {
     const metrics = [];
     const thresholds = {};
+
     response.thresholds.forEach(t => {
       const threshold = new Threshold (
         t.id,

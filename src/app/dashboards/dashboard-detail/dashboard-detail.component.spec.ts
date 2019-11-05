@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 
 describe('DashboardDetailComponent', () => {
@@ -25,7 +26,7 @@ describe('DashboardDetailComponent', () => {
         HttpClientTestingModule,
         FormsModule,
         NgxDatatableModule,
-        MaterialModule
+        WidgetsModule
       ],
       providers: [
         DashboardsService,
@@ -37,11 +38,7 @@ describe('DashboardDetailComponent', () => {
         }
       ],
       declarations: [
-        DashboardDetailComponent,
-        WidgetComponent,
-        TabularComponent,
-        LoadingComponent,
-        MeasurementPipe
+        DashboardDetailComponent
       ]
     })
     .compileComponents();

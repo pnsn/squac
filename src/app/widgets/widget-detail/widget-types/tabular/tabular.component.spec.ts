@@ -26,6 +26,7 @@ describe('TabularComponent', () => {
     component.metrics = [];
     component.channels = [];
     component.dataUpdate = new Subject();
+    component.resize = new Subject();
     fixture.detectChanges();
   });
 
