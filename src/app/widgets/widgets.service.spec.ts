@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '.././squacapi.service';
-import { MockSquacApiService } from '.././squacapi.service.mock';
+import { SquacApiService } from '../squacapi.service';
+import { MockSquacApiService } from '../squacapi.service.mock';
 import { WidgetsService } from './widgets.service';
 import { Widget } from './widget';
 
@@ -17,7 +17,8 @@ describe('WidgetsService', () => {
     dashboard: {
       id: 1
     },
-    metrics: []
+    metrics: [],
+    thresholds: []
   };
 
   let squacApiService;
@@ -41,9 +42,9 @@ describe('WidgetsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get widgets with multiple ids', (done: DoneFn) => {
-    widgetsService.getWidgets([1, 1, 1]).subscribe(widgets => {
-      expect(widgets.length).toEqual(3);
+  it('should get widgets with dashboard id', (done: DoneFn) => {
+    widgetsService.getWidgetsByDashboardId(1).subscribe(widgets => {
+      expect(widgets.length).toEqual(1);
       done();
     });
   });

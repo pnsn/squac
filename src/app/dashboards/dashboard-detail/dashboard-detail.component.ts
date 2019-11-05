@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
-import { Widget } from '../widget';
+import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
-import { WidgetsService } from '../widgets.service';
+import { WidgetComponent } from 'src/app/widgets/widget.component';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -12,45 +12,61 @@ import { WidgetsService } from '../widgets.service';
   styleUrls: ['./dashboard-detail.component.scss']
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
-
   id: number;
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-  reload: Subject<boolean> = new Subject();
-  startdate: string;
-  enddate: string;
+
+  @ViewChild(WidgetComponent, {static: false})
+  private widgetComponent: WidgetComponent;
+
+  dateRanges = [
+    {
+      name: 'last hour',
+      value: 1
+    },
+    {
+      name: 'last 24 hours ',
+      value: 24
+    },
+    {
+      name: 'last week',
+      value: 24 * 7
+    },
+    {
+      name: 'last 2 weeks',
+      value: 168 * 2
+    }
+  ];
+  startdate: Date;
+  enddate: Date;
+  selectedDateRange = this.dateRanges[2];
+  editMode = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dashboardsService: DashboardsService,
-    private widgetsService: WidgetsService
+    private dashboardsService: DashboardsService
   ) { }
 
   ngOnInit() {
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
+        this.enddate = new Date();
+        this.startdate = this.calcDateRange(this.selectedDateRange.value);
         this.updateDashboard();
 
       }
     );
-
-    const widgetSub = this.widgetsService.widgetUpdated.subscribe(widgetId => {
-      this.updateDashboard();
-      // TODO: update just the widget
-    });
-
     this.subscription.add(dashboardsSub);
-    this.subscription.add(widgetSub);
   }
 
   updateDashboard() {
     this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
       dashboard => {
         this.dashboard = dashboard;
-        this.startdate = '2019-10-18';
-        this.enddate = '2019-10-31';
+
       }
     ));
   }
@@ -63,17 +79,40 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  updateWidget(id) {
-    console.log('refresh widget', id);
-    // refresh the widget
+  selectDateRange(event) {
+    this.enddate = new Date();
+    this.startdate = this.calcDateRange(event.value.value);
+    setTimeout(() => {
+      this.refreshData();
+    }, 10);
+  }
+
+  calcDateRange(hours) {
+    return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }
 
   refreshData() {
     // send refresh request to widgets listening
-    this.reload.next(true);
+    this.widgetComponent.refresh();
   }
 
+
+
+  cancelEdit() {
+    this.editMode = false;
+  }
+
+  saveDashboard() {
+    this.widgetComponent.save();
+    this.dashboardsService.updateDashboard(this.dashboard).subscribe();
+    this.cancelEdit();
+  }
   addWidget() {
     this.router.navigate(['widget', 'new'], {relativeTo: this.route});
   }
+  editWidgets() {
+    this.editMode = true;
+    // this.addWidget();
+  }
+
 }

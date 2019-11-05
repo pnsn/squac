@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { Subject, BehaviorSubject, Observable, empty, EMPTY } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { SquacApiService } from '../squacapi.service';
 import { Measurement } from './measurement';
 import { Widget } from './widget';
 import { ChannelGroup } from '../shared/channel-group';
+import { formatDate } from '@angular/common';
 
 interface MeasurementsHttpData {
   name: string;
@@ -26,9 +27,11 @@ export class MeasurementsService {
     private squacApi: SquacApiService
   ) {}
 
-  getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: string, end: string ): Observable<any> {
+  getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: Date, end: Date ): Observable<any> {
     //  TODO: may need to rethink for a more general structure
     if (widget.metrics.length > 0 && channelGroup.channels.length > 0 && start && end) {
+      const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
+      const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const data = {};
       channelGroup.channels.forEach(channel => {
         data[channel.id] = {};
@@ -40,8 +43,8 @@ export class MeasurementsService {
         {
            metric: widget.metricsString,
            channel: channelGroup.channelsString,
-           starttime: start,
-           endtime: end,
+           starttime: startString,
+           endtime: endString,
         }
       ).pipe(
         map(response => {

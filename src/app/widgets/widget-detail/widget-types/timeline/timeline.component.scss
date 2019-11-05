@@ -1,0 +1,39 @@
+:host ::ng-deep .in-spec {
+  background-color: rgb(129, 182, 231) !important;
+}
+:host ::ng-deep .out-of-spec {
+  background-color: rgb(250, 154, 154) !important;
+}
+
+:host ::ng-deep .datatable-tree-button:disabled {
+  display:none;
+}
+
+.ngx-datatable{
+  width: 100% !important;
+  height: 100%;
+}
+
+.timeline-table{
+  height: 100%;
+  width: 100%;
+  td {
+    width: 5px;
+  }
+}
+
+#timeline-container {
+  width:100%;
+  position:relative;
+  height:23px;
+}
+
+.cell {
+  display: inline-block;
+    height: 100%;
+    position: absolute;
+  }
+
+:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
+  padding: 0px !important;
+}

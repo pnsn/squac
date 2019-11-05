@@ -20,9 +20,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dashboardsService.fetchDashboards();
-    // TODO: first or favorited dashboard
-    // this.router.navigate([this.dashboards[0].id], {relativeTo: this.route});
-
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,17 @@
+
+<gridster id="dashboard-content" [options]="options">
+    <gridster-item [item]="item" *ngFor="let item of widgets">
+        <button mat-icon-button class="drag-handler">
+            <mat-icon>open_with</mat-icon>
+          </button>  
+        <app-widget-detail
+          class="widget-detail"
+          [widget]="item.widget" 
+          [channelGroup]="channelGroup"
+          [startdate]="startdate"
+          [enddate]="enddate"
+          >
+    
+        </app-widget-detail>
+    </gridster-item>
+  </gridster>

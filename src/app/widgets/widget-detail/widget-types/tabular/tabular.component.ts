@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
-import { Metric } from '../../../../../shared/metric';
-import { Channel } from '../../../../../shared/channel';
+import { Metric } from '../../../../shared/metric';
+import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
-import { MeasurementPipe } from '../../../../measurement.pipe';
-import { Subject } from 'rxjs';
+import { MeasurementPipe } from '../../../measurement.pipe';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tabular',
@@ -15,6 +15,8 @@ export class TabularComponent implements OnInit, OnDestroy {
   @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
   @Input() channels: Channel[];
+  @Input() resize: Subject<boolean>;
+  subscription = new Subscription();
   @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -38,14 +40,17 @@ export class TabularComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dataUpdate.subscribe(data => {
+    this.subscription.add(this.dataUpdate.subscribe(data => {
       this.buildRows(data);
-    });
+    }));
+
+    this.subscription.add(this.resize.subscribe(reload => {
+      console.log('reload!');
+      this.columns = [...this.columns];
+      this.table.recalculate();
+    }));
   }
 
-  private buildStationRows(data) {
-
-  }
 
   private findWorstChannel(channel, station) {
     if ( channel.agg > station.agg ) {
@@ -68,22 +73,21 @@ export class TabularComponent implements OnInit, OnDestroy {
 
 
       let agg = 0;
-
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
         const val = this.measurement.transform(data[channel.id][metric.id], '');
-        const inThreshold = this.checkThresholds(metric.threshold, val);
+        const inThreshold = metric.threshold ? this.checkThresholds(metric.threshold, val) : false;
 
-        if (val != null && !inThreshold) {
+        if (metric.threshold && val != null && !inThreshold) {
           agg++;
         }
 
         rowMetrics[metric.id] = {
           value: val,
           classes: {
-            'out-of-spec' : val !== null && !inThreshold ,
-            'in-spec' : val !== null && inThreshold ,
+            'out-of-spec' : val !== null && !inThreshold && metric.threshold,
+            'in-spec' : val !== null && inThreshold && metric.threshold,
             'has-threshold' : !!metric.threshold
           }
         };
@@ -100,7 +104,9 @@ export class TabularComponent implements OnInit, OnDestroy {
       };
       row = {...row, ...rowMetrics};
       rows.push(row);
-      if (!stations.includes(identifier)) {
+
+      const staIndex = stations.indexOf(identifier);
+      if (staIndex < 0) {
         stations.push(identifier);
         stationRows.push(
           {
@@ -116,15 +122,12 @@ export class TabularComponent implements OnInit, OnDestroy {
         }
         );
       } else {
-        const staIndex = stations.indexOf(identifier);
         stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
       }
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(stationRows);
-    console.log(rows);
   }
 
   getChannelsForStation(stationId) {
@@ -145,10 +148,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dataUpdate.unsubscribe();
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
-
+    this.subscription.unsubscribe();
   }
 
   getCellClass({ row, column, value }): any {
@@ -158,10 +158,10 @@ export class TabularComponent implements OnInit, OnDestroy {
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if (threshold.max && value != null && value > threshold.max) {
+    if (threshold.max && value != null && value >= threshold.max) {
       withinThresholds = false;
     }
-    if (threshold.min && value != null && value < threshold.min) {
+    if (threshold.min && value != null && value <= threshold.min) {
       withinThresholds = false;
     }
     if (!threshold.min && !threshold.max) {

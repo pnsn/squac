@@ -5,13 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { DashboardsService } from '../dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WidgetComponent } from './widget/widget.component';
-import { MeasurementPipe } from '../measurement.pipe';
-import { TabularComponent } from './widget/widget-types/tabular/tabular.component';
+import { WidgetComponent } from '../../widgets/widget.component';
+import { MeasurementPipe } from '../../widgets/measurement.pipe';
+import { TabularComponent } from '../../widgets/widget-detail/widget-types/tabular/tabular.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 
 describe('DashboardDetailComponent', () => {
@@ -25,7 +26,7 @@ describe('DashboardDetailComponent', () => {
         HttpClientTestingModule,
         FormsModule,
         NgxDatatableModule,
-        MaterialModule
+        WidgetsModule
       ],
       providers: [
         DashboardsService,
@@ -37,11 +38,7 @@ describe('DashboardDetailComponent', () => {
         }
       ],
       declarations: [
-        DashboardDetailComponent,
-        WidgetComponent,
-        TabularComponent,
-        LoadingComponent,
-        MeasurementPipe
+        DashboardDetailComponent
       ]
     })
     .compileComponents();

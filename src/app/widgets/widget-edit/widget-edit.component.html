@@ -35,13 +35,13 @@
           <select formControlName="type" *ngIf="widgetTypes">
             <option disabled="true">Please select a widget type</option>
             <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
-              {{type.type}}
+              {{type.name}}
             </option>
 
           </select>
         </div>
 
-        <div *ngIf="widgetForm.get('type').value == 1">
+        <div >
           <label for="method">Statistical method: </label>
           <select formControlName="method" >
             <option disabled="true">Calculation Type</option>

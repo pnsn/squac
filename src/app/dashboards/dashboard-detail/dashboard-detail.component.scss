@@ -1,14 +1,12 @@
+@import "../../../variables.scss";
+
 #dashboard-container {
   position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  overflow: scroll;
-  #widget-container {
-
-    display:flex;
-    flex-wrap: wrap;
-
-  }
-
 }
 
 #dashboard-header{
@@ -25,21 +23,33 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 44px; 
+  box-shadow: 0px 0px 2px $sq-dk-gray;
+
+  #dashboard-info {
+    h2 {
+      display:inline
+    }
+    span{
+      font-weight: 200;
+    }
+  }
+
   #header-controls {
     // height: 20px;
     display: flex;
     flex-direction: row;
-    align-content: center;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-#dateselectform {
-  mat-form-field {
-    margin-top: -20px;
-    width: 140px;
-    height: 40px;
-    font-size: 10pt !important;
-  }
+#date-range {
+    width: 120px;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+app-widget {
+  height: 100%;
+  width: 100%;
 }

@@ -135,11 +135,9 @@ ngx-datatable {
   &.ngx-datatable.material {
     box-shadow: unset;
   }
-  .datatable-header-cell, .datatable-body-cell {
-    padding: 10px !important;
-  }
 }
 
+.datatable-row-detail { width: 100%; }
 
 // Material overrides
 .mat-list-item.active {
@@ -163,15 +161,20 @@ ngx-datatable {
 #dashboard-header {
   background-color: $sq-lt-gray;
 }
+
 #dashboard-sidenav.mat-sidenav {
   border-right: none;
+}
+
+#dashboard-edit-toolbar {
+  height: auto;
 }
 
 #dashboard-sidenav-content.mat-sidenav-content {
   z-index: 3;
   overflow: unset;
   margin-left: 20px;
-  border-left: $sq-gray;
+  border-left: 1px solid $sq-gray;
 }
 
 .widget-container {

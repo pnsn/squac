@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '.././squacapi.service';
-import { MockSquacApiService } from '.././squacapi.service.mock';
+import { SquacApiService } from '../squacapi.service';
+import { MockSquacApiService } from '../squacapi.service.mock';
 import { MeasurementsService } from './measurements.service';
 import { Measurement } from './measurement';
 import { Widget } from './widget';
@@ -43,14 +43,14 @@ describe('MeasurementsService', () => {
 
   it('should get measurements', (done: DoneFn) => {
     measurementsService.getMeasurements(
-      new Widget(1, '', '', 1, 1, [
+      new Widget(1, '', '', 1, 1, 1, 1, 1, [
         new Metric(1, '', '', '', '')
       ]),
       new ChannelGroup(1, '', '', [
         new Channel(1, '', '', 0, 0, 0, 0, '', '', '')
       ]),
-      'date',
-      'date'
+      new Date(),
+      new Date()
     ).subscribe(measurements => {
       expect(measurements[1][1][0].id).toEqual(1);
       done();

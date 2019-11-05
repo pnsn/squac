@@ -2,10 +2,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Route, ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
-import { Metric } from '../../../../shared/metric';
-import { MetricsService } from '../../../../shared/metrics.service';
-import { WidgetsService } from '../../../widgets.service';
-import { Widget } from '../../../widget';
+import { Metric } from '../../shared/metric';
+import { MetricsService } from '../../shared/metrics.service';
+import { WidgetsService } from '../widgets.service';
+import { Widget } from '../widget';
 
 @Component({
   selector: 'app-widget-edit',
@@ -24,20 +24,32 @@ export class WidgetEditComponent implements OnInit {
   widgetTypes = [ // TODO: get from squac, this is for test
     {
       id: 1,
-      type: 'tabular'
+      type: 'tabular',
+      name: 'tabular'
     },
     {
       id: 2,
-      type: 'some chart'
+      type: 'timeline',
+      name: 'timeline'
+    },
+    {
+      id: 3,
+      type: 'timeseries',
+      name: 'time series'
     }
   ];
+
   calcMethods = [
     'average',
     'median',
     'max',
-    'min'
+    'min',
+    'raw'
   ];
 
+
+  rows = 3;
+  columns = 6;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -83,6 +95,8 @@ export class WidgetEditComponent implements OnInit {
         widget => {
           this.widget = widget;
           this.selectedMetrics = widget.metrics;
+          this.rows = widget.rows;
+          this.columns = widget.columns;
           this.widgetForm.patchValue(
             {
               name : widget.name,
@@ -112,6 +126,9 @@ export class WidgetEditComponent implements OnInit {
         values.description,
         values.type,
         this.dashboardId,
+        7,
+        6,
+        1,
         this.selectedMetrics
       )
     ).subscribe(

@@ -36,17 +36,18 @@
       {{ row.networkCode }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false">
+  <ngx-datatable-column name="Station" width="auto" [draggable]="false" [sortable]="false">
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       {{ row.stationCode }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false">
+  <ngx-datatable-column name="Channel" width="auto" [draggable]="false" [sortable]="false">
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       {{ row.code }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Location" [draggable]="false" [sortable]="false">
+
+  <ngx-datatable-column name="Location" width="auto" [draggable]="false" [sortable]="false">
     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       {{ row.name }}
     </ng-template>

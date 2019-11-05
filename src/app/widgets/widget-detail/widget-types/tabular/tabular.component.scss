@@ -26,5 +26,9 @@
 
 .ngx-datatable{
   width: 100% !important;
-  height: 500px;
+  height: 100%;
+}
+
+:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
+  padding: 5px !important;
 }

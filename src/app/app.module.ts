@@ -21,7 +21,6 @@ import { HttpErrorInterceptor } from './http-error-interceptor.service';
 import { DashboardsModule } from './dashboards/dashboards.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 @NgModule({
   declarations: [
     AppComponent,
