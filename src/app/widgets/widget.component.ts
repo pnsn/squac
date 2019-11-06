@@ -52,7 +52,7 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    this.viewService.currentWidgets.subscribe(
+    const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets : Widget[])=> {
         this.widgets = [];
         widgets.forEach(widget => {
@@ -67,7 +67,9 @@ itemChange(item) {
 
         // this.options.api.resize();
       }
-    )
+    );
+
+    this.subscription.add(widgetSub);
   }
 
 

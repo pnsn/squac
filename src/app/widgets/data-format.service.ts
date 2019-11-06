@@ -27,7 +27,6 @@ export class DataFormatService {
       this.viewService.getEnddate()
     ).subscribe(response => {
       this.rawData = response;
-      console.log('data')
       this.formattedData.next(this.rawData);
     });
   }

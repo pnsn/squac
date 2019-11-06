@@ -51,18 +51,19 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.viewService.currentDashboard.subscribe(
+    const dashSub = this.viewService.currentDashboard.subscribe(
       dashboard => {this.dashboard = dashboard}
     )
 
-    const dashboardsSub = this.route.params.subscribe(
+    const dashIdSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
         console.log("new dashboard");
       }
     );
-    this.subscription.add(dashboardsSub);
+    this.subscription.add(dashSub);
+    this.subscription.add(dashIdSub)
   }
 
   ngOnDestroy(): void {
@@ -74,7 +75,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   selectDateRange(event) {
-    console.log("dates cahnged!");
     this.viewService.datesChanged(
       this.calcDateRange(event.value.value),
       new Date()

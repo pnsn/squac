@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Route, ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { Widget } from '../widget';
   templateUrl: './widget-edit.component.html',
   styleUrls: ['./widget-edit.component.scss']
 })
-export class WidgetEditComponent implements OnInit {
+export class WidgetEditComponent implements OnInit, OnDestroy{
   id: number;
   editMode: boolean;
   widget: Widget;
@@ -79,6 +79,10 @@ export class WidgetEditComponent implements OnInit {
     this.subscriptions.add(idSub);
     this.subscriptions.add(paramsSub);
     this.subscriptions.add(sub1);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private initForm() {

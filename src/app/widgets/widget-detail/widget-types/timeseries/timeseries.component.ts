@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
 import { Metric } from 'src/app/shared/metric';
@@ -11,7 +11,7 @@ import { ViewService } from 'src/app/shared/view.service';
   templateUrl: './timeseries.component.html',
   styleUrls: ['./timeseries.component.scss']
 })
-export class TimeseriesComponent implements OnInit {
+export class TimeseriesComponent implements OnInit, OnDestroy{
   @Input() metrics: Metric[];
   channels:Channel[];
   subscription = new Subscription();
@@ -34,7 +34,6 @@ export class TimeseriesComponent implements OnInit {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if(response) {
-          console.log(response);
           this.channels = this.viewService.getChannelGroup().channels;
           this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
           this.buildChartData(response);
@@ -73,6 +72,9 @@ export class TimeseriesComponent implements OnInit {
         this.results.push(channelObj);
       }
     );
-    console.log(this.results)
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }

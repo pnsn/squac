@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService} from './auth.service';
-import { onErrorResumeNext, Observable } from 'rxjs';
+import { onErrorResumeNext, Observable, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,7 @@ export class AuthComponent implements OnInit {
   isLoading = false; // Currently loading/in progress?
   error: string = null; // Has there been an error?
   hide = true;
+  subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
@@ -37,7 +38,7 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
 
     // Try to log in
-    this.authService.login(email, password).subscribe(
+    const loginSub = this.authService.login(email, password).subscribe(
       resData => {
         this.isLoading = false;
         this.router.navigate(['/dashboards']);
@@ -49,6 +50,13 @@ export class AuthComponent implements OnInit {
     );
 
     form.reset();
+
+    this.subscription.add(loginSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    
   }
 
 }
