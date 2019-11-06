@@ -5,6 +5,7 @@ import { DashboardsService } from '../dashboards.service';
 import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetComponent } from 'src/app/widgets/widget.component';
+import { ViewService } from 'src/app/shared/view.service';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -46,17 +47,23 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private viewService: ViewService,
     private dashboardsService: DashboardsService
   ) { }
 
   ngOnInit() {
+
+    this.viewService.currentDashboard.subscribe(
+      dashboard => {this.dashboard = dashboard}
+    )
+
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
         this.enddate = new Date();
         this.startdate = this.calcDateRange(this.selectedDateRange.value);
-        this.updateDashboard();
-
+        this.viewService.dashboardSelected(this.id);
+        console.log("new dashboard");
       }
     );
     this.subscription.add(dashboardsSub);
@@ -66,7 +73,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
       dashboard => {
         this.dashboard = dashboard;
-
       }
     ));
   }

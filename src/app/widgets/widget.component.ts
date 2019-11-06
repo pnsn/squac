@@ -6,6 +6,7 @@ import { MeasurementsService } from './measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
+import { ViewService } from '../shared/view.service';
 
 @Component({
   selector: 'app-widget',
@@ -21,7 +22,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
   inited = 0;
   subscription: Subscription = new Subscription();
   constructor(
-    private widgetService: WidgetsService
+    private widgetService: WidgetsService,
+    private viewService : ViewService
   ) {}
 
   options: GridsterConfig = {
@@ -54,34 +56,28 @@ itemChange(item) {
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe();
+    console.log("update")
   }
   console.log('item changed', item);
 }
 
   ngOnInit(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
-    if (this.dashboardId) {
-      const widgetSub = this.widgetService.getWidgetsByDashboardId(this.dashboardId).subscribe(
-        (widgets: Widget[]) => {
-
-          widgets.forEach(widget => {
-            this.widgets.push({
-              cols: widget.columns,
-              rows: widget.rows,
-              y: widget.y,
-              x: widget.x,
-              widget
-            });
+    this.viewService.currentWidgets.subscribe(
+      (widgets : Widget[])=> {
+        this.widgets = [];
+        widgets.forEach(widget => {
+          this.widgets.push({
+            cols: widget.columns,
+            rows: widget.rows,
+            y: widget.y,
+            x: widget.x,
+            widget
           });
-          this.options.api.resize();
+        });
 
-        }
-      );
-
-      this.subscription.add(widgetSub);
-    }
-
+        this.options.api.resize();
+      }
+    )
   }
 
 

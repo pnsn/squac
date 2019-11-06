@@ -51,8 +51,10 @@
         </button>
 
       </div>
+      {{id}}
+      {{dashboard.channelGroup?.id}}
       <app-widget 
-        [dashboardId]="dashboard.id"
+        [dashboardId]="id"
         [channelGroup]="dashboard.channelGroup"
         [startdate]="startdate"
         [enddate]="enddate"
