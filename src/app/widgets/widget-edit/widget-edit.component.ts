@@ -118,8 +118,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy{
       values.description,
       values.type,
       this.dashboardId,
-      this.widget? this.widget.x : this.columns,
-      this.widget? this.widget.y : this.rows,
+      this.widget? this.widget.columns : this.columns,
+      this.widget? this.widget.columns : this.rows,
       1,
       this.selectedMetrics
     );
@@ -128,11 +128,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy{
       newWidget
     ).subscribe(
       result => {
-        if(result.id) {
-          newWidget.id = result.id;
-          this.dialogRef.close(newWidget);
-        }
-
+        this.dialogRef.close(result);
       }
     );
   }

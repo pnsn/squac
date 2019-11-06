@@ -113,7 +113,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       console.log('The dialog was closed');
       console.log(result)
       if(result && result.id){
-        this.viewService.addWidget(result);
+        this.viewService.getWidgets(this.dashboard.id);
       }
       // this.animal = result;
     });
