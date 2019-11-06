@@ -74,31 +74,34 @@ export class WidgetsService {
   private mapWidget(response: any): Widget {
     const metrics = [];
     const thresholds = {};
+    if(response.thresholds) {
+      response.thresholds.forEach(t => {
+        const threshold = new Threshold (
+          t.id,
+          t.widget,
+          t.metric,
+          t.minval,
+          t.maxval
+        );
+        thresholds[t.metric] = threshold;
+      });
+    }
 
-    response.thresholds.forEach(t => {
-      const threshold = new Threshold (
-        t.id,
-        t.widget,
-        t.metric,
-        t.minval,
-        t.maxval
-      );
-      thresholds[t.metric] = threshold;
-    });
-
-    response.metrics.forEach(m => {
-      const metric = new Metric(
-        m.id,
-        m.name,
-        m.description,
-        m.url,
-        m.unit
-      );
-      if (thresholds[m.id]) {
-        metric.threshold = thresholds[m.id];
-      }
-      metrics.push( metric );
-    });
+    if(response.metrics) {
+      response.metrics.forEach(m => {
+        const metric = new Metric(
+          m.id,
+          m.name,
+          m.description,
+          m.url,
+          m.unit
+        );
+        if (thresholds[m.id]) {
+          metric.threshold = thresholds[m.id];
+        }
+        metrics.push( metric );
+      });
+    }
 
     const widget = new Widget(
       response.id,

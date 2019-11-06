@@ -1,12 +1,10 @@
 <div id="edit-container" class="box">
-  <form action="" [formGroup]="widgetForm" (ngSubmit)="save()">
+  <form action="" [formGroup]="widgetForm">
     <div class="stepper-header">
       <h3>
         {{ editMode ? "Edit Widget" : "New Widget"}}
       </h3>
-      <button mat-flat-button color="primary" type="submit" [disabled]='!widgetForm.valid'>
-        Save</button>
-      <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
+
     </div>
 
     <div class="stepper-content">
@@ -73,4 +71,8 @@
       </div>
     </div>
   </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
+  <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
 </div>

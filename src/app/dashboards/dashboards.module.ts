@@ -7,6 +7,7 @@ import { DashboardViewComponent } from './dashboard-view/dashboard-view.componen
 import { DashboardsRoutingModule } from './dashboards-routing.module';
 
 import { WidgetsModule } from '../widgets/widgets.module';
+import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.component';
 @NgModule({
   declarations: [
     DashboardsComponent,
@@ -17,6 +18,9 @@ import { WidgetsModule } from '../widgets/widgets.module';
   imports: [
     DashboardsRoutingModule,
     WidgetsModule
+  ],
+  entryComponents: [
+    WidgetEditComponent
   ]
 })
 export class DashboardsModule { }

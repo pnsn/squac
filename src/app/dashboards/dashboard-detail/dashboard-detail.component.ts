@@ -6,6 +6,8 @@ import { Widget } from '../../widgets/widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetComponent } from 'src/app/widgets/widget.component';
 import { ViewService } from 'src/app/shared/view.service';
+import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -17,9 +19,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-
-  @ViewChild(WidgetComponent, {static: false})
-  private widgetComponent: WidgetComponent;
 
   dateRanges = [
     {
@@ -46,7 +45,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dashboardsService: DashboardsService
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -87,7 +86,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   refreshData() {
     // send refresh request to widgets listening
-    this.widgetComponent.refresh();
+    // this.widgetComponent.refresh();
   }
 
 
@@ -97,13 +96,30 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   saveDashboard() {
-    this.widgetComponent.save();
+    // this.widgetComponent.save();
     //update 
     this.cancelEdit();
   }
+
   addWidget() {
-    this.router.navigate(['widget', 'new'], {relativeTo: this.route});
+    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
+    let dialogRef = this.dialog.open(WidgetEditComponent, {
+      data : {
+        widget: null,
+        dashboardId: this.dashboard.id
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result)
+      if(result && result.id){
+        this.viewService.addWidget(result);
+      }
+      // this.animal = result;
+    });
+ 
   }
+
   editWidgets() {
     this.editMode = true;
     // this.addWidget();

@@ -7,6 +7,8 @@ import { WidgetsService } from '../widgets.service';
 import { MeasurementsService } from '../measurements.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { DataFormatService } from '../data-format.service';
+import { MatDialog } from '@angular/material/dialog';
+import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 
 @Component({
   selector: 'app-widget-detail',
@@ -27,10 +29,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   styles: any;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private viewService : ViewService,
-    private dataFormatService : DataFormatService
+    private dataFormatService : DataFormatService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -57,6 +58,20 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   }
 
   editWidget() {
-    this.router.navigate(['widget', this.widget.id, 'edit'], {relativeTo: this.route});
+    let dialogRef = this.dialog.open(WidgetEditComponent, {
+      data : {
+        widget: this.widget,
+        dashboardId: this.widget.dashboardId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      console.log('The dialog was closed');
+      if(result && result.id) {
+        this.viewService.getWidgets(this.widget.dashboardId);
+      }
+
+      // this.animal = result;
+    });
   }
 }

@@ -22,7 +22,7 @@ export class ViewService {
   private enddate: Date;
   // refresh = new Subject<number>();
 
-  widgets : Widget[];
+  private widgets : Widget[];
   //handle refreshing
 
   constructor(
@@ -75,12 +75,20 @@ export class ViewService {
   getWidgets(dashboardId) {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets : Widget[]) => {
-        this.currentWidgets.next(widgets);
+        this.widgets = widgets;
+        this.currentWidgets.next(this.widgets.slice());
       }
     )
   }
 
-
+  addWidget(widgetId) {
+    this.widgetService.getWidget(widgetId).subscribe(
+      (widget : Widget) => {
+        this.widgets.push(widget);
+        this.currentWidgets.next(this.widgets.slice());
+      }
+    )
+  }
 
   refreshWidget() {
 
