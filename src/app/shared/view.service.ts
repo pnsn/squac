@@ -8,6 +8,7 @@ import { Widget } from '../widgets/widget';
 import { MeasurementsService } from '../widgets/measurements.service';
 import { WidgetsService } from '../widgets/widgets.service';
 import { DashboardsService } from '../dashboards/dashboards.service';
+import { ChannelGroup } from './channel-group';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ import { DashboardsService } from '../dashboards/dashboards.service';
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new Subject<Widget[]>();
+  dates = new Subject<{start:Date, end:Date}>();
+  private channelGroup : ChannelGroup;
+  private startdate : Date;
+  private enddate: Date;
   // refresh = new Subject<number>();
 
   widgets : Widget[];
@@ -29,12 +34,38 @@ export class ViewService {
   getWidgetById(id) {
     // return widget
   }
+
+  updateWidget(widget) {
+
+  }
+
+  getChannelGroup() {
+    return this.channelGroup;
+  }
+
+  getStartdate() {
+    return this.startdate;
+  }
+
+  getEnddate(){
+    return this.enddate;
+  }
  
-  dashboardSelected(id) {
+  datesChanged(start : Date, end : Date) {
+    this.dates.next({
+      start,
+      end
+    });
+  }
+ 
+  dashboardSelected(id, start, end) {
+    this.startdate = start;
+    this.enddate = end;
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);
         this.getWidgets(dashboard.id);
+        this.channelGroup = dashboard.channelGroup;
       }
     )
   }
@@ -42,12 +73,12 @@ export class ViewService {
   getWidgets(dashboardId) {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets : Widget[]) => {
-        console.log(widgets)
         this.currentWidgets.next(widgets);
-        console.log("got me widgets")
       }
     )
   }
+
+
 
   refreshWidget() {
 

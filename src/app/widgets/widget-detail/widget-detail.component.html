@@ -10,30 +10,19 @@
     </button>
   </div>
   <div class="widget-content">
-    <app-loading *ngIf="!hasData"></app-loading>
+    <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
       <app-timeline *ngSwitchCase="'timeline'"
-        [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
-        [channels]="channelGroup.channels"
-        [startdate]="startdate"
-        [enddate]="enddate"
-        [resize]="resize"
       >
       </app-timeline>
       <app-tabular *ngSwitchCase="'tabular'" 
-        [dataUpdate]="dataUpdate"
         [metrics]="widget.metrics"
-        [channels]="channelGroup.channels"
-        [resize]="resize"
       >
 
       </app-tabular>
       <app-timeseries *ngSwitchCase="'timeseries'" 
-      [dataUpdate]="dataUpdate"
-      [metrics]="widget.metrics"
-      [channels]="channelGroup.channels"
-      [resize]="resize"
+        [metrics]="widget.metrics"
     >
 
     </app-timeseries>

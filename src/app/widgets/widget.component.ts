@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { Widget } from './widget';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelGroup } from '../shared/channel-group';
-import { MeasurementsService } from './measurements.service';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
@@ -14,11 +11,6 @@ import { ViewService } from '../shared/view.service';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit, OnDestroy {
-  @Input() dashboardId: number;
-  @Input() channelGroup: ChannelGroup;
-  @Input() startdate: Date;
-  @Input() enddate: Date;
-  @Input() editMode: boolean;
   inited = 0;
   subscription: Subscription = new Subscription();
   constructor(
@@ -67,15 +59,15 @@ itemChange(item) {
         this.widgets = [];
         widgets.forEach(widget => {
           this.widgets.push({
-            cols: widget.columns,
-            rows: widget.rows,
-            y: widget.y,
-            x: widget.x,
+            cols: widget.columns ? widget.columns : 1,
+            rows: widget.rows ? widget.rows : 1,
+            y: widget.y ? widget.y : 0,
+            x: widget.x ? widget.x : 0,
             widget
           });
         });
 
-        this.options.api.resize();
+        // this.options.api.resize();
       }
     )
   }

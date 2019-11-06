@@ -5,6 +5,8 @@ import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
+import { DataFormatService } from 'src/app/widgets/data-format.service';
+import { ViewService } from 'src/app/shared/view.service';
 
 @Component({
   selector: 'app-timeline',
@@ -13,20 +15,20 @@ import { Measurement } from 'src/app/widgets/measurement';
   providers: [MeasurementPipe]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
-  @Input() startdate: Date;
-  @Input() enddate: Date;
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
+  channels: Channel[];
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];
   columns = [];
-  currentMetric;
+  currentMetric : Metric;
+  enddate : Date;
+  startdate : Date;
 
+  //get start date and end date
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -41,19 +43,34 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   // rows = [];
   constructor(
+    private dataFormatService : DataFormatService,
+    private viewService : ViewService,
     private measurement: MeasurementPipe
   ) { }
 
   ngOnInit() {
-    this.subscription.add(this.dataUpdate.subscribe(data => {
-      this.currentMetric = this.metrics[0];
-      this.buildRows(data);
-    }));
+    this.dataFormatService.formattedData.subscribe(
+      response => {
+        if(response) {
+          this.channels = this.viewService.getChannelGroup().channels;
+          this.startdate = this.viewService.getStartdate();
+          this.enddate = this.viewService.getEnddate();
+
+          this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
+          this.buildRows(response);
+        }
+      }
+    );
+        // this.
+    // this.subscription.add(this.dataUpdate.subscribe(data => {
+    //   this.currentMetric = this.metrics[0];
+    //   this.buildRows(data);
+    // }));
 
 
-    this.subscription.add(this.resize.subscribe(reload => {
-      this.table.recalculate();
-    }));
+    // this.subscription.add(this.resize.subscribe(reload => {
+    //   this.table.recalculate();
+    // }));
   }
 
   private replaceChannel(channel, station) {
@@ -79,6 +96,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       const agg = 0;
 
       let isBad = false;
+      console.log(this.currentMetric)
       data[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
@@ -151,7 +169,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // TODO: yes, this is bad boolean but I'm going to change it
+  // // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
     if (threshold.max && value != null && value > threshold.max) {

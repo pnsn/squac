@@ -53,13 +53,7 @@
       </div>
       {{id}}
       {{dashboard.channelGroup?.id}}
-      <app-widget 
-        [dashboardId]="id"
-        [channelGroup]="dashboard.channelGroup"
-        [startdate]="startdate"
-        [enddate]="enddate"
-        [editMode]="editMode"
-      >
+      <app-widget>
       </app-widget>
       <router-outlet></router-outlet>
 

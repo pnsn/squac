@@ -39,8 +39,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       value: 168 * 2
     }
   ];
-  startdate: Date;
-  enddate: Date;
   selectedDateRange = this.dateRanges[2];
   editMode = false;
 
@@ -60,21 +58,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.enddate = new Date();
-        this.startdate = this.calcDateRange(this.selectedDateRange.value);
-        this.viewService.dashboardSelected(this.id);
+        this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
         console.log("new dashboard");
       }
     );
     this.subscription.add(dashboardsSub);
-  }
-
-  updateDashboard() {
-    this.subscription.add(this.dashboardsService.getDashboard(this.id).subscribe(
-      dashboard => {
-        this.dashboard = dashboard;
-      }
-    ));
   }
 
   ngOnDestroy(): void {
@@ -86,11 +74,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   selectDateRange(event) {
-    this.enddate = new Date();
-    this.startdate = this.calcDateRange(event.value.value);
-    setTimeout(() => {
-      this.refreshData();
-    }, 10);
+    this.viewService.datesChanged(
+      this.calcDateRange(event.value.value),
+      new Date()
+    );
   }
 
   calcDateRange(hours) {
@@ -110,7 +97,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   saveDashboard() {
     this.widgetComponent.save();
-    this.dashboardsService.updateDashboard(this.dashboard).subscribe();
+    //update 
     this.cancelEdit();
   }
   addWidget() {

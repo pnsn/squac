@@ -28,6 +28,7 @@ export class MeasurementsService {
   ) {}
 
   getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: Date, end: Date ): Observable<any> {
+    console.log(widget, channelGroup, start, end);
     //  TODO: may need to rethink for a more general structure
     if (widget.metrics.length > 0 && channelGroup.channels.length > 0 && start && end) {
       const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');

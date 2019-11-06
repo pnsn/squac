@@ -4,6 +4,8 @@ import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
+import { DataFormatService } from 'src/app/widgets/data-format.service';
+import { ViewService } from 'src/app/shared/view.service';
 
 @Component({
   selector: 'app-tabular',
@@ -12,11 +14,9 @@ import { Subject, Subscription } from 'rxjs';
   providers: [MeasurementPipe]
 })
 export class TabularComponent implements OnInit, OnDestroy {
-  @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
-  @Input() resize: Subject<boolean>;
   subscription = new Subscription();
+  channels: Channel[];
   @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -36,19 +36,29 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   // rows = [];
   constructor(
-    private measurement: MeasurementPipe
+    private measurement: MeasurementPipe,
+    private viewService: ViewService,
+    private dataFormatService : DataFormatService
   ) { }
 
   ngOnInit() {
-    this.subscription.add(this.dataUpdate.subscribe(data => {
-      this.buildRows(data);
-    }));
+    this.dataFormatService.formattedData.subscribe(
+      response => {
+        if(response) {
+          this.channels = this.viewService.getChannelGroup().channels;
+          this.buildRows(response);
+        }
+      }
+    );
+    // this.subscription.add(this.dataUpdate.subscribe(data => {
+    //   this.buildRows(data);
+    // }));
 
-    this.subscription.add(this.resize.subscribe(reload => {
-      console.log('reload!');
-      this.columns = [...this.columns];
-      this.table.recalculate();
-    }));
+    // this.subscription.add(this.resize.subscribe(reload => {
+    //   console.log('reload!');
+    //   this.columns = [...this.columns];
+    //   this.table.recalculate();
+    // }));
   }
 
 
@@ -128,6 +138,7 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
+    console.log(this.rows);
   }
 
   getChannelsForStation(stationId) {

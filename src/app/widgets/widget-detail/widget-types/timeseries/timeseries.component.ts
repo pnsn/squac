@@ -3,6 +3,8 @@ import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
 import { Metric } from 'src/app/shared/metric';
 import { Channel } from 'src/app/shared/channel';
+import { DataFormatService } from 'src/app/widgets/data-format.service';
+import { ViewService } from 'src/app/shared/view.service';
 
 @Component({
   selector: 'app-timeseries',
@@ -10,33 +12,44 @@ import { Channel } from 'src/app/shared/channel';
   styleUrls: ['./timeseries.component.scss']
 })
 export class TimeseriesComponent implements OnInit {
-  @Input() dataUpdate: Subject<any>;
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
-  @Input() resize: Subject<boolean>;
+  channels:Channel[];
   subscription = new Subscription();
   results: Array<any>;
 
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
-
+  currentMetric: Metric;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
 
-  constructor() { }
+  constructor(
+    private dataFormatService : DataFormatService,
+    private viewService : ViewService
+  ) { }
 
   ngOnInit() {
-    this.subscription.add(this.dataUpdate.subscribe(data => {
-      this.buildChartData(data);
-    }));
+    console.log("time series init")
+    this.dataFormatService.formattedData.subscribe(
+      response => {
+        if(response) {
+          this.channels = this.viewService.getChannelGroup().channels;
+          console.log("resposne")
+          this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
+          this.buildChartData(response);
+        }
+        console.log(response);
+      }
+    )
   }
 
   buildChartData(data) {
+    console.log("data!")
     this.results = [];
-    const currentMetric = this.metrics[0];
-    this.yAxisLabel = currentMetric.name;
+
+    this.yAxisLabel = this.currentMetric.name;
     this.channels.forEach(
       channel => {
         const channelObj = {
@@ -44,7 +57,7 @@ export class TimeseriesComponent implements OnInit {
           series : []
         };
 
-        data[channel.id][currentMetric.id].forEach(
+        data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             channelObj.series.push(
               {
@@ -58,5 +71,6 @@ export class TimeseriesComponent implements OnInit {
         this.results.push(channelObj);
       }
     );
+    console.log(this.results)
   }
 }
