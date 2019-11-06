@@ -9,7 +9,7 @@
           </span>
       </div>
         <div id="header-controls">
-          <button mat-icon-button (click)="refreshData" color="primary" aria-label="refresh data">
+          <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
           <mat-form-field id="date-range">
@@ -28,7 +28,6 @@
 
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <button mat-menu-item (click)="editWidgets()">Edit Widgets</button>
             <button mat-menu-item >Delete Dashboard</button>
           </mat-menu>
           

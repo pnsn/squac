@@ -109,11 +109,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy{
     this.selectedMetrics = this.widgetForm.value.metrics;
   }
 
-  delete(){
-    this.widgetService.deleteWidget(this.widget.id).subscribe();
-    this.cancel();
-  }
-
   save() {
     console.log(this.selectedMetrics)
     const values = this.widgetForm.value;

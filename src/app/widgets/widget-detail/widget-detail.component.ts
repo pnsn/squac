@@ -68,10 +68,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       console.log(result);
       console.log('The dialog was closed');
       if(result && result.id) {
-        this.viewService.getWidgets(this.widget.dashboardId);
+        this.viewService.updateWidget(result.id);
       }
 
       // this.animal = result;
     });
+  }
+
+  deleteWidget() {
+    this.viewService.deleteWidget(this.widget.id);
   }
 }

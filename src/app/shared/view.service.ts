@@ -31,12 +31,12 @@ export class ViewService {
     private measurementService : MeasurementsService
   ) { }
 
-  getWidgetById(id) {
-    // return widget
-  }
-
-  updateWidget(widget) {
-
+  private getWidgetIndexById(id : number) : number {
+    for (let widgetIndex in this.widgets) {
+      if(this.widgets[widgetIndex].id === id) {
+        return +widgetIndex;
+      }
+    }
   }
 
   getChannelGroup() {
@@ -67,16 +67,35 @@ export class ViewService {
       dashboard => {
         this.currentDashboard.next(dashboard);
         this.getWidgets(dashboard.id);
+
         this.channelGroup = dashboard.channelGroup;
       }
     )
+  }
+
+  //FIXME: this currently will cause all widgets to reload;
+  private widgetsChanged(){
+    this.currentWidgets.next(this.widgets.slice());
   }
 
   getWidgets(dashboardId) {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets : Widget[]) => {
         this.widgets = widgets;
-        this.currentWidgets.next(this.widgets.slice());
+        console.log(this.widgets);
+        console.log(this.getWidgetIndexById(2));
+        this.widgetsChanged();
+      }
+    )
+  }
+
+  updateWidget(widgetId) {
+    this.widgetService.getWidget(widgetId).subscribe(
+      (widget : Widget) => {
+        const index = this.getWidgetIndexById(widget.id);
+
+        this.widgets[index]=widget;
+        this.widgetsChanged();
       }
     )
   }
@@ -85,13 +104,21 @@ export class ViewService {
     this.widgetService.getWidget(widgetId).subscribe(
       (widget : Widget) => {
         this.widgets.push(widget);
-        this.currentWidgets.next(this.widgets.slice());
+        this.widgetsChanged();
       }
     )
   }
 
-  refreshWidget() {
+  deleteWidget(widgetId) {
+    const index = this.getWidgetIndexById(widgetId);
+    this.widgetService.deleteWidget(widgetId).subscribe();
+    this.widgets.splice(index, 1);
+    this.widgetsChanged();
+  }
 
+  refreshWidgets() {
+    console.log("refresh!")
+    this.widgetsChanged();
   }
 
   saveDashboard(){

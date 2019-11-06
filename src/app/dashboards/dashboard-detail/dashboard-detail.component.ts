@@ -85,11 +85,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    // send refresh request to widgets listening
-    // this.widgetComponent.refresh();
+    this.viewService.refreshWidgets();
   }
-
-
 
   cancelEdit() {
     this.editMode = false;

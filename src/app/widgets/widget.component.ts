@@ -73,30 +73,9 @@ itemChange(item) {
     this.subscription.add(widgetSub);
   }
 
-
-  removeItem(item) {
-    this.widgets.splice(this.widgets.indexOf(item), 1);
-  }
-
-  addItem() {
-    this.widgets.push({cols: 2, rows: 1, y: 0, x: 0});
-  }
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-  refresh() {
-    console.log('Refresh widgets!');
-  }
-
-  save() {
-    // for (let widget of this.widgets) {
-    //   this.widgetService.updateWidget(widget).subscribe();
-    // }
-    console.log('save widgets!');
-  }
-
 }
 
 
