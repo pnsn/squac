@@ -143,5 +143,9 @@ export class WidgetsService {
     }
   }
 
+  deleteWidget(widgetId) : Observable<any> {
+    return this.squacApi.delete(this.url, widgetId);
+  }
+
 }
 
