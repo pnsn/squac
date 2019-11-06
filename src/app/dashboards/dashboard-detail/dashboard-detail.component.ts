@@ -39,8 +39,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   ];
   selectedDateRange = this.dateRanges[2];
-  editMode = false;
 
+  unsaved : Boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -88,14 +88,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.viewService.refreshWidgets();
   }
 
-  cancelEdit() {
-    this.editMode = false;
-  }
-
   saveDashboard() {
-    // this.widgetComponent.save();
-    //update 
-    this.cancelEdit();
+    this.unsaved = false;
+    this.viewService.saveDashboard(this.dashboard);
   }
 
   addWidget() {
@@ -110,16 +105,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       console.log('The dialog was closed');
       console.log(result)
       if(result && result.id){
-        this.viewService.getWidgets(this.dashboard.id);
+        this.viewService.addWidget(result.id);
       }
       // this.animal = result;
     });
  
-  }
-
-  editWidgets() {
-    this.editMode = true;
-    // this.addWidget();
   }
 
 }

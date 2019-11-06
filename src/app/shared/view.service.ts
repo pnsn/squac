@@ -121,8 +121,8 @@ export class ViewService {
     this.widgetsChanged();
   }
 
-  saveDashboard(){
-
+  saveDashboard(dashboard : Dashboard){
+    this.dashboardService.updateDashboard(dashboard).subscribe();
   }
   //save and refresh in here
 }

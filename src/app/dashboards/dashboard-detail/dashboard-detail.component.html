@@ -9,6 +9,13 @@
           </span>
       </div>
         <div id="header-controls">
+          <button  mat-flat-button aria-label="Add widget" color="primary" (click)="addWidget()">
+            Add Widget
+          </button>
+          <button mat-flat-button color="accent" (click)="saveDashboard()" *ngIf="unsaved">
+            <mat-icon >save</mat-icon>
+            Save
+          </button>
           <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
@@ -28,7 +35,7 @@
 
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <button mat-menu-item >Delete Dashboard</button>
+            <button mat-menu-item color="warn">Delete Dashboard</button>
           </mat-menu>
           
           <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
@@ -37,19 +44,6 @@
         </div>
 
       </mat-toolbar>
-      <div id="dashboard-edit-toolbar" *ngIf="editMode">
-          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()">
-              Add Widget
-            </button>
-        <button mat-flat-button color="accent" (click)="saveDashboard()">
-          <mat-icon >save</mat-icon>
-          Save
-        </button>
-        <button mat-flat-button (click)="cancelEdit()">
-          Cancel
-        </button>
-
-      </div>
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget >
         </app-widget>
