@@ -39,8 +39,8 @@
 
       </mat-toolbar>
       <div id="dashboard-edit-toolbar" *ngIf="editMode">
-          <button mat-mini-fab color="accent" aria-label="Add widget" (click)="addWidget()">
-              <mat-icon>add</mat-icon>
+          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()">
+              Add Widget
             </button>
         <button mat-flat-button color="accent" (click)="saveDashboard()">
           <mat-icon >save</mat-icon>
@@ -51,10 +51,17 @@
         </button>
 
       </div>
-      {{id}}
-      {{dashboard.channelGroup?.id}}
-      <app-widget>
-      </app-widget>
+      <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
+        <app-widget >
+        </app-widget>
+      </ng-container>
+      <ng-template #noWidgets>
+        <p>No widgets for this dashboard</p>
+        <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()">
+          Add Widget
+        </button>
+      </ng-template>
+      
       <router-outlet></router-outlet>
 
 </div>

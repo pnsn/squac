@@ -138,7 +138,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(this.rows);
   }
 
   getChannelsForStation(stationId) {

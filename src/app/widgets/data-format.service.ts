@@ -26,10 +26,9 @@ export class DataFormatService {
       this.viewService.getStartdate(),
       this.viewService.getEnddate()
     ).subscribe(response => {
-
       this.rawData = response;
+      console.log('data')
       this.formattedData.next(this.rawData);
-      console.log("fetch data for widget", widget.id, this.rawData)
     });
   }
 }

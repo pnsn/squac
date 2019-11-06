@@ -74,6 +74,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   selectDateRange(event) {
+    console.log("dates cahnged!");
     this.viewService.datesChanged(
       this.calcDateRange(event.value.value),
       new Date()

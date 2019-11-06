@@ -16,7 +16,7 @@ export class TimeseriesComponent implements OnInit {
   channels:Channel[];
   subscription = new Subscription();
   results: Array<any>;
-
+  hasData : Boolean;
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -31,22 +31,20 @@ export class TimeseriesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("time series init")
     this.dataFormatService.formattedData.subscribe(
       response => {
         if(response) {
+          console.log(response);
           this.channels = this.viewService.getChannelGroup().channels;
-          console.log("resposne")
           this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
           this.buildChartData(response);
         }
-        console.log(response);
       }
     )
   }
 
   buildChartData(data) {
-    console.log("data!")
+    this.hasData = false;
     this.results = [];
 
     this.yAxisLabel = this.currentMetric.name;
@@ -67,6 +65,8 @@ export class TimeseriesComponent implements OnInit {
             );
           }
         );
+        
+        this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0: this.hasData;
 
         this.results.push(channelObj);
       }

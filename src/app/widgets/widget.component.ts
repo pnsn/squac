@@ -36,7 +36,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     compactType: 'compactUp&Left',
     displayGrid: 'onDrag&Resize',
     itemChangeCallback: (item) => {this.itemChange(item); },
-    itemInitCallback : (item) => {console.log('inited', item); this.inited++; }
+    itemInitCallback : (item) => {this.inited++; }
   };
 
 widgets: Array<GridsterItem> = [];
@@ -48,9 +48,7 @@ itemChange(item) {
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe();
-    console.log("update")
   }
-  console.log('item changed', item);
 }
 
   ngOnInit(): void {

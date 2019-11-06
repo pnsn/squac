@@ -96,7 +96,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
       const agg = 0;
 
       let isBad = false;
-      console.log(this.currentMetric)
       data[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;

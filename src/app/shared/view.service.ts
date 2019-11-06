@@ -52,6 +52,8 @@ export class ViewService {
   }
  
   datesChanged(start : Date, end : Date) {
+    this.startdate = start;
+    this.enddate = end;
     this.dates.next({
       start,
       end
