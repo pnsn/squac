@@ -42,7 +42,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dataFormatService.formattedData.subscribe(
+    const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if(response) {
           this.channels = this.viewService.getChannelGroup().channels;
@@ -50,10 +50,8 @@ export class TabularComponent implements OnInit, OnDestroy {
         }
       }
     );
-    // this.subscription.add(this.dataUpdate.subscribe(data => {
-    //   this.buildRows(data);
-    // }));
 
+    this.subscription.add(dateFormatSub);
     // this.subscription.add(this.resize.subscribe(reload => {
     //   console.log('reload!');
     //   this.columns = [...this.columns];

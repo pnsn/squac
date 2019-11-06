@@ -39,12 +39,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     this.channelGroup = this.viewService.getChannelGroup();
     this.dataFormatService.fetchData(this.widget);
 
-    this.viewService.dates.subscribe(
+    const datesSub = this.viewService.dates.subscribe(
       dates => {
         console.log("new dates")
         this.dataFormatService.fetchData(this.widget);
       }
-    )
+    );
+
+    this.subscription.add(datesSub);
+
     //widget data errors here
 
   }

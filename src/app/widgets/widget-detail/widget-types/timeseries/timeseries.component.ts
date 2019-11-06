@@ -31,7 +31,7 @@ export class TimeseriesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dataFormatService.formattedData.subscribe(
+    const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if(response) {
           console.log(response);
@@ -40,7 +40,9 @@ export class TimeseriesComponent implements OnInit {
           this.buildChartData(response);
         }
       }
-    )
+    );
+
+    this.subscription.add(dateFormatSub);
   }
 
   buildChartData(data) {
