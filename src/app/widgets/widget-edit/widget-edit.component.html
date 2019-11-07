@@ -1,71 +1,131 @@
 <h3 mat-dialog-title>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
 <div mat-dialog-content id="edit-container">
   <form action="" [formGroup]="widgetForm">
-    <div class="stepper-content">
-      <div class="stepper-page page-1">
-        <mat-form-field>
-          <input matInput 
-            type="text" 
-            id="name" 
-            formControlName="name" 
-            placeholder="Widget name"
-          >
-        </mat-form-field>
+    <mat-form-field>
+      <input matInput 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        placeholder="Widget name"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput 
+        id="description" 
+        formControlName="description" 
+        class="form-control"
+        placeholder="Widget description"
+        >
+      </textarea>
+    </mat-form-field>
+    <div>
+      <label for="type">Widget Type: </label>
+      <select formControlName="type" *ngIf="widgetTypes">
+        <option disabled="true">Please select a widget type</option>
+        <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
+          {{type.name}}
+        </option>
 
-        <mat-form-field>
-          <textarea matInput 
-            id="description" 
-            formControlName="description" 
-            class="form-control"
-            placeholder="Widget description"
-            >
-          </textarea>
-        </mat-form-field>
-
-        <div>
-          <label for="type">Widget Type: </label>
-          <select formControlName="type" *ngIf="widgetTypes">
-            <option disabled="true">Please select a widget type</option>
-            <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
-              {{type.name}}
-            </option>
-
-          </select>
-        </div>
-
-        <div >
-          <label for="method">Statistical method: </label>
-          <select formControlName="method" >
-            <option disabled="true">Calculation Type</option>
-            <option *ngFor="let method of calcMethods" [ngValue]="method">
-              {{method}}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div id="metric-select-container" class="stepper-page page-2">
-        Metrics:
-        <select id="metric-select" formControlName="metrics" *ngIf="availableMetrics" multiple
-          (change)="updateMetrics()">
-          <option disabled="true">Please select metrics</option>
-          <option *ngFor="let metric of availableMetrics" [ngValue]="metric">
-            {{metric.name}}
-          </option>
-
-        </select>
-        <div *ngIf="selectedMetrics" id="selected-metrics">
-          <ol>
-            <li *ngFor="let metric of selectedMetrics">{{metric.name}}</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="stepper-page page 3">
-
-      </div>
+      </select>
     </div>
+
+    <div >
+      <label for="method">Statistical method: </label>
+      <select formControlName="method" >
+        <option disabled="true">Calculation Type</option>
+        <option *ngFor="let method of calcMethods" [ngValue]="method">
+          {{method}}
+        </option>
+      </select>
+    </div>
+
   </form>
-</div>
+
+    <mat-tab-group [color]="primary">
+      <mat-tab label="Metrics">
+        <div class="edit-tab-body">
+            <input
+            type="text"
+            style="padding:8px;margin:15px auto;width:30%;"
+            placeholder="Type to filter the metric name column..."
+            (keyup)="updateFilter($event)"
+            />
+    
+            <div>
+                <ngx-datatable
+                  style="width: 100%"
+                  class="material"
+                  [rows]="tableRows"
+                  [columnMode]="ColumnMode.force"
+                  [headerHeight]="50"
+                  rowHeight="auto"
+                  [selected]="selectedMetrics"
+                  [selectionType]="SelectionType.checkbox"
+                  [selectAllRowsOnPage]="false"
+                  [displayCheck]="displayCheck"
+                  (select)="metricsSelected($event)"
+                >
+                  <ngx-datatable-column
+                    [width]="30"
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                    [headerCheckboxable]="true"
+                    [checkboxable]="true"
+                  >
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Name"></ngx-datatable-column>
+                  <ngx-datatable-column name="Unit"></ngx-datatable-column>
+                  <ngx-datatable-column name="Description"></ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+              <!-- <div class="selected-column">
+                <h4>
+                  Selections <small>({{ selectedMetrics?.length }})</small>
+                </h4>
+                <ul>
+                  <li *ngFor="let metric of selectedMetrics">
+                    {{ metric.name }}
+                  </li>
+                  <li *ngIf="!selected?.length">No Selections</li>
+                </ul>
+              </div> -->
+            <!-- <mat-selection-list *ngIf="availableMetrics" (ngModelChange)="updateMetrics($event)" [ngModel]="metrics">
+                <mat-list-option *ngFor="let metric of availableMetrics" [value]="metric">
+                  {{metric.title}}
+                </mat-list-option>
+                
+              </mat-selection-list> -->
+            <!-- <select id="metric-select" formControlName="metrics" *ngIf="availableMetrics" multiple
+              (change)="updateMetrics()">
+              <option disabled="true">Please select metrics</option>
+              <option *ngFor="let metric of availableMetrics" [ngValue]="metric">
+                {{metric.name}}
+              </option>
+    
+            </select> -->
+            <div *ngIf="selectedMetrics" id="selected-metrics">
+              <ol>
+                <li *ngFor="let metric of selectedMetrics">{{metric.name}}</li>
+              </ol>
+            </div>
+
+        </div>
+
+      </mat-tab>
+      <mat-tab label="Channels" class="edit-tab-body">
+        <div class="edit-tab-body">
+          Coming soon 
+        </div>
+      </mat-tab>
+      <mat-tab label="Thresholds" class="edit-tab-body">
+        <div class="edit-tab-body">
+          Coming soon 
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 <div mat-dialog-actions>
   <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
   <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
