@@ -20,7 +20,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   @Input() widget: Widget;
   channelGroup: ChannelGroup;
-  data : any;
+  data: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   resize: Subject<boolean> = new Subject();
@@ -29,27 +29,27 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   styles: any;
 
   constructor(
-    private viewService : ViewService,
-    private dataFormatService : DataFormatService,
+    private viewService: ViewService,
+    private dataFormatService: DataFormatService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit() {
 
-    //listed to changes and detch when needed
+    // listed to changes and detch when needed
     this.channelGroup = this.viewService.getChannelGroup();
     this.dataFormatService.fetchData(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(
       dates => {
-        console.log("new dates")
+        console.log('new dates');
         this.dataFormatService.fetchData(this.widget);
       }
     );
 
     this.subscription.add(datesSub);
 
-    //widget data errors here
+    // widget data errors here
 
   }
 
@@ -58,7 +58,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   }
 
   editWidget() {
-    let dialogRef = this.dialog.open(WidgetEditComponent, {
+    const dialogRef = this.dialog.open(WidgetEditComponent, {
       data : {
         widget: this.widget,
         dashboardId: this.widget.dashboardId
@@ -67,7 +67,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       console.log('The dialog was closed');
-      if(result && result.id) {
+      if (result && result.id) {
         this.viewService.updateWidget(result.id);
       }
 

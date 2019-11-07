@@ -5,7 +5,6 @@ import { ViewService } from '../shared/view.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('DataFormatService', () => {
-  let squacApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -14,7 +14,7 @@ import { Dashboard } from 'src/app/dashboards/dashboard';
   templateUrl: './widget-edit.component.html',
   styleUrls: ['./widget-edit.component.scss']
 })
-export class WidgetEditComponent implements OnInit, OnDestroy{
+export class WidgetEditComponent implements OnInit, OnDestroy {
   id: number;
   widget: Widget;
   editMode: boolean;
@@ -110,7 +110,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy{
   }
 
   save() {
-    console.log(this.selectedMetrics)
+    console.log(this.selectedMetrics);
     const values = this.widgetForm.value;
     const newWidget = new Widget(
       this.id,
@@ -118,8 +118,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy{
       values.description,
       values.type,
       this.dashboardId,
-      this.widget? this.widget.columns : this.columns,
-      this.widget? this.widget.columns : this.rows,
+      this.widget ? this.widget.columns : this.columns,
+      this.widget ? this.widget.columns : this.rows,
       1,
       this.selectedMetrics
     );

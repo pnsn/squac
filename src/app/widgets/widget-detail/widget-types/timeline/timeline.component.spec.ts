@@ -28,7 +28,7 @@ describe('TimelineComponent', () => {
         {
           provide: ViewService,
           useValue: {
-            getChannelGroup: ()=>{return {channels : []};}
+            getChannelGroup: () => ({channels : []})
           }
         }
 

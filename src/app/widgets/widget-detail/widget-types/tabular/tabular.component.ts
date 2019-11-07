@@ -38,13 +38,13 @@ export class TabularComponent implements OnInit, OnDestroy {
   constructor(
     private measurement: MeasurementPipe,
     private viewService: ViewService,
-    private dataFormatService : DataFormatService
+    private dataFormatService: DataFormatService
   ) { }
 
   ngOnInit() {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
-        if(response) {
+        if (response) {
           this.channels = this.viewService.getChannelGroup().channels;
           this.buildRows(response);
         }

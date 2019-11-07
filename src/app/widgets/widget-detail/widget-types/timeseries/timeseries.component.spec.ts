@@ -26,7 +26,7 @@ describe('TimeseriesComponent', () => {
         {
           provide: ViewService,
           useValue: {
-            getChannelGroup: ()=>{return {channels : []};}
+            getChannelGroup: () => ({channels : []})
           }
         }
 

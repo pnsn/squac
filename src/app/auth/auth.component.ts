@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService} from './auth.service';
 import { onErrorResumeNext, Observable, Subject, Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 
 // This component handles the login page
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoading = false; // Currently loading/in progress?
   error: string = null; // Has there been an error?
   hide = true;
@@ -56,7 +56,7 @@ export class AuthComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    
+
   }
 
 }

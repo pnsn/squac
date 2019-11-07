@@ -102,7 +102,7 @@ export class DashboardsService {
 
   }
 
-  deleteDashboard(dashboardId) : Observable<any> {
+  deleteDashboard(dashboardId): Observable<any> {
     return this.squacApi.delete(this.url, dashboardId);
   }
 }

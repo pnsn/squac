@@ -74,7 +74,7 @@ export class WidgetsService {
   private mapWidget(response: any): Widget {
     const metrics = [];
     const thresholds = {};
-    if(response.thresholds) {
+    if (response.thresholds) {
       response.thresholds.forEach(t => {
         const threshold = new Threshold (
           t.id,
@@ -87,7 +87,7 @@ export class WidgetsService {
       });
     }
 
-    if(response.metrics) {
+    if (response.metrics) {
       response.metrics.forEach(m => {
         const metric = new Metric(
           m.id,
@@ -143,7 +143,7 @@ export class WidgetsService {
     }
   }
 
-  deleteWidget(widgetId) : Observable<any> {
+  deleteWidget(widgetId): Observable<any> {
     return this.squacApi.delete(this.url, widgetId);
   }
 

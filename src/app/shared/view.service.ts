@@ -1,5 +1,5 @@
-//service that actually has dashboard info -takes it out of component
-//Handles communication between dashboard and widget
+// service that actually has dashboard info -takes it out of component
+// Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -16,24 +16,24 @@ import { ChannelGroup } from './channel-group';
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new Subject<Widget[]>();
-  dates = new Subject<{start:Date, end:Date}>();
-  private channelGroup : ChannelGroup;
-  private startdate : Date;
+  dates = new Subject<{start: Date, end: Date}>();
+  private channelGroup: ChannelGroup;
+  private startdate: Date;
   private enddate: Date;
   // refresh = new Subject<number>();
 
-  private widgets : Widget[];
-  //handle refreshing
+  private widgets: Widget[];
+  // handle refreshing
 
   constructor(
-    private dashboardService : DashboardsService,
-    private widgetService : WidgetsService,
-    private measurementService : MeasurementsService
+    private dashboardService: DashboardsService,
+    private widgetService: WidgetsService,
+    private measurementService: MeasurementsService
   ) { }
 
-  private getWidgetIndexById(id : number) : number {
-    for (let widgetIndex in this.widgets) {
-      if(this.widgets[widgetIndex].id === id) {
+  private getWidgetIndexById(id: number): number {
+    for (const widgetIndex in this.widgets) {
+      if (this.widgets[widgetIndex].id === id) {
         return +widgetIndex;
       }
     }
@@ -47,11 +47,11 @@ export class ViewService {
     return this.startdate;
   }
 
-  getEnddate(){
+  getEnddate() {
     return this.enddate;
   }
- 
-  datesChanged(start : Date, end : Date) {
+
+  datesChanged(start: Date, end: Date) {
     this.startdate = start;
     this.enddate = end;
     this.dates.next({
@@ -59,7 +59,7 @@ export class ViewService {
       end
     });
   }
- 
+
   dashboardSelected(id, start, end) {
     this.startdate = start;
     this.enddate = end;
@@ -70,43 +70,43 @@ export class ViewService {
 
         this.channelGroup = dashboard.channelGroup;
       }
-    )
+    );
   }
 
-  //FIXME: this currently will cause all widgets to reload;
-  private widgetsChanged(){
+  // FIXME: this currently will cause all widgets to reload;
+  private widgetsChanged() {
     this.currentWidgets.next(this.widgets.slice());
   }
 
   getWidgets(dashboardId) {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
-      (widgets : Widget[]) => {
+      (widgets: Widget[]) => {
         this.widgets = widgets;
         console.log(this.widgets);
         console.log(this.getWidgetIndexById(2));
         this.widgetsChanged();
       }
-    )
+    );
   }
 
   updateWidget(widgetId) {
     this.widgetService.getWidget(widgetId).subscribe(
-      (widget : Widget) => {
+      (widget: Widget) => {
         const index = this.getWidgetIndexById(widget.id);
 
-        this.widgets[index]=widget;
+        this.widgets[index] = widget;
         this.widgetsChanged();
       }
-    )
+    );
   }
 
   addWidget(widgetId) {
     this.widgetService.getWidget(widgetId).subscribe(
-      (widget : Widget) => {
+      (widget: Widget) => {
         this.widgets.push(widget);
         this.widgetsChanged();
       }
-    )
+    );
   }
 
   deleteWidget(widgetId) {
@@ -117,12 +117,12 @@ export class ViewService {
   }
 
   refreshWidgets() {
-    console.log("refresh!")
+    console.log('refresh!');
     this.widgetsChanged();
   }
 
-  saveDashboard(dashboard : Dashboard){
+  saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe();
   }
-  //save and refresh in here
+  // save and refresh in here
 }

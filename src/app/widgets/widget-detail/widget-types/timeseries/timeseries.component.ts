@@ -11,12 +11,12 @@ import { ViewService } from 'src/app/shared/view.service';
   templateUrl: './timeseries.component.html',
   styleUrls: ['./timeseries.component.scss']
 })
-export class TimeseriesComponent implements OnInit, OnDestroy{
+export class TimeseriesComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
-  channels:Channel[];
+  channels: Channel[];
   subscription = new Subscription();
   results: Array<any>;
-  hasData : Boolean;
+  hasData: boolean;
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -26,16 +26,16 @@ export class TimeseriesComponent implements OnInit, OnDestroy{
 
 
   constructor(
-    private dataFormatService : DataFormatService,
-    private viewService : ViewService
+    private dataFormatService: DataFormatService,
+    private viewService: ViewService
   ) { }
 
   ngOnInit() {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
-        if(response) {
+        if (response) {
           this.channels = this.viewService.getChannelGroup().channels;
-          this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
+          this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildChartData(response);
         }
       }
@@ -66,8 +66,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy{
             );
           }
         );
-        
-        this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0: this.hasData;
+
+        this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
 
         this.results.push(channelObj);
       }
@@ -75,6 +75,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe();
   }
 }

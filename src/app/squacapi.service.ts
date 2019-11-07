@@ -29,18 +29,18 @@ export class SquacApiService {
   // http post with data
   post(path: string, data: any): Observable<any> {
     const url = this.baseUrl + path;
-    console.log("post: ",url)
+    console.log('post: ', url);
     return this.http.post<any>(url, data );
   }
 
   // for updating
   put(path: string, id: number, data: any ): Observable<any> {
     const url = this.baseUrl + path + (id ? id + '/' : '');
-    console.log("put: ", url)
+    console.log('put: ', url);
     return this.http.put<any>(url, data);
   }
 
-  //for deleting
+  // for deleting
   delete(path: string, id: number) {
     const url = this.baseUrl + path + (id ? id + '/' : '');
     return this.http.delete<any>(url);

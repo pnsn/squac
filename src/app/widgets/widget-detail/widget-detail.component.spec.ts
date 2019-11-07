@@ -22,7 +22,7 @@ describe('WidgetDetailComponent', () => {
         {
           provide: DataFormatService,
           useValue: {
-            fetchData: ()=>{return;}
+            fetchData: () => {return; }
           }
         }
       ]

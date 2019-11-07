@@ -6,10 +6,6 @@ import { MockSquacApiService } from '../squacapi.service.mock';
 
 describe('ViewService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
-
-  let squacApiService;
-
-  let apiSpy;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {

@@ -15,7 +15,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   constructor(
     private widgetService: WidgetsService,
-    private viewService : ViewService
+    private viewService: ViewService
   ) {}
 
   options: GridsterConfig = {
@@ -53,7 +53,7 @@ itemChange(item) {
 
   ngOnInit(): void {
     const widgetSub = this.viewService.currentWidgets.subscribe(
-      (widgets : Widget[])=> {
+      (widgets: Widget[]) => {
         this.widgets = [];
         widgets.forEach(widget => {
           console.log(widget);

@@ -24,11 +24,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
   SortType = SortType;
   rows = [];
   columns = [];
-  currentMetric : Metric;
-  enddate : Date;
-  startdate : Date;
+  currentMetric: Metric;
+  enddate: Date;
+  startdate: Date;
 
-  //get start date and end date
+  // get start date and end date
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -43,20 +43,20 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   // rows = [];
   constructor(
-    private dataFormatService : DataFormatService,
-    private viewService : ViewService,
+    private dataFormatService: DataFormatService,
+    private viewService: ViewService,
     private measurement: MeasurementPipe
   ) { }
 
   ngOnInit() {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
-        if(response) {
+        if (response) {
           this.channels = this.viewService.getChannelGroup().channels;
           this.startdate = this.viewService.getStartdate();
           this.enddate = this.viewService.getEnddate();
 
-          this.currentMetric = this.metrics[0]; //TODO: get this a diffetent way
+          this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildRows(response);
         }
       }

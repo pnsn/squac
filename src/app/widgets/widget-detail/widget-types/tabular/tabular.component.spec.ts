@@ -26,7 +26,7 @@ describe('TabularComponent', () => {
         {
           provide: ViewService,
           useValue: {
-            getChannelGroup: ()=>{return {channels : []};}
+            getChannelGroup: () => ({channels : []})
           }
         }
 

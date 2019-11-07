@@ -14,7 +14,7 @@ describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
   let fixture: ComponentFixture<WidgetEditComponent>;
   let dialog: MatDialog;
-  
+
   const mockDialogRef = {
     close: jasmine.createSpy('close')
   };
@@ -32,7 +32,7 @@ describe('WidgetEditComponent', () => {
           useValue: mockDialogRef
         },
         { provide: MAT_DIALOG_DATA, useValue: {} }
-        
+
       ],
       declarations: [WidgetEditComponent]
     })

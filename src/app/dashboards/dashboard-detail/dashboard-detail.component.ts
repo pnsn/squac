@@ -40,7 +40,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ];
   selectedDateRange = this.dateRanges[2];
 
-  unsaved : Boolean;
+  unsaved: boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,18 +51,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
-      dashboard => {this.dashboard = dashboard}
-    )
+      dashboard => {this.dashboard = dashboard; }
+    );
 
     const dashIdSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
-        console.log("new dashboard");
+        console.log('new dashboard');
       }
     );
     this.subscription.add(dashSub);
-    this.subscription.add(dashIdSub)
+    this.subscription.add(dashIdSub);
   }
 
   ngOnDestroy(): void {
@@ -95,7 +95,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   addWidget() {
     // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    let dialogRef = this.dialog.open(WidgetEditComponent, {
+    const dialogRef = this.dialog.open(WidgetEditComponent, {
       data : {
         widget: null,
         dashboardId: this.dashboard.id
@@ -103,13 +103,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log(result)
-      if(result && result.id){
+      console.log(result);
+      if (result && result.id) {
         this.viewService.addWidget(result.id);
       }
       // this.animal = result;
     });
- 
+
   }
 
 }
