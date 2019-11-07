@@ -69,14 +69,16 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
     console.log(this.widget);
-    this.initForm();
+
 
     this.metricsService.fetchMetrics();
 
     const sub1 = this.metricsService.getMetrics.subscribe(metrics => {
       this.availableMetrics = metrics;
-      this.tableRows = this.availableMetrics.slice();
+      this.tableRows = this.availableMetrics;
+      this.initForm();
     });
+
     this.subscriptions.add(sub1);
   }
 
@@ -106,7 +108,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
           type: this.widget.typeId
         }
       );
-      this.selectedMetrics = this.widget.metrics;
+      const metricIds = this.widget.metricsIds;
+      this.selectedMetrics = this.availableMetrics.filter(
+        metric => {
+          console.log(metricIds.indexOf(metric.id))
+          return metricIds.indexOf(metric.id) >= 0;
+        }
+      );
     }
 
 

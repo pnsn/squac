@@ -10,7 +10,7 @@ import { Threshold } from './threshold';
 interface WidgetHttpData {
   name: string;
   description: string;
-  metrics: string[];
+  metrics: number[];
   dashboard: number;
   widgettype: number;
   stattype: number;

@@ -42,75 +42,45 @@
   </form>
 
     <mat-tab-group [color]="primary">
+      <!-- TODO: separate component -->
       <mat-tab label="Metrics">
         <div class="edit-tab-body">
-            <input
-            type="text"
-            style="padding:8px;margin:15px auto;width:30%;"
-            placeholder="Type to filter the metric name column..."
-            (keyup)="updateFilter($event)"
-            />
-    
-            <div>
-                <ngx-datatable
-                  style="width: 100%"
-                  class="material"
-                  [rows]="tableRows"
-                  [columnMode]="ColumnMode.force"
-                  [headerHeight]="50"
-                  rowHeight="auto"
-                  [selected]="selectedMetrics"
-                  [selectionType]="SelectionType.checkbox"
-                  [selectAllRowsOnPage]="false"
-                  [displayCheck]="displayCheck"
-                  (select)="metricsSelected($event)"
-                >
-                  <ngx-datatable-column
-                    [width]="30"
-                    [sortable]="false"
-                    [canAutoResize]="false"
-                    [draggable]="false"
-                    [resizeable]="false"
-                    [headerCheckboxable]="true"
-                    [checkboxable]="true"
-                  >
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="Name"></ngx-datatable-column>
-                  <ngx-datatable-column name="Unit"></ngx-datatable-column>
-                  <ngx-datatable-column name="Description"></ngx-datatable-column>
-                </ngx-datatable>
-              </div>
-              <!-- <div class="selected-column">
-                <h4>
-                  Selections <small>({{ selectedMetrics?.length }})</small>
-                </h4>
-                <ul>
-                  <li *ngFor="let metric of selectedMetrics">
-                    {{ metric.name }}
-                  </li>
-                  <li *ngIf="!selected?.length">No Selections</li>
-                </ul>
-              </div> -->
-            <!-- <mat-selection-list *ngIf="availableMetrics" (ngModelChange)="updateMetrics($event)" [ngModel]="metrics">
-                <mat-list-option *ngFor="let metric of availableMetrics" [value]="metric">
-                  {{metric.title}}
-                </mat-list-option>
-                
-              </mat-selection-list> -->
-            <!-- <select id="metric-select" formControlName="metrics" *ngIf="availableMetrics" multiple
-              (change)="updateMetrics()">
-              <option disabled="true">Please select metrics</option>
-              <option *ngFor="let metric of availableMetrics" [ngValue]="metric">
-                {{metric.name}}
-              </option>
-    
-            </select> -->
-            <div *ngIf="selectedMetrics" id="selected-metrics">
-              <ol>
-                <li *ngFor="let metric of selectedMetrics">{{metric.name}}</li>
-              </ol>
-            </div>
+          <input
+          type="text"
+          style="padding:8px;margin:15px auto;width:30%;"
+          placeholder="Type to filter the metric name column..."
+          (keyup)="updateFilter($event)"
+          />
 
+          <div>
+            <ngx-datatable
+              style="width: 100%"
+              class="material"
+              [rows]="tableRows"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              rowHeight="auto"
+              [selected]="selectedMetrics"
+              [selectionType]="SelectionType.checkbox"
+              [selectAllRowsOnPage]="false"
+              [displayCheck]="displayCheck"
+              (select)="metricsSelected($event)"
+            >
+              <ngx-datatable-column
+                [width]="30"
+                [sortable]="false"
+                [canAutoResize]="false"
+                [draggable]="false"
+                [resizeable]="false"
+                [headerCheckboxable]="true"
+                [checkboxable]="true"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Name"></ngx-datatable-column>
+              <ngx-datatable-column name="Unit"></ngx-datatable-column>
+              <ngx-datatable-column name="Description"></ngx-datatable-column>
+            </ngx-datatable>
+          </div>
         </div>
 
       </mat-tab>
