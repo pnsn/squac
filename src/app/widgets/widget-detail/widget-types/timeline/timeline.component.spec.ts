@@ -3,17 +3,36 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimelineComponent } from './timeline.component';
 import { MeasurementPipe } from 'src/app/widgets/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { DataFormatService } from 'src/app/widgets/data-format.service';
+import { ViewService } from 'src/app/shared/view.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
   let fixture: ComponentFixture<TimelineComponent>;
 
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimelineComponent , MeasurementPipe],
-      imports: [NgxDatatableModule, MaterialModule]
+      imports: [NgxDatatableModule, MatTooltipModule],
+      providers: [
+        {
+          provide: DataFormatService,
+          useValue: {
+            formattedData: of()
+          }
+        },
+        {
+          provide: ViewService,
+          useValue: {
+            getChannelGroup: ()=>{return {channels : []};}
+          }
+        }
+
+      ]
     })
     .compileComponents();
   }));
@@ -25,7 +44,6 @@ describe('TimelineComponent', () => {
     component.channels = [];
     component.startdate = new Date();
     component.enddate = new Date();
-    component.dataUpdate = new Subject();
     component.resize = new Subject();
     fixture.detectChanges();
   });

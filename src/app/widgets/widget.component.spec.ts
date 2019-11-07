@@ -68,13 +68,6 @@ describe('WidgetComponent', () => {
       }
     ];
 
-    component.channelGroup = new ChannelGroup(
-      1,
-      'name',
-      'description',
-      []
-    );
-
     fixture.detectChanges();
   });
 

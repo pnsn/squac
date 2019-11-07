@@ -5,6 +5,8 @@ import { WidgetsModule } from '../widgets.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MeasurementsService } from '../measurements.service';
+import { DataFormatService } from '../data-format.service';
 
 describe('WidgetDetailComponent', () => {
   let component: WidgetDetailComponent;
@@ -18,9 +20,9 @@ describe('WidgetDetailComponent', () => {
       ],
       providers: [
         {
-          provide: ActivatedRoute,
+          provide: DataFormatService,
           useValue: {
-            params: of({id: 123})
+            fetchData: ()=>{return;}
           }
         }
       ]
