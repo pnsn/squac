@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -24,7 +25,8 @@ describe('WidgetEditComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        NgxDatatableModule
       ],
       providers: [
         {
