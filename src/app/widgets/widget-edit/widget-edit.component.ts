@@ -16,7 +16,7 @@ import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
   styleUrls: ['./widget-edit.component.scss']
 })
 export class WidgetEditComponent implements OnInit, OnDestroy {
-  
+
   id: number;
   widget: Widget;
   editMode: boolean;
@@ -106,7 +106,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
           name : this.widget.name,
           description : this.widget.description,
           type: this.widget.typeId,
-          method: this.widget.stattype ? this.widget.stattype : "average"
+          method: this.widget.stattype ? this.widget.stattype : 'average'
         }
       );
       const metricIds = this.widget.metricsIds;
@@ -121,7 +121,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   metricsSelected(event) {
-    console.log(event.length)
+    console.log(event.length);
     // this.selectedMetrics = event;
   }
 
@@ -129,7 +129,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.availableMetrics.filter(function(d) {
+    const temp = this.availableMetrics.filter((d) => {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
