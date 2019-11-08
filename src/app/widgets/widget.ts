@@ -19,6 +19,7 @@ export class Widget {
   ) {
 
   }
+  public stattype;
 
   public x: number;
   public y: number;

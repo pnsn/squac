@@ -3,20 +3,13 @@
   width: 700px;
 }
 
-#metric-select-container{
-  display:flex;
-  #selected-metrics, #metric-select{
-    display: inline-block;
-  }
-  #selected-metrics {
-    text-align: left;
-    padding-left: 20px;
-    li[selected="selected"] {
-      background-color: red;
-    }
+#metric-select-table{
+  height: 400px;
+
+  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    padding: unset;
   }
 }
-#metric-select{
-  height:300px;
-  width: auto;
+:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
+  padding: 0px !important;
 }

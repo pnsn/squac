@@ -114,7 +114,7 @@ export class WidgetsService {
       response.order,
       metrics
     );
-
+    widget.stattype = response.stattype;
     widget.x = response.x ? response.x : 0;
     widget.y = response.y ? response.y : 0;
 
@@ -133,7 +133,7 @@ export class WidgetsService {
       columns: widget.columns,
       rows: widget.rows,
       order: widget.order,
-      stattype: 1
+      stattype: widget.stattype
     };
     if (widget.id) {
       postData.id = widget.id;

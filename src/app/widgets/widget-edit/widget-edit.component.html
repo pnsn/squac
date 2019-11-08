@@ -18,26 +18,23 @@
         >
       </textarea>
     </mat-form-field>
-    <div>
-      <label for="type">Widget Type: </label>
-      <select formControlName="type" *ngIf="widgetTypes">
-        <option disabled="true">Please select a widget type</option>
-        <option *ngFor="let type of widgetTypes" [ngValue]="type.id">
+    <mat-form-field>
+      <mat-label>Widget Type</mat-label>
+      <mat-select formControlName="type" *ngIf="widgetTypes">
+        <mat-option *ngFor="let type of widgetTypes" [value]="type.id">
           {{type.name}}
-        </option>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      </select>
-    </div>
-
-    <div >
-      <label for="method">Statistical method: </label>
-      <select formControlName="method" >
-        <option disabled="true">Calculation Type</option>
-        <option *ngFor="let method of calcMethods" [ngValue]="method">
+    <mat-form-field>
+      <mat-label>Stat type</mat-label>
+      <mat-select formControlName="method" *ngIf="widgetTypes">
+        <mat-option *ngFor="let method of calcMethods" [value]="method">
           {{method}}
-        </option>
-      </select>
-    </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
   </form>
 
@@ -53,13 +50,16 @@
           />
 
           <div>
+            {{tableRows.length}}
             <ngx-datatable
+            id="metric-select-table"
               style="width: 100%"
               class="material"
               [rows]="tableRows"
               [columnMode]="ColumnMode.force"
               [headerHeight]="50"
-              rowHeight="auto"
+              [rowHeight]="30"
+              [scrollbarV]="true"
               [selected]="selectedMetrics"
               [selectionType]="SelectionType.checkbox"
               [selectAllRowsOnPage]="false"

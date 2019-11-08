@@ -105,13 +105,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         {
           name : this.widget.name,
           description : this.widget.description,
-          type: this.widget.typeId
+          type: this.widget.typeId,
+          method: this.widget.stattype ? this.widget.stattype : "average"
         }
       );
       const metricIds = this.widget.metricsIds;
       this.selectedMetrics = this.availableMetrics.filter(
         metric => {
-          console.log(metricIds.indexOf(metric.id))
           return metricIds.indexOf(metric.id) >= 0;
         }
       );
@@ -120,7 +120,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   }
 
-  updateMetrics(event) {
+  metricsSelected(event) {
+    console.log(event.length)
     // this.selectedMetrics = event;
   }
 
@@ -154,6 +155,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.selectedMetrics
     );
 
+    newWidget.stattype = values.method;
     this.widgetService.updateWidget(
       newWidget
     ).subscribe(
