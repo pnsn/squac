@@ -63,7 +63,6 @@
               [selected]="selectedMetrics"
               [selectionType]="SelectionType.checkbox"
               [selectAllRowsOnPage]="false"
-              [displayCheck]="displayCheck"
               (select)="metricsSelected($event)"
             >
               <ngx-datatable-column
@@ -97,6 +96,6 @@
     </mat-tab-group>
   </div>
 <div mat-dialog-actions>
-  <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
+  <button mat-flat-button [color]="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
   <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
 </div>
