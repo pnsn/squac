@@ -1,49 +1,57 @@
-<h1>
-    {{editMode && dashboard ? "Edit " + dashboard.name : "Create Dashboard"}}
-</h1>
-  <form class="form" action="" [formGroup]="dashboardForm" (ngSubmit)="save()">
-    <div >
-        <button class="btn btn-primary" 
-          type="submit"
-          [disabled]='!dashboardForm.valid'
-        >
-        Save</button>
-        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-    </div>
-    <div >
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name"
-          formControlName="name"
-        class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description"
-          formControlName="description"
-        class="form-control">
-        </textarea>
-      </div>
-    </div>
+<div class="box">
+    <h1>
+        {{editMode && dashboard ? "Edit " + dashboard.name : "Create Dashboard"}}
+    </h1>
+      <form class="form" action="" [formGroup]="dashboardForm" (ngSubmit)="save()">
+        <div >
+          <mat-form-field >
+            <input matInput 
+              formControlName="name"
+              placeholder="Name"
+              type="text"
+              id="name">
+          </mat-form-field>
+          <mat-form-field >
+              <textarea 
+                matInput
+                id="description"
+                placeholder="Description"
+                formControlName="description"
+                class="form-control"
+                >
+            </textarea>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+            <mat-label>Channel Group</mat-label>
+            <mat-select formControlName="channelGroup" *ngIf="availableChannelGroups" (selectionChange)="getChannelsForChannelGroup($event)">
+              <mat-option *ngFor="let channelGroup of availableChannelGroups" [value]="channelGroup.id">
+                {{channelGroup.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <h4 *ngIf="selectedChannelGroup">
+            Channels in {{selectedChannelGroup.name}}:
+          </h4>
+        <div *ngIf="selectedChannelGroup" id="selectedChannels">
 
-    <label for="channelGroup">Channel Group</label>
-    <select formControlName="channelGroup" *ngIf="availableChannelGroups" (change)="getChannelsForChannelGroup()">
-      <option disabled="true">Please select a channelGroup</option>
-      <option  *ngFor="let channelGroup of availableChannelGroups" [ngValue]="channelGroup.id">
-        {{channelGroup.name}}
-      </option>
+          <ul>
+            <li *ngFor="let channel of selectedChannelGroup.channels">
+              {{channel.nslc}}
+            </li>
+          </ul>
+        </div>
+        <div >
+            <button mat-raised-button 
+              type="submit"
+              [disabled]='!dashboardForm.valid'
+            >
+            Save</button>
+            <button mat-flat-button type="button" color="warn" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+</div>
 
-    </select>
-
-    <div *ngIf="selectedChannelGroup">
-      Channels:
-      <ul>
-        <li *ngFor="let channel of selectedChannelGroup.channels">
-          {{channel.nslc}}
-        </li>
-      </ul>
-    </div>
-
-  </form>
 
 <!-- TODO: Make generic else template -->

@@ -71,8 +71,8 @@ export class DashboardEditComponent implements OnInit {
     }
   }
 
-  getChannelsForChannelGroup() {
-
+  getChannelsForChannelGroup(event) {
+    console.log(event)
     const selectedChannelGroupId = this.dashboardForm.value.channelGroup;
     if (selectedChannelGroupId) {
       const channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
