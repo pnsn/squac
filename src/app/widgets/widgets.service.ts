@@ -123,7 +123,6 @@ export class WidgetsService {
   }
 
   updateWidget(widget: Widget) {
-
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,
@@ -133,7 +132,7 @@ export class WidgetsService {
       columns: widget.columns,
       rows: widget.rows,
       order: widget.order,
-      stattype: widget.stattype
+      stattype: widget.stattype ? widget.stattype : 1
     };
     if (widget.id) {
       postData.id = widget.id;

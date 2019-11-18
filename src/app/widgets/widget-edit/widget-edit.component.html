@@ -42,6 +42,7 @@
       <!-- TODO: separate component -->
       <mat-tab label="Metrics">
         <div class="edit-tab-body">
+          {{selectedMetrics?.length}} metrics selected
           <input
           type="text"
           style="padding:8px;margin:15px auto;width:30%;"
@@ -50,7 +51,6 @@
           />
 
           <div>
-            {{tableRows.length}}
             <ngx-datatable
             id="metric-select-table"
               style="width: 100%"
