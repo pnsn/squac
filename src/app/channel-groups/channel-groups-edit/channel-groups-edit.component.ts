@@ -9,6 +9,14 @@ import { Subscription } from 'rxjs';
 import { Network } from '../network';
 import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
+
+class Filter {
+  value: string;
+  add: boolean;
+  type: string;
+}
 
 @Component({
   selector: 'app-channel-group-edit',
@@ -22,7 +30,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   channelGroup: ChannelGroup;
   editMode: boolean;
   subscriptions: Subscription = new Subscription();
-
+  loading: boolean = false;
   // form stuff
   channelGroupForm: FormGroup;
   availableNetworks: Network[] = [];
@@ -30,6 +38,66 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   filtersForm: FormGroup;
   availableChannels: Channel[];
   selectedChannels: Channel[] = [];
+  excludedChannels: Channel[] = [];
+  allChannels: Channel[];
+  selectedChannelIds: number[] = [];
+  filterMode : string = "include";
+  
+  visible = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER];
+
+  filters = {
+    "network" : [],
+    "channel": [],
+    "station": [],
+    "location": []
+  }
+
+  add(event: MatChipInputEvent, type: string): void {
+    const input = event.input;
+    const value = event.value;
+    console.log(type)
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.filters[type].push({
+        value: value.trim(),
+        type: type,
+        add: this.filterMode == "include"
+      });
+      if(this.filterMode === "include") {
+        this.updateFilters();
+      } else {
+        this.updateTable();
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(filter: Filter, groupKey: any): void {
+    const index = this.filters[groupKey].indexOf(filter);
+
+    if (index >= 0) {
+      this.filters[groupKey].splice(index, 1);
+      this.updateFilters();
+    }
+  }
+
+
+  updateFilters(){
+    this.loading=true;
+    this.getChannelsWithFilters();
+    //take all fi;lters and use them
+    console.log(this.filters)
+
+  }
+  updateTable(){
+    //unselect existing from table, but don't make more of a search
+  }
 
   // table stuff
   SelectionType = SelectionType;
@@ -57,15 +125,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    const sub1 = this.networksService.networks.subscribe(networks => {
-      this.availableNetworks = networks;
-      this.filtersForm = this.formBuilder.group({
-        networks: new FormControl([])
-      });
-    });
-
     this.subscriptions.add(paramsSub);
-    this.subscriptions.add(sub1);
   }
 
   ngOnDestroy() {
@@ -76,36 +136,68 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // other filters do on front end
 
   // after filter applied do this
-  getChannelsForNetwork() {
-    this.selectedNetwork = this.filtersForm.value.networks;
-    if (this.selectedNetwork) {
-      this.channelsService.fetchChannels(
-        this.selectedNetwork
-      );
+  getChannelsWithFilters() {
+    const searchFilters = {};
 
-      const channelsSub = this.channelsService.channels.subscribe(channels => {
-        this.availableChannels = channels;
-        this.updateChannels();
-      });
+    for(let filterGroup in this.filters) {
+      if(this.filters[filterGroup].length > 0) {
+        let filterStr = "";
+        for(let filter of this.filters[filterGroup]) {
+          if(filter.add) {
+            filterStr += filter.value.toLowerCase();
+          }
+        }
+      }
 
-      this.subscriptions.add(channelsSub);
+    }
+    
+    const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
+      response => {
+        const newChannels = response.filter(
+          (channel)=>{
+            if(this.selectedChannelIds.indexOf(channel.id) === -1) {
+              this.selectedChannelIds.push(channel.id);
+              return true;
+            }
+            return false;
+          }
+        )
+        console.log(newChannels);
+        this.availableChannels = [...newChannels];
+        //add channels to selected Channels 
+      }
+    )
+
+    this.subscriptions.add(channelsSub);
+    console.log(searchFilters);
+  }
+
+  excludeChannel({selected}) {
+    if(selected.length > 0) {
+      const latest = selected[selected.length - 1];
+    
+      this.excludedChannels = [];
+      this.excludedChannels.push(...selected);
+  
+      this.selectedChannelIds.splice(this.selectedChannelIds.indexOf(latest.id), 1);
+      this.updateChannels();
     }
 
   }
 
-  onSelect({ selected }) {
-    this.selectedChannels.splice(0, this.selectedChannels.length);
-    this.selectedChannels.push(...selected);
-    this.updateChannels();
-  }
-
   removeChannel(index) {
-    this.selectedChannels.splice(index, 1);
+    console.log(index);
+    const includeChannel = this.excludedChannels.splice(index, 1);
+    if(includeChannel[0]) {
+      this.selectedChannelIds.push(includeChannel[0].id);
+    }
+
+    
     this.updateChannels();
   }
 
   updateChannels() {
-    this.selectedChannels = [...this.selectedChannels];
+    this.excludedChannels = [...this.excludedChannels];
   }
 
   // Inits group edit form
@@ -124,7 +216,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             name : channelGroup.name,
             description : channelGroup.description
           });
-          this.selectedChannels = channelGroup.channels ? channelGroup.channels : [];
+          this.availableChannels = channelGroup.channels ? channelGroup.channels : [];
         }
       );
     }
@@ -134,18 +226,19 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
-    this.channelGroupService.updateChannelGroup(
-      new ChannelGroup(
-        this.id,
-        values.name,
-        values.description,
-        this.selectedChannels
-      )
-    ).subscribe(
-      result => {
-        this.cancel(result.id);
-      }
-    );
+    console.log(values.name, values.description, this.selectedChannelIds);
+    // this.channelGroupService.updateChannelGroup(
+    //   new ChannelGroup(
+    //     this.id,
+    //     values.name,
+    //     values.description,
+    //     this.selectedChannels
+    //   )
+    // ).subscribe(
+    //   result => {
+    //     this.cancel(result.id);
+    //   }
+    // );
   }
 
   // Exit page

@@ -5,6 +5,7 @@ import { Channel } from './channel';
 import { Subject, BehaviorSubject, throwError, Observable, of } from 'rxjs';
 import { Network } from '../channel-groups/network';
 import { SquacApiService } from '../squacapi.service';
+import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,9 @@ export class ChannelsService {
     this.channels.next(channels);
   }
 
-  fetchChannels(network: Network) {
-   this.squacApi.get(this.url, null,
-      {
-        network : network.code
-      }
-    ).pipe(map(
+  getChannelsbyFilters(filters: Params) : Observable<Channel[]>{
+   return this.squacApi.get(this.url, null, filters).pipe(
+     map(
       response => {
         const channels = [];
         response.forEach(c => {
@@ -48,11 +46,8 @@ export class ChannelsService {
           channels.push(channel);
         });
         return channels;
-      }
-    ))
-    .subscribe(channels => {
-      this.setChannels(channels);
-    });
+      })
+    );
   }
 
   getChannel(id: number): Observable<Channel> {

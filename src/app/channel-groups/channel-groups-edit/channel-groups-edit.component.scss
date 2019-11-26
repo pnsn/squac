@@ -4,6 +4,22 @@ h1{
   margin-left: 5%;
 }
 
+.filter-chip-input {
+ width:60px;
+ margin: 0px 5px;
+}
+mat-chip.mat-primary {
+  background-color: green !important;
+}
+
+mat-chip.mat-warn {
+ background-color: red !important;
+}
+
+.table-container {
+  height: 1000px;
+  width: 1000px;
+}
 #channel-group-edit-container{
   display: flex;
   margin: 15px 5% 0 5%;

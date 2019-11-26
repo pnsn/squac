@@ -10,6 +10,7 @@ import { retry, catchError } from 'rxjs/operators';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log(request);
     return next.handle(request)
       .pipe(
         // retry(1), //TODO: enable retrys after CORS fixed

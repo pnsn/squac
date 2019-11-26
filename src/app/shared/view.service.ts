@@ -83,7 +83,6 @@ export class ViewService {
       (widgets: Widget[]) => {
         this.widgets = widgets;
         console.log(this.widgets);
-        console.log(this.getWidgetIndexById(2));
         this.widgetsChanged();
       }
     );

@@ -1,18 +1,160 @@
 <h1>
   {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
 </h1>
-<div id="channel-group-edit-container">
 
-  <div id="station-map-container">
-    <h3>Station Map</h3>
-    <div id="station-map-box" class="box">
-      <p>A map of the stations goes here</p>
-    </div>
+<form class="" [formGroup]="channelGroupForm">
+  <mat-form-field class="">
+    <input matInput placeholder="Channel Group Name" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field class="">
+    <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
+  </mat-form-field>
+</form>
+
+<h4>Filters</h4>
+<p>Regular expression allowed for channel (for example: [H,C]..)</p>
+<mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="filterMode">
+  <mat-button-toggle value="include">Include</mat-button-toggle>
+  <mat-button-toggle value="exclude">Exclude</mat-button-toggle>
+</mat-button-toggle-group>
+
+<mat-form-field class="filter-chip-input">
+  <input
+    matInput
+    placeholder="Network"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event, 'network')"
+  >
+</mat-form-field>
+<mat-form-field class="filter-chip-input">
+  <input
+    matInput
+    placeholder="Station"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event, 'station')"
+  >
+</mat-form-field>
+<mat-form-field class="filter-chip-input">
+  <input
+    matInput
+    placeholder="Location"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event, 'location')"
+  >
+</mat-form-field>
+<mat-form-field class="filter-chip-input">
+  <input
+    matInput
+    placeholder="Channel"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event, 'channel')"
+  >
+</mat-form-field>
+
+<mat-chip-list #chipList aria-label="Channel group filters">
+  <div *ngFor="let filterGroup of filters | keyvalue">
+    <mat-chip 
+      *ngFor="let filter of filterGroup.value"
+      [removable]="true"
+      (removed)="remove(filter, filterGroup.key)"
+      [color]="filter.add ? 'primary' : 'warn'"
+    >
+      {{filter.value | uppercase}}
+    <mat-icon matChipRemove>cancel</mat-icon> -->
+    </mat-chip>
   </div>
+
+
+</mat-chip-list>
+{{excludedChannels.length}} excluded, {{selectedChannelIds.length}} included, {{availableChannels?.length}} available
+<h4>Channel Group</h4>
+<p *ngIf="filters.length == 0">Select a filter to search</p>
+<app-loading *ngIf="loading"></app-loading>
+
+
+<div *ngIf="availableChannels && availableChannels.length > 0" class="table-container">
+  <ngx-datatable 
+    #channelTable
+    id="channel-selector"
+    class="material" 
+    [rows]="availableChannels" 
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    rowHeight="auto" 
+    [selected]="excludedChannels"
+    [selectionType]="SelectionType.checkbox" 
+    (select)="excludeChannel($event)" 
+    [limit]="10" 
+    [sortType]="SortType.multi"
+    [groupRowsBy]="'stationCode'"
+    [groupExpansionDefault]="true"
+    >
+    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
+        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+          <div style="padding-left:5px;">
+            <a
+              href="#"
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Group"
+              (click)="toggleExpandGroup(group)"
+            >
+              <span> {{group.value[0].networkCode | uppercase }} </span>
+              <span> {{ group.value[0].stationCode | uppercase}} </span>
+              <span> ({{group.value.length}} {{group.value.length == 1? "channel" : "channels"}})</span>
+            </a>
+          </div>
+        </ng-template>
+      </ngx-datatable-group-header>
+    <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+      [resizeable]="false">
+      <ng-template ngx-datatable-header-template let-value="value">
+      </ng-template>
+      <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+        let-onCheckboxChangeFn="onCheckboxChangeFn">
+        <input type="checkbox" [checked]="!isSelected" (change)="onCheckboxChangeFn($event)" />
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.networkCode }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.stationCode}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.code}}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
+
+
+
+
+
+
+
+<!-- <div id="channel-group-edit-container">
+
 
   <div id="channel-selection-container">
     <h3>Available Channels</h3>
-    <!-- TODO: put this better -->
     <div id="channel-selection-box" class="box">
       <h4>Select a network</h4>
       <form class="form" [formGroup]="filtersForm">
@@ -27,74 +169,7 @@
         </mat-form-field>
       </form>
 
-    <div *ngIf="availableChannels && availableChannels.length > 0; else elseTemplate">
-      <ngx-datatable 
-        #channelTable
-        id="channel-selector"
-        class="material" 
-        [rows]="availableChannels" 
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50" 
-        [footerHeight]="50" 
-        rowHeight="auto" 
-        [selected]="selectedChannels"
-        [selectionType]="SelectionType.checkbox" 
-        (select)="onSelect($event)" 
-        [limit]="10" 
-        [sortType]="SortType.multi"
-        [groupRowsBy]="'stationCode'"
-        [groupExpansionDefault]="true"
-        >
-        <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
-            <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-              <div style="padding-left:5px;">
-                <a
-                  href="#"
-                  [class.datatable-icon-right]="!expanded"
-                  [class.datatable-icon-down]="expanded"
-                  title="Expand/Collapse Group"
-                  (click)="toggleExpandGroup(group)"
-                >
-                  <span> {{group.value[0].networkCode | uppercase }} </span>
-                  <span> {{ group.value[0].stationCode | uppercase}} </span>
-                  <span> ({{group.value.length}} {{group.value.length == 1? "channel" : "channels"}})</span>
-                </a>
-              </div>
-            </ng-template>
-          </ngx-datatable-group-header>
-        <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-          [resizeable]="false">
-          <ng-template ngx-datatable-header-template let-value="value">
-          </ng-template>
-          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
-            let-onCheckboxChangeFn="onCheckboxChangeFn">
-            <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
-          </ng-template>
-        </ngx-datatable-column>
 
-        <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.networkCode }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.stationCode}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.code}}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
-    </div>
-
-    <ng-template #elseTemplate>
-      <app-loading></app-loading>
-    </ng-template>
-    </div>
-  </div>
 
   <div id="channel-group-container">
     <h3>Name of Channel Group</h3>
@@ -167,4 +242,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
