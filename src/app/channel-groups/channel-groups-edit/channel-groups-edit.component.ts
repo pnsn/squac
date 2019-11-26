@@ -12,12 +12,6 @@ import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
-class Filter {
-  value: string;
-  add: boolean;
-  type: string;
-}
-
 @Component({
   selector: 'app-channel-group-edit',
   templateUrl: './channel-groups-edit.component.html',
@@ -36,12 +30,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   availableNetworks: Network[] = [];
   selectedNetwork: Network;
   filtersForm: FormGroup;
-  availableChannels: Channel[];
+  availableChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
   excludedChannels: Channel[] = [];
   allChannels: Channel[];
   selectedChannelIds: number[] = [];
-  filterMode : string = "include";
   
   visible = true;
   addOnBlur = true;
@@ -54,22 +47,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     "location": []
   }
 
-  add(event: MatChipInputEvent, type: string): void {
+  addFilter(event: MatChipInputEvent, type: string): void {
     const input = event.input;
     const value = event.value;
     console.log(type)
     // Add our fruit
     if ((value || '').trim()) {
-      this.filters[type].push({
-        value: value.trim(),
-        type: type,
-        add: this.filterMode == "include"
-      });
-      if(this.filterMode === "include") {
-        this.updateFilters();
-      } else {
-        this.updateTable();
-      }
+      this.filters[type].push(value.trim().toLowerCase());
+      this.updateFilters();
     }
 
     // Reset the input value
@@ -78,8 +63,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  remove(filter: Filter, groupKey: any): void {
-    const index = this.filters[groupKey].indexOf(filter);
+  removeFilter(filter: string, groupKey: any): void {
+    const index = this.filters[groupKey].indexOf(filter.toLowerCase());
 
     if (index >= 0) {
       this.filters[groupKey].splice(index, 1);
@@ -88,13 +73,38 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
 
+
+  removeChannel(channel: Channel) {
+    console.log(this.selectedChannels, this.selectedChannelIds);
+    const index = this.selectedChannelIds.indexOf(channel.id);
+    console.log(index)
+    this.selectedChannels.splice(index, 1);
+    this.selectedChannelIds.splice(index, 1);
+
+    this.selectedChannels=[...this.selectedChannels];
+  }
+
   updateFilters(){
     this.loading=true;
     this.getChannelsWithFilters();
     //take all fi;lters and use them
-    console.log(this.filters)
-
   }
+
+  addChannelsToSelected() {
+    const newChannels = this.availableChannels.filter(
+      (channel)=>{
+        if(this.selectedChannelIds.indexOf(channel.id) === -1) {
+          this.selectedChannelIds.push(channel.id);
+          return true;
+        }
+        return false;
+      }
+    )
+
+    this.selectedChannels = [...this.selectedChannels, ...newChannels];
+    //add available channels to selected channels
+  }
+
   updateTable(){
     //unselect existing from table, but don't make more of a search
   }
@@ -135,6 +145,16 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   // other filters do on front end
 
+
+  // const newChannels = response.filter(
+  //   (channel)=>{
+  //     if(this.selectedChannelIds.indexOf(channel.id) === -1) {
+  //       this.selectedChannelIds.push(channel.id);
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  // )
   // after filter applied do this
   getChannelsWithFilters() {
     const searchFilters = {};
@@ -142,6 +162,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     for(let filterGroup in this.filters) {
       if(this.filters[filterGroup].length > 0) {
         let filterStr = "";
+        searchFilters[filterGroup] = this.filters[filterGroup].toString();
         for(let filter of this.filters[filterGroup]) {
           if(filter.add) {
             filterStr += filter.value.toLowerCase();
@@ -150,20 +171,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       }
 
     }
-    
+    console.log(searchFilters);
     const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
       response => {
-        const newChannels = response.filter(
-          (channel)=>{
-            if(this.selectedChannelIds.indexOf(channel.id) === -1) {
-              this.selectedChannelIds.push(channel.id);
-              return true;
-            }
-            return false;
-          }
-        )
-        console.log(newChannels);
-        this.availableChannels = [...newChannels];
+
+        this.availableChannels = response;
         //add channels to selected Channels 
       }
     )
@@ -172,33 +184,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     console.log(searchFilters);
   }
 
-  excludeChannel({selected}) {
-    if(selected.length > 0) {
-      const latest = selected[selected.length - 1];
-    
-      this.excludedChannels = [];
-      this.excludedChannels.push(...selected);
-  
-      this.selectedChannelIds.splice(this.selectedChannelIds.indexOf(latest.id), 1);
-      this.updateChannels();
-    }
-
-  }
-
-  removeChannel(index) {
-    console.log(index);
-    const includeChannel = this.excludedChannels.splice(index, 1);
-    if(includeChannel[0]) {
-      this.selectedChannelIds.push(includeChannel[0].id);
-    }
-
-    
-    this.updateChannels();
-  }
-
-  updateChannels() {
-    this.excludedChannels = [...this.excludedChannels];
-  }
 
   // Inits group edit form
   private initForm() {
