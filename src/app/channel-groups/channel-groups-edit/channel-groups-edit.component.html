@@ -17,20 +17,22 @@
     </button>
     <div class="table-container">
       <ngx-datatable 
-        #channelTable
+        #availableTable
         id="channel-selector"
         class="material" 
         [rows]="availableChannels" 
         [columnMode]="ColumnMode.force"
         [headerHeight]="50" 
         [footerHeight]="50" 
+        [rowHeight]="40"
+        [scrollbarV]="true"
         rowHeight="auto" 
         [limit]="10" 
         [sortType]="SortType.multi"
         [groupRowsBy]="'stationCode'"
         [groupExpansionDefault]="true"
         >
-        <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
+        <ngx-datatable-group-header [rowHeight]="50" #availableGroupHeader>
             <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
               <div style="padding-left:5px;">
                 <a
@@ -38,7 +40,7 @@
                   [class.datatable-icon-right]="!expanded"
                   [class.datatable-icon-down]="expanded"
                   title="Expand/Collapse Group"
-                  (click)="toggleExpandGroup(group)"
+                  (click)="toggleExpandGroup(group, 'available')"
                 >
                   <span> {{group.value[0].networkCode | uppercase }} </span>
                   <span> {{ group.value[0].stationCode | uppercase}} </span>
@@ -87,9 +89,40 @@
     <app-channel-groups-filtering (filtersChanged)="removeChannelsWithFilters($event)">
     
       </app-channel-groups-filtering>
-    <ngx-datatable  class="material" [rows]="selectedChannels" [columnMode]="ColumnMode.force"
-    [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
-    [selectionType]="SelectionType.checkbox" (select)="onSelect($event)">
+    <ngx-datatable 
+      #selectedTable
+      id="group-channels"
+      class="material" 
+      [rows]="selectedChannels"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50" 
+      [rowHeight]="40"
+      [scrollbarV]="true"
+      rowHeight="auto" 
+      [selected]="selectedChannels"
+      [selectionType]="SelectionType.checkbox" 
+      (select)="onSelect($event)"
+      [groupRowsBy]="'stationCode'"
+      [groupExpansionDefault]="true"
+      >
+      <ngx-datatable-group-header [rowHeight]="50" #selectedGroupHeader>
+          <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+            <div style="padding-left:5px;">
+              <a
+                href="#"
+                [class.datatable-icon-right]="!expanded"
+                [class.datatable-icon-down]="expanded"
+                title="Expand/Collapse Group"
+                (click)="toggleExpandGroup(group, 'selected')"
+              >
+                <span> {{group.value[0].networkCode | uppercase }} </span>
+                <span> {{ group.value[0].stationCode | uppercase}} </span>
+                <span> ({{group.value.length}} {{group.value.length == 1? "channel" : "channels"}})</span>
+              </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-group-header>
       <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
       [resizeable]="false">
         <ng-template ngx-datatable-header-template let-value="value">
@@ -118,98 +151,3 @@
   
   </div>
 </div>
-
-
-<!-- <div id="channel-group-edit-container">
-
-
-  <div id="channel-selection-container">
-    <h3>Available Channels</h3>
-    <div id="channel-selection-box" class="box">
-      <h4>Select a network</h4>
-      <form class="form" [formGroup]="filtersForm">
-        <mat-form-field>
-          <mat-label>Available networks</mat-label>
-          <mat-select id="network-btn" formControlName="networks" 
-            *ngIf="availableNetworks" (selectionChange)="getChannelsForNetwork()">
-            <mat-option *ngFor="let network of availableNetworks" [value]="network">
-              {{network.code}} - {{network.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
-
-
-
-  <div id="channel-group-container">
-    <h3>Name of Channel Group</h3>
-    <div id="channel-group-box" class="box">
-     <form id="channel-group-form" class="form" action="" [formGroup]="channelGroupForm" (ngSubmit)="save()">
-        <div>
-          <div class="form-group">
-            <label for="name">Name<br></label>
-            <input type="text" id="name" formControlName="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="description">Description<br></label>
-            <textarea id="description" formControlName="description" class="form-control"></textarea>
-          </div>
-  
-          <div>
-            <ngx-datatable id="channels-selected" class="material" [rows]="selectedChannels" [columnMode]="ColumnMode.force"
-            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
-            [selectionType]="SelectionType.checkbox" (select)="onSelect($event)">
-              <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-              [resizeable]="false">
-                <ng-template ngx-datatable-header-template let-value="value">
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
-                  let-onCheckboxChangeFn="onCheckboxChangeFn">
-                  <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.networkCode }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                  {{ row.stationCode }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                  {{ row.code }}
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
-        </div>
-
-        <div class="btn-container">
-          <button mat-raised-button color="primary"
-             type="button" (click)="formUnsaved()"
-            >Cancel</button>
-          <button mat-raised-button color="accent" disabled
-            type="submit" [disabled]='!channelGroupForm.valid'
-          >Save</button>
-        </div>
-      </form>
-      <div id="channel-group-popup" class="popup">
-        <div id="channel-group-popup-box" class="box">
-          <p>Your new metric will not be saved.<br/>
-          Would you like to continue?</p>
-          <div class="btn-container">
-            <button mat-raised-button color="primary"
-              type="button" (click)="closePopup()"
-            >Cancel</button>
-            <button mat-raised-button color="accent"
-            (click)="cancel()"  
-            >Continue</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->

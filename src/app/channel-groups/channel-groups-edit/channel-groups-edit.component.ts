@@ -66,8 +66,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
-  @ViewChild('channelTable', { static: false }) table: any;
-
+  @ViewChild('availableTable', { static: false }) availableTable: any;
+  @ViewChild('selectedTable', { static: false }) selectedTable: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -179,8 +179,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     popup.style.display = 'none';
   }
 
-  toggleExpandGroup(group) {
-    this.table.groupHeader.toggleExpandGroup(group);
+  toggleExpandGroup(group, type) {
+    if(type === "available") {
+      this.availableTable.availableGroupHeader.toggleExpandGroup(group);
+    } else {
+      this.selectedTable.selectedGroupHeader.toggleExpandGroup(group);
+    }
     return false;
   }
+
 }
