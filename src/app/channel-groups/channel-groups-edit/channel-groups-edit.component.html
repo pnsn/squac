@@ -2,68 +2,14 @@
   {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
 </h1>
 <div id="selection-container">
+
   <div id="available-channels">
     <h4>Filters</h4>
     <p>Search for channels matching:</p>
-    <p>Regular expression allowed for channel (for example: [H,C]..)</p>
+
+    <app-channel-groups-filtering (filtersChanged)="getChannelsWithFilters($event)">
     
-    <mat-form-field class="filter-chip-input">
-      <input
-        matInput
-        placeholder="Network"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="addFilter($event, 'network')"
-      >
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input
-        matInput
-        placeholder="Station"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="addFilter($event, 'station')"
-      >
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input
-        matInput
-        placeholder="Location"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="addFilter($event, 'location')"
-      >
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input
-        matInput
-        placeholder="Channel"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="addFilter($event, 'channel')"
-      >
-    </mat-form-field>
-    
-    <mat-chip-list #chipList aria-label="Channel group filters">
-      <div *ngFor="let filterGroup of filters | keyvalue">
-        <mat-chip 
-          *ngFor="let filter of filterGroup.value"
-          [removable]="true"
-          (removed)="removeFilter(filter, filterGroup.key)"
-          [color]=""
-        >
-          {{filter | uppercase}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-      </div>
-    
-    
-    </mat-chip-list>
-    {{excludedChannels.length}} excluded, {{selectedChannelIds.length}} included, {{availableChannels?.length}} available
+    </app-channel-groups-filtering>
     <h4>Selection Preview</h4>
     <!-- <app-loading *ngIf="loading"></app-loading> -->
     <button (click)="addChannelsToSelected()" [disabled]="!availableChannels || availableChannels.length === 0">
@@ -138,7 +84,9 @@
         </form>
     <h4>Selected Channels</h4>
     <p>These channels will appear on your widget.</p>
-
+    <app-channel-groups-filtering (filtersChanged)="removeChannelsWithFilters($event)">
+    
+      </app-channel-groups-filtering>
     <ngx-datatable  class="material" [rows]="selectedChannels" [columnMode]="ColumnMode.force"
     [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [selected]="selectedChannels"
     [selectionType]="SelectionType.checkbox" (select)="onSelect($event)">

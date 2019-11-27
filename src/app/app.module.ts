@@ -21,6 +21,7 @@ import { HttpErrorInterceptor } from './http-error-interceptor.service';
 import { DashboardsModule } from './dashboards/dashboards.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChannelGroupsFilteringComponent } from './channel-groups/channel-groups-edit/channel-groups-filtering/channel-groups-filtering.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MetricsComponent,
     MetricsDetailComponent,
     MetricsViewComponent,
-    MetricsEditComponent
+    MetricsEditComponent,
+    ChannelGroupsFilteringComponent
   ],
   imports: [
     BrowserModule,
