@@ -94,23 +94,33 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  removeChannelsWithFilters(searchFilters) {
-    console.log(searchFilters);
-  }
+  // removeChannelsWithFilters(searchFilters) {
+  //   console.log(searchFilters);
+  //   this.selectedChannels.filter((channel, index)=>{
+  //     return 
+
+
+  //   });
+  // }
 
   getChannelsWithFilters(searchFilters) {
 
-    console.log(searchFilters);
-    const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
-      response => {
-
-        this.availableChannels = response;
-        //add channels to selected Channels 
-      }
-    )
-
-    this.subscriptions.add(channelsSub);
-    console.log(searchFilters);
+    if(searchFilters != {}) {
+      this.loading = true;
+      console.log(searchFilters == {});
+      const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
+        response => {
+          console.log(response.length);
+          this.availableChannels = response;
+          this.loading = false;
+          //add channels to selected Channels 
+        }
+      )
+  
+      this.subscriptions.add(channelsSub);
+    } else {
+      this.availableChannels = [];
+    }
   }
 
 
@@ -131,28 +141,34 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             description : channelGroup.description
           });
           this.selectedChannels = channelGroup.channels ? channelGroup.channels : [];
+          this.getIdsFromChannels();
         }
       );
     }
+  }
 
+  private getIdsFromChannels(){
+    this.selectedChannels.forEach(channel=>{
+      this.selectedChannelIds = [];
+      this.selectedChannelIds.push(channel.id);
+    });
   }
 
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
-    console.log(values.name, values.description, this.selectedChannelIds);
-    // this.channelGroupService.updateChannelGroup(
-    //   new ChannelGroup(
-    //     this.id,
-    //     values.name,
-    //     values.description,
-    //     this.selectedChannels
-    //   )
-    // ).subscribe(
-    //   result => {
-    //     this.cancel(result.id);
-    //   }
-    // );
+    this.channelGroupService.updateChannelGroup(
+      new ChannelGroup(
+        this.id,
+        values.name,
+        values.description,
+        this.selectedChannels
+      )
+    ).subscribe(
+      result => {
+        this.cancel(result.id);
+      }
+    );
   }
 
   // Exit page
@@ -177,15 +193,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   closePopup() {
     const popup = document.getElementById('channel-group-popup');
     popup.style.display = 'none';
-  }
-
-  toggleExpandGroup(group, type) {
-    if(type === "available") {
-      this.availableTable.availableGroupHeader.toggleExpandGroup(group);
-    } else {
-      this.selectedTable.selectedGroupHeader.toggleExpandGroup(group);
-    }
-    return false;
   }
 
 }
