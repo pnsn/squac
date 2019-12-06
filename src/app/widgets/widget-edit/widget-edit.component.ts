@@ -120,8 +120,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   }
 
-  metricsSelected(event) {
-    console.log(event.length);
+  metricsSelected({selected}) {
+    this.selectedMetrics.splice(0, this.selectedMetrics.length);
+    this.selectedMetrics.push(...selected);
     // this.selectedMetrics = event;
   }
 
