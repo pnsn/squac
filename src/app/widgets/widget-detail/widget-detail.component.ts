@@ -19,7 +19,6 @@ import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   @Input() widget: Widget;
-  channelGroup: ChannelGroup;
   data: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
@@ -37,7 +36,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // listed to changes and detch when needed
-    this.channelGroup = this.viewService.getChannelGroup();
     this.dataFormatService.fetchData(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(

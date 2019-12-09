@@ -66,23 +66,25 @@ export class ChannelGroupsService {
           response => {
             const channels = [];
             let channelGroup: ChannelGroup;
+            if (response.channels) {
+              response.channels.forEach(c => {
+                const channel = new Channel(
+                  c.id,
+                  c.code,
+                  c.name,
+                  c.sample_rate,
+                  c.lat,
+                  c.lon,
+                  c.elev,
+                  c.loc,
+                  c.station_code,
+                  c.network
+                );
+  
+                channels.push(channel);
+              });
+            }
 
-            response.channels.forEach(c => {
-              const channel = new Channel(
-                c.id,
-                c.code,
-                c.name,
-                c.sample_rate,
-                c.lat,
-                c.lon,
-                c.elev,
-                c.loc,
-                c.station_code,
-                c.network
-              );
-
-              channels.push(channel);
-            });
 
             channelGroup = new ChannelGroup(
               response.id,

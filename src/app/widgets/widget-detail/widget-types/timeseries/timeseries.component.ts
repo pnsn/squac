@@ -13,7 +13,7 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
-  channels: Channel[];
+  @Input() channels: Channel[];
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
@@ -34,7 +34,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
-          this.channels = this.viewService.getChannelGroup().channels;
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildChartData(response);
         }

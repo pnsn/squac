@@ -11,7 +11,6 @@ import { WidgetsService } from '../widgets/widgets.service';
 interface DashboardsHttpData {
   name: string;
   description: string;
-  group: number;
   widgets: any;
   id?: number;
 }
@@ -47,7 +46,6 @@ export class DashboardsService {
               d.id,
               d.name,
               d.description,
-              d.group,
               d.widgets ? d.widgets : []
             );
             dashboards.push(dashboard);
@@ -74,10 +72,8 @@ export class DashboardsService {
                 response.id,
                 response.name,
                 response.description,
-                response.group,
                 response.widgets
               );
-              dashboard.channelGroup = channelGroup;
               return dashboard;
             })
           );
@@ -90,7 +86,6 @@ export class DashboardsService {
     const postData: DashboardsHttpData = {
       name: dashboard.name,
       description: dashboard.description,
-      group: dashboard.channelGroupId,
       widgets: dashboard.widgetIds
     };
     if (dashboard.id) {

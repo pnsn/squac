@@ -15,8 +15,9 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TabularComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
+  @Input() channels: Channel[];
   subscription = new Subscription();
-  channels: Channel[];
+
   @ViewChild('dataTable', { static: false }) table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -45,7 +46,6 @@ export class TabularComponent implements OnInit, OnDestroy {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
-          this.channels = this.viewService.getChannelGroup().channels;
           this.buildRows(response);
         }
       }

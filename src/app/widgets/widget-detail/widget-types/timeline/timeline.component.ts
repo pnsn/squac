@@ -16,10 +16,10 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
+  @Input() channels: Channel[];
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
-  channels: Channel[];
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];
@@ -52,7 +52,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
-          this.channels = this.viewService.getChannelGroup().channels;
           this.startdate = this.viewService.getStartdate();
           this.enddate = this.viewService.getEnddate();
 

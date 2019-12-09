@@ -2,9 +2,10 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
 import { Widget } from './widget';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
 import { Threshold } from './threshold';
+import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
 
 
 interface WidgetHttpData {
@@ -16,7 +17,9 @@ interface WidgetHttpData {
   stattype: number;
   columns: number;
   rows: number;
-  order: number;
+  x_position: number;
+  y_position: number;
+  channel_group: number;
   id?: number;
 }
 
@@ -29,7 +32,8 @@ export class WidgetsService {
   private url = 'dashboard/widgets/';
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private channelGroupsService: ChannelGroupsService
   ) {
   }
 
@@ -42,20 +46,21 @@ export class WidgetsService {
       }
       ).pipe(
         map(
-        response => {
-          const widgets: Widget[] = [];
-
-
-          response.forEach(w => {
-            widgets.push(this.mapWidget(w));
-          });
-
-          return widgets;
-        }
-      )
-    );
+          response => {
+            const widgets: Widget[] = [];
+            response.forEach(w => {
+              widgets.push(this.mapWidget(w));
+            });
+            return widgets;
+          }
+        )
+      );
   }
-
+  // switchMap (
+  //   (response) => {
+  //     return 
+  //   }
+  // )
   // getWidgets(widgetIds: number[]): Observable<Widget[]> {
 
   //   const widgetRequests = widgetIds.map(id => {
@@ -109,16 +114,17 @@ export class WidgetsService {
       response.description,
       response.widgettype.id,
       response.dashboard.id,
+      response.channel_group,
       response.columns,
       response.rows,
-      response.order,
+      response.x_position,
+      response.y_position,
       metrics
     );
     widget.stattype = response.stattype;
-    widget.x = response.x ? response.x : 0;
-    widget.y = response.y ? response.y : 0;
-
     widget.type = response.widgettype.type;
+
+
     return widget;
   }
 
@@ -131,7 +137,9 @@ export class WidgetsService {
       dashboard: widget.dashboardId,
       columns: widget.columns,
       rows: widget.rows,
-      order: widget.order,
+      x_position: widget.x,
+      y_position: widget.y,
+      channel_group: widget.channelGroupId,
       stattype: widget.stattype ? widget.stattype : 1
     };
     if (widget.id) {

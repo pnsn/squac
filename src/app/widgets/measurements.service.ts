@@ -27,13 +27,13 @@ export class MeasurementsService {
     private squacApi: SquacApiService
   ) {}
 
-  getMeasurements(widget: Widget, channelGroup: ChannelGroup, start: Date, end: Date ): Observable<any> {
+  getMeasurements(widget: Widget, start: Date, end: Date ): Observable<any> {
     //  TODO: may need to rethink for a more general structure
-    if (widget && widget.metrics.length > 0 && channelGroup.channels.length > 0 && start && end) {
+    if (widget && widget.metrics.length > 0 && widget.channelGroup.channels.length > 0 && start && end) {
       const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const data = {};
-      channelGroup.channels.forEach(channel => {
+      widget.channelGroup.channels.forEach(channel => {
         data[channel.id] = {};
         widget.metrics.forEach(metric => {
           data[channel.id][metric.id] = [];
@@ -42,7 +42,7 @@ export class MeasurementsService {
       return this.squacApi.get(this.url, null,
         {
            metric: widget.metricsString,
-           channel: channelGroup.channelsString,
+           channel: widget.channelGroup.channelsString,
            starttime: startString,
            endtime: endString,
         }

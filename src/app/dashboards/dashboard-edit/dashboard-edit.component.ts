@@ -4,8 +4,6 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Subscription } from 'rxjs';
-import { ChannelGroupsService } from '../../channel-groups/channel-groups.service';
-import { ChannelGroup } from '../../shared/channel-group';
 
 @Component({
   selector: 'app-dashboard-edit',
@@ -18,14 +16,11 @@ export class DashboardEditComponent implements OnInit {
   editMode: boolean;
   dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-  availableChannelGroups: ChannelGroup[];
-  selectedChannelGroup: ChannelGroup;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dashboardService: DashboardsService,
-    private channelGroupsService: ChannelGroupsService
+    private dashboardService: DashboardsService
   ) { }
 
   ngOnInit() {
@@ -37,13 +32,8 @@ export class DashboardEditComponent implements OnInit {
         this.initForm();
       }
     );
-    this.channelGroupsService.fetchChannelGroups();
-    const sub1 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
-      this.availableChannelGroups = channelGroups;
-    });
 
     this.subscriptions.add(paramsSub);
-    this.subscriptions.add(sub1);
   }
 
   private initForm() {
@@ -60,30 +50,13 @@ export class DashboardEditComponent implements OnInit {
           this.dashboardForm.patchValue(
             {
               name : dashboard.name,
-              description : dashboard.description,
-              channelGroup : dashboard.channelGroupId
+              description : dashboard.description
             }
           );
-          this.selectedChannelGroup = dashboard.channelGroup;
         }
       );
       this.subscriptions.add(dashboardSub);
     }
-  }
-
-  getChannelsForChannelGroup(event) {
-    console.log(event);
-    const selectedChannelGroupId = this.dashboardForm.value.channelGroup;
-    if (selectedChannelGroupId) {
-      const channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
-        channelGroup => {
-          this.selectedChannelGroup = channelGroup;
-        }
-      );
-
-      this.subscriptions.add(channelGroupsSub);
-    }
-
   }
 
   save() {
@@ -93,7 +66,6 @@ export class DashboardEditComponent implements OnInit {
         this.id,
         values.name,
         values.description,
-        values.channelGroup,
         []
       )
     ).subscribe(

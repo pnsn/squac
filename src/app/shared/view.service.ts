@@ -17,7 +17,6 @@ export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new Subject<Widget[]>();
   dates = new Subject<{start: Date, end: Date}>();
-  private channelGroup: ChannelGroup;
   private startdate: Date;
   private enddate: Date;
   // refresh = new Subject<number>();
@@ -37,10 +36,6 @@ export class ViewService {
         return +widgetIndex;
       }
     }
-  }
-
-  getChannelGroup() {
-    return this.channelGroup;
   }
 
   getStartdate() {
@@ -67,8 +62,6 @@ export class ViewService {
       dashboard => {
         this.currentDashboard.next(dashboard);
         this.getWidgets(dashboard.id);
-
-        this.channelGroup = dashboard.channelGroup;
       }
     );
   }

@@ -22,26 +22,6 @@
             </textarea>
           </mat-form-field>
         </div>
-        <mat-form-field>
-            <mat-label>Channel Group</mat-label>
-            <mat-select formControlName="channelGroup" *ngIf="availableChannelGroups" (selectionChange)="getChannelsForChannelGroup($event)">
-              <mat-option *ngFor="let channelGroup of availableChannelGroups" [value]="channelGroup.id">
-                {{channelGroup.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-    
-          <h4 *ngIf="selectedChannelGroup">
-            Channels in {{selectedChannelGroup.name}}:
-          </h4>
-        <div *ngIf="selectedChannelGroup" id="selectedChannels">
-
-          <ul>
-            <li *ngFor="let channel of selectedChannelGroup.channels">
-              {{channel.nslc}}
-            </li>
-          </ul>
-        </div>
         <div >
             <button mat-raised-button 
               type="submit"

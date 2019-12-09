@@ -6,24 +6,23 @@ import { Threshold } from './threshold';
 export class Widget {
   public type: string;
   public dashboard: Dashboard;
+  public channelGroup: ChannelGroup;
   constructor(
     public id: number,
     public name: string,
     public description: string,
     public typeId: number,
     public dashboardId: number,
+    public channelGroupId: number, 
     public columns: number,
     public rows: number,
-    public order: number,
+    public x: number,
+    public y: number,
     public metrics: Metric[]
   ) {
 
   }
   public stattype;
-
-  public x: number;
-  public y: number;
-  // json of settings
 
   // get ids from the channels
   get metricsIds(): number[] {

@@ -36,7 +36,6 @@ describe('DashboardsService', () => {
     id: 1,
     name: 'name',
     description: 'description',
-    group: 1,
     widgets: [1]
   };
 
@@ -96,7 +95,6 @@ describe('DashboardsService', () => {
       1,
       'name',
       'description',
-      1,
       []
     ));
 
@@ -110,7 +108,6 @@ describe('DashboardsService', () => {
       null,
       'name',
       'description',
-      1,
       [1]
     );
 

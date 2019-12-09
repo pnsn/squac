@@ -17,15 +17,18 @@
     <ng-container [ngSwitch]="widget?.type">
       <app-timeline *ngSwitchCase="'timeline'"
         [metrics]="widget.metrics"
+        [channels]="widget.channels"
       >
       </app-timeline>
       <app-tabular *ngSwitchCase="'tabular'" 
         [metrics]="widget.metrics"
+        [channels]="widget.channels"
       >
 
       </app-tabular>
       <app-timeseries *ngSwitchCase="'timeseries'" 
         [metrics]="widget.metrics"
+        [channels]="widget.channels"
     >
 
     </app-timeseries>

@@ -9,6 +9,8 @@ import { Widget } from '../widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Dashboard } from 'src/app/dashboards/dashboard';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
+import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.service';
 
 @Component({
   selector: 'app-widget-edit',
@@ -24,6 +26,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   availableMetrics: Metric[];
   selectedMetrics: Metric[];
+  availableChannelGroups: ChannelGroup[];
+  selectedChannelGroup: ChannelGroup;
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   dashboardId: number;
@@ -57,11 +61,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   rows = 3;
   columns = 6;
+  x=1;
+  y=1;
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetService: WidgetsService,
-    private metricsService: MetricsService
+    private metricsService: MetricsService,
+    private channelGroupsService: ChannelGroupsService
   ) { }
 
   ngOnInit() {
@@ -79,7 +86,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.initForm();
     });
 
+    this.channelGroupsService.fetchChannelGroups();
+    const sub2 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+      this.availableChannelGroups = channelGroups;
+    });
+
     this.subscriptions.add(sub1);
+    this.subscriptions.add(sub2);
   }
 
   ngOnDestroy(): void {
@@ -106,9 +119,11 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
           name : this.widget.name,
           description : this.widget.description,
           type: this.widget.typeId,
+          channelGroup: this.widget.channelGroupId,
           method: this.widget.stattype ? this.widget.stattype : 'average'
         }
       );
+      this.selectedChannelGroup = this.widget.channelGroup;
       const metricIds = this.widget.metricsIds;
       this.selectedMetrics = this.availableMetrics.filter(
         metric => {
@@ -120,6 +135,20 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   }
 
+  // getChannelsForChannelGroup(event) {
+  //   console.log(event);
+  //   const selectedChannelGroupId = this.dashboardForm.value.channelGroup;
+  //   if (selectedChannelGroupId) {
+  //     const channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
+  //       channelGroup => {
+  //         this.selectedChannelGroup = channelGroup;
+  //       }
+  //     );
+
+  //     this.subscriptions.add(channelGroupsSub);
+  //   }
+
+  // }
   metricsSelected({selected}) {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
@@ -150,9 +179,11 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       values.description,
       values.type,
       this.dashboardId,
+      values.channelGroupId,
       this.widget ? this.widget.columns : this.columns,
       this.widget ? this.widget.columns : this.rows,
-      1,
+      this.widget ? this.widget.x : this.x,
+      this.widget ? this.widget.y: this.y,
       this.selectedMetrics
     );
 
