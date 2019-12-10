@@ -29,9 +29,9 @@
 
     <mat-form-field>
       <mat-label>Stat type</mat-label>
-      <mat-select formControlName="method" *ngIf="widgetTypes">
-        <mat-option *ngFor="let method of calcMethods" [value]="method">
-          {{method}}
+      <mat-select formControlName="statType" *ngIf="statTypes">
+        <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
+          {{statType.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -42,13 +42,15 @@
       <!-- TODO: separate component -->
       <mat-tab label="Metrics">
         <div class="edit-tab-body">
-          {{selectedMetrics?.length}} metrics selected
           <input
           type="text"
           style="padding:8px;margin:15px auto;width:30%;"
-          placeholder="Type to filter the metric name column..."
+          placeholder="Filter by metric name..."
           (keyup)="updateFilter($event)"
           />
+          <span>
+             {{selectedMetrics?.length}} metrics selected
+          </span>
 
           <div>
             <ngx-datatable
@@ -85,26 +87,34 @@
       </mat-tab>
       <mat-tab label="Channels" class="edit-tab-body">
         <div class="edit-tab-body">
-            <!-- <mat-form-field>
-                <mat-label>Channel Group</mat-label>
-                <mat-select formControlName="channelGroup" *ngIf="availableChannelGroups" (selectionChange)="getChannelsForChannelGroup($event)">
-                  <mat-option *ngFor="let channelGroup of availableChannelGroups" [value]="channelGroup.id">
+          <div id="channel-group-selector-container">
+            <div id="groups-container">
+              <mat-selection-list dense *ngIf="availableChannelGroups" id="channel-group-selector" >
+                  <mat-list-option 
+                    *ngFor="let channelGroup of availableChannelGroups"
+                    (click)="getChannelsForChannelGroup(channelGroup)"
+                    >
                     {{channelGroup.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-        
+                  </mat-list-option>
+                </mat-selection-list>
+            </div>
+
+            <div>
               <h4 *ngIf="selectedChannelGroup">
-                Channels in {{selectedChannelGroup.name}}:
-              </h4>
-            <div *ngIf="selectedChannelGroup" id="selectedChannels">
-    
-              <ul>
-                <li *ngFor="let channel of selectedChannelGroup.channels">
-                  {{channel.nslc}}
-                </li>
-              </ul>
-            </div> -->
+                  Channels in {{selectedChannelGroup.name}}:
+                </h4>
+                <div id="selectedChannelsContainer">
+                    <mat-list dense *ngIf="selectedChannelGroup?.channels">
+                        <mat-list-item *ngFor="let channel of selectedChannelGroup.channels">
+                            {{channel.nslc}}
+                        </mat-list-item>
+                      </mat-list>
+          
+                </div>
+
+              </div>
+          </div>
+
         </div>
       </mat-tab>
       <mat-tab label="Thresholds" class="edit-tab-body">

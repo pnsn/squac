@@ -50,12 +50,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     }
   ];
 
-  calcMethods = [
-    'average',
-    'median',
-    'max',
-    'min',
-    'raw'
+  statTypes = [
+    {
+      "id": 1,
+      "type": "ave",
+      "name": "Average",
+      "description": ""
+    }
   ];
 
 
@@ -104,7 +105,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       name : new FormControl('', Validators.required),
       description : new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
-      method: new FormControl('', Validators.required)
+      statType: new FormControl('', Validators.required)
     });
 
     this.selectedMetrics = [];
@@ -119,8 +120,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
           name : this.widget.name,
           description : this.widget.description,
           type: this.widget.typeId,
-          channelGroup: this.widget.channelGroupId,
-          method: this.widget.stattype ? this.widget.stattype : 'average'
+          statType: this.widget.stattype.id
         }
       );
       this.selectedChannelGroup = this.widget.channelGroup;
@@ -135,20 +135,22 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   }
 
-  // getChannelsForChannelGroup(event) {
-  //   console.log(event);
-  //   const selectedChannelGroupId = this.dashboardForm.value.channelGroup;
-  //   if (selectedChannelGroupId) {
-  //     const channelGroupsSub = this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
-  //       channelGroup => {
-  //         this.selectedChannelGroup = channelGroup;
-  //       }
-  //     );
+  getChannelsForChannelGroup(group) {
+    this.selectedChannelGroup = group;
+    console.log(group);
 
-  //     this.subscriptions.add(channelGroupsSub);
-  //   }
+    if (this.selectedChannelGroup.id) {
+      const channelGroupsSub = this.channelGroupsService.getChannelGroup(this.selectedChannelGroup.id).subscribe(
+        channelGroup => {
+          this.selectedChannelGroup = channelGroup;
+        }
+      );
 
-  // }
+      this.subscriptions.add(channelGroupsSub);
+    }
+
+  }
+
   metricsSelected({selected}) {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
@@ -179,7 +181,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       values.description,
       values.type,
       this.dashboardId,
-      values.channelGroupId,
+      this.selectedChannelGroup.id,
       this.widget ? this.widget.columns : this.columns,
       this.widget ? this.widget.columns : this.rows,
       this.widget ? this.widget.x : this.x,
@@ -187,7 +189,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.selectedMetrics
     );
 
-    newWidget.stattype = values.method;
+    newWidget.stattype = this.statTypes.find((st) => {
+      return st.id === values.statType;
+    });;
     this.widgetService.updateWidget(
       newWidget
     ).subscribe(

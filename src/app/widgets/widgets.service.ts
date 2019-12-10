@@ -90,8 +90,16 @@ export class WidgetsService {
   // }
 
   getWidget(id: number): Observable<Widget> {
+    let widget : Widget;
     return this.squacApi.get(this.url, id).pipe(
-      map(this.mapWidget)
+      switchMap(response => {
+        widget = this.mapWidget(response);
+        return this.channelGroupsService.getChannelGroup(widget.channelGroupId);
+      }),
+      map(channelGroup => {
+        widget.channelGroup = channelGroup;
+        return widget;
+      })
     );
   }
 
@@ -149,6 +157,7 @@ export class WidgetsService {
   }
 
   updateWidget(widget: Widget) {
+    console.log(widget.stattype)
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,

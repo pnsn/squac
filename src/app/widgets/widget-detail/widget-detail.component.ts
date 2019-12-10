@@ -64,7 +64,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      console.log(result.id);
       console.log('The dialog was closed');
       if (result && result.id) {
         this.viewService.updateWidget(result.id);
