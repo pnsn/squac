@@ -33,17 +33,19 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.channels = this.channelGroup.channels;
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
+          console.log(response);
           this.buildChartData(response);
         }
       }
     );
 
     this.subscription.add(dateFormatSub);
-    this.channels = this.channelGroup.channels;
   }
 
   buildChartData(data) {

@@ -56,7 +56,6 @@ itemChange(item) {
       (widgets: Widget[]) => {
         this.widgets = [];
         widgets.forEach(widget => {
-          console.log(widget);
           this.widgets.push({
             cols: widget.columns ? widget.columns : 1,
             rows: widget.rows ? widget.rows : 1,

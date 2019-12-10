@@ -44,6 +44,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       }
     );
 
+    console.log(this.widget);
+
     this.subscription.add(datesSub);
 
     // widget data errors here

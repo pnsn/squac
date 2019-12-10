@@ -33,7 +33,6 @@ export class MeasurementsService {
       const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const data = {};
-      console.log(widget.channelGroup);
       widget.channelGroup.channels.forEach(channel => {
         data[channel.id] = {};
         widget.metrics.forEach(metric => {

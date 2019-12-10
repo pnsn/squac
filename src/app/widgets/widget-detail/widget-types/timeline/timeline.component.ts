@@ -51,19 +51,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.channels = this.channelGroup.channels;
+    
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
           this.startdate = this.viewService.getStartdate();
           this.enddate = this.viewService.getEnddate();
-
+          
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildRows(response);
         }
       }
     );
 
-    this.channels = this.channelGroup.channels;
 
     this.subscription.add(dateFormatSub);
 

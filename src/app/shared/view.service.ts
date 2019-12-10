@@ -75,7 +75,6 @@ export class ViewService {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
         this.widgets = widgets;
-        console.log(this.widgets);
         this.widgetsChanged();
       }
     );

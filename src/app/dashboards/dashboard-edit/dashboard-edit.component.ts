@@ -39,8 +39,7 @@ export class DashboardEditComponent implements OnInit {
   private initForm() {
     this.dashboardForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      description : new FormControl('', Validators.required),
-      channelGroup : new FormControl([], Validators.required)
+      description : new FormControl('', Validators.required)
     });
 
     if (this.editMode) {

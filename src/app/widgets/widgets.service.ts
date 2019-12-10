@@ -70,7 +70,6 @@ export class WidgetsService {
                 return cg.id === w.channelGroupId;
               });
             });
-            console.log(widgets);
             return widgets;
           }
         )
@@ -142,6 +141,7 @@ export class WidgetsService {
       metrics
     );
     widget.stattype = response.stattype;
+    console.log(widget.stattype)
     widget.type = response.widgettype.type;
     
     return widget;
@@ -160,7 +160,7 @@ export class WidgetsService {
       x_position: widget.x,
       y_position: widget.y,
       channel_group: widget.channelGroupId,
-      stattype: widget.stattype ? widget.stattype : 1
+      stattype: widget.stattype ? widget.stattype.id : 1
     };
     if (widget.id) {
       postData.id = widget.id;
