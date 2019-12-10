@@ -20,7 +20,6 @@ export class DataFormatService {
 
   fetchData(widget: Widget) {
     this.widget = widget;
-    console.log("data-format", widget)
     this.measurementsService.getMeasurements(
       widget,
       this.viewService.getStartdate(),

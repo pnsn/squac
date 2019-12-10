@@ -34,7 +34,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
     // listed to changes and detch when needed
     this.dataFormatService.fetchData(this.widget);
 

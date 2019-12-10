@@ -29,10 +29,11 @@ export class MeasurementsService {
 
   getMeasurements(widget: Widget, start: Date, end: Date ): Observable<any> {
     //  TODO: may need to rethink for a more general structure
-    if (widget && widget.metrics.length > 0 && widget.channelGroup.channels.length > 0 && start && end) {
+    if (widget && widget.metrics.length > 0) {
       const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
       const data = {};
+      console.log(widget.channelGroup);
       widget.channelGroup.channels.forEach(channel => {
         data[channel.id] = {};
         widget.metrics.forEach(metric => {

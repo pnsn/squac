@@ -2,10 +2,11 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { SquacApiService } from '../squacapi.service';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
 import { Widget } from './widget';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { Metric } from '../shared/metric';
 import { Threshold } from './threshold';
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
+import { ChannelGroup } from '../shared/channel-group';
 
 
 interface WidgetHttpData {
@@ -40,17 +41,36 @@ export class WidgetsService {
   widgetUpdated = new EventEmitter<number>();
 
   getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
+    const widgets : Widget[] = [];
     return this.squacApi.get(this.url, null,
       {
         dashboard : dashboardId
       }
       ).pipe(
-        map(
+        switchMap(
           response => {
-            const widgets: Widget[] = [];
+            let cGRequests = [];
             response.forEach(w => {
               widgets.push(this.mapWidget(w));
+              if(cGRequests.indexOf(w.channel_group) < 0){
+                cGRequests.push(w.channel_group);
+              }
+            });  
+            
+            cGRequests = cGRequests.map(id => {
+              return this.channelGroupsService.getChannelGroup(id);
             });
+            return forkJoin(cGRequests);
+          }
+        ),
+        map(
+          (channelGroups : any) => {
+            widgets.forEach(w => {
+              w.channelGroup = channelGroups.find((cg : ChannelGroup) => {
+                return cg.id === w.channelGroupId;
+              });
+            });
+            console.log(widgets);
             return widgets;
           }
         )
@@ -123,9 +143,9 @@ export class WidgetsService {
     );
     widget.stattype = response.stattype;
     widget.type = response.widgettype.type;
-
-
+    
     return widget;
+
   }
 
   updateWidget(widget: Widget) {

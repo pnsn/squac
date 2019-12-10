@@ -5,6 +5,7 @@ import { Metric } from 'src/app/shared/metric';
 import { Channel } from 'src/app/shared/channel';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
+import { ChannelGroup } from 'src/app/shared/channel-group';
 
 @Component({
   selector: 'app-timeseries',
@@ -13,10 +14,11 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
+  @Input() channelGroup: ChannelGroup;
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
+  channels : Channel[];
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -41,6 +43,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(dateFormatSub);
+    this.channels = this.channelGroup.channels;
   }
 
   buildChartData(data) {

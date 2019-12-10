@@ -7,6 +7,7 @@ import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
+import { ChannelGroup } from 'src/app/shared/channel-group';
 
 @Component({
   selector: 'app-timeline',
@@ -16,7 +17,7 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
+  @Input() channelGroup: ChannelGroup;
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
@@ -28,6 +29,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   enddate: Date;
   startdate: Date;
 
+  channels : Channel[];
   // get start date and end date
   messages = {
       // Message to show when array is presented
@@ -60,6 +62,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.channels = this.channelGroup.channels;
 
     this.subscription.add(dateFormatSub);
 

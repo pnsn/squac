@@ -6,6 +6,7 @@ import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
+import { ChannelGroup } from 'src/app/shared/channel-group';
 
 @Component({
   selector: 'app-tabular',
@@ -15,7 +16,7 @@ import { ViewService } from 'src/app/shared/view.service';
 })
 export class TabularComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
-  @Input() channels: Channel[];
+  @Input() channelGroup: ChannelGroup;
   subscription = new Subscription();
 
   @ViewChild('dataTable', { static: false }) table: any;
@@ -23,6 +24,8 @@ export class TabularComponent implements OnInit, OnDestroy {
   SortType = SortType;
   rows = [];
   columns = [];
+
+  channels : Channel[];
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -50,6 +53,8 @@ export class TabularComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.channels = this.channelGroup.channels;
 
     this.subscription.add(dateFormatSub);
     // this.subscription.add(this.resize.subscribe(reload => {
