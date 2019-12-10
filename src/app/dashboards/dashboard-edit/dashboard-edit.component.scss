@@ -1,10 +1,12 @@
-.box {
+#dashboard-edit-container{
   width: 50%;
   margin-left: auto;
   margin-right: auto;
-}
 
-#selectedChannels {
-  height: 600px;
-  overflow: scroll;
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+  }
 }

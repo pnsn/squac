@@ -6,9 +6,6 @@
           </h2>
       </div>
         <div id="header-controls">
-          <button  mat-flat-button aria-label="Add widget" color="primary" (click)="addWidget()">
-            Add Widget
-          </button>
           <button mat-flat-button color="accent" (click)="saveDashboard()" *ngIf="unsaved">
             <mat-icon >save</mat-icon>
             Save
@@ -30,6 +27,7 @@
           </mat-form-field>
 
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
+            <button mat-menu-item (click)="addWidget()">Add Widget</button>
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
             <button mat-menu-item color="warn">Delete Dashboard</button>
           </mat-menu>

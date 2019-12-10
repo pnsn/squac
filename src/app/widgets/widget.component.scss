@@ -1,6 +1,10 @@
 gridster {
   background: unset;
+  gridster-item {
+    background-color: transparent;
+  }
 }
+
 
 .drag-handler {
   line-height:24px;
