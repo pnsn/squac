@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
 
@@ -7,8 +7,8 @@ import * as L from 'leaflet';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
-  @Input() selectedChannels: Channel[];
+export class MapComponent implements OnInit, OnChanges {
+  @Input() public selectedChannels: Channel[];
   map: L;
   channelLayer: L.LayerGroup;
 
