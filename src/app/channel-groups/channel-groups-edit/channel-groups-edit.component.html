@@ -6,9 +6,9 @@
   <div id="available-channels">
     <h3 class="help-text">Search for channels matching:</h3>
 
-    <app-channel-groups-filtering (filtersChanged)="getChannelsWithFilters($event)">
+    <app-channel-groups-filter (filtersChanged)="getChannelsWithFilters($event)">
     
-    </app-channel-groups-filtering>
+    </app-channel-groups-filter>
     <h4>Selection Preview</h4>
     <!-- <app-loading *ngIf="loading"></app-loading> -->
     <button (click)="addChannelsToSelected()" [disabled]="!availableChannels || availableChannels.length === 0">
@@ -69,9 +69,9 @@
         <button mat-button (click)="save()" [disabled]="selectedChannels?.length === 0">Save Group</button>
     <h3>Selected Channels</h3>
     <p class="help-text">These channels will appear on your widget.</p>
-    <!-- <app-channel-groups-filtering (filtersChanged)="removeChannelsWithFilters($event)">
+    <!-- <app-channel-groups-filter (filtersChanged)="removeChannelsWithFilters($event)">
     
-      </app-channel-groups-filtering> -->
+      </app-channel-groups-filter> -->
     <ngx-datatable 
       #selectedTable
       id="group-channels"

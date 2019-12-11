@@ -80,7 +80,7 @@ export class ChannelGroupsService {
                   c.station_code,
                   c.network
                 );
-  
+
                 channels.push(channel);
               });
             }

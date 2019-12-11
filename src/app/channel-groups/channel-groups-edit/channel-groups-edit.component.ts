@@ -19,55 +19,6 @@ import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
-  id: number;
-  channelGroup: ChannelGroup;
-  editMode: boolean;
-  subscriptions: Subscription = new Subscription();
-  loading: boolean = false;
-  // form stuff
-  channelGroupForm: FormGroup;
-
-  availableChannels: Channel[] = [];
-  selectedChannels: Channel[] = [];
-
-  selectedChannelIds: number[] = [];
-
-  removeChannel(channel: Channel) {
-    console.log(this.selectedChannels, this.selectedChannelIds);
-    const index = this.selectedChannelIds.indexOf(channel.id);
-    console.log(index)
-    this.selectedChannels.splice(index, 1);
-    this.selectedChannelIds.splice(index, 1);
-
-    this.selectedChannels=[...this.selectedChannels];
-  }
-
-  addChannelsToSelected() {
-    const newChannels = this.availableChannels.filter(
-      (channel)=>{
-        if(this.selectedChannelIds.indexOf(channel.id) === -1) {
-          this.selectedChannelIds.push(channel.id);
-          return true;
-        }
-        return false;
-      }
-    )
-
-    this.selectedChannels = [...this.selectedChannels, ...newChannels];
-    //add available channels to selected channels
-  }
-
-  updateTable(){
-    //unselect existing from table, but don't make more of a search
-  }
-
-  // table stuff
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
-  SortType = SortType;
-
-  @ViewChild('availableTable', { static: false }) availableTable: any;
-  @ViewChild('selectedTable', { static: false }) selectedTable: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -76,6 +27,55 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private networksService: NetworksService
   ) { }
+  id: number;
+  channelGroup: ChannelGroup;
+  editMode: boolean;
+  subscriptions: Subscription = new Subscription();
+  loading = false;
+  // form stuff
+  channelGroupForm: FormGroup;
+
+  availableChannels: Channel[] = [];
+  selectedChannels: Channel[] = [];
+
+  selectedChannelIds: number[] = [];
+
+  // table stuff
+  SelectionType = SelectionType;
+  ColumnMode = ColumnMode;
+  SortType = SortType;
+
+  @ViewChild('availableTable', { static: false }) availableTable: any;
+  @ViewChild('selectedTable', { static: false }) selectedTable: any;
+
+  removeChannel(channel: Channel) {
+    console.log(this.selectedChannels, this.selectedChannelIds);
+    const index = this.selectedChannelIds.indexOf(channel.id);
+    console.log(index);
+    this.selectedChannels.splice(index, 1);
+    this.selectedChannelIds.splice(index, 1);
+
+    this.selectedChannels = [...this.selectedChannels];
+  }
+
+  addChannelsToSelected() {
+    const newChannels = this.availableChannels.filter(
+      (channel) => {
+        if (this.selectedChannelIds.indexOf(channel.id) === -1) {
+          this.selectedChannelIds.push(channel.id);
+          return true;
+        }
+        return false;
+      }
+    );
+
+    this.selectedChannels = [...this.selectedChannels, ...newChannels];
+    // add available channels to selected channels
+  }
+
+  updateTable() {
+    // unselect existing from table, but don't make more of a search
+  }
 
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
@@ -97,7 +97,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // removeChannelsWithFilters(searchFilters) {
   //   console.log(searchFilters);
   //   this.selectedChannels.filter((channel, index)=>{
-  //     return 
+  //     return
 
 
   //   });
@@ -105,22 +105,25 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   getChannelsWithFilters(searchFilters) {
 
-    if(searchFilters != {}) {
+    if (searchFilters !== {}) {
       this.loading = true;
-      console.log(searchFilters == {});
       const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
         response => {
           console.log(response.length);
           this.availableChannels = response;
           this.loading = false;
-          //add channels to selected Channels 
+          // add channels to selected Channels
         }
-      )
-  
+      );
+
       this.subscriptions.add(channelsSub);
     } else {
       this.availableChannels = [];
     }
+  }
+
+  onSelect(event) {
+    console.log(event);
   }
 
 
@@ -147,8 +150,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getIdsFromChannels(){
-    this.selectedChannels.forEach(channel=>{
+  private getIdsFromChannels() {
+    this.selectedChannels.forEach(channel => {
       this.selectedChannelIds = [];
       this.selectedChannelIds.push(channel.id);
     });

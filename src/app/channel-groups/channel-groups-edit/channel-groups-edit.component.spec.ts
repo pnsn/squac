@@ -12,6 +12,8 @@ import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { ChannelGroupsTableComponent } from './channel-groups-table/channel-groups-table.component';
+import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -26,7 +28,11 @@ describe('ChannelGroupsEditComponent', () => {
         NgxDatatableModule,
         MaterialModule
       ],
-      declarations: [ ChannelGroupsEditComponent , LoadingComponent],
+      declarations: [
+        ChannelGroupsEditComponent,
+        LoadingComponent,
+        ChannelGroupsTableComponent,
+        ChannelGroupsFilterComponent],
       providers: [
         ChannelGroupsService,
         ChannelsService,

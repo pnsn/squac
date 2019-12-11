@@ -7,6 +7,8 @@ import { MeasurementsService } from '../../../measurements.service';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
+import { ChannelGroup } from 'src/app/shared/channel-group';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;
@@ -15,18 +17,12 @@ describe('TabularComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TabularComponent , MeasurementPipe],
-      imports: [NgxDatatableModule],
+      imports: [NgxDatatableModule, HttpClientTestingModule],
       providers: [
         {
           provide: DataFormatService,
           useValue: {
             formattedData: of()
-          }
-        },
-        {
-          provide: ViewService,
-          useValue: {
-            getChannelGroup: () => ({channels : []})
           }
         }
 
@@ -41,7 +37,12 @@ describe('TabularComponent', () => {
     component.columns = [];
     component.rows = [];
     component.metrics = [];
-    component.channels = [];
+    component.channelGroup = new ChannelGroup(
+      1,
+      '',
+      '',
+      []
+    );
     fixture.detectChanges();
   });
 

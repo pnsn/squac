@@ -52,18 +52,18 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   statTypes = [
     {
-      "id": 1,
-      "type": "ave",
-      "name": "Average",
-      "description": ""
+      id: 1,
+      type: 'ave',
+      name: 'Average',
+      description: ''
     }
   ];
 
 
   rows = 3;
   columns = 6;
-  x=1;
-  y=1;
+  x = 1;
+  y = 1;
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -185,13 +185,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.widget ? this.widget.columns : this.columns,
       this.widget ? this.widget.columns : this.rows,
       this.widget ? this.widget.x : this.x,
-      this.widget ? this.widget.y: this.y,
+      this.widget ? this.widget.y : this.y,
       this.selectedMetrics
     );
 
     newWidget.stattype = this.statTypes.find((st) => {
       return st.id === values.statType;
-    });;
+    });
     this.widgetService.updateWidget(
       newWidget
     ).subscribe(

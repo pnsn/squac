@@ -43,17 +43,6 @@ describe('ChannelsService', () => {
     expect(service).toBeTruthy();
   });
 
-
-  it('should fetch channels', (done: DoneFn) => {
-    channelsService.fetchChannels(({code: 'test'} as Network));
-
-    channelsService.channels.subscribe(channels => {
-      expect(channels[0].id).toEqual(testChannel.id);
-      done();
-    });
-
-  });
-
   it('should return channels', () => {
     channelsService.channels.subscribe(channels => {
       expect(channels).toBeTruthy();

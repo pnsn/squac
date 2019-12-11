@@ -18,7 +18,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
-  channels : Channel[];
+  channels: Channel[];
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;

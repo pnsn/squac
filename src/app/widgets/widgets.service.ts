@@ -41,7 +41,7 @@ export class WidgetsService {
   widgetUpdated = new EventEmitter<number>();
 
   getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
-    const widgets : Widget[] = [];
+    const widgets: Widget[] = [];
     return this.squacApi.get(this.url, null,
       {
         dashboard : dashboardId
@@ -52,11 +52,11 @@ export class WidgetsService {
             let cGRequests = [];
             response.forEach(w => {
               widgets.push(this.mapWidget(w));
-              if(cGRequests.indexOf(w.channel_group) < 0){
+              if (cGRequests.indexOf(w.channel_group) < 0) {
                 cGRequests.push(w.channel_group);
               }
-            });  
-            
+            });
+
             cGRequests = cGRequests.map(id => {
               return this.channelGroupsService.getChannelGroup(id);
             });
@@ -64,9 +64,9 @@ export class WidgetsService {
           }
         ),
         map(
-          (channelGroups : any) => {
+          (channelGroups: any) => {
             widgets.forEach(w => {
-              w.channelGroup = channelGroups.find((cg : ChannelGroup) => {
+              w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
                 return cg.id === w.channelGroupId;
               });
             });
@@ -77,7 +77,7 @@ export class WidgetsService {
   }
   // switchMap (
   //   (response) => {
-  //     return 
+  //     return
   //   }
   // )
   // getWidgets(widgetIds: number[]): Observable<Widget[]> {
@@ -90,7 +90,7 @@ export class WidgetsService {
   // }
 
   getWidget(id: number): Observable<Widget> {
-    let widget : Widget;
+    let widget: Widget;
     return this.squacApi.get(this.url, id).pipe(
       switchMap(response => {
         widget = this.mapWidget(response);
@@ -149,15 +149,15 @@ export class WidgetsService {
       metrics
     );
     widget.stattype = response.stattype;
-    console.log(widget.stattype)
+    console.log(widget.stattype);
     widget.type = response.widgettype.type;
-    
+
     return widget;
 
   }
 
   updateWidget(widget: Widget) {
-    console.log(widget.stattype)
+    console.log(widget.stattype);
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,

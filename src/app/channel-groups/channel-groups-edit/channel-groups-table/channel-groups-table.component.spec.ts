@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsTableComponent } from './channel-groups-table.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('ChannelGroupsTableComponent', () => {
   let component: ChannelGroupsTableComponent;
@@ -8,6 +9,9 @@ describe('ChannelGroupsTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgxDatatableModule
+      ],
       declarations: [ ChannelGroupsTableComponent ]
     })
     .compileComponents();

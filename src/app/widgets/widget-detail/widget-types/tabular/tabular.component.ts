@@ -25,7 +25,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   rows = [];
   columns = [];
 
-  channels : Channel[];
+  channels: Channel[];
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -82,7 +82,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    console.log(this.channels)
+    console.log(this.channels);
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
 

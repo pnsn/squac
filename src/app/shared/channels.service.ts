@@ -25,7 +25,7 @@ export class ChannelsService {
     this.channels.next(channels);
   }
 
-  getChannelsbyFilters(filters: Params) : Observable<Channel[]>{
+  getChannelsbyFilters(filters: Params): Observable<Channel[]> {
    return this.squacApi.get(this.url, null, filters).pipe(
      map(
       response => {

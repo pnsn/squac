@@ -6,6 +6,8 @@ import { Subject, of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
+import { ChannelGroup } from 'src/app/shared/channel-group';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TimeseriesComponent', () => {
   let component: TimeseriesComponent;
@@ -15,18 +17,12 @@ describe('TimeseriesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeseriesComponent],
-      imports: [NgxChartsModule],
+      imports: [NgxChartsModule, HttpClientTestingModule],
       providers: [
         {
           provide: DataFormatService,
           useValue: {
             formattedData: of()
-          }
-        },
-        {
-          provide: ViewService,
-          useValue: {
-            getChannelGroup: () => ({channels : []})
           }
         }
 
@@ -39,7 +35,13 @@ describe('TimeseriesComponent', () => {
     fixture = TestBed.createComponent(TimeseriesComponent);
     component = fixture.componentInstance;
     component.metrics = [];
-    component.channels = [];
+    component.channelGroup = new ChannelGroup(
+      1,
+      '',
+      '',
+      []
+    );
+    fixture.detectChanges();
     fixture.detectChanges();
   });
 

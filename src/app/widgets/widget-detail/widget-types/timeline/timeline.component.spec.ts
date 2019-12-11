@@ -8,6 +8,8 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ChannelGroup } from 'src/app/shared/channel-group';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -17,21 +19,14 @@ describe('TimelineComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimelineComponent , MeasurementPipe],
-      imports: [NgxDatatableModule, MatTooltipModule],
+      imports: [NgxDatatableModule, MatTooltipModule, HttpClientTestingModule],
       providers: [
         {
           provide: DataFormatService,
           useValue: {
             formattedData: of()
           }
-        },
-        {
-          provide: ViewService,
-          useValue: {
-            getChannelGroup: () => ({channels : []})
-          }
         }
-
       ]
     })
     .compileComponents();
@@ -41,7 +36,13 @@ describe('TimelineComponent', () => {
     fixture = TestBed.createComponent(TimelineComponent);
     component = fixture.componentInstance;
     component.metrics = [];
-    component.channels = [];
+    component.channelGroup = new ChannelGroup(
+      1,
+      '',
+      '',
+      []
+    );
+    fixture.detectChanges();
     component.startdate = new Date();
     component.enddate = new Date();
     component.resize = new Subject();

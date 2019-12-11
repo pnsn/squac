@@ -4,33 +4,33 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import { isFulfilled } from 'q';
 
 @Component({
-  selector: 'app-channel-groups-filtering',
-  templateUrl: './channel-groups-filtering.component.html',
-  styleUrls: ['./channel-groups-filtering.component.scss']
+  selector: 'app-channel-groups-filter',
+  templateUrl: './channel-groups-filter.component.html',
+  styleUrls: ['./channel-groups-filter.component.scss']
 })
-export class ChannelGroupsFilteringComponent implements OnInit {
-  @Output() filtersChanged = new EventEmitter<any>();
+export class ChannelGroupsFilterComponent implements OnInit {
   constructor() { }
-
-  ngOnInit() {
-  }
+  @Output() filtersChanged = new EventEmitter<any>();
 
   visible = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER];
 
   filters = {
-    "network" : [],
-    "channel": [],
-    "station": [],
-    "location": []
+    network : [],
+    channel: [],
+    station: [],
+    location: []
+  };
+
+  ngOnInit() {
   }
 
 
   addFilter(event: MatChipInputEvent, type: string): void {
     const input = event.input;
     const value = event.value;
-    console.log(type)
+    console.log(type);
     // Add our fruit
     if ((value || '').trim()) {
       this.filters[type].push(value.trim().toLowerCase());
@@ -52,15 +52,15 @@ export class ChannelGroupsFilteringComponent implements OnInit {
     }
   }
 
-  updateFilters(){
+  updateFilters() {
     const searchFilters = {};
 
-    for(let filterGroup in this.filters) {
-      if(this.filters[filterGroup].length > 0) {
-        let filterStr = "";
+    for (const filterGroup in this.filters) {
+      if (this.filters[filterGroup].length > 0) {
+        let filterStr = '';
         searchFilters[filterGroup] = this.filters[filterGroup].toString();
-        for(let filter of this.filters[filterGroup]) {
-          if(filter.add) {
+        for (const filter of this.filters[filterGroup]) {
+          if (filter.add) {
             filterStr += filter.value.toLowerCase();
           }
         }

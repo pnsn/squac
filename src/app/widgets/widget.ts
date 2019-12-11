@@ -13,7 +13,7 @@ export class Widget {
     public description: string,
     public typeId: number,
     public dashboardId: number,
-    public channelGroupId: number, 
+    public channelGroupId: number,
     public columns: number,
     public rows: number,
     public x: number,

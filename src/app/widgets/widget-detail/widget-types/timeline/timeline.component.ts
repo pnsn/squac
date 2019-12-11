@@ -29,7 +29,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   enddate: Date;
   startdate: Date;
 
-  channels : Channel[];
+  channels: Channel[];
   // get start date and end date
   messages = {
       // Message to show when array is presented
@@ -53,13 +53,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.channels = this.channelGroup.channels;
-    
+
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
           this.startdate = this.viewService.getStartdate();
           this.enddate = this.viewService.getEnddate();
-          
+
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildRows(response);
         }

@@ -21,7 +21,7 @@ import { HttpErrorInterceptor } from './http-error-interceptor.service';
 import { DashboardsModule } from './dashboards/dashboards.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChannelGroupsFilteringComponent } from './channel-groups/channel-groups-edit/channel-groups-filtering/channel-groups-filtering.component';
+import { ChannelGroupsFilterComponent } from './channel-groups/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
 import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edit/channel-groups-table/channel-groups-table.component';
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edi
     MetricsDetailComponent,
     MetricsViewComponent,
     MetricsEditComponent,
-    ChannelGroupsFilteringComponent,
+    ChannelGroupsFilterComponent,
     ChannelGroupsTableComponent
   ],
   imports: [
