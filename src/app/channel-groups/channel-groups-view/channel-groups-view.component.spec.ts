@@ -7,6 +7,7 @@ import { ChannelGroupsService } from '../channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MapComponent } from 'src/app/shared/map/map.component';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -19,7 +20,10 @@ describe('ChannelGroupsViewComponent', () => {
         HttpClientTestingModule,
         NgxDatatableModule
       ],
-      declarations: [ ChannelGroupsViewComponent ],
+      declarations: [
+        ChannelGroupsViewComponent,
+        MapComponent
+      ],
       providers: [
         ChannelGroupsService,
         {

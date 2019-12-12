@@ -8,12 +8,14 @@ import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from './material.module';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     ModalComponent,
     PopupComponent,
-    LoadingComponent
+    LoadingComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { MaterialModule } from './material.module';
     FormsModule,
     HttpClientModule,
     LoadingComponent,
-    NgxDatatableModule
+    NgxDatatableModule,
+    MapComponent
   ]
 })
 
