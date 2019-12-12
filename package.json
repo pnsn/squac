@@ -22,11 +22,7 @@
     "@angular/platform-browser": "^8.2.14",
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
-<<<<<<< HEAD
     "@swimlane/ngx-charts": "^12.1.0",
-=======
-    "@swimlane/ngx-charts": "^12.0.1",
->>>>>>> 07ae6340987d1503564aaa62bdf5ea10c2237dc9
     "@swimlane/ngx-datatable": "^16.0.2",
     "@types/d3": "^5.7.2",
     "angular-gridster2": "^8.2.0",
