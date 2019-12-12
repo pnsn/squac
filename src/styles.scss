@@ -140,6 +140,28 @@ ngx-datatable {
 
 .datatable-row-detail { width: 100%; }
 
+.ngx-datatable.material {
+  .datatable-header {
+    .datatable-header-cell {
+      font-weight: 700;
+      color: black;
+    }
+  }
+}
+
+.ngx-datatable.material.single-selection .datatable-body-row.active, .ngx-datatable.material.single-selection
+.datatable-body-row.active .datatable-row-group, .ngx-datatable.material.multi-selection .datatable-body-row.active {
+  background-color: $sq-lt-blue;
+}
+.ngx-datatable.material.single-selection .datatable-body-row.active:hover, .ngx-datatable.material.single-selection
+.datatable-body-row.active:hover .datatable-row-group, .ngx-datatable.material.multi-selection .datatable-body-row.active:hover {
+  background-color: $sq-gray;
+}
+.ngx-datatable.material.single-selection .datatable-body-row:hover, .ngx-datatable.material.single-selection
+.datatable-body-row:hover .datatable-row-group, .ngx-datatable.material.multi-selection .datatable-body-row:hover {
+  background-color: $sq-lt-gray;
+}
+
 // Material overrides
 .mat-list-item.active {
   color: $sq-dk-blue;
