@@ -8,6 +8,8 @@ import { Measurement } from 'src/app/widgets/measurement';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
+import { Widget } from 'src/app/widgets/widget';
+import { Threshold } from 'src/app/widgets/threshold';
 
 @Component({
   selector: 'app-timeline',
@@ -16,8 +18,12 @@ import { ChannelGroup } from 'src/app/shared/channel-group';
   providers: [MeasurementPipe]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
+  @Input() widget: Widget;
+  metrics: Metric[];
+  thresholds : {[metricId: number]:Threshold};
+  channelGroup: ChannelGroup;
+  
+  channels: Channel[];
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
   subscription = new Subscription();
@@ -28,8 +34,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
   currentMetric: Metric;
   enddate: Date;
   startdate: Date;
-
-  channels: Channel[];
   // get start date and end date
   messages = {
       // Message to show when array is presented
@@ -52,6 +56,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.metrics = this.widget.metrics;
+    this.thresholds = this.widget.thresholds;
+    this.channelGroup = this.widget.channelGroup;
     this.channels = this.channelGroup.channels;
 
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
@@ -90,6 +97,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     const starttimeInSec = this.startdate.getTime() / 1000;
     const endtimeInSec = this.enddate.getTime() / 1000;
     const rangeInSec = endtimeInSec - starttimeInSec;
+    const threshold = this.thresholds[this.currentMetric.id];
     this.channels.forEach((channel) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
       const timeline = [];
@@ -101,7 +109,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
        (measurement: Measurement, index) => {
           const start = new Date(measurement.starttime).getTime() / 1000;
           const end = new Date(measurement.endtime).getTime() / 1000;
-          const inThreshold = this.currentMetric.threshold ? this.checkThresholds(this.currentMetric.threshold, measurement. value) : false;
+          const inThreshold = threshold ? this.checkThresholds(threshold, measurement. value) : false;
           timeline.push(
 
             {
@@ -114,7 +122,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
               threshold: inThreshold
             }
           );
-          if (index === 0 && !inThreshold && this.currentMetric.threshold) {
+          if (index === 0 && !inThreshold && threshold) {
             isBad = true;
           }
         }

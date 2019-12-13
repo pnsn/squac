@@ -16,19 +16,16 @@
     <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
       <app-timeline *ngSwitchCase="'timeline'"
-        [metrics]="widget.metrics"
-        [channelGroup]="widget.channelGroup"
+        [widget]="widget"
       >
       </app-timeline>
       <app-tabular *ngSwitchCase="'tabular'" 
-        [metrics]="widget.metrics"
-        [channelGroup]="widget.channelGroup"
+      [widget]="widget"
       >
 
       </app-tabular>
       <app-timeseries *ngSwitchCase="'timeseries'" 
-        [metrics]="widget.metrics"
-        [channelGroup]="widget.channelGroup"
+      [widget]="widget"
     >
 
     </app-timeseries>

@@ -6,6 +6,8 @@ import { Channel } from 'src/app/shared/channel';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
+import { Threshold } from 'src/app/widgets/threshold';
+import { Widget } from 'src/app/widgets/widget';
 
 @Component({
   selector: 'app-timeseries',
@@ -13,12 +15,16 @@ import { ChannelGroup } from 'src/app/shared/channel-group';
   styleUrls: ['./timeseries.component.scss']
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
-  @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
+  @Input() widget: Widget;
+  metrics: Metric[];
+  thresholds : {[metricId: number]:Threshold};
+  channelGroup: ChannelGroup;
+  
+  channels: Channel[];
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
-  channels: Channel[];
+
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -33,7 +39,9 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+    this.metrics = this.widget.metrics;
+    this.thresholds = this.widget.thresholds;
+    this.channelGroup = this.widget.channelGroup;
     this.channels = this.channelGroup.channels;
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {

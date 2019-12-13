@@ -171,6 +171,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     // this.table.offset = 0;
   }
 
+  addThreshold(threshold) {
+    this.widget.thresholds[threshold.metric] = threshold;
+  }
+
+  removeThrehold(threshold) {
+    delete this.widget.thresholds[threshold.metric];
+  }
 
   save() {
     console.log(this.selectedMetrics);

@@ -10,6 +10,7 @@ import { TimeseriesComponent } from './widget-detail/widget-types/timeseries/tim
 import { SharedModule } from '../shared/shared.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GridsterModule } from 'angular-gridster2';
+import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-edit.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { GridsterModule } from 'angular-gridster2';
     TabularComponent,
     TimelineComponent,
     TimeseriesComponent,
+    ThresholdEditComponent,
     MeasurementPipe
   ],
   imports: [

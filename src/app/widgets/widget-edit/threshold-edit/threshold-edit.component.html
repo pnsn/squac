@@ -1,0 +1,8 @@
+<p>threshold-edit works!</p>
+<button (click)="addThreshold()"> Add threshold </button>
+
+<mat-list>
+  <mat-list-item *ngFor="let metric of metrics">
+    metric: {{metric.name}} {{thresholds[metric.id]?.min}} {{thresholds[metric.id]?.max}}
+  </mat-list-item>
+</mat-list>

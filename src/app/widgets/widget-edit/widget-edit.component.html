@@ -41,53 +41,53 @@
     <mat-tab-group color="primary">
       <!-- TODO: separate component -->
       <mat-tab label="Metrics">
-        <div class="edit-tab-body">
-          <input
-          type="text"
-          style="padding:8px;margin:15px auto;width:30%;"
-          placeholder="Filter by metric name..."
-          (keyup)="updateFilter($event)"
-          />
-          <span>
-             {{selectedMetrics?.length}} metrics selected
-          </span>
+            <div  class="edit-tab-body">
+                <input
+                type="text"
+                style="padding:8px;margin:15px auto;width:30%;"
+                placeholder="Filter by metric name..."
+                (keyup)="updateFilter($event)"
+                />
+                <span>
+                   {{selectedMetrics?.length}} metrics selected
+                </span>
+      
+                <div>
+                  <ngx-datatable
+                  id="metric-select-table"
+                    style="width: 100%"
+                    class="material"
+                    [rows]="tableRows"
+                    [columnMode]="ColumnMode.force"
+                    [headerHeight]="50"
+                    [rowHeight]="30"
+                    [scrollbarV]="true"
+                    [selected]="selectedMetrics"
+                    [selectionType]="SelectionType.checkbox"
+                    [selectAllRowsOnPage]="false"
+                    (select)="metricsSelected($event)"
+                  >
+                    <ngx-datatable-column
+                      [width]="30"
+                      [sortable]="false"
+                      [canAutoResize]="false"
+                      [draggable]="false"
+                      [resizeable]="false"
+                      [headerCheckboxable]="true"
+                      [checkboxable]="true"
+                    >
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Name"></ngx-datatable-column>
+                    <ngx-datatable-column name="Unit"></ngx-datatable-column>
+                    <ngx-datatable-column name="Description"></ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+            </div>
 
-          <div>
-            <ngx-datatable
-            id="metric-select-table"
-              style="width: 100%"
-              class="material"
-              [rows]="tableRows"
-              [columnMode]="ColumnMode.force"
-              [headerHeight]="50"
-              [rowHeight]="30"
-              [scrollbarV]="true"
-              [selected]="selectedMetrics"
-              [selectionType]="SelectionType.checkbox"
-              [selectAllRowsOnPage]="false"
-              (select)="metricsSelected($event)"
-            >
-              <ngx-datatable-column
-                [width]="30"
-                [sortable]="false"
-                [canAutoResize]="false"
-                [draggable]="false"
-                [resizeable]="false"
-                [headerCheckboxable]="true"
-                [checkboxable]="true"
-              >
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Name"></ngx-datatable-column>
-              <ngx-datatable-column name="Unit"></ngx-datatable-column>
-              <ngx-datatable-column name="Description"></ngx-datatable-column>
-            </ngx-datatable>
-          </div>
-        </div>
 
       </mat-tab>
-      <mat-tab label="Channels" class="edit-tab-body">
-        <div class="edit-tab-body">
-          <div id="channel-group-selector-container">
+      <mat-tab label="Channels">
+          <div id="channel-group-selector-container"  class="edit-tab-body">
             <div id="groups-container">
               <mat-selection-list dense *ngIf="availableChannelGroups" id="channel-group-selector" >
                   <mat-list-option 
@@ -111,16 +111,18 @@
                       </mat-list>
           
                 </div>
-
               </div>
-          </div>
-
-        </div>
+            </div>
       </mat-tab>
-      <mat-tab label="Thresholds" class="edit-tab-body">
+      <mat-tab label="Thresholds">
         <div class="edit-tab-body">
-          Coming soon 
+            <app-threshold-edit
+              [thresholds]="widget.thresholds"
+              [metrics]="widget.metrics"
+              (thresholdAdded)="addThreshold($event)"
+              ></app-threshold-edit>
         </div>
+
       </mat-tab>
     </mat-tab-group>
   </div>

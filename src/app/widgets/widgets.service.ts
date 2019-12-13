@@ -117,6 +117,8 @@ export class WidgetsService {
         );
         thresholds[t.metric] = threshold;
       });
+
+ 
     }
 
     if (response.metrics) {
@@ -128,9 +130,6 @@ export class WidgetsService {
           m.url,
           m.unit
         );
-        if (thresholds[m.id]) {
-          metric.threshold = thresholds[m.id];
-        }
         metrics.push( metric );
       });
     }
@@ -148,6 +147,7 @@ export class WidgetsService {
       response.y_position,
       metrics
     );
+    widget.thresholds = thresholds;
     widget.stattype = response.stattype;
     console.log(widget.stattype);
     widget.type = response.widgettype.type;

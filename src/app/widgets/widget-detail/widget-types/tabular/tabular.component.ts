@@ -7,6 +7,8 @@ import { Subject, Subscription } from 'rxjs';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
+import { Widget } from 'src/app/widgets/widget';
+import { Threshold } from 'src/app/widgets/threshold';
 
 @Component({
   selector: 'app-tabular',
@@ -15,8 +17,13 @@ import { ChannelGroup } from 'src/app/shared/channel-group';
   providers: [MeasurementPipe]
 })
 export class TabularComponent implements OnInit, OnDestroy {
-  @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
+  @Input() widget: Widget;
+  metrics: Metric[];
+  thresholds : {[metricId: number]:Threshold};
+  channelGroup: ChannelGroup;
+  
+  channels: Channel[];
+
   subscription = new Subscription();
 
   @ViewChild('dataTable', { static: false }) table: any;
@@ -24,8 +31,6 @@ export class TabularComponent implements OnInit, OnDestroy {
   SortType = SortType;
   rows = [];
   columns = [];
-
-  channels: Channel[];
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -47,8 +52,11 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
+    this.metrics = this.widget.metrics;
+    this.thresholds = this.widget.thresholds;
+    this.channelGroup = this.widget.channelGroup;
     this.channels = this.channelGroup.channels;
+
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
@@ -92,18 +100,19 @@ export class TabularComponent implements OnInit, OnDestroy {
 
       this.metrics.forEach(metric => {
         const val = this.measurement.transform(data[channel.id][metric.id], '');
-        const inThreshold = metric.threshold ? this.checkThresholds(metric.threshold, val) : false;
+        const threshold = this.thresholds[metric.id];
+        const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
 
-        if (metric.threshold && val != null && !inThreshold) {
+        if (threshold && val != null && !inThreshold) {
           agg++;
         }
 
         rowMetrics[metric.id] = {
           value: val,
           classes: {
-            'out-of-spec' : val !== null && !inThreshold && metric.threshold,
-            'in-spec' : val !== null && inThreshold && metric.threshold,
-            'has-threshold' : !!metric.threshold
+            'out-of-spec' : val !== null && !inThreshold && threshold,
+            'in-spec' : val !== null && inThreshold && threshold,
+            'has-threshold' : !!threshold
           }
         };
 

@@ -10,5 +10,4 @@ export class Metric {
     public unit: string
   ) {
   }
-  public threshold: Threshold;
 }
