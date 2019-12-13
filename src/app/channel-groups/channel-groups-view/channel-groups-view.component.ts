@@ -16,6 +16,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   selectedChannelGroup: ChannelGroup;
   selectedChannels: Channel[] = [];
   subscription: Subscription;
+  selected = false;
 
   // Table stuff
   ColumnMode = ColumnMode;
@@ -41,7 +42,12 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
+  editChannelGroup() {
+    this.router.navigate([`${this.selectedChannelGroup.id}/edit`], {relativeTo: this.route});
+  }
+
   onSelect($event) {
+    this.selected = true;
     this.channelGroupsService.getChannelGroup($event.selected[0].id).subscribe(channelGroup => {
       this.selectedChannelGroup = channelGroup;
       this.selectedChannels = this.selectedChannelGroup.channels;
