@@ -2,9 +2,14 @@
   <h1>
     Channel Groups
   </h1>
-  <button mat-raised-button color="accent"
-    class="add-btn" (click)="addChannelGroup()"
-  >+ Add Channel Group</button>
+  <div class="btn-container-right">
+    <button mat-raised-button color="accent" [disabled]="!selected"
+      class="add-btn" (click)="editChannelGroup()"
+    >+ Edit Channel Group</button>
+    <button mat-raised-button color="accent"
+      class="add-btn" (click)="addChannelGroup()"
+    >+ Add Channel Group</button>
+  </div>
 </header>
 
 <div id="map-and-channel-group">
