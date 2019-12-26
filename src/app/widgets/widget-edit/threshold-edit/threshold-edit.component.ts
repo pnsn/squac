@@ -8,7 +8,7 @@ import { Metric } from 'src/app/shared/metric';
   styleUrls: ['./threshold-edit.component.scss']
 })
 export class ThresholdEditComponent implements OnInit {
-  @Input() thresholds : {[metricId: number]:Threshold};
+  @Input() thresholds: {[metricId: number]: Threshold};
   @Input() metrics: Metric[];
   @Output() thresholdAdded = new EventEmitter<Threshold>();
   @Output() thresholdDeleted = new EventEmitter<Threshold>();
@@ -24,14 +24,14 @@ export class ThresholdEditComponent implements OnInit {
   ngOnInit() {
   }
 
-  addThreshold(){
-    console.log("add threshold");
+  addThreshold() {
+    console.log('add threshold');
 
     // this.thresholdAdded.emit();
   }
 
-  deleteThreshold(){
-    console.log("thresholdDeleted")
+  deleteThreshold() {
+    console.log('thresholdDeleted');
     // this.thresholdDeleted.emit();
   }
 

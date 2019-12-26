@@ -17,9 +17,9 @@ import { Widget } from 'src/app/widgets/widget';
 export class TimeseriesComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
   metrics: Metric[];
-  thresholds : {[metricId: number]:Threshold};
+  thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
-  
+
   channels: Channel[];
   subscription = new Subscription();
   results: Array<any>;
@@ -42,7 +42,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
-    if( this.channelGroup) {
+    if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
 

@@ -20,9 +20,9 @@ import { Threshold } from 'src/app/widgets/threshold';
 export class TimelineComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
   metrics: Metric[];
-  thresholds : {[metricId: number]:Threshold};
+  thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
-  
+
   channels: Channel[];
   @ViewChild('dataTable', { static: false }) table: any;
   @Input() resize: Subject<boolean>;
@@ -59,7 +59,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
-    if( this.channelGroup) {
+    if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
 
