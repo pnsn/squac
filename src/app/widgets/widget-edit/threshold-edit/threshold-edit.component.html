@@ -3,6 +3,6 @@
 
 <mat-list>
   <mat-list-item *ngFor="let metric of metrics">
-    metric: {{metric.name}} {{thresholds[metric.id]?.min}} {{thresholds[metric.id]?.max}}
+    {{metric.name}} {{thresholds[metric.id]?.min}} {{thresholds[metric.id]?.max}}
   </mat-list-item>
 </mat-list>

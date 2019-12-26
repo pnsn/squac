@@ -117,8 +117,8 @@
       <mat-tab label="Thresholds">
         <div class="edit-tab-body">
             <app-threshold-edit
-              [thresholds]="widget.thresholds"
-              [metrics]="widget.metrics"
+              [thresholds]="widget?.thresholds"
+              [metrics]="widget?.metrics"
               (thresholdAdded)="addThreshold($event)"
               ></app-threshold-edit>
         </div>

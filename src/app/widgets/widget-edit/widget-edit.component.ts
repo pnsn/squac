@@ -73,7 +73,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.widget = this.data.widget;
+    this.widget = this.data.widget ? this.data.widget : null;
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
     console.log(this.widget);
