@@ -9,6 +9,7 @@ import { DataFormatService } from 'src/app/widgets/data-format.service';
 import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Widget } from 'src/app/widgets/widget';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;
@@ -36,13 +37,7 @@ describe('TabularComponent', () => {
     component = fixture.componentInstance;
     component.columns = [];
     component.rows = [];
-    component.metrics = [];
-    component.channelGroup = new ChannelGroup(
-      1,
-      '',
-      '',
-      []
-    );
+    component.widget = new Widget(1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
   });
 

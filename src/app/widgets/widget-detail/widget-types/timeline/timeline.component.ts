@@ -59,7 +59,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
-    this.channels = this.channelGroup.channels;
+    if( this.channelGroup) {
+      this.channels = this.channelGroup.channels;
+    }
+
 
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {

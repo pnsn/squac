@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ThresholdEditComponent } from './threshold-edit/threshold-edit.component';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -36,7 +37,7 @@ describe('WidgetEditComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} }
 
       ],
-      declarations: [WidgetEditComponent]
+      declarations: [WidgetEditComponent, ThresholdEditComponent]
     })
     .compileComponents();
     TestBed.overrideModule(BrowserDynamicTestingModule, {

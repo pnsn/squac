@@ -19,9 +19,9 @@ import { Threshold } from 'src/app/widgets/threshold';
 export class TabularComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
   metrics: Metric[];
-  thresholds : {[metricId: number]:Threshold};
+  thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
-  
+
   channels: Channel[];
 
   subscription = new Subscription();
@@ -55,7 +55,9 @@ export class TabularComponent implements OnInit, OnDestroy {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
-    this.channels = this.channelGroup.channels;
+    if ( this.channelGroup) {
+      this.channels = this.channelGroup.channels;
+    }
 
     const dateFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {

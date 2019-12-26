@@ -11,4 +11,7 @@ gridster {
   display: inline;
   position: absolute;
   
+  &:hover {
+    color:red;
+  }
 }

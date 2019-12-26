@@ -10,6 +10,7 @@ import { ViewService } from 'src/app/shared/view.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Widget } from 'src/app/widgets/widget';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -35,13 +36,7 @@ describe('TimelineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TimelineComponent);
     component = fixture.componentInstance;
-    component.metrics = [];
-    component.channelGroup = new ChannelGroup(
-      1,
-      '',
-      '',
-      []
-    );
+    component.widget = new Widget(1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
     component.startdate = new Date();
     component.enddate = new Date();

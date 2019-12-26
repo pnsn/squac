@@ -118,7 +118,7 @@ export class WidgetsService {
         thresholds[t.metric] = threshold;
       });
 
- 
+
     }
 
     if (response.metrics) {

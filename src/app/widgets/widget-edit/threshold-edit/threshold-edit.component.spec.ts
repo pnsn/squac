@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ThresholdEditComponent } from './threshold-edit.component';
+import {MatListModule } from '@angular/material/list';
 
 describe('ThresholdEditComponent', () => {
   let component: ThresholdEditComponent;
@@ -8,6 +9,7 @@ describe('ThresholdEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MatListModule],
       declarations: [ ThresholdEditComponent ]
     })
     .compileComponents();

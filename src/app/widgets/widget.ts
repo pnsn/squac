@@ -23,7 +23,7 @@ export class Widget {
 
   }
   public stattype;
-  public thresholds : { [metridId : number]: Threshold};
+  public thresholds: { [metridId: number]: Threshold};
   // get ids from the channels
   get metricsIds(): number[] {
     const array = [];
