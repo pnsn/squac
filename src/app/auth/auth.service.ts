@@ -70,6 +70,7 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(['/login']);
     localStorage.removeItem('userData');
+    //TODO: make sure all modals close
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
