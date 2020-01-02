@@ -1,9 +1,14 @@
 :host ::ng-deep .in-spec {
-  background-color: rgb(129, 182, 231) !important;
+  background-color: rgb(129, 231, 171) !important;
 }
 :host ::ng-deep .out-of-spec {
   background-color: rgb(250, 154, 154) !important;
 }
+
+:host ::ng-deep .no-threshold {
+  background-color: rgb(67, 145, 197) !important;
+}
+
 
 :host ::ng-deep .datatable-tree-button:disabled {
   display:none;

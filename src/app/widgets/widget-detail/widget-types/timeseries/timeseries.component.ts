@@ -50,7 +50,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       response => {
         if (response) {
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
-          console.log(response);
           this.buildChartData(response);
         }
       }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Threshold } from '../../threshold';
-import {ColumnMode} from '@swimlane/ngx-datatable';
+import {ColumnMode, id} from '@swimlane/ngx-datatable';
 import { Metric } from 'src/app/shared/metric';
 @Component({
   selector: 'app-threshold-edit',
@@ -10,8 +10,7 @@ import { Metric } from 'src/app/shared/metric';
 export class ThresholdEditComponent implements OnInit {
   @Input() thresholds : {[metricId: number]:Threshold};
   @Input() metrics: Metric[];
-  @Output() thresholdAdded = new EventEmitter<Threshold>();
-  @Output() thresholdDeleted = new EventEmitter<Threshold>();
+  @Output() thresholdsChanged = new EventEmitter<any[]>();
   editing = {};
   rows = [];
 
@@ -21,40 +20,48 @@ export class ThresholdEditComponent implements OnInit {
     console.log('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
+    if(cell === 'metricId') {
+      this.rows[rowIndex].name = this.getMetric(event.target.value);
+    }
     this.rows = [...this.rows];
     console.log('UPDATED!', this.rows[rowIndex][cell]);
+    this.thresholdsChanged.emit(this.rows);
+  }
+
+  getMetric(id) {
+    return this.metrics.filter(metric => {
+      console.log(metric, id)
+      return metric.id === +id;
+    })[0].name;
   }
 
   ngOnInit() {
-    this.metrics.forEach(
-      (metric) => {
-        if(this.thresholds[metric.id]) {
-          this.rows.push(this.thresholds[metric.id]);
+    if(this.metrics) {
+      this.metrics.forEach(
+        (metric) => {
+          if(this.thresholds[metric.id]) {
+            this.rows.push({
+              "id" : this.thresholds[metric.id].id,
+              "metric" : metric,
+              "min": this.thresholds[metric.id].min,
+              "max": this.thresholds[metric.id].max
+            });
+          }
+          else {
+            this.rows.push({
+              "id" : null,
+              "metric" : metric,
+              "min": null,
+              "max": null
+            });
+          }
+  
         }
-
-      }
-    );
-    console.log(this.rows)
+      );
+    }
   }
 
-  addThreshold() {
-    console.log("add threshold");
-    const index = this.rows.length;
-    this.rows.push(new Threshold(
-      null,
-      null,
-      null,
-      null,
-      null
-    ));
-    this.rows = [...this.rows];
-    this.editing[index + "-metricId"] = true;
-    this.editing[index + "-min"] = true;
-    this.editing[index + "-max"] = true;
-    // this.thresholdAdded.emit();
-  }
-
-  deleteThreshold() {
+  clearThreshold() {
     console.log("thresholdDeleted")
     // this.thresholdDeleted.emit();
   }

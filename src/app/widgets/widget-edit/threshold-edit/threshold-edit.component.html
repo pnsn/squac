@@ -1,81 +1,60 @@
-<button (click)="addThreshold()"> Add threshold </button>
 
-<mat-list>
-  <mat-list-item *ngFor="let metric of metrics">
-    {{metric.name}} {{thresholds[metric.id]?.min}} {{thresholds[metric.id]?.max}}
-  </mat-list-item>
-</mat-list>
+<ngx-datatable
+  #thresholdDataTable
+  class="material"
+  headerHeight="50"
+  [columnMode]="ColumnMode.force"
+  footerHeight="50"
+  rowHeight="30"
+  [rows]="rows"
+>
 
-      <ngx-datatable
-        #thresholdDataTable
-        class="material"
-        headerHeight="50"
-        [columnMode]="ColumnMode.force"
-        footerHeight="50"
-        rowHeight="30"
-        [rows]="rows"
-      >
+  <ngx-datatable-column name="Metric">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+      <div class="row-container" (click)="editing[rowIndex + '-metricId'] = true">
+        {{value.name}}
+      </div>
 
-        <ngx-datatable-column name="MetricId">
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
-              <div class="row-container" (click)="editing[rowIndex + '-metricId'] = true">
-                <span
-                title="Double click to edit"
-                *ngIf="!editing[rowIndex + '-metricId']"
-              >
-                {{ value ? value : "Select a metric"}}
-              </span>
-              <select
-                *ngIf="editing[rowIndex + '-metricId']"
-                (blur)="editing[rowIndex + '-metricId'] = false"
-                (change)="updateValue($event, 'metricId', rowIndex)"
-                [value]="value"
-              >
-                <option *ngFor="let metric of metrics" [value]="metric.id">
-                  {{metric.name}}
-                </option>
-              </select>
-            </div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Min">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <div class="row-container" (click)="editing[rowIndex + '-min'] = true">
+          <span
+          title="Double click to edit"
+          *ngIf="!editing[rowIndex + '-min']"
+        >
+          {{ value ? value : "enter a min threshold"}}
+        </span>
+        <input matInput
+          autofocus
+          (blur)="updateValue($event, 'min', rowIndex)"
+          *ngIf="editing[rowIndex + '-min']"
+          type="number"
+          [value]="value"
+        />
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Max">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <div class="row-container" (click)="editing[rowIndex + '-max'] = true">
+          <span
+          title="Double click to edit"
+          *ngIf="!editing[rowIndex + '-max']"
+        >
+          {{ value? value : "Enter a max threshold"}}
+        </span>
+        <input matInput
+          autofocus
+          (blur)="updateValue($event, 'max', rowIndex)"
+          *ngIf="editing[rowIndex + '-max']"
+          type="number"
+          [value]="value"
+        />
 
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Min">
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-            <div class="row-container" (click)="editing[rowIndex + '-min'] = true">
-                <span
-                title="Double click to edit"
-                *ngIf="!editing[rowIndex + '-min']"
-              >
-                {{ value ? value : "enter a min threshold"}}
-              </span>
-              <input
-                autofocus
-                (blur)="updateValue($event, 'min', rowIndex)"
-                *ngIf="editing[rowIndex + '-min']"
-                type="number"
-                [value]="value"
-              />
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Max">
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-            <div class="row-container" (click)="editing[rowIndex + '-max'] = true">
-                <span
-                title="Double click to edit"
-                *ngIf="!editing[rowIndex + '-max']"
-              >
-                {{ value? value : "Enter a max threshold"}}
-              </span>
-              <input
-                autofocus
-                (blur)="updateValue($event, 'max', rowIndex)"
-                *ngIf="editing[rowIndex + '-max']"
-                type="number"
-                [value]="value"
-              />
-            </div>
+      </div>
 
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

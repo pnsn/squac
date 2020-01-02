@@ -119,7 +119,7 @@
             <app-threshold-edit
               [thresholds]="widget?.thresholds"
               [metrics]="widget?.metrics"
-              (thresholdAdded)="addThreshold($event)"
+              (thresholdsChanged)="thresholdsChanged($event)"
               ></app-threshold-edit>
         </div>
 

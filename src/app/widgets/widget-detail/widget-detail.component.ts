@@ -43,13 +43,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
         this.dataFormatService.fetchData(this.widget);
       }
     );
-
-    console.log(this.widget);
-
     this.subscription.add(datesSub);
-
     // widget data errors here
-
   }
 
   ngOnDestroy(): void {
@@ -64,13 +59,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result.id);
-      console.log('The dialog was closed');
       if (result && result.id) {
         this.viewService.updateWidget(result.id);
       }
-
-      // this.animal = result;
     });
   }
 

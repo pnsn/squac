@@ -11,6 +11,8 @@ import { Dashboard } from 'src/app/dashboards/dashboard';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.service';
+import { Threshold } from '../threshold';
+import { ThresholdsService } from '../thresholds.service';
 
 @Component({
   selector: 'app-widget-edit',
@@ -69,6 +71,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetService: WidgetsService,
     private metricsService: MetricsService,
+    private thresholdService: ThresholdsService,
     private channelGroupsService: ChannelGroupsService
   ) { }
 
@@ -137,7 +140,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   getChannelsForChannelGroup(group) {
     this.selectedChannelGroup = group;
-    console.log(group);
 
     if (this.selectedChannelGroup.id) {
       const channelGroupsSub = this.channelGroupsService.getChannelGroup(this.selectedChannelGroup.id).subscribe(
@@ -171,16 +173,20 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     // this.table.offset = 0;
   }
 
-  addThreshold(threshold) {
-    this.widget.thresholds[threshold.metric] = threshold;
-  }
-
-  removeThrehold(threshold) {
-    delete this.widget.thresholds[threshold.metric];
+  thresholdsChanged(thresholds) {
+    thresholds.forEach(threshold => {
+      this.widget.thresholds[threshold.metric.id] = new Threshold(
+        threshold.id, 
+        threshold.metric.id,
+        this.widget.id, 
+        threshold.min, 
+        threshold.max
+      );
+    });
   }
 
   save() {
-    console.log(this.selectedMetrics);
+    //save thresholds
     const values = this.widgetForm.value;
     const newWidget = new Widget(
       this.id,
@@ -190,7 +196,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.dashboardId,
       this.selectedChannelGroup.id,
       this.widget ? this.widget.columns : this.columns,
-      this.widget ? this.widget.columns : this.rows,
+      this.widget ? this.widget.rows : this.rows,
       this.widget ? this.widget.x : this.x,
       this.widget ? this.widget.y : this.y,
       this.selectedMetrics
@@ -206,9 +212,17 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         this.dialogRef.close(result);
       }
     );
+
+    this.thresholdService.updateThreshold(
+      newWidget
+    ).subscribe(
+      result => {
+        this.dialogRef.close(result);
+      }
+    );
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }
