@@ -4,7 +4,7 @@
 
 <div id="selection-container">
   <div id="map-box" class="box">
-    <app-map [selectedChannels]="[]"></app-map>
+    <app-map [channels]="availableChannels"></app-map>
   </div>
 
   <div id="available-channels" class="box">
@@ -50,7 +50,8 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
-      <button mat-raised-button color="accent" (click)="addChannelsToSelected()" [disabled]="!availableChannels || availableChannels.length === 0">
+      <button mat-raised-button color="accent" (click)="addChannelsToSelected()" 
+        [disabled]="!availableChannels || availableChannels.length === 0">
         Add Channels
       </button>
     </div>
@@ -120,5 +121,19 @@
         Save Group
       </button>
     </form>
+  </div>
+  <div id="channel-group-popup" class="popup">
+    <div id="channel-group-popup-box" class="box popup-box">
+      <p>Your new metric will not be saved.<br/>
+      Would you like to continue?</p>
+      <div class="btn-container">
+        <button mat-raised-button color="primary" 
+          (click)="closePopup()"
+        >Cancel</button>
+        <button mat-raised-button color="accent"
+        (click)="cancel()"  
+        >Continue</button>
+      </div>
+    </div>
   </div>
 </div>

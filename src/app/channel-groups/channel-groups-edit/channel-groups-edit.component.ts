@@ -32,6 +32,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   subscriptions: Subscription = new Subscription();
   loading = false;
+  changeMade = false;
   // form stuff
   channelGroupForm: FormGroup;
 
@@ -54,8 +55,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     console.log(index);
     this.selectedChannels.splice(index, 1);
     this.selectedChannelIds.splice(index, 1);
-
     this.selectedChannels = [...this.selectedChannels];
+    this.changeMade = true;
   }
 
   addChannelsToSelected() {
@@ -68,9 +69,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         return false;
       }
     );
-
     this.selectedChannels = [...this.selectedChannels, ...newChannels];
     // add available channels to selected channels
+    this.changeMade = true;
   }
 
   updateTable() {
@@ -185,7 +186,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
   // Check if form has unsaved fields
   formUnsaved() {
-    if (this.channelGroupForm.dirty) {
+    if (this.channelGroupForm.dirty || this.changeMade) {
       const popup = document.getElementById('channel-group-popup');
       popup.style.display = 'block';
     } else {

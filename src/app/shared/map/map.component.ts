@@ -8,7 +8,7 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, OnChanges {
-  @Input() public selectedChannels: Channel[];
+  @Input() public channels: Channel[];
   map: L;
   channelLayer: L.LayerGroup;
   mapIcon: L.Icon;
@@ -17,7 +17,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initMap();
-    console.log(this.selectedChannels);
+    console.log(this.channels);
   }
 
   ngOnChanges() {
@@ -27,11 +27,11 @@ export class MapComponent implements OnInit, OnChanges {
   initMap(): void {
     this.channelLayer = L.layerGroup([]);
     this.mapIcon = L.icon({
-      iconUrl: '../../assets/blue_icon.png',
-      shadowUrl: '../../assets/blue_icon.png',
-      iconSize:     [20, 20], // size of the icon
+      iconUrl: '../../assets/map-marker.png',
+      shadowUrl: '',
+      iconSize:     [32, 32], // size of the icon
       shadowSize:   [0, 0], // size of the shadow
-      iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
+      iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
       shadowAnchor: [0, 0],  // the same for the shadow
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
     });
@@ -52,7 +52,7 @@ export class MapComponent implements OnInit, OnChanges {
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
       const chanLatLng = [];
-      const chanMarkers = this.selectedChannels.map((channel) => {
+      const chanMarkers = this.channels.map((channel) => {
         sumLat += channel.lat;
         sumLon += channel.lon;
         chanLatLng.push([channel.lat, channel.lon]);
