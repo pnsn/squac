@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, Inject } from '@angular/core';
 import { Route, ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, merge } from 'rxjs';
 import { Metric } from '../../shared/metric';
 import { MetricsService } from '../../shared/metrics.service';
 import { WidgetsService } from '../widgets.service';
@@ -13,6 +13,7 @@ import { ChannelGroup } from 'src/app/shared/channel-group';
 import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.service';
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
+import { mergeAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget-edit',
@@ -177,12 +178,18 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     thresholds.forEach(threshold => {
       this.widget.thresholds[threshold.metric.id] = new Threshold(
         threshold.id, 
-        threshold.metric.id,
         this.widget.id, 
+        threshold.metric.id,
         threshold.min, 
         threshold.max
       );
     });
+  }
+
+  saveThresholds() {
+
+
+
   }
 
   save() {
@@ -205,19 +212,31 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     newWidget.stattype = this.statTypes.find((st) => {
       return st.id === values.statType;
     });
-    this.widgetService.updateWidget(
+
+    const widgetObs = this.widgetService.updateWidget(
       newWidget
-    ).subscribe(
-      result => {
-        this.dialogRef.close(result);
-      }
     );
 
-    this.thresholdService.updateThreshold(
-      newWidget
-    ).subscribe(
+    const thresholdObs = this.thresholdService.updateThresholds(
+      this.widget.metrics,
+      this.widget.thresholds
+    );
+    
+    const services = merge(
+      ...[widgetObs, ...thresholdObs]
+    );
+
+    let count = 0;
+    let widget;
+    services.subscribe(
       result => {
-        this.dialogRef.close(result);
+        count++;
+        if(result.channel_group) {
+          widget = result;
+        }
+        if(count === thresholdObs.length && widget) {
+          this.dialogRef.close(widget);
+        } 
       }
     );
   }
