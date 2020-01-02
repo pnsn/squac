@@ -24,7 +24,7 @@
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-min']"
         >
-          {{ value ? value : "enter a min threshold"}}
+          {{ value !== null ? value : "enter a min threshold"}}
         </span>
         <input matInput
           autofocus
@@ -43,7 +43,7 @@
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-max']"
         >
-          {{ value? value : "Enter a max threshold"}}
+          {{ value !== null ? value : "Enter a max threshold"}}
         </span>
         <input matInput
           autofocus
