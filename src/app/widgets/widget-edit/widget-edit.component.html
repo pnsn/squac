@@ -114,11 +114,11 @@
               </div>
             </div>
       </mat-tab>
-      <mat-tab label="Thresholds">
+      <mat-tab label="Thresholds" [disabled]="selectedMetrics.length === 0">
         <div class="edit-tab-body">
             <app-threshold-edit
               [thresholds]="widget?.thresholds"
-              [metrics]="widget?.metrics"
+              [metrics]="selectedMetrics"
               (thresholdsChanged)="thresholdsChanged($event)"
               ></app-threshold-edit>
         </div>

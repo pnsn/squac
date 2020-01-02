@@ -186,12 +186,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveThresholds() {
-
-
-
-  }
-
   save() {
     //save thresholds
     const values = this.widgetForm.value;
