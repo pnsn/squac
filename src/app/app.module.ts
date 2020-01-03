@@ -23,6 +23,9 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChannelGroupsFilterComponent } from './channel-groups/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
 import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edit/channel-groups-table/channel-groups-table.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +48,9 @@ import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edi
     AppRoutingModule,
     DashboardsModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    LeafletModule.forRoot(),
+    LeafletDrawModule.forRoot()
   ],
   providers: [
     {

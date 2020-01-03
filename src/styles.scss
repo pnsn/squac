@@ -3,6 +3,7 @@
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 @import '~leaflet/dist/leaflet.css';
+@import '~leaflet-draw/dist/leaflet.draw.css';
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -110,7 +111,7 @@ p {
 .popup {
   display: none;
   position: fixed;
-  z-index: 9;
+  z-index: 15;
   left: 0;
   top: 0;
   width: 100%;
@@ -118,6 +119,13 @@ p {
   overflow: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.7);
+}
+
+.popup-box {
+  z-index: 16;
+  margin: 200px auto;
+  width: 450px;
+  height: 150px;
 }
 
 /* Data Table*/

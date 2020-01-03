@@ -6,7 +6,6 @@ import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, F
 import { ChannelsService } from '../../shared/channels.service';
 import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
-import { Network } from '../network';
 import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 
@@ -32,13 +31,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   subscriptions: Subscription = new Subscription();
   loading = false;
+  changeMade = false;
   // form stuff
   channelGroupForm: FormGroup;
-
+  mapChannels: Channel[] = [];
   availableChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
-
   selectedChannelIds: number[] = [];
+  bounds: any;
 
   // table stuff
   SelectionType = SelectionType;
@@ -54,8 +54,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     console.log(index);
     this.selectedChannels.splice(index, 1);
     this.selectedChannelIds.splice(index, 1);
-
     this.selectedChannels = [...this.selectedChannels];
+    this.changeMade = true;
   }
 
   addChannelsToSelected() {
@@ -68,9 +68,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         return false;
       }
     );
-
     this.selectedChannels = [...this.selectedChannels, ...newChannels];
     // add available channels to selected channels
+    this.changeMade = true;
   }
 
   updateTable() {
@@ -104,13 +104,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // }
 
   getChannelsWithFilters(searchFilters) {
-
     if (searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
         response => {
           console.log(response.length);
           this.availableChannels = response;
+          this.mapChannels = [...this.availableChannels];
           this.loading = false;
           // add channels to selected Channels
         }
@@ -119,6 +119,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.subscriptions.add(channelsSub);
     } else {
       this.availableChannels = [];
+      this.mapChannels = [];
     }
   }
 
@@ -185,7 +186,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
   // Check if form has unsaved fields
   formUnsaved() {
-    if (this.channelGroupForm.dirty) {
+    if (this.channelGroupForm.dirty || this.changeMade) {
       const popup = document.getElementById('channel-group-popup');
       popup.style.display = 'block';
     } else {
@@ -198,4 +199,28 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     popup.style.display = 'none';
   }
 
+  updateBounds(newBounds: string) {
+    if (newBounds === '') {
+      this.availableChannels = [...this.mapChannels];
+    } else {
+      const boundsArr = newBounds.split(' ').map(bound => { // format: 'N_lat W_lon S_lat E_lon'
+        return parseFloat(bound);
+      });
+      this.bounds = {
+        lat_min: boundsArr[2], // south bound
+        lat_max: boundsArr[0], // north bound
+        lon_min: boundsArr[1], // west bound
+        lon_max: boundsArr[3] // east bound
+      };
+      if (this.availableChannels === []) {
+        // this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
+      } else {
+        this.availableChannels = this.mapChannels.filter( channel => {
+          const latCheck = channel.lat <= this.bounds.lat_max && channel.lat >= this.bounds.lat_min;
+          const lonCheck = channel.lon >= this.bounds.lon_min && channel.lon <= this.bounds.lon_max;
+          return latCheck && lonCheck;
+        });
+      }
+    }
+  }
 }
