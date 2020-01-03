@@ -36,6 +36,7 @@ export class ThresholdEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.metrics)
     if(this.metrics) {
       this.metrics.forEach(
         (metric) => {

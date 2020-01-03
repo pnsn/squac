@@ -1,10 +1,38 @@
+@import 'src/variables.scss';
 .edit-tab-body {
-  height: 500px;
-  width: 700px;
+  height: 400px;
 }
 
+
+#desc-field {
+  display:none;
+}
+
+#widget-type-container {
+  height: 75px;
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  .widget-type-select {
+    height: 100%;
+    width: 75px;
+    border:solid 1px $sq-blue; 
+    color: $sq-blue;
+    &.selected {
+      color:white;
+      background-color: $sq-blue;
+    }
+  }
+}
+
+h3{
+  text-align:center;
+  font-size:14px;
+  margin-bottom: 10px;
+}
 #metric-select-table{
-  height: 427px;
+  height: 323px;
   .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
     padding: unset;
   }

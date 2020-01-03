@@ -85,7 +85,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    this.viewService.refreshWidgets();
+    if(this.widgets) {
+      this.viewService.refreshWidgets();
+    }
   }
 
   saveDashboard() {

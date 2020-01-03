@@ -1,5 +1,10 @@
 <h3 mat-dialog-title>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
 <div mat-dialog-content id="edit-container">
+  <div id="widget-type-container">
+    <div *ngFor="let type of widgetTypes" (click)="selectType(type.id)" class="widget-type-select" [class.selected]="type.id === selectedType">
+      {{type.name}}
+    </div>
+  </div>
   <form action="" [formGroup]="widgetForm">
     <mat-form-field>
       <input matInput 
@@ -9,7 +14,7 @@
         placeholder="Widget name"
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field id="desc-field">
       <textarea matInput 
         id="description" 
         formControlName="description" 
@@ -18,14 +23,7 @@
         >
       </textarea>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Widget Type</mat-label>
-      <mat-select formControlName="type" *ngIf="widgetTypes">
-        <mat-option *ngFor="let type of widgetTypes" [value]="type.id">
-          {{type.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
 
     <mat-form-field>
       <mat-label>Stat type</mat-label>
@@ -51,11 +49,8 @@
                 <span>
                    {{selectedMetrics?.length}} metrics selected
                 </span>
-      
-                <div>
                   <ngx-datatable
                   id="metric-select-table"
-                    style="width: 100%"
                     class="material"
                     [rows]="tableRows"
                     [columnMode]="ColumnMode.force"
@@ -81,7 +76,6 @@
                     <ngx-datatable-column name="Unit"></ngx-datatable-column>
                     <ngx-datatable-column name="Description"></ngx-datatable-column>
                   </ngx-datatable>
-                </div>
             </div>
 
 
@@ -117,6 +111,7 @@
       <mat-tab label="Thresholds" [disabled]="selectedMetrics.length === 0">
         <div class="edit-tab-body">
             <app-threshold-edit
+              *ngIf="selectedMetrics"
               [thresholds]="widget?.thresholds"
               [metrics]="selectedMetrics"
               (thresholdsChanged)="thresholdsChanged($event)"
@@ -124,7 +119,13 @@
         </div>
 
       </mat-tab>
-    </mat-tab-group>
+    <mat-tab label="Options">
+      <div class="edit-tab-body">
+        This is where the chart options go
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
   </div>
 <div mat-dialog-actions>
   <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>

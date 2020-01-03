@@ -7,13 +7,12 @@ import { MetricsService } from '../../shared/metrics.service';
 import { WidgetsService } from '../widgets.service';
 import { Widget } from '../widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Dashboard } from 'src/app/dashboards/dashboard';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.service';
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
-import { mergeAll } from 'rxjs/operators';
+import { WidgetEditService } from './widget-edit.service';
 
 @Component({
   selector: 'app-widget-edit',
@@ -62,6 +61,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     }
   ];
 
+  selectedType : number;
+
 
   rows = 3;
   columns = 6;
@@ -73,11 +74,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     private widgetService: WidgetsService,
     private metricsService: MetricsService,
     private thresholdService: ThresholdsService,
-    private channelGroupsService: ChannelGroupsService
+    private channelGroupsService: ChannelGroupsService,
+    private widgetEditService: WidgetEditService,
   ) { }
 
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
+
+    this.widgetEditService.setWidget(this.widget);
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
     console.log(this.widget);
@@ -108,7 +112,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
       description : new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
       statType: new FormControl('', Validators.required)
     });
 
@@ -123,10 +126,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         {
           name : this.widget.name,
           description : this.widget.description,
-          type: this.widget.typeId,
           statType: this.widget.stattype.id
         }
       );
+      this.selectedType = this.widget.typeId;
       this.selectedChannelGroup = this.widget.channelGroup;
       const metricIds = this.widget.metricsIds;
       this.selectedMetrics = this.availableMetrics.filter(
@@ -137,6 +140,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     }
 
 
+  }
+
+  selectType(type) {
+    this.selectedType = type;
   }
 
   getChannelsForChannelGroup(group) {
@@ -193,7 +200,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.id,
       values.name,
       values.description,
-      values.type,
+      this.selectedType,
       this.dashboardId,
       this.selectedChannelGroup.id,
       this.widget ? this.widget.columns : this.columns,
