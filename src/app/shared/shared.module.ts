@@ -9,6 +9,8 @@ import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from './material.module';
 import { MapComponent } from './map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { MapComponent } from './map/map.component';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    LeafletModule,
+    LeafletDrawModule
   ],
   exports: [
     MaterialModule,

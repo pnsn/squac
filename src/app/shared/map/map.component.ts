@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
 
@@ -8,16 +8,28 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, OnChanges {
-  @Input() public channels: Channel[];
-  map: L;
+  @Input() channels: Channel[];
+  // @Input() editPage: boolean;
+  // @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
+  map: L.Map;
   channelLayer: L.LayerGroup;
   mapIcon: L.Icon;
+  // boundingBox: L.Rectangle;
+  // boxBounds = [];
+  // bounds = [];
+  // onMapClickBound = this.onMapClick.bind(null, this);
+  options: {
+    center: L.LatLng,
+    zoom: number,
+    layers: L.Layer[]
+  };
+  layers: L.Layer[];
+  fitBounds: L.LatLngBounds;
 
   constructor() { }
 
   ngOnInit() {
     this.initMap();
-    console.log(this.channels);
   }
 
   ngOnChanges() {
@@ -35,20 +47,27 @@ export class MapComponent implements OnInit, OnChanges {
       shadowAnchor: [0, 0],  // the same for the shadow
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
     });
-    this.map = L.map('map', {
-      center: [45.0000, -120.0000],
+    this.layers = [
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }),
+      this.channelLayer
+    ];
+    this.options = {
+      center: L.latLng(45.0000, -120.0000),
       zoom: 5,
-      layers: this.channelLayer,
-    });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      layers: this.layers
+    };
+    this.options.layers.push(L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
+    }));
   }
 
   updateMap() {
     if (this.channelLayer) {
-      this.map.removeLayer(this.channelLayer);
+      this.layers.pop();
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
       const chanLatLng = [];
@@ -59,10 +78,49 @@ export class MapComponent implements OnInit, OnChanges {
         return L.marker([channel.lat, channel.lon], {icon: this.mapIcon}).bindPopup(channel.stationCode.toUpperCase());
       });
       this.channelLayer = L.layerGroup(chanMarkers);
-      this.map.addLayer(this.channelLayer);
-      this.map.panTo(new L.LatLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length)); // Use average lat lon to recenter
-      this.map.fitBounds(L.latLngBounds(chanLatLng)); // Find needed zoom level
+      this.layers.push(this.channelLayer);
+      this.options.center = L.latLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length);
+      this.fitBounds = L.latLngBounds(chanLatLng);
+    }
+  }
+  /* Old bounding box code - to be deleted if ngx leaflet works
+  onAddBoundingBox() {
+    document.getElementById('map').style.cursor = "crosshair";
+    document.getElementById('map').addEventListener("click", this.onMapClickBound);
+  }
+
+  onCancelBoundingBox() {
+    document.getElementById('map').style.cursor = "grab";
+    document.getElementById('map').removeEventListener("click", this.onMapClickBound);
+    this.boundsChanged(false);
+    if (this.boundingBox) {
+      this.map.removeLayer(this.boundingBox);
     }
   }
 
+  onMapClick(mapComp, e) {
+    mapComp.boxBounds.push(mapComp.map.mouseEventToLatLng(e));
+    if (mapComp.boxBounds.length === 2) {
+      mapComp.boundingBox = new L.Rectangle(mapComp.boxBounds, {color: "#ffb34d", weight: 0.5});
+      mapComp.boundingBox.editing.enable();
+      mapComp.boundsChanged(true);
+      mapComp.boxBounds = [];
+      mapComp.map.addLayer(mapComp.boundingBox);
+      console.log(mapComp.boundingBox)
+    } else {
+      if (mapComp.boundingBox) {
+        mapComp.map.removeLayer(mapComp.boundingBox);
+        mapComp.boundsChanged(false);
+      }
+    }
+  }
+
+  boundsChanged(completed: boolean) {
+    if (completed) {
+      let latlng = `${this.boxBounds[0].lat} ${this.boxBounds[0].lng} ${this.boxBounds[1].lat} ${this.boxBounds[1].lng}`
+      this.boundsChange.emit(latlng);
+    } else {
+      this.boundsChange.emit("");
+    }
+  }*/
 }

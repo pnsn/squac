@@ -6,7 +6,6 @@ import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, F
 import { ChannelsService } from '../../shared/channels.service';
 import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
-import { Network } from '../network';
 import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 
@@ -35,11 +34,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   changeMade = false;
   // form stuff
   channelGroupForm: FormGroup;
-
+  mapChannels: Channel[] = [];
   availableChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
-
   selectedChannelIds: number[] = [];
+  bounds: any;
 
   // table stuff
   SelectionType = SelectionType;
@@ -112,6 +111,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         response => {
           console.log(response.length);
           this.availableChannels = response;
+          this.mapChannels = [...this.availableChannels];
           this.loading = false;
           // add channels to selected Channels
         }
@@ -120,6 +120,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.subscriptions.add(channelsSub);
     } else {
       this.availableChannels = [];
+      this.mapChannels = [];
     }
   }
 
@@ -199,4 +200,19 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     popup.style.display = 'none';
   }
 
+  updateBounds(bounds) {
+    if (bounds === '') {
+      this.availableChannels = [...this.mapChannels];
+    } else {
+      const boundsArr = bounds.split(' ');
+      boundsArr.map( bound => {
+        return parseFloat(bound);
+      });
+      this.availableChannels = this.mapChannels.filter( channel => {
+        const latCheck = channel.lat <= boundsArr[0] && channel.lat >= boundsArr[2];
+        const lngCheck = channel.lon >= boundsArr[1] && channel.lon <= boundsArr[3];
+        return latCheck && lngCheck;
+      });
+    }
+  }
 }
