@@ -104,7 +104,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // }
 
   getChannelsWithFilters(searchFilters) {
-
     if (searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
@@ -200,19 +199,28 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     popup.style.display = 'none';
   }
 
-  updateBounds(bounds) {
-    if (bounds === '') {
+  updateBounds(newBounds: string) {
+    if (newBounds === '') {
       this.availableChannels = [...this.mapChannels];
     } else {
-      const boundsArr = bounds.split(' ');
-      boundsArr.map( bound => {
+      const boundsArr = newBounds.split(' ').map(bound => { // format: 'N_lat W_lon S_lat E_lon'
         return parseFloat(bound);
       });
-      this.availableChannels = this.mapChannels.filter( channel => {
-        const latCheck = channel.lat <= boundsArr[0] && channel.lat >= boundsArr[2];
-        const lngCheck = channel.lon >= boundsArr[1] && channel.lon <= boundsArr[3];
-        return latCheck && lngCheck;
-      });
+      this.bounds = {
+        lat_min: boundsArr[2], // south bound
+        lat_max: boundsArr[0], // north bound
+        lon_min: boundsArr[1], // west bound
+        lon_max: boundsArr[3] // east bound
+      };
+      if (this.availableChannels === []) {
+        // this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
+      } else {
+        this.availableChannels = this.mapChannels.filter( channel => {
+          const latCheck = channel.lat <= this.bounds.lat_max && channel.lat >= this.bounds.lat_min;
+          const lonCheck = channel.lon >= this.bounds.lon_min && channel.lon <= this.bounds.lon_max;
+          return latCheck && lonCheck;
+        });
+      }
     }
   }
 }

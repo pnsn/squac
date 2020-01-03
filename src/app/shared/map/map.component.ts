@@ -9,22 +9,21 @@ import * as L from 'leaflet';
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() channels: Channel[];
-  // @Input() editPage: boolean;
-  // @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
+  @Input() editPage: boolean;
+  @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
   map: L.Map;
   channelLayer: L.LayerGroup;
+  drawnItems: L.FeatureGroup;
   mapIcon: L.Icon;
-  // boundingBox: L.Rectangle;
-  // boxBounds = [];
-  // bounds = [];
-  // onMapClickBound = this.onMapClick.bind(null, this);
   options: {
     center: L.LatLng,
     zoom: number,
     layers: L.Layer[]
   };
+  drawOptions: { };
   layers: L.Layer[];
   fitBounds: L.LatLngBounds;
+  rectLayer: any;
 
   constructor() { }
 
@@ -38,6 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   initMap(): void {
     this.channelLayer = L.layerGroup([]);
+    this.drawnItems = new L.FeatureGroup();
     this.mapIcon = L.icon({
       iconUrl: '../../assets/map-marker.png',
       shadowUrl: '',
@@ -52,6 +52,7 @@ export class MapComponent implements OnInit, OnChanges {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }),
+      this.drawnItems,
       this.channelLayer
     ];
     this.options = {
@@ -59,10 +60,20 @@ export class MapComponent implements OnInit, OnChanges {
       zoom: 5,
       layers: this.layers
     };
-    this.options.layers.push(L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }));
+    this.drawOptions = {
+      position: 'topright',
+      draw: {
+       polygon: false,
+       polyline: false,
+       rectangle: {
+         showArea: false // disable showArea
+       },
+       circle: false,
+       circlemarker: false,
+       marker: false,
+      },
+      edit: { featureGroup: this.drawnItems }
+   };
   }
 
   updateMap() {
@@ -79,48 +90,38 @@ export class MapComponent implements OnInit, OnChanges {
       });
       this.channelLayer = L.layerGroup(chanMarkers);
       this.layers.push(this.channelLayer);
-      this.options.center = L.latLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length);
-      this.fitBounds = L.latLngBounds(chanLatLng);
-    }
-  }
-  /* Old bounding box code - to be deleted if ngx leaflet works
-  onAddBoundingBox() {
-    document.getElementById('map').style.cursor = "crosshair";
-    document.getElementById('map').addEventListener("click", this.onMapClickBound);
-  }
-
-  onCancelBoundingBox() {
-    document.getElementById('map').style.cursor = "grab";
-    document.getElementById('map').removeEventListener("click", this.onMapClickBound);
-    this.boundsChanged(false);
-    if (this.boundingBox) {
-      this.map.removeLayer(this.boundingBox);
-    }
-  }
-
-  onMapClick(mapComp, e) {
-    mapComp.boxBounds.push(mapComp.map.mouseEventToLatLng(e));
-    if (mapComp.boxBounds.length === 2) {
-      mapComp.boundingBox = new L.Rectangle(mapComp.boxBounds, {color: "#ffb34d", weight: 0.5});
-      mapComp.boundingBox.editing.enable();
-      mapComp.boundsChanged(true);
-      mapComp.boxBounds = [];
-      mapComp.map.addLayer(mapComp.boundingBox);
-      console.log(mapComp.boundingBox)
-    } else {
-      if (mapComp.boundingBox) {
-        mapComp.map.removeLayer(mapComp.boundingBox);
-        mapComp.boundsChanged(false);
+      if (chanMarkers.length > 0) {
+        this.options.center = L.latLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length);
+        this.fitBounds = L.latLngBounds(chanLatLng);
       }
     }
   }
 
-  boundsChanged(completed: boolean) {
-    if (completed) {
-      let latlng = `${this.boxBounds[0].lat} ${this.boxBounds[0].lng} ${this.boxBounds[1].lat} ${this.boxBounds[1].lng}`
-      this.boundsChange.emit(latlng);
-    } else {
-      this.boundsChange.emit("");
-    }
-  }*/
+  onDrawStart() {
+    this.drawnItems.clearLayers();
+    this.boundsChange.emit('');
+  }
+
+  onRectangleCreated(e: any) {
+    this.rectLayer = e.layer;
+    this.boundsChange.emit(''); // Clear old bounds
+    const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
+    const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
+    const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;
+    // Convert SE and NE to upper left and NE and SW coordinates
+    this.boundsChange.emit(latLngBounds);
+  }
+
+  onRectangleEdited() {
+    this.boundsChange.emit(''); // Clear old bounds
+    const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
+    const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
+    const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;
+    // Convert SE and NE to upper left and NE and SW coordinates
+    this.boundsChange.emit(latLngBounds);
+  }
+
+  onRectangleDeleted() {
+    this.boundsChange.emit(''); // Clear old bounds
+  }
 }

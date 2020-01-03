@@ -4,7 +4,7 @@
 
 <div id="selection-container">
   <div id="map-box" class="box">
-    <app-map [channels]="mapChannels"></app-map>
+    <app-map [channels]="mapChannels" [editPage]=true (boundsChange)="updateBounds($event)"></app-map>
   </div>
 
   <div id="available-channels" class="box">

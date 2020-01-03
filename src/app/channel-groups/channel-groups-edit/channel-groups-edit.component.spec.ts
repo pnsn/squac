@@ -16,6 +16,7 @@ import { ChannelGroupsTableComponent } from './channel-groups-table/channel-grou
 import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 import { MapComponent } from '../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -29,7 +30,8 @@ describe('ChannelGroupsEditComponent', () => {
         ReactiveFormsModule,
         NgxDatatableModule,
         MaterialModule,
-        LeafletModule
+        LeafletModule,
+        LeafletDrawModule
       ],
       declarations: [
         ChannelGroupsEditComponent,

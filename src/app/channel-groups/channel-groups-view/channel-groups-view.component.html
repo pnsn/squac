@@ -14,7 +14,7 @@
 
 <div id="map-and-channel-group">
   <div id="map-box" class="box">
-    <app-map [channels]="selectedChannels"></app-map>
+    <app-map [channels]="selectedChannels" [editPage]=false></app-map>
   </div>
   <div id="channel-groups">
     <ngx-datatable id="channel-group-table" class="material" [rows]="channelGroups" [columnMode]="ColumnMode.force"

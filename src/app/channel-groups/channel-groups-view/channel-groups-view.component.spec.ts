@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -20,7 +21,8 @@ describe('ChannelGroupsViewComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         NgxDatatableModule,
-        LeafletModule
+        LeafletModule,
+        LeafletDrawModule
       ],
       declarations: [
         ChannelGroupsViewComponent,
