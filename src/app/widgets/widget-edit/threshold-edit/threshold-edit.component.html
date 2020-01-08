@@ -2,7 +2,7 @@
 <ngx-datatable
   #thresholdDataTable
   class="material"
-  headerHeight="50"
+  headerHeight="30"
   [columnMode]="ColumnMode.force"
   footerHeight="50"
   rowHeight="30"
@@ -20,11 +20,11 @@
   <ngx-datatable-column name="Min">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
       <div class="row-container" (click)="editing[rowIndex + '-min'] = true">
-          <span
+        <span
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-min']"
         >
-          {{ value !== null ? value : "enter a min threshold"}}
+        {{ !value && value !== 0  ? "Enter a min threshold" : value }}
         </span>
         <input matInput
           autofocus
@@ -43,7 +43,7 @@
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-max']"
         >
-          {{ value !== null ? value : "Enter a max threshold"}}
+        {{ !value && value !== 0  ? "Enter a max threshold" : value }}
         </span>
         <input matInput
           autofocus

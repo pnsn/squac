@@ -1,8 +1,11 @@
 @import 'src/variables.scss';
-.edit-tab-body {
-  height: 400px;
+#edit-container {
+  width:65vw;
 }
-
+#widget-edit-top {
+  display:flex;
+  flex-direction:row;
+}
 
 #desc-field {
   display:none;
@@ -10,16 +13,41 @@
 
 #widget-type-container {
   height: 75px;
-  width:100%;
-  display:flex;
-  flex-direction:row;
-  justify-content: center;
+  border:solid 0.5px $sq-blue; 
   .widget-type-select {
+    display:inline-block;
     height: 100%;
-    width: 75px;
-    border:solid 1px $sq-blue; 
+    width: 100px;
+    padding-top:12px;
+    border:solid 0.5px $sq-blue; 
     color: $sq-blue;
+    text-align:center;
+    cursor:pointer;
+    &:hover {
+      background-color: $sq-blue + "5e";
+    }
+    img {
+      height:50%;
+      width:auto;
+      margin-left: auto;
+      margin-right:auto;
+      padding:5px;
+      &.dark {
+        display: block;
+      }
+      &.white {
+        display: none;
+      }
+    }
     &.selected {
+      img {
+        &.dark {
+          display: none;
+        }
+        &.white {
+          display: block;
+        }
+      }
       color:white;
       background-color: $sq-blue;
     }
@@ -27,16 +55,10 @@
 }
 
 h3{
-  text-align:center;
   font-size:14px;
   margin-bottom: 10px;
 }
-#metric-select-table{
-  height: 323px;
-  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
-    padding: unset;
-  }
-}
+
 :host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
   padding: 0px !important;
 }

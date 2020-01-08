@@ -1,39 +1,39 @@
-<mat-tab label="Metrics">
+
   <div  class="edit-tab-body">
-      <input
-      type="text"
-      style="padding:8px;margin:15px auto;width:30%;"
-      placeholder="Filter by metric name..."
-      (keyup)="updateFilter($event)"
-      />
-      <span>
-         {{selectedMetrics?.length}} metrics selected
-      </span>
-        <ngx-datatable
-        id="metric-select-table"
-          class="material"
-          [rows]="tableRows"
-          [columnMode]="ColumnMode.force"
-          [headerHeight]="50"
-          [rowHeight]="30"
-          [scrollbarV]="true"
-          [selected]="selectedMetrics"
-          [selectionType]="SelectionType.checkbox"
-          [selectAllRowsOnPage]="false"
-          (select)="metricsSelected($event)"
+    <input
+    type="text"
+    style="padding:8px;margin:15px auto;width:30%;"
+    placeholder="Filter by metric name..."
+    (keyup)="updateFilter($event)"
+    />
+    <span>
+        {{selectedMetrics?.length}} metrics selected
+    </span>
+      <ngx-datatable
+      id="metric-select-table"
+        class="material"
+        [rows]="tableRows"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="30"
+        [rowHeight]="30"
+        [scrollbarV]="true"
+        [selected]="selectedMetrics"
+        [selectionType]="SelectionType.checkbox"
+        [selectAllRowsOnPage]="false"
+        (select)="metricsSelected($event)"
+      >
+        <ngx-datatable-column
+          [width]="30"
+          [sortable]="false"
+          [canAutoResize]="false"
+          [draggable]="false"
+          [resizeable]="false"
+          [headerCheckboxable]="true"
+          [checkboxable]="true"
         >
-          <ngx-datatable-column
-            [width]="30"
-            [sortable]="false"
-            [canAutoResize]="false"
-            [draggable]="false"
-            [resizeable]="false"
-            [headerCheckboxable]="true"
-            [checkboxable]="true"
-          >
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Name"></ngx-datatable-column>
-          <ngx-datatable-column name="Unit"></ngx-datatable-column>
-          <ngx-datatable-column name="Description"></ngx-datatable-column>
-        </ngx-datatable>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Name"></ngx-datatable-column>
+        <ngx-datatable-column name="Unit"></ngx-datatable-column>
+        <ngx-datatable-column name="Description"></ngx-datatable-column>
+      </ngx-datatable>
   </div>

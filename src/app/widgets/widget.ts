@@ -27,10 +27,11 @@ export class Widget {
   // get ids from the channels
   get metricsIds(): number[] {
     const array = [];
-
-    this.metrics.forEach(metric => {
-      array.push(metric.id);
-    });
+    if(this.metrics) {
+      this.metrics.forEach(metric => {
+        array.push(metric.id);
+      });
+    }
 
     return array;
   }
