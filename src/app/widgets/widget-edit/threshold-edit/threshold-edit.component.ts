@@ -16,6 +16,12 @@ export class ThresholdEditComponent implements OnInit {
 
   ColumnMode = ColumnMode;
 
+  messages = {
+      // Message to show when array is presented
+  // but contains no values
+    emptyMessage: 'Please select metrics first.',
+};
+
   constructor(
     private widgetEditService: WidgetEditService
   ){
@@ -24,7 +30,6 @@ export class ThresholdEditComponent implements OnInit {
 
   ngOnInit() {
     this.widgetEditService.metrics.subscribe(metrics => {
-      console.log("threshold", metrics)
       this.metrics = metrics;
       this.thresholds = this.widgetEditService.getThresholds();
       this.rows = [];
@@ -53,7 +58,6 @@ export class ThresholdEditComponent implements OnInit {
           }
         );
         this.rows = [...newRows];
-        console.log(this.rows)
       }
     });
 

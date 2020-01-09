@@ -14,6 +14,7 @@ import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-e
 import { MetricsEditComponent } from './widget-edit/metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/channel-groups-edit.component';
 
+
 @NgModule({
   declarations: [
     WidgetComponent,
@@ -37,6 +38,9 @@ import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/ch
     WidgetComponent,
     WidgetEditComponent,
     SharedModule
+  ],
+  entryComponents: [
+    MetricsEditComponent
   ]
 })
 export class WidgetsModule { }

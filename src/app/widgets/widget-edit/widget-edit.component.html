@@ -1,4 +1,8 @@
-<h3 mat-dialog-title>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
+<div mat-dialog-title id="edit-title">
+  <h3>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
+  <button mat-icon-button type="button" (click)="cancel()"><mat-icon>close</mat-icon></button>
+</div>
+   
 <div mat-dialog-content id="edit-container">
   <div id="widget-edit-top">
     <div id="widget-type-container">
@@ -10,12 +14,13 @@
       </div>
     </div>
     <form action="" [formGroup]="widgetForm">
-      <mat-form-field>
+      <mat-form-field >
         <input matInput 
           type="text" 
           id="name" 
           formControlName="name" 
           placeholder="Widget name"
+          cdkFocusInitial
         >
       </mat-form-field>
   
@@ -36,17 +41,17 @@
 
       <mat-tab label="Metrics"> 
         <ng-template matTabContent>
-          <app-metrics-edit></app-metrics-edit>
+          <app-metrics-edit class="edit-tab-body"></app-metrics-edit>
         </ng-template>
       </mat-tab>
       <mat-tab label="Channels">
         <ng-template matTabContent>
-          <app-channel-groups-edit></app-channel-groups-edit>
+          <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
         </ng-template>
       </mat-tab>
       <mat-tab label="Thresholds">
         <ng-template matTabContent>
-          <app-threshold-edit></app-threshold-edit>
+          <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
         </ng-template>
       </mat-tab>
     <mat-tab label="Options">
@@ -59,5 +64,4 @@
   </div>
 <div mat-dialog-actions>
   <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
-  <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
 </div>

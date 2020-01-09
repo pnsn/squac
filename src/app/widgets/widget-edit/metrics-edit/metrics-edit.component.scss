@@ -1,14 +1,11 @@
-.edit-tab-body {
-  height: 500px;
-  overflow:hidden;
+.table-container {
+  height: 423px;
+  width: 100%;
 }
-
-#metric-select-table {
-  height: 100%;
-}
-
 #metric-select-table{
-  height: 323px;
+  height: 100%;
+  width: 100% !important;
+
   .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
     padding: unset;
   }

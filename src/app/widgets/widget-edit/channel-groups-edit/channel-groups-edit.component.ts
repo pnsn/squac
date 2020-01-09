@@ -13,6 +13,9 @@ export class ChannelGroupsEditComponent implements OnInit {
   availableChannelGroups: ChannelGroup[];
   selectedChannelGroup: ChannelGroup;
   subscriptions: Subscription = new Subscription();
+
+  loading: boolean = true;
+
   constructor(
     private channelGroupsService: ChannelGroupsService,
     private widgetEditService: WidgetEditService,
@@ -22,14 +25,16 @@ export class ChannelGroupsEditComponent implements OnInit {
     this.channelGroupsService.fetchChannelGroups();
     const sub2 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
       this.availableChannelGroups = channelGroups;
+      this.loading = false;
     });
 
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
-
+    console.log(this.selectedChannelGroup);
     this.subscriptions.add(sub2);
   }
 
   getChannelsForChannelGroup(group) {
+    this.loading = true;
     this.selectedChannelGroup = group;
 
     if (this.selectedChannelGroup.id) {
@@ -37,6 +42,7 @@ export class ChannelGroupsEditComponent implements OnInit {
       const channelGroupsSub = this.channelGroupsService.getChannelGroup(this.selectedChannelGroup.id).subscribe(
         channelGroup => {
           this.selectedChannelGroup = channelGroup;
+          this.loading = false;
         }
       );
 

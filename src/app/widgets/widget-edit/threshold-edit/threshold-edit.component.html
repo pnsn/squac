@@ -1,12 +1,13 @@
 
-<ngx-datatable
+  <ngx-datatable
   #thresholdDataTable
   class="material"
   headerHeight="30"
   [columnMode]="ColumnMode.force"
-  footerHeight="50"
+  footerHeight="0"
   rowHeight="30"
   [rows]="rows"
+  [messages]="messages"
 >
 
   <ngx-datatable-column name="Metric">

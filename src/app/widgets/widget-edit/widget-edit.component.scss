@@ -1,10 +1,22 @@
 @import 'src/variables.scss';
+#edit-title {
+  h3 {
+    display:inline;
+    font-size: 12pt;
+  }
+  button {
+    float:right;
+  }
+}
 #edit-container {
   width:65vw;
 }
 #widget-edit-top {
   display:flex;
   flex-direction:row;
+  mat-form-field {
+    margin-right: 20px;
+  }
 }
 
 #desc-field {
@@ -13,18 +25,19 @@
 
 #widget-type-container {
   height: 75px;
-  border:solid 0.5px $sq-blue; 
+  border:solid 0.25px $sq-blue; 
+  margin-right:20px;
   .widget-type-select {
     display:inline-block;
     height: 100%;
     width: 100px;
     padding-top:12px;
-    border:solid 0.5px $sq-blue; 
-    color: $sq-blue;
+    border:solid 0.25px $sq-blue; 
+    color: black;
     text-align:center;
     cursor:pointer;
     &:hover {
-      background-color: $sq-blue + "5e";
+      background-color: rgba( $sq-blue, .2 );
     }
     img {
       height:50%;
@@ -61,4 +74,11 @@ h3{
 
 :host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
   padding: 0px !important;
+}
+
+.edit-tab-body {
+  display:inline-block;
+  height: 500px;
+  width: 100%;
+  overflow:hidden;
 }

@@ -32,6 +32,7 @@ export class WidgetEditService {
     if(widget) {
       this.widget = widget;
       this.thresholds = widget.thresholds;
+      this.channelGroup = widget.channelGroup;
       this.metrics.next(this.widget.metrics);
     } else {
       this.thresholds = {};

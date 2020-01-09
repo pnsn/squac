@@ -1,9 +1,15 @@
-
+@import 'src/variables.scss';
 #channel-group-selector-container {
   display:flex;
   width: 100%;
   flex-direction: row;
+
   overflow:hidden;
+  padding-top: 15px;
+  .selected {
+    background-color: $sq-blue;
+    color: white;
+  }
 }
 
 :host ::ng-deep #channel-group-selector {
@@ -12,7 +18,30 @@
   }
 }
 
-#groups-container, #selectedChannelsContainer {
+#groups-container, #selection-container {
+  height:480px;
+}
+
+#groups-container {
+  width: 30%;
+}
+
+#selection-container {
+  width: 70%;
+}
+
+#selected-channels, #channel-group-selector,  #channel-group-detail  {
   height:90%;
   overflow:scroll;
 }
+
+
+#selected-channels, #channel-group-detail {
+  width: 50%;
+  display: inline-block;
+}
+.edit-tab-body {
+  height: 500px;
+  overflow:hidden;
+}
+

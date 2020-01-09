@@ -14,10 +14,22 @@ export class MetricsEditComponent implements OnInit {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
-
+  loading : boolean = false;
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
+
+  messages = {
+      // Message to show when array is presented
+  // but contains no values
+    emptyMessage: 'Loading data.',
+
+    // Footer total message
+    totalMessage: 'total',
+
+    // Footer selected message
+    selectedMessage: 'selected'
+};
 
   constructor(
     private metricsService: MetricsService,
@@ -25,20 +37,20 @@ export class MetricsEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     const sub1 = this.metricsService.getMetrics.subscribe(metrics => {
       this.availableMetrics = metrics;
       this.tableRows = this.availableMetrics;
 
       const metricIds = this.widgetEditService.getMetricIds();
-      console.log(metricIds)
       if(metricIds.length > 0) {
         this.selectedMetrics = this.availableMetrics.filter(
           metric => {
             return metricIds.indexOf(metric.id) >= 0;
           }
         );
-        console.log(this.selectedMetrics)
       }
+      this.loading = false;
     });
 
 
