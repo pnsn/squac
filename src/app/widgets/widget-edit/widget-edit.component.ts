@@ -63,10 +63,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   selectedType : number;
 
 
-  rows = 3;
-  columns = 6;
-  x = 1;
-  y = 1;
+
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -104,7 +101,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      description : new FormControl('', Validators.required),
       statType: new FormControl('', Validators.required)
     });
 
@@ -112,12 +108,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.id = this.widget.id;
-      this.rows = this.widget.rows;
-      this.columns = this.widget.columns;
       this.widgetForm.patchValue(
         {
           name : this.widget.name,
-          description : this.widget.description,
           statType: this.widget.stattype.id
         }
       );
@@ -148,51 +141,46 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   save() {
     console.log("save");
   //   //save thresholds
-  //   const values = this.widgetForm.value;
-  //   const newWidget = new Widget(
-  //     this.id,
-  //     values.name,
-  //     values.description,
-  //     this.selectedType,
-  //     this.dashboardId,
-  //     this.selectedChannelGroup.id,
-  //     this.widget ? this.widget.columns : this.columns,
-  //     this.widget ? this.widget.rows : this.rows,
-  //     this.widget ? this.widget.x : this.x,
-  //     this.widget ? this.widget.y : this.y,
-  //     []
-  //   );
+    const values = this.widgetForm.value;
 
-  //   newWidget.stattype = this.statTypes.find((st) => {
-  //     return st.id === values.statType;
-  //   });
+    let newWidget = this.widgetEditService.getWidget();
 
-  //   const widgetObs = this.widgetService.updateWidget(
-  //     newWidget
-  //   );
+    newWidget.name = values.name;
+    newWidget.description = "";
+    newWidget.typeId = this.selectedType;
+    newWidget.dashboardId = this.dashboardId;
+    newWidget.channelGroupId = this.selectedChannelGroup.id;
+    newWidget.stattype = this.statTypes.find((st) => {
+      return st.id === values.statType;
+    });
 
-  //   const thresholdObs = this.thresholdService.updateThresholds(
-  //     this.widget.metrics,
-  //     this.widget.thresholds
-  //   );
+    const widgetObs = this.widgetService.updateWidget(
+      newWidget
+    );
+
+    const thresholdObs = this.thresholdService.updateThresholds(
+      newWidget.metrics,
+      newWidget.thresholds
+    );
     
-  //   const services = merge(
-  //     ...[widgetObs, ...thresholdObs]
-  //   );
+    const services = merge(
+      ...[widgetObs, ...thresholdObs]
+    );
 
-  //   let count = 0;
-  //   let widget;
-  //   services.subscribe(
-  //     result => {
-  //       count++;
-  //       if(result.channel_group) {
-  //         widget = result;
-  //       }
-  //       if(count === thresholdObs.length && widget) {
-  //         this.dialogRef.close(widget);
-  //       } 
-  //     }
-  //   );
+    let count = 0;
+    let widget;
+    // services.subscribe(
+    //   result => {
+    //     count++;
+    //     if(result.channel_group) {
+    //       widget = result;
+    //     }
+    //     if(count === thresholdObs.length && widget) {
+    //       this.dialogRef.close(widget);
+    //     } 
+    //   }
+    // );
+      console.log(newWidget)
   }
 
   cancel() {

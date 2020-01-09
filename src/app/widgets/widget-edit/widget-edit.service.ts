@@ -17,6 +17,12 @@ export class WidgetEditService {
 
   public metrics = new BehaviorSubject<Metric[]>([]);
 
+  //default widget dimensions
+  rows = 3;
+  columns = 6;
+  x = 1;
+  y = 1;
+
   constructor(){
     console.log("hiiii")
   }
@@ -35,11 +41,25 @@ export class WidgetEditService {
       this.editMode = false; 
       this.thresholds = {};
       this.widget = new Widget(
-        null, null, null, null, null, null, null, null, null, null, null
+        null, 
+        null, 
+        null, 
+        null, 
+        null, 
+        null, 
+        this.columns, 
+        this.rows, 
+        this.x, 
+        this.y, 
+        null
       )
       this.widget.thresholds = {};
     }
 
+  }
+
+  getWidget(){
+    return this.widget;
   }
 
   getMetricIds() {
