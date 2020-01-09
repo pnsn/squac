@@ -1,0 +1,18 @@
+
+#channel-group-selector-container {
+  display:flex;
+  width: 100%;
+  flex-direction: row;
+  overflow:hidden;
+}
+
+:host ::ng-deep #channel-group-selector {
+ mat-pseudo-checkbox.mat-pseudo-checkbox {
+    display:none !important;
+  }
+}
+
+#groups-container, #selectedChannelsContainer {
+  height:90%;
+  overflow:scroll;
+}

@@ -26,11 +26,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   widgetForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-
-  availableChannelGroups: ChannelGroup[];
-  selectedChannelGroup: ChannelGroup;
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
   dashboardId: number;
 
   widgetTypes = [ // TODO: get from squac, this is for test
@@ -84,14 +79,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.initForm()
 
     this.metricsService.fetchMetrics();
-
     this.channelGroupsService.fetchChannelGroups();
-    const sub2 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
-      this.availableChannelGroups = channelGroups;
-    });
 
-
-    this.subscriptions.add(sub2);
   }
 
   ngOnDestroy(): void {
@@ -115,7 +104,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         }
       );
       this.selectedType = this.widget.typeId;
-      this.selectedChannelGroup = this.widget.channelGroup;
+
     }
   }
 
@@ -123,36 +112,24 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.selectedType = type;
   }
 
-  getChannelsForChannelGroup(group) {
-    this.selectedChannelGroup = group;
 
-    if (this.selectedChannelGroup.id) {
-      const channelGroupsSub = this.channelGroupsService.getChannelGroup(this.selectedChannelGroup.id).subscribe(
-        channelGroup => {
-          this.selectedChannelGroup = channelGroup;
-        }
-      );
-
-      this.subscriptions.add(channelGroupsSub);
-    }
-
-  }
 
   save() {
     console.log("save");
   //   //save thresholds
     const values = this.widgetForm.value;
-
-    let newWidget = this.widgetEditService.getWidget();
-
-    newWidget.name = values.name;
-    newWidget.description = "";
-    newWidget.typeId = this.selectedType;
-    newWidget.dashboardId = this.dashboardId;
-    newWidget.channelGroupId = this.selectedChannelGroup.id;
-    newWidget.stattype = this.statTypes.find((st) => {
+    const statType = this.statTypes.find((st) => {
       return st.id === values.statType;
     });
+    this.widgetEditService.updateWidgetInfo(
+      values.name,
+       "",
+      this.selectedType,
+      this.dashboardId,
+      statType.id
+    );
+
+    let newWidget = this.widgetEditService.getWidget();
 
     const widgetObs = this.widgetService.updateWidget(
       newWidget
@@ -169,6 +146,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     let count = 0;
     let widget;
+
+    //TODO: can it actually save the threshold if there's no widget ID?
+    
     // services.subscribe(
     //   result => {
     //     count++;

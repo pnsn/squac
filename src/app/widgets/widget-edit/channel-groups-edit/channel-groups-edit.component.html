@@ -1,1 +1,27 @@
-<p>channel-groups-edit works!</p>
+<div id="channel-group-selector-container"  class="edit-tab-body">
+  <div id="groups-container">
+    <mat-selection-list dense *ngIf="availableChannelGroups" id="channel-group-selector" >
+        <mat-list-option 
+          *ngFor="let channelGroup of availableChannelGroups"
+          (click)="getChannelsForChannelGroup(channelGroup)"
+          [value]="channelGroup.id"
+          >
+          {{channelGroup.name}}
+        </mat-list-option>
+      </mat-selection-list>
+  </div>
+
+  <div>
+    <h4 *ngIf="selectedChannelGroup">
+        Channels in {{selectedChannelGroup.name}}:
+      </h4>
+      <div id="selectedChannelsContainer">
+          <mat-list dense *ngIf="selectedChannelGroup?.channels">
+              <mat-list-item *ngFor="let channel of selectedChannelGroup.channels">
+                  {{channel.nslc}}
+              </mat-list-item>
+            </mat-list>
+
+      </div>
+    </div>
+  </div>

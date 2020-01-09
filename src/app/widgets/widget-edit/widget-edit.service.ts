@@ -12,9 +12,6 @@ export class WidgetEditService {
   private widget : Widget;
   private channelGroup : ChannelGroup;
   private thresholds : { [metricId: number]: Threshold};
-  private stattype;
-  private editMode :boolean;
-
   public metrics = new BehaviorSubject<Metric[]>([]);
 
   //default widget dimensions
@@ -35,10 +32,8 @@ export class WidgetEditService {
     if(widget) {
       this.widget = widget;
       this.thresholds = widget.thresholds;
-      this.editMode = true;
       this.metrics.next(this.widget.metrics);
     } else {
-      this.editMode = false; 
       this.thresholds = {};
       this.widget = new Widget(
         null, 
@@ -58,12 +53,21 @@ export class WidgetEditService {
 
   }
 
+  getChannelGroup() {
+    return this.channelGroup;
+  }
+
   getWidget(){
     return this.widget;
   }
 
   getMetricIds() {
     return this.widget.metricsIds;
+  }
+
+  updateChannelGroup(channelGroup){
+    this.channelGroup = channelGroup;
+    this.widget.channelGroupId = channelGroup.id;
   }
 
   updateMetrics(metrics) {
@@ -84,8 +88,12 @@ export class WidgetEditService {
     this.widget.thresholds = this.thresholds;
   }
 
-  channelGroupChanged(){
-
+  updateWidgetInfo(name: string, description: string, typeId: number, dashboardId: number, statType :number){
+    this.widget.name = name;
+    this.widget.description = description;
+    this.widget.typeId = typeId;
+    this.widget.dashboardId = dashboardId;
+    this.widget.typeId = statType;
   }
 
   //cancel without sacving
