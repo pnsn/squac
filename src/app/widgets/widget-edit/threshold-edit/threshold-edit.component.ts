@@ -33,6 +33,11 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     const sub = this.widgetEditService.metrics.subscribe(metrics => {
       this.metrics = metrics;
       this.thresholds = this.widgetEditService.getThresholds();
+
+      if(!this.thresholds) {
+        this.thresholds = {};
+      }
+      
       this.rows = [];
       if(this.metrics.length > 0) {
         const newRows = [];

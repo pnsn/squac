@@ -63,5 +63,13 @@
   </mat-tab-group>
   </div>
 <div mat-dialog-actions>
-  <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
+  <p *ngIf="!isValid || !widgetForm.valid; else valid">
+    Information still missing... add more help text here
+  </p>
+  <ng-template #valid>
+    <p>
+      Creating widget on dashboard {{dashboardId}}
+    </p>
+  </ng-template>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid'>Save</button>
 </div>

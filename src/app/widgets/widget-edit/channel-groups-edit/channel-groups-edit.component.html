@@ -30,7 +30,7 @@
         </mat-list-item>
       </mat-list>
     </div>
-    <div id="channel-group-detail" *ngIf="selectedChannelGroup">
+    <div id="channel-group-detail" *ngIf="selectedChannelGroup && selectedChannelGroup.channels">
       Channel group detail here - like copy/map/edit
       {{selectedChannelGroup.channels.length}} channels selected.
     </div>

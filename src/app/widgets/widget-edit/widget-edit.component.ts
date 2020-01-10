@@ -57,7 +57,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   selectedType : number;
 
-
+  isValid : boolean;
 
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
@@ -71,8 +71,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
+    const sub = this.widgetEditService.isValid.subscribe(
+      valid => {
+        this.isValid = valid;
+      }
+    );
 
     this.widgetEditService.setWidget(this.widget);
+
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
     console.log(this.widget);
@@ -81,6 +87,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.metricsService.fetchMetrics();
     this.channelGroupsService.fetchChannelGroups();
 
+    this.subscriptions.add(sub);
   }
 
   ngOnDestroy(): void {
@@ -110,9 +117,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   selectType(type) {
     this.selectedType = type;
+    this.widgetEditService.updateType(type);
   }
-
-
 
   save() {
     console.log("save");
@@ -124,39 +130,50 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.widgetEditService.updateWidgetInfo(
       values.name,
        "",
-      this.selectedType,
       this.dashboardId,
-      statType.id
+      statType
     );
     
     let newWidget = this.widgetEditService.getWidget();
 
     let widget;
-    
+
     this.widgetService.updateWidget(
       newWidget
     ).subscribe(
       result => {
         widget = result;
-        const thresholdObs = this.thresholdService.updateThresholds(
-          newWidget.metrics,
-          newWidget.thresholds,
-          widget.id
-        );
-        let count = 0;
-        merge(...thresholdObs).subscribe(
-          result => {
-            if(count === thresholdObs.length && widget) {
-              this.dialogRef.close(widget);
-            } 
-            count++;
+
+          const thresholdObs = this.thresholdService.updateThresholds(
+            newWidget.metrics,
+            newWidget.thresholds,
+            widget.id
+          );
+          let count = 0;
+          if(thresholdObs && thresholdObs.length > 0) {
+            merge(...thresholdObs).subscribe(
+              result => {
+                console.log(count, thresholdObs.length)
+                count++;
+                if(widget && count === thresholdObs.length) {
+                  this.cancel(widget);
+                } 
+
+              }
+            );
+          } else {
+            this.cancel(widget);
           }
-        );
       }
     );
   }
 
-  cancel() {
-    this.dialogRef.close(null);
+  cancel(widget?: Widget) {
+    if(widget) {
+      this.dialogRef.close(widget);
+    } else {
+      this.dialogRef.close(null);
+    }
+
   }
 }

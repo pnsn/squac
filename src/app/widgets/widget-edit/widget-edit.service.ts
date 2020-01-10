@@ -3,7 +3,7 @@ import { Widget } from '../widget';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { Metric } from 'src/app/shared/metric';
 import { Threshold } from '../threshold';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,26 @@ export class WidgetEditService {
   private channelGroup : ChannelGroup;
   private thresholds : { [metricId: number]: Threshold};
   public metrics = new BehaviorSubject<Metric[]>([]);
+  public isValid = new Subject<boolean>();
 
   //default widget dimensions
   rows = 3;
   columns = 6;
   x = 1;
   y = 1;
+  
+  updateValidity(){
+
+    if(this.widget) {
+      this.isValid.next(
+          this.widget.typeId
+          && this.widget.channelGroupId
+          && this.widget.metrics
+          && this.widget.metrics.length > 0
+          );
+    }
+
+  }
 
   constructor(){
     console.log("hiiii")
@@ -35,6 +49,7 @@ export class WidgetEditService {
       this.thresholds = widget.thresholds;
       this.channelGroup = widget.channelGroup;
       this.metrics.next(this.widget.metrics);
+
     } else {
       this.thresholds = {};
       this.widget = new Widget(
@@ -49,10 +64,12 @@ export class WidgetEditService {
         this.x, 
         this.y, 
         null
-      )
+      );
       this.widget.thresholds = {};
+      this.channelGroup = null;
+      this.thresholds = null;
     }
-
+    this.updateValidity();
   }
 
   getChannelGroup() {
@@ -70,13 +87,20 @@ export class WidgetEditService {
   updateChannelGroup(channelGroup){
     this.channelGroup = channelGroup;
     this.widget.channelGroupId = channelGroup.id;
+    this.updateValidity();
   }
 
   updateMetrics(metrics) {
     this.widget.metrics = metrics;
     this.metrics.next(this.widget.metrics);
+    this.updateValidity();
   }
- 
+
+  updateType(id){
+    this.widget.typeId = id;
+    this.updateValidity();
+  }
+
   updateThresholds(thresholds){
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
@@ -88,14 +112,15 @@ export class WidgetEditService {
       );
     });
     this.widget.thresholds = this.thresholds;
+    this.updateValidity();
   }
 
-  updateWidgetInfo(name: string, description: string, typeId: number, dashboardId: number, statType :number){
+  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ){
     this.widget.name = name;
     this.widget.description = description;
-    this.widget.typeId = typeId;
     this.widget.dashboardId = dashboardId;
-    this.widget.typeId = statType;
+    this.widget.stattype = statType;
+    this.updateValidity();
   }
 
   //cancel without sacving

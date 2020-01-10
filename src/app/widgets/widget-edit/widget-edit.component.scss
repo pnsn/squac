@@ -82,3 +82,13 @@ h3{
   width: 100%;
   overflow:hidden;
 }
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-weight: 300px;
+    font-size: 12pt;
+    margin-top: 0px;
+  }
+}

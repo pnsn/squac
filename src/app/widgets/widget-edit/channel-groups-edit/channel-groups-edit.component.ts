@@ -29,7 +29,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     });
 
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
-    console.log(this.selectedChannelGroup);
+
     this.subscriptions.add(sub2);
   }
 
