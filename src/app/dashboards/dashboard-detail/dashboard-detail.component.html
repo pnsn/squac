@@ -38,6 +38,11 @@
         </div>
 
       </mat-toolbar>
+      <mat-progress-bar
+        *ngIf="status == 'loading'"
+        [mode]="indeterminate"
+        >
+      </mat-progress-bar>
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget >
         </app-widget>

@@ -19,7 +19,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-
+  status : string = "finished";
   dateRanges = [
     {
       name: 'last hour',
@@ -61,8 +61,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         console.log('new dashboard');
       }
     );
+
+    const statusSub  = this.viewService.status.subscribe(
+      status => {
+        this.status = status;
+      }
+    );
+
+    
     this.subscription.add(dashSub);
     this.subscription.add(dashIdSub);
+    this.subscription.add(statusSub);
   }
 
   ngOnDestroy(): void {
@@ -84,10 +93,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }
 
-  refreshData() {
-    if(this.widgets) {
-      this.viewService.refreshWidgets();
-    }
+  refreshData() {;
+    this.viewService.refreshWidgets();
   }
 
   saveDashboard() {
