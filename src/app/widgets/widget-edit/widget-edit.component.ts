@@ -13,7 +13,6 @@ import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.serv
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
-import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget-edit',
@@ -129,51 +128,32 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.dashboardId,
       statType.id
     );
-
+    
     let newWidget = this.widgetEditService.getWidget();
 
-
+    let widget;
+    
     this.widgetService.updateWidget(
       newWidget
-    ).pipe(
-      mergeMap(
-        response => {
-          return this.thresholdService.updateThresholds(
-            newWidget.metrics,
-            newWidget.thresholds,
-            response.id
-          )
-        }
-      )
     ).subscribe(
       result => {
-        console.log(result);
+        widget = result;
+        const thresholdObs = this.thresholdService.updateThresholds(
+          newWidget.metrics,
+          newWidget.thresholds,
+          widget.id
+        );
+        let count = 0;
+        merge(...thresholdObs).subscribe(
+          result => {
+            if(count === thresholdObs.length && widget) {
+              this.dialogRef.close(widget);
+            } 
+            count++;
+          }
+        );
       }
     );
-
-    // const thresholdObs = 
-    
-    // const services = merge(
-    //   ...[widgetObs, ...thresholdObs]
-    // );
-
-    // let count = 0;
-    // let widget;
-
-    //TODO: can it actually save the threshold if there's no widget ID?
-    
-    // services.subscribe(
-    //   result => {
-    //     count++;
-    //     if(result.channel_group) {
-    //       widget = result;
-    //     }
-    //     if(count === thresholdObs.length && widget) {
-    //       this.dialogRef.close(widget);
-    //     } 
-    //   }
-    // );
-      console.log(newWidget)
   }
 
   cancel() {

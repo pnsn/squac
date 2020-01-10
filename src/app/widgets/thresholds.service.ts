@@ -50,8 +50,8 @@ export class ThresholdsService {
     const postData: ThresholdHttpData = {
       widget: threshold.widgetId ? threshold.widgetId : widgetId,
       metric: threshold.metricId,
-      minval: +threshold.min,
-      maxval: +threshold.max
+      minval: threshold.min,
+      maxval: threshold.max
     };
     console.log(postData)
     if (threshold.id) {
