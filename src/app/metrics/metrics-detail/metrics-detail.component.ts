@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { MetricsService } from '../../shared/metrics.service';
 import { Metric } from '../../shared/metric';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-metrics-detail',
   templateUrl: './metrics-detail.component.html',
   styleUrls: ['./metrics-detail.component.scss']
 })
-export class MetricsDetailComponent implements OnInit {
+export class MetricsDetailComponent implements OnInit, OnDestroy  {
   id: number;
   metric: Metric;
+  subscription: Subscription;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -18,7 +20,7 @@ export class MetricsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(
+    const sub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
         this.metricsService.getMetric(this.id).subscribe(
@@ -27,7 +29,13 @@ export class MetricsDetailComponent implements OnInit {
           });
       }
     );
+    this.subscription.add(sub);
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
   editMetric() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }

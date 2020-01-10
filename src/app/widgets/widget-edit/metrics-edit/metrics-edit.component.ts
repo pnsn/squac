@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from 'src/app/shared/metric';
 import { MetricsService } from 'src/app/shared/metrics.service';
@@ -10,7 +10,7 @@ import { Widget } from '../../widget';
   templateUrl: './metrics-edit.component.html',
   styleUrls: ['./metrics-edit.component.scss']
 })
-export class MetricsEditComponent implements OnInit {
+export class MetricsEditComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
@@ -56,6 +56,10 @@ export class MetricsEditComponent implements OnInit {
 
     this.subscriptions.add(sub1);
 
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   metricsSelected({selected}) {

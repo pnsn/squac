@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dashboard-edit.component.html',
   styleUrls: ['./dashboard-edit.component.scss']
 })
-export class DashboardEditComponent implements OnInit {
+export class DashboardEditComponent implements OnInit, OnDestroy {
   id: number;
   dashboard: Dashboard;
   editMode: boolean;
@@ -34,6 +34,10 @@ export class DashboardEditComponent implements OnInit {
     );
 
     this.subscriptions.add(paramsSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private initForm() {

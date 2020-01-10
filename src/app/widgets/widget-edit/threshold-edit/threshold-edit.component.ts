@@ -1,26 +1,27 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { Threshold } from '../../threshold';
 import {ColumnMode, id} from '@swimlane/ngx-datatable';
 import { Metric } from 'src/app/shared/metric';
 import { WidgetEditService } from '../widget-edit.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-threshold-edit',
   templateUrl: './threshold-edit.component.html',
   styleUrls: ['./threshold-edit.component.scss']
 })
-export class ThresholdEditComponent implements OnInit {
+export class ThresholdEditComponent implements OnInit, OnDestroy {
   thresholds : {[metricId: number]:Threshold};
   metrics: Metric[];
   editing = {};
   rows = [];
 
   ColumnMode = ColumnMode;
-
+  subscriptions: Subscription;
   messages = {
       // Message to show when array is presented
   // but contains no values
     emptyMessage: 'Please select metrics first.',
-};
+  };
 
   constructor(
     private widgetEditService: WidgetEditService
@@ -29,7 +30,7 @@ export class ThresholdEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.widgetEditService.metrics.subscribe(metrics => {
+    const sub = this.widgetEditService.metrics.subscribe(metrics => {
       this.metrics = metrics;
       this.thresholds = this.widgetEditService.getThresholds();
       this.rows = [];
@@ -60,7 +61,11 @@ export class ThresholdEditComponent implements OnInit {
         this.rows = [...newRows];
       }
     });
+    this.subscriptions.add(sub);
+  }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   updateValue(event, cell, rowIndex) {
