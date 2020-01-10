@@ -28,6 +28,7 @@ export class WidgetEditService {
     return this.thresholds;
   }
 
+  //FIXME: don't init a widget like this, return the final widget when needed
   setWidget(widget : Widget) {
     if(widget) {
       this.widget = widget;
