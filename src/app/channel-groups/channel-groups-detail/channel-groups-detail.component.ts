@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   id: number;
   channelGroup: ChannelGroup;
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private router: Router,

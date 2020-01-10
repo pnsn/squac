@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class MetricsDetailComponent implements OnInit, OnDestroy  {
   id: number;
   metric: Metric;
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private router: Router,

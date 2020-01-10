@@ -29,7 +29,7 @@ export class ThresholdsService {
   }
 
   //how to handle deleting?
-  updateThresholds(metrics: Metric[], thresholds: any) : Observable<Threshold>[]{
+  updateThresholds(metrics: Metric[], thresholds: any, widgetId: number) : Observable<Threshold>[]{
     const thresholdSubs = [];
     for(let metric of metrics) {
       if(thresholds[metric.id]) {
@@ -38,17 +38,17 @@ export class ThresholdsService {
         if(threshold.id && !threshold.max && !threshold.min) {
           //delete the existing threshold;
         } else {
-          thresholdSubs.push(this.updateThreshold(threshold));
+          thresholdSubs.push(this.updateThreshold(threshold, widgetId));
         }
       }
     }
     return thresholdSubs;
   }
 
-  updateThreshold(threshold: Threshold) {
-
+  updateThreshold(threshold: Threshold, widgetId) {
+    //FIXME: turns null to 0
     const postData: ThresholdHttpData = {
-      widget: threshold.widgetId,
+      widget: threshold.widgetId ? threshold.widgetId : widgetId,
       metric: threshold.metricId,
       minval: +threshold.min,
       maxval: +threshold.max

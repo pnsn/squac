@@ -13,6 +13,7 @@ import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.serv
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget-edit',
@@ -131,21 +132,33 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     let newWidget = this.widgetEditService.getWidget();
 
-    const widgetObs = this.widgetService.updateWidget(
+
+    this.widgetService.updateWidget(
       newWidget
+    ).pipe(
+      mergeMap(
+        response => {
+          return this.thresholdService.updateThresholds(
+            newWidget.metrics,
+            newWidget.thresholds,
+            response.id
+          )
+        }
+      )
+    ).subscribe(
+      result => {
+        console.log(result);
+      }
     );
 
-    const thresholdObs = this.thresholdService.updateThresholds(
-      newWidget.metrics,
-      newWidget.thresholds
-    );
+    // const thresholdObs = 
     
-    const services = merge(
-      ...[widgetObs, ...thresholdObs]
-    );
+    // const services = merge(
+    //   ...[widgetObs, ...thresholdObs]
+    // );
 
-    let count = 0;
-    let widget;
+    // let count = 0;
+    // let widget;
 
     //TODO: can it actually save the threshold if there's no widget ID?
     

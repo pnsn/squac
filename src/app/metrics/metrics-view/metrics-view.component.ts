@@ -12,7 +12,7 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 })
 export class MetricsViewComponent implements OnInit, OnDestroy {
   metrics: Metric[];
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   selectedMetric: Metric;
   selected = false;
 

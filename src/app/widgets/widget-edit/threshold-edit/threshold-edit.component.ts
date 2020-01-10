@@ -16,7 +16,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   rows = [];
 
   ColumnMode = ColumnMode;
-  subscriptions: Subscription;
+  subscriptions: Subscription = new Subscription();
   messages = {
       // Message to show when array is presented
   // but contains no values
