@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsEditComponent } from './channel-groups-edit.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -8,7 +11,8 @@ describe('ChannelGroupsEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChannelGroupsEditComponent ]
+      imports: [MaterialModule, HttpClientTestingModule],
+      declarations: [ ChannelGroupsEditComponent , LoadingComponent]
     })
     .compileComponents();
   }));

@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsEditComponent } from './metrics-edit.component';
+import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
@@ -8,7 +11,8 @@ describe('MetricsEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MetricsEditComponent ]
+      imports: [NgxDatatableModule, HttpClientTestingModule],
+      declarations: [ MetricsEditComponent , LoadingComponent]
     })
     .compileComponents();
   }));

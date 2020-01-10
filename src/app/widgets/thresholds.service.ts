@@ -53,7 +53,7 @@ export class ThresholdsService {
       minval: threshold.min,
       maxval: threshold.max
     };
-    console.log(postData)
+    console.log("threshold", postData)
     if (threshold.id) {
       postData.id = threshold.id;
       return this.squacApi.put(this.url, threshold.id, postData);

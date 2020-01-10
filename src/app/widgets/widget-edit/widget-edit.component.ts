@@ -81,7 +81,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
-    console.log(this.widget);
+    console.log("widget", this.widget);
     this.initForm()
 
     this.metricsService.fetchMetrics();
@@ -153,7 +153,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
           if(thresholdObs && thresholdObs.length > 0) {
             merge(...thresholdObs).subscribe(
               result => {
-                console.log(count, thresholdObs.length)
+                console.log("request", count, thresholdObs.length)
                 count++;
                 if(widget && count === thresholdObs.length) {
                   this.cancel(widget);

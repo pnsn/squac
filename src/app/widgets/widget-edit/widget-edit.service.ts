@@ -11,7 +11,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class WidgetEditService {
   private widget : Widget;
   private channelGroup : ChannelGroup;
-  private thresholds : { [metricId: number]: Threshold};
+  private thresholds : { [metricId: number]: Threshold} = {};
   public metrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
 
@@ -21,22 +21,20 @@ export class WidgetEditService {
   x = 1;
   y = 1;
   
-  updateValidity(){
+  updateValidity() {
 
     if(this.widget) {
       this.isValid.next(
-          this.widget.typeId
-          && this.widget.channelGroupId
-          && this.widget.metrics
-          && this.widget.metrics.length > 0
-          );
+        this.widget.typeId
+        && this.widget.channelGroupId
+        && this.widget.metrics
+        && this.widget.metrics.length > 0
+      );
     }
 
   }
 
-  constructor(){
-    console.log("hiiii")
-  }
+  constructor(){}
 
   getThresholds(){
     return this.thresholds;
@@ -51,7 +49,7 @@ export class WidgetEditService {
       this.metrics.next(this.widget.metrics);
 
     } else {
-      this.thresholds = {};
+
       this.widget = new Widget(
         null, 
         null, 
@@ -67,7 +65,6 @@ export class WidgetEditService {
       );
       this.widget.thresholds = {};
       this.channelGroup = null;
-      this.thresholds = null;
     }
     this.updateValidity();
   }
@@ -81,7 +78,10 @@ export class WidgetEditService {
   }
 
   getMetricIds() {
-    return this.widget.metricsIds;
+    if(this.widget) {
+      return this.widget.metricsIds;
+    }
+
   }
 
   updateChannelGroup(channelGroup){

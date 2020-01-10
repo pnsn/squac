@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './threshold-edit.component.html',
   styleUrls: ['./threshold-edit.component.scss']
 })
-export class ThresholdEditComponent implements OnInit, OnDestroy {
+export class ThresholdEditComponent {
   thresholds : {[metricId: number]:Threshold};
   metrics: Metric[];
   editing = {};
@@ -20,7 +20,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   messages = {
       // Message to show when array is presented
   // but contains no values
-    emptyMessage: 'Please select metrics first.',
+    emptyMessage: 'Please select metrics.',
   };
 
   constructor(
@@ -37,9 +37,10 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
       if(!this.thresholds) {
         this.thresholds = {};
       }
-      
+
       this.rows = [];
-      if(this.metrics.length > 0) {
+
+      if(this.metrics && this.metrics.length > 0) {
         const newRows = [];
         this.metrics.forEach(
           (metric) => {
@@ -87,7 +88,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
 
   getMetric(id) {
     return this.metrics.filter(metric => {
-      console.log(metric, id)
+      console.log("metric", metric, id)
       return metric.id === +id;
     })[0].name;
   }

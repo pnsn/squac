@@ -161,7 +161,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     });
 
     this.rows = [...stationRows, ...rows];
-    console.log(this.rows)
   }
 
   onTreeAction(event: any) {
