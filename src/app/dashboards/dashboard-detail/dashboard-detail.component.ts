@@ -19,7 +19,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-
+  status = 'finished';
   dateRanges = [
     {
       name: 'last hour',
@@ -61,8 +61,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         console.log('new dashboard');
       }
     );
+
+    const statusSub  = this.viewService.status.subscribe(
+      status => {
+        this.status = status;
+      }
+    );
+
+
     this.subscription.add(dashSub);
     this.subscription.add(dashIdSub);
+    this.subscription.add(statusSub);
   }
 
   ngOnDestroy(): void {
@@ -102,9 +111,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+
       if (result && result.id) {
+        console.log('Dialog closed and widget saved');
         this.viewService.addWidget(result.id);
+      } else {
+        console.log('Dialog closed and not saved');
       }
       // this.animal = result;
     });

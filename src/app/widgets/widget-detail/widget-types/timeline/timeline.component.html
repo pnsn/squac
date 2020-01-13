@@ -24,7 +24,7 @@
       <div id="timeline-container">
         <div *ngFor="let segment of value"
           class="cell" 
-          [ngClass]="{'in-spec': segment.threshold, 'out-of-spec': !segment.threshold && currentMetric.threshold}"
+          [ngClass]="{'in-spec': segment.threshold, 'out-of-spec': !segment.threshold && currentMetric.threshold, 'no-threshold' : !currentMetric.threshold}"
           matTooltip="{{segment.info}}"
           [ngStyle]="segment.styles"
         >

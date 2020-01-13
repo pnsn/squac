@@ -92,7 +92,6 @@ export class TabularComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    console.log(this.channels);
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
 
@@ -154,7 +153,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     });
     this.rows = [...stationRows, ...rows];
-    console.log(this.rows);
   }
 
   getChannelsForStation(stationId) {

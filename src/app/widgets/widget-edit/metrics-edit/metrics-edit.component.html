@@ -1,0 +1,40 @@
+
+
+<input
+type="text"
+style="padding:8px;margin:15px auto;width:30%;"
+placeholder="Filter by metric name..."
+(keyup)="updateFilter($event)"
+/>
+<app-loading *ngIf="loading"></app-loading>
+<div class="table-container" *ngIf="!loading">
+  <ngx-datatable
+  id="metric-select-table"
+    class="material"
+    [rows]="tableRows"
+    [headerHeight]="30"
+    [footerHeight]="50"
+    [rowHeight]="30"
+    [scrollbarV]="true"
+    [selected]="selectedMetrics"
+    [selectionType]="SelectionType.checkbox"
+    [selectAllRowsOnPage]="false"
+    (select)="metricsSelected($event)"
+    [messages]="messages"
+  >
+    <ngx-datatable-column
+      [width]="30"
+      [sortable]="false"
+      [canAutoResize]="false"
+      [draggable]="false"
+      [resizeable]="false"
+      [headerCheckboxable]="true"
+      [checkboxable]="true"
+    >
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Name" [width]="250"></ngx-datatable-column>
+    <ngx-datatable-column name="Unit" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Description" [width]="529"></ngx-datatable-column>
+  </ngx-datatable>
+</div>
+

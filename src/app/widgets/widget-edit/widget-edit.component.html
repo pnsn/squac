@@ -1,132 +1,75 @@
-<h3 mat-dialog-title>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
+<div mat-dialog-title id="edit-title">
+  <h3>{{ editMode ? "Edit Widget" : "New Widget"}}</h3>
+  <button mat-icon-button type="button" (click)="cancel()"><mat-icon>close</mat-icon></button>
+</div>
+   
 <div mat-dialog-content id="edit-container">
-  <form action="" [formGroup]="widgetForm">
-    <mat-form-field>
-      <input matInput 
-        type="text" 
-        id="name" 
-        formControlName="name" 
-        placeholder="Widget name"
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <textarea matInput 
-        id="description" 
-        formControlName="description" 
-        class="form-control"
-        placeholder="Widget description"
+  <div id="widget-edit-top">
+    <div id="widget-type-container">
+      <div *ngFor="let type of widgetTypes" (click)="selectType(type.id)" class="widget-type-select" [class.selected]="type.id === selectedType">
+        <img class="white" src="assets/{{type.type}}-white.svg" alt="">
+        <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
+        {{type.name}}
+  
+      </div>
+    </div>
+    <form action="" [formGroup]="widgetForm">
+      <mat-form-field >
+        <input matInput 
+          type="text" 
+          id="name" 
+          formControlName="name" 
+          placeholder="Widget name"
+          cdkFocusInitial
         >
-      </textarea>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Widget Type</mat-label>
-      <mat-select formControlName="type" *ngIf="widgetTypes">
-        <mat-option *ngFor="let type of widgetTypes" [value]="type.id">
-          {{type.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Stat type</mat-label>
+        <mat-select formControlName="statType" *ngIf="statTypes">
+          <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
+            {{statType.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+    </form>
+  </div>
 
-    <mat-form-field>
-      <mat-label>Stat type</mat-label>
-      <mat-select formControlName="statType" *ngIf="statTypes">
-        <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
-          {{statType.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-  </form>
 
     <mat-tab-group color="primary">
-      <!-- TODO: separate component -->
-      <mat-tab label="Metrics">
-            <div  class="edit-tab-body">
-                <input
-                type="text"
-                style="padding:8px;margin:15px auto;width:30%;"
-                placeholder="Filter by metric name..."
-                (keyup)="updateFilter($event)"
-                />
-                <span>
-                   {{selectedMetrics?.length}} metrics selected
-                </span>
-      
-                <div>
-                  <ngx-datatable
-                  id="metric-select-table"
-                    style="width: 100%"
-                    class="material"
-                    [rows]="tableRows"
-                    [columnMode]="ColumnMode.force"
-                    [headerHeight]="50"
-                    [rowHeight]="30"
-                    [scrollbarV]="true"
-                    [selected]="selectedMetrics"
-                    [selectionType]="SelectionType.checkbox"
-                    [selectAllRowsOnPage]="false"
-                    (select)="metricsSelected($event)"
-                  >
-                    <ngx-datatable-column
-                      [width]="30"
-                      [sortable]="false"
-                      [canAutoResize]="false"
-                      [draggable]="false"
-                      [resizeable]="false"
-                      [headerCheckboxable]="true"
-                      [checkboxable]="true"
-                    >
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Name"></ngx-datatable-column>
-                    <ngx-datatable-column name="Unit"></ngx-datatable-column>
-                    <ngx-datatable-column name="Description"></ngx-datatable-column>
-                  </ngx-datatable>
-                </div>
-            </div>
 
-
+      <mat-tab label="Metrics"> 
+        <ng-template matTabContent>
+          <app-metrics-edit class="edit-tab-body"></app-metrics-edit>
+        </ng-template>
       </mat-tab>
       <mat-tab label="Channels">
-          <div id="channel-group-selector-container"  class="edit-tab-body">
-            <div id="groups-container">
-              <mat-selection-list dense *ngIf="availableChannelGroups" id="channel-group-selector" >
-                  <mat-list-option 
-                    *ngFor="let channelGroup of availableChannelGroups"
-                    (click)="getChannelsForChannelGroup(channelGroup)"
-                    >
-                    {{channelGroup.name}}
-                  </mat-list-option>
-                </mat-selection-list>
-            </div>
-
-            <div>
-              <h4 *ngIf="selectedChannelGroup">
-                  Channels in {{selectedChannelGroup.name}}:
-                </h4>
-                <div id="selectedChannelsContainer">
-                    <mat-list dense *ngIf="selectedChannelGroup?.channels">
-                        <mat-list-item *ngFor="let channel of selectedChannelGroup.channels">
-                            {{channel.nslc}}
-                        </mat-list-item>
-                      </mat-list>
-          
-                </div>
-              </div>
-            </div>
+        <ng-template matTabContent>
+          <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
+        </ng-template>
       </mat-tab>
       <mat-tab label="Thresholds">
-        <div class="edit-tab-body">
-            <app-threshold-edit
-              [thresholds]="widget?.thresholds"
-              [metrics]="widget?.metrics"
-              (thresholdAdded)="addThreshold($event)"
-              ></app-threshold-edit>
-        </div>
-
+        <ng-template matTabContent>
+          <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
+        </ng-template>
       </mat-tab>
-    </mat-tab-group>
+    <mat-tab label="Options">
+      <div class="edit-tab-body">
+        This is where the chart options go
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
   </div>
 <div mat-dialog-actions>
-  <button mat-flat-button color="primary" (click)="save()" [disabled]='!widgetForm.valid'>Save</button>
-  <button mat-button type="button" class="warning" (click)="cancel()">Cancel</button>
+  <p *ngIf="!isValid || !widgetForm.valid; else valid">
+    Information still missing... add more help text here
+  </p>
+  <ng-template #valid>
+    <p>
+      Creating widget on dashboard {{dashboardId}}
+    </p>
+  </ng-template>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid'>Save</button>
 </div>

@@ -11,6 +11,9 @@ import { SharedModule } from '../shared/shared.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GridsterModule } from 'angular-gridster2';
 import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-edit.component';
+import { MetricsEditComponent } from './widget-edit/metrics-edit/metrics-edit.component';
+import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/channel-groups-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-e
     TimelineComponent,
     TimeseriesComponent,
     ThresholdEditComponent,
-    MeasurementPipe
+    MeasurementPipe,
+    MetricsEditComponent,
+    ChannelGroupsEditComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +38,9 @@ import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-e
     WidgetComponent,
     WidgetEditComponent,
     SharedModule
+  ],
+  entryComponents: [
+    MetricsEditComponent
   ]
 })
 export class WidgetsModule { }

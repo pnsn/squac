@@ -28,14 +28,32 @@ export class ThresholdsService {
   ) {
   }
 
-  updateThreshold(threshold: Threshold) {
+  // how to handle deleting?
+  updateThresholds(metrics: Metric[], thresholds: any, widgetId: number): Observable<Threshold>[] {
+    const thresholdSubs = [];
+    for (const metric of metrics) {
+      if (thresholds[metric.id]) {
+        const threshold = thresholds[metric.id];
 
+        if (threshold.id && !threshold.max && !threshold.min) {
+          // delete the existing threshold;
+        } else {
+          thresholdSubs.push(this.updateThreshold(threshold, widgetId));
+        }
+      }
+    }
+    return thresholdSubs;
+  }
+
+  updateThreshold(threshold: Threshold, widgetId) {
+    // FIXME: turns null to 0
     const postData: ThresholdHttpData = {
-      widget: threshold.widgetId,
+      widget: threshold.widgetId ? threshold.widgetId : widgetId,
       metric: threshold.metricId,
       minval: threshold.min,
       maxval: threshold.max
     };
+    console.log('threshold', postData);
     if (threshold.id) {
       postData.id = threshold.id;
       return this.squacApi.put(this.url, threshold.id, postData);

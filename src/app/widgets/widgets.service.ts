@@ -149,7 +149,6 @@ export class WidgetsService {
     );
     widget.thresholds = thresholds;
     widget.stattype = response.stattype;
-    console.log(widget.stattype);
     widget.type = response.widgettype.type;
 
     return widget;
@@ -157,7 +156,6 @@ export class WidgetsService {
   }
 
   updateWidget(widget: Widget) {
-    console.log(widget.stattype);
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,

@@ -29,7 +29,7 @@
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="addWidget()">Add Widget</button>
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <button mat-menu-item color="warn">Delete Dashboard</button>
+            <!-- <button mat-menu-item color="warn">Delete Dashboard</button> -->
           </mat-menu>
           
           <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
@@ -38,16 +38,25 @@
         </div>
 
       </mat-toolbar>
+      <mat-progress-bar
+        *ngIf="status == 'loading'"
+        [mode]="indeterminate"
+        >
+      </mat-progress-bar>
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget >
         </app-widget>
       </ng-container>
       <ng-template #noWidgets>
-        <p>There are no widgets for this dashboard...
+        <div>
+          <p>
+            There are no widgets for this dashboard...
+          </p>
           <button  mat-flat-button color="primary" aria-label="Add widget" (click)="addWidget()">
             Add Widget
           </button>
-        </p>
+        </div>
+
       </ng-template>
 
 </div>

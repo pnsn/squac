@@ -1,36 +1,99 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { Threshold } from '../../threshold';
-import {ColumnMode} from '@swimlane/ngx-datatable';
+import {ColumnMode, id} from '@swimlane/ngx-datatable';
 import { Metric } from 'src/app/shared/metric';
+import { WidgetEditService } from '../widget-edit.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-threshold-edit',
   templateUrl: './threshold-edit.component.html',
   styleUrls: ['./threshold-edit.component.scss']
 })
-export class ThresholdEditComponent implements OnInit {
-  @Input() thresholds: {[metricId: number]: Threshold};
-  @Input() metrics: Metric[];
-  @Output() thresholdAdded = new EventEmitter<Threshold>();
-  @Output() thresholdDeleted = new EventEmitter<Threshold>();
-
+export class ThresholdEditComponent implements OnInit, OnDestroy {
+  thresholds: {[metricId: number]: Threshold};
+  metrics: Metric[];
   editing = {};
   rows = [];
-  ColumnMode = ColumnMode;
 
-  constructor() {
+  ColumnMode = ColumnMode;
+  subscriptions: Subscription = new Subscription();
+  messages = {
+      // Message to show when array is presented
+  // but contains no values
+    emptyMessage: 'Please select metrics.',
+  };
+
+  constructor(
+    private widgetEditService: WidgetEditService
+  ) {
 
   }
 
   ngOnInit() {
+    const sub = this.widgetEditService.metrics.subscribe(metrics => {
+      this.metrics = metrics;
+      this.thresholds = this.widgetEditService.getThresholds();
+
+      if (!this.thresholds) {
+        this.thresholds = {};
+      }
+
+      this.rows = [];
+
+      if (this.metrics && this.metrics.length > 0) {
+        const newRows = [];
+        this.metrics.forEach(
+          (metric) => {
+            if (this.thresholds[metric.id]) {
+              newRows.push({
+                id : +this.thresholds[metric.id].id,
+                metric,
+                min: +this.thresholds[metric.id].min,
+                max: +this.thresholds[metric.id].max
+              });
+            } else {
+              console.log('row', metric);
+              newRows.push({
+                id : null,
+                metric,
+                min: null,
+                max: null
+              });
+            }
+
+          }
+        );
+        this.rows = [...newRows];
+      }
+    });
+    this.subscriptions.add(sub);
   }
 
-  addThreshold() {
-    console.log('add threshold');
-
-    // this.thresholdAdded.emit();
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  deleteThreshold() {
+  updateValue(event, cell, rowIndex) {
+    console.log('inline editing rowIndex', rowIndex);
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+    if (cell === 'metricId') {
+      this.rows[rowIndex].name = this.getMetric(event.target.value);
+    }
+    this.rows = [...this.rows];
+    console.log('UPDATED!', this.rows[rowIndex][cell]);
+    this.widgetEditService.updateThresholds(this.rows);
+  }
+
+  getMetric(metricId: number) {
+    return this.metrics.filter(metric => {
+      return metric.id === +metricId;
+    })[0].name;
+  }
+
+
+
+  clearThreshold() {
     console.log('thresholdDeleted');
     // this.thresholdDeleted.emit();
   }
