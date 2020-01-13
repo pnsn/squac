@@ -14,7 +14,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   selectedChannelGroup: ChannelGroup;
   subscriptions: Subscription = new Subscription();
 
-  loading: boolean = true;
+  loading = true;
 
   constructor(
     private channelGroupsService: ChannelGroupsService,

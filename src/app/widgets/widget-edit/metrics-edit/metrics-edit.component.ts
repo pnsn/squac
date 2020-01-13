@@ -14,7 +14,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
-  loading : boolean = false;
+  loading = false;
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
@@ -43,7 +43,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       this.tableRows = this.availableMetrics;
 
       const metricIds = this.widgetEditService.getMetricIds();
-      if(metricIds.length > 0) {
+      if (metricIds.length > 0) {
         this.selectedMetrics = this.availableMetrics.filter(
           metric => {
             return metricIds.indexOf(metric.id) >= 0;

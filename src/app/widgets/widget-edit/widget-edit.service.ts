@@ -9,21 +9,21 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class WidgetEditService {
-  private widget : Widget;
-  private channelGroup : ChannelGroup;
-  private thresholds : { [metricId: number]: Threshold} = {};
+  private widget: Widget;
+  private channelGroup: ChannelGroup;
+  private thresholds: { [metricId: number]: Threshold} = {};
   public metrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
 
-  //default widget dimensions
+  // default widget dimensions
   rows = 3;
   columns = 6;
   x = 1;
   y = 1;
-  
+
   updateValidity() {
 
-    if(this.widget) {
+    if (this.widget) {
       this.isValid.next(
         this.widget.typeId
         && this.widget.channelGroupId
@@ -34,15 +34,15 @@ export class WidgetEditService {
 
   }
 
-  constructor(){}
+  constructor() {}
 
-  getThresholds(){
+  getThresholds() {
     return this.thresholds;
   }
 
-  //FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget : Widget) {
-    if(widget) {
+  // FIXME: don't init a widget like this, return the final widget when needed
+  setWidget(widget: Widget) {
+    if (widget) {
       this.widget = widget;
       this.thresholds = widget.thresholds;
       this.channelGroup = widget.channelGroup;
@@ -51,16 +51,16 @@ export class WidgetEditService {
     } else {
 
       this.widget = new Widget(
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        this.columns, 
-        this.rows, 
-        this.x, 
-        this.y, 
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        this.columns,
+        this.rows,
+        this.x,
+        this.y,
         null
       );
       this.widget.thresholds = {};
@@ -73,18 +73,18 @@ export class WidgetEditService {
     return this.channelGroup;
   }
 
-  getWidget(){
+  getWidget() {
     return this.widget;
   }
 
   getMetricIds() {
-    if(this.widget) {
+    if (this.widget) {
       return this.widget.metricsIds;
     }
 
   }
 
-  updateChannelGroup(channelGroup){
+  updateChannelGroup(channelGroup) {
     this.channelGroup = channelGroup;
     this.widget.channelGroupId = channelGroup.id;
     this.updateValidity();
@@ -96,18 +96,18 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  updateType(id){
+  updateType(id) {
     this.widget.typeId = id;
     this.updateValidity();
   }
 
-  updateThresholds(thresholds){
+  updateThresholds(thresholds) {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
-        threshold.id, 
-        this.widget.id, 
+        threshold.id,
+        this.widget.id,
         threshold.metric.id,
-        threshold.min, 
+        threshold.min,
         threshold.max
       );
     });
@@ -115,7 +115,7 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ){
+  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ) {
     this.widget.name = name;
     this.widget.description = description;
     this.widget.dashboardId = dashboardId;
@@ -123,9 +123,9 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  //cancel without sacving
-  clearWidget(){
+  // cancel without sacving
+  clearWidget() {
     this.widget = null;
   }
-  
+
 }

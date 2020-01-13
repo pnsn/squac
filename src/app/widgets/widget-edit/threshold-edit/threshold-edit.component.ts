@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './threshold-edit.component.html',
   styleUrls: ['./threshold-edit.component.scss']
 })
-export class ThresholdEditComponent {
-  thresholds : {[metricId: number]:Threshold};
+export class ThresholdEditComponent implements OnInit, OnDestroy {
+  thresholds: {[metricId: number]: Threshold};
   metrics: Metric[];
   editing = {};
   rows = [];
@@ -25,7 +25,7 @@ export class ThresholdEditComponent {
 
   constructor(
     private widgetEditService: WidgetEditService
-  ){
+  ) {
 
   }
 
@@ -34,34 +34,33 @@ export class ThresholdEditComponent {
       this.metrics = metrics;
       this.thresholds = this.widgetEditService.getThresholds();
 
-      if(!this.thresholds) {
+      if (!this.thresholds) {
         this.thresholds = {};
       }
 
       this.rows = [];
 
-      if(this.metrics && this.metrics.length > 0) {
+      if (this.metrics && this.metrics.length > 0) {
         const newRows = [];
         this.metrics.forEach(
           (metric) => {
-            if(this.thresholds[metric.id]) {
+            if (this.thresholds[metric.id]) {
               newRows.push({
-                "id" : +this.thresholds[metric.id].id,
-                "metric" : metric,
-                "min": +this.thresholds[metric.id].min,
-                "max": +this.thresholds[metric.id].max
+                id : +this.thresholds[metric.id].id,
+                metric,
+                min: +this.thresholds[metric.id].min,
+                max: +this.thresholds[metric.id].max
+              });
+            } else {
+              console.log('row', metric);
+              newRows.push({
+                id : null,
+                metric,
+                min: null,
+                max: null
               });
             }
-            else {
-              console.log("row", metric)
-              newRows.push({
-                "id" : null,
-                "metric" : metric,
-                "min": null,
-                "max": null
-              });
-            }
-    
+
           }
         );
         this.rows = [...newRows];
@@ -76,27 +75,26 @@ export class ThresholdEditComponent {
 
   updateValue(event, cell, rowIndex) {
     console.log('inline editing rowIndex', rowIndex);
-    this.editing[rowIndex + "-" + cell] = false;
+    this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
-    if(cell === 'metricId') {
+    if (cell === 'metricId') {
       this.rows[rowIndex].name = this.getMetric(event.target.value);
     }
     this.rows = [...this.rows];
     console.log('UPDATED!', this.rows[rowIndex][cell]);
-    this.widgetEditService.updateThresholds(this.rows); 
+    this.widgetEditService.updateThresholds(this.rows);
   }
 
-  getMetric(id) {
+  getMetric(metricId: number) {
     return this.metrics.filter(metric => {
-      console.log("metric", metric, id)
-      return metric.id === +id;
+      return metric.id === +metricId;
     })[0].name;
   }
 
 
 
   clearThreshold() {
-    console.log("thresholdDeleted")
+    console.log('thresholdDeleted');
     // this.thresholdDeleted.emit();
   }
 

@@ -19,7 +19,7 @@ describe('ThresholdEditComponent', () => {
           provide: WidgetEditService,
           useValue: {
             metrics: of([]),
-            getThresholds: ()=>{return null;}
+            getThresholds: () => null
           }
         }
       ]

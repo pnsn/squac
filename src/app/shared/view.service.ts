@@ -18,7 +18,7 @@ export class ViewService {
   currentWidgets = new Subject<Widget[]>();
   dates = new Subject<{start: Date, end: Date}>();
 
-  status = new Subject<string>(); //loading, error, finished
+  status = new Subject<string>(); // loading, error, finished
   private startdate: Date;
   private enddate: Date;
   // refresh = new Subject<number>();
@@ -60,7 +60,7 @@ export class ViewService {
   dashboardSelected(id, start, end) {
     this.startdate = start;
     this.enddate = end;
-    this.status.next("loading");
+    this.status.next('loading');
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);
@@ -72,11 +72,11 @@ export class ViewService {
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
     this.currentWidgets.next(this.widgets.slice());
-    this.status.next("finished");
+    this.status.next('finished');
   }
 
   getWidgets(dashboardId) {
-    this.status.next("loading");
+    this.status.next('loading');
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
         this.widgets = widgets;
@@ -86,7 +86,7 @@ export class ViewService {
   }
 
   updateWidget(widgetId) {
-    this.status.next("loading");
+    this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
         const index = this.getWidgetIndexById(widget.id);
@@ -98,7 +98,7 @@ export class ViewService {
   }
 
   addWidget(widgetId) {
-    this.status.next("loading");
+    this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
         this.widgets.push(widget);
@@ -108,14 +108,14 @@ export class ViewService {
   }
 
   deleteWidget(widgetId) {
-    this.status.next("loading");
+    this.status.next('loading');
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe();
     this.widgets.splice(index, 1);
     this.widgetsChanged();
   }
 
-  //TODO: does this actuall refresh data?
+  // TODO: does this actuall refresh data?
   refreshWidgets() {
     console.log('refresh!');
     this.widgetsChanged();

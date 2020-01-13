@@ -19,7 +19,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   widgets: Widget[];
   subscription: Subscription = new Subscription();
-  status : string = "finished";
+  status = 'finished';
   dateRanges = [
     {
       name: 'last hour',
@@ -68,7 +68,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    
+
     this.subscription.add(dashSub);
     this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
@@ -93,7 +93,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }
 
-  refreshData() {;
+  refreshData() {
     this.viewService.refreshWidgets();
   }
 
@@ -116,7 +116,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         console.log('Dialog closed and widget saved');
         this.viewService.addWidget(result.id);
       } else {
-        console.log('Dialog closed and not saved')
+        console.log('Dialog closed and not saved');
       }
       // this.animal = result;
     });

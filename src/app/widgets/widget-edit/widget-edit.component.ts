@@ -55,9 +55,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     }
   ];
 
-  selectedType : number;
+  selectedType: number;
 
-  isValid : boolean;
+  isValid: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
@@ -81,8 +81,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
-    console.log("widget", this.widget);
-    this.initForm()
+    console.log('widget', this.widget);
+    this.initForm();
 
     this.metricsService.fetchMetrics();
     this.channelGroupsService.fetchChannelGroups();
@@ -121,7 +121,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    console.log("save");
+    console.log('save');
   //   //save thresholds
     const values = this.widgetForm.value;
     const statType = this.statTypes.find((st) => {
@@ -129,35 +129,35 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     });
     this.widgetEditService.updateWidgetInfo(
       values.name,
-       "",
+       '',
       this.dashboardId,
       statType
     );
-    
-    let newWidget = this.widgetEditService.getWidget();
+
+    const newWidget = this.widgetEditService.getWidget();
 
     let widget;
 
     this.widgetService.updateWidget(
       newWidget
     ).subscribe(
-      result => {
-        widget = result;
+      response => {
+        widget = response;
 
-          const thresholdObs = this.thresholdService.updateThresholds(
+        const thresholdObs = this.thresholdService.updateThresholds(
             newWidget.metrics,
             newWidget.thresholds,
             widget.id
           );
-          let count = 0;
-          if(thresholdObs && thresholdObs.length > 0) {
+        let count = 0;
+        if (thresholdObs && thresholdObs.length > 0) {
             merge(...thresholdObs).subscribe(
               result => {
-                console.log("request", count, thresholdObs.length)
+                console.log('request', count, thresholdObs.length);
                 count++;
-                if(widget && count === thresholdObs.length) {
+                if (widget && count === thresholdObs.length) {
                   this.cancel(widget);
-                } 
+                }
 
               }
             );
@@ -169,7 +169,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   cancel(widget?: Widget) {
-    if(widget) {
+    if (widget) {
       this.dialogRef.close(widget);
     } else {
       this.dialogRef.close(null);

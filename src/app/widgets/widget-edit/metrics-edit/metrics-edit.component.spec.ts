@@ -19,7 +19,7 @@ describe('MetricsEditComponent', () => {
         {
           provide: WidgetEditService,
           useValue: {
-            getMetricIds: ()=>{return [];},
+            getMetricIds: () => [],
           }
         }
       ],

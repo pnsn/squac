@@ -32,7 +32,7 @@ export class MetricsDetailComponent implements OnInit, OnDestroy  {
     this.subscription.add(sub);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
