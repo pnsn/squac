@@ -23,7 +23,7 @@ export class ViewService {
   private enddate: Date;
   // refresh = new Subject<number>();
 
-  private widgets: Widget[];
+  private widgets: Widget[] = [];
   // handle refreshing
 
   constructor(
