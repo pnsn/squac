@@ -14,7 +14,7 @@ import { LoggedInGuard } from './auth/logged-in.guard';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
-  { path: 'login', component: AuthComponent, canActivate:[LoggedInGuard]},
+  { path: 'login', component: AuthComponent, canActivate: [LoggedInGuard]},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'metrics',
     component: MetricsComponent,
