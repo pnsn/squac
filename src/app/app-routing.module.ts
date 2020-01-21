@@ -10,10 +10,11 @@ import { MetricsComponent } from './metrics/metrics.component';
 import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.component';
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
+import { LoggedInGuard } from './auth/logged-in.guard';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
-  { path: 'login', component: AuthComponent},
+  { path: 'login', component: AuthComponent, canActivate:[LoggedInGuard]},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'metrics',
     component: MetricsComponent,
