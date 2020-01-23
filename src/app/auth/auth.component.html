@@ -12,13 +12,13 @@
       appearance="outline"
     >
       <mat-label>
-        Username
+        Email
       </mat-label>
       <input matInput 
         type="email" 
         id="email" 
         ngModel
-        placeholder="Username" 
+        placeholder="Email" 
         name="email" 
         required >
     </mat-form-field>
@@ -36,7 +36,6 @@
         [type]="hide ? 'password' : 'text'"
         name="password"
         required
-        minlength="8"
       >
       <button mat-icon-button matSuffix type="button" (click)="hide = !hide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

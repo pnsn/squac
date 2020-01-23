@@ -4,6 +4,7 @@
   </a>
 
   <div id="header-right" *ngIf="isAuthenticated">
+    <a mat-button [routerLink]="[ '/dashboards' ]" routerLinkActive="active">Dashboards</a>
 
     <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
 
@@ -14,9 +15,10 @@
         <button mat-menu-item (click)="logout()">Log Out</button>
         <button mat-menu-item>Help</button>
       </mat-menu>
-      
+
+      <!-- TODO: profile pic or first name -->
       <button mat-mini-fab [matMenuTriggerFor]="appMenu">
-        User
+        <mat-icon>mood</mat-icon>
       </button>
   </div>
 </mat-toolbar>
