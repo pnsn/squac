@@ -52,6 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     const index = this.selectedChannelIds.indexOf(channel.id);
     this.selectedChannels.splice(index, 1);
     this.selectedChannelIds.splice(index, 1);
+    this.selectedChannels = [...this.selectedChannels];
     this.changeMade = true;
   }
 

@@ -2,6 +2,11 @@
   {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
 </h1>
 
+<h3 id="description-text">
+  Use the map to filter channels geographically or search for channels by Network, Station, Location, or Channel code, 
+  then add the filtered channels to Channel Group.
+</h3>
+
 <div id="selection-container">
   <div id="map-box" class="box">
     <app-map [channels]="mapChannels" [editPage]=true (boundsChange)="updateBounds($event)"></app-map>
