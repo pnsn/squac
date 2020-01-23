@@ -1,48 +1,50 @@
-<header class="blue">
-  <div class="logo">
-      <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
+<div id="auth-container">
+  <div id="auth-header" class="blue">
+    <div class="logo">
+        <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
+    </div>
   </div>
-</header>
-
-<div class="box" id="login" *ngIf="!isLoading">
-  <h1>Sign In</h1>
-  <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" >
-    
-    <mat-form-field
-      appearance="outline"
-    >
-      <mat-label>
-        Email
-      </mat-label>
-      <input matInput 
-        type="email" 
-        id="email" 
-        ngModel
-        placeholder="Email" 
-        name="email" 
-        required >
-    </mat-form-field>
-    
-    <mat-form-field
-      appearance="outline"
-    >
-      <mat-label>
-        Password
-      </mat-label>
-      <input matInput 
-        ngModel
+  
+  <div class="box" id="login" *ngIf="!isLoading">
+    <h1>Sign In</h1>
+    <form class="form" #logInForm="ngForm" (ngSubmit)="onSubmit(logInForm)" >
+      
+      <mat-form-field
         appearance="outline"
-        placeholder="Password"
-        [type]="hide ? 'password' : 'text'"
-        name="password"
-        required
       >
-      <button mat-icon-button matSuffix type="button" (click)="hide = !hide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
-    <a id="forgot-password"> Forgot your password?</a>
-    <button mat-raised-button color="accent" type="submit" [disabled]="!logInForm.valid">
-      Sign In </button>
-  </form>
+        <mat-label>
+          Email
+        </mat-label>
+        <input matInput 
+          type="email" 
+          id="email" 
+          ngModel
+          placeholder="Email" 
+          name="email" 
+          required >
+      </mat-form-field>
+      
+      <mat-form-field
+        appearance="outline"
+      >
+        <mat-label>
+          Password
+        </mat-label>
+        <input matInput 
+          ngModel
+          appearance="outline"
+          placeholder="Password"
+          [type]="hide ? 'password' : 'text'"
+          name="password"
+          required
+        >
+        <button mat-icon-button matSuffix type="button" (click)="hide = !hide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <a id="forgot-password"> Forgot your password?</a>
+      <button mat-raised-button color="accent" type="submit" [disabled]="!logInForm.valid">
+        Sign In </button>
+    </form>
+  </div>
 </div>

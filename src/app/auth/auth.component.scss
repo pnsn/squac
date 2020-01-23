@@ -1,6 +1,11 @@
 @import 'src/variables.scss';
 
-header {
+#auth-container {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#auth-header {
   display: block;
   text-align: center;
   height: 325px;
@@ -17,8 +22,8 @@ header {
 }
 
 #login {
-  width: 350px;
-  margin: 200px auto;
+  width: 320px;
+  margin-top: 200px;
   z-index: 1;
   padding: 20px;
 
