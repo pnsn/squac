@@ -31,12 +31,12 @@
         >
         <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.networkCode }}
+            {{ row.networkCode | uppercase }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Station" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.stationCode}}
+            {{ row.stationCode | uppercase }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
@@ -46,7 +46,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.code}}
+            {{ row.code | uppercase }}
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -95,12 +95,12 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.networkCode }}
+            {{ row.networkCode | uppercase }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.stationCode }}
+            {{ row.stationCode | uppercase }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
@@ -110,7 +110,7 @@
           </ngx-datatable-column>
         <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.code }}
+            {{ row.code | uppercase }}
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -131,7 +131,7 @@
           (click)="closePopup()"
         >Cancel</button>
         <button mat-raised-button color="accent"
-        (click)="cancel()"  
+          (click)="cancel()"  
         >Continue</button>
       </div>
     </div>

@@ -49,12 +49,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   @ViewChild('selectedTable', { static: false }) selectedTable: any;
 
   removeChannel(channel: Channel) {
-    console.log(this.selectedChannels, this.selectedChannelIds);
     const index = this.selectedChannelIds.indexOf(channel.id);
-    console.log(index);
     this.selectedChannels.splice(index, 1);
     this.selectedChannelIds.splice(index, 1);
-    this.selectedChannels = [...this.selectedChannels];
     this.changeMade = true;
   }
 
@@ -152,8 +149,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   private getIdsFromChannels() {
+    this.selectedChannelIds = [];
     this.selectedChannels.forEach(channel => {
-      this.selectedChannelIds = [];
       this.selectedChannelIds.push(channel.id);
     });
   }
