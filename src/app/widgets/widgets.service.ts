@@ -126,9 +126,12 @@ export class WidgetsService {
         const metric = new Metric(
           m.id,
           m.name,
+          m.code,
           m.description,
           m.url,
-          m.unit
+          m.unit,
+          m.default_minval,
+          m.default_maxval
         );
         metrics.push( metric );
       });

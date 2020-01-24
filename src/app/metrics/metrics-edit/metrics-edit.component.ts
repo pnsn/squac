@@ -17,7 +17,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   metricForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-
+  code: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -63,6 +63,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
             minVal : metric.minVal,
             maxVal : metric.maxVal
           });
+          this.code = metric.code;
         }
       );
     }
@@ -73,6 +74,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     this.metricsService.updateMetric(
       new Metric(
         this.id,
+        values.name,
         values.name,
         values.description,
         values.url,

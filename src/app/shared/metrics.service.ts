@@ -7,6 +7,7 @@ import { SquacApiService } from '../squacapi.service';
 
 interface MetricsHttpData {
   name: string;
+  code: string;
   description: string;
   url: string;
   unit: string;
@@ -44,6 +45,7 @@ export class MetricsService {
             const metric = new Metric(
               m.id,
               m.name,
+              m.code,
               m.description,
               m.url,
               m.unit,
@@ -70,6 +72,7 @@ export class MetricsService {
           const metric = new Metric(
               result.id,
               result.name,
+              result.code,
               result.description,
               result.url,
               result.unit,
@@ -85,6 +88,7 @@ export class MetricsService {
   updateMetric(metric: Metric): Observable<Metric> {
     const postData: MetricsHttpData = {
       name: metric.name,
+      code: metric.code,
       description: metric.description,
       url : metric.url,
       unit : metric.unit,

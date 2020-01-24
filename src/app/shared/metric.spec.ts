@@ -5,6 +5,7 @@ describe('Metric', () => {
     expect(new Metric(
       5,
       'name',
+      'code',
       'description',
       'source',
       'unit',

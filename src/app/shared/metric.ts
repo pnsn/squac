@@ -5,6 +5,7 @@ export class Metric {
   constructor(
     public id: number,
     public name: string,
+    public code: string,
     public description: string,
     public url: string,
     public unit: string,
