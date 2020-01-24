@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
 import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
-import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ChannelGroupsViewComponent } from './channel-groups/channel-groups-view/channel-groups-view.component';
@@ -32,7 +31,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'},
       { path: 'new', component: ChannelGroupsEditComponent},
-      { path: ':id', component: ChannelGroupsDetailComponent},
+      { path: ':id', component: ChannelGroupsViewComponent},
       { path: ':id/edit', component: ChannelGroupsEditComponent },
     ]
   }

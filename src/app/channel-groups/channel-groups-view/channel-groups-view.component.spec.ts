@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChannelGroupsService } from '../channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -18,7 +17,7 @@ describe('ChannelGroupsViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule,
         HttpClientTestingModule,
         NgxDatatableModule,
         LeafletModule,
@@ -29,13 +28,20 @@ describe('ChannelGroupsViewComponent', () => {
         MapComponent
       ],
       providers: [
-        ChannelGroupsService,
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({id: 123})
+            snapshot: {
+              paramMap: {
+                get(id: number) {
+                  return 123;
+                }
+              }
+            }
           }
-        }]
+        },
+        ChannelGroupsService
+      ]
     })
     .compileComponents();
   }));
