@@ -6,6 +6,7 @@ import { AuthService } from './auth/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 
 describe('AppComponent', () => {
@@ -27,7 +28,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         MatMenuModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatIconModule
       ],
       declarations: [
         AppComponent,

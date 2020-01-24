@@ -10,8 +10,8 @@ interface MetricsHttpData {
   description: string;
   url: string;
   unit: string;
-  default_minval?: number,
-  default_maxval?: number
+  default_minval?: number;
+  default_maxval?: number;
   id?: number;
 }
 
