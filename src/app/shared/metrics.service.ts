@@ -10,6 +10,8 @@ interface MetricsHttpData {
   description: string;
   url: string;
   unit: string;
+  default_minval?: number,
+  default_maxval?: number
   id?: number;
 }
 
@@ -44,7 +46,9 @@ export class MetricsService {
               m.name,
               m.description,
               m.url,
-              m.unit
+              m.unit,
+              m.default_minval,
+              m.default_maxval
             );
             metrics.push(metric);
           });
@@ -68,7 +72,9 @@ export class MetricsService {
               result.name,
               result.description,
               result.url,
-              result.unit
+              result.unit,
+              result.default_minval,
+              result.default_maxval
           );
           return metric;
         }
@@ -81,7 +87,9 @@ export class MetricsService {
       name: metric.name,
       description: metric.description,
       url : metric.url,
-      unit : metric.unit
+      unit : metric.unit,
+      default_minval : metric.minVal,
+      default_maxval : metric.maxVal
     };
     if (metric.id) {
       postData.id = metric.id;

@@ -2,6 +2,19 @@
     height: 550px;
     width: 400px;
     margin: 5% auto;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-content: left;
+    }
+    .form-group {
+        margin: 10px 0;
+        label {
+            display:block;
+            margin-top: 0px;
+        }
+    }
 }
 
 // #metric-popup-box {
@@ -9,3 +22,12 @@
 //     width: 450px;
 //     height: 150px;
 // }
+#value-container {
+    #min-val, #max-val {
+        display:inline-block;
+        width: 140px;
+        .form-control {
+            width: 50%;
+        }
+    }
+}

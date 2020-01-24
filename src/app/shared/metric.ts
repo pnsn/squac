@@ -7,7 +7,9 @@ export class Metric {
     public name: string,
     public description: string,
     public url: string,
-    public unit: string
+    public unit: string,
+    public minVal?: number,
+    public maxVal?: number
   ) {
   }
 }

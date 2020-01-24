@@ -46,8 +46,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     this.metricForm = this.formBuilder.group({
       name : new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      source: new FormControl('', Validators.required),
-      unit: new FormControl('', Validators.required)
+      url: new FormControl('', Validators.required),
+      unit: new FormControl('', Validators.required),
+      minVal: new FormControl('', Validators.required),
+      maxVal: new FormControl('', Validators.required)
     });
 
     if (this.editMode) {
@@ -56,8 +58,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
           this.metricForm.patchValue({
             name : metric.name,
             description : metric.description,
-            source : metric.url,
-            unit : metric.unit
+            url : metric.url,
+            unit : metric.unit,
+            minVal : metric.minVal,
+            maxVal : metric.maxVal
           });
         }
       );

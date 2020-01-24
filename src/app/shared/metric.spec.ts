@@ -7,7 +7,9 @@ describe('Metric', () => {
       'name',
       'description',
       'source',
-      'unit'
+      'unit',
+      1,
+      10
     )).toBeTruthy();
   });
 });

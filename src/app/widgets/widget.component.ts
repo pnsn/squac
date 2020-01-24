@@ -33,6 +33,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
       enabled: true,
       handles: {s: true, e: true, n: false, w: false, se: true, ne: true, sw: true, nw: true}
     },
+    outerMargin:true,
+    mobileBreakpoint: 640,
     compactType: 'compactUp&Left',
     displayGrid: 'onDrag&Resize',
     itemChangeCallback: (item) => {this.itemChange(item); },
