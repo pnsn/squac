@@ -19,7 +19,7 @@ describe('MeasurementsService', () => {
     starttime: 'start',
     endtime: 'end'
   };
-  const testMetric = new Metric(1, '', '', '', '');
+  const testMetric = new Metric(1, '', '', '', '', '');
   const testChannel = new Channel(1, '', '', 1, 1, 1, 1, '', '', '');
 
   let squacApiService;
