@@ -53,7 +53,6 @@ export class ChannelGroupsFilterComponent implements OnInit {
 
   updateFilters() {
     const searchFilters = {};
-
     for (const filterGroup in this.filters) {
       if (this.filters[filterGroup].length > 0) {
         let filterStr = '';

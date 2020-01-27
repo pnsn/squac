@@ -49,8 +49,8 @@
       (removed)="removeFilter(filter, filterGroup.key)"
       [color]=""
     >
-      {{filter | uppercase}}
-    <mat-icon matChipRemove>cancel</mat-icon>
+      {{filterGroup.key | slice : 0:1 | uppercase}}: {{filter | uppercase}}
+      <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
   </div>
 </mat-chip-list>
