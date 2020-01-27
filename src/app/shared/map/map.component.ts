@@ -29,6 +29,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initMap();
+    this.updateMap();
   }
 
   ngOnChanges() {
@@ -77,7 +78,7 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   updateMap() {
-    if (this.channelLayer) {
+    if (this.channelLayer && this.channels !== undefined) {
       this.layers.pop();
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
