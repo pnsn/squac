@@ -8,6 +8,7 @@ import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
 import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
+import { ObjectUnsubscribedErrorCtor } from 'rxjs/internal/util/ObjectUnsubscribedError';
 
 
 @Component({
@@ -32,12 +33,17 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   loading = false;
   changeMade = false;
+
   // form stuff
   channelGroupForm: FormGroup;
   searchChannels: Channel[] = [];
   availableChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
   selectedChannelIds: number[] = [];
+  previous: {
+    selectedChannels: Channel[],
+    selectedChannelIds: number[]
+  };
   bounds: any;
 
   // table stuff
@@ -49,6 +55,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   @ViewChild('selectedTable', { static: false }) selectedTable: any;
 
   removeChannel(channel: Channel) {
+    this.previous = {
+      selectedChannels: [...this.selectedChannels],
+      selectedChannelIds: [...this.selectedChannelIds]
+    };
     const index = this.selectedChannelIds.indexOf(channel.id);
     this.selectedChannels.splice(index, 1);
     this.selectedChannelIds.splice(index, 1);
@@ -57,6 +67,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   addChannelsToSelected() {
+    this.previous = {
+      selectedChannels: [...this.selectedChannels],
+      selectedChannelIds: [...this.selectedChannelIds]
+    };
     const newChannels = this.availableChannels.filter(
       (channel) => {
         if (this.selectedChannelIds.indexOf(channel.id) === -1) {
@@ -69,6 +83,16 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = [...this.selectedChannels, ...newChannels];
     // add available channels to selected channels
     this.changeMade = true;
+  }
+
+  undoSelectRemove() {
+    const newPrevious = {
+      selectedChannels: [...this.selectedChannels],
+      selectedChannelIds: [...this.selectedChannelIds]
+    };
+    this.selectedChannels = this.previous.selectedChannels;
+    this.selectedChannelIds = this.previous.selectedChannelIds;
+    this.previous = newPrevious;
   }
 
   updateTable() {
@@ -91,15 +115,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
-  // removeChannelsWithFilters(searchFilters) {
-  //   console.log(searchFilters);
-  //   this.selectedChannels.filter((channel, index)=>{
-  //     return
-
-
-  //   });
-  // }
 
   getChannelsWithFilters(searchFilters: object) {
     if (searchFilters !== {}) {

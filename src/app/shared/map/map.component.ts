@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -94,19 +93,29 @@ export class MapComponent implements OnInit, OnChanges {
       this.layers.pop();
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
+      let chanMarkers = [];
       const chanLatLng = [];
-      const chanMarkers = this.selectedChannels.map( channel => {
-        sumLat += channel.lat;
-        sumLon += channel.lon;
-        chanLatLng.push([channel.lat, channel.lon]);
-        return L.marker([channel.lat, channel.lon], {icon: this.mapIcon}).bindPopup(channel.stationCode.toUpperCase());
-      });
-      if (this.searchChannels !== undefined) {
-        this.searchChannels.forEach( channel => {
+      if (this.selectedChannels !== undefined) {
+          chanMarkers = this.selectedChannels.map( channel => { // Add selected
           sumLat += channel.lat;
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
-          chanMarkers.push(L.marker([channel.lat, channel.lon], {icon: this.searchIcon}).bindPopup(channel.stationCode.toUpperCase()));
+          return L.marker([channel.lat, channel.lon], {icon: this.mapIcon}).bindPopup(channel.stationCode.toUpperCase());
+        });
+      }
+      if (this.searchChannels !== undefined) {
+        const filteredSearchChannels = this.searchChannels.filter( channel => {
+          return !this.selectedChannels.some(  c => {
+            return c.id === channel.id; // Check whether this channel is selected already
+          });
+        });
+        filteredSearchChannels.forEach( channel => {
+          sumLat += channel.lat;
+          sumLon += channel.lon;
+          chanLatLng.push([channel.lat, channel.lon]);
+          chanMarkers.push(
+            L.marker([channel.lat, channel.lon], {icon: this.searchIcon}).bindPopup(channel.stationCode.toUpperCase())
+          ); // Push search channel markers onto array
         });
       }
       this.channelLayer = L.layerGroup(chanMarkers);

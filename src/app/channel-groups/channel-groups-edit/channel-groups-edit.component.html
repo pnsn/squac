@@ -14,9 +14,21 @@
 <div id="edit-container" class="square-box">
   <div id="selection-container" class="square-box">
     <div id="selection-filter" class="square-box">
-      <h3 class="help-text">Search for channels matching:</h3>
-      <app-channel-groups-filter id="filter" (filtersChanged)="getChannelsWithFilters($event)"> 
+      <div id="filter-container">
+        <h3 class="help-text">Search for channels matching:</h3>
+        <app-channel-groups-filter id="filter" (filtersChanged)="getChannelsWithFilters($event)"> 
         </app-channel-groups-filter>
+      </div>
+      <div id="add-undo-container" class="btn-container">
+        <button mat-raised-button color="accent" (click)="addChannelsToSelected()" 
+          [disabled]="!availableChannels || availableChannels.length === 0">
+          Add Channels
+        </button>
+        <button mat-raised-button color="accent" (click)="undoSelectRemove()" 
+          [disabled]="!changeMade">
+          Undo Last
+        </button>
+      </div>
     </div>
 
     <div id="list-and-map-container">
@@ -60,12 +72,6 @@
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
-          <div class="btn-container">
-            <button mat-raised-button color="accent" (click)="addChannelsToSelected()" 
-              [disabled]="!availableChannels || availableChannels.length === 0">
-              Add Channels
-            </button>
-          </div>
         </div>
       </div>
   
@@ -136,11 +142,11 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
-      <div class="btn-container">
+      <!-- <div class="btn-container">
         <button mat-raised-button color="warn" (click)="removeSelectedChannels()" 
           [disabled]="!filteredSelected"
         >Remove Channels</button>
-      </div>
+      </div> -->
     </form>
   </div>
 </div>

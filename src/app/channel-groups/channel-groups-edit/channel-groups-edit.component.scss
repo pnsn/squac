@@ -17,25 +17,38 @@ header {
   width: 90vw;
   height: 80vh;
   min-width: 1100px;
-  min-height: 700px;
+  min-height: 600px;
   margin: 20px 0 0 5%;
   display: flex;
 
   #selection-container {
     width: 60vw;
-    min-width: 700px;
+    height: 79.7vh;
+    min-height: 597px;
+    min-width: 850px;
   
     #selection-filter {
       width: 60vw;
       height: 15vh;
-      min-width: 700px;
+      min-width: 850px;
       min-height: 100px;
+      display: flex;
+
+      #filter-container {
+        width: 50vw;
+        min-width: 700px
+      }
+
+      #add-undo-container {
+        width: 150px;
+        float: right;
+      }
     }
   
     #list-and-map-container {
       display: flex;
-      height: 65vh;
-      min-height: 600px;
+      height: 64vh;
+      min-height: 496px;
     
       #preview-list {
         h4 {
@@ -43,20 +56,20 @@ header {
         }
         width: 39vw;
         height: 64.7vh;
-        min-width: 400px;
-        min-height: 572px;
+        min-width: 500px;
+        min-height: 495px;
       
         #channel-selector {
-          height: 54vh;
-          min-height: 475px;
+          height: 58vh;
+          min-height: 455px;
         }
       }
     
       #map-box {
         width: 20.85vw;
-        height: 64.6vh;
-        min-width: 300px;
-        min-height: 572px;
+        height: 64.7vh;
+        min-width: 350px;
+        min-height: 495px;
       
         app-map {
           width: 100%;
@@ -72,7 +85,8 @@ header {
     text-align: center;
   
     #group-channels {
-      height: 55vh;
+      height: 60vh;
+      min-height: 430px;
     }
   }
 }
