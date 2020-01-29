@@ -4,44 +4,32 @@
   <input
     matInput
     placeholder="Network"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-    [matChipInputAddOnBlur]="addOnBlur"
-    (matChipInputTokenEnd)="addFilter($event, 'network')"
+    (change)="addFilter($event, 'network')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
   <input
     matInput
     placeholder="Station"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-    [matChipInputAddOnBlur]="addOnBlur"
-    (matChipInputTokenEnd)="addFilter($event, 'station')"
+    (change)="addFilter($event, 'station')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
   <input
     matInput
     placeholder="Location"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-    [matChipInputAddOnBlur]="addOnBlur"
-    (matChipInputTokenEnd)="addFilter($event, 'location')"
+    (change)="addFilter($event, 'location')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
   <input
     matInput
     placeholder="Channel"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-    [matChipInputAddOnBlur]="addOnBlur"
-    (matChipInputTokenEnd)="addFilter($event, 'channel')"
+    (change)="addFilter($event, 'channel')"
   >
 </mat-form-field>
 
-<mat-chip-list #chipList aria-label="Channel group filters">
+<!-- <mat-chip-list #chipList aria-label="Channel group filters">
   <div *ngFor="let filterGroup of filters | keyvalue">
     <mat-chip 
       *ngFor="let filter of filterGroup.value"
@@ -49,8 +37,8 @@
       (removed)="removeFilter(filter, filterGroup.key)"
       [color]=""
     >
-      {{filterGroup.key | slice : 0:1 | uppercase}}: {{filter | uppercase}}
+      {{filterGroup.key | slice : 0:3 | titlecase}}: {{filter | uppercase}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
   </div>
-</mat-chip-list>
+</mat-chip-list> -->
