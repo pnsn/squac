@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -8,13 +9,15 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, OnChanges {
-  @Input() channels: Channel[];
+  @Input() selectedChannels: Channel[];
+  @Input() searchChannels: Channel[];
   @Input() editPage: boolean;
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
   map: L.Map;
   channelLayer: L.LayerGroup;
   drawnItems: L.FeatureGroup;
   mapIcon: L.Icon;
+  searchIcon: L.Icon;
   options: {
     center: L.LatLng,
     zoom: number,
@@ -41,6 +44,15 @@ export class MapComponent implements OnInit, OnChanges {
     this.drawnItems = new L.FeatureGroup();
     this.mapIcon = L.icon({
       iconUrl: '../../assets/map-marker.png',
+      shadowUrl: '',
+      iconSize:     [32, 32], // size of the icon
+      shadowSize:   [0, 0], // size of the shadow
+      iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+      shadowAnchor: [0, 0],  // the same for the shadow
+      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+    });
+    this.searchIcon = L.icon({
+      iconUrl: '../../assets/search-map-marker.png',
       shadowUrl: '',
       iconSize:     [32, 32], // size of the icon
       shadowSize:   [0, 0], // size of the shadow
@@ -78,17 +90,25 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   updateMap() {
-    if (this.channelLayer && this.channels !== undefined) {
+    if (this.channelLayer && this.selectedChannels !== undefined) {
       this.layers.pop();
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
       const chanLatLng = [];
-      const chanMarkers = this.channels.map((channel) => {
+      const chanMarkers = this.selectedChannels.map( channel => {
         sumLat += channel.lat;
         sumLon += channel.lon;
         chanLatLng.push([channel.lat, channel.lon]);
         return L.marker([channel.lat, channel.lon], {icon: this.mapIcon}).bindPopup(channel.stationCode.toUpperCase());
       });
+      if (this.searchChannels !== undefined) {
+        this.searchChannels.forEach( channel => {
+          sumLat += channel.lat;
+          sumLon += channel.lon;
+          chanLatLng.push([channel.lat, channel.lon]);
+          chanMarkers.push(L.marker([channel.lat, channel.lon], {icon: this.searchIcon}).bindPopup(channel.stationCode.toUpperCase()));
+        });
+      }
       this.channelLayer = L.layerGroup(chanMarkers);
       this.layers.push(this.channelLayer);
       if (chanMarkers.length > 0) {

@@ -70,7 +70,11 @@
       </div>
   
       <div id="map-box">
-        <app-map [channels]="mapChannels" [editPage]=true (boundsChange)="updateBounds($event)"></app-map>
+        <app-map [selectedChannels]="selectedChannels"
+          [searchChannels]="searchChannels"
+          [editPage]=true
+          (boundsChange)="updateBounds($event)"
+        ></app-map>
       </div>
     </div>
   </div>
@@ -134,9 +138,8 @@
       </ngx-datatable>
       <div class="btn-container">
         <button mat-raised-button color="warn" (click)="removeSelectedChannels()" 
-          [disabled]="!filteredSelected">
-          Remove Channels
-        </button>
+          [disabled]="!filteredSelected"
+        >Remove Channels</button>
       </div>
     </form>
   </div>

@@ -34,7 +34,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   changeMade = false;
   // form stuff
   channelGroupForm: FormGroup;
-  mapChannels: Channel[] = [];
+  searchChannels: Channel[] = [];
   availableChannels: Channel[] = [];
   selectedChannels: Channel[] = [];
   selectedChannelIds: number[] = [];
@@ -101,14 +101,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  getChannelsWithFilters(searchFilters) {
+  getChannelsWithFilters(searchFilters: object) {
     if (searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
         response => {
           console.log(response.length);
           this.availableChannels = response;
-          this.mapChannels = [...this.availableChannels];
+          this.searchChannels = [...this.availableChannels];
           this.loading = false;
           if (this.bounds !== undefined) {
             this.filterBounds();
@@ -120,7 +120,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.subscriptions.add(channelsSub);
     } else {
       this.availableChannels = [];
-      this.mapChannels = [];
+      this.searchChannels = [];
     }
   }
 
@@ -181,8 +181,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   cancel(id?: number) {
     if (id && !this.id) {
       this.router.navigate(['../../', id], {relativeTo: this.route});
-    } else {
+    } else if (id) {
       this.router.navigate(['../../', this.id], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
   // Check if form has unsaved fields
@@ -201,7 +203,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   filterBounds() {
-    this.availableChannels = this.mapChannels.filter( channel => {
+    this.availableChannels = this.searchChannels.filter( channel => {
       const latCheck = channel.lat <= this.bounds.lat_max && channel.lat >= this.bounds.lat_min;
       const lonCheck = channel.lon >= this.bounds.lon_min && channel.lon <= this.bounds.lon_max;
       return latCheck && lonCheck;
@@ -210,7 +212,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   updateBounds(newBounds: string) {
     if (newBounds === '') {
-      this.availableChannels = [...this.mapChannels];
+      this.availableChannels = [...this.searchChannels];
     } else {
       const boundsArr = newBounds.split(' ').map(bound => { // format: 'N_lat W_lon S_lat E_lon'
         return parseFloat(bound);
