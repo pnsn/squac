@@ -86,7 +86,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
-            console.log(typeof measurement.starttime)
             channelObj.series.push(
               {
                 name: new Date(measurement.starttime),

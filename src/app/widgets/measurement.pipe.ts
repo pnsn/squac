@@ -56,27 +56,55 @@ private min(values): number {
   return values[0];
 }
 
-  transform(values: any, type: any): any {
-    if (values && values.length > 0) {
-      const sortedValues = this.sort(values);
-      switch (type) {
-          case 'average':
-          return this.average(sortedValues);
 
-          case 'median':
-            return this.median(sortedValues);
-
-          case 'max':
-            return this.max(sortedValues);
-
-          case 'min':
-            return this.min(sortedValues);
-
-          default: // most recent
-            return values[values.length - 1].value;
-        }
-    } else {
-      return null;
-    }
+statTypes = [
+  {
+    id: 1,
+    name: 'Average',
+  },
+  {
+    id: 2,
+    name: 'Median',
+  },
+  {
+    id: 3,
+    name: 'Minimum',
+  },
+  {
+    id: 4,
+    name: 'Maximum',
+  }, 
+  {
+    id: 5,
+    name: 'Sample Count',
   }
+];
+
+transform(values: any, type: any): any {
+  if (values && values.length > 0) {
+    const sortedValues = this.sort(values);
+    console.log(type)
+    switch (type) {
+        case 1:
+        return this.average(sortedValues);
+
+        case 2:
+          return this.median(sortedValues);
+
+        case 3:
+          return this.min(sortedValues);
+
+        case 4:
+          return this.max(sortedValues);
+
+        case 5:
+          return sortedValues.length;
+
+        default: // most recent
+          return values[values.length - 1].value;
+      }
+  } else {
+    return null;
+  }
+}
 }

@@ -108,7 +108,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
-        const val = this.measurement.transform(data[channel.id][metric.id], '');
+        const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
 
