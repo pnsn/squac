@@ -37,7 +37,7 @@ export class ThresholdsService {
 
         if (threshold.id && !threshold.max && !threshold.min) {
           // delete the existing threshold;
-          console.log("threshood has null value")
+          console.log("delete threshold")
         } else {
           thresholdSubs.push(this.updateThreshold(threshold, widgetId));
         }

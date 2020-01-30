@@ -119,8 +119,8 @@ export class TabularComponent implements OnInit, OnDestroy {
         rowMetrics[metric.id] = {
           value: val,
           classes: {
-            'out-of-spec' : val !== null && !inThreshold && threshold,
-            'in-spec' : val !== null && inThreshold && threshold,
+            'out-of-spec' : val !== null && !inThreshold && !!threshold,
+            'in-spec' : val !== null && inThreshold && !!threshold,
             'has-threshold' : !!threshold
           }
         };
@@ -191,13 +191,13 @@ export class TabularComponent implements OnInit, OnDestroy {
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if (threshold.max && value != null && value >= threshold.max) {
+    if (threshold.max !== null && value !== null && value >= threshold.max) {
       withinThresholds = false;
     }
-    if (threshold.min && value != null && value <= threshold.min) {
+    if (threshold.min !== null && value !== null && value <= threshold.min) {
       withinThresholds = false;
     }
-    if (!threshold.min && !threshold.max) {
+    if (threshold.min === null && threshold.max === null) {
       withinThresholds = false;
     }
     return withinThresholds;
