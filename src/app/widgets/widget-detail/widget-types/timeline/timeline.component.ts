@@ -25,7 +25,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   channels: Channel[];
   @ViewChild('dataTable', { static: false }) table: any;
-  @Input() resize: Subject<boolean>;
   subscription = new Subscription();
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -79,9 +78,19 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.subscription.add(dateFormatSub);
 
-    // this.subscription.add(this.resize.subscribe(reload => {
-    //   this.table.recalculate();
-    // }));
+    const resizeSub = this.viewService.resize.subscribe(
+      widgetId => {
+        if(widgetId === this.widget.id) {
+          this.resize();
+        }
+      }
+    );
+
+    this.subscription.add(resizeSub);
+  }
+
+  private resize() {
+    this.rows = [...this.rows];
   }
 
   private replaceChannel(channel, station) {

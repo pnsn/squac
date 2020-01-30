@@ -56,7 +56,21 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(dateFormatSub);
+    const resizeSub = this.viewService.resize.subscribe(
+      widgetId => {
+        if(widgetId === this.widget.id) {
+          this.resize();
+        }
+      }
+    );
+
+    this.subscription.add(resizeSub);
   }
+
+  private resize() {
+    // this.rows = [...this.rows];
+  }
+  
 
   buildChartData(data) {
     this.hasData = false;
@@ -72,15 +86,16 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
+            console.log(typeof measurement.starttime)
             channelObj.series.push(
               {
-                name: measurement.starttime,
+                name: new Date(measurement.starttime),
                 value: measurement.value
               }
             );
           }
         );
-
+        
         this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
 
         this.results.push(channelObj);

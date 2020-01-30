@@ -1,18 +1,21 @@
-<div id="chart-container">
+<div id="chart-container"> 
   <ngx-charts-line-chart *ngIf="hasData; else elseTemplate"
-    [results]="results"
-    [xAxis]="false"
-    [scheme]="colorScheme"
-    [yAxis]="true"
-    [legend]="true"
-    [showYAxisLabel]="true"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [roundDomains]="true"
-    [animations]="false"
-  >
-  </ngx-charts-line-chart>
-  <ng-template #elseTemplate>
-    No data.
-  </ng-template>
+  [results]="results"
+  [xAxis]="true"
+  [scheme]="colorScheme"
+  [yAxis]="true"
+  [legend]="true"
+  [showYAxisLabel]="true"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [roundDomains]="true"
+  [animations]="false"
+>
+</ngx-charts-line-chart>
+<ng-template #elseTemplate>
+  No data.
+</ng-template>
+
+
+
 </div>

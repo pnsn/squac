@@ -6,7 +6,7 @@
   [rows]="rows"
   [headerHeight]="50"
   [sortType]="SortType.multi"
-  [columnMode]="ColumnMode.force"
+  [columnMode]="ColumnMode.flex"
   [footerHeight]="0"
   [rowHeight]="40"
   [scrollbarH]="true"
@@ -18,7 +18,7 @@
   [sorts]="[{ prop: 'agg', dir: 'desc' }]"
 
 >      
-  <ngx-datatable-column name="title" [isTreeColumn]="true" [width]="110" [canAutoResize]="false"
+  <ngx-datatable-column name="Channel" prop="title" [isTreeColumn]="true" [width]="110" [canAutoResize]="false"
   [frozenLeft]="true" [resizeable]="false">
   </ngx-datatable-column>
   <ngx-datatable-column name="agg" [width]="50" [frozenLeft]="true" [canAutoResize]="false">
@@ -33,7 +33,8 @@
     [minWidth]="100" 
     [cellClass]="getCellClass"
     [canAutoResize]="true"
-    [flexGrow]="3">
+    [flexGrow]="3"
+    >
     <ng-template let-value="value" ngx-datatable-cell-template>
       {{ value.value !== null ? (value.value | number:'1.2-2') : "n/a" }}
     </ng-template>

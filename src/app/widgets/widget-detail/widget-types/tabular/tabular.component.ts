@@ -68,11 +68,20 @@ export class TabularComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(dateFormatSub);
-    // this.subscription.add(this.resize.subscribe(reload => {
-    //   console.log('reload!');
-    //   this.columns = [...this.columns];
-    //   this.table.recalculate();
-    // }));
+
+    const resizeSub = this.viewService.resize.subscribe(
+      widgetId => {
+        if(widgetId === this.widget.id) {
+          this.resize();
+        }
+      }
+    );
+
+    this.subscription.add(resizeSub);
+  }
+
+  private resize() {
+    this.rows = [...this.rows];
   }
 
 

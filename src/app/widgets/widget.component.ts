@@ -50,6 +50,7 @@ itemChange(item) {
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe();
+    this.viewService.resizeWidget(item.widget.id);
   }
 }
 

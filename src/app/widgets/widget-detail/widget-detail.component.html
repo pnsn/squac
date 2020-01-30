@@ -15,16 +15,16 @@
   <div class="widget-content">
     <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
-      <app-timeline *ngSwitchCase="'timeline'"
+      <app-timeline *ngSwitchCase="'timeline'" class="widget"
         [widget]="widget"
       >
       </app-timeline>
-      <app-tabular *ngSwitchCase="'tabular'" 
+      <app-tabular *ngSwitchCase="'tabular'" class="widget"
       [widget]="widget"
       >
 
       </app-tabular>
-      <app-timeseries *ngSwitchCase="'timeseries'" 
+      <app-timeseries *ngSwitchCase="'timeseries'" class="widget"
       [widget]="widget"
     >
 
