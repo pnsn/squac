@@ -17,7 +17,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   metricForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-  code: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -46,6 +45,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     this.metricForm = this.formBuilder.group({
       name : new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+      code: new FormControl('', Validators.required),
       url: new FormControl('', Validators.required),
       unit: new FormControl('', Validators.required),
       minVal: new FormControl('', Validators.required),
@@ -57,13 +57,13 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         metric => {
           this.metricForm.patchValue({
             name : metric.name,
+            code: metric.code,
             description : metric.description,
             url : metric.url,
             unit : metric.unit,
             minVal : metric.minVal,
             maxVal : metric.maxVal
           });
-          this.code = metric.code;
         }
       );
     }
@@ -75,7 +75,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       new Metric(
         this.id,
         values.name,
-        values.name,
+        values.code,
         values.description,
         values.url,
         values.unit
@@ -93,7 +93,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     if (id && !this.id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 
