@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChannelGroupsComponent } from './channel-groups/channel-groups.component';
 import { ChannelGroupsEditComponent } from './channel-groups/channel-groups-edit/channel-groups-edit.component';
-import { ChannelGroupsDetailComponent } from './channel-groups/channel-groups-detail/channel-groups-detail.component';
 import { AuthComponent } from './auth/auth.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
@@ -33,7 +32,6 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     HeaderComponent,
     ChannelGroupsComponent,
     ChannelGroupsEditComponent,
-    ChannelGroupsDetailComponent,
     ChannelGroupsViewComponent,
     MetricsComponent,
     MetricsDetailComponent,
