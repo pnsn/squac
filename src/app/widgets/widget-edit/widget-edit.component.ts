@@ -66,6 +66,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     {
       id: 5,
       name: 'Sample Count',
+    },
+    {
+      id: 11,
+      name: 'Raw/Most Recent Value',
     }
   ];
 
@@ -111,7 +115,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      statType: new FormControl('', Validators.required)
+      statType: new FormControl(11, Validators.required)
     });
 
 
