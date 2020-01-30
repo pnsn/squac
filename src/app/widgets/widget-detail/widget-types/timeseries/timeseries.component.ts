@@ -68,7 +68,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   }
 
   private resize() {
-    // this.rows = [...this.rows];
+    this.results = [...this.results];
   }
   
 
