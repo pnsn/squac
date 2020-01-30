@@ -62,7 +62,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     {
       id: 4,
       name: 'Maximum',
-    }, 
+    },
     {
       id: 5,
       name: 'Sample Count',

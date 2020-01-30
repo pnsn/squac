@@ -58,7 +58,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.subscription.add(dateFormatSub);
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
-        if(widgetId === this.widget.id) {
+        if (widgetId === this.widget.id) {
           this.resize();
         }
       }
@@ -70,7 +70,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   private resize() {
     this.results = [...this.results];
   }
-  
+
 
   buildChartData(data) {
     this.hasData = false;
@@ -94,7 +94,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             );
           }
         );
-        
+
         this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
 
         this.results.push(channelObj);

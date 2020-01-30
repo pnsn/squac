@@ -80,7 +80,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
-        if(widgetId === this.widget.id) {
+        if (widgetId === this.widget.id) {
           this.resize();
         }
       }

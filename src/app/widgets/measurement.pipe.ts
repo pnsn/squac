@@ -5,6 +5,30 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MeasurementPipe implements PipeTransform {
 
+
+statTypes = [
+  {
+    id: 1,
+    name: 'Average',
+  },
+  {
+    id: 2,
+    name: 'Median',
+  },
+  {
+    id: 3,
+    name: 'Minimum',
+  },
+  {
+    id: 4,
+    name: 'Maximum',
+  },
+  {
+    id: 5,
+    name: 'Sample Count',
+  }
+];
+
   // most recent?
   // Calculates the values for the channel
   private sort(values): Array<any> {
@@ -56,34 +80,10 @@ private min(values): number {
   return values[0];
 }
 
-
-statTypes = [
-  {
-    id: 1,
-    name: 'Average',
-  },
-  {
-    id: 2,
-    name: 'Median',
-  },
-  {
-    id: 3,
-    name: 'Minimum',
-  },
-  {
-    id: 4,
-    name: 'Maximum',
-  }, 
-  {
-    id: 5,
-    name: 'Sample Count',
-  }
-];
-
 transform(values: any, type: any): any {
   if (values && values.length > 0) {
     const sortedValues = this.sort(values);
-    console.log(type)
+    console.log(type);
     switch (type) {
         case 1:
         return this.average(sortedValues);

@@ -71,7 +71,7 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
-        if(widgetId === this.widget.id) {
+        if (widgetId === this.widget.id) {
           this.resize();
         }
       }
@@ -128,7 +128,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       });
       const title = channel.networkCode + '.' + channel.stationCode + '.' + channel.loc + '.' + channel.code;
       let row = {
-        title: title,
+        title,
         id: channel.id,
         nslc: channel.nslc,
         parentId: identifier,
@@ -144,7 +144,7 @@ export class TabularComponent implements OnInit, OnDestroy {
         stationRows.push(
           {
             ...{
-          title: title,
+          title,
           id: identifier,
           treeStatus: 'collapsed',
           staCode: channel.stationCode,
