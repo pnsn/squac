@@ -27,7 +27,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
       dragHandleClass: 'drag-handler',
       dropOverItems: false
     },
-    gridType: 'scrollVertical',
+    gridType: 'verticalFixed',
     pushItems: true,
     resizable: {
       enabled: true,
