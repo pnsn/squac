@@ -90,7 +90,6 @@ export class TabularComponent implements OnInit, OnDestroy {
       const newStation = {...channel};
       newStation.treeStatus = station.treeStatus;
       newStation.id = station.id;
-      newStation.title = station.title;
       newStation.parentId = null;
       return newStation;
     }
@@ -127,9 +126,9 @@ export class TabularComponent implements OnInit, OnDestroy {
         };
 
       });
-
+      const title = channel.networkCode + '.' + channel.stationCode + '.' + channel.loc + '.' + channel.code;
       let row = {
-        title: channel.loc + '.' + channel.code,
+        title: title,
         id: channel.id,
         nslc: channel.nslc,
         parentId: identifier,
@@ -145,7 +144,7 @@ export class TabularComponent implements OnInit, OnDestroy {
         stationRows.push(
           {
             ...{
-          title: channel.networkCode + '.' + channel.stationCode,
+          title: title,
           id: identifier,
           treeStatus: 'collapsed',
           staCode: channel.stationCode,
