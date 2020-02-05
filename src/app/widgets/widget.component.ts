@@ -27,7 +27,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
       dragHandleClass: 'drag-handler',
       dropOverItems: false
     },
-    gridType: 'scrollVertical',
+    gridType: 'verticalFixed',
     pushItems: true,
     resizable: {
       enabled: true,
@@ -50,6 +50,7 @@ itemChange(item) {
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe();
+    this.viewService.resizeWidget(item.widget.id);
   }
 }
 

@@ -37,6 +37,7 @@ export class ThresholdsService {
 
         if (threshold.id && !threshold.max && !threshold.min) {
           // delete the existing threshold;
+          console.log('delete threshold');
         } else {
           thresholdSubs.push(this.updateThreshold(threshold, widgetId));
         }
@@ -46,7 +47,6 @@ export class ThresholdsService {
   }
 
   updateThreshold(threshold: Threshold, widgetId) {
-    // FIXME: turns null to 0
     const postData: ThresholdHttpData = {
       widget: threshold.widgetId ? threshold.widgetId : widgetId,
       metric: threshold.metricId,

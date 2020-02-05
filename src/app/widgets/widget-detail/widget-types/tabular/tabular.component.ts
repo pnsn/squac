@@ -68,11 +68,20 @@ export class TabularComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(dateFormatSub);
-    // this.subscription.add(this.resize.subscribe(reload => {
-    //   console.log('reload!');
-    //   this.columns = [...this.columns];
-    //   this.table.recalculate();
-    // }));
+
+    const resizeSub = this.viewService.resize.subscribe(
+      widgetId => {
+        if (widgetId === this.widget.id) {
+          this.resize();
+        }
+      }
+    );
+
+    this.subscription.add(resizeSub);
+  }
+
+  private resize() {
+    this.rows = [...this.rows];
   }
 
 
@@ -81,7 +90,6 @@ export class TabularComponent implements OnInit, OnDestroy {
       const newStation = {...channel};
       newStation.treeStatus = station.treeStatus;
       newStation.id = station.id;
-      newStation.title = station.title;
       newStation.parentId = null;
       return newStation;
     }
@@ -100,7 +108,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
-        const val = this.measurement.transform(data[channel.id][metric.id], '');
+        const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
 
@@ -111,16 +119,16 @@ export class TabularComponent implements OnInit, OnDestroy {
         rowMetrics[metric.id] = {
           value: val,
           classes: {
-            'out-of-spec' : val !== null && !inThreshold && threshold,
-            'in-spec' : val !== null && inThreshold && threshold,
+            'out-of-spec' : val !== null && !inThreshold && !!threshold,
+            'in-spec' : val !== null && inThreshold && !!threshold,
             'has-threshold' : !!threshold
           }
         };
 
       });
-
+      const title = channel.networkCode + '.' + channel.stationCode + '.' + channel.loc + '.' + channel.code;
       let row = {
-        title: channel.loc + '.' + channel.code,
+        title,
         id: channel.id,
         nslc: channel.nslc,
         parentId: identifier,
@@ -136,7 +144,7 @@ export class TabularComponent implements OnInit, OnDestroy {
         stationRows.push(
           {
             ...{
-          title: channel.networkCode + '.' + channel.stationCode,
+          title,
           id: identifier,
           treeStatus: 'collapsed',
           staCode: channel.stationCode,
@@ -183,13 +191,13 @@ export class TabularComponent implements OnInit, OnDestroy {
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if (threshold.max && value != null && value >= threshold.max) {
+    if (threshold.max !== null && value !== null && value >= threshold.max) {
       withinThresholds = false;
     }
-    if (threshold.min && value != null && value <= threshold.min) {
+    if (threshold.min !== null && value !== null && value <= threshold.min) {
       withinThresholds = false;
     }
-    if (!threshold.min && !threshold.max) {
+    if (threshold.min === null && threshold.max === null) {
       withinThresholds = false;
     }
     return withinThresholds;

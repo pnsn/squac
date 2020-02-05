@@ -3,9 +3,9 @@
     Metrics
   </h1>
   <div class="btn-container-right">
-    <button mat-flat-button color="accent" id ="edit-metric-btn"
+    <button mat-flat-button color="primary" id ="edit-metric-btn"
       (click)="editMetric()" class="add-btn" [disabled]="!selected"
-    >+ Edit Metric</button>
+    >Edit Metric</button>
     <button mat-flat-button color="accent" id="add-metric-btn"
       (click)="addMetric()" class="add-btn"
     >+ Add Metric</button>
@@ -15,7 +15,7 @@
 <div id="metric-container">
   <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.force"
         [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
-        [selectionType]=SelectionType.single (select)="onSelect($event)">
+        [selectionType]="SelectionType.single" (select)="onSelect($event)">
     <ngx-datatable-column name="Name" [width]="75" [draggable]="false" [sortable]="true">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.name }}

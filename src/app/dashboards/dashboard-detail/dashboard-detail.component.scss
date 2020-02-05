@@ -53,3 +53,9 @@ app-widget {
   height: 100%;
   width: 100%;
 }
+
+#add-widget {
+  display:flex;
+  flex-direction:column;
+  align-items: center; 
+}

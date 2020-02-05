@@ -40,7 +40,6 @@ describe('TimelineComponent', () => {
     fixture.detectChanges();
     component.startdate = new Date();
     component.enddate = new Date();
-    component.resize = new Subject();
     fixture.detectChanges();
   });
 

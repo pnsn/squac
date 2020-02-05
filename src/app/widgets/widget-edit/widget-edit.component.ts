@@ -49,9 +49,27 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   statTypes = [
     {
       id: 1,
-      type: 'ave',
       name: 'Average',
-      description: ''
+    },
+    {
+      id: 2,
+      name: 'Median',
+    },
+    {
+      id: 3,
+      name: 'Minimum',
+    },
+    {
+      id: 4,
+      name: 'Maximum',
+    },
+    {
+      id: 5,
+      name: 'Sample Count',
+    },
+    {
+      id: 11,
+      name: 'Raw/Most Recent Value',
     }
   ];
 
@@ -97,7 +115,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      statType: new FormControl('', Validators.required)
+      statType: new FormControl(11, Validators.required)
     });
 
 

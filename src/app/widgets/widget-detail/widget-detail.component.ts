@@ -22,7 +22,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   data: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
-  resize: Subject<boolean> = new Subject();
   // temp
 
   styles: any;

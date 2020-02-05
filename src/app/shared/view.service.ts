@@ -17,7 +17,7 @@ export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new Subject<Widget[]>();
   dates = new Subject<{start: Date, end: Date}>();
-
+  resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
   private startdate: Date;
   private enddate: Date;
@@ -46,6 +46,10 @@ export class ViewService {
 
   getEnddate() {
     return this.enddate;
+  }
+
+  resizeWidget(widgetId: number) {
+    this.resize.next(widgetId);
   }
 
   datesChanged(start: Date, end: Date) {

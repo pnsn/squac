@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: MetricsViewComponent, pathMatch: 'full'},
       { path: 'new', component: MetricsEditComponent},
-      { path: ':id', component: MetricsDetailComponent},
+      { path: ':id', component: MetricsViewComponent},
       { path: ':id/edit', component: MetricsEditComponent },
     ]
   },
