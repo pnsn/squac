@@ -2,6 +2,10 @@
     height: 100%;
 }
 
-button {
-    margin: 25px 5px;
+#map-key {
+    background-color: white;
+    z-index: 99;
+    position: relative;
+    left: 0;
+    top: 0;
 }

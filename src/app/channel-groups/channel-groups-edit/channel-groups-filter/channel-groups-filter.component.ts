@@ -27,8 +27,10 @@ export class ChannelGroupsFilterComponent implements OnInit {
       this.filters[type] = paramArr.reduce( (acc: string, param: string) => {
         return `${acc},${param.trim()}`;
       });
-      this.updateFilters();
+    } else {
+      this.filters[type] = '';
     }
+    this.updateFilters();
   }
 
   updateFilters() {

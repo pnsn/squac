@@ -1,30 +1,30 @@
-<header>
+<div id="title">
   <h1>
     {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
   </h1>
   
-  <div id="save-cancel-cg" class="btn-container">
-    <button mat-raised-button color="primary" (click)="formUnsaved()"
+  <div id="save-cancel-cg" class="btn-container-right">
+    <button mat-flat-button color="primary" (click)="formUnsaved()"
       >Cancel</button>
-    <button mat-raised-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
+    <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
       >Save Group</button>
   </div>
-</header>
+</div>
 
 <div id="edit-container" class="square-box">
-  <div id="selection-container" class="square-box">
+  <div id="selection-container">
     <div id="selection-filter" class="square-box">
       <div id="filter-container">
-        <h3 class="help-text">Search for channels matching:</h3>
-        <app-channel-groups-filter id="filter" (filtersChanged)="getChannelsWithFilters($event)"> 
+        <h3 class="help-text">Search for channels:</h3>
+        <app-channel-groups-filter (filtersChanged)="getChannelsWithFilters($event)"> 
         </app-channel-groups-filter>
       </div>
-      <div id="add-undo-container" class="btn-container">
-        <button mat-raised-button color="accent" (click)="addChannelsToSelected()" 
+      <div id="add-undo-container" class="btn-container-right">
+        <button mat-flat-button color="accent" (click)="addChannelsToSelected()" 
           [disabled]="!availableChannels || availableChannels.length === 0">
           Add Channels
         </button>
-        <button mat-raised-button color="accent" (click)="undoSelectRemove()" 
+        <button mat-flat-button color="warn" (click)="undoSelectRemove()" 
           [disabled]="!changeMade">
           Undo Last
         </button>
@@ -45,7 +45,7 @@
             [columnMode]="ColumnMode.force"
             [headerHeight]="50" 
             [footerHeight]="50" 
-            [rowHeight]="40"
+            [rowHeight]="50"
             [scrollbarV]="true"
             rowHeight="auto" 
             [limit]="9" 
@@ -78,6 +78,8 @@
       <div id="map-box">
         <app-map [selectedChannels]="selectedChannels"
           [searchChannels]="searchChannels"
+          [removeChannels]="filteredChannels"
+          [isRemoving]="isSelectedFiltered"
           [editPage]=true
           (boundsChange)="updateBounds($event)"
         ></app-map>
@@ -93,6 +95,26 @@
       <mat-form-field class="channel-group-input">
         <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
       </mat-form-field>
+      <mat-expansion-panel
+        (opened)="onFilteringOpen()"
+        (closed)="onFilteringClose()"
+        (keydown.enter)="$event.preventDefault()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filter Selected Channels
+        </mat-panel-title>
+        <mat-panel-description>
+          <button mat-flat-button
+            color="warn"
+            (click)="removeChannels()"
+            [disabled]="!isSelectedFiltered"
+          >Remove Channels</button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-channel-groups-filter (filtersChanged)="onSelectedFilter($event)"> 
+      </app-channel-groups-filter>  
+    </mat-expansion-panel>
+
       <h3>Selected Channels</h3>
       <p class="help-text">These channels will appear on your widget.</p>
       <!-- <app-channel-groups-filter (filtersChanged)="removeChannelsWithFilters($event)">
@@ -102,14 +124,14 @@
         #selectedTable
         id="group-channels"
         class="material" 
-        [rows]="selectedChannels"
+        [rows]="filteredChannels"
         [columnMode]="ColumnMode.force"
         [headerHeight]="50"
         [footerHeight]="50" 
-        [rowHeight]="40"
+        [rowHeight]="50"
         [scrollbarV]="true"
         rowHeight="auto" 
-        [selected]="selectedChannels"
+        [selected]="filteredChannels"
         [selectionType]="SelectionType.checkbox" 
         (select)="onSelect($event)"
         >
@@ -142,11 +164,6 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
-      <!-- <div class="btn-container">
-        <button mat-raised-button color="warn" (click)="removeSelectedChannels()" 
-          [disabled]="!filteredSelected"
-        >Remove Channels</button>
-      </div> -->
     </form>
   </div>
 </div>
@@ -158,10 +175,10 @@
       Would you like to continue?
     </p>
     <div class="btn-container">
-      <button mat-raised-button color="primary" 
+      <button mat-flat-button color="primary" 
         (click)="closePopup()"
       >Cancel</button>
-      <button mat-raised-button color="accent"
+      <button mat-flat-button color="accent"
         (click)="cancel()"  
       >Continue</button>
     </div>

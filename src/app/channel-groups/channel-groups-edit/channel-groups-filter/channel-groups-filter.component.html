@@ -5,6 +5,7 @@
     matInput
     placeholder="Network"
     (change)="addFilter($event, 'network')"
+    (keydown.enter)="addFilter($event, 'network')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
@@ -12,6 +13,7 @@
     matInput
     placeholder="Station"
     (change)="addFilter($event, 'station')"
+    (keydown.enter)="addFilter($event, 'station')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
@@ -19,6 +21,7 @@
     matInput
     placeholder="Location"
     (change)="addFilter($event, 'location')"
+    (keydown.enter)="addFilter($event, 'location')"
   >
 </mat-form-field>
 <mat-form-field class="filter-chip-input">
@@ -26,6 +29,7 @@
     matInput
     placeholder="Channel"
     (change)="addFilter($event, 'channel')"
+    (keydown.enter)="addFilter($event, 'channel')"
   >
 </mat-form-field>
 

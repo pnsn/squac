@@ -1,18 +1,18 @@
-<header>
+<div id="title">
   <h1>
     Metrics
   </h1>
   <div class="btn-container-right">
-    <button mat-raised-button color="accent" id ="edit-metric-btn"
+    <button mat-flat-button color="accent" id ="edit-metric-btn"
       (click)="editMetric()" class="add-btn" [disabled]="!selected"
     >+ Edit Metric</button>
-    <button mat-raised-button color="accent" id="add-metric-btn"
+    <button mat-flat-button color="accent" id="add-metric-btn"
       (click)="addMetric()" class="add-btn"
     >+ Add Metric</button>
   </div>
-</header> 
+</div> 
 
-<div>
+<div id="metric-container">
   <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.force"
         [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
         [selectionType]=SelectionType.single (select)="onSelect($event)">

@@ -44,10 +44,10 @@
 
   </div>
       <div class="btn-container">
-        <button mat-raised-button color="primary"
+        <button mat-flat-button color="primary"
           (click)="formUnsaved()"
         >Cancel</button>
-        <button mat-raised-button color="accent" disabled 
+        <button mat-flat-button color="accent" disabled 
           type="submit" 
           [disabled]='!metricForm.valid'
         >Save</button>
@@ -58,10 +58,10 @@
       <p>Your new metric will not be saved.<br/>
       Would you like to continue?</p>
       <div class="btn-container">
-        <button mat-raised-button color="primary" 
+        <button mat-flat-button color="primary" 
           (click)="closePopup()"
         >Cancel</button>
-        <button mat-raised-button color="accent"
+        <button mat-flat-button color="accent"
         (click)="cancel()"  
         >Continue</button>
       </div>

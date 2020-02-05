@@ -1,21 +1,20 @@
 @import './../../../variables.scss';
 
-header {
-    margin: 15px 5% 10px 5%;
+#title {
+    margin: 15px 5vw;
+
+    h1 {
+        display: inline-block;
+    }
 }
 
-header 
-h1 {
-    display: inline-block;
-}
-
-div {
-    margin: 25px 5%;
+#metric-container {
+    margin: 0 5vw;
 }
 
 #metric-table {
-    border: 2px solid $sq-lt-gray;
-    border-radius: 10px;
+    border: 1px solid $sq-lt-gray;
+    border-radius: 5px;
     height: 80vh;
     overflow: hidden;
 }
