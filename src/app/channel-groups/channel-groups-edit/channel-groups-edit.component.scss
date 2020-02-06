@@ -1,58 +1,108 @@
-h1 {
-  margin-left: 5%;
+#title {
+  margin: 15px 5vw;
+
+  h1 {
+    width: 350px;
+    display: inline-block;
+  }
 }
 
-#description-text {
-  text-align: center;
-  margin: 10px auto;
-  width: 60vw;
-}
-
-#selection-container {
+#edit-container{
+  width: 90vw;
+  height: 80vh;
+  min-width: 1427px;
+  min-height: 750px;
+  margin: 20px 0 0 5%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 30px 0 0 5%;
-}
 
-#map-box {
-  width: 27%;
-  height: 75vh;
-  margin: 0 2% 0 0;
-  z-index: 1;
+  #selection-container {
+    width: 60vw;
+    height: 79.7vh;
+    min-height: 597px;
+    min-width: 950px;
+  
+    #selection-filter {
+      width: 60vw;
+      height: 15vh;
+      min-width: 950px;
+      min-height: 175px;
 
-  app-map {
-    width: 100%;
-    height: 100%;
-  }
-}
+      #filter-container {
+        margin-top: 15px;
+        width: 44vw;
+        min-width: 600px;
+        display: inline-block;
+      }
 
-#available-channels, #selected-channels {
-  h3 {
-    margin: 5px 0 0 0;
+      #add-undo-container {
+        width: 150px;
+        float: right;
+        margin: 25px;
+        button {
+          margin-top: 10px;
+        }
+      }
+    }
+  
+    #list-and-map-container {
+      display: flex;
+      height: 64vh;
+      min-height: 596px;
+    
+      #preview-list {
+        h4 {
+          text-align: center;
+        }
+        width: 39vw;
+        height: 62.5vh;
+        min-width: 550px;
+        min-height: 573px;
+      
+        #channel-selector {
+          height: 57vh;
+          min-height: 533px;
+        }
+      }
+    
+      #map-box {
+        width: 21vw;
+        height: 62.5vh;
+        min-width: 400px;
+        min-height: 573px;
+      
+        app-map {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
-  width: 32%;
-  height: 75vh;
-  margin: 0 2% 0 0;
-  display: inline-block;
-  #filter {
-    margin-left: 15px;
-  }
-  #channel-selector{
-    height: 49vh;
-  }
-  #group-channels {
-    height: 53vh;
-  }
-  .channel-group-input {
-    margin: 0 5px;
-  }
-  button {
-    margin-right: 10px;
+  
+  #selected-channels {
+    width: 29.9vw;
+    min-width: 475px;
+    text-align: center;
+
+    h3 {
+      margin-top: 10px;
+    }
+  
+    #group-channels {
+      height: 57vh;
+      min-height: 520px;
+    }
   }
 }
 
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
+}
+
+mat-panel-title {
+  margin-top: 10px;
+}
+
+mat-panel-description {
+  margin-left: 75px;
 }

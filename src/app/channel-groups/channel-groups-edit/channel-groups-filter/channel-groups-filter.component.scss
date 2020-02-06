@@ -3,15 +3,11 @@
 }
 
 .filter-chip-input {
-  width:60px;
+  width: 200px;
   margin: 0px 5px;
  }
 
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
-}
-
-::ng-deep .mat-chip-list-wrapper {
-  height: 40px;
 }

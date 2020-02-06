@@ -1,12 +1,12 @@
 @import './../../../variables.scss';
 
-header {
-    margin: 15px 5% 10px 5%;
-}
+#title {
+    margin: 15px 5vw;
 
-header 
-h1 {
-    display: inline-block;
+    h1 {
+        width: 350px;
+        display: inline-block;
+    }
 }
 
 #map-and-channel-group {
@@ -31,8 +31,8 @@ h1 {
         height: 35vh;
 
         #channel-group-table {
-            border: 2px solid $sq-lt-gray;
-            border-radius: 10px;
+            border: 1px solid $sq-lt-gray;
+            border-radius: 5px;
             width: 100%;
             height: 100%;
         }

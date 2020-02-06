@@ -1,68 +1,93 @@
-<h1>
-  {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
-</h1>
-
-<h3 id="description-text">
-  Use the map to filter channels geographically or search for channels by Network, Station, Location, or Channel code. 
-  Then add the filtered channels to Channel Group.
-</h3>
-
-<div id="selection-container">
-  <div id="map-box" class="box">
-    <app-map [channels]="mapChannels" [editPage]=true (boundsChange)="updateBounds($event)"></app-map>
+<div id="title">
+  <h1>
+    {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
+  </h1>
+  
+  <div id="save-cancel-cg" class="btn-container-right">
+    <button mat-flat-button color="primary" (click)="formUnsaved()"
+      >Cancel</button>
+    <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
+      >Save Group</button>
   </div>
+</div>
 
-  <div id="available-channels" class="box">
-    <h3 class="help-text">Search for channels matching:</h3>
-    <app-channel-groups-filter id="filter" (filtersChanged)="getChannelsWithFilters($event)"> 
-    </app-channel-groups-filter>
-    <h4>Selection Preview</h4>
-    <!-- <app-loading *ngIf="loading"></app-loading> -->
-    <app-loading *ngIf="loading"></app-loading>
-    <div class="table-container">
-      <ngx-datatable 
-        #availableTable
-        id="channel-selector"
-        class="material" 
-        [rows]="availableChannels" 
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50" 
-        [footerHeight]="50" 
-        [rowHeight]="40"
-        [scrollbarV]="true"
-        rowHeight="auto" 
-        [limit]="9" 
-        [sortType]="SortType.multi"
-        >
-        <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.networkCode | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Station" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.stationCode | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.loc}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.code | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
-      <button mat-raised-button color="accent" (click)="addChannelsToSelected()" 
-        [disabled]="!availableChannels || availableChannels.length === 0">
-        Add Channels
-      </button>
+<div id="edit-container" class="square-box">
+  <div id="selection-container">
+    <div id="selection-filter" class="square-box">
+      <div id="filter-container">
+        <h3 class="help-text">Search for channels:</h3>
+        <app-channel-groups-filter (filtersChanged)="getChannelsWithFilters($event)"> 
+        </app-channel-groups-filter>
+      </div>
+      <div id="add-undo-container" class="btn-container-right">
+        <button mat-flat-button color="accent" (click)="addChannelsToSelected()" 
+          [disabled]="!availableChannels || availableChannels.length === 0">
+          Add Channels
+        </button>
+        <button mat-flat-button color="warn" (click)="undoSelectRemove()" 
+          [disabled]="!changeMade">
+          Undo Last
+        </button>
+      </div>
+    </div>
+
+    <div id="list-and-map-container">
+      <div id="preview-list" class="square-box">
+        <h4>Selection Preview</h4>
+        <!-- <app-loading *ngIf="loading"></app-loading> -->
+        <app-loading *ngIf="loading"></app-loading>
+        <div class="table-container">
+          <ngx-datatable 
+            #availableTable
+            id="channel-selector"
+            class="material" 
+            [rows]="availableChannels" 
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50" 
+            [footerHeight]="50" 
+            [rowHeight]="50"
+            [scrollbarV]="true"
+            rowHeight="auto" 
+            [limit]="9" 
+            [sortType]="SortType.multi"
+            >
+            <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.networkCode | uppercase }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Station" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ row.stationCode | uppercase }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{row.loc}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ row.code | uppercase }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+  
+      <div id="map-box">
+        <app-map [selectedChannels]="selectedChannels"
+          [searchChannels]="searchChannels"
+          [removeChannels]="filteredChannels"
+          [isRemoving]="isSelectedFiltered"
+          [editPage]=true
+          (boundsChange)="updateBounds($event)"
+        ></app-map>
+      </div>
     </div>
   </div>
-  
-  <div id="selected-channels" class="box">
+
+  <div id="selected-channels" class="square-box">
     <form class="" [formGroup]="channelGroupForm">
       <mat-form-field class="channel-group-input">
         <input matInput placeholder="Channel Group Name" formControlName="name">
@@ -70,6 +95,26 @@
       <mat-form-field class="channel-group-input">
         <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
       </mat-form-field>
+      <mat-expansion-panel
+        (opened)="onFilteringOpen()"
+        (closed)="onFilteringClose()"
+        (keydown.enter)="$event.preventDefault()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filter Selected Channels
+        </mat-panel-title>
+        <mat-panel-description>
+          <button mat-flat-button
+            color="warn"
+            (click)="removeChannels()"
+            [disabled]="!isSelectedFiltered"
+          >Remove Channels</button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-channel-groups-filter (filtersChanged)="onSelectedFilter($event)"> 
+      </app-channel-groups-filter>  
+    </mat-expansion-panel>
+
       <h3>Selected Channels</h3>
       <p class="help-text">These channels will appear on your widget.</p>
       <!-- <app-channel-groups-filter (filtersChanged)="removeChannelsWithFilters($event)">
@@ -79,14 +124,14 @@
         #selectedTable
         id="group-channels"
         class="material" 
-        [rows]="selectedChannels"
+        [rows]="filteredChannels"
         [columnMode]="ColumnMode.force"
         [headerHeight]="50"
         [footerHeight]="50" 
-        [rowHeight]="40"
+        [rowHeight]="50"
         [scrollbarV]="true"
         rowHeight="auto" 
-        [selected]="selectedChannels"
+        [selected]="filteredChannels"
         [selectionType]="SelectionType.checkbox" 
         (select)="onSelect($event)"
         >
@@ -119,26 +164,23 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
-      <button mat-raised-button color="primary" (click)="formUnsaved()">
-        Cancel
-      </button>
-      <button mat-raised-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0">
-        Save Group
-      </button>
     </form>
   </div>
-  <div id="channel-group-popup" class="popup">
-    <div id="channel-group-popup-box" class="box popup-box">
-      <p>Your new channel group will not be saved.<br/>
-      Would you like to continue?</p>
-      <div class="btn-container">
-        <button mat-raised-button color="primary" 
-          (click)="closePopup()"
-        >Cancel</button>
-        <button mat-raised-button color="accent"
-          (click)="cancel()"  
-        >Continue</button>
-      </div>
+</div>
+
+<div id="channel-group-popup" class="popup">
+  <div id="channel-group-popup-box" class="box popup-box">
+    <p>
+      Your new channel group will not be saved.<br/>
+      Would you like to continue?
+    </p>
+    <div class="btn-container">
+      <button mat-flat-button color="primary" 
+        (click)="closePopup()"
+      >Cancel</button>
+      <button mat-flat-button color="accent"
+        (click)="cancel()"  
+      >Continue</button>
     </div>
   </div>
 </div>

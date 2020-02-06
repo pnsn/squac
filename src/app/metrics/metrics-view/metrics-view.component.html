@@ -1,4 +1,4 @@
-<header>
+<div id="title">
   <h1>
     Metrics
   </h1>
@@ -10,9 +10,9 @@
       (click)="addMetric()" class="add-btn"
     >+ Add Metric</button>
   </div>
-</header> 
+</div> 
 
-<div>
+<div id="metric-container">
   <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.force"
         [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
         [selectionType]="SelectionType.single" (select)="onSelect($event)">
