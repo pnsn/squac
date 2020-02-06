@@ -5,7 +5,7 @@
     <h4>{{widget.name}}</h4>
     <mat-menu #widgetMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
         <button mat-menu-item (click)="editWidget()">Edit Widget</button>
-        <button mat-menu-item color="warn">Delete Widget</button>
+        <!-- <button mat-menu-item color="warn">Delete Widget</button> -->
       </mat-menu>
       
       <button mat-icon-button [matMenuTriggerFor]="widgetMenu" color="primary">
