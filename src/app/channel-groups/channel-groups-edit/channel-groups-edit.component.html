@@ -111,7 +111,7 @@
           >Remove Channels</button>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <app-channel-groups-filter (filtersChanged)="onSelectedFilter($event)"> 
+      <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
       </app-channel-groups-filter>  
     </mat-expansion-panel>
 

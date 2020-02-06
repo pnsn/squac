@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 import { ObjectUnsubscribedErrorCtor } from 'rxjs/internal/util/ObjectUnsubscribedError';
+import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 
 
 @Component({
@@ -172,7 +173,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     if (searchFilters !== {}) {
       this.filteredChannels = []; // reset filtered channels (list to display)
       for (const filter in searchFilters) {
-        if (filter) {
+        if (filter !== null) {
+          console.log(filter);
           const filterParams = searchFilters[filter].split(','); // split string into array of search params
           filterParams.forEach( (param: string) => {
             this.selectedChannels.forEach( c => {
@@ -181,19 +183,20 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
               });
               if (!inFiltered) {
                 let match: boolean;
-                if (filter === 'channel') {
-                  const reg = new RegExp(param);
+                if (filter === 'channel' && searchFilters[filter] !== '' ) {
+                  const reg = new RegExp(param.toLowerCase());
                   match = reg.test(c.code);
                 } else {
-                  match = c[filtersMap[filter]] === param.trim(); // Channel matches search param
+                  match = c[filtersMap[filter]] === param.toLowerCase().trim(); // Channel matches search param
                 }
                 if (match) { // New channel that matches params
+                  console.log(`push: ${c}`);
                   this.filteredChannels.push(c);
                 }
               }
             });
-            this.filteredChannels = [...this.filteredChannels]; // to update table
           });
+          this.filteredChannels = [...this.filteredChannels]; // to update table
         }
       }
     }
@@ -216,7 +219,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.filteredChannels = [...this.selectedChannels]; // reset filtered to current channel list
     this.isSelectedFiltered = false; // disable button until new filter params
   }
-
   // Inits group edit form
   private initForm() {
     this.channelGroupForm = this.formBuilder.group({
