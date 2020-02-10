@@ -58,8 +58,12 @@
         min-height: 573px;
       
         #channel-selector {
-          height: 57vh;
+          height: 60vh;
           min-height: 533px;
+        }
+
+        mat-spinner {
+          margin: 25% auto;
         }
       }
     
@@ -68,6 +72,7 @@
         height: 62.5vh;
         min-width: 400px;
         min-height: 573px;
+        z-index: 14;
       
         app-map {
           width: 100%;
@@ -85,9 +90,21 @@
     h3 {
       margin-top: 10px;
     }
+
+    mat-form-field {
+      margin-right: 10px;
+    }
+
+    mat-panel-title {
+      margin-top: 10px;
+    }
+    
+    mat-panel-description {
+      margin-left: 75px;
+    }
   
     #group-channels {
-      height: 57vh;
+      height: 58.5vh;
       min-height: 520px;
     }
   }
@@ -96,12 +113,4 @@
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
-}
-
-mat-panel-title {
-  margin-top: 10px;
-}
-
-mat-panel-description {
-  margin-left: 75px;
 }

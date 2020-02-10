@@ -35,8 +35,7 @@
       <div id="preview-list" class="square-box">
         <h4>Selection Preview</h4>
         <!-- <app-loading *ngIf="loading"></app-loading> -->
-        <app-loading *ngIf="loading"></app-loading>
-        <div class="table-container">
+        <div class="table-container" *ngIf="!loading; else isLoading">
           <ngx-datatable 
             #availableTable
             id="channel-selector"
@@ -73,6 +72,9 @@
             </ngx-datatable-column>
           </ngx-datatable>
         </div>
+        <ng-template #isLoading>
+          <mat-spinner></mat-spinner>
+        </ng-template>
       </div>
   
       <div id="map-box">
@@ -98,28 +100,26 @@
       <mat-expansion-panel
         (opened)="onFilteringOpen()"
         (closed)="onFilteringClose()"
-        (keydown.enter)="$event.preventDefault()">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Filter Selected Channels
-        </mat-panel-title>
-        <mat-panel-description>
-          <button mat-flat-button
-            color="warn"
-            (click)="removeChannels()"
-            [disabled]="!isSelectedFiltered"
-          >Remove Channels</button>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
-      </app-channel-groups-filter>  
-    </mat-expansion-panel>
+        (keydown.enter)="$event.preventDefault()"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filter Selected Channels
+          </mat-panel-title>
+          <mat-panel-description>
+            <button mat-flat-button
+              color="warn"
+              (click)="removeChannels()"
+              [disabled]="!isSelectedFiltered"
+            >Remove Channels</button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
+        </app-channel-groups-filter>  
+      </mat-expansion-panel>
 
       <h3>Selected Channels</h3>
       <p class="help-text">These channels will appear on your widget.</p>
-      <!-- <app-channel-groups-filter (filtersChanged)="removeChannelsWithFilters($event)">
-      
-        </app-channel-groups-filter> -->
       <ngx-datatable 
         #selectedTable
         id="group-channels"
@@ -134,7 +134,7 @@
         [selected]="filteredChannels"
         [selectionType]="SelectionType.checkbox" 
         (select)="onSelect($event)"
-        >
+      >
         <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
         [resizeable]="false">
           <ng-template ngx-datatable-header-template let-value="value">
