@@ -4,6 +4,7 @@
           <h2>
               {{dashboard.name}}
           </h2>
+          <!-- TODO: add dashboard owner name & copy -->
       </div>
         <div id="header-controls">
           <button mat-flat-button color="accent" (click)="saveDashboard()" *ngIf="unsaved">
@@ -26,8 +27,9 @@
               </mat-select>
           </mat-form-field>
 
+          <!-- if they have permission, otherwise show copy only -->
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
-            <button mat-menu-item (click)="addWidget()">Add Widget</button>
+            <button mat-menu-item (click)="addWidget()">Add Widget</button> 
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
             <!-- <button mat-menu-item color="warn">Delete Dashboard</button> -->
           </mat-menu>
