@@ -63,10 +63,12 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       selectedChannelIds: [...this.selectedChannelIds]
     };
     const index = this.selectedChannelIds.indexOf(channel.id);
-    this.selectedChannels.splice(index, 1);
-    this.selectedChannelIds.splice(index, 1);
-    this.filteredChannels = [...this.selectedChannels];
-    this.changeMade = true;
+    if (index !== -1) {
+      this.selectedChannels.splice(index, 1);
+      this.selectedChannelIds.splice(index, 1);
+      this.filteredChannels = [...this.selectedChannels];
+      this.changeMade = true;
+    }
   }
 
   addChannelsToSelected() {
@@ -149,14 +151,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onFilteringOpen() {
     const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-    chanTable.style.height = '38vh';
+    chanTable.style.height = '41vh';
     chanTable.style.minHeight = '350px';
     this.filteredChannels = [...this.selectedChannels];
   }
 
   onFilteringClose() {
     const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-    chanTable.style.height = '57vh';
+    chanTable.style.height = '58.5vh';
     chanTable.style.minHeight = '520px';
     this.filteredChannels = [...this.selectedChannels];
   }
@@ -218,6 +220,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.getIdsFromChannels();
     this.filteredChannels = [...this.selectedChannels]; // reset filtered to current channel list
     this.isSelectedFiltered = false; // disable button until new filter params
+    this.changeMade = true;
   }
   // Inits group edit form
   private initForm() {
