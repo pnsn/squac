@@ -178,7 +178,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
       const formDiv = document.getElementById('cg-form');
       formDiv.style.height = '350px';
-      chanTable.style.height = '37vh';
+      chanTable.style.height = '39vh';
+      chanTable.style.minHeight = '410px';
       this.filteredChannels = [...this.selectedChannels];
     }
   }
@@ -189,6 +190,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       const formDiv = document.getElementById('cg-form');
       formDiv.style.height = '200px';
       chanTable.style.height = '55.5vh';
+      chanTable.style.minHeight = '570px';
       this.filteredChannels = [...this.selectedChannels];
     }
   }
