@@ -8,34 +8,19 @@
 }
 
 #edit-container{
-  width: 90vw;
-  height: 80vh;
-  min-height: 750px;
-  margin: 20px 0 0 5%;
+  margin: 20px 5%;
+  contain: content;
   display: flex;
 
   #selection-container {
-    width: 60vw;
-    height: 79.7vh;
-    min-height: 597px;
-    min-width: 950px;
-  
     #selection-filter {
-      width: 60vw;
-      height: 15vh;
-      min-width: 950px;
-      min-height: 175px;
-
       #filter-container {
         margin-top: 15px;
-        width: 44vw;
-        min-width: 600px;
         display: inline-block;
       }
 
       #add-undo-container {
         width: 150px;
-        float: right;
         margin: 25px;
         button {
           margin-top: 10px;
@@ -45,21 +30,10 @@
   
     #list-and-map-container {
       display: flex;
-      height: 64vh;
-      min-height: 596px;
     
       #preview-list {
         h4 {
           text-align: center;
-        }
-        width: 39vw;
-        height: 62.5vh;
-        min-width: 550px;
-        min-height: 573px;
-      
-        #channel-selector {
-          height: 60vh;
-          min-height: 533px;
         }
 
         mat-spinner {
@@ -68,10 +42,6 @@
       }
     
       #map-box {
-        width: 21vw;
-        height: 62.5vh;
-        min-width: 400px;
-        min-height: 573px;
         z-index: 14;
       
         app-map {
@@ -83,13 +53,7 @@
   }
   
   #selected-channels {
-    width: 29.9vw;
-    min-width: 475px;
     text-align: center;
-
-    h3 {
-      margin-top: 10px;
-    }
 
     mat-form-field {
       margin-right: 10px;
@@ -102,15 +66,157 @@
     mat-panel-description {
       margin-left: 75px;
     }
-  
-    #group-channels {
-      height: 58.5vh;
-      min-height: 520px;
-    }
   }
 }
 
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
+}
+
+// Small screens
+@media (max-width: 900px) {
+  #edit-container{
+    width: 680px;
+    display: inline-block;
+
+    #selection-container {
+      width: 680px;
+    
+      #selection-filter {
+        height: 350px;
+        text-align: center;
+
+        #filter-container {
+          width: 470px;
+        }
+
+        #add-undo-container {
+          float: none;
+          margin-left: 260px;
+        }
+      }
+    
+      #list-and-map-container {
+        #preview-list {
+          width: 680px;
+        
+          #channel-selector {
+            height: 600px;
+          }
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 680px;
+
+      #group-channels {
+        height: 600px;
+      }
+    }
+  }
+}
+
+// Medium screens
+@media (min-width: 900px) {
+  #edit-container{
+    width: 90vw;
+
+    #selection-container {
+      width: 50vw;
+      height: 800px;
+    
+      #selection-filter {
+        height: 325px;
+
+        #filter-container {
+          width: 50vw;
+        }
+
+        #add-undo-container {
+          float: none;
+          margin-left: 35%;
+        }
+      }
+    
+      #list-and-map-container {
+        #preview-list {
+          width: 50vw;
+        
+          #channel-selector {
+            height: 460px;
+          }
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 40vw;
+      height: 800px;
+      overflow-y: scroll;
+
+      #group-channels {
+        height: 641px;
+      }
+    }
+  }
+}
+
+// Large screens
+@media (min-width: 1400px) {
+  #edit-container{
+    width: 90vw;
+    height: 79vh;
+
+    #selection-container {
+      width: 60vw;
+    
+      #selection-filter {
+        width: 60vw;
+        height: 200px;
+        display: flex;
+
+        #add-undo-container {
+          float: right;
+        }
+      }
+    
+      #list-and-map-container {
+        width: 60vw;
+        height: 59vh;
+      
+        #preview-list {
+          width: 39vw;
+          
+          #channel-selector {
+            height: 55.5vh;
+          }
+        }
+      
+        #map-box {
+          width: 50%;
+          height: 59vh;
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 30vw;
+      overflow-y: hidden;
+
+      #cg-form {
+        height: 200px;
+
+        #cg-form-input {
+          height: 80px;
+          margin-bottom: 20px;
+        }
+      }
+
+      #group-channels {
+        height: 55.5vh;
+      }
+    }
+  }
 }

@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<div id="edit-container" class="square-box">
+<div id="edit-container" class="square-box" (window:resize)="onResize($event)">
   <div id="selection-container">
     <div id="selection-filter" class="square-box">
       <div id="filter-container">
@@ -77,7 +77,7 @@
         </ng-template>
       </div>
   
-      <div id="map-box">
+      <div id="map-box" *ngIf="isMapShowing">
         <app-map [selectedChannels]="selectedChannels"
           [searchChannels]="searchChannels"
           [removeChannels]="filteredChannels"
@@ -91,79 +91,85 @@
 
   <div id="selected-channels" class="square-box">
     <form class="" [formGroup]="channelGroupForm">
-      <mat-form-field class="channel-group-input">
-        <input matInput placeholder="Channel Group Name" formControlName="name">
-      </mat-form-field>
-      <mat-form-field class="channel-group-input">
-        <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
-      </mat-form-field>
-      <mat-expansion-panel
-        (opened)="onFilteringOpen()"
-        (closed)="onFilteringClose()"
-        (keydown.enter)="$event.preventDefault()"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Filter Selected Channels
-          </mat-panel-title>
-          <mat-panel-description>
-            <button mat-flat-button
-              color="warn"
-              (click)="removeChannels()"
-              [disabled]="!isSelectedFiltered"
-            >Remove Channels</button>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
-        </app-channel-groups-filter>  
-      </mat-expansion-panel>
+      <div id="cg-form">
+        <div id="cg-form-input">
+          <mat-form-field class="channel-group-input">
+            <input matInput placeholder="Channel Group Name" formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="channel-group-input">
+            <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
 
-      <h3>Selected Channels</h3>
-      <p class="help-text">These channels will appear on your widget.</p>
-      <ngx-datatable 
-        #selectedTable
-        id="group-channels"
-        class="material" 
-        [rows]="filteredChannels"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        [footerHeight]="50" 
-        [rowHeight]="50"
-        [scrollbarV]="true"
-        rowHeight="auto" 
-        [selected]="filteredChannels"
-        [selectionType]="SelectionType.checkbox" 
-        (select)="onSelect($event)"
-      >
-        <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-        [resizeable]="false">
-          <ng-template ngx-datatable-header-template let-value="value">
-          </ng-template>
-          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-            <button (click)="removeChannel(row)">X</button>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.networkCode | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.stationCode | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              {{row.loc}}
+        <mat-expansion-panel
+          (opened)="onFilteringOpen()"
+          (closed)="onFilteringClose()"
+          (keydown.enter)="$event.preventDefault()"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Filter Selected Channels
+            </mat-panel-title>
+            <mat-panel-description>
+              <button mat-flat-button
+                color="warn"
+                (click)="removeChannels()"
+                [disabled]="!isSelectedFiltered"
+              >Remove Channels</button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
+          </app-channel-groups-filter>  
+        </mat-expansion-panel>
+      </div>
+
+      <div class="table-container">
+        <h3>Selected Channels</h3>
+        <ngx-datatable 
+          #selectedTable
+          id="group-channels"
+          class="material" 
+          [rows]="filteredChannels"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50" 
+          [rowHeight]="50"
+          [scrollbarV]="true"
+          rowHeight="auto" 
+          [selected]="filteredChannels"
+          [selectionType]="SelectionType.checkbox" 
+          (select)="onSelect($event)"
+        >
+          <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+          [resizeable]="false">
+            <ng-template ngx-datatable-header-template let-value="value">
+            </ng-template>
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+              <button (click)="removeChannel(row)">X</button>
             </ng-template>
           </ngx-datatable-column>
-        <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ row.code | uppercase }}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+          <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.networkCode | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{ row.stationCode | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{row.loc}}
+              </ng-template>
+            </ngx-datatable-column>
+          <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{ row.code | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </form>
   </div>
 </div>

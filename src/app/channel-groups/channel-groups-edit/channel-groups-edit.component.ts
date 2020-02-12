@@ -6,10 +6,7 @@ import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, F
 import { ChannelsService } from '../../shared/channels.service';
 import { Channel } from '../../shared/channel';
 import { Subscription } from 'rxjs';
-import { NetworksService } from '../networks.service';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
-import { ObjectUnsubscribedErrorCtor } from 'rxjs/internal/util/ObjectUnsubscribedError';
-import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 
 
 @Component({
@@ -47,6 +44,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
+
+  // Map stuff
+  isMapShowing: boolean;
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
   // table stuff
@@ -56,6 +56,47 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('availableTable', { static: false }) availableTable: any;
   @ViewChild('selectedTable', { static: false }) selectedTable: any;
+
+  ngOnInit() {
+    const paramsSub = this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params.id;
+        this.editMode = params.id != null;
+
+        this.initForm();
+      }
+    );
+    this.isMapShowing = window.innerWidth >= 1400;
+    this.subscriptions.add(paramsSub);
+  }
+
+  // Inits group edit form
+  private initForm() {
+    this.channelGroupForm = this.formBuilder.group({
+      name : new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required)
+    });
+
+    // if editing existing group, populate with the info
+    // TODO: redudant - fix for observable
+    if (this.editMode) {
+      this.channelGroupService.getChannelGroup(this.id).subscribe(
+        channelGroup => {
+          this.channelGroupForm.patchValue({
+            name : channelGroup.name,
+            description : channelGroup.description
+          });
+          this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
+          this.filteredChannels = [...this.selectedChannels];
+          this.getIdsFromChannels();
+        }
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
   removeChannel(channel: Channel) {
     this.previous = {
@@ -106,23 +147,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     // unselect existing from table, but don't make more of a search
   }
 
-  ngOnInit() {
-    const paramsSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.id;
-        this.editMode = params.id != null;
-
-        this.initForm();
-      }
-    );
-
-    this.subscriptions.add(paramsSub);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
   getChannelsWithFilters(searchFilters: object) {
     if (searchFilters !== {}) {
       this.loading = true;
@@ -150,17 +174,23 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   onFilteringOpen() {
-    const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-    chanTable.style.height = '41vh';
-    chanTable.style.minHeight = '350px';
-    this.filteredChannels = [...this.selectedChannels];
+    if (this.isMapShowing) {
+      const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
+      const formDiv = document.getElementById('cg-form');
+      formDiv.style.height = '350px';
+      chanTable.style.height = '37vh';
+      this.filteredChannels = [...this.selectedChannels];
+    }
   }
 
   onFilteringClose() {
-    const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-    chanTable.style.height = '58.5vh';
-    chanTable.style.minHeight = '520px';
-    this.filteredChannels = [...this.selectedChannels];
+    if (this.isMapShowing) {
+      const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
+      const formDiv = document.getElementById('cg-form');
+      formDiv.style.height = '200px';
+      chanTable.style.height = '55.5vh';
+      this.filteredChannels = [...this.selectedChannels];
+    }
   }
 
   onSelectedFilter(searchFilters: object) {
@@ -221,29 +251,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.filteredChannels = [...this.selectedChannels]; // reset filtered to current channel list
     this.isSelectedFiltered = false; // disable button until new filter params
     this.changeMade = true;
-  }
-  // Inits group edit form
-  private initForm() {
-    this.channelGroupForm = this.formBuilder.group({
-      name : new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
-    });
-
-    // if editing existing group, populate with the info
-    // TODO: redudant - fix for observable
-    if (this.editMode) {
-      this.channelGroupService.getChannelGroup(this.id).subscribe(
-        channelGroup => {
-          this.channelGroupForm.patchValue({
-            name : channelGroup.name,
-            description : channelGroup.description
-          });
-          this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
-          this.filteredChannels = [...this.selectedChannels];
-          this.getIdsFromChannels();
-        }
-      );
-    }
   }
 
   private getIdsFromChannels() {
@@ -323,5 +330,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.filterBounds();
       }
     }
+  }
+
+  onResize(event: any) {
+    this.isMapShowing = event.target.innerWidth >= 1400;
   }
 }
