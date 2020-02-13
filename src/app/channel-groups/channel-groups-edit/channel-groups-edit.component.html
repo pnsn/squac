@@ -78,7 +78,9 @@
       </div>
   
       <div id="map-box" *ngIf="isMapShowing">
-        <app-map [selectedChannels]="selectedChannels"
+        <app-map 
+          [originalSelectedChannels]="originalSelectedChannels"
+          [selectedChannels]="selectedChannels"
           [searchChannels]="searchChannels"
           [removeChannels]="filteredChannels"
           [isRemoving]="isSelectedFiltered"

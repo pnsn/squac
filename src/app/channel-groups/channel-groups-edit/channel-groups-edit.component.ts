@@ -36,6 +36,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   channelGroupForm: FormGroup;
   searchChannels: Channel[] = []; // Channels returned from filter request
   availableChannels: Channel[] = []; // Search channels filtered by bounds
+  originalSelectedChannels: Channel[] = []; // Original channels on channel group
   selectedChannels: Channel[] = []; // Channels and Ids currently in selected list
   selectedChannelIds: number[] = [];
   isSelectedFiltered = false; // For remove channels button
@@ -87,6 +88,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             description : channelGroup.description
           });
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
+          this.originalSelectedChannels = [...this.selectedChannels];
           this.filteredChannels = [...this.selectedChannels];
           this.getIdsFromChannels();
         }
