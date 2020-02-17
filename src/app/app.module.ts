@@ -24,6 +24,7 @@ import { ChannelGroupsFilterComponent } from './channel-groups/channel-groups-ed
 import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edit/channel-groups-table/channel-groups-table.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { UserComponent } from './auth/user/user.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     MetricsViewComponent,
     MetricsEditComponent,
     ChannelGroupsFilterComponent,
-    ChannelGroupsTableComponent
+    ChannelGroupsTableComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

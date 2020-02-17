@@ -11,7 +11,7 @@
     <a mat-button [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>  
 
     <mat-menu #appMenu="matMenu" class="mat-menu-dense">
-        <!-- <button mat-menu-item >User Settings</button> -->
+        <a mat-menu-item [routerLink]="[ '/user' ]" routerLinkActive="active">User Settings</a>
         <button mat-menu-item (click)="logout()">Log Out</button>
         <!-- <button mat-menu-item>Help</button> -->
       </mat-menu>
