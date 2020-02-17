@@ -25,6 +25,7 @@ import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edi
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { UserComponent } from './auth/user/user.component';
+import { AbilityModule } from '@casl/angular';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { UserComponent } from './auth/user/user.component';
     SharedModule,
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot()
+    LeafletDrawModule.forRoot(),
+    AbilityModule.forRoot()
   ],
   providers: [
     {
