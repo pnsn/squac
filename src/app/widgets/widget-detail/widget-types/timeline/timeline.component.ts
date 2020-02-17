@@ -24,7 +24,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   channelGroup: ChannelGroup;
 
   channels: Channel[];
-  @ViewChild('dataTable', { static: false }) table: any;
+  @ViewChild('dataTable') table: any;
   subscription = new Subscription();
   ColumnMode = ColumnMode;
   SortType = SortType;

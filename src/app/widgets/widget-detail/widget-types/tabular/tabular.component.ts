@@ -26,7 +26,7 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   subscription = new Subscription();
 
-  @ViewChild('dataTable', { static: false }) table: any;
+  @ViewChild('dataTable') table: any;
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];

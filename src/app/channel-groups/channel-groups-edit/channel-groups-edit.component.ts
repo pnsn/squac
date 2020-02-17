@@ -54,8 +54,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
-  @ViewChild('availableTable', { static: false }) availableTable: any;
-  @ViewChild('selectedTable', { static: false }) selectedTable: any;
+  @ViewChild('availableTable') availableTable: any;
+  @ViewChild('selectedTable') selectedTable: any;
 
   removeChannel(channel: Channel) {
     this.previous = {
