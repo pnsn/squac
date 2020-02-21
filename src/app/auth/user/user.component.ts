@@ -13,7 +13,7 @@ export class UserComponent implements OnInit, OnDestroy {
     email : string
   }
 
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   constructor(
     private userService : UserService
   ) { }
