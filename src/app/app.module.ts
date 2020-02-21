@@ -26,6 +26,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { UserComponent } from './auth/user/user.component';
 import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
+import { ability } from './ability';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,13 @@ import { AbilityModule } from '@casl/angular';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
+    },
+
+    { 
+      provide: Ability,
+      useValue: ability 
     }
+
   ],
   bootstrap: [AppComponent]
 })

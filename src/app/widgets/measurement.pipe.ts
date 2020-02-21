@@ -83,7 +83,6 @@ private min(values): number {
 transform(values: any, type: any): any {
   if (values && values.length > 0) {
     const sortedValues = this.sort(values);
-    console.log(type);
     switch (type) {
         case 1:
         return this.average(sortedValues);
