@@ -18,10 +18,7 @@ export class MapComponent implements OnInit, OnChanges {
   map: L.Map;
   channelLayer: L.LayerGroup;
   drawnItems: L.FeatureGroup;
-  originalCGIcon: L.Icon;
-  currentCGIcon: L.Icon; // markers for channel group
-  searchIcon: L.Icon; // markers for searched channels
-  removeIcon: L.Icon; // markers for filtered channels to be removed
+  icons: L.Icon[];
   options: {
     center: L.LatLng,
     zoom: number,
@@ -35,6 +32,9 @@ export class MapComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
+    if (this.editPage) {
+      document.getElementById('map').style.height = '88%';
+    }
     this.initMap();
     this.updateMap();
   }
@@ -46,42 +46,44 @@ export class MapComponent implements OnInit, OnChanges {
   initMap(): void {
     this.channelLayer = L.layerGroup([]);
     this.drawnItems = new L.FeatureGroup();
-    this.originalCGIcon = L.icon({
-      iconUrl: '../../assets/original-cg-marker.png',
-      shadowUrl: '',
-      iconSize:     [36, 36], // size of the icon
-      shadowSize:   [0, 0], // size of the shadow
-      iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
-      shadowAnchor: [0, 0],  // the same for the shadow
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-    });
-    this.currentCGIcon = L.icon({
-      iconUrl: '../../assets/current-cg-marker.png',
-      shadowUrl: '',
-      iconSize:     [36, 36], // size of the icon
-      shadowSize:   [0, 0], // size of the shadow
-      iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
-      shadowAnchor: [0, 0],  // the same for the shadow
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-    });
-    this.searchIcon = L.icon({
-      iconUrl: '../../assets/search-map-marker.png',
-      shadowUrl: '',
-      iconSize:     [36, 36], // size of the icon
-      shadowSize:   [0, 0], // size of the shadow
-      iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
-      shadowAnchor: [0, 0],  // the same for the shadow
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-    });
-    this.removeIcon = L.icon({
-      iconUrl: '../../assets/remove-map-marker.png',
-      shadowUrl: '',
-      iconSize:     [36, 36], // size of the icon
-      shadowSize:   [0, 0], // size of the shadow
-      iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
-      shadowAnchor: [0, 0],  // the same for the shadow
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-    });
+    this.icons = [
+      L.icon({ // orignal channelgroup icons
+        iconUrl: '../../assets/original-cg-marker.png',
+        shadowUrl: '',
+        iconSize:     [36, 36], // size of the icon
+        shadowSize:   [0, 0], // size of the shadow
+        iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      }),
+      L.icon({ // current channelgroup icons
+        iconUrl: '../../assets/current-cg-marker.png',
+        shadowUrl: '',
+        iconSize:     [36, 36], // size of the icon
+        shadowSize:   [0, 0], // size of the shadow
+        iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      }),
+      L.icon({ // searched channelgroup icons
+        iconUrl: '../../assets/search-map-marker.png',
+        shadowUrl: '',
+        iconSize:     [36, 36], // size of the icon
+        shadowSize:   [0, 0], // size of the shadow
+        iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      }),
+      L.icon({ // channel icons for channels to be removed from cg
+        iconUrl: '../../assets/remove-map-marker.png',
+        shadowUrl: '',
+        iconSize:     [36, 36], // size of the icon
+        shadowSize:   [0, 0], // size of the shadow
+        iconAnchor:   [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [0, 0],  // the same for the shadow
+        popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+      })
+    ];
     this.layers = [
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -126,7 +128,7 @@ export class MapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: this.originalCGIcon}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: this.icons[0]}).bindPopup(
               channel.stationCode.toUpperCase())
           );
         });
@@ -143,7 +145,7 @@ export class MapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: this.currentCGIcon}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: this.icons[1]}).bindPopup(
               channel.stationCode.toUpperCase())
           );
         });
@@ -159,7 +161,7 @@ export class MapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: this.searchIcon}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: this.icons[2]}).bindPopup(
               channel.stationCode.toUpperCase())
           ); // Push search channel markers onto array
         });
@@ -167,7 +169,7 @@ export class MapComponent implements OnInit, OnChanges {
       if (this.isRemoving) { // Channels to be removed
         this.removeChannels.forEach( channel => {
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: this.removeIcon}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: this.icons[3]}).bindPopup(
               channel.stationCode.toUpperCase())
           ); // Push search channel markers onto array
         });

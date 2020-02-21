@@ -7,3 +7,14 @@
         (leafletDrawDeleted)="onRectangleDeleted()">
     </div>
 </div>
+<legend *ngIf="editPage" class="square-box">
+    <h3>Map Legend</h3>
+    <ul>
+        <li>
+            <img src="{{ icons[0].options.iconUrl }}"> Original Channels <img src="{{ icons[1].options.iconUrl }}"> Current Channels
+        </li>
+        <li>
+            <img src="{{ icons[2].options.iconUrl }}"> Search Channels &nbsp;&nbsp;<img src="{{ icons[3].options.iconUrl }}"> Channels to Remove
+        </li>
+    </ul>
+</legend>
