@@ -39,6 +39,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   originalSelectedChannels: Channel[] = []; // Original channels on channel group
   selectedChannels: Channel[] = []; // Channels and Ids currently in selected list
   selectedChannelIds: number[] = [];
+  isFilterOpen: boolean;
   isSelectedFiltered = false; // For remove channels button
   filteredChannels: Channel[] = []; // For filtering selected channels to remove
   previous: { // Last state of selected channels for undo
@@ -67,6 +68,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.initForm();
       }
     );
+    this.isFilterOpen = false;
     this.isMapShowing = window.innerWidth >= 1400;
     this.subscriptions.add(paramsSub);
   }
@@ -176,25 +178,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   onFilteringOpen() {
-    if (this.isMapShowing) {
-      const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-      const formDiv = document.getElementById('cg-form');
-      formDiv.style.height = '350px';
-      chanTable.style.height = '39vh';
-      chanTable.style.minHeight = '410px';
-      this.filteredChannels = [...this.selectedChannels];
-    }
+    this.isFilterOpen = true;
+    this.filteredChannels = [...this.selectedChannels];
   }
 
   onFilteringClose() {
-    if (this.isMapShowing) {
-      const chanTable = document.getElementById('group-channels'); // Selected channel table below the filter
-      const formDiv = document.getElementById('cg-form');
-      formDiv.style.height = '200px';
-      chanTable.style.height = '55.5vh';
-      chanTable.style.minHeight = '570px';
-      this.filteredChannels = [...this.selectedChannels];
-    }
+    this.isFilterOpen = false;
+    this.filteredChannels = [...this.selectedChannels];
   }
 
   onSelectedFilter(searchFilters: object) {

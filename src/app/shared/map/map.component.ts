@@ -32,9 +32,6 @@ export class MapComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-    if (this.editPage) {
-      document.getElementById('map').style.height = '88%';
-    }
     this.initMap();
     this.updateMap();
   }
@@ -122,7 +119,6 @@ export class MapComponent implements OnInit, OnChanges {
       const chanLatLng = []; // Channel location array
 
       if (this.originalSelectedChannels !== undefined) { // Original channels on cg
-        console.log(this.originalSelectedChannels);
         this.originalSelectedChannels.forEach( channel => { // Add selected
           sumLat += channel.lat;
           sumLon += channel.lon;
@@ -134,13 +130,15 @@ export class MapComponent implements OnInit, OnChanges {
         });
       }
       if (this.selectedChannels !== undefined) { // Current channels on channel group
-        const newlySelectedChannels = this.selectedChannels.filter( channel => {
-          return !this.originalSelectedChannels.some(  c => {
-            return c.id === channel.id; // Check whether this channel is selected already
+        let selectedChannels = this.selectedChannels;
+        if (this.editPage) {
+          selectedChannels = this.selectedChannels.filter( channel => {
+            return !this.originalSelectedChannels.some(  c => {
+              return c.id === channel.id; // Check whether this channel is selected already
+            });
           });
-        });
-        console.log(newlySelectedChannels);
-        newlySelectedChannels.forEach( channel => { // Add selected
+        }
+        selectedChannels.forEach( channel => { // Add selected
           sumLat += channel.lat;
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);

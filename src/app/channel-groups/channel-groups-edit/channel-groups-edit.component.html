@@ -93,7 +93,7 @@
 
   <div id="selected-channels" class="square-box">
     <form class="" [formGroup]="channelGroupForm">
-      <div id="cg-form">
+      <div id="cg-form" [ngClass]="{'form-filter-open': isFilterOpen, 'form-filter-closed': !isFilterOpen}">
         <div id="cg-form-input">
           <mat-form-field class="channel-group-input">
             <input matInput placeholder="Channel Group Name" formControlName="name">
@@ -130,7 +130,8 @@
         <ngx-datatable 
           #selectedTable
           id="group-channels"
-          class="material" 
+          [ngClass]="{'table-filter-open': isFilterOpen, 'table-filter-closed': !isFilterOpen}"
+          class="material"
           [rows]="filteredChannels"
           [columnMode]="ColumnMode.force"
           [headerHeight]="50"

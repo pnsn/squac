@@ -22,6 +22,7 @@
       #add-undo-container {
         width: 150px;
         margin: 25px;
+        float: none;
         button {
           margin-top: 10px;
         }
@@ -75,7 +76,7 @@ p.help-text {
 }
 
 // Small screens
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
   #edit-container{
     width: 680px;
     display: inline-block;
@@ -88,12 +89,11 @@ p.help-text {
         text-align: center;
 
         #filter-container {
-          width: 470px;
+          width: 600px;
         }
 
         #add-undo-container {
-          float: none;
-          margin-left: 260px;
+          margin: 10px auto;
         }
       }
     
@@ -116,33 +116,41 @@ p.help-text {
       }
     }
   }
+
+  .form-filter-open {
+    height: 325px;
+  }
+  
+  .form-filter-closed {
+    height: 150px;
+  }
 }
 
 // Medium screens
-@media (min-width: 900px) {
+@media (min-width: 1050px) and (max-width: 1400px) {
   #edit-container{
     width: 90vw;
+    min-width: 1100px;
 
     #selection-container {
-      width: 50vw;
+      width: 45vw;
       height: 800px;
     
       #selection-filter {
         height: 325px;
 
         #filter-container {
-          width: 50vw;
+          width: 40vw;
         }
 
         #add-undo-container {
-          float: none;
-          margin-left: 35%;
+          margin: 0 auto;
         }
       }
     
       #list-and-map-container {
         #preview-list {
-          width: 50vw;
+          width: 45vw;
         
           #channel-selector {
             height: 460px;
@@ -152,14 +160,36 @@ p.help-text {
     }
     
     #selected-channels {
-      width: 40vw;
+      width: 45vw;
+      min-width: 500px;
       height: 800px;
-      overflow-y: scroll;
-
-      #group-channels {
-        height: 641px;
-      }
+      overflow-y: none;
     }
+  }
+
+  .form-filter-open {
+    height: 335px;
+
+    mat-expansion-panel {
+      max-height: 300px;
+      overflow-y: scroll;
+    }
+  }
+  
+  .form-filter-closed {
+    height: 150px;
+
+    mat-expansion-panel {
+      overflow-y: none;
+    }
+  }
+  
+  .table-filter-open {
+    height: 450px;
+  }
+  
+  .table-filter-closed {
+    height: 635px;
   }
 }
 
@@ -178,8 +208,12 @@ p.help-text {
         height: 200px;
         display: flex;
 
+        #filter-container {
+          margin: 25px auto;
+        }
+
         #add-undo-container {
-          float: right;
+          margin: 25px auto;
         }
       }
     
@@ -206,22 +240,31 @@ p.help-text {
     
     #selected-channels {
       width: 30vw;
-      overflow-y: hidden;
 
       #cg-form {
-        height: 200px;
-        overflow-y: scroll;
-
         #cg-form-input {
           height: 80px;
           margin-bottom: 20px;
         }
       }
-
-      #group-channels {
-        height: 55.5vh;
-        min-height: 570px;
-      }
     }
+  }
+
+  .form-filter-open {
+    height: 340px;
+  }
+  
+  .form-filter-closed {
+    height: 155px;
+  }
+  
+  .table-filter-open {
+    height: 48.5vh;
+    min-height: 410px;
+  }
+  
+  .table-filter-closed {
+    height: 69.5vh;
+    min-height: 570px;
   }
 }
