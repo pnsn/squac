@@ -318,8 +318,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         lon_min: boundsArr[1], // west bound
         lon_max: boundsArr[3] // east bound
       };
-      if (this.availableChannels === []) {
-        // this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
+      if (this.availableChannels.length === 0) {
+        this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
       } else {
         this.filterBounds();
       }
