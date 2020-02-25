@@ -8,35 +8,21 @@
 }
 
 #edit-container{
-  width: 90vw;
-  height: 80vh;
-  min-height: 750px;
-  margin: 20px 0 0 5%;
+  margin: 20px 5%;
+  contain: content;
   display: flex;
 
   #selection-container {
-    width: 60vw;
-    height: 79.7vh;
-    min-height: 597px;
-    min-width: 950px;
-  
     #selection-filter {
-      width: 60vw;
-      height: 15vh;
-      min-width: 950px;
-      min-height: 175px;
-
       #filter-container {
         margin-top: 15px;
-        width: 44vw;
-        min-width: 600px;
         display: inline-block;
       }
 
       #add-undo-container {
         width: 150px;
-        float: right;
         margin: 25px;
+        float: none;
         button {
           margin-top: 10px;
         }
@@ -45,21 +31,10 @@
   
     #list-and-map-container {
       display: flex;
-      height: 64vh;
-      min-height: 596px;
     
       #preview-list {
         h4 {
           text-align: center;
-        }
-        width: 39vw;
-        height: 62.5vh;
-        min-width: 550px;
-        min-height: 573px;
-      
-        #channel-selector {
-          height: 60vh;
-          min-height: 533px;
         }
 
         mat-spinner {
@@ -68,10 +43,6 @@
       }
     
       #map-box {
-        width: 21vw;
-        height: 62.5vh;
-        min-width: 400px;
-        min-height: 573px;
         z-index: 14;
       
         app-map {
@@ -83,13 +54,7 @@
   }
   
   #selected-channels {
-    width: 29.9vw;
-    min-width: 475px;
     text-align: center;
-
-    h3 {
-      margin-top: 10px;
-    }
 
     mat-form-field {
       margin-right: 10px;
@@ -102,15 +67,204 @@
     mat-panel-description {
       margin-left: 75px;
     }
-  
-    #group-channels {
-      height: 58.5vh;
-      min-height: 520px;
-    }
   }
 }
 
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
+}
+
+// Small screens
+@media (max-width: 1050px) {
+  #edit-container{
+    width: 680px;
+    display: inline-block;
+
+    #selection-container {
+      width: 680px;
+    
+      #selection-filter {
+        height: 350px;
+        text-align: center;
+
+        #filter-container {
+          width: 600px;
+        }
+
+        #add-undo-container {
+          margin: 10px auto;
+        }
+      }
+    
+      #list-and-map-container {
+        #preview-list {
+          width: 680px;
+        
+          #channel-selector {
+            height: 600px;
+          }
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 680px;
+
+      #group-channels {
+        height: 600px;
+      }
+    }
+  }
+
+  .form-filter-open {
+    height: 325px;
+  }
+  
+  .form-filter-closed {
+    height: 150px;
+  }
+}
+
+// Medium screens
+@media (min-width: 1050px) and (max-width: 1400px) {
+  #edit-container{
+    width: 90vw;
+    min-width: 1100px;
+
+    #selection-container {
+      width: 45vw;
+      height: 800px;
+    
+      #selection-filter {
+        height: 325px;
+
+        #filter-container {
+          width: 40vw;
+        }
+
+        #add-undo-container {
+          margin: 0 auto;
+        }
+      }
+    
+      #list-and-map-container {
+        #preview-list {
+          width: 45vw;
+        
+          #channel-selector {
+            height: 460px;
+          }
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 45vw;
+      min-width: 500px;
+      height: 800px;
+      overflow-y: none;
+    }
+  }
+
+  .form-filter-open {
+    height: 335px;
+
+    mat-expansion-panel {
+      max-height: 300px;
+      overflow-y: scroll;
+    }
+  }
+  
+  .form-filter-closed {
+    height: 150px;
+
+    mat-expansion-panel {
+      overflow-y: none;
+    }
+  }
+  
+  .table-filter-open {
+    height: 450px;
+  }
+  
+  .table-filter-closed {
+    height: 635px;
+  }
+}
+
+// Large screens
+@media (min-width: 1400px) {
+  #edit-container{
+    width: 90vw;
+    height: 79vh;
+    min-height: 800px;
+
+    #selection-container {
+      width: 60vw;
+    
+      #selection-filter {
+        width: 60vw;
+        height: 200px;
+        display: flex;
+
+        #filter-container {
+          margin: 25px auto;
+        }
+
+        #add-undo-container {
+          margin: 25px auto;
+        }
+      }
+    
+      #list-and-map-container {
+        width: 60vw;
+        height: 59vh;
+      
+        #preview-list {
+          width: 39vw;
+          
+          #channel-selector {
+            height: 55.5vh;
+            min-height: 570px;
+          }
+        }
+      
+        #map-box {
+          width: 50%;
+          height: 59vh;
+          min-height: 600px;
+        }
+      }
+    }
+    
+    #selected-channels {
+      width: 30vw;
+
+      #cg-form {
+        #cg-form-input {
+          height: 80px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+
+  .form-filter-open {
+    height: 340px;
+  }
+  
+  .form-filter-closed {
+    height: 155px;
+  }
+  
+  .table-filter-open {
+    height: 48.5vh;
+    min-height: 410px;
+  }
+  
+  .table-filter-closed {
+    height: 69.5vh;
+    min-height: 570px;
+  }
 }
