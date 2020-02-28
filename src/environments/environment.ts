@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://squacapi.pnsn.org/v1.0/'
+  apiUrl: 'https://staging-squacapi.pnsn.org/v1.0/'
 };
 
 /*
