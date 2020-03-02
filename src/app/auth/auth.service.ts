@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Router } from '@angular/router';
+import { SquacApiService } from '../squacapi.service';
 
 // Data returned from server
 export interface AuthResponseData {
@@ -20,8 +21,8 @@ export class AuthService {
   private tokenExpirationTimer: any; // Time left before token expires
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private squacApi: SquacApiService
   ) { }
 
   // Checks if user data exists in browser
@@ -51,7 +52,7 @@ export class AuthService {
 
   // after user enters data, log them in
   login(userEmail: string, userPassword: string) {
-    return this.http.post<AuthResponseData>('https://squacapi.pnsn.org/user/token/',
+    return this.squacApi.post('user/token/',
       {
         email : userEmail,
         password : userPassword

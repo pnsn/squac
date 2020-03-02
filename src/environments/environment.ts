@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://squacapi.pnsn.org/v1.0/'
+  apiUrl: 'http://localhost:8000/',
+  version: 'v1.0/'
 };
 
 /*
