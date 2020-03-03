@@ -6,6 +6,8 @@ import { of, Observable } from 'rxjs';
 import { MetricsService } from 'src/app/shared/metrics.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('MetricsViewComponent', () => {
   let component: MetricsViewComponent;
@@ -13,7 +15,7 @@ describe('MetricsViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, NgxDatatableModule],
       declarations: [ MetricsViewComponent ],
       providers: [
         { provide: MetricsService, useClass: MockMetricsService} 
