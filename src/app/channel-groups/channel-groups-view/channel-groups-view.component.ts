@@ -32,7 +32,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.selected = [];
     this.selectedChannels = [];
-    this.subscription = this.channelGroupsService.getChannelGroups.subscribe( channelGroups => {
+    const channelGroupsService = this.channelGroupsService.getChannelGroups.subscribe( channelGroups => {
       this.channelGroups = channelGroups;
       const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
       this.isSelected = selectedChannelGroupId !== 0;
@@ -40,6 +40,8 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
         this.selectChannelGroup(selectedChannelGroupId);
       }
     });
+    this.channelGroupsService.fetchChannelGroups();
+    this.subscription.add(channelGroupsService);
   }
 
   ngOnDestroy(): void {
