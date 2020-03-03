@@ -12,6 +12,7 @@ describe('AuthService', () => {
   let httpClientSpy: { get: jasmine.Spy};
   let authService: AuthService;
   const mockSquacApiService = new MockSquacApiService(  );
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -29,12 +30,30 @@ describe('AuthService', () => {
     router = TestBed.get(Router);
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     authService = TestBed.get(AuthService);
-    // authService = new AuthService(httpClientSpy as any, router);
   });
 
-  // it('should be created', () => {
-  //   expect(authService).toBeTruthy();
-  // });
+  it('should be created', () => {
+    expect(authService).toBeTruthy();
+  });
 
-  // TODO: needs more tests
+  it('should log user in', ()=> {
+
+  });
+
+  it('should log user out', ()=> {
+
+  });
+  
+  it('should user out after time expires', ()=>{
+
+  });
+
+  it('should return correct error message', ()=>{
+
+  });
+
+  it('should save user data', ()=>{
+
+  });
+
 });

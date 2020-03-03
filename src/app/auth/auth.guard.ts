@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  // returns true if there is a user or forces user to stay on login
+  // Returns true if there is a user and allows user to navigate
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
