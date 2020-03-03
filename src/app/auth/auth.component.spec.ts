@@ -8,23 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { MaterialModule } from '../shared/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
-
-class MockAuthService {
-  user = new BehaviorSubject<User>(null);
-
-  logIn() {
-    this.user.next(new User(
-      'email',
-      'token',
-      new Date()
-    ));
-  }
-
-  logOut() {
-    this.user.next(null);
-  }
-
-}
+import { MockAuthService } from './auth.service.mock';
 
 describe('AuthComponent', () => {
   let component: AuthComponent;

@@ -13,11 +13,11 @@ export class MockMetricsService {
     1
   );
 
-  getMetric(metricId : number): Observable<any> {
-    if( metricId === 1) {
+  getMetric(metricId : number): Observable<Metric> {
+    if( metricId === this.testMetric.id) {
       return of(this.testMetric);
     } else {
-      return of(false);
+      return ;
     }
   }
 

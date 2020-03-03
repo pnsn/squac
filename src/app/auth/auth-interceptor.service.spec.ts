@@ -10,23 +10,8 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Data } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { MockAuthService } from './auth.service.mock';
 
-class MockAuthService {
-  user = new BehaviorSubject<User>(null);
-
-  logIn() {
-    this.user.next(new User(
-      'email',
-      'token',
-      new Date()
-    ));
-  }
-
-  logOut() {
-    this.user.next(null);
-  }
-
-}
 
 describe(`AuthInterceptor`, () => {
   let httpClient: HttpClient;
