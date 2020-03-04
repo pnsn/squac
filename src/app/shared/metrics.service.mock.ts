@@ -1,4 +1,4 @@
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { Metric } from './metric';
 
 export class MockMetricsService {
@@ -17,7 +17,7 @@ export class MockMetricsService {
     if( metricId === this.testMetric.id) {
       return of(this.testMetric);
     } else {
-      return ;
+      return throwError('not found');
     }
   }
 

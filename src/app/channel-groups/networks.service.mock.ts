@@ -1,5 +1,5 @@
 
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of, throwError } from 'rxjs';
 
 import { Network } from './network';
 
@@ -10,16 +10,22 @@ export class MockNetworksService {
 
   testNetwork = new Network(
     1,
-    "",
-    "",
-    ""
+    "code",
+    "name",
+    "description"
   );
 
   fetchNetworks() {
     this.networks.next([this.testNetwork]);
   }
 
-  getNetworks(id: number) : Observable<Network>{
-    return of(this.testNetwork);
+  getNetwork(id: number) : Observable<Network>{
+    if( id === this.testNetwork.id) {
+      return of(this.testNetwork);
+    } else {
+      return throwError('not found');
+    }
   }
+
+
 }

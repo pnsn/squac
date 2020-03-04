@@ -154,7 +154,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   getChannelsWithFilters(searchFilters: object) {
     if (searchFilters !== {}) {
       this.loading = true;
-      const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
+      const channelsSub = this.channelsService.getChannelsByFilters(searchFilters).subscribe(
         response => {
           this.availableChannels = response;
           this.searchChannels = [...this.availableChannels];

@@ -1,11 +1,11 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ChannelGroup } from '../shared/channel-group';
 
 export class MockChannelGroupsService {
   testChannelGroup = new ChannelGroup(
     1,
-    "",
-    "",
+    "name",
+    "description",
     []
   );
 
@@ -15,8 +15,12 @@ export class MockChannelGroupsService {
     this.getChannelGroups.next([this.testChannelGroup]);
   }
 
-  getChannelGroup(id :number) : Observable<ChannelGroup> {
-    return of(this.testChannelGroup);
+  getChannelGroup(id : number): Observable<ChannelGroup> {
+    if( id === this.testChannelGroup.id) {
+      return of(this.testChannelGroup);
+    } else {
+      return throwError('not found');
+    }
   }
 
   updateChannelGroup(channelGroup: ChannelGroup) {

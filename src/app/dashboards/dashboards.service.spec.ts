@@ -12,20 +12,11 @@ import { WidgetsService } from '../widgets/widgets.service';
 import { DashboardsService } from './dashboards.service';
 import { Observable, of } from 'rxjs';
 import { ChannelGroup } from '../shared/channel-group';
+import { MockChannelGroupsService } from '../channel-groups/channel-groups.service.mock';
 
 class MockWidgetsService {
   getWidgets(ids: number[]): Observable<Widget[]> {
     return of([]);
-  }
-}
-
-class MockChannelGroupsService {
-  getChannelGroup(id: number): Observable<ChannelGroup> {
-    return of(new ChannelGroup(
-      1,
-      'name',
-      'Description'
-    ));
   }
 }
 
