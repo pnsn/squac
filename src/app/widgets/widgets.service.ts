@@ -158,7 +158,7 @@ export class WidgetsService {
 
   }
 
-  updateWidget(widget: Widget) {
+  updateWidget(widget: Widget) : Observable<any>{
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,
