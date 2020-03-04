@@ -17,9 +17,11 @@ export class MockDataFormatService {
 
   fetchData(widget: Widget) {
     this.formattedData.next(
-      { "1" : {
-        "1" : [this.testMeasurement]
+      { "1" : 
+        {
+          "1" : [this.testMeasurement]
+        }
       }
-    });
+    );
   }
 }
