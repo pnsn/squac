@@ -44,7 +44,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should add an Authorization header if user logged in', () => {
-    service.logIn();
+    service.login();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
@@ -62,7 +62,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should not add an Authorization header if user not logged in', () => {
-    service.logOut();
+    service.logout();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')

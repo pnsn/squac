@@ -7,21 +7,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MockAuthService } from './auth/auth.service.mock';
 
 
 describe('AppComponent', () => {
   let fixture;
   let appComponent: AppComponent;
-  let authServiceStub: Partial<AuthService>;
   let authService: AuthService;
   beforeEach(async(() => {
-
-    authServiceStub = {
-
-      autologin() {
-        return true;
-      }
-    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -36,7 +29,7 @@ describe('AppComponent', () => {
         HeaderComponent
       ],
       providers: [{
-        provide: AuthService, useValue: authServiceStub
+        provide: AuthService, useClass: MockAuthService
       }],
     }).compileComponents();
 
@@ -50,13 +43,12 @@ describe('AppComponent', () => {
     expect(appComponent).toBeTruthy();
   });
 
-  it(`should have as title 'squac-ui'`, () => {
+  it('should have as title "squac-ui"', () => {
     expect(appComponent.title).toEqual('squac-ui');
   });
 
-  // it('should render header component', () => {
-  //   const header = TestBed.createComponent(HeaderComponent);
-  //   expect(header).toBeTruthy();
-  // });
-
+  it('should listen to user log in', ()=> {
+    appComponent.ngOnInit();
+    expect(appComponent.loggedIn).toEqual(true);
+  });
 });
