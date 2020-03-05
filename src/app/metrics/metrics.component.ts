@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './metrics.component.html',
   styleUrls: ['./metrics.component.scss']
 })
-export class MetricsComponent implements OnInit, OnDestroy {
+export class MetricsComponent implements OnInit {
   subscription: Subscription = new Subscription();
   constructor(
     private metricsService: MetricsService
@@ -15,13 +15,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    const metricsService = this.metricsService.fetchMetrics();
-    this.subscription.add(metricsService);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.metricsService.fetchMetrics();
 
   }
+
 
 }

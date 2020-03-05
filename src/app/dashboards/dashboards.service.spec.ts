@@ -13,12 +13,7 @@ import { DashboardsService } from './dashboards.service';
 import { Observable, of } from 'rxjs';
 import { ChannelGroup } from '../shared/channel-group';
 import { MockChannelGroupsService } from '../channel-groups/channel-groups.service.mock';
-
-class MockWidgetsService {
-  getWidgets(ids: number[]): Observable<Widget[]> {
-    return of([]);
-  }
-}
+import { MockWidgetsService } from '../widgets/widgets.service.mock';
 
 describe('DashboardsService', () => {
   let dashboardsService: DashboardsService;
@@ -27,7 +22,7 @@ describe('DashboardsService', () => {
     id: 1,
     name: 'name',
     description: 'description',
-    widgets: [1]
+    group: 1
   };
 
   let squacApiService;
@@ -74,6 +69,7 @@ describe('DashboardsService', () => {
 
   it('should get dashboard with id', (done: DoneFn) => {
     dashboardsService.getDashboard(1).subscribe(dashboard => {
+      console.log(dashboard.id)
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });

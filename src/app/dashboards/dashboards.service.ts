@@ -64,19 +64,15 @@ export class DashboardsService {
     let dashboard: Dashboard;
 
     return this.squacApi.get(this.url, id).pipe(
-      switchMap (
+      map (
         (response) => {
-          return this.channelGroupsService.getChannelGroup(response.group).pipe(
-            map ( channelGroup => {
-              dashboard = new Dashboard(
-                response.id,
-                response.name,
-                response.description,
-                response.widgets
-              );
-              return dashboard;
-            })
+          dashboard = new Dashboard(
+            response.id,
+            response.name,
+            response.description,
+            response.widgets
           );
+          return dashboard;
         }
       )
     );
