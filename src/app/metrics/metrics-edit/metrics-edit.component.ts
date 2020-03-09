@@ -28,8 +28,9 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     const sub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.editMode = params.id != null;
 
+        this.editMode = !!this.id;
+        console.log(this.id, this.editMode);
         this.initForm();
       }
     );
@@ -53,6 +54,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.editMode) {
+      console.log("why am I in editode")
       this.metricsService.getMetric(this.id).subscribe(
         metric => {
           this.metricForm.patchValue({

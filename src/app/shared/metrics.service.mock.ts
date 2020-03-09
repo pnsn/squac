@@ -14,6 +14,7 @@ export class MockMetricsService {
   );
 
   getMetric(metricId : number): Observable<Metric> {
+    console.log("metricID", metricId)
     if( metricId === this.testMetric.id) {
       return of(this.testMetric);
     } else {
@@ -21,11 +22,13 @@ export class MockMetricsService {
     }
   }
 
-  getMetrics = new BehaviorSubject<Metric[]>([
-    this.testMetric
-  ]);
+  getMetrics = new BehaviorSubject<Metric[]>([]);
 
   fetchMetrics() : void {
     this.getMetrics.next([this.testMetric]);
+  }
+
+  updateMetric(metric: Metric) {
+    return of(metric);
   }
 }

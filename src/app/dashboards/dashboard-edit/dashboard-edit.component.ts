@@ -27,7 +27,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.editMode = params.id != null;
+        this.editMode = !!this.id;
 
         this.initForm();
       }
