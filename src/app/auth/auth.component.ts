@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService} from './auth.service';
 import { onErrorResumeNext, Observable, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -16,7 +16,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
-  private authForm : FormGroup;
+  authForm : FormGroup;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -24,18 +25,21 @@ export class AuthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    
+    this.authForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    })
   }
 
   // Form submit
-  onSubmit(form: NgForm) {
+  onSubmit() {
 
-    if (!form.valid) {
+    if (!this.authForm.valid) {
       return;
     }
 
-    const email = form.value.email;
-    const password = form.value.password;
+    const email = this.authForm.value.email;
+    const password = this.authForm.value.password;
 
     this.isLoading = true;
 
@@ -50,9 +54,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
-    
-    // Empty form
-    form.reset();
 
     this.subscription.add(loginSub);
   }

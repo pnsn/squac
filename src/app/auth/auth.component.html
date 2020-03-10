@@ -7,7 +7,7 @@
   
   <div class="box" id="login" *ngIf="!isLoading">
     <h1>Sign In</h1>
-    <form class="form" [formGroup]="authForm" (ngSubmit)="onSubmit(logInForm)" >
+    <form class="form" [formGroup]="authForm" (ngSubmit)="onSubmit()" >
       
       <mat-form-field
         appearance="outline"
@@ -31,7 +31,7 @@
           Password
         </mat-label>
         <input matInput 
-          formControlName="email"
+          formControlName="password"
           appearance="outline"
           placeholder="Password"
           [type]="hide ? 'password' : 'text'"
@@ -43,7 +43,7 @@
         </button>
       </mat-form-field>
       <a id="forgot-password"> Forgot your password?</a>
-      <button mat-flat-button color="accent" type="submit" [disabled]="!logInForm.valid">
+      <button mat-flat-button color="accent" type="submit" [disabled]="!authForm.valid">
         Sign In </button>
     </form>
   </div>

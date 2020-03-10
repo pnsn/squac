@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 
 export class MockAuthService {
+  constructor(){}
   user = new BehaviorSubject<User>(null);
 
   testUser = new User(
