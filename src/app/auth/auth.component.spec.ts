@@ -35,7 +35,9 @@ describe('AuthComponent', () => {
   it('should not submit if the form is not valid', ()=>{
   
     const form = fixture.nativeElement.querySelector('#logInForm');
-    console.log(form);
+    console.log("form", form);
 
   });
+
+
 });

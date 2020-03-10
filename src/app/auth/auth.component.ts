@@ -16,13 +16,13 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
-
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
+
   }
 
   // Form submit

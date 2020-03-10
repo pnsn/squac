@@ -12,7 +12,11 @@ describe('AuthService', () => {
   let httpClientSpy: { get: jasmine.Spy};
   let authService: AuthService;
   let squacApiService : SquacApiService;
-  const mockSquacApiService = new MockSquacApiService(  );
+
+  const testUserData = {
+    email: "email@mail.com",
+    token: "111111"
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,8 +27,8 @@ describe('AuthService', () => {
           { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
         ])
       ],
-      providers: [
-        { provide: SquacApiService, useValue: mockSquacApiService }
+      providers: [ 
+        { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) }
       ]
     });
 
@@ -78,16 +82,11 @@ describe('AuthService', () => {
   });
 
   it('should log new user in', ()=> {
-    spyOn(squacApiService, "post");
-
-    authService.login("email", "password").subscribe(
+    authService.login(testUserData.email, "password").subscribe(
       response => {
-        expect(response.email).toEqual("email");
+        expect(response).toEqual(testUserData);
       }
     );
-
-    expect(squacApiService.post).toHaveBeenCalled();
-    
   });
 
   it('should not log in if no user data', ()=>{

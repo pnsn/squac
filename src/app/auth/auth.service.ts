@@ -6,6 +6,7 @@ import { User } from './user';
 import { Router } from '@angular/router';
 import { SquacApiService } from '../squacapi.service';
 
+
 // Data returned from server
 export interface AuthResponseData {
   token: string;
@@ -54,7 +55,7 @@ export class AuthService {
   login(userEmail: string, userPassword: string) {
     return this.squacApi.post('user/token/',
       {
-        email : userEmail,
+        email : userEmail, 
         password : userPassword
       }
     ).pipe(
