@@ -5,14 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of, EMPTY, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Widget } from './widget';
-import { MeasurementPipe } from './measurement.pipe';
 import { MeasurementsService } from './measurements.service';
-import { ChannelGroup } from '../shared/channel-group';
-import { TabularComponent } from './widget-detail/widget-types/tabular/tabular.component';
-import { LoadingComponent } from '../shared/loading/loading.component';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MaterialModule } from 'src/app/shared/material.module';
-import { GridsterModule } from 'angular-gridster2';
 import { WidgetsModule } from './widgets.module';
 
 describe('WidgetComponent', () => {

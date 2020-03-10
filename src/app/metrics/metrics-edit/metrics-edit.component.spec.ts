@@ -8,6 +8,7 @@ import { MetricsService } from 'src/app/shared/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from 'src/app/shared/metric';
 import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
+import { ActivatedRoute } from '@angular/router';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
@@ -31,6 +32,7 @@ describe('MetricsEditComponent', () => {
   });
 
   it('should create', () => {
+    console.log(component.id, component.editMode)
     expect(component).toBeTruthy();
   });
 });

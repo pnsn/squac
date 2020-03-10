@@ -14,12 +14,7 @@ export class MockMetricsService {
   );
 
   getMetric(metricId : number): Observable<Metric> {
-    console.log("metricID", metricId)
-    if( metricId === this.testMetric.id) {
-      return of(this.testMetric);
-    } else {
-      return throwError('not found');
-    }
+    return of(this.testMetric);
   }
 
   getMetrics = new BehaviorSubject<Metric[]>([]);
