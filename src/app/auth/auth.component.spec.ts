@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthComponent } from './auth.component';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, Form } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { MaterialModule } from '../shared/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -33,8 +33,7 @@ describe('AuthComponent', () => {
   });
 
   it('should not submit if the form is not valid', ()=>{
-  
-    const form = fixture.nativeElement.querySelector('#logInForm');
+    const form = fixture.nativeElement.querySelector('logInForm');
     console.log("form", form);
 
   });

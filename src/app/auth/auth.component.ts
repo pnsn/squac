@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService} from './auth.service';
 import { onErrorResumeNext, Observable, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -16,13 +16,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
+  private authForm : FormGroup;
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private formBuilder : FormBuilder
   ) { }
 
   ngOnInit() {
-
+    
   }
 
   // Form submit
