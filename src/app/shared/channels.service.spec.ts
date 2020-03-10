@@ -55,4 +55,12 @@ describe('ChannelsService', () => {
       done();
     });
   });
+
+  it('should get channels with filters', (done: DoneFn) => {
+    const filter = {net : 1};
+    channelsService.getChannelsByFilters(filter).subscribe(channels => {
+      expect(channels.length).toEqual(1);
+      done();
+    });
+  })
 });

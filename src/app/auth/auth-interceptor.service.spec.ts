@@ -10,23 +10,8 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Data } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { MockAuthService } from './auth.service.mock';
 
-class MockAuthService {
-  user = new BehaviorSubject<User>(null);
-
-  logIn() {
-    this.user.next(new User(
-      'email',
-      'token',
-      new Date()
-    ));
-  }
-
-  logOut() {
-    this.user.next(null);
-  }
-
-}
 
 describe(`AuthInterceptor`, () => {
   let httpClient: HttpClient;
@@ -59,7 +44,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should add an Authorization header if user logged in', () => {
-    service.logIn();
+    service.login();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
@@ -77,7 +62,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should not add an Authorization header if user not logged in', () => {
-    service.logOut();
+    service.logout();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')

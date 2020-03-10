@@ -46,7 +46,7 @@ export class ThresholdsService {
     return thresholdSubs;
   }
 
-  updateThreshold(threshold: Threshold, widgetId) {
+  private updateThreshold(threshold: Threshold, widgetId) {
     const postData: ThresholdHttpData = {
       widget: threshold.widgetId ? threshold.widgetId : widgetId,
       metric: threshold.metricId,

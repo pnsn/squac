@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  // After user presses submit
+  // Form submit
   onSubmit(form: NgForm) {
 
     if (!form.valid) {
@@ -37,9 +37,9 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    // Try to log in
+    // Send data and log user in
     const loginSub = this.authService.login(email, password).subscribe(
-      resData => {
+      response => {
         this.isLoading = false;
         this.router.navigate(['/dashboards']);
       },
@@ -48,7 +48,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
-
+    
+    // Empty form
     form.reset();
 
     this.subscription.add(loginSub);
@@ -56,7 +57,6 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-
   }
 
 }

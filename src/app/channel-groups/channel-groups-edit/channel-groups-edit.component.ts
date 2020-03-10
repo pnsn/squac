@@ -37,9 +37,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   searchChannels: Channel[] = []; // Channels returned from filter request
   availableChannels: Channel[] = []; // Search channels filtered by bounds
   originalSelectedChannels: Channel[] = []; // Original channels on channel group
-  selectedChannels: Channel[] = []; // Channels and Ids currently in selected list
-  selectedChannelIds: number[] = [];
-  isFilterOpen: boolean;
+  selectedChannels: Channel[] = []; // Channels currently in selected list
+  selectedChannelIds: number[] = []; // Channel ids in selected list
+  isFilterOpen: boolean; // For setting class of form and table for resizing
   isSelectedFiltered = false; // For remove channels button
   filteredChannels: Channel[] = []; // For filtering selected channels to remove
   previous: { // Last state of selected channels for undo
@@ -63,7 +63,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
-        this.editMode = params.id != null;
+        this.editMode = !!this.id;
 
         this.initForm();
       }
@@ -154,9 +154,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   getChannelsWithFilters(searchFilters: object) {
     if (searchFilters !== {}) {
       this.loading = true;
-      const channelsSub = this.channelsService.getChannelsbyFilters(searchFilters).subscribe(
+      const channelsSub = this.channelsService.getChannelsByFilters(searchFilters).subscribe(
         response => {
-          console.log(response.length);
           this.availableChannels = response;
           this.searchChannels = [...this.availableChannels];
           this.loading = false;
@@ -257,6 +256,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
+    const cg = new ChannelGroup(
+      this.id,
+      values.name,
+      values.description,
+      this.selectedChannels
+    );
+    console.log(cg);
     this.channelGroupService.updateChannelGroup(
       new ChannelGroup(
         this.id,
@@ -275,9 +281,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // TODO: warn if unsaved
   cancel(id?: number) {
     if (id && !this.id) {
-      this.router.navigate(['../../', id], {relativeTo: this.route});
+      this.router.navigate(['../', id], {relativeTo: this.route});
     } else if (id) {
-      this.router.navigate(['../../', this.id], {relativeTo: this.route});
+      this.router.navigate(['../'], {relativeTo: this.route});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
@@ -318,8 +324,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         lon_min: boundsArr[1], // west bound
         lon_max: boundsArr[3] // east bound
       };
-      if (this.availableChannels === []) {
-        // this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
+      if (this.availableChannels.length === 0) {
+        this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
       } else {
         this.filterBounds();
       }
@@ -327,6 +333,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   }
 
   onResize(event: any) {
-    this.isMapShowing = event.target.innerWidth >= 1400;
+    const willMapShow = event.target.innerWidth >= 1400;
+    if (!this.isMapShowing && willMapShow) {
+      this.isFilterOpen = false;
+    }
+    this.isMapShowing = willMapShow;
   }
 }
