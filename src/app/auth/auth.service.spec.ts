@@ -11,6 +11,7 @@ describe('AuthService', () => {
   let router: Router;
   let httpClientSpy: { get: jasmine.Spy};
   let authService: AuthService;
+  let squacApiService : SquacApiService;
   const mockSquacApiService = new MockSquacApiService(  );
 
   beforeEach(() => {
@@ -30,6 +31,7 @@ describe('AuthService', () => {
     router = TestBed.get(Router);
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     authService = TestBed.get(AuthService);
+    squacApiService = TestBed.get(SquacApiService);
   });
 
   beforeEach(() => {
@@ -76,7 +78,16 @@ describe('AuthService', () => {
   });
 
   it('should log new user in', ()=> {
+    spyOn(squacApiService, "post");
 
+    authService.login("email", "password").subscribe(
+      response => {
+        expect(response.email).toEqual("email");
+      }
+    );
+
+    expect(squacApiService.post).toHaveBeenCalled();
+    
   });
 
   it('should not log in if no user data', ()=>{

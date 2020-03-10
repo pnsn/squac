@@ -10,7 +10,7 @@ describe('SquacApiService', () => {
   let httpTestingController: HttpTestingController;
   let service: SquacApiService;
   const testUrl = 'data/';
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -40,7 +40,7 @@ describe('SquacApiService', () => {
         expect(data).toEqual(testData)
       );
 
-    const req = httpTestingController.expectOne(environment.apiUrl + 'data/');
+    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl);
     expect(req.request.method).toEqual('GET');
 
     req.flush(testData);
@@ -55,7 +55,7 @@ describe('SquacApiService', () => {
         expect(data).toEqual(testData)
       );
 
-    const req = httpTestingController.expectOne(environment.apiUrl + 'data/');
+    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl);
 
     expect(req.request.method).toEqual('POST');
 
@@ -71,7 +71,7 @@ describe('SquacApiService', () => {
         expect(data).toEqual(testData)
       );
 
-    const req = httpTestingController.expectOne(environment.apiUrl + 'data/' + testData.id + '/');
+    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
 
     expect(req.request.method).toEqual('PUT');
 

@@ -2,7 +2,9 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 // Used to test services that use the squac api class
 export class MockSquacApiService {
-  protected baseUrl = 'baseUrl';
+  protected baseUrl: string;
+  protected version: string;
+
 
   constructor(
     private testData?: any
@@ -20,4 +22,5 @@ export class MockSquacApiService {
   put(path: string, id: number, data: any): Observable<any> {
     return of(this.testData);
   }
+
 }
