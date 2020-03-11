@@ -56,8 +56,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
-  @ViewChild('availableTable', { static: false }) availableTable: any;
-  @ViewChild('selectedTable', { static: false }) selectedTable: any;
+  @ViewChild('availableTable') availableTable: any;
+  @ViewChild('selectedTable') selectedTable: any;
 
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(

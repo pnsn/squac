@@ -4,8 +4,11 @@ import { AuthComponent } from './auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { MaterialModule } from '../shared/material.module';
+
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockAuthService } from './auth.service.mock';
+
+
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -22,6 +25,7 @@ describe('AuthComponent', () => {
       )],
       providers: [
         { provide: AuthService, useValue: new MockAuthService() }
+
       ]
     })
     .compileComponents();
@@ -65,6 +69,5 @@ describe('AuthComponent', () => {
     expect(authSpy).not.toHaveBeenCalled();
 
   });
-
 
 });

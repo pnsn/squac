@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UserService } from '../auth/user.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -9,20 +10,18 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
-  isAuthenticated = false;
+ 
+  user : {name: string, email: string};
+
   constructor(
+    private userService: UserService,
     private authService: AuthService
   ) { }
 
 
   ngOnInit() {
-    this.userSub = this.authService.user.subscribe(user => {
-      this.isAuthenticated = !!user;
-      console.log('is authenticated', this.isAuthenticated);
-      if (user) {
-        console.log('user', user);
-        // do stuff
-      }
+    this.userSub = this.userService.userInfo.subscribe(user => {
+      this.user = user;
     });
   }
 

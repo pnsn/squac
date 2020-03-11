@@ -3,7 +3,7 @@
     <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
   </a>
 
-  <div id="header-right" *ngIf="isAuthenticated">
+  <div id="header-right" *ngIf="!!user">
     <a mat-button [routerLink]="[ '/dashboards' ]" routerLinkActive="active">Dashboards</a>
 
     <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>
@@ -11,14 +11,14 @@
     <a mat-button [routerLink]="[ '/metrics' ]" routerLinkActive="active">Metrics</a>  
 
     <mat-menu #appMenu="matMenu" class="mat-menu-dense">
-        <!-- <button mat-menu-item >User Settings</button> -->
+        <a mat-menu-item [routerLink]="[ '/user' ]" routerLinkActive="active">User Settings</a>
         <button mat-menu-item (click)="logout()">Log Out</button>
         <!-- <button mat-menu-item>Help</button> -->
       </mat-menu>
 
       <!-- TODO: profile pic or first name -->
       <button mat-mini-fab [matMenuTriggerFor]="appMenu">
-        <mat-icon>mood</mat-icon>
+        <div id="user-icon">{{user?.name.charAt(0)}}</div>
       </button>
   </div>
 </mat-toolbar>

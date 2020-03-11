@@ -24,6 +24,10 @@ import { ChannelGroupsFilterComponent } from './channel-groups/channel-groups-ed
 import { ChannelGroupsTableComponent } from './channel-groups/channel-groups-edit/channel-groups-table/channel-groups-table.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { UserComponent } from './auth/user/user.component';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
+import { ability } from './ability';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     MetricsViewComponent,
     MetricsEditComponent,
     ChannelGroupsFilterComponent,
-    ChannelGroupsTableComponent
+    ChannelGroupsTableComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,8 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     SharedModule,
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot()
+    LeafletDrawModule.forRoot(),
+    AbilityModule.forRoot()
   ],
   providers: [
     {
@@ -60,7 +66,13 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
+    },
+
+    { 
+      provide: Ability,
+      useValue: ability 
     }
+
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Subscription } from 'rxjs';
+import { UserService } from './auth/user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'squac-ui';
   loggedIn: boolean;
   subscription = new Subscription();
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService, 
+    private userService: UserService) {
 
   }
 
@@ -21,6 +24,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const authSub = this.authService.user.subscribe(user => {
       this.loggedIn = !!user;
+      if(this.loggedIn) {
+        this.userService.getUser();
+      }
     });
 
     this.authService.autologin();
