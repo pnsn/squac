@@ -15,7 +15,11 @@ describe('AuthComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthComponent ],
-      imports: [ ReactiveFormsModule , MaterialModule, RouterTestingModule],
+      imports: [ ReactiveFormsModule , MaterialModule,
+        RouterTestingModule.withRoutes([
+          { path: 'dashboards', component: AuthComponent},
+        ]
+      )],
       providers: [
         { provide: AuthService, useValue: new MockAuthService() }
       ]
@@ -35,19 +39,8 @@ describe('AuthComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not submit if the form is not valid', ()=>{
-    const authSpy = spyOn(authService, "login");
-    expect(component.authForm).toBeDefined();
-    expect(component.authForm.valid).toBeFalsy();
-
-    component.onSubmit();
-
-    expect(authSpy).not.toHaveBeenCalled();
-
-  });
-
   it('should submit user info if the form is valid', ()=>{
-    const authSpy = spyOn(authService, "login");
+    // const authSpy = spyOn(authService, "login");
     expect(component.authForm).toBeDefined();
 
     component.authForm.patchValue({
@@ -59,6 +52,19 @@ describe('AuthComponent', () => {
 
     component.onSubmit();
 
-    expect(authSpy).toHaveBeenCalled();
+    expect(component.isLoading).toBe(false);
   });
+
+  it('should not submit if the form is not valid', ()=>{
+    const authSpy = spyOn(authService, "login");
+    expect(component.authForm).toBeDefined();
+    expect(component.authForm.valid).toBeFalsy();
+
+    component.onSubmit();
+
+    expect(authSpy).not.toHaveBeenCalled();
+
+  });
+
+
 });

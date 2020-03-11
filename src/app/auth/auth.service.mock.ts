@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { User } from './user';
 
 export class MockAuthService {
@@ -20,7 +20,8 @@ export class MockAuthService {
   }
 
   login(userEmail: string, userPassword: string) {
-    this.user.next( new User(userEmail, "token", new Date()));
+    this.user.next(this.testUser);
+    return of({email: userEmail, token: "token"});
   }
 
   logout() {

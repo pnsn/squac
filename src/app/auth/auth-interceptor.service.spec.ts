@@ -44,7 +44,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should add an Authorization header if user logged in', () => {
-    service.login();
+    service.login().subscribe();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
