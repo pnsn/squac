@@ -11,7 +11,14 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
  
-  user : {name: string, email: string};
+  user : {
+    email: string,
+    firstname: string,
+    groups: Array<string>,
+    is_staff: boolean,
+    lastname: string,
+    organization: string
+  }
 
   constructor(
     private userService: UserService,
