@@ -19,6 +19,7 @@ export interface AuthResponseData {
 
 // Handles log in logic and API requests for login
 export class AuthService {
+  private url = 'user/token/';
   auth = new BehaviorSubject<string>(null); // Currently active user
   private tokenExpirationTimer: any; // Time left before token expires
 
@@ -50,7 +51,7 @@ export class AuthService {
 
   // after user enters data, log them in
   login(userEmail: string, userPassword: string) {
-    return this.squacApi.post('user/token/',
+    return this.squacApi.post(this.url,
       {
         email : userEmail, 
         password : userPassword

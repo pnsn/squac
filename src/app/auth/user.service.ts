@@ -3,29 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
+import { SquacApiService } from '../squacapi.service';
 
-interface UserHttpData {
-  email : string,
-  password: string, 
-  firstname: string,
-  lastname: string, 
-  is_staff : boolean,
-  organization: string,
-  groups: string[]
-} 
 // Service to get user info & reset things
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private url = '/user/me';
   user = new BehaviorSubject<User>(null);
 
   constructor(
     private http: HttpClient,
+    private squacApi : SquacApiService
   ) { }
 
   getUser() {
-    this.http.get<UserHttpData>('https://squacapi.pnsn.org/user/me/').subscribe(
+    this.squacApi.get(this.url).subscribe(
       response => {
         console.log(response);
         this.user.next(new User(
@@ -38,16 +32,12 @@ export class UserService {
           response.groups
         ));
       }
-    )
+    );
   }
 
   //User needs to enter password to make changes
   updateUser(user) {
     //other user ifo
-    return this.http.put<UserHttpData>('https://squacapi.pnsn.org/user/me/',
-      {
-        user
-      }
-    )
+    return this.squacApi.put(this.url, null, user);
   }
 }
