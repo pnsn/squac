@@ -5,6 +5,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Router } from '@angular/router';
 import { SquacApiService } from '../squacapi.service';
+import { UserService } from './user.service';
 
 
 // Data returned from server
@@ -18,36 +19,32 @@ export interface AuthResponseData {
 
 // Handles log in logic and API requests for login
 export class AuthService {
-  user = new BehaviorSubject<User>(null); // Currently active user
+  auth = new BehaviorSubject<string>(null); // Currently active user
   private tokenExpirationTimer: any; // Time left before token expires
 
   constructor(
     private router: Router,
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private userService: UserService
   ) { }
 
   // Checks if user data exists in browser
   autologin() {
 
     // Looks for local user data
-    const userData: {
-      email: string,
+    const authData: {
       token: string,
       tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'));
 
-    if (!userData) {
+    // if no data or the expiration date has passed
+    if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
-    }
-
-    // if there's a user, log them in
-    const loadedUser = new User(userData.email, userData.token, new Date(userData.tokenExpirationDate));
-
-    if (loadedUser.getToken()) {
-      const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
+    } else {
+      const expirationDuration = new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
       this.autologout(expirationDuration);
-      this.user.next(loadedUser);
-      // FIXME autolog in not doing its thing
+      this.userService.getUser();
+      this.auth.next(authData.token);
     }
   }
 
@@ -62,14 +59,15 @@ export class AuthService {
       catchError(this.handleError),
       tap(resData => {
         // TODO: Get expiration time from Jon
-        this.handleAuth(userEmail, resData.token, 7200);
+        this.handleAuth(resData.token, 7200);
       })
     );
   }
 
-  // after user hits log out, wipe server
+  // after user hits log out, wipe data
   logout() {
-    this.user.next(null);
+    this.userService.user.next(null);
+    this.auth.next(null);
     this.router.navigate(['/login']);
     localStorage.removeItem('userData');
     // TODO: make sure all modals close
@@ -109,15 +107,18 @@ export class AuthService {
   }
 
   // after login, save user data
-  private handleAuth(email: string, token: string, expiresIn: number) {
+  private handleAuth(token: string, expiresIn: number) {
+    this.userService.getUser();
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(
-      email,
-      token,
-      expirationDate
-    );
-    localStorage.setItem('userData', JSON.stringify(user));
+
+    const authData = {
+      token: token,
+      tokenExpirationDate: expirationDate
+    };
+
+    localStorage.setItem('userData', JSON.stringify(authData));
     this.autologout(expiresIn * 1000);
-    this.user.next(user);
+    this.auth.next(authData.token);
+
   }
 }

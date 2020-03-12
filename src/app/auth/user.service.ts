@@ -5,17 +5,20 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 
 interface UserHttpData {
-  name: string;
-  email: string;
-  password: string;
+  email : string,
+  password: string, 
+  firstname: string,
+  lastname: string, 
+  is_staff : boolean,
+  organization: string,
+  groups: string[]
 } 
 // Service to get user info & reset things
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  userInfo = new BehaviorSubject<{name:string, email:string}>(null);
-  password : string;
+  user = new BehaviorSubject<User>(null);
 
   constructor(
     private http: HttpClient,
@@ -23,23 +26,27 @@ export class UserService {
 
   getUser() {
     this.http.get<UserHttpData>('https://squacapi.pnsn.org/user/me/').subscribe(
-      user => {
-        console.log(user);
-        this.userInfo.next({
-          name: user.name, 
-          email: user.email
-        });
-        this.password = user.password;
+      response => {
+        console.log(response);
+        this.user.next(new User(
+          response.email,
+          response.password,
+          response.firstname, 
+          response.lastname,
+          response.is_staff, 
+          response.organization, 
+          response.groups
+        ));
       }
     )
   }
 
-  updateUser(name : string, email: string, password? : string) {
+  //User needs to enter password to make changes
+  updateUser(user) {
+    //other user ifo
     return this.http.put<UserHttpData>('https://squacapi.pnsn.org/user/me/',
       {
-        name : name,
-        email : email,
-        password : password ? password : this.password
+        user
       }
     )
   }
