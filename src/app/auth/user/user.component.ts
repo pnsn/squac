@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
+import { User } from '../user';
 
 @Component({
   selector: 'app-user',
@@ -8,10 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  user : {
-    name : string, 
-    email : string
-  }
+  user : User;
 
   subscription: Subscription = new Subscription();
   constructor(
@@ -19,7 +17,7 @@ export class UserComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const userSub = this.userService.userInfo.subscribe(
+    const userSub = this.userService.user.subscribe(
       user => {
         this.user = user;
       }

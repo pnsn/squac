@@ -1,12 +1,12 @@
 // Describes a user object
 export class User {
   constructor(
-    email : string,
-    password: string, 
-    firstname: string,
-    lastname: string, 
-    is_staff : boolean,
-    organization: string,
-    groups: string[]
+    public email : string,
+    private password: string, 
+    public firstname: string,
+    public lastname: string, 
+    public is_staff : boolean,
+    public organization: string,
+    public groups: string[]
   ) {}
 }

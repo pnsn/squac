@@ -43,9 +43,8 @@ export class AuthService {
       return;
     } else {
       const expirationDuration = new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
-      this.autologout(expirationDuration);
-      this.userService.getUser();
-      this.auth.next(authData.token);
+      
+      this.signInUser(authData.token, expirationDuration);
     }
   }
 
@@ -109,7 +108,6 @@ export class AuthService {
 
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {
-    this.userService.getUser();
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
     const authData = {
@@ -118,8 +116,12 @@ export class AuthService {
     };
 
     localStorage.setItem('userData', JSON.stringify(authData));
-    this.autologout(expiresIn * 1000);
-    this.auth.next(authData.token);
+    this.signInUser(authData.token, expiresIn * 1000);
+  }
 
+  private signInUser(token, expiration) {
+    this.autologout(expiration);
+    this.auth.next(token);
+    this.userService.getUser();
   }
 }
