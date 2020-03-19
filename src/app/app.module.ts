@@ -68,9 +68,9 @@ import { ability } from './ability';
       multi: true
     },
 
-    { 
+    {
       provide: Ability,
-      useValue: ability 
+      useValue: ability
     }
 
   ],

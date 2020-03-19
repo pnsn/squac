@@ -24,12 +24,12 @@ describe('NetworksService', () => {
       providers: [{ provide: SquacApiService, useValue: mockSquacApiService }]
     });
 
-    networksService = TestBed.get(NetworksService);
-    squacApiService = TestBed.get(SquacApiService);
+    networksService = TestBed.inject(NetworksService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: NetworksService = TestBed.get(NetworksService);
+    const service: NetworksService = TestBed.inject(NetworksService);
 
     expect(service).toBeTruthy();
   });

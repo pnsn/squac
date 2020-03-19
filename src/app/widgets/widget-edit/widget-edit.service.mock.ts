@@ -8,21 +8,21 @@ export class MockWidgetEditService {
   metrics = new BehaviorSubject<Metric[]>([]);
   isValid = new Subject<boolean>();
 
-  testThresholds : { [metricId: number]: Threshold}= {
+  testThresholds: { [metricId: number]: Threshold} = {
     1 : new Threshold(1, 1, 1, 1, 1)
-  }
+  };
 
-  testChannelGroup : ChannelGroup = new ChannelGroup(
+  testChannelGroup: ChannelGroup = new ChannelGroup(
     1,
-    "name",
-    "name",
+    'name',
+    'name',
     []
-  ); 
+  );
 
-  testWidget : Widget = new Widget(
+  testWidget: Widget = new Widget(
     1,
-    "name",
-    "description",
+    'name',
+    'description',
     1,
     1,
     1,
@@ -48,7 +48,7 @@ export class MockWidgetEditService {
     this.updateValidity();
   }
 
-  getChannelGroup(){
+  getChannelGroup() {
     return this.testChannelGroup;
   }
 
@@ -64,7 +64,7 @@ export class MockWidgetEditService {
     this.updateValidity();
   }
 
-  updateMetrics(metrics){
+  updateMetrics(metrics) {
     this.updateValidity();
   }
 
@@ -81,7 +81,7 @@ export class MockWidgetEditService {
   }
 
   clearWidget() {
-    
+
   }
 
 }

@@ -16,19 +16,19 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
-  authForm : FormGroup;
+  authForm: FormGroup;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private formBuilder : FormBuilder
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     this.authForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
-    })
+    });
   }
 
   // Form submit

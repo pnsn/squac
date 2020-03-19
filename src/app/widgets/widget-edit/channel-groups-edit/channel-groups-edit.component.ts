@@ -28,7 +28,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.availableChannelGroups = channelGroups;
         this.loading = false;
       }, error => {
-        console.log("error in channelGroups edit: " + error);
+        console.log('error in channelGroups edit: ' + error);
       }
     );
 
@@ -52,7 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.selectedChannelGroup = channelGroup;
           this.loading = false;
         }, error => {
-          console.log("error in channel grouups edit update: " + error);
+          console.log('error in channel grouups edit update: ' + error);
         }
       );
 

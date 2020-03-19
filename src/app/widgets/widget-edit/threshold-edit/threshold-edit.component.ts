@@ -67,7 +67,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
           this.rows = [...newRows];
         }
       }, error => {
-        console.log("error in threshold edit: " + error);
+        console.log('error in threshold edit: ' + error);
       }
     );
     this.subscriptions.add(sub);

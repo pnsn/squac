@@ -36,7 +36,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     appComponent = fixture.componentInstance;
 
-    authService = TestBed.get(AuthService);
+    authService = TestBed.inject(AuthService);
   }));
 
   it('should create the app', () => {
@@ -47,7 +47,7 @@ describe('AppComponent', () => {
     expect(appComponent.title).toEqual('squac-ui');
   });
 
-  it('should listen to user log in', ()=> {
+  it('should listen to user log in', () => {
     appComponent.ngOnInit();
     expect(appComponent.loggedIn).toEqual(true);
   });

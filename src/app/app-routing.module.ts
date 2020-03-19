@@ -16,7 +16,7 @@ import { UserComponent } from './auth/user/user.component';
 const appRoutes: Routes = [
   { path: 'login', component: AuthComponent, canActivate: [LoggedInGuard]},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-  { path: 'user', canActivate:[AuthGuard], component: UserComponent},
+  { path: 'user', canActivate: [AuthGuard], component: UserComponent},
   { path: 'metrics',
     component: MetricsComponent,
     canActivate: [AuthGuard],

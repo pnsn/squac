@@ -53,7 +53,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           this.buildChartData(response);
         }
       }, error => {
-        console.log("error in timeseries data: " + error);
+        console.log('error in timeseries data: ' + error);
       }
     );
 
@@ -64,7 +64,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           this.resize();
         }
       }, error => {
-        console.log("error in timeseries resize: " + error);
+        console.log('error in timeseries resize: ' + error);
       }
     );
 

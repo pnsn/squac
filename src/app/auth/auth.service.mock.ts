@@ -2,10 +2,10 @@ import { BehaviorSubject, of } from 'rxjs';
 import { User } from './user';
 
 export class MockAuthService {
-  constructor(){}
+  constructor() {}
   auth = new BehaviorSubject<User>(null);
 
-  testAuth = "2352fsdf"
+  testAuth = '2352fsdf';
 
   autologin() {
     this.auth.next(this.testAuth);

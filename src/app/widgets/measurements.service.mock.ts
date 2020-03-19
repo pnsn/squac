@@ -4,7 +4,7 @@ import { Measurement } from './measurement';
 
 
 export class MockMeasurementsService {
-  testMeasurement : Measurement = new Measurement(
+  testMeasurement: Measurement = new Measurement(
     1,
     1,
     1,
@@ -15,9 +15,9 @@ export class MockMeasurementsService {
 
   getMeasurements(widget: Widget, start: Date, end: Date ): Observable<any> {
     return of(
-      { "1" : 
+      { 1 :
        {
-        "1" : [this.testMeasurement]
+        1 : [this.testMeasurement]
       }
       }
     );

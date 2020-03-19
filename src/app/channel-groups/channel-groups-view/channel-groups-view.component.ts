@@ -42,7 +42,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        console.log("error in channel groups: " + error);
+        console.log('error in channel groups: ' + error);
       }
     );
     this.channelGroupsService.fetchChannelGroups();
@@ -76,7 +76,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
         });
       },
       error => {
-        console.log("error in channel groups: " + error);
+        console.log('error in channel groups: ' + error);
       }
     );
   }

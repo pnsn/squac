@@ -59,7 +59,7 @@ export class DashboardsService {
         this.updateDashboards(dashboard);
       },
       error => {
-        console.log("error in dashboards: " + error)
+        console.log('error in dashboards: ' + error);
       }
     );
   }

@@ -30,7 +30,7 @@ export class DataFormatService {
         this.formattedData.next(this.rawData);
       },
       error => {
-        console.log("error in dataformat service: " + error);
+        console.log('error in dataformat service: ' + error);
       }
     );
   }

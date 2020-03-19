@@ -53,7 +53,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         }
         this.loading = false;
       }, error => {
-        console.log("error in metrics edit get metrics: " + error);
+        console.log('error in metrics edit get metrics: ' + error);
       }
     );
 

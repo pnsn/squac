@@ -20,13 +20,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    //Listen to log in
+    // Listen to log in
     const authSub = this.authService.auth.subscribe(
       auth => {
-        this.loggedIn == !!auth;
+        this.loggedIn = !!auth;
       },
       err => {
-        console.log("error in auth component: " + err);
+        console.log('error in auth component: ' + err);
       }
     );
 

@@ -4,22 +4,22 @@ import { Metric } from './metric';
 export class MockMetricsService {
   testMetric = new Metric(
     1,
-    "",
-    "",
-    "",
-    "",
-    "",
+    '',
+    '',
+    '',
+    '',
+    '',
     1,
     1
   );
 
-  getMetric(metricId : number): Observable<Metric> {
+  getMetrics = new BehaviorSubject<Metric[]>([]);
+
+  getMetric(metricId: number): Observable<Metric> {
     return of(this.testMetric);
   }
 
-  getMetrics = new BehaviorSubject<Metric[]>([]);
-
-  fetchMetrics() : void {
+  fetchMetrics(): void {
     this.getMetrics.next([this.testMetric]);
   }
 

@@ -27,7 +27,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         this.activeDashboardId = +params.id;
       },
       error => {
-        console.log("error in dashboard view " + error);
+        console.log('error in dashboard view ' + error);
       }
     );
     const dashboardsService = this.dashboardsService.getDashboards.subscribe(
@@ -40,7 +40,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
       },
       error => {
-        console.log("error in dashboard view get:  + " + error);
+        console.log('error in dashboard view get:  + ' + error);
       }
     );
 

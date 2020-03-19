@@ -18,7 +18,7 @@ describe('MetricsViewComponent', () => {
       imports: [RouterTestingModule, NgxDatatableModule],
       declarations: [ MetricsViewComponent ],
       providers: [
-        { provide: MetricsService, useClass: MockMetricsService} 
+        { provide: MetricsService, useClass: MockMetricsService}
       ]
     })
     .compileComponents();

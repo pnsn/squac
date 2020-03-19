@@ -3,20 +3,20 @@ import { Dashboard } from './dashboard';
 
 export class MockDashboardsService {
 
-  testDashboard : Dashboard = new Dashboard(
+  testDashboard: Dashboard = new Dashboard(
     1,
-    "name",
-    "description",
+    'name',
+    'description',
     []
-  )
+  );
   getDashboards = new BehaviorSubject <Dashboard[]>([]);
 
   fetchDashboards() {
     this.getDashboards.next([this.testDashboard]);
   }
 
-  getDashboard(id : number): Observable<Dashboard> {
-    if( id === this.testDashboard.id) {
+  getDashboard(id: number): Observable<Dashboard> {
+    if ( id === this.testDashboard.id) {
       return of(this.testDashboard);
     } else {
       return throwError('not found');

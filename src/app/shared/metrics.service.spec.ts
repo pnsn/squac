@@ -30,12 +30,12 @@ describe('MetricsService', () => {
       }]
     });
 
-    metricsService = TestBed.get(MetricsService);
-    squacApiService = TestBed.get(SquacApiService);
+    metricsService = TestBed.inject(MetricsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: MetricsService = TestBed.get(MetricsService);
+    const service: MetricsService = TestBed.inject(MetricsService);
 
     expect(service).toBeTruthy();
   });

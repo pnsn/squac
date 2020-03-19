@@ -29,7 +29,7 @@ export class MetricsDetailComponent implements OnInit, OnDestroy  {
           });
       },
       error => {
-        console.log("error in metric detail" + error);
+        console.log('error in metric detail' + error);
       }
     );
     this.subscription.add(sub);

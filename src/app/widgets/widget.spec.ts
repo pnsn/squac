@@ -6,8 +6,8 @@ describe('Widget', () => {
   });
 
   it('should return empty array no metrics', () => {
-    const widget = new Widget(1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, [])
-    
+    const widget = new Widget(1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
+
     expect(widget.metricsIds).toEqual([]);
-  })
+  });
 });

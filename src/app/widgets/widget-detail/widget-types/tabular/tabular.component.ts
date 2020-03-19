@@ -65,7 +65,7 @@ export class TabularComponent implements OnInit, OnDestroy {
           this.buildRows(response);
         }
       }, error => {
-        console.log("error in tabular data: " + error);
+        console.log('error in tabular data: ' + error);
       }
     );
 
@@ -77,7 +77,7 @@ export class TabularComponent implements OnInit, OnDestroy {
           this.resize();
         }
       }, error => {
-        console.log("error in tabular resize: " + error);
+        console.log('error in tabular resize: ' + error);
       }
     );
 

@@ -6,10 +6,10 @@ import { Widget } from './widget';
 export class MockWidgetsService {
   widgetUpdated = new EventEmitter<number>();
 
-  testWidget : Widget = new Widget(
+  testWidget: Widget = new Widget(
     1,
     'name',
-    "description",
+    'description',
     1,
     1,
     1,
@@ -21,7 +21,7 @@ export class MockWidgetsService {
   );
 
   getWidgetsByDashboardId(id: number): Observable<Widget[]> {
-    if( id === this.testWidget.id) {
+    if ( id === this.testWidget.id) {
       return of([this.testWidget]);
     } else {
       return of([]);
@@ -29,7 +29,7 @@ export class MockWidgetsService {
   }
 
   getWidget(id: number): Observable<Widget> {
-    if( id === this.testWidget.id) {
+    if ( id === this.testWidget.id) {
       return of(this.testWidget);
     } else {
       return throwError('not found');
@@ -37,7 +37,7 @@ export class MockWidgetsService {
   }
 
 
-  updateWidget(widget: Widget) : Observable<any>{
+  updateWidget(widget: Widget): Observable<any> {
     return of(this.testWidget);
   }
 

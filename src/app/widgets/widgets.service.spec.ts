@@ -33,12 +33,12 @@ describe('WidgetsService', () => {
       }]
     });
 
-    widgetsService = TestBed.get(WidgetsService);
-    squacApiService = TestBed.get(SquacApiService);
+    widgetsService = TestBed.inject(WidgetsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: WidgetsService = TestBed.get(WidgetsService);
+    const service: WidgetsService = TestBed.inject(WidgetsService);
     expect(service).toBeTruthy();
   });
 

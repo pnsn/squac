@@ -40,12 +40,12 @@ describe('DashboardsService', () => {
       ]
     });
 
-    dashboardsService = TestBed.get(DashboardsService);
-    squacApiService = TestBed.get(SquacApiService);
+    dashboardsService = TestBed.inject(DashboardsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: DashboardsService = TestBed.get(DashboardsService);
+    const service: DashboardsService = TestBed.inject(DashboardsService);
 
     expect(service).toBeTruthy();
   });
@@ -69,7 +69,7 @@ describe('DashboardsService', () => {
 
   it('should get dashboard with id', (done: DoneFn) => {
     dashboardsService.getDashboard(1).subscribe(dashboard => {
-      console.log(dashboard.id)
+      console.log(dashboard.id);
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });

@@ -10,17 +10,17 @@ export class MockNetworksService {
 
   testNetwork = new Network(
     1,
-    "code",
-    "name",
-    "description"
+    'code',
+    'name',
+    'description'
   );
 
   fetchNetworks() {
     this.networks.next([this.testNetwork]);
   }
 
-  getNetwork(id: number) : Observable<Network>{
-    if( id === this.testNetwork.id) {
+  getNetwork(id: number): Observable<Network> {
+    if ( id === this.testNetwork.id) {
       return of(this.testNetwork);
     } else {
       return throwError('not found');

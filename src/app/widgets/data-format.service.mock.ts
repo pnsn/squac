@@ -4,8 +4,8 @@ import { Measurement } from './measurement';
 
 
 export class MockDataFormatService {
-  
-  testMeasurement : Measurement = new Measurement(
+
+  testMeasurement: Measurement = new Measurement(
     1,
     1,
     1,
@@ -17,9 +17,9 @@ export class MockDataFormatService {
 
   fetchData(widget: Widget) {
     this.formattedData.next(
-      { "1" : 
+      { 1 :
         {
-          "1" : [this.testMeasurement]
+          1 : [this.testMeasurement]
         }
       }
     );

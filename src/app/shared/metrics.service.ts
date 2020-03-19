@@ -63,7 +63,7 @@ export class MetricsService {
         this.updateMetrics(result);
       },
       error => {
-        console.log("error in metrics service: " + error);
+        console.log('error in metrics service: ' + error);
       }
     );
   }

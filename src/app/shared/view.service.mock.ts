@@ -13,19 +13,19 @@ export class MockViewService {
   private testStartdate: Date = new Date();
   private testEnddate: Date = new Date();
   private widgets: Widget[] = [];
-  
-  
-  testDashboard : Dashboard = new Dashboard(
+
+
+  testDashboard: Dashboard = new Dashboard(
     1,
-    "name",
-    "description",
+    'name',
+    'description',
     []
   );
 
-  testWidget : Widget = new Widget(
+  testWidget: Widget = new Widget(
     1,
     'name',
-    "description",
+    'description',
     1,
     1,
     1,

@@ -34,9 +34,9 @@ describe(`AuthInterceptor`, () => {
     });
 
     // Inject the http service and test controller for each test
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(AuthService);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(AuthService);
   });
 
   afterEach(() => {

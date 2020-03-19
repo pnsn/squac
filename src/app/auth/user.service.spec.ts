@@ -20,7 +20,7 @@ describe('UserService', () => {
       ]
     });
     this.httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    this.userService = TestBed.get(UserService);
+    this.userService = TestBed.inject(UserService);
     // authService = new AuthService(httpClientSpy as any, router);
   });
 });

@@ -15,7 +15,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private squacApi : SquacApiService
+    private squacApi: SquacApiService
   ) { }
 
   getUser() {
@@ -25,22 +25,22 @@ export class UserService {
         this.user.next(new User(
           response.email,
           response.password,
-          response.firstname, 
+          response.firstname,
           response.lastname,
-          response.is_staff, 
-          response.organization, 
+          response.is_staff,
+          response.organization,
           response.groups
         ));
       },
       error => {
-        console.log("error in user service: " + error)
+        console.log('error in user service: ' + error);
       }
     );
   }
 
-  //User needs to enter password to make changes
+  // User needs to enter password to make changes
   updateUser(user) {
-    //other user ifo
+    // other user ifo
     return this.squacApi.put(this.url, null, user);
   }
 }

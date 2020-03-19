@@ -13,7 +13,7 @@ import { MockAuthService } from './auth.service.mock';
 describe('AuthComponent', () => {
   let component: AuthComponent;
   let fixture: ComponentFixture<AuthComponent>;
-  let authService : AuthService;
+  let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,7 +34,7 @@ describe('AuthComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
+    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
 
   });
@@ -43,13 +43,13 @@ describe('AuthComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should submit user info if the form is valid', ()=>{
+  it('should submit user info if the form is valid', () => {
     // const authSpy = spyOn(authService, "login");
     expect(component.authForm).toBeDefined();
 
     component.authForm.patchValue({
-      email: "mail@mail.com",
-      password: "password"
+      email: 'mail@mail.com',
+      password: 'password'
     });
 
     expect(component.authForm.valid).toBeTruthy();
@@ -59,8 +59,8 @@ describe('AuthComponent', () => {
     expect(component.isLoading).toBe(false);
   });
 
-  it('should not submit if the form is not valid', ()=>{
-    const authSpy = spyOn(authService, "login");
+  it('should not submit if the form is not valid', () => {
+    const authSpy = spyOn(authService, 'login');
     expect(component.authForm).toBeDefined();
     expect(component.authForm.valid).toBeFalsy();
 

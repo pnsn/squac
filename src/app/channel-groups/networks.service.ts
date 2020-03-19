@@ -54,7 +54,7 @@ export class NetworksService {
         this.setNetworks(networks);
       },
       error => {
-        console.log("error in networks service: " + error);
+        console.log('error in networks service: ' + error);
       }
     );
   }

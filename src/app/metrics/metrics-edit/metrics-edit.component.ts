@@ -29,14 +29,14 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.editMode = !!params.id;
 
-        if(this.editMode) {
+        if (this.editMode) {
           this.id = +params.id;
         }
 
         this.initForm();
       },
       error => {
-        console.log("error in metrics edit: " + error);
+        console.log('error in metrics edit: ' + error);
       }
     );
 
@@ -72,7 +72,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
           });
         },
         error => {
-          console.log("error in metrics edit: " + error);
+          console.log('error in metrics edit: ' + error);
         }
       );
     }
@@ -93,8 +93,8 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       result => {
         this.cancel(result.id);
       },
-      error => { 
-        console.log("error in metrics edit updat: " + error);
+      error => {
+        console.log('error in metrics edit updat: ' + error);
       }
     );
   }

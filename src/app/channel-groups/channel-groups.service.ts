@@ -56,7 +56,7 @@ export class ChannelGroupsService {
         this.updateChannelGroups(result);
       },
       error => {
-        console.log("error in channel groups: " + error);
+        console.log('error in channel groups: ' + error);
       }
     );
   }

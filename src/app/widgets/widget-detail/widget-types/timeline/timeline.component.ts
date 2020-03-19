@@ -73,7 +73,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
           this.buildRows(response);
         }
       }, error => {
-        console.log("error in timeline data: " + error);
+        console.log('error in timeline data: ' + error);
       }
     );
 
@@ -86,9 +86,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
           this.resize();
         }
       }, error => {
-        console.log("error in timeline resize: " + error);
+        console.log('error in timeline resize: ' + error);
       }
-      
+
     );
 
     this.subscription.add(resizeSub);

@@ -7,7 +7,7 @@ export class MockSquacApiService {
 
 
   constructor(
-    private testData?: any  
+    private testData?: any
   ) {
   }
 

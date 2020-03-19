@@ -28,12 +28,12 @@ describe('ChannelGroupsService', () => {
       }]
     });
 
-    channelGroupsService = TestBed.get(ChannelGroupsService);
-    squacApiService = TestBed.get(SquacApiService);
+    channelGroupsService = TestBed.inject(ChannelGroupsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: ChannelGroupsService = TestBed.get(ChannelGroupsService);
+    const service: ChannelGroupsService = TestBed.inject(ChannelGroupsService);
 
     expect(service).toBeTruthy();
   });

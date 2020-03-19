@@ -11,8 +11,8 @@ import { User } from '../auth/user';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
- 
-  user : User;
+
+  user: User;
 
   constructor(
     private userService: UserService,
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = user;
       },
       error => {
-        console.log("error in header: " + error);
+        console.log('error in header: ' + error);
       }
     );
   }

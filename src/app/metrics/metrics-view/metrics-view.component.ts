@@ -33,7 +33,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
         this.metrics = metrics;
       },
       error => {
-        console.log("error in metrics view:" + error);
+        console.log('error in metrics view:' + error);
       }
     );
   }
@@ -56,7 +56,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
         this.selectedMetric = metric;
       },
       error => {
-        console.log("error in metrics view: " + error);
+        console.log('error in metrics view: ' + error);
       }
     );
   }

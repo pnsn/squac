@@ -93,7 +93,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       valid => {
         this.isValid = valid;
       }, error => {
-        console.log("error in widget edit valid: " + error);
+        console.log('error in widget edit valid: ' + error);
       }
     );
 
@@ -180,14 +180,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
                 }
 
               }, error => {
-                console.log("error in widget edit threshold: " + error);
+                console.log('error in widget edit threshold: ' + error);
               }
             );
           } else {
             this.cancel(widget);
           }
       }, error => {
-        console.log("error in widget edit update: " + error);
+        console.log('error in widget edit update: ' + error);
       }
     );
   }

@@ -17,7 +17,7 @@ describe('ViewService', () => {
 
   });
   it('should be created', () => {
-    const service: ViewService = TestBed.get(ViewService);
+    const service: ViewService = TestBed.inject(ViewService);
     expect(service).toBeTruthy();
   });
 });

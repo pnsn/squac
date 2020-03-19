@@ -15,17 +15,17 @@ export class MockChannelsService {
     1,
     -1,
     1,
-    "location",
+    'location',
     'staCode',
     'netCode'
   );
-  
-  getChannelsByFilters(filters: Params): Observable<Channel[]>{
+
+  getChannelsByFilters(filters: Params): Observable<Channel[]> {
     return of([this.testChannel]);
   }
 
-  getChannel(id : number): Observable<Channel> {
-    if( id === this.testChannel.id) {
+  getChannel(id: number): Observable<Channel> {
+    if ( id === this.testChannel.id) {
       return of(this.testChannel);
     } else {
       return throwError('not found');

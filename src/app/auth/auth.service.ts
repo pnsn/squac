@@ -43,7 +43,7 @@ export class AuthService {
       return;
     } else {
       const expirationDuration = new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
-      
+
       this.signInUser(authData.token, expirationDuration);
     }
   }
@@ -52,7 +52,7 @@ export class AuthService {
   login(userEmail: string, userPassword: string) {
     return this.squacApi.post(this.url,
       {
-        email : userEmail, 
+        email : userEmail,
         password : userPassword
       }
     ).pipe(
@@ -111,7 +111,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
     const authData = {
-      token: token,
+      token,
       tokenExpirationDate: expirationDate
     };
 

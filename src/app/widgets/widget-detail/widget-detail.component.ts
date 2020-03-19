@@ -42,7 +42,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
         this.dataFormatService.fetchData(this.widget);
       },
       error => {
-        console.log("error in widget detail dates: " + error);
+        console.log('error in widget detail dates: ' + error);
       }
     );
     this.subscription.add(datesSub);
@@ -68,7 +68,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
           console.log('widget edited and something went wrong');
         }
       }, error => {
-        console.log("error in widget detail: " + error);
+        console.log('error in widget detail: ' + error);
       }
     );
   }

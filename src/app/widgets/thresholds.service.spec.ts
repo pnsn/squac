@@ -26,12 +26,12 @@ describe('ThresholdsService', () => {
       }]
     });
 
-    thresholdsService = TestBed.get(ThresholdsService);
-    squacApiService = TestBed.get(SquacApiService);
+    thresholdsService = TestBed.inject(ThresholdsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: ThresholdsService = TestBed.get(ThresholdsService);
+    const service: ThresholdsService = TestBed.inject(ThresholdsService);
     expect(service).toBeTruthy();
   });
 });

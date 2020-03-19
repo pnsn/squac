@@ -13,7 +13,7 @@ describe('DataFormatService', () => {
     });
   });
   it('should be created', () => {
-    const service: DataFormatService = TestBed.get(DataFormatService);
+    const service: DataFormatService = TestBed.inject(DataFormatService);
     expect(service).toBeTruthy();
   });
 });

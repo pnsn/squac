@@ -33,12 +33,12 @@ describe('ChannelsService', () => {
       }]
     });
 
-    channelsService = TestBed.get(ChannelsService);
-    squacApiService = TestBed.get(SquacApiService);
+    channelsService = TestBed.inject(ChannelsService);
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
-    const service: ChannelsService = TestBed.get(ChannelsService);
+    const service: ChannelsService = TestBed.inject(ChannelsService);
 
     expect(service).toBeTruthy();
   });
@@ -62,5 +62,5 @@ describe('ChannelsService', () => {
       expect(channels.length).toEqual(1);
       done();
     });
-  })
+  });
 });

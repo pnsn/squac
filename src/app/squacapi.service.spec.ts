@@ -10,7 +10,7 @@ describe('SquacApiService', () => {
   let httpTestingController: HttpTestingController;
   let service: SquacApiService;
   const testUrl = 'data/';
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -20,10 +20,10 @@ describe('SquacApiService', () => {
     });
 
     // Inject the http service and test controller for each test
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
 
-    service = TestBed.get(SquacApiService);
+    service = TestBed.inject(SquacApiService);
   });
 
   afterEach(() => {

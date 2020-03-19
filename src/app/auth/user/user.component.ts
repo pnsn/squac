@@ -9,11 +9,11 @@ import { User } from '../user';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  user : User;
+  user: User;
 
   subscription: Subscription = new Subscription();
   constructor(
-    private userService : UserService
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -22,11 +22,11 @@ export class UserComponent implements OnInit, OnDestroy {
         this.user = user;
       },
       error => {
-        console.log("error in user component: " + error);
+        console.log('error in user component: ' + error);
       }
     );
 
-    this.subscription.add(userSub)
+    this.subscription.add(userSub);
   }
 
 

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 export class MockThresholdsService {
 
-  testThreshold : Threshold = new Threshold(
+  testThreshold: Threshold = new Threshold(
     1,
     1,
     1,

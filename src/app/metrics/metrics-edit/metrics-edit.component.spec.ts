@@ -32,7 +32,7 @@ describe('MetricsEditComponent', () => {
   });
 
   it('should create', () => {
-    console.log(component.id, component.editMode)
+    console.log(component.id, component.editMode);
     expect(component).toBeTruthy();
   });
 });

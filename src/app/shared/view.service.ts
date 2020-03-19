@@ -71,7 +71,7 @@ export class ViewService {
         this.getWidgets(dashboard.id);
       },
       error => {
-        console.log("error in view service getDashboard: " + error);
+        console.log('error in view service getDashboard: ' + error);
       }
     );
   }
@@ -90,7 +90,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log("error in view service getWidgets: " + error);
+        console.log('error in view service getWidgets: ' + error);
       }
     );
   }
@@ -105,7 +105,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log("error in view service updateWidget: " + error);
+        console.log('error in view service updateWidget: ' + error);
       }
     );
   }
@@ -118,7 +118,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log("Error in view service add widget: " + error);
+        console.log('Error in view service add widget: ' + error);
       }
     );
   }
@@ -128,7 +128,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       error => {
-        console.log("error in view service deleteWidget: " + error);
+        console.log('error in view service deleteWidget: ' + error);
       }
     );
     this.widgets.splice(index, 1);
@@ -144,7 +144,7 @@ export class ViewService {
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       error => {
-        console.log("error in view service save Dashboard: "+ error);
+        console.log('error in view service save Dashboard: ' + error);
       }
     );
   }
