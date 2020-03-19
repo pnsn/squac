@@ -21,9 +21,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.userSub = this.userService.user.subscribe(user => {
-      this.user = user;
-    });
+    this.userSub = this.userService.user.subscribe(
+      user => {
+        this.user = user;
+      },
+      error => {
+        console.log("error in header: " + error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

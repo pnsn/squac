@@ -72,6 +72,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildRows(response);
         }
+      }, error => {
+        console.log("error in timeline data: " + error);
       }
     );
 
@@ -83,7 +85,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
         if (widgetId === this.widget.id) {
           this.resize();
         }
+      }, error => {
+        console.log("error in timeline resize: " + error);
       }
+      
     );
 
     this.subscription.add(resizeSub);

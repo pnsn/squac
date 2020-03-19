@@ -34,6 +34,9 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         }
 
         this.initForm();
+      },
+      error => {
+        console.log("error in metrics edit: " + error);
       }
     );
 
@@ -67,6 +70,9 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
             minVal : metric.minVal,
             maxVal : metric.maxVal
           });
+        },
+        error => {
+          console.log("error in metrics edit: " + error);
         }
       );
     }
@@ -86,6 +92,9 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     ).subscribe(
       result => {
         this.cancel(result.id);
+      },
+      error => { 
+        console.log("error in metrics edit updat: " + error);
       }
     );
   }

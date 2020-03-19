@@ -15,19 +15,23 @@ export class AppComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
   subscription = new Subscription();
   constructor(
-    private authService: AuthService, 
-    private userService: UserService) {
+    private authService: AuthService
+  ) {}
 
-  }
 
-  // Check if logged in
   ngOnInit() {
-    const authSub = this.authService.auth.subscribe(auth => {
-      this.loggedIn = !!auth;
-    });
+    //Listen to log in
+    const authSub = this.authService.auth.subscribe(
+      auth => {
+        this.loggedIn == !!auth;
+      },
+      err => {
+        console.log("error in auth component: " + err);
+      }
+    );
 
+    // start autologin process
     this.authService.autologin();
-
     this.subscription.add(authSub);
   }
 

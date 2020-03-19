@@ -52,6 +52,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildChartData(response);
         }
+      }, error => {
+        console.log("error in timeseries data: " + error);
       }
     );
 
@@ -61,6 +63,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         if (widgetId === this.widget.id) {
           this.resize();
         }
+      }, error => {
+        console.log("error in timeseries resize: " + error);
       }
     );
 

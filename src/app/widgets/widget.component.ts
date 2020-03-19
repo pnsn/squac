@@ -49,7 +49,11 @@ itemChange(item) {
   item.widget.x = item.x;
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
-    this.widgetService.updateWidget(item.widget).subscribe();
+    this.widgetService.updateWidget(item.widget).subscribe(
+      error => {
+        console.log("error in widget update: " + error);
+      }
+    );
     this.viewService.resizeWidget(item.widget.id);
   }
 }
@@ -69,6 +73,9 @@ itemChange(item) {
         });
 
         // this.options.api.resize();
+      }, 
+      error => {
+        console.log(" error in widget: " + error);
       }
     );
 

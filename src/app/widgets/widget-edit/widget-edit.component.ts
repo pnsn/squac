@@ -92,6 +92,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     const sub = this.widgetEditService.isValid.subscribe(
       valid => {
         this.isValid = valid;
+      }, error => {
+        console.log("error in widget edit valid: " + error);
       }
     );
 
@@ -177,11 +179,15 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
                   this.cancel(widget);
                 }
 
+              }, error => {
+                console.log("error in widget edit threshold: " + error);
               }
             );
           } else {
             this.cancel(widget);
           }
+      }, error => {
+        console.log("error in widget edit update: " + error);
       }
     );
   }

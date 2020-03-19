@@ -30,42 +30,46 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const sub = this.widgetEditService.metrics.subscribe(metrics => {
-      this.metrics = metrics;
-      this.thresholds = this.widgetEditService.getThresholds();
+    const sub = this.widgetEditService.metrics.subscribe(
+      metrics => {
+        this.metrics = metrics;
+        this.thresholds = this.widgetEditService.getThresholds();
 
-      if (!this.thresholds) {
-        this.thresholds = {};
-      }
+        if (!this.thresholds) {
+          this.thresholds = {};
+        }
 
-      this.rows = [];
+        this.rows = [];
 
-      if (this.metrics && this.metrics.length > 0) {
-        const newRows = [];
-        this.metrics.forEach(
-          (metric) => {
-            if (this.thresholds[metric.id]) {
-              newRows.push({
-                id : +this.thresholds[metric.id].id,
-                metric,
-                min: +this.thresholds[metric.id].min,
-                max: +this.thresholds[metric.id].max
-              });
-            } else {
-              console.log('row', metric);
-              newRows.push({
-                id : null,
-                metric,
-                min: null,
-                max: null
-              });
+        if (this.metrics && this.metrics.length > 0) {
+          const newRows = [];
+          this.metrics.forEach(
+            (metric) => {
+              if (this.thresholds[metric.id]) {
+                newRows.push({
+                  id : +this.thresholds[metric.id].id,
+                  metric,
+                  min: +this.thresholds[metric.id].min,
+                  max: +this.thresholds[metric.id].max
+                });
+              } else {
+                console.log('row', metric);
+                newRows.push({
+                  id : null,
+                  metric,
+                  min: null,
+                  max: null
+                });
+              }
+
             }
-
-          }
-        );
-        this.rows = [...newRows];
+          );
+          this.rows = [...newRows];
+        }
+      }, error => {
+        console.log("error in threshold edit: " + error);
       }
-    });
+    );
     this.subscriptions.add(sub);
   }
 

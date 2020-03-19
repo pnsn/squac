@@ -51,9 +51,14 @@ export class ChannelGroupsService {
         }
       )
     )
-    .subscribe(result => {
-      this.updateChannelGroups(result);
-    });
+    .subscribe(
+      result => {
+        this.updateChannelGroups(result);
+      },
+      error => {
+        console.log("error in channel groups: " + error);
+      }
+    );
   }
 
   // Gets a specific channel group from server

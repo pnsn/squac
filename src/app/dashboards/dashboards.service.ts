@@ -54,9 +54,14 @@ export class DashboardsService {
         }
       )
     )
-    .subscribe(dashboard => {
-      this.updateDashboards(dashboard);
-    });
+    .subscribe(
+      dashboard => {
+        this.updateDashboards(dashboard);
+      },
+      error => {
+        console.log("error in dashboards: " + error)
+      }
+    );
   }
 
   // Gets dashboard by id from SQUAC

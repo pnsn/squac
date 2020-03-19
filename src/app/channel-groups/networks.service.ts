@@ -49,9 +49,14 @@ export class NetworksService {
         }
       )
     )
-    .subscribe(networks => {
-      this.setNetworks(networks);
-    });
+    .subscribe(
+      networks => {
+        this.setNetworks(networks);
+      },
+      error => {
+        console.log("error in networks service: " + error);
+      }
+    );
   }
 
 

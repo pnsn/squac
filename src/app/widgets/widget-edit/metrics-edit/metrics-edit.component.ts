@@ -38,20 +38,24 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading = true;
-    const sub1 = this.metricsService.getMetrics.subscribe(metrics => {
-      this.availableMetrics = metrics;
-      this.tableRows = this.availableMetrics;
+    const sub1 = this.metricsService.getMetrics.subscribe(
+      metrics => {
+        this.availableMetrics = metrics;
+        this.tableRows = this.availableMetrics;
 
-      const metricIds = this.widgetEditService.getMetricIds();
-      if (metricIds.length > 0) {
-        this.selectedMetrics = this.availableMetrics.filter(
-          metric => {
-            return metricIds.indexOf(metric.id) >= 0;
-          }
-        );
+        const metricIds = this.widgetEditService.getMetricIds();
+        if (metricIds.length > 0) {
+          this.selectedMetrics = this.availableMetrics.filter(
+            metric => {
+              return metricIds.indexOf(metric.id) >= 0;
+            }
+          );
+        }
+        this.loading = false;
+      }, error => {
+        console.log("error in metrics edit get metrics: " + error);
       }
-      this.loading = false;
-    });
+    );
 
 
     this.subscriptions.add(sub1);

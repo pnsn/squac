@@ -23,10 +23,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.channelGroupsService.fetchChannelGroups();
-    const sub2 = this.channelGroupsService.getChannelGroups.subscribe(channelGroups => {
-      this.availableChannelGroups = channelGroups;
-      this.loading = false;
-    });
+    const sub2 = this.channelGroupsService.getChannelGroups.subscribe(
+      channelGroups => {
+        this.availableChannelGroups = channelGroups;
+        this.loading = false;
+      }, error => {
+        console.log("error in channelGroups edit: " + error);
+      }
+    );
 
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
 
@@ -47,6 +51,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         channelGroup => {
           this.selectedChannelGroup = channelGroup;
           this.loading = false;
+        }, error => {
+          console.log("error in channel grouups edit update: " + error);
         }
       );
 

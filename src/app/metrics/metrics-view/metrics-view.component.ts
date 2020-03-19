@@ -31,6 +31,9 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
     this.subscription = this.metricsService.getMetrics.subscribe(
       (metrics: Metric[]) => {
         this.metrics = metrics;
+      },
+      error => {
+        console.log("error in metrics view:" + error);
       }
     );
   }
@@ -48,9 +51,14 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
 
   onSelect($event) {
     this.selected = true;
-    this.metricsService.getMetric($event.selected[0].id).subscribe(metric => {
-      this.selectedMetric = metric;
-    });
+    this.metricsService.getMetric($event.selected[0].id).subscribe(
+      metric => {
+        this.selectedMetric = metric;
+      },
+      error => {
+        console.log("error in metrics view: " + error);
+      }
+    );
   }
 }
 

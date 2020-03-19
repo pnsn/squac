@@ -51,7 +51,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
-      dashboard => {this.dashboard = dashboard; }
+      dashboard => {
+        this.dashboard = dashboard;
+      },
+      error => {
+        console.log("error in dashboard detail: " + error);
+      }
     );
 
     const dashIdSub = this.route.params.subscribe(
@@ -59,12 +64,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.id = +params.id;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
         console.log('new dashboard');
+      },
+      error => {
+        console.log("error in dashboard detail route: "+ error);
       }
     );
 
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
+      },
+      error => {
+        console.log("error in dasbhboard detail status" + error);
       }
     );
 
@@ -110,16 +121,19 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         dashboardId: this.dashboard.id
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-
-      if (result && result.id) {
-        console.log('Dialog closed and widget saved');
-        this.viewService.addWidget(result.id);
-      } else {
-        console.log('Dialog closed and not saved');
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result && result.id) {
+          console.log('Dialog closed and widget saved');
+          this.viewService.addWidget(result.id);
+        } else {
+          console.log('Dialog closed and not saved');
+        }
+      },
+      error => {
+        console.log("error during close of widget" + error);
       }
-      // this.animal = result;
-    });
+    );
 
   }
 

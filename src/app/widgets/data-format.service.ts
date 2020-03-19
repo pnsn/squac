@@ -24,9 +24,14 @@ export class DataFormatService {
       widget,
       this.viewService.getStartdate(),
       this.viewService.getEnddate()
-    ).subscribe(response => {
-      this.rawData = response;
-      this.formattedData.next(this.rawData);
-    });
+    ).subscribe(
+      response => {
+        this.rawData = response;
+        this.formattedData.next(this.rawData);
+      },
+      error => {
+        console.log("error in dataformat service: " + error);
+      }
+    );
   }
 }

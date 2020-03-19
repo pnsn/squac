@@ -30,6 +30,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         this.editMode = !!this.id;
 
         this.initForm();
+      },
+      error => {
+        console.log("error getting params: " + error);
       }
     );
 
@@ -56,6 +59,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
               description : dashboard.description
             }
           );
+        },
+        error => {
+          console.log("error in dashboard edit: " + error);
         }
       );
       this.subscriptions.add(dashboardSub);
@@ -74,6 +80,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     ).subscribe(
       result => {
         this.cancel(result.id);
+      },
+      error => {
+        console.log("error in save dashboard: " + error);
       }
     );
     this.cancel();

@@ -31,6 +31,9 @@ export class UserService {
           response.organization, 
           response.groups
         ));
+      },
+      error => {
+        console.log("error in user service: " + error)
       }
     );
   }

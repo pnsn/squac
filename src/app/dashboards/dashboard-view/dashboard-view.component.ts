@@ -25,6 +25,9 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
         this.activeDashboardId = +params.id;
+      },
+      error => {
+        console.log("error in dashboard view " + error);
       }
     );
     const dashboardsService = this.dashboardsService.getDashboards.subscribe(
@@ -35,6 +38,9 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         //   this.router.navigate([dashboards[0].id], {relativeTo: this.route});
         // }
 
+      },
+      error => {
+        console.log("error in dashboard view get:  + " + error);
       }
     );
 

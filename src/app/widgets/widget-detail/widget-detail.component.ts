@@ -40,6 +40,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       dates => {
         console.log('new dates');
         this.dataFormatService.fetchData(this.widget);
+      },
+      error => {
+        console.log("error in widget detail dates: " + error);
       }
     );
     this.subscription.add(datesSub);
@@ -57,13 +60,17 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
         dashboardId: this.widget.dashboardId
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.id) {
-        this.viewService.updateWidget(result.id);
-      } else {
-        console.log('widget edited and something went wrong');
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result && result.id) {
+          this.viewService.updateWidget(result.id);
+        } else {
+          console.log('widget edited and something went wrong');
+        }
+      }, error => {
+        console.log("error in widget detail: " + error);
       }
-    });
+    );
   }
 
   deleteWidget() {

@@ -20,6 +20,9 @@ export class UserComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.subscribe(
       user => {
         this.user = user;
+      },
+      error => {
+        console.log("error in user component: " + error);
       }
     );
 

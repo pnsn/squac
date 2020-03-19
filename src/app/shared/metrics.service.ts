@@ -58,9 +58,14 @@ export class MetricsService {
         }
       )
     )
-    .subscribe(result => {
-      this.updateMetrics(result);
-    });
+    .subscribe(
+      result => {
+        this.updateMetrics(result);
+      },
+      error => {
+        console.log("error in metrics service: " + error);
+      }
+    );
   }
 
 

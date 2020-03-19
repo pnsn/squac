@@ -32,14 +32,19 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.selected = [];
     this.selectedChannels = [];
-    const channelGroupsService = this.channelGroupsService.getChannelGroups.subscribe( channelGroups => {
-      this.channelGroups = channelGroups;
-      const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
-      this.isSelected = selectedChannelGroupId !== 0;
-      if (this.isSelected) {
-        this.selectChannelGroup(selectedChannelGroupId);
+    const channelGroupsService = this.channelGroupsService.getChannelGroups.subscribe(
+      channelGroups => {
+        this.channelGroups = channelGroups;
+        const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
+        this.isSelected = selectedChannelGroupId !== 0;
+        if (this.isSelected) {
+          this.selectChannelGroup(selectedChannelGroupId);
+        }
+      },
+      error => {
+        console.log("error in channel groups: " + error);
       }
-    });
+    );
     this.channelGroupsService.fetchChannelGroups();
     this.subscription.add(channelGroupsService);
   }
@@ -62,13 +67,18 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
 
   // Getting a selected channel group and setting variables
   selectChannelGroup(selectedChannelGroupId: number) {
-    this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe( channelGroup => {
-      this.selectedChannelGroup = channelGroup;
-      this.selectedChannels = this.selectedChannelGroup.channels;
-      this.selected = this.channelGroups.filter( cg => { // Select row with channel group
-        return (cg.id === this.selectedChannelGroup.id);
-      });
-    });
+    this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
+      channelGroup => {
+        this.selectedChannelGroup = channelGroup;
+        this.selectedChannels = this.selectedChannelGroup.channels;
+        this.selected = this.channelGroups.filter( cg => { // Select row with channel group
+          return (cg.id === this.selectedChannelGroup.id);
+        });
+      },
+      error => {
+        console.log("error in channel groups: " + error);
+      }
+    );
   }
 
   // onSelect function for data table selection
