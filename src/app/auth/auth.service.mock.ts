@@ -3,7 +3,7 @@ import { User } from './user';
 
 export class MockAuthService {
   constructor() {}
-  auth = new BehaviorSubject<User>(null);
+  auth = new BehaviorSubject<string>(null);
 
   testAuth = '2352fsdf';
 
