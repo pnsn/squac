@@ -19,8 +19,13 @@ describe('UserService', () => {
         { provide: SquacApiService, useValue: mockSquacApiService }
       ]
     });
-    this.httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    this.userService = TestBed.inject(UserService);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    userService = TestBed.inject(UserService);
     // authService = new AuthService(httpClientSpy as any, router);
   });
+
+  it('should create the app', () => {
+    expect(userService).toBeTruthy();
+  });
+
 });
