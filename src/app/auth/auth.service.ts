@@ -122,6 +122,6 @@ export class AuthService {
   private signInUser(token, expiration) {
     this.autologout(expiration);
     this.auth.next(token);
-    this.userService.getUser();
+    this.userService.fetchUser();
   }
 }

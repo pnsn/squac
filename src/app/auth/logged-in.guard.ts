@@ -22,11 +22,7 @@ export class LoggedInGuard implements CanActivate {
     return this.authService.auth.pipe(
       take(1),
       map( auth => {
-        const isAuth = !!auth;
-        if (!isAuth) {
-          return true;
-        }
-        return this.router.createUrlTree(['/']);
+        return !auth ? true : this.router.createUrlTree(['/']);
       })
     );
   }

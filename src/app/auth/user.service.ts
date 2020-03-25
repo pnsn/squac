@@ -13,6 +13,7 @@ import { defineAbilitiesFor } from 'src/app/ability';
 })
 export class UserService {
   private url = '/user/me';
+  private currentUser;
   user = new BehaviorSubject<User>(null);
 
   constructor(
@@ -21,11 +22,15 @@ export class UserService {
     private ability: Ability
   ) { }
 
-  getUser() {
+  getUser() : User {
+    return this.currentUser;
+  }
+
+  fetchUser() {
     this.squacApi.get(this.url).subscribe(
       response => {
         console.log(response);
-        const user = new User(
+        this.currentUser = new User(
           response.email,
           response.password,
           response.firstname,
@@ -35,8 +40,8 @@ export class UserService {
           response.groups
         );
         
-        this.ability.update(defineAbilitiesFor(user));
-        this.user.next(user);
+        this.ability.update(defineAbilitiesFor(this.currentUser));
+        this.user.next(this.currentUser);
       },
 
       error => {
