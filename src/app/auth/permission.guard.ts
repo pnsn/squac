@@ -12,7 +12,7 @@ export class PermissionGuard implements CanActivate {
     private userService: UserService) {
   }
   // Returns true if there is a user and allows user to navigate
-  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): boolean | UrlTree {
     const user = this.userService.getUser();
 
     console.log(user)
