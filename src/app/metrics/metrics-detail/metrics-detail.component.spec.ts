@@ -6,6 +6,8 @@ import { MetricsService } from 'src/app/shared/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from 'src/app/shared/metric';
 import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('MetricsDetailComponent', () => {
   let component: MetricsDetailComponent;
@@ -13,10 +15,14 @@ describe('MetricsDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule,
+        AbilityModule
+      ],
       declarations: [ MetricsDetailComponent ],
       providers: [
-        { provide: MetricsService, useClass: MockMetricsService }
+        { provide: MetricsService, useClass: MockMetricsService },
+        {provide: Ability, useValue: new Ability()}
       ]
     })
     .compileComponents();

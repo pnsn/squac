@@ -4,6 +4,8 @@ import { UserComponent } from './user.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserService } from '../user.service';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -12,9 +14,10 @@ describe('UserComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserComponent ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, AbilityModule],
       providers: [
-        UserService
+        UserService,
+        {provide: Ability, useValue: new Ability()}
       ]
     })
     .compileComponents();

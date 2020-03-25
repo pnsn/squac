@@ -8,6 +8,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('DashboardViewComponent', () => {
   let component: DashboardViewComponent;
@@ -18,7 +20,8 @@ describe('DashboardViewComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
-        MaterialModule
+        MaterialModule,
+        AbilityModule
       ],
       declarations: [
         DashboardViewComponent,
@@ -31,7 +34,9 @@ describe('DashboardViewComponent', () => {
           useValue: {
             params: of({id: 123})
           }
-        }]
+        },
+        {provide: Ability, useValue: new Ability()}
+      ]
     })
     .compileComponents();
   }));

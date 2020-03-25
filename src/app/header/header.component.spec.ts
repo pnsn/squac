@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SquacApiService } from '../squacapi.service';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Ability } from '@casl/ability';
+import { AbilityModule } from '@casl/angular';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -14,9 +16,15 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HeaderComponent ],
-      imports: [HttpClientTestingModule, RouterTestingModule, MatToolbarModule],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule, 
+        MatToolbarModule,
+        AbilityModule
+      ],
       providers: [
-        { provide: SquacApiService, useValue: MockSquacApiService }
+        { provide: SquacApiService, useValue: MockSquacApiService },
+        {provide: Ability, useValue: new Ability()}
       ]
     })
     .compileComponents();

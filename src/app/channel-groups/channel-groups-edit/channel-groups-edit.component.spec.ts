@@ -17,6 +17,8 @@ import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-gr
 import { MapComponent } from '../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -26,6 +28,7 @@ describe('ChannelGroupsEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
+        AbilityModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         NgxDatatableModule,
@@ -49,7 +52,9 @@ describe('ChannelGroupsEditComponent', () => {
           useValue: {
             params: of({id: 123})
           }
-        }]
+        },
+        {provide: Ability, useValue: new Ability()}
+      ]
     })
     .compileComponents();
   }));

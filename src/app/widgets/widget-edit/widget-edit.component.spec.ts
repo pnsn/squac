@@ -14,6 +14,8 @@ import { ThresholdEditComponent } from './threshold-edit/threshold-edit.componen
 import { MetricsEditComponent } from './metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './channel-groups-edit/channel-groups-edit.component';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -30,15 +32,16 @@ describe('WidgetEditComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        AbilityModule
       ],
       providers: [
         {
           provide: MatDialogRef,
           useValue: mockDialogRef
         },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
-
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        {provide: Ability, useValue: new Ability()}
       ],
       declarations: [
         WidgetEditComponent,

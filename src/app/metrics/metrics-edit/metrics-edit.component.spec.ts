@@ -9,6 +9,8 @@ import { of, Observable } from 'rxjs';
 import { Metric } from 'src/app/shared/metric';
 import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
 import { ActivatedRoute } from '@angular/router';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
@@ -16,10 +18,16 @@ describe('MetricsEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        AbilityModule
+      ],
       declarations: [ MetricsEditComponent ],
       providers: [
-        {provide: MetricsService, useClass: MockMetricsService}
+        {provide: MetricsService, useClass: MockMetricsService},
+        {provide: Ability, useValue: new Ability()}
       ]
     })
     .compileComponents();

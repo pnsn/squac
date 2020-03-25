@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Widget } from './widget';
 import { MeasurementsService } from './measurements.service';
 import { WidgetsModule } from './widgets.module';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -16,7 +18,8 @@ describe('WidgetComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
-        WidgetsModule
+        WidgetsModule,
+        AbilityModule
       ],
       providers: [
         {
@@ -32,7 +35,8 @@ describe('WidgetComponent', () => {
               return EMPTY;
             }
           }
-        }
+        },
+        {provide: Ability, useValue: new Ability()}
       ]
     })
     .compileComponents();

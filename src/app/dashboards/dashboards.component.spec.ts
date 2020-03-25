@@ -7,6 +7,8 @@ import { DashboardViewComponent } from './dashboard-view/dashboard-view.componen
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { MaterialModule } from '../shared/material.module';
+import { Ability } from '@casl/ability';
+import { AbilityModule } from '@casl/angular';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;
@@ -17,11 +19,14 @@ describe('DashboardComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        MaterialModule
+        MaterialModule,
+        AbilityModule
       ],
       declarations: [ DashboardsComponent , DashboardViewComponent, LoadingComponent],
       providers: [
-        DashboardsService      ]
+        DashboardsService,
+        {provide: Ability, useValue: new Ability()}
+      ]
     })
     .compileComponents();
   }));

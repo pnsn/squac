@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { SquacApiService } from '../squacapi.service';
 import { AuthComponent } from './auth.component';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
+import { UserService } from './user.service';
+import { MockUserService } from './user.service.mock';
 
 describe('AuthService', () => {
   let router: Router;
@@ -21,6 +25,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        AbilityModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           { path: 'login', component: AuthComponent},
@@ -28,7 +33,9 @@ describe('AuthService', () => {
         ])
       ],
       providers: [
-        { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) }
+        { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) },
+        { provide: Ability, useValue: new Ability()},
+        { provide: UserService, useClass: MockUserService}
       ]
     });
 
