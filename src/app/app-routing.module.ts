@@ -11,6 +11,7 @@ import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.compon
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 import { LoggedInGuard } from './auth/logged-in.guard';
 import { UserComponent } from './auth/user/user.component';
+import { PermissionGuard } from './auth/permission.guard';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -19,22 +20,56 @@ const appRoutes: Routes = [
   { path: 'user', canActivate: [AuthGuard], component: UserComponent},
   { path: 'metrics',
     component: MetricsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {subject: 'Metric', action: 'read'},
     children: [
       { path: '', component: MetricsViewComponent, pathMatch: 'full'},
-      { path: 'new', component: MetricsEditComponent},
-      { path: ':id', component: MetricsViewComponent},
-      { path: ':id/edit', component: MetricsEditComponent },
+      { 
+        path: 'new',
+        component: MetricsEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Metric', action: 'create'}
+      },
+      { 
+        path: ':id',
+        component: MetricsViewComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Metric', action: 'read'}
+      },
+      { 
+        path: ':id/edit',
+        component: MetricsEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Metric', action: 'update'}
+      },
     ]
   },
   { path: 'channel-groups',
     component: ChannelGroupsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {subject: 'ChannelGroup', action: 'read'},
     children: [
-      { path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'},
-      { path: 'new', component: ChannelGroupsEditComponent},
-      { path: ':id', component: ChannelGroupsViewComponent},
-      { path: ':id/edit', component: ChannelGroupsEditComponent },
+      { 
+        path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'
+      },
+      { 
+        path: 'new',
+        component: ChannelGroupsEditComponent,        
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'create'}
+      },
+      { 
+        path: ':id',
+        component: ChannelGroupsViewComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'read'}
+      },
+      {
+        path: ':id/edit',
+        component: ChannelGroupsEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'update'}
+      },
     ]
   }
 ];

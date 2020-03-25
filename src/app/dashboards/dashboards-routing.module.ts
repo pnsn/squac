@@ -6,6 +6,7 @@ import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.componen
 import { WidgetComponent } from '../widgets/widget.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
+import { PermissionGuard } from '../auth/permission.guard';
 
 
 export const routes: Routes = [
@@ -14,20 +15,45 @@ export const routes: Routes = [
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'new', component: DashboardEditComponent},
-      { path: ':id',
+      { 
+        path: 'new',
+        component: DashboardEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Dashboard', action: 'create'}
+      },
+      { 
+        path: ':id',
         component: DashboardDetailComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Dashboard', action: 'view'},
         children: [
           { path: 'widget',
             children: [
-              { path: 'new', component: WidgetEditComponent},
-              { path: ':widgetid', component: DashboardDetailComponent},
-              { path: ':widgetid/edit', component: WidgetEditComponent },
+              { 
+                path: 'new', 
+                component: WidgetEditComponent,
+                canActivate: [PermissionGuard],
+                data: {subject: 'Widget', action: 'create'}
+              },
+              { 
+                path: ':widgetid', 
+                component: DashboardDetailComponent
+              },
+              { 
+                path: ':widgetid/edit', 
+                component: WidgetEditComponent,
+                canActivate: [PermissionGuard],
+                data: {subject: 'Widget', action: 'update'}
+              },
             ]
           }
         ]
       },
-      { path: ':id/edit', component: DashboardEditComponent },
+      { 
+        path: ':id/edit', 
+        component: DashboardEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'Dashboard', action: 'update'}},
     ]
   }
 ];
