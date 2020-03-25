@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,6 +21,7 @@ describe('AuthGuard', () => {
       ]
     });
     guard = TestBed.inject(AuthGuard);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should be created', () => {
@@ -27,11 +29,20 @@ describe('AuthGuard', () => {
   });
 
   it('should not allow routing if not authorized', () => {
-    //
+
+    authService.auth.subscribe(
+      auth => {
+        expect(auth).toBeFalsy();
+      }
+    );
+
+    expect(guard.canActivate()).toBeTruthy();
+
   });
 
   it('should allow routing after authorization', () => {
-    
+    authService.login("email", "password");
+    expect(guard.canActivate()).toBeTruthy();
   });
 
 });

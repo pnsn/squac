@@ -15,10 +15,7 @@ export class LoggedInGuard implements CanActivate {
   ) {}
 
   // returns prevents user from accessing certain pages when logged in
-  canActivate(
-    next: ActivatedRouteSnapshot  ,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.authService.auth.pipe(
       take(1),
       map( auth => {

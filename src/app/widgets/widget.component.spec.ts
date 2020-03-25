@@ -9,6 +9,7 @@ import { MeasurementsService } from './measurements.service';
 import { WidgetsModule } from './widgets.module';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
+import { MockMeasurementsService } from './measurements.service.mock';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -30,11 +31,7 @@ describe('WidgetComponent', () => {
         },
         {
           provide: MeasurementsService,
-          useValue: {
-            getMeasurements(metricsString, channelsString, startdate, enddate ) {
-              return EMPTY;
-            }
-          }
+          useClass: MockMeasurementsService
         },
         {provide: Ability, useValue: new Ability()}
       ]
