@@ -66,7 +66,7 @@ export class AuthService {
 
   // after user hits log out, wipe data
   logout() {
-    this.userService.user.next(null);
+    this.userService.logout();
     this.auth.next(null);
     this.router.navigate(['/login']);
     localStorage.removeItem('userData');

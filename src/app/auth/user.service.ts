@@ -37,13 +37,17 @@ export class UserService {
         
         this.ability.update(defineAbilitiesFor(user));
         this.user.next(user);
-        console.log(this.ability.can("read", "dashboard"));
       },
 
       error => {
         console.log('error in user service: ' + error);
       }
     );
+  }
+
+  logout() {
+    this.user.next(null);
+    this.ability.update([]);
   }
 
   // User needs to enter password to make changes

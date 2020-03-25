@@ -11,6 +11,7 @@ import { MaterialModule } from './material.module';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { AbilityModule } from '@casl/angular';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     CommonModule,
     MaterialModule,
     LeafletModule,
-    LeafletDrawModule
+    LeafletDrawModule,
+    AbilityModule
   ],
   exports: [
     MaterialModule,
@@ -35,7 +37,8 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     HttpClientModule,
     LoadingComponent,
     NgxDatatableModule,
-    MapComponent
+    MapComponent,
+    AbilityModule
   ]
 })
 

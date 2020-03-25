@@ -8,6 +8,8 @@ import { DashboardsRoutingModule } from './dashboards-routing.module';
 
 import { WidgetsModule } from '../widgets/widgets.module';
 import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.component';
+import { AbilityModule } from '@casl/angular';
+
 @NgModule({
   declarations: [
     DashboardsComponent,
@@ -17,7 +19,8 @@ import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.componen
   ],
   imports: [
     DashboardsRoutingModule,
-    WidgetsModule
+    WidgetsModule,
+    AbilityModule
   ],
   entryComponents: [
     WidgetEditComponent
