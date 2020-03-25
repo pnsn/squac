@@ -29,9 +29,9 @@
 
           <!-- if they have permission, otherwise show copy only -->
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
-            <button mat-menu-item (click)="addWidget()">Add Widget</button> 
-            <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <!-- <button mat-menu-item color="warn">Delete Dashboard</button> -->
+            <button mat-menu-item (click)="addWidget()" *ngIf="'Dashboard' | can: 'update'">Add Widget</button> 
+            <button mat-menu-item (click)="editDashboard()" *ngIf="'Dashboard' | can: 'update'">Edit Dashboard Information</button>
+            <!-- <button mat-menu-item color="warn" *ngIf="'dashboard' | can: 'delete'">Delete Dashboard</button> -->
           </mat-menu>
           
           <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
@@ -54,7 +54,7 @@
           <p>
             There are no widgets for this dashboard...
           </p>
-          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()">
+          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="'Dashboard' | can: 'update'">
             Add Widget
           </button>
         </div>

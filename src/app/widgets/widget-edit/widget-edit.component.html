@@ -71,5 +71,5 @@
       Creating widget on dashboard {{dashboardId}}
     </p>
   </ng-template>
-  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid'>Save</button>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf="'Widget' | can: 'update'">Save</button>
 </div>
