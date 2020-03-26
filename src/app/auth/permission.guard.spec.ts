@@ -4,14 +4,19 @@ import { PermissionGuard } from './permission.guard';
 import { UserService } from './user.service';
 import { MockUserService } from './user.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AbilityModule } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 describe('PermissionGuard', () => {
   let guard: PermissionGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      providers: [{provide: UserService, useClass: MockUserService}]
+      imports: [RouterTestingModule.withRoutes([]), AbilityModule],
+      providers: [
+        {provide: UserService, useClass: MockUserService},
+        {provide: Ability, useValue: new Ability()}
+      ]
     });
     guard = TestBed.inject(PermissionGuard);
   });

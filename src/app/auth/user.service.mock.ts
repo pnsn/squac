@@ -1,5 +1,5 @@
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { User } from './user';
 
 // Service to get user info & reset things
@@ -8,7 +8,6 @@ export class MockUserService {
   constructor() {}
   private currentUser = new User(
     "email",
-    "password",
     "firstname",
     "lastname",
     true,
@@ -31,7 +30,6 @@ export class MockUserService {
 
   // User needs to enter password to make changes
   updateUser(user) {
-    // other user ifo
-    // return this.squacApi.put(this.url, null, user);
+    return of(user);
   }
 }

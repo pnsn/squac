@@ -2,7 +2,7 @@ import { AbilityBuilder, Ability } from '@casl/ability';
 import { User } from './auth/user';
 
 export const ability = AbilityBuilder.define(can => {
-  can('read', 'all')
+  can('read', 'all');
 });
 
 export function defineAbilitiesFor(user : User) {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { Ability } from '@casl/ability';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +10,24 @@ import { UserService } from './user.service';
 export class PermissionGuard implements CanActivate {
 
   constructor(
-    private userService: UserService) {
+    private userService: UserService,
+    private ability : Ability,
+    private router : Router
+    ) {
   }
   // Returns true if there is a user and allows user to navigate
-  canActivate(): boolean | UrlTree {
-    const user = this.userService.getUser();
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+    const user = this.userService.getUser(); // will need this for ownership
+    const subject = next.data.subject;
+    const action = next.data.action;
 
-    console.log(user)
-    //return tru e if suer has permission
-    return true;
 
-    // return false if user does not
-
+    if(subject && action) {
+      console.log(subject, action, this.ability.can(action, subject));
+      return this.ability.can(action, subject);
+    } else {
+      return true;
+    }
   }
   
 }
