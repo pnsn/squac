@@ -7,12 +7,6 @@ import { Router } from '@angular/router';
 import { SquacApiService } from '../squacapi.service';
 import { UserService } from './user.service';
 
-
-// Data returned from server
-export interface AuthResponseData {
-  token: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +14,9 @@ export interface AuthResponseData {
 // Handles log in logic and API requests for login
 export class AuthService {
   private url = 'user/token/';
-  auth = new BehaviorSubject<string>(null); // Currently active user
+
+  token: string;
+
   private tokenExpirationTimer: any; // Time left before token expires
 
   constructor(
@@ -28,6 +24,10 @@ export class AuthService {
     private squacApi: SquacApiService,
     private userService: UserService
   ) { }
+
+  get loggedIn() : boolean {
+    return !!this.token;
+  }
 
   // Checks if user data exists in browser
   autologin() {
@@ -67,7 +67,7 @@ export class AuthService {
   // after user hits log out, wipe data
   logout() {
     this.userService.logout();
-    this.auth.next(null);
+    this.token = null;
     this.router.navigate(['/login']);
     localStorage.removeItem('userData');
     // TODO: make sure all modals close
@@ -121,7 +121,7 @@ export class AuthService {
 
   private signInUser(token, expiration) {
     this.autologout(expiration);
-    this.auth.next(token);
+    this.token = token;
     this.userService.fetchUser();
   }
 }

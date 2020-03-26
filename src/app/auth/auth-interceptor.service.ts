@@ -13,21 +13,19 @@ export class AuthInterceptorService implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    return this.authService.auth.pipe(
-      take(1),
-      exhaustMap ( auth => {
-        if (!auth) {
-          return next.handle(req);
-        }
 
-        const modifiedReq = req.clone({
-          headers : new HttpHeaders(
-            {
-              Authorization : 'Token ' + auth
-            }
-          )
-        });
-        return next.handle(modifiedReq);
-      }));
+    if(this.authService.loggedIn) {
+      const modifiedReq = req.clone({
+        headers : new HttpHeaders(
+          {
+            Authorization : 'Token ' + this.authService.token
+          }
+        )
+      });
+      return next.handle(modifiedReq);
+    }
+
+    return next.handle(req);
+
   }
 }

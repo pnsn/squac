@@ -3,25 +3,29 @@ import { User } from './user';
 
 export class MockAuthService {
   constructor() {}
-  auth = new BehaviorSubject<string>(null);
+  token : string;
 
   testAuth = '2352fsdf';
 
+  get loggedIn() : boolean {
+    return !!this.token;
+  }
+
   autologin() {
-    this.auth.next(this.testAuth);
+    this.token = this.testAuth;
   }
 
   autologout() {
-    this.auth.next(null);
+    this.token = null;
   }
 
   login(userEmail: string, userPassword: string) {
-    this.auth.next(this.testAuth);
+    this.token = this.testAuth;
     return of({email: userEmail, token: this.testAuth});
   }
 
   logout() {
-    this.auth.next(null);
+    this.token = null;
   }
 
 }

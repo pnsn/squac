@@ -8,12 +8,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MockAuthService } from './auth/auth.service.mock';
+import { UserService } from './auth/user.service';
+import { MockUserService } from './auth/user.service.mock';
 
 
 describe('AppComponent', () => {
   let fixture;
   let appComponent: AppComponent;
-  let authService: AuthService;
+  let userService: UserService;
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -29,14 +31,15 @@ describe('AppComponent', () => {
         HeaderComponent
       ],
       providers: [{
-        provide: AuthService, useClass: MockAuthService
+        provide: AuthService, useClass: MockAuthService } ,
+        { provide: UserService, useClass: MockUserService
       }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     appComponent = fixture.componentInstance;
 
-    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
   }));
 
   it('should create the app', () => {
@@ -49,6 +52,8 @@ describe('AppComponent', () => {
 
   it('should listen to user log in', () => {
     appComponent.ngOnInit();
+    expect(appComponent.loggedIn).toEqual(false);
+    userService.fetchUser();
     expect(appComponent.loggedIn).toEqual(true);
   });
 });

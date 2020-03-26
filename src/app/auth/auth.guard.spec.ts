@@ -30,19 +30,14 @@ describe('AuthGuard', () => {
 
   it('should not allow routing if not authorized', () => {
 
-    authService.auth.subscribe(
-      auth => {
-        expect(auth).toBeFalsy();
-      }
-    );
-
+    expect(authService.loggedIn).toBeFalsy();
     expect(guard.canActivate()).toBeTruthy();
 
   });
 
   it('should allow routing after authorization', () => {
     authService.login("email", "password");
-    expect(guard.canActivate()).toBeTruthy();
+    expect(guard.canActivate()).toEqual(true);
   });
 
 });

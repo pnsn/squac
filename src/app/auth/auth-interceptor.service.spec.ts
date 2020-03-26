@@ -17,7 +17,7 @@ describe(`AuthInterceptor`, () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   const testUrl = 'data/';
-  let service;
+  let authService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe(`AuthInterceptor`, () => {
     // Inject the http service and test controller for each test
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(AuthService);
+    authService = TestBed.inject(AuthService);
   });
 
   afterEach(() => {
@@ -44,7 +44,7 @@ describe(`AuthInterceptor`, () => {
   });
 
   it('should add an Authorization header if user logged in', () => {
-    service.login().subscribe();
+    authService.login().subscribe();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
@@ -55,14 +55,10 @@ describe(`AuthInterceptor`, () => {
     const httpRequest = httpTestingController.expectOne('https://test.test.test/');
 
     expect(httpRequest.request.headers.has('Authorization')).toEqual(true);
-
-    // expect(httpRequest.request.headers.get('Authorization')).toBe(
-    //   'Token token',
-    // );
   });
 
   it('should not add an Authorization header if user not logged in', () => {
-    service.logout();
+    authService.logout();
 
       // Make an HTTP GET request
     httpClient.get('https://test.test.test/')
