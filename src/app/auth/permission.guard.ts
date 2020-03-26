@@ -16,18 +16,19 @@ export class PermissionGuard implements CanActivate {
     ) {
   }
   // Returns true if there is a user and allows user to navigate
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot): boolean | UrlTree {
+
     const user = this.userService.getUser(); // will need this for ownership
-    const subject = next.data.subject;
-    const action = next.data.action;
+    if(next.data) {
+      const subject = next.data.subject;
+      const action = next.data.action;
 
-
-    if(subject && action) {
-      console.log(subject, action, this.ability.can(action, subject));
-      return this.ability.can(action, subject);
-    } else {
-      return true;
+      if(subject && action) {
+        console.log(subject, action, this.ability.can(action, subject));
+        return this.ability.can(action, subject);
+      }
     }
+
+    return true;
   }
-  
 }

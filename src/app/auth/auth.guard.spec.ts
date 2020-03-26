@@ -17,7 +17,7 @@ describe('AuthGuard', () => {
         ]
       )],
       providers: [
-        { provide: AuthService, useValue: new MockAuthService() }
+        { provide: AuthService, useClass: MockAuthService}
       ]
     });
     guard = TestBed.inject(AuthGuard);

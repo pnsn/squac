@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 
 describe('LoggedInGuard', () => {
   let guard: LoggedInGuard;
+  let authService : AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,6 +15,7 @@ describe('LoggedInGuard', () => {
       providers: [{provide: AuthService, useClass: MockAuthService}]
     });
     guard = TestBed.inject(LoggedInGuard);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should be created', () => {
@@ -21,10 +23,13 @@ describe('LoggedInGuard', () => {
   });
 
   it('should not allow user to access log in page after logged in', () => {
-    //
+    authService.login("email", "password");
+    expect(guard.canActivate()).toBeTruthy();
   });
 
   it('should allow user to access log in after logging out', () => {
-    
+    authService.logout();
+    expect(authService.loggedIn).toBeFalsy();
+    expect(guard.canActivate()).toEqual(true);
   });
 });
