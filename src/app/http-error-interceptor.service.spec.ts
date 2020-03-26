@@ -5,9 +5,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MockSquacApiService } from './squacapi.service.mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { throwError } from 'rxjs';
+import { SquacApiService } from './squacapi.service';
 
 describe('HttpErrorInterceptor', () => {
-  let service: MockSquacApiService;
+  let service: SquacApiService;
   let interceptor;
   let httpRequestSpy;
   let httpHandlerSpy;
@@ -23,13 +24,13 @@ describe('HttpErrorInterceptor', () => {
         multi: true,
       },
       {
-        provide: MockSquacApiService,
+        provide: SquacApiService,
         useValue: new MockSquacApiService()
       }
     ]
     });
     interceptor = TestBed.inject(HttpErrorInterceptor);
-    service = TestBed.inject(MockSquacApiService);
+    service = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
