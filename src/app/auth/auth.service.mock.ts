@@ -11,6 +11,10 @@ export class MockAuthService {
     return !!this.token;
   }
 
+  get auth() : string {
+    return this.token;
+  }
+
   autologin() {
     this.token = this.testAuth;
   }

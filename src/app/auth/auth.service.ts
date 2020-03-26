@@ -15,8 +15,7 @@ import { UserService } from './user.service';
 export class AuthService {
   private url = 'user/token/';
 
-  token: string;
-
+  private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
   constructor(
@@ -24,9 +23,15 @@ export class AuthService {
     private squacApi: SquacApiService,
     private userService: UserService
   ) { }
-
+  
+  // True if a user logged in 
   get loggedIn() : boolean {
     return !!this.token;
+  }
+
+  // returns auth token
+  get auth() : string {
+    return this.token;
   }
 
   // Checks if user data exists in browser
@@ -119,6 +124,7 @@ export class AuthService {
     this.signInUser(authData.token, expiresIn * 1000);
   }
 
+  // handles the sign in 
   private signInUser(token, expiration) {
     this.autologout(expiration);
     this.token = token;
