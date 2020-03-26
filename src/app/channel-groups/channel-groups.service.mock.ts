@@ -4,6 +4,7 @@ import { ChannelGroup } from '../shared/channel-group';
 export class MockChannelGroupsService {
   testChannelGroup = new ChannelGroup(
     1,
+    1,
     'name',
     'description',
     []

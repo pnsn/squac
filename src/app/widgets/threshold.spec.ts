@@ -7,6 +7,7 @@ describe('Threshold', () => {
       1,
       1,
       1,
+      1,
       1
     )).toBeTruthy();
   });

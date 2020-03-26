@@ -19,7 +19,7 @@ describe('MeasurementsService', () => {
     starttime: 'start',
     endtime: 'end'
   };
-  const testMetric = new Metric(1, '', '', '', '', '');
+  const testMetric = new Metric(1, 1, '', '', '', '', '');
   const testChannel = new Channel(1, '', '', 1, 1, 1, 1, '', '', '');
 
   let squacApiService;
@@ -44,12 +44,12 @@ describe('MeasurementsService', () => {
   });
 
   it('should get measurements', (done: DoneFn) => {
-    const testWidget = new Widget(1, '', '', 1, 1, 1, 1, 1, 1, 1, [
+    const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
       testMetric
     ]);
 
     testWidget.channelGroup = new ChannelGroup(
-      1, '', '', [
+      1, 1, '', '', [
         testChannel
       ]
     );

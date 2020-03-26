@@ -258,19 +258,13 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     const values = this.channelGroupForm.value;
     const cg = new ChannelGroup(
       this.id,
+      null,
       values.name,
       values.description,
       this.selectedChannels
     );
-    console.log(cg);
-    this.channelGroupService.updateChannelGroup(
-      new ChannelGroup(
-        this.id,
-        values.name,
-        values.description,
-        this.selectedChannels
-      )
-    ).subscribe(
+
+    this.channelGroupService.updateChannelGroup(cg).subscribe(
       result => {
         this.cancel(result.id);
       }

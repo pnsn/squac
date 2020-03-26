@@ -57,6 +57,7 @@ export class WidgetEditService {
         null,
         null,
         null,
+        null,
         this.columns,
         this.rows,
         this.x,
@@ -105,6 +106,7 @@ export class WidgetEditService {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
         threshold.id,
+        threshold.owner,
         this.widget.id,
         threshold.metric.id,
         threshold.min !== null ? +threshold.min : null,

@@ -76,6 +76,7 @@ export class MetricsService {
         result => {
           const metric = new Metric(
               result.id,
+              result.user_id,
               result.name,
               result.code,
               result.description,

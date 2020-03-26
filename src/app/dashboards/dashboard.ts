@@ -8,6 +8,7 @@ export class Dashboard {
 
   constructor(
     public id: number,
+    public owner: number,
     public name: string,
     public description: string,
     public widgetIds?: number[]

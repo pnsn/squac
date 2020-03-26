@@ -11,6 +11,7 @@ describe('MetricsService', () => {
 
   const testMetric: Metric = new Metric(
     1,
+    1,
     'name',
     'code',
     'description',
@@ -86,6 +87,7 @@ describe('MetricsService', () => {
 
     const newMetric = new Metric(
       null,
+      1,
       'name',
       'code',
       'description',

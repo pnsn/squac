@@ -9,6 +9,7 @@ export class Widget {
   public channelGroup: ChannelGroup;
   constructor(
     public id: number,
+    public owner: number,
     public name: string,
     public description: string,
     public typeId: number,

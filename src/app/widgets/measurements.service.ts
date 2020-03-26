@@ -52,6 +52,7 @@ export class MeasurementsService {
             data[m.channel][m.metric].push(
               new Measurement(
                 m.id,
+                m.user_id,
                 m.metric,
                 m.channel,
                 m.value,

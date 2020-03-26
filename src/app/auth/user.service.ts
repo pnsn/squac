@@ -39,6 +39,7 @@ export class UserService {
       response => {
 
         this.currentUser = new User(
+          1,
           response.email,
           response.firstname,
           response.lastname,

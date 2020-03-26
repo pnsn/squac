@@ -11,6 +11,7 @@ describe('ChannelGroupsService', () => {
 
   const testChannelGroup: ChannelGroup = new ChannelGroup(
     1,
+    1,
     'name',
     'description',
     []
@@ -57,7 +58,7 @@ describe('ChannelGroupsService', () => {
 
   it('should get channelGroup with id', (done: DoneFn) => {
     channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
-      expect(channelGroup).toEqual(testChannelGroup);
+      expect(channelGroup.id).toEqual(testChannelGroup.id);
       done();
     });
   });
@@ -83,6 +84,7 @@ describe('ChannelGroupsService', () => {
     apiSpy = spyOn(squacApiService, 'post');
 
     const newChannelGroup = new ChannelGroup(
+      null,
       null,
       'name',
       'description',

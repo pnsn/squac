@@ -44,6 +44,7 @@ export class DashboardsService {
           response.forEach(d => {
             const dashboard = new Dashboard(
               d.id,
+              d.user_id,
               d.name,
               d.description,
               d.widgets ? d.widgets : []
@@ -73,6 +74,7 @@ export class DashboardsService {
         (response) => {
           dashboard = new Dashboard(
             response.id,
+            response.user_id,
             response.name,
             response.description,
             response.widgets

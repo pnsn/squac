@@ -7,6 +7,7 @@ import { User } from './user';
 export class MockUserService {
   constructor() {}
   private currentUser = new User(
+    1,
     "email",
     "firstname",
     "lastname",

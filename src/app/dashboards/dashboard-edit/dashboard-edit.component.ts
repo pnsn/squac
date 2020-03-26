@@ -73,6 +73,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.dashboardService.updateDashboard(
       new Dashboard(
         this.id,
+        null,
         values.name,
         values.description,
         []

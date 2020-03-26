@@ -50,6 +50,7 @@ describe('WidgetComponent', () => {
         y: 0,
         widget: new Widget(
           1,
+          1,
           'name',
           'description',
           1,

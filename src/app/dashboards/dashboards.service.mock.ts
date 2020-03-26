@@ -5,6 +5,7 @@ export class MockDashboardsService {
 
   testDashboard: Dashboard = new Dashboard(
     1,
+    1,
     'name',
     'description',
     []

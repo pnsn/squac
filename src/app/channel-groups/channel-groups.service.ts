@@ -41,6 +41,7 @@ export class ChannelGroupsService {
           results.forEach(cG => {
             const chanGroup = new ChannelGroup(
               cG.id,
+              cG.user_id,
               cG.name,
               cG.description
             );
@@ -93,6 +94,7 @@ export class ChannelGroupsService {
 
             channelGroup = new ChannelGroup(
               response.id,
+              response.user_id,
               response.name,
               response.description,
               channels

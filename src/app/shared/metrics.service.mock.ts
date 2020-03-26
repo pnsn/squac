@@ -4,6 +4,7 @@ import { Metric } from './metric';
 export class MockMetricsService {
   testMetric = new Metric(
     1,
+    1,
     '',
     '',
     '',

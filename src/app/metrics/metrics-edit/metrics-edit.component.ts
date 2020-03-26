@@ -83,6 +83,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     this.metricsService.updateMetric(
       new Metric(
         this.id,
+        null,
         values.name,
         values.code,
         values.description,

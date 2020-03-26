@@ -9,10 +9,11 @@ export class MockWidgetEditService {
   isValid = new Subject<boolean>();
 
   testThresholds: { [metricId: number]: Threshold} = {
-    1 : new Threshold(1, 1, 1, 1, 1)
+    1 : new Threshold(1, 1, 1, 1, 1, 1)
   };
 
   testChannelGroup: ChannelGroup = new ChannelGroup(
+    1,
     1,
     'name',
     'name',
@@ -20,6 +21,7 @@ export class MockWidgetEditService {
   );
 
   testWidget: Widget = new Widget(
+    1,
     1,
     'name',
     'description',

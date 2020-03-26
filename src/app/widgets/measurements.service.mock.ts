@@ -8,6 +8,7 @@ export class MockMeasurementsService {
     1,
     1,
     1,
+    1,
     0,
     new Date(),
     new Date ()

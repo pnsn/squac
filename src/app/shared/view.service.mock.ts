@@ -17,12 +17,14 @@ export class MockViewService {
 
   testDashboard: Dashboard = new Dashboard(
     1,
+    1,
     'name',
     'description',
     []
   );
 
   testWidget: Widget = new Widget(
+    1,
     1,
     'name',
     'description',

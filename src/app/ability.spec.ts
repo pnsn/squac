@@ -12,6 +12,7 @@ describe('Ability', () => {
   let testAbility : Ability;
 
   let testUser : User = new User(
+    1,
     "email",
     "firstName",
     "lastName",
@@ -37,6 +38,7 @@ describe('Ability', () => {
 
   it('should allow admin to manage all', () => {
     const adminUser = new User(
+      1,
       "email",
       "firstName",
       "lastName",

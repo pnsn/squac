@@ -8,6 +8,7 @@ export class MockWidgetsService {
 
   testWidget: Widget = new Widget(
     1,
+    1,
     'name',
     'description',
     1,

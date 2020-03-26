@@ -4,6 +4,7 @@ import { Threshold } from '../widgets/threshold';
 export class Metric {
   constructor(
     public id: number,
+    public owner: number,
     public name: string,
     public code: string,
     public description: string,

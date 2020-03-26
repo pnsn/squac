@@ -12,14 +12,15 @@ export function defineAbilitiesFor(user : User) {
     allow('manage', 'all')
   } 
   if(user.inGroup('contributor')) {
-    allow('crud', 'Measurement')
-    allow('crud', 'Metric')
-    allow('crud', 'Archive')
+    allow('crud', 'Measurement', {owner: user.id})
+    allow('crud', 'Metric', {owner: user.id})
+    allow('crud', 'Archive', {owner: user.id})
   }
   if (user.inGroup('reporter')) {
-    allow('crud', 'Dashboard')
-    allow('crud', 'Widget')
-    allow('crud', 'ChannelGroup')
+    allow('crud', 'Dashboard', {owner: user.id})
+    allow('crud', 'Widget', {owner: user.id})
+    allow('crud', 'ChannelGroup', {owner: user.id})
+    allow('crud', 'Threshold', {owner: user.id})
   }
   if (user.inGroup('viewer')) {
     allow('read', 'all')

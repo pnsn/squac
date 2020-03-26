@@ -18,12 +18,13 @@ import { MockWidgetsService } from '../widgets/widgets.service.mock';
 describe('DashboardsService', () => {
   let dashboardsService: DashboardsService;
 
-  const testDashboard = {
-    id: 1,
-    name: 'name',
-    description: 'description',
-    group: 1
-  };
+  const testDashboard = new Dashboard(
+    1,
+    1,
+    "name",
+    "description",
+    []
+  );
 
   let squacApiService;
 
@@ -80,6 +81,7 @@ describe('DashboardsService', () => {
 
     dashboardsService.updateDashboard(new Dashboard(
       1,
+      1,
       'name',
       'description',
       []
@@ -92,6 +94,7 @@ describe('DashboardsService', () => {
     apiSpy = spyOn(squacApiService, 'post');
 
     const newDashboard = new Dashboard(
+      null,
       null,
       'name',
       'description',
