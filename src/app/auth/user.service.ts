@@ -43,9 +43,9 @@ export class UserService {
           response.email,
           response.firstname,
           response.lastname,
-          false,
+          response.is_staff,
           response.organization,
-          ['reporter', 'viewer']
+          response.groups
         );
 
         this.ability.update(defineAbilitiesFor(this.currentUser));
