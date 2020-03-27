@@ -1,14 +1,66 @@
 
-<p>Hello, {{user?.firstname}} {{user?.lastname}}</p>
-<p>Email: {{user?.email}}</p>
-<p>Organization: {{user?.organization}}</p>
+<div id="user-content">
+  <div id="column" *ngIf="user; else noUser">
+    <h1>User Settings</h1>
+    <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
+
+    <div id="user-info-top">
+      <h2>User Information</h2>
+      <button mat-flat-button color="accent" *ngIf="editMode" [disabled]="!userForm.valid" (click)="save()">Save</button>
+      <button mat-icon-button (click)="editForm()" *ngIf="!editMode" aria-labrl="Edit User Information">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="userForm">
+      <div class="form-group">
+        <div id="label">
+          Email:
+        </div>
+        <mat-form-field >
+          <input matInput formControlName="email" [readonly]="!editMode">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <div id="label">
+          First Name:
+        </div>
+        <mat-form-field >
+          <input matInput formControlName="firstname" [readonly]="!editMode">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <div id="label">
+          Last Name:
+        </div>
+        <mat-form-field >
+          <input matInput formControlName="lastname" [readonly]="!editMode">
+        </mat-form-field>
+        <div class="form-group">
+          <div id="label">
+            Organization:
+          </div>
+          <mat-form-field >
+            <input matInput formControlName="organization" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
 
 
-<p>
-  This is where password change will be!
-</p>
-<!-- <button>
-  Change password
-</button> -->
+    <h2>Password</h2>
+    <p>
+      This is where password change will be!
+    </p>
+  </div>
+
+  <ng-template #noUser>
+    <p>
+      Loading user information, please wait.
+    </p>
+
+  </ng-template>
 
 
+
+</div>
