@@ -2,16 +2,16 @@ import { of } from 'rxjs';
 
 export class MockPasswordResetService {
   private url = '/password_reset';
-  private token : string;
+  private token: string;
   constructor() {
 
   }
 
-  resetPassword(email : string) {
+  resetPassword(email: string) {
     return of(email);
   }
 
-  validateToken(token : string) {
+  validateToken(token: string) {
     this.token = token;
     return of(token);
   }

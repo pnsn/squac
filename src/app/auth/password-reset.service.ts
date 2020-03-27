@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 })
 export class PasswordResetService {
   private url = 'password_reset/';
-  private token : string;
+  private token: string;
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService
@@ -16,29 +16,29 @@ export class PasswordResetService {
 
   }
 
-  //send email to squac, it sends token to user
-  resetPassword(email : string) {
+  // send email to squac, it sends token to user
+  resetPassword(email: string) {
     return this.squacApi.post(this.url, {
-        email: email
+        email
       }
     );
   }
 
   // check token is valid
-  validateToken(token : string) {
-    const path = "validate_token/";
+  validateToken(token: string) {
+    const path = 'validate_token/';
     this.token = token;
     return this.squacApi.post(this.url + path, {
-      token: token
+      token
     });
   }
 
   // send new password
   confirmPassword(password) {
-    const path = "validate_token/";
+    const path = 'validate_token/';
 
     return this.squacApi.post(this.url + path, {
-      password: password,
+      password,
       token: this.token
     });
   }

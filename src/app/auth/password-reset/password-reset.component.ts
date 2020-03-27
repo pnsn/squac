@@ -10,33 +10,20 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent implements OnInit {
-  emailSent: boolean = false; //has email been sent
-  tokenValidated: boolean = false; //has token been validated
-  error: string; //error message
-  hide: boolean = true; //show/hide password
-  attempts : number = 0; //soft block for too many
-  token: string; //the token
 
   constructor(
-    private passwordResetService : PasswordResetService,
+    private passwordResetService: PasswordResetService,
     private router: Router,
-    private route : ActivatedRoute
+    private route: ActivatedRoute
   ) { }
+  emailSent = false; // has email been sent
+  tokenValidated = false; // has token been validated
+  error: string; // error message
+  hide = true; // show/hide password
+  attempts = 0; // soft block for too many
+  token: string; // the token
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(
-      params => {
-        this.token = params.token;
-        if(this.token) {
-          this.emailSent = true;
-          this.sendToken(this.token);
-        } else {
-          this.emailSent = false;
-        }
-    });
-  }
-
-  email= new FormControl('', [
+  email = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
@@ -50,21 +37,33 @@ export class PasswordResetComponent implements OnInit {
     Validators.required
   ]);
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(
+      params => {
+        this.token = params.token;
+        if (this.token) {
+          this.emailSent = true;
+          this.sendToken(this.token);
+        } else {
+          this.emailSent = false;
+        }
+    });
+  }
+
   sendEmail() {
-    if(this.attempts > 4) {
-      this.error = "Too many attempts, contact pnsn@uw.edu to reset password";
+    if (this.attempts > 4) {
+      this.error = 'Too many attempts, contact pnsn@uw.edu to reset password';
     }
-    const email = this.email.value;
-    this.passwordResetService.resetPassword(email).subscribe(
-      email => {
-        //go to next step
-        console.log(email);
-        this.emailSent = !!email;
+    this.passwordResetService.resetPassword(this.email.value).subscribe(
+      response => {
+        // go to next step
+        console.log(response);
+        this.emailSent = !!response;
         this.attempts++;
       },
       error => {
         this.error = error;
-        console.log("error in send email", error);
+        console.log('error in send email', error);
       }
     );
   }
@@ -74,16 +73,16 @@ export class PasswordResetComponent implements OnInit {
     this.tokenValidated = false;
   }
 
-  sendToken(token : string) {
+  sendToken(token: string) {
     this.passwordResetService.validateToken(token).subscribe(
-      token => {
-        //go to next step
-        console.log(token);
-        this.tokenValidated = !!token;
+      response => {
+        // go to next step
+        console.log(response);
+        this.tokenValidated = !!response;
       },
       error => {
         this.error = error;
-        console.log("error in validate token", error);
+        console.log('error in validate token', error);
       }
     );
   }
@@ -92,7 +91,7 @@ export class PasswordResetComponent implements OnInit {
     const password1 = this.newPassword.value;
     const password2 = this.passwordConfirm.value;
 
-    if(password1 !== password2) {
+    if (password1 !== password2) {
       return;
     }
 
@@ -102,7 +101,7 @@ export class PasswordResetComponent implements OnInit {
       },
       error => {
         this.error = error;
-        console.log("error in password reset", error);
+        console.log('error in password reset', error);
       }
     );
   }

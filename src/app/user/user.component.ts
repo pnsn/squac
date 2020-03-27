@@ -13,8 +13,8 @@ export class UserComponent implements OnInit, OnDestroy {
   user: User;
   userForm: FormGroup;
   subscription: Subscription = new Subscription();
-  editMode : boolean;
-  hide:boolean = true;
+  editMode: boolean;
+  hide = true;
   constructor(
     private userService: UserService
   ) { }
@@ -22,10 +22,10 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const userSub = this.userService.user.subscribe(
       user => {
-        if(!user) {
+        if (!user) {
           this.userService.fetchUser();
-        } else{
-          this.user = user; 
+        } else {
+          this.user = user;
           this.initForm(user);
         }
 
@@ -57,14 +57,14 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    
+
     this.userService.updateUser(this.userForm.value).subscribe(
       user => {
         this.userService.fetchUser();
         this.editMode = false;
       },
       error => {
-        console.log("error in change user: ", error);
+        console.log('error in change user: ', error);
       }
     );
 

@@ -20,17 +20,17 @@ const appRoutes: Routes = [
   {
     path: 'password_reset/confirm', redirectTo: 'login/password-reset', pathMatch: 'full'
   },
-  { 
-    path: 'login', 
-    component: AuthComponent, 
+  {
+    path: 'login',
+    component: AuthComponent,
     canActivate: [LoggedInGuard],
     children: [
-      { 
-        path: '', 
+      {
+        path: '',
         component: LoginComponent
       },
-      { 
-        path: 'password-reset', 
+      {
+        path: 'password-reset',
         component: PasswordResetComponent
       }
     ]
