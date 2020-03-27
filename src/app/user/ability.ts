@@ -12,12 +12,14 @@ export function defineAbilitiesFor(user: User) {
     allow('manage', 'all');
   }
   if (user.inGroup('contributor')) {
-    allow(['update', 'delete'], ['Measurement', 'Metric', 'Archive'], {owner: user.id});
-    allow(['read', 'create'], ['Measurement', 'Metric', 'Archive']);
+    const contributorSubjects = ['Measurement', 'Metric', 'Archive'];
+    allow(['update', 'delete'], contributorSubjects, {owner: user.id});
+    allow(['read', 'create'], contributorSubjects);
   }
   if (user.inGroup('reporter')) {
-    allow(['update', 'delete'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'], {owner: user.id});
-    allow(['read', 'create'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup']);
+    const reporterSubjects = ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'];
+    allow(['update', 'delete'], reporterSubjects, {owner: user.id});
+    allow(['read', 'create'], reporterSubjects);
   }
   if (user.inGroup('viewer')) {
     allow('read', 'all');

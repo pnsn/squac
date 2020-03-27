@@ -12,11 +12,13 @@ import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.
 import { LoggedInGuard } from './auth/logged-in.guard';
 import { UserComponent } from './user/user.component';
 import { PermissionGuard } from './user/permission.guard';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
   { path: 'login', component: AuthComponent, canActivate: [LoggedInGuard]},
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
+  { path: 'password-reset', component: PasswordResetComponent, canActivate: [LoggedInGuard]},
   { path: 'user', canActivate: [AuthGuard], component: UserComponent},
   { path: 'metrics',
     component: MetricsComponent,

@@ -28,6 +28,7 @@ import { UserComponent } from './user/user.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
 import { ability } from './user/ability';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ability } from './user/ability';
     MetricsEditComponent,
     ChannelGroupsFilterComponent,
     ChannelGroupsTableComponent,
-    UserComponent
+    UserComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,
