@@ -1,5 +1,9 @@
-<div id="map" [ngClass]="{'edit-map': editPage, 'view-map': !editPage}" leaflet [leafletOptions]="options"
-    [leafletLayers]="layers" [leafletFitBounds]="fitBounds">
+<div id="map"
+    [ngClass]="{'edit-map': editPage, 'view-map': !editPage}"
+    leaflet
+    [leafletOptions]="options"
+    [leafletLayers]="layers"
+    [leafletFitBounds]="fitBounds">
     <div *ngIf="editPage" leafletDraw [leafletDrawOptions]="drawOptions"
         (leafletDrawStart)="onDrawStart()"
         (leafletDrawCreated)="onRectangleCreated($event)"
@@ -7,6 +11,7 @@
         (leafletDrawDeleted)="onRectangleDeleted()">
     </div>
 </div>
+
 <legend *ngIf="editPage" class="square-box">
     <h3>Map Legend</h3>
     <ul>

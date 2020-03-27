@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
 
@@ -7,7 +7,7 @@ import * as L from 'leaflet';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements AfterViewInit, OnChanges {
   @Input() originalSelectedChannels: Channel[];
   @Input() selectedChannels: Channel[];
   @Input() searchChannels: Channel[];
@@ -15,7 +15,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() isRemoving: boolean;
   @Input() editPage: boolean;
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
-  map: L.Map;
   channelLayer: L.LayerGroup;
   drawnItems: L.FeatureGroup;
   icons: L.Icon[];
@@ -33,6 +32,14 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initMap();
+  }
+
+  ngAfterViewInit() {
+    this.options = {
+      center: L.latLng(45.0000, -120.0000),
+      zoom: 5,
+      layers: this.layers
+    };
     this.updateMap();
   }
 
@@ -41,8 +48,11 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   initMap(): void {
+    // Setup the groups for map markers and the drawn square
     this.channelLayer = L.layerGroup([]);
     this.drawnItems = new L.FeatureGroup();
+
+    // These are the icons to be used for the map
     this.icons = [
       L.icon({ // orignal channelgroup icons
         iconUrl: '../../assets/original-cg-marker.png',
@@ -81,19 +91,24 @@ export class MapComponent implements OnInit, OnChanges {
         popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
       })
     ];
+
+    // Add all the layers to the array that will be fed to options
     this.layers = [
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }),
       this.drawnItems,
       this.channelLayer
     ];
+
+    // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
-      center: L.latLng(45.0000, -120.0000),
-      zoom: 5,
-      layers: this.layers
+      center: undefined,
+      zoom: undefined,
+      layers: undefined
     };
+
+    // Options for the drawing menu
     this.drawOptions = {
       position: 'topright',
       draw: {
@@ -118,6 +133,7 @@ export class MapComponent implements OnInit, OnChanges {
       const chanMarkers = []; // Marker array
       const chanLatLng = []; // Channel location array
 
+      // Add in the original channels, overwriting
       if (this.originalSelectedChannels !== undefined) { // Original channels on cg
         this.originalSelectedChannels.forEach( channel => { // Add selected
           sumLat += channel.lat;
@@ -129,7 +145,8 @@ export class MapComponent implements OnInit, OnChanges {
           );
         });
       }
-      if (this.selectedChannels !== undefined) { // Current channels on channel group
+      // Current channels on channel group
+      if (this.selectedChannels !== undefined) {
         let selectedChannels = this.selectedChannels;
         if (this.editPage) {
           selectedChannels = this.selectedChannels.filter( channel => {
@@ -148,7 +165,8 @@ export class MapComponent implements OnInit, OnChanges {
           );
         });
       }
-      if (this.searchChannels !== undefined) { // channels being search for
+      // Add channels being search for
+      if (this.searchChannels !== undefined) {
         const filteredSearchChannels = this.searchChannels.filter( channel => {
           return !this.selectedChannels.some(  c => {
             return c.id === channel.id; // Check whether this channel is selected already
@@ -164,7 +182,8 @@ export class MapComponent implements OnInit, OnChanges {
           ); // Push search channel markers onto array
         });
       }
-      if (this.isRemoving) { // Channels to be removed
+      // Add channels to be removed
+      if (this.isRemoving) {
         this.removeChannels.forEach( channel => {
           chanMarkers.push(
             L.marker([channel.lat, channel.lon], {icon: this.icons[3]}).bindPopup(
@@ -175,17 +194,20 @@ export class MapComponent implements OnInit, OnChanges {
       this.channelLayer = L.layerGroup(chanMarkers);
       this.layers.push(this.channelLayer);
       if (chanMarkers.length > 0) {
+        // Recenter and rezoom to fit
         this.options.center = L.latLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length);
         this.fitBounds = L.latLngBounds(chanLatLng);
       }
     }
   }
 
+  // Clear out old stuff and remove bounds
   onDrawStart() {
     this.drawnItems.clearLayers();
     this.boundsChange.emit('');
   }
 
+  // Send out newly drawn bounds
   onRectangleCreated(e: any) {
     this.rectLayer = e.layer;
     this.boundsChange.emit(''); // Clear old bounds
