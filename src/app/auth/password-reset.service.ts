@@ -18,7 +18,10 @@ export class PasswordResetService {
 
   //send email to squac, it sends token to user
   resetPassword(email : string) {
-    return of(email);
+    return this.squacApi.post(this.url, {
+        email: email
+      }
+    );
   }
 
   // check token is valid
