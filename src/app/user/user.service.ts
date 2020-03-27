@@ -19,7 +19,7 @@ interface UserHttpData {
   providedIn: 'root'
 })
 export class UserService {
-  private url = '/user/me';
+  private url = 'user/me/';
   private currentUser;
   user = new BehaviorSubject<User>(null);
 
@@ -63,14 +63,8 @@ export class UserService {
   }
 
   // User needs to enter password to make changes
-  updateUser(user, password) {
-    const putData: UserHttpData = {
-      email: user.email,
-      password,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      organization: user.organization
-    };
+  updateUser(user) {
+    const putData: UserHttpData = user;
 
     // other user ifo
     return this.squacApi.put(this.url, null, putData);

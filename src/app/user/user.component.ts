@@ -13,6 +13,8 @@ export class UserComponent implements OnInit, OnDestroy {
   user: User;
   userForm: FormGroup;
   subscription: Subscription = new Subscription();
+  editMode : boolean;
+  hide:boolean = true;
   constructor(
     private userService: UserService
   ) { }
@@ -20,36 +22,53 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const userSub = this.userService.user.subscribe(
       user => {
-        this.user = user;
+        if(!user) {
+          this.userService.fetchUser();
+        } else{
+          this.user = user; 
+          this.initForm(user);
+        }
+
       },
       error => {
         console.log('error in user component: ' + error);
       }
     );
 
-    this.userForm = new FormGroup({
-      firstname: new FormControl(
-        this.user.firstname,
-        Validators.required
-        ),
-      lastname: new FormControl(this.user.lastname, Validators.required),
-      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
-    });
+
 
     this.subscription.add(userSub);
   }
 
-  changeUserInformation(password) {
+  initForm(user) {
+    this.userForm = new FormGroup({
+      firstname: new FormControl(
+        user.firstname,
+        Validators.required
+        ),
+      lastname: new FormControl(user.lastname, Validators.required),
+      email: new FormControl(user.email, [Validators.required, Validators.email]),
+      organization: new FormControl(user.organization, [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    });
+  }
 
-    this.userService.updateUser(this.user, password).subscribe(
+  editForm() {
+    this.editMode = true;
+  }
+
+  save() {
+    
+    this.userService.updateUser(this.userForm.value).subscribe(
       user => {
         this.userService.fetchUser();
+        this.editMode = false;
       },
       error => {
         console.log("error in change user: ", error);
       }
     );
+
   }
 
   ngOnDestroy(): void {

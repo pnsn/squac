@@ -10,3 +10,37 @@
     max-width: 600px;
   }
 }
+
+.form-group {
+  #label {
+    width: 24%;
+    display:inline-block;
+  }
+  mat-form-field {
+    width: 75%;
+  }
+  
+}
+
+#user-info-top {
+
+  margin-top: 25px;
+  h2 {
+    display:inline-block;
+    margin-top:10px;
+  }
+  button {
+    float:right;
+  }
+}
+
+#user-info-bottom {
+  mat-form-field {
+    width: 75%;
+  }
+  #button-container {
+    display: inline-block;
+    margin-left:4%;
+    width: 20%;
+  }
+}
