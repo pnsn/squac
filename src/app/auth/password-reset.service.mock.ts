@@ -7,9 +7,6 @@ export class MockPasswordResetService {
 
   }
 
-  // /password_reset
-  // to get token
-
   resetPassword(email : string) {
     return of(email);
   }
@@ -22,6 +19,4 @@ export class MockPasswordResetService {
   confirmPassword(password) {
     return of(password, this.token);
   }
-
-
 }
