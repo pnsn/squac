@@ -32,10 +32,10 @@ describe('UserService', () => {
     expect(userService).toBeTruthy();
   });
 
-  //get user
+  // get user
   // fetch user
-  //logout
-  //update user
+  // logout
+  // update user
 
 
 });

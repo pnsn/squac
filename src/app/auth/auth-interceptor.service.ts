@@ -14,7 +14,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-    if(this.authService.loggedIn) {
+    if (this.authService.loggedIn) {
       const modifiedReq = req.clone({
         headers : new HttpHeaders(
           {

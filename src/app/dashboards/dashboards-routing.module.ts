@@ -15,32 +15,32 @@ export const routes: Routes = [
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     children: [
-      { 
+      {
         path: 'new',
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Dashboard', action: 'create'}
       },
-      { 
+      {
         path: ':id',
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'view'},
+        data: {subject: 'Dashboard', action: 'read'},
         children: [
           { path: 'widget',
             children: [
-              { 
-                path: 'new', 
+              {
+                path: 'new',
                 component: WidgetEditComponent,
                 canActivate: [PermissionGuard],
                 data: {subject: 'Widget', action: 'create'}
               },
-              { 
-                path: ':widgetid', 
+              {
+                path: ':widgetid',
                 component: DashboardDetailComponent
               },
-              { 
-                path: ':widgetid/edit', 
+              {
+                path: ':widgetid/edit',
                 component: WidgetEditComponent,
                 canActivate: [PermissionGuard],
                 data: {subject: 'Widget', action: 'update'}
@@ -49,8 +49,8 @@ export const routes: Routes = [
           }
         ]
       },
-      { 
-        path: ':id/edit', 
+      {
+        path: ':id/edit',
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Dashboard', action: 'update'}},

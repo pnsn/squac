@@ -9,15 +9,15 @@ import { User } from './auth/user';
 
 
 describe('Ability', () => {
-  let testAbility : Ability;
+  let testAbility: Ability;
 
-  let testUser : User = new User(
+  const testUser: User = new User(
     1,
-    "email",
-    "firstName",
-    "lastName",
+    'email',
+    'firstName',
+    'lastName',
     false,
-    "organization",
+    'organization',
     []
   );
 
@@ -33,33 +33,33 @@ describe('Ability', () => {
 
 
   it('should allow read by default', () => {
-    expect(testAbility.can("read", "Dashboard")).toEqual(true);
+    expect(testAbility.can('read', 'Dashboard')).toEqual(true);
   });
 
   it('should allow admin to manage all', () => {
     const adminUser = new User(
       1,
-      "email",
-      "firstName",
-      "lastName",
+      'email',
+      'firstName',
+      'lastName',
       true,
-      "organization",
+      'organization',
       []
     );
     testAbility.update(defineAbilitiesFor(adminUser));
     expect(testAbility.can('manage', 'all')).toEqual(true);
   });
 
-  it('should not allow without permission to cud', ()=>{
-    testUser.groups = ["viewer"];
+  it('should not allow without permission to cud', () => {
+    testUser.groups = ['viewer'];
 
     testAbility.update(defineAbilitiesFor(testUser));
     expect(testAbility.can('update', 'Dashboard')).toEqual(false);
     expect(testAbility.can('read', 'Dashboard')).toEqual(true);
   });
 
-  it('should allow for multiple groups', ()=>{
-    testUser.groups = ["viewer", "contributor"];
+  it('should allow for multiple groups', () => {
+    testUser.groups = ['viewer', 'contributor'];
 
     testAbility.update(defineAbilitiesFor(testUser));
 

@@ -5,32 +5,29 @@ export const ability = AbilityBuilder.define(can => {
   can('read', 'all');
 });
 
-export function defineAbilitiesFor(user : User) {
-  const { rules, can: allow, cannot: forbid } = AbilityBuilder.extract()
+export function defineAbilitiesFor(user: User) {
+  const { rules, can: allow, cannot: forbid } = AbilityBuilder.extract();
 
   if (user.isAdmin()) {
-    allow('manage', 'all')
-  } 
-  if(user.inGroup('contributor')) {
-    allow('crud', 'Measurement', {owner: user.id})
-    allow('crud', 'Metric', {owner: user.id})
-    allow('crud', 'Archive', {owner: user.id})
+    allow('manage', 'all');
+  }
+  if (user.inGroup('contributor')) {
+    allow(['update', 'delete'], ['Measurement', 'Metric', 'Archive'], {owner: user.id});
+    allow(['read', 'create'], ['Measurement', 'Metric', 'Archive']);
   }
   if (user.inGroup('reporter')) {
-    allow('crud', 'Dashboard', {owner: user.id})
-    allow('crud', 'Widget', {owner: user.id})
-    allow('crud', 'ChannelGroup', {owner: user.id})
-    allow('crud', 'Threshold', {owner: user.id})
+    allow(['update', 'delete'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'], {owner: user.id});
+    allow(['read', 'create'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup']);
   }
   if (user.inGroup('viewer')) {
-    allow('read', 'all')
+    allow('read', 'all');
   }
   return rules;
 }
 
 
 
-//TODO: deal with ownership
+// TODO: deal with ownership
 
 // Viewers
 // see all resources

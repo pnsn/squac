@@ -3,15 +3,15 @@ import { User } from './user';
 
 export class MockAuthService {
   constructor() {}
-  token : string;
+  token: string;
 
   testAuth = '2352fsdf';
 
-  get loggedIn() : boolean {
+  get loggedIn(): boolean {
     return !!this.token;
   }
 
-  get auth() : string {
+  get auth(): string {
     return this.token;
   }
 

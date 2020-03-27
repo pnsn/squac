@@ -110,7 +110,7 @@ export class WidgetsService {
       response.thresholds.forEach(t => {
         const threshold = new Threshold (
           t.id,
-          t.owner_id,
+          t.user_id,
           t.widget,
           t.metric,
           t.minval,
@@ -126,7 +126,7 @@ export class WidgetsService {
       response.metrics.forEach(m => {
         const metric = new Metric(
           m.id,
-          m.owner_id,
+          m.user_id,
           m.name,
           m.code,
           m.description,
@@ -141,7 +141,7 @@ export class WidgetsService {
 
     const widget = new Widget(
       response.id,
-      response.owner_id,
+      response.user_id,
       response.name,
       response.description,
       response.widgettype.id,

@@ -23,14 +23,14 @@ export class AuthService {
     private squacApi: SquacApiService,
     private userService: UserService
   ) { }
-  
-  // True if a user logged in 
-  get loggedIn() : boolean {
+
+  // True if a user logged in
+  get loggedIn(): boolean {
     return !!this.token;
   }
 
   // returns auth token
-  get auth() : string {
+  get auth(): string {
     return this.token;
   }
 
@@ -124,7 +124,7 @@ export class AuthService {
     this.signInUser(authData.token, expiresIn * 1000);
   }
 
-  // handles the sign in 
+  // handles the sign in
   private signInUser(token, expiration) {
     this.autologout(expiration);
     this.token = token;

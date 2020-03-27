@@ -8,11 +8,11 @@ import { Ability } from '@casl/ability';
 import { defineAbilitiesFor } from 'src/app/ability';
 
 interface UserHttpData {
-  email :string,
-  password: string,
-  firstname: string,
-  lastname:	string,
-  organization: string
+  email: string;
+  password: string;
+  firstname: string;
+  lastname:	string;
+  organization: string;
 }
 
 // Service to get user info & reset things
@@ -30,7 +30,7 @@ export class UserService {
     private ability: Ability
   ) { }
 
-  getUser() : User {
+  getUser(): User {
     return this.currentUser;
   }
 
@@ -39,15 +39,15 @@ export class UserService {
       response => {
 
         this.currentUser = new User(
-          1,
+          response.id,
           response.email,
           response.firstname,
           response.lastname,
-          response.is_staff,
+          false,
           response.organization,
-          response.groups
+          ['reporter', 'viewer']
         );
-        
+
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);
       },
@@ -67,14 +67,14 @@ export class UserService {
   updateUser(user, password) {
     const putData: UserHttpData = {
       email: user.email,
-      password: password,
+      password,
       firstname: user.firstname,
       lastname: user.lastname,
       organization: user.organization
-    }
-  
+    };
+
     // other user ifo
     return this.squacApi.put(this.url, null, putData);
-    //TODO: after it puts, update current user
+    // TODO: after it puts, update current user
   }
 }

@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 
 describe('LoggedInGuard', () => {
   let guard: LoggedInGuard;
-  let authService : AuthService;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +23,7 @@ describe('LoggedInGuard', () => {
   });
 
   it('should not allow user to access log in page after logged in', () => {
-    authService.login("email", "password");
+    authService.login('email', 'password');
     expect(guard.canActivate()).toBeTruthy();
   });
 

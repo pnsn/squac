@@ -8,16 +8,16 @@ export class MockUserService {
   constructor() {}
   private currentUser = new User(
     1,
-    "email",
-    "firstname",
-    "lastname",
+    'email',
+    'firstname',
+    'lastname',
     true,
-    "organization",
-    ["contributor"]
+    'organization',
+    ['contributor']
   );
   user = new BehaviorSubject<User>(null);
 
-  getUser() : User {
+  getUser(): User {
     return this.currentUser;
   }
 

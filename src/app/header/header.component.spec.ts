@@ -18,7 +18,7 @@ describe('HeaderComponent', () => {
       declarations: [ HeaderComponent ],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule, 
+        RouterTestingModule,
         MatToolbarModule,
         AbilityModule
       ],

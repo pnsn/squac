@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
       err => {
         console.log('error in auth component: ' + err);
       }
-    )
+    );
     // start autologin process
     this.authService.autologin();
     this.subscription.add(userSub);

@@ -10,15 +10,15 @@ import { Ability, AbilityBuilder } from '@casl/ability';
 describe('PermissionGuard', () => {
   let guard: PermissionGuard;
 
-  let testAbility = AbilityBuilder.define( can =>{
-    can("update", "Post");
+  const testAbility = AbilityBuilder.define( can => {
+    can('update', 'Post');
   });
 
-  let ability : Ability;
+  let ability: Ability;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), AbilityModule],
+      imports: [AbilityModule],
       providers: [
         {provide: UserService, useClass: MockUserService},
         {provide: Ability, useValue: testAbility}
@@ -32,36 +32,36 @@ describe('PermissionGuard', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should return true if there is no subject or action', ()=> {
-    let route: any = { snapshot: {}, data: {}};
-    
+  it('should return true if there is no subject or action', () => {
+    const route: any = { snapshot: {}, data: {}};
+
     expect(guard.canActivate(route)).toEqual(true);
 
 
-  })
+  });
 
   it('should not allow user to route to resource without permission', () => {
-    let route: any = { snapshot: {}, 
+    const route: any = { snapshot: {},
       data: {
-        subject : "Post",
-        action: "read"
+        subject : 'Post',
+        action: 'read'
       }
     };
-    expect(ability.can("read", "Post")).toEqual(false);
+    expect(ability.can('read', 'Post')).toEqual(false);
 
     expect(guard.canActivate(route)).toEqual(false);
   });
 
   it('should allow user to route to resource with permission', () => {
-    let route: any = { snapshot: {}, 
+    const route: any = { snapshot: {},
       data: {
-        subject : "Post",
-        action: "update"
+        subject : 'Post',
+        action: 'update'
       }
     };
-    expect(ability.can("update", "Post")).toEqual(true);
+    expect(ability.can('update', 'Post')).toEqual(true);
 
     expect(guard.canActivate(route)).toEqual(true);
   });
-  
+
 });

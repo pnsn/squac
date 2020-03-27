@@ -36,7 +36,7 @@ describe('AuthGuard', () => {
   });
 
   it('should allow routing after authorization', () => {
-    authService.login("email", "password");
+    authService.login('email', 'password');
     expect(guard.canActivate()).toEqual(true);
   });
 

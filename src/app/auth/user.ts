@@ -13,11 +13,11 @@ export class User {
   }
 
 
-  isAdmin() : boolean {
+  isAdmin(): boolean {
     return this.isStaff;
   }
 
-  inGroup(group : string) : boolean{
+  inGroup(group: string): boolean {
     return this.groups.indexOf(group) >= 0;
   }
 }

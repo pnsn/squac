@@ -29,12 +29,12 @@
 
           <!-- if they have permission, otherwise show copy only -->
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
-            <button mat-menu-item (click)="addWidget()" *ngIf="'Dashboard' | can: 'update'">Add Widget</button> 
-            <button mat-menu-item (click)="editDashboard()" *ngIf="'Dashboard' | can: 'update'">Edit Dashboard Information</button>
+            <button mat-menu-item (click)="addWidget()" >Add Widget</button> 
+            <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
             <!-- <button mat-menu-item color="warn" *ngIf="'dashboard' | can: 'delete'">Delete Dashboard</button> -->
           </mat-menu>
           
-          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary" *ngIf="dashboard | can: 'update'">
             <mat-icon>settings_application</mat-icon>
           </button>
         </div>

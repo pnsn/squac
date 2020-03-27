@@ -21,8 +21,8 @@ describe('DashboardsService', () => {
   const testDashboard = new Dashboard(
     1,
     1,
-    "name",
-    "description",
+    'name',
+    'description',
     []
   );
 

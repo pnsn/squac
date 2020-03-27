@@ -5,11 +5,11 @@
     <h4>{{widget.name}}</h4>
     <mat-menu #widgetMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
     <!--copy widget button -->
-        <button mat-menu-item (click)="editWidget()" *ngIf="'Widget' | can: 'update'">Edit Widget</button>
+        <button mat-menu-item (click)="editWidget()" *ngIf="widget | can: 'update'">Edit Widget</button>
         <!-- <button mat-menu-item color="warn" *ngIf="'Widget' | can: 'delete'">Delete Widget</button> -->
       </mat-menu>
       
-      <button mat-icon-button [matMenuTriggerFor]="widgetMenu" color="primary" *ngIf="'Widget' | can: 'update'">
+      <button mat-icon-button [matMenuTriggerFor]="widgetMenu" color="primary" *ngIf="widget | can: 'update'">
         <mat-icon>more_vert</mat-icon>
       </button>
   </div>

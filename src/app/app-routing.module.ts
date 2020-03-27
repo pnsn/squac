@@ -24,19 +24,19 @@ const appRoutes: Routes = [
     data: {subject: 'Metric', action: 'read'},
     children: [
       { path: '', component: MetricsViewComponent, pathMatch: 'full'},
-      { 
+      {
         path: 'new',
         component: MetricsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Metric', action: 'create'}
       },
-      { 
+      {
         path: ':id',
         component: MetricsViewComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Metric', action: 'read'}
       },
-      { 
+      {
         path: ':id/edit',
         component: MetricsEditComponent,
         canActivate: [PermissionGuard],
@@ -49,16 +49,16 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
     children: [
-      { 
+      {
         path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'
       },
-      { 
+      {
         path: 'new',
-        component: ChannelGroupsEditComponent,        
+        component: ChannelGroupsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'ChannelGroup', action: 'create'}
       },
-      { 
+      {
         path: ':id',
         component: ChannelGroupsViewComponent,
         canActivate: [PermissionGuard],
