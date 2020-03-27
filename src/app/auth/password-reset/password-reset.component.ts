@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent implements OnInit {
-  emailSent: Boolean = false;
-  tokenValidated: Boolean = false;
+  emailSent: boolean = false;
+  tokenValidated: boolean = false;
   error: string;
+  hide: boolean = true;
   attempts : number = 0;
   constructor(
     private passwordResetService : PasswordResetService,
@@ -32,7 +33,7 @@ export class PasswordResetComponent implements OnInit {
     Validators.required,
   ]);
 
-  password = new FormControl('', [
+  newPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(6)
   ]);
@@ -82,7 +83,7 @@ export class PasswordResetComponent implements OnInit {
   }
 
   confirmPassword() {
-    const password1 = this.password.value;
+    const password1 = this.newPassword.value;
     const password2 = this.passwordConfirm.value;
 
     if(password1 !== password2) {
