@@ -48,8 +48,7 @@ export class UserComponent implements OnInit, OnDestroy {
         ),
       lastname: new FormControl(user.lastname, Validators.required),
       email: new FormControl(user.email, [Validators.required, Validators.email]),
-      organization: new FormControl(user.organization, [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+      organization: new FormControl(user.organization, [Validators.required])
     });
   }
 

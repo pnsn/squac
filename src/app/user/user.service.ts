@@ -67,7 +67,7 @@ export class UserService {
     const putData: UserHttpData = user;
 
     // other user ifo
-    return this.squacApi.put(this.url, null, putData);
+    return this.squacApi.patch(this.url, null, putData);
     // TODO: after it puts, update current user
   }
 }
