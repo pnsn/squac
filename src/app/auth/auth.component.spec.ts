@@ -7,16 +7,17 @@ import { MaterialModule } from '../shared/material.module';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockAuthService } from './auth.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
   let fixture: ComponentFixture<AuthComponent>;
-  let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -24,7 +25,6 @@ describe('AuthComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
 
   });

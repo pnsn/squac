@@ -1,12 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PasswordResetService } from './password-reset.service';
+import { SquacApiService } from '../squacapi.service';
+import { MockSquacApiService } from '../squacapi.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PasswordResetService', () => {
   let service: PasswordResetService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {provide: SquacApiService, useValue:  new MockSquacApiService()}
+      ]
+    });
     service = TestBed.inject(PasswordResetService);
   });
 
