@@ -17,6 +17,9 @@ import { LoginComponent } from './auth/login/login.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
+  {
+    path: 'password_reset/confirm', redirectTo: 'login/password-reset', pathMatch: 'full'
+  },
   { 
     path: 'login', 
     component: AuthComponent, 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { PasswordResetService } from '../password-reset.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -15,22 +15,31 @@ export class PasswordResetComponent implements OnInit {
   error: string;
   hide: boolean = true;
   attempts : number = 0;
+  token: string;
+
   constructor(
     private passwordResetService : PasswordResetService,
-    private router: Router
+    private router: Router,
+    private route : ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-
+    this.route.queryParams.subscribe(
+      params => {
+        this.token = params.token;
+        if(this.token) {
+          this.emailSent = true;
+          this.sendToken(this.token);
+        } else {
+          this.emailSent = false;
+        }
+        console.log(this.token); // popular
+    });
   }
 
   email= new FormControl('', [
     Validators.required,
     Validators.email,
-  ]);
-
-  token = new FormControl('', [
-    Validators.required,
   ]);
 
   newPassword = new FormControl('', [
@@ -67,8 +76,7 @@ export class PasswordResetComponent implements OnInit {
     this.tokenValidated = false;
   }
 
-  sendToken() {
-    const token = this.token.value;
+  sendToken(token : string) {
     this.passwordResetService.validateToken(token).subscribe(
       token => {
         //go to next step

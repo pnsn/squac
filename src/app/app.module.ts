@@ -30,6 +30,7 @@ import { Ability } from '@casl/ability';
 import { ability } from './user/ability';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ConfirmComponent } from './auth/password-reset/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { LoginComponent } from './auth/login/login.component';
     UserComponent,
     PasswordResetComponent,
     LoginComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,
