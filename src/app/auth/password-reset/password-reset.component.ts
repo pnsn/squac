@@ -10,12 +10,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent implements OnInit {
-  emailSent: boolean = false;
-  tokenValidated: boolean = false;
-  error: string;
-  hide: boolean = true;
-  attempts : number = 0;
-  token: string;
+  emailSent: boolean = false; //has email been sent
+  tokenValidated: boolean = false; //has token been validated
+  error: string; //error message
+  hide: boolean = true; //show/hide password
+  attempts : number = 0; //soft block for too many
+  token: string; //the token
 
   constructor(
     private passwordResetService : PasswordResetService,
@@ -33,7 +33,6 @@ export class PasswordResetComponent implements OnInit {
         } else {
           this.emailSent = false;
         }
-        console.log(this.token); // popular
     });
   }
 
@@ -52,7 +51,6 @@ export class PasswordResetComponent implements OnInit {
   ]);
 
   sendEmail() {
-    console.log("send email")
     if(this.attempts > 4) {
       this.error = "Too many attempts, contact pnsn@uw.edu to reset password";
     }
@@ -100,9 +98,6 @@ export class PasswordResetComponent implements OnInit {
 
     this.passwordResetService.confirmPassword(password1).subscribe(
       response => {
-        //go redircet
-        //go to next step
-        console.log(response);
         this.router.navigate(['/login']);
       },
       error => {

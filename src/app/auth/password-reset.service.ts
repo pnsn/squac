@@ -16,19 +16,6 @@ export class PasswordResetService {
 
   }
 
-  // resetPassword(email : string) {
-  //   return of(email);
-  // }
-
-  // validateToken(token : string) {
-  //   this.token = token;
-  //   return of(token);
-  // }
-
-  // confirmPassword(password) {
-  //   return of(password, this.token);
-  // }
-
   //send email to squac, it sends token to user
   resetPassword(email : string) {
     return this.squacApi.post(this.url, {
