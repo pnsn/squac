@@ -6,7 +6,7 @@ import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.componen
 import { WidgetComponent } from '../widgets/widget.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
-import { PermissionGuard } from '../auth/permission.guard';
+import { PermissionGuard } from '../user/permission.guard';
 
 
 export const routes: Routes = [

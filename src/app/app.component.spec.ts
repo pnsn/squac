@@ -8,8 +8,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MockAuthService } from './auth/auth.service.mock';
-import { UserService } from './auth/user.service';
-import { MockUserService } from './auth/user.service.mock';
+import { UserService } from './user/user.service';
+import { MockUserService } from './user/user.service.mock';
 
 
 describe('AppComponent', () => {

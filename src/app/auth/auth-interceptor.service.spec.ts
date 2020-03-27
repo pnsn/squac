@@ -6,10 +6,6 @@ import {
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { User } from './user';
-import { Data } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { MockAuthService } from './auth.service.mock';
 
 

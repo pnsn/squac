@@ -1,11 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { SquacApiService } from './squacapi.service';
-import { HttpClient } from '@angular/common/http';
 import { AbilityModule } from '@casl/angular';
 import { ability, defineAbilitiesFor } from './ability';
 import { Ability } from '@casl/ability';
-import { User } from './auth/user';
+import { User } from './user';
 
 
 describe('Ability', () => {

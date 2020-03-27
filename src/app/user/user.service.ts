@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { SquacApiService } from '../squacapi.service';
 import { Ability } from '@casl/ability';
-import { defineAbilitiesFor } from 'src/app/ability';
+import { defineAbilitiesFor } from './ability';
 
 interface UserHttpData {
   email: string;

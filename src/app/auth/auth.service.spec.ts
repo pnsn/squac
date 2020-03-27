@@ -8,8 +8,8 @@ import { SquacApiService } from '../squacapi.service';
 import { AuthComponent } from './auth.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
-import { UserService } from './user.service';
-import { MockUserService } from './user.service.mock';
+import { UserService } from '../user/user.service';
+import { MockUserService } from '../user/user.service.mock';
 
 describe('AuthService', () => {
   let router: Router;

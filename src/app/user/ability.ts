@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '@casl/ability';
-import { User } from './auth/user';
+import { User } from './user';
 
 export const ability = AbilityBuilder.define(can => {
   can('read', 'all');

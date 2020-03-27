@@ -10,8 +10,8 @@ import { MetricsEditComponent } from './metrics/metrics-edit/metrics-edit.compon
 import { MetricsViewComponent } from './metrics/metrics-view/metrics-view.component';
 import { MetricsDetailComponent } from './metrics/metrics-detail/metrics-detail.component';
 import { LoggedInGuard } from './auth/logged-in.guard';
-import { UserComponent } from './auth/user/user.component';
-import { PermissionGuard } from './auth/permission.guard';
+import { UserComponent } from './user/user.component';
+import { PermissionGuard } from './user/permission.guard';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
