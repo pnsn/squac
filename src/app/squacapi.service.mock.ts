@@ -23,6 +23,10 @@ export class MockSquacApiService {
     return of(this.testData);
   }
 
+  patch(path: string, id: number, data: any): Observable<any> {
+    return of(this.testData);
+  }
+
   delete() {
     return of(this.testData);
   }

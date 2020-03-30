@@ -40,6 +40,14 @@ export class SquacApiService {
     return this.http.put<any>(url, data);
   }
 
+  // for updating
+  patch(path: string, id: number, data: any ): Observable<any> {
+    const url = this.baseUrl + path + (id ? id + '/' : '');
+    console.log('patch: ', url);
+    return this.http.patch<any>(url, data);
+  }
+
+
   // for deleting
   delete(path: string, id: number) {
     const url = this.baseUrl + path + (id ? id + '/' : '');
