@@ -178,12 +178,16 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onFilteringOpen() {
     this.isFilterOpen = true;
-    this.filteredChannels = [...this.selectedChannels];
+    setTimeout(() => {
+      this.filteredChannels = [...this.selectedChannels];
+    }, 0);
   }
 
   onFilteringClose() {
     this.isFilterOpen = false;
-    this.filteredChannels = [...this.selectedChannels];
+    setTimeout(() => {
+      this.filteredChannels = [...this.selectedChannels];
+    }, 0);
   }
 
   onSelectedFilter(searchFilters: object) {
@@ -241,8 +245,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       });
     });
     this.getIdsFromChannels();
-    this.filteredChannels = [...this.selectedChannels]; // reset filtered to current channel list
-    this.isSelectedFiltered = false; // disable button until new filter params
+    this.onFilteringClose();
     this.changeMade = true;
   }
 

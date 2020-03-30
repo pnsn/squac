@@ -140,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "squac-ui"
+  "defaultProject": "squac-ui",
+  "cli": {
+    "analytics": false
+  }
 }

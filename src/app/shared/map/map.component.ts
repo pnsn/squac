@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
 import { Channel } from '../channel';
 import * as L from 'leaflet';
 
@@ -7,7 +7,7 @@ import * as L from 'leaflet';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnChanges {
+export class MapComponent implements OnInit, OnChanges {
   @Input() originalSelectedChannels: Channel[];
   @Input() selectedChannels: Channel[];
   @Input() searchChannels: Channel[];
@@ -27,20 +27,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
   layers: L.Layer[];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
+  map: L.Map;
 
   constructor() { }
 
   ngOnInit() {
     this.initMap();
-  }
-
-  ngAfterViewInit() {
-    this.options = {
-      center: L.latLng(45.0000, -120.0000),
-      zoom: 5,
-      layers: this.layers
-    };
-    this.updateMap();
   }
 
   ngOnChanges() {
@@ -103,9 +95,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
-      center: undefined,
-      zoom: undefined,
-      layers: undefined
+      center: L.latLng(45.0000, -120.0000),
+      zoom: 5,
+      layers: this.layers
     };
 
     // Options for the drawing menu
@@ -123,6 +115,14 @@ export class MapComponent implements AfterViewInit, OnChanges {
       },
       edit: { featureGroup: this.drawnItems }
     };
+  }
+
+  onMapReady(map: L.Map) {
+    this.map = map;
+    setTimeout(() => {
+      this.map.invalidateSize();
+      this.updateMap();
+    }, 0);
   }
 
   updateMap() {
@@ -196,7 +196,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
       if (chanMarkers.length > 0) {
         // Recenter and rezoom to fit
         this.options.center = L.latLng(sumLat / chanMarkers.length, sumLon / chanMarkers.length);
-        this.fitBounds = L.latLngBounds(chanLatLng);
+        this.map.fitBounds(L.latLngBounds(chanLatLng));
       }
     }
   }

@@ -3,7 +3,7 @@
     leaflet
     [leafletOptions]="options"
     [leafletLayers]="layers"
-    [leafletFitBounds]="fitBounds">
+    (leafletMapReady)="onMapReady($event)">
     <div *ngIf="editPage" leafletDraw [leafletDrawOptions]="drawOptions"
         (leafletDrawStart)="onDrawStart()"
         (leafletDrawCreated)="onRectangleCreated($event)"
