@@ -41,7 +41,7 @@
       id="channel-selector"
       class="material"
       [rows]="availableChannels" 
-      [columnMode]="ColumnMode.force"
+      [columnMode]="ColumnMode.flex"
       [headerHeight]="50" 
       [footerHeight]="50" 
       [rowHeight]="50"
@@ -50,22 +50,22 @@
       [limit]="9" 
       [sortType]="SortType.multi"
       >
-      <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+      <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [resizeable]="false" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.networkCode | uppercase }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Station" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+      <ngx-datatable-column name="Station" [draggable]="false" [sortable]="true" [resizeable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.stationCode | uppercase }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+      <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{row.loc}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+      <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="true" [resizeable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.code | uppercase }}
         </ng-template>
@@ -144,7 +144,7 @@
           [ngClass]="{'table-filter-open': isFilterOpen, 'table-filter-closed': !isFilterOpen}"
           class="material"
           [rows]="filteredChannels"
-          [columnMode]="ColumnMode.force"
+          [columnMode]="ColumnMode.flex"
           [headerHeight]="50"
           [footerHeight]="50" 
           [rowHeight]="50"
@@ -162,22 +162,22 @@
               <button (click)="removeChannel(row)">X</button>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+          <ngx-datatable-column name="Network" [draggable]="false" [sortable]="false" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
               {{ row.networkCode | uppercase }}
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+          <ngx-datatable-column name="Station" [draggable]="false" [sortable]="false" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               {{ row.stationCode | uppercase }}
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [width]="100">
+          <ngx-datatable-column name="Location" [draggable]="false" [sortable]="true" [resizeable]="false" [flexGrow]="1">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 {{row.loc}}
               </ng-template>
             </ngx-datatable-column>
-          <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [width]="100">
+          <ngx-datatable-column name="Channel" [draggable]="false" [sortable]="false" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               {{ row.code | uppercase }}
             </ng-template>
