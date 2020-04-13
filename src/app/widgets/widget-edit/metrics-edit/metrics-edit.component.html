@@ -13,6 +13,7 @@ placeholder="Filter by metric name..."
     class="material"
     [rows]="tableRows"
     [headerHeight]="30"
+    [columnMode]="ColumnMode.flex"
     [footerHeight]="50"
     [rowHeight]="30"
     [scrollbarV]="true"
@@ -32,9 +33,9 @@ placeholder="Filter by metric name..."
       [checkboxable]="true"
     >
     </ngx-datatable-column>
-    <ngx-datatable-column name="Name" [width]="250"></ngx-datatable-column>
-    <ngx-datatable-column name="Unit" [width]="100"></ngx-datatable-column>
-    <ngx-datatable-column name="Description" [width]="529"></ngx-datatable-column>
+    <ngx-datatable-column name="Name" [flexGrow]="2"></ngx-datatable-column>
+    <ngx-datatable-column name="Unit" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Description" [flexGrow]="4"></ngx-datatable-column>
   </ngx-datatable>
 </div>
 
