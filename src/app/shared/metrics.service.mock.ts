@@ -10,6 +10,7 @@ export class MockMetricsService {
     '',
     '',
     '',
+    '',
     1,
     1
   );

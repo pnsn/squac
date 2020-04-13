@@ -13,20 +13,20 @@
 </div> 
 
 <div id="metric-container">
-  <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.force"
+  <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.flex"
         [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
         [selectionType]="SelectionType.single" (select)="onSelect($event)">
-    <ngx-datatable-column name="Name" [width]="75" [draggable]="false" [sortable]="true">
+    <ngx-datatable-column name="Name" [flexGrow]="2" [draggable]="false" [sortable]="true">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.name }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Unit" [width]="75" [draggable]="false" [sortable]="true">
+    <ngx-datatable-column name="Unit" [flexGrow]="1"  [draggable]="false" [sortable]="true">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.unit }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Description" [width]="800" [draggable]="false" [sortable]="false">
+    <ngx-datatable-column name="Description" [flexGrow]="3"  [draggable]="false" [sortable]="false">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.description }}
       </ng-template>

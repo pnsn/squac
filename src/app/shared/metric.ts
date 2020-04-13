@@ -9,6 +9,7 @@ export class Metric {
     public code: string,
     public description: string,
     public url: string,
+    public refUrl: string,
     public unit: string,
     public minVal?: number,
     public maxVal?: number

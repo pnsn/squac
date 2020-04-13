@@ -16,6 +16,7 @@ describe('MetricsService', () => {
     'code',
     'description',
     'source',
+    'reference',
     'unit'
   );
   let squacApiService;
@@ -92,6 +93,7 @@ describe('MetricsService', () => {
       'code',
       'description',
       'source',
+      'reference',
       'unit'
     );
 

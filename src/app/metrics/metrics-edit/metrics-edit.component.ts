@@ -53,9 +53,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       description: new FormControl('', Validators.required),
       code: new FormControl('', Validators.required),
       url: new FormControl('', Validators.required),
+      refUrl: new FormControl('', Validators.required),
       unit: new FormControl('', Validators.required),
-      minVal: new FormControl('', Validators.required),
-      maxVal: new FormControl('', Validators.required)
+      minVal: new FormControl(''),
+      maxVal: new FormControl('')
     });
 
     if (this.editMode) {
@@ -66,6 +67,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
             code: metric.code,
             description : metric.description,
             url : metric.url,
+            refUrl: metric.refUrl,
             unit : metric.unit,
             minVal : metric.minVal,
             maxVal : metric.maxVal
@@ -88,7 +90,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         values.code,
         values.description,
         values.url,
-        values.unit
+        values.refUrl,
+        values.unit,
+        values.minVal,
+        values.maxVal
       )
     ).subscribe(
       result => {
