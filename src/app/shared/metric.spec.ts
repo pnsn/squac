@@ -8,7 +8,6 @@ describe('Metric', () => {
       'name',
       'code',
       'description',
-      'source',
       'reference',
       'unit',
       1,

@@ -52,7 +52,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       name : new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       code: new FormControl('', Validators.required),
-      url: new FormControl('', Validators.required),
       refUrl: new FormControl('', Validators.required),
       unit: new FormControl('', Validators.required),
       minVal: new FormControl(''),
@@ -66,7 +65,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
             name : metric.name,
             code: metric.code,
             description : metric.description,
-            url : metric.url,
             refUrl: metric.refUrl,
             unit : metric.unit,
             minVal : metric.minVal,
@@ -89,7 +87,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         values.name,
         values.code,
         values.description,
-        values.url,
         values.refUrl,
         values.unit,
         values.minVal,
@@ -109,9 +106,9 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   // TODO: warn if unsaved
   cancel(id?: number) {
     if (id && !this.id) {
-      this.router.navigate(['../', id], {relativeTo: this.route});
+      this.router.navigate(['../../', id], {relativeTo: this.route});
     } else {
-    this.router.navigate(['../'], {relativeTo: this.route});
+      this.router.navigate(['../../'], {relativeTo: this.route});
     }
   }
 

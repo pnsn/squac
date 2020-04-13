@@ -9,7 +9,6 @@ interface MetricsHttpData {
   name: string;
   code: string;
   description: string;
-  url: string;
   unit: string;
   reference_url: string;
   default_minval?: number;
@@ -81,7 +80,6 @@ export class MetricsService {
               result.name,
               result.code,
               result.description,
-              result.url,
               result.reference_url,
               result.unit,
               result.default_minval,
@@ -98,7 +96,6 @@ export class MetricsService {
       name: metric.name,
       code: metric.code,
       description: metric.description,
-      url : metric.url,
       reference_url: metric.refUrl,
       unit : metric.unit,
       default_minval : metric.minVal,

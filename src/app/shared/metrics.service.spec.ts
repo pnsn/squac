@@ -15,7 +15,6 @@ describe('MetricsService', () => {
     'name',
     'code',
     'description',
-    'source',
     'reference',
     'unit'
   );
@@ -92,7 +91,6 @@ describe('MetricsService', () => {
       'name',
       'code',
       'description',
-      'source',
       'reference',
       'unit'
     );
