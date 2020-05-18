@@ -10,7 +10,7 @@ import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { Widget } from 'src/app/widgets/widget';
 import { Threshold } from 'src/app/widgets/threshold';
-import TimelinesChart, { TimelinesChartInstance } from 'timelines-chart';
+import TimelinesChart, { TimelinesChartInstance, Val } from 'timelines-chart';
 import * as d3 from 'd3';
 
 @Component({
@@ -136,12 +136,19 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.loading = false;
 
     this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
-    .zScaleLabel('My Scale Units')
+    .zDataLabel(this.currentMetric.unit)
     .zQualitative(false)
     .enableOverview(null);
+    console.log(this.chart.zColorScale())
+    this.chart.zColorScale().range(["blue", "red"]);
+    this.chart.zColorScale().domain([0, 1]);
 
+    let formatTime = d3.timeFormat("%Y-%m-%d %-I:%M:%S %p");
     this.chart.segmentTooltipContent((d)=> {
-      return "<div>" + d.val + " " +this.currentMetric.unit+"</div>";
+      const row1 = "<div> value: <span>" + d.val + " (" +this.currentMetric.unit+")</span></div>";
+      const row2 = "<div> start: <span>" +formatTime(d.timeRange[0]) + "</span></div>";
+      const row3 = "<div> end: <span>" + formatTime(d.timeRange[1])+"</span></div>";
+      return row1 + row2 + row3;
     });
 
     this.resize();
