@@ -37,7 +37,7 @@ export class UserService {
     this.squacApi.get(this.url).subscribe(
       response => {
         const groups = [];
-        for(let group of response.groups) {
+        for (const group of response.groups) {
           groups.push(group.name);
         }
 
@@ -50,7 +50,7 @@ export class UserService {
           response.organization,
           groups
         );
-        
+
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);
       },
