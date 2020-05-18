@@ -42,7 +42,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       metrics => {
         this.availableMetrics = metrics;
         this.tableRows = this.availableMetrics;
-
         const metricIds = this.widgetEditService.getMetricIds();
         if (metricIds.length > 0) {
           this.selectedMetrics = this.availableMetrics.filter(

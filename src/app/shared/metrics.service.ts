@@ -44,6 +44,7 @@ export class MetricsService {
           results.forEach(m => {
             const metric = new Metric(
               m.id,
+              m.owner,
               m.name,
               m.code,
               m.description,
