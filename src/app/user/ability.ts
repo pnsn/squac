@@ -24,7 +24,7 @@ export function defineAbilitiesFor(user: User) {
   if (user.inGroup('viewer')) {
     allow('read', 'all');
   }
-  console.log(rules)
+
   return rules;
 }
 
