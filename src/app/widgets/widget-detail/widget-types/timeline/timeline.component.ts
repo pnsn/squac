@@ -136,9 +136,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.loading = false;
 
     this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
-    .zDataLabel(this.currentMetric.unit)
-    .zQualitative(false)
-    .enableOverview(null);
+      .zDataLabel(this.currentMetric.unit)
+      .zQualitative(false)
+      .enableOverview(null);
     console.log(this.chart.zColorScale())
     this.chart.zColorScale().range(["blue", "red"]);
     this.chart.zColorScale().domain([0, 1]);
