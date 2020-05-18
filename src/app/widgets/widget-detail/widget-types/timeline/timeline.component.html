@@ -1,38 +1,4 @@
-<ngx-datatable 
- #dataTable
- class="material expandable" 
- [rows]="rows"
- [sortType]="SortType.multi"
- [columnMode]="ColumnMode.force"
- [footerHeight]="0"
- [rowHeight]="24"
- [scrollbarH]="true"
- [scrollbarV]="true"
- [messages]="messages"
- [treeFromRelation]="'parentId'"
- [treeToRelation]="'id'"
- (treeAction)="onTreeAction($event)"
- [sorts]="[{ prop: 'agg', dir: 'desc' }]"
->      
- <ngx-datatable-column name="title" [isTreeColumn]="true" [maxWidth]="120" [frozenLeft]="true" [resizeable]="false">
- </ngx-datatable-column>
-  <ngx-datatable-column name="timeline" [canAutoResize]="true">
-    <ng-template ngx-datatable-header-template>
-        {{currentMetric?.name}}
-    </ng-template>
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <div id="timeline-container">
-        <div *ngFor="let segment of value"
-          class="cell" 
-          [ngClass]="{'in-spec': segment.threshold, 'out-of-spec': !segment.threshold && currentMetric.threshold, 'no-threshold' : !currentMetric.threshold}"
-          matTooltip="{{segment.info}}"
-          [ngStyle]="segment.styles"
-        >
-      </div>
-      </div>
-
-    </ng-template>
-  </ngx-datatable-column>
-
-    
-</ngx-datatable>
+{{loading}}
+<div #timeline id="timeline">
+  <div></div>
+</div>

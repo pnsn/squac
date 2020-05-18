@@ -1,46 +1,9 @@
-
-:host ::ng-deep .no-threshold {
-  background-color: rgb(67, 145, 197) !important;
-}
-
-:host ::ng-deep .in-spec {
-  background-color: rgb(129, 231, 171) !important;
-}
-:host ::ng-deep .out-of-spec {
-  background-color: rgb(250, 154, 154) !important;
-}
-
-
-
-:host ::ng-deep .datatable-tree-button:disabled {
-  display:none;
-}
-
-.ngx-datatable{
-  width: 100% !important;
-  height: 100%;
-}
-
-.timeline-table{
-  height: 100%;
-  width: 100%;
-  td {
-    width: 5px;
-  }
-}
-
-#timeline-container {
+#timeline {
   width:100%;
-  position:relative;
-  height:23px;
+  height: 100%;
+  overflow:hidden;
+  visibility: visible;
 }
-
-.cell {
-  display: inline-block;
-    height: 100%;
-    position: absolute;
-  }
-
-:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
-  padding: 0px !important;
+.hide-chart {
+  visibility: hidden;
 }

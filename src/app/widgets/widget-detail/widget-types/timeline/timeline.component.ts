@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import { Metric } from '../../../../shared/metric';
 import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -10,6 +10,8 @@ import { ViewService } from 'src/app/shared/view.service';
 import { ChannelGroup } from 'src/app/shared/channel-group';
 import { Widget } from 'src/app/widgets/widget';
 import { Threshold } from 'src/app/widgets/threshold';
+import TimelinesChart, { TimelinesChartInstance } from 'timelines-chart';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-timeline',
@@ -19,12 +21,14 @@ import { Threshold } from 'src/app/widgets/threshold';
 })
 export class TimelineComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
+
   metrics: Metric[];
   thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
-
+  chart;
   channels: Channel[];
-  @ViewChild('dataTable') table: any;
+  @ViewChild("timeline", {read: ElementRef}) timelineDiv: ElementRef;
+
   subscription = new Subscription();
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -33,28 +37,17 @@ export class TimelineComponent implements OnInit, OnDestroy {
   currentMetric: Metric;
   enddate: Date;
   startdate: Date;
-  // get start date and end date
-  messages = {
-      // Message to show when array is presented
-  // but contains no values
-    emptyMessage: 'Loading data.',
-
-    // Footer total message
-    totalMessage: 'total',
-
-    // Footer selected message
-    selectedMessage: 'selected'
-  };
+  loading: boolean = true;
 
   // rows = [];
   constructor(
     private dataFormatService: DataFormatService,
     private viewService: ViewService,
     private measurement: MeasurementPipe
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
-
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
@@ -63,13 +56,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    const dateFormatSub = this.dataFormatService.formattedData.subscribe(
+
+    const dataFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
         if (response) {
           this.startdate = this.viewService.getStartdate();
           this.enddate = this.viewService.getEnddate();
 
-          this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
+           // TODO: get this a different way -> selector maybe
+          this.currentMetric = this.metrics[0];
           this.buildRows(response);
         }
       }, error => {
@@ -78,7 +73,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     );
 
 
-    this.subscription.add(dateFormatSub);
+    this.subscription.add(dataFormatSub);
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
@@ -91,122 +86,85 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     );
 
+
     this.subscription.add(resizeSub);
   }
-
   private resize() {
-    this.rows = [...this.rows];
+    let width = this.timelineDiv.nativeElement.offsetWidth;
+    let height = this.timelineDiv.nativeElement.offsetHeight;
+    this.chart.width(width);
+    this.chart.maxHeight(height);
   }
 
-  private replaceChannel(channel, station) {
-    const newStation = {...channel};
-    newStation.treeStatus = station.treeStatus;
-    newStation.id = station.id;
-    newStation.title = station.title;
-    newStation.parentId = null;
-    return newStation;
-  }
-
-  private buildRows(data) {
-    const rows = [];
-    const stations = [];
-    const stationRows = [];
-    const starttimeInSec = this.startdate.getTime() / 1000;
-    const endtimeInSec = this.enddate.getTime() / 1000;
-    const rangeInSec = endtimeInSec - starttimeInSec;
-    const threshold = this.thresholds[this.currentMetric.id];
+  private buildRows(measurements) {
+    console.log(this.currentMetric)
+    let data = [];
     this.channels.forEach((channel) => {
-      const identifier = channel.networkCode + '.' + channel.stationCode;
-      const timeline = [];
+      const stationGroup = channel.networkCode + '.' + channel.stationCode;
+      const channelData = [];
 
-      const agg = 0;
-
-      let isBad = false;
-      data[channel.id][this.currentMetric.id].forEach(
+      measurements[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
-          const start = new Date(measurement.starttime).getTime() / 1000;
-          const end = new Date(measurement.endtime).getTime() / 1000;
-          const inThreshold = threshold ? this.checkThresholds(threshold, measurement. value) : false;
-          timeline.push(
 
-            {
-              end: (end - starttimeInSec) / rangeInSec,
-              styles: {
-                width : (end - start) / rangeInSec * 100 + '%',
-                left : (start - starttimeInSec) / rangeInSec * 100 + '%'
-              },
-              info: measurement.starttime + ' ' + measurement.endtime + ' ' + measurement.value,
-              threshold: inThreshold
-            }
-          );
-          if (index === 0 && !inThreshold && threshold) {
-            isBad = true;
-          }
+        const dataPoint = {
+          val: measurement.value,
+          timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
+        }
+
+          channelData.push(dataPoint);
         }
       );
-      const row = {
-        title: channel.loc + '.' + channel.code,
-        id: channel.id,
-        nslc: channel.nslc,
-        parentId: identifier,
-        treeStatus: 'disabled',
-        timeline
+
+      const channelRow = {
+        label: channel.loc + '.' + channel.code,
+        data: channelData
       };
 
-      const staIndex = stations.indexOf(identifier);
-      if (staIndex < 0) {
-        stations.push(identifier);
-        stationRows.push(
-          {
-            ...{
-              title: channel.networkCode + '.' + channel.stationCode,
-              id: identifier,
-              treeStatus: 'collapsed',
-              staCode: channel.stationCode,
-              netCode: channel.networkCode,
-              timeline
-            },
-          }
-        );
-      } else if (isBad || stationRows[staIndex].timeline.length === 0) {
-        stationRows[staIndex] = this.replaceChannel(row, stationRows[staIndex]);
-      }
-      rows.push(row);
+      let stationRow = data.find(stationRow => stationRow.group === stationGroup);
+
+      if(!stationRow) {
+        data.push({
+          group: stationGroup,
+          data: []
+        });
+        stationRow = data.find(stationRow => stationRow.group === stationGroup);
+      } 
+        stationRow.data.push(channelRow)
+      
+    });
+    
+    this.loading = false;
+
+    this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
+    .zScaleLabel('My Scale Units')
+    .zQualitative(false)
+    .enableOverview(null);
+
+    this.chart.segmentTooltipContent((d)=> {
+      return "<div>" + d.val + " " +this.currentMetric.unit+"</div>";
     });
 
-    this.rows = [...stationRows, ...rows];
-  }
+    this.resize();
+    this.chart.data(data);
 
-  onTreeAction(event: any) {
-    const index = event.rowIndex;
-    const row = event.row;
-    if (row.treeStatus === 'collapsed') {
-      row.treeStatus = 'loading';
-      row.treeStatus = 'expanded';
-      this.rows = [...this.rows];
-    } else {
-      row.treeStatus = 'collapsed';
-      this.rows = [...this.rows];
-    }
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  // // TODO: yes, this is bad boolean but I'm going to change it
-  checkThresholds(threshold, value): boolean {
-    let withinThresholds = true;
-    if (threshold.max && value != null && value > threshold.max) {
-      withinThresholds = false;
-    }
-    if (threshold.min && value != null && value < threshold.min) {
-      withinThresholds = false;
-    }
-    if (!threshold.min && !threshold.max) {
-      withinThresholds = false;
-    }
-    return withinThresholds;
-  }
+  // checkThresholds(threshold, value): boolean {
+  //   let withinThresholds = true;
+  //   if (threshold.max && value != null && value > threshold.max) {
+  //     withinThresholds = false;
+  //   }
+  //   if (threshold.min && value != null && value < threshold.min) {
+  //     withinThresholds = false;
+  //   }
+  //   if (!threshold.min && !threshold.max) {
+  //     withinThresholds = false;
+  //   }
+  //   return withinThresholds;
+  // }
 
 }
