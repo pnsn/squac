@@ -23,6 +23,7 @@ describe('DashboardsService', () => {
     1,
     'name',
     'description',
+    true,
     []
   );
 
@@ -84,6 +85,7 @@ describe('DashboardsService', () => {
       1,
       'name',
       'description',
+      false,
       []
     ));
 
@@ -98,6 +100,7 @@ describe('DashboardsService', () => {
       null,
       'name',
       'description',
+      true,
       [1]
     );
 

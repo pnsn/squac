@@ -11,6 +11,7 @@ export class Dashboard {
     public owner: number,
     public name: string,
     public description: string,
+    public isPublic: boolean,
     public widgetIds?: number[]
   ) {
   }
