@@ -44,12 +44,12 @@ describe('MeasurementsService', () => {
   });
 
   it('should get measurements', (done: DoneFn) => {
-    const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
+    const testWidget = new Widget(1, 1, '', '', true, 1, 1, 1, 1, 1, 1, 1, [
       testMetric
     ]);
 
     testWidget.channelGroup = new ChannelGroup(
-      1, 1, '', '', [
+      1, 1, '', '', true, [
         testChannel
       ]
     );

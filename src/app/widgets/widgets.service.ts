@@ -14,6 +14,7 @@ interface WidgetHttpData {
   description: string;
   metrics: number[];
   dashboard: number;
+  is_public: boolean;
   widgettype: number;
   stattype: number;
   columns: number;
@@ -144,6 +145,7 @@ export class WidgetsService {
       response.user_id,
       response.name,
       response.description,
+      response.is_public,
       response.widgettype.id,
       response.dashboard.id,
       response.channel_group,
@@ -165,6 +167,7 @@ export class WidgetsService {
     const postData: WidgetHttpData = {
       name: widget.name,
       description: widget.description,
+      is_public: widget.isPublic,
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
       dashboard: widget.dashboardId,
