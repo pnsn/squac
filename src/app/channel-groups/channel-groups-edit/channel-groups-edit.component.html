@@ -98,6 +98,11 @@
           <mat-form-field class="channel-group-input">
             <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
           </mat-form-field>
+          <mat-checkbox
+            formControlName="isPublic"  
+          >
+            Make public?
+          </mat-checkbox>
         </div>
 
         <mat-expansion-panel *ngIf="isMapShowing; else isSmallScreen"

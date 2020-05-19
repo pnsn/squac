@@ -40,6 +40,11 @@
           {{ row.description }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column name="Public" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ row.isPublic ? "Public" : "Private" }}
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
