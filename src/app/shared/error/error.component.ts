@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit {
-  @Input('error') error : string;
+  @Input() errorMsg: string;
   constructor() { }
 
   ngOnInit(): void {

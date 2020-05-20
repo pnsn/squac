@@ -56,7 +56,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.dashboard = dashboard;
       },
       error => {
-        this.error = "Could not load dashboard."
+        this.error = 'Could not load dashboard.';
         console.log('error in dashboard detail: ' + error);
       }
     );
@@ -69,7 +69,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         console.log('new dashboard');
       },
       error => {
-        this.error = "Could not load dashboard.";
+        this.error = 'Could not load dashboard.';
         console.log('error in dashboard detail route: ' + error);
       }
     );
@@ -77,7 +77,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
-        console.log(this.status)
+        console.log(this.status);
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
@@ -88,7 +88,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       error => {
         this.error = error;
       }
-    )
+    );
 
 
     this.subscription.add(dashSub);
@@ -143,7 +143,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        this.error = "Failed to save widget.";
+        this.error = 'Failed to save widget.';
         console.log('error during close of widget' + error);
       }
     );
