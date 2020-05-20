@@ -67,6 +67,8 @@ export class ViewService {
     this.enddate = end;
     this.status.next('loading');
     this.widgets = [];
+    this.updateCurrentWidgets();
+
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);
@@ -74,15 +76,22 @@ export class ViewService {
       },
       error => {
         this.handleError("Could not load dashboard.", "dashboardSelected", error);
+      },
+      () => {
+        console.log("dashboard complete")
       }
     );
   }
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
-    this.currentWidgets.next(this.widgets.slice());
+    this.updateCurrentWidgets();
     this.status.next('finished');
     this.error.next(null);
+  }
+
+  private updateCurrentWidgets(){
+    this.currentWidgets.next(this.widgets.slice());
   }
 
   getWidgets(dashboardId) {
@@ -94,6 +103,11 @@ export class ViewService {
       },
       error => {
         this.handleError("Could not load widgets.", "getWidgets", error);
+      },
+      () => {
+        //no widgets for dashboard
+        this.widgetsChanged();
+        console.log("Get widgets done")
       }
     );
   }
