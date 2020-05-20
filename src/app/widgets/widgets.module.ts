@@ -36,8 +36,7 @@ import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/ch
   ],
   exports: [
     WidgetComponent,
-    WidgetEditComponent,
-    SharedModule
+    WidgetEditComponent
   ],
   entryComponents: [
     MetricsEditComponent
