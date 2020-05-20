@@ -19,6 +19,7 @@ export class ViewService {
   dates = new Subject<{start: Date, end: Date}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
+  error = new Subject<string>();
   private startdate: Date;
   private enddate: Date;
   // refresh = new Subject<number>();
@@ -71,6 +72,7 @@ export class ViewService {
         this.getWidgets(dashboard.id);
       },
       error => {
+        this.error.next("Could not load dashboard.");
         console.log('error in view service getDashboard: ' + error);
       }
     );
@@ -80,6 +82,7 @@ export class ViewService {
   private widgetsChanged() {
     this.currentWidgets.next(this.widgets.slice());
     this.status.next('finished');
+    this.error.next(null);
   }
 
   getWidgets(dashboardId) {
@@ -90,6 +93,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
+        this.error.next("Could not load widgets.");
         console.log('error in view service getWidgets: ' + error);
       }
     );
@@ -105,6 +109,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
+        this.error.next("Could not update widget.");
         console.log('error in view service updateWidget: ' + error);
       }
     );
@@ -118,6 +123,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
+        this.error.next("Could not add widgets.");
         console.log('Error in view service add widget: ' + error);
       }
     );
@@ -128,6 +134,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       error => {
+        this.error.next("Could not delete widgets.");
         console.log('error in view service deleteWidget: ' + error);
       }
     );
@@ -141,9 +148,15 @@ export class ViewService {
     this.widgetsChanged();
   }
 
+  handleError(message) {
+    this.error.next(message);
+    this.status.next("error");
+  }
+
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       error => {
+        this.error.next("Could not save dashboard.");
         console.log('error in view service save Dashboard: ' + error);
       }
     );

@@ -45,9 +45,10 @@
         [mode]="indeterminate"
         >
       </mat-progress-bar>
-      <div *ngIf="error">
-        {{error}}
-      </div>
+
+      <app-error [error]="error">
+
+      </app-error>
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget >
         </app-widget>

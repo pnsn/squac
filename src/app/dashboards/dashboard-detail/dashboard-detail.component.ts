@@ -77,16 +77,24 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
+        console.log(this.status)
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
       }
     );
 
+    const errorSub = this.viewService.error.subscribe(
+      error => {
+        this.error = error;
+      }
+    )
+
 
     this.subscription.add(dashSub);
     this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
+    this.subscription.add(errorSub);
   }
 
   ngOnDestroy(): void {
