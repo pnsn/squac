@@ -66,14 +66,14 @@ export class ViewService {
     this.startdate = start;
     this.enddate = end;
     this.status.next('loading');
+    this.widgets = [];
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);
         this.getWidgets(dashboard.id);
       },
       error => {
-        this.error.next("Could not load dashboard.");
-        console.log('error in view service getDashboard: ' + error);
+        this.handleError("Could not load dashboard.", "dashboardSelected", error);
       }
     );
   }
@@ -93,8 +93,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.error.next("Could not load widgets.");
-        console.log('error in view service getWidgets: ' + error);
+        this.handleError("Could not load widgets.", "getWidgets", error);
       }
     );
   }
@@ -109,8 +108,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.error.next("Could not update widget.");
-        console.log('error in view service updateWidget: ' + error);
+        this.handleError("Could not update widget.", "updateWidget", error);
       }
     );
   }
@@ -123,8 +121,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.error.next("Could not add widgets.");
-        console.log('Error in view service add widget: ' + error);
+        this.handleError("Could not add widgets.", "addWidget", error);
       }
     );
   }
@@ -134,8 +131,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       error => {
-        this.error.next("Could not delete widgets.");
-        console.log('error in view service deleteWidget: ' + error);
+        this.handleError("Could not delete widgets.", "deleteWidget", error);
       }
     );
     this.widgets.splice(index, 1);
@@ -148,16 +144,16 @@ export class ViewService {
     this.widgetsChanged();
   }
 
-  handleError(message) {
+  handleError(message, source, error) {
     this.error.next(message);
+    console.log("Error in view service" + source + ": " + error);
     this.status.next("error");
   }
 
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       error => {
-        this.error.next("Could not save dashboard.");
-        console.log('error in view service save Dashboard: ' + error);
+        this.handleError("Could not save dashboard.", "saveDashboard", error);
       }
     );
   }

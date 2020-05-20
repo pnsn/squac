@@ -41,8 +41,11 @@
 
       </mat-toolbar>
       <mat-progress-bar
-        *ngIf="status == 'loading'"
-        [mode]="indeterminate"
+        *ngIf="status != 'finished'"
+        [mode]="status != 'error' ? 'indeterminate' : 'determinate'"
+        value = "1001"
+        [color]="status == 'error' ? 'warn' : 'primary'"
+
         >
       </mat-progress-bar>
 
