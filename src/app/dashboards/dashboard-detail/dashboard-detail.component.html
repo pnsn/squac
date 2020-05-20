@@ -1,5 +1,5 @@
 <div *ngIf="dashboard" id="dashboard-container">
-    <div id="dashboard-header" >
+    <mat-toolbar id="dashboard-header" >
       <div id="dashboard-info">
           <h2>
               {{dashboard.name}}
@@ -39,7 +39,7 @@
           </button>
         </div>
 
-      </div>
+      </mat-toolbar>
       <mat-progress-bar
         *ngIf="status != 'finished'"
         [mode]="status != 'error' ? 'indeterminate' : 'determinate'"
