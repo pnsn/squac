@@ -55,7 +55,7 @@ describe('LoginComponent', () => {
 
     component.onSubmit();
 
-    expect(component.isLoading).toBe(false);
+    expect(component.error).toBeFalsy();
   });
 
   it('should not submit if the form is not valid', () => {

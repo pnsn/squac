@@ -39,7 +39,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   ];
   selectedDateRange = this.dateRanges[2];
-
+  error: string = null;
   unsaved: boolean;
   constructor(
     private route: ActivatedRoute,
@@ -52,9 +52,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
       dashboard => {
+        this.error = null;
         this.dashboard = dashboard;
       },
       error => {
+        this.error = "Could not load dashboard."
         console.log('error in dashboard detail: ' + error);
       }
     );
@@ -62,10 +64,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const dashIdSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
+        this.error = null;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
         console.log('new dashboard');
       },
       error => {
+        this.error = "Could not load dashboard.";
         console.log('error in dashboard detail route: ' + error);
       }
     );
@@ -131,6 +135,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }
       },
       error => {
+        this.error = "Failed to save widget.";
         console.log('error during close of widget' + error);
       }
     );
