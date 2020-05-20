@@ -1,14 +1,7 @@
 import { AbilityBuilder, Ability } from '@casl/ability';
 import { User } from './user';
 
-function subjectName(item) {
-  if (!item || typeof item === "string") {
-    return item
-  }
-  return item.__type
-}
-
-export const ability = new Ability([], { subjectName });
+export const ability = new Ability([]);
 
 export function defineAbilitiesFor(user: User) {
   console.log(user);

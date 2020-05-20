@@ -8,6 +8,8 @@ import { WidgetComponent } from 'src/app/widgets/widget.component';
 import { ViewService } from 'src/app/shared/view.service';
 import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Ability } from '@casl/ability';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -45,16 +47,23 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ability: Ability,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
-      dashboard => {
+      (dashboard : Dashboard) => {
         this.error = null;
         this.dashboard = dashboard;
+        const user = this.userService.getUser();
         console.log("dashboard owner", dashboard.owner)
+        console.log("update any dashboard", this.ability.can('update', 'Dashboard'))
+        console.log(dashboard.owner === user.id);
+        console.log(typeof dashboard)
+        console.log("update this dashboard", this.ability.can('update', dashboard))
       },
       error => {
         this.error = 'Could not load dashboard.';
