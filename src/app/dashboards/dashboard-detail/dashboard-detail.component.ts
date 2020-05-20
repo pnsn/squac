@@ -61,8 +61,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         const user = this.userService.getUser();
         console.log("dashboard owner", dashboard.owner)
         console.log("update any dashboard", this.ability.can('update', 'Dashboard'))
-        console.log(dashboard.owner === user.id);
-        console.log(typeof dashboard)
+        console.log("owner: " + dashboard.owner, "user " + user.id);
         console.log("update this dashboard", this.ability.can('update', dashboard))
       },
       error => {

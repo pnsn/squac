@@ -4,24 +4,23 @@ import { User } from './user';
 export const ability = new Ability([]);
 
 export function defineAbilitiesFor(user: User) {
-  console.log(user);
-  const { rules, can: allow, cannot: forbid } = AbilityBuilder.extract();
+  const { rules, can, cannot } = AbilityBuilder.extract();
 
   if (user.isAdmin()) {
-    allow('manage', 'all');
+    can('manage', 'all');
   }
   if (user.inGroup('contributor')) {
     const contributorSubjects = ['Measurement', 'Metric', 'Archive'];
-    allow(['update', 'delete'], contributorSubjects, {owner: user.id});
-    allow(['read', 'create'], contributorSubjects);
+    can(['update', 'delete'], contributorSubjects, {owner: user.id});
+    can(['read', 'create'], contributorSubjects);
   }
   if (user.inGroup('reporter')) {
     const reporterSubjects = ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'];
-    allow(['update', 'delete'], reporterSubjects, {owner: user.id});
-    allow(['read', 'create'], reporterSubjects);
+    can(['update', 'delete'], reporterSubjects, {owner: user.id});
+    can(['read', 'create'], reporterSubjects);
   }
   if (user.inGroup('viewer')) {
-    allow('read', 'all');
+    can('read', 'all');
   }
 
   return rules;
