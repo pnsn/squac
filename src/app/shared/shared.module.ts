@@ -12,13 +12,15 @@ import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
     ModalComponent,
     PopupComponent,
     LoadingComponent,
-    MapComponent
+    MapComponent,
+    ErrorComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { AbilityModule } from '@casl/angular';
     LoadingComponent,
     NgxDatatableModule,
     MapComponent,
-    AbilityModule
+    AbilityModule,
+    ErrorComponent
   ]
 })
 
