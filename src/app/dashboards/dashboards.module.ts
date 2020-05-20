@@ -21,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     DashboardsRoutingModule,
     WidgetsModule,
-    SharedModule
+    AbilityModule
   ],
   entryComponents: [
     WidgetEditComponent

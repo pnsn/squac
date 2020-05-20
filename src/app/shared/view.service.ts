@@ -75,7 +75,7 @@ export class ViewService {
         this.getWidgets(dashboard.id);
       },
       error => {
-        this.handleError("Could not load dashboard.", "dashboardSelected", error);
+        this.handleError("Could not load dashboard " + id + ".", "dashboardSelected", error);
       },
       () => {
         console.log("dashboard complete")
@@ -102,7 +102,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.handleError("Could not load widgets.", "getWidgets", error);
+        this.handleError("Could not load widgets for dashboard " + dashboardId + ".", "getWidgets", error);
       },
       () => {
         //no widgets for dashboard
@@ -122,7 +122,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.handleError("Could not update widget.", "updateWidget", error);
+        this.handleError("Could not update widget with ID: " + widgetId, "updateWidget", error);
       }
     );
   }
@@ -135,7 +135,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        this.handleError("Could not add widgets.", "addWidget", error);
+        this.handleError("Could not add widget with ID: " + widgetId, "addWidget", error);
       }
     );
   }
@@ -145,7 +145,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       error => {
-        this.handleError("Could not delete widgets.", "deleteWidget", error);
+        this.handleError("Could not delete widget with ID: " + widgetId, "deleteWidget", error);
       }
     );
     this.widgets.splice(index, 1);
@@ -168,6 +168,9 @@ export class ViewService {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       error => {
         this.handleError("Could not save dashboard.", "saveDashboard", error);
+      },
+      () => {
+        console.log("Dashboard save complete");
       }
     );
   }

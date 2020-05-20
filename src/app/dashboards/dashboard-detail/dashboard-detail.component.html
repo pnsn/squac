@@ -1,5 +1,5 @@
 <div *ngIf="dashboard" id="dashboard-container">
-    <mat-toolbar id="dashboard-header" >
+    <div id="dashboard-header" >
       <div id="dashboard-info">
           <h2>
               {{dashboard.name}}
@@ -39,7 +39,7 @@
           </button>
         </div>
 
-      </mat-toolbar>
+      </div>
       <mat-progress-bar
         *ngIf="status != 'finished'"
         [mode]="status != 'error' ? 'indeterminate' : 'determinate'"
@@ -59,9 +59,9 @@
       <ng-template #noWidgets>
         <div id="add-widget">
           <p>
-            There are no widgets for this dashboard...
+            There are currently no widgets for this dashboard.
           </p>
-          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="'Dashboard' | can: 'update'">
+          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="dashboard | can: 'update'">
             Add Widget
           </button>
         </div>
