@@ -1,11 +1,17 @@
 import { AbilityBuilder, Ability } from '@casl/ability';
 import { User } from './user';
 
-export const ability = AbilityBuilder.define(can => {
-  can('read', 'all');
-});
+function subjectName(item) {
+  if (!item || typeof item === "string") {
+    return item
+  }
+  return item.__type
+}
+
+export const ability = new Ability([], { subjectName });
 
 export function defineAbilitiesFor(user: User) {
+  console.log(user);
   const { rules, can: allow, cannot: forbid } = AbilityBuilder.extract();
 
   if (user.isAdmin()) {

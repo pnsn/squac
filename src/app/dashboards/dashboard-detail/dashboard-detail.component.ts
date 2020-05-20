@@ -54,6 +54,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       dashboard => {
         this.error = null;
         this.dashboard = dashboard;
+        console.log("dashboard owner", dashboard.owner)
       },
       error => {
         this.error = 'Could not load dashboard.';
@@ -66,7 +67,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.id = +params.id;
         this.error = null;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
-        console.log('new dashboard');
+        console.log('new dashboard ' + this.id);
       },
       error => {
         this.error = 'Could not load dashboard.';
