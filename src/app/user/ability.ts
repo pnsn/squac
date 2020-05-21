@@ -5,22 +5,25 @@ export const ability = new Ability([]);
 
 export function defineAbilitiesFor(user: User) {
   const { rules, can, cannot } = AbilityBuilder.extract();
+  
+  if (user.inGroup('viewer')) {
+    can('read', 'all');
+  }
 
-  if (user.isAdmin()) {
-    can('manage', 'all');
-  }
-  if (user.inGroup('contributor')) {
-    const contributorSubjects = ['Measurement', 'Metric', 'Archive'];
-    can(['update', 'delete'], contributorSubjects, {owner: user.id});
-    can(['read', 'create'], contributorSubjects);
-  }
   if (user.inGroup('reporter')) {
     const reporterSubjects = ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'];
     can(['update', 'delete'], reporterSubjects, {owner: user.id});
     can(['read', 'create'], reporterSubjects);
   }
-  if (user.inGroup('viewer')) {
-    can('read', 'all');
+
+  if (user.inGroup('contributor')) {
+    const contributorSubjects = ['Measurement', 'Metric', 'Archive'];
+    can(['update', 'delete'], contributorSubjects, {owner: user.id});
+    can(['read', 'create'], contributorSubjects);
+  }
+  
+  if (user.isAdmin()) {
+    can('manage', 'all');
   }
 
   return rules;
