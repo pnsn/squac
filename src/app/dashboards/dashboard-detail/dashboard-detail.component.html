@@ -31,10 +31,10 @@
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="addWidget()" >Add Widget</button> 
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <!-- <button mat-menu-item color="warn" *ngIf="'dashboard' | can: 'delete'">Delete Dashboard</button> -->
+            <!-- <button mat-menu-item color="warn" *ngIf="'dashboard' | able: 'delete'">Delete Dashboard</button> -->
           </mat-menu>
           
-          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary" *ngIf="dashboard | can: 'update'">
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary" *ngIf="'update' | able: dashboard">
             <mat-icon>settings_application</mat-icon>
           </button>
         </div>
@@ -61,7 +61,7 @@
           <p>
             There are currently no widgets for this dashboard.
           </p>
-          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="dashboard | can: 'update'">
+          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="'update' | able: dashboard">
             Add Widget
           </button>
         </div>

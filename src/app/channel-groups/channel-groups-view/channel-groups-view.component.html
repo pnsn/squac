@@ -2,7 +2,7 @@
   <h1>
     Channel Groups
   </h1>
-  <div class="btn-container-right" *ngIf="'ChannelGroup' | can: 'update'">
+  <div class="btn-container-right" *ngIf="'update' | able: 'ChannelGroup'">
     <button mat-flat-button color="accent" [disabled]="!isSelected"
       class="add-btn" (click)="editChannelGroup()"
     >+ Edit Channel Group</button>

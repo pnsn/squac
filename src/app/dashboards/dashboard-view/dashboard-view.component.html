@@ -4,6 +4,6 @@
 </mat-nav-list>
 
 <app-loading *ngIf="!dashboards"></app-loading>
-<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'Dashboard' | can: 'create'"> Add Dashboard</button>
+<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'"> Add Dashboard</button>
 
 <!-- Todo: separate owned/public dashboards -->

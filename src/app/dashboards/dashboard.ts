@@ -16,6 +16,8 @@ export class Dashboard {
   ) {
   }
 
-
+  static get modelName() {
+    return 'Dashboard';
+  }
 
 }

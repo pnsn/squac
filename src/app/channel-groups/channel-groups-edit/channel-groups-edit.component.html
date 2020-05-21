@@ -7,7 +7,7 @@
     <button mat-flat-button color="primary" (click)="formUnsaved()"
       >Cancel</button>
     <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
-      *ngIf="'ChannelGroup' | can: 'update'"
+      *ngIf="'update' | able: 'ChannelGroup'"
       >Save Group</button>
   </div>
 </div>

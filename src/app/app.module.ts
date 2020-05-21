@@ -26,10 +26,10 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { UserComponent } from './user/user.component';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
-import { ability } from './user/ability';
+import { Ability, PureAbility } from '@casl/ability';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AppAbility } from './user/ability';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import { LoginComponent } from './auth/login/login.component';
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
-    AbilityModule.forRoot()
+    AbilityModule
   ],
   providers: [
     {
@@ -72,10 +72,8 @@ import { LoginComponent } from './auth/login/login.component';
       useClass: HttpErrorInterceptor,
       multi: true
     },
-    {
-      provide: Ability,
-      useValue: ability
-    }
+    { provide: AppAbility, useValue: new AppAbility() },
+    { provide: PureAbility , useExisting: Ability }
   ],
   bootstrap: [AppComponent]
 })

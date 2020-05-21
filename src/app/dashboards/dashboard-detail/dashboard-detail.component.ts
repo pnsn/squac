@@ -10,6 +10,7 @@ import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.com
 import { MatDialog } from '@angular/material/dialog';
 import { Ability } from '@casl/ability';
 import { UserService } from 'src/app/user/user.service';
+import { AppAbility } from 'src/app/user/ability';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -48,7 +49,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private viewService: ViewService,
     private dialog: MatDialog,
-    private ability: Ability,
+    private ability: AppAbility,
     private userService: UserService
   ) { }
 
