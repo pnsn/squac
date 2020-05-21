@@ -1,9 +1,14 @@
-import { AbilityBuilder, Ability, AbilityClass } from '@casl/ability';
+import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';
 import { User } from './user';
+import { Dashboard } from '../dashboards/dashboard';
+import { Widget } from '../widgets/widget';
+import { Threshold } from '../widgets/threshold';
+import { ChannelGroup } from '../shared/channel-group';
+import { Measurement } from '../widgets/measurement';
+import { Metric } from '../shared/metric';
 
 type Actions = 'create' | 'read' | 'update' | 'delete' | 'manage';
-type Subjects = 'Dashboard' | 'Widget' | 'Threshold' | 'ChannelGroup' | 'Measurement' | 'Metric' | 'Archive' | 'all';
-
+type Subjects = InferSubjects<typeof Dashboard | typeof Widget | typeof Threshold | typeof ChannelGroup | typeof Measurement | typeof Metric, true > | 'all';
 export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 
@@ -12,6 +17,7 @@ export function defineAbilitiesFor(user: User) {
   
   if (user.inGroup('viewer')) {
     can('read', 'all');
+    can('read', 'Dashboard')
   }
 
   if (user.inGroup('reporter')) {

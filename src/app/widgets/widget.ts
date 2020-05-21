@@ -41,4 +41,9 @@ export class Widget {
   get metricsString(): string {
     return this.metricsIds.toString();
   }
+
+ 
+  static get modelName() {
+    return 'Widget';
+  }
 }

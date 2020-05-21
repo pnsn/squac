@@ -30,4 +30,9 @@ export class Channel {
   get nslc(): string {
     return this.networkCode + '.' + this.stationCode + '.' + this.loc + '.' + this.code;
   }
+
+
+  static get modelName() {
+    return 'Channel';
+  }
 }
