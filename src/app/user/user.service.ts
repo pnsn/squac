@@ -34,7 +34,7 @@ export class UserService {
   }
 
   fetchUser() {
-    console.log("fetchUser");
+    console.log('fetchUser');
     this.squacApi.get(this.url).subscribe(
       response => {
         const groups = [];

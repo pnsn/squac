@@ -28,10 +28,10 @@ export class PermissionGuard implements CanActivate {
           }
         },
         error => {
-          console.log("redirect to logout")
+          console.log('redirect to logout');
         }
-      )
-      
+      );
+
 
     }
 

@@ -56,14 +56,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
-      (dashboard : Dashboard) => {
+      (dashboard: Dashboard) => {
         this.error = null;
         this.dashboard = dashboard;
         const user = this.userService.getUser();
-        console.log("dashboard owner", dashboard.owner)
-        console.log("update any dashboard", this.ability.can('update', 'Dashboard'))
-        console.log("owner: " + dashboard.owner, "user " + user.id);
-        console.log("update this dashboard", this.ability.can('update', dashboard))
+        console.log('dashboard owner', dashboard.owner);
+        console.log('update any dashboard', this.ability.can('update', 'Dashboard'));
+        console.log('owner: ' + dashboard.owner, 'user ' + user.id);
+        console.log('update this dashboard', this.ability.can('update', dashboard));
       },
       error => {
         this.error = 'Could not load dashboard.';

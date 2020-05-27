@@ -14,10 +14,10 @@ export const AppAbility = Ability as AbilityClass<AppAbility>;
 
 export function defineAbilitiesFor(user: User) {
   const { can, rules } = new AbilityBuilder(AppAbility);
-  
+
   if (user.inGroup('viewer')) {
     can('read', 'all');
-    can('read', 'Dashboard')
+    can('read', 'Dashboard');
   }
 
   if (user.inGroup('reporter')) {
@@ -33,7 +33,7 @@ export function defineAbilitiesFor(user: User) {
   if (user.isAdmin()) {
     can('manage', 'all');
   }
-  
+
   return rules;
 
 }

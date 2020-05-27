@@ -42,7 +42,7 @@ export class Widget {
     return this.metricsIds.toString();
   }
 
- 
+
   static get modelName() {
     return 'Widget';
   }
