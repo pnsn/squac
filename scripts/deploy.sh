@@ -1,6 +1,7 @@
 
 #! /usr/bin/env bash
 source .env
+# After tests and linting pass
 
 if [[ $# -lt 2 ]] ; then
     echo 'please provide environment and git branch'
@@ -8,14 +9,13 @@ if [[ $# -lt 2 ]] ; then
     exit 1
 fi
 stage=staging
-dest_dir=/var/www/staging-squac/
+dest_dir=$STAGING_DIR
 if [[ "$1" = "production" ]] ; then
     stage=production
-    dest_dir=/var/www/squac/
+    dest_dir=$PRODUCTION_DIR
 fi
 branch=$2
 
-#build it
 if ng build --configuration=$stage
 then
   echo "Build successful for: $stage"
@@ -24,23 +24,11 @@ else
   exit 1
 fi
 
-build_dir=/dist/squac_ui/*
-
 echo "SSH into $DEPLOY_HOST as $DEPLOY_USER"
-ssh $DEPLOY_USER@$DEPLOY_HOST
+ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_SCRIPT $stage
 
-# echo "Removing files from: $dest_dir"
-# cd /var/www
+echo "Deploying to: $dest_dir"
+scp $BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$dest_dir 
 
-# exit
-
-# echo "Deploying to: $dest_dir"
-# scp build_dir $DEPLOY_USER@$DEPLOY_HOST:$dest_dir 
-
-# after linting and running tests
-# ng build --c=[Environment]
-# ssh into host
-# remove existing files -> is that safe??
-# maybe print something to confirm
-# scp files from /dist/squac_ui/* to destination
+echo done
 
