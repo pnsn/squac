@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserService } from './user.service';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from './ability';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -17,7 +18,8 @@ describe('UserComponent', () => {
       imports: [HttpClientTestingModule, AbilityModule],
       providers: [
         UserService,
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

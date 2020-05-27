@@ -15,7 +15,8 @@ import { MetricsEditComponent } from './metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './channel-groups-edit/channel-groups-edit.component';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -41,7 +42,8 @@ describe('WidgetEditComponent', () => {
           useValue: mockDialogRef
         },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ],
       declarations: [
         WidgetEditComponent,

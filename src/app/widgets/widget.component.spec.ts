@@ -8,8 +8,9 @@ import { Widget } from './widget';
 import { MeasurementsService } from './measurements.service';
 import { WidgetsModule } from './widgets.module';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
 import { MockMeasurementsService } from './measurements.service.mock';
+import { AppAbility } from '../user/ability';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -33,7 +34,8 @@ describe('WidgetComponent', () => {
           provide: MeasurementsService,
           useClass: MockMeasurementsService
         },
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

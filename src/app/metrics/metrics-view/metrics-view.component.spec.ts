@@ -9,7 +9,8 @@ import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('MetricsViewComponent', () => {
   let component: MetricsViewComponent;
@@ -21,7 +22,8 @@ describe('MetricsViewComponent', () => {
       declarations: [ MetricsViewComponent ],
       providers: [
         { provide: MetricsService, useClass: MockMetricsService},
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

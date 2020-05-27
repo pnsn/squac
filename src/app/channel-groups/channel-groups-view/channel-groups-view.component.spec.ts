@@ -9,8 +9,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -43,7 +44,8 @@ describe('ChannelGroupsViewComponent', () => {
             }
           }
         },
-        {provide: Ability, useValue: new Ability()},
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability },
         ChannelGroupsService
       ]
     })

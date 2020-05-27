@@ -5,27 +5,38 @@ import { UserService } from './user.service';
 import { MockUserService } from './user.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AbilityModule } from '@casl/angular';
-import { Ability, AbilityBuilder } from '@casl/ability';
+import { Ability, AbilityBuilder, PureAbility } from '@casl/ability';
+import { AppAbility } from './ability';
+import { Subscription, BehaviorSubject } from 'rxjs';
 
+class TestUserService  {
+  testUser;
+  user = new BehaviorSubject(null);
+  setUser(user) {
+    this.testUser= user;
+    this.user.next(user);
+  }
+  getUser() {
+    return this.testUser;
+  }
+}
 describe('PermissionGuard', () => {
   let guard: PermissionGuard;
-
-  const testAbility = AbilityBuilder.define( can => {
-    can('update', 'Post');
-  });
-
   let ability: Ability;
-
+  let userService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AbilityModule],
       providers: [
-        {provide: UserService, useClass: MockUserService},
-        {provide: Ability, useValue: testAbility}
+        {provide: UserService, useValue: new TestUserService()},
+        { provide: AppAbility, useValue: new Ability() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     });
     guard = TestBed.inject(PermissionGuard);
     ability = TestBed.inject(Ability);
+    userService = TestBed.inject(UserService);
+    ability.update([{subject: 'Post', action: 'update'}]);
   });
 
   it('should be created', () => {
@@ -41,18 +52,25 @@ describe('PermissionGuard', () => {
   });
 
   it('should not allow user to route to resource without permission', () => {
+    userService.setUser({
+      name: 'User'
+    });
     const route: any = { snapshot: {},
       data: {
         subject : 'Post',
         action: 'read'
       }
     };
+    console.log("why can I do this", ability.can('read', 'Post'));
     expect(ability.can('read', 'Post')).toEqual(false);
-
+    console.log(guard.canActivate(route));
     expect(guard.canActivate(route)).toEqual(false);
   });
 
   it('should allow user to route to resource with permission', () => {
+    userService.setUser({
+      name: 'User'
+    });
     const route: any = { snapshot: {},
       data: {
         subject : 'Post',

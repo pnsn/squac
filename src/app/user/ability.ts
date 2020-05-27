@@ -8,7 +8,14 @@ import { Measurement } from '../widgets/measurement';
 import { Metric } from '../shared/metric';
 
 type Actions = 'create' | 'read' | 'update' | 'delete' | 'manage';
-type Subjects = InferSubjects<typeof Dashboard | typeof Widget | typeof Threshold | typeof ChannelGroup | typeof Measurement | typeof Metric, true > | 'all';
+type Subjects = InferSubjects <
+  typeof Dashboard |
+  typeof Widget |
+  typeof Threshold |
+  typeof ChannelGroup |
+  typeof Measurement |
+  typeof Metric, true > |
+  'all';
 export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 

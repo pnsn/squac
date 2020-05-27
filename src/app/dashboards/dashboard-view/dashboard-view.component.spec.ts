@@ -9,7 +9,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('DashboardViewComponent', () => {
   let component: DashboardViewComponent;
@@ -35,7 +36,8 @@ describe('DashboardViewComponent', () => {
             params: of({id: 123})
           }
         },
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();
