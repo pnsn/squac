@@ -28,7 +28,7 @@ echo "SSH into $DEPLOY_HOST as $DEPLOY_USER"
 ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_SCRIPT $stage
 
 echo "Deploying to: $dest_dir"
-scp $BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$dest_dir 
+scp -r $BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$dest_dir 
 
 echo done
 
