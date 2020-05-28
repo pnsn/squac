@@ -64,7 +64,7 @@ describe('Ability', () => {
 
   });
 
-  it('should not allow user to update not owned object', ()=>{
+  it('should not allow user to update not owned object', () => {
 
   });
 });

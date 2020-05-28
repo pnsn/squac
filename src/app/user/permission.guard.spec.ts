@@ -13,7 +13,7 @@ class TestUserService  {
   testUser;
   user = new BehaviorSubject(null);
   setUser(user) {
-    this.testUser= user;
+    this.testUser = user;
     this.user.next(user);
   }
   getUser() {
@@ -61,7 +61,7 @@ describe('PermissionGuard', () => {
         action: 'read'
       }
     };
-    console.log("why can I do this", ability.can('read', 'Post'));
+    console.log('why can I do this', ability.can('read', 'Post'));
     expect(ability.can('read', 'Post')).toEqual(false);
     console.log(guard.canActivate(route));
     expect(guard.canActivate(route)).toEqual(false);
