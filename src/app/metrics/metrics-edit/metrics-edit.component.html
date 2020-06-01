@@ -55,7 +55,7 @@
         <button mat-flat-button color="accent" disabled 
           type="submit" 
           [disabled]='!metricForm.valid'
-          *ngIf="'Metric' | can: 'update'"
+          *ngIf="'update' | able: 'Metric'"
         >Save</button>
     </div>
   </form>

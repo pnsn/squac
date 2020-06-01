@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AbilityModule } from '@casl/angular';
-import { ability, defineAbilitiesFor } from './ability';
-import { Ability } from '@casl/ability';
+import { defineAbilitiesFor, AppAbility } from './ability';
+import { Ability, PureAbility } from '@casl/ability';
 import { User } from './user';
 
 
@@ -22,15 +22,11 @@ describe('Ability', () => {
     TestBed.configureTestingModule({
       imports: [AbilityModule],
       providers: [
-        {provide: Ability, useValue: ability},
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     });
     testAbility = TestBed.inject(Ability);
-  });
-
-
-  it('should allow read by default', () => {
-    expect(testAbility.can('read', 'Dashboard')).toEqual(true);
   });
 
   it('should allow admin to manage all', () => {
@@ -64,4 +60,11 @@ describe('Ability', () => {
     expect(testAbility.can('update', 'Widget')).toEqual(false);
   });
 
+  it('should allow user to update own object', () => {
+
+  });
+
+  it('should not allow user to update not owned object', () => {
+
+  });
 });

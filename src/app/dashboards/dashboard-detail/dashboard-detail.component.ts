@@ -8,6 +8,9 @@ import { WidgetComponent } from 'src/app/widgets/widget.component';
 import { ViewService } from 'src/app/shared/view.service';
 import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Ability } from '@casl/ability';
+import { UserService } from 'src/app/user/user.service';
+import { AppAbility } from 'src/app/user/ability';
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -39,22 +42,31 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   ];
   selectedDateRange = this.dateRanges[2];
-
+  error: string = null;
   unsaved: boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ability: AppAbility,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
 
     const dashSub = this.viewService.currentDashboard.subscribe(
-      dashboard => {
+      (dashboard: Dashboard) => {
+        this.error = null;
         this.dashboard = dashboard;
+        const user = this.userService.getUser();
+        console.log('dashboard owner', dashboard.owner);
+        console.log('update any dashboard', this.ability.can('update', 'Dashboard'));
+        console.log('owner: ' + dashboard.owner, 'user ' + user.id);
+        console.log('update this dashboard', this.ability.can('update', dashboard));
       },
       error => {
+        this.error = 'Could not load dashboard.';
         console.log('error in dashboard detail: ' + error);
       }
     );
@@ -62,10 +74,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const dashIdSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
+        this.error = null;
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
-        console.log('new dashboard');
+        console.log('new dashboard ' + this.id);
       },
       error => {
+        this.error = 'Could not load dashboard.';
         console.log('error in dashboard detail route: ' + error);
       }
     );
@@ -73,9 +87,16 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
+        console.log(this.status);
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
+      }
+    );
+
+    const errorSub = this.viewService.error.subscribe(
+      error => {
+        this.error = error;
       }
     );
 
@@ -83,6 +104,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(dashSub);
     this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
+    this.subscription.add(errorSub);
   }
 
   ngOnDestroy(): void {
@@ -131,6 +153,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }
       },
       error => {
+        this.error = 'Failed to save widget.';
         console.log('error during close of widget' + error);
       }
     );

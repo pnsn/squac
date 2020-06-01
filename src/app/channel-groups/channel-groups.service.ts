@@ -11,6 +11,7 @@ interface ChannelGroupsHttpData {
   name: string;
   description: string;
   channels: string[];
+  is_public: boolean;
   id?: number;
 }
 
@@ -43,7 +44,8 @@ export class ChannelGroupsService {
               cG.id,
               cG.user_id,
               cG.name,
-              cG.description
+              cG.description,
+              cG.is_public
             );
             this.localChannelGroups[cG.id] = chanGroup;
             channelGroups.push(chanGroup);
@@ -97,6 +99,7 @@ export class ChannelGroupsService {
               response.user_id,
               response.name,
               response.description,
+              response.is_public,
               channels
             );
 
@@ -113,6 +116,7 @@ export class ChannelGroupsService {
     const postData: ChannelGroupsHttpData = {
       name: channelGroup.name,
       description: channelGroup.description,
+      is_public: channelGroup.isPublic,
       channels : channelGroup.channelsIdsArray
     };
     if (channelGroup.id) {

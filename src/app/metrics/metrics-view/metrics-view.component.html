@@ -2,7 +2,7 @@
   <h1>
     Metrics
   </h1>
-  <div class="btn-container-right" *ngIf="'Metric' | can: 'update'">
+  <div class="btn-container-right" *ngIf="'update' | able: 'Metric'">
     <button mat-flat-button color="primary" id ="edit-metric-btn"
       (click)="editMetric()" class="add-btn" [disabled]="!selected"
     >Edit Metric</button>

@@ -6,8 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SquacApiService } from '../squacapi.service';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
+import { AppAbility } from '../user/ability';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -24,7 +25,8 @@ describe('HeaderComponent', () => {
       ],
       providers: [
         { provide: SquacApiService, useValue: MockSquacApiService },
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

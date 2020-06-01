@@ -46,7 +46,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.dashboardForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      description : new FormControl('', Validators.required)
+      description : new FormControl('', Validators.required),
+      isPublic: new FormControl('')
     });
 
     if (this.editMode) {
@@ -56,7 +57,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
           this.dashboardForm.patchValue(
             {
               name : dashboard.name,
-              description : dashboard.description
+              description : dashboard.description,
+              isPublic: dashboard.isPublic
             }
           );
         },
@@ -76,6 +78,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         null,
         values.name,
         values.description,
+        values.isPublic,
         []
       )
     ).subscribe(

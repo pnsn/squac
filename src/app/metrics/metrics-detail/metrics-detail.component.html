@@ -15,5 +15,5 @@
         {{metric.unit}}
       </p>
       
-      <button (click)="editMetric()" *ngIf="'Metric' | can: 'update'">edit {{id}}</button>
+      <button (click)="editMetric()" *ngIf="'update' | able: 'Metric'">edit {{id}}</button>
 </div>

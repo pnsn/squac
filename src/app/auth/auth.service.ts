@@ -60,7 +60,6 @@ export class AuthService {
         password : userPassword
       }
     ).pipe(
-      catchError(this.handleError),
       tap(resData => {
         // TODO: Get expiration time from Jon
         this.handleAuth(resData.token, 7200);
@@ -89,26 +88,26 @@ export class AuthService {
   }
 
   // Handles login errors
-  // TODO: match to errors passed from server
-  private handleError(errorRes: HttpErrorResponse) {
-    console.log(errorRes.error);
-    let errorMessage = 'An unknown error occured!';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
-    }
-    switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'This email exists already';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'Email does not exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'Password invalid';
-        break;
-    }
-    return throwError(errorMessage);
-  }
+  // FIXME: blocked by error interceptor
+  // private handleError(errorRes: HttpErrorResponse) {
+  //   console.log(errorRes);
+  //   let errorMessage = 'An unknown error occured!';
+  //   if (!errorRes.error || !errorRes.error.error) {
+  //     return throwError(errorMessage);
+  //   }
+  //   switch (errorRes.error.error.message) {
+  //     case 'EMAIL_EXISTS':
+  //       errorMessage = 'This email exists already';
+  //       break;
+  //     case 'EMAIL_NOT_FOUND':
+  //       errorMessage = 'Email does not exist.';
+  //       break;
+  //     case 'INVALID_PASSWORD':
+  //       errorMessage = 'Password invalid';
+  //       break;
+  //   }
+  //   return throwError(errorMessage);
+  // }
 
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {

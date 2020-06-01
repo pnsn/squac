@@ -14,4 +14,9 @@ export class Metric {
     public maxVal?: number
   ) {
   }
+
+
+  static get modelName() {
+    return 'Metric';
+  }
 }

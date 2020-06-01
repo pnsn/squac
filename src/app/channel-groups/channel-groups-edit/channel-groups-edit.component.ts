@@ -77,7 +77,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.channelGroupForm = this.formBuilder.group({
       name : new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      description: new FormControl('', Validators.required),
+      isPublic: new FormControl('')
     });
 
     // if editing existing group, populate with the info
@@ -87,7 +88,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         channelGroup => {
           this.channelGroupForm.patchValue({
             name : channelGroup.name,
-            description : channelGroup.description
+            description : channelGroup.description,
+            isPublic: channelGroup.isPublic
           });
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
           this.originalSelectedChannels = [...this.selectedChannels];
@@ -264,6 +266,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       null,
       values.name,
       values.description,
+      values.isPublic,
       this.selectedChannels
     );
 

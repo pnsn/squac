@@ -10,7 +10,8 @@ import { Metric } from 'src/app/shared/metric';
 import { MockMetricsService } from 'src/app/shared/metrics.service.mock';
 import { ActivatedRoute } from '@angular/router';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
@@ -27,7 +28,8 @@ describe('MetricsEditComponent', () => {
       declarations: [ MetricsEditComponent ],
       providers: [
         {provide: MetricsService, useClass: MockMetricsService},
-        {provide: Ability, useValue: new Ability()}
+                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

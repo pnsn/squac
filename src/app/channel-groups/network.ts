@@ -7,5 +7,10 @@ export class Network {
   ) {
 
   }
+
+
+  static get modelName() {
+    return 'Network';
+  }
 }
 

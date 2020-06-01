@@ -32,7 +32,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-  
+      <mat-checkbox
+      formControlName="isPublic"
+      >
+        Make public?
+      </mat-checkbox>
     </form>
   </div>
 
@@ -71,5 +75,5 @@
       Creating widget on dashboard {{dashboardId}}
     </p>
   </ng-template>
-  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf="'Widget' | can: 'update'">Save</button>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf="'update' | able: 'Widget'">Save</button>
 </div>

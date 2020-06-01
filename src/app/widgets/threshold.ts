@@ -10,4 +10,8 @@ export class Threshold {
   ) {
 
   }
+
+  static get modelName() {
+    return 'Threshold';
+  }
 }

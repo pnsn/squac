@@ -18,7 +18,8 @@ import { MapComponent } from '../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AppAbility } from 'src/app/user/ability';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -28,13 +29,13 @@ describe('ChannelGroupsEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
-        AbilityModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         NgxDatatableModule,
         MaterialModule,
         LeafletModule,
-        LeafletDrawModule
+        LeafletDrawModule,
+        AbilityModule
       ],
       declarations: [
         ChannelGroupsEditComponent,
@@ -53,7 +54,8 @@ describe('ChannelGroupsEditComponent', () => {
             params: of({id: 123})
           }
         },
-        {provide: Ability, useValue: new Ability()}
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ]
     })
     .compileComponents();

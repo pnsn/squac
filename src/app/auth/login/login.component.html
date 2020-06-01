@@ -1,7 +1,9 @@
 
 <h1>Sign In</h1>
 <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-  
+  <div *ngIf="error">
+    {{error}}
+  </div>
   <mat-form-field
     appearance="outline"
   >

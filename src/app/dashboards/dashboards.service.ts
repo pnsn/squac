@@ -11,6 +11,7 @@ import { WidgetsService } from '../widgets/widgets.service';
 interface DashboardsHttpData {
   name: string;
   description: string;
+  is_public: boolean;
   widgets: any;
   id?: number;
 }
@@ -47,6 +48,7 @@ export class DashboardsService {
               d.user_id,
               d.name,
               d.description,
+              d.is_public,
               d.widgets ? d.widgets : []
             );
             dashboards.push(dashboard);
@@ -77,6 +79,7 @@ export class DashboardsService {
             response.user_id,
             response.name,
             response.description,
+            response.is_public,
             response.widgets
           );
           return dashboard;
@@ -89,6 +92,7 @@ export class DashboardsService {
     const postData: DashboardsHttpData = {
       name: dashboard.name,
       description: dashboard.description,
+      is_public: dashboard.isPublic,
       widgets: dashboard.widgetIds
     };
     if (dashboard.id) {

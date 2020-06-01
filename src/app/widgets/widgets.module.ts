@@ -13,6 +13,7 @@ import { GridsterModule } from 'angular-gridster2';
 import { ThresholdEditComponent } from './widget-edit/threshold-edit/threshold-edit.component';
 import { MetricsEditComponent } from './widget-edit/metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/channel-groups-edit.component';
+import { AbilityModule } from '@casl/angular';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ChannelGroupsEditComponent } from './widget-edit/channel-groups-edit/ch
     CommonModule,
     SharedModule,
     NgxChartsModule,
-    GridsterModule
+    GridsterModule,
+    AbilityModule
   ],
   exports: [
     WidgetComponent,

@@ -13,6 +13,9 @@ import { LoadingComponent } from '../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { WidgetsModule } from 'src/app/widgets/widgets.module';
+import { AppAbility } from 'src/app/user/ability';
+import { Ability, PureAbility } from '@casl/ability';
+import { AbilityModule } from '@casl/angular';
 
 
 describe('DashboardDetailComponent', () => {
@@ -26,7 +29,8 @@ describe('DashboardDetailComponent', () => {
         HttpClientTestingModule,
         FormsModule,
         NgxDatatableModule,
-        WidgetsModule
+        WidgetsModule,
+        AbilityModule
       ],
       providers: [
         DashboardsService,
@@ -35,7 +39,9 @@ describe('DashboardDetailComponent', () => {
           useValue: {
             params: of({id: 123})
           }
-        }
+        },
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
       ],
       declarations: [
         DashboardDetailComponent

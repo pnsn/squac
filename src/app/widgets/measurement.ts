@@ -8,4 +8,9 @@ export class Measurement {
     public starttime: Date,
     public endtime: Date
   ) {}
+
+
+  static get modelName() {
+    return 'Measurement';
+  }
 }

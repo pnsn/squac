@@ -19,6 +19,7 @@ export class ViewService {
   dates = new Subject<{start: Date, end: Date}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
+  error = new Subject<string>();
   private startdate: Date;
   private enddate: Date;
   // refresh = new Subject<number>();
@@ -65,21 +66,32 @@ export class ViewService {
     this.startdate = start;
     this.enddate = end;
     this.status.next('loading');
+    this.widgets = [];
+    this.updateCurrentWidgets();
+
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);
         this.getWidgets(dashboard.id);
       },
       error => {
-        console.log('error in view service getDashboard: ' + error);
+        this.handleError('Could not load dashboard ' + id + '.', 'dashboardSelected', error);
+      },
+      () => {
+        console.log('dashboard complete');
       }
     );
   }
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
-    this.currentWidgets.next(this.widgets.slice());
+    this.updateCurrentWidgets();
     this.status.next('finished');
+    this.error.next(null);
+  }
+
+  private updateCurrentWidgets() {
+    this.currentWidgets.next(this.widgets.slice());
   }
 
   getWidgets(dashboardId) {
@@ -90,7 +102,12 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log('error in view service getWidgets: ' + error);
+        this.handleError('Could not load widgets for dashboard ' + dashboardId + '.', 'getWidgets', error);
+      },
+      () => {
+        // no widgets for dashboard
+        this.widgetsChanged();
+        console.log('Get widgets done');
       }
     );
   }
@@ -105,7 +122,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log('error in view service updateWidget: ' + error);
+        this.handleError('Could not update widget with ID: ' + widgetId, 'updateWidget', error);
       }
     );
   }
@@ -118,7 +135,7 @@ export class ViewService {
         this.widgetsChanged();
       },
       error => {
-        console.log('Error in view service add widget: ' + error);
+        this.handleError('Could not add widget with ID: ' + widgetId, 'addWidget', error);
       }
     );
   }
@@ -128,7 +145,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       error => {
-        console.log('error in view service deleteWidget: ' + error);
+        this.handleError('Could not delete widget with ID: ' + widgetId, 'deleteWidget', error);
       }
     );
     this.widgets.splice(index, 1);
@@ -141,10 +158,19 @@ export class ViewService {
     this.widgetsChanged();
   }
 
+  handleError(message, source, error) {
+    this.error.next(message);
+    console.log('Error in view service' + source + ': ' + error);
+    this.status.next('error');
+  }
+
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       error => {
-        console.log('error in view service save Dashboard: ' + error);
+        this.handleError('Could not save dashboard.', 'saveDashboard', error);
+      },
+      () => {
+        console.log('Dashboard save complete');
       }
     );
   }

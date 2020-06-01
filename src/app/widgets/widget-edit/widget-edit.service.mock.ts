@@ -17,6 +17,7 @@ export class MockWidgetEditService {
     1,
     'name',
     'name',
+    true,
     []
   );
 
@@ -25,6 +26,7 @@ export class MockWidgetEditService {
     1,
     'name',
     'description',
+    false,
     1,
     1,
     1,

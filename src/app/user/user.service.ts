@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { SquacApiService } from '../squacapi.service';
-import { Ability } from '@casl/ability';
-import { defineAbilitiesFor } from './ability';
+import { Ability, AbilityBuilder } from '@casl/ability';
+import { defineAbilitiesFor, AppAbility } from './ability';
 
 interface UserHttpData {
   email: string;
@@ -26,7 +26,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
-    private ability: Ability
+    private ability: AppAbility
   ) { }
 
   getUser(): User {
@@ -34,8 +34,13 @@ export class UserService {
   }
 
   fetchUser() {
+    console.log('fetchUser');
     this.squacApi.get(this.url).subscribe(
       response => {
+        const groups = [];
+        for (const group of response.groups) {
+          groups.push(group.name);
+        }
 
         this.currentUser = new User(
           response.id,
@@ -44,10 +49,11 @@ export class UserService {
           response.lastname,
           response.is_staff,
           response.organization,
-          response.groups
+          groups
         );
-
+        console.log(this.ability.can('read', 'Dashboard'));
         this.ability.update(defineAbilitiesFor(this.currentUser));
+        console.log(this.ability.can('read', 'Dashboard'));
         this.user.next(this.currentUser);
       },
 
@@ -70,4 +76,6 @@ export class UserService {
     return this.squacApi.patch(this.url, null, putData);
     // TODO: after it puts, update current user
   }
+
+
 }

@@ -7,7 +7,7 @@
     <button mat-flat-button color="primary" (click)="formUnsaved()"
       >Cancel</button>
     <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
-      *ngIf="'ChannelGroup' | can: 'update'"
+      *ngIf="'update' | able: 'ChannelGroup'"
       >Save Group</button>
   </div>
 </div>
@@ -98,6 +98,11 @@
           <mat-form-field class="channel-group-input">
             <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
           </mat-form-field>
+          <mat-checkbox
+            formControlName="isPublic"  
+          >
+            Make public?
+          </mat-checkbox>
         </div>
 
         <mat-expansion-panel *ngIf="isMapShowing; else isSmallScreen"

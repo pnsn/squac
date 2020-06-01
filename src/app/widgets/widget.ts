@@ -12,6 +12,7 @@ export class Widget {
     public owner: number,
     public name: string,
     public description: string,
+    public isPublic: boolean,
     public typeId: number,
     public dashboardId: number,
     public channelGroupId: number,
@@ -39,5 +40,10 @@ export class Widget {
 
   get metricsString(): string {
     return this.metricsIds.toString();
+  }
+
+
+  static get modelName() {
+    return 'Widget';
   }
 }

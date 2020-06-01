@@ -8,6 +8,7 @@ export class MockDashboardsService {
     1,
     'name',
     'description',
+    false,
     []
   );
   getDashboards = new BehaviorSubject <Dashboard[]>([]);
