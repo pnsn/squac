@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { DashboardsService } from './dashboards.service';
 import { Dashboard } from './dashboard';
 import { Router, ActivatedRoute } from '@angular/router';
+import { StatTypeService } from '../shared/stattype.service';
 
 @Component({
   selector: 'app-dashboards',
@@ -14,12 +15,15 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   constructor(
     private dashboardsService: DashboardsService,
+    private statTypeService: StatTypeService
   ) {
 
   }
 
   ngOnInit() {
+    // TODO: load before routing
     this.dashboardsService.fetchDashboards();
+    this.statTypeService.fetchStatTypes();
   }
 
   ngOnDestroy(): void {

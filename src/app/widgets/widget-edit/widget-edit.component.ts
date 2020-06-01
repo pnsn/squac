@@ -13,6 +13,7 @@ import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.serv
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
+import { StatTypeService } from 'src/app/shared/stattype.service';
 
 @Component({
   selector: 'app-widget-edit',
@@ -46,32 +47,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     }
   ];
 
-  statTypes = [
-    {
-      id: 1,
-      name: 'Average',
-    },
-    {
-      id: 2,
-      name: 'Median',
-    },
-    {
-      id: 3,
-      name: 'Minimum',
-    },
-    {
-      id: 4,
-      name: 'Maximum',
-    },
-    {
-      id: 5,
-      name: 'Sample Count',
-    },
-    {
-      id: 11,
-      name: 'Raw/Most Recent Value',
-    }
-  ];
+  statTypes;
 
   selectedType: number;
 
@@ -85,6 +61,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     private thresholdService: ThresholdsService,
     private channelGroupsService: ChannelGroupsService,
     private widgetEditService: WidgetEditService,
+    private statTypeService: StatTypeService
   ) { }
 
   ngOnInit() {
@@ -97,6 +74,15 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.statTypeService.statTypes.subscribe(
+      statTypes => {
+        console.log("I'm being called")
+        this.statTypes = statTypes;
+      },
+      error =>{
+        console.log("error in stattype " + error)
+      }
+    )
     this.widgetEditService.setWidget(this.widget);
 
     this.dashboardId = this.data.dashboardId;
