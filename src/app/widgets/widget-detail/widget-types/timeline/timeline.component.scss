@@ -7,3 +7,27 @@
 .hide-chart {
   visibility: hidden;
 }
+
+::ng-deep .legendG {
+  visibility: hidden;
+}
+
+#timeline-key {
+  width: 300px;
+  position: fixed;
+  left: 100px;
+  div {
+    display: inline-block;
+    margin: 0px 3px;
+    padding: 0px 2px;
+  }
+  #in-threshold, #out-of-threshold {
+    color: white;
+  }
+}
+
+::ng-deep .brusher {
+  visibility: hidden;
+}
+
+//chart toolip is in styles.scss because for some reason the tooltips are body level

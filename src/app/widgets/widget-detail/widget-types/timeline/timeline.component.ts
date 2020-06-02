@@ -12,6 +12,7 @@ import { Widget } from 'src/app/widgets/widget';
 import { Threshold } from 'src/app/widgets/threshold';
 import TimelinesChart, { TimelinesChartInstance, Val } from 'timelines-chart';
 import * as d3 from 'd3';
+import { MeasurementsService } from 'src/app/widgets/measurements.service';
 
 @Component({
   selector: 'app-timeline',
@@ -38,7 +39,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
   enddate: Date;
   startdate: Date;
   loading: boolean = true;
-
+  domainMin : number;
+  domainMax : number;
+  inThresholdColor = "#336178";
+  outOfThresholdColor = "#ffa52d";
   // rows = [];
   constructor(
     private dataFormatService: DataFormatService,
@@ -96,16 +100,26 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.chart.maxHeight(height);
   }
 
+  // FIXME: This is...not great
   private buildRows(measurements) {
     console.log(this.currentMetric)
     let data = [];
+    let dataMax : number, dataMin : number;
+
     this.channels.forEach((channel) => {
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
       const channelData = [];
-
+      // measurements[channel.id][this.currentMetric.id] = this.getFakeMeasurements(this.startdate, this.enddate, 20)
+      // go through the measurements
       measurements[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
-
+        if(!dataMin || measurement.value < dataMin) {
+          dataMin = measurement.value;
+        }
+        if(!dataMax || measurement.value > dataMax) {
+          dataMax = measurement.value;
+        }
+        //make a data point
         const dataPoint = {
           val: measurement.value,
           timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
@@ -120,8 +134,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
         data: channelData
       };
 
+      //grab the correct station
       let stationRow = data.find(stationRow => stationRow.group === stationGroup);
 
+      //if it doesn't exist, create it
       if(!stationRow) {
         data.push({
           group: stationGroup,
@@ -129,18 +145,40 @@ export class TimelineComponent implements OnInit, OnDestroy {
         });
         stationRow = data.find(stationRow => stationRow.group === stationGroup);
       } 
-        stationRow.data.push(channelRow)
+      // add channel to the station
+      stationRow.data.push(channelRow)
       
     });
-    
+
     this.loading = false;
+
+    let threshold = this.widget.thresholds[this.currentMetric.id];
+
+    if( threshold ) {
+      this.domainMin = threshold.min;
+      this.domainMax = threshold.max;
+    } else if(this.currentMetric.minVal || this.currentMetric.maxVal) {
+      this.domainMin = this.currentMetric.minVal;
+      this.domainMax = this.currentMetric.maxVal;
+    } 
+    if(!this.domainMin) {
+      this.domainMin = dataMin;
+    } 
+    if(!this.domainMax) {
+      this.domainMax = dataMax;
+    }
+    //FIXME: domain in exclusive on upper end 
+    let colorScale = d3
+      .scaleThreshold<Val, string>()
+      .domain([this.domainMin, this.domainMax + 0.0000001])
+      .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor])
 
     this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
       .zDataLabel(this.currentMetric.unit)
-      .zQualitative(false)
-      .enableOverview(false);
-    this.chart.zColorScale().range(["blue", "red"]);
-    this.chart.zColorScale().domain([0, 1]);
+      .enableOverview(false)
+      .zColorScale(colorScale)
+      .zScaleLabel("string");
+      
 
     let formatTime = d3.timeFormat("%Y-%m-%d %-I:%M:%S %p");
     this.chart.segmentTooltipContent((d)=> {
@@ -152,25 +190,27 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     this.resize();
     this.chart.data(data);
-
+    console.log(this.chart.zScaleLabel())
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  // checkThresholds(threshold, value): boolean {
-  //   let withinThresholds = true;
-  //   if (threshold.max && value != null && value > threshold.max) {
-  //     withinThresholds = false;
-  //   }
-  //   if (threshold.min && value != null && value < threshold.min) {
-  //     withinThresholds = false;
-  //   }
-  //   if (!threshold.min && !threshold.max) {
-  //     withinThresholds = false;
-  //   }
-  //   return withinThresholds;
-  // }
+    // // produces number of fake measurements in the given time range
+    // getFakeMeasurements(startdate, enddate, number) {
+    //   let interval = (enddate.getTime() - startdate.getTime()) / number;
+    //   let measurements = [];
+
+    //   for (let i = 0; i < number; i++ ) {
+    //     measurements.push({
+    //       value: Math.round(Math.random()*100),
+    //       starttime: new Date(startdate.getTime() + i * interval),
+    //       endtime: new Date(startdate.getTime() + (i + 1) * interval )
+    //     });
+    //   }
+
+    //   return measurements;
+    // }
 
 }
