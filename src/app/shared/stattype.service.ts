@@ -3,10 +3,10 @@ import { SquacApiService } from '../squacapi.service';
 import { BehaviorSubject } from 'rxjs';
 
 interface StatTypeHttpData {
-  id: number,
-  type: string,
-  name: string,
-  description: string
+  id: number;
+  type: string;
+  name: string;
+  description: string;
 }
 
 @Injectable({
@@ -15,14 +15,14 @@ interface StatTypeHttpData {
 export class StatTypeService {
   private url = 'dashboard/stattype/';
 
-  statTypes = new BehaviorSubject<StatTypeHttpData[]>([]); 
+  statTypes = new BehaviorSubject<StatTypeHttpData[]>([]);
   constructor(
     private squacApi: SquacApiService
   ) {
   }
 
-  //only get, no update
-  fetchStatTypes(){
+  // only get, no update
+  fetchStatTypes() {
     this.squacApi.get(this.url)
       .subscribe(
         result => {

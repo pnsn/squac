@@ -74,8 +74,8 @@ transform(values: any, type: any): any {
 
         case 5:
           return sortedValues.length;
-//6-10 are percentiles
-//13 is raw
+// 6-10 are percentiles
+// 13 is raw
         default: // most recent
           return values[values.length - 1].value;
       }

@@ -76,13 +76,13 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     this.statTypeService.statTypes.subscribe(
       statTypes => {
-        console.log("I'm being called")
+        console.log('I\'m being called');
         this.statTypes = statTypes;
       },
-      error =>{
-        console.log("error in stattype " + error)
+      error => {
+        console.log('error in stattype ' + error);
       }
-    )
+    );
     this.widgetEditService.setWidget(this.widget);
 
     this.dashboardId = this.data.dashboardId;

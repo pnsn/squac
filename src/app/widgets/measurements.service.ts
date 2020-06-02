@@ -48,7 +48,7 @@ export class MeasurementsService {
         }
       ).pipe(
         map(response => {
-           //FIXME: no data handling
+           // FIXME: no data handling
           response.forEach(m => {
             data[m.channel][m.metric].push(
               new Measurement(

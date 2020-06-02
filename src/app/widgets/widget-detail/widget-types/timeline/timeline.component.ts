@@ -28,7 +28,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   channelGroup: ChannelGroup;
   chart;
   channels: Channel[];
-  @ViewChild("timeline", {read: ElementRef}) timelineDiv: ElementRef;
+  @ViewChild('timeline', {read: ElementRef}) timelineDiv: ElementRef;
 
   subscription = new Subscription();
   ColumnMode = ColumnMode;
@@ -38,17 +38,17 @@ export class TimelineComponent implements OnInit, OnDestroy {
   currentMetric: Metric;
   enddate: Date;
   startdate: Date;
-  loading: boolean = true;
-  domainMin : number;
-  domainMax : number;
-  inThresholdColor = "#336178";
-  outOfThresholdColor = "#ffa52d";
+  loading = true;
+  domainMin: number;
+  domainMax: number;
+  inThresholdColor = '#336178';
+  outOfThresholdColor = '#ffa52d';
   // rows = [];
   constructor(
     private dataFormatService: DataFormatService,
     private viewService: ViewService,
     private measurement: MeasurementPipe
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -94,17 +94,18 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.subscription.add(resizeSub);
   }
   private resize() {
-    let width = this.timelineDiv.nativeElement.offsetWidth;
-    let height = this.timelineDiv.nativeElement.offsetHeight;
+    const width = this.timelineDiv.nativeElement.offsetWidth;
+    const height = this.timelineDiv.nativeElement.offsetHeight;
     this.chart.width(width);
     this.chart.maxHeight(height);
   }
 
   // FIXME: This is...not great
   private buildRows(measurements) {
-    console.log(this.currentMetric)
-    let data = [];
-    let dataMax : number, dataMin : number;
+    console.log(this.currentMetric);
+    const data = [];
+    let dataMax: number;
+    let dataMin: number;
 
     this.channels.forEach((channel) => {
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
@@ -113,19 +114,19 @@ export class TimelineComponent implements OnInit, OnDestroy {
       // go through the measurements
       measurements[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
-        if(!dataMin || measurement.value < dataMin) {
+        if (!dataMin || measurement.value < dataMin) {
           dataMin = measurement.value;
         }
-        if(!dataMax || measurement.value > dataMax) {
+        if (!dataMax || measurement.value > dataMax) {
           dataMax = measurement.value;
         }
-        //make a data point
+        // make a data point
         const dataPoint = {
           val: measurement.value,
           timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
-        }
+        };
 
-          channelData.push(dataPoint);
+        channelData.push(dataPoint);
         }
       );
 
@@ -134,63 +135,63 @@ export class TimelineComponent implements OnInit, OnDestroy {
         data: channelData
       };
 
-      //grab the correct station
-      let stationRow = data.find(stationRow => stationRow.group === stationGroup);
+      // grab the correct station
+      let stationRow = data.find(row => row.group === stationGroup);
 
-      //if it doesn't exist, create it
-      if(!stationRow) {
+      // if it doesn't exist, create it
+      if (!stationRow) {
         data.push({
           group: stationGroup,
           data: []
         });
-        stationRow = data.find(stationRow => stationRow.group === stationGroup);
-      } 
+        stationRow = data.find(row => row.group === stationGroup);
+      }
       // add channel to the station
-      stationRow.data.push(channelRow)
-      
+      stationRow.data.push(channelRow);
+
     });
 
     this.loading = false;
 
-    let threshold = this.widget.thresholds[this.currentMetric.id];
+    const threshold = this.widget.thresholds[this.currentMetric.id];
 
-    if( threshold ) {
+    if ( threshold ) {
       this.domainMin = threshold.min;
       this.domainMax = threshold.max;
-    } else if(this.currentMetric.minVal || this.currentMetric.maxVal) {
+    } else if (this.currentMetric.minVal || this.currentMetric.maxVal) {
       this.domainMin = this.currentMetric.minVal;
       this.domainMax = this.currentMetric.maxVal;
-    } 
-    if(!this.domainMin) {
+    }
+    if (!this.domainMin) {
       this.domainMin = dataMin;
-    } 
-    if(!this.domainMax) {
+    }
+    if (!this.domainMax) {
       this.domainMax = dataMax;
     }
-    //FIXME: domain in exclusive on upper end 
-    let colorScale = d3
+    // FIXME: domain in exclusive on upper end
+    const colorScale = d3
       .scaleThreshold<Val, string>()
       .domain([this.domainMin, this.domainMax + 0.0000001])
-      .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor])
+      .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor]);
 
     this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
       .zDataLabel(this.currentMetric.unit)
       .enableOverview(false)
       .zColorScale(colorScale)
-      .zScaleLabel("string");
-      
+      .zScaleLabel('string');
 
-    let formatTime = d3.timeFormat("%Y-%m-%d %-I:%M:%S %p");
-    this.chart.segmentTooltipContent((d)=> {
-      const row1 = "<div> value: <span>" + d.val + " (" +this.currentMetric.unit+")</span></div>";
-      const row2 = "<div> start: <span>" +formatTime(d.timeRange[0]) + "</span></div>";
-      const row3 = "<div> end: <span>" + formatTime(d.timeRange[1])+"</span></div>";
+
+    const formatTime = d3.timeFormat('%Y-%m-%d %-I:%M:%S %p');
+    this.chart.segmentTooltipContent((d) => {
+      const row1 = '<div> value: <span>' + d.val + ' (' + this.currentMetric.unit + ')</span></div>';
+      const row2 = '<div> start: <span>' + formatTime(d.timeRange[0]) + '</span></div>';
+      const row3 = '<div> end: <span>' + formatTime(d.timeRange[1]) + '</span></div>';
       return row1 + row2 + row3;
     });
 
     this.resize();
     this.chart.data(data);
-    console.log(this.chart.zScaleLabel())
+    console.log(this.chart.zScaleLabel());
   }
 
   ngOnDestroy(): void {
