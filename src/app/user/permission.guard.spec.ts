@@ -7,14 +7,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AbilityModule } from '@casl/angular';
 import { Ability, AbilityBuilder, PureAbility } from '@casl/ability';
 import { AppAbility } from './ability';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, ReplaySubject } from 'rxjs';
 
 class TestUserService  {
   testUser;
-  user = new BehaviorSubject(null);
+  user = new ReplaySubject();
   setUser(user) {
     this.testUser = user;
-    this.user.next(user);
+    this.user.next(this.testUser);
   }
   getUser() {
     return this.testUser;
@@ -51,7 +51,7 @@ describe('PermissionGuard', () => {
 
   });
 
-  it('should not allow user to route to resource without permission', () => {
+  it('should not allow user to route to resource without permission', (done) => {
     userService.setUser({
       name: 'User'
     });
@@ -61,10 +61,9 @@ describe('PermissionGuard', () => {
         action: 'read'
       }
     };
-    console.log('why can I do this', ability.can('read', 'Post'));
     expect(ability.can('read', 'Post')).toEqual(false);
-    console.log(guard.canActivate(route));
     expect(guard.canActivate(route)).toEqual(false);
+    done();
   });
 
   it('should allow user to route to resource with permission', () => {

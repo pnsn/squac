@@ -20,7 +20,7 @@ import { MeasurementsService } from 'src/app/widgets/measurements.service';
   styleUrls: ['./timeline.component.scss'],
   providers: [MeasurementPipe]
 })
-export class TimelineComponent implements OnInit, OnDestroy {
+export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() widget: Widget;
 
   metrics: Metric[];
@@ -59,7 +59,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.channels = this.channelGroup.channels;
     }
 
-
+    this.chart = TimelinesChart();
 
     const dataFormatSub = this.dataFormatService.formattedData.subscribe(
       response => {
@@ -174,12 +174,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
       .domain([this.domainMin, this.domainMax + 0.0000001])
       .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor]);
 
-    this.chart = TimelinesChart()(this.timelineDiv.nativeElement)
-      .zDataLabel(this.currentMetric.unit)
-      .enableOverview(false)
+    this.chart.zDataLabel(this.currentMetric.unit)
       .zColorScale(colorScale)
-      .zScaleLabel('string');
-
+      .zScaleLabel(this.currentMetric.unit);
 
     const formatTime = d3.timeFormat('%Y-%m-%d %-I:%M:%S %p');
     this.chart.segmentTooltipContent((d) => {
@@ -192,6 +189,14 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.resize();
     this.chart.data(data);
     console.log(this.chart.zScaleLabel());
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.chart(this.timelineDiv.nativeElement)
+      .enableOverview(false);
+
   }
 
   ngOnDestroy(): void {

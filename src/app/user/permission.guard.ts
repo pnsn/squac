@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UserService } from './user.service';
 import { Ability } from '@casl/ability';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,10 @@ export class PermissionGuard implements CanActivate {
           user => {
             console.log(user, subject, action, this.ability.can(action, subject));
             return this.ability.can(action, subject);
+          }
+        ),
+        catchError( error=>{
+            return of(false);
           }
         )
       )
