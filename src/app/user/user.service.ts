@@ -34,7 +34,6 @@ export class UserService {
   }
 
   fetchUser() {
-    console.log('fetchUser');
     this.squacApi.get(this.url).subscribe(
       response => {
         const groups = [];
@@ -51,9 +50,7 @@ export class UserService {
           response.organization,
           groups
         );
-        console.log(this.ability.can('read', 'Dashboard'));
         this.ability.update(defineAbilitiesFor(this.currentUser));
-        console.log(this.ability.can('read', 'Dashboard'));
         this.user.next(this.currentUser);
       },
 
