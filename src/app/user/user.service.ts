@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { User } from './user';
 import { SquacApiService } from '../squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
@@ -21,7 +21,7 @@ interface UserHttpData {
 export class UserService {
   private url = 'user/me/';
   private currentUser;
-  user = new BehaviorSubject<User>(null);
+  user = new ReplaySubject<User>();
 
   constructor(
     private http: HttpClient,
