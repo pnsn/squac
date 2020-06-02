@@ -42,7 +42,7 @@ export class MeasurementsService {
       return this.squacApi.get(this.url, null,
         {
            metric: widget.metricsString,
-           channel: widget.channelGroup.channelsString,
+           group: widget.channelGroup.id,
            starttime: startString,
            endtime: endString,
         }
