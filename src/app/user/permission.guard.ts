@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable, of } from 'rxjs';
 import { UserService } from './user.service';
 import { Ability } from '@casl/ability';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +16,25 @@ export class PermissionGuard implements CanActivate {
     ) {
   }
   // Returns true if there is a user and allows user to navigate
-  canActivate(next: ActivatedRouteSnapshot): Observable<boolean> | boolean{
+  canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
       console.log("navigate?")
     if (next.data && next.data.action && next.data.subject) {
       const subject = next.data.subject;
       const action = next.data.action;
-
+      console.log("in the if")
       return this.userService.user.pipe(
-        map(
+        switchMap(
           user => {
             console.log(user, subject, action, this.ability.can(action, subject));
-            return this.ability.can(action, subject);
+            return of(this.ability.can(action, subject));
           }
         ),
-        catchError( error=>{
-            return of(false);
-          }
-        )
-      )
+        catchError((err) => {
+          return of(false);
+        })
+      );
     } else {
-      return true;
+      return of(true);
     }
   }
 }

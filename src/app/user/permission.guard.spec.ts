@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 
 import { PermissionGuard } from './permission.guard';
 import { UserService } from './user.service';
@@ -43,28 +43,37 @@ describe('PermissionGuard', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should return true if there is no subject or action', () => {
+  it('should return true if there is no subject or action', fakeAsync(() => {
     const route: any = { snapshot: {}, data: {}};
 
-    expect(guard.canActivate(route)).toEqual(true);
+    guard.canActivate(route).subscribe(
+      canActivate => {
+        expect(canActivate).toEqual(true);
+      }
+    );
 
+  }));
 
-  });
-
-  it('should not allow user to route to resource without permission', (done) => {
+  it('should not allow user to route to resource without permission',fakeAsync(() => {
     userService.setUser({
       name: 'User'
     });
+
     const route: any = { snapshot: {},
       data: {
         subject : 'Post',
         action: 'read'
       }
     };
+
     expect(ability.can('read', 'Post')).toEqual(false);
-    expect(guard.canActivate(route)).toEqual(false);
-    done();
-  });
+    guard.canActivate(route).subscribe(
+      canActivate => {
+        expect(canActivate).toEqual(false);
+      }
+    );
+
+  }));
 
   it('should allow user to route to resource with permission', () => {
     userService.setUser({
@@ -78,7 +87,11 @@ describe('PermissionGuard', () => {
     };
     expect(ability.can('update', 'Post')).toEqual(true);
 
-    expect(guard.canActivate(route)).toEqual(true);
+    guard.canActivate(route).subscribe(
+      canActivate => {
+        expect(canActivate).toEqual(true);
+      }
+    );
   });
 
 });
