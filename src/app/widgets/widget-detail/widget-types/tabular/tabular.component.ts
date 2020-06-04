@@ -195,12 +195,14 @@ export class TabularComponent implements OnInit, OnDestroy {
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
-    if (threshold.max !== null && value !== null && value >= threshold.max) {
+    if (threshold.max !== null && value !== null && value > threshold.max) {
       withinThresholds = false;
     }
-    if (threshold.min !== null && value !== null && value <= threshold.min) {
+    if (threshold.min !== null && value !== null && value < threshold.min) {
       withinThresholds = false;
     }
+
+    //TODO: is no thresholds in or out
     if (threshold.min === null && threshold.max === null) {
       withinThresholds = false;
     }

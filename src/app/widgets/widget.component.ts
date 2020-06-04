@@ -51,7 +51,7 @@ itemChange(item) {
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe(
       error => {
-        console.log('error in widget update: ' + error);
+        console.log('error in widget update: ', error);
       }
     );
     this.viewService.resizeWidget(item.widget.id);

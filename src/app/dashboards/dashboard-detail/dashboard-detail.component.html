@@ -49,9 +49,7 @@
         >
       </mat-progress-bar>
 
-      <app-error [errorMsg]="error">
 
-      </app-error>
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget >
         </app-widget>
@@ -69,5 +67,5 @@
       </ng-template>
 
 </div>
-
-<app-loading *ngIf="!dashboard"></app-loading>
+<app-error *ngIf="error" [errorMsg]="error"></app-error>
+<app-loading *ngIf="!dashboard && !error"></app-loading>

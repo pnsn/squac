@@ -97,7 +97,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     const width = this.timelineDiv.nativeElement.offsetWidth;
     const height = this.timelineDiv.nativeElement.offsetHeight;
     this.chart.width(width);
-    this.chart.maxHeight(height);
+    // this.chart.maxHeight(height);
   }
 
   // FIXME: This is...not great
@@ -195,7 +195,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     this.chart(this.timelineDiv.nativeElement)
-      .enableOverview(false);
+      .enableOverview(false)
+      ;
 
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-error',
-  templateUrl: './error.component.html',
+  template: '<div id="error-container">{{errorMsg}}<div>',
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit {
@@ -10,6 +10,7 @@ export class ErrorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("error component loaded")
   }
 
 }
