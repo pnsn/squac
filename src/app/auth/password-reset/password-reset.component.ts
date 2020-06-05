@@ -94,7 +94,7 @@ export class PasswordResetComponent implements OnInit {
     if (password1 !== password2) {
       return;
     }
-
+    console.log("confirming password");
     this.passwordResetService.confirmPassword(password1).subscribe(
       response => {
         this.router.navigate(['/login']);

@@ -26,6 +26,7 @@ export class PasswordResetService {
 
   // check token is valid
   validateToken(token: string) {
+    console.log("validating token")
     const path = 'validate_token/';
     this.token = token;
     return this.squacApi.post(this.url + path, {
