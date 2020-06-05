@@ -36,7 +36,7 @@ export class PasswordResetService {
   // send new password
   confirmPassword(password) {
     const path = 'confirm/';
-
+    console.log('confirm', path);
     return this.squacApi.post(this.url + path, {
       password,
       token: this.token
