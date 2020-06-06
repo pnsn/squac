@@ -44,6 +44,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   selectedDateRange = this.dateRanges[2];
   error: string = null;
   unsaved: boolean;
+  dialogRef;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -104,6 +105,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.dialogRef.close(null);
     this.subscription.unsubscribe();
   }
 
@@ -133,13 +135,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   addWidget() {
     // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    const dialogRef = this.dialog.open(WidgetEditComponent, {
+    this.dialogRef = this.dialog.open(WidgetEditComponent, {
       data : {
         widget: null,
         dashboardId: this.dashboard.id
       }
     });
-    dialogRef.afterClosed().subscribe(
+    this.dialogRef.afterClosed().subscribe(
       result => {
         if (result && result.id) {
           console.log('Dialog closed and widget saved');

@@ -22,6 +22,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   data: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
+  dialogRef;
   // temp
 
   styles: any;
@@ -51,16 +52,19 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if(this.dialogRef) {
+      this.dialogRef.close(null);
+    }
   }
 
   editWidget() {
-    const dialogRef = this.dialog.open(WidgetEditComponent, {
+    this.dialogRef = this.dialog.open(WidgetEditComponent, {
       data : {
         widget: this.widget,
         dashboardId: this.widget.dashboardId
       }
     });
-    dialogRef.afterClosed().subscribe(
+    this.dialogRef.afterClosed().subscribe(
       result => {
         if (result && result.id) {
           this.viewService.updateWidget(result.id);
