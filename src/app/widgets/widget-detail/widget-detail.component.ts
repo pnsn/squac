@@ -53,7 +53,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     if(this.dialogRef) {
-      this.dialogRef.close(null);
+      this.dialogRef.close();
     }
   }
 
