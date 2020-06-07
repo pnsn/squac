@@ -76,19 +76,6 @@ export class WidgetsService {
         )
       );
   }
-  // switchMap (
-  //   (response) => {
-  //     return
-  //   }
-  // )
-  // getWidgets(widgetIds: number[]): Observable<Widget[]> {
-
-  //   const widgetRequests = widgetIds.map(id => {
-  //     return this.getWidget(id);
-  //   });
-
-  //   return forkJoin(widgetRequests);
-  // }
 
   getWidget(id: number): Observable<Widget> {
     let widget: Widget;

@@ -6,7 +6,6 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { ViewService } from '../shared/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from './widget-edit/widget-edit.component';
-
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',
@@ -51,7 +50,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
     displayGrid: 'onDrag&Resize',
     scrollToNewItems: true,
     itemChangeCallback: (item) => {this.itemChange(item); },
-    itemInitCallback : (item) => {this.inited++; }
+    itemInitCallback : (item) => {this.inited++; },
+    gridSizeChanged:()=> {
+      console.log("grid size changed")
+    }
   };
 
 widgets: Array<GridsterItem> = [];
@@ -75,9 +77,7 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    //allow dragable and resizable if they have permission to edit dashboard
-    this.options.draggable.enabled = this.canUpdate;
-    this.options.resizable.enabled = this.canUpdate;
+
 
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
@@ -92,8 +92,12 @@ itemChange(item) {
             widget
           });
         });
-      this.loading = false;
+        this.loading = false;
         // this.options.api.resize();
+            //allow dragable and resizable if they have permission to edit dashboard
+        this.options.draggable.enabled = this.canUpdate;
+        this.options.resizable.enabled = this.canUpdate;
+       if(this.options.api) { this.options.api.optionsChanged() };
       },
       error => {
         console.log(' error in widget: ' + error);
