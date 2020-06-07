@@ -46,9 +46,13 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         console.log('error in dashboard view get:  + ' + error);
       }
     );
-    this.userId = this.userService.getUser().id;
+    const userService = this.userService.user.subscribe(
+      user => {
+        this.userId = user.id;
+      }
+    );
     this.subscription.add(dashboardsService);
-
+      this.subscription.add(userService)
     this.subscription.add(dashboardsSub);
   }
 

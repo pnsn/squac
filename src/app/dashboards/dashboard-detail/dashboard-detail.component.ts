@@ -60,7 +60,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (dashboard: Dashboard) => {
         this.error = null;
         this.dashboard = dashboard;
-        const user = this.userService.getUser();
       },
       error => {
         this.error = 'Could not load dashboard.';

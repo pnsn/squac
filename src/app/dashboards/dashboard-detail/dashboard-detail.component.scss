@@ -34,6 +34,7 @@
     }
   }
 
+
   #header-controls {
     // height: 20px;
     display: flex;
@@ -41,6 +42,11 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+#delete-dashboard {
+  margin-top: 10px;
+  color: $sq-warn;
 }
 
 #date-range {
