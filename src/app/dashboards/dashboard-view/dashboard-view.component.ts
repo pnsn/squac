@@ -48,7 +48,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     );
     const userService = this.userService.user.subscribe(
       user => {
-        this.userId = user.id;
+        this.userId = user ? user.id : null;
       }
     );
     this.subscription.add(dashboardsService);

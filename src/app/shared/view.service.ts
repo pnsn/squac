@@ -68,9 +68,9 @@ export class ViewService {
     this.status.next('loading');
     this.widgets = [];
     this.updateCurrentWidgets();
-    console.log(id, start, end);
-    //fixme: needs an intermediate load state
 
+    this.currentDashboard.next(null);
+    
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
         this.currentDashboard.next(dashboard);

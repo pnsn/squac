@@ -18,9 +18,9 @@
       <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active" *ngIf="userId !== dashboard.owner">{{dashboard.name}} </a>
     </mat-nav-list>
   </div>
-  <app-loading *ngIf="!dashboards"></app-loading>
-</div>
 
+</div>
+<app-loading *ngIf="!dashboards"></app-loading>
 <button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
   <mat-icon>add</mat-icon> New Dashboard
 </button>

@@ -94,10 +94,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(resizeSub);
   }
   private resize() {
-    const width = this.timelineDiv.nativeElement.offsetWidth;
-    const height = this.timelineDiv.nativeElement.offsetHeight;
-    this.chart.width(width);
-    // this.chart.maxHeight(height);
+    if(this.timelineDiv) {
+      const width = this.timelineDiv.nativeElement.offsetWidth;
+      const height = this.timelineDiv.nativeElement.offsetHeight;
+      this.chart.width(width);
+    }
   }
 
   // FIXME: This is...not great
@@ -151,7 +152,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
     });
 
-    this.loading = false;
+
 
     const threshold = this.widget.thresholds[this.currentMetric.id];
 
@@ -168,6 +169,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.domainMax) {
       this.domainMax = dataMax;
     }
+
+    this.loading = false;
     // FIXME: domain in exclusive on upper end
     const colorScale = d3
       .scaleThreshold<Val, string>()
@@ -186,22 +189,19 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       return row1 + row2 + row3;
     });
 
-    this.resize();
+
     this.chart.data(data);
-    console.log(this.chart.zScaleLabel());
-  }
 
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    this.chart(this.timelineDiv.nativeElement)
-      .enableOverview(false)
-      ;
 
+    this.resize();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+  
+  ngAfterViewInit(): void {
+    this.chart(this.timelineDiv.nativeElement).enableOverview(false);
   }
 
     // // produces number of fake measurements in the given time range
