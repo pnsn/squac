@@ -33,11 +33,17 @@
               </mat-button-toggle>
             </mat-button-toggle-group>
 
-            <div id="description">
-              <div id="widget-description">
-                {{ selectedType ? getStatTypeById(selectedType)?.description : "Select a widget type"}}
-              </div>
-            </div>
+            <div id="description"> 
+              <p *ngIf="selectedType; else noSelectedType">
+                {{selectedType ? getStatTypeById(selectedType)?.description : "blah"}}
+              </p>
+              <ng-template #noSelectedType>
+                <p>
+                  Widgets display measurements for selected metrics and channels.
+                </p>
+              </ng-template>
+
+           </div>
           </div>
           <br>
           <div class="label">Select statistical type: </div>  
@@ -48,7 +54,6 @@
                 {{statType.name}}
               </mat-option>
             </mat-select>
-            <mat-hint>Calculation method</mat-hint>
           </mat-form-field>
 
           <!-- <mat-checkbox
@@ -74,19 +79,19 @@
 
   </div>
 <div mat-dialog-actions>
-  <button mat-stroked-button (click)="stepper.next()" *ngIf='!widgetForm.valid || !isValid'>Next</button>
+  <button mat-stroked-button color="primary" (click)="stepper.next()" *ngIf='!widgetForm.valid || !isValid'>Next</button>
   <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf='widgetForm.valid && isValid'>Save</button>
 
 
   <button mat-flat-button color="warn" (click)="cancel()" *ngIf="stepper.selectedIndex == 0 && (widgetForm.valid && isValid)">Cancel</button>
-  <button mat-stroked-button (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
-  <!-- <p *ngIf="!isValid || !widgetForm.valid; else valid">
-    Information still missing... add more help text here
+  <button mat-stroked-button color="primary" (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
+  <p *ngIf="!isValid || !widgetForm.valid; else valid">
+    Widget incomplete.
   </p>
   <ng-template #valid>
     <p>
       Creating widget on dashboard {{dashboardId}}
     </p>
-  </ng-template> -->
+  </ng-template>
 
 </div>

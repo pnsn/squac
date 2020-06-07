@@ -23,6 +23,7 @@
   margin-right: 10px;
   margin-bottom: 10px;
   display:inline-block;
+  font-weight: bold;
 }
 
 
@@ -81,9 +82,14 @@
       background-color: $sq-blue;
     }
   }
-
-  #widget-description {
+  #description{
     display: inline-block;
+    padding:10px;
+    p {
+      font-weight: 300;
+      font-size: 12pt;
+      margin-top: 0px;
+    }
   }
 }
 
@@ -101,7 +107,7 @@ h3{
   flex-direction: row-reverse;
   justify-content: space-between;
   p {
-    font-weight: 300px;
+    font-weight: 300;
     font-size: 12pt;
     margin-top: 0px;
   }

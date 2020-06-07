@@ -131,6 +131,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   selectType(type) {
+    console.log(type)
     this.selectedType = type;
     this.widgetEditService.updateType(type);
   }
