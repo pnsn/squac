@@ -28,6 +28,10 @@ export class WidgetComponent implements OnInit, OnDestroy {
       dropOverItems: false
     },
     gridType: 'verticalFixed',
+    fixedRowHeight: 100,
+    minCols: 20,
+    maxCols: 20,
+    minRows: 20,
     pushItems: true,
     resizable: {
       enabled: true,
@@ -35,7 +39,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     },
     outerMargin: true,
     mobileBreakpoint: 640,
-    compactType: 'compactUp&Left',
+    compactType: 'none',
     displayGrid: 'onDrag&Resize',
     itemChangeCallback: (item) => {this.itemChange(item); },
     itemInitCallback : (item) => {this.inited++; }
