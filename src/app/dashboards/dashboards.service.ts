@@ -73,7 +73,6 @@ export class DashboardsService {
   }
 
   private updateLocalDashboards(id : number, dashboard? : Dashboard){
-    console.log(id, dashboard);
     const index = this.localDashboards.findIndex(d => d.id === id);
 
     if(index > -1) {
@@ -91,8 +90,6 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): any {
-    let dashboard: Dashboard;
-
     return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
   }
 
@@ -105,11 +102,11 @@ export class DashboardsService {
     };
     if (dashboard.id) {
       postData.id = dashboard.id;
-      this.updateLocalDashboards(dashboard.id, dashboard);
-      return this.squacApi.put(this.url, dashboard.id, postData);
+      return this.squacApi.put(this.url, dashboard.id, postData).pipe(
+        map((data) => this.mapDashboard(data))
+      );
     } else {
-      return this.squacApi.post(this.url, postData)
-        .pipe(
+      return this.squacApi.post(this.url, postData).pipe(
           map((data) => this.mapDashboard(data))
         );
     }

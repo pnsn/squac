@@ -1,7 +1,20 @@
-
+#dashboard-list-container {
+  div.list-header {
+    padding: 10px 10px;
+    font-size: 14pt;
+    font-weight: 400;
+  }
+  max-height: 90%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  .dashboard-group mat-nav-list {
+    max-height: 50%;
+    overflow:scroll;
+  }
+}
 button {
-  margin-left: 30px;
+  margin-left: 20px;
   height: 30px;
   line-height: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
 }

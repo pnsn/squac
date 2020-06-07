@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Subscription } from 'rxjs';
 import { Dashboard } from '../dashboard';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-dashboard-view',
@@ -13,8 +14,10 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   dashboards: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
+  userId;
   constructor(
     private dashboardsService: DashboardsService,
+    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -43,7 +46,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         console.log('error in dashboard view get:  + ' + error);
       }
     );
-
+    this.userId = this.userService.getUser().id;
     this.subscription.add(dashboardsService);
 
     this.subscription.add(dashboardsSub);

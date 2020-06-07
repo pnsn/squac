@@ -1,9 +1,23 @@
 
-<mat-nav-list class="mat-nac-list-dense" dense *ngFor="let dashboard of dashboards" >
-  <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active">{{dashboard.name}} </a>
-</mat-nav-list>
+<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">Make Dashboard</button>
+<div id="dashboard-list-container">
+  <div class="dashboard-group">
+    <div class="list-header">Your Dashboards</div>
+    <mat-nav-list class="mat-nac-list-dense" dense *ngFor="let dashboard of dashboards" >
+      <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active"*ngIf="userId === dashboard.owner">{{dashboard.name}} </a>
+    </mat-nav-list>
+  </div>
 
-<app-loading *ngIf="!dashboards"></app-loading>
-<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'"> Add Dashboard</button>
+  <mat-divider></mat-divider>
+  <div class="dashboard-group">
+    <div class="list-header">Public Dashboards</div>
+    <mat-nav-list class="mat-nac-list-dense" dense *ngFor="let dashboard of dashboards" >
+      <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active"*ngIf="userId !== dashboard.owner">{{dashboard.name}} </a>
+    </mat-nav-list>
+  </div>
+  <app-loading *ngIf="!dashboards"></app-loading>
+</div>
+
+
 
 <!-- Todo: separate owned/public dashboards -->
