@@ -4,6 +4,8 @@ import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { ViewService } from '../shared/view.service';
+import { MatDialog } from '@angular/material/dialog';
+import { WidgetEditComponent } from './widget-edit/widget-edit.component';
 
 @Component({
   selector: 'app-widget',
@@ -12,11 +14,16 @@ import { ViewService } from '../shared/view.service';
 })
 export class WidgetComponent implements OnInit, OnDestroy {
   @Input() canUpdate: boolean;
+  @Input() dashboardId: number;
+
+  loading: boolean = true;
   inited = 0;
   subscription: Subscription = new Subscription();
+  dialogRef;
   constructor(
     private widgetService: WidgetsService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private dialog: MatDialog
   ) {}
 
   options: GridsterConfig = {
@@ -85,7 +92,7 @@ itemChange(item) {
             widget
           });
         });
-
+      this.loading = false;
         // this.options.api.resize();
       },
       error => {
@@ -96,7 +103,36 @@ itemChange(item) {
   }
 
   ngOnDestroy() {
+    if(this.dialogRef) {
+      this.dialogRef.close();
+    }
     this.subscription.unsubscribe();
+  }
+
+
+  addWidget() {
+    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
+    this.dialogRef = this.dialog.open(WidgetEditComponent, {
+      data : {
+        widget: null,
+        dashboardId: this.dashboardId
+      }
+    });
+    this.dialogRef.afterClosed().subscribe(
+      result => {
+        if (result && result.id) {
+          console.log('Dialog closed and widget saved');
+          this.viewService.addWidget(result.id);
+        } else {
+          console.log('Dialog closed and not saved');
+        }
+      },
+      error => {
+        // this.error = 'Failed to save widget.';
+        console.log('error during close of widget' + error);
+      }
+    );
+
   }
 }
 

@@ -38,7 +38,6 @@ import { AbilityModule } from '@casl/angular';
   ],
   exports: [
     WidgetComponent,
-    WidgetEditComponent,
     SharedModule
   ],
   entryComponents: [

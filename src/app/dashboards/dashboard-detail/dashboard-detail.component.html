@@ -51,21 +51,7 @@
 
       <!-- TODO: move this to widget component -->
 
-      <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
-        <app-widget canUpdate="{{'update' | able: dashboard}}">
-        </app-widget>
-      </ng-container>
-      <ng-template #noWidgets>
-        <div id="add-widget">
-          <p>
-            There are currently no widgets for this dashboard.
-          </p>
-          <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="'update' | able: dashboard">
-            Add Widget
-          </button>
-        </div>
-
-      </ng-template>
+      <app-widget canUpdate="{{'update' | able: dashboard}}" dashboardId="{{dashboard.id}}"></app-widget>
 
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>
