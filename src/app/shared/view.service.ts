@@ -2,7 +2,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Dashboard } from '../dashboards/dashboard';
 import { Widget } from '../widgets/widget';
 import { MeasurementsService } from '../widgets/measurements.service';
@@ -15,7 +15,7 @@ import { ChannelGroup } from './channel-group';
 })
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
-  currentWidgets = new Subject<Widget[]>();
+  currentWidgets = new BehaviorSubject<Widget[]>([]);
   dates = new Subject<{start: Date, end: Date}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
@@ -63,11 +63,14 @@ export class ViewService {
     });
   }
 
+
+  //TODO: clear up some redundancy
   dashboardSelected(id, start, end) {
     console.log("dashboard selected");
     this.startdate = start;
     this.enddate = end;
     this.status.next('loading');
+
     this.widgets = [];
     this.updateCurrentWidgets();
 
@@ -90,7 +93,6 @@ export class ViewService {
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
-    console.log("widgeets changed");
     this.updateCurrentWidgets();
     this.status.next('finished');
     this.error.next(null);
@@ -99,13 +101,11 @@ export class ViewService {
   }
 
   private updateCurrentWidgets() {
-    console.log("update current widgets");
     //add widgets to Dashboard
     this.currentWidgets.next(this.widgets.slice());
   }
 
   private updateDashboard(dashboard) {
-    console.log("update dashboard");
     this.dashboard = dashboard;
     this.currentDashboard.next(this.dashboard);
   }
@@ -115,13 +115,11 @@ export class ViewService {
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
         this.widgets = widgets;
-        this.widgetsChanged();
       },
       error => {
         this.handleError('Could not load widgets for dashboard ' + dashboardId + '.', 'getWidgets', error);
       },
       () => {
-        // no widgets for dashboard
         this.widgetsChanged();
         console.log('Get widgets done');
       }

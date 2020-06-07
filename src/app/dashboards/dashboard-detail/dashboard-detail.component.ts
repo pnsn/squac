@@ -62,7 +62,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (dashboard: Dashboard) => {
         this.error = null;
         this.dashboard = dashboard;
-        console.log("dashboard updated")
+        console.log("dashboard updated ", dashboard ? dashboard.widgets : "")
       },
       error => {
         this.error = 'Could not load dashboard.';

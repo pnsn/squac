@@ -74,6 +74,7 @@ itemChange(item) {
 
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
+        console.log('updated widgets')
         this.widgets = [];
         widgets.forEach(widget => {
           this.widgets.push({

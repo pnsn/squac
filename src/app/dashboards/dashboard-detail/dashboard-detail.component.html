@@ -49,6 +49,7 @@
         >
       </mat-progress-bar>
 
+      <!-- TODO: move this to widget component -->
 
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
         <app-widget canUpdate="{{'update' | able: dashboard}}">

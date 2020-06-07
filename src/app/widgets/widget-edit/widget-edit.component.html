@@ -4,76 +4,73 @@
 </div>
    
 <div mat-dialog-content id="edit-container">
-  <div id="widget-edit-top">
-    <div id="widget-type-container">
-      <div *ngFor="let type of widgetTypes" (click)="selectType(type.id)" class="widget-type-select" [class.selected]="type.id === selectedType">
-        <img class="white" src="assets/{{type.type}}-white.svg" alt="">
-        <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
-        {{type.name}}
-  
-      </div>
-    </div>
-    <form action="" [formGroup]="widgetForm">
-      <mat-form-field >
-        <input matInput 
-          type="text" 
-          id="name" 
-          formControlName="name" 
-          placeholder="Widget name"
-          cdkFocusInitial
-        >
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Stat type</mat-label>
-        <mat-select formControlName="statType" *ngIf="statTypes">
-          <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
-            {{statType.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-checkbox
-      formControlName="isPublic"
-      >
-        Make public?
-      </mat-checkbox>
-    </form>
-  </div>
 
-
-    <mat-tab-group color="primary">
-
-      <mat-tab label="Metrics"> 
-        <ng-template matTabContent>
+    <mat-horizontal-stepper [linear]="!editMode" color="primary" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Widget Information</ng-template>
+        <div id="widget-type-container">
+          <div *ngFor="let type of widgetTypes" (click)="selectType(type.id)" class="widget-type-select" [class.selected]="type.id === selectedType">
+            <img class="white" src="assets/{{type.type}}-white.svg" alt="">
+            <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
+            {{type.name}}
+      
+          </div>
+        </div>
+        <form action="" [formGroup]="widgetForm">
+          <mat-form-field >
+            <input matInput 
+              type="text" 
+              id="name" 
+              formControlName="name" 
+              placeholder="Widget name"
+              cdkFocusInitial
+            >
+          </mat-form-field>
+      
+          <mat-form-field>
+            <mat-label>Stat type</mat-label>
+            <mat-select formControlName="statType" *ngIf="statTypes">
+              <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
+                {{statType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <mat-checkbox
+          formControlName="isPublic"
+          >
+            Make public?
+          </mat-checkbox> -->
+        </form>
+      </mat-step>
+      <mat-step> 
+        <ng-template matStepLabel>Select Metrics</ng-template>
           <app-metrics-edit class="edit-tab-body"></app-metrics-edit>
-        </ng-template>
-      </mat-tab>
-      <mat-tab label="Channels">
-        <ng-template matTabContent>
-          <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
-        </ng-template>
-      </mat-tab>
-      <mat-tab label="Thresholds">
-        <ng-template matTabContent>
-          <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
-        </ng-template>
-      </mat-tab>
-    <!-- <mat-tab label="Options">
-      <div class="edit-tab-body">
-        This is where the chart options go
-      </div>
+      </mat-step>
+      <mat-step label="Channels">
+        <ng-template matStepLabel>Select Channel Group</ng-template>
+        <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
+      </mat-step>
+      <mat-step label="Thresholds" [optional]="true">
+        <ng-template matStepLabel>Set Thresholds</ng-template>  
+        <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
+      </mat-step>
+  </mat-horizontal-stepper>
 
-    </mat-tab> -->
-  </mat-tab-group>
   </div>
 <div mat-dialog-actions>
-  <p *ngIf="!isValid || !widgetForm.valid; else valid">
+  <button mat-stroked-button (click)="stepper.next()" *ngIf='!widgetForm.valid || !isValid'>Next</button>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf='widgetForm.valid && isValid'>Save</button>
+
+  
+  <button mat-flat-button color="warn" (click)="cancel()" *ngIf="stepper.selectedIndex == 0 && (widgetForm.valid && isValid)">Cancel</button>
+  <button mat-stroked-button (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
+  <!-- <p *ngIf="!isValid || !widgetForm.valid; else valid">
     Information still missing... add more help text here
   </p>
   <ng-template #valid>
     <p>
       Creating widget on dashboard {{dashboardId}}
     </p>
-  </ng-template>
-  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf="'update' | able: 'Widget'">Save</button>
+  </ng-template> -->
+
 </div>
