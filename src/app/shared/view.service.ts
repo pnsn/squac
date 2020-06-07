@@ -25,6 +25,7 @@ export class ViewService {
   // refresh = new Subject<number>();
 
   private widgets: Widget[] = [];
+  private dashboard: Dashboard;
   // handle refreshing
 
   constructor(
@@ -63,21 +64,22 @@ export class ViewService {
   }
 
   dashboardSelected(id, start, end) {
+    console.log("dashboard selected");
     this.startdate = start;
     this.enddate = end;
     this.status.next('loading');
     this.widgets = [];
     this.updateCurrentWidgets();
 
-    this.currentDashboard.next(null);
-    
+    this.updateDashboard(null);
+
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
-        this.currentDashboard.next(dashboard);
+        this.updateDashboard(dashboard);
         this.getWidgets(dashboard.id);
       },
       error => {
-        this.currentDashboard.next(null);
+        this.updateDashboard(null);
         this.handleError('Could not load dashboard ' + id + '.', 'dashboardSelected', error);
       },
       () => {
@@ -88,13 +90,24 @@ export class ViewService {
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
+    console.log("widgeets changed");
     this.updateCurrentWidgets();
     this.status.next('finished');
     this.error.next(null);
+    this.dashboard.updateWidgets(this.widgets.slice());
+    this.updateDashboard(this.dashboard);
   }
 
   private updateCurrentWidgets() {
+    console.log("update current widgets");
+    //add widgets to Dashboard
     this.currentWidgets.next(this.widgets.slice());
+  }
+
+  private updateDashboard(dashboard) {
+    console.log("update dashboard");
+    this.dashboard = dashboard;
+    this.currentDashboard.next(this.dashboard);
   }
 
   getWidgets(dashboardId) {
@@ -147,12 +160,15 @@ export class ViewService {
     this.status.next('loading');
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
+      next => {
+        this.widgets.splice(index, 1);
+        this.widgetsChanged();
+      },
       error => {
         this.handleError('Could not delete widget with ID: ' + widgetId, 'deleteWidget', error);
       }
     );
-    this.widgets.splice(index, 1);
-    this.widgetsChanged();
+
   }
 
   // TODO: does this actuall refresh data?
@@ -171,6 +187,7 @@ export class ViewService {
     this.dashboardService.deleteDashboard(dashboard.id).subscribe(
       response => {
         console.log("dashboard deleted")
+        this.updateDashboard(null);
         //redirect to /dashboards
       },
       error => {

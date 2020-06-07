@@ -11,6 +11,7 @@ import { ViewService } from '../shared/view.service';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit, OnDestroy {
+  @Input() canUpdate: boolean;
   inited = 0;
   subscription: Subscription = new Subscription();
   constructor(
@@ -41,6 +42,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
     mobileBreakpoint: 640,
     compactType: 'none',
     displayGrid: 'onDrag&Resize',
+    scrollToNewItems: true,
     itemChangeCallback: (item) => {this.itemChange(item); },
     itemInitCallback : (item) => {this.inited++; }
   };
@@ -54,6 +56,9 @@ itemChange(item) {
   item.widget.y = item.y;
   if (this.widgets && this.inited === this.widgets.length) {
     this.widgetService.updateWidget(item.widget).subscribe(
+      success => {
+        console.log('widgets saved');
+      },
       error => {
         console.log('error in widget update: ', error);
       }
@@ -63,6 +68,10 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
+    //allow dragable and resizable if they have permission to edit dashboard
+    this.options.draggable.enabled = this.canUpdate;
+    this.options.resizable.enabled = this.canUpdate;
+
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         this.widgets = [];
@@ -82,7 +91,6 @@ itemChange(item) {
         console.log(' error in widget: ' + error);
       }
     );
-
     this.subscription.add(widgetSub);
   }
 

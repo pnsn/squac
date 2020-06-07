@@ -28,7 +28,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.dashboardForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      isPublic: ['', Validators.required]
+      isPublic: ['']
     });
 
     const paramsSub = this.route.params.subscribe(

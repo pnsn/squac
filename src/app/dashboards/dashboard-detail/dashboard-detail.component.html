@@ -51,7 +51,7 @@
 
 
       <ng-container *ngIf="dashboard.widgetIds.length > 0; else noWidgets">
-        <app-widget >
+        <app-widget canUpdate="{{'update' | able: dashboard}}">
         </app-widget>
       </ng-container>
       <ng-template #noWidgets>

@@ -20,4 +20,14 @@ export class Dashboard {
     return 'Dashboard';
   }
 
+  updateWidgets(widgets: Widget[]) {
+    this.widgets = widgets;
+    this.widgetIds  = [];
+    this.widgets.forEach(
+      widget => {
+        this.widgetIds.push(widget.id);
+      }
+    )
+  }
+
 }

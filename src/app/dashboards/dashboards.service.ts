@@ -21,7 +21,7 @@ interface DashboardsHttpData {
 })
 export class DashboardsService {
   // private localDashboards
-  localDashboards : Dashboard[];
+  localDashboards : Dashboard[] = [];
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
   private url = 'dashboard/dashboards/';
   constructor(

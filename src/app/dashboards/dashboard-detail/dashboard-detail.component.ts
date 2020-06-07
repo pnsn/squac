@@ -20,9 +20,11 @@ import { AppAbility } from 'src/app/user/ability';
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   id: number;
   dashboard: Dashboard;
-  widgets: Widget[];
+
   subscription: Subscription = new Subscription();
   status = 'finished';
+
+  //todo: make a date select
   dateRanges = [
     {
       name: 'last hour',
@@ -60,6 +62,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (dashboard: Dashboard) => {
         this.error = null;
         this.dashboard = dashboard;
+        console.log("dashboard updated")
       },
       error => {
         this.error = 'Could not load dashboard.';
@@ -83,7 +86,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
-        console.log(this.status);
+        console.log("Status: " + this.status);
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
