@@ -33,17 +33,20 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     {
       id: 1,
       type: 'tabular',
-      name: 'tabular'
+      name: 'tabular',
+      description: 'tabular descriptioon'
     },
     {
       id: 2,
       type: 'timeline',
-      name: 'timeline'
+      name: 'timeline',
+      description: 'timeline descriptioon'
     },
     {
       id: 3,
       type: 'timeseries',
-      name: 'time series'
+      name: 'time series',
+      description: 'timeseries descriptioon'
     }
   ];
 
@@ -94,6 +97,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.channelGroupsService.fetchChannelGroups();
 
     this.subscriptions.add(sub);
+  }
+
+  getStatTypeById(id) {
+    return this.widgetTypes.find(type => type.id === id)
   }
 
   ngOnDestroy(): void {
