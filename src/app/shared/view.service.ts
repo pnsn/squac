@@ -68,6 +68,8 @@ export class ViewService {
     this.status.next('loading');
     this.widgets = [];
     this.updateCurrentWidgets();
+    console.log(id, start, end);
+    //fixme: needs an intermediate load state
 
     this.dashboardService.getDashboard(id).subscribe(
       dashboard => {
@@ -75,6 +77,7 @@ export class ViewService {
         this.getWidgets(dashboard.id);
       },
       error => {
+        this.currentDashboard.next(null);
         this.handleError('Could not load dashboard ' + id + '.', 'dashboardSelected', error);
       },
       () => {
@@ -160,12 +163,27 @@ export class ViewService {
 
   handleError(message, source, error) {
     this.error.next(message);
-    console.log('Error in view service' + source + ': ' + error);
+    console.log('Error in view service ' + source + ': ' + error);
     this.status.next('error');
+  }
+
+  deleteDashboard(dashboard) {
+    this.dashboardService.deleteDashboard(dashboard.id).subscribe(
+      response => {
+        console.log("dashboard deleted")
+        //redirect to /dashboards
+      },
+      error => {
+        console.log("Failed to delete dashboard.");
+      }
+    )
   }
 
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
+      response => {
+        console.log("dashboard saved");
+      },  
       error => {
         this.handleError('Could not save dashboard.', 'saveDashboard', error);
       },

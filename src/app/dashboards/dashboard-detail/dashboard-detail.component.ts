@@ -122,6 +122,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteDashboard() {
+    this.viewService.deleteDashboard(this.dashboard);
+    this.router.navigate(['/dashboards']);
+  }
+
   calcDateRange(hours) {
     return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }

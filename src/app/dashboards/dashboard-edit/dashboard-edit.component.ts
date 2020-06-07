@@ -89,7 +89,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         console.log('error in save dashboard: ' + error);
       }
     );
-    this.cancel();
   }
 
   cancel(id?: number) {

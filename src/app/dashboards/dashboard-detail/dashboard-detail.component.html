@@ -8,7 +8,7 @@
       </div>
         <div id="header-controls">
           <button mat-flat-button color="accent" (click)="saveDashboard()" *ngIf="unsaved">
-            <mat-icon >save</mat-icon>
+            <mat-icon>save</mat-icon>
             Save
           </button>
           <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
@@ -31,7 +31,7 @@
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="addWidget()" >Add Widget</button> 
             <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-            <!-- <button mat-menu-item color="warn" *ngIf="'dashboard' | able: 'delete'">Delete Dashboard</button> -->
+            <button mat-menu-item color="warn" (click)="deleteDashboard()" *ngIf="'delete' | able: dashboard">Delete Dashboard</button>
           </mat-menu>
           
           <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary" *ngIf="'update' | able: dashboard">
