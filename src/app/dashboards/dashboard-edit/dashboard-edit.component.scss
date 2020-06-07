@@ -1,12 +1,27 @@
 #dashboard-edit-container{
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  width: 100%;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  #dashboard-edit {
+    min-height: 300px;
+    max-height: 50%;
+    width: 50%
+
+  }
   form {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     padding: 10px;
+  }
+  #dashboard-edit-buttons{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between; 
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Dashboard } from '../dashboard';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../dashboards.service';
 import { Subscription } from 'rxjs';
@@ -20,10 +20,17 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private dashboardService: DashboardsService
   ) { }
 
   ngOnInit() {
+    this.dashboardForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      isPublic: ['', Validators.required]
+    });
+
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
@@ -44,11 +51,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    this.dashboardForm = new FormGroup({
-      name : new FormControl('', Validators.required),
-      description : new FormControl('', Validators.required),
-      isPublic: new FormControl('')
-    });
 
     if (this.editMode) {
       const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
@@ -56,9 +58,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
           this.dashboard = dashboard;
           this.dashboardForm.patchValue(
             {
-              name : dashboard.name,
-              description : dashboard.description,
-              isPublic: dashboard.isPublic
+              'name' : dashboard.name,
+              'description' : dashboard.description,
+              'isPublic': dashboard.isPublic
             }
           );
         },

@@ -1,4 +1,5 @@
-<div class="box" id="dashboard-edit-container">
+<div id="dashboard-edit-container">
+  <div id="dashboard-edit" class="box">
     <h1>
         {{editMode && dashboard ? "Edit " + dashboard.name : "Create Dashboard"}}
     </h1>
@@ -9,6 +10,7 @@
             placeholder="Name"
             type="text"
             id="name">
+            <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
         </mat-form-field>
         <mat-form-field >
             <textarea 
@@ -18,7 +20,9 @@
               formControlName="description"
               class="form-control"
               >
+              
           </textarea>
+          <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
         </mat-form-field>
         <mat-checkbox
           matInput
@@ -28,7 +32,7 @@
         >
           Make public
         </mat-checkbox>
-        <div >
+        <div id="dashboard-edit-buttons">
             <button mat-flat-button color="primary" type="button" (click)="cancel()">Cancel</button>
             <button mat-flat-button 
               color="accent"
@@ -39,6 +43,7 @@
 
         </div>
       </form>
+    </div>
 </div>
 
 
