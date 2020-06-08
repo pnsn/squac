@@ -3,7 +3,7 @@
     <img src="/assets/blue_squacLogo_rgb.png" alt="SQUAC logo">
   </a>
 
-  <div id="header-right" *ngIf="!!user">
+  <div id="header-right" *ngIf="user">
     <a mat-button [routerLink]="[ '/dashboards' ]" routerLinkActive="active">Dashboards</a>
 
     <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active">Channel Groups</a>

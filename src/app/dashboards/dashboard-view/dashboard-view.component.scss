@@ -13,10 +13,17 @@
   .dashboard-group mat-nav-list {
     max-height: 50%;
     overflow:scroll;
-    a {
+
+    a.mat-list-item {
       height: 30px;
+
     }
   }
+}
+::ng-deep .mat-list-item-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 button {
   mat-icon {
