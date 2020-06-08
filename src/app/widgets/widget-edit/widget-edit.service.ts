@@ -133,6 +133,9 @@ export class WidgetEditService {
   // cancel without sacving
   clearWidget() {
     this.widget = null;
+    this.thresholds = {};
+    this.channelGroup = null;
+    this.metrics.next([]);
   }
 
 }

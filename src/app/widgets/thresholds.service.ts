@@ -10,8 +10,8 @@ import { Threshold } from './threshold';
 interface ThresholdHttpData {
   widget: number;
   metric: number;
-  maxval: number;
-  minval: number;
+  maxval?: number;
+  minval?: number;
   id?: number;
 }
 
@@ -41,7 +41,7 @@ export class ThresholdsService {
           console.log('delete threshold');
         } else {
 
-          if(threshold.max!= null && threshold.min != null) {
+          if(threshold.max!= null || threshold.min != null) {
             thresholdSubs.push(this.updateThreshold(threshold, widgetId));
           }
         }
@@ -53,10 +53,15 @@ export class ThresholdsService {
   private updateThreshold(threshold: Threshold, widgetId) {
     const postData: ThresholdHttpData = {
       widget: threshold.widgetId ? threshold.widgetId : widgetId,
-      metric: threshold.metricId,
-      minval: threshold.min,
-      maxval: threshold.max
+      metric: threshold.metricId
     };
+    if(threshold.min !== null) {
+      postData.minval = threshold.min;
+    } 
+    if(threshold.max !== null) {
+      postData.maxval = threshold.max;
+    } 
+
     if (threshold.id) {
       postData.id = threshold.id;
       return this.squacApi.put(this.url, threshold.id, postData);
