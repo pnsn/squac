@@ -79,7 +79,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     this.statTypeService.statTypes.subscribe(
       statTypes => {
-        console.log('I\'m being called');
         this.statTypes = statTypes;
       },
       error => {
@@ -110,7 +109,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      statType: new FormControl(11, Validators.required),
+      statType: new FormControl(13, Validators.required), //default is raw data
       isPublic: new FormControl('')
     });
 

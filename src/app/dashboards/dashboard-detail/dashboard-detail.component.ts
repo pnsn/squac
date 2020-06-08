@@ -5,6 +5,9 @@ import { Subscription, Subject } from 'rxjs';
 import { ViewService } from 'src/app/shared/view.service';
 import { UserService } from 'src/app/user/user.service';
 import { AppAbility } from 'src/app/user/ability';
+import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -14,12 +17,16 @@ import { AppAbility } from 'src/app/user/ability';
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   id: number;
   dashboard: Dashboard;
-
+  dialogRef;
   subscription: Subscription = new Subscription();
   status = 'finished';
 
   //todo: make a date select
   dateRanges = [
+    {
+      name: 'last 30 minutes',
+      value: 0.5
+    },
     {
       name: 'last hour',
       value: 1
@@ -37,14 +44,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       value: 168 * 2
     }
   ];
-  selectedDateRange = this.dateRanges[2];
+  selectedDateRange = this.dateRanges[1];
   error: string = null;
   unsaved: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -96,9 +104,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(errorSub);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.subscription.unsubscribe();
+  // }
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
@@ -128,4 +136,38 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.unsaved = false;
     this.viewService.saveDashboard(this.dashboard);
   }
+
+
+  ngOnDestroy() {
+    if(this.dialogRef) {
+      this.dialogRef.close();
+    }
+    this.subscription.unsubscribe();
+  }
+
+
+  addWidget() {
+    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
+    this.dialogRef = this.dialog.open(WidgetEditComponent, {
+      data : {
+        widget: null,
+        dashboardId: this.id
+      }
+    });
+    this.dialogRef.afterClosed().subscribe(
+      result => {
+        if (result && result.id) {
+          console.log('Dialog closed and widget saved');
+          this.viewService.addWidget(result.id);
+        } else {
+          console.log('Dialog closed and not saved');
+        }
+      },
+      error => {
+        // this.error = 'Failed to save widget.';
+        console.log('error during close of widget' + error);
+      }
+    );
+
+    }
 }

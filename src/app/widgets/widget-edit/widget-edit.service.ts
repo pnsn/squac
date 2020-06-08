@@ -5,6 +5,8 @@ import { Metric } from 'src/app/shared/metric';
 import { Threshold } from '../threshold';
 import { BehaviorSubject, Subject } from 'rxjs';
 
+
+//TODO: this whole thing just needs a fixin'
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +20,8 @@ export class WidgetEditService {
   // default widget dimensions
   rows = 3;
   columns = 6;
-  x = 0;
-  y = 0;
+  x = 1;
+  y = 1;
 
   updateValidity() {
 

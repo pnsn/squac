@@ -6,7 +6,7 @@
 <div mat-dialog-content id="edit-container">
 
     <mat-horizontal-stepper [linear]="!editMode" color="primary" #stepper>
-      <mat-step>
+      <mat-step errorMessage="Missing information.">
         <ng-template matStepLabel>Widget Information</ng-template>
         <form action="" [formGroup]="widgetForm" >
           <div class="label">Name your widget: </div>
@@ -19,42 +19,55 @@
             >
           </mat-form-field>
           <br>
-          <div class="label">Select type of widget: </div>  
-          <div id="widget-type-container">
-        
-            <mat-button-toggle-group #group="matButtonToggleGroup" (change)="selectType(group.value)">
-              <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type.id">
-                <div class="img-container">
-                  <img class="white" src="assets/{{type.type}}-white.svg" alt="">
-                  <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
-                </div>
-  
-                <div class="type-label">{{type.name | titlecase}}</div>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-
-            <div id="description"> 
-              <p *ngIf="selectedType; else noSelectedType">
-                {{selectedType ? getStatTypeById(selectedType)?.description : "blah"}}
-              </p>
-              <ng-template #noSelectedType>
-                <p>
-                  Widgets display measurements for selected metrics and channels.
+          <div id="type-container">
+            <div id="widget-type-container">
+              <div class="label">Select type of widget: </div>  
+              <mat-button-toggle-group #group="matButtonToggleGroup" (change)="selectType(group.value)" [value]="selectedType">
+                <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type.id">
+                  <div class="img-container">
+                    <img class="white" src="assets/{{type.type}}-white.svg" alt="">
+                    <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
+                  </div>
+    
+                  <div class="type-label">{{type.name | titlecase}}</div>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <div id="stat-type-container">
+              <ng-container  *ngIf="selectedType && selectedType==1; else rawDataOnly">
+                <div class="label">Select statistical type: </div>  
+                <mat-form-field >
+                  <mat-label>Stat type</mat-label>
+                  <mat-select formControlName="statType" *ngIf="statTypes">
+                    <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
+                      {{statType.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+              <ng-template #rawDataOnly>
+                <p class="help-text">
+                  This widget type will display raw values. 
                 </p>
               </ng-template>
 
-           </div>
+            </div>
+
           </div>
-          <br>
-          <div class="label">Select statistical type: </div>  
-          <mat-form-field>
-            <mat-label>Stat type</mat-label>
-            <mat-select formControlName="statType" *ngIf="statTypes">
-              <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
-                {{statType.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+
+
+          <div id="description"> 
+            <p *ngIf="selectedType; else noSelectedType" class="help-text">
+              {{selectedType ? getStatTypeById(selectedType)?.description : "blah"}}
+            </p>
+            <ng-template #noSelectedType>
+              <p class="help-text">
+                Widgets display measurements for selected metrics and channels. 
+              </p>
+            </ng-template>
+
+         </div>
+
 
           <!-- <mat-checkbox
           formControlName="isPublic"
@@ -63,25 +76,28 @@
           </mat-checkbox> -->
         </form>
       </mat-step>
-      <mat-step> 
+      <mat-step errorMessage="Metric is required."> 
         <ng-template matStepLabel>Select Metrics</ng-template>
           <app-metrics-edit class="edit-tab-body"></app-metrics-edit>
       </mat-step>
-      <mat-step label="Channels">
+      <mat-step  errorMessage="Channel Group is required.">
         <ng-template matStepLabel>Select Channel Group</ng-template>
         <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
       </mat-step>
-      <mat-step label="Thresholds" [optional]="true">
+      <mat-step [optional]="true">
         <ng-template matStepLabel>Set Thresholds</ng-template>  
         <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
       </mat-step>
   </mat-horizontal-stepper>
 
   </div>
-<div mat-dialog-actions>
-  <button mat-stroked-button color="primary" (click)="stepper.next()" *ngIf='!widgetForm.valid || !isValid'>Next</button>
-  <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf='widgetForm.valid && isValid'>Save</button>
+<div mat-dialog-actions id="dialog-options">
 
+  <div>
+      <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex == 0 ">Back</button>
+      <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]='stepper.selectedIndex == 3'>Next</button>
+      <button id="save" mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid'>Save</button>
+    </div>
   <p *ngIf="!isValid || !widgetForm.valid; else valid">
     Click next to continue {{editMode ? "editing" : "creating"}} your widget.
   </p>
@@ -90,8 +106,5 @@
       {{editMode ? "Editing" : "Creating"}} widget on dashboard {{dashboardId}}
     </p>
   </ng-template>
-
-  <button mat-flat-button color="warn" (click)="cancel()" *ngIf="stepper.selectedIndex == 0 && (widgetForm.valid && isValid)">Cancel</button>
-  <button mat-stroked-button color="primary" (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
 
 </div>
