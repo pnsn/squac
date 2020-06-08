@@ -29,8 +29,16 @@
   width: 100%;
   overflow:hidden;
   padding: 10px;
+
 }
 
+.widget {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  overflow:hidden;
+}
 
 #delete-widget {
   margin-top: 10px;

@@ -1,6 +1,7 @@
 #timeline {
-  width:100%;
-  height: 100%;
+  //FIXME: this should just be size of the widget
+  width: calc(100% - 22px);
+  height: calc(100% - 52.5px);
   overflow:hidden;
   visibility: visible;
   position: absolute;
@@ -27,8 +28,8 @@
   }
 }
 
-::ng-deep .brusher {
-  visibility: hidden;
-}
+// ::ng-deep .brusher {
+//   visibility: hidden;
+// }
 
 //chart toolip is in styles.scss because for some reason the tooltips are body level

@@ -1,4 +1,4 @@
-
+<app-loading *ngIf="loading"></app-loading>
 <div #timeline id="timeline">
   <div id="timeline-key">
     <div id="key-min" *ngIf="domainMin">{{domainMin | number:'1.0-2'}} ≤</div>
@@ -7,4 +7,3 @@
     <div id="out-of-threshold" [style.background-color]="outOfThresholdColor">out of threshold</div>
   </div>
 </div>
-<app-loading *ngIf="loading"></app-loading>

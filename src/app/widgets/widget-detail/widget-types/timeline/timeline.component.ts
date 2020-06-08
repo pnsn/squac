@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy, ElementRef, AfterViewInit, AfterContentInit, ViewChildren } from '@angular/core';
 import { Metric } from '../../../../shared/metric';
 import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -58,27 +58,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-
-    this.chart = TimelinesChart();
-
-    const dataFormatSub = this.dataFormatService.formattedData.subscribe(
-      response => {
-        if (response) {
-          this.startdate = this.viewService.getStartdate();
-          this.enddate = this.viewService.getEnddate();
-
-           // TODO: get this a different way -> selector maybe
-          this.currentMetric = this.metrics[0];
-          this.buildRows(response);
-        }
-      }, error => {
-        console.log('error in timeline data: ' + error);
-      }
-    );
-
-
-    this.subscription.add(dataFormatSub);
-
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {
@@ -94,10 +73,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(resizeSub);
   }
   private resize() {
-    if(this.timelineDiv) {
+    if(this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
-      this.chart.width(width);
+      if( width > 0 && height > 0) {
+        this.chart.width(width);
+      }
+
+      this.chart.refresh()
     }
   }
 
@@ -191,17 +174,37 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     this.chart.data(data);
-
-
     this.resize();
+
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
+
   ngAfterViewInit(): void {
-    this.chart(this.timelineDiv.nativeElement).enableOverview(false);
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.chart = TimelinesChart()(this.timelineDiv.nativeElement);
+    this.chart.enableOverview = false;
+    const dataFormatSub = this.dataFormatService.formattedData.subscribe(
+      response => {
+
+        if (response) {
+          this.startdate = this.viewService.getStartdate();
+          this.enddate = this.viewService.getEnddate();
+
+           // TODO: get this a different way -> selector maybe
+          this.currentMetric = this.metrics[0];
+          this.buildRows(response);
+
+        }
+      }, error => {
+        console.log('error in timeline data: ' + error);
+      }
+    );
+
+    this.subscription.add(dataFormatSub);
   }
 
     // // produces number of fake measurements in the given time range
