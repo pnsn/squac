@@ -82,16 +82,16 @@
   <button mat-stroked-button color="primary" (click)="stepper.next()" *ngIf='!widgetForm.valid || !isValid'>Next</button>
   <button mat-flat-button color="accent" (click)="save()" [disabled]='!widgetForm.valid || !isValid' *ngIf='widgetForm.valid && isValid'>Save</button>
 
-
-  <button mat-flat-button color="warn" (click)="cancel()" *ngIf="stepper.selectedIndex == 0 && (widgetForm.valid && isValid)">Cancel</button>
-  <button mat-stroked-button color="primary" (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
   <p *ngIf="!isValid || !widgetForm.valid; else valid">
-    Widget incomplete.
+    Click next to continue {{editMode ? "editing" : "creating"}} your widget.
   </p>
   <ng-template #valid>
     <p>
-      Creating widget on dashboard {{dashboardId}}
+      {{editMode ? "Editing" : "Creating"}} widget on dashboard {{dashboardId}}
     </p>
   </ng-template>
+
+  <button mat-flat-button color="warn" (click)="cancel()" *ngIf="stepper.selectedIndex == 0 && (widgetForm.valid && isValid)">Cancel</button>
+  <button mat-stroked-button color="primary" (click)="stepper.previous()" *ngIf="stepper.selectedIndex > 0 && (!widgetForm.valid || !isValid)">Back</button>
 
 </div>

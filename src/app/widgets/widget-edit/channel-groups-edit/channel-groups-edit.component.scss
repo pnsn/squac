@@ -28,17 +28,34 @@
 
 #selection-container {
   width: 70%;
+  padding: 10px;
+  overflow:hidden;
+  // background-color: $sq-lt-gray;
+  #channel-group-details{
+    height: 100%;
+  }
 }
 
 #selected-channels, #channel-group-selector,  #channel-group-detail  {
-  height:90%;
+  height:100%;
   overflow:scroll;
+  padding: 10px 0px;
 }
 
+#channel-group-detail {
+  font-size: 12pt;
+  .detail-subhead {
+    font-weight: bold;
+  }
+}
 
 #selected-channels, #channel-group-detail {
-  width: 50%;
+
   display: inline-block;
+}
+
+#selected-channels {
+  width: 150px;
 }
 .edit-tab-body {
   height: 500px;
