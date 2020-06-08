@@ -34,12 +34,16 @@ export class ThresholdsService {
     for (const metric of metrics) {
       if (thresholds[metric.id]) {
         const threshold = thresholds[metric.id];
-
+        console.log(threshold)
         if (threshold.id && !threshold.max && !threshold.min) {
+          thresholdSubs.push(this.deleteThreshold(threshold.id));
           // delete the existing threshold;
           console.log('delete threshold');
         } else {
-          thresholdSubs.push(this.updateThreshold(threshold, widgetId));
+
+          if(threshold.max!= null && threshold.min != null) {
+            thresholdSubs.push(this.updateThreshold(threshold, widgetId));
+          }
         }
       }
     }
@@ -53,13 +57,16 @@ export class ThresholdsService {
       minval: threshold.min,
       maxval: threshold.max
     };
-    console.log('threshold', postData);
     if (threshold.id) {
       postData.id = threshold.id;
       return this.squacApi.put(this.url, threshold.id, postData);
     } else {
       return this.squacApi.post(this.url, postData);
     }
+  }
+
+  deleteThreshold(id) {
+    return this.squacApi.delete(this.url, id);
   }
 
 }

@@ -116,6 +116,7 @@ export class WidgetEditService {
         threshold.max !== null ? +threshold.max : null
       );
     });
+    console.log("updateThresholds", this.thresholds);
     this.widget.thresholds = this.thresholds;
     this.updateValidity();
   }

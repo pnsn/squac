@@ -2,7 +2,8 @@
   //FIXME: this should just be size of the widget
   width: calc(100% - 22px);
   height: calc(100% - 52.5px);
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y: scroll;
   visibility: visible;
   position: absolute;
 }

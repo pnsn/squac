@@ -86,7 +86,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // FIXME: This is...not great
   private buildRows(measurements) {
-    console.log(this.currentMetric);
+    console.log("current metric in timeline", this.currentMetric);
     const data = [];
     let dataMax: number;
     let dataMin: number;

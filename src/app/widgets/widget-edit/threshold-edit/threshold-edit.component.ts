@@ -34,7 +34,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
       metrics => {
         this.metrics = metrics;
         this.thresholds = this.widgetEditService.getThresholds();
-
+        // console.log(this.thresholds);
         if (!this.thresholds) {
           this.thresholds = {};
         }
@@ -50,15 +50,18 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
                   id : +this.thresholds[metric.id].id,
                   metric,
                   min: +this.thresholds[metric.id].min,
-                  max: +this.thresholds[metric.id].max
+                  max: +this.thresholds[metric.id].max,
+                  defaultMin: metric.minVal ? metric.minVal : null,
+                  defaultMax: metric.maxVal ? metric.maxVal : null
                 });
               } else {
-                console.log('row', metric);
                 newRows.push({
                   id : null,
                   metric,
                   min: null,
-                  max: null
+                  max: null,
+                  defaultMin: metric.minVal ? metric.minVal : null,
+                  defaultMax: metric.maxVal ? metric.maxVal : null
                 });
               }
 
@@ -77,6 +80,21 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  lastEditedCell;
+  showEdit(rowIndex, cell) {
+    if(this.lastEditedCell) {
+      this.editing[this.lastEditedCell] = false;
+    }
+    this.lastEditedCell = rowIndex + '-'+ cell;
+    this.editing[this.lastEditedCell] = true;
+  } 
+
+  clearThreshold(rowIndex){
+    this.rows[rowIndex]['min'] = null;
+    this.rows[rowIndex]['max'] = null;
+    this.updateThresholds();
+  }
+
   updateValue(event, cell, rowIndex) {
     console.log('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
@@ -84,8 +102,12 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     if (cell === 'metricId') {
       this.rows[rowIndex].name = this.getMetric(event.target.value);
     }
-    this.rows = [...this.rows];
     console.log('UPDATED!', this.rows[rowIndex][cell]);
+    this.updateThresholds();
+  }
+
+  updateThresholds(){
+    this.rows=[...this.rows];
     this.widgetEditService.updateThresholds(this.rows);
   }
 
@@ -93,13 +115,6 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     return this.metrics.filter(metric => {
       return metric.id === +metricId;
     })[0].name;
-  }
-
-
-
-  clearThreshold() {
-    console.log('thresholdDeleted');
-    // this.thresholdDeleted.emit();
   }
 
 }

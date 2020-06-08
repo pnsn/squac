@@ -169,7 +169,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         if (thresholdObs && thresholdObs.length > 0) {
             merge(...thresholdObs).subscribe(
               result => {
-                console.log('request', count, thresholdObs.length);
                 count++;
                 if (widget && count === thresholdObs.length) {
                   this.cancel(widget);

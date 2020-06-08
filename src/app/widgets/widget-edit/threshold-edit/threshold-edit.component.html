@@ -1,17 +1,18 @@
 
   <h3>Set Thresholds</h3>
+
   <ngx-datatable
   #thresholdDataTable
   class="material"
   headerHeight="30"
-  [columnMode]="ColumnMode.force"
+  [columnMode]="ColumnMode.flex"
   footerHeight="0"
   rowHeight="30"
   [rows]="rows"
   [messages]="messages"
 >
 
-  <ngx-datatable-column name="Metric">
+  <ngx-datatable-column name="Metric" [flexGrow]="3" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
       <div class="row-container" (click)="editing[rowIndex + '-metricId'] = true">
         {{value.name}}
@@ -19,14 +20,30 @@
 
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Min">
+  <ngx-datatable-column name="Default Min" prop="defaultMin" [flexGrow]="1" >
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+      <div class="row-container" >
+        {{value}}
+      </div>
+
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Default Max" prop="defaultMax" [flexGrow]="1" >
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+      <div class="row-container">
+        {{value}}
+      </div>
+
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Min" [flexGrow]="1" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-      <div class="row-container" (click)="editing[rowIndex + '-min'] = true">
+      <div class="row-container" (click)="showEdit(rowIndex, 'min')">
         <span
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-min']"
         >
-        {{ !value && value !== 0  ? "Enter a min threshold" : value }}
+        {{ !value && value !== 0  ? "Enter a min" : value }}
         </span>
         <input matInput
           autofocus
@@ -38,14 +55,15 @@
       </div>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Max">
+  <ngx-datatable-column name="Max" [flexGrow]="1" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-      <div class="row-container" (click)="editing[rowIndex + '-max'] = true">
-          <span
+      <ng-container class="row-container" >
+        <span
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-max']"
+          (click)="showEdit(rowIndex, 'max')"
         >
-        {{ !value && value !== 0  ? "Enter a max threshold" : value }}
+        {{ !value && value !== 0  ? "Enter a max" : value }}
         </span>
         <input matInput
           autofocus
@@ -55,8 +73,14 @@
           [value]="value"
         />
 
-      </div>
+      </ng-container>
 
     </ng-template>
   </ngx-datatable-column>
+  <ngx-datatable-column name="" minWidth="20" [flexGrow]="0">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+      <button (click)="clearThreshold(rowIndex)">x</button>
+    </ng-template>
+  </ngx-datatable-column>
+
 </ngx-datatable>
