@@ -16,13 +16,13 @@
     </gridster>
   
   </ng-container>
+  <app-loading *ngIf="loading"></app-loading>
   <ng-template #noWidgets>
-    <app-loading *ngIf="loading"></app-loading>
     <div id="add-widget" *ngIf="!loading">
       <p>
         There are currently no widgets for this dashboard.
       </p>
-      <button  mat-flat-button color="accent" aria-label="Add widget" (click)="addWidget()" *ngIf="canUpdate">
+      <button  mat-flat-button *ngIf="canUpdate" color="accent" aria-label="Add widget" (click)="addWidget()">
         Add Widget
       </button>
     </div>

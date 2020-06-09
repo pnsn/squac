@@ -77,21 +77,23 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-
+    console.log("canUpdate", this.canUpdate);
 
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         console.log('updated widgets');
         this.widgets = [];
-        widgets.forEach(widget => {
-          this.widgets.push({
-            cols: widget.columns ? widget.columns : 1,
-            rows: widget.rows ? widget.rows : 1,
-            y: widget.y ? widget.y : 0,
-            x: widget.x ? widget.x : 0,
-            widget
+        if(widgets.length > 0) {
+          widgets.forEach(widget => {
+            this.widgets.push({
+              cols: widget.columns ? widget.columns : 1,
+              rows: widget.rows ? widget.rows : 1,
+              y: widget.y ? widget.y : 0,
+              x: widget.x ? widget.x : 0,
+              widget
+            });
           });
-        });
+        }
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard
