@@ -15,7 +15,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   @Input() canUpdate: boolean;
   @Input() dashboardId: number;
 
-  loading: boolean = true;
+  loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
   dialogRef;
@@ -51,8 +51,8 @@ export class WidgetComponent implements OnInit, OnDestroy {
     scrollToNewItems: true,
     itemChangeCallback: (item) => {this.itemChange(item); },
     itemInitCallback : (item) => {this.inited++; },
-    gridSizeChanged:()=> {
-      console.log("grid size changed")
+    gridSizeChanged: () => {
+      console.log('grid size changed');
     }
   };
 
@@ -81,7 +81,7 @@ itemChange(item) {
 
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
-        console.log('updated widgets')
+        console.log('updated widgets');
         this.widgets = [];
         widgets.forEach(widget => {
           this.widgets.push({
@@ -94,10 +94,10 @@ itemChange(item) {
         });
         this.loading = false;
         // this.options.api.resize();
-            //allow dragable and resizable if they have permission to edit dashboard
+            // allow dragable and resizable if they have permission to edit dashboard
         this.options.draggable.enabled = this.canUpdate;
         this.options.resizable.enabled = this.canUpdate;
-       if(this.options.api) { this.options.api.optionsChanged() };
+        if (this.options.api) { this.options.api.optionsChanged(); }
       },
       error => {
         console.log(' error in widget: ' + error);
@@ -107,7 +107,7 @@ itemChange(item) {
   }
 
   ngOnDestroy() {
-    if(this.dialogRef) {
+    if (this.dialogRef) {
       this.dialogRef.close();
     }
     this.subscription.unsubscribe();

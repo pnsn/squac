@@ -64,9 +64,9 @@ export class ViewService {
   }
 
 
-  //TODO: clear up some redundancy
+  // TODO: clear up some redundancy
   dashboardSelected(id, start, end) {
-    console.log("dashboard selected");
+    console.log('dashboard selected');
     this.startdate = start;
     this.enddate = end;
     this.status.next('loading');
@@ -101,7 +101,7 @@ export class ViewService {
   }
 
   private updateCurrentWidgets() {
-    //add widgets to Dashboard
+    // add widgets to Dashboard
     this.currentWidgets.next(this.widgets.slice());
   }
 
@@ -184,21 +184,21 @@ export class ViewService {
   deleteDashboard(dashboard) {
     this.dashboardService.deleteDashboard(dashboard.id).subscribe(
       response => {
-        console.log("dashboard deleted")
+        console.log('dashboard deleted');
         this.updateDashboard(null);
-        //redirect to /dashboards
+        // redirect to /dashboards
       },
       error => {
-        console.log("Failed to delete dashboard.");
+        console.log('Failed to delete dashboard.');
       }
-    )
+    );
   }
 
   saveDashboard(dashboard: Dashboard) {
     this.dashboardService.updateDashboard(dashboard).subscribe(
       response => {
-        console.log("dashboard saved");
-      },  
+        console.log('dashboard saved');
+      },
       error => {
         this.handleError('Could not save dashboard.', 'saveDashboard', error);
       },

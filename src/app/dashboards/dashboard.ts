@@ -27,7 +27,7 @@ export class Dashboard {
       widget => {
         this.widgetIds.push(widget.id);
       }
-    )
+    );
   }
 
 }

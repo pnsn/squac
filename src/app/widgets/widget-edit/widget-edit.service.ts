@@ -6,7 +6,7 @@ import { Threshold } from '../threshold';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 
-//TODO: this whole thing just needs a fixin'
+// TODO: this whole thing just needs a fixin'
 @Injectable({
   providedIn: 'root'
 })
@@ -116,7 +116,7 @@ export class WidgetEditService {
         threshold.max !== null ? +threshold.max : null
       );
     });
-    console.log("updateThresholds", this.thresholds);
+    console.log('updateThresholds', this.thresholds);
     this.widget.thresholds = this.thresholds;
     this.updateValidity();
   }

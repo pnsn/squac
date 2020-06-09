@@ -54,7 +54,7 @@ describe('PermissionGuard', () => {
 
   }));
 
-  it('should not allow user to route to resource without permission',fakeAsync(() => {
+  it('should not allow user to route to resource without permission', fakeAsync(() => {
     userService.setUser({
       name: 'User'
     });

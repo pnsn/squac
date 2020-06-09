@@ -99,7 +99,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   getStatTypeById(id) {
-    return this.widgetTypes.find(type => type.id === id)
+    return this.widgetTypes.find(type => type.id === id);
   }
 
   ngOnDestroy(): void {
@@ -109,7 +109,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      statType: new FormControl(13, Validators.required), //default is raw data
+      statType: new FormControl(13, Validators.required), // default is raw data
       isPublic: new FormControl('')
     });
 
@@ -130,7 +130,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   selectType(type) {
-    console.log(type)
+    console.log(type);
     this.selectedType = type;
     this.widgetEditService.updateType(type);
   }

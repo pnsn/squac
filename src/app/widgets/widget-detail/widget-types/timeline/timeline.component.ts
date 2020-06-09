@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy, ElementRef, AfterViewInit, AfterContentInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import { Metric } from '../../../../shared/metric';
 import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -73,20 +73,20 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(resizeSub);
   }
   private resize() {
-    if(this.timelineDiv && this.timelineDiv.nativeElement) {
+    if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
-      if( width > 0 && height > 0) {
+      if ( width > 0 && height > 0) {
         this.chart.width(width);
       }
 
-      this.chart.refresh()
+      this.chart.refresh();
     }
   }
 
   // FIXME: This is...not great
   private buildRows(measurements) {
-    console.log("current metric in timeline", this.currentMetric);
+    console.log('current metric in timeline', this.currentMetric);
     const data = [];
     let dataMax: number;
     let dataMin: number;
@@ -183,8 +183,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
     this.chart = TimelinesChart()(this.timelineDiv.nativeElement);
     this.chart.enableOverview = false;
     const dataFormatSub = this.dataFormatService.formattedData.subscribe(

@@ -52,7 +52,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
       }
     );
     this.subscription.add(dashboardsService);
-      this.subscription.add(userService)
+    this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
   }
 

@@ -17,11 +17,11 @@ export class PermissionGuard implements CanActivate {
   }
   // Returns true if there is a user and allows user to navigate
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
-      console.log("navigate?")
-    if (next.data && next.data.action && next.data.subject) {
+      console.log('navigate?');
+      if (next.data && next.data.action && next.data.subject) {
       const subject = next.data.subject;
       const action = next.data.action;
-      console.log("in the if")
+      console.log('in the if');
       return this.userService.user.pipe(
         switchMap(
           user => {

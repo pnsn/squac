@@ -21,7 +21,7 @@ interface DashboardsHttpData {
 })
 export class DashboardsService {
   // private localDashboards
-  localDashboards : Dashboard[] = [];
+  localDashboards: Dashboard[] = [];
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
   private url = 'dashboard/dashboards/';
   constructor(
@@ -32,12 +32,12 @@ export class DashboardsService {
   }
 
   private updateDashboards(dashboards?: Dashboard[]) {
-    if(dashboards) {
+    if (dashboards) {
       this.localDashboards = dashboards;
     }
     this.getDashboards.next(this.localDashboards);
   }
-  
+
   // Gets channel groups from server
   fetchDashboards(): void {
 
@@ -64,7 +64,7 @@ export class DashboardsService {
     .subscribe(
       dashboards => {
         this.updateDashboards(dashboards);
-        console.log("updated dashboards")
+        console.log('updated dashboards');
       },
       error => {
         console.log('error in dashboards: ' + error);
@@ -72,11 +72,11 @@ export class DashboardsService {
     );
   }
 
-  private updateLocalDashboards(id : number, dashboard? : Dashboard){
+  private updateLocalDashboards(id: number, dashboard?: Dashboard) {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
-    if(index > -1) {
-      if(dashboard) {
+    if (index > -1) {
+      if (dashboard) {
         this.localDashboards[index] = dashboard;
 
       } else {
@@ -84,7 +84,7 @@ export class DashboardsService {
       }
     } else {
       this.localDashboards.push(dashboard);
-    } 
+    }
     this.updateDashboards();
   }
 
@@ -113,7 +113,7 @@ export class DashboardsService {
 
   }
 
-  private mapDashboard(squacData) : Dashboard {
+  private mapDashboard(squacData): Dashboard {
     const dashboard = new Dashboard(
       squacData.id,
       squacData.user_id,

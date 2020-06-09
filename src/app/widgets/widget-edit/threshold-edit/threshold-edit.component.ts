@@ -10,6 +10,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./threshold-edit.component.scss']
 })
 export class ThresholdEditComponent implements OnInit, OnDestroy {
+
+  constructor(
+    private widgetEditService: WidgetEditService
+  ) {
+
+  }
   thresholds: {[metricId: number]: Threshold};
   metrics: Metric[];
   editing = {};
@@ -23,11 +29,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     emptyMessage: 'Please select metrics.',
   };
 
-  constructor(
-    private widgetEditService: WidgetEditService
-  ) {
-
-  }
+  lastEditedCell;
 
   ngOnInit() {
     const sub = this.widgetEditService.metrics.subscribe(
@@ -79,19 +81,17 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
-
-  lastEditedCell;
   showEdit(rowIndex, cell) {
-    if(this.lastEditedCell) {
+    if (this.lastEditedCell) {
       this.editing[this.lastEditedCell] = false;
     }
-    this.lastEditedCell = rowIndex + '-'+ cell;
+    this.lastEditedCell = rowIndex + '-' + cell;
     this.editing[this.lastEditedCell] = true;
-  } 
+  }
 
-  clearThreshold(rowIndex){
-    this.rows[rowIndex]['min'] = null;
-    this.rows[rowIndex]['max'] = null;
+  clearThreshold(rowIndex) {
+    this.rows[rowIndex].min = null;
+    this.rows[rowIndex].max = null;
     this.updateThresholds();
   }
 
@@ -106,8 +106,8 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     this.updateThresholds();
   }
 
-  updateThresholds(){
-    this.rows=[...this.rows];
+  updateThresholds() {
+    this.rows = [...this.rows];
     this.widgetEditService.updateThresholds(this.rows);
   }
 

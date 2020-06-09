@@ -58,9 +58,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
           this.dashboard = dashboard;
           this.dashboardForm.patchValue(
             {
-              'name' : dashboard.name,
-              'description' : dashboard.description,
-              'isPublic': dashboard.isPublic
+              name : dashboard.name,
+              description : dashboard.description,
+              isPublic: dashboard.isPublic
             }
           );
         },

@@ -202,7 +202,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       withinThresholds = false;
     }
 
-    //TODO: is no thresholds in or out
+    // TODO: is no thresholds in or out
     if (threshold.min === null && threshold.max === null) {
       withinThresholds = false;
     }
