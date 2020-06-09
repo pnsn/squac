@@ -57,11 +57,11 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Max" [flexGrow]="1" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-      <ng-container class="row-container" >
+      <div class="row-container" >
         <span
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-max']"
-          (click)="showEdit(rowIndex, 'max')"
+
         >
         {{ !value && value !== 0  ? "Enter a max" : value }}
         </span>
@@ -73,13 +73,13 @@
           [value]="value"
         />
 
-      </ng-container>
+      </div>
 
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="" minWidth="20" [flexGrow]="0">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-      <button (click)="clearThreshold(rowIndex)">x</button>
+      <button aria-label="clear" (click)="clearThreshold(rowIndex)">x</button>
     </ng-template>
   </ngx-datatable-column>
 

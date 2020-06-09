@@ -39,11 +39,8 @@ export class ThresholdsService {
           thresholdSubs.push(this.deleteThreshold(threshold.id));
           // delete the existing threshold;
           console.log('delete threshold');
-        } else {
-
-          if(threshold.max!= null || threshold.min != null) {
-            thresholdSubs.push(this.updateThreshold(threshold, widgetId));
-          }
+        } else if(threshold.max!= null || threshold.min != null) {
+          thresholdSubs.push(this.updateThreshold(threshold, widgetId));
         }
       }
     }
