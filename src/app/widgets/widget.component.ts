@@ -77,13 +77,13 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    console.log("canUpdate", this.canUpdate);
+    console.log('canUpdate', this.canUpdate);
 
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         console.log('updated widgets');
         this.widgets = [];
-        if(widgets.length > 0) {
+        if (widgets.length > 0) {
           widgets.forEach(widget => {
             this.widgets.push({
               cols: widget.columns ? widget.columns : 1,
