@@ -51,6 +51,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         if (response) {
           this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
           this.buildChartData(response);
+          this.viewService.status.next("finished");
         }
       }, error => {
         console.log('error in timeseries data: ' + error);

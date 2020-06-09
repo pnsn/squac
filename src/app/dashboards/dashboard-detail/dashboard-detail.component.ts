@@ -44,7 +44,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       value: 168 * 2
     }
   ];
-  selectedDateRange = this.dateRanges[1]; // Default date range
+  selectedDateRange; // Default date range
   error: string = null;
   unsaved: boolean;
 
@@ -72,6 +72,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.error = null;
+        this.selectedDateRange = this.dateRanges[1];
         this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
         console.log('new dashboard ' + this.id);
       },
@@ -139,6 +140,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    console.log('dashboard component destroyed')
     if (this.dialogRef) {
       this.dialogRef.close();
     }
