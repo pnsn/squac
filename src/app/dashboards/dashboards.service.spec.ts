@@ -77,24 +77,15 @@ describe('DashboardsService', () => {
     });
   });
 
-  it('should put dashboard with id', () => {
-    apiSpy = spyOn(squacApiService, 'put');
-
-    dashboardsService.updateDashboard(new Dashboard(
-      1,
-      1,
-      'name',
-      'description',
-      false,
-      []
-    ));
-
-    expect(apiSpy).toHaveBeenCalled();
+  it('should put dashboard with id', (done: DoneFn) => {
+    dashboardsService.updateDashboard(testDashboard).subscribe(dashboard => {
+      console.log(dashboard.id);
+      expect(dashboard.id).toEqual(testDashboard.id);
+      done();
+    });
   });
 
-  it('should post dashboard without id', () => {
-    apiSpy = spyOn(squacApiService, 'post');
-
+  it('should post dashboard without id', (done: DoneFn) => {
     const newDashboard = new Dashboard(
       null,
       null,
@@ -104,9 +95,11 @@ describe('DashboardsService', () => {
       [1]
     );
 
-    dashboardsService.updateDashboard(newDashboard);
-
-    expect(apiSpy).toHaveBeenCalled();
+    dashboardsService.updateDashboard(testDashboard).subscribe(dashboard => {
+      console.log(dashboard.id);
+      expect(dashboard.id).toEqual(testDashboard.id);
+      done();
+    });
   });
 });
 

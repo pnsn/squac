@@ -21,7 +21,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   status = 'finished';
 
-  // todo: make a date select
+  //todo: make a date select
   dateRanges = [
     {
       name: 'last 30 minutes',
@@ -44,7 +44,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       value: 168 * 2
     }
   ];
-  selectedDateRange = this.dateRanges[1];
+  selectedDateRange = this.dateRanges[1]; //Default date range
   error: string = null;
   unsaved: boolean;
 
@@ -84,7 +84,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     const statusSub  = this.viewService.status.subscribe(
       status => {
         this.status = status;
-        console.log('Status: ' + this.status);
+        console.log("Status: " + this.status);
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
@@ -139,7 +139,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    if (this.dialogRef) {
+    if(this.dialogRef) {
       this.dialogRef.close();
     }
     this.subscription.unsubscribe();
