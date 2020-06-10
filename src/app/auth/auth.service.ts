@@ -81,13 +81,15 @@ export class AuthService {
     }
   }
     
-  //TODO: auto logout should be based on 
+  //TODO: add idle timeout instead of token expiration
+  // Removed token expiration for test users
+
   // Logs out user after expiration time passes
   autologout(expirationDuration: number) {
     console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
-    this.tokenExpirationTimer = setTimeout(() => {
-      this.logout();
-    }, expirationDuration);
+    // this.tokenExpirationTimer = setTimeout(() => {
+    //   this.logout();
+    // }, expirationDuration);
   }
 
   // Handles login errors
