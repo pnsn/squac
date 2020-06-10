@@ -57,7 +57,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Max" [flexGrow]="1" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-      <div class="row-container" >
+      <div class="row-container" (click)="showEdit(rowIndex, 'max')">
         <span
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-max']"

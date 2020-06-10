@@ -42,7 +42,8 @@ import { AbilityModule } from '@casl/angular';
     WidgetEditComponent
   ],
   entryComponents: [
-    MetricsEditComponent
+    MetricsEditComponent,
+    ThresholdEditComponent
   ]
 })
 export class WidgetsModule { }
