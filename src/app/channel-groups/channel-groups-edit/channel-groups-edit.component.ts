@@ -194,7 +194,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onSelectedFilter(searchFilters: object) {
     this.isSelectedFiltered = true; // enable remove button
-    console.log(searchFilters);
     const filtersMap = { // convert filter strings to property names
       network: 'networkCode',
       channel: 'code',
@@ -205,7 +204,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.filteredChannels = []; // reset filtered channels (list to display)
       for (const filter in searchFilters) {
         if (filter !== null) {
-          console.log(filter);
           const filterParams = searchFilters[filter].split(','); // split string into array of search params
           filterParams.forEach( (param: string) => {
             this.selectedChannels.forEach( c => {
@@ -221,7 +219,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
                   match = c[filtersMap[filter]] === param.toLowerCase().trim(); // Channel matches search param
                 }
                 if (match) { // New channel that matches params
-                  console.log(`push: ${c}`);
                   this.filteredChannels.push(c);
                 }
               }
@@ -241,6 +238,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     const chanIdsToRemove = this.filteredChannels.map( c => {
       return c.id; // get ids from filtered channels
     });
+    this.filteredChannels = [];
+    this.isSelectedFiltered = false;
     this.selectedChannels = this.selectedChannels.filter( channel => {
       return !chanIdsToRemove.some( id => { // remove channels from selected if in filtered
         return channel.id === id;

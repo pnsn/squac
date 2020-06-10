@@ -2,14 +2,6 @@
   <h1>
     {{editMode ? "Edit Channel Group" : "Create Channel Group"}}
   </h1>
-  
-  <div id="save-cancel-cg" class="btn-container-right">
-    <button mat-flat-button color="primary" (click)="formUnsaved()"
-      >Cancel</button>
-    <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
-      *ngIf="'update' | able: 'ChannelGroup'"
-      >Save Group</button>
-  </div>
 </div>
 
 <div id="edit-container" class="square-box" (window:resize)="onResize($event)">
@@ -30,10 +22,8 @@
       </button>
     </div>
   </div>
-  
-  <div id="preview-title" class="square-box">
-    <h3>Selection Preview</h3>
-  </div>
+
+  <h3>Selection Preview</h3>
 
   <div id="preview-list" class="table-container square-box">
     <ngx-datatable *ngIf="!loading; else isLoading"
@@ -90,7 +80,7 @@
 
   <div id="selected-channels" class="square-box">
     <form class="" [formGroup]="channelGroupForm">
-      <div id="cg-form" class="square-box">
+      <div id="cg-form">
         <div id="cg-form-input">
           <mat-form-field class="channel-group-input">
             <input matInput placeholder="Channel Group Name" formControlName="name">
@@ -105,7 +95,9 @@
           </mat-checkbox>
         </div>
 
+        <h3>Selected Channels</h3>
         <mat-expansion-panel *ngIf="isMapShowing; else isSmallScreen"
+          [expanded]="isFilterOpen"
           (opened)="onFilteringOpen()"
           (closed)="onFilteringClose()"
           (keydown.enter)="$event.preventDefault()"
@@ -114,16 +106,14 @@
             <mat-panel-title>
               Filter Selected Channels
             </mat-panel-title>
-            <mat-panel-description>
-              <button mat-flat-button
-                color="warn"
-                (click)="removeChannels()"
-                [disabled]="!isSelectedFiltered"
-              >Remove Channels</button>
-            </mat-panel-description>
           </mat-expansion-panel-header>
           <app-channel-groups-filter #selectedFilter (filtersChanged)="onSelectedFilter($event)"> 
           </app-channel-groups-filter>  
+          <button mat-flat-button
+            color="warn"
+            (click)="removeChannels()"
+            [disabled]="!isSelectedFiltered"
+          >Remove Channels</button>
         </mat-expansion-panel>
         <ng-template #isSmallScreen>
           <div id="small-page-filter">
@@ -136,10 +126,6 @@
             >Remove Channels</button>
           </div>
         </ng-template>
-      </div>
-
-      <div id="selected-title" class="square-box">
-        <h3>Selected Channels</h3>
       </div>
 
       <div class="table-container square-box">
@@ -191,6 +177,14 @@
       </div>
     </form>
   </div>
+</div>
+
+<div id="save-cancel-cg">
+  <button mat-flat-button color="primary" (click)="formUnsaved()"
+    >Cancel</button>
+  <button mat-flat-button color="accent" (click)="save()" [disabled]="selectedChannels?.length === 0"
+    *ngIf="'update' | able: 'ChannelGroup'"
+    >Save Group</button>
 </div>
 
 <div id="channel-group-popup" class="popup">
