@@ -55,7 +55,6 @@ describe('WidgetComponent', () => {
           1,
           'name',
           'description',
-          true,
           1,
           1,
           1,

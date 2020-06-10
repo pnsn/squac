@@ -63,7 +63,7 @@ export class TabularComponent implements OnInit, OnDestroy {
       response => {
         if (response) {
           this.buildRows(response);
-          this.viewService.status.next("finished");
+          this.viewService.status.next('finished');
         }
       }, error => {
         console.log('error in tabular data: ' + error);

@@ -11,7 +11,6 @@ export class MockWidgetsService {
     1,
     'name',
     'description',
-    true,
     1,
     1,
     1,

@@ -57,7 +57,6 @@ export class WidgetEditService {
         null,
         null,
         null,
-        false,
         null,
         null,
         null,
@@ -121,11 +120,10 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  updateWidgetInfo(name: string, description: string, dashboardId: number, isPublic: boolean, statType ) {
+  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ) {
     this.widget.name = name;
     this.widget.description = description;
     this.widget.dashboardId = dashboardId;
-    this.widget.isPublic = isPublic;
     this.widget.stattype = statType;
     this.updateValidity();
   }

@@ -37,7 +37,7 @@ describe('TabularComponent', () => {
     component = fixture.componentInstance;
     component.columns = [];
     component.rows = [];
-    component.widget = new Widget(1, 1, 'name', 'description', true, 1, 1, 1, 1, 1, 1, 1, []);
+    component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
   });
 

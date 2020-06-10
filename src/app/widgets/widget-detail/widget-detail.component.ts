@@ -41,7 +41,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       dates => {
         console.log('new dates');
         this.dataFormatService.fetchData(this.widget);
-        this.viewService.status.next("loading");
+        this.viewService.status.next('loading');
       },
       error => {
         console.log('error in widget detail dates: ' + error);

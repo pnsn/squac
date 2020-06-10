@@ -98,10 +98,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       // go through the measurements
       measurements[channel.id][this.currentMetric.id].forEach(
        (measurement: Measurement, index) => {
-        if ((!dataMin && dataMin != 0) || measurement.value < dataMin) {
+        if ((!dataMin && dataMin !== 0) || measurement.value < dataMin) {
           dataMin = measurement.value;
         }
-        if ((!dataMax && dataMax !=0) || measurement.value > dataMax) {
+        if ((!dataMax && dataMax !== 0) || measurement.value > dataMax) {
           dataMax = measurement.value;
         }
         // make a data point
@@ -134,16 +134,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       stationRow.data.push(channelRow);
 
     });
-
-    console.log(dataMin, dataMax)
-
     const threshold = this.widget.thresholds[this.currentMetric.id];
-    console.log(this.widget.thresholds);
+    const defaultMax = this.currentMetric.maxVal;
+    const defaultMin = this.currentMetric.minVal;
+
     if ( threshold ) {
       this.domainMin = threshold.min;
       this.domainMax = threshold.max;
-      console.log(this.domainMin, this.domainMax)
-    } else if ((this.currentMetric.minVal || this.currentMetric.minVal === 0)|| (this.currentMetric.maxVal || this.currentMetric.maxVal === 0)) {
+    } else if ((defaultMin || defaultMin === 0) || (defaultMax || defaultMax === 0)) {
       this.domainMin = this.currentMetric.minVal;
       this.domainMax = this.currentMetric.maxVal;
     }
@@ -198,7 +196,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
            // TODO: get this a different way -> selector maybe
           this.currentMetric = this.metrics[0];
           this.buildRows(response);
-          this.viewService.status.next("finished");
+          this.viewService.status.next('finished');
         }
       }, error => {
         console.log('error in timeline data: ' + error);

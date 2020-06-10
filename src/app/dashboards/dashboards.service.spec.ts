@@ -29,7 +29,6 @@ describe('DashboardsService', () => {
 
   let squacApiService;
 
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testDashboard );
 
   beforeEach(() => {

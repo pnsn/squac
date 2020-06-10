@@ -17,7 +17,7 @@ export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
-  expirationTime : number = 6; //hours before token doesn't let auto login
+  expirationTime = 6; // hours before token doesn't let auto login
   constructor(
     private router: Router,
     private squacApi: SquacApiService,
@@ -80,8 +80,8 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
   }
-    
-  //TODO: add idle timeout instead of token expiration
+
+  // TODO: add idle timeout instead of token expiration
   // Removed token expiration for test users
 
   // Logs out user after expiration time passes

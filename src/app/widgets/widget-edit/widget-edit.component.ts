@@ -109,8 +109,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   private initForm() {
     this.widgetForm = new FormGroup({
       name : new FormControl('', Validators.required),
-      statType: new FormControl(13, Validators.required), // default is raw data
-      isPublic: new FormControl('')
+      statType: new FormControl(13, Validators.required) // default is raw data
     });
 
 
@@ -120,8 +119,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       this.widgetForm.patchValue(
         {
           name : this.widget.name,
-          statType: this.widget.stattype.id,
-          isPublic: this.widget.isPublic
+          statType: this.widget.stattype.id
         }
       );
       this.selectedType = this.widget.typeId;
@@ -146,7 +144,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       values.name,
        '',
       this.dashboardId,
-      values.isPublic,
       statType
     );
 

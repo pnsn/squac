@@ -29,7 +29,6 @@ export class MockViewService {
     1,
     'name',
     'description',
-    false,
     1,
     1,
     1,
