@@ -77,8 +77,6 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    console.log('canUpdate', this.canUpdate);
-
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         console.log('updated widgets');

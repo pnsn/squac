@@ -13,20 +13,24 @@
         <mat-icon>more_vert</mat-icon>
       </button>
   </div>
-  <div class="widget-content">
+  <app-loading *ngIf="loading"> </app-loading>
+  <div class="widget-content" *ngIf="data">
     <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
       <app-timeline *ngSwitchCase="'timeline'" class="widget"
         [widget]="widget"
+        [data]="data"
       >
       </app-timeline>
       <app-tabular *ngSwitchCase="'tabular'" class="widget"
       [widget]="widget"
+      [data]="data"
       >
 
       </app-tabular>
       <app-timeseries *ngSwitchCase="'timeseries'" class="widget"
       [widget]="widget"
+      [data]="data"
     >
 
     </app-timeseries>

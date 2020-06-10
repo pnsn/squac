@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import { Metric } from '../../../../shared/metric';
 import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -22,6 +22,7 @@ import { MeasurementsService } from 'src/app/widgets/measurements.service';
 })
 export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() widget: Widget;
+  @Input() data;
 
   metrics: Metric[];
   thresholds: {[metricId: number]: Threshold};
@@ -45,19 +46,32 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   outOfThresholdColor = '#ffa52d';
   // rows = [];
   constructor(
-    private dataFormatService: DataFormatService,
     private viewService: ViewService,
     private measurement: MeasurementPipe
   ) {
   }
 
   ngOnInit() {
+    console.log(this.data)
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
+    this.currentMetric = this.metrics[0];
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
+    this.startdate = this.viewService.getStartdate();
+    this.enddate = this.viewService.getEnddate();
+
+        // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
+    this.chart = TimelinesChart()
+    this.chart.leftMargin(65);
+    this.chart.rightMargin(55); 
+
+    this.buildRows(this.data); 
+    this.viewService.status.next("finished");
+
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {
@@ -72,6 +86,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscription.add(resizeSub);
   }
+
   private resize() {
     if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
@@ -176,7 +191,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.chart.data(data);
     this.resize();
-
   }
 
   ngOnDestroy(): void {
@@ -184,44 +198,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    this.chart = TimelinesChart()(this.timelineDiv.nativeElement);
-    this.chart.enableOverview = false;
-    const dataFormatSub = this.dataFormatService.formattedData.subscribe(
-      response => {
+    this.chart(this.timelineDiv.nativeElement)
+    this.resize();
 
-        if (response) {
-          this.startdate = this.viewService.getStartdate();
-          this.enddate = this.viewService.getEnddate();
-
-           // TODO: get this a different way -> selector maybe
-          this.currentMetric = this.metrics[0];
-          this.buildRows(response);
-          this.viewService.status.next("finished");
-        }
-      }, error => {
-        console.log('error in timeline data: ' + error);
-      }
-    );
-
-    this.subscription.add(dataFormatSub);
   }
-
-    // // produces number of fake measurements in the given time range
-    // getFakeMeasurements(startdate, enddate, number) {
-    //   let interval = (enddate.getTime() - startdate.getTime()) / number;
-    //   let measurements = [];
-
-    //   for (let i = 0; i < number; i++ ) {
-    //     measurements.push({
-    //       value: Math.round(Math.random()*100),
-    //       starttime: new Date(startdate.getTime() + i * interval),
-    //       endtime: new Date(startdate.getTime() + (i + 1) * interval )
-    //     });
-    //   }
-
-    //   return measurements;
-    // }
-
 }

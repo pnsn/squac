@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
 import { Metric } from 'src/app/shared/metric';
@@ -16,6 +16,7 @@ import { Widget } from 'src/app/widgets/widget';
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
+  @Input() data;
   metrics: Metric[];
   thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
@@ -34,31 +35,20 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private dataFormatService: DataFormatService,
     private viewService: ViewService
   ) { }
 
   ngOnInit() {
+
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
+    this.currentMetric = this.metrics[0];
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-
-    const dateFormatSub = this.dataFormatService.formattedData.subscribe(
-      response => {
-        if (response) {
-          this.currentMetric = this.metrics[0]; // TODO: get this a diffetent way
-          this.buildChartData(response);
-          this.viewService.status.next("finished");
-        }
-      }, error => {
-        console.log('error in timeseries data: ' + error);
-      }
-    );
-
-    this.subscription.add(dateFormatSub);
+    this.buildChartData(this.data);
+    this.viewService.status.next("finished");
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {

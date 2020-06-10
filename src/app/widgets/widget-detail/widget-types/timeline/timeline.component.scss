@@ -11,8 +11,12 @@
   visibility: hidden;
 }
 
-::ng-deep .legendG {
+:host ::ng-deep .legendG {
   visibility: hidden;
+}
+
+:host ::ng-deep linearGradient {
+  display: none;
 }
 
 #timeline-key {

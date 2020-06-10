@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, TemplateRef, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Metric } from '../../../../shared/metric';
 import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
@@ -18,6 +18,8 @@ import { Threshold } from 'src/app/widgets/threshold';
 })
 export class TabularComponent implements OnInit, OnDestroy {
   @Input() widget: Widget;
+  @Input() data;
+
   metrics: Metric[];
   thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
@@ -46,8 +48,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   // rows = [];
   constructor(
     private measurement: MeasurementPipe,
-    private viewService: ViewService,
-    private dataFormatService: DataFormatService
+    private viewService: ViewService
   ) { }
 
   ngOnInit() {
@@ -59,18 +60,8 @@ export class TabularComponent implements OnInit, OnDestroy {
       this.channels = this.channelGroup.channels;
     }
 
-    const dateFormatSub = this.dataFormatService.formattedData.subscribe(
-      response => {
-        if (response) {
-          this.buildRows(response);
-          this.viewService.status.next("finished");
-        }
-      }, error => {
-        console.log('error in tabular data: ' + error);
-      }
-    );
-
-    this.subscription.add(dateFormatSub);
+    this.buildRows(this.data);
+    this.viewService.status.next("finished");
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
