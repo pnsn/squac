@@ -39,6 +39,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const datesSub = this.viewService.dates.subscribe(
       dates => {
         console.log('new dates');
+        this.data = {};
         this.getData(dates.start, dates.end);
         this.viewService.status.next("loading");
       },

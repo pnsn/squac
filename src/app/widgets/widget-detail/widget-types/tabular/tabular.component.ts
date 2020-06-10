@@ -50,7 +50,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     private measurement: MeasurementPipe,
     private viewService: ViewService
   ) { }
-
+    
   ngOnInit() {
 
     this.metrics = this.widget.metrics;

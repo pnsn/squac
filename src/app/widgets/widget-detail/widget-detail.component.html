@@ -14,7 +14,7 @@
       </button>
   </div>
   <app-loading *ngIf="loading"> </app-loading>
-  <div class="widget-content" *ngIf="data">
+  <div class="widget-content" *ngIf="!loading && this.data">
     <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
       <app-timeline *ngSwitchCase="'timeline'" class="widget"

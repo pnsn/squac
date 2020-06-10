@@ -51,8 +51,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
   }
 
-  ngOnInit() {
-    console.log(this.data)
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
@@ -62,6 +62,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.startdate = this.viewService.getStartdate();
     this.enddate = this.viewService.getEnddate();
+    console.log(changes)
+    if(this.data) {
+      this.buildRows(this.data);
+    }
+  }
+
+  ngOnInit() {
+
 
         // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
@@ -69,7 +77,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chart.leftMargin(65);
     this.chart.rightMargin(55); 
 
-    this.buildRows(this.data); 
     this.viewService.status.next("finished");
 
     const resizeSub = this.viewService.resize.subscribe(
