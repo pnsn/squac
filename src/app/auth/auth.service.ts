@@ -17,6 +17,7 @@ export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
+  expirationTime : number = 6; //hours before token doesn't let auto login
   constructor(
     private router: Router,
     private squacApi: SquacApiService,
@@ -62,7 +63,7 @@ export class AuthService {
     ).pipe(
       tap(resData => {
         // TODO: Get expiration time from Jon
-        this.handleAuth(resData.token, 7200);
+        this.handleAuth(resData.token, this.expirationTime);
       })
     );
   }
@@ -79,7 +80,8 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
   }
-
+    
+  //TODO: auto logout should be based on 
   // Logs out user after expiration time passes
   autologout(expirationDuration: number) {
     console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
@@ -112,7 +114,8 @@ export class AuthService {
 
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    const msToExpire = expiresIn * 60 * 60 * 1000;
+    const expirationDate = new Date(new Date().getTime() + msToExpire);
 
     const authData = {
       token,
@@ -120,7 +123,7 @@ export class AuthService {
     };
 
     localStorage.setItem('userData', JSON.stringify(authData));
-    this.signInUser(authData.token, expiresIn * 1000);
+    this.signInUser(authData.token, msToExpire);
   }
 
   // handles the sign in
