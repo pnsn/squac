@@ -52,9 +52,8 @@ describe('HttpErrorInterceptor', () => {
     // act
     interceptor.intercept(httpRequestSpy, httpHandlerSpy)
         .subscribe(
-            result => console.log('good', result),
+            result => {},
             err => {
-              console.log('error', err);
               expect(err).toEqual(`Error Code: ${testError.status}\nMessage: ${testError.message}`);
             }
         );
@@ -79,9 +78,8 @@ describe('HttpErrorInterceptor', () => {
     // act
     interceptor.intercept(httpRequestSpy, httpHandlerSpy)
         .subscribe(
-            result => console.log('good', result),
+            result => {},
             err => {
-                console.log('error', err);
                 expect(err).toEqual(`Error: ${testError.error.message}`);
             }
         );

@@ -64,7 +64,6 @@ export class DashboardsService {
     .subscribe(
       dashboards => {
         this.updateDashboards(dashboards);
-        console.log('updated dashboards');
       },
       error => {
         console.log('error in dashboards: ' + error);
@@ -102,12 +101,10 @@ export class DashboardsService {
     };
     if (dashboard.id) {
       postData.id = dashboard.id;
-      console.log('api oput', this.squacApi.put(this.url, dashboard.id, postData));
       return this.squacApi.put(this.url, dashboard.id, postData).pipe(
         map((data) => this.mapDashboard(data))
       );
     } else {
-      console.log('api post',  this.squacApi.post(this.url, postData));
       return this.squacApi.post(this.url, postData).pipe(
           map((data) => this.mapDashboard(data))
         );

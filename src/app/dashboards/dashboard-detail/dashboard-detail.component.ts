@@ -140,7 +140,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    console.log('dashboard component destroyed')
     if (this.dialogRef) {
       this.dialogRef.close();
     }

@@ -71,7 +71,6 @@ describe('DashboardsService', () => {
 
   it('should get dashboard with id', (done: DoneFn) => {
     dashboardsService.getDashboard(1).subscribe(dashboard => {
-      console.log(dashboard.id);
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
@@ -79,7 +78,6 @@ describe('DashboardsService', () => {
 
   it('should put dashboard with id', (done: DoneFn) => {
     dashboardsService.updateDashboard(testDashboard).subscribe(dashboard => {
-      console.log(dashboard.id);
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
@@ -96,7 +94,6 @@ describe('DashboardsService', () => {
     );
 
     dashboardsService.updateDashboard(testDashboard).subscribe(dashboard => {
-      console.log(dashboard.id);
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });

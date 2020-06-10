@@ -56,14 +56,11 @@ export class PasswordResetComponent implements OnInit {
     }
     this.passwordResetService.resetPassword(this.email.value).subscribe(
       response => {
-        // go to next step
-        console.log(response);
         this.emailSent = !!response;
         this.attempts++;
       },
       error => {
         this.error = error;
-        console.log('error in send email', error);
       }
     );
   }
@@ -77,12 +74,10 @@ export class PasswordResetComponent implements OnInit {
     this.passwordResetService.validateToken(token).subscribe(
       response => {
         // go to next step
-        console.log(response);
         this.tokenValidated = !!response;
       },
       error => {
         this.error = error;
-        console.log('error in validate token', error);
       }
     );
   }
@@ -94,14 +89,12 @@ export class PasswordResetComponent implements OnInit {
     if (password1 !== password2) {
       return;
     }
-    console.log('confirming password');
     this.passwordResetService.confirmPassword(password1).subscribe(
       response => {
         this.router.navigate(['/login']);
       },
       error => {
         this.error = error;
-        console.log('error in password reset', error);
       }
     );
   }

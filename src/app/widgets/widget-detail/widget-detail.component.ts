@@ -70,7 +70,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
         if (result && result.id) {
           this.viewService.updateWidget(result.id);
         } else {
-          console.log('widget edited and something went wrong');
+          console.log('widget edit closed without saving');
         }
       }, error => {
         console.log('error in widget detail: ' + error);
