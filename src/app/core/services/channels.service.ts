@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { map, tap, filter, catchError } from 'rxjs/operators';
 import { Channel } from '../models/channel';
 import { Subject, BehaviorSubject, throwError, Observable, of } from 'rxjs';
-import { Network } from '../../features/channel-groups/network';
+import { Network } from '../../features/channel-groups/models/network';
 import { SquacApiService } from './squacapi.service';
 import { Params } from '@angular/router';
 

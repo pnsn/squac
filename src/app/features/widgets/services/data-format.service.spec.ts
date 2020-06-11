@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DataFormatService } from './data-format.service';
-import { ViewService } from '../shared/view.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('DataFormatService', () => {

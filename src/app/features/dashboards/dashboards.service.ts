@@ -5,7 +5,7 @@ import { Widget } from '../../core/models/widget';
 import { SquacApiService } from '../../core/services/squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, concatMap, switchMap, tap } from 'rxjs/operators';
-import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
+import { ChannelGroupsService } from '../channel-groups/services/channel-groups.service';
 import { WidgetsService } from '../widgets/services/widgets.service';
 
 interface DashboardsHttpData {

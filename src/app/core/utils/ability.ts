@@ -1,11 +1,12 @@
 import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';
-import { User } from './user';
-import { Dashboard } from '../dashboards/dashboard';
-import { Widget } from '../widgets/widget';
-import { Threshold } from '../widgets/threshold';
-import { ChannelGroup } from '../shared/channel-group';
-import { Measurement } from '../widgets/measurement';
-import { Metric } from '../shared/metric';
+import { Dashboard } from 'src/app/features/dashboards/dashboard';
+import { Widget } from '../models/widget';
+import { Threshold } from 'src/app/features/widgets/models/threshold';
+import { ChannelGroup } from '../models/channel-group';
+import { Measurement } from 'src/app/features/widgets/models/measurement';
+import { Metric } from '../models/metric';
+import { User } from '../models/user';
+
 
 type Actions = 'create' | 'read' | 'update' | 'delete' | 'manage';
 type Subjects = InferSubjects <

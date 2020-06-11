@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChannelGroupsComponent } from './channel-groups.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChannelGroupsService } from './channel-groups.service';
-import { NetworksService } from './networks.service';
+import { ChannelGroupsService } from '../services/channel-groups.service';
+import { NetworksService } from '../services/networks.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 

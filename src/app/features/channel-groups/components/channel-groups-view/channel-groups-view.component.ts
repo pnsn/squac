@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChannelGroup } from '../../../core/models/channel-group';
-import { Channel } from '../../../core/models/channel';
+import { ChannelGroup } from '../../../../core/models/channel-group';
+import { Channel } from '../../../../core/models/channel';
 import { Subscription } from 'rxjs';
-import { ChannelGroupsService } from '../channel-groups.service';
+import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 

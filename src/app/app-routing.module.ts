@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChannelGroupsComponent } from './features/channel-groups/channel-groups.component';
-import { ChannelGroupsEditComponent } from './features/channel-groups/channel-groups-edit/channel-groups-edit.component';
+import { ChannelGroupsComponent } from './features/channel-groups/components/channel-groups.component';
+import { ChannelGroupsEditComponent } from './features/channel-groups/components/channel-groups-edit/channel-groups-edit.component';
 import { AuthComponent } from './core/components/auth/auth.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { ChannelGroupsViewComponent } from './features/channel-groups/channel-groups-view/channel-groups-view.component';
+import { ChannelGroupsViewComponent } from './features/channel-groups/components/channel-groups-view/channel-groups-view.component';
 import { MetricsComponent } from './features/metrics/metrics.component';
 import { MetricsEditComponent } from './features/metrics/metrics-edit/metrics-edit.component';
 import { MetricsViewComponent } from './features/metrics/metrics-view/metrics-view.component';
-import { MetricsDetailComponent } from './features/metrics/metrics-detail/metrics-detail.component';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { UserComponent } from './core/components/user/user.component';
 import { PermissionGuard } from './core/guards/permission.guard';
@@ -60,34 +59,6 @@ const appRoutes: Routes = [
         component: MetricsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Metric', action: 'update'}
-      },
-    ]
-  },
-  { path: 'channel-groups',
-    component: ChannelGroupsComponent,
-    canActivate: [AuthGuard, PermissionGuard],
-    data: {subject: 'ChannelGroup', action: 'read'},
-    children: [
-      {
-        path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'
-      },
-      {
-        path: 'new',
-        component: ChannelGroupsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'create'}
-      },
-      {
-        path: ':id',
-        component: ChannelGroupsViewComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'read'}
-      },
-      {
-        path: ':id/edit',
-        component: ChannelGroupsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'update'}
       },
     ]
   }

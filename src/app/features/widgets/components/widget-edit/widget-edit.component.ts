@@ -4,7 +4,7 @@ import { Subscription, merge } from 'rxjs';
 import { WidgetsService } from '../../services/widgets.service';
 import { Widget } from '../../../../core/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChannelGroupsService } from 'src/app/features/channel-groups/channel-groups.service';
+import { ChannelGroupsService } from 'src/app/features/channel-groups/services/channel-groups.service';
 import { ThresholdsService } from '../../services/thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
 import { StatTypeService } from 'src/app/core/services/stattype.service';

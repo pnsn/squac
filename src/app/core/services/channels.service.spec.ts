@@ -5,7 +5,7 @@ import { SquacApiService } from './squacapi.service';
 import { MockSquacApiService } from './squacapi.service.mock';
 import { ChannelsService } from './channels.service';
 import { Channel } from '../models/channel';
-import { Network } from '../../features/channel-groups/network';
+import { Network } from '../../features/channel-groups/models/network';
 
 describe('ChannelsService', () => {
   let channelsService: ChannelsService;
