@@ -3,8 +3,8 @@ import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
 import { ViewService } from 'src/app/shared/view.service';
-import { UserService } from 'src/app/user/user.service';
-import { AppAbility } from 'src/app/user/ability';
+import { UserService } from 'src/app/core/services/user.service';
+import { AppAbility } from 'src/app/core/utils/ability';
 import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 

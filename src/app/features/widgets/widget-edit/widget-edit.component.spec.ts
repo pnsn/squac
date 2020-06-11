@@ -16,7 +16,7 @@ import { ChannelGroupsEditComponent } from './channel-groups-edit/channel-groups
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/user/ability';
+import { AppAbility } from 'src/app/core/utils/ability';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;

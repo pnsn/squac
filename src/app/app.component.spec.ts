@@ -1,15 +1,15 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { AuthService } from './auth/auth.service';
+import { HeaderComponent } from './core/components/header/header.component';
+import { AuthService } from './core/services/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MockAuthService } from './auth/auth.service.mock';
-import { UserService } from './user/user.service';
-import { MockUserService } from './user/user.service.mock';
+import { MockAuthService } from './core/services/auth.service.mock';
+import { UserService } from './core/services/user.service';
+import { MockUserService } from './core/services/user.service.mock';
 
 
 describe('AppComponent', () => {

@@ -9,7 +9,7 @@ import { Widget } from '../widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { ChannelGroup } from 'src/app/shared/channel-group';
-import { ChannelGroupsService } from 'src/app/channel-groups/channel-groups.service';
+import { ChannelGroupsService } from 'src/app/features/channel-groups/channel-groups.service';
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
 import { WidgetEditService } from './widget-edit.service';

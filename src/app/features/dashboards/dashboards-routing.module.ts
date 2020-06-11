@@ -5,8 +5,8 @@ import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.co
 import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.component';
 import { WidgetComponent } from '../widgets/widget.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../auth/auth.guard';
-import { PermissionGuard } from '../user/permission.guard';
+import { AuthGuard } from '../../core/guards/auth.guard';
+import { PermissionGuard } from '../../core/guards/permission.guard';
 
 
 export const routes: Routes = [

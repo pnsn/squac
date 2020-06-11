@@ -9,7 +9,7 @@ import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { WidgetsModule } from '../widgets/widgets.module';
 import { WidgetEditComponent } from '../widgets/widget-edit/widget-edit.component';
 import { AbilityModule } from '@casl/angular';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [

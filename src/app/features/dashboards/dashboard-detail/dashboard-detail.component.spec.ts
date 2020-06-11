@@ -9,11 +9,11 @@ import { WidgetComponent } from '../../widgets/widget.component';
 import { MeasurementPipe } from '../../widgets/measurement.pipe';
 import { TabularComponent } from '../../widgets/widget-detail/widget-types/tabular/tabular.component';
 import { FormsModule } from '@angular/forms';
-import { LoadingComponent } from '../../shared/loading/loading.component';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { WidgetsModule } from 'src/app/widgets/widgets.module';
-import { AppAbility } from 'src/app/user/ability';
+import { AppAbility } from 'src/app/core/utils/ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 
