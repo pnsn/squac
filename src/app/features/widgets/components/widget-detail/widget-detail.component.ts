@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '../../../../core/models/widget';
 import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { Subject, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WidgetsService } from '../widgets.service';
-import { MeasurementsService } from '../measurements.service';
+import { WidgetsService } from '../../services/widgets.service';
+import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from 'src/app/core/services/view.service';
-import { DataFormatService } from '../data-format.service';
+import { DataFormatService } from '../../services/data-format.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 

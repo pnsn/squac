@@ -1,6 +1,6 @@
-import { Widget } from '../../core/models/widget';
+import { Widget } from '../../../core/models/widget';
 import { Observable, of } from 'rxjs';
-import { Measurement } from './measurement';
+import { Measurement } from '../models/measurement';
 
 
 export class MockMeasurementsService {

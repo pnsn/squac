@@ -1,8 +1,8 @@
 import { Injectable} from '@angular/core';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '../../../../core/models/widget';
 import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { Metric } from 'src/app/core/models/metric';
-import { Threshold } from '../threshold';
+import { Threshold } from '../../models/threshold';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 

@@ -7,8 +7,8 @@ import { Dashboard } from '../../features/dashboards/dashboard';
 import { DashboardsService } from '../../features/dashboards/dashboards.service';
 import { ChannelGroup } from '../models/channel-group';
 import { Widget } from '../models/widget';
-import { WidgetsService } from 'src/app/features/widgets/widgets.service';
-import { MeasurementsService } from 'src/app/features/widgets/measurements.service';
+import { WidgetsService } from 'src/app/features/widgets/services/widgets.service';
+import { MeasurementsService } from 'src/app/features/widgets/services/measurements.service';
 
 @Injectable({
   providedIn: 'root'

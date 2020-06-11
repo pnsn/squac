@@ -1,5 +1,5 @@
 import { Dashboard } from '../../features/dashboards/dashboard';
-import { Threshold } from '../../features/widgets/threshold';
+import { Threshold } from '../../features/widgets/models/threshold';
 import { ChannelGroup } from './channel-group';
 import { Metric } from './metric';
 

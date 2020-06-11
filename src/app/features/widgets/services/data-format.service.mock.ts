@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
-import { Widget } from '../../core/models/widget';
-import { Measurement } from './measurement';
+import { Widget } from '../../../core/models/widget';
+import { Measurement } from '../models/measurement';
 
 
 export class MockDataFormatService {

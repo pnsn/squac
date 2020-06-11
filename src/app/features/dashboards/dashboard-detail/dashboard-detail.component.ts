@@ -1,12 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/core/services/view.service';
-import { UserService } from 'src/app/core/services/user.service';
-import { AppAbility } from 'src/app/core/utils/ability';
-import { WidgetEditComponent } from 'src/app/widgets/widget-edit/widget-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
 
 
 @Component({
