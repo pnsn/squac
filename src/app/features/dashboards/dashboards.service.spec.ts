@@ -4,14 +4,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SquacApiService } from '../../core/services/squacapi.service';
 import { MockSquacApiService } from '../../core/services/squacapi.service.mock';
 import { Dashboard } from './dashboard';
-import { Widget } from '../widgets/widget';
+import { Widget } from '../../core/models/widget';
 import { HttpClient } from '@angular/common/http';
 
 import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
 import { WidgetsService } from '../widgets/widgets.service';
 import { DashboardsService } from './dashboards.service';
 import { Observable, of } from 'rxjs';
-import { ChannelGroup } from '../../shared/channel-group';
+import { ChannelGroup } from '../../core/models/channel-group';
 import { MockChannelGroupsService } from '../channel-groups/channel-groups.service.mock';
 import { MockWidgetsService } from '../widgets/widgets.service.mock';
 

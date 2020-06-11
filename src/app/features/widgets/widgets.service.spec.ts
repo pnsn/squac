@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SquacApiService } from '../squacapi.service';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { WidgetsService } from './widgets.service';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 
 describe('WidgetsService', () => {
   const testData = {

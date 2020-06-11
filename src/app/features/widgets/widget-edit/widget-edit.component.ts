@@ -5,15 +5,15 @@ import { Subscription, Subject, merge } from 'rxjs';
 import { Metric } from '../../shared/metric';
 import { MetricsService } from '../../shared/metrics.service';
 import { WidgetsService } from '../widgets.service';
-import { Widget } from '../widget';
+import { Widget } from '../../../core/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
-import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { ChannelGroupsService } from 'src/app/features/channel-groups/channel-groups.service';
 import { Threshold } from '../threshold';
 import { ThresholdsService } from '../thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
-import { StatTypeService } from 'src/app/shared/stattype.service';
+import { StatTypeService } from 'src/app/core/services/stattype.service';
 
 @Component({
   selector: 'app-widget-edit',

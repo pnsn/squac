@@ -3,12 +3,12 @@
 
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { Dashboard } from '../features/dashboards/dashboard';
-import { Widget } from '../widgets/widget';
-import { MeasurementsService } from '../widgets/measurements.service';
-import { WidgetsService } from '../widgets/widgets.service';
-import { DashboardsService } from '../features/dashboards/dashboards.service';
-import { ChannelGroup } from './channel-group';
+import { Dashboard } from '../../features/dashboards/dashboard';
+import { DashboardsService } from '../../features/dashboards/dashboards.service';
+import { ChannelGroup } from '../models/channel-group';
+import { Widget } from '../models/widget';
+import { WidgetsService } from 'src/app/features/widgets/widgets.service';
+import { MeasurementsService } from 'src/app/features/widgets/measurements.service';
 
 @Injectable({
   providedIn: 'root'

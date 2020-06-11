@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Metric } from '../../../shared/metric';
-import { MetricsService } from '../../../shared/metrics.service';
+import { Metric } from '../../../core/models/metric';
+import { MetricsService } from '../../../core/services/metrics.service';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({

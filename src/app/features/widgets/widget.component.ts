@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { Threshold } from '../../threshold';
 import {ColumnMode, id} from '@swimlane/ngx-datatable';
-import { Metric } from 'src/app/shared/metric';
+import { Metric } from 'src/app/core/models/metric';
 import { WidgetEditService } from '../widget-edit.service';
 import { Subscription } from 'rxjs';
 @Component({

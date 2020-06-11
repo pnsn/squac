@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SquacApiService } from '../../core/services/squacapi.service';
 import { MockSquacApiService } from '../../core/services/squacapi.service.mock';
 import { ChannelGroupsService } from './channel-groups.service';
-import { ChannelGroup } from '../../shared/channel-group';
+import { ChannelGroup } from '../../core/models/channel-group';
 
 describe('ChannelGroupsService', () => {
   let channelGroupsService: ChannelGroupsService;

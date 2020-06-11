@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
-import { Channel } from '../channel';
+import { Channel } from '../../core/models/channel';
 import * as L from 'leaflet';
 
 @Component({

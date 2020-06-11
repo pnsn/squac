@@ -1,7 +1,7 @@
 // communicaiton betweetn widgets
 import { Injectable } from '@angular/core';
 import { MeasurementsService } from './measurements.service';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { ViewService } from '../shared/view.service';
 import { Subject, BehaviorSubject } from 'rxjs';
 

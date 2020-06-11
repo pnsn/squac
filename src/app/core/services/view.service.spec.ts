@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ViewService } from './view.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MockSquacApiService } from '../core/services/squacapi.service.mock';
+import { MockSquacApiService } from './squacapi.service.mock';
 
 describe('ViewService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

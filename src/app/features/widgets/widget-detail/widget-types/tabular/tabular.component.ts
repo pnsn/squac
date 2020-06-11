@@ -5,8 +5,8 @@ import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../measurement.pipe';
 import { Subject, Subscription } from 'rxjs';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
-import { ViewService } from 'src/app/shared/view.service';
-import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ViewService } from 'src/app/core/services/view.service';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { Widget } from 'src/app/widgets/widget';
 import { Threshold } from 'src/app/widgets/threshold';
 

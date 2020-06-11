@@ -1,4 +1,4 @@
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { Observable, of } from 'rxjs';
 import { Measurement } from './measurement';
 

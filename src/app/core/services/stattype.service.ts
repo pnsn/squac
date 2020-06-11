@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SquacApiService } from '../core/services/squacapi.service';
+import { SquacApiService } from './squacapi.service';
 import { BehaviorSubject } from 'rxjs';
 
 interface StatTypeHttpData {

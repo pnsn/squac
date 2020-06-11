@@ -5,7 +5,7 @@ import { SquacApiService } from '../squacapi.service';
 import { MockSquacApiService } from '../squacapi.service.mock';
 import { MeasurementsService } from './measurements.service';
 import { Measurement } from './measurement';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { ChannelGroup } from '../shared/channel-group';
 import { Metric } from '../shared/metric';
 import { Channel } from '../shared/channel';

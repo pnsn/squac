@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ChannelGroup } from '../../shared/channel-group';
+import { ChannelGroup } from '../../core/models/channel-group';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
-import { Channel } from '../../shared/channel';
+import { Channel } from '../../core/models/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '../../core/services/squacapi.service';

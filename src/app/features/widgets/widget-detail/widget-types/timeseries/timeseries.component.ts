@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Measurement } from 'src/app/widgets/measurement';
-import { Metric } from 'src/app/shared/metric';
-import { Channel } from 'src/app/shared/channel';
+import { Metric } from 'src/app/core/models/metric';
+import { Channel } from 'src/app/core/models/channel';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
-import { ViewService } from 'src/app/shared/view.service';
-import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ViewService } from 'src/app/core/services/view.service';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { Threshold } from 'src/app/widgets/threshold';
 import { Widget } from 'src/app/widgets/widget';
 

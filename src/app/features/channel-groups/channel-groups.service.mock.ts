@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { ChannelGroup } from '../../shared/channel-group';
+import { ChannelGroup } from '../../core/models/channel-group';
 
 export class MockChannelGroupsService {
   testChannelGroup = new ChannelGroup(

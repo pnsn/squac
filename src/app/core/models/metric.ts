@@ -1,5 +1,3 @@
-import { Threshold } from '../widgets/threshold';
-
 // Describes a metric object
 export class Metric {
   constructor(

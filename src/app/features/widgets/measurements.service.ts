@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '../squacapi.service';
 import { Measurement } from './measurement';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { ChannelGroup } from '../shared/channel-group';
 import { formatDate } from '@angular/common';
 

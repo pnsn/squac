@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { Widget } from './widget';
+import { Widget } from '../../core/models/widget';
 import { Measurement } from './measurement';
 
 

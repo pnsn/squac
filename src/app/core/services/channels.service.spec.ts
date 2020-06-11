@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '../core/services/squacapi.service';
-import { MockSquacApiService } from '../core/services/squacapi.service.mock';
+import { SquacApiService } from './squacapi.service';
+import { MockSquacApiService } from './squacapi.service.mock';
 import { ChannelsService } from './channels.service';
-import { Channel } from '../shared/channel';
-import { Network } from '../features/channel-groups/network';
+import { Channel } from '../models/channel';
+import { Network } from '../../features/channel-groups/network';
 
 describe('ChannelsService', () => {
   let channelsService: ChannelsService;

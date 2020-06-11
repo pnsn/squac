@@ -6,9 +6,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Subject, of } from 'rxjs';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { DataFormatService } from 'src/app/widgets/data-format.service';
-import { ViewService } from 'src/app/shared/view.service';
+import { ViewService } from 'src/app/core/services/view.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Widget } from 'src/app/widgets/widget';
 

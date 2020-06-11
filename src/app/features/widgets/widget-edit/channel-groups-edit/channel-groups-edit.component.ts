@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChannelGroup } from 'src/app/shared/channel-group';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { ChannelGroupsService } from 'src/app/features/channel-groups/channel-groups.service';
 import { WidgetEditService } from '../widget-edit.service';
 import { Subscription } from 'rxjs';
