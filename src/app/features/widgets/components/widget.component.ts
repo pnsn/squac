@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Widget } from '../../core/models/widget';
+import { Widget } from '../../../core/models/widget';
 import { Subscription, Subject } from 'rxjs';
-import { WidgetsService } from './widgets.service';
+import { WidgetsService } from '../services/widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
-import { ViewService } from '../shared/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from './widget-edit/widget-edit.component';
+import { ViewService } from 'src/app/core/services/view.service';
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',

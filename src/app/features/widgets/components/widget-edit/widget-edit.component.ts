@@ -1,19 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Inject } from '@angular/core';
-import { Route, ActivatedRoute, Router, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription, Subject, merge } from 'rxjs';
-import { Metric } from '../../shared/metric';
-import { MetricsService } from '../../shared/metrics.service';
-import { WidgetsService } from '../widgets.service';
-import { Widget } from '../../../core/models/widget';
+import { Subscription, merge } from 'rxjs';
+import { WidgetsService } from '../../services/widgets.service';
+import { Widget } from '../../../../core/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
-import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { ChannelGroupsService } from 'src/app/features/channel-groups/channel-groups.service';
-import { Threshold } from '../threshold';
-import { ThresholdsService } from '../thresholds.service';
+import { ThresholdsService } from '../../services/thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
 import { StatTypeService } from 'src/app/core/services/stattype.service';
+import { MetricsService } from 'src/app/core/services/metrics.service';
 
 @Component({
   selector: 'app-widget-edit',

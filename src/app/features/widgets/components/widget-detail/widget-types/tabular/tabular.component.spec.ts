@@ -1,15 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TabularComponent } from './tabular.component';
-import { MeasurementPipe } from '../../../measurement.pipe';
+import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MeasurementsService } from '../../../measurements.service';
-import { EMPTY, of, Subject } from 'rxjs';
-import { DataFormatService } from 'src/app/widgets/data-format.service';
-import { ViewService } from 'src/app/core/services/view.service';
-import { ChannelGroup } from 'src/app/core/models/channel-group';
+import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Widget } from 'src/app/widgets/widget';
+import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
+import { Widget } from 'src/app/core/models/widget';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;

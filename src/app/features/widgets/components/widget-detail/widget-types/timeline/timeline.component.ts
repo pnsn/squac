@@ -1,18 +1,17 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
-import { Metric } from '../../../../shared/metric';
-import { Channel } from '../../../../shared/channel';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
-import { MeasurementPipe } from '../../../measurement.pipe';
-import { Subject, Subscription } from 'rxjs';
-import { Measurement } from 'src/app/widgets/measurement';
-import { DataFormatService } from 'src/app/widgets/data-format.service';
+import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
+import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/core/services/view.service';
 import { ChannelGroup } from 'src/app/core/models/channel-group';
-import { Widget } from 'src/app/widgets/widget';
-import { Threshold } from 'src/app/widgets/threshold';
-import TimelinesChart, { TimelinesChartInstance, Val } from 'timelines-chart';
+import TimelinesChart, { Val } from 'timelines-chart';
 import * as d3 from 'd3';
-import { MeasurementsService } from 'src/app/widgets/measurements.service';
+import { Widget } from 'src/app/core/models/widget';
+import { Metric } from 'src/app/core/models/metric';
+import { Threshold } from 'src/app/features/widgets/models/threshold';
+import { Channel } from 'src/app/core/models/channel';
+import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
+import { Measurement } from 'src/app/features/widgets/models/measurement';
 
 @Component({
   selector: 'app-timeline',

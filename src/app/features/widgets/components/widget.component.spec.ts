@@ -4,13 +4,13 @@ import { WidgetComponent } from './widget.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, EMPTY, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Widget } from '../../core/models/widget';
-import { MeasurementsService } from './measurements.service';
-import { WidgetsModule } from './widgets.module';
+import { Widget } from '../../../core/models/widget';
+import { MeasurementsService } from '../services/measurements.service';
+import { WidgetsModule } from '../widgets.module';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { MockMeasurementsService } from './measurements.service.mock';
-import { AppAbility } from '../user/ability';
+import { MockMeasurementsService } from '../services/measurements.service.mock';
+import { AppAbility } from 'src/app/core/utils/ability';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;

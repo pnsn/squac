@@ -1,10 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { SquacApiService } from '../squacapi.service';
-import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
-import { Widget } from '../../core/models/widget';
-import { map } from 'rxjs/operators';
-import { Metric } from '../shared/metric';
-import { Threshold } from './threshold';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SquacApiService } from 'src/app/core/services/squacapi.service';
+import { Metric } from 'src/app/core/models/metric';
+import { Threshold } from '../models/threshold';
 
 
 interface ThresholdHttpData {

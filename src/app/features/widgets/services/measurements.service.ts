@@ -1,12 +1,10 @@
-import { Injectable, LOCALE_ID, Inject } from '@angular/core';
-import { Subject, BehaviorSubject, Observable, empty, EMPTY } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-import { SquacApiService } from '../squacapi.service';
-import { Measurement } from './measurement';
-import { Widget } from '../../core/models/widget';
-import { ChannelGroup } from '../shared/channel-group';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Measurement } from '../models/measurement';
+import { Widget } from '../../../core/models/widget';
 import { formatDate } from '@angular/common';
+import { SquacApiService } from 'src/app/core/services/squacapi.service';
 
 interface MeasurementsHttpData {
   name: string;

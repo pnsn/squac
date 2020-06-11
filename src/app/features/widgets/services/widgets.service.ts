@@ -1,12 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SquacApiService } from '../squacapi.service';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
-import { Widget } from '../../core/models/widget';
+import { Widget } from '../../../core/models/widget';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
-import { Metric } from '../shared/metric';
-import { Threshold } from './threshold';
-import { ChannelGroupsService } from '../channel-groups/channel-groups.service';
-import { ChannelGroup } from '../shared/channel-group';
+import { SquacApiService } from 'src/app/core/services/squacapi.service';
+import { ChannelGroupsService } from '../../channel-groups/channel-groups.service';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
+import { Threshold } from '../models/threshold';
+import { Metric } from 'src/app/core/models/metric';
+
 
 
 interface WidgetHttpData {

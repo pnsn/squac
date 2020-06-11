@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '../squacapi.service';
-import { MockSquacApiService } from '../squacapi.service.mock';
 import { MeasurementsService } from './measurements.service';
-import { Measurement } from './measurement';
-import { Widget } from '../../core/models/widget';
-import { ChannelGroup } from '../shared/channel-group';
-import { Metric } from '../shared/metric';
-import { Channel } from '../shared/channel';
+import { Widget } from '../../../core/models/widget';
+import { Metric } from 'src/app/core/models/metric';
+import { Channel } from 'src/app/core/models/channel';
+import { MockSquacApiService } from 'src/app/core/services/squacapi.service.mock';
+import { SquacApiService } from 'src/app/core/services/squacapi.service';
+import { ChannelGroup } from 'src/app/core/models/channel-group';
 
 describe('MeasurementsService', () => {
   const testData = {

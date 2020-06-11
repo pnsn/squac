@@ -1,16 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimelineComponent } from './timeline.component';
-import { MeasurementPipe } from 'src/app/widgets/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { Subject, of } from 'rxjs';
-import { MaterialModule } from 'src/app/shared/material.module';
-import { DataFormatService } from 'src/app/widgets/data-format.service';
-import { ViewService } from 'src/app/core/services/view.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ChannelGroup } from 'src/app/core/models/channel-group';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Widget } from 'src/app/widgets/widget';
+import { MeasurementPipe } from 'src/app/features/widgets/pipes/measurement.pipe';
+import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
+import { of } from 'rxjs';
+import { Widget } from 'src/app/core/models/widget';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
