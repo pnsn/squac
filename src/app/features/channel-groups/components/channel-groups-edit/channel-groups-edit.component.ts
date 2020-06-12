@@ -196,35 +196,26 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.isSelectedFiltered = true; // enable remove button
     const filtersMap = { // convert filter strings to property names
       network: 'networkCode',
-      channel: 'code',
       location: 'loc',
       station: 'stationCode'
     };
     if (searchFilters !== {}) {
-      this.filteredChannels = []; // reset filtered channels (list to display)
+      this.filteredChannels = this.selectedChannels; // reset filtered channels (list to display)
       for (const filter in searchFilters) {
-        if (filter !== null) {
-          const filterParams = searchFilters[filter].split(','); // split string into array of search params
-          filterParams.forEach( (param: string) => {
-            this.selectedChannels.forEach( c => {
-              const inFiltered = this.filteredChannels.some( filteredChannel => {
-                return c.id === filteredChannel.id; // Channel is already in filtered list
-              });
-              if (!inFiltered) {
-                let match: boolean;
-                if (filter === 'channel' && searchFilters[filter] !== '' ) {
-                  const reg = new RegExp(param.toLowerCase());
-                  match = reg.test(c.code);
-                } else {
-                  match = c[filtersMap[filter]] === param.toLowerCase().trim(); // Channel matches search param
-                }
-                if (match) { // New channel that matches params
-                  this.filteredChannels.push(c);
-                }
-              }
+        if (searchFilters[filter]) {
+          if (filter === 'chan_search') {
+            const regex = RegExp(searchFilters[filter]);
+            this.filteredChannels = this.filteredChannels.filter(chan => {
+              return regex.test(chan.code);
             });
-          });
-          this.filteredChannels = [...this.filteredChannels]; // to update table
+          } else {
+            const filterParams = searchFilters[filter].split(','); // split string into array of search params
+            filterParams.forEach( (param: string) => {
+              this.filteredChannels = this.filteredChannels.filter(chan => {
+                return chan[filtersMap[filter]] === param;
+              });
+            });
+          }
         }
       }
     }
