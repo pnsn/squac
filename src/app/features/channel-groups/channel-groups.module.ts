@@ -20,7 +20,7 @@ import { ChannelGroupsTableComponent } from './components/channel-groups-edit/ch
   imports: [
     CommonModule,
     SharedModule,
-    
+
   ],
   exports: [
   ],

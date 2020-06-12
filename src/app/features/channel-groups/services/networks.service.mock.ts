@@ -1,7 +1,7 @@
 
 import { Subject, BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { Network } from '../models/network';
 
-import { Network } from './network';
 
 
 export class MockNetworksService {
