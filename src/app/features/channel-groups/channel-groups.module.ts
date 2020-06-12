@@ -6,8 +6,8 @@ import { ChannelGroupsEditComponent } from './components/channel-groups-edit/cha
 import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
 import { ChannelGroupsFilterComponent } from './components/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
 import { ChannelGroupsTableComponent } from './components/channel-groups-edit/channel-groups-table/channel-groups-table.component';
-
-
+import { ChannelGroupsRoutingModule } from './channel-groups-routing.module';
+import { AbilityModule } from '@casl/angular';
 
 @NgModule({
   declarations: [
@@ -18,9 +18,10 @@ import { ChannelGroupsTableComponent } from './components/channel-groups-edit/ch
     ChannelGroupsTableComponent
   ],
   imports: [
+    AbilityModule,
     CommonModule,
     SharedModule,
-
+    ChannelGroupsRoutingModule
   ],
   exports: [
   ],
