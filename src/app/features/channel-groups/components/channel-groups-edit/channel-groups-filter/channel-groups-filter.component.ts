@@ -11,7 +11,7 @@ export class ChannelGroupsFilterComponent implements OnInit {
 
   filters = {
     network : '',
-    channel: '',
+    chan_search: '',
     station: '',
     location: ''
   };
@@ -19,14 +19,17 @@ export class ChannelGroupsFilterComponent implements OnInit {
   ngOnInit() {
   }
 
-
   addFilter(event: any, type: string): void {
     const value = event.target.value.toLowerCase();
-    if (value !== '') {
-      const paramArr = value.split(',');
-      this.filters[type] = paramArr.reduce( (acc: string, param: string) => {
-        return `${acc},${param.trim()}`;
-      });
+    if (value) {
+      if (type === 'chan_search') {
+        this.filters[type] = value.trim();
+      } else {
+        const paramArr = value.split(',');
+        this.filters[type] = paramArr.reduce((acc: string, param: string) => {
+          return `${acc},${param.trim()}`;
+        });
+      }
     } else {
       this.filters[type] = '';
     }
