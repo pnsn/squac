@@ -6,17 +6,17 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from '@shared/material.module';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ThresholdEditComponent } from './threshold-edit/threshold-edit.component';
 import { MetricsEditComponent } from './metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './channel-groups-edit/channel-groups-edit.component';
-import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { LoadingComponent } from '@shared/loading/loading.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;

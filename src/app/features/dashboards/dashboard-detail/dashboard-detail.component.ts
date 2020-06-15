@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ViewService } from 'src/app/core/services/view.service';
+import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
 

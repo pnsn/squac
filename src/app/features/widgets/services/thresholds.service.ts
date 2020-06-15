@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SquacApiService } from 'src/app/core/services/squacapi.service';
-import { Metric } from 'src/app/core/models/metric';
+import { SquacApiService } from '@core/services/squacapi.service';
+import { Metric } from '@core/models/metric';
 import { Threshold } from '../models/threshold';
 
 

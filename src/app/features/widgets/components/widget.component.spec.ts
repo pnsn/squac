@@ -10,7 +10,7 @@ import { WidgetsModule } from '../widgets.module';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { MockMeasurementsService } from '../services/measurements.service.mock';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;

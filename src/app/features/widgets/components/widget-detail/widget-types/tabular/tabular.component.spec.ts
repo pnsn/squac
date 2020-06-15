@@ -5,8 +5,8 @@ import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
-import { Widget } from 'src/app/core/models/widget';
+import { DataFormatService } from '@features/widgets/services/data-format.service';
+import { Widget } from '@core/models/widget';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;

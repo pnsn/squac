@@ -13,7 +13,7 @@ import { ThresholdEditComponent } from './components/widget-edit/threshold-edit/
 import { MetricsEditComponent } from './components/widget-edit/metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './components/widget-edit/channel-groups-edit/channel-groups-edit.component';
 import { AbilityModule } from '@casl/angular';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({

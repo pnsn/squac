@@ -1,16 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsViewComponent } from './metrics-view.component';
-import { Metric } from 'src/app/core/models/metric';
+import { Metric } from '@core/models/metric';
 import { of, Observable } from 'rxjs';
-import { MetricsService } from 'src/app/core/services/metrics.service';
+import { MetricsService } from '@core/services/metrics.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockMetricsService } from 'src/app/core/services/metrics.service.mock';
+import { MockMetricsService } from '@core/services/metrics.service.mock';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('MetricsViewComponent', () => {
   let component: MetricsViewComponent;

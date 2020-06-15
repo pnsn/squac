@@ -1,8 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ChannelGroupsComponent } from './components/channel-groups.component';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
-import { PermissionGuard } from 'src/app/core/guards/permission.guard';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { PermissionGuard } from '@core/guards/permission.guard';
 import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
 

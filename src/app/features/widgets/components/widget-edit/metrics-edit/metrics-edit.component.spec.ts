@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsEditComponent } from './metrics-edit.component';
-import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { LoadingComponent } from '@shared/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MetricsService } from 'src/app/core/services/metrics.service';
+import { MetricsService } from '@core/services/metrics.service';
 import { WidgetEditService } from '../widget-edit.service';
 
 describe('MetricsEditComponent', () => {

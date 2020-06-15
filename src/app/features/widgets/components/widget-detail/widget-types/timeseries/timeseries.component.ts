@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { Metric } from 'src/app/core/models/metric';
-import { Channel } from 'src/app/core/models/channel';
-import { ViewService } from 'src/app/core/services/view.service';
-import { ChannelGroup } from 'src/app/core/models/channel-group';
-import { Widget } from 'src/app/core/models/widget';
-import { Threshold } from 'src/app/features/widgets/models/threshold';
-import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
-import { Measurement } from 'src/app/features/widgets/models/measurement';
+import { Metric } from '@core/models/metric';
+import { Channel } from '@core/models/channel';
+import { ViewService } from '@core/services/view.service';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Widget } from '@core/models/widget';
+import { Threshold } from '@features/widgets/models/threshold';
+import { DataFormatService } from '@features/widgets/services/data-format.service';
+import { Measurement } from '@features/widgets/models/measurement';
 
 @Component({
   selector: 'app-timeseries',

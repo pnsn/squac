@@ -7,10 +7,10 @@ import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from '@shared/material.module';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('DashboardViewComponent', () => {
   let component: DashboardViewComponent;

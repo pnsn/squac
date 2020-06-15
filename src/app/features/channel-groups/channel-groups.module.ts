@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { NgModule } from '@angular/core';
 import { ChannelGroupsComponent } from './components/channel-groups.component';
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';

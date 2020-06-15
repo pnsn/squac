@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MeasurementsService } from './measurements.service';
 import { Widget } from '../../../core/models/widget';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { ViewService } from 'src/app/core/services/view.service';
+import { ViewService } from '@core/services/view.service';
 
 @Injectable()
 export class DataFormatService {

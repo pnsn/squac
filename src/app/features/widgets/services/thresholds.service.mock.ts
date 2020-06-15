@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { Threshold } from '../models/threshold';
-import { Metric } from 'src/app/core/models/metric';
+import { Metric } from '@core/models/metric';
 
 export class MockThresholdsService {
 

@@ -6,12 +6,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MapComponent } from 'src/app/shared/map/map.component';
+import { MapComponent } from '@shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;

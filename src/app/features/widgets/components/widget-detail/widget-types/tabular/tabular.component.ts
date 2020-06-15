@@ -2,13 +2,13 @@ import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
 import { Subscription } from 'rxjs';
-import { ViewService } from 'src/app/core/services/view.service';
-import { ChannelGroup } from 'src/app/core/models/channel-group';
-import { Widget } from 'src/app/core/models/widget';
-import { Metric } from 'src/app/core/models/metric';
-import { Threshold } from 'src/app/features/widgets/models/threshold';
-import { Channel } from 'src/app/core/models/channel';
-import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
+import { ViewService } from '@core/services/view.service';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Widget } from '@core/models/widget';
+import { Metric } from '@core/models/metric';
+import { Threshold } from '@features/widgets/models/threshold';
+import { Channel } from '@core/models/channel';
+import { DataFormatService } from '@features/widgets/services/data-format.service';
 
 @Component({
   selector: 'app-tabular',

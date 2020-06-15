@@ -5,7 +5,7 @@ import { WidgetsService } from '../services/widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from './widget-edit/widget-edit.component';
-import { ViewService } from 'src/app/core/services/view.service';
+import { ViewService } from '@core/services/view.service';
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',

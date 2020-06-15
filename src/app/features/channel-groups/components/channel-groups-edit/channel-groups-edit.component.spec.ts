@@ -11,7 +11,7 @@ import { NetworksService } from '../../services/networks.service';
 import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LoadingComponent } from '../../../../shared/loading/loading.component';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from '@shared/material.module';
 import { ChannelGroupsTableComponent } from './channel-groups-table/channel-groups-table.component';
 import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 import { MapComponent } from '../../../../shared/map/map.component';
@@ -19,7 +19,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;

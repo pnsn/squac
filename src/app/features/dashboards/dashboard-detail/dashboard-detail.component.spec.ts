@@ -7,7 +7,7 @@ import { DashboardsService } from '../dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { WidgetsModule } from '../../widgets/widgets.module';

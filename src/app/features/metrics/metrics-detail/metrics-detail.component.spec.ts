@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsDetailComponent } from './metrics-detail.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MetricsService } from 'src/app/core/services/metrics.service';
+import { MetricsService } from '@core/services/metrics.service';
 import { of, Observable } from 'rxjs';
-import { Metric } from 'src/app/core/models/metric';
-import { MockMetricsService } from 'src/app/core/services/metrics.service.mock';
+import { Metric } from '@core/models/metric';
+import { MockMetricsService } from '@core/services/metrics.service.mock';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('MetricsDetailComponent', () => {
   let component: MetricsDetailComponent;

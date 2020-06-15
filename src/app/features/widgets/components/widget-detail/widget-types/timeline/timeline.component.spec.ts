@@ -4,10 +4,10 @@ import { TimelineComponent } from './timeline.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MeasurementPipe } from 'src/app/features/widgets/pipes/measurement.pipe';
-import { DataFormatService } from 'src/app/features/widgets/services/data-format.service';
+import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
+import { DataFormatService } from '@features/widgets/services/data-format.service';
 import { of } from 'rxjs';
-import { Widget } from 'src/app/core/models/widget';
+import { Widget } from '@core/models/widget';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;

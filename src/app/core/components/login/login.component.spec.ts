@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockAuthService } from '../../services/auth.service.mock';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from '@shared/material.module';
 
 
 

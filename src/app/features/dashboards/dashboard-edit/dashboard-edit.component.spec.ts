@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MaterialModule } from '@shared/material.module';
 
 describe('DashboardEditComponent', () => {
   let component: DashboardEditComponent;

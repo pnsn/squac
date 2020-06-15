@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { ThresholdsService } from './thresholds.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MockSquacApiService } from 'src/app/core/services/squacapi.service.mock';
-import { SquacApiService } from 'src/app/core/services/squacapi.service';
+import { MockSquacApiService } from '@core/services/squacapi.service.mock';
+import { SquacApiService } from '@core/services/squacapi.service';
 
 describe('ThresholdsService', () => {
   const testData = {

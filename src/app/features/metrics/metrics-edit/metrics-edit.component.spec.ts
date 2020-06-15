@@ -4,14 +4,14 @@ import { MetricsEditComponent } from './metrics-edit.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MetricsService } from 'src/app/core/services/metrics.service';
+import { MetricsService } from '@core/services/metrics.service';
 import { of, Observable } from 'rxjs';
-import { Metric } from 'src/app/core/models/metric';
-import { MockMetricsService } from 'src/app/core/services/metrics.service.mock';
+import { Metric } from '@core/models/metric';
+import { MockMetricsService } from '@core/services/metrics.service.mock';
 import { ActivatedRoute } from '@angular/router';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from 'src/app/core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;

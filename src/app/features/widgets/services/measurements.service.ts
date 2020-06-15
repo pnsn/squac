@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
 import { Widget } from '../../../core/models/widget';
 import { formatDate } from '@angular/common';
-import { SquacApiService } from 'src/app/core/services/squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 
 interface MeasurementsHttpData {
   name: string;
