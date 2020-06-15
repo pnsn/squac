@@ -1,4 +1,4 @@
-import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';;
+import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';
 import { Widget } from '../models/widget';
 import { ChannelGroup } from '../models/channel-group';
 import { Metric } from '../models/metric';
