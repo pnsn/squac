@@ -51,6 +51,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.chart = TimelinesChart();
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
@@ -72,7 +73,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
-    this.chart = TimelinesChart()
+
     this.chart.leftMargin(65);
     this.chart.rightMargin(55); 
 
@@ -155,10 +156,31 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       stationRow.data.push(channelRow);
 
     });
+
     const threshold = this.widget.thresholds[this.currentMetric.id];
     const defaultMax = this.currentMetric.maxVal;
     const defaultMin = this.currentMetric.minVal;
+    const colorScale = this.handleThresholds(threshold, defaultMax, defaultMin, dataMax, dataMin);
 
+
+    this.chart.zDataLabel(this.currentMetric.unit)
+      .zColorScale(colorScale)
+      .zScaleLabel(this.currentMetric.unit);
+
+    const formatTime = d3.timeFormat('%Y-%m-%d %-I:%M:%S %p');
+    this.chart.segmentTooltipContent((d) => {
+      const row1 = '<div> value: <span>' + d.val + ' (' + this.currentMetric.unit + ')</span></div>';
+      const row2 = '<div> start: <span>' + formatTime(d.timeRange[0]) + '</span></div>';
+      const row3 = '<div> end: <span>' + formatTime(d.timeRange[1]) + '</span></div>';
+      return row1 + row2 + row3;
+    });
+
+
+    this.chart.data(data);
+    this.resize();
+  }
+
+  handleThresholds(threshold, defaultMax, defaultMin, dataMax, dataMin){
     if ( threshold ) {
       this.domainMin = threshold.min;
       this.domainMax = threshold.max;
@@ -180,22 +202,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       .domain([this.domainMin, this.domainMax + 0.0000001])
       .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor]);
 
-    this.chart.zDataLabel(this.currentMetric.unit)
-      .zColorScale(colorScale)
-      .zScaleLabel(this.currentMetric.unit);
-
-    const formatTime = d3.timeFormat('%Y-%m-%d %-I:%M:%S %p');
-    this.chart.segmentTooltipContent((d) => {
-      const row1 = '<div> value: <span>' + d.val + ' (' + this.currentMetric.unit + ')</span></div>';
-      const row2 = '<div> start: <span>' + formatTime(d.timeRange[0]) + '</span></div>';
-      const row3 = '<div> end: <span>' + formatTime(d.timeRange[1]) + '</span></div>';
-      return row1 + row2 + row3;
-    });
-
-
-    this.chart.data(data);
-    this.resize();
-  }
+      return colorScale;
+  };
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
