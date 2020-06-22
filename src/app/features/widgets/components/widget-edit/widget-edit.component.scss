@@ -1,0 +1,128 @@
+@import 'variables';
+#edit-title {
+  h3 {
+    display:inline;
+    font-size: 15pt;
+  }
+  button {
+    float:right;
+  }
+}
+#edit-container {
+  width:65vw;
+}
+#widget-edit-top {
+  display:flex;
+  flex-direction:row;
+  mat-form-field {
+    margin-right: 20px;
+  }
+}
+
+.label {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display:inline-block;
+  font-weight: bold;
+}
+
+#type-container {
+  display:flex;
+  flex-direction: row;
+}
+
+#stat-type-container, #widget-type-container {
+  display:flex;
+  flex-direction: column;
+} 
+
+
+#widget-type-container {
+  margin-right:25px;
+  #type-select-container{
+    border:solid 0.25px $sq-blue; 
+    border-radius: 5px;
+    margin-right:20px;
+    display:inline-block;
+  }
+  .img-container{
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+    overflow:hidden;
+    margin-left: auto;
+    margin-right:auto;
+  }
+  mat-button-toggle-group{
+
+    mat-button-toggle {
+      width: 100px;
+      color: $sq-blue;
+
+    }
+
+    .type-label {
+      line-height: 36px;
+    }
+
+    img {
+      height:100%;
+      width: 100%;
+      &.dark {
+        display: block;
+      }
+      &.white {
+        display: none;
+      }
+    }
+
+    mat-button-toggle.mat-button-toggle-checked {
+      img {
+        &.dark {
+          display: none;
+        }
+        &.white {
+          display: block;
+        }
+      }
+      color:white;
+      background-color: $sq-blue;
+    }
+  }
+
+}
+p.help-text {
+  font-weight: 300;
+  font-size: 12pt;
+  margin-top: 0px;
+}
+#description{
+  padding:10px;
+
+}
+.mat-horizontal-content-container {
+  padding: 0px 24px 0px 24px;
+}
+
+h3{
+  font-size:14px;
+  margin-bottom: 10px;
+}
+
+:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
+  padding: 0px !important;
+}
+
+#dialog-options {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  #save {
+    margin-left: 20px;
+  }
+  p {
+    font-weight: 300;
+    font-size: 12pt;
+    margin-top: 0px;
+  }
+}

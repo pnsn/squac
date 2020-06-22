@@ -1,0 +1,50 @@
+<div id="filter-box">
+  <p class="help-text">Regular expression allowed for channel (for example: [H,C]..)</p>
+  
+  <mat-form-field class="filter-chip-input">
+    <input
+      matInput
+      placeholder="Network"
+      (change)="addFilter($event, 'network')"
+      (keydown.enter)="addFilter($event, 'network')"
+    >
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input
+      matInput
+      placeholder="Station"
+      (change)="addFilter($event, 'station')"
+      (keydown.enter)="addFilter($event, 'station')"
+    >
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input
+      matInput
+      placeholder="Location"
+      (change)="addFilter($event, 'location')"
+      (keydown.enter)="addFilter($event, 'location')"
+    >
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input
+      matInput
+      placeholder="Channel"
+      (change)="addFilter($event, 'chan_search')"
+      (keydown.enter)="addFilter($event, 'channel')"
+    >
+  </mat-form-field>
+</div>
+
+<!-- <mat-chip-list #chipList aria-label="Channel group filters">
+  <div *ngFor="let filterGroup of filters | keyvalue">
+    <mat-chip 
+      *ngFor="let filter of filterGroup.value"
+      [removable]="true"
+      (removed)="removeFilter(filter, filterGroup.key)"
+      [color]=""
+    >
+      {{filterGroup.key | slice : 0:3 | titlecase}}: {{filter | uppercase}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </div>
+</mat-chip-list> -->
