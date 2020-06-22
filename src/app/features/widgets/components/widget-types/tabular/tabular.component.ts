@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
-import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
+import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { ChannelGroup } from '@core/models/channel-group';
