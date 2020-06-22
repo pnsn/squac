@@ -44,7 +44,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.data = {};
         this.loading = true;
         this.getData(dates.start, dates.end);
-        this.viewService.status.next("loading");
       },
       error => {
         console.log('error in widget detail dates: ' + error);
@@ -79,7 +78,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       end
     ).subscribe(
       response => {
-        console.log(response);
         this.data = response;
         this.loading = false;
       },

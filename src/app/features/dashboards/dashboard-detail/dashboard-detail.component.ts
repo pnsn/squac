@@ -17,7 +17,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   dialogRef;
   subscription: Subscription = new Subscription();
-  status = 'finished';
+  status;
 
   // todo: make a date select
   dateRanges = [

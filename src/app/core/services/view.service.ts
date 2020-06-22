@@ -61,6 +61,7 @@ export class ViewService {
       start,
       end
     });
+    this.status.next("loading");
   }
 
 
@@ -169,10 +170,11 @@ export class ViewService {
 
   }
 
-  // TODO: does this actuall refresh data?
+  // TODO: this should refresh widget info if its going to be lvie
+  // Will rerender widgets, but not get new widget information
   refreshWidgets() {
     console.log('refresh!');
-    this.widgetsChanged();
+    this.getWidgets(this.dashboard.id);
   }
 
   handleError(message, source, error) {
