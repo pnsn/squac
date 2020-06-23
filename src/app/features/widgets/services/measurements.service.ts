@@ -20,7 +20,7 @@ export class MeasurementsService implements OnDestroy{
   data = new Subject();
   private localData = {};
   private widget;
-  private refreshInterval = 1 * 60 * 1000; //5 mintues now, this will be config
+  private refreshInterval = 5 * 60 * 1000; //5 mintues now, this will be config
   private lastEndDate : Date;
   private successCount : number = 0; //number of successful requests
   updateTimeout;
