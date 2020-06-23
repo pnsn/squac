@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
 import { Widget } from '../../../core/models/widget';
@@ -14,60 +14,87 @@ interface MeasurementsHttpData {
   id?: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable()
 export class MeasurementsService {
   private url = 'measurement/measurements/';
-
+  data = new Subject();
+  private localData = {};
+  private widget;
+  private refreshInterval = 1 * 60 * 1000; //5 mintues now, this will be config
+  private lastEndDate : Date;
+  updateTimeout;
   constructor(
     private squacApi: SquacApiService
   ) {}
 
-  getMeasurements(widget: Widget, start: Date, end: Date ): Observable<any> {
-    //  TODO: may need to rethink for a more general structure
+  
+  setWidget(widget : Widget) {
+    this.widget = widget;
     if (widget && widget.metrics.length > 0) {
-      const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
-      const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
-      const data = {};
       widget.channelGroup.channels.forEach(channel => {
-        data[channel.id] = {};
+        this.localData[channel.id] = {};
         widget.metrics.forEach(metric => {
-          data[channel.id][metric.id] = [];
+          this.localData[channel.id][metric.id] = [];
         });
       });
-      return this.squacApi.get(this.url, null,
-        {
-           metric: widget.metricsString,
-           group: widget.channelGroup.id,
-           starttime: startString,
-           endtime: endString,
-        }
-      ).pipe(
-        map(response => {
-          let count = 0;
-           // FIXME: no data handling
-          response.forEach(m => {
-            count++;
-            data[m.channel][m.metric].push(
-              new Measurement(
-                m.id,
-                m.user_id,
-                m.metric,
-                m.channel,
-                m.value,
-                m.starttime,
-                m.endtime
-              )
-            );
-          });
-          return count > 0 ? data : {};
-        })
-      );
-    } else {
-      return new Observable<any>();
     }
+  }
 
+  //some sort of timer that gets the data and 
+  updateMeasurement(){
+    this.updateTimeout = setTimeout(()=>{
+      this.fetchMeasurements(this.lastEndDate, new Date());
+    }, this.refreshInterval);
+  }
+
+  fetchMeasurements(start: Date, end:Date) : void {
+    const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
+    const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
+    if(this.widget && this.widget.metrics.length > 0) {
+      this.getMeasurements(startString, endString).subscribe(
+        success => {
+          this.data.next(this.localData);
+        },
+        error => {
+          console.log("error in fetch measurements")
+        },
+        () =>{
+          this.lastEndDate = end;
+          this.updateMeasurement();
+          console.log("completed get data for " + this.widget.id);
+        }
+      );
+    }
+  }
+
+  private getMeasurements(starttime: string, endtime: string ): Observable<any> {
+    return this.squacApi.get(this.url, null,
+      {
+          metric: this.widget.metricsString,
+          group: this.widget.channelGroup.id,
+          starttime,
+          endtime,
+      }
+    ).pipe(
+      map(response => {
+        let count = 0;
+          // FIXME: no data handling
+        response.forEach(m => {
+          count++;
+          this.localData[m.channel][m.metric].push(
+            new Measurement(
+              m.id,
+              m.user_id,
+              m.metric,
+              m.channel,
+              m.value,
+              m.starttime,
+              m.endtime
+            )
+          );
+        });
+        return this.data;
+      })
+    );
   }
 }

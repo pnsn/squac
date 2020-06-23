@@ -34,31 +34,57 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
     private dialog: MatDialog
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.loading = true;
+    const dataSub = this.measurementsService.data.subscribe(
+      data => {
+        console.log(data);
+        if(Object.keys(data).length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        }
+        this.data = data;
+      },
+      error => {
+        console.log('error in widget get data: ' + error);
+        this.error = "Could not load widget";
+      },
+      () => {
+        this.loading = false;
+      }
+    );
+
+    this.measurementsService.setWidget(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(
       dates => {
         console.log('new dates');
         this.data = {};
         this.loading = true;
-        this.getData(dates.start, dates.end);
+        //get new data and start timers over
+        this.getData();
       },
       error => {
         console.log('error in widget detail dates: ' + error);
       }
     );
 
+
     this.subscription.add(datesSub);
+
+    this.subscription.add(dataSub);
     // widget data errors here
   }
 
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
-    this.getData(this.viewService.getStartdate(), this.viewService.getEnddate());
+    this.getData();
   }
 
   ngOnDestroy(): void {
@@ -69,35 +95,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  private getData(start, end) {
+  private getData() {
+    this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
     console.log("get data", this.widget.id)
     // TODO: Currently when page is refreshed or widget added, widgets reload completely
     // Rethink this so so that the new data can be added to widget seamlessly
-    const measurementsService = this.measurementsService.getMeasurements(
-      this.widget,
-      start,
-      end
-    ).subscribe(
-      response => {
-        console.log(response);
-        if(Object.keys(response).length === 0) {
-          this.noData = true;
-        } else {
-          this.noData = false;
-        }
-        this.data = response;
-      },
-      error => {
-        console.log('error in widget get data: ' + error);
-        this.error = "Could not load widget";
-      },
-      () => {
-        console.log("done getting data");
-        this.loading = false;
-      }
-    );
 
-    this.subscription.add(measurementsService);
   }
 
 

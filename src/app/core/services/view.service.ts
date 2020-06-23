@@ -5,10 +5,8 @@ import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Dashboard } from '../../features/dashboards/dashboard';
 import { DashboardsService } from '../../features/dashboards/dashboards.service';
-import { ChannelGroup } from '../models/channel-group';
 import { Widget } from '../models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
-import { MeasurementsService } from '@features/widgets/services/measurements.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +29,6 @@ export class ViewService {
   constructor(
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
-    private measurementService: MeasurementsService
   ) { }
 
   private getWidgetIndexById(id: number): number {
