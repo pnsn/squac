@@ -46,8 +46,10 @@ export class MeasurementsService {
         }
       ).pipe(
         map(response => {
+          let count = 0;
            // FIXME: no data handling
           response.forEach(m => {
+            count++;
             data[m.channel][m.metric].push(
               new Measurement(
                 m.id,
@@ -60,7 +62,7 @@ export class MeasurementsService {
               )
             );
           });
-          return data;
+          return count > 0 ? data : {};
         })
       );
     } else {

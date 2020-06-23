@@ -25,6 +25,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   dialogRef;
   loading: boolean = true;
   error : string;
+  noData: boolean;
   // temp
 
   styles: any;
@@ -78,13 +79,21 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       end
     ).subscribe(
       response => {
+        console.log(response);
+        if(Object.keys(response).length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        }
         this.data = response;
-        this.loading = false;
       },
       error => {
         console.log('error in widget get data: ' + error);
-        this.loading = false;
         this.error = "Could not load widget";
+      },
+      () => {
+        console.log("done getting data");
+        this.loading = false;
       }
     );
 
