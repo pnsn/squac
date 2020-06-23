@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
@@ -15,18 +15,23 @@ interface MeasurementsHttpData {
 }
 
 @Injectable()
-export class MeasurementsService {
+export class MeasurementsService implements OnDestroy{
   private url = 'measurement/measurements/';
   data = new Subject();
   private localData = {};
   private widget;
   private refreshInterval = 1 * 60 * 1000; //5 mintues now, this will be config
   private lastEndDate : Date;
+  private successCount : number = 0; //number of successful requests
   updateTimeout;
+
   constructor(
     private squacApi: SquacApiService
   ) {}
 
+  ngOnDestroy(){
+    clearTimeout(this.updateTimeout);
+  }
   
   setWidget(widget : Widget) {
     this.widget = widget;
@@ -43,17 +48,27 @@ export class MeasurementsService {
   //some sort of timer that gets the data and 
   updateMeasurement(){
     this.updateTimeout = setTimeout(()=>{
+      console.log("timeout");
       this.fetchMeasurements(this.lastEndDate, new Date());
     }, this.refreshInterval);
   }
 
   fetchMeasurements(start: Date, end:Date) : void {
+
     const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
     const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
     if(this.widget && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
         success => {
-          this.data.next(this.localData);
+          //there is new data, update.
+          if(success.length > 0){
+            this.successCount++;
+            this.data.next(this.localData);
+          } else if(this.successCount === 0) {
+            this.data.next({});
+          } else {
+            //do nothing - no new data
+          }
         },
         error => {
           console.log("error in fetch measurements")
@@ -77,10 +92,7 @@ export class MeasurementsService {
       }
     ).pipe(
       map(response => {
-        let count = 0;
-          // FIXME: no data handling
         response.forEach(m => {
-          count++;
           this.localData[m.channel][m.metric].push(
             new Measurement(
               m.id,
@@ -93,7 +105,7 @@ export class MeasurementsService {
             )
           );
         });
-        return this.data;
+        return response;
       })
     );
   }

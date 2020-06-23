@@ -9,8 +9,6 @@ import { Widget } from '@core/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
-import { DataFormatService } from '@features/widgets/services/data-format.service';
-
 @Component({
   selector: 'app-tabular',
   templateUrl: './tabular.component.html',

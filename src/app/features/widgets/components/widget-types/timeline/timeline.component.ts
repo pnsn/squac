@@ -10,7 +10,6 @@ import { Widget } from '@core/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
-import { DataFormatService } from '@features/widgets/services/data-format.service';
 import { Measurement } from '@features/widgets/models/measurement';
 
 @Component({

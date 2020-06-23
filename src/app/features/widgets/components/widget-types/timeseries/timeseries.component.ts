@@ -6,7 +6,6 @@ import { ViewService } from '@core/services/view.service';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Widget } from '@core/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
-import { DataFormatService } from '@features/widgets/services/data-format.service';
 import { Measurement } from '@features/widgets/models/measurement';
 
 @Component({

@@ -1,12 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Widget } from '../../../../core/models/widget';
-import { ChannelGroup } from '@core/models/channel-group';
 import { Subject, Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WidgetsService } from '../../services/widgets.service';
 import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';
-import { DataFormatService } from '../../services/data-format.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 
@@ -49,12 +45,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           this.noData = false;
         }
         this.data = data;
-      },
-      error => {
-        console.log('error in widget get data: ' + error);
-        this.error = "Could not load widget";
-      },
-      () => {
         this.loading = false;
       }
     );
