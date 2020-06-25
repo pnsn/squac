@@ -19,8 +19,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   dialogRef;
-  loading: boolean = true;
-  error : string;
+  loading = true;
+  error: string;
   noData: boolean;
   // temp
 
@@ -39,7 +39,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const dataSub = this.measurementsService.data.subscribe(
       data => {
         console.log(data);
-        if(Object.keys(data).length === 0) {
+        if (Object.keys(data).length === 0) {
           this.noData = true;
         } else {
           this.noData = false;
@@ -56,7 +56,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('new dates');
         this.data = {};
         this.loading = true;
-        //get new data and start timers over
+        // get new data and start timers over
         this.getData();
       },
       error => {
@@ -72,8 +72,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
     this.getData();
   }
 
@@ -87,7 +87,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getData() {
     this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
-    console.log("get data", this.widget.id)
+    console.log('get data', this.widget.id);
     // TODO: Currently when page is refreshed or widget added, widgets reload completely
     // Rethink this so so that the new data can be added to widget seamlessly
 

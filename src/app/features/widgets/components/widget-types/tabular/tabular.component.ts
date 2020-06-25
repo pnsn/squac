@@ -49,7 +49,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     private measurement: MeasurementPipe,
     private viewService: ViewService
   ) { }
-    
+
   ngOnInit() {
 
     this.metrics = this.widget.metrics;
@@ -60,7 +60,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     }
 
     this.buildRows(this.data);
-    this.viewService.status.next("finished");
+    this.viewService.status.next('finished');
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {

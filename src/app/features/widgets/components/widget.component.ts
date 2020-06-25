@@ -80,7 +80,7 @@ itemChange(item) {
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         console.log('updated widgets');
-        //TODO; some logic for checking if changed
+        // TODO; some logic for checking if changed
         this.widgets = [];
         if (widgets.length > 0) {
           widgets.forEach(widget => {
@@ -93,7 +93,7 @@ itemChange(item) {
             });
           });
         }
-        console.log(this.widgets)
+        console.log(this.widgets);
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard

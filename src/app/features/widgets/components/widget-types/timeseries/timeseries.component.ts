@@ -46,8 +46,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-    this.buildChartData(this.data);
-    this.viewService.status.next("finished");
+    if (this.currentMetric) {
+      this.buildChartData(this.data);
+    }
+    this.viewService.status.next('finished');
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {
@@ -69,8 +71,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   buildChartData(data) {
     this.hasData = false;
     this.results = [];
-
-    this.yAxisLabel = this.currentMetric.name;
+    this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
     this.channels.forEach(
       channel => {
         const channelObj = {

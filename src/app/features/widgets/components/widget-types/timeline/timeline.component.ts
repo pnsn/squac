@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { Subscription } from 'rxjs';
@@ -18,17 +18,17 @@ import { Measurement } from '@features/widgets/models/measurement';
   styleUrls: ['./timeline.component.scss'],
   providers: [MeasurementPipe]
 })
-export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() widget: Widget;
   @Input() data;
 
   metrics: Metric[];
   thresholds: {[metricId: number]: Threshold};
   channelGroup: ChannelGroup;
-  chart;
+
   channels: Channel[];
   @ViewChild('timeline', {read: ElementRef}) timelineDiv: ElementRef;
-
+  chart;
   subscription = new Subscription();
   ColumnMode = ColumnMode;
   SortType = SortType;
@@ -47,11 +47,12 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     private viewService: ViewService,
     private measurement: MeasurementPipe
   ) {
+    this.chart = TimelinesChart();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.chart = TimelinesChart();
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // this.chart = TimelinesChart();
+    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
@@ -61,8 +62,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.startdate = this.viewService.getStartdate();
     this.enddate = this.viewService.getEnddate();
-    console.log(changes)
-    if(this.data) {
+    console.log(changes);
+    if (this.data) {
       this.buildRows(this.data);
     }
   }
@@ -72,11 +73,13 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
+    if (this.chart) {
+      this.chart.leftMargin(65);
+      this.chart.rightMargin(55);
+    }
 
-    this.chart.leftMargin(65);
-    this.chart.rightMargin(55); 
 
-    this.viewService.status.next("finished");
+    this.viewService.status.next('finished');
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
@@ -179,7 +182,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resize();
   }
 
-  handleThresholds(threshold, defaultMax, defaultMin, dataMax, dataMin){
+  handleThresholds(threshold, defaultMax, defaultMin, dataMax, dataMin) {
     if ( threshold ) {
       this.domainMin = threshold.min;
       this.domainMax = threshold.max;
@@ -201,15 +204,15 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
       .domain([this.domainMin, this.domainMax + 0.0000001])
       .range([this.outOfThresholdColor, this.inThresholdColor, this.outOfThresholdColor]);
 
-      return colorScale;
-  };
+    return colorScale;
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {
-    this.chart(this.timelineDiv.nativeElement)
+    this.chart(this.timelineDiv.nativeElement);
     this.resize();
 
   }

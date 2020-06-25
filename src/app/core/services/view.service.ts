@@ -58,7 +58,7 @@ export class ViewService {
       start,
       end
     });
-    this.status.next("loading");
+    this.status.next('loading');
   }
 
 

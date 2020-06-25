@@ -15,25 +15,25 @@ interface MeasurementsHttpData {
 }
 
 @Injectable()
-export class MeasurementsService implements OnDestroy{
+export class MeasurementsService implements OnDestroy {
   private url = 'measurement/measurements/';
   data = new Subject();
   private localData = {};
   private widget;
-  private refreshInterval = 5 * 60 * 1000; //5 mintues now, this will be config
-  private lastEndDate : Date;
-  private successCount : number = 0; //number of successful requests
+  private refreshInterval = 5 * 60 * 1000; // 5 mintues now, this will be config
+  private lastEndDate: Date;
+  private successCount = 0; // number of successful requests
   updateTimeout;
 
   constructor(
     private squacApi: SquacApiService
   ) {}
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     clearTimeout(this.updateTimeout);
   }
-  
-  setWidget(widget : Widget) {
+
+  setWidget(widget: Widget) {
     this.widget = widget;
     if (widget && widget.metrics.length > 0) {
       widget.channelGroup.channels.forEach(channel => {
@@ -45,38 +45,38 @@ export class MeasurementsService implements OnDestroy{
     }
   }
 
-  //some sort of timer that gets the data and 
-  updateMeasurement(){
-    this.updateTimeout = setTimeout(()=>{
-      console.log("timeout");
+  // some sort of timer that gets the data and
+  updateMeasurement() {
+    this.updateTimeout = setTimeout(() => {
+      console.log('timeout');
       this.fetchMeasurements(this.lastEndDate, new Date());
     }, this.refreshInterval);
   }
 
-  fetchMeasurements(start: Date, end:Date) : void {
+  fetchMeasurements(start: Date, end: Date): void {
 
     const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
     const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
-    if(this.widget && this.widget.metrics.length > 0) {
+    if (this.widget && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
         success => {
-          //there is new data, update.
-          if(success.length > 0){
+          // there is new data, update.
+          if (success.length > 0) {
             this.successCount++;
             this.data.next(this.localData);
-          } else if(this.successCount === 0) {
+          } else if (this.successCount === 0) {
             this.data.next({});
           } else {
-            //do nothing - no new data
+            // do nothing - no new data
           }
         },
         error => {
-          console.log("error in fetch measurements")
+          console.log('error in fetch measurements');
         },
-        () =>{
+        () => {
           this.lastEndDate = end;
           this.updateMeasurement();
-          console.log("completed get data for " + this.widget.id);
+          console.log('completed get data for ' + this.widget.id);
         }
       );
     }

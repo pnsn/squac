@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimeseriesComponent } from './timeseries.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DataFormatService } from '@features/widgets/services/data-format.service';
 import { of } from 'rxjs';
 import { Widget } from '@core/models/widget';
+import { Metric } from '@core/models/metric';
 
 describe('TimeseriesComponent', () => {
   let component: TimeseriesComponent;
@@ -15,16 +15,7 @@ describe('TimeseriesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeseriesComponent],
-      imports: [NgxChartsModule, HttpClientTestingModule],
-      providers: [
-        {
-          provide: DataFormatService,
-          useValue: {
-            formattedData: of()
-          }
-        }
-
-      ]
+      imports: [NgxChartsModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -33,6 +24,7 @@ describe('TimeseriesComponent', () => {
     fixture = TestBed.createComponent(TimeseriesComponent);
     component = fixture.componentInstance;
     component.widget = new Widget(1, 2, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
+    component.data = {};
     fixture.detectChanges();
     fixture.detectChanges();
   });

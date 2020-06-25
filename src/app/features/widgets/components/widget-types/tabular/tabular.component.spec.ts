@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TabularComponent } from './tabular.component';
-import { MeasurementPipe } from '../../../../pipes/measurement.pipe';
+import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DataFormatService } from '@features/widgets/services/data-format.service';
 import { Widget } from '@core/models/widget';
 
 describe('TabularComponent', () => {
@@ -15,16 +14,7 @@ describe('TabularComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TabularComponent , MeasurementPipe],
-      imports: [NgxDatatableModule, HttpClientTestingModule],
-      providers: [
-        {
-          provide: DataFormatService,
-          useValue: {
-            formattedData: of()
-          }
-        }
-
-      ]
+      imports: [NgxDatatableModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -34,6 +24,8 @@ describe('TabularComponent', () => {
     component = fixture.componentInstance;
     component.columns = [];
     component.rows = [];
+    component.data = {};
+    component.channels = [];
     component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
   });

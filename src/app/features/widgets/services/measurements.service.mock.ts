@@ -1,5 +1,5 @@
-import { Widget } from '../../../core/models/widget';
-import { Observable, of } from 'rxjs';
+import { Widget } from '@core/models/widget';
+import { Observable, of, Subject } from 'rxjs';
 import { Measurement } from '../models/measurement';
 
 
@@ -14,13 +14,19 @@ export class MockMeasurementsService {
     new Date ()
   );
 
-  getMeasurements(widget: Widget, start: Date, end: Date ): Observable<any> {
-    return of(
+  data = new Subject();
+
+  setWidget(widget: Widget) {
+    return;
+  }
+
+  fetchMeasurements(start: Date, end: Date) {
+    this.data.next(
       { 1 :
-       {
-        1 : [this.testMeasurement]
-      }
-      }
+        {
+         1 : [this.testMeasurement]
+        }
+       }
     );
   }
 
