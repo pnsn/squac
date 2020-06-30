@@ -2,10 +2,13 @@
 @import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
+@import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
 @import '~leaflet/dist/leaflet.css';
 @import '~leaflet-draw/dist/leaflet.draw.css';
 
 /* You can add global styles to this file, and also import other style files */
+
+@include date-range-picker-theme($squac-ui-theme);
 
 * {
   margin: 0;

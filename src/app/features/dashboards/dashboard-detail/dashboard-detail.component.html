@@ -26,7 +26,15 @@
                 </mat-option>
               </mat-select>
           </mat-form-field>
-
+          <mat-form-field id="date-range">
+            <input matInput ngxDaterangepickerMd
+            type="text"
+            [(ngModel)]="selected"
+            [startDate]="selected?.startDate"
+            [endDate]="selected?.endDate"
+            (ngModelChange)="chosenDate($event)"
+            />
+          </mat-form-field>
           <!-- if they have permission, otherwise show copy only -->
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="addWidget()" >Add Widget</button> 

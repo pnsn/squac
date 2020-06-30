@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
-
+import * as moment from 'moment'; 
 
 @Component({
   selector: 'app-dashboard-detail',
@@ -45,6 +45,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   selectedDateRange; // Default date range
   error: string = null;
   unsaved: boolean;
+  selected = {
+    startDate: moment('2015-11-18T00:00Z'),
+    endDate: moment('2015-11-26T00:00Z'),
+};
+
 
   constructor(
     private route: ActivatedRoute,
@@ -106,6 +111,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   // ngOnDestroy(): void {
   //   this.subscription.unsubscribe();
   // }
+
+  chosenDate(chosenDate: { chosenLabel: string; startDate: moment.Moment; endDate: moment.Moment }): void {
+    console.log(chosenDate);
+}
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
