@@ -5,7 +5,7 @@ export class Dashboard {
   public widgets: Widget[];
   public starttime: Date;
   public endtime: Date;
-  public window_seconds;
+  public window_seconds: number;
 
   constructor(
     public id: number,
