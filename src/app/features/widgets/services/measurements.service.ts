@@ -50,7 +50,7 @@ export class MeasurementsService implements OnDestroy {
   updateMeasurement() {
     this.updateTimeout = setTimeout(() => {
       console.log('timeout');
-      this.fetchMeasurements(this.lastEndString, moment().utc().format('yyyy-MM-ddTHH:mm:ssZ'));
+      this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
     }, this.refreshInterval);
   }
 
@@ -58,6 +58,7 @@ export class MeasurementsService implements OnDestroy {
     // const startString = start.format('yyyy-MM-ddTHH:mm:ssZ');
     // const endString = end.format('yyyy-MM-ddTHH:mm:ssZ');
     if (this.widget && this.widget.metrics.length > 0) {
+      console.log(startString, endString)
       this.getMeasurements(startString, endString).subscribe(
         success => {
           // there is new data, update.

@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
 import * as moment from 'moment'; 
 
+// 
 @Component({
   selector: 'app-dashboard-detail',
   templateUrl: './dashboard-detail.component.html',
@@ -27,21 +28,21 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   };
 
   locale = {
-    format: 'MM/DD/YYYY', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+    format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
     displayFormat: 'YYYY/MM/DD', // default is format value
     direction: 'ltr', // could be rtl
 }
 
 
   ranges: any = {
-    'last 15 minutes': [moment().subtract(15, 'minutes'), moment()],
-    'last 30 minutes': [moment().subtract(30, 'minutes'), moment()],
-    'last 1 hour': [moment().subtract(1, 'hour'), moment()],
-    'last 12 hours': [moment().subtract(12, 'hours'), moment()],
-    'last 24 hours': [moment().subtract(24, 'hours'), moment()],
-    'last 7 days': [moment().subtract(7, 'days'), moment()],
-    'last 14 days': [moment().subtract(14, 'days'), moment()],
-    'last 30 days': [moment().subtract(30, 'days'), moment()]
+    'last 15 minutes': [moment().utc().subtract(15, 'minutes'), moment().utc()],
+    'last 30 minutes': [moment().utc().subtract(30, 'minutes'), moment().utc()],
+    'last 1 hour': [moment().utc().subtract(1, 'hour'), moment().utc()],
+    'last 12 hours': [moment().utc().subtract(12, 'hours'), moment().utc()],
+    'last 24 hours': [moment().utc().subtract(24, 'hours'), moment().utc()],
+    'last 7 days': [moment().utc().subtract(7, 'days'), moment().utc()],
+    'last 14 days': [moment().utc().subtract(14, 'days'), moment().utc()],
+    'last 30 days': [moment().utc().subtract(30, 'days'), moment().utc()]
 };
 
 //lookup by seconds to get range key
@@ -57,12 +58,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     //if no dates, default to last 1 hour for quick loading
     const dashSub = this.viewService.currentDashboard.subscribe(
       (dashboard: Dashboard) => {
-
-        if(dashboard) {
+        this.dashboard = dashboard;
+        if(this.dashboard) {
+          console.log(dashboard)
           this.error = null;
-          this.dashboard = dashboard;
+
+          console.log(dashboard.starttime)
           this.setInitialDates();
-        }
+        } 
         //set dashboard dates
         //should have dates strings at this point, if not default to something
       },
@@ -120,7 +123,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if(this.dashboard.timeRange) {
       //set default dates
     } else if(this.dashboard.starttime && this.dashboard.endtime){
-      console.log("has dates")
+      console.log("has dates", this.dashboard.starttime)
       this.selected = {
         startDate: moment(this.dashboard.starttime).utc(),
         endDate: moment(this.dashboard.endtime).utc()
@@ -129,9 +132,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       //default dates
       console.log("no dates")
       this.selected = {
-        startDate: moment().utc(),
-        endDate: moment().utc()
+        startDate: this.ranges['last 1 hour'][0],
+        endDate: this.ranges['last 1 hour'][1]
       };
+
     }
   }
 
@@ -140,6 +144,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   chosenDate(chosenDate: { chosenLabel: string; startDate: moment.Moment; endDate: moment.Moment }): void {
+    console.log("chosen date")
     if(chosenDate && chosenDate.startDate && chosenDate.endDate) {
       this.selectDateRange(chosenDate.startDate, chosenDate.endDate);
     }
@@ -150,12 +155,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   selectDateRange(startDate: moment.Moment, endDate:moment.Moment) {
-    this.dashboard.starttime = startDate.format('yyyy-MM-ddTHH:mm:ssZ');
-    this.dashboard.endtime = endDate.format('yyyy-MM-ddTHH:mm:ssZ');
+    this.dashboard.starttime = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    this.dashboard.endtime = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.viewService.datesChanged(
       this.dashboard.starttime,
       this.dashboard.endtime
     );
+    //only if able to
+    this.saveDashboard();
   }
 
   deleteDashboard() {

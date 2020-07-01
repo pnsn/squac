@@ -121,6 +121,12 @@ export class DashboardsService {
       squacData.is_public,
       squacData.widgets
     );
+    if(squacData.window_seconds) {
+      dashboard.timeRange = squacData.window_seconds;
+    } else {
+      dashboard.starttime = squacData.starttime;
+      dashboard.endtime = squacData.endtime;
+    }
     this.updateLocalDashboards(dashboard.id, dashboard);
     return dashboard;
   }

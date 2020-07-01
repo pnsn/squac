@@ -58,7 +58,8 @@ export class ViewService {
       start,
       end
     });
-    this.status.next('loading');
+    //this is setting status to loading when it shouldn't
+    // this.status.next('loading');
   }
 
 
@@ -73,9 +74,18 @@ export class ViewService {
     this.updateDashboard(null);
 
     this.dashboardService.getDashboard(id).subscribe(
-      dashboard => {
-        this.updateDashboard(dashboard);
-        this.getWidgets(dashboard.id);
+      (dashboard : Dashboard) => {
+        this.dashboard = dashboard;
+        // this.updateDashboard(dashboard);
+        if (dashboard.widgetIds.length > 0) {
+          console.log("get widgets")
+          this.getWidgets(dashboard.id);
+        } else {
+          console.log("no widgets")
+          this.status.next('finished');
+          this.updateDashboard(this.dashboard);
+        }
+
       },
       error => {
         this.updateDashboard(null);
@@ -107,6 +117,7 @@ export class ViewService {
   }
 
   getWidgets(dashboardId) {
+
     this.status.next('loading');
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
@@ -123,6 +134,7 @@ export class ViewService {
   }
 
   updateWidget(widgetId) {
+    console.log("get widgets")
     this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
