@@ -35,8 +35,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
   rows = [];
   columns = [];
   currentMetric: Metric;
-  enddate: Date;
-  startdate: Date;
+  // enddate: Date;
+  // startdate: Date;
   loading = true;
   domainMin: number;
   domainMax: number;
@@ -60,8 +60,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-    this.startdate = this.viewService.getStartdate();
-    this.enddate = this.viewService.getEnddate();
+    // this.startdate = this.viewService.getStartdate();
+    // this.enddate = this.viewService.getEnddate();
     console.log(changes);
     if (this.data) {
       this.buildRows(this.data);

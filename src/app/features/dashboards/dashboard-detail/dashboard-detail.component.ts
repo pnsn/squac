@@ -19,37 +19,32 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   status;
 
-  // todo: make a date select
-  dateRanges = [
-    {
-      name: 'last 30 minutes',
-      value: 0.5
-    },
-    {
-      name: 'last hour',
-      value: 1
-    },
-    {
-      name: 'last 24 hours ',
-      value: 24
-    },
-    {
-      name: 'last week',
-      value: 24 * 7
-    },
-    {
-      name: 'last 2 weeks',
-      value: 168 * 2
-    }
-  ];
-  selectedDateRange; // Default date range
   error: string = null;
   unsaved: boolean;
-  selected = {
-    startDate: moment('2015-11-18T00:00Z'),
-    endDate: moment('2015-11-26T00:00Z'),
+  selected : {
+    startDate,
+    endDate
+  };
+
+  locale = {
+    format: 'MM/DD/YYYY', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+    displayFormat: 'YYYY/MM/DD', // default is format value
+    direction: 'ltr', // could be rtl
+}
+
+
+  ranges: any = {
+    'last 15 minutes': [moment().subtract(15, 'minutes'), moment()],
+    'last 30 minutes': [moment().subtract(30, 'minutes'), moment()],
+    'last 1 hour': [moment().subtract(1, 'hour'), moment()],
+    'last 12 hours': [moment().subtract(12, 'hours'), moment()],
+    'last 24 hours': [moment().subtract(24, 'hours'), moment()],
+    'last 7 days': [moment().subtract(7, 'days'), moment()],
+    'last 14 days': [moment().subtract(14, 'days'), moment()],
+    'last 30 days': [moment().subtract(30, 'days'), moment()]
 };
 
+//lookup by seconds to get range key
 
   constructor(
     private route: ActivatedRoute,
@@ -59,11 +54,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+    //if no dates, default to last 1 hour for quick loading
     const dashSub = this.viewService.currentDashboard.subscribe(
       (dashboard: Dashboard) => {
-        this.error = null;
-        this.dashboard = dashboard;
+
+        if(dashboard) {
+          this.error = null;
+          this.dashboard = dashboard;
+          this.setInitialDates();
+        }
+        //set dashboard dates
+        //should have dates strings at this point, if not default to something
       },
       error => {
         this.error = 'Could not load dashboard.';
@@ -75,8 +76,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.error = null;
-        this.selectedDateRange = this.dateRanges[1];
-        this.viewService.dashboardSelected(this.id, this.calcDateRange(this.selectedDateRange.value), new Date());
+        this.viewService.dashboardSelected(this.id);
         console.log('new dashboard ' + this.id);
       },
       error => {
@@ -110,30 +110,57 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // ngOnDestroy(): void {
   //   this.subscription.unsubscribe();
-  // }
+  // }\
+
+  rangeSelected(event){
+    console.log("range", event)
+  }
+
+  setInitialDates() {
+    if(this.dashboard.timeRange) {
+      //set default dates
+    } else if(this.dashboard.starttime && this.dashboard.endtime){
+      console.log("has dates")
+      this.selected = {
+        startDate: moment(this.dashboard.starttime).utc(),
+        endDate: moment(this.dashboard.endtime).utc()
+      };
+    } else {
+      //default dates
+      console.log("no dates")
+      this.selected = {
+        startDate: moment().utc(),
+        endDate: moment().utc()
+      };
+    }
+  }
+
+  datesChanged(dates) {
+    console.log("changed", dates)
+  }
 
   chosenDate(chosenDate: { chosenLabel: string; startDate: moment.Moment; endDate: moment.Moment }): void {
-    console.log(chosenDate);
-}
+    if(chosenDate && chosenDate.startDate && chosenDate.endDate) {
+      this.selectDateRange(chosenDate.startDate, chosenDate.endDate);
+    }
+  }
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  selectDateRange(event) {
+  selectDateRange(startDate: moment.Moment, endDate:moment.Moment) {
+    this.dashboard.starttime = startDate.format('yyyy-MM-ddTHH:mm:ssZ');
+    this.dashboard.endtime = endDate.format('yyyy-MM-ddTHH:mm:ssZ');
     this.viewService.datesChanged(
-      this.calcDateRange(event.value.value),
-      new Date()
+      this.dashboard.starttime,
+      this.dashboard.endtime
     );
   }
 
   deleteDashboard() {
     this.viewService.deleteDashboard(this.dashboard);
     this.router.navigate(['/dashboards']);
-  }
-
-  calcDateRange(hours) {
-    return new Date(new Date().getTime() - (hours * 60 * 60 * 1000));
   }
 
   refreshData() {
@@ -145,14 +172,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.viewService.saveDashboard(this.dashboard);
   }
 
-
   ngOnDestroy() {
     if (this.dialogRef) {
       this.dialogRef.close();
     }
     this.subscription.unsubscribe();
   }
-
 
   addWidget() {
     // this.router.navigate(['widget', 'new'], {relativeTo: this.route});

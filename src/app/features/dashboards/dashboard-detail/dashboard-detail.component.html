@@ -15,23 +15,18 @@
               <mat-icon >refresh</mat-icon>  
           </button>
           <mat-form-field id="date-range">
-              <mat-select 
-                [(value)]="selectedDateRange"
-                (selectionChange)="selectDateRange($event)"
-                >
-                <mat-option *ngFor="let range of dateRanges"
-                  [value]="range"
-                >
-                  {{range.name}}
-                </mat-option>
-              </mat-select>
-          </mat-form-field>
-          <mat-form-field id="date-range">
             <input matInput ngxDaterangepickerMd
             type="text"
+            [locale]="locale"
+            showCancel="true"
             [(ngModel)]="selected"
             [startDate]="selected?.startDate"
             [endDate]="selected?.endDate"
+            [ranges]="ranges"
+            alwaysShowCalendars="true"
+            showRangeLabelOnInput="true"
+            (rangeClicked)="rangeSelected($event)"
+            (datesUpdated)="datesChanged($event)"
             (ngModelChange)="chosenDate($event)"
             />
           </mat-form-field>

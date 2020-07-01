@@ -7,6 +7,7 @@ import { Dashboard } from '../../features/dashboards/dashboard';
 import { DashboardsService } from '../../features/dashboards/dashboards.service';
 import { Widget } from '../models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,11 @@ import { WidgetsService } from '@features/widgets/services/widgets.service';
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new BehaviorSubject<Widget[]>([]);
-  dates = new Subject<{start: Date, end: Date}>();
+  dates = new Subject<{start: string, end: string}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
   error = new Subject<string>();
-  private startdate: Date;
-  private enddate: Date;
+
   // refresh = new Subject<number>();
 
   private widgets: Widget[] = [];
@@ -40,20 +40,20 @@ export class ViewService {
   }
 
   getStartdate() {
-    return this.startdate;
+    return this.dashboard.starttime;
   }
 
   getEnddate() {
-    return this.enddate;
+    return this.dashboard.endtime;
   }
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
   }
 
-  datesChanged(start: Date, end: Date) {
-    this.startdate = start;
-    this.enddate = end;
+  datesChanged(start: string, end: string) {
+    this.dashboard.starttime = start;
+    this.dashboard.endtime = end;
     this.dates.next({
       start,
       end
@@ -63,12 +63,10 @@ export class ViewService {
 
 
   // TODO: clear up some redundancy
-  dashboardSelected(id, start, end) {
+  dashboardSelected(id) {
     console.log('dashboard selected');
-    this.startdate = start;
-    this.enddate = end;
     this.status.next('loading');
-
+    //set dates
     this.widgets = [];
     this.updateCurrentWidgets();
 
