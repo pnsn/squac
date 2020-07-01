@@ -64,8 +64,9 @@ h3 {
 }
 
 #save-cancel-cg {
-  margin-left: 80%;
-  margin-bottom: 15px;
+  margin: 10px 5%;
+  display: flex;
+  justify-content: flex-end;
 
   button {
     margin-left: 15px;
@@ -121,14 +122,10 @@ p.help-text {
       }
     }
   }
-
-  #save-cancel-cg {
-    margin-left: 40%;
-  }
 }
 
 // Medium screens
-@media (min-width: 1100px) and (max-width: 1400px) {
+@media (min-width: 1101px) and (max-width: 1400px) {
   #edit-container{
     width: 90vw;
     height: 800px;
@@ -193,14 +190,10 @@ p.help-text {
       }
     }
   }
-
-  #save-cancel-cg {
-    margin-left: 70%;
-  }
 }
 
 // Large screens
-@media (min-width: 1400px) {
+@media (min-width: 1401px) {
   #edit-container{
     display: grid;
     grid-template-columns: 31vw 24vw 35vw;

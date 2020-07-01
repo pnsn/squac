@@ -128,4 +128,8 @@ export class ChannelGroupsService {
     }
   }
 
+  // Deletes a channel group
+  deleteChannelGroup(id: number) {
+    return this.squacApi.delete(this.url, id);
+  }
 }
