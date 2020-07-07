@@ -51,6 +51,7 @@ export class MeasurementsService implements OnDestroy {
   // some sort of timer that gets the data and
   updateMeasurement() {
     if(this.viewService.isLive()) {
+      console.log("load")
       this.updateTimeout = setTimeout(() => {
         console.log('timeout');
         this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
@@ -59,11 +60,7 @@ export class MeasurementsService implements OnDestroy {
   }
   //TODO: needs to truncate old measurement
   fetchMeasurements(startString: string, endString: string): void {
-    console.log(startString, endString)
-    // const startString = start.format('yyyy-MM-ddTHH:mm:ssZ');
-    // const endString = end.format('yyyy-MM-ddTHH:mm:ssZ');
     if (this.widget && this.widget.metrics.length > 0) {
-      console.log(startString, endString)
       this.getMeasurements(startString, endString).subscribe(
         success => {
           // there is new data, update.
