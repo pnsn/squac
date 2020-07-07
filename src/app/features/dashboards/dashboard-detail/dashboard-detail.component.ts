@@ -33,7 +33,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   startDate: moment.Moment;
   //settings for date select
   locale = {
-    format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+    format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]',
     displayFormat: 'YYYY/MM/DD HH:mm', // default is format value
     direction: 'ltr', // could be rtl
   }
@@ -180,11 +180,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   //FIXME: too much redundancy with view service
   selectDateRange(startDate: moment.Moment, endDate:moment.Moment, range? : number) {
-    const starttime = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
-    const endtime = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.viewService.datesChanged(
-      starttime,
-      endtime,
+      startDate,
+      endDate,
       this.liveMode,
       range
     );

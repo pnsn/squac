@@ -21,7 +21,6 @@ export class ViewService {
   error = new Subject<string>();
   private live : boolean;
   // refresh = new Subject<number>();
-
   private widgets: Widget[] = [];
   private dashboard: Dashboard;
   // handle refreshing
@@ -59,18 +58,15 @@ export class ViewService {
     this.resize.next(widgetId);
   }
 
-  datesChanged(start: string, end: string, live: boolean, range?: number) {
+  datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number) {
+    const start = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    const end = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.live = live;
-    if(range) {
-      this.dashboard.timeRange = range;
-      this.dashboard.starttime = null;
-      this.dashboard.endtime = null;
-    } else {
-      this.dashboard.timeRange = null;
-      this.dashboard.starttime = start;
-      this.dashboard.endtime = end;
-    }
-    console.log(start, end, "dates")
+
+    this.dashboard.timeRange = range;
+    this.dashboard.starttime = start;
+    this.dashboard.endtime = end;
+  
     this.dates.next({
       start,
       end,
