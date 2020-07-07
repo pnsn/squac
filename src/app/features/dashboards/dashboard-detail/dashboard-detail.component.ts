@@ -26,10 +26,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     startDate,
     endDate
   };
-
+  selectedRange : string;
   locale = {
     format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
-    displayFormat: 'YYYY/MM/DD', // default is format value
+    displayFormat: 'YYYY/MM/DD HH:mm', // default is format value
     direction: 'ltr', // could be rtl
 }
 
@@ -55,6 +55,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    const currentTime = moment.utc();
+    console.log("current", currentTime)
     //if no dates, default to last 1 hour for quick loading
     const dashSub = this.viewService.currentDashboard.subscribe(
       (dashboard: Dashboard) => {
@@ -115,12 +117,22 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   //   this.subscription.unsubscribe();
   // }\
 
+  lookupRange(startDate: moment.Moment, endDate: moment.Moment) {
+    console.log(endDate === this.ranges['last 15 minutes'][1], this.ranges['last 15 minutes'][1])
+    return "";
+  }
+
   rangeSelected(event){
-    console.log("range", event)
+    this.selectedRange = event.label;
+    console.log("range", event.label)
   }
 
   setInitialDates() {
     if(this.dashboard.timeRange) {
+      this.selected = {
+        startDate: moment().utc().subtract(this.dashboard.timeRange, "seconds"),
+        endDate: moment().utc()
+      }
       //set default dates
     } else if(this.dashboard.starttime && this.dashboard.endtime){
       console.log("has dates", this.dashboard.starttime)
@@ -143,8 +155,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     console.log("changed", dates)
   }
 
-  chosenDate(chosenDate: { chosenLabel: string; startDate: moment.Moment; endDate: moment.Moment }): void {
+  chosenDate(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
     console.log("chosen date")
+    this.selectedRange = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
     if(chosenDate && chosenDate.startDate && chosenDate.endDate) {
       this.selectDateRange(chosenDate.startDate, chosenDate.endDate);
     }

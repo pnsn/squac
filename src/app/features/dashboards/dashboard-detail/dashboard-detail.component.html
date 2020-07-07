@@ -14,6 +14,7 @@
           <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
+          {{selectedRange}}
           <mat-form-field id="date-range">
             <input matInput ngxDaterangepickerMd
             type="text"
@@ -22,6 +23,8 @@
             [(ngModel)]="selected"
             [startDate]="selected?.startDate"
             [endDate]="selected?.endDate"
+            [timePicker]="true"
+            [timePicker24Hour]="true"
             [ranges]="ranges"
             [showCustomRangeLabel]="true"
             alwaysShowCalendars="true"

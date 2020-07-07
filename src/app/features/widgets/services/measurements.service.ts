@@ -6,6 +6,7 @@ import { Widget } from '../../../core/models/widget';
 import { formatDate } from '@angular/common';
 import { SquacApiService } from '@core/services/squacapi.service';
 import * as moment from 'moment';
+import { ViewService } from '@core/services/view.service';
 
 interface MeasurementsHttpData {
   name: string;
@@ -27,7 +28,8 @@ export class MeasurementsService implements OnDestroy {
   updateTimeout;
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private viewService: ViewService
   ) {}
 
   ngOnDestroy() {
@@ -54,7 +56,9 @@ export class MeasurementsService implements OnDestroy {
     }, this.refreshInterval);
   }
 
-  fetchMeasurements(startString: string, endString: string): void {
+  fetchMeasurements(): void {
+    const startString = this.viewService.getStartdate();
+    const endString = this.viewService.getEnddate();
     // const startString = start.format('yyyy-MM-ddTHH:mm:ssZ');
     // const endString = end.format('yyyy-MM-ddTHH:mm:ssZ');
     if (this.widget && this.widget.metrics.length > 0) {
