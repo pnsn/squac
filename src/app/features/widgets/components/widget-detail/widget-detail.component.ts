@@ -81,7 +81,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   private getData() {
-    if(this.viewService.getEnddate && this.viewService.getStartdate) {
+    if (this.viewService.getEnddate && this.viewService.getStartdate) {
       this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
       console.log('get data', this.widget.id);
     }

@@ -19,7 +19,7 @@ export class ViewService {
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
   error = new Subject<string>();
-  private live : boolean;
+  private live: boolean;
   // refresh = new Subject<number>();
   private widgets: Widget[] = [];
   private dashboard: Dashboard;
@@ -66,14 +66,14 @@ export class ViewService {
     this.dashboard.timeRange = range;
     this.dashboard.starttime = start;
     this.dashboard.endtime = end;
-  
+
     this.dates.next({
       start,
       end,
-      live, 
+      live,
       range
     });
-    //this is setting status to loading when it shouldn't
+    // this is setting status to loading when it shouldn't
     // this.status.next('loading');
   }
 
@@ -82,21 +82,21 @@ export class ViewService {
   dashboardSelected(id) {
     console.log('dashboard selected');
     this.status.next('loading');
-    //set dates
+    // set dates
     this.widgets = [];
     this.updateCurrentWidgets();
 
     this.updateDashboard(null);
 
     this.dashboardService.getDashboard(id).subscribe(
-      (dashboard : Dashboard) => {
+      (dashboard: Dashboard) => {
         this.dashboard = dashboard;
         // this.updateDashboard(dashboard);
         if (dashboard.widgetIds.length > 0) {
-          console.log("get widgets")
+          console.log('get widgets');
           this.getWidgets(dashboard.id);
         } else {
-          console.log("no widgets")
+          console.log('no widgets');
           this.status.next('finished');
           this.updateDashboard(this.dashboard);
         }
@@ -149,7 +149,7 @@ export class ViewService {
   }
 
   updateWidget(widgetId) {
-    console.log("get widgets")
+    console.log('get widgets');
     this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
@@ -219,7 +219,7 @@ export class ViewService {
   }
 
   saveDashboard() {
-    console.log(this.dashboard)
+    console.log(this.dashboard);
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');

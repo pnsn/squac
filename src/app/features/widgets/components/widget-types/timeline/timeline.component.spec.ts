@@ -27,8 +27,6 @@ describe('TimelineComponent', () => {
     component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
     component.data = {};
-    component.startdate = new Date();
-    component.enddate = new Date();
     fixture.detectChanges();
   });
 

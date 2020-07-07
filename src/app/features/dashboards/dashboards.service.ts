@@ -14,8 +14,8 @@ interface DashboardsHttpData {
   is_public: boolean;
   widgets: any;
   window_seconds?: number;
-  starttime? : string;
-  endtime? : string;
+  starttime?: string;
+  endtime?: string;
   id?: number;
 }
 // should I use index or id
@@ -127,7 +127,7 @@ export class DashboardsService {
       squacData.is_public,
       squacData.widgets
     );
-    if(squacData.window_seconds) {
+    if (squacData.window_seconds) {
       dashboard.timeRange = squacData.window_seconds;
     } else {
       dashboard.starttime = squacData.starttime;

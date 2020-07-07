@@ -50,13 +50,13 @@ export class MeasurementsService implements OnDestroy {
 
   // some sort of timer that gets the data and
   updateMeasurement() {
-    if(this.viewService.isLive()) {
+    if (this.viewService.isLive()) {
       this.updateTimeout = setTimeout(() => {
         this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
       }, this.refreshInterval);
     }
   }
-  //TODO: needs to truncate old measurement
+  // TODO: needs to truncate old measurement
   fetchMeasurements(startString: string, endString: string): void {
     if (this.widget && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
