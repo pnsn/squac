@@ -44,31 +44,31 @@
         <label for="maxVal">Default Max Value</label>
         <input type="number" 
           formControlName="maxVal"
-        class="form-control"/>
+          class="form-control"/>
       </div>
 
-  </div>
-      <div class="btn-container">
-        <button mat-flat-button color="primary"
-          (click)="formUnsaved()"
-        >Cancel</button>
-        <button mat-flat-button color="accent" disabled 
-          type="submit" 
-          [disabled]='!metricForm.valid'
-          *ngIf="'update' | able: 'Metric'"
-        >Save</button>
+    </div>
+    <div class="btn-container">
+      <button mat-flat-button color="primary"
+        (click)="formUnsaved($event)"
+      >Cancel</button>
+      <button mat-flat-button color="accent" disabled 
+        type="submit" 
+        [disabled]='!metricForm.valid'
+        *ngIf="'update' | able: 'Metric'"
+      >Save</button>
     </div>
   </form>
-  <div id="metric-popup" class="popup">
+  <div id="metric-popup" class="popup hidden">
     <div id="metric-popup-box" class="box popup-box">
-      <p>Your new metric will not be saved.<br/>
-      Would you like to continue?</p>
+      <p>Your new metric will not be saved.</p>
+      <p>Would you like to continue?</p>
       <div class="btn-container">
         <button mat-flat-button color="primary" 
           (click)="closePopup()"
         >Cancel</button>
         <button mat-flat-button color="accent"
-        (click)="cancel()"  
+          (click)="cancel()"  
         >Continue</button>
       </div>
     </div>

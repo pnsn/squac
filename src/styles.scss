@@ -113,9 +113,7 @@ p {
 }
 
 /* Popup formatting */
-
 .popup {
-  display: none;
   position: fixed;
   z-index: 15;
   left: 0;
@@ -127,11 +125,19 @@ p {
   background-color: rgba(0,0,0,0.7);
 }
 
+.hidden {
+  display: none;
+}
+
 .popup-box {
   z-index: 16;
   margin: 200px auto;
   width: 450px;
-  height: 150px;
+  padding: 10px;
+
+  p {
+    margin: 5px;
+  }
 }
 
 /* Data Table*/

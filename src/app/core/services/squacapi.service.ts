@@ -47,11 +47,9 @@ export class SquacApiService {
     return this.http.patch<any>(url, data);
   }
 
-
   // for deleting
   delete(path: string, id: number) {
     const url = this.baseUrl + path + (id ? id + '/' : '');
     return this.http.delete<any>(url);
   }
-
 }

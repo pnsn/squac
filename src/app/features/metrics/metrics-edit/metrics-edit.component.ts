@@ -94,7 +94,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       result => {
-        this.cancel(result.id);
+        this.cancel();
       },
       error => {
         console.log('error in metrics edit updat: ' + error);
@@ -104,19 +104,16 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   // Exit page
   // TODO: warn if unsaved
-  cancel(id?: number) {
-    if (id && !this.id) {
-      this.router.navigate(['../../', id], {relativeTo: this.route});
-    } else {
-      this.router.navigate(['../../'], {relativeTo: this.route});
-    }
+  cancel() {
+    this.router.navigate(['../../'], {relativeTo: this.route});
   }
 
   // Check if form has unsaved fields
-  formUnsaved() {
+  formUnsaved(e: Event) {
+    e.preventDefault();
     if (this.metricForm.dirty) {
       const popup = document.getElementById('metric-popup');
-      popup.style.display = 'block';
+      popup.classList.remove('hidden');
     } else {
       this.cancel();
     }
@@ -124,6 +121,6 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   closePopup() {
     const popup = document.getElementById('metric-popup');
-    popup.style.display = 'none';
+    popup.classList.add('hidden');
   }
 }

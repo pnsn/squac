@@ -56,6 +56,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
 
+  // popup stuff
+  popupAction: string;
+
   @ViewChild('availableTable') availableTable: any;
   @ViewChild('selectedTable') selectedTable: any;
 
@@ -71,6 +74,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.isFilterOpen = false;
     this.isMapShowing = window.innerWidth >= 1400;
     this.subscriptions.add(paramsSub);
+    this.popupAction = 'cancel';
   }
 
   // Inits group edit form
@@ -251,6 +255,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
+    values.isPublic = values.isPublic ? true : false;
     const cg = new ChannelGroup(
       this.id,
       null,
@@ -267,6 +272,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Delete channel group
+  delete() {
+    this.channelGroupService.deleteChannelGroup(this.id).subscribe(
+      result => {
+        this.cancel();
+    });
+  }
+
   // Exit page
   // TODO: warn if unsaved
   cancel(id?: number) {
@@ -275,24 +288,45 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     } else if (id) {
       this.router.navigate(['../'], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../'], {relativeTo: this.route});
+      this.router.navigate(['../../'], {relativeTo: this.route});
     }
   }
+
   // Check if form has unsaved fields
   formUnsaved() {
     if (this.channelGroupForm.dirty || this.changeMade) {
-      const popup = document.getElementById('channel-group-popup');
-      popup.style.display = 'block';
+      this.popupAction = 'cancel';
+      this.openPopup();
     } else {
       this.cancel();
     }
   }
 
-  closePopup() {
-    const popup = document.getElementById('channel-group-popup');
-    popup.style.display = 'none';
+  // Give a warning to user that delete will also delete widgets
+  onDelete() {
+    this.popupAction = 'delete';
+    this.openPopup();
   }
 
+  getPopupText() {
+    if (this.popupAction === 'cancel') {
+      return 'Your new channel group will not be saved.';
+    } else {
+      return 'Deleting a channel group also deletes linked widgets.';
+    }
+  }
+
+  openPopup() {
+    const popup = document.getElementById('channel-group-popup');
+    popup.classList.remove('hidden');
+  }
+
+  closePopup() {
+    const popup = document.getElementById('channel-group-popup');
+    popup.classList.add('hidden');
+  }
+
+  // Filter searched channels using the map bounds
   filterBounds() {
     this.availableChannels = this.searchChannels.filter( channel => {
       const latCheck = channel.lat <= this.bounds.lat_max && channel.lat >= this.bounds.lat_min;
@@ -301,6 +335,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Update bounds for filtering channels with map
   updateBounds(newBounds: string) {
     if (newBounds === '') {
       this.availableChannels = [...this.searchChannels];
@@ -322,6 +357,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  // When window is resized check for width
   onResize(event: any) {
     const willMapShow = event.target.innerWidth >= 1400;
     if (!this.isMapShowing && willMapShow) {
