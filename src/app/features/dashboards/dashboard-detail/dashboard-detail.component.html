@@ -14,23 +14,23 @@
           <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
-          {{liveMode ? "live" : "not live" }}
-          {{selectedRange}}
           <mat-form-field id="date-range">
-            <input matInput ngxDaterangepickerMd
-            type="text"
-            [locale]="locale"
-            showCancel="true"
-            [(ngModel)]="selected"
-            [startDate]="selected?.startDate"
-            [endDate]="selected?.endDate"
-            [timePicker]="true"
-            [timePicker24Hour]="true"
-            [ranges]="ranges"
-            [showCustomRangeLabel]="true"
-            alwaysShowCalendars="true"
-            showRangeLabelOnInput="true"
-            (ngModelChange)="chosenDate($event)"
+            <input #datePicker matInput ngxDaterangepickerMd
+              type="text"
+              [locale]="locale"
+              showCancel="true"
+              [maxDate]="maxDate"
+              [(ngModel)]="selected"
+              [value]="selectedRange"
+              [startDate]="selected?.startDate"
+              [endDate]="selected?.endDate"
+              [timePicker]="true"
+              [timePicker24Hour]="true"
+              [ranges]="ranges"
+              [showCustomRangeLabel]="true"
+              alwaysShowCalendars="true"
+              [showRangeLabelOnInput]="true"
+              (ngModelChange)="datesSelected($event)"
             />
           </mat-form-field>
           <!-- if they have permission, otherwise show copy only -->

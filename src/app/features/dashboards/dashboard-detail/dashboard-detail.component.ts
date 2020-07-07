@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Dashboard } from '../dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget
 import * as moment from 'moment'; 
 import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 // 
 @Component({
@@ -16,12 +17,13 @@ import { AppAbility } from '@core/utils/ability';
   styleUrls: ['./dashboard-detail.component.scss']
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
+  @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   id: number;
   dashboard: Dashboard;
   dialogRef;
   subscription: Subscription = new Subscription();
   status;
-
+  maxDate: moment.Moment;
   error: string = null;
   unsaved: boolean;
   selected : {
@@ -42,15 +44,16 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   //annoying way to get date ranges and match squacapi
   //time duration (s) : label
   //TODO: this should be meaningful, not just seconds (i.e. 1 month != 30 days)
+  //Get from squac?
   rangeLookUp = {
-   900000 : 'last 15 minutes',
-   1800000 : 'last 30 minutes',
-   3600000 : 'last 1 hour',
-   43200000 : 'last 12 hours',
-   86400000: 'last 24 hours',
-   604800000 : 'last 7 days',
-   1209600000 : 'last 14 days',
-   2592000000 : 'last 30 days'
+   900 : 'last 15 minutes',
+   1800 : 'last 30 minutes',
+   3600 : 'last 1 hour',
+   43200 : 'last 12 hours',
+   86400: 'last 24 hours',
+   604800 : 'last 7 days',
+   1209600 : 'last 14 days',
+   2592000 : 'last 30 days'
   }
 
   constructor(
@@ -62,7 +65,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+    this.maxDate = moment.utc();
     //if no dates, default to last 1 hour for quick loading
     const dashSub = this.viewService.currentDashboard.subscribe(
       (dashboard: Dashboard) => {
@@ -121,20 +124,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   // }\
 
   lookupRange(startDate: moment.Moment, endDate: moment.Moment) : number | void {
-    if(endDate.isSame(this.startDate)){
+    if(Math.abs(endDate.diff(this.startDate)) < 1000 ){
       this.liveMode = true;
-      const diff = Math.round(endDate.diff(startDate) / 100 ) * 100; //account for ms of weirdness
+      const diff = Math.round(endDate.diff(startDate) / 1000 ); //account for ms of weirdness
       this.selectedRange = this.rangeLookUp[diff];
       return diff;
     } else {
       this.liveMode = false;
-      this.selectedRange = null;
+      this.selectedRange = startDate.format('YYYY/MM/DD HH:mm') + " - " + endDate.format('YYYY/MM/DD HH:mm');
     }
   }
 
-  chosenDate(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
-    console.log("chosen date")
-
+  datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
     if(chosenDate && chosenDate.startDate && chosenDate.endDate) {
       const range = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
       this.selectDateRange(chosenDate.startDate, chosenDate.endDate, range ? range : null );
@@ -143,8 +144,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   setInitialDates() {
     this.startDate = moment.utc();
+    //make date range selector
     for(let range in this.rangeLookUp) {
-      this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(parseInt(range), 'milliseconds'), this.startDate]
+      this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(parseInt(range), 'seconds'), this.startDate]
     }
     if(this.dashboard.timeRange) {
       this.liveMode = true;
@@ -154,7 +156,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       }
       //set default dates
     } else if(this.dashboard.starttime && this.dashboard.endtime){
-      console.log("has dates", this.dashboard.starttime)
       this.liveMode = false;
       this.selected = {
         startDate: moment.utc(this.dashboard.starttime),
@@ -162,23 +163,23 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       };
     } else {
       //default dates
-      console.log("no dates")
       this.liveMode = true;
       this.selected = {
-        startDate: moment.utc().subtract(1, 'hour'),
+        startDate: this.ranges['last 1 hour'][0],
         endDate: this.startDate
       };
-      console.log(this.selected)
     }
   }
 
-
+  openDatePicker(): void {
+    this.datePicker.open();
+  }
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  //FIXME: too much redundancy with view service
+  //currently saves any time dates are changed, may want to move to a save button
   selectDateRange(startDate: moment.Moment, endDate:moment.Moment, range? : number) {
     this.viewService.datesChanged(
       startDate,
@@ -186,7 +187,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.liveMode,
       range
     );
-    //only if able to
+ 
     if(this.ability.can('update', this.dashboard)) {
       this.saveDashboard();
     }
