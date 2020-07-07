@@ -15,11 +15,11 @@ import * as moment from 'moment';
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new BehaviorSubject<Widget[]>([]);
-  dates = new Subject<{start: string, end: string}>();
+  dates = new Subject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
   error = new Subject<string>();
-
+  private live : boolean;
   // refresh = new Subject<number>();
 
   private widgets: Widget[] = [];
@@ -39,6 +39,14 @@ export class ViewService {
     }
   }
 
+  isLive() {
+    return this.live;
+  }
+
+  getRange() {
+    return this.dashboard.timeRange;
+  }
+
   getStartdate() {
     return this.dashboard.starttime;
   }
@@ -51,12 +59,23 @@ export class ViewService {
     this.resize.next(widgetId);
   }
 
-  datesChanged(start: string, end: string) {
-    this.dashboard.starttime = start;
-    this.dashboard.endtime = end;
+  datesChanged(start: string, end: string, live: boolean, range?: number) {
+    this.live = live;
+    if(range) {
+      this.dashboard.timeRange = range;
+      this.dashboard.starttime = null;
+      this.dashboard.endtime = null;
+    } else {
+      this.dashboard.timeRange = null;
+      this.dashboard.starttime = start;
+      this.dashboard.endtime = end;
+    }
+    console.log(start, end, "dates")
     this.dates.next({
       start,
-      end
+      end,
+      live, 
+      range
     });
     //this is setting status to loading when it shouldn't
     // this.status.next('loading');
@@ -203,8 +222,9 @@ export class ViewService {
     );
   }
 
-  saveDashboard(dashboard: Dashboard) {
-    this.dashboardService.updateDashboard(dashboard).subscribe(
+  saveDashboard() {
+    console.log(this.dashboard)
+    this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');
       },

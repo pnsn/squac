@@ -14,6 +14,7 @@
           <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
               <mat-icon >refresh</mat-icon>  
           </button>
+          {{liveMode ? "live" : "not live" }}
           {{selectedRange}}
           <mat-form-field id="date-range">
             <input matInput ngxDaterangepickerMd
@@ -29,8 +30,6 @@
             [showCustomRangeLabel]="true"
             alwaysShowCalendars="true"
             showRangeLabelOnInput="true"
-            (rangeClicked)="rangeSelected($event)"
-            (datesUpdated)="datesChanged($event)"
             (ngModelChange)="chosenDate($event)"
             />
           </mat-form-field>

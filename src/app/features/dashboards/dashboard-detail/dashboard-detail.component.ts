@@ -6,6 +6,8 @@ import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
 import * as moment from 'moment'; 
+import { Ability } from '@casl/ability';
+import { AppAbility } from '@core/utils/ability';
 
 // 
 @Component({
@@ -27,45 +29,46 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     endDate
   };
   selectedRange : string;
+  liveMode: boolean;
+  startDate: moment.Moment;
+  //settings for date select
   locale = {
     format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]', // could be 'YYYY-MM-DDTHH:mm:ss.SSSSZ'
     displayFormat: 'YYYY/MM/DD HH:mm', // default is format value
     direction: 'ltr', // could be rtl
-}
+  }
+  ranges = {};
 
-
-  ranges: any = {
-    'last 15 minutes': [moment().utc().subtract(15, 'minutes'), moment().utc()],
-    'last 30 minutes': [moment().utc().subtract(30, 'minutes'), moment().utc()],
-    'last 1 hour': [moment().utc().subtract(1, 'hour'), moment().utc()],
-    'last 12 hours': [moment().utc().subtract(12, 'hours'), moment().utc()],
-    'last 24 hours': [moment().utc().subtract(24, 'hours'), moment().utc()],
-    'last 7 days': [moment().utc().subtract(7, 'days'), moment().utc()],
-    'last 14 days': [moment().utc().subtract(14, 'days'), moment().utc()],
-    'last 30 days': [moment().utc().subtract(30, 'days'), moment().utc()]
-};
-
-//lookup by seconds to get range key
+  //annoying way to get date ranges and match squacapi
+  //time duration (s) : label
+  //TODO: this should be meaningful, not just seconds (i.e. 1 month != 30 days)
+  rangeLookUp = {
+   900000 : 'last 15 minutes',
+   1800000 : 'last 30 minutes',
+   3600000 : 'last 1 hour',
+   43200000 : 'last 12 hours',
+   86400000: 'last 24 hours',
+   604800000 : 'last 7 days',
+   1209600000 : 'last 14 days',
+   2592000000 : 'last 30 days'
+  }
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ability: AppAbility
   ) { }
 
   ngOnInit() {
-    const currentTime = moment.utc();
-    console.log("current", currentTime)
+
     //if no dates, default to last 1 hour for quick loading
     const dashSub = this.viewService.currentDashboard.subscribe(
       (dashboard: Dashboard) => {
         this.dashboard = dashboard;
         if(this.dashboard) {
-          console.log(dashboard)
           this.error = null;
-
-          console.log(dashboard.starttime)
           this.setInitialDates();
         } 
         //set dashboard dates
@@ -117,65 +120,79 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   //   this.subscription.unsubscribe();
   // }\
 
-  lookupRange(startDate: moment.Moment, endDate: moment.Moment) {
-    console.log(endDate === this.ranges['last 15 minutes'][1], this.ranges['last 15 minutes'][1])
-    return "";
-  }
-
-  rangeSelected(event){
-    this.selectedRange = event.label;
-    console.log("range", event.label)
-  }
-
-  setInitialDates() {
-    if(this.dashboard.timeRange) {
-      this.selected = {
-        startDate: moment().utc().subtract(this.dashboard.timeRange, "seconds"),
-        endDate: moment().utc()
-      }
-      //set default dates
-    } else if(this.dashboard.starttime && this.dashboard.endtime){
-      console.log("has dates", this.dashboard.starttime)
-      this.selected = {
-        startDate: moment(this.dashboard.starttime).utc(),
-        endDate: moment(this.dashboard.endtime).utc()
-      };
+  lookupRange(startDate: moment.Moment, endDate: moment.Moment) : number | void {
+    if(endDate.isSame(this.startDate)){
+      this.liveMode = true;
+      const diff = Math.round(endDate.diff(startDate) / 100 ) * 100; //account for ms of weirdness
+      this.selectedRange = this.rangeLookUp[diff];
+      return diff;
     } else {
-      //default dates
-      console.log("no dates")
-      this.selected = {
-        startDate: this.ranges['last 1 hour'][0],
-        endDate: this.ranges['last 1 hour'][1]
-      };
-
+      this.liveMode = false;
+      this.selectedRange = null;
     }
-  }
-
-  datesChanged(dates) {
-    console.log("changed", dates)
   }
 
   chosenDate(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
     console.log("chosen date")
-    this.selectedRange = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
+
     if(chosenDate && chosenDate.startDate && chosenDate.endDate) {
-      this.selectDateRange(chosenDate.startDate, chosenDate.endDate);
+      const range = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
+      this.selectDateRange(chosenDate.startDate, chosenDate.endDate, range ? range : null );
     }
   }
+
+  setInitialDates() {
+    this.startDate = moment.utc();
+    for(let range in this.rangeLookUp) {
+      this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(parseInt(range), 'milliseconds'), this.startDate]
+    }
+    if(this.dashboard.timeRange) {
+      this.liveMode = true;
+      this.selected = {
+        startDate: moment.utc().subtract(this.dashboard.timeRange, "seconds"),
+        endDate: this.startDate
+      }
+      //set default dates
+    } else if(this.dashboard.starttime && this.dashboard.endtime){
+      console.log("has dates", this.dashboard.starttime)
+      this.liveMode = false;
+      this.selected = {
+        startDate: moment.utc(this.dashboard.starttime),
+        endDate: moment.utc(this.dashboard.endtime)
+      };
+    } else {
+      //default dates
+      console.log("no dates")
+      this.liveMode = true;
+      this.selected = {
+        startDate: moment.utc().subtract(1, 'hour'),
+        endDate: this.startDate
+      };
+      console.log(this.selected)
+    }
+  }
+
+
 
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  selectDateRange(startDate: moment.Moment, endDate:moment.Moment) {
-    this.dashboard.starttime = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
-    this.dashboard.endtime = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+  //FIXME: too much redundancy with view service
+  selectDateRange(startDate: moment.Moment, endDate:moment.Moment, range? : number) {
+    const starttime = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    const endtime = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.viewService.datesChanged(
-      this.dashboard.starttime,
-      this.dashboard.endtime
+      starttime,
+      endtime,
+      this.liveMode,
+      range
     );
     //only if able to
-    this.saveDashboard();
+    if(this.ability.can('update', this.dashboard)) {
+      this.saveDashboard();
+    }
+
   }
 
   deleteDashboard() {
@@ -189,7 +206,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   saveDashboard() {
     this.unsaved = false;
-    this.viewService.saveDashboard(this.dashboard);
+    this.viewService.saveDashboard();
   }
 
   ngOnDestroy() {
