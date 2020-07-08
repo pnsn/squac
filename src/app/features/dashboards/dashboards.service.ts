@@ -13,6 +13,9 @@ interface DashboardsHttpData {
   description: string;
   is_public: boolean;
   widgets: any;
+  window_seconds?: number;
+  starttime?: string;
+  endtime?: string;
   id?: number;
 }
 // should I use index or id
@@ -55,6 +58,12 @@ export class DashboardsService {
               d.is_public,
               d.widgets ? d.widgets : []
             );
+            if (response.window_seconds) {
+              dashboard.timeRange = response.window_seconds;
+            } else {
+              dashboard.starttime = response.starttime;
+              dashboard.endtime = response.endtime;
+            }
             dashboards.push(dashboard);
           });
           return dashboards;
@@ -97,7 +106,10 @@ export class DashboardsService {
       name: dashboard.name,
       description: dashboard.description,
       is_public: dashboard.isPublic,
-      widgets: dashboard.widgetIds
+      widgets: dashboard.widgetIds,
+      starttime: dashboard.starttime,
+      endtime: dashboard.endtime,
+      window_seconds: dashboard.timeRange
     };
     if (dashboard.id) {
       postData.id = dashboard.id;
@@ -121,6 +133,12 @@ export class DashboardsService {
       squacData.is_public,
       squacData.widgets
     );
+    if (squacData.window_seconds) {
+      dashboard.timeRange = squacData.window_seconds;
+    } else {
+      dashboard.starttime = squacData.starttime;
+      dashboard.endtime = squacData.endtime;
+    }
     this.updateLocalDashboards(dashboard.id, dashboard);
     return dashboard;
   }

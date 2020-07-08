@@ -15,18 +15,24 @@
               <mat-icon >refresh</mat-icon>  
           </button>
           <mat-form-field id="date-range">
-              <mat-select 
-                [(value)]="selectedDateRange"
-                (selectionChange)="selectDateRange($event)"
-                >
-                <mat-option *ngFor="let range of dateRanges"
-                  [value]="range"
-                >
-                  {{range.name}}
-                </mat-option>
-              </mat-select>
+            <input #datePicker matInput ngxDaterangepickerMd
+              type="text"
+              [locale]="locale"
+              showCancel="true"
+              [maxDate]="maxDate"
+              [(ngModel)]="selected"
+              [value]="selectedRange"
+              [startDate]="selected?.startDate"
+              [endDate]="selected?.endDate"
+              [timePicker]="true"
+              [timePicker24Hour]="true"
+              [ranges]="ranges"
+              [showCustomRangeLabel]="true"
+              alwaysShowCalendars="true"
+              [showRangeLabelOnInput]="true"
+              (ngModelChange)="datesSelected($event)"
+            />
           </mat-form-field>
-
           <!-- if they have permission, otherwise show copy only -->
           <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
             <button mat-menu-item (click)="addWidget()" >Add Widget</button> 

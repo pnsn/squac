@@ -93,7 +93,6 @@ itemChange(item) {
             });
           });
         }
-        console.log(this.widgets);
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard

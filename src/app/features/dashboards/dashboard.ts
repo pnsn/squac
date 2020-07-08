@@ -3,8 +3,9 @@ import { ChannelGroup } from '../../core/models/channel-group';
 
 export class Dashboard {
   public widgets: Widget[];
-  public startdate: Date;
-  public enddate: Date;
+  public starttime: string;
+  public endtime: string;
+  public timeRange: number;
 
   constructor(
     public id: number,

@@ -7,6 +7,7 @@ import { Dashboard } from '../../features/dashboards/dashboard';
 import { DashboardsService } from '../../features/dashboards/dashboards.service';
 import { Widget } from '../models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,12 @@ import { WidgetsService } from '@features/widgets/services/widgets.service';
 export class ViewService {
   currentDashboard = new Subject<Dashboard>();
   currentWidgets = new BehaviorSubject<Widget[]>([]);
-  dates = new Subject<{start: Date, end: Date}>();
+  dates = new Subject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
   status = new Subject<string>(); // loading, error, finished
   error = new Subject<string>();
-  private startdate: Date;
-  private enddate: Date;
+  private live: boolean;
   // refresh = new Subject<number>();
-
   private widgets: Widget[] = [];
   private dashboard: Dashboard;
   // handle refreshing
@@ -39,45 +38,69 @@ export class ViewService {
     }
   }
 
+  isLive() {
+    return this.live;
+  }
+
+  getRange() {
+    return this.dashboard.timeRange;
+  }
+
   getStartdate() {
-    return this.startdate;
+    return this.dashboard.starttime;
   }
 
   getEnddate() {
-    return this.enddate;
+    return this.dashboard.endtime;
   }
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
   }
 
-  datesChanged(start: Date, end: Date) {
-    this.startdate = start;
-    this.enddate = end;
+  datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number) {
+    const start = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    const end = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    this.live = live;
+
+    this.dashboard.timeRange = range;
+    this.dashboard.starttime = start;
+    this.dashboard.endtime = end;
+
     this.dates.next({
       start,
-      end
+      end,
+      live,
+      range
     });
-    this.status.next('loading');
+    // this is setting status to loading when it shouldn't
+    // this.status.next('loading');
   }
 
 
   // TODO: clear up some redundancy
-  dashboardSelected(id, start, end) {
+  dashboardSelected(id) {
     console.log('dashboard selected');
-    this.startdate = start;
-    this.enddate = end;
     this.status.next('loading');
-
+    // set dates
     this.widgets = [];
     this.updateCurrentWidgets();
 
     this.updateDashboard(null);
 
     this.dashboardService.getDashboard(id).subscribe(
-      dashboard => {
-        this.updateDashboard(dashboard);
-        this.getWidgets(dashboard.id);
+      (dashboard: Dashboard) => {
+        this.dashboard = dashboard;
+        // this.updateDashboard(dashboard);
+        if (dashboard.widgetIds.length > 0) {
+          console.log('get widgets');
+          this.getWidgets(dashboard.id);
+        } else {
+          console.log('no widgets');
+          this.status.next('finished');
+          this.updateDashboard(this.dashboard);
+        }
+
       },
       error => {
         this.updateDashboard(null);
@@ -109,6 +132,7 @@ export class ViewService {
   }
 
   getWidgets(dashboardId) {
+
     this.status.next('loading');
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
@@ -125,6 +149,7 @@ export class ViewService {
   }
 
   updateWidget(widgetId) {
+    console.log('get widgets');
     this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
@@ -193,8 +218,9 @@ export class ViewService {
     );
   }
 
-  saveDashboard(dashboard: Dashboard) {
-    this.dashboardService.updateDashboard(dashboard).subscribe(
+  saveDashboard() {
+    console.log(this.dashboard);
+    this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');
       },

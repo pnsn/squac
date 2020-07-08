@@ -9,6 +9,7 @@ import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { WidgetsModule } from '../widgets/widgets.module';
 import { WidgetEditComponent } from '../widgets/components/widget-edit/widget-edit.component';
 import { AbilityModule } from '@casl/angular';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     DashboardsRoutingModule,
     WidgetsModule,
-    AbilityModule
+    AbilityModule,
+    NgxDaterangepickerMd.forRoot()
   ],
   entryComponents: [
     WidgetEditComponent

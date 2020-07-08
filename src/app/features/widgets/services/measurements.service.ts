@@ -5,6 +5,8 @@ import { Measurement } from '../models/measurement';
 import { Widget } from '../../../core/models/widget';
 import { formatDate } from '@angular/common';
 import { SquacApiService } from '@core/services/squacapi.service';
+import * as moment from 'moment';
+import { ViewService } from '@core/services/view.service';
 
 interface MeasurementsHttpData {
   name: string;
@@ -21,12 +23,13 @@ export class MeasurementsService implements OnDestroy {
   private localData = {};
   private widget;
   private refreshInterval = 5 * 60 * 1000; // 5 mintues now, this will be config
-  private lastEndDate: Date;
+  private lastEndString: string;
   private successCount = 0; // number of successful requests
   updateTimeout;
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private viewService: ViewService
   ) {}
 
   ngOnDestroy() {
@@ -47,16 +50,14 @@ export class MeasurementsService implements OnDestroy {
 
   // some sort of timer that gets the data and
   updateMeasurement() {
-    this.updateTimeout = setTimeout(() => {
-      console.log('timeout');
-      this.fetchMeasurements(this.lastEndDate, new Date());
-    }, this.refreshInterval);
+    if (this.viewService.isLive()) {
+      this.updateTimeout = setTimeout(() => {
+        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
+      }, this.refreshInterval);
+    }
   }
-
-  fetchMeasurements(start: Date, end: Date): void {
-
-    const startString = formatDate(start, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
-    const endString = formatDate(end, 'yyyy-MM-ddTHH:mm:ssZ', 'en-GB');
+  // TODO: needs to truncate old measurement
+  fetchMeasurements(startString: string, endString: string): void {
     if (this.widget && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
         success => {
@@ -74,7 +75,7 @@ export class MeasurementsService implements OnDestroy {
           console.log('error in fetch measurements');
         },
         () => {
-          this.lastEndDate = end;
+          this.lastEndString = endString;
           this.updateMeasurement();
           console.log('completed get data for ' + this.widget.id);
         }
