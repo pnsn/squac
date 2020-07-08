@@ -76,6 +76,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     if (this.chart) {
       this.chart.leftMargin(65);
       this.chart.rightMargin(55);
+      this.chart.useUtc(true);
     }
 
 
@@ -213,6 +214,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
   ngAfterViewInit(): void {
     this.chart(this.timelineDiv.nativeElement);
+
     this.resize();
 
   }

@@ -58,6 +58,12 @@ export class DashboardsService {
               d.is_public,
               d.widgets ? d.widgets : []
             );
+            if (response.window_seconds) {
+              dashboard.timeRange = response.window_seconds;
+            } else {
+              dashboard.starttime = response.starttime;
+              dashboard.endtime = response.endtime;
+            }
             dashboards.push(dashboard);
           });
           return dashboards;
