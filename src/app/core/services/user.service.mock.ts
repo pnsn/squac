@@ -12,7 +12,6 @@ export class MockUserService {
     'firstname',
     'lastname',
     true,
-    'organization',
     ['contributor']
   );
   user = new BehaviorSubject<User>(null);
