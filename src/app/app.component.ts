@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from './core/services/user.service';
 import { AuthService } from './core/services/auth.service';
+import { OrganizationsService } from '@core/services/organizations.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private organizationsService: OrganizationsService
   ) {}
 
 
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.subscribe(
       user => {
         this.loggedIn = !!user;
+        this.organizationsService.fetchOrganizations();
       },
       err => {
         console.log('error in auth component: ' + err);
