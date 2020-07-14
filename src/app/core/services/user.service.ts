@@ -47,7 +47,6 @@ export class UserService {
           response.firstname,
           response.lastname,
           response.is_staff,
-          response.organization,
           groups
         );
         this.ability.update(defineAbilitiesFor(this.currentUser));

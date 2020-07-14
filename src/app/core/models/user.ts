@@ -6,13 +6,13 @@ export class User {
     public firstname: string,
     public lastname: string,
     private isStaff: boolean,
-    public organization: string,
     public groups: string[]
   ) {
 
   }
 
-
+  organization: string;
+  
   isAdmin(): boolean {
     return this.isStaff;
   }
