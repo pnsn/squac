@@ -13,6 +13,7 @@ import { UserComponent } from './core/components/user/user.component';
 import { PermissionGuard } from './core/guards/permission.guard';
 import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
 import { LoginComponent } from './core/components/login/login.component';
+import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -61,6 +62,10 @@ const appRoutes: Routes = [
         data: {subject: 'Metric', action: 'update'}
       },
     ]
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 

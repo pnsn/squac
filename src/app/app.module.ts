@@ -26,7 +26,7 @@ import { PasswordResetComponent } from './core/components/password-reset/passwor
 import { LoginComponent } from './core/components/login/login.component';
 import { AppAbility } from './core/utils/ability';
 import { ChannelGroupsModule } from './features/channel-groups/channel-groups.module';
-import { UnknownComponent } from './core/components/unknown/unknown.component';
+import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { UnknownComponent } from './core/components/unknown/unknown.component';
     UserComponent,
     PasswordResetComponent,
     LoginComponent,
-    UnknownComponent
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
