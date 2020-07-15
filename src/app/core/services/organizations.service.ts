@@ -4,6 +4,7 @@ import { SquacApiService } from './squacapi.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Organization } from '@core/models/organization';
 import { map } from 'rxjs/operators';
+import { OrganizationUser } from '@core/models/organization-user';
 
 interface OrganizationHttpData {
 
@@ -51,7 +52,7 @@ export class OrganizationsService {
   }
 
   //returns organization users
-  getOrganizationsForUser(id: number) : Observable<any[]> {
+  getOrganizationsForUser(id: number) : Observable<OrganizationUser[]> {
     return this.squacApi.get("organization/users/", null, {
       user: id
     }).pipe(
@@ -61,7 +62,7 @@ export class OrganizationsService {
     )
   }
 
-  mapOrganization(squacData) {
+  mapOrganization(squacData) : Organization{
     const users = this.mapOrgUsers(squacData.organization_users);
     const newOrg = new Organization(
       squacData.id,
@@ -73,7 +74,7 @@ export class OrganizationsService {
     return newOrg;
   }
 
-  mapOrgUsers(squacData){
+  mapOrgUsers(squacData) : OrganizationUser[]{
     const users = [];
     for ( let user of squacData) {
       users.push({

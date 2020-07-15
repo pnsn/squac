@@ -1,3 +1,5 @@
+import { OrganizationUser } from './organization-user';
+
 // Describes a user object
 export class User {
   constructor(
@@ -11,7 +13,7 @@ export class User {
 
   }
 
-  orgUsers: [];
+  orgUsers: OrganizationUser[];
 
   isAdmin(): boolean {
     return this.isStaff; //or is an admin of the current group?
