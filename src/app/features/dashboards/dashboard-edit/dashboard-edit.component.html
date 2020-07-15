@@ -26,12 +26,20 @@
         </mat-form-field>
         <mat-checkbox
           matInput
-          id="isPublic"
-          formControlName="isPublic"
+          id="shareOrg"
+          formControlName="shareOrg"
           class="form-control"
         >
-          Make public
+          Share with Organization
         </mat-checkbox>
+        <mat-checkbox
+        matInput
+        id="shareAll"
+        formControlName="shareAll"
+        class="form-control"
+      >
+        Share with All Squac Users
+      </mat-checkbox>
         <div id="dashboard-edit-buttons">
             <button mat-flat-button color="primary" type="button" (click)="cancel()">Cancel</button>
             <button mat-flat-button 

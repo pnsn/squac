@@ -11,8 +11,10 @@ import { WidgetsService } from '../widgets/services/widgets.service';
 interface DashboardsHttpData {
   name: string;
   description: string;
-  is_public: boolean;
+  share_all: boolean;
+  share_org: boolean;
   widgets: any;
+  organization: number;
   window_seconds?: number;
   starttime?: string;
   endtime?: string;
@@ -55,7 +57,9 @@ export class DashboardsService {
               d.user_id,
               d.name,
               d.description,
-              d.is_public,
+              d.share_org,
+              d.share_all,
+              d.organization,
               d.widgets ? d.widgets : []
             );
             if (response.window_seconds) {
@@ -105,10 +109,12 @@ export class DashboardsService {
     const postData: DashboardsHttpData = {
       name: dashboard.name,
       description: dashboard.description,
-      is_public: dashboard.isPublic,
+      share_org: dashboard.shareOrg,
+      share_all: dashboard.shareAll,
       widgets: dashboard.widgetIds,
       starttime: dashboard.starttime,
       endtime: dashboard.endtime,
+      organization: dashboard.orgId,
       window_seconds: dashboard.timeRange
     };
     if (dashboard.id) {
@@ -130,7 +136,9 @@ export class DashboardsService {
       squacData.user_id,
       squacData.name,
       squacData.description,
-      squacData.is_public,
+      squacData.share_org,
+      squacData.share_all,
+      squacData.organization,
       squacData.widgets
     );
     if (squacData.window_seconds) {

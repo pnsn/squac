@@ -12,7 +12,9 @@ export class Dashboard {
     public owner: number,
     public name: string,
     public description: string,
-    public isPublic: boolean,
+    public shareOrg: boolean,
+    public shareAll: boolean,
+    public orgId: number,
     public widgetIds?: number[]
   ) {
   }

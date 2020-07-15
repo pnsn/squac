@@ -28,7 +28,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.dashboardForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      isPublic: [false]
+      shareAll: [false],
+      shareOrg: [false]
     });
 
     const paramsSub = this.route.params.subscribe(
@@ -60,7 +61,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
             {
               name : dashboard.name,
               description : dashboard.description,
-              isPublic: dashboard.isPublic
+              shareAll: dashboard.shareAll,
+              shareOrg: dashboard.shareOrg
             }
           );
         },
@@ -80,8 +82,10 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         null,
         values.name,
         values.description,
-        values.isPublic,
-        []
+        values.shareOrg,
+        values.shareAll,
+        this.dashboard.orgId,
+        this.dashboard.widgetIds
       )
     ).subscribe(
       result => {

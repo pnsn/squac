@@ -17,7 +17,7 @@ providedIn: 'root'
 export class OrganizationsService {
   private url = 'organization/organizations/';
   private localOrganizations : Organization[] = [];
-
+  
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService
@@ -26,7 +26,6 @@ export class OrganizationsService {
   getOrganizations() {
     return this.localOrganizations.slice();
   }
-
 
   fetchOrganizations() {
     this.squacApi.get(this.url).subscribe(
