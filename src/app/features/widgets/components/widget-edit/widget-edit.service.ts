@@ -60,6 +60,7 @@ export class WidgetEditService {
         null,
         null,
         null,
+        null,
         this.columns,
         this.rows,
         this.x,

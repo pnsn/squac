@@ -12,6 +12,7 @@ export class Widget {
     public owner: number,
     public name: string,
     public description: string,
+    public orgId: number,
     public typeId: number,
     public dashboardId: number,
     public channelGroupId: number,
