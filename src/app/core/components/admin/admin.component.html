@@ -3,8 +3,13 @@
   <div id="column" *ngIf="user; else noUser">
     <h1>Admin Settings</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
-
+    <ul *ngIf="user.orgUsers">
+      <li *ngFor="let org of user.orgUsers"> 
+        {{org.id}}
+      </li>
+    </ul>
   </div>
+
 
   <ng-template #noUser>
     <p>

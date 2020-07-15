@@ -36,18 +36,14 @@
         <mat-form-field >
           <input matInput formControlName="lastname" [readonly]="!editMode">
         </mat-form-field>
-        <div class="form-group">
-          <div id="label">
-            Organization:
-          </div>
-          <mat-form-field >
-            <input matInput formControlName="organization" readonly>
-          </mat-form-field>
-        </div>
       </div>
     </form>
-
-
+    <h2>
+      Organization(s)
+    </h2>
+    <ul *ngIf="user.orgUsers">
+      <li *ngFor="let orgUser of user.orgUsers">{{orgUser | json}}</li>
+    </ul>
     <h2>Password</h2>
     <p>
       This is where password change will be!

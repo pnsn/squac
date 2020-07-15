@@ -11,10 +11,10 @@ export class User {
 
   }
 
-  organization: string;
-  
+  orgUsers: [];
+
   isAdmin(): boolean {
-    return this.isStaff;
+    return this.isStaff; //or is an admin of the current group?
   }
 
   inGroup(group: string): boolean {

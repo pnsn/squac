@@ -5,6 +5,8 @@ import { User } from '../models/user';
 import { SquacApiService } from './squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '../utils/ability';
+import { OrganizationsService } from './organizations.service';
+import { flatMap } from 'rxjs/operators';
 
 interface UserHttpData {
   email: string;
@@ -26,7 +28,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private orgService: OrganizationsService
   ) { }
 
   getUser(): User {
@@ -34,8 +37,8 @@ export class UserService {
   }
 
   fetchUser() {
-    this.squacApi.get(this.url).subscribe(
-      response => {
+    this.squacApi.get(this.url).pipe(
+      flatMap( response => {
         const groups = [];
         for (const group of response.groups) {
           groups.push(group.name);
@@ -49,6 +52,14 @@ export class UserService {
           response.is_staff,
           groups
         );
+
+        return this.orgService.getOrganizationsForUser(response.id);
+      })
+    )
+    .subscribe(
+      response => {
+        this.currentUser.orgUsers = response;
+        console.log(this.currentUser)
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);
       },

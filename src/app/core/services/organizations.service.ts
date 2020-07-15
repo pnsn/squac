@@ -52,7 +52,7 @@ export class OrganizationsService {
 
   //returns organization users
   getOrganizationsForUser(id: number) : Observable<any[]> {
-    return this.squacApi.get("/organization/user/", null, {
+    return this.squacApi.get("organization/users/", null, {
       user: id
     }).pipe(
       map(response => {
@@ -78,7 +78,7 @@ export class OrganizationsService {
     for ( let user of squacData) {
       users.push({
         orgUserId: user.id,
-        isAdmin: user.admin,
+        isAdmin: user.is_admin,
         orgId: user.organization,
         email: user.user.email,
         firstname: user.user.firstname,

@@ -64,10 +64,6 @@ const appRoutes: Routes = [
         data: {subject: 'Metric', action: 'update'}
       },
     ]
-  },
-  {
-    path: '**',
-    component: NotFoundComponent
   }
 ];
 
