@@ -14,6 +14,7 @@ import { PermissionGuard } from './core/guards/permission.guard';
 import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
+import { AdminComponent } from '@core/components/admin/admin.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
   },
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'user', canActivate: [AuthGuard], component: UserComponent},
+  { path: 'admin', canActivate: [AuthGuard], component: AdminComponent},
   { path: 'metrics',
     component: MetricsComponent,
     canActivate: [AuthGuard, PermissionGuard],

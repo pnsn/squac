@@ -1,0 +1,18 @@
+
+<div id="admin-content">
+  <div id="column" *ngIf="user; else noUser">
+    <h1>Admin Settings</h1>
+    <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
+
+  </div>
+
+  <ng-template #noUser>
+    <p>
+      Loading admin information, please wait.
+    </p>
+
+  </ng-template>
+
+
+
+</div>
