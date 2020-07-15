@@ -16,12 +16,16 @@ providedIn: 'root'
 })
 export class OrganizationsService {
   private url = 'organization/organizations/';
-  private localOrganizations : Organization[];
+  private localOrganizations : Organization[] = [];
 
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService
   ) { }
+
+  getOrganizations() {
+    return this.localOrganizations.slice();
+  }
 
 
   fetchOrganizations() {
@@ -40,15 +44,18 @@ export class OrganizationsService {
   }
 
   getOrganizationById(id : number) {
-    this.squacApi.get(this.url, id).subscribe(
-      response => {
-        return this.mapOrganization(response);
-      },
-
-      error => {
-        console.log('error in user service: ' + error);
-      }
+    return this.localOrganizations.find(
+      org => org.id === id
     );
+    // this.squacApi.get(this.url, id).subscribe(
+    //   response => {
+    //     return this.mapOrganization(response);
+    //   },
+
+    //   error => {
+    //     console.log('error in user service: ' + error);
+    //   }
+    // );
   }
 
   //returns organization users
@@ -62,7 +69,7 @@ export class OrganizationsService {
     )
   }
 
-  mapOrganization(squacData) : Organization{
+  private mapOrganization(squacData) : Organization{
     const users = this.mapOrgUsers(squacData.organization_users);
     const newOrg = new Organization(
       squacData.id,
@@ -74,18 +81,19 @@ export class OrganizationsService {
     return newOrg;
   }
 
-  mapOrgUsers(squacData) : OrganizationUser[]{
+  private mapOrgUsers(squacData) : OrganizationUser[]{
     const users = [];
     for ( let user of squacData) {
-      users.push({
-        orgUserId: user.id,
-        isAdmin: user.is_admin,
-        orgId: user.organization,
-        email: user.user.email,
-        firstname: user.user.firstname,
-        lastname: user.user.lastname,
-        id: user.user.id
-      });
+      const newUser = new OrganizationUser(
+        user.id,
+        user.is_admin,
+        user.organization,
+        user.user.email,
+        user.user.firstname,
+        user.user.lastname,
+        user.user.id
+      )
+      users.push(newUser);
     }
     return users;
   }

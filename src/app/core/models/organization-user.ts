@@ -11,4 +11,6 @@ export class OrganizationUser{
   ) {
 
   }
+
+  public organizationName : string;
 }

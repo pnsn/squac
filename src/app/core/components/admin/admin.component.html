@@ -4,8 +4,8 @@
     <h1>Admin Settings</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
     <ul *ngIf="user.orgUsers">
-      <li *ngFor="let org of user.orgUsers"> 
-        {{org.id}}
+      <li *ngFor="let user of user.orgUsers"> 
+        {{getOrgName(user.orgId)}}
       </li>
     </ul>
   </div>
