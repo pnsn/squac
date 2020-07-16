@@ -7,7 +7,8 @@ export class ChannelGroup {
     public owner: number,
     public name: string,
     public description: string,
-    public isPublic: boolean,
+    public shareOrg: boolean,
+    public shareAll: boolean,
     public channels?: Channel[]
   ) {
   }

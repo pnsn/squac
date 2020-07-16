@@ -13,7 +13,7 @@ interface DashboardsHttpData {
   description: string;
   share_all: boolean;
   share_org: boolean;
-  widgets: any;
+  widgets?: any;
   organization: number;
   window_seconds?: number;
   starttime?: string;
@@ -111,7 +111,6 @@ export class DashboardsService {
       description: dashboard.description,
       share_org: dashboard.shareOrg,
       share_all: dashboard.shareAll,
-      widgets: dashboard.widgetIds,
       starttime: dashboard.starttime,
       endtime: dashboard.endtime,
       organization: dashboard.orgId,

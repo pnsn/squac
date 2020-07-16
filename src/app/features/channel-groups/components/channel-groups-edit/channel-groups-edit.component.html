@@ -89,10 +89,15 @@
             <textarea matInput placeholder="Channel Group Description" formControlName="description"></textarea>
           </mat-form-field>
           <mat-checkbox
-            formControlName="isPublic"  
+            formControlName="shareOrg"  
           >
-            Make public?
+            Share with org?
           </mat-checkbox>
+          <mat-checkbox
+          formControlName="shareAll"  
+        >
+          Share with all?
+        </mat-checkbox>
         </div>
 
         <h3>Selected Channels</h3>
