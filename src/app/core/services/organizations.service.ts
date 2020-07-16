@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from './squacapi.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { Organization } from '@core/models/organization';
 import { map } from 'rxjs/operators';
 import { OrganizationUser } from '@core/models/organization-user';
+import { UserService } from './user.service';
 
 interface OrganizationHttpData {
 
@@ -17,7 +18,8 @@ providedIn: 'root'
 export class OrganizationsService {
   private url = 'organization/organizations/';
   private localOrganizations : Organization[] = [];
-  
+  organizations : ReplaySubject<Organization[]> = new ReplaySubject();
+
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService
@@ -33,6 +35,7 @@ export class OrganizationsService {
         this.localOrganizations = [];
         for (let organization of response) {
           this.localOrganizations.push(this.mapOrganization(organization));
+          this.organizations.next(this.localOrganizations);
         }
       },
 
@@ -43,18 +46,15 @@ export class OrganizationsService {
   }
 
   getOrganizationById(id : number) {
-    return this.localOrganizations.find(
+   return this.localOrganizations.find(
       org => org.id === id
     );
-    // this.squacApi.get(this.url, id).subscribe(
-    //   response => {
-    //     return this.mapOrganization(response);
-    //   },
-
-    //   error => {
-    //     console.log('error in user service: ' + error);
-    //   }
-    // );
+    
+    // if (org) {
+    //   return of(org);
+    // } else {
+    //   return this.squacApi.get(this.url, id);
+    // }
   }
 
   //returns organization users
@@ -92,8 +92,10 @@ export class OrganizationsService {
         user.user.lastname,
         user.user.id
       )
+      
       users.push(newUser);
     }
+    console.log(users)
     return users;
   }
 

@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { OrganizationsService } from '@core/services/organizations.service';
+import { Organization } from '@core/models/organization';
 
 @Component({
   selector: 'app-user',
@@ -15,8 +17,10 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
+  organizations : Organization[];
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private orgService: OrganizationsService
   ) { }
 
   ngOnInit() {
@@ -35,7 +39,12 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     );
 
-
+    //tODO: this should be done with lookup
+    this.orgService.organizations.subscribe(
+      organizations => {
+        this.organizations = organizations;
+      }
+    );
 
     this.subscription.add(userSub);
   }

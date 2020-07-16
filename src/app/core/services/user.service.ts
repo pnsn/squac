@@ -59,6 +59,7 @@ export class UserService {
     .subscribe(
       response => {
         this.currentUser.orgUsers = response;
+        //figure out if they're an admin of anything
         console.log(this.currentUser)
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);

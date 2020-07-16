@@ -20,7 +20,11 @@ export class AdminComponent implements OnInit {
       user => this.user = user
     );
 
-    this.organizations = this.orgService.getOrganizations();
+    this.orgService.organizations.subscribe(
+      organizations => {
+        this.organizations = organizations;
+      }
+    );
     console.log(this.organizations)
   }
 

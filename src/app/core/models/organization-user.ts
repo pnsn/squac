@@ -1,3 +1,4 @@
+import { Organization } from './organization';
 
 export class OrganizationUser{
   constructor(
@@ -12,5 +13,5 @@ export class OrganizationUser{
 
   }
 
-  public organizationName : string;
+  public organization : Organization;
 }

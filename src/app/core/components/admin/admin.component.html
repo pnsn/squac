@@ -3,9 +3,9 @@
   <div id="column" *ngIf="user; else noUser">
     <h1>Admin Settings</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
-    <ul *ngIf="user.orgUsers">
+    <ul *ngIf="user.orgUsers && organizations" >
       <li *ngFor="let user of user.orgUsers"> 
-        {{getOrgName(user.orgId)}}
+        {{getOrgName(user.orgId).name}}
       </li>
     </ul>
   </div>

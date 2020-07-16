@@ -26,8 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
     // Listen to log in
     const userSub = this.userService.user.subscribe(
       user => {
-        this.loggedIn = !!user;
         this.organizationsService.fetchOrganizations();
+        this.loggedIn = !!user;
+
       },
       err => {
         console.log('error in auth component: ' + err);
