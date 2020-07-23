@@ -6,7 +6,7 @@ import { SquacApiService } from './squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '../utils/ability';
 import { OrganizationsService } from './organizations.service';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 
 interface UserHttpData {
   email: string;
@@ -37,8 +37,10 @@ export class UserService {
   }
 
   fetchUser() {
-    this.squacApi.get(this.url).pipe(
-      flatMap( response => {
+    this.squacApi.get(this.url)
+    .subscribe(
+      response => {
+
         const groups = [];
         for (const group of response.groups) {
           groups.push(group.name);
@@ -49,18 +51,14 @@ export class UserService {
           response.email,
           response.firstname,
           response.lastname,
-          response.is_staff,
-          groups
+          response.organization,
+          response.is_org_admin
         );
 
-        return this.orgService.getOrganizationsForUser(response.id);
-      })
-    )
-    .subscribe(
-      response => {
+        this.currentUser.groups = groups;
+        this.currentUser.squacAdmin = response.is_staff;
         this.currentUser.orgUsers = response;
-        //figure out if they're an admin of anything
-        console.log(this.currentUser)
+
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);
       },

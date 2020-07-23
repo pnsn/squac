@@ -4,7 +4,7 @@ import { SquacApiService } from './squacapi.service';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { Organization } from '@core/models/organization';
 import { map } from 'rxjs/operators';
-import { OrganizationUser } from '@core/models/organization-user';
+import { User } from '@core/models/user';
 import { UserService } from './user.service';
 
 interface OrganizationHttpData {
@@ -56,43 +56,31 @@ export class OrganizationsService {
     //   return this.squacApi.get(this.url, id);
     // }
   }
-
-  //returns organization users
-  getOrganizationsForUser(id: number) : Observable<OrganizationUser[]> {
-    return this.squacApi.get("organization/users/", null, {
-      user: id
-    }).pipe(
-      map(response => {
-        return this.mapOrgUsers(response);
-      })
-    )
-  }
-
   private mapOrganization(squacData) : Organization{
     const users = this.mapOrgUsers(squacData.organization_users);
     const newOrg = new Organization(
       squacData.id,
       squacData.name,
-      users, 
-      squacData.slug,
-      squacData.is_active
+      squacData.description,
+      users
     );
     return newOrg;
   }
 
-  private mapOrgUsers(squacData) : OrganizationUser[]{
+  private mapOrgUsers(squacData) : User[]{
     const users = [];
     for ( let user of squacData) {
-      const newUser = new OrganizationUser(
+      const newUser = new User(
         user.id,
-        user.is_admin,
+        user.email,
+        user.firstname,
+        user.lastname,
         user.organization,
-        user.user.email,
-        user.user.firstname,
-        user.user.lastname,
-        user.user.id
+        user.is_org_admin
       )
-      
+
+      newUser.isActive = user.is_active;
+      newUser.lastLogin = user.last_login;
       users.push(newUser);
     }
     console.log(users)

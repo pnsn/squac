@@ -1,25 +1,32 @@
-import { OrganizationUser } from './organization-user';
-
 // Describes a user object
 export class User {
+
+
   constructor(
     public id: number,
     public email: string,
     public firstname: string,
     public lastname: string,
-    private isStaff: boolean,
-    public groups: string[]
+    public orgId: number,
+    public orgAdmin: boolean,
+
   ) {
 
   }
+  lastLogin: string;
+  squacAdmin:boolean;
+  isActive: boolean;
+  groups: string[];
 
-  orgUsers: OrganizationUser[];
+  isStaff() : boolean{
+    return this.squacAdmin ? this.squacAdmin : false;
+  }
 
   isAdmin(): boolean {
-    return this.isStaff; //or is an admin of the current group?
+    return this.orgAdmin; //or is an admin of the current group?
   }
 
   inGroup(group: string): boolean {
-    return this.groups.indexOf(group) >= 0;
+    return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
 }

@@ -78,6 +78,12 @@ export class UserComponent implements OnInit, OnDestroy {
 
   }
 
+  getOrgName(id) {
+    return this.organizations.find(
+      org => org.id === id
+    );
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
