@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { ChannelGroupsService } from '../../channel-groups/services/channel-groups.service';

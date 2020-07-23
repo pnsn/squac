@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { Widget } from '../../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { Subject, Subscription } from 'rxjs';
 import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';

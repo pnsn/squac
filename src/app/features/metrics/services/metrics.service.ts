@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Metric } from '../models/metric';
+import { Metric } from '@core/models/metric';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { SquacApiService } from './squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 
 interface MetricsHttpData {
   name: string;

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MetricsViewComponent } from './metrics-view.component';
 import { Metric } from '@core/models/metric';
 import { of, Observable } from 'rxjs';
-import { MetricsService } from '@core/services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockMetricsService } from '@core/services/metrics.service.mock';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';

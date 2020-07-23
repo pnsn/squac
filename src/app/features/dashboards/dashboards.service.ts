@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard';
 import { Subject, BehaviorSubject, Observable, of, empty } from 'rxjs';
-import { Widget } from '../../core/models/widget';
-import { SquacApiService } from '../../core/services/squacapi.service';
+import { Widget } from '@core/models/widget';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, concatMap, switchMap, tap } from 'rxjs/operators';
 import { ChannelGroupsService } from '../channel-groups/services/channel-groups.service';

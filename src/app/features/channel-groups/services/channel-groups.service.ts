@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ChannelGroup } from '../../../core/models/channel-group';
+import { ChannelGroup } from '@core/models/channel-group';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
-import { Channel } from '../../../core/models/channel';
+import { Channel } from '@core/models/channel';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { SquacApiService } from '../../../core/services/squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 
 // Describes format of post data
 interface ChannelGroupsHttpData {

@@ -41,16 +41,13 @@
     <h2>
       Organization(s)
     </h2>
-    <ul *ngIf="user.orgUsers">
-      <li *ngFor="let orgUser of user.orgUsers">
+    <ul *ngIf="user.orgId">
         <span>
-          {{getOrgName(orgUser.orgId)}}
+          {{getOrgName(user.orgId)}}
         </span>
         <span>
           {{orgUser.isAdmin ? "Admin" : "User"}}
         </span>
-        
-      </li>
     </ul>
     <h2>Password</h2>
     <p>

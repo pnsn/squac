@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, merge } from 'rxjs';
 import { WidgetsService } from '../../services/widgets.service';
-import { Widget } from '../../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { ThresholdsService } from '../../services/thresholds.service';
 import { WidgetEditService } from './widget-edit.service';
 import { StatTypeService } from '@core/services/stattype.service';
-import { MetricsService } from '@core/services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 
 @Component({
   selector: 'app-widget-edit',

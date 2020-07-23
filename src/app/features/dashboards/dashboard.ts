@@ -1,5 +1,5 @@
-import { Widget } from '../../core/models/widget';
-import { ChannelGroup } from '../../core/models/channel-group';
+import { Widget } from '@core/models/widget';
+import { ChannelGroup } from '@core/models/channel-group';
 
 export class Dashboard {
   public widgets: Widget[];

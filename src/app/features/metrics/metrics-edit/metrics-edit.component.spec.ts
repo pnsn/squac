@@ -4,7 +4,7 @@ import { MetricsEditComponent } from './metrics-edit.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MetricsService } from '@core/services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { MockMetricsService } from '@core/services/metrics.service.mock';

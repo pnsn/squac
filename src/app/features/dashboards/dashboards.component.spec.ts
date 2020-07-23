@@ -9,7 +9,7 @@ import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MaterialModule } from '../../shared/material.module';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
-import { AppAbility } from '../../core/utils/ability';
+import { AppAbility } from '@core/utils/ability';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;

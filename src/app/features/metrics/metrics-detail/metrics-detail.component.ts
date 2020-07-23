@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { MetricsService } from '../../../core/services/metrics.service';
-import { Metric } from '../../../core/models/metric';
+import { MetricsService } from '../services/metrics.service';
+import { Metric } from '@core/models/metric';
 import { Subscription } from 'rxjs';
 
 @Component({

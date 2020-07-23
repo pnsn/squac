@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { formatDate } from '@angular/common';
 import { SquacApiService } from '@core/services/squacapi.service';
 import * as moment from 'moment';

@@ -28,6 +28,7 @@ import { AppAbility } from './core/utils/ability';
 import { ChannelGroupsModule } from './features/channel-groups/channel-groups.module';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 import { AdminComponent } from './core/components/admin/admin.component';
+import { LoadingScreenComponent } from './core/components/loading-screen/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AdminComponent } from './core/components/admin/admin.component';
     PasswordResetComponent,
     LoginComponent,
     NotFoundComponent,
-    AdminComponent
+    AdminComponent,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 
 
 export class MockWidgetsService {

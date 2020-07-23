@@ -1,7 +1,7 @@
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '../../models/threshold';
-import { Widget } from '../../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { ChannelGroup } from '@core/models/channel-group';
 
 export class MockWidgetEditService {

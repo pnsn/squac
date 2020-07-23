@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { SquacApiService } from '../../../core/services/squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { Network } from '../models/network';
 
 @Injectable({

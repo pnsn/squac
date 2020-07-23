@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ChannelGroup } from '../../../../core/models/channel-group';
+import { ChannelGroup } from '@core/models/channel-group';
 import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, FormBuilder } from '@angular/forms';
-import { ChannelsService } from '../../../../core/services/channels.service';
-import { Channel } from '../../../../core/models/channel';
+import { ChannelsService } from '../../services/channels.service';
+import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 

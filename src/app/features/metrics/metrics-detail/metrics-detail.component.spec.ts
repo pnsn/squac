@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsDetailComponent } from './metrics-detail.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MetricsService } from '@core/services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { MockMetricsService } from '@core/services/metrics.service.mock';

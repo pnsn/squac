@@ -4,7 +4,7 @@ import { WidgetComponent } from './widget.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, EMPTY, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { MeasurementsService } from '../services/measurements.service';
 import { WidgetsModule } from '../widgets.module';
 import { AbilityModule } from '@casl/angular';
