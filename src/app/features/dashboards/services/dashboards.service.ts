@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Dashboard } from './dashboard';
-import { Subject, BehaviorSubject, Observable, of, empty } from 'rxjs';
-import { Widget } from '@core/models/widget';
+import { Dashboard } from '../models/dashboard';
+import { BehaviorSubject, Observable} from 'rxjs';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { HttpClient } from '@angular/common/http';
-import { map, mergeMap, concatMap, switchMap, tap } from 'rxjs/operators';
-import { ChannelGroupsService } from '../channel-groups/services/channel-groups.service';
-import { WidgetsService } from '../widgets/services/widgets.service';
+import { map} from 'rxjs/operators';
 
 interface DashboardsHttpData {
   name: string;
@@ -30,8 +26,6 @@ export class DashboardsService {
   getDashboards = new BehaviorSubject<Dashboard[]>([]);
   private url = 'dashboard/dashboards/';
   constructor(
-    private channelGroupsService: ChannelGroupsService,
-    private widgetsService: WidgetsService,
     private squacApi: SquacApiService
   ) {
   }

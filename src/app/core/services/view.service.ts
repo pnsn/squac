@@ -3,8 +3,8 @@
 
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { Dashboard } from '../../features/dashboards/dashboard';
-import { DashboardsService } from '../../features/dashboards/dashboards.service';
+import { Dashboard } from '@features/dashboards/models/dashboard';
+import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Widget } from '../models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
 import * as moment from 'moment';

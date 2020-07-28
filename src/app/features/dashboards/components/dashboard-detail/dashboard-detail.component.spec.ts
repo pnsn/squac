@@ -3,14 +3,14 @@ import { DashboardDetailComponent } from './dashboard-detail.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { DashboardsService } from '../dashboards.service';
+import { DashboardsService } from '../../services/dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AppAbility } from '@core/utils/ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
-import { WidgetsModule } from '../../widgets/widgets.module';
+import { WidgetsModule } from '@features/widgets/widgets.module';
 
 
 describe('DashboardDetailComponent', () => {

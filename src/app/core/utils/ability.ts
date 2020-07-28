@@ -3,7 +3,7 @@ import { Widget } from '../models/widget';
 import { ChannelGroup } from '../models/channel-group';
 import { Metric } from '../models/metric';
 import { User } from '../models/user';
-import { Dashboard } from '@features/dashboards/dashboard';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 

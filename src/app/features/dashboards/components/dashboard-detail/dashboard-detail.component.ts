@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Dashboard } from '../dashboard';
+import { Dashboard } from '../../models/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from '../../widgets/components/widget-edit/widget-edit.component';
+import { WidgetEditComponent } from '@features/widgets/components/widget-edit/widget-edit.component';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';

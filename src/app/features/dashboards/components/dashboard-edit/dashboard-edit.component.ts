@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Dashboard } from '../dashboard';
+import { Dashboard } from '../../models/dashboard';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DashboardsService } from '../dashboards.service';
+import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
-import { DashboardsService } from '../dashboards.service';
-import { ChannelGroupsService } from '../../channel-groups/services/channel-groups.service';
+import { DashboardsService } from '../../services/dashboards.service';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

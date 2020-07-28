@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { Dashboard } from '../../features/dashboards/dashboard';
+import { Dashboard } from '../../features/dashboards/models/dashboard';
 import { Widget } from '../models/widget';
 
 export class MockViewService {
@@ -19,7 +19,9 @@ export class MockViewService {
     1,
     'name',
     'description',
+    false,
     true,
+    1,
     []
   );
 
@@ -28,6 +30,7 @@ export class MockViewService {
     1,
     'name',
     'description',
+    1,
     1,
     1,
     1,

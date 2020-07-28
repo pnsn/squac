@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DashboardsService } from './dashboards.service';
-import { Dashboard } from './dashboard';
-import { Router, ActivatedRoute } from '@angular/router';
+import { DashboardsService } from './services/dashboards.service';
 import { StatTypeService } from '@core/services/stattype.service';
 
 @Component({
