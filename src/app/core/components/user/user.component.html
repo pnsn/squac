@@ -39,14 +39,14 @@
       </div>
     </form>
     <h2>
-      Organization(s)
+      Organization
     </h2>
-    <ul *ngIf="user.orgId">
+    <ul *ngIf="!!organization">
         <span>
-          {{getOrgName(user.orgId)}}
+          {{organization.name}}
         </span>
         <span>
-          {{orgUser.isAdmin ? "Admin" : "User"}}
+          ({{user.isAdmin ? "Admin" : "User"}})
         </span>
     </ul>
     <h2>Password</h2>

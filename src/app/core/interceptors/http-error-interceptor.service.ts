@@ -19,10 +19,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           let errorMessage = '';
           if (error.error instanceof Error) {
             // client-side error
-            errorMessage = `Error: ${error.error.message}`;
-          } else {
+            console.log("Client error", error);
+            errorMessage = 'Error: ' + error.error.message;
+          } else if (error.error instanceof String){
+            console.log("Server error", error);
             // server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            errorMessage = 'Error: ' + error.error;
+          } else {
+            console.log("error has a weird format")
           }
           return throwError(errorMessage);
         })

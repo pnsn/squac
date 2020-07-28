@@ -42,25 +42,25 @@ export class OrganizationsService {
     );
   }
 
-  addUserToOrganization(user : User) : Observable<User> {
+  addUserToOrganization(user: {email:string, isAdmin: boolean, orgId: number}) : Observable<User> {
     const url = "organization/users/";
     const postData = {
       email: user.email,
       password: "pwthatgetsignored",
-      firstname:user.firstname,
-      lastname:user.lastname,
+      firstname: "firstname",
+      lastname: "lastname",
       organization: user.orgId,
       is_org_admin : user.isAdmin
     } 
-    if (user.id) {
-      return this.squacApi.put(url, user.id, postData).pipe(
-        map((data) => this.mapOrgUsers(data))
-      );
-    } else {
+    // if (user.id) {
+    //   return this.squacApi.put(url, user.id, postData).pipe(
+    //     map((data) => this.mapOrgUsers(data))
+    //   );
+    // } else {
       return this.squacApi.post(url, postData).pipe(
           map((data) => this.mapOrgUsers(data))
         );
-    }
+
   } 
 
   getOrganizationById(id : number) : Observable<Organization>{

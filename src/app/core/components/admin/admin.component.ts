@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '@core/services/user.service';
 import { OrganizationsService } from '@core/services/organizations.service';
 import { User } from '@core/models/user';
 import { Organization } from '@core/models/organization';
 import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
   user : User;
   organization: Organization;
   addUserForm : FormGroup;
-
+  userAdded: User;
+  subscription: Subscription = new Subscription;
+  error: string;
   constructor(
     private userService: UserService,
     private orgService : OrganizationsService,
@@ -23,7 +26,7 @@ export class AdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userService.user.pipe(
+    const userSub = this.userService.user.pipe(
       switchMap(
         user => {
           this.user = user;
@@ -38,26 +41,30 @@ export class AdminComponent implements OnInit {
 
     this.addUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
       isAdmin: [false, Validators.required]
     });
+    this.subscription.add(userSub)
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
   onSubmit() {
     const values = this.addUserForm.value;
     this.orgService.addUserToOrganization(
-      new User(
-        null,
-        values.email,
-        values.firstName,
-        values.lastName,
-        this.organization.id,
-        values.isAdmin
-      )
+      {
+        email: values.email,
+        orgId: this.organization.id,
+        isAdmin: values.isAdmin
+      }
     ).subscribe(
       newUser => {
+        this.userAdded = newUser;
         this.organization.users.push(newUser);
+      },
+      error => {
+        this.error = error;
       }
     );
 

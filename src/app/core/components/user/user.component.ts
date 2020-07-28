@@ -5,6 +5,7 @@ import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrganizationsService } from '@core/services/organizations.service';
 import { Organization } from '@core/models/organization';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -17,32 +18,28 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
-  organizations : Organization[];
+  organization : Organization;
   constructor(
     private userService: UserService,
     private orgService: OrganizationsService
   ) { }
 
   ngOnInit() {
-    const userSub = this.userService.user.subscribe(
-      user => {
-        if (!user) {
-          this.userService.fetchUser();
-        } else {
-          this.user = user;
-          this.initForm(user);
+    const userSub = this.userService.user.pipe(
+      switchMap(
+        user => {
+          if (!user) {
+            this.userService.fetchUser();
+          } else {
+            this.user = user;
+            this.initForm(user);
+          }
+          return this.orgService.getOrganizationById(this.user.orgId);
         }
-
-      },
-      error => {
-        console.log('error in user component: ' + error);
-      }
-    );
-
-    //tODO: this should be done with lookup
-    this.orgService.organizations.subscribe(
-      organizations => {
-        this.organizations = organizations;
+      )
+    ).subscribe(
+      (org: Organization) => {
+        this.organization = org;
       }
     );
 
@@ -76,12 +73,6 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     );
 
-  }
-
-  getOrgName(id) {
-    return this.organizations.find(
-      org => org.id === id
-    );
   }
 
   ngOnDestroy(): void {
