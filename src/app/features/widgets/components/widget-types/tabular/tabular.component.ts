@@ -110,7 +110,6 @@ export class TabularComponent implements OnInit, OnDestroy {
         if (threshold && val != null && !inThreshold) {
           agg++;
         }
-
         rowMetrics[metric.id] = {
           value: val,
           classes: {

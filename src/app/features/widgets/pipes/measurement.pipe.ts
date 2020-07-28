@@ -47,16 +47,17 @@ private average(values): number {
 
 // Returns the channel's maximum value
 private max(values): number {
-  return values[values.length - 1];
+  return values[values.length - 1].value;
 }
 
 // Returns the channel's minimum value
 private min(values): number {
-  return values[0];
+  return values[0].value;
 }
 
 // TODO: handle stattypesthat are unknown
 transform(values: any, type: any): any {
+  console.log(values)
   if (values && values.length > 0) {
     const sortedValues = this.sort(values);
     switch (type) {

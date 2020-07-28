@@ -83,7 +83,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           (measurement: Measurement) => {
             channelObj.series.push(
               {
-                name: moment.utc(measurement.starttime),
+                name: moment.utc(measurement.starttime).toDate(),
                 value: measurement.value
               }
             );
