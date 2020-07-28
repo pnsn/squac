@@ -23,8 +23,8 @@ interface UserHttpData {
 export class UserService {
   private url = 'user/me/';
   private currentUser;
+    //FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new ReplaySubject<User>();
-
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
@@ -57,7 +57,6 @@ export class UserService {
 
         this.currentUser.groups = groups;
         this.currentUser.squacAdmin = response.is_staff;
-        this.currentUser.orgUsers = response;
 
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);

@@ -38,14 +38,14 @@ export function defineAbilitiesFor(user: User) {
     can(['read', 'create'], ['Measurement', 'Metric', 'Archive']);
   }
 
-  if (user.isAdmin()) {
+  if (user.isStaff) {
     can('manage', 'all');
   }
 
   return rules;
 
 }
-// TODO: deal with ownership
+// TODO: deal with organizations
 
 // Viewers
 // see all resources

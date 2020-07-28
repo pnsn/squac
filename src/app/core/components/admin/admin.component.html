@@ -1,21 +1,46 @@
 
-<div id="admin-content">
-  <div id="column" *ngIf="user; else noUser">
-    <h1>Admin Settings</h1>
+<div id="admin-content" >
+  <div id="column" *ngIf="user && organization; else noUser">
+    <h1>{{organization.name}} Admin Settings</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
-    <ul *ngIf="user.orgUsers && organizations" >
-      <li *ngFor="let user of user.orgUsers"> 
-        {{getOrgName(user.orgId).name}}
-      </li>
-    </ul>
+
+    <h2>Users</h2>
+    <div>
+      <ul>
+        <li *ngFor="let orgUser of organization.users">
+          {{orgUser.firstname}} {{orgUser.lastname}} {{orgUser.isAdmin}} {{orgUser.lastLogin}}
+        </li>
+      </ul>
+
+    </div>
+    <mat-divider></mat-divider>
+    <h2>Add User</h2>
+    <form class="form" [formGroup]="addUserForm" (ngSubmit)="onSubmit()" >
+      <div *ngIf="error">
+        {{error}}
+      </div>
+      <mat-form-field>
+        <input matInput placeholder="First Name" formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Last Name" formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+      <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>
+
+      <button mat-flat-button color="accent" type="submit" [disabled]="!addUserForm.valid">Add User</button>
+    </form>
   </div>
+
 
 
   <ng-template #noUser>
     <p>
       Loading admin information, please wait.
     </p>
-
+    
   </ng-template>
 
 

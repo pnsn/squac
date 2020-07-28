@@ -5,11 +5,7 @@ import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { Organization } from '@core/models/organization';
 import { map } from 'rxjs/operators';
 import { User } from '@core/models/user';
-import { UserService } from './user.service';
-
-interface OrganizationHttpData {
-
-}
+import { UserService } from './user.service'; 
 
 // Service to get user info & reset things
 @Injectable({
@@ -34,6 +30,7 @@ export class OrganizationsService {
       response => {
         this.localOrganizations = [];
         for (let organization of response) {
+          console.log(organization)
           this.localOrganizations.push(this.mapOrganization(organization));
           this.organizations.next(this.localOrganizations);
         }
@@ -45,19 +42,48 @@ export class OrganizationsService {
     );
   }
 
-  getOrganizationById(id : number) {
-   return this.localOrganizations.find(
+  addUserToOrganization(user : User) : Observable<User> {
+    const url = "organization/users/";
+    const postData = {
+      email: user.email,
+      password: "pwthatgetsignored",
+      firstname:user.firstname,
+      lastname:user.lastname,
+      organization: user.orgId,
+      is_org_admin : user.isAdmin
+    } 
+    if (user.id) {
+      return this.squacApi.put(url, user.id, postData).pipe(
+        map((data) => this.mapOrgUsers(data))
+      );
+    } else {
+      return this.squacApi.post(url, postData).pipe(
+          map((data) => this.mapOrgUsers(data))
+        );
+    }
+  } 
+
+  getOrganizationById(id : number) : Observable<Organization>{
+   const org = this.localOrganizations.find(
       org => org.id === id
     );
     
-    // if (org) {
-    //   return of(org);
-    // } else {
-    //   return this.squacApi.get(this.url, id);
-    // }
+    if (org) {
+      return of(org);
+    } else {
+      return this.squacApi.get(this.url, id).pipe(
+        map(response => {
+          return this.mapOrganization(response);
+        }
+      ));
+    }
   }
   private mapOrganization(squacData) : Organization{
-    const users = this.mapOrgUsers(squacData.organization_users);
+    const users = [];
+    for ( let user of squacData.users) {
+      users.push(this.mapOrgUsers(user));
+    }
+    this.mapOrgUsers(squacData.users);
     const newOrg = new Organization(
       squacData.id,
       squacData.name,
@@ -67,24 +93,19 @@ export class OrganizationsService {
     return newOrg;
   }
 
-  private mapOrgUsers(squacData) : User[]{
-    const users = [];
-    for ( let user of squacData) {
-      const newUser = new User(
-        user.id,
-        user.email,
-        user.firstname,
-        user.lastname,
-        user.organization,
-        user.is_org_admin
-      )
+  private mapOrgUsers(user) : User{
+    const newUser = new User(
+      user.id,
+      user.email,
+      user.firstname,
+      user.lastname,
+      user.organization,
+      user.is_org_admin
+    )
 
-      newUser.isActive = user.is_active;
-      newUser.lastLogin = user.last_login;
-      users.push(newUser);
-    }
-    console.log(users)
-    return users;
+    newUser.isActive = user.is_active;
+    newUser.lastLogin = user.last_login;
+    return newUser;
   }
 
 }

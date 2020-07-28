@@ -18,11 +18,11 @@ export class User {
   isActive: boolean;
   groups: string[];
 
-  isStaff() : boolean{
+  get isStaff() : boolean{
     return this.squacAdmin ? this.squacAdmin : false;
   }
 
-  isAdmin(): boolean {
+  get isAdmin(): boolean {
     return this.orgAdmin; //or is an admin of the current group?
   }
 
