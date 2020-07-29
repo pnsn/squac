@@ -14,21 +14,21 @@ import { MetricsDetailComponent } from './features/metrics/metrics-detail/metric
 import { MetricsViewComponent } from './features/metrics/metrics-view/metrics-view.component';
 import { MetricsEditComponent } from './features/metrics/metrics-edit/metrics-edit.component';
 import { HttpErrorInterceptor } from './core/interceptors/http-error-interceptor.service';
-import { DashboardsModule } from './features/dashboards/dashboards.module';
-import { SharedModule } from './shared/shared.module';
+import { DashboardsModule } from '@features/dashboards/dashboards.module';
+import { SharedModule } from '@shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { UserComponent } from './core/components/user/user.component';
+import { UserComponent } from '@core/components/user/user.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
-import { LoginComponent } from './core/components/login/login.component';
-import { AppAbility } from './core/utils/ability';
+import { PasswordResetComponent } from '@core/components/password-reset/password-reset.component';
+import { LoginComponent } from '@core/components/login/login.component';
+import { AppAbility } from '@core/utils/ability';
 import { ChannelGroupsModule } from './features/channel-groups/channel-groups.module';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
-import { AdminComponent } from './core/components/admin/admin.component';
-import { LoadingScreenComponent } from './core/components/loading-screen/loading-screen.component';
+import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
+import { OrganizationComponent } from '@core/components/organization/organization.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { LoadingScreenComponent } from './core/components/loading-screen/loading
     PasswordResetComponent,
     LoginComponent,
     NotFoundComponent,
-    AdminComponent,
+    OrganizationComponent,
     LoadingScreenComponent
   ],
   imports: [

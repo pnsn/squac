@@ -41,10 +41,6 @@ export class UserService {
     .subscribe(
       response => {
 
-        const groups = [];
-        for (const group of response.groups) {
-          groups.push(group.name);
-        }
 
         this.currentUser = new User(
           response.id,
@@ -52,10 +48,9 @@ export class UserService {
           response.firstname,
           response.lastname,
           response.organization,
-          response.is_org_admin
+          response.is_org_admin,
+          response.groups
         );
-
-        this.currentUser.groups = groups;
         this.currentUser.squacAdmin = response.is_staff;
 
         this.ability.update(defineAbilitiesFor(this.currentUser));

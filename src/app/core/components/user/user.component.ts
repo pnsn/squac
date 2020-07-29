@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrganizationsService } from '@core/services/organizations.service';
 import { Organization } from '@core/models/organization';
 import { switchMap } from 'rxjs/operators';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -19,15 +20,29 @@ export class UserComponent implements OnInit, OnDestroy {
   editMode: boolean;
   hide = true;
   organization : Organization;
+  id;
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService,
     private orgService: OrganizationsService
   ) { }
 
   ngOnInit() {
+    const paramsSub = this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params.id;
+        this.editMode = !!this.id;
+      },
+      error => {
+        console.log('error getting params: ' + error);
+      }
+    );
+
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
+          console.log("have a user")
           if (!user) {
             this.userService.fetchUser();
           } else {
@@ -39,6 +54,7 @@ export class UserComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       (org: Organization) => {
+        console.log("have a user")
         this.organization = org;
       }
     );

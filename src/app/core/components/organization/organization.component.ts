@@ -6,19 +6,23 @@ import { Organization } from '@core/models/organization';
 import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'app-organization',
+  templateUrl: './organization.component.html',
+  styleUrls: ['./organization.component.scss']
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class OrganizationComponent implements OnInit, OnDestroy {
   user : User;
   organization: Organization;
   addUserForm : FormGroup;
   userAdded: User;
-  subscription: Subscription = new Subscription;
+  subscription: Subscription = new Subscription();
   error: string;
+
+  ColumnMode = ColumnMode;
+
   constructor(
     private userService: UserService,
     private orgService : OrganizationsService,
@@ -29,19 +33,22 @@ export class AdminComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
+          console.log("have a user")
           this.user = user;
           return this.orgService.getOrganizationById(this.user.orgId);
         }
       )
     ).subscribe(
       (org: Organization) => {
+        console.log("doing org stuff")
         this.organization = org;
       }
     );
 
     this.addUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      isAdmin: [false, Validators.required]
+      isAdmin: [false, Validators.required],
+      groups: ['', Validators.required]
     });
     this.subscription.add(userSub)
   }
@@ -56,6 +63,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       {
         email: values.email,
         orgId: this.organization.id,
+        groups: [values.groups],
         isAdmin: values.isAdmin
       }
     ).subscribe(
@@ -70,9 +78,4 @@ export class AdminComponent implements OnInit, OnDestroy {
 
 
   }
-  //get user 
-  // get organizations
-  // select organization to edit
-  // configure squac subpage?
-  // edit organization route
 }

@@ -1,7 +1,6 @@
 // Describes a user object
 export class User {
 
-
   constructor(
     public id: number,
     public email: string,
@@ -9,9 +8,15 @@ export class User {
     public lastname: string,
     public orgId: number,
     public orgAdmin: boolean,
-
+    groupsArr: any
   ) {
 
+    this.groups = [];
+    if(groupsArr) {
+      for (const group of groupsArr) {
+        this.groups.push(group.name);
+      }
+    }
   }
   lastLogin: string;
   squacAdmin:boolean;

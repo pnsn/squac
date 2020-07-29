@@ -1,0 +1,87 @@
+
+<div id="organization-content" >
+  <div id="column" *ngIf="user && organization; else noUser">
+    <h1>{{organization.name}} Admin Settings</h1>
+    <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
+
+    <h2>Users</h2>
+    <div>
+      <ul>
+        <li *ngFor="let orgUser of organization.users">
+          {{orgUser.firstname}} {{orgUser.lastname}} {{orgUser.isAdmin}} {{orgUser.lastLogin}}
+        </li>
+      </ul>
+      <ngx-datatable
+      class="material"
+      [rows]="organization.users"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [scrollbarV]="true"
+      (page)="onPage($event)"
+    >
+      <ngx-datatable-column name="First Name" prop="firstname" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Last Name" prop="lastname" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Email" prop="email" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Last Login" prop="lastLogin" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Active" prop="isActive" [width]="100"></ngx-datatable-column>
+    </ngx-datatable>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <h2>Add User</h2>
+      <form class="form" [formGroup]="addUserForm" (ngSubmit)="onSubmit()" >
+        <div *ngIf="error">
+          {{error}}
+        </div>
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="groups">
+            <mat-option value="viewer">Viewer</mat-option>
+            <mat-option value="reporter" disabled>Reporter</mat-option>
+            <mat-option value="contributer">Contributer</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        
+        <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>
+  
+        <button mat-flat-button color="accent" type="submit" [disabled]="!addUserForm.valid">Add User</button>
+      </form>
+      <div *ngIf="!!userAdded">
+        Invitation email sent to {{userAdded.email}}
+      </div>
+    </div>
+
+    <!-- <div *ngIf="user.isAdmin"> -->
+      <div>
+        <h3>
+          Squac User Roles:
+        </h3>
+      <p>
+        Contributer - can add metrics
+        Reporter - can create dashboards....
+        Viewer - can see dashboards/groups.
+
+      </p>
+    </div>
+  </div>
+
+
+
+  <ng-template #noUser>
+    <p>
+      Loading admin information, please wait.
+    </p>
+    
+  </ng-template>
+
+
+
+</div>

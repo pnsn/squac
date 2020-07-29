@@ -6,6 +6,7 @@ import { Organization } from '@core/models/organization';
 import { map } from 'rxjs/operators';
 import { User } from '@core/models/user';
 import { UserService } from './user.service'; 
+import { groupRowsByParents } from '@swimlane/ngx-datatable';
 
 // Service to get user info & reset things
 @Injectable({
@@ -42,24 +43,26 @@ export class OrganizationsService {
     );
   }
 
-  addUserToOrganization(user: {email:string, isAdmin: boolean, orgId: number}) : Observable<User> {
+  addUserToOrganization(user: {email:string, isAdmin: boolean, orgId: number, groups:string[], id?: number}) : Observable<User> {
     const url = "organization/users/";
     const postData = {
       email: user.email,
       password: "pwthatgetsignored",
       firstname: "firstname",
       lastname: "lastname",
+      groups: user.groups,
       organization: user.orgId,
       is_org_admin : user.isAdmin
     } 
-    // if (user.id) {
-    //   return this.squacApi.put(url, user.id, postData).pipe(
-    //     map((data) => this.mapOrgUsers(data))
-    //   );
-    // } else {
+    if (user.id) {
+      return this.squacApi.put(url, user.id, postData).pipe(
+        map((data) => this.mapOrgUsers(data))
+      );
+    } else {
       return this.squacApi.post(url, postData).pipe(
           map((data) => this.mapOrgUsers(data))
         );
+    }
 
   } 
 
@@ -100,9 +103,9 @@ export class OrganizationsService {
       user.firstname,
       user.lastname,
       user.organization,
-      user.is_org_admin
+      user.is_org_admin,
+      user.groups
     )
-
     newUser.isActive = user.is_active;
     newUser.lastLogin = user.last_login;
     return newUser;
