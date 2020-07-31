@@ -14,7 +14,11 @@ export class User {
     this.groups = [];
     if(groupsArr) {
       for (const group of groupsArr) {
-        this.groups.push(group.name);
+        if(group instanceof Object) {
+          this.groups.push(group.name);
+        } else {
+          this.groups.push(group.toString());
+        }
       }
     }
   }

@@ -26,7 +26,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             // server-side error
             errorMessage = 'Error: ' + error.error;
           } else {
-            console.log("error has a weird format")
+            // errorMessage =
+            console.log("error has a weird format", error)
           }
           return throwError(errorMessage);
         })

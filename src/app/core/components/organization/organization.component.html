@@ -46,10 +46,8 @@
           <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form">
             <mat-form-field>
               <mat-label>Role</mat-label>
-              <mat-select formControlName="editGroups" multiple>
-                <mat-option value="viewer">Viewer</mat-option>
-                <mat-option value="reporter">Reporter</mat-option>
-                <mat-option value="contributer">Contributer</mat-option>
+              <mat-select formControlName="editGroups" multiple >
+                <mat-option *ngFor="let group of groups" [value]="group.id">{{group.role}}</mat-option>
               </mat-select>
             </mat-form-field>
           
@@ -75,9 +73,7 @@
         <mat-form-field>
           <mat-label>Role</mat-label>
           <mat-select formControlName="groups" multiple>
-            <mat-option value="viewer">Viewer</mat-option>
-            <mat-option value="reporter">Reporter</mat-option>
-            <mat-option value="contributer">Contributer</mat-option>
+            <mat-option *ngFor="let group of groups" [value]="group.id">{{group.role | json}}</mat-option>
           </mat-select>
         </mat-form-field>
         

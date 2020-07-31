@@ -25,6 +25,18 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   @ViewChild('userTable') table: any;
   ColumnMode = ColumnMode;
   expanded: any = {};
+
+  groups =[
+    { 
+      id: 1, role: "viewer"
+    },
+    {
+      id: 2, role: "reporter"
+    },
+    {
+      id: 3, role: "contributor"
+    }
+  ];
   constructor(
     private userService: UserService,
     private orgService : OrganizationsService,
@@ -45,6 +57,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       (org: Organization) => {
         console.log("doing org stuff")
         this.organization = org;
+        console.log(this.organization)
       }
     );
 
@@ -95,7 +108,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     this.table.rowDetail.toggleExpandRow(row);
   }
 
-  expandRow(row) {
+  expandRow(row : User) {
 
     //row is open populate form
     console.log('Toggled Expand Row!', row);
@@ -103,13 +116,16 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     this.table.rowDetail.collapseAllRows();
 
     this.table.rowDetail.toggleExpandRow(row);
-
+    // console.log(row.groups)
+    // // this.editUserForm.get("editGroups").setValue(row.groups);
+    console.log(this.editUserForm.value.editGroups)
     this.editUserForm.patchValue(
       {
         editGroups : row.groups,
         editIsAdmin: row.isAdmin
       }
     );
+    console.log(this.editUserForm.value.editGroups)
   }
   sendInvite(id) {
     console.log("send invite to user ", id);

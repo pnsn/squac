@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from './squacapi.service';
-import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject, forkJoin } from 'rxjs';
 import { Organization } from '@core/models/organization';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { User } from '@core/models/user';
 import { UserService } from './user.service'; 
 import { groupRowsByParents } from '@swimlane/ngx-datatable';
@@ -31,7 +31,7 @@ export class OrganizationsService {
       response => {
         this.localOrganizations = [];
         for (let organization of response) {
-          console.log(organization)
+          //FIXME: won't have user information
           this.localOrganizations.push(this.mapOrganization(organization));
           this.organizations.next(this.localOrganizations);
         }
@@ -68,35 +68,55 @@ export class OrganizationsService {
   } 
 
   getOrganizationById(id : number) : Observable<Organization>{
-   const org = this.localOrganizations.find(
-      org => org.id === id
-    );
+  //  const org = this.localOrganizations.find(
+  //     org => org.id === id
+  //   );
     
-    if (org) {
-      return of(org);
-    } else {
-      return this.squacApi.get(this.url, id).pipe(
-        map(response => {
-          return this.mapOrganization(response);
+    // if (org) {
+    //   return of(org);
+    // } else {
+
+      return forkJoin(
+        {
+          users: this.getOrganizationUsers(id),
+          organization: this.squacApi.get(this.url, id)
         }
-      ));
-    }
+      ).pipe( map(
+          response => {
+            return this.mapOrganization(response.organization, response.users)
+          }
+        )
+      );
+    // }
   }
-  private mapOrganization(squacData) : Organization{
-    const users = [];
-    for ( let user of squacData.users) {
-      users.push(this.mapOrgUsers(user));
-    }
-    this.mapOrgUsers(squacData.users);
+
+  getOrganizationUsers(orgId) : Observable<User[]>{
+    const url = "organization/users/";
+    return this.squacApi.get(url, null, {
+        organization:orgId 
+      }).pipe(map(response => {
+        const users = [];
+        for(let user of response) {
+          users.push(this.mapOrgUsers(user));
+        }
+        return users;
+      }
+    ));
+  }
+
+  private mapOrganization(squacData, users?) : Organization{
     const newOrg = new Organization(
       squacData.id,
       squacData.name,
       squacData.description,
-      users
+      users ? users: []
     );
     return newOrg;
   }
 
+  // 1: viewer
+  // 2: reporter
+  // 3: contributor
   private mapOrgUsers(user) : User{
     const newUser = new User(
       user.id,
@@ -107,7 +127,6 @@ export class OrganizationsService {
       user.is_org_admin,
       user.groups
     )
-    console.log(user.groups)
     newUser.isActive = user.is_active;
     newUser.lastLogin = user.last_login;
     return newUser;
