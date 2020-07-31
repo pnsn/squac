@@ -45,6 +45,7 @@ export class UserComponent implements OnInit, OnDestroy {
           console.log("have a user")
           if (!user) {
             this.userService.fetchUser();
+            console.log("hfetch user?")
           } else {
             this.user = user;
             this.initForm(user);
@@ -54,7 +55,7 @@ export class UserComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       (org: Organization) => {
-        console.log("have a user")
+        console.log("have a org?")
         this.organization = org;
       }
     );

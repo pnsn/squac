@@ -1,16 +1,11 @@
 
 <div id="organization-content" >
   <div id="column" *ngIf="user && organization; else noUser">
-    <h1>{{organization.name}} Admin Settings</h1>
+    <h1>{{organization.name}} Organization</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
 
     <h2>Users</h2>
     <div>
-      <ul>
-        <li *ngFor="let orgUser of organization.users">
-          {{orgUser.firstname}} {{orgUser.lastname}} {{orgUser.isAdmin}} {{orgUser.lastLogin}}
-        </li>
-      </ul>
       <ngx-datatable
       class="material"
       [rows]="organization.users"
@@ -24,14 +19,29 @@
       <ngx-datatable-column name="First Name" prop="firstname" [width]="100"></ngx-datatable-column>
       <ngx-datatable-column name="Last Name" prop="lastname" [width]="100"></ngx-datatable-column>
       <ngx-datatable-column name="Email" prop="email" [width]="100"></ngx-datatable-column>
-      <ngx-datatable-column name="Last Login" prop="lastLogin" [width]="100"></ngx-datatable-column>
-      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Last Login" prop="lastLogin" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template >
+         {{ value | date:'short' }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value ? "Admin" : ""}}
+         </ng-template>
+
+      </ngx-datatable-column>
       <ngx-datatable-column name="Active" prop="isActive" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin">
+        <ng-template let-value="value" ngx-datatable-cell-template >
+          <button (click)="editUser(value)">Edit</button>
+         </ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Groups" prop="groups" [width]="100" *ngIf="isAdmin"></ngx-datatable-column> -->
     </ngx-datatable>
 
     </div>
     <mat-divider></mat-divider>
-    <div>
+    <div *ngIf="isAdmin">
       <h2>Add User</h2>
       <form class="form" [formGroup]="addUserForm" (ngSubmit)="onSubmit()" >
         <div *ngIf="error">
@@ -77,7 +87,7 @@
 
   <ng-template #noUser>
     <p>
-      Loading admin information, please wait.
+      Loading Organization information, please wait.
     </p>
     
   </ng-template>

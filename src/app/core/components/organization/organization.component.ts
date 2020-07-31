@@ -15,6 +15,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 })
 export class OrganizationComponent implements OnInit, OnDestroy {
   user : User;
+  isAdmin: boolean;
   organization: Organization;
   addUserForm : FormGroup;
   userAdded: User;
@@ -35,6 +36,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
         user => {
           console.log("have a user")
           this.user = user;
+          this.isAdmin = user.isAdmin;
           return this.orgService.getOrganizationById(this.user.orgId);
         }
       )
@@ -56,7 +58,9 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
-
+  editUser(id){
+    console.log(id)
+  }
   onSubmit() {
     const values = this.addUserForm.value;
     this.orgService.addUserToOrganization(

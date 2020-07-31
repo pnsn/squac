@@ -106,6 +106,7 @@ export class OrganizationsService {
       user.is_org_admin,
       user.groups
     )
+    console.log(user.groups)
     newUser.isActive = user.is_active;
     newUser.lastLogin = user.last_login;
     return newUser;
