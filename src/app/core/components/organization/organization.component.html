@@ -4,9 +4,10 @@
     <h1>{{organization.name}} Organization</h1>
     <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
 
-    <h2>Users</h2>
+    <h2>Organization Users</h2>
     <div>
       <ngx-datatable
+      id="user-table"
       #userTable
       class="material"
       [rows]="organization.users"
@@ -15,34 +16,34 @@
       [footerHeight]="50"
       [rowHeight]="50"
       [scrollbarV]="true"
-      (page)="onPage($event)"
     >
       <ngx-datatable-column name="First Name" prop="firstname" [width]="100"></ngx-datatable-column>
-      <ngx-datatable-column name="Last Name" prop="lastname" [width]="100"></ngx-datatable-column>
-      <ngx-datatable-column name="Email" prop="email" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column name="Last Name" prop="lastname" [width]="150"></ngx-datatable-column>
+      <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
       <ngx-datatable-column name="Last Login" prop="lastLogin" [width]="100">
         <ng-template let-value="value" ngx-datatable-cell-template >
-         {{ value | date:'short' }}
+         {{ value | date:'shortDate' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="100">
+      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="75">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value ? "Admin" : ""}}
          </ng-template>
 
       </ngx-datatable-column>
-      <ngx-datatable-column name="Active" prop="isActive" [width]="100"></ngx-datatable-column>
-      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin">
+      <ngx-datatable-column name="Active" prop="isActive" [width]="75"></ngx-datatable-column>
+      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin" [width]="100">
         <ng-template let-row="row"  let-expanded="expanded" ngx-datatable-cell-template >
           <button *ngIf="!expanded" (click)="expandRow(row)">Edit</button> 
           <button *ngIf="expanded" (click)="cancelUserEdit(row)">Cancel</button> 
           <!-- toggle edit and cancel button -->
          </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-row-detail  [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ngx-datatable-row-detail  [rowHeight]="100" #detailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div><strong>Edit User: </strong> {{row.firstname}} {{row.lastname}}</div>
-          <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)">
+          <button (click)="sendInvite(row.id)">Invite</button>
+          <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form">
             <mat-form-field>
               <mat-label>Role</mat-label>
               <mat-select formControlName="editGroups" multiple>
@@ -64,7 +65,7 @@
     <mat-divider></mat-divider>
     <div *ngIf="isAdmin">
       <h2>Add User</h2>
-      <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" >
+      <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" class="user-form">
         <div *ngIf="error">
           {{error}}
         </div>
@@ -95,12 +96,17 @@
         <h3>
           Squac User Roles:
         </h3>
-      <p>
-        Contributer - can add metrics
-        Reporter - can create dashboards....
-        Viewer - can see dashboards/groups.
-
-      </p>
+      <ul>
+        <li>
+          Contributer - can add metrics
+        </li>
+        <li>
+          Reporter - can create dashboards....
+        </li>
+        <li>
+          Viewer - can see dashboards/groups.
+        </li>
+      </ul>
     </div>
   </div>
 

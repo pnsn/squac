@@ -111,6 +111,9 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       }
     );
   }
+  sendInvite(id) {
+    console.log("send invite to user ", id);
+  }
 
   addNewUser() {
     const values = this.addUserForm.value;
