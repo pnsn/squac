@@ -43,7 +43,7 @@ export class OrganizationsService {
     );
   }
 
-  addUserToOrganization(user: {email:string, isAdmin: boolean, orgId: number, groups:string[], id?: number}) : Observable<User> {
+  updateUser(user: {email:string, isAdmin: boolean, orgId: number, groups:string[], id?: number}) : Observable<User> {
     const url = "organization/users/";
     const postData = {
       email: user.email,
@@ -61,6 +61,7 @@ export class OrganizationsService {
     } else {
       return this.squacApi.post(url, postData).pipe(
           map((data) => this.mapOrgUsers(data))
+
         );
     }
 

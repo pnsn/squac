@@ -7,6 +7,7 @@
     <h2>Users</h2>
     <div>
       <ngx-datatable
+      #userTable
       class="material"
       [rows]="organization.users"
       [columnMode]="ColumnMode.force"
@@ -32,10 +33,30 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Active" prop="isActive" [width]="100"></ngx-datatable-column>
       <ngx-datatable-column name="" prop="id" *ngIf="isAdmin">
-        <ng-template let-value="value" ngx-datatable-cell-template >
-          <button (click)="editUser(value)">Edit</button>
+        <ng-template let-row="row"  let-expanded="expanded" ngx-datatable-cell-template >
+          <button *ngIf="!expanded" (click)="expandRow(row)">Edit</button> 
+          <button *ngIf="expanded" (click)="cancelUserEdit(row)">Cancel</button> 
+          <!-- toggle edit and cancel button -->
          </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-row-detail  [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div><strong>Edit User: </strong> {{row.firstname}} {{row.lastname}}</div>
+          <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)">
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+              <mat-select formControlName="editGroups" multiple>
+                <mat-option value="viewer">Viewer</mat-option>
+                <mat-option value="reporter">Reporter</mat-option>
+                <mat-option value="contributer">Contributer</mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <mat-checkbox formControlName="editIsAdmin">Admin</mat-checkbox>
+            <button type="submit" [disabled]="!editUserForm.valid">Save User</button>
+          </form>
+        </ng-template>
+      </ngx-datatable-row-detail>
       <!-- <ngx-datatable-column name="Groups" prop="groups" [width]="100" *ngIf="isAdmin"></ngx-datatable-column> -->
     </ngx-datatable>
 
@@ -43,7 +64,7 @@
     <mat-divider></mat-divider>
     <div *ngIf="isAdmin">
       <h2>Add User</h2>
-      <form class="form" [formGroup]="addUserForm" (ngSubmit)="onSubmit()" >
+      <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" >
         <div *ngIf="error">
           {{error}}
         </div>
@@ -52,9 +73,9 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Role</mat-label>
-          <mat-select formControlName="groups">
+          <mat-select formControlName="groups" multiple>
             <mat-option value="viewer">Viewer</mat-option>
-            <mat-option value="reporter" disabled>Reporter</mat-option>
+            <mat-option value="reporter">Reporter</mat-option>
             <mat-option value="contributer">Contributer</mat-option>
           </mat-select>
         </mat-form-field>
