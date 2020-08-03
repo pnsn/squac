@@ -116,8 +116,6 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     this.table.rowDetail.collapseAllRows();
 
     this.table.rowDetail.toggleExpandRow(row);
-    // console.log(row.groups)
-    // // this.editUserForm.get("editGroups").setValue(row.groups);
     console.log(this.editUserForm.value.editGroups)
     this.editUserForm.patchValue(
       {

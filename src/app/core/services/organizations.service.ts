@@ -48,8 +48,8 @@ export class OrganizationsService {
     const postData = {
       email: user.email,
       password: "pwthatgetsignored",
-      firstname: "firstname",
-      lastname: "lastname",
+      firstname: "firstName",
+      lastname: "lastName",
       groups: user.groups,
       organization: user.orgId,
       is_org_admin : user.isAdmin

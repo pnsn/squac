@@ -9,8 +9,8 @@ export class MockUserService {
   private currentUser = new User(
     1,
     'email',
-    'firstname',
-    'lastname',
+    'firstName',
+    'lastName',
     true,
     ['contributor']
   );

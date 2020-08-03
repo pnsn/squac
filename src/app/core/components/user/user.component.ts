@@ -65,11 +65,11 @@ export class UserComponent implements OnInit, OnDestroy {
 
   initForm(user) {
     this.userForm = new FormGroup({
-      firstname: new FormControl(
-        user.firstname,
+      firstName: new FormControl(
+        user.firstName,
         Validators.required
         ),
-      lastname: new FormControl(user.lastname, Validators.required),
+      lastName: new FormControl(user.lastName, Validators.required),
       email: new FormControl(user.email, [Validators.required, Validators.email])
     });
   }
