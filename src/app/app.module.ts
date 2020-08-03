@@ -29,6 +29,7 @@ import { ChannelGroupsModule } from './features/channel-groups/channel-groups.mo
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
 import { OrganizationComponent } from '@core/components/organization/organization.component';
+import { UserEditComponent } from './core/components/user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { OrganizationComponent } from '@core/components/organization/organizatio
     LoginComponent,
     NotFoundComponent,
     OrganizationComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,
