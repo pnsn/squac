@@ -25,9 +25,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             console.log("Server error", error);
             // server-side error
             errorMessage = 'Error: ' + error.error;
-          } else {
-            // errorMessage =
-            console.log("error has a weird format", error)
+          } else if(error.error instanceof Object){
+            const keys = Object.keys(error.error);
+            if(keys) {
+              errorMessage = "Error: ";
+              for(let errorMsg of keys) {
+                errorMessage += errorMsg + " " + error.error[errorMsg];
+              }
+            } else {
+              errorMessage = "Unknown error occured."
+            }
           }
           return throwError(errorMessage);
         })

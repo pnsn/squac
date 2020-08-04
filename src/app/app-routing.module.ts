@@ -14,6 +14,7 @@ import { PermissionGuard } from './core/guards/permission.guard';
 import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { OrganizationComponent } from '@core/components/organization/organization.component';
+import { UserEditComponent } from '@core/components/user-edit/user-edit.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -35,8 +36,20 @@ const appRoutes: Routes = [
       }
     ]
   },
+  {
+    path: 'signup',
+    component: AuthComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      {
+        path: '',
+        component: UserEditComponent
+      }
+    ]
+  },
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
   { path: 'user', canActivate: [AuthGuard], component: UserComponent},
+
   { path: 'organization', canActivate: [AuthGuard], component: OrganizationComponent},
   { path: 'metrics',
     component: MetricsComponent,

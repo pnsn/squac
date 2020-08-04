@@ -1,1 +1,42 @@
-<p>user-edit works!</p>
+<h1> Welcome to SQUAC! </h1>
+<form *ngIf="token; else noToken" autocomplete="off" (ngSubmit)="sendPassword()">
+  <p>Please enter a password for your new account. </p>
+
+  <mat-form-field class="">
+    <mat-label>New Password</mat-label>
+
+    <input 
+      matInput
+      [formControl]="newPassword"
+      autocomplete="off"
+      placeholder="Enter new password"
+      [type]="hide ? 'password' : 'text'"
+    >
+
+  </mat-form-field>
+  <mat-form-field class="">
+    <mat-label>Confirm New Password</mat-label>
+    <input
+      matInput
+      [formControl]="passwordConfirm"
+      autocomplete="off"
+      placeholder="Confirm new password"
+      [type]="hide ? 'password' : 'text'"
+    >
+    <button mat-icon-button matSuffix type="button" (click)="hide = !hide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-error *ngIf="newPassword.hasError('required')">
+    Password is <strong>required</strong>
+  </mat-error>
+
+  <mat-error *ngIf="newPassword.value !== passwordConfirm.value">Passwords do not match</mat-error>
+  <button mat-raised-button [disabled]="!newPassword.valid || newPassword.value !== passwordConfirm.value">Create Account</button>
+</form>
+
+<ng-template #noToken>
+  <p>No token, please try again. </p>
+</ng-template>
+
+<app-error *ngIf="error" errorMsg="error"></app-error>

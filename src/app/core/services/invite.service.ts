@@ -28,7 +28,7 @@ export class InviteService {
   }
 
   registerUser(token:string, password:string) {
-    return this.squacApi.post(this.url + "registration", {token, password});
+    return this.squacApi.post(this.url + "register/", {token, password});
   }
 
 }
