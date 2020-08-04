@@ -7,6 +7,7 @@ import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { InviteService } from '@core/services/invite.service';
 
 @Component({
   selector: 'app-organization',
@@ -20,6 +21,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   addUserForm : FormGroup;
   editUserForm : FormGroup;
   userAdded: User;
+  inviteSent : boolean;
   subscription: Subscription = new Subscription();
   error: string;
   @ViewChild('userTable') table: any;
@@ -40,7 +42,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private orgService : OrganizationsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private inviteService: InviteService
   ) { }
 
   ngOnInit(): void {
@@ -48,9 +51,12 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       switchMap(
         user => {
           console.log("have a user")
-          this.user = user;
-          this.isAdmin = user.isAdmin;
-          return this.orgService.getOrganizationById(this.user.orgId);
+          if(user) {
+            this.user = user;
+            this.isAdmin = user.isAdmin;
+            return this.orgService.getOrganizationById(this.user.orgId);
+          }
+
         }
       )
     ).subscribe(
@@ -125,7 +131,13 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     );
     console.log(this.editUserForm.value.editGroups)
   }
+
   sendInvite(id) {
+    this.inviteService.sendInviteToUser(id).subscribe(
+      response => {
+        console.log(response);
+      }
+    )
     console.log("send invite to user ", id);
   }
 
@@ -141,6 +153,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     ).subscribe(
       newUser => {
         this.userAdded = newUser;
+        this.sendInvite(newUser.id);
         this.addUserForm.reset();
         // this.organization.users.push(newUser);
       },

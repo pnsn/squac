@@ -94,7 +94,7 @@
   
         <button mat-flat-button color="accent" type="submit" [disabled]="!addUserForm.valid">Add User</button>
       </form>
-      <div *ngIf="!!userAdded">
+      <div *ngIf="!!userAdded" id="invite-sent">
         Invitation email sent to {{userAdded.email}}
       </div>
     </div>

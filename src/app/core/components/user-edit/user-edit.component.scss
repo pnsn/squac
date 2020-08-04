@@ -1,6 +1,7 @@
 @import 'variables';
 
   form {
+    padding: 10px;
     display:flex;
     flex-direction: column;
     mat-form-field {
@@ -10,7 +11,7 @@
       margin-top: 10px;
     }
     button {
-      margin-top:10px
+      margin:10px 0px;
     }
   }
 
