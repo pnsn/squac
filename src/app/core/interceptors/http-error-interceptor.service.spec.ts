@@ -40,7 +40,7 @@ describe('HttpErrorInterceptor', () => {
 
   it('should throw error if error response returned from api', () => {
     const testError = {
-      error: "test-message",
+      error: 'test-message',
       status: 404
     };
     // arrange
@@ -61,7 +61,7 @@ describe('HttpErrorInterceptor', () => {
 
   it('should throw error if weird error response returned from api', () => {
     const testError = {
-      error: {message: "error message"},
+      error: {message: 'error message'},
       status: 404
     };
     // arrange
@@ -75,7 +75,7 @@ describe('HttpErrorInterceptor', () => {
         .subscribe(
             result => {},
             err => {
-              expect(err).toEqual('Error: ' + "message " + testError.error.message);
+              expect(err).toEqual('Error: ' + 'message ' + testError.error.message);
             }
         );
   });

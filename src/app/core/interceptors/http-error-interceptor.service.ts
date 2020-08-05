@@ -21,7 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             // client-side error
             console.log('Client error', error);
             errorMessage = 'Error: ' + error.error.message;
-          } else if (typeof error.error === "string") {
+          } else if (typeof error.error === 'string') {
             console.log('Server error', error);
             // server-side error
             errorMessage = 'Error: ' + error.error;
@@ -32,7 +32,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               for (const errorMsg of keys) {
                 errorMessage += errorMsg + ' ' + error.error[errorMsg];
               }
-            } 
+            }
           }
           return throwError(errorMessage);
         })

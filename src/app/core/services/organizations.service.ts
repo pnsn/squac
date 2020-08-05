@@ -22,11 +22,11 @@ export class OrganizationsService {
     private squacApi: SquacApiService
   ) { }
 
-  //Temp until Jon fixes
+  // Temp until Jon fixes
   private groupIds = {
-    "viewer" : 1,
-    "reporter" : 2,
-    "contributer" : 3
+    viewer : 1,
+    reporter : 2,
+    contributer : 3
   };
 
   getOrganizations() {
@@ -53,10 +53,10 @@ export class OrganizationsService {
   updateUser(user: {email: string, isAdmin: boolean, orgId: number, groups: string[], id?: number}): Observable<User> {
     const url = 'organization/users/';
 
-    //get the ids
+    // get the ids
     const groups = [];
-    for(let group of user.groups) {
-      if(this.groupIds[group]) {
+    for (const group of user.groups) {
+      if (this.groupIds[group]) {
         groups.push(this.groupIds[group]);
       }
     }
@@ -66,7 +66,7 @@ export class OrganizationsService {
       password: 'pwthatgetsignored',
       firstname: 'firstName',
       lastname: 'lastName',
-      groups: groups,
+      groups,
       organization: user.orgId,
       is_org_admin : user.isAdmin
     };
