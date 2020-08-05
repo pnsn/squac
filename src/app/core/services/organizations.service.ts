@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { BehaviorSubject, Observable, of, ReplaySubject, forkJoin } from 'rxjs';
 import { Organization } from '@core/models/organization';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, find } from 'rxjs/operators';
 import { User } from '@core/models/user';
 import { UserService } from './user.service';
 import { groupRowsByParents } from '@swimlane/ngx-datatable';
@@ -23,11 +23,11 @@ export class OrganizationsService {
   ) { }
 
   // Temp until Jon fixes
-  private groupIds = {
-    viewer : 1,
-    reporter : 2,
-    contributer : 3
-  };
+  private groupIds = [
+    {id: 1, name: "viewer"},
+    {id: 2, name: "reporter"},
+    {id: 3, name: "contributor"}
+  ];
 
   getOrganizations() {
     return this.localOrganizations.slice();
@@ -55,9 +55,10 @@ export class OrganizationsService {
 
     // get the ids
     const groups = [];
-    for (const group of user.groups) {
-      if (this.groupIds[group]) {
-        groups.push(this.groupIds[group]);
+    for (const groupName of user.groups) {
+      const group = this.groupIds.find(group => group.name === groupName);
+      if (group) {
+        groups.push(group.id);
       }
     }
 
@@ -131,6 +132,15 @@ export class OrganizationsService {
   }
 
   private mapOrgUsers(user): User {
+    // get the ids
+    // get the ids
+    const groups = [];
+    for (const groupID of user.groups) {
+      const group = this.groupIds.find(group => group.id === groupID);
+      if (group) {
+        groups.push(group.name);
+      }
+    }
     const newUser = new User(
       user.id,
       user.email,
@@ -138,11 +148,10 @@ export class OrganizationsService {
       user.lastname,
       user.organization,
       user.is_org_admin,
-      user.groups
+      groups
     );
     newUser.isActive = user.is_active;
     newUser.lastLogin = user.last_login;
     return newUser;
   }
-
 }
