@@ -9,10 +9,10 @@ export class MockUserService {
   private currentUser = new User(
     1,
     'email',
-    'firstname',
-    'lastname',
+    'firstName',
+    'lastName',
+    1,
     true,
-    'organization',
     ['contributor']
   );
   user = new BehaviorSubject<User>(null);

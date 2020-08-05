@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ChannelGroup } from '../../../../core/models/channel-group';
+import { ChannelGroup } from '@core/models/channel-group';
 import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { FormGroup, FormControl, FormArray, FormGroupName, Validators, NgForm, FormBuilder } from '@angular/forms';
-import { ChannelsService } from '../../../../core/services/channels.service';
-import { Channel } from '../../../../core/models/channel';
+import { ChannelsService } from '../../services/channels.service';
+import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 
@@ -82,7 +82,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupForm = this.formBuilder.group({
       name : new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      isPublic: new FormControl('')
+      shareOrg: new FormControl(false),
+      shareAll: new FormControl(false)
     });
 
     // if editing existing group, populate with the info
@@ -93,7 +94,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.channelGroupForm.patchValue({
             name : channelGroup.name,
             description : channelGroup.description,
-            isPublic: channelGroup.isPublic
+            shareAll: channelGroup.shareAll,
+            shareOrg: channelGroup.shareOrg
           });
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
           this.originalSelectedChannels = [...this.selectedChannels];
@@ -261,7 +263,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       null,
       values.name,
       values.description,
-      values.isPublic,
+      values.shareOrg,
+      values.shareAll,
       this.selectedChannels
     );
 

@@ -40,7 +40,7 @@ describe('HttpErrorInterceptor', () => {
 
   it('should throw error if error response returned from api', () => {
     const testError = {
-      message: 'test-message',
+      error: 'test-message',
       status: 404
     };
     // arrange
@@ -54,7 +54,28 @@ describe('HttpErrorInterceptor', () => {
         .subscribe(
             result => {},
             err => {
-              expect(err).toEqual(`Error Code: ${testError.status}\nMessage: ${testError.message}`);
+              expect(err).toEqual(`Error: ${testError.error}`);
+            }
+        );
+  });
+
+  it('should throw error if weird error response returned from api', () => {
+    const testError = {
+      error: {message: 'error message'},
+      status: 404
+    };
+    // arrange
+    httpRequestSpy = jasmine.createSpyObj('HttpRequest', ['doesNotMatter']);
+    httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
+    httpHandlerSpy.handle.and.returnValue(throwError(
+      testError
+    ));
+    // act
+    interceptor.intercept(httpRequestSpy, httpHandlerSpy)
+        .subscribe(
+            result => {},
+            err => {
+              expect(err).toEqual('Error: ' + 'message ' + testError.error.message);
             }
         );
   });

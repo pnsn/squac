@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { Widget } from '../../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { Subject, Subscription } from 'rxjs';
 import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';
@@ -69,7 +69,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
-    this.getData();
+    // this.getData();
   }
 
   ngOnDestroy(): void {
@@ -81,8 +81,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   private getData() {
-    this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
-    console.log('get data', this.widget.id);
+    if (this.viewService.getEnddate && this.viewService.getStartdate) {
+      this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
+      console.log('get data', this.widget.id);
+    }
+
+
     // TODO: Currently when page is refreshed or widget added, widgets reload completely
     // Rethink this so so that the new data can be added to widget seamlessly
 

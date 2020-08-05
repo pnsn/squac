@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import { SquacApiService } from './squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { UserService } from './user.service';
 
 @Injectable({

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { SquacApiService } from './squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { HttpClient } from '@angular/common/http';
 import { Data } from '@angular/router';
 import { environment } from '../../../environments/environment';

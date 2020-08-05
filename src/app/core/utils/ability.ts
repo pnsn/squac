@@ -3,7 +3,7 @@ import { Widget } from '../models/widget';
 import { ChannelGroup } from '../models/channel-group';
 import { Metric } from '../models/metric';
 import { User } from '../models/user';
-import { Dashboard } from '@features/dashboards/dashboard';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 
@@ -38,14 +38,14 @@ export function defineAbilitiesFor(user: User) {
     can(['read', 'create'], ['Measurement', 'Metric', 'Archive']);
   }
 
-  if (user.isAdmin()) {
+  if (user.isStaff) {
     can('manage', 'all');
   }
 
   return rules;
 
 }
-// TODO: deal with ownership
+// TODO: deal with organizations
 
 // Viewers
 // see all resources

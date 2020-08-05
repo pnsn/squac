@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { ChannelGroupsService } from '../../channel-groups/services/channel-groups.service';
@@ -15,6 +15,7 @@ interface WidgetHttpData {
   description: string;
   metrics: number[];
   dashboard: number;
+  organization: number;
   widgettype: number;
   stattype: number;
   columns: number;
@@ -132,6 +133,7 @@ export class WidgetsService {
       response.user_id,
       response.name,
       response.description,
+      response.organization,
       response.widgettype.id,
       response.dashboard.id,
       response.channel_group,
@@ -156,6 +158,7 @@ export class WidgetsService {
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
       dashboard: widget.dashboardId,
+      organization: widget.orgId,
       columns: widget.columns,
       rows: widget.rows,
       x_position: widget.x,

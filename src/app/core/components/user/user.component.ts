@@ -3,6 +3,10 @@ import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { OrganizationsService } from '@core/services/organizations.service';
+import { Organization } from '@core/models/organization';
+import { switchMap } from 'rxjs/operators';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -15,40 +19,57 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
+  organization: Organization;
+  id;
   constructor(
-    private userService: UserService
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private orgService: OrganizationsService
   ) { }
 
   ngOnInit() {
-    const userSub = this.userService.user.subscribe(
-      user => {
-        if (!user) {
-          this.userService.fetchUser();
-        } else {
-          this.user = user;
-          this.initForm(user);
-        }
-
+    const paramsSub = this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params.id;
+        this.editMode = !!this.id;
       },
       error => {
-        console.log('error in user component: ' + error);
+        console.log('error getting params: ' + error);
       }
     );
 
-
+    const userSub = this.userService.user.pipe(
+      switchMap(
+        user => {
+          console.log('have a user');
+          if (!user) {
+            this.userService.fetchUser();
+            console.log('hfetch user?');
+          } else {
+            this.user = user;
+            this.initForm(user);
+          }
+          return this.orgService.getOrganizationById(this.user.orgId);
+        }
+      )
+    ).subscribe(
+      (org: Organization) => {
+        console.log('have a org?');
+        this.organization = org;
+      }
+    );
 
     this.subscription.add(userSub);
   }
 
   initForm(user) {
     this.userForm = new FormGroup({
-      firstname: new FormControl(
-        user.firstname,
+      firstName: new FormControl(
+        user.firstName,
         Validators.required
         ),
-      lastname: new FormControl(user.lastname, Validators.required),
-      email: new FormControl(user.email, [Validators.required, Validators.email]),
-      organization: new FormControl(user.organization, [Validators.required])
+      lastName: new FormControl(user.lastName, Validators.required),
+      email: new FormControl(user.email, [Validators.required, Validators.email])
     });
   }
 

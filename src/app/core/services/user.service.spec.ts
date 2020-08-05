@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MockSquacApiService } from './squacapi.service.mock';
-import { SquacApiService } from './squacapi.service';
+import { MockSquacApiService } from '@core/services/squacapi.service.mock';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
 

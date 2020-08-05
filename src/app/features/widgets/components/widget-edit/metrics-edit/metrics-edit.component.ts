@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
-import { MetricsService } from '@core/services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../widget-edit.service';
 import { Subscription } from 'rxjs';
-import { Widget } from '../../../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 @Component({
   selector: 'app-metrics-edit',
   templateUrl: './metrics-edit.component.html',

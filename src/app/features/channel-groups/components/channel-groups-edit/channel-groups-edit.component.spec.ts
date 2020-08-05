@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
-import { ChannelsService } from '../../../../core/services/channels.service';
+import { ChannelsService } from '../../services/channels.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NetworksService } from '../../services/networks.service';
 import { of } from 'rxjs';

@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { User } from '../models/user';
-import { SquacApiService } from './squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '../utils/ability';
+import { OrganizationsService } from './organizations.service';
+import { flatMap, map } from 'rxjs/operators';
 
 interface UserHttpData {
   email: string;
   password: string;
-  firstname: string;
-  lastname:	string;
+  firstName: string;
+  lastName:	string;
   organization: string;
 }
 
@@ -21,12 +23,13 @@ interface UserHttpData {
 export class UserService {
   private url = 'user/me/';
   private currentUser;
+    // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new ReplaySubject<User>();
-
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private orgService: OrganizationsService
   ) { }
 
   getUser(): User {
@@ -34,22 +37,22 @@ export class UserService {
   }
 
   fetchUser() {
-    this.squacApi.get(this.url).subscribe(
+    this.squacApi.get(this.url)
+    .subscribe(
       response => {
-        const groups = [];
-        for (const group of response.groups) {
-          groups.push(group.name);
-        }
+
 
         this.currentUser = new User(
           response.id,
           response.email,
           response.firstname,
           response.lastname,
-          response.is_staff,
           response.organization,
-          groups
+          response.is_org_admin,
+          response.groups
         );
+        this.currentUser.squacAdmin = response.is_staff;
+
         this.ability.update(defineAbilitiesFor(this.currentUser));
         this.user.next(this.currentUser);
       },

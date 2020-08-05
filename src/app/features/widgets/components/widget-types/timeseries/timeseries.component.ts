@@ -7,7 +7,7 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Widget } from '@core/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-timeseries',
   templateUrl: './timeseries.component.html',
@@ -83,7 +83,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           (measurement: Measurement) => {
             channelObj.series.push(
               {
-                name: new Date(measurement.starttime),
+                name: moment.utc(measurement.starttime).toDate(),
                 value: measurement.value
               }
             );

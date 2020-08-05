@@ -2,7 +2,7 @@
 <div id="user-content">
   <div id="column" *ngIf="user; else noUser">
     <h1>User Settings</h1>
-    <p>Hello, {{user.firstname}} {{user.lastname}}!</p>
+    <p>Hello, {{user.firstName}} {{user.lastName}}!</p>
 
     <div id="user-info-top">
       <h2>User Information</h2>
@@ -26,7 +26,7 @@
           First Name:
         </div>
         <mat-form-field >
-          <input matInput formControlName="firstname" [readonly]="!editMode">
+          <input matInput formControlName="firstName" [readonly]="!editMode">
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -34,20 +34,21 @@
           Last Name:
         </div>
         <mat-form-field >
-          <input matInput formControlName="lastname" [readonly]="!editMode">
+          <input matInput formControlName="lastName" [readonly]="!editMode">
         </mat-form-field>
-        <div class="form-group">
-          <div id="label">
-            Organization:
-          </div>
-          <mat-form-field >
-            <input matInput formControlName="organization" readonly>
-          </mat-form-field>
-        </div>
       </div>
     </form>
-
-
+    <h2>
+      Organization
+    </h2>
+    <ul *ngIf="!!organization">
+        <span>
+          {{organization.name}}
+        </span>
+        <span>
+          ({{user.isAdmin ? "Admin" : "User"}})
+        </span>
+    </ul>
     <h2>Password</h2>
     <p>
       This is where password change will be!

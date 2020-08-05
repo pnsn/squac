@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '../../utils/ability';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -17,8 +20,14 @@ describe('UserComponent', () => {
       declarations: [ UserComponent ],
       imports: [HttpClientTestingModule, AbilityModule],
       providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({id: 123})
+          }
+        },
         UserService,
-                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
       ]
     })

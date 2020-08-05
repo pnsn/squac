@@ -1,0 +1,22 @@
+@import 'variables';
+
+  form {
+    padding: 10px;
+    display:flex;
+    flex-direction: column;
+    mat-form-field {
+      margin-top: 15px ;
+    }
+    p {
+      margin-top: 10px;
+    }
+    button {
+      margin:10px 0px;
+    }
+  }
+
+
+  a {
+    color: $sq-dk-gray;
+    font-size: 10pt;
+  }

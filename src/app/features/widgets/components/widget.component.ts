@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Widget } from '../../../core/models/widget';
+import { Widget } from '@core/models/widget';
 import { Subscription, Subject } from 'rxjs';
 import { WidgetsService } from '../services/widgets.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
@@ -93,7 +93,6 @@ itemChange(item) {
             });
           });
         }
-        console.log(this.widgets);
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard

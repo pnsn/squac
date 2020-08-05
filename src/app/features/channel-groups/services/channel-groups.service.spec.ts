@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { SquacApiService } from '../../../core/services/squacapi.service';
-import { MockSquacApiService } from '../../../core/services/squacapi.service.mock';
+import { SquacApiService } from '@core/services/squacapi.service';
+import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { ChannelGroupsService } from './channel-groups.service';
-import { ChannelGroup } from '../../../core/models/channel-group';
+import { ChannelGroup } from '@core/models/channel-group';
 
 describe('ChannelGroupsService', () => {
   let channelGroupsService: ChannelGroupsService;
@@ -15,6 +15,7 @@ describe('ChannelGroupsService', () => {
     'name',
     'description',
     false,
+    true,
     []
   );
   let squacApiService;
@@ -89,6 +90,7 @@ describe('ChannelGroupsService', () => {
       null,
       'name',
       'description',
+      true,
       true,
       []
     );

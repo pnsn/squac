@@ -8,6 +8,7 @@ describe('ChannelGroup', () => {
       'test',
       'description',
       true,
+      true,
       []
     )).toBeTruthy();
   });

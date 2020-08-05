@@ -12,13 +12,14 @@
 
     <mat-menu #appMenu="matMenu" class="mat-menu-dense">
         <a mat-menu-item [routerLink]="[ '/user' ]" routerLinkActive="active">User Settings</a>
+        <a mat-menu-item [routerLink]="[ '/organization' ]" routerLinkActive="active">Organization Settings</a>
         <button mat-menu-item (click)="logout()">Log Out</button>
         <!-- <button mat-menu-item>Help</button> -->
       </mat-menu>
 
       <!-- TODO: profile pic or first name -->
       <button mat-mini-fab [matMenuTriggerFor]="appMenu">
-        <div id="user-icon">{{user?.firstname.charAt(0)}}</div>
+        <div id="user-icon">{{user?.firstName.charAt(0)}}</div>
       </button>
   </div>
 </mat-toolbar>
