@@ -41,15 +41,15 @@ export class UserEditComponent implements OnInit {
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
         confirm: new FormControl('', [Validators.required])
       }, [this.passwordValidator])
-    })
+    });
   }
 
   passwordValidator(group: FormGroup) {
 
-    if(group.value.password && group.value.confirm && group.value.password === group.value.confirm) {
+    if (group.value.password && group.value.confirm && group.value.password === group.value.confirm) {
       return null;
     } else {
-      return {mismatch: true}
+      return {mismatch: true};
     }
   }
 

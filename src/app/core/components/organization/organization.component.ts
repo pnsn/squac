@@ -15,33 +15,33 @@ import { InviteService } from '@core/services/invite.service';
   styleUrls: ['./organization.component.scss']
 })
 export class OrganizationComponent implements OnInit, OnDestroy {
-  user : User;
+  user: User;
   isAdmin: boolean;
   organization: Organization;
-  addUserForm : FormGroup;
-  editUserForm : FormGroup;
+  addUserForm: FormGroup;
+  editUserForm: FormGroup;
   userAdded: User;
-  inviteSent : boolean;
+  inviteSent: boolean;
   subscription: Subscription = new Subscription();
   error: string;
   @ViewChild('userTable') table: any;
   ColumnMode = ColumnMode;
   expanded: any = {};
 
-  groups =[
-    { 
-      id: 1, role: "viewer"
+  groups = [
+    {
+      id: 1, role: 'viewer'
     },
     {
-      id: 2, role: "reporter"
+      id: 2, role: 'reporter'
     },
     {
-      id: 3, role: "contributor"
+      id: 3, role: 'contributor'
     }
   ];
   constructor(
     private userService: UserService,
-    private orgService : OrganizationsService,
+    private orgService: OrganizationsService,
     private formBuilder: FormBuilder,
     private inviteService: InviteService
   ) { }
@@ -50,8 +50,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
-          console.log("have a user")
-          if(user) {
+          console.log('have a user');
+          if (user) {
             this.user = user;
             this.isAdmin = user.isAdmin;
             return this.orgService.getOrganizationById(this.user.orgId);
@@ -61,9 +61,9 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       (org: Organization) => {
-        console.log("doing org stuff")
+        console.log('doing org stuff');
         this.organization = org;
-        console.log(this.organization)
+        console.log(this.organization);
       }
     );
 
@@ -78,13 +78,13 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       editIsAdmin: [null, Validators.required]
     });
 
-    this.subscription.add(userSub)
+    this.subscription.add(userSub);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  saveUser(row){
+  saveUser(row) {
     const values = this.editUserForm.value;
     this.orgService.updateUser(
       {
@@ -108,28 +108,28 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   }
 
   cancelUserEdit(row) {
-    //clear userForm;
-    console.log("cancel");
+    // clear userForm;
+    console.log('cancel');
     this.editUserForm.reset();
     this.table.rowDetail.toggleExpandRow(row);
   }
 
-  expandRow(row : User) {
+  expandRow(row: User) {
 
-    //row is open populate form
+    // row is open populate form
     console.log('Toggled Expand Row!', row);
     this.editUserForm.reset();
     this.table.rowDetail.collapseAllRows();
 
     this.table.rowDetail.toggleExpandRow(row);
-    console.log(this.editUserForm.value.editGroups)
+    console.log(this.editUserForm.value.editGroups);
     this.editUserForm.patchValue(
       {
         editGroups : row.groups,
         editIsAdmin: row.isAdmin
       }
     );
-    console.log(this.editUserForm.value.editGroups)
+    console.log(this.editUserForm.value.editGroups);
   }
 
   sendInvite(id) {
@@ -137,8 +137,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       response => {
         console.log(response);
       }
-    )
-    console.log("send invite to user ", id);
+    );
+    console.log('send invite to user ', id);
   }
 
   addNewUser() {

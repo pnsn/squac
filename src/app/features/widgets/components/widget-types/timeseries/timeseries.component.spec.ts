@@ -23,7 +23,7 @@ describe('TimeseriesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeseriesComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(1, 2, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
+    component.widget = new Widget(1, 2, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, 1, []);
     component.data = {};
     fixture.detectChanges();
     fixture.detectChanges();

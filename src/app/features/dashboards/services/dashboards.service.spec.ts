@@ -3,17 +3,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { SquacApiService } from '@core/services/squacapi.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
-import { Dashboard } from './dashboard';
-import { Widget } from '@core/models/widget';
-import { HttpClient } from '@angular/common/http';
+import { Dashboard } from '../models/dashboard';
 
-import { ChannelGroupsService } from '../channel-groups/services/channel-groups.service';
-import { WidgetsService } from '../widgets/services/widgets.service';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
+import { WidgetsService } from '@features/widgets/services/widgets.service';
 import { DashboardsService } from './dashboards.service';
-import { Observable, of } from 'rxjs';
-import { ChannelGroup } from '@core/models/channel-group';
-import { MockChannelGroupsService } from '../channel-groups/services/channel-groups.service.mock';
-import { MockWidgetsService } from '../widgets/services/widgets.service.mock';
+import { MockChannelGroupsService } from '@features/channel-groups/services/channel-groups.service.mock';
+import { MockWidgetsService } from '@features/widgets/services/widgets.service.mock';
 
 describe('DashboardsService', () => {
   let dashboardsService: DashboardsService;
@@ -24,6 +20,8 @@ describe('DashboardsService', () => {
     'name',
     'description',
     true,
+    true,
+    1,
     []
   );
 
@@ -89,6 +87,8 @@ describe('DashboardsService', () => {
       'name',
       'description',
       true,
+      true,
+      1,
       [1]
     );
 

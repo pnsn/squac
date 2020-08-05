@@ -15,6 +15,7 @@ describe('ChannelGroupsService', () => {
     'name',
     'description',
     false,
+    true,
     []
   );
   let squacApiService;
@@ -89,6 +90,7 @@ describe('ChannelGroupsService', () => {
       null,
       'name',
       'description',
+      true,
       true,
       []
     );

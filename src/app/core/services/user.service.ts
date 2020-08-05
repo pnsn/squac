@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { User } from '../models/user';
-import { SquacApiService } from './squacapi.service';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '../utils/ability';
 import { OrganizationsService } from './organizations.service';
@@ -23,7 +23,7 @@ interface UserHttpData {
 export class UserService {
   private url = 'user/me/';
   private currentUser;
-    //FIXME: because it is a replay sometimes after logout a "user" still returns
+    // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new ReplaySubject<User>();
   constructor(
     private http: HttpClient,

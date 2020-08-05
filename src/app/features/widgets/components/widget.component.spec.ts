@@ -62,6 +62,7 @@ describe('WidgetComponent', () => {
           1,
           1,
           1,
+          1,
           []
         )
       }

@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from '@core/models/metric';
-import { MockMetricsService } from '@core/services/metrics.service.mock';
+import { MockMetricsService } from '@features/metrics/services/metrics.service.mock';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';

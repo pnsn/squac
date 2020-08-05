@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { Dashboard } from './dashboard';
+import { Dashboard } from '../models/dashboard';
 
 export class MockDashboardsService {
 
@@ -9,6 +9,8 @@ export class MockDashboardsService {
     'name',
     'description',
     false,
+    true,
+    1,
     []
   );
   getDashboards = new BehaviorSubject <Dashboard[]>([]);

@@ -3,6 +3,7 @@ import { AbilityModule } from '@casl/angular';
 import { defineAbilitiesFor, AppAbility } from './ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { User } from '../models/user';
+import { userInfo } from 'os';
 
 
 describe('Ability', () => {
@@ -13,8 +14,8 @@ describe('Ability', () => {
     'email',
     'firstName',
     'lastName',
+    1,
     false,
-    'organization',
     []
   );
 
@@ -35,10 +36,11 @@ describe('Ability', () => {
       'email',
       'firstName',
       'lastName',
+      1,
       true,
-      'organization',
       []
     );
+    adminUser.squacAdmin = true;
     testAbility.update(defineAbilitiesFor(adminUser));
     expect(testAbility.can('manage', 'all')).toEqual(true);
   });

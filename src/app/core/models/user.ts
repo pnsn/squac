@@ -12,9 +12,9 @@ export class User {
   ) {
 
     this.groups = [];
-    if(groupsArr) {
+    if (groupsArr) {
       for (const group of groupsArr) {
-        if(group instanceof Object) {
+        if (group instanceof Object) {
           this.groups.push(group.name);
         } else {
           this.groups.push(group.toString());
@@ -23,16 +23,16 @@ export class User {
     }
   }
   lastLogin: string;
-  squacAdmin:boolean;
+  squacAdmin: boolean;
   isActive: boolean;
   groups: string[];
 
-  get isStaff() : boolean{
+  get isStaff(): boolean {
     return this.squacAdmin ? this.squacAdmin : false;
   }
 
   get isAdmin(): boolean {
-    return this.orgAdmin; //or is an admin of the current group?
+    return this.orgAdmin; // or is an admin of the current group?
   }
 
   inGroup(group: string): boolean {

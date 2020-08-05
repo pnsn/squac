@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 import { of, Observable } from 'rxjs';
 import { Metric } from '@core/models/metric';
-import { MockMetricsService } from '@core/services/metrics.service.mock';
+import { MockMetricsService } from '@features/metrics/services/metrics.service.mock';
 import { ActivatedRoute } from '@angular/router';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';

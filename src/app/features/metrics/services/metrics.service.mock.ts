@@ -1,5 +1,5 @@
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
-import { Metric } from '../models/metric';
+import { Metric } from '@core/models/metric';
 
 export class MockMetricsService {
   testMetric = new Metric(

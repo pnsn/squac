@@ -11,6 +11,7 @@ export class MockUserService {
     'email',
     'firstName',
     'lastName',
+    1,
     true,
     ['contributor']
   );

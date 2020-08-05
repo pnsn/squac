@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
-import { Channel } from '../models/channel';
+import { Channel } from '@core/models/channel';
 import { Params } from '@angular/router';
 
 

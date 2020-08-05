@@ -19,10 +19,9 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
-  organization : Organization;
+  organization: Organization;
   id;
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
     private orgService: OrganizationsService
@@ -42,10 +41,10 @@ export class UserComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
-          console.log("have a user")
+          console.log('have a user');
           if (!user) {
             this.userService.fetchUser();
-            console.log("hfetch user?")
+            console.log('hfetch user?');
           } else {
             this.user = user;
             this.initForm(user);
@@ -55,7 +54,7 @@ export class UserComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       (org: Organization) => {
-        console.log("have a org?")
+        console.log('have a org?');
         this.organization = org;
       }
     );

@@ -122,11 +122,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   // ngOnDestroy(): void {
   //   this.subscription.unsubscribe();
   // }\
-  //FIXME: milliseconds of difference are causing it to not recognize
+  // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
       this.liveMode = true;
-      console.log(endDate.diff(startDate), Math.round(endDate.diff(startDate)/100000))
+      console.log(endDate.diff(startDate), Math.round(endDate.diff(startDate) / 100000));
       const diff = Math.round(endDate.diff(startDate) / 100000 ) * 100; // account for ms of weirdness
       this.selectedRange = this.rangeLookUp[diff];
       return diff;
