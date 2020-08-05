@@ -18,10 +18,10 @@
       [scrollbarV]="true"
       [scrollbarH]="true"
     >
-      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin" [width]="100">
+      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin" [width]="50">
         <ng-template let-row="row"  let-expanded="expanded" ngx-datatable-cell-template >
-          <button *ngIf="!expanded" (click)="expandRow(row)">Edit</button> 
-          <button *ngIf="expanded" (click)="cancelUserEdit(row)">Cancel</button> 
+          <button mat-button class="user-table-button" color="primary" *ngIf="!expanded" (click)="expandRow(row)">Edit</button> 
+          <button mat-button class="user-table-button" color="warn" *ngIf="expanded" (click)="cancelUserEdit(row)">Cancel</button> 
           <!-- toggle edit and cancel button -->
         </ng-template>
       </ngx-datatable-column>
@@ -50,10 +50,13 @@
 
       <ngx-datatable-column name="Active" prop="isActive" [width]="75" *ngIf="isAdmin"></ngx-datatable-column>
 
-      <ngx-datatable-row-detail  [rowHeight]="100" #detailRow>
+      <ngx-datatable-row-detail  [rowHeight]="125" #detailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-          <div><strong>Edit User: </strong> {{row.firstName}} {{row.lastName}}</div>
-          <button (click)="sendInvite(row.id)">Invite</button>
+          <div id="user-edit-title">
+            <strong>Edit User: </strong> {{row.firstName}} {{row.lastName}}
+            <button mat-flat-button color="primary" (click)="sendInvite(row.id)" *ngIf="!row.isActive">Send Invite</button>
+          </div>
+          <mat-divider></mat-divider>
           <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form" id="user-edit">
             <mat-form-field class="select-groups">
               <mat-label>Role</mat-label>
@@ -63,7 +66,7 @@
             </mat-form-field>
           
             <mat-checkbox formControlName="editIsAdmin">Admin</mat-checkbox>
-            <button type="submit" [disabled]="!editUserForm.valid">Save User</button>
+            <button mat-flat-button color="accent" type="submit" [disabled]="!editUserForm.valid">Save User</button>
           </form>
         </ng-template>
       </ngx-datatable-row-detail>
@@ -76,9 +79,7 @@
     <div *ngIf="isAdmin">
       <h2>Add User</h2>
       <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" class="user-form">
-        <div *ngIf="error">
-          {{error}}
-        </div>
+
         <mat-form-field>
           <input matInput placeholder="Email" formControlName="email">
         </mat-form-field>
@@ -94,11 +95,14 @@
   
         <button mat-flat-button color="accent" type="submit" [disabled]="!addUserForm.valid">Add User</button>
       </form>
+      <div *ngIf="error">
+        {{error}}
+      </div>
       <div *ngIf="!!userAdded" id="invite-sent">
         Invitation email sent to {{userAdded.email}}
       </div>
     </div>
-
+    <mat-divider></mat-divider>
     <!-- <div *ngIf="user.isAdmin"> -->
       <div>
         <h3>

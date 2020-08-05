@@ -108,34 +108,30 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   }
 
   cancelUserEdit(row) {
-    // clear userForm;
-    console.log('cancel');
     this.editUserForm.reset();
     this.table.rowDetail.toggleExpandRow(row);
   }
 
   expandRow(row: User) {
-
-    // row is open populate form
-    console.log('Toggled Expand Row!', row);
     this.editUserForm.reset();
     this.table.rowDetail.collapseAllRows();
 
     this.table.rowDetail.toggleExpandRow(row);
-    console.log(this.editUserForm.value.editGroups);
     this.editUserForm.patchValue(
       {
         editGroups : row.groups,
         editIsAdmin: row.isAdmin
       }
     );
-    console.log(this.editUserForm.value.editGroups);
   }
 
   sendInvite(id) {
     this.inviteService.sendInviteToUser(id).subscribe(
       response => {
         console.log(response);
+      },
+      error => {
+        this.error = error;
       }
     );
     console.log('send invite to user ', id);
