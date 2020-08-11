@@ -24,7 +24,7 @@ export class UserService {
   private url = 'user/me/';
   private currentUser;
     // FIXME: because it is a replay sometimes after logout a "user" still returns
-  user = new ReplaySubject<User>();
+  user = new BehaviorSubject<User>(null);
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,

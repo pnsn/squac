@@ -31,7 +31,7 @@
          </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
-      <ngx-datatable-column name="Groups" prop="groups" [width]="100" *ngIf="isAdmin">
+      <ngx-datatable-column name="Groups" prop="groups" [width]="100">
         <ng-template let-value="value" ngx-datatable-cell-template >
           {{ value.join(', ') }}
          </ng-template>
@@ -41,7 +41,7 @@
          {{ value | date:'shortDate' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Admin" prop="isAdmin" [width]="75" *ngIf="isAdmin">
+      <ngx-datatable-column name="Org. Admin" prop="isAdmin" [width]="75">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value ? "Admin" : ""}}
          </ng-template>
@@ -91,7 +91,7 @@
         </mat-form-field>
         
         
-        <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>
+        <mat-checkbox formControlName="isAdmin">Organization Admin</mat-checkbox>
   
         <button mat-flat-button color="accent" type="submit" [disabled]="!addUserForm.valid">Add User</button>
       </form>
@@ -103,22 +103,23 @@
       </div>
     </div>
     <mat-divider></mat-divider>
-    <!-- <div *ngIf="user.isAdmin"> -->
+    <div>
       <div>
         <h3>
           Squac User Roles:
         </h3>
-      <ul>
-        <li>
-          Contributer - can add metrics
-        </li>
-        <li>
-          Reporter - can create dashboards....
-        </li>
-        <li>
-          Viewer - can see dashboards/groups.
-        </li>
-      </ul>
+        <ul>
+          <li>
+            Contributer - can add metrics
+          </li>
+          <li>
+            Reporter - can create dashboards....
+          </li>
+          <li>
+            Viewer - can see dashboards/groups.
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

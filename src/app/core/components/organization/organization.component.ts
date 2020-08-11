@@ -5,9 +5,10 @@ import { User } from '@core/models/user';
 import { Organization } from '@core/models/organization';
 import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@core/services/invite.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-organization',
@@ -47,23 +48,27 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    //this is getting removed when loading is added
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
-          console.log('have a user');
-          if (user) {
+
+          if (!!user) {
+            console.log('have a user');
             this.user = user;
             this.isAdmin = user.isAdmin;
             return this.orgService.getOrganizationById(this.user.orgId);
+          } else {
+            return of();
           }
 
         }
       )
     ).subscribe(
       (org: Organization) => {
-        console.log('doing org stuff');
-        this.organization = org;
-        console.log(this.organization);
+        if(!!org) {
+          this.organization=org;
+        }
       }
     );
 

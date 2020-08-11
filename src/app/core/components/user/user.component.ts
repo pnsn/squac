@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrganizationsService } from '@core/services/organizations.service';
@@ -44,18 +44,21 @@ export class UserComponent implements OnInit, OnDestroy {
           console.log('have a user');
           if (!user) {
             this.userService.fetchUser();
-            console.log('hfetch user?');
+            return of();
           } else {
             this.user = user;
             this.initForm(user);
+            return this.orgService.getOrganizationById(this.user.orgId);
           }
-          return this.orgService.getOrganizationById(this.user.orgId);
+
         }
       )
     ).subscribe(
       (org: Organization) => {
         console.log('have a org?');
-        this.organization = org;
+        if(!!org) {
+          this.organization = org;
+        }
       }
     );
 

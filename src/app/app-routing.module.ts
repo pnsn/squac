@@ -15,6 +15,7 @@ import { PasswordResetComponent } from './core/components/password-reset/passwor
 import { LoginComponent } from './core/components/login/login.component';
 import { OrganizationComponent } from '@core/components/organization/organization.component';
 import { UserEditComponent } from '@core/components/user-edit/user-edit.component';
+import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -77,6 +78,10 @@ const appRoutes: Routes = [
       },
     ]
   }
+  // Currently overrides the child components - will need to rethink
+  // { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
+  // { path: '**', redirectTo: 'not-found'}
+
 ];
 
 @NgModule({
