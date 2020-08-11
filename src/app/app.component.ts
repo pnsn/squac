@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const userSub = this.userService.user.subscribe(
       user => {
         this.loggedIn = !!user;
-        if(this.loggedIn) {
+        if (this.loggedIn) {
           this.organizationsService.fetchOrganizations();
           console.log('app component fetch organizations');
         }

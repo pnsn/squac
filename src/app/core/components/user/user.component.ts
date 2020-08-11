@@ -56,7 +56,7 @@ export class UserComponent implements OnInit, OnDestroy {
     ).subscribe(
       (org: Organization) => {
         console.log('have a org?');
-        if(!!org) {
+        if (!!org) {
           this.organization = org;
         }
       }

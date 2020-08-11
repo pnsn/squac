@@ -48,7 +48,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    //this is getting removed when loading is added
+    // this is getting removed when loading is added
     const userSub = this.userService.user.pipe(
       switchMap(
         user => {
@@ -66,8 +66,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       )
     ).subscribe(
       (org: Organization) => {
-        if(!!org) {
-          this.organization=org;
+        if (!!org) {
+          this.organization = org;
         }
       }
     );

@@ -24,9 +24,9 @@ export class OrganizationsService {
 
   // Temp until Jon fixes
   private groupIds = [
-    {id: 1, name: "viewer"},
-    {id: 2, name: "reporter"},
-    {id: 3, name: "contributor"}
+    {id: 1, name: 'viewer'},
+    {id: 2, name: 'reporter'},
+    {id: 3, name: 'contributor'}
   ];
 
   getOrganizations() {
@@ -56,7 +56,7 @@ export class OrganizationsService {
     // get the ids
     const groups = [];
     for (const groupName of user.groups) {
-      const group = this.groupIds.find(group => group.name === groupName);
+      const group = this.groupIds.find(groupId => groupId.name === groupName);
       if (group) {
         groups.push(group.id);
       }
@@ -136,7 +136,7 @@ export class OrganizationsService {
     // get the ids
     const groups = [];
     for (const groupID of user.groups) {
-      const group = this.groupIds.find(group => group.id === groupID);
+      const group = this.groupIds.find(groupId => groupId.id === groupID);
       if (group) {
         groups.push(group.name);
       }
