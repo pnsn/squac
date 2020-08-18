@@ -1,12 +1,10 @@
-import { Injectable, ViewRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { BehaviorSubject, Observable, of, ReplaySubject, forkJoin } from 'rxjs';
-import { Organization } from '@core/models/organization';
-import { map, switchMap, find } from 'rxjs/operators';
-import { User } from '@core/models/user';
-import { UserService } from './user.service';
-import { groupRowsByParents } from '@swimlane/ngx-datatable';
+import {  Observable, ReplaySubject, forkJoin } from 'rxjs';
+import { Organization } from '@features/user/models/organization';
+import { map} from 'rxjs/operators';
+import { User } from '@features/user/models/user';
 
 // Service to get user info & reset things
 @Injectable({
@@ -132,8 +130,6 @@ export class OrganizationsService {
   }
 
   private mapOrgUsers(user): User {
-    // get the ids
-    // get the ids
     const groups = [];
     for (const groupID of user.groups) {
       const group = this.groupIds.find(groupId => groupId.id === groupID);

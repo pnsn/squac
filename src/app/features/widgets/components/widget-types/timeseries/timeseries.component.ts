@@ -4,7 +4,7 @@ import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { ViewService } from '@core/services/view.service';
 import { ChannelGroup } from '@core/models/channel-group';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';

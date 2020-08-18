@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { UserService } from '@core/services/user.service';
-import { OrganizationsService } from '@core/services/organizations.service';
-import { User } from '@core/models/user';
-import { Organization } from '@core/models/organization';
+import { UserService } from '@features/user/services/user.service';
+import { OrganizationsService } from '@features/user/services/organizations.service';
+import { User } from '@features/user/models/user';
+import { Organization } from '@features/user/models/organization';
 import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, of } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { InviteService } from '@core/services/invite.service';
+import { InviteService } from '@features/user/services/invite.service';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({

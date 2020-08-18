@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardsService } from './services/dashboards.service';
-import { StatTypeService } from '@core/services/stattype.service';
+import { StatTypeService } from '@features/widgets/services/stattype.service';
 
 @Component({
   selector: 'app-dashboards',

@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { of } from 'rxjs';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;

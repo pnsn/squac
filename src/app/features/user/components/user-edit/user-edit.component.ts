@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { InviteService } from '@core/services/invite.service';
+import { InviteService } from '@features/user/services/invite.service';
 
 @Component({
   selector: 'app-user-edit',

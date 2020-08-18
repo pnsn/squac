@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';
-import { Widget } from '../models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { ChannelGroup } from '../models/channel-group';
 import { Metric } from '../models/metric';
 import { User } from '../models/user';

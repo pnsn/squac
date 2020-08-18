@@ -1,5 +1,5 @@
-import { Widget } from '@core/models/widget';
-import { Observable, of, Subject } from 'rxjs';
+import { Widget } from '@features/widgets/models/widget';
+import { Subject } from 'rxjs';
 import { Measurement } from '../models/measurement';
 
 

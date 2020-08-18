@@ -3,9 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabularComponent } from './tabular.component';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 
 describe('TabularComponent', () => {
   let component: TabularComponent;

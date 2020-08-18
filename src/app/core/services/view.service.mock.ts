@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
-import { Dashboard } from '../../features/dashboards/models/dashboard';
-import { Widget } from '../models/widget';
+import { Dashboard } from '@features/dashboards/models/dashboard';
+import { Widget } from '@features/widgets/models/widget';
 
 export class MockViewService {
 

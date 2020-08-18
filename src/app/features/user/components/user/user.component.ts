@@ -3,8 +3,8 @@ import { UserService } from '../../services/user.service';
 import { Subscription, of } from 'rxjs';
 import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { OrganizationsService } from '@core/services/organizations.service';
-import { Organization } from '@core/models/organization';
+import { OrganizationsService } from '@features/user/services/organizations.service';
+import { Organization } from '@features/user/models/organization';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 

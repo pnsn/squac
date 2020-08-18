@@ -1,7 +1,7 @@
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Threshold } from '@features/widgets/models/threshold';
-import { ChannelGroup } from './channel-group';
-import { Metric } from './metric';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Metric } from '@core/models/metric';
 
 export class Widget {
   public type: string;

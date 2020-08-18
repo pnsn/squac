@@ -4,7 +4,7 @@ import { Metric } from '@core/models/metric';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../widget-edit.service';
 import { Subscription } from 'rxjs';
-import { Widget } from '@core/models/widget';
+
 @Component({
   selector: 'app-metrics-edit',
   templateUrl: './metrics-edit.component.html',

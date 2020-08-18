@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WidgetDetailComponent } from './widget-detail.component';
 import { WidgetsModule } from '../../widgets.module';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { MeasurementsService } from '@features/widgets/services/measurements.service';
 import { MockMeasurementsService } from '@features/widgets/services/measurements.service.mock';
 import { AppAbility } from '@core/utils/ability';

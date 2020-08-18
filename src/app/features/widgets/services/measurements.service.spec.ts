@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Widget } from '@core/models/widget';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { ChannelGroup } from '@core/models/channel-group';
 import { MeasurementsService } from './measurements.service';
 
 describe('MeasurementsService', () => {

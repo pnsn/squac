@@ -3,9 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimeseriesComponent } from './timeseries.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
-import { Widget } from '@core/models/widget';
-import { Metric } from '@core/models/metric';
+import { Widget } from '@features/widgets/models/widget';
 
 describe('TimeseriesComponent', () => {
   let component: TimeseriesComponent;
