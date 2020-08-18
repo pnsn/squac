@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Metric } from '@core/models/metric';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MetricsService } from '../services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { subscribeOn } from 'rxjs/operators';
 import { Subscription } from 'rxjs';

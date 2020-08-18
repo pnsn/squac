@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
-import { MetricsService } from '../services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({

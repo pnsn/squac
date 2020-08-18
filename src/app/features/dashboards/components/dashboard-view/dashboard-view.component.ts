@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
 import { Dashboard } from '../../models/dashboard';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-dashboard-view',

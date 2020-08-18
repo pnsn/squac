@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MetricsService } from './services/metrics.service';
+import { MetricsService } from '@features/metrics/services/metrics.service';
 import { Subscription } from 'rxjs';
 
 @Component({

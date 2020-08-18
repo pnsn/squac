@@ -4,7 +4,7 @@ import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { User } from '../models/user';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
-import { defineAbilitiesFor, AppAbility } from '../utils/ability';
+import { defineAbilitiesFor, AppAbility } from '@core/utils/ability';
 import { OrganizationsService } from './organizations.service';
 import { flatMap, map } from 'rxjs/operators';
 

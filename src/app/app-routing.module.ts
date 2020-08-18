@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChannelGroupsComponent } from './features/channel-groups/components/channel-groups.component';
-import { ChannelGroupsEditComponent } from './features/channel-groups/components/channel-groups-edit/channel-groups-edit.component';
 import { AuthComponent } from './core/components/auth/auth.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { ChannelGroupsViewComponent } from './features/channel-groups/components/channel-groups-view/channel-groups-view.component';
-import { MetricsComponent } from './features/metrics/metrics.component';
-import { MetricsEditComponent } from './features/metrics/metrics-edit/metrics-edit.component';
-import { MetricsViewComponent } from './features/metrics/metrics-view/metrics-view.component';
+import { MetricsComponent } from '@features/metrics/components/metrics/metrics.component';
+import { MetricsEditComponent } from '@features/metrics/components/metrics-edit/metrics-edit.component';
+import { MetricsViewComponent } from '@features/metrics/components/metrics-view/metrics-view.component';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
-import { UserComponent } from './core/components/user/user.component';
+import { UserComponent } from '@features/user/components/user/user.component';
 import { PermissionGuard } from './core/guards/permission.guard';
-import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
-import { LoginComponent } from './core/components/login/login.component';
-import { OrganizationComponent } from '@core/components/organization/organization.component';
-import { UserEditComponent } from '@core/components/user-edit/user-edit.component';
-import { NotFoundComponent } from '@core/components/not-found/not-found.component';
+import { PasswordResetComponent } from '@features/user/components/password-reset/password-reset.component';
+import { LoginComponent } from '@features/user/components/login/login.component';
+import { OrganizationComponent } from '@features/user/components/organization/organization.component';
+import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
