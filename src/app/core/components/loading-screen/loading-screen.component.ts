@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./loading-screen.component.scss']
 })
 export class LoadingScreenComponent implements OnInit {
-
+  loading: boolean;
+  status: string;
   constructor() { }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.status = "text here";
   }
 
 }
