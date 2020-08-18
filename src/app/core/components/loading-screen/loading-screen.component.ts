@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-loading-screen',
@@ -16,7 +17,11 @@ export class LoadingScreenComponent implements AfterViewInit, OnDestroy {
     ) { }
 
   ngAfterViewInit(): void {
-    this.loadSub = this.loadingService.loading.subscribe(
+    this.loadSub = this.loadingService.loading
+    .pipe(
+      debounceTime(200)
+    )
+    .subscribe(
       loading => { this.loading = loading }
     )
     this.status = "text here";

@@ -26,6 +26,7 @@ import { LoadingScreenComponent } from '@core/components/loading-screen/loading-
 import { UserModule } from '@features/user/user.module';
 import { MetricsModule } from '@features/metrics/metrics.module';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
+import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 
 
 
@@ -59,6 +60,11 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     },
     { provide: AppAbility, useValue: new AppAbility() },
