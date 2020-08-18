@@ -18,7 +18,6 @@ import { AbilityModule } from '@casl/angular';
     ChannelGroupsTableComponent
   ],
   imports: [
-    AbilityModule,
     CommonModule,
     SharedModule,
     ChannelGroupsRoutingModule

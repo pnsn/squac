@@ -33,8 +33,7 @@ import { SharedModule } from '@shared/shared.module';
     CommonModule,
     SharedModule,
     NgxChartsModule,
-    GridsterModule,
-    AbilityModule
+    GridsterModule
   ],
   exports: [
     WidgetComponent,

@@ -40,7 +40,6 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     AppRoutingModule,
     DashboardsModule,
     SharedModule,
@@ -49,8 +48,7 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
     MetricsModule,
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
-    AbilityModule
+    LeafletDrawModule.forRoot()
   ],
   providers: [
     {
