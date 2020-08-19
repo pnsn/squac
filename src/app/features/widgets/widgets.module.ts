@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WidgetComponent } from './components/widget.component';
 import { WidgetDetailComponent } from './components/widget-detail/widget-detail.component';
 import { WidgetEditComponent } from './components/widget-edit/widget-edit.component';
 import { MeasurementPipe } from './pipes/measurement.pipe';
@@ -12,13 +11,13 @@ import { GridsterModule } from 'angular-gridster2';
 import { ThresholdEditComponent } from './components/widget-edit/threshold-edit/threshold-edit.component';
 import { MetricsEditComponent } from './components/widget-edit/metrics-edit/metrics-edit.component';
 import { ChannelGroupsEditComponent } from './components/widget-edit/channel-groups-edit/channel-groups-edit.component';
-import { AbilityModule } from '@casl/angular';
 import { SharedModule } from '@shared/shared.module';
+import { WidgetsComponent } from './components/widgets/widgets.component';
 
 
 @NgModule({
   declarations: [
-    WidgetComponent,
+    WidgetsComponent,
     WidgetDetailComponent,
     WidgetEditComponent,
     TabularComponent,
@@ -36,7 +35,7 @@ import { SharedModule } from '@shared/shared.module';
     GridsterModule
   ],
   exports: [
-    WidgetComponent,
+    WidgetsComponent,
     SharedModule,
     WidgetEditComponent
   ],

@@ -57,7 +57,7 @@
 
       <!-- TODO: move this to widget component -->
 
-      <app-widget [canUpdate]="'update' | able: dashboard" dashboardId="{{dashboard.id}}"></app-widget>
+      <app-widgets [canUpdate]="'update' | able: dashboard" dashboardId="{{dashboard.id}}"></app-widgets>
 
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>

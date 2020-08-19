@@ -17,15 +17,14 @@ export class LoadingInterceptor implements HttpInterceptor {
    * URLs for which the loading screen should not be enabled
    */
   skippUrls = [
-    '/dashboards',
-    '/widgets',
-    '/measurements'
+    '/v1.0',
   ];
 
   constructor(
     private loadingService: LoadingService) {
   }
 
+  //got this from the internet, not sure I like it
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let displayLoadingScreen = true;
 

@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Widget } from '@features/widgets/models/widget';
-import { Subscription, Subject } from 'rxjs';
-import { WidgetsService } from '../services/widgets.service';
-import { GridsterConfig, GridsterItem } from 'angular-gridster2';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from './widget-edit/widget-edit.component';
 import { ViewService } from '@core/services/view.service';
+import { Widget } from '@features/widgets/models/widget';
+import { GridsterConfig, GridsterItem } from 'angular-gridster2';
+import { Subscription } from 'rxjs';
+import { WidgetsService } from '../../services/widgets.service';
+import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 @Component({
-  selector: 'app-widget',
-  templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss']
+  selector: 'app-widgets',
+  templateUrl: './widgets.component.html',
+  styleUrls: ['./widgets.component.scss']
 })
-export class WidgetComponent implements OnInit, OnDestroy {
+export class WidgetsComponent implements OnInit, OnDestroy {
   @Input() canUpdate: boolean;
   @Input() dashboardId: number;
 

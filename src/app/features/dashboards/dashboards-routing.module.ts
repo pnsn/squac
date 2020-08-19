@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { DashboardsComponent } from './dashboards.component';
+import { DashboardsComponent } from './components/dashboards/dashboards.component';
 import { DashboardEditComponent } from './components/dashboard-edit/dashboard-edit.component';
 import { DashboardDetailComponent } from './components/dashboard-detail/dashboard-detail.component';
 import { WidgetEditComponent } from '@features/widgets/components/widget-edit/widget-edit.component';
