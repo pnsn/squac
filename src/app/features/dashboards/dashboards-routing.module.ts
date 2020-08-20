@@ -6,13 +6,16 @@ import { WidgetEditComponent } from '@features/widgets/components/widget-edit/wi
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
-
+import { DashboardsResolver } from './dashboards.resolver'
 
 export const routes: Routes = [
   {
     path: 'dashboards',
     component: DashboardsComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      dashboards: DashboardsResolver
+    },
     children: [
       {
         path: 'new',
@@ -25,6 +28,9 @@ export const routes: Routes = [
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Dashboard', action: 'read'},
+        resolve: {
+          dashboard: DashboardsResolver
+        },
         children: [
           { path: 'widget',
             children: [
@@ -52,7 +58,12 @@ export const routes: Routes = [
         path: ':id/edit',
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'update'}},
+        data: {subject: 'Dashboard', action: 'update'},
+        resolve: {
+          dashboard: DashboardsResolver
+        },
+      },
+
     ]
   }
 ];

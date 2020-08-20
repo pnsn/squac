@@ -13,7 +13,6 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class ViewService {
-  currentDashboard = new Subject<Dashboard>();
   currentWidgets = new BehaviorSubject<Widget[]>([]);
   dates = new Subject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
@@ -77,58 +76,34 @@ export class ViewService {
     // this.status.next('loading');
   }
 
-
-  // TODO: clear up some redundancy
-  dashboardSelected(id) {
-    console.log('dashboard selected');
+  dashboardSelected(dashboard: Dashboard) {
     this.status.next('loading');
     // set dates
-    this.widgets = [];
-    this.updateCurrentWidgets();
 
-    this.updateDashboard(null);
+    // clear old widgets
+    if(this.dashboard) {
+      this.dashboard.widgets = [];
+      this.updateCurrentWidgets();
+    }
 
-    this.dashboardService.getDashboard(id).subscribe(
-      (dashboard: Dashboard) => {
-        this.dashboard = dashboard;
-        // this.updateDashboard(dashboard);
-        if (dashboard.widgetIds.length > 0) {
-          console.log('get widgets');
-          this.getWidgets(dashboard.id);
-        } else {
-          console.log('no widgets');
-          this.status.next('finished');
-          this.updateDashboard(this.dashboard);
-        }
-
-      },
-      error => {
-        this.updateDashboard(null);
-        this.handleError('Could not load dashboard ' + id + '.', 'dashboardSelected', error);
-      },
-      () => {
-        console.log('dashboard complete');
-      }
-    );
+    this.dashboard = dashboard;
+    if (dashboard.widgetIds.length > 0) {
+      this.getWidgets(dashboard.id);
+    } else {
+      this.status.next('finished');
+    }
   }
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetsChanged() {
-    this.updateCurrentWidgets();
     this.status.next('finished');
     this.error.next(null);
-    this.dashboard.updateWidgets(this.widgets.slice());
-    this.updateDashboard(this.dashboard);
+    this.updateCurrentWidgets();
   }
 
   private updateCurrentWidgets() {
     // add widgets to Dashboard
-    this.currentWidgets.next(this.widgets.slice());
-  }
-
-  private updateDashboard(dashboard) {
-    this.dashboard = dashboard;
-    this.currentDashboard.next(this.dashboard);
+    this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
   getWidgets(dashboardId) {
@@ -136,7 +111,7 @@ export class ViewService {
     this.status.next('loading');
     this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
       (widgets: Widget[]) => {
-        this.widgets = widgets;
+        this.dashboard.widgets = widgets;
       },
       error => {
         this.handleError('Could not load widgets for dashboard ' + dashboardId + '.', 'getWidgets', error);
@@ -155,7 +130,7 @@ export class ViewService {
       (widget: Widget) => {
         const index = this.getWidgetIndexById(widget.id);
 
-        this.widgets[index] = widget;
+        this.dashboard.widgets[index] = widget;
         this.widgetsChanged();
       },
       error => {
@@ -168,7 +143,7 @@ export class ViewService {
     this.status.next('loading');
     this.widgetService.getWidget(widgetId).subscribe(
       (widget: Widget) => {
-        this.widgets.push(widget);
+        this.dashboard.widgets.push(widget);
         this.widgetsChanged();
       },
       error => {
@@ -182,7 +157,7 @@ export class ViewService {
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
-        this.widgets.splice(index, 1);
+        this.dashboard.widgets.splice(index, 1);
         this.widgetsChanged();
       },
       error => {
@@ -209,7 +184,6 @@ export class ViewService {
     this.dashboardService.deleteDashboard(dashboard.id).subscribe(
       response => {
         console.log('dashboard deleted');
-        this.updateDashboard(null);
         // redirect to /dashboards
       },
       error => {

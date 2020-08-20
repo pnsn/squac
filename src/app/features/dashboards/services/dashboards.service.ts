@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dashboard } from '../models/dashboard';
 import { BehaviorSubject, Observable} from 'rxjs';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { map} from 'rxjs/operators';
+import { map, tap} from 'rxjs/operators';
 
 interface DashboardsHttpData {
   name: string;
@@ -23,7 +23,7 @@ interface DashboardsHttpData {
 export class DashboardsService {
   // private localDashboards
   localDashboards: Dashboard[] = [];
-  getDashboards = new BehaviorSubject<Dashboard[]>([]);
+  // getDashboards = new BehaviorSubject<Dashboard[]>([]);
   private url = 'dashboard/dashboards/';
   constructor(
     private squacApi: SquacApiService
@@ -34,13 +34,18 @@ export class DashboardsService {
     if (dashboards) {
       this.localDashboards = dashboards;
     }
-    this.getDashboards.next(this.localDashboards);
+    // this.getDashboards.next(this.localDashboards);
   }
 
   // Gets channel groups from server
-  fetchDashboards(): void {
+  getDashboards(): Observable<Dashboard[]> {
+    // if(more than X minutes) {
+      //return new
+    // } else 
+    // return stored
+    //
 
-    this.squacApi.get(this.url).pipe(
+    return this.squacApi.get(this.url).pipe(
       map(
         response => {
           const dashboards: Dashboard[] = [];
@@ -66,19 +71,16 @@ export class DashboardsService {
           });
           return dashboards;
         }
+      ),
+      tap(
+        (dashboards : Dashboard[]) => {
+          this.updateDashboards(dashboards);
+        }
       )
-    )
-    .subscribe(
-      dashboards => {
-        this.updateDashboards(dashboards);
-      },
-      error => {
-        console.log('error in dashboards: ' + error);
-      }
     );
   }
 
-  private updateLocalDashboards(id: number, dashboard?: Dashboard) {
+  private updateLocalDashboard(id: number, dashboard?: Dashboard) {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
     if (index > -1) {
@@ -96,6 +98,7 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): any {
+    //TODO: return local copy?
     return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
   }
 
@@ -124,6 +127,7 @@ export class DashboardsService {
   }
 
   private mapDashboard(squacData): Dashboard {
+    console.log(squacData)
     const dashboard = new Dashboard(
       squacData.id,
       squacData.user_id,
@@ -140,12 +144,12 @@ export class DashboardsService {
       dashboard.starttime = squacData.starttime;
       dashboard.endtime = squacData.endtime;
     }
-    this.updateLocalDashboards(dashboard.id, dashboard);
+    this.updateLocalDashboard(dashboard.id, dashboard);
     return dashboard;
   }
 
   deleteDashboard(dashboardId): Observable<any> {
-    this.updateLocalDashboards(dashboardId);
+    this.updateLocalDashboard(dashboardId);
     return this.squacApi.delete(this.url, dashboardId);
   }
 }

@@ -80,7 +80,7 @@ itemChange(item) {
     const widgetSub = this.viewService.currentWidgets.subscribe(
       (widgets: Widget[]) => {
         console.log('updated widgets');
-        // TODO; some logic for checking if changed
+        // TODO; some logic for checking which have changed
         this.widgets = [];
         if (widgets.length > 0) {
           widgets.forEach(widget => {

@@ -18,7 +18,6 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
-  id: number;
   dashboard: Dashboard;
   dialogRef;
   subscription: Subscription = new Subscription();
@@ -26,6 +25,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   maxDate: moment.Moment;
   error: string = null;
   unsaved: boolean;
+
+  //TODO: make this a separate component, its making this too busy
   selected: {
     startDate,
     endDate
@@ -66,33 +67,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.maxDate = moment.utc();
-    // if no dates, default to last 1 hour for quick loading
-    const dashSub = this.viewService.currentDashboard.subscribe(
-      (dashboard: Dashboard) => {
-        this.dashboard = dashboard;
+
+    this.route.data.subscribe(
+      data => {
+        this.dashboard = data.dashboard;
         if (this.dashboard) {
+          this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
+        } else {
+          console.log("should not be possible tog et ehre");
         }
-        // set dashboard dates
-        // should have dates strings at this point, if not default to something
-      },
-      error => {
-        this.error = 'Could not load dashboard.';
-        console.log('error in dashboard detail: ' + error);
-      }
-    );
-
-    const dashIdSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.id;
-        this.error = null;
-        this.viewService.dashboardSelected(this.id);
-        console.log('new dashboard ' + this.id);
-      },
-      error => {
-        this.error = 'Could not load dashboard.';
-        console.log('error in dashboard detail route: ' + error);
       }
     );
 
@@ -113,8 +98,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
 
 
-    this.subscription.add(dashSub);
-    this.subscription.add(dashIdSub);
+    // this.subscription.add(dashSub);
+    // this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }
@@ -213,6 +198,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("dashboard detail destroyed")
     if (this.dialogRef) {
       this.dialogRef.close();
     }
@@ -224,7 +210,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.dialogRef = this.dialog.open(WidgetEditComponent, {
       data : {
         widget: null,
-        dashboardId: this.id
+        dashboardId: this.dashboard.id
       }
     });
     this.dialogRef.afterClosed().subscribe(

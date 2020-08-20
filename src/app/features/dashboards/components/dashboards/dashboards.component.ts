@@ -18,8 +18,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // TODO: load before routing
-    this.dashboardsService.fetchDashboards();
     this.statTypeService.fetchStatTypes();
   }
 

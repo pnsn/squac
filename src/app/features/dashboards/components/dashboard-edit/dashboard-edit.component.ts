@@ -54,23 +54,34 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   private initForm() {
 
     if (this.editMode) {
-      const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
-        dashboard => {
-          this.dashboard = dashboard;
-          this.dashboardForm.patchValue(
-            {
-              name : dashboard.name,
-              description : dashboard.description,
-              shareAll: dashboard.shareAll,
-              shareOrg: dashboard.shareOrg
-            }
-          );
-        },
-        error => {
-          console.log('error in dashboard edit: ' + error);
+      this.dashboard = this.route.snapshot.data.dashboard;
+      console.log(this.dashboard)
+      this.dashboardForm.patchValue(
+        {
+          name : this.dashboard.name,
+          description : this.dashboard.description,
+          shareAll: this.dashboard.shareAll,
+          shareOrg: this.dashboard.shareOrg
         }
       );
-      this.subscriptions.add(dashboardSub);
+
+      // const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
+      //   dashboard => {
+      //     this.dashboard = dashboard;
+      //     this.dashboardForm.patchValue(
+      //       {
+      //         name : dashboard.name,
+      //         description : dashboard.description,
+      //         shareAll: dashboard.shareAll,
+      //         shareOrg: dashboard.shareOrg
+      //       }
+      //     );
+      //   },
+      //   error => {
+      //     console.log('error in dashboard edit: ' + error);
+      //   }
+      // );
+      // this.subscriptions.add(dashboardSub);
     }
   }
 
