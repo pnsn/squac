@@ -22,9 +22,9 @@ export const AppAbility = Ability as AbilityClass<AppAbility>;
 
 export function defineAbilitiesFor(user: User) {
   const { can, rules } = new AbilityBuilder(AppAbility);
-
+  can('read', 'all');
   if (user.inGroup('viewer')) {
-    can('read', 'all');
+
     can('read', 'Dashboard');
   }
 

@@ -34,7 +34,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
 
     if(this.route.firstChild){
-      this.selectedChannelGroupId = this.route.firstChild.snapshot.params['id'];
+      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params['id'];
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
 
@@ -68,6 +68,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
     const selectedId = $event.selected[0].id;
     if (selectedId) {
       this.router.navigate(['channel-groups', selectedId], {relativeTo: this.route.root});
+      this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
     }
   }

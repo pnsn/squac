@@ -2,20 +2,17 @@
   <h1>
     Channel Groups
   </h1>
-  <div class="btn-container-right" *ngIf="'update' | able: 'ChannelGroup'">
-    <button mat-flat-button color="accent" [disabled]="!!selectedChanelGroupId"
+  <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
+    <button mat-flat-button color="primary" [disabled]="!selectedChanelGroupId"
       class="add-btn" (click)="editChannelGroup()"
-    >+ Edit Channel Group</button>
+    >Edit Channel Group</button>
     <button mat-flat-button color="accent"
       class="add-btn" (click)="addChannelGroup()"
-    >+ Add Channel Group</button>
+    >Add Channel Group</button>
   </div>
 </div>
 
-<div id="map-and-channel-group">
-  <div id="map-box" class="box">
-    <app-map [selectedChannels]="selectedChannels" [editPage]=false></app-map>
-  </div>
+
   <div id="channel-groups">
     <ngx-datatable
       id="channel-group-table"
@@ -40,17 +37,24 @@
           {{ row.description }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Public" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="Shared with Org" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.isPublic ? "Public" : "Private" }}
+          {{ row.shareOrg ? "Shared" : "Private" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Shared with All" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ row.shareAll ? "Shared" : "Private" }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
   </div>
-</div>
 
-<router-outlet>
+  <div id="select-group" *ngIf="!selectedChannelGroupId">
+    <p>Select a group to view details.</p>
+  </div>
 
-</router-outlet>
+<router-outlet></router-outlet>
+
   <!-- <app-channel-groups-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></app-channel-groups-detail> -->
 
