@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
 import { MetricsService } from '@features/metrics/services/metrics.service';
-import { WidgetEditService } from '../widget-edit.service';
+import { WidgetEditService } from '../../../services/widget-edit.service';
 import { Subscription } from 'rxjs';
 
 @Component({

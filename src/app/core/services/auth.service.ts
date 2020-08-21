@@ -134,6 +134,6 @@ export class AuthService {
     //start loading procedure
       // user info
       // organization
-    // this.userService.fetchUser();
+    this.userService.fetchUser();
   }
 }

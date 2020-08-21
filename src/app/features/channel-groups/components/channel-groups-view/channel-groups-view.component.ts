@@ -32,21 +32,15 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.selected = [];
     this.selectedChannels = [];
-    const channelGroupsService = this.channelGroupsService.getChannelGroups.subscribe(
-      channelGroups => {
-        this.channelGroups = channelGroups;
-        const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
-        this.isSelected = selectedChannelGroupId !== 0;
-        if (this.isSelected) {
-          this.selectChannelGroup(selectedChannelGroupId);
-        }
-      },
-      error => {
-        console.log('error in channel groups: ' + error);
-      }
-    );
-    this.channelGroupsService.fetchChannelGroups();
-    this.subscription.add(channelGroupsService);
+
+    this.channelGroups = this.route.snapshot.data.channelGroups;
+
+    //fixme: this is bad
+    const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
+    this.isSelected = selectedChannelGroupId !== 0;
+    if (this.isSelected) {
+      this.selectChannelGroup(selectedChannelGroupId);
+    }
   }
 
   ngOnDestroy(): void {

@@ -31,7 +31,14 @@ export class UserService {
     private ability: AppAbility,
     private orgService: OrganizationsService
   ) { }
-  
+  fetchUser() {
+    this.getUser().subscribe(
+      user => {
+        this.user.next(user);
+      }
+    )
+  }
+
   getUser() : Observable<User> {
     return this.squacApi.get(this.url).pipe(
       map(

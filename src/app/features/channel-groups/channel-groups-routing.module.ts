@@ -7,17 +7,20 @@ import { ChannelGroupsViewComponent } from './components/channel-groups-view/cha
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
 import {ChannelGroupsResolver} from './channel-groups.resolver';
 
+//TODO: fix this weird routing set up
 export const routes: Routes = [
   { path: 'channel-groups',
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
-    resolve: {
-      channelGroups: ChannelGroupsResolver
-    },
     children: [
       {
-        path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'
+        path: '', 
+        component: ChannelGroupsViewComponent,
+        pathMatch: 'full',
+        resolve: {
+          channelGroups: ChannelGroupsResolver
+        },
       },
       {
         path: 'new',

@@ -6,7 +6,7 @@ import { Widget } from '@features/widgets/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { ThresholdsService } from '../../services/thresholds.service';
-import { WidgetEditService } from './widget-edit.service';
+import { WidgetEditService } from '../../services/widget-edit.service';
 import { StatTypeService } from '@features/widgets/services/stattype.service';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 
@@ -88,8 +88,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.metricsService.fetchMetrics();
-    this.channelGroupsService.fetchChannelGroups();
-
     this.subscriptions.add(sub);
   }
 
