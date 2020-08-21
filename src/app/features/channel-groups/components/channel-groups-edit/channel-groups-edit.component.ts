@@ -292,12 +292,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Exit page
   // TODO: warn if unsaved
   cancel(id?: number) {
-    if (id && !this.id) {
+    if (id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
-    } else if (id) {
-      this.router.navigate(['../'], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../../'], {relativeTo: this.route});
+      this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 

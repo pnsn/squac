@@ -19,6 +19,18 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'new',
+        component: ChannelGroupsEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'create'}
+      },
+      {
+        path: ':id/edit',
+        component: ChannelGroupsEditComponent,
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'update'}
+      },
+      {
         path: '',
         component: ChannelGroupsViewComponent,
         canActivate: [PermissionGuard],
@@ -34,19 +46,8 @@ export const routes: Routes = [
             },
           }
         ]
-      },
-      {
-        path: 'new',
-        component: ChannelGroupsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'create'}
-      },
-      {
-        path: ':id/edit',
-        component: ChannelGroupsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'update'}
       }
+
     ]
   }
 ];

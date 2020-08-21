@@ -32,7 +32,6 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
     this.selected = [];
 
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
-    console.log(this.channelGroups)
     if(this.route.firstChild){
       this.selectedChannelGroupId = +this.route.firstChild.snapshot.params['id'];
       this.selectChannelGroup(this.selectedChannelGroupId);
@@ -45,15 +44,11 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   }
 
   addChannelGroup() {
-    if (!!this.selectedChannelGroupId) {
-      this.router.navigate(['../new'], {relativeTo: this.route});
-    } else {
-      this.router.navigate(['new'], {relativeTo: this.route});
-    }
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
   editChannelGroup() {
-    this.router.navigate([`edit`], {relativeTo: this.route});
+    this.router.navigate([this.selectedChannelGroupId, 'edit'], {relativeTo: this.route});
   }
 
   // Getting a selected channel group and setting variables
@@ -67,7 +62,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   onSelect($event) { // When a row is selected, route the page and select that channel group
     const selectedId = $event.selected[0].id;
     if (selectedId) {
-      this.router.navigate(['channel-groups', selectedId], {relativeTo: this.route.root});
+      this.router.navigate([selectedId], {relativeTo: this.route});
       this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
     }
