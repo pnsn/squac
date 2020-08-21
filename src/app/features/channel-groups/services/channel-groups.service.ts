@@ -33,7 +33,7 @@ export class ChannelGroupsService {
   //   this.getChannelGroups.next(channelGroups);
   // }
 
-  
+
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
@@ -48,6 +48,7 @@ export class ChannelGroupsService {
               cG.user_id,
               cG.name,
               cG.description,
+              cG.organization,
               cG.share_org,
               cG.share_all
             );
@@ -100,6 +101,7 @@ export class ChannelGroupsService {
               response.user_id,
               response.name,
               response.description,
+              response.organization,
               response.share_org,
               response.share_all,
               channels

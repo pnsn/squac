@@ -1,8 +1,9 @@
-<div id="channel-group-container">
-  <div id="map-box" class="box">
+<h2>{{channelGroup.name}}</h2>
+<div id="channel-group-container" class="box">
+  <div id="map-container">
     <app-map [selectedChannels]="channelGroup.channels" [editPage]=false></app-map>
   </div>
-  <div id="channels">
+  <div id="channels-container">
     <ngx-datatable
       id="channel-table"
       class="material"

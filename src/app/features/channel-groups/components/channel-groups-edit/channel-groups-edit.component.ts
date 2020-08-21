@@ -7,6 +7,7 @@ import { ChannelsService } from '../../services/channels.service';
 import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
+import { UserService } from '@features/user/services/user.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupsService,
     private channelsService: ChannelsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService
   ) { }
 
   id: number;
@@ -31,7 +33,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   loading = false;
   changeMade = false;
-
+  orgId: number;
   // form stuff
   channelGroupForm: FormGroup;
   searchChannels: Channel[] = []; // Channels returned from filter request
@@ -71,6 +73,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.initForm();
       }
     );
+
+    //fixme: this shouldn't nee to be in here
+    this.orgId = this.userService.getUserOrg();
     this.isFilterOpen = false;
     this.isMapShowing = window.innerWidth >= 1400;
     this.subscriptions.add(paramsSub);
@@ -263,6 +268,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       null,
       values.name,
       values.description,
+      this.orgId,
       values.shareOrg,
       values.shareAll,
       this.selectedChannels
