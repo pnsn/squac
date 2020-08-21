@@ -82,7 +82,7 @@ export class OrganizationsService {
 
   }
 
-  getOrganizationById(id: number): Observable<Organization> {
+  getOrganization(id: number): Observable<Organization> {
   //  const org = this.localOrganizations.find(
   //     org => org.id === id
   //   );

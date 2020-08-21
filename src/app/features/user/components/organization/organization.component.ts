@@ -9,6 +9,7 @@ import { Subscription, of } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@features/user/services/invite.service';
 import { ThrowStmt } from '@angular/compiler';
+import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-organization',
@@ -44,10 +45,12 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private orgService: OrganizationsService,
     private formBuilder: FormBuilder,
-    private inviteService: InviteService
+    private inviteService: InviteService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    const dashboard = this.route.snapshot.data.organization;
     // this is getting removed when loading is added
     const userSub = this.userService.user.pipe(
       switchMap(
@@ -57,7 +60,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
             console.log('have a user');
             this.user = user;
             this.isAdmin = user.isAdmin;
-            return this.orgService.getOrganizationById(this.user.orgId);
+            return this.orgService.getOrganization(this.user.orgId);
           } else {
             return of();
           }

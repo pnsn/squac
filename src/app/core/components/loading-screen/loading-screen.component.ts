@@ -11,24 +11,31 @@ import { debounceTime } from 'rxjs/operators';
 export class LoadingScreenComponent implements AfterViewInit, OnDestroy {
   loading: boolean;
   status: string;
-  loadSub: Subscription;
+  subscription: Subscription = new Subscription();
   constructor(
     private loadingService: LoadingService
     ) { }
 
   ngAfterViewInit(): void {
-    this.loadSub = this.loadingService.loading
-    .pipe(
-      debounceTime(200)
-    )
-    .subscribe(
+    const loadSub = this.loadingService.loading.subscribe(
       loading => { this.loading = loading }
     )
-    this.status = "text here";
+    
+    const loadStatusSub = this.loadingService.loadingStatus.subscribe(
+      text => {
+        this.status = text;
+      }
+    )
+    this.subscription.add(loadSub);
+    this.subscription.add(loadStatusSub);
+
+    // .pipe(
+    //   debounceTime(200)
+    // )
   }
 
   ngOnDestroy(): void {
-    this.loadSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
 }

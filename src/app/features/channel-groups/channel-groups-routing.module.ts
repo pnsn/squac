@@ -5,12 +5,16 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
+import {ChannelGroupsResolver} from './channel-groups.resolver';
 
 export const routes: Routes = [
   { path: 'channel-groups',
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
+    resolve: {
+      channelGroups: ChannelGroupsResolver
+    },
     children: [
       {
         path: '', component: ChannelGroupsViewComponent, pathMatch: 'full'

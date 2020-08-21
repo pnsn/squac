@@ -12,6 +12,8 @@ import { PasswordResetComponent } from '@features/user/components/password-reset
 import { LoginComponent } from '@features/user/components/login/login.component';
 import { OrganizationComponent } from '@features/user/components/organization/organization.component';
 import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
+import { UserResolver } from '@features/user/user.resolver';
+import { OrganizationResolver } from '@features/user/organization.resolver';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -45,9 +47,22 @@ const appRoutes: Routes = [
     ]
   },
   { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-  { path: 'user', canActivate: [AuthGuard], component: UserComponent},
+  { path: 'user',
+    canActivate: [AuthGuard],
+    component: UserComponent,
+    resolve: { 
+      user: UserResolver
+    }
+  },
 
-  { path: 'organization', canActivate: [AuthGuard], component: OrganizationComponent},
+  { 
+    path: 'organization',
+    canActivate: [AuthGuard],
+    component: OrganizationComponent,
+    resolve: {
+      organization: OrganizationResolver
+    }
+  },
   { path: 'metrics',
     component: MetricsComponent,
     canActivate: [AuthGuard, PermissionGuard],

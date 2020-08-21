@@ -7,7 +7,27 @@ import { Subject } from 'rxjs';
 export class LoadingService {
   loading: Subject<boolean> = new Subject();
   loadingStatus: Subject<string> = new Subject();
+
+  activeRequests: number = 0;
   constructor() { }
+
+
+  setStatus(text : string) {
+    this.loadingStatus.next(text);
+  }
+
+  getInitialSquacData() {
+    //get User
+    //get Organizations
+    //get Dashboards
+    //get ChannelGroups
+    //get Stattypes
+    //get Metrics
+  }
+
+
+
+
 
   startLoading() {
     this.loading.next(true);

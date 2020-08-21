@@ -97,7 +97,7 @@ export class DashboardsService {
   }
 
   // Gets dashboard by id from SQUAC
-  getDashboard(id: number): any {
+  getDashboard(id: number): Observable<Dashboard> {
     //TODO: return local copy?
     return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
   }

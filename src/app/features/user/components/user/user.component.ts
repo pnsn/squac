@@ -48,7 +48,7 @@ export class UserComponent implements OnInit, OnDestroy {
           } else {
             this.user = user;
             this.initForm(user);
-            return this.orgService.getOrganizationById(this.user.orgId);
+            return this.orgService.getOrganization(this.user.orgId);
           }
 
         }

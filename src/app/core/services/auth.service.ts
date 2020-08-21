@@ -130,6 +130,10 @@ export class AuthService {
   private signInUser(token, expiration) {
     this.autologout(expiration);
     this.token = token;
-    this.userService.fetchUser();
+
+    //start loading procedure
+      // user info
+      // organization
+    // this.userService.fetchUser();
   }
 }

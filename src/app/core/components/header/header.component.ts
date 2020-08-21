@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.userService.user.subscribe(
-      user => {
+      (user : User) => {
         this.user = user;
       },
       error => {
