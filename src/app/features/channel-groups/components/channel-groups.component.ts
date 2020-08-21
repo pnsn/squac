@@ -28,8 +28,4 @@ export class ChannelGroupsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-  addChannelGroup() {
-    this.router.navigate(['new'], {relativeTo: this.route});
-  }
 }

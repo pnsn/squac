@@ -6,6 +6,7 @@ import { PermissionGuard } from '@core/guards/permission.guard';
 import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
 import {ChannelGroupsResolver} from './channel-groups.resolver';
+import { ChannelGroupsDetailComponent } from './components/channel-groups-detail/channel-groups-detail.component';
 
 //TODO: fix this weird routing set up
 export const routes: Routes = [
@@ -15,12 +16,10 @@ export const routes: Routes = [
     data: {subject: 'ChannelGroup', action: 'read'},
     children: [
       {
-        path: '', 
+        path: '',
         component: ChannelGroupsViewComponent,
-        pathMatch: 'full',
-        resolve: {
-          channelGroups: ChannelGroupsResolver
-        },
+        canActivate: [PermissionGuard],
+        data: {subject: 'ChannelGroup', action: 'read'}
       },
       {
         path: 'new',
@@ -29,17 +28,11 @@ export const routes: Routes = [
         data: {subject: 'ChannelGroup', action: 'create'}
       },
       {
-        path: ':id',
-        component: ChannelGroupsViewComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'read'}
-      },
-      {
         path: ':id/edit',
         component: ChannelGroupsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'ChannelGroup', action: 'update'}
-      },
+      }
     ]
   }
 ];

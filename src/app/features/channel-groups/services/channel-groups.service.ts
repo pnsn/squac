@@ -33,6 +33,8 @@ export class ChannelGroupsService {
   //   this.getChannelGroups.next(channelGroups);
   // }
 
+  
+
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
     return this.squacApi.get(this.url).pipe(
