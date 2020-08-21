@@ -1,20 +1,20 @@
-@import 'variables';
+@import "variables";
 
 #title {
-    margin: 15px 5vw;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
 
-    h1 {
-        display: inline-block;
+  #button-container {
+    button {
+      margin-left: 10px;
     }
-}
-
-#metric-container {
-    margin: 0 5vw;
+  }
 }
 
 #metric-table {
-    border: 1px solid $sq-lt-gray;
-    border-radius: 5px;
-    height: 80vh;
-    overflow: hidden;
+  height: 80vh;
+  overflow: hidden;
 }
