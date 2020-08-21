@@ -14,12 +14,26 @@ export const routes: Routes = [
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
+    resolve: {
+      channelGroups:ChannelGroupsResolver
+    },
     children: [
       {
         path: '',
         component: ChannelGroupsViewComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'ChannelGroup', action: 'read'}
+        data: {subject: 'ChannelGroup', action: 'read'},
+        children: [ 
+          {
+            path: ':id',
+            component: ChannelGroupsDetailComponent,
+            canActivate: [PermissionGuard],
+            data: {subject: 'ChannelGroup', action: 'update'},
+            resolve: {
+              channelGroup:ChannelGroupsResolver
+            },
+          }
+        ]
       },
       {
         path: 'new',
