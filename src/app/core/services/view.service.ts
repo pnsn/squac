@@ -1,4 +1,3 @@
-// service that actually has dashboard info -takes it out of component
 // Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';

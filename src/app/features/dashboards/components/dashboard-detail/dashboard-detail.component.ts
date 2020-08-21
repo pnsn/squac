@@ -24,7 +24,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   status;
   maxDate: moment.Moment;
   error: string = null;
-  unsaved: boolean;
+  unsaved: boolean = false;
 
   //TODO: make this a separate component, its making this too busy
   selected: {
@@ -176,7 +176,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.liveMode,
       range
     );
+    
 
+    //FIXME: add check to keep it from saving on open
     if (this.ability.can('update', this.dashboard)) {
       this.saveDashboard();
     }
@@ -184,8 +186,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteDashboard() {
-    this.viewService.deleteDashboard(this.dashboard);
-    this.router.navigate(['/dashboards']);
+    if (this.ability.can('delete', this.dashboard)) {
+      this.viewService.deleteDashboard(this.dashboard);
+      this.router.navigate(['/dashboards']);
+    }
   }
 
   refreshData() {
