@@ -14,7 +14,8 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   dashboards: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
-  userId;
+  userId: number;
+  orgId : number;
   constructor(
     private dashboardsService: DashboardsService,
     private userService: UserService,
@@ -52,6 +53,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     const userService = this.userService.user.subscribe(
       user => {
         this.userId = user ? user.id : null;
+        this.orgId = user ? user.orgId : null;
       }
     );
     // this.subscription.add(dashboardsService);

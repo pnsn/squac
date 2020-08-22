@@ -1,24 +1,14 @@
 #dashboard-list-container {
-  div.list-header {
-    padding: 10px 10px 6px ;
+  mat-expansion-panel{
+    border-radius: 0px;
+    box-shadow: none;
+  }
+ mat-panel-title {
+
     font-size: 14pt;
     font-weight: 600;
   }
-  max-height: 90%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  .mat-divider {
-    margin: 10px 10px 0px 10px;
-  }
-  .dashboard-group mat-nav-list {
-    max-height: 50%;
-    overflow:scroll;
 
-    a.mat-list-item {
-      height: 30px;
-
-    }
-  }
 }
 ::ng-deep .mat-list-item-content {
   overflow: hidden;
