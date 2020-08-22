@@ -5,7 +5,6 @@ import { ChannelGroupsComponent } from './components/channel-groups.component';
 import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
 import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
 import { ChannelGroupsFilterComponent } from './components/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
-import { ChannelGroupsTableComponent } from './components/channel-groups-edit/channel-groups-table/channel-groups-table.component';
 import { ChannelGroupsRoutingModule } from './channel-groups-routing.module';
 import { ChannelGroupsDetailComponent } from './components/channel-groups-detail/channel-groups-detail.component';
 
@@ -15,7 +14,6 @@ import { ChannelGroupsDetailComponent } from './components/channel-groups-detail
     ChannelGroupsEditComponent,
     ChannelGroupsViewComponent,
     ChannelGroupsFilterComponent,
-    ChannelGroupsTableComponent,
     ChannelGroupsDetailComponent
   ],
   imports: [

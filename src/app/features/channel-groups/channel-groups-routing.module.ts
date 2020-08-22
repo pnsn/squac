@@ -12,7 +12,7 @@ import { ChannelGroupsDetailComponent } from './components/channel-groups-detail
 export const routes: Routes = [
   { path: 'channel-groups',
     component: ChannelGroupsComponent,
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
     resolve: {
       channelGroups:ChannelGroupsResolver

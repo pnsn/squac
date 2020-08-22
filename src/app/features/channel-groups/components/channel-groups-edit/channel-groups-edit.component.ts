@@ -50,7 +50,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   };
 
   // Map stuff
-  isMapShowing: boolean;
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
   // table stuff
@@ -77,7 +76,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     //fixme: this shouldn't nee to be in here
     this.orgId = this.userService.getUserOrg();
     this.isFilterOpen = false;
-    this.isMapShowing = window.innerWidth >= 1400;
     this.subscriptions.add(paramsSub);
     this.popupAction = 'cancel';
   }
@@ -191,16 +189,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onFilteringOpen() {
     this.isFilterOpen = true;
-    setTimeout(() => {
-      this.filteredChannels = [...this.selectedChannels];
-    }, 0);
+    
+    this.filteredChannels = [...this.selectedChannels];
   }
 
   onFilteringClose() {
     this.isFilterOpen = false;
-    setTimeout(() => {
-      this.filteredChannels = [...this.selectedChannels];
-    }, 0);
+    this.filteredChannels = [...this.selectedChannels];
+
   }
 
   onSelectedFilter(searchFilters: object) {
@@ -364,12 +360,4 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // When window is resized check for width
-  onResize(event: any) {
-    const willMapShow = event.target.innerWidth >= 1400;
-    if (!this.isMapShowing && willMapShow) {
-      this.isFilterOpen = false;
-    }
-    this.isMapShowing = willMapShow;
-  }
 }
