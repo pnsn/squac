@@ -14,6 +14,7 @@ import { OrganizationComponent } from '@features/user/components/organization/or
 import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
 import { UserResolver } from '@features/user/user.resolver';
 import { OrganizationResolver } from '@features/user/organization.resolver';
+import { MetricsResolver } from '@features/metrics/metrics.resolver';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -67,6 +68,9 @@ const appRoutes: Routes = [
     component: MetricsComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: {subject: 'Metric', action: 'read'},
+    resolve: {
+      metrics: MetricsResolver
+    },
     children: [
       { path: '', component: MetricsViewComponent, pathMatch: 'full'},
       {
@@ -75,17 +79,20 @@ const appRoutes: Routes = [
         canActivate: [PermissionGuard],
         data: {subject: 'Metric', action: 'create'}
       },
-      {
-        path: ':id',
-        component: MetricsViewComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'read'}
-      },
+      // {
+      //   path: ':id',
+      //   component: MetricsViewComponent,
+      //   canActivate: [PermissionGuard],
+      //   data: {subject: 'Metric', action: 'read'}
+      // },
       {
         path: ':id/edit',
         component: MetricsEditComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'update'}
+        data: {subject: 'Metric', action: 'update'},
+        resolve: {
+          metric: MetricsResolver
+        },
       },
     ]
   }

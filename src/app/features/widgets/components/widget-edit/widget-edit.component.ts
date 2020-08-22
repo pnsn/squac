@@ -87,7 +87,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     console.log('widget', this.widget);
     this.initForm();
 
-    this.metricsService.fetchMetrics();
     this.subscriptions.add(sub);
   }
 

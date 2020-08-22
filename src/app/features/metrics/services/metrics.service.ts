@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Metric } from '@core/models/metric';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 
 interface MetricsHttpData {
@@ -21,7 +21,7 @@ interface MetricsHttpData {
 })
 
 export class MetricsService {
-  getMetrics = new BehaviorSubject<Metric[]>([]);
+  metrics = new BehaviorSubject<Metric[]>([]);
   private url = 'measurement/metrics/';
 
   constructor(
@@ -30,13 +30,13 @@ export class MetricsService {
   }
 
   private updateMetrics(metrics: Metric[]) {
-    this.getMetrics.next(metrics);
+    this.metrics.next(metrics);
   }
 
   // Gets channel groups from server
-  fetchMetrics(): void {
+  getMetrics(): Observable<Metric[]> {
     // temp
-    this.squacApi.get(this.url).pipe(
+    return this.squacApi.get(this.url).pipe(
       map(
         results => {
           const metrics: Metric[] = [];
@@ -57,15 +57,12 @@ export class MetricsService {
           });
           return metrics;
         }
+      ),
+      tap(
+        metrics => {
+          this.updateMetrics(metrics);
+        }
       )
-    )
-    .subscribe(
-      result => {
-        this.updateMetrics(result);
-      },
-      error => {
-        console.log('error in metrics service: ' + error);
-      }
     );
   }
 

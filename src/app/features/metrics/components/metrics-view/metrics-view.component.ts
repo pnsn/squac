@@ -28,14 +28,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.metricsService.getMetrics.subscribe(
-      (metrics: Metric[]) => {
-        this.metrics = metrics;
-      },
-      error => {
-        console.log('error in metrics view:' + error);
-      }
-    );
+    this.metrics = this.route.parent.snapshot.data.metrics;
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

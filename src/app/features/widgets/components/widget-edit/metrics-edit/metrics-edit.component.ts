@@ -38,7 +38,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading = true;
-    const sub1 = this.metricsService.getMetrics.subscribe(
+    const sub1 = this.metricsService.metrics.subscribe(
       metrics => {
         this.availableMetrics = metrics;
         this.tableRows = this.availableMetrics;

@@ -31,6 +31,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
         if (this.editMode) {
           this.id = +params.id;
+          this.metric = this.route.snapshot.data.metric;
         }
 
         this.initForm();
@@ -59,22 +60,15 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.editMode) {
-      this.metricsService.getMetric(this.id).subscribe(
-        metric => {
-          this.metricForm.patchValue({
-            name : metric.name,
-            code: metric.code,
-            description : metric.description,
-            refUrl: metric.refUrl,
-            unit : metric.unit,
-            minVal : metric.minVal,
-            maxVal : metric.maxVal
-          });
-        },
-        error => {
-          console.log('error in metrics edit: ' + error);
-        }
-      );
+      this.metricForm.patchValue({
+        name : this.metric.name,
+        code: this.metric.code,
+        description : this.metric.description,
+        refUrl: this.metric.refUrl,
+        unit : this.metric.unit,
+        minVal : this.metric.minVal,
+        maxVal : this.metric.maxVal
+      });
     }
   }
   // Save channel information
