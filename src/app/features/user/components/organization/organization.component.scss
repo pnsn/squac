@@ -9,6 +9,9 @@
     min-width: 200px;
   }
 }
+#org-users-container {
+  margin: 10px 0px;
+}
 #user-table {
   height: 40vh;
   min-height: 300px;
@@ -41,4 +44,10 @@
 
 #invite-sent {
  margin: 10px;
+}
+
+#roles-container {
+  ul {
+    list-style-type: none;
+  }
 }

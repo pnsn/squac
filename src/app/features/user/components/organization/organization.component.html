@@ -5,7 +5,7 @@
     <p>Hello, {{user.firstName}} {{user.lastName}}!</p>
 
     <h2>Organization Users</h2>
-    <div>
+    <div class="box" id="org-users-container">
       <ngx-datatable
       id="user-table"
       #userTable
@@ -75,7 +75,6 @@
     </ngx-datatable>
 
     </div>
-    <mat-divider></mat-divider>
     <div *ngIf="isAdmin">
       <h2>Add User</h2>
       <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" class="user-form">
@@ -102,25 +101,16 @@
         Invitation email sent to {{userAdded.email}}
       </div>
     </div>
-    <mat-divider></mat-divider>
-    <div>
-      <div>
-        <h3>
+    <div id="roles-container">
+        <h2>
           Squac User Roles:
-        </h3>
-        <ul>
-          <li>
-            Contributer - can add metrics
-          </li>
-          <li>
-            Reporter - can create dashboards....
-          </li>
-          <li>
-            Viewer - can see dashboards/groups.
-          </li>
-        </ul>
+        </h2>
+        <mat-list *ngFor="group of userGroups">
+          <mat-list-item >
+            <strong>{{group.role}}</strong>{{group.description}}
+          </mat-list-item>
+        </mat-list>
       </div>
-    </div>
   </div>
 
 

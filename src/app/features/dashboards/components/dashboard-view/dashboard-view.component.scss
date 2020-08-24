@@ -21,9 +21,13 @@ button {
     height: 22px;
     width: 20px;
   }
-  margin-left: 22px;
   height: 30px;
+  display:block;
   line-height: 22px;
-  margin-top: 10px;
-  padding-left: 10px;
+  margin: 10px auto;
+}
+
+.mat-expansion-panel-body {
+  max-height: 10vh;
+  overflow:scroll;
 }

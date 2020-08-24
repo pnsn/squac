@@ -7,7 +7,9 @@
 
 }
 mat-sidenav{
-  width: 16%;
+  width: 18%;
+  max-width: 350px;
+  min-width: 150px;
 }
 .sidenav-toggle-container {
   margin-top: 10px;
@@ -19,3 +21,4 @@ mat-sidenav{
     color: white; 
   }
 }
+

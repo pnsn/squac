@@ -1,7 +1,7 @@
 
-<!-- <button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
-  <mat-icon>add</mat-icon> New Dashboard
-</button> -->
+<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
+ Create Dashboard
+</button>
 
 <div id="dashboard-list-container" *ngIf="userId && orgId">
 
@@ -46,7 +46,3 @@
 
 
 </div>
-<app-loading *ngIf="!dashboards"></app-loading>
-<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
-  <mat-icon>add</mat-icon> New Dashboard
-</button>
