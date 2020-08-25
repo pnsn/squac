@@ -90,28 +90,6 @@ export class AuthService {
     // }, expirationDuration);
   }
 
-  // Handles login errors
-  // FIXME: blocked by error interceptor
-  // private handleError(errorRes: HttpErrorResponse) {
-  //   console.log(errorRes);
-  //   let errorMessage = 'An unknown error occured!';
-  //   if (!errorRes.error || !errorRes.error.error) {
-  //     return throwError(errorMessage);
-  //   }
-  //   switch (errorRes.error.error.message) {
-  //     case 'EMAIL_EXISTS':
-  //       errorMessage = 'This email exists already';
-  //       break;
-  //     case 'EMAIL_NOT_FOUND':
-  //       errorMessage = 'Email does not exist.';
-  //       break;
-  //     case 'INVALID_PASSWORD':
-  //       errorMessage = 'Password invalid';
-  //       break;
-  //   }
-  //   return throwError(errorMessage);
-  // }
-
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {
     const msToExpire = expiresIn * 60 * 60 * 1000;

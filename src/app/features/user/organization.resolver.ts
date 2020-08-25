@@ -12,7 +12,7 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = parseInt(route.paramMap.get('id'), 10);
-    
+    console.log("organization", id)
     return this.orgService.getOrganization(id).pipe(
       tap(data=> {
         console.log("in resolver, organization")

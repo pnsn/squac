@@ -32,13 +32,13 @@ export class OrganizationComponent implements OnInit, OnDestroy {
 
   groups = [
     {
-      id: 1, role: 'viewer', description: 'Viewers can see all resources.'
+      id: 1, role: 'viewer', description: 'can see all resources.'
     },
     {
-      id: 2, role: 'reporter', description: 'Reporters can create dashboards and channel groups.'
+      id: 2, role: 'reporter', description: 'can create dashboards and channel groups.'
     },
     {
-      id: 3, role: 'contributor', description: 'Contributors can add metrics.'
+      id: 3, role: 'contributor', description: 'can add metrics.'
     }
   ];
   constructor(

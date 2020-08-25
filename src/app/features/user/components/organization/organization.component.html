@@ -77,7 +77,7 @@
     </div>
     <div *ngIf="isAdmin">
       <h2>Add User</h2>
-      <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" class="user-form">
+      <form class="form" [formGroup]="addUserForm" (ngSubmit)="addNewUser()" class="box user-form">
 
         <mat-form-field>
           <input matInput placeholder="Email" formControlName="email">
@@ -105,9 +105,9 @@
         <h2>
           Squac User Roles:
         </h2>
-        <mat-list *ngFor="group of userGroups">
+        <mat-list *ngFor="let group of groups">
           <mat-list-item >
-            <strong>{{group.role}}</strong>{{group.description}}
+            <strong>{{group.role | titlecase }}</strong> - {{group.description}}
           </mat-list-item>
         </mat-list>
       </div>
