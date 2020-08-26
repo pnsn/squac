@@ -6,7 +6,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '@core/utils/ability';
 import { OrganizationsService } from './organizations.service';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap, map, tap } from 'rxjs/operators';
 
 interface UserHttpData {
   email: string;
@@ -32,20 +32,17 @@ export class UserService {
     private orgService: OrganizationsService
   ) { }
   fetchUser() {
-    this.getUser().subscribe(
-      user => {
-        this.user.next(user);
-      }
-    )
+    this.getUser().subscribe();
   }
   getUserOrg() {
     return this.currentUser.orgId;
   }
   getUser() : Observable<User> {
+    console.log("getting User")
     return this.squacApi.get(this.url).pipe(
       map(
         response => {
-          this.currentUser = new User(
+          const currentUser = new User(
             response.id,
             response.email,
             response.firstname,
@@ -54,12 +51,15 @@ export class UserService {
             response.is_org_admin,
             response.groups
           );
-          this.currentUser.squacAdmin = response.is_staff;
-  
+          currentUser.squacAdmin = response.is_staff;
+          return currentUser;
+        }
+      ),
+      tap(
+        user => {
+          this.currentUser = user;
           this.ability.update(defineAbilitiesFor(this.currentUser));
           this.user.next(this.currentUser);
-
-          return this.currentUser;
         }
       )
     )

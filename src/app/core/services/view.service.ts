@@ -192,7 +192,6 @@ export class ViewService {
   }
 
   saveDashboard() {
-    console.log(this.dashboard);
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');

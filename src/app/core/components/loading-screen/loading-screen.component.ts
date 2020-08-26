@@ -8,7 +8,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './loading-screen.component.html',
   styleUrls: ['./loading-screen.component.scss']
 })
-export class LoadingScreenComponent implements AfterViewInit, OnDestroy {
+export class LoadingScreenComponent implements OnInit, OnDestroy {
   loading: boolean;
   status: string;
   subscription: Subscription = new Subscription();
@@ -16,17 +16,12 @@ export class LoadingScreenComponent implements AfterViewInit, OnDestroy {
     private loadingService: LoadingService
     ) { }
 
-  ngAfterViewInit(): void {
-    const loadSub = this.loadingService.loading.subscribe(
-      loading => { this.loading = loading }
-    )
-    
+  ngOnInit(): void {    
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
       text => {
         this.status = text;
       }
     )
-    this.subscription.add(loadSub);
     this.subscription.add(loadStatusSub);
 
     // .pipe(

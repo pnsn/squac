@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '@core/services/squacapi.service';
 import {  Observable, ReplaySubject, forkJoin } from 'rxjs';
 import { Organization } from '@features/user/models/organization';
-import { map} from 'rxjs/operators';
+import { map, tap} from 'rxjs/operators';
 import { User } from '@features/user/models/user';
 
 // Service to get user info & reset things
@@ -13,7 +13,6 @@ providedIn: 'root'
 export class OrganizationsService {
   private url = 'organization/organizations/';
   private localOrganizations: Organization[] = [];
-  organizations: ReplaySubject<Organization[]> = new ReplaySubject();
 
   constructor(
     private http: HttpClient,
@@ -27,24 +26,28 @@ export class OrganizationsService {
     {id: 3, name: 'contributor'}
   ];
 
-  getOrganizations() {
+  get organizations() {
     return this.localOrganizations.slice();
   }
 
-  fetchOrganizations() {
-    this.squacApi.get(this.url).subscribe(
-      response => {
-        this.localOrganizations = [];
-        for (const organization of response) {
-          // FIXME: won't have user information
-          this.localOrganizations.push(this.mapOrganization(organization));
-          this.organizations.next(this.localOrganizations);
-        }
-      },
+  getOrganizations() : Observable<Organization[]>{
+    return this.squacApi.get(this.url).pipe(
+      map(
+        response =>{
+          const organizations = [];
 
-      error => {
-        console.log('error in user service: ' + error);
-      }
+          for (const org of response) {
+            organizations.push(this.mapOrganization(org));
+          }
+
+          return organizations;
+        }
+      ),
+      tap(
+        organizations => {
+          this.localOrganizations = organizations.slice();
+        }
+      )
     );
   }
 

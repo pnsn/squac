@@ -26,6 +26,7 @@ import { UserModule } from '@features/user/user.module';
 import { MetricsModule } from '@features/metrics/metrics.module';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
+import { HomeComponent } from './core/components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
     HeaderComponent,
     NotFoundComponent,
     LoadingScreenComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,11 +62,11 @@ import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
       useClass: HttpErrorInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoadingInterceptor,
+    //   multi: true
+    // },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility , useExisting: Ability }
   ],

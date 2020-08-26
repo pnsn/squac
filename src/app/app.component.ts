@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { UserService } from '@features/user/services/user.service';
+
 import { AuthService } from './core/services/auth.service';
-import { OrganizationsService } from '@features/user/services/organizations.service';
+import { LoadingService } from '@core/services/loading.service';
+
 
 @Component({
   selector: 'app-root',
@@ -15,26 +16,27 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'squac-ui';
   loggedIn: boolean;
   subscription = new Subscription();
+  loading: boolean;
   constructor(
-    private userService: UserService,
     private authService: AuthService,
-    private organizationsService: OrganizationsService
+    private loadingService: LoadingService
   ) {}
 
 
   ngOnInit() {
     // Listen to log in
-    const userSub = this.userService.user.subscribe(
-      user => {
-        this.loggedIn = !!user;
-        if (this.loggedIn) {
-          this.organizationsService.fetchOrganizations();
-          console.log('app component fetch organizations');
-        }
-
+    const userSub = this.authService.userLoggedIn.subscribe(
+      loggedIn => {
+        this.loggedIn = loggedIn;
       },
       err => {
         console.log('error in auth component: ' + err);
+      }
+    );
+
+    const loadingSub = this.loadingService.loading.subscribe(
+      loading =>{
+        this.loading = loading;
       }
     );
     // start autologin process

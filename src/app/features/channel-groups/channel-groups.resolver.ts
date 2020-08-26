@@ -15,14 +15,14 @@ export class ChannelGroupsResolver implements Resolve<Observable<any>> {
     if(id) {
       return this.channelGroupsService.getChannelGroup(id).pipe(
         tap(data=> {
-          console.log("in resolver, dashboard")
+          console.log("in resolver, channel group")
         }),
         catchError(this.handleError)
       );
     } else {
       return this.channelGroupsService.getChannelGroups().pipe(
         tap(data=> {
-          console.log("in resolver, dashboards")
+          console.log("in resolver, channelgroups")
         }),
         catchError(this.handleError)
       );

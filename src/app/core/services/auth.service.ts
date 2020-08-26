@@ -3,6 +3,8 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { UserService } from '@features/user/services/user.service';
+import { BehaviorSubject } from 'rxjs';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +17,13 @@ export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
+  userLoggedIn : BehaviorSubject<boolean> = new BehaviorSubject(false);
   expirationTime = 6; // hours before token doesn't let auto login
   constructor(
     private router: Router,
     private squacApi: SquacApiService,
-    private userService: UserService
+    private userService: UserService,
+    private loadingService: LoadingService
   ) { }
 
   // True if a user logged in
@@ -31,6 +35,7 @@ export class AuthService {
   get auth(): string {
     return this.token;
   }
+  
 
   // Checks if user data exists in browser
   autologin() {
@@ -68,6 +73,7 @@ export class AuthService {
 
   // after user hits log out, wipe data
   logout() {
+    this.userLoggedIn.next(false);
     this.userService.logout();
     this.token = null;
     this.router.navigate(['/login']);
@@ -106,12 +112,12 @@ export class AuthService {
 
   // handles the sign in
   private signInUser(token, expiration) {
+    // console.log("User signed in");
+
     this.autologout(expiration);
     this.token = token;
+    this.userLoggedIn.next(true);
 
-    //start loading procedure
-      // user info
-      // organization
-    this.userService.fetchUser();
+    this.loadingService.getInitialData();
   }
 }

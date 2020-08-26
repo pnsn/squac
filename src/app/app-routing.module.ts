@@ -56,7 +56,6 @@ const appRoutes: Routes = [
       user: UserResolver
     }
   },
-
   { 
     path: 'organization',
     canActivate: [AuthGuard],

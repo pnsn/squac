@@ -1,7 +1,4 @@
-<app-loading-screen></app-loading-screen>
-
-<app-header *ngIf="loggedIn"></app-header>
-
-<router-outlet></router-outlet>
-
+<app-loading-screen *ngIf="loading"></app-loading-screen>
+<router-outlet *ngIf="!loggedIn"></router-outlet>
+<app-home *ngIf="loggedIn && !loading"></app-home>
 

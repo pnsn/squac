@@ -15,14 +15,14 @@ export class MetricsResolver implements Resolve<Observable<any>> {
     if(id) {
       return this.metricsService.getMetric(id).pipe(
         tap(data=> {
-          console.log("in resolver, dashboard")
+          console.log("in resolver, metric")
         }),
         catchError(this.handleError)
       );
     } else {
       return this.metricsService.getMetrics().pipe(
         tap(data=> {
-          console.log("in resolver, dashboards")
+          console.log("in resolver, metrics")
         }),
         catchError(this.handleError)
       );
