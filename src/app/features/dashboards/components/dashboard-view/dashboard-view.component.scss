@@ -27,7 +27,7 @@ button {
   margin: 10px auto;
 }
 
-.mat-expansion-panel-body {
-  max-height: 10vh;
+::ng-deep .mat-expansion-panel-body {
+  max-height: 50vh;
   overflow:scroll;
 }

@@ -15,6 +15,7 @@ import { UserEditComponent } from '@features/user/components/user-edit/user-edit
 import { UserResolver } from '@features/user/user.resolver';
 import { OrganizationResolver } from '@features/user/organization.resolver';
 import { MetricsResolver } from '@features/metrics/metrics.resolver';
+import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -95,10 +96,10 @@ const appRoutes: Routes = [
         },
       },
     ]
-  }
+  },
   // Currently overrides the child components - will need to rethink
-  // { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
-  // { path: '**', redirectTo: 'not-found'}
+  { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: 'not-found'}
 
 ];
 

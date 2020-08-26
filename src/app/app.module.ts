@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
-import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 
 import { AppAbility } from '@core/utils/ability';
@@ -28,9 +27,6 @@ import { MetricsModule } from '@features/metrics/metrics.module';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +37,6 @@ import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     DashboardsModule,
     SharedModule,
     ChannelGroupsModule,
@@ -49,7 +44,10 @@ import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
     MetricsModule,
     BrowserAnimationsModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot()
+    LeafletDrawModule.forRoot(),
+
+    //Always load this at the end or the routing gets weird
+    AppRoutingModule
   ],
   providers: [
     {
