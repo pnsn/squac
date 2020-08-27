@@ -61,11 +61,11 @@ import { BrowserModule } from '@angular/platform-browser';
       useClass: HttpErrorInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoadingInterceptor,
+    //   multi: true
+    // },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility , useExisting: Ability }
   ],

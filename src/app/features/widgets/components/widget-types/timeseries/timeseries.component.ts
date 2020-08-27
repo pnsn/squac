@@ -49,7 +49,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     if (this.currentMetric) {
       this.buildChartData(this.data);
     }
-    this.viewService.status.next('finished');
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {

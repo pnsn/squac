@@ -78,9 +78,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       this.chart.useUtc(true);
     }
 
-
-    this.viewService.status.next('finished');
-
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
         if (widgetId === this.widget.id) {

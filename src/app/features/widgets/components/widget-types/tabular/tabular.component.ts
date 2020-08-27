@@ -60,7 +60,6 @@ export class TabularComponent implements OnInit, OnDestroy {
     }
 
     this.buildRows(this.data);
-    this.viewService.status.next('finished');
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {

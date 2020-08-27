@@ -20,6 +20,8 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   inited = 0;
   subscription: Subscription = new Subscription();
   dialogRef;
+
+  canUpdate : boolean;
   constructor(
     private widgetService: WidgetsService,
     private viewService: ViewService,
@@ -79,6 +81,7 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
+    this.canUpdate = this.viewService.canUpdate;
     this.route.data.subscribe(
       data => {
         this.widgets = [];
@@ -96,8 +99,8 @@ itemChange(item) {
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard
-        // this.options.draggable.enabled = this.canUpdate;
-        // this.options.resizable.enabled = this.canUpdate;
+        this.options.draggable.enabled = this.canUpdate;
+        this.options.resizable.enabled = this.canUpdate;
         if (this.options.api) { this.options.api.optionsChanged(); }
       }
     )

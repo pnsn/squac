@@ -79,6 +79,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  refreshWidget() {
+    this.getData();
+  }
 
   private getData() {
     if (this.viewService.getEnddate && this.viewService.getStartdate) {

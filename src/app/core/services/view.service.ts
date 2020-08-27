@@ -7,6 +7,7 @@ import { DashboardsService } from '@features/dashboards/services/dashboards.serv
 import { Widget } from '@features/widgets/models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
 import * as moment from 'moment';
+import { Ability } from '@casl/ability';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class ViewService {
   currentWidgets = new BehaviorSubject<Widget[]>([]);
   dates = new Subject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
-  status = new Subject<string>(); // loading, error, finished
-  error = new Subject<string>();
+  status = new BehaviorSubject<string>("finished"); // loading, error, finished
+  error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
   private widgets: Widget[] = [];
@@ -26,6 +27,7 @@ export class ViewService {
   constructor(
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
+    private ability: Ability
   ) { }
 
   private getWidgetIndexById(id: number): number {
@@ -36,7 +38,11 @@ export class ViewService {
     }
   }
 
-  isLive() {
+  get canUpdate() {
+    return this.ability.can('update', this.dashboard);
+  }
+
+  get isLive() {
     return this.live;
   }
 
@@ -54,6 +60,23 @@ export class ViewService {
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
+  }
+
+  queuedWidgets : number = 0;
+  widgetFinishedLoading() {
+    this.queuedWidgets--;
+    console.log(this.queuedWidgets)
+    if(this.queuedWidgets <= 0) {
+      this.status.next("finished");
+    }
+  }
+
+  widgetStartedLoading() {
+    this.queuedWidgets++;
+    console.log(this.queuedWidgets)
+    if(this.queuedWidgets > 0) {
+      this.status.next("loading");
+    }
   }
 
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number) {
@@ -76,7 +99,7 @@ export class ViewService {
   }
 
   dashboardSelected(dashboard: Dashboard) {
-    this.status.next('loading');
+
     // set dates
 
     // clear old widgets
@@ -86,9 +109,7 @@ export class ViewService {
     }
 
     this.dashboard = dashboard;
-    if (dashboard.widgetIds.length > 0) {
-      this.getWidgets(dashboard.id);
-    } else {
+    if (dashboard.widgetIds.length === 0) {
       this.status.next('finished');
     }
   }

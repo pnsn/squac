@@ -52,7 +52,6 @@ export class DashboardsService {
         tap(
           (dashboards : Dashboard[]) => {
             this.lastRefresh = new Date().getTime();
-            console.log(this.localDashboards)
           }
         )
       );

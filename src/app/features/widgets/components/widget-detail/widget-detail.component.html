@@ -6,6 +6,7 @@
     <mat-menu #widgetMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
     <!--copy widget button -->
         <button mat-menu-item (click)="editWidget()" *ngIf="'update' | able: widget">Edit Widget</button>
+        <button mat-menu-item (click)="refreshWidget()">Refresh Widget</button>
         <button mat-menu-item id="delete-widget" (click)="deleteWidget()" color="warn" *ngIf="'delete' | able: widget">Delete Widget</button>
       </mat-menu>
       
