@@ -63,7 +63,7 @@ export class DashboardsService {
   private updateLocalDashboard(id: number, dashboard?: Dashboard) {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
-    if (index && index > -1) {
+    if (index > -1) {
       if (dashboard) {
         this.localDashboards[index] = dashboard;
 
@@ -77,9 +77,9 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    console.log(this.localDashboards)
+    console.log(this.localDashboards.findIndex(d => d.id === id));
     const index = this.localDashboards.findIndex(d => d.id === id);
-    if (index && index > -1) {
+    if (index > -1) {
       console.log("return local dashboard")
       return of(this.localDashboards[index]);
     } else {
@@ -121,7 +121,7 @@ export class DashboardsService {
       squacData.share_org,
       squacData.share_all,
       squacData.organization,
-      squacData.widgets
+      squacData.widgets ? squacData.widgets : []
     );
     if (squacData.window_seconds) {
       dashboard.timeRange = squacData.window_seconds;
