@@ -62,7 +62,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     }
     // this.startdate = this.viewService.getStartdate();
     // this.enddate = this.viewService.getEnddate();
-    console.log(changes);
     if (this.data) {
       this.buildRows(this.data);
     }
@@ -111,7 +110,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
   // FIXME: This is...not great
   private buildRows(measurements) {
-    console.log('current metric in timeline', this.currentMetric);
     const data = [];
     let dataMax: number;
     let dataMin: number;

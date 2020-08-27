@@ -108,7 +108,7 @@ export class ViewService {
   getWidgets(dashboardId) {
 
     this.status.next('loading');
-    this.widgetService.getWidgetsByDashboardId(dashboardId).subscribe(
+    this.widgetService.getWidgets(dashboardId).subscribe(
       (widgets: Widget[]) => {
         this.dashboard.widgets = widgets;
       },

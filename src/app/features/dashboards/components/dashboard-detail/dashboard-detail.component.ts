@@ -133,7 +133,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // make date range selector
     for (const range in this.rangeLookUp) {
       if (this.rangeLookUp[range]) {
-        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(parseInt(range, 10), 'seconds'), this.startDate];
+        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
       }
     }
 

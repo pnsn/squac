@@ -11,7 +11,7 @@ export class MetricsResolver implements Resolve<Observable<any>> {
   constructor(private metricsService: MetricsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = parseInt(route.paramMap.get('id'), 10);
+    const id = +route.paramMap.get('id');
     if(id) {
       return this.metricsService.getMetric(id).pipe(
         tap(data=> {

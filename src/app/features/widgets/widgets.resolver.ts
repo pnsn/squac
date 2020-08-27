@@ -2,31 +2,36 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ChannelGroupsService } from './services/channel-groups.service';
+import { WidgetsService } from './services/widgets.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelGroupsResolver implements Resolve<Observable<any>> {
-  constructor(private channelGroupsService: ChannelGroupsService) {}
+export class WidgetsResolver implements Resolve<Observable<any>> {
+  constructor(private widgetsService: WidgetsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = +route.paramMap.get('id');
-    if(id) {
-      return this.channelGroupsService.getChannelGroup(id).pipe(
+    const dashboardId = +route.parent.paramMap.get('id');
+    const widgetId = +route.paramMap.get('widgetid');
+
+    if(widgetId) {
+      return this.widgetsService.getWidget(widgetId).pipe(
         tap(data=> {
-          console.log("in resolver, channel group")
+          console.log("in resolver, widget")
         }),
         catchError(this.handleError)
       );
-    } else {
-      return this.channelGroupsService.getChannelGroups().pipe(
+    } else if(dashboardId){
+      return this.widgetsService.getWidgets(dashboardId).pipe(
         tap(data=> {
-          console.log("in resolver, channelgroups")
+          console.log("in resolver, widgets")
         }),
         catchError(this.handleError)
       );
       //return all of them 
+    } else {
+
+      //route?
     }
   }
   

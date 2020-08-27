@@ -8,6 +8,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { DashboardsResolver } from './dashboards.resolver'
 import { WidgetsComponent } from '@features/widgets/components/widgets/widgets.component';
+import { WidgetsResolver } from '@features/widgets/widgets.resolver';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,9 @@ export const routes: Routes = [
           {
             path:'widgets',
             component: WidgetsComponent,
+            resolve: {
+              widgets: WidgetsResolver
+            },
             children: [
               // {
               //   path: 'new',

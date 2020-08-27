@@ -6,6 +6,7 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 import { WidgetsService } from '../../services/widgets.service';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-widgets',
   templateUrl: './widgets.component.html',
@@ -22,7 +23,8 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   constructor(
     private widgetService: WidgetsService,
     private viewService: ViewService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) {}
 
   options: GridsterConfig = {
@@ -77,13 +79,11 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    const widgetSub = this.viewService.currentWidgets.subscribe(
-      (widgets: Widget[]) => {
-        console.log('updated widgets');
-        // TODO; some logic for checking which have changed
+    this.route.data.subscribe(
+      data => {
         this.widgets = [];
-        if (widgets.length > 0) {
-          widgets.forEach(widget => {
+        if (data.widgets && data.widgets.length > 0) {
+          data.widgets.forEach(widget => {
             this.widgets.push({
               cols: widget.columns ? widget.columns : 1,
               rows: widget.rows ? widget.rows : 1,
@@ -99,15 +99,12 @@ itemChange(item) {
         // this.options.draggable.enabled = this.canUpdate;
         // this.options.resizable.enabled = this.canUpdate;
         if (this.options.api) { this.options.api.optionsChanged(); }
-      },
-      error => {
-        console.log(' error in widget: ' + error);
       }
-    );
-    this.subscription.add(widgetSub);
+    )
   }
 
   ngOnDestroy() {
+    console.log("widget destroyed")
     if (this.dialogRef) {
       this.dialogRef.close();
     }

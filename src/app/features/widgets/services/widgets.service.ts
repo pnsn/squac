@@ -42,7 +42,7 @@ export class WidgetsService {
 
   widgetUpdated = new EventEmitter<number>();
 
-  getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
+  getWidgets(dashboardId: number): Observable<Widget[]> {
     const widgets: Widget[] = [];
     return this.squacApi.get(this.url, null,
       {

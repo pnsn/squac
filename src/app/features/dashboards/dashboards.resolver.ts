@@ -11,7 +11,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
   constructor(private dashboardsService: DashboardsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = parseInt(route.paramMap.get('id'), 10);
+    const id = +route.paramMap.get('id');
     console.log(route.toString)
     if(id) {
       //get specific resource

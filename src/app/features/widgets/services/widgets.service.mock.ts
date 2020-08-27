@@ -22,7 +22,7 @@ export class MockWidgetsService {
     []
   );
 
-  getWidgetsByDashboardId(id: number): Observable<Widget[]> {
+  getWidgets(id: number): Observable<Widget[]> {
     if ( id === this.testWidget.id) {
       return of([this.testWidget]);
     } else {
