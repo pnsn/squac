@@ -4,10 +4,10 @@ import { PasswordResetComponent } from '@features/user/components/password-reset
 import { LoginComponent } from '@features/user/components/login/login.component';
 import { OrganizationComponent } from '@features/user/components/organization/organization.component';
 import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
-import { AbilityModule } from '@casl/angular';
-import { CommonModule } from '@angular/common';
+
 import { SharedModule } from '@shared/shared.module';
-import { ChannelGroupsRoutingModule } from '@features/channel-groups/channel-groups-routing.module';
+import { UserRoutingModule } from './user-routing.module';
+
 
 
 @NgModule({
@@ -19,10 +19,8 @@ import { ChannelGroupsRoutingModule } from '@features/channel-groups/channel-gro
     UserEditComponent
   ],
   imports: [
-    AbilityModule,
-    CommonModule,
     SharedModule,
-    ChannelGroupsRoutingModule
+    UserRoutingModule
   ],
   entryComponents: [
 

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, ReplaySubject, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, Observable, of } from 'rxjs';
 import { User } from '../models/user';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '@core/utils/ability';
-import { OrganizationsService } from './organizations.service';
 import { flatMap, map, tap } from 'rxjs/operators';
 
 interface UserHttpData {
@@ -28,8 +27,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
-    private ability: AppAbility,
-    private orgService: OrganizationsService
+    private ability: AppAbility
   ) { }
   fetchUser() {
     this.getUser().subscribe();
@@ -39,6 +37,9 @@ export class UserService {
   }
   getUser() : Observable<User> {
     console.log("getting User")
+    if(this.currentUser) {
+      return of(this.currentUser);
+    }
     return this.squacApi.get(this.url).pipe(
       map(
         response => {

@@ -68,9 +68,7 @@ export class ChannelGroupsService {
 
   // Gets a specific channel group from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
-    if (this.localChannelGroups[id] && this.localChannelGroups[id].channels) {
-      return of(this.localChannelGroups[id]);
-    } else {
+
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
@@ -112,7 +110,7 @@ export class ChannelGroupsService {
           }
         )
       );
-    }
+    
   }
 
   // Replaces channel group with new channel group

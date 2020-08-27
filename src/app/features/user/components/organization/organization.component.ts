@@ -42,7 +42,6 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     }
   ];
   constructor(
-    private userService: UserService,
     private orgService: OrganizationsService,
     private formBuilder: FormBuilder,
     private inviteService: InviteService,
@@ -50,30 +49,10 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const dashboard = this.route.snapshot.data.organization;
-    // this is getting removed when loading is added
-    const userSub = this.userService.user.pipe(
-      switchMap(
-        user => {
 
-          if (!!user) {
-            console.log('have a user');
-            this.user = user;
-            this.isAdmin = user.isAdmin;
-            return this.orgService.getOrganization(this.user.orgId);
-          } else {
-            return of();
-          }
-
-        }
-      )
-    ).subscribe(
-      (org: Organization) => {
-        if (!!org) {
-          this.organization = org;
-        }
-      }
-    );
+    this.organization = this.route.snapshot.data.organization;
+    this.user = this.route.parent.snapshot.data.user;
+    this.isAdmin = this.user.isAdmin;
 
     this.addUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -86,7 +65,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       editIsAdmin: [null, Validators.required]
     });
 
-    this.subscription.add(userSub);
+    // this.subscription.add(userSub);
   }
 
   ngOnDestroy() {

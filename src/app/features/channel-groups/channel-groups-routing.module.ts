@@ -10,7 +10,7 @@ import { ChannelGroupsDetailComponent } from './components/channel-groups-detail
 
 //TODO: fix this weird routing set up
 export const routes: Routes = [
-  { path: 'channel-groups',
+  { path: '',
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard],
     data: {subject: 'ChannelGroup', action: 'read'},

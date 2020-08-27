@@ -12,7 +12,7 @@
 
     <mat-menu #appMenu="matMenu" class="mat-menu-dense">
         <a mat-menu-item [routerLink]="[ '/user' ]" routerLinkActive="active">User Settings</a>
-        <a mat-menu-item [routerLink]="[ '/organization']" routerLinkActive="active">Organization Settings</a>
+        <a mat-menu-item [routerLink]="[ '/user', 'organization']" routerLinkActive="active">Organization Settings</a>
         <button mat-menu-item (click)="logout()">Log Out</button>
         <!-- <button mat-menu-item>Help</button> -->
       </mat-menu>

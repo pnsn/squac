@@ -31,55 +31,27 @@ export class DashboardsService {
   ) {
   }
 
-  private updateDashboards(dashboards?: Dashboard[]) {
-    if (dashboards) {
-      this.localDashboards = dashboards;
-    }
-    // this.getDashboards.next(this.localDashboards);
-  }
-
   // Gets channel groups from server
   getDashboards(): Observable<Dashboard[]> {
-    // if(more than X minutes) {
-      //return new
-    // } else 
-    // return stored
-    //
     console.log(new Date().getTime(), this.lastRefresh + 5*60000)
-    if(this.lastRefresh && new Date().getTime() > this.lastRefresh+ 5 * 60000) {
+    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+      console.log("return local dashboards")
       return of(this.localDashboards);
     } else {
       return this.squacApi.get(this.url).pipe(
         map(
           response => {
             const dashboards: Dashboard[] = [];
-  
-            response.forEach(d => {
-              const dashboard = new Dashboard(
-                d.id,
-                d.user_id,
-                d.name,
-                d.description,
-                d.share_org,
-                d.share_all,
-                d.organization,
-                d.widgets ? d.widgets : []
-              );
-              if (response.window_seconds) {
-                dashboard.timeRange = response.window_seconds;
-              } else {
-                dashboard.starttime = response.starttime;
-                dashboard.endtime = response.endtime;
-              }
-              dashboards.push(dashboard);
-            });
+            for (let dashboard of response) {
+              dashboards.push(this.mapDashboard(dashboard));
+            }
+
             return dashboards;
           }
         ),
         tap(
           (dashboards : Dashboard[]) => {
             this.lastRefresh = new Date().getTime();
-            this.updateDashboards(dashboards);
           }
         )
       );
@@ -91,7 +63,7 @@ export class DashboardsService {
   private updateLocalDashboard(id: number, dashboard?: Dashboard) {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
-    if (index > -1) {
+    if (index && index > -1) {
       if (dashboard) {
         this.localDashboards[index] = dashboard;
 
@@ -101,13 +73,19 @@ export class DashboardsService {
     } else {
       this.localDashboards.push(dashboard);
     }
-    this.updateDashboards();
   }
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    //TODO: return local copy?
-    return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
+    console.log(this.localDashboards)
+    const index = this.localDashboards.findIndex(d => d.id === id);
+    if (index && index > -1) {
+      console.log("return local dashboard")
+      return of(this.localDashboards[index]);
+    } else {
+      return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
+    }
+
   }
 
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {

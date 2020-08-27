@@ -12,7 +12,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = parseInt(route.paramMap.get('id'), 10);
-
+    console.log(route.toString)
     if(id) {
       //get specific resource
       console.log("dashboard id", id)

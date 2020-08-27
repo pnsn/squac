@@ -11,9 +11,7 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(private orgService: OrganizationsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = parseInt(route.paramMap.get('id'), 10);
-    console.log("organization", id)
-    return this.orgService.getOrganization(id).pipe(
+    return this.orgService.getOrganization().pipe(
       tap(data=> {
         console.log("in resolver, organization")
       }),

@@ -29,14 +29,12 @@ import { WidgetsComponent } from './components/widgets/widgets.component';
     ChannelGroupsEditComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     NgxChartsModule,
     GridsterModule
   ],
   exports: [
     WidgetsComponent,
-    SharedModule,
     WidgetEditComponent
   ],
   entryComponents: [

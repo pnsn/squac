@@ -35,20 +35,16 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
-    CommonModule,
-    BrowserAnimationsModule
+    CommonModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   exports: [
-    BrowserAnimationsModule,
-    CommonModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,

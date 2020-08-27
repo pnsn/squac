@@ -37,32 +37,9 @@ export class UserComponent implements OnInit, OnDestroy {
         console.log('error getting params: ' + error);
       }
     );
-
-    const userSub = this.userService.user.pipe(
-      switchMap(
-        user => {
-          console.log('have a user');
-          if (!user) {
-            this.userService.fetchUser();
-            return of();
-          } else {
-            this.user = user;
-            this.initForm(user);
-            return this.orgService.getOrganization(this.user.orgId);
-          }
-
-        }
-      )
-    ).subscribe(
-      (org: Organization) => {
-        console.log('have a org?');
-        if (!!org) {
-          this.organization = org;
-        }
-      }
-    );
-
-    this.subscription.add(userSub);
+      this.user = this.route.parent.snapshot.data.user;
+      this.organization = this.route.snapshot.data.organzation;
+      this.initForm(this.user);
   }
 
   initForm(user) {

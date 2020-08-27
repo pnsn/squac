@@ -10,7 +10,7 @@ import { DashboardsResolver } from './dashboards.resolver'
 
 export const routes: Routes = [
   {
-    path: 'dashboards',
+    path: '',
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     resolve: {

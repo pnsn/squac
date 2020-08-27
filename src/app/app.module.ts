@@ -1,6 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
+
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 
@@ -27,6 +27,7 @@ import { MetricsModule } from '@features/metrics/metrics.module';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 import { HomeComponent } from './core/components/home/home.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -38,13 +39,11 @@ import { HomeComponent } from './core/components/home/home.component';
     HomeComponent,
   ],
   imports: [
-    BrowserModule,
-    DashboardsModule,
+    HttpClientModule,
     SharedModule,
-    ChannelGroupsModule,
-    UserModule,
-    MetricsModule,
+
     BrowserAnimationsModule,
+    BrowserModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
 
@@ -62,11 +61,11 @@ import { HomeComponent } from './core/components/home/home.component';
       useClass: HttpErrorInterceptor,
       multi: true
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: LoadingInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility , useExisting: Ability }
   ],

@@ -5,6 +5,7 @@ import {  Observable, ReplaySubject, forkJoin } from 'rxjs';
 import { Organization } from '@features/user/models/organization';
 import { map, tap} from 'rxjs/operators';
 import { User } from '@features/user/models/user';
+import { UserService } from './user.service';
 
 // Service to get user info & reset things
 @Injectable({
@@ -16,7 +17,8 @@ export class OrganizationsService {
 
   constructor(
     private http: HttpClient,
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private userService:UserService
   ) { }
 
   // Temp until Jon fixes
@@ -85,7 +87,9 @@ export class OrganizationsService {
 
   }
 
-  getOrganization(id: number): Observable<Organization> {
+  getOrganization(): Observable<Organization> {
+    const id = this.userService.getUserOrg();
+
   //  const org = this.localOrganizations.find(
   //     org => org.id === id
   //   );

@@ -16,6 +16,9 @@ import { UserResolver } from '@features/user/user.resolver';
 import { OrganizationResolver } from '@features/user/organization.resolver';
 import { MetricsResolver } from '@features/metrics/metrics.resolver';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
+import { HomeComponent } from '@core/components/home/home.component';
+import { DashboardsResolver } from '@features/dashboards/dashboards.resolver';
+import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -48,57 +51,44 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-  { path: 'user',
-    canActivate: [AuthGuard],
-    component: UserComponent,
-    resolve: { 
-      user: UserResolver
-    }
-  },
   { 
-    path: 'organization',
+    path: '', 
+    component: HomeComponent, 
     canActivate: [AuthGuard],
-    component: OrganizationComponent,
     resolve: {
-      organization: OrganizationResolver
-    }
-  },
-  { path: 'metrics',
-    component: MetricsComponent,
-    canActivate: [AuthGuard, PermissionGuard],
-    data: {subject: 'Metric', action: 'read'},
-    resolve: {
-      metrics: MetricsResolver
+      dashboards: DashboardsResolver,
+      channelGroups: ChannelGroupsResolver,
+      metrics: MetricsResolver,
+      user: UserResolver
     },
     children: [
-      { path: '', component: MetricsViewComponent, pathMatch: 'full'},
       {
-        path: 'new',
-        component: MetricsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'create'}
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboards'
       },
-      // {
-      //   path: ':id',
-      //   component: MetricsViewComponent,
-      //   canActivate: [PermissionGuard],
-      //   data: {subject: 'Metric', action: 'read'}
-      // },
       {
-        path: ':id/edit',
-        component: MetricsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'update'},
-        resolve: {
-          metric: MetricsResolver
-        },
+        path: 'dashboards',
+        loadChildren: () => import('@features/dashboards/dashboards.module').then(m => m.DashboardsModule)
       },
+      { 
+        path: 'channel-groups',
+        loadChildren: () => import('@features/channel-groups/channel-groups.module').then(m=>m.ChannelGroupsModule)
+      },
+      { 
+        path: 'metrics',
+        loadChildren: () => import('@features/metrics/metrics.module').then(m=>m.MetricsModule)
+      },
+      {
+        path: 'user',
+        loadChildren: () => import('@features/user/user.module').then(m=>m.UserModule)
+      },
+      { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
+      { path: '**', redirectTo: 'not-found'}
     ]
   },
   // Currently overrides the child components - will need to rethink
-  { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: 'not-found'}
+
 
 ];
 

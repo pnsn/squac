@@ -70,6 +70,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     this.route.data.subscribe(
       data => {
+        console.log(data.dashboard);
         this.dashboard = data.dashboard;
         if (this.dashboard) {
           this.viewService.dashboardSelected(this.dashboard);

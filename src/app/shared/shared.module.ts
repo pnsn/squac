@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ModalComponent } from './modal/modal.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -35,7 +34,6 @@ import { AbilityModule } from '@casl/angular';
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule,
     LoadingComponent,
     NgxDatatableModule,
     MapComponent,

@@ -24,24 +24,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    // Listen to log in
-    const userSub = this.authService.userLoggedIn.subscribe(
-      loggedIn => {
-        this.loggedIn = loggedIn;
-      },
-      err => {
-        console.log('error in auth component: ' + err);
-      }
-    );
+    // // Listen to log in
+    // const userSub = this.authService.userLoggedIn.subscribe(
+    //   loggedIn => {
+    //     this.loggedIn = loggedIn;
+    //   },
+    //   err => {
+    //     console.log('error in auth component: ' + err);
+    //   }
+    // );
 
-    const loadingSub = this.loadingService.loading.subscribe(
-      loading =>{
-        this.loading = loading;
-      }
-    );
+    // const loadingSub = this.loadingService.loading.subscribe(
+    //   loading =>{
+    //     this.loading = loading;
+    //   }
+    // );
     // start autologin process
     this.authService.autologin();
-    this.subscription.add(userSub);
+    // this.subscription.add(userSub);
   }
 
   ngOnDestroy(): void {
