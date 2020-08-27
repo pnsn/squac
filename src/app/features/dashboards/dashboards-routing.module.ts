@@ -9,6 +9,7 @@ import { PermissionGuard } from '@core/guards/permission.guard';
 import { DashboardsResolver } from './dashboards.resolver'
 import { WidgetsComponent } from '@features/widgets/components/widgets/widgets.component';
 import { WidgetsResolver } from '@features/widgets/widgets.resolver';
+import { WidgetEditEntryComponent } from '@features/widgets/components/widget-edit/widget-edit-entry/widget-edit-entry.component';
 
 export const routes: Routes = [
   {
@@ -46,22 +47,25 @@ export const routes: Routes = [
               widgets: WidgetsResolver
             },
             children: [
-              // {
-              //   path: 'new',
-              //   component: WidgetEditComponent,
-              //   canActivate: [PermissionGuard],
-              //   data: {subject: 'Widget', action: 'create'}
-              // },
+              {
+                path: 'new',
+                component: WidgetEditEntryComponent,
+                canActivate: [PermissionGuard],
+                data: {subject: 'Widget', action: 'create'}
+              },
               {
                 path: ':widgetid',
                 component: DashboardDetailComponent
-              }
-              // {
-              //   path: ':widgetid/edit',
-              //   component: WidgetEditComponent,
-              //   canActivate: [PermissionGuard],
-              //   data: {subject: 'Widget', action: 'update'}
-              // },
+              },
+              {
+                path: ':widgetid/edit',
+                resolve: {
+                  widget: WidgetsResolver
+                },
+                component: WidgetEditEntryComponent,
+                canActivate: [PermissionGuard],
+                data: {subject: 'Widget', action: 'update'}
+              },
             ]
           }
         ]

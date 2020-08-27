@@ -13,6 +13,7 @@ import { MetricsEditComponent } from './components/widget-edit/metrics-edit/metr
 import { ChannelGroupsEditComponent } from './components/widget-edit/channel-groups-edit/channel-groups-edit.component';
 import { SharedModule } from '@shared/shared.module';
 import { WidgetsComponent } from './components/widgets/widgets.component';
+import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-entry/widget-edit-entry.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { WidgetsComponent } from './components/widgets/widgets.component';
     ThresholdEditComponent,
     MeasurementPipe,
     MetricsEditComponent,
-    ChannelGroupsEditComponent
+    ChannelGroupsEditComponent,
+    WidgetEditEntryComponent
   ],
   imports: [
     SharedModule,

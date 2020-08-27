@@ -5,6 +5,7 @@ import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-widget-detail',
@@ -29,7 +30,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private route : ActivatedRoute
   ) {
 
   }
@@ -97,23 +100,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   editWidget() {
-    this.dialogRef = this.dialog.open(WidgetEditComponent, {
-      data : {
-        widget: this.widget,
-        dashboardId: this.widget.dashboardId
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(
-      result => {
-        if (result && result.id) {
-          this.viewService.updateWidget(result.id);
-        } else {
-          console.log('widget edit closed without saving');
-        }
-      }, error => {
-        console.log('error in widget detail: ' + error);
-      }
-    );
+    this.router.navigate([this.widget.id,'edit'], {relativeTo: this.route});
   }
 
   deleteWidget() {

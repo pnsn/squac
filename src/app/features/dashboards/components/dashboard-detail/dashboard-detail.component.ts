@@ -170,6 +170,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+  addWidget() {
+    this.router.navigate(['widgets','new'], {relativeTo: this.route});
+
+  }
 
   // currently saves any time dates are changed, may want to move to a save button
   selectDateRange(startDate: moment.Moment, endDate: moment.Moment, range?: number) {
@@ -212,28 +216,5 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  addWidget() {
-    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    this.dialogRef = this.dialog.open(WidgetEditComponent, {
-      data : {
-        widget: null,
-        dashboardId: this.dashboard.id
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(
-      result => {
-        if (result && result.id) {
-          console.log('Dialog closed and widget saved');
-          this.viewService.addWidget(result.id);
-        } else {
-          console.log('Dialog closed and not saved');
-        }
-      },
-      error => {
-        // this.error = 'Failed to save widget.';
-        console.log('error during close of widget' + error);
-      }
-    );
 
-    }
 }
