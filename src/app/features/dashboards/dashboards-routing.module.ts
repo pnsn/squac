@@ -7,7 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { DashboardsResolver } from './dashboards.resolver'
-import { WidgetsComponent } from '@features/widgets/components/widgets/widgets.component';
+import { widgetRoutes } from '@features/widgets/widgets.routes';
 import { WidgetsResolver } from '@features/widgets/widgets.resolver';
 import { WidgetEditEntryComponent } from '@features/widgets/components/widget-edit/widget-edit-entry/widget-edit-entry.component';
 
@@ -34,41 +34,8 @@ export const routes: Routes = [
         resolve: {
           dashboard: DashboardsResolver
         },
-        children: [
-          {
-            path: '', 
-            redirectTo: 'widgets',
-            pathMatch:'full'
-          },
-          {
-            path:'widgets',
-            component: WidgetsComponent,
-            resolve: {
-              widgets: WidgetsResolver
-            },
-            children: [
-              {
-                path: 'new',
-                component: WidgetEditEntryComponent,
-                canActivate: [PermissionGuard],
-                data: {subject: 'Widget', action: 'create'}
-              },
-              {
-                path: ':widgetid',
-                component: DashboardDetailComponent
-              },
-              {
-                path: ':widgetid/edit',
-                resolve: {
-                  widget: WidgetsResolver
-                },
-                component: WidgetEditEntryComponent,
-                canActivate: [PermissionGuard],
-                data: {subject: 'Widget', action: 'update'}
-              },
-            ]
-          }
-        ]
+        children: widgetRoutes
+        // loadChildren: () => import('@features/widgets/widgets.module').then(m=>m.WidgetsModule)
       },
       {
         path: ':id/edit',

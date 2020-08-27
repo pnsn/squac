@@ -81,6 +81,7 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
+    console.log("widget component loaded")
     this.canUpdate = this.viewService.canUpdate;
     this.route.data.subscribe(
       data => {

@@ -36,10 +36,9 @@ import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-e
     GridsterModule
   ],
   exports: [
-    WidgetsComponent,
-    WidgetEditComponent
   ],
   entryComponents: [
+    WidgetEditComponent,
     MetricsEditComponent,
     ThresholdEditComponent
   ]

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from '@features/widgets/components/widget-edit/widget-edit.component';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
