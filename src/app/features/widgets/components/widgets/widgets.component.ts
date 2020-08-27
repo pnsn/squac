@@ -12,8 +12,8 @@ import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
   styleUrls: ['./widgets.component.scss']
 })
 export class WidgetsComponent implements OnInit, OnDestroy {
-  @Input() canUpdate: boolean;
-  @Input() dashboardId: number;
+  // @Input() canUpdate: boolean;
+  // @Input() dashboardId: number;
 
   loading = true;
   inited = 0;
@@ -96,8 +96,8 @@ itemChange(item) {
         this.loading = false;
         // this.options.api.resize();
             // allow dragable and resizable if they have permission to edit dashboard
-        this.options.draggable.enabled = this.canUpdate;
-        this.options.resizable.enabled = this.canUpdate;
+        // this.options.draggable.enabled = this.canUpdate;
+        // this.options.resizable.enabled = this.canUpdate;
         if (this.options.api) { this.options.api.optionsChanged(); }
       },
       error => {
@@ -117,26 +117,26 @@ itemChange(item) {
 
   addWidget() {
     // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    this.dialogRef = this.dialog.open(WidgetEditComponent, {
-      data : {
-        widget: null,
-        dashboardId: this.dashboardId
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(
-      result => {
-        if (result && result.id) {
-          console.log('Dialog closed and widget saved');
-          this.viewService.addWidget(result.id);
-        } else {
-          console.log('Dialog closed and not saved');
-        }
-      },
-      error => {
-        // this.error = 'Failed to save widget.';
-        console.log('error during close of widget' + error);
-      }
-    );
+    // this.dialogRef = this.dialog.open(WidgetEditComponent, {
+    //   data : {
+    //     widget: null,
+    //     dashboardId: this.dashboardId
+    //   }
+    // });
+    // this.dialogRef.afterClosed().subscribe(
+    //   result => {
+    //     if (result && result.id) {
+    //       console.log('Dialog closed and widget saved');
+    //       this.viewService.addWidget(result.id);
+    //     } else {
+    //       console.log('Dialog closed and not saved');
+    //     }
+    //   },
+    //   error => {
+    //     // this.error = 'Failed to save widget.';
+    //     console.log('error during close of widget' + error);
+    //   }
+    // );
 
   }
 }

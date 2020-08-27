@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { DashboardsResolver } from './dashboards.resolver'
+import { WidgetsComponent } from '@features/widgets/components/widgets/widgets.component';
 
 export const routes: Routes = [
   {
@@ -32,24 +33,31 @@ export const routes: Routes = [
           dashboard: DashboardsResolver
         },
         children: [
-          { path: 'widget',
+          {
+            path: '', 
+            redirectTo: 'widgets',
+            pathMatch:'full'
+          },
+          {
+            path:'widgets',
+            component: WidgetsComponent,
             children: [
-              {
-                path: 'new',
-                component: WidgetEditComponent,
-                canActivate: [PermissionGuard],
-                data: {subject: 'Widget', action: 'create'}
-              },
+              // {
+              //   path: 'new',
+              //   component: WidgetEditComponent,
+              //   canActivate: [PermissionGuard],
+              //   data: {subject: 'Widget', action: 'create'}
+              // },
               {
                 path: ':widgetid',
                 component: DashboardDetailComponent
-              },
-              {
-                path: ':widgetid/edit',
-                component: WidgetEditComponent,
-                canActivate: [PermissionGuard],
-                data: {subject: 'Widget', action: 'update'}
-              },
+              }
+              // {
+              //   path: ':widgetid/edit',
+              //   component: WidgetEditComponent,
+              //   canActivate: [PermissionGuard],
+              //   data: {subject: 'Widget', action: 'update'}
+              // },
             ]
           }
         ]

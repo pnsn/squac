@@ -56,9 +56,12 @@
       </mat-progress-bar>
 
       <!-- TODO: move this to widget component -->
+      <div id="dashboard-body">
+        <router-outlet></router-outlet>
+      </div>
+      <!-- <app-widgets [canUpdate]="'update' | able: dashboard" dashboardId="{{dashboard.id}}"></app-widgets> -->
 
-      <app-widgets [canUpdate]="'update' | able: dashboard" dashboardId="{{dashboard.id}}"></app-widgets>
-
+      
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>
 <app-loading *ngIf="!dashboard && !error"></app-loading>
