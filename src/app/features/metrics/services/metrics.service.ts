@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Metric } from '@core/models/metric';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
@@ -22,8 +22,9 @@ interface MetricsHttpData {
 
 export class MetricsService {
   metrics = new BehaviorSubject<Metric[]>([]);
+  lastRefresh : number;
   private url = 'measurement/metrics/';
-
+  localMetrics : Metric[] = [];
   constructor(
     private squacApi: SquacApiService
   ) {
@@ -35,7 +36,10 @@ export class MetricsService {
 
   // Gets channel groups from server
   getMetrics(): Observable<Metric[]> {
-    // temp
+    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+      console.log("return local dashboards")
+      return of(this.localMetrics);
+    }
     return this.squacApi.get(this.url).pipe(
       map(
         results => {
@@ -60,6 +64,8 @@ export class MetricsService {
       ),
       tap(
         metrics => {
+          this.localMetrics = metrics;
+          this.lastRefresh = new Date().getTime();
           this.updateMetrics(metrics);
         }
       )

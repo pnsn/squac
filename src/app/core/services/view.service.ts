@@ -65,7 +65,6 @@ export class ViewService {
   queuedWidgets : number = 0;
   widgetFinishedLoading() {
     this.queuedWidgets--;
-    console.log(this.queuedWidgets)
     if(this.queuedWidgets <= 0) {
       this.status.next("finished");
     }
@@ -73,7 +72,6 @@ export class ViewService {
 
   widgetStartedLoading() {
     this.queuedWidgets++;
-    console.log(this.queuedWidgets)
     if(this.queuedWidgets > 0) {
       this.status.next("loading");
     }

@@ -17,7 +17,6 @@ export class LoadingInterceptor implements HttpInterceptor {
    * URLs for which the loading screen should not be enabled
    */
   skipUrls = [
-    'widgets',
     'measurements'
   ];
 
@@ -36,7 +35,11 @@ export class LoadingInterceptor implements HttpInterceptor {
       }
     }
 
-    if (request.method === 'GET' && displayLoadingScreen) {
+    if(request.method !== 'GET') {
+      displayLoadingScreen = false;
+    }
+
+    if (displayLoadingScreen) {
       if (this.activeRequests === 0) {
         this.loadingService.startLoading();
       }

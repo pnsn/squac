@@ -21,8 +21,8 @@ interface ChannelGroupsHttpData {
   providedIn: 'root'
 })
 export class ChannelGroupsService {
-  localChannelGroups: {} = {}; // Will want to store temporarily (redo on save?)
-
+  localChannelGroups: ChannelGroup[] = []; // Will want to store temporarily (redo on save?)
+  lastRefresh: number;
   private url = 'nslc/groups/';
   constructor(
     private squacApi: SquacApiService
@@ -37,6 +37,10 @@ export class ChannelGroupsService {
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
+    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+      console.log("return local dashboards")
+      return of(this.localChannelGroups);
+    }
     return this.squacApi.get(this.url).pipe(
       map(
         results => {
@@ -60,7 +64,8 @@ export class ChannelGroupsService {
       ),
       tap(
         channelGroups => {
-          // this.updateChannelGroups(channelGroups);
+          this.localChannelGroups = channelGroups;
+          this.lastRefresh = new Date().getTime();
         }
       )
     );
@@ -68,7 +73,7 @@ export class ChannelGroupsService {
 
   // Gets a specific channel group from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
-
+    //check if channel group exists, hasn't been fetched recently, hasn't been updated by user.
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
@@ -105,7 +110,7 @@ export class ChannelGroupsService {
               channels
             );
 
-            this.localChannelGroups[channelGroup.id] = channelGroup;
+            // this.localChannelGroups[channelGroup.id] = channelGroup;
             return channelGroup;
           }
         )
@@ -115,6 +120,7 @@ export class ChannelGroupsService {
 
   // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup): Observable<ChannelGroup> {
+    //
     const postData: ChannelGroupsHttpData = {
       name: channelGroup.name,
       description: channelGroup.description,
@@ -124,7 +130,7 @@ export class ChannelGroupsService {
     };
     if (channelGroup.id) {
       postData.id = channelGroup.id;
-      this.localChannelGroups[channelGroup.id] = channelGroup;
+      // this.localChannelGroups[channelGroup.id] = channelGroup;
       return this.squacApi.put(this.url, channelGroup.id, postData);
     } else {
       return this.squacApi.post(this.url, postData);
@@ -133,6 +139,7 @@ export class ChannelGroupsService {
 
   // Deletes a channel group
   deleteChannelGroup(id: number) {
+    //remove group from local
     return this.squacApi.delete(this.url, id);
   }
 }
