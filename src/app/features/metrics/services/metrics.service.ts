@@ -37,7 +37,7 @@ export class MetricsService {
   // Gets channel groups from server
   getMetrics(): Observable<Metric[]> {
     if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
-      console.log("return local dashboards")
+      console.log("return local metrics")
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(
@@ -46,25 +46,13 @@ export class MetricsService {
           const metrics: Metric[] = [];
 
           results.forEach(m => {
-            const metric = new Metric(
-              m.id,
-              m.owner,
-              m.name,
-              m.code,
-              m.description,
-              m.url,
-              m.unit,
-              m.default_minval,
-              m.default_maxval
-            );
-            metrics.push(metric);
+            metrics.push(this.mapMetric(m));
           });
           return metrics;
         }
       ),
       tap(
         metrics => {
-          this.localMetrics = metrics;
           this.lastRefresh = new Date().getTime();
           this.updateMetrics(metrics);
         }
@@ -74,24 +62,12 @@ export class MetricsService {
 
 
   getMetric(id: number): Observable<Metric> {
-    // temp
+    const index = this.localMetrics.findIndex(m => m.id === id);
+    if(index > -1 && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+      return of(this.localMetrics[index]);
+    }
     return this.squacApi.get(this.url, id).pipe(
-      map(
-        result => {
-          const metric = new Metric(
-              result.id,
-              result.user_id,
-              result.name,
-              result.code,
-              result.description,
-              result.reference_url,
-              result.unit,
-              result.default_minval,
-              result.default_maxval
-          );
-          return metric;
-        }
-      )
+      map(this.mapMetric)
     );
   }
 
@@ -111,5 +87,36 @@ export class MetricsService {
     } else {
       return this.squacApi.post(this.url, postData);
     }
+  }
+
+  private updateLocalMetrics(id: number, metric?: Metric) {
+    const index = this.localMetrics.findIndex(d => d.id === id);
+
+    if (index > -1) {
+      if (metric) {
+        this.localMetrics[index] = metric;
+
+      } else {
+        this.localMetrics.splice(index, 1);
+      }
+    } else {
+      this.localMetrics.push(metric);
+    }
+  }
+
+  private mapMetric(squacData) : Metric {
+    const metric = new Metric(
+      squacData.id,
+      squacData.user_id,
+      squacData.name,
+      squacData.code,
+      squacData.description,
+      squacData.reference_url,
+      squacData.unit,
+      squacData.default_minval,
+      squacData.default_maxval
+    );
+    this.updateLocalMetrics(metric.id, metric);
+    return metric;
   }
 }

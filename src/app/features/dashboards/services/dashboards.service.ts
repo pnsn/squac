@@ -60,7 +60,7 @@ export class DashboardsService {
 
   }
 
-  private updateLocalDashboard(id: number, dashboard?: Dashboard) {
+  private updateLocalDashboards(id: number, dashboard?: Dashboard) {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
     if (index > -1) {
@@ -77,7 +77,7 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    return this.squacApi.get(this.url, id).pipe(map((data) => this.mapDashboard(data)));
+    return this.squacApi.get(this.url, id).pipe(map(this.mapDashboard));
   }
 
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
@@ -122,12 +122,12 @@ export class DashboardsService {
       dashboard.starttime = squacData.starttime;
       dashboard.endtime = squacData.endtime;
     }
-    this.updateLocalDashboard(dashboard.id, dashboard);
+    this.updateLocalDashboards(dashboard.id, dashboard);
     return dashboard;
   }
 
   deleteDashboard(dashboardId): Observable<any> {
-    this.updateLocalDashboard(dashboardId);
+    this.updateLocalDashboards(dashboardId);
     return this.squacApi.delete(this.url, dashboardId);
   }
 }
