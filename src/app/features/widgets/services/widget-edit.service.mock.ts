@@ -35,7 +35,6 @@ export class MockWidgetEditService {
     1,
     1,
     1,
-    1,
     []
   );
 

@@ -18,7 +18,6 @@ export class MockWidgetsService {
     1,
     1,
     1,
-    1,
     []
   );
 

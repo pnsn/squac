@@ -37,7 +37,6 @@ export class MockViewService {
     1,
     1,
     1,
-    1,
     []
   );
 
