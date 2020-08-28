@@ -81,6 +81,10 @@ export class MeasurementsService implements OnDestroy {
           console.log('completed get data for ' + this.widget.id);
         }
       );
+    } else {
+      //return error somehow
+      this.data.next({});
+      this.viewService.widgetFinishedLoading();
     }
   }
 

@@ -16,10 +16,13 @@
   </div>
   <app-loading *ngIf="loading"> </app-loading>
   <app-error *ngIf="error" errorMsg="error"></app-error>
-  <div *ngIf="widget.metrics.length === 0 || !widget.channelGroup">
-    <p>Widget's metric or channel group may have been deleted, please check configuration.</p>
+  <div class="widget-message" *ngIf="widget.metrics.length === 0">
+    <p>Metrics missing.</p>
   </div>
-  <div *ngIf="!error && !loading && noData"> No Data </div>
+  <div class="widget-message" *ngIf="!widget.channelGroup">
+    <p>Channel group missing.</p>
+  </div>
+  <div *ngIf="!error && !loading && noData" class="widget-message"> <p> No Data </p></div>
   <div class="widget-content" *ngIf="!loading && !error && !noData">
     <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
@@ -40,10 +43,13 @@
     >
 
     </app-timeseries>
-      <p *ngSwitchDefault>
-          Error: could not load widget...
-          {{widget?.type}}
-        </p>
+    <div  *ngSwitchDefault class="widget-message">
+      <p>
+        Error: could not load widget...
+        {{widget?.type}}
+      </p>
+    </div>
+
     </ng-container>
   </div>
 </div>
