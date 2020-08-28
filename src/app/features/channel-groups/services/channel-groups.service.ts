@@ -10,7 +10,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 interface ChannelGroupsHttpData {
   name: string;
   description: string;
-  channels: string[];
+  channels: number[];
   share_org: boolean;
   share_all: boolean;
   id?: number;
@@ -54,7 +54,8 @@ export class ChannelGroupsService {
               cG.description,
               cG.organization,
               cG.share_org,
-              cG.share_all
+              cG.share_all,
+              cG.channels
             );
             this.localChannelGroups[cG.id] = chanGroup;
             channelGroups.push(chanGroup);
@@ -71,13 +72,30 @@ export class ChannelGroupsService {
     );
   }
 
+  updateLocalChannelGroup(id, channelGroup?) {
+    const index = this.localChannelGroups.findIndex(d => d.id === id);
+
+    if (index > -1) {
+      if (channelGroup) {
+        this.localChannelGroups[index] = channelGroup;
+
+      } else {
+        this.localChannelGroups.splice(index, 1);
+      }
+    } else {
+      this.localChannelGroups.push(channelGroup);
+    }
+  }
+
   // Gets a specific channel group from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
+
     //check if channel group exists, hasn't been fetched recently, hasn't been updated by user.
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
             const channels = [];
+            const channelIds = []
             let channelGroup: ChannelGroup;
             if (response.channels) {
               response.channels.forEach(c => {
@@ -95,10 +113,9 @@ export class ChannelGroupsService {
                 );
 
                 channels.push(channel);
+                channelIds.push(channel.id);
               });
             }
-
-
             channelGroup = new ChannelGroup(
               response.id,
               response.user_id,
@@ -107,9 +124,9 @@ export class ChannelGroupsService {
               response.organization,
               response.share_org,
               response.share_all,
-              channels
+              channelIds
             );
-
+            channelGroup.channels = channels;
             // this.localChannelGroups[channelGroup.id] = channelGroup;
             return channelGroup;
           }
@@ -120,13 +137,13 @@ export class ChannelGroupsService {
 
   // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup): Observable<ChannelGroup> {
-    //
+    //reset update time
     const postData: ChannelGroupsHttpData = {
       name: channelGroup.name,
       description: channelGroup.description,
       share_org: channelGroup.shareOrg,
       share_all: channelGroup.shareAll,
-      channels : channelGroup.channelsIdsArray
+      channels : channelGroup.channelIds
     };
     if (channelGroup.id) {
       postData.id = channelGroup.id;
@@ -140,6 +157,7 @@ export class ChannelGroupsService {
   // Deletes a channel group
   deleteChannelGroup(id: number) {
     //remove group from local
+    this.updateLocalChannelGroup(id);
     return this.squacApi.delete(this.url, id);
   }
 }

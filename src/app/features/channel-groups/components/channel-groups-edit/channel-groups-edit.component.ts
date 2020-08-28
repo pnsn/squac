@@ -267,7 +267,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.orgId,
       values.shareOrg,
       values.shareAll,
-      this.selectedChannels
+      this.selectedChannelIds
     );
 
     this.channelGroupService.updateChannelGroup(cg).subscribe(

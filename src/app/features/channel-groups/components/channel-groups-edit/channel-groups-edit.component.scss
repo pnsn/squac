@@ -39,7 +39,8 @@ h2 {
 }
 #select-channels-container {
   width: 60%;
-
+  display:flex;
+  flex-direction:column;
     mat-spinner {
       margin: 25% auto;
     }
@@ -49,6 +50,10 @@ h2 {
     flex-direction: row;
     width: 100%;
     height:100%;
+    flex-grow: 1;
+    #preview-list {
+      padding-right:10px;
+    }
     #preview-list, #map-box, #channel-selector {
       height:100%;
     }

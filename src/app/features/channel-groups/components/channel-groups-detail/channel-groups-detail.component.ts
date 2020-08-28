@@ -27,7 +27,6 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
         this.channelGroup = data.channelGroup;
       }
     );
-    console.log(this.channelGroup);
   }
 
   ngOnDestroy(): void {
