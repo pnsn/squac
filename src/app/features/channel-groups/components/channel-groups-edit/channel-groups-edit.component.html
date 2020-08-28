@@ -8,7 +8,9 @@
     <div id="selection-filter">
       <h2>Search for channels</h2>
       <div id="filter-container">
-
+        <p class="help-text">
+          Use the filters to the right to search for channels or use the map to search within a region.
+        </p>
         <app-channel-groups-filter
           (filtersChanged)="getChannelsWithFilters($event)"
         >

@@ -6,13 +6,16 @@
   margin-bottom: 20px;
   align-items: stretch;
 }
-h2 {
-  margin-top: 10px; 
-}
+
 #edit-container {
   display:flex;
   flex-direction: row;
   height: auto;
+
+  h2 {
+    margin-top: 10px; 
+  }
+
 }
 
 #selection-filter {
@@ -126,8 +129,8 @@ h2 {
 p.help-text {
   font-size: .9rem;
   font-weight: 300;
+  margin-top: 5px;
 }
-
 
 // // Small screens
 // @media (max-width: 1100px) {
