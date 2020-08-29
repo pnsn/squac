@@ -77,7 +77,7 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    return this.squacApi.get(this.url, id).pipe(map(this.mapDashboard));
+    return this.squacApi.get(this.url, id).pipe(map(data => this.mapDashboard(data)));
   }
 
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
@@ -94,11 +94,11 @@ export class DashboardsService {
     if (dashboard.id) {
       postData.id = dashboard.id;
       return this.squacApi.put(this.url, dashboard.id, postData).pipe(
-        map((data) => this.mapDashboard(data))
+        map(data => this.mapDashboard(data))
       );
     } else {
       return this.squacApi.post(this.url, postData).pipe(
-          map((data) => this.mapDashboard(data))
+          map(data => this.mapDashboard(data))
         );
     }
 

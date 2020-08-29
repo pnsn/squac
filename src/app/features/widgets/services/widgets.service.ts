@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
+import { Observable, forkJoin, empty, EMPTY, of } from 'rxjs';
 import { Widget } from '@features/widgets/models/widget';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
@@ -7,6 +7,7 @@ import { ChannelGroupsService } from '@features/channel-groups/services/channel-
 import { ChannelGroup } from '@core/models/channel-group';
 import { Threshold } from '../models/threshold';
 import { Metric } from '@core/models/metric';
+import { ViewService } from '@core/services/view.service';
 
 
 

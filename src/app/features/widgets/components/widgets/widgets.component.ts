@@ -83,6 +83,7 @@ itemChange(item) {
   ngOnInit(): void {
     console.log("widget component loaded")
     this.canUpdate = this.viewService.canUpdate;
+
     this.route.data.subscribe(
       data => {
         this.widgets = [];
@@ -98,7 +99,8 @@ itemChange(item) {
           });
         }
         this.loading = false;
-        // this.options.api.resize();
+        // this.options.api.res
+        this.viewService.setWidgets(data.widgets);
             // allow dragable and resizable if they have permission to edit dashboard
         this.options.draggable.enabled = this.canUpdate;
         this.options.resizable.enabled = this.canUpdate;

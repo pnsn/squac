@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-metrics-edit',
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./metrics-edit.component.scss']
 })
 export class MetricsEditComponent implements OnInit, OnDestroy {
+  @Input('metrics') metrics : Metric[];
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
@@ -33,31 +35,20 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private metricsService: MetricsService,
-    private widgetEditService: WidgetEditService
+    private widgetEditService: WidgetEditService,
   ) { }
 
   ngOnInit() {
-    this.loading = true;
-    const sub1 = this.metricsService.metrics.subscribe(
-      metrics => {
-        this.availableMetrics = metrics;
-        this.tableRows = this.availableMetrics;
-        const metricIds = this.widgetEditService.getMetricIds();
-        if (metricIds.length > 0) {
-          this.selectedMetrics = this.availableMetrics.filter(
-            metric => {
-              return metricIds.indexOf(metric.id) >= 0;
-            }
-          );
+    this.availableMetrics = this.metrics;
+    this.tableRows = this.availableMetrics;
+    const metricIds = this.widgetEditService.getMetricIds();
+    if (metricIds.length > 0) {
+      this.selectedMetrics = this.availableMetrics.filter(
+        metric => {
+          return metricIds.indexOf(metric.id) >= 0;
         }
-        this.loading = false;
-      }, error => {
-        console.log('error in metrics edit get metrics: ' + error);
-      }
-    );
-
-
-    this.subscriptions.add(sub1);
+      );
+    }
 
   }
 

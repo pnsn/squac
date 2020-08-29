@@ -67,7 +67,7 @@ export class MetricsService {
       return of(this.localMetrics[index]);
     }
     return this.squacApi.get(this.url, id).pipe(
-      map(this.mapMetric)
+      map(data => this.mapMetric(data))
     );
   }
 
@@ -83,9 +83,11 @@ export class MetricsService {
     };
     if (metric.id) {
       postData.id = metric.id;
-      return this.squacApi.put(this.url, metric.id, postData);
+      return this.squacApi.put(this.url, metric.id, postData).pipe(
+        map(data => this.mapMetric(data))
+      );
     } else {
-      return this.squacApi.post(this.url, postData);
+      return this.squacApi.post(this.url, postData).pipe(map(data => this.mapMetric(data)));
     }
   }
 

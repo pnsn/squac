@@ -99,7 +99,12 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   // Exit page
   // TODO: warn if unsaved
   cancel() {
-    this.router.navigate(['../../'], {relativeTo: this.route});
+    if(this.id) {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
+
   }
 
   // Check if form has unsaved fields

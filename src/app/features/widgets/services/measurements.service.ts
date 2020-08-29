@@ -58,7 +58,7 @@ export class MeasurementsService implements OnDestroy {
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString: string, endString: string): void {
     this.viewService.widgetStartedLoading();
-    if (this.widget && this.widget.metrics.length > 0) {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
         success => {
           // there is new data, update.

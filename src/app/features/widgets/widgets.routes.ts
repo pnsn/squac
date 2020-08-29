@@ -6,6 +6,9 @@ import { PermissionGuard } from '@core/guards/permission.guard';
 import { WidgetsComponent } from '@features/widgets/components/widgets/widgets.component';
 import { WidgetsResolver } from '@features/widgets/widgets.resolver';
 import { WidgetEditEntryComponent } from '@features/widgets/components/widget-edit/widget-edit-entry/widget-edit-entry.component';
+import { MetricsResolver } from '@features/metrics/metrics.resolver';
+import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
+import { StatTypeResolver } from './stat-type.resolver';
 
 export const widgetRoutes: Routes = [
   {
@@ -33,7 +36,9 @@ export const widgetRoutes: Routes = [
       {
         path: ':widgetid/edit',
         resolve: {
-          widget: WidgetsResolver
+          metrics: MetricsResolver,
+          channelGroups: ChannelGroupsResolver,
+          statTypes: StatTypeResolver,
         },
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],

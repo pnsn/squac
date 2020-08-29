@@ -11,14 +11,11 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   opened = true;
 
   constructor(
-    private dashboardsService: DashboardsService,
-    private statTypeService: StatTypeService
   ) {
 
   }
 
   ngOnInit() {
-    this.statTypeService.fetchStatTypes();
   }
 
   ngOnDestroy(): void {

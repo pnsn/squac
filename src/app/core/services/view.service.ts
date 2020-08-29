@@ -31,11 +31,7 @@ export class ViewService {
   ) { }
 
   private getWidgetIndexById(id: number): number {
-    for (const widgetIndex in this.widgets) {
-      if (this.widgets[widgetIndex].id === id) {
-        return +widgetIndex;
-      }
-    }
+    return this.dashboard.widgets.findIndex(w => w.id === id);
   }
 
   get canUpdate() {
@@ -60,6 +56,14 @@ export class ViewService {
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
+  }
+  setWidgets(widgets: Widget[]) {
+    this.dashboard.widgets = widgets;
+    console.log(this.dashboard.widgets)
+  }
+  getWidget(id) {
+    const index = this.getWidgetIndexById(id);
+    return index > -1 ? this.dashboard.widgets[index] : false;
   }
 
   queuedWidgets : number = 0;
@@ -103,11 +107,12 @@ export class ViewService {
     // clear old widgets
     if(this.dashboard) {
       this.dashboard.widgets = [];
+      this.queuedWidgets = 0;
       this.updateCurrentWidgets();
     }
 
     this.dashboard = dashboard;
-    if (dashboard.widgetIds.length === 0) {
+    if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
       this.status.next('finished');
     }
   }
@@ -124,50 +129,17 @@ export class ViewService {
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
-  getWidgets(dashboardId) {
 
-    this.status.next('loading');
-    this.widgetService.getWidgets(dashboardId).subscribe(
-      (widgets: Widget[]) => {
-        this.dashboard.widgets = widgets;
-      },
-      error => {
-        this.handleError('Could not load widgets for dashboard ' + dashboardId + '.', 'getWidgets', error);
-      },
-      () => {
-        this.widgetsChanged();
-        console.log('Get widgets done');
-      }
-    );
-  }
-
-  updateWidget(widgetId) {
+  updateWidget(widget) {
     console.log('get widgets');
     this.status.next('loading');
-    this.widgetService.getWidget(widgetId).subscribe(
-      (widget: Widget) => {
-        const index = this.getWidgetIndexById(widget.id);
 
-        this.dashboard.widgets[index] = widget;
-        this.widgetsChanged();
-      },
-      error => {
-        this.handleError('Could not update widget with ID: ' + widgetId, 'updateWidget', error);
-      }
-    );
-  }
-
-  addWidget(widgetId) {
-    this.status.next('loading');
-    this.widgetService.getWidget(widgetId).subscribe(
-      (widget: Widget) => {
-        this.dashboard.widgets.push(widget);
-        this.widgetsChanged();
-      },
-      error => {
-        this.handleError('Could not add widget with ID: ' + widgetId, 'addWidget', error);
-      }
-    );
+    const index = this.getWidgetIndexById(widget.id);
+    if(index > -1) {
+      this.dashboard.widgets[index] = widget;
+    } else {
+      this.dashboard.widgets.push(widget);
+    }
   }
 
   deleteWidget(widgetId) {
@@ -189,7 +161,7 @@ export class ViewService {
   // Will rerender widgets, but not get new widget information
   refreshWidgets() {
     console.log('refresh!');
-    this.getWidgets(this.dashboard.id);
+    // this.getWidgets(this.dashboard.id);
   }
 
   handleError(message, source, error) {
@@ -211,6 +183,7 @@ export class ViewService {
   }
 
   saveDashboard() {
+    console.log(this.dashboard)
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');

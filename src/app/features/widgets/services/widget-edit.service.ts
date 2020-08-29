@@ -3,7 +3,10 @@ import { Widget } from '@features/widgets/models/widget';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '../models/threshold';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
+import { WidgetsService } from './widgets.service';
+import { ThresholdsService } from './thresholds.service';
+import { ViewService } from '@core/services/view.service';
 
 
 // TODO: this whole thing just needs a fixin'
@@ -23,6 +26,13 @@ export class WidgetEditService {
   x = 1;
   y = 1;
 
+  constructor(
+    private widgetsService: WidgetsService,
+    private thresholdService: ThresholdsService,
+    private viewService: ViewService
+  ) {}
+
+
   updateValidity() {
 
     if (this.widget) {
@@ -36,7 +46,6 @@ export class WidgetEditService {
 
   }
 
-  constructor() {}
 
   getThresholds() {
     return this.thresholds;
@@ -134,6 +143,41 @@ export class WidgetEditService {
     this.thresholds = {};
     this.channelGroup = null;
     this.metrics.next([]);
+  }
+
+  saveWidget() {
+    let widget;
+    this.widgetsService.updateWidget(
+      this.widget
+    ).subscribe(
+      response => {
+        widget = response;
+
+        const thresholdObs = this.thresholdService.updateThresholds(
+            this.widget.metrics,
+            this.widget.thresholds,
+            widget.id
+          );
+        let count = 0;
+        if (thresholdObs && thresholdObs.length > 0) {
+            merge(...thresholdObs).subscribe(
+              result => {
+                count++;
+                if (widget && count === thresholdObs.length) {
+                  this.viewService.updateWidget(widget);
+                }
+
+              }, error => {
+                console.log('error in widget edit threshold: ' + error);
+              }
+            );
+          } else {
+            this.viewService.updateWidget(widget);
+          }
+      }, error => {
+        console.log('error in widget edit update: ' + error);
+      }
+    );
   }
 
 }

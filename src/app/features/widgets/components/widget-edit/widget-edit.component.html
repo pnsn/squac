@@ -1,5 +1,5 @@
 <div mat-dialog-title id="edit-title">
-  <h3>{{ editMode ? "Edit Widge t" + widget.id : "New Widget"}}</h3>
+  <h3>{{ editMode ? "Edit Widget": "New Widget"}}</h3>
   <button mat-icon-button type="button" (click)="cancel()"><mat-icon>close</mat-icon></button>
 </div>
    
@@ -72,11 +72,11 @@
       </mat-step>
       <mat-step errorMessage="Metric is required."> 
         <ng-template matStepLabel>Select Metrics</ng-template>
-          <app-metrics-edit class="edit-tab-body"></app-metrics-edit>
+          <app-metrics-edit class="edit-tab-body" [metrics]="metrics"></app-metrics-edit>
       </mat-step>
       <mat-step  errorMessage="Channel Group is required.">
         <ng-template matStepLabel>Select Channel Group</ng-template>
-        <app-channel-groups-edit class="edit-tab-body"></app-channel-groups-edit>
+        <app-channel-groups-edit class="edit-tab-body" [channelGroups]="channelGroups"></app-channel-groups-edit>
       </mat-step>
       <mat-step [optional]="true">
         <ng-template matStepLabel>Set Thresholds</ng-template>  

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./channel-groups-edit.component.scss']
 })
 export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
+  @Input('channelGroups') channelGroups : ChannelGroup[];
   availableChannelGroups: ChannelGroup[];
   selectedChannelGroup: ChannelGroup;
   subscriptions: Subscription = new Subscription();
@@ -22,18 +23,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const sub2 = this.channelGroupsService.getChannelGroups().subscribe(
-      channelGroups => {
-        this.availableChannelGroups = channelGroups;
-        this.loading = false;
-      }, error => {
-        console.log('error in channelGroups edit: ' + error);
-      }
-    );
+    this.availableChannelGroups = this.channelGroups;
 
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
-
-    this.subscriptions.add(sub2);
   }
 
   ngOnDestroy(): void {

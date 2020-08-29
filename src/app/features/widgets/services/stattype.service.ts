@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 interface StatTypeHttpData {
   id: number;
@@ -14,23 +15,20 @@ interface StatTypeHttpData {
 })
 export class StatTypeService {
   private url = 'dashboard/stattype/';
-
-  statTypes = new BehaviorSubject<StatTypeHttpData[]>([]);
+  localStatTypes: StatTypeHttpData[];
   constructor(
     private squacApi: SquacApiService
   ) {
   }
 
-  // only get, no update
-  fetchStatTypes() {
-    this.squacApi.get(this.url)
-      .subscribe(
-        result => {
-          this.statTypes.next(result);
-        },
-        error => {
-          console.log('error in stattype service: ' + error);
-        }
-      );
+  getStatTypes() : Observable<StatTypeHttpData[]>{
+    if(this.localStatTypes) {
+      return of(this.localStatTypes);
+    }
+    return this.squacApi.get(this.url).pipe(
+      tap(response => {
+        this.localStatTypes = response;
+      })
+    );
   }
 }
