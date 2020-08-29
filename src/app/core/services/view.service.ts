@@ -132,8 +132,6 @@ export class ViewService {
 
   updateWidget(widget) {
     console.log('get widgets');
-    this.status.next('loading');
-
     const index = this.getWidgetIndexById(widget.id);
     if(index > -1) {
       this.dashboard.widgets[index] = widget;

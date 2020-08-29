@@ -7,6 +7,7 @@ import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
+import { tap } from 'rxjs/operators';
 
 
 // TODO: this whole thing just needs a fixin'
@@ -145,39 +146,39 @@ export class WidgetEditService {
     this.metrics.next([]);
   }
 
-  saveWidget() {
-    let widget;
-    this.widgetsService.updateWidget(
+  saveWidget() : Observable<any>{
+    let newWidget;
+    return this.widgetsService.updateWidget(
       this.widget
-    ).subscribe(
-      response => {
-        widget = response;
-
-        const thresholdObs = this.thresholdService.updateThresholds(
+    ).pipe(
+      tap (
+        response => {
+          newWidget = response;
+  
+          const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
             this.widget.thresholds,
-            widget.id
+            newWidget.id
           );
-        let count = 0;
-        if (thresholdObs && thresholdObs.length > 0) {
-            merge(...thresholdObs).subscribe(
-              result => {
-                count++;
-                if (widget && count === thresholdObs.length) {
-                  this.viewService.updateWidget(widget);
-                }
-
-              }, error => {
-                console.log('error in widget edit threshold: ' + error);
-              }
-            );
-          } else {
-            this.viewService.updateWidget(widget);
-          }
-      }, error => {
-        console.log('error in widget edit update: ' + error);
-      }
+          let count = 0;
+          if (thresholdObs && thresholdObs.length > 0) {
+              return merge(...thresholdObs).pipe(
+                tap(result =>{
+                  count++;
+                  if (newWidget && count === thresholdObs.length) {
+                    this.viewService.updateWidget(newWidget);
+                  }
+                })
+              )
+            } else {
+              this.viewService.updateWidget(newWidget);
+              return of(newWidget);
+            }
+        }
+      )
     );
   }
+
+
 
 }

@@ -138,8 +138,11 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       statType
     );
 
-    this.widgetEditService.saveWidget();
-    this.cancel();
+    this.widgetEditService.saveWidget().subscribe(
+      done => {
+        this.cancel();
+      }
+    );
   }
 
   cancel(widget?: Widget) {
