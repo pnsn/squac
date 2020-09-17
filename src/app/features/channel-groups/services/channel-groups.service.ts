@@ -47,7 +47,7 @@ export class ChannelGroupsService {
           const channelGroups: ChannelGroup[] = [];
 
           results.forEach(cG => {
-            channelGroups.push(this.mapChannelGroups(cG));
+            channelGroups.push(this.mapChannelGroup(cG));
           });
           return channelGroups;
         }
@@ -83,7 +83,7 @@ export class ChannelGroupsService {
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
-            return this.mapChannelGroups(response);
+            return this.mapChannelGroup(response);
           }
         ),
         tap( channelGroup =>{
@@ -111,7 +111,7 @@ export class ChannelGroupsService {
       return this.squacApi.post(this.url, postData);
     }
   }
-  private mapChannelGroups(squacData) : ChannelGroup {
+  private mapChannelGroup(squacData) : ChannelGroup {
     const channels = [];
     const channelIds = []
     let channelGroup: ChannelGroup;
