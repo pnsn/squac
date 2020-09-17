@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-dashboard-edit',
@@ -14,6 +15,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   id: number;
   dashboard: Dashboard;
   editMode: boolean;
+  orgId: number;
   dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
 
@@ -21,7 +23,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private dashboardService: DashboardsService
+    private dashboardService: DashboardsService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.editMode = !!this.id;
-
+        this.orgId = this.userService.userOrg;
         this.initForm();
       },
       error => {
@@ -95,8 +98,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         values.description,
         values.shareOrg,
         values.shareAll,
-        this.dashboard.orgId,
-        this.dashboard.widgetIds
+        this.orgId,
+        this.dashboard.widgetIds ? this.dashboard.widgetIds : []
       )
     ).subscribe(
       result => {

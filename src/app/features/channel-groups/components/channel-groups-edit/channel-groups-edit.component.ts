@@ -74,7 +74,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     );
 
     //fixme: this shouldn't nee to be in here
-    this.orgId = this.userService.getUserOrg();
+    this.orgId = this.userService.userOrg;
     this.isFilterOpen = false;
     this.subscriptions.add(paramsSub);
     this.popupAction = 'cancel';

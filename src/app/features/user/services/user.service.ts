@@ -32,7 +32,7 @@ export class UserService {
   fetchUser() {
     this.getUser().subscribe();
   }
-  getUserOrg() {
+  get userOrg() {
     return this.currentUser.orgId;
   }
   getUser() : Observable<User> {

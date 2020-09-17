@@ -88,7 +88,7 @@ export class OrganizationsService {
   }
 
   getOrganization(): Observable<Organization> {
-    const id = this.userService.getUserOrg();
+    const id = this.userService.userOrg;
 
   //  const org = this.localOrganizations.find(
   //     org => org.id === id
