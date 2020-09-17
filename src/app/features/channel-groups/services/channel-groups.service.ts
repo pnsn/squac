@@ -54,7 +54,6 @@ export class ChannelGroupsService {
       ),
       tap(
         channelGroups => {
-          this.localChannelGroups = channelGroups;
           this.lastRefresh = new Date().getTime();
         }
       )
@@ -85,10 +84,7 @@ export class ChannelGroupsService {
           response => {
             return this.mapChannelGroup(response);
           }
-        ),
-        tap( channelGroup =>{
-          this.localChannelGroups[channelGroup.id] = channelGroup;
-        })
+        )
       );
     
   }
@@ -111,6 +107,7 @@ export class ChannelGroupsService {
       return this.squacApi.post(this.url, postData);
     }
   }
+
   private mapChannelGroup(squacData) : ChannelGroup {
     const channels = [];
     const channelIds = []
@@ -153,7 +150,7 @@ export class ChannelGroupsService {
     if(channels.length > 0) {
       channelGroup.channels = channels;
     }
-
+    this.updateLocalChannelGroup(channelGroup.id, channelGroup);
     return channelGroup;
   }
 

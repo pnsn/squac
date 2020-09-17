@@ -24,8 +24,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.availableChannelGroups = this.channelGroups;
-
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
+    if(this.selectedChannelGroup && this.selectedChannelGroup.channels) {
+      this.loading = false;
+    }
   }
 
   ngOnDestroy(): void {
