@@ -99,7 +99,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         values.shareOrg,
         values.shareAll,
         this.orgId,
-        this.dashboard.widgetIds ? this.dashboard.widgetIds : []
+        this.dashboard && this.dashboard.widgets ? this.dashboard.widgetIds : []
       )
     ).subscribe(
       result => {

@@ -47,18 +47,7 @@ export class ChannelGroupsService {
           const channelGroups: ChannelGroup[] = [];
 
           results.forEach(cG => {
-            const chanGroup = new ChannelGroup(
-              cG.id,
-              cG.user_id,
-              cG.name,
-              cG.description,
-              cG.organization,
-              cG.share_org,
-              cG.share_all,
-              cG.channels
-            );
-            this.localChannelGroups[cG.id] = chanGroup;
-            channelGroups.push(chanGroup);
+            channelGroups.push(this.mapChannelGroups(cG));
           });
           return channelGroups;
         }
@@ -94,43 +83,12 @@ export class ChannelGroupsService {
       return this.squacApi.get(this.url, id).pipe(
         map(
           response => {
-            const channels = [];
-            const channelIds = []
-            let channelGroup: ChannelGroup;
-            if (response.channels) {
-              response.channels.forEach(c => {
-                const channel = new Channel(
-                  c.id,
-                  c.code,
-                  c.name,
-                  c.sample_rate,
-                  c.lat,
-                  c.lon,
-                  c.elev,
-                  c.loc,
-                  c.station_code,
-                  c.network
-                );
-
-                channels.push(channel);
-                channelIds.push(channel.id);
-              });
-            }
-            channelGroup = new ChannelGroup(
-              response.id,
-              response.user_id,
-              response.name,
-              response.description,
-              response.organization,
-              response.share_org,
-              response.share_all,
-              channelIds
-            );
-            channelGroup.channels = channels;
-            // this.localChannelGroups[channelGroup.id] = channelGroup;
-            return channelGroup;
+            return this.mapChannelGroups(response);
           }
-        )
+        ),
+        tap( channelGroup =>{
+          this.localChannelGroups[channelGroup.id] = channelGroup;
+        })
       );
     
   }
@@ -152,6 +110,51 @@ export class ChannelGroupsService {
     } else {
       return this.squacApi.post(this.url, postData);
     }
+  }
+  private mapChannelGroups(squacData) : ChannelGroup {
+    const channels = [];
+    const channelIds = []
+    let channelGroup: ChannelGroup;
+    if (squacData.channels) {
+      squacData.channels.forEach(c => {
+        if(c.id) {
+          const channel = new Channel(
+            c.id,
+            c.code,
+            c.name,
+            c.sample_rate,
+            c.lat,
+            c.lon,
+            c.elev,
+            c.loc,
+            c.station_code,
+            c.network
+          );
+        
+          channels.push(channel);
+          channelIds.push(channel.id);
+        } else {
+          channelIds.push(c);
+        }
+      });
+    }
+    
+    channelGroup = new ChannelGroup(
+      squacData.id,
+      squacData.user_id,
+      squacData.name,
+      squacData.description,
+      squacData.organization,
+      squacData.share_org,
+      squacData.share_all,
+      channelIds
+    );
+
+    if(channels.length > 0) {
+      channelGroup.channels = channels;
+    }
+
+    return channelGroup;
   }
 
   // Deletes a channel group
