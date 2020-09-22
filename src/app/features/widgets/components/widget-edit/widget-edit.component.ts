@@ -1,15 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription, merge } from 'rxjs';
-import { WidgetsService } from '../../services/widgets.service';
+import { Subscription } from 'rxjs';
 import { Widget } from '@features/widgets/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
-import { ThresholdsService } from '../../services/thresholds.service';
 import { WidgetEditService } from '../../services/widget-edit.service';
-import { StatTypeService } from '@features/widgets/services/stattype.service';
-import { MetricsService } from '@features/metrics/services/metrics.service';
-import { ActivatedRoute } from '@angular/router';
 import { Metric } from '@core/models/metric';
 import { ChannelGroup } from '@core/models/channel-group';
 
@@ -59,10 +53,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private widgetService: WidgetsService,
-    private metricsService: MetricsService,
-    private thresholdService: ThresholdsService,
-    private route: ActivatedRoute,
     private widgetEditService: WidgetEditService,
   ) { }
   ngOnInit() {
@@ -139,7 +129,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     );
 
     this.widgetEditService.saveWidget().subscribe(
-      done => {
+      () => {
         this.cancel();
       }
     );

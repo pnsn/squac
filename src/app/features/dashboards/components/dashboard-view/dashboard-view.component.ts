@@ -36,20 +36,10 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     );
 
     console.log("resovler data" , );  
-    this.dashboards = this.route.snapshot.data.dashboards;
-    // const dashboardsService = this.dashboardsService.getDashboards.subscribe(
-    //   (dashboards: Dashboard[]) => {
-    //     this.dashboards = dashboards;
-    //     // if(dashboards && dashboards[0] && !this.activeDashboardId) {
-    //     //   //TODO: user favorite dashboard
-    //     //   this.router.navigate([dashboards[0].id], {relativeTo: this.route});
-    //     // }
+    if(this.route.snapshot.data) {
+      this.dashboards = this.route.snapshot.data.dashboards;
+    }
 
-    //   },
-    //   error => {
-    //     console.log('error in dashboard view get:  + ' + error);
-    //   }
-    // );
     const userService = this.userService.user.subscribe(
       user => {
         this.userId = user ? user.id : null;

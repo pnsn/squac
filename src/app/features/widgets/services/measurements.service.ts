@@ -37,7 +37,7 @@ export class MeasurementsService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
-    if (widget && widget.metrics.length > 0) {
+    if (widget && widget.metrics && widget.metrics.length > 0) {
       widget.channelGroup.channels.forEach(channel => {
         this.localData[channel.id] = {};
         widget.metrics.forEach(metric => {
@@ -47,14 +47,6 @@ export class MeasurementsService implements OnDestroy {
     }
   }
 
-  // some sort of timer that gets the data and
-  updateMeasurement() {
-    if (this.viewService.isLive) {
-      this.updateTimeout = setTimeout(() => {
-        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
-      }, this.refreshInterval);
-    }
-  }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString: string, endString: string): void {
     this.viewService.widgetStartedLoading();
@@ -88,6 +80,16 @@ export class MeasurementsService implements OnDestroy {
     }
   }
 
+  // some sort of timer that gets the data and
+  private updateMeasurement() {
+    if (this.viewService.isLive) {
+      this.updateTimeout = setTimeout(() => {
+        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
+      }, this.refreshInterval);
+    }
+  }
+
+  // Get measurements from squac
   private getMeasurements(starttime: string, endtime: string ): Observable<any> {
     return this.squacApi.get(this.url, null,
       {

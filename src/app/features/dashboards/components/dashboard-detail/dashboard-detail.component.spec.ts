@@ -11,6 +11,10 @@ import { AppAbility } from '@core/utils/ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { WidgetsModule } from '@features/widgets/widgets.module';
+import { ViewService } from '@core/services/view.service';
+import { MockViewService } from '@core/services/view.service.mock';
+import { Dashboard } from '@features/dashboards/models/dashboard';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 describe('DashboardDetailComponent', () => {
@@ -25,18 +29,30 @@ describe('DashboardDetailComponent', () => {
         FormsModule,
         NgxDatatableModule,
         WidgetsModule,
-        AbilityModule
+        AbilityModule,
+        MatMenuModule
       ],
       providers: [
         DashboardsService,
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({id: 123})
+            params: of({id: 123}),
+            data: of({dashboard: new Dashboard(
+              1,
+              1,
+              "name",
+              "description",
+              false,
+              false,
+              1,
+              []
+            )})
           }
         },
         { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility , useExisting: Ability }
+        { provide: PureAbility , useExisting: Ability },
+        {provide: ViewService, useValue: new MockViewService()}
       ],
       declarations: [
         DashboardDetailComponent

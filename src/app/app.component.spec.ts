@@ -8,14 +8,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MockAuthService } from './core/services/auth.service.mock';
-import { UserService } from './core/services/user.service';
-import { MockUserService } from './core/services/user.service.mock';
+import { UserService } from './features/user/services/user.service';
+import { MockUserService } from './features/user/services/user.service.mock';
 
 
 describe('AppComponent', () => {
   let fixture;
   let appComponent: AppComponent;
-  let userService: UserService;
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -30,16 +29,14 @@ describe('AppComponent', () => {
         AppComponent,
         HeaderComponent
       ],
-      providers: [{
-        provide: AuthService, useClass: MockAuthService } ,
-        { provide: UserService, useClass: MockUserService
-      }],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        UserService
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     appComponent = fixture.componentInstance;
-
-    userService = TestBed.inject(UserService);
   }));
 
   it('should create the app', () => {
@@ -50,10 +47,4 @@ describe('AppComponent', () => {
     expect(appComponent.title).toEqual('squac-ui');
   });
 
-  it('should listen to user log in', () => {
-    appComponent.ngOnInit();
-    expect(appComponent.loggedIn).toEqual(false);
-    userService.fetchUser();
-    expect(appComponent.loggedIn).toEqual(true);
-  });
 });

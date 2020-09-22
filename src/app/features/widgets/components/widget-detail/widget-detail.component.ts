@@ -41,7 +41,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true;
     const dataSub = this.measurementsService.data.subscribe(
       data => {
-        this.noData = Object.keys(data).length === 0;
+        this.noData = data && Object.keys(data).length === 0;
         this.data = data;
         this.loading = false;
       }

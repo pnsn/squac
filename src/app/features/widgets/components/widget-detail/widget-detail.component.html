@@ -16,7 +16,7 @@
   </div>
   <app-loading *ngIf="loading"> </app-loading>
   <app-error *ngIf="error" errorMsg="error"></app-error>
-  <div class="widget-message" *ngIf="widget.metrics.length === 0">
+  <div class="widget-message" *ngIf="widget.metrics && widget.metrics.length === 0">
     <p>Metrics missing.</p>
   </div>
   <div class="widget-message" *ngIf="!widget.channelGroup">

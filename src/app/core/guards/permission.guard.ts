@@ -18,7 +18,8 @@ export class PermissionGuard implements CanActivate {
   // Returns true if there is a user and allows user to navigate
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
     return of(true);
-    //   if (next.data && next.data.action && next.data.subject) {
+    // FIXME: temporarily disabled
+    // if (next.data && next.data.action && next.data.subject) {
     //   const subject = next.data.subject;
     //   const action = next.data.action;
     //   return this.userService.user.pipe(

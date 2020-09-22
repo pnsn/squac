@@ -10,6 +10,7 @@ import { PureAbility, Ability } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { ViewService } from '@core/services/view.service';
 import { MockViewService } from '@core/services/view.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WidgetDetailComponent', () => {
   let component: WidgetDetailComponent;
@@ -20,15 +21,16 @@ describe('WidgetDetailComponent', () => {
       imports: [
         WidgetsModule,
         RouterTestingModule.withRoutes([]),
-        AbilityModule
+        AbilityModule,
+        HttpClientTestingModule
       ],
       providers: [
         {provide: MeasurementsService, useValue: new MockMeasurementsService()},
         {provide: ViewService, useValue: new MockViewService()},
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
-
-      ]
+        
+      ] 
     })
     .compileComponents();
   }));
@@ -36,7 +38,7 @@ describe('WidgetDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetDetailComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, 1, []);
+    component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
   });
 

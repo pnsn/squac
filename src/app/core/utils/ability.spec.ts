@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { AbilityModule } from '@casl/angular';
 import { defineAbilitiesFor, AppAbility } from './ability';
 import { Ability, PureAbility } from '@casl/ability';
-import { User } from '../models/user';
+import { User } from '@features/user/models/user';
 import { userInfo } from 'os';
 
 

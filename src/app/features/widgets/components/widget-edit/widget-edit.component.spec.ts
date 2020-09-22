@@ -29,7 +29,6 @@ describe('WidgetEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule,

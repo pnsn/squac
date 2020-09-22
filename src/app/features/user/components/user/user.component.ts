@@ -37,9 +37,13 @@ export class UserComponent implements OnInit, OnDestroy {
         console.log('error getting params: ' + error);
       }
     );
+    this.organization = this.route.snapshot.data.organzation;
+    if(this.route.parent) {
       this.user = this.route.parent.snapshot.data.user;
-      this.organization = this.route.snapshot.data.organzation;
       this.initForm(this.user);
+    }
+
+
   }
 
   initForm(user) {

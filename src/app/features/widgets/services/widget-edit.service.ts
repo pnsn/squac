@@ -18,7 +18,7 @@ export class WidgetEditService {
   private widget: Widget;
   private channelGroup: ChannelGroup;
   private thresholds: { [metricId: number]: Threshold} = {};
-  public metrics = new BehaviorSubject<Metric[]>([]);
+  public selectedMetrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
 
   // default widget dimensions
@@ -34,7 +34,8 @@ export class WidgetEditService {
   ) {}
 
 
-  updateValidity() {
+  // Keeps track of widget having all required properties
+  updateValidity() : void{
 
     if (this.widget) {
       this.isValid.next(
@@ -47,18 +48,18 @@ export class WidgetEditService {
 
   }
 
-
-  getThresholds() {
+  // Returns the current thresholds
+  getThresholds() : { [metricId: number]: Threshold}{
     return this.thresholds;
   }
 
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget) {
+  setWidget(widget: Widget) : void{
     if (widget) {
       this.widget = widget;
       this.thresholds = widget.thresholds;
       this.channelGroup = widget.channelGroup;
-      this.metrics.next(this.widget.metrics);
+      this.selectedMetrics.next(this.widget.metrics);
 
     } else {
 
@@ -82,39 +83,47 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  getChannelGroup() {
+  // Returns the selected channel group
+  getChannelGroup() : ChannelGroup{
     return this.channelGroup;
   }
 
-  getWidget() {
+
+  // Returns the current widet
+  getWidget() : Widget{
     return this.widget;
   }
 
-  getMetricIds() {
+  // Selected metrics ids
+  getMetricIds() : void | number[]{
     if (this.widget) {
       return this.widget.metricsIds;
     }
 
   }
 
-  updateChannelGroup(channelGroup) {
+  // Saves new selected group
+  updateChannelGroup(channelGroup) : void{
     this.channelGroup = channelGroup;
     this.widget.channelGroupId = channelGroup.id;
     this.updateValidity();
   }
 
-  updateMetrics(metrics) {
+  // Update selected metrics
+  updateMetrics(metrics) : void{
     this.widget.metrics = metrics;
-    this.metrics.next(this.widget.metrics);
+    this.selectedMetrics.next(this.widget.metrics);
     this.updateValidity();
   }
 
-  updateType(id) {
+  // Update selected widget type
+  updateType(id) : void{
     this.widget.typeId = id;
     this.updateValidity();
   }
 
-  updateThresholds(thresholds) {
+  // Save the new selected thresholds
+  updateThresholds(thresholds) : void{
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
         threshold.id,
@@ -129,8 +138,9 @@ export class WidgetEditService {
     this.widget.thresholds = this.thresholds;
     this.updateValidity();
   }
-
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ) {
+  
+  // Update the widgets info
+  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ) : void{
     this.widget.name = name;
     this.widget.description = description;
     this.widget.dashboardId = dashboardId;
@@ -139,14 +149,15 @@ export class WidgetEditService {
   }
 
   // cancel without sacving
-  clearWidget() {
+  clearWidget() : void {
     this.widget = null;
     this.thresholds = {};
     this.channelGroup = null;
-    this.metrics.next([]);
+    this.selectedMetrics.next([]);
   }
 
-  saveWidget() : Observable<any>{
+  // save widget and thresholds to squac
+  saveWidget() : Observable<Widget>{
     let newWidget;
     return this.widgetsService.updateWidget(
       this.widget

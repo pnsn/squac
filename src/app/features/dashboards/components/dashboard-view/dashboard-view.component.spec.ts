@@ -33,7 +33,8 @@ describe('DashboardViewComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({id: 123})
+            params: of({id: 123}),
+            snapshot: {}
           }
         },
                 { provide: AppAbility, useValue: new AppAbility() },

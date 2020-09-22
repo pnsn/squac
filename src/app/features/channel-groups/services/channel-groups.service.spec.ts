@@ -14,6 +14,7 @@ describe('ChannelGroupsService', () => {
     1,
     'name',
     'description',
+    1,
     false,
     true,
     []
@@ -42,19 +43,10 @@ describe('ChannelGroupsService', () => {
   });
 
 
-  it('should fetch channelGroups', (done: DoneFn) => {
-    channelGroupsService.fetchChannelGroups();
-
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+  it('should get channelGroups', (done: DoneFn) => {
+    channelGroupsService.getChannelGroups().subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
-    });
-
-  });
-
-  it('should return channelGroups', () => {
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
-      expect(channelGroups).toBeTruthy();
     });
   });
 
@@ -65,24 +57,18 @@ describe('ChannelGroupsService', () => {
     });
   });
 
-  it('should update channel group', (done: DoneFn) => {
-    channelGroupsService.updateChannelGroup(testChannelGroup);
-
-    channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
-      expect(channelGroup.name).toEqual(testChannelGroup.name);
-      done();
-    });
-  });
-
-  it('should put channel group with id', () => {
+  it('should put channel group with id', (done: DoneFn) => {
     apiSpy = spyOn(squacApiService, 'put');
+    channelGroupsService.updateChannelGroup(testChannelGroup).subscribe(
+      channelGroup => {
+        expect(apiSpy).toHaveBeenCalled();
+        done();
+      }
+    );
 
-    channelGroupsService.updateChannelGroup(testChannelGroup);
-
-    expect(apiSpy).toHaveBeenCalled();
   });
 
-  it('should post channel group without id', () => {
+  it('should post channel group without id', (done: DoneFn) => {
     apiSpy = spyOn(squacApiService, 'post');
 
     const newChannelGroup = new ChannelGroup(
@@ -90,13 +76,27 @@ describe('ChannelGroupsService', () => {
       null,
       'name',
       'description',
+      1,
       true,
       true,
       []
     );
 
-    channelGroupsService.updateChannelGroup(newChannelGroup);
+    channelGroupsService.updateChannelGroup(newChannelGroup).subscribe(
+      response => {
+        expect(apiSpy).toHaveBeenCalled();
+        done();
+      }
+    );
 
-    expect(apiSpy).toHaveBeenCalled();
+ 
   });
+
+  it('should delete dashboard', (done: DoneFn) => {
+    channelGroupsService.deleteChannelGroup(1).subscribe(response => {
+      expect(response).toBeTruthy();
+      done();
+    })
+  });
+
 });

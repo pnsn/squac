@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetEditEntryComponent } from './widget-edit-entry.component';
+import { ViewService } from '@core/services/view.service';
+import { MockViewService } from '@core/services/view.service.mock';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 describe('WidgetEditEntryComponent', () => {
   let component: WidgetEditEntryComponent;
@@ -8,7 +13,16 @@ describe('WidgetEditEntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetEditEntryComponent ]
+      declarations: [ WidgetEditEntryComponent , RouterTestingModule.withRoutes([])],
+      providers: [
+        {provide: ViewService, useClass: MockViewService},
+
+        { provide: ActivatedRoute, 
+          useValue: {
+            params: of({id: 123}),
+            snapshot: {}
+        }}
+      ]
     })
     .compileComponents();
   }));

@@ -26,24 +26,40 @@ export class WidgetEditEntryComponent implements OnInit {
     this.paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.widgetId = +params.widgetid;
-        const dashboardId = this.route.parent.parent.snapshot.paramMap.get('id');
-        const widget = this.viewService.getWidget(this.widgetId);
-        const statTypes = this.route.snapshot.data.statTypes;
-        const metrics = this.route.snapshot.data.metrics;
-        const channelGroups = this.route.snapshot.data.channelGroups;
-    
-            //get dashboard && widget from url
-        this.dialogRef = this.dialog.open(WidgetEditComponent, {
-          data : {
-            widget,
-            dashboardId,
-            statTypes,
-            metrics,
-            channelGroups
-          }
-        });
-      }
+        let dashboardId;
+        let statTypes;
+        let metrics;
+        let channelGroups;
 
+        if(this.route.parent) {
+          dashboardId = this.route.parent.parent.snapshot.paramMap.get('id');
+        }
+        if(this.route.snapshot.data) {
+          statTypes = this.route.snapshot.data.statTypes;
+          metrics = this.route.snapshot.data.metrics;
+          channelGroups = this.route.snapshot.data.channelGroups;
+        }
+        
+        const widget = this.viewService.getWidget(this.widgetId);
+
+        if(widget && dashboardId && statTypes && metrics && channelGroups) {
+            //get dashboard && widget from url
+            this.dialogRef = this.dialog.open(WidgetEditComponent, {
+              data : {
+                widget,
+                dashboardId,
+                statTypes,
+                metrics,
+                channelGroups
+              }
+            });
+        }
+          else {
+          //show error
+        }
+    
+
+      }
     );
 
 

@@ -50,20 +50,13 @@ describe('DashboardsService', () => {
   });
 
 
-  it('should fetch dashboards', (done: DoneFn) => {
-    dashboardsService.fetchDashboards();
+  it('should return dashboards', (done: DoneFn) => {
 
-    dashboardsService.getDashboards.subscribe(dashboards => {
-      expect(dashboards[0].id).toEqual(testDashboard.id);
+    dashboardsService.getDashboards().subscribe(dashboards => {
+      expect(dashboards[0].id).toEqual(1);
       done();
     });
 
-  });
-
-  it('should return dashboards', () => {
-    dashboardsService.getDashboards.subscribe(dashboards => {
-      expect(dashboards).toBeTruthy();
-    });
   });
 
   it('should get dashboard with id', (done: DoneFn) => {
@@ -81,21 +74,18 @@ describe('DashboardsService', () => {
   });
 
   it('should post dashboard without id', (done: DoneFn) => {
-    const newDashboard = new Dashboard(
-      null,
-      null,
-      'name',
-      'description',
-      true,
-      true,
-      1,
-      [1]
-    );
 
     dashboardsService.updateDashboard(testDashboard).subscribe(dashboard => {
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
+  });
+
+  it('should delete dashboard', (done: DoneFn) => {
+    dashboardsService.deleteDashboard(1).subscribe(response => {
+      expect(response).toBeTruthy();
+      done();
+    })
   });
 });
 

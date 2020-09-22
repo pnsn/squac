@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardsComponent } from './dashboards.component';
-import { DashboardsService } from './services/dashboards.service';
+import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DashboardViewComponent } from './components/dashboard-view/dashboard-view.component';
+import { DashboardViewComponent } from '@features/dashboards/components/dashboard-view/dashboard-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { MaterialModule } from '@shared/material.module';

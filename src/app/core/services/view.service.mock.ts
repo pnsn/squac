@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Widget } from '@features/widgets/models/widget';
 
@@ -12,7 +12,7 @@ export class MockViewService {
   private testStartdate: Date = new Date();
   private testEnddate: Date = new Date();
   private widgets: Widget[] = [];
-
+  error = new BehaviorSubject<string>(null);
 
   testDashboard: Dashboard = new Dashboard(
     1,

@@ -32,7 +32,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   lastEditedCell;
 
   ngOnInit() {
-    const sub = this.widgetEditService.metrics.subscribe(
+    const sub = this.widgetEditService.selectedMetrics.subscribe(
       metrics => {
         this.metrics = metrics;
         this.thresholds = this.widgetEditService.getThresholds();

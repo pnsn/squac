@@ -41,19 +41,8 @@ describe('MetricsService', () => {
     expect(service).toBeTruthy();
   });
 
-
-  it('should fetch metrics', (done: DoneFn) => {
-    metricsService.fetchMetrics();
-
-    metricsService.getMetrics.subscribe(metrics => {
-      expect(metrics[0].id).toEqual(testMetric.id);
-      done();
-    });
-
-  });
-
-  it('should return metrics', () => {
-    metricsService.getMetrics.subscribe(metrics => {
+  it('should return all metrics', () => {
+    metricsService.getMetrics().subscribe(metrics => {
       expect(metrics).toBeTruthy();
     });
   });
@@ -74,15 +63,20 @@ describe('MetricsService', () => {
     });
   });
 
-  it('should post channel group with id', () => {
+  it('should post metric with id', (done: DoneFn) => {
     apiSpy = spyOn(squacApiService, 'put');
 
-    metricsService.updateMetric(testMetric);
+    metricsService.updateMetric(testMetric).subscribe(
+      metric => {
+        expect(apiSpy).toHaveBeenCalled(); 
+        done();
+      }
+    );
 
-    expect(apiSpy).toHaveBeenCalled();
+
   });
 
-  it('should put channel group without id', () => {
+  it('should put metric without id', (done: DoneFn) => {
     apiSpy = spyOn(squacApiService, 'post');
 
     const newMetric = new Metric(
@@ -95,8 +89,13 @@ describe('MetricsService', () => {
       'unit'
     );
 
-    metricsService.updateMetric(newMetric);
+    metricsService.updateMetric(newMetric).subscribe(
+      metric => {
+        expect(apiSpy).toHaveBeenCalled();
+        done();
+      }
+    );
 
-    expect(apiSpy).toHaveBeenCalled();
+
   });
 });

@@ -17,7 +17,6 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute
   ) { }
 

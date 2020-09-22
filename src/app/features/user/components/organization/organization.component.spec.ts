@@ -4,8 +4,11 @@ import { OrganizationComponent } from './organization.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@shared/material.module';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@features/user/services/user.service';
 import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { InviteService } from '@features/user/services/invite.service';
+import { OrganizationsService } from '@features/user/services/organizations.service';
 
 describe('OrganizationComponent', () => {
   let component: OrganizationComponent;
@@ -18,7 +21,17 @@ describe('OrganizationComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-      {provide: UserService, useValue: {user: new Subject()}}
+        {provide: ActivatedRoute , useValue: {
+          snapshot: {
+            data: {
+              organization: {},
+              user: {isAdmin: false}
+            }
+          }
+        }},
+        InviteService,
+        OrganizationsService,
+        UserService
       ]
     })
     .compileComponents();

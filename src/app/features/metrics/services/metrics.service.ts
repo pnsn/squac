@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Metric } from '@core/models/metric';
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { map, catchError, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 interface MetricsHttpData {
   name: string;
@@ -21,21 +20,23 @@ interface MetricsHttpData {
 })
 
 export class MetricsService {
-  metrics = new BehaviorSubject<Metric[]>([]);
-  lastRefresh : number;
+  //Squacapi route for data
   private url = 'measurement/metrics/';
-  localMetrics : Metric[] = [];
+  // Most recent set of metrics
+  private localMetrics : Metric[] = [];
+  metrics = new BehaviorSubject<Metric[]>([]);
+
+  //Time stamp for last full metric data refresh
+  lastRefresh : number;
+  
   constructor(
     private squacApi: SquacApiService
-  ) {
-  }
+  ) {}
 
-  private updateMetrics(metrics: Metric[]) {
-    this.metrics.next(metrics);
-  }
-
-  // Gets channel groups from server
+  // Get all metrics available to user from squac
   getMetrics(): Observable<Metric[]> {
+
+    // Request new data if > 5 minutes since last request
     if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
       console.log("return local metrics")
       return of(this.localMetrics);
@@ -60,7 +61,7 @@ export class MetricsService {
     );
   }
 
-
+  // Get metric data with id from squac
   getMetric(id: number): Observable<Metric> {
     const index = this.localMetrics.findIndex(m => m.id === id);
     if(index > -1 && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
@@ -69,8 +70,9 @@ export class MetricsService {
     return this.squacApi.get(this.url, id).pipe(
       map(data => this.mapMetric(data))
     );
-  }
+  } 
 
+  // Send metric to squac 
   updateMetric(metric: Metric): Observable<Metric> {
     const postData: MetricsHttpData = {
       name: metric.name,
@@ -91,6 +93,12 @@ export class MetricsService {
     }
   }
 
+  // Update metrics to subscribers
+  private updateMetrics(metrics: Metric[]) {
+    this.metrics.next(metrics);
+  }
+
+  // Save/update/delete a metric from the local storage
   private updateLocalMetrics(id: number, metric?: Metric) {
     const index = this.localMetrics.findIndex(d => d.id === id);
 
@@ -106,6 +114,7 @@ export class MetricsService {
     }
   }
 
+  // Map Squac data to a Metric object
   private mapMetric(squacData) : Metric {
     const metric = new Metric(
       squacData.id,

@@ -12,14 +12,13 @@ import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LoadingComponent } from '../../../../shared/loading/loading.component';
 import { MaterialModule } from '@shared/material.module';
-import { ChannelGroupsTableComponent } from './channel-groups-table/channel-groups-table.component';
-import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 import { MapComponent } from '../../../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
+import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -40,7 +39,6 @@ describe('ChannelGroupsEditComponent', () => {
       declarations: [
         ChannelGroupsEditComponent,
         LoadingComponent,
-        ChannelGroupsTableComponent,
         ChannelGroupsFilterComponent,
         MapComponent
       ],
