@@ -11,7 +11,7 @@ import { finalize } from 'rxjs/operators';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  activeRequests: number = 0;
+  activeRequests = 0;
 
   /**
    * URLs for which the loading screen should not be enabled
@@ -25,7 +25,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     private loadingService: LoadingService) {
   }
 
-  //got this from the internet, not sure I like it
+  // got this from the internet, not sure I like it
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let displayLoadingScreen = true;
 
@@ -36,7 +36,7 @@ export class LoadingInterceptor implements HttpInterceptor {
       }
     }
 
-    if(request.method !== 'GET') {
+    if (request.method !== 'GET') {
       displayLoadingScreen = false;
     }
 
@@ -53,9 +53,9 @@ export class LoadingInterceptor implements HttpInterceptor {
             this.loadingService.stopLoading();
           }
         })
-      )
+      );
     } else {
       return next.handle(request);
     }
-  };
+  }
 }

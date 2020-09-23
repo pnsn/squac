@@ -17,13 +17,13 @@ describe('ChannelGroupsDetailComponent', () => {
       imports: [NgxDatatableModule],
       providers: [
         {
-          provide: ActivatedRoute, 
+          provide: ActivatedRoute,
           useValue: {
             data : of({channelGroup : new ChannelGroup(
               1,
               1,
-              "name",
-              "description",
+              'name',
+              'description',
               1,
               false,
               false,

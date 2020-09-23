@@ -21,7 +21,7 @@ interface UserHttpData {
 })
 export class UserService {
   private url = 'user/me/';
-  private currentUser : User;
+  private currentUser: User;
     // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new BehaviorSubject<User>(null);
   constructor(
@@ -35,9 +35,9 @@ export class UserService {
   get userOrg() {
     return this.currentUser.orgId;
   }
-  getUser() : Observable<User> {
-    console.log("getting User")
-    if(this.currentUser) {
+  getUser(): Observable<User> {
+    console.log('getting User');
+    if (this.currentUser) {
       return of(this.currentUser);
     }
     return this.squacApi.get(this.url).pipe(
@@ -63,7 +63,7 @@ export class UserService {
           this.user.next(this.currentUser);
         }
       )
-    )
+    );
   }
 
   logout() {

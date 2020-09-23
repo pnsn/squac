@@ -38,7 +38,7 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     );
     this.organization = this.route.snapshot.data.organzation;
-    if(this.route.parent) {
+    if (this.route.parent) {
       this.user = this.route.parent.snapshot.data.user;
       this.initForm(this.user);
     }

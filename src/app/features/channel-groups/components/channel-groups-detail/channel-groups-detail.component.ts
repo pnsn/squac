@@ -10,8 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./channel-groups-detail.component.scss']
 })
 export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
-  channelGroup : ChannelGroup;
-  channelGroupSub : Subscription;
+  channelGroup: ChannelGroup;
+  channelGroupSub: Subscription;
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -29,8 +29,8 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.channelGroupSub.unsubscribe();
   }
 }

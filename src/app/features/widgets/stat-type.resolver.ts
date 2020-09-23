@@ -14,10 +14,10 @@ export class StatTypeResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     return this.statTypeService.getStatTypes();
   }
-  
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

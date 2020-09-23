@@ -12,16 +12,16 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     return this.orgService.getOrganization().pipe(
-      tap(data=> {
-        console.log("in resolver, organization")
+      tap(data => {
+        console.log('in resolver, organization');
       }),
       catchError(this.handleError)
     );
   }
 
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

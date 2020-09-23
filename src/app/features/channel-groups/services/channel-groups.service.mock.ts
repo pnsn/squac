@@ -13,7 +13,7 @@ export class MockChannelGroupsService {
     []
   );
 
-  getChannelGroups() : Observable<ChannelGroup[]> {
+  getChannelGroups(): Observable<ChannelGroup[]> {
     return of([this.testChannelGroup]);
   }
 
@@ -29,7 +29,7 @@ export class MockChannelGroupsService {
     return of(channelGroup);
   }
 
-  deleteChannelGroup(id: number) : Observable<ChannelGroup>{
+  deleteChannelGroup(id: number): Observable<ChannelGroup> {
     return of(this.testChannelGroup);
   }
 }

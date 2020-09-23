@@ -21,8 +21,8 @@ export class StatTypeService {
   ) {
   }
 
-  getStatTypes() : Observable<StatTypeHttpData[]>{
-    if(this.localStatTypes) {
+  getStatTypes(): Observable<StatTypeHttpData[]> {
+    if (this.localStatTypes) {
       return of(this.localStatTypes);
     }
     return this.squacApi.get(this.url).pipe(

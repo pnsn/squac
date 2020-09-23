@@ -41,8 +41,8 @@ describe('DashboardEditComponent', () => {
               data: {dashboard: new Dashboard(
                 1,
                 1,
-                "name",
-                "description",
+                'name',
+                'description',
                 false,
                 false,
                 1,

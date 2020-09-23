@@ -44,7 +44,7 @@ describe('WidgetEditComponent', () => {
         },
         { provide: MAT_DIALOG_DATA, useValue: {
           data : {
-            
+
           }
         } },
         { provide: AppAbility, useValue: new AppAbility() },

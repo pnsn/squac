@@ -8,7 +8,7 @@ import { OrganizationComponent } from './components/organization/organization.co
 import { OrganizationResolver } from './organization.resolver';
 
 
-//TODO: fix this weird routing set up
+// TODO: fix this weird routing set up
 export const routes: Routes = [
   {
     path: '',
@@ -32,7 +32,7 @@ export const routes: Routes = [
         }
       }
     ]
-  }  
+  }
 ];
 
 

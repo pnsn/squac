@@ -23,7 +23,7 @@ interface DashboardsHttpData {
 export class DashboardsService {
   // Squacapi route for dashboards
   private url = 'dashboard/dashboards/';
-  //Time stamp for last full dashboard refresh
+  // Time stamp for last full dashboard refresh
   private lastRefresh: number;
 
   // Local copy of dashboards
@@ -36,16 +36,16 @@ export class DashboardsService {
 
   // Get all dashboards from squac
   getDashboards(): Observable<Dashboard[]> {
-    
+
     // Fetch new dashboards if > 5 minutes since refresh
-    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+    if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
       return of(this.localDashboards);
     } else {
       return this.squacApi.get(this.url).pipe(
         map(
           response => {
             const dashboards: Dashboard[] = [];
-            for (let dashboard of response) {
+            for (const dashboard of response) {
               dashboards.push(this.mapDashboard(dashboard));
             }
 
@@ -53,7 +53,7 @@ export class DashboardsService {
           }
         ),
         tap(
-          (dashboards : Dashboard[]) => {
+          (dashboards: Dashboard[]) => {
             this.lastRefresh = new Date().getTime();
           }
         )
@@ -94,13 +94,13 @@ export class DashboardsService {
   }
 
   // Delete dashboard from squac
-  deleteDashboard(dashboardId : number ): Observable<any> {
+  deleteDashboard(dashboardId: number ): Observable<any> {
     this.updateLocalDashboards(dashboardId);
     return this.squacApi.delete(this.url, dashboardId);
   }
 
   // Save/delete/replace changed dashboard in local storage
-  private updateLocalDashboards(id: number, dashboard?: Dashboard) : void {
+  private updateLocalDashboards(id: number, dashboard?: Dashboard): void {
     const index = this.localDashboards.findIndex(d => d.id === id);
 
     if (index > -1) {

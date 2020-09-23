@@ -40,44 +40,44 @@ export class MockViewService {
     []
   );
 
-  get canUpdate() : boolean {
+  get canUpdate(): boolean {
     return false;
   }
 
-  get isLive() : boolean {
+  get isLive(): boolean {
     return false;
   }
 
-  getRange() : number {
+  getRange(): number {
     return 1;
   }
 
-  getStartdate() : string {
-    return "";
+  getStartdate(): string {
+    return '';
   }
 
-  getEnddate() : string {
-    return "";
+  getEnddate(): string {
+    return '';
   }
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
   }
 
-  setWidgets(widgets: Widget[]) : void{
+  setWidgets(widgets: Widget[]): void {
     this.widgets = widgets;
   }
 
-  getWidget(id: number ) : Widget | boolean{
+  getWidget(id: number ): Widget | boolean {
     return id === this.testWidget.id ? this.testWidget : false;
   }
 
   widgetFinishedLoading() {
-    this.status.next("stop");
+    this.status.next('stop');
   }
 
   widgetStartedLoading() {
-    this.status.next("start");
+    this.status.next('start');
   }
 
   datesChanged(start: Date, end: Date) {

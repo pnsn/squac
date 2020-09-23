@@ -85,7 +85,7 @@ describe('DashboardsService', () => {
     dashboardsService.deleteDashboard(1).subscribe(response => {
       expect(response).toBeTruthy();
       done();
-    })
+    });
   });
 });
 

@@ -29,8 +29,8 @@ describe('WidgetDetailComponent', () => {
         {provide: ViewService, useValue: new MockViewService()},
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
-        
-      ] 
+
+      ]
     })
     .compileComponents();
   }));

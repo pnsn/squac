@@ -38,53 +38,51 @@ describe('WidgetEditService', () => {
     expect(widgetEditService).toBeTruthy();
   });
 
-
-  +
-  it('should be valid if widget has all properties', ()=> {
+  it('should be valid if widget has all properties', () => {
 
   });
 
-  it('should return thresholds', ()=> {
+  it('should return thresholds', () => {
 
   });
 
-  it('should set initial widget values', ()=> {
+  it('should set initial widget values', () => {
 
   });
 
-  it('should return channel group', ()=> {
+  it('should return channel group', () => {
 
   });
 
-  it('should return the metric Ids', ()=> {
+  it('should return the metric Ids', () => {
 
   });
 
-  it('should save the channel group', ()=> {
+  it('should save the channel group', () => {
 
   });
 
-  it('should save the metrics', ()=> {
+  it('should save the metrics', () => {
 
   });
 
-  it('should update the saved type', ()=> {
+  it('should update the saved type', () => {
 
   });
 
-  it('should save the selected thresholds', ()=> {
-
-  }); 
-  
-  it('should save the widget info', ()=> {
-    
-  });
-
-  it('should clear the saved widget information', ()=> {
+  it('should save the selected thresholds', () => {
 
   });
 
-  it('should save the widget to the widget service', ()=> {
+  it('should save the widget info', () => {
 
-  })
+  });
+
+  it('should clear the saved widget information', () => {
+
+  });
+
+  it('should save the widget to the widget service', () => {
+
+  });
 });

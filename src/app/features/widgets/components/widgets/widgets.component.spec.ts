@@ -19,7 +19,7 @@ describe('WidgetsComponent', () => {
   let component: WidgetsComponent;
   let fixture: ComponentFixture<WidgetsComponent>;
 
-  let testWidget = [
+  const testWidget = [
     {
       cols: 1,
       rows: 1,
@@ -50,7 +50,7 @@ describe('WidgetsComponent', () => {
         WidgetsModule,
         AbilityModule
       ],
-      providers: [  
+      providers: [
         {provide: ViewService, useClass: MockViewService},
         {
           provide: ActivatedRoute,

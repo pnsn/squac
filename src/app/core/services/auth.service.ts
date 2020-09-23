@@ -17,7 +17,7 @@ export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
-  userLoggedIn : BehaviorSubject<boolean> = new BehaviorSubject(false);
+  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
   expirationTime = 6; // hours before token doesn't let auto login
   constructor(
     private router: Router,
@@ -35,7 +35,7 @@ export class AuthService {
   get auth(): string {
     return this.token;
   }
-  
+
 
   // Checks if user data exists in browser
   autologin() {

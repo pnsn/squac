@@ -21,13 +21,12 @@ describe('ChannelGroupsService', () => {
   );
   let squacApiService;
 
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testChannelGroup );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{provide: SquacApiService, useValue: mockSquacApiService},]
+      providers: [{provide: SquacApiService, useValue: mockSquacApiService}, ]
     });
     channelGroupsService = TestBed.inject(ChannelGroupsService);
     squacApiService = TestBed.inject(SquacApiService);
@@ -59,7 +58,7 @@ describe('ChannelGroupsService', () => {
       response => {
         done();
       }
-    )
+    );
   });
 
   it('should post channel group without id', (done: DoneFn) => {
@@ -78,15 +77,15 @@ describe('ChannelGroupsService', () => {
       response => {
         done();
       }
-    )
- 
+    );
+
   });
 
   it('should delete dashboard', (done: DoneFn) => {
     channelGroupsService.deleteChannelGroup(1).subscribe(response => {
       expect(response).toBeTruthy();
       done();
-    })
+    });
   });
 
 });

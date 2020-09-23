@@ -73,7 +73,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    //fixme: this shouldn't nee to be in here
+    // fixme: this shouldn't nee to be in here
     this.orgId = this.userService.userOrg;
     this.isFilterOpen = false;
     this.subscriptions.add(paramsSub);
@@ -189,7 +189,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onFilteringOpen() {
     this.isFilterOpen = true;
-    
+
     this.filteredChannels = [...this.selectedChannels];
   }
 

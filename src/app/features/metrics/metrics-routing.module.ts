@@ -8,7 +8,7 @@ import { MetricsViewComponent } from './components/metrics-view/metrics-view.com
 import { MetricsEditComponent } from './components/metrics-edit/metrics-edit.component';
 
 
-//TODO: fix this weird routing set up
+// TODO: fix this weird routing set up
 export const routes: Routes = [
   { path: '',
     component: MetricsComponent,

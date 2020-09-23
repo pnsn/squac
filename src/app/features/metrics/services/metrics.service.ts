@@ -20,15 +20,15 @@ interface MetricsHttpData {
 })
 
 export class MetricsService {
-  //Squacapi route for data
+  // Squacapi route for data
   private url = 'measurement/metrics/';
   // Most recent set of metrics
-  private localMetrics : Metric[] = [];
+  private localMetrics: Metric[] = [];
   metrics = new BehaviorSubject<Metric[]>([]);
 
-  //Time stamp for last full metric data refresh
-  lastRefresh : number;
-  
+  // Time stamp for last full metric data refresh
+  lastRefresh: number;
+
   constructor(
     private squacApi: SquacApiService
   ) {}
@@ -37,8 +37,8 @@ export class MetricsService {
   getMetrics(): Observable<Metric[]> {
 
     // Request new data if > 5 minutes since last request
-    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
-      console.log("return local metrics")
+    if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
+      console.log('return local metrics');
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(
@@ -64,15 +64,15 @@ export class MetricsService {
   // Get metric data with id from squac
   getMetric(id: number): Observable<Metric> {
     const index = this.localMetrics.findIndex(m => m.id === id);
-    if(index > -1 && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
+    if (index > -1 && new Date().getTime() < this.lastRefresh + 5 * 60000) {
       return of(this.localMetrics[index]);
     }
     return this.squacApi.get(this.url, id).pipe(
       map(data => this.mapMetric(data))
     );
-  } 
+  }
 
-  // Send metric to squac 
+  // Send metric to squac
   updateMetric(metric: Metric): Observable<Metric> {
     const postData: MetricsHttpData = {
       name: metric.name,
@@ -114,7 +114,7 @@ export class MetricsService {
   }
 
   // Map Squac data to a Metric object
-  private mapMetric(squacData) : Metric {
+  private mapMetric(squacData): Metric {
     const metric = new Metric(
       squacData.id,
       squacData.user_id,

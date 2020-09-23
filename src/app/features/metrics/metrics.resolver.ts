@@ -12,27 +12,27 @@ export class MetricsResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get('id');
-    if(id) {
+    if (id) {
       return this.metricsService.getMetric(id).pipe(
-        tap(data=> {
-          console.log("in resolver, metric")
+        tap(data => {
+          console.log('in resolver, metric');
         }),
         catchError(this.handleError)
       );
     } else {
       return this.metricsService.getMetrics().pipe(
-        tap(data=> {
-          console.log("in resolver, metrics")
+        tap(data => {
+          console.log('in resolver, metrics');
         }),
         catchError(this.handleError)
       );
-      //return all of them 
+      // return all of them
     }
   }
-  
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

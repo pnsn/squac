@@ -14,30 +14,30 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
     const dashboardId = +route.parent.paramMap.get('id');
     const widgetId = +route.paramMap.get('widgetid');
 
-    if(widgetId) {
+    if (widgetId) {
       return this.widgetsService.getWidget(widgetId).pipe(
-        tap(data=> {
-          console.log("in resolver, widget")
+        tap(data => {
+          console.log('in resolver, widget');
         }),
         catchError(this.handleError)
       );
-    } else if(dashboardId){
+    } else if (dashboardId) {
       return this.widgetsService.getWidgets(dashboardId).pipe(
-        tap(data=> {
-          console.log("in resolver, widgets")
+        tap(data => {
+          console.log('in resolver, widgets');
         }),
         catchError(this.handleError)
       );
-      //return all of them 
+      // return all of them
     } else {
 
-      //route?
+      // route?
     }
   }
-  
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

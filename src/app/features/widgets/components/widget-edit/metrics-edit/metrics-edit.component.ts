@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./metrics-edit.component.scss']
 })
 export class MetricsEditComponent implements OnInit, OnDestroy {
-  @Input('metrics') metrics : Metric[];
+  @Input() metrics: Metric[];
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();

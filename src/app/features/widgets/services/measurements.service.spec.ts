@@ -46,12 +46,12 @@ describe('MeasurementsService', () => {
 
   });
 
-  it('should get measurements for widget',() => {
+  it('should get measurements for widget', () => {
 
   });
 
-  it('should not try to fetch measurements if no widget', ()=>{
-    
+  it('should not try to fetch measurements if no widget', () => {
+
   });
 
   // it('should get measurements', (done: DoneFn) => {

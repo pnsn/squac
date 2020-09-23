@@ -6,7 +6,7 @@ import { WidgetEditComponent } from '@features/widgets/components/widget-edit/wi
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
-import { DashboardsResolver } from './dashboards.resolver'
+import { DashboardsResolver } from './dashboards.resolver';
 import { widgetRoutes } from '@features/widgets/widgets.routes';
 import { WidgetsResolver } from '@features/widgets/widgets.resolver';
 import { WidgetEditEntryComponent } from '@features/widgets/components/widget-edit/widget-edit-entry/widget-edit-entry.component';

@@ -32,7 +32,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private measurementsService: MeasurementsService,
     private dialog: MatDialog,
     private router: Router,
-    private route : ActivatedRoute
+    private route: ActivatedRoute
   ) {
 
   }
@@ -100,7 +100,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   editWidget() {
-    this.router.navigate([this.widget.id,'edit'], {relativeTo: this.route});
+    this.router.navigate([this.widget.id, 'edit'], {relativeTo: this.route});
   }
 
   deleteWidget() {

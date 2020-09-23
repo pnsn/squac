@@ -16,17 +16,17 @@ export class LoadingScreenComponent implements OnInit , OnDestroy {
     private loadingService: LoadingService
     ) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     const loadingSub = this.loadingService.loading.subscribe(
       loading => {
         this.loading = loading;
       }
-    )   
+    );
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
       text => {
         this.status = text;
       }
-    )
+    );
     this.subscription.add(loadStatusSub);
 
     // .pipe(

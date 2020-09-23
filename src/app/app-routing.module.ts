@@ -52,9 +52,9 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { 
-    path: '', 
-    component: HomeComponent, 
+  {
+    path: '',
+    component: HomeComponent,
     canActivate: [AuthGuard],
     resolve: {
       dashboards: DashboardsResolver,
@@ -73,17 +73,17 @@ const appRoutes: Routes = [
         path: 'dashboards',
         loadChildren: () => import('@features/dashboards/dashboards.module').then(m => m.DashboardsModule)
       },
-      { 
+      {
         path: 'channel-groups',
-        loadChildren: () => import('@features/channel-groups/channel-groups.module').then(m=>m.ChannelGroupsModule)
+        loadChildren: () => import('@features/channel-groups/channel-groups.module').then(m => m.ChannelGroupsModule)
       },
-      { 
+      {
         path: 'metrics',
-        loadChildren: () => import('@features/metrics/metrics.module').then(m=>m.MetricsModule)
+        loadChildren: () => import('@features/metrics/metrics.module').then(m => m.MetricsModule)
       },
       {
         path: 'user',
-        loadChildren: () => import('@features/user/user.module').then(m=>m.UserModule)
+        loadChildren: () => import('@features/user/user.module').then(m => m.UserModule)
       },
       { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
       { path: '**', redirectTo: 'not-found'}

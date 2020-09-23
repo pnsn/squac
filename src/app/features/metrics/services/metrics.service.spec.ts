@@ -20,7 +20,6 @@ describe('MetricsService', () => {
   );
   let squacApiService;
 
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {

@@ -7,17 +7,17 @@ export class LoadingService {
   loading: Subject<boolean> = new BehaviorSubject(false);
   loadingStatus: Subject<string> = new BehaviorSubject(null);
 
-  activeRequests: number = 0;
+  activeRequests = 0;
   constructor(
   ) { }
 
 
-  setStatus(text : string) {
+  setStatus(text: string) {
     this.loadingStatus.next(text);
   }
 
   getInitialData() {
-    this.loadingStatus.next("Logging in and loading data...");
+    this.loadingStatus.next('Logging in and loading data...');
   }
 
   startLoading() {

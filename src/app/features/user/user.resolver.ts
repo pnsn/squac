@@ -12,16 +12,16 @@ export class UserResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     return this.userService.getUser().pipe(
-      tap(data=> {
-        console.log("in resolver, user")
+      tap(data => {
+        console.log('in resolver, user');
       }),
       catchError(this.handleError)
     );
   }
 
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

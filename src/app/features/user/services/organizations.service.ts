@@ -18,7 +18,7 @@ export class OrganizationsService {
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
-    private userService:UserService
+    private userService: UserService
   ) { }
 
   // Temp until Jon fixes
@@ -32,10 +32,10 @@ export class OrganizationsService {
     return this.localOrganizations.slice();
   }
 
-  getOrganizations() : Observable<Organization[]>{
+  getOrganizations(): Observable<Organization[]> {
     return this.squacApi.get(this.url).pipe(
       map(
-        response =>{
+        response => {
           const organizations = [];
 
           for (const org of response) {
@@ -98,7 +98,7 @@ export class OrganizationsService {
     //   return of(org);
     // } else {
 
-      return forkJoin(
+    return forkJoin(
         {
           users: this.getOrganizationUsers(id),
           organization: this.squacApi.get(this.url, id)

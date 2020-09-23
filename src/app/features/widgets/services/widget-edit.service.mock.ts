@@ -38,58 +38,58 @@ export class MockWidgetEditService {
     []
   );
 
-  updateValidity() : void {
+  updateValidity(): void {
     this.isValid.next(true);
   }
 
-  getThresholds() : { [metricId: number]: Threshold} {
+  getThresholds(): { [metricId: number]: Threshold} {
     return this.testThresholds;
   }
 
-  setWidget(widget: Widget) : void {
+  setWidget(widget: Widget): void {
     if (widget) {
       this.metrics.next(widget.metrics);
     }
     this.updateValidity();
   }
 
-  getChannelGroup() : ChannelGroup{
+  getChannelGroup(): ChannelGroup {
     return this.testChannelGroup;
   }
 
-  getWidget() : Widget {
+  getWidget(): Widget {
     return this.testWidget;
   }
 
-  getMetricIds() : void | number[] {
+  getMetricIds(): void | number[] {
     return [1, 2, 3];
   }
 
-  updateChannelGroup(channelGroup) : void{
+  updateChannelGroup(channelGroup): void {
     this.updateValidity();
   }
 
-  updateMetrics(metrics) : void {
+  updateMetrics(metrics): void {
     this.updateValidity();
   }
 
-  updateType(id) : void{
+  updateType(id): void {
     this.updateValidity();
   }
 
-  updateThresholds(thresholds) : void {
+  updateThresholds(thresholds): void {
     this.updateValidity();
   }
 
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType) : void {
+  updateWidgetInfo(name: string, description: string, dashboardId: number, statType): void {
     this.updateValidity();
   }
 
-  clearWidget() : void{
+  clearWidget(): void {
     this.metrics.next([]);
   }
 
-  saveWidget() : Observable<Widget>{
+  saveWidget(): Observable<Widget> {
     return of(this.testWidget);
   }
 

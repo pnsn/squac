@@ -99,7 +99,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   // Exit page
   // TODO: warn if unsaved
   cancel() {
-    if(this.id) {
+    if (this.id) {
       this.router.navigate(['../../'], {relativeTo: this.route});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});

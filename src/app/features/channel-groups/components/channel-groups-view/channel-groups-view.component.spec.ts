@@ -32,7 +32,7 @@ describe('ChannelGroupsViewComponent', () => {
         MapComponent
       ],
       providers: [
-        { 
+        {
           provide: ActivatedRoute,
           useValue: {
             parent: {

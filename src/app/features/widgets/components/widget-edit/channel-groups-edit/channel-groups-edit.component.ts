@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./channel-groups-edit.component.scss']
 })
 export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
-  @Input('channelGroups') channelGroups : ChannelGroup[];
+  @Input() channelGroups: ChannelGroup[];
   availableChannelGroups: ChannelGroup[];
   selectedChannelGroup: ChannelGroup;
   subscriptions: Subscription = new Subscription();
@@ -25,7 +25,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.availableChannelGroups = this.channelGroups;
     this.selectedChannelGroup = this.widgetEditService.getChannelGroup();
-    if(this.selectedChannelGroup && this.selectedChannelGroup.channels) {
+    if (this.selectedChannelGroup && this.selectedChannelGroup.channels) {
       this.loading = false;
     }
   }

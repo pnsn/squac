@@ -23,9 +23,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   status;
   maxDate: moment.Moment;
   error: string = null;
-  unsaved: boolean = false;
+  unsaved = false;
 
-  //TODO: make this a separate component, its making this too busy
+  // TODO: make this a separate component, its making this too busy
   selected: {
     startDate,
     endDate
@@ -76,14 +76,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.error = null;
           this.setInitialDates();
         } else {
-          console.log("should not be possible tog et ehre");
+          console.log('should not be possible tog et ehre');
         }
       }
     );
 
     const statusSub  = this.viewService.status.subscribe(
       status => {
-        if(status !== this.status) {
+        if (status !== this.status) {
           this.status = status;
           console.log('Status: ' + this.status);
         }
@@ -170,7 +170,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
   addWidget() {
-    this.router.navigate(['widgets','new'], {relativeTo: this.route});
+    this.router.navigate(['widgets', 'new'], {relativeTo: this.route});
 
   }
 
@@ -182,9 +182,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.liveMode,
       range
     );
-    
 
-    //FIXME: add check to keep it from saving on open
+
+    // FIXME: add check to keep it from saving on open
     if (this.ability.can('update', this.dashboard)) {
       this.saveDashboard();
     }
@@ -208,7 +208,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("dashboard detail destroyed")
+    console.log('dashboard detail destroyed');
     if (this.dialogRef) {
       this.dialogRef.close();
     }

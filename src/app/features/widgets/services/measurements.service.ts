@@ -74,7 +74,7 @@ export class MeasurementsService implements OnDestroy {
         }
       );
     } else {
-      //return error somehow
+      // return error somehow
       this.data.next({});
       this.viewService.widgetFinishedLoading();
     }

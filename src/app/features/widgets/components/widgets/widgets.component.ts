@@ -21,7 +21,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   dialogRef;
 
-  canUpdate : boolean;
+  canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
     private viewService: ViewService,
@@ -81,7 +81,7 @@ itemChange(item) {
 }
 
   ngOnInit(): void {
-    console.log("widget component loaded")
+    console.log('widget component loaded');
     this.canUpdate = this.viewService.canUpdate;
 
     this.route.data.subscribe(
@@ -106,11 +106,11 @@ itemChange(item) {
         this.options.resizable.enabled = this.canUpdate;
         if (this.options.api) { this.options.api.optionsChanged(); }
       }
-    )
+    );
   }
 
   ngOnDestroy() {
-    console.log("widget destroyed")
+    console.log('widget destroyed');
     if (this.dialogRef) {
       this.dialogRef.close();
     }

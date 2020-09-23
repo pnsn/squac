@@ -5,7 +5,7 @@ import { MetricsComponent } from './components/metrics/metrics.component';
 import { MetricsDetailComponent } from './components/metrics-detail/metrics-detail.component';
 import { MetricsViewComponent } from './components/metrics-view/metrics-view.component';
 import { MetricsEditComponent } from './components/metrics-edit/metrics-edit.component';
-import { MetricsRoutingModule} from './metrics-routing.module'
+import { MetricsRoutingModule} from './metrics-routing.module';
 @NgModule({
   declarations: [
     MetricsComponent,

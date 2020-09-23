@@ -29,8 +29,8 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
     this.selected = [];
 
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
-    if(this.route.firstChild){
-      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params['id'];
+    if (this.route.firstChild) {
+      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.id;
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
 

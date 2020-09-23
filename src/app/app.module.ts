@@ -43,7 +43,7 @@ import { BrowserModule } from '@angular/platform-browser';
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
 
-    //Always load this at the end or the routing gets weird
+    // Always load this at the end or the routing gets weird
     AppRoutingModule
   ],
   providers: [

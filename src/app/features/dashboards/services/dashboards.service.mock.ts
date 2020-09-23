@@ -13,7 +13,7 @@ export class MockDashboardsService {
     1,
     []
   );
-  getDashboards() : Observable<Dashboard[]> {
+  getDashboards(): Observable<Dashboard[]> {
     return of([this.testDashboard]);
   }
 
@@ -29,7 +29,7 @@ export class MockDashboardsService {
     return of(dashboard);
   }
 
-  deleteDashboard(dashboardId : number) {
+  deleteDashboard(dashboardId: number) {
     return of();
   }
 }

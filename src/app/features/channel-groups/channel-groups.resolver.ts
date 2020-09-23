@@ -12,27 +12,27 @@ export class ChannelGroupsResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get('id');
-    if(id) {
+    if (id) {
       return this.channelGroupsService.getChannelGroup(id).pipe(
-        tap(data=> {
-          console.log("in resolver, channel group")
+        tap(data => {
+          console.log('in resolver, channel group');
         }),
         catchError(this.handleError)
       );
     } else {
       return this.channelGroupsService.getChannelGroups().pipe(
-        tap(data=> {
-          console.log("in resolver, channelgroups")
+        tap(data => {
+          console.log('in resolver, channelgroups');
         }),
         catchError(this.handleError)
       );
-      //return all of them 
+      // return all of them
     }
   }
-  
-  handleError(error) : Observable<any>{
-    //TODO: route to show error
-    return of({ error: error });
+
+  handleError(error): Observable<any> {
+    // TODO: route to show error
+    return of({ error });
   }
 
 }

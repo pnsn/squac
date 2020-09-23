@@ -33,8 +33,8 @@ export class ChannelGroupsService {
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
-    if(this.lastRefresh && new Date().getTime() < this.lastRefresh+ 5 * 60000) {
-      console.log("return local channel groups")
+    if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
+      console.log('return local channel groups');
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
@@ -57,7 +57,7 @@ export class ChannelGroupsService {
   }
 
   // Save channel groups to server
-  updateLocalChannelGroup(id, channelGroup?) : void {
+  updateLocalChannelGroup(id, channelGroup?): void {
     const index = this.localChannelGroups.findIndex(d => d.id === id);
 
     if (index > -1) {
@@ -81,7 +81,7 @@ export class ChannelGroupsService {
         }
       )
     );
-    
+
   }
 
   // Replaces channel group with new channel group
@@ -96,30 +96,30 @@ export class ChannelGroupsService {
     if (channelGroup.id) {
       postData.id = channelGroup.id;
       return this.squacApi.put(this.url, channelGroup.id, postData).pipe(map(
-        response => {return this.mapChannelGroup(response);}
+        response => this.mapChannelGroup(response)
       ));
-    } 
+    }
     return this.squacApi.post(this.url, postData).pipe(map(
-      response => {return this.mapChannelGroup(response);}
-    ));;
+      response => this.mapChannelGroup(response)
+    ));
   }
 
 
   // Deletes a channel group
-  deleteChannelGroup(id: number) : Observable<any>{
-    //remove group from local
+  deleteChannelGroup(id: number): Observable<any> {
+    // remove group from local
     this.updateLocalChannelGroup(id);
     return this.squacApi.delete(this.url, id);
-  } 
+  }
 
   // Map squacapi channel group to channel group
-  private mapChannelGroup(squacData) : ChannelGroup {
+  private mapChannelGroup(squacData): ChannelGroup {
     const channels = [];
-    const channelIds = []
+    const channelIds = [];
     let channelGroup: ChannelGroup;
     if (squacData.channels) {
       squacData.channels.forEach(c => {
-        if(c.id) {
+        if (c.id) {
           const channel = new Channel(
             c.id,
             c.code,
@@ -132,7 +132,7 @@ export class ChannelGroupsService {
             c.station_code,
             c.network
           );
-        
+
           channels.push(channel);
           channelIds.push(channel.id);
         } else {
@@ -140,7 +140,7 @@ export class ChannelGroupsService {
         }
       });
     }
-    
+
     channelGroup = new ChannelGroup(
       squacData.id,
       squacData.user_id,
@@ -152,7 +152,7 @@ export class ChannelGroupsService {
       channelIds
     );
 
-    if(channels.length > 0) {
+    if (channels.length > 0) {
       channelGroup.channels = channels;
     }
     this.updateLocalChannelGroup(channelGroup.id, channelGroup);

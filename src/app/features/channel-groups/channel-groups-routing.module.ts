@@ -8,14 +8,14 @@ import { ChannelGroupsEditComponent } from './components/channel-groups-edit/cha
 import {ChannelGroupsResolver} from './channel-groups.resolver';
 import { ChannelGroupsDetailComponent } from './components/channel-groups-detail/channel-groups-detail.component';
 
-//TODO: fix this weird routing set up
+// TODO: fix this weird routing set up
 export const routes: Routes = [
   { path: '',
     component: ChannelGroupsComponent,
     canActivate: [AuthGuard],
     data: {subject: 'ChannelGroup', action: 'read'},
     resolve: {
-      channelGroups:ChannelGroupsResolver
+      channelGroups: ChannelGroupsResolver
     },
     children: [
       {
@@ -35,14 +35,14 @@ export const routes: Routes = [
         component: ChannelGroupsViewComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'ChannelGroup', action: 'read'},
-        children: [ 
+        children: [
           {
             path: ':id',
             component: ChannelGroupsDetailComponent,
             canActivate: [PermissionGuard],
             data: {subject: 'ChannelGroup', action: 'update'},
             resolve: {
-              channelGroup:ChannelGroupsResolver
+              channelGroup: ChannelGroupsResolver
             },
           }
         ]

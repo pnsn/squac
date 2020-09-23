@@ -57,7 +57,7 @@ export class ChannelsService {
     }
   }
 
-  private mapChannel(squacData) : Channel {
+  private mapChannel(squacData): Channel {
     const channel = new Channel(
       squacData.id,
       squacData.code,

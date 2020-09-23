@@ -12,12 +12,12 @@ import { StatTypeResolver } from './stat-type.resolver';
 
 export const widgetRoutes: Routes = [
   {
-    path: '', 
+    path: '',
     redirectTo: 'widgets',
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
-    path:'widgets',
+    path: 'widgets',
     component: WidgetsComponent,
     resolve: {
       widgets: WidgetsResolver
