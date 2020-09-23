@@ -3,7 +3,6 @@ import { WidgetEditComponent } from '../widget-edit.component';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Route } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-widget-edit-entry',
@@ -62,19 +61,22 @@ export class WidgetEditEntryComponent implements OnInit {
       }
     );
 
-
-    this.dialogRef.afterClosed().subscribe(
-      result => {
-        if(this.widgetId) {
-          this.router.navigate(['../../../'], {relativeTo: this.route});
-        } else {
-          this.router.navigate(['../'], {relativeTo: this.route});
+    if(this.dialogRef) {
+      this.dialogRef.afterClosed().subscribe(
+        result => {
+          if(this.widgetId) {
+            this.router.navigate(['../../../'], {relativeTo: this.route});
+          } else {
+            this.router.navigate(['../'], {relativeTo: this.route});
+          }
+          //route to exit
+        }, error => {
+          console.log('error in widget detail: ' + error);
         }
-        //route to exit
-      }, error => {
-        console.log('error in widget detail: ' + error);
-      }
-    );
+      );
+    }
+
+
 
   }
 

@@ -85,7 +85,7 @@ export class ChannelGroupsService {
   }
 
   // Replaces channel group with new channel group
-  updateChannelGroup(channelGroup: ChannelGroup): Observable<ChannelGroup> {
+  updateChannelGroup(channelGroup: ChannelGroup) {
     const postData: ChannelGroupsHttpData = {
       name: channelGroup.name,
       description: channelGroup.description,
@@ -95,15 +95,18 @@ export class ChannelGroupsService {
     };
     if (channelGroup.id) {
       postData.id = channelGroup.id;
-      return this.squacApi.put(this.url, channelGroup.id, postData);
-    } else {
-      return this.squacApi.post(this.url, postData);
-    }
+      return this.squacApi.put(this.url, channelGroup.id, postData).pipe(map(
+        response => {return this.mapChannelGroup(response);}
+      ));
+    } 
+    return this.squacApi.post(this.url, postData).pipe(map(
+      response => {return this.mapChannelGroup(response);}
+    ));;
   }
 
 
   // Deletes a channel group
-  deleteChannelGroup(id: number) {
+  deleteChannelGroup(id: number) : Observable<any>{
     //remove group from local
     this.updateLocalChannelGroup(id);
     return this.squacApi.delete(this.url, id);

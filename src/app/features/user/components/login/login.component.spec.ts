@@ -6,6 +6,7 @@ import { AuthService } from '@core/services/auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockAuthService } from '@core/services/auth.service.mock';
 import { MaterialModule } from '@shared/material.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -18,6 +19,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [ ReactiveFormsModule , MaterialModule,
+        NoopAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'dashboards', component: LoginComponent},
         ]

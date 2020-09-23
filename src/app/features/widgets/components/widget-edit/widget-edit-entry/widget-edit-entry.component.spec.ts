@@ -6,6 +6,7 @@ import { MockViewService } from '@core/services/view.service.mock';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('WidgetEditEntryComponent', () => {
   let component: WidgetEditEntryComponent;
@@ -13,15 +14,14 @@ describe('WidgetEditEntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetEditEntryComponent , RouterTestingModule.withRoutes([])],
+      declarations: [ WidgetEditEntryComponent],
+      imports: [RouterTestingModule.withRoutes([]), MatDialogModule],
       providers: [
         {provide: ViewService, useClass: MockViewService},
-
-        { provide: ActivatedRoute, 
-          useValue: {
-            params: of({id: 123}),
-            snapshot: {}
-        }}
+        {provide: ActivatedRoute, useValue: {
+          params: of({id: 1})
+        }
+      }
       ]
     })
     .compileComponents();

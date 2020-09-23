@@ -88,9 +88,8 @@ export class MetricsService {
       return this.squacApi.put(this.url, metric.id, postData).pipe(
         map(data => this.mapMetric(data))
       );
-    } else {
-      return this.squacApi.post(this.url, postData).pipe(map(data => this.mapMetric(data)));
     }
+    return this.squacApi.post(this.url, postData).pipe(map(data => this.mapMetric(data)));
   }
 
   // Update metrics to subscribers

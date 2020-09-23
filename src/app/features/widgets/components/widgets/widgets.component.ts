@@ -118,30 +118,6 @@ itemChange(item) {
   }
 
 
-  addWidget() {
-    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    // this.dialogRef = this.dialog.open(WidgetEditComponent, {
-    //   data : {
-    //     widget: null,
-    //     dashboardId: this.dashboardId
-    //   }
-    // });
-    // this.dialogRef.afterClosed().subscribe(
-    //   result => {
-    //     if (result && result.id) {
-    //       console.log('Dialog closed and widget saved');
-    //       this.viewService.addWidget(result.id);
-    //     } else {
-    //       console.log('Dialog closed and not saved');
-    //     }
-    //   },
-    //   error => {
-    //     // this.error = 'Failed to save widget.';
-    //     console.log('error during close of widget' + error);
-    //   }
-    // );
-
-  }
 }
 
 

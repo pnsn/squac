@@ -15,6 +15,10 @@ import { ViewService } from '@core/services/view.service';
 import { MockViewService } from '@core/services/view.service.mock';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 describe('DashboardDetailComponent', () => {
@@ -30,7 +34,9 @@ describe('DashboardDetailComponent', () => {
         NgxDatatableModule,
         WidgetsModule,
         AbilityModule,
-        MatMenuModule
+        MatMenuModule,
+        MatToolbarModule,
+        MatIconModule
       ],
       providers: [
         DashboardsService,

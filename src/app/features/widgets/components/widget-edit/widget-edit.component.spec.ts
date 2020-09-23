@@ -17,6 +17,7 @@ import { LoadingComponent } from '@shared/loading/loading.component';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -30,6 +31,7 @@ describe('WidgetEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        NoopAnimationsModule,
         ReactiveFormsModule,
         MaterialModule,
         NgxDatatableModule,
@@ -40,8 +42,12 @@ describe('WidgetEditComponent', () => {
           provide: MatDialogRef,
           useValue: mockDialogRef
         },
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: MAT_DIALOG_DATA, useValue: {
+          data : {
+            
+          }
+        } },
+        { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
       ],
       declarations: [

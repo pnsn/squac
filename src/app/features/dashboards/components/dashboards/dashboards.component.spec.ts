@@ -10,6 +10,7 @@ import { MaterialModule } from '@shared/material.module';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;
@@ -19,11 +20,12 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         MaterialModule,
         AbilityModule
       ],
-      declarations: [ DashboardsComponent , DashboardViewComponent, LoadingComponent],
+      declarations: [ DashboardsComponent , DashboardViewComponent],
       providers: [
         DashboardsService,
                 { provide: AppAbility, useValue: new AppAbility() },

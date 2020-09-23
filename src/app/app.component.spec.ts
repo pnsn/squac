@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MockAuthService } from './core/services/auth.service.mock';
 import { UserService } from './features/user/services/user.service';
 import { MockUserService } from './features/user/services/user.service.mock';
+import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
 
 
 describe('AppComponent', () => {
@@ -27,7 +28,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        HeaderComponent
+        LoadingScreenComponent
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },

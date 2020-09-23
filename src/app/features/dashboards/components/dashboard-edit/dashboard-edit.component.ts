@@ -58,7 +58,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.dashboard = this.route.snapshot.data.dashboard;
-      console.log(this.dashboard)
       this.dashboardForm.patchValue(
         {
           name : this.dashboard.name,

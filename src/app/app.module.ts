@@ -9,7 +9,7 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
 
 import { SharedModule } from '@shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
@@ -37,7 +37,7 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     HttpClientModule,
     SharedModule,
-
+    NoopAnimationsModule,
     BrowserAnimationsModule,
     BrowserModule,
     LeafletModule.forRoot(),

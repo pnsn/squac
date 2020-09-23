@@ -11,6 +11,9 @@ import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { DashboardsService } from '../../services/dashboards.service';
+import { Dashboard } from '@features/dashboards/models/dashboard';
+import { UserService } from '@features/user/services/user.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
 
 describe('DashboardViewComponent', () => {
   let component: DashboardViewComponent;
@@ -30,14 +33,27 @@ describe('DashboardViewComponent', () => {
       ],
       providers: [
         DashboardsService,
+        {provide: UserService, useClass: MockUserService},
         {
           provide: ActivatedRoute,
           useValue: {
+            snapshot: {
+              data:{dashboard: new Dashboard(
+                1,
+                1,
+                "name",
+                "description",
+                false,
+                false,
+                1,
+                []
+              )}
+            },
             params: of({id: 123}),
-            snapshot: {}
+
           }
         },
-                { provide: AppAbility, useValue: new AppAbility() },
+        { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
       ]
     })

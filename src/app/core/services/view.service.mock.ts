@@ -40,16 +40,44 @@ export class MockViewService {
     []
   );
 
-  getStartdate() {
-    return this.testStartdate;
+  get canUpdate() : boolean {
+    return false;
   }
 
-  getEnddate() {
-    return this.testEnddate;
+  get isLive() : boolean {
+    return false;
+  }
+
+  getRange() : number {
+    return 1;
+  }
+
+  getStartdate() : string {
+    return "";
+  }
+
+  getEnddate() : string {
+    return "";
   }
 
   resizeWidget(widgetId: number) {
     this.resize.next(widgetId);
+  }
+
+  setWidgets(widgets: Widget[]) : void{
+    this.widgets = widgets;
+  }
+
+  getWidget(id: number ) : Widget | boolean{
+    return id === this.testWidget.id ? this.testWidget : false;
+  }
+
+  widgetFinishedLoading() {
+    this.status.next("stop");
+  }
+
+  widgetStartedLoading() {
+    this.status.next("start");
   }
 
   datesChanged(start: Date, end: Date) {
@@ -67,7 +95,6 @@ export class MockViewService {
     this.status.next('loading');
 
     this.currentDashboard.next(this.testDashboard);
-    this.getWidgets(this.testDashboard.id);
   }
 
   private widgetsChanged() {
@@ -75,22 +102,11 @@ export class MockViewService {
     this.status.next('finished');
   }
 
-  getWidgets(dashboardId) {
-    this.status.next('loading');
-
-    this.widgets = [this.testWidget];
-    this.widgetsChanged();
-  }
-
   updateWidget(widgetId) {
     this.status.next('loading');
     this.widgetsChanged();
   }
 
-  addWidget(widgetId) {
-    this.status.next('loading');
-    this.widgetsChanged();
-  }
 
   deleteWidget(widgetId) {
     this.status.next('loading');
@@ -104,6 +120,10 @@ export class MockViewService {
   }
 
   saveDashboard(dashboard: Dashboard) {
+    this.currentDashboard.next(dashboard);
+  }
+
+  deleteDashboard() {
     this.currentDashboard.next();
   }
 }

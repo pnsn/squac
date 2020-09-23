@@ -12,6 +12,8 @@ import { MaterialModule } from '@shared/material.module';
 import { MockDashboardsService } from '@features/dashboards/services/dashboards.service.mock';
 import { MockUserService } from '@features/user/services/user.service.mock';
 import { UserService } from '@features/user/services/user.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 
 describe('DashboardEditComponent', () => {
   let component: DashboardEditComponent;
@@ -23,6 +25,7 @@ describe('DashboardEditComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule
       ],
       declarations: [ DashboardEditComponent ],
@@ -33,7 +36,19 @@ describe('DashboardEditComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: of({id: 123}),
-            data : of({})
+            data : of({}),
+            snapshot : {
+              data: {dashboard: new Dashboard(
+                1,
+                1,
+                "name",
+                "description",
+                false,
+                false,
+                1,
+                []
+              )}
+            }
           }
         }]
     })

@@ -4,6 +4,8 @@ import { ChannelGroupsDetailComponent } from './channel-groups-detail.component'
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { ChannelGroup } from '@core/models/channel-group';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MapComponent } from '@shared/map/map.component';
 
 describe('ChannelGroupsDetailComponent', () => {
   let component: ChannelGroupsDetailComponent;
@@ -11,7 +13,8 @@ describe('ChannelGroupsDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChannelGroupsDetailComponent ],
+      declarations: [ ChannelGroupsDetailComponent, MapComponent ],
+      imports: [NgxDatatableModule],
       providers: [
         {
           provide: ActivatedRoute, 

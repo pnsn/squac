@@ -28,7 +28,10 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.metrics = this.route.parent.snapshot.data.metrics;
+    if(this.route.parent) {
+      this.metrics = this.route.parent.snapshot.data.metrics;
+    }
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

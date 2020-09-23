@@ -5,6 +5,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PasswordResetService } from '../../services/password-reset.service';
 import { MockPasswordResetService } from '../../services/password-reset.service.mock';
+import { MaterialModule } from '@shared/material.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PasswordResetComponent', () => {
   let component: PasswordResetComponent;
@@ -12,7 +14,7 @@ describe('PasswordResetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule, NoopAnimationsModule, MaterialModule],
       declarations: [ PasswordResetComponent ],
       providers: [
         {provide: PasswordResetService, useClass: MockPasswordResetService}

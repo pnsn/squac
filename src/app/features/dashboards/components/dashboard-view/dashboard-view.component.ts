@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
 import { Dashboard } from '../../models/dashboard';
 import { UserService } from '@features/user/services/user.service';
@@ -17,7 +16,6 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   userId: number;
   orgId : number;
   constructor(
-    private dashboardsService: DashboardsService,
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
@@ -34,9 +32,8 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         console.log('error in dashboard view ' + error);
       }
     );
-
-    console.log("resovler data" , );  
-    if(this.route.snapshot.data) {
+ 
+    if(this.route.snapshot && this.route.snapshot.data) {
       this.dashboards = this.route.snapshot.data.dashboards;
     }
 

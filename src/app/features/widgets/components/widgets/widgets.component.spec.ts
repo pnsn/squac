@@ -12,6 +12,8 @@ import { Ability, PureAbility } from '@casl/ability';
 import { MockMeasurementsService } from '../../services/measurements.service.mock';
 import { AppAbility } from '@core/utils/ability';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ViewService } from '@core/services/view.service';
+import { MockViewService } from '@core/services/view.service.mock';
 
 describe('WidgetsComponent', () => {
   let component: WidgetsComponent;
@@ -48,12 +50,13 @@ describe('WidgetsComponent', () => {
         WidgetsModule,
         AbilityModule
       ],
-      providers: [
+      providers: [  
+        {provide: ViewService, useClass: MockViewService},
         {
           provide: ActivatedRoute,
           useValue: {
             params: of({id: 123}),
-            data: of({widgets: [testWidget]})
+            data: of({widgets: []})
           }
         },
         {

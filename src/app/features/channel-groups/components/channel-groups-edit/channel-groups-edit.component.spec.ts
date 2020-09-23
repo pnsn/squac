@@ -19,6 +19,11 @@ import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { UserService } from '@features/user/services/user.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
+// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -29,6 +34,7 @@ describe('ChannelGroupsEditComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
+        NoopAnimationsModule,
         ReactiveFormsModule,
         NgxDatatableModule,
         MaterialModule,
@@ -46,6 +52,7 @@ describe('ChannelGroupsEditComponent', () => {
         ChannelGroupsService,
         ChannelsService,
         NetworksService,
+        {provide: UserService, useClass: MockUserService},
         {
           provide: ActivatedRoute,
           useValue: {

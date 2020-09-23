@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { InviteService } from '@features/user/services/invite.service';
 import { OrganizationsService } from '@features/user/services/organizations.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('OrganizationComponent', () => {
   let component: OrganizationComponent;
@@ -17,7 +19,7 @@ describe('OrganizationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ OrganizationComponent ],
-      imports: [ ReactiveFormsModule , MaterialModule,
+      imports: [ ReactiveFormsModule , MaterialModule,  NgxDatatableModule,
         HttpClientTestingModule
       ],
       providers: [
@@ -25,13 +27,22 @@ describe('OrganizationComponent', () => {
           snapshot: {
             data: {
               organization: {},
-              user: {isAdmin: false}
+
+            }
+          },
+          parent: {
+            snapshot: {
+              data: {
+                user: {isAdmin: false}
+              }
             }
           }
         }},
         InviteService,
         OrganizationsService,
-        UserService
+        {
+          provide: UserService, useClass: MockUserService
+        }
       ]
     })
     .compileComponents();

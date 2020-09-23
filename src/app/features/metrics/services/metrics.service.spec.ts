@@ -26,9 +26,9 @@ describe('MetricsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService
-      }]
+      providers: [
+        {provide: SquacApiService, useValue: mockSquacApiService}
+      ]
     });
 
     metricsService = TestBed.inject(MetricsService);
@@ -63,12 +63,9 @@ describe('MetricsService', () => {
     });
   });
 
-  it('should post metric with id', (done: DoneFn) => {
-    apiSpy = spyOn(squacApiService, 'put');
-
+  it('should put metric with id', (done: DoneFn) => {
     metricsService.updateMetric(testMetric).subscribe(
       metric => {
-        expect(apiSpy).toHaveBeenCalled(); 
         done();
       }
     );
@@ -76,9 +73,7 @@ describe('MetricsService', () => {
 
   });
 
-  it('should put metric without id', (done: DoneFn) => {
-    apiSpy = spyOn(squacApiService, 'post');
-
+  it('should post metric without id', (done: DoneFn) => {
     const newMetric = new Metric(
       null,
       1,
@@ -91,7 +86,6 @@ describe('MetricsService', () => {
 
     metricsService.updateMetric(newMetric).subscribe(
       metric => {
-        expect(apiSpy).toHaveBeenCalled();
         done();
       }
     );
