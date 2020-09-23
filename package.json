@@ -38,7 +38,7 @@
     "moment": "^2.27.0",
     "ngx-daterangepicker-material": "^3.0.1",
     "rxjs": "^6.5.5",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": "^3.1.0",
     "timelines-chart": "^2.10.0",
     "tslib": "^1.13.0",
     "zone.js": "^0.10.3"
