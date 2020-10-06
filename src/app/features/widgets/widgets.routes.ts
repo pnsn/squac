@@ -27,6 +27,11 @@ export const widgetRoutes: Routes = [
         path: 'new',
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],
+        resolve: {
+          metrics: MetricsResolver,
+          channelGroups: ChannelGroupsResolver,
+          statTypes: StatTypeResolver,
+        },
         data: {subject: 'Widget', action: 'create'}
       },
       // {
