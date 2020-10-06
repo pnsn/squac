@@ -68,6 +68,7 @@ describe('WidgetEditComponent', () => {
 
   beforeEach(inject([MatDialog, MAT_DIALOG_DATA],
     (d: MatDialog) => {
+      console.log(MAT_DIALOG_DATA);
       dialog = d;
     })
   );

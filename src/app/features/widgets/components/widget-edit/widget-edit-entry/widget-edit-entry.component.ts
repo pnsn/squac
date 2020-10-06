@@ -21,7 +21,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log("loaded widget edit entry")
+    console.log('loaded widget edit entry');
     this.paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.widgetId = +params.widgetid;
