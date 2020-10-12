@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
-import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
-import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
@@ -14,39 +12,28 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   channelGroups: ChannelGroup[];
   selected: ChannelGroup[];
-  selectedChannelGroup: ChannelGroup;
-  selectedChannels: Channel[];
   subscription: Subscription = new Subscription();
-  isSelected: boolean;
+  selectedChannelGroupId: number;
+  selectedChannels = [];
 
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
 
   constructor(
-    private channelGroupsService: ChannelGroupsService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.selected = [];
-    this.selectedChannels = [];
-    const channelGroupsService = this.channelGroupsService.getChannelGroups.subscribe(
-      channelGroups => {
-        this.channelGroups = channelGroups;
-        const selectedChannelGroupId = +this.route.snapshot.paramMap.get('id');
-        this.isSelected = selectedChannelGroupId !== 0;
-        if (this.isSelected) {
-          this.selectChannelGroup(selectedChannelGroupId);
-        }
-      },
-      error => {
-        console.log('error in channel groups: ' + error);
-      }
-    );
-    this.channelGroupsService.fetchChannelGroups();
-    this.subscription.add(channelGroupsService);
+
+    this.channelGroups = this.route.parent.snapshot.data.channelGroups;
+    if (this.route.firstChild) {
+      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.id;
+      this.selectChannelGroup(this.selectedChannelGroupId);
+    }
+
   }
 
   ngOnDestroy(): void {
@@ -54,38 +41,26 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   }
 
   addChannelGroup() {
-    if (this.isSelected) {
-      this.router.navigate(['../new'], {relativeTo: this.route});
-    } else {
-      this.router.navigate(['new'], {relativeTo: this.route});
-    }
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
   editChannelGroup() {
-    this.router.navigate([`edit`], {relativeTo: this.route});
+    this.router.navigate([this.selectedChannelGroupId, 'edit'], {relativeTo: this.route});
   }
 
   // Getting a selected channel group and setting variables
   selectChannelGroup(selectedChannelGroupId: number) {
-    this.channelGroupsService.getChannelGroup(selectedChannelGroupId).subscribe(
-      channelGroup => {
-        this.selectedChannelGroup = channelGroup;
-        this.selectedChannels = this.selectedChannelGroup.channels;
-        this.selected = this.channelGroups.filter( cg => { // Select row with channel group
-          return (cg.id === this.selectedChannelGroup.id);
-        });
-      },
-      error => {
-        console.log('error in channel groups: ' + error);
-      }
-    );
+    this.selected = this.channelGroups.filter( cg => { // Select row with channel group
+      return (cg.id === selectedChannelGroupId);
+    });
   }
 
   // onSelect function for data table selection
   onSelect($event) { // When a row is selected, route the page and select that channel group
     const selectedId = $event.selected[0].id;
-    this.router.navigate([`channel-groups/${selectedId}`], {relativeTo: this.route.root});
-    if (this.isSelected) {
+    if (selectedId) {
+      this.router.navigate([selectedId], {relativeTo: this.route});
+      this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
     }
   }

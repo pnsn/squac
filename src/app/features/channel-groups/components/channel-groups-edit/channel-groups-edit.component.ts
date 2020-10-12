@@ -7,6 +7,7 @@ import { ChannelsService } from '../../services/channels.service';
 import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
+import { UserService } from '@features/user/services/user.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupsService,
     private channelsService: ChannelsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService
   ) { }
 
   id: number;
@@ -31,7 +33,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   loading = false;
   changeMade = false;
-
+  orgId: number;
   // form stuff
   channelGroupForm: FormGroup;
   searchChannels: Channel[] = []; // Channels returned from filter request
@@ -48,7 +50,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   };
 
   // Map stuff
-  isMapShowing: boolean;
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
   // table stuff
@@ -71,8 +72,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.initForm();
       }
     );
+
+    // fixme: this shouldn't nee to be in here
+    this.orgId = this.userService.userOrg;
     this.isFilterOpen = false;
-    this.isMapShowing = window.innerWidth >= 1400;
     this.subscriptions.add(paramsSub);
     this.popupAction = 'cancel';
   }
@@ -186,16 +189,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onFilteringOpen() {
     this.isFilterOpen = true;
-    setTimeout(() => {
-      this.filteredChannels = [...this.selectedChannels];
-    }, 0);
+
+    this.filteredChannels = [...this.selectedChannels];
   }
 
   onFilteringClose() {
     this.isFilterOpen = false;
-    setTimeout(() => {
-      this.filteredChannels = [...this.selectedChannels];
-    }, 0);
+    this.filteredChannels = [...this.selectedChannels];
+
   }
 
   onSelectedFilter(searchFilters: object) {
@@ -263,9 +264,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       null,
       values.name,
       values.description,
+      this.orgId,
       values.shareOrg,
       values.shareAll,
-      this.selectedChannels
+      this.selectedChannelIds
     );
 
     this.channelGroupService.updateChannelGroup(cg).subscribe(
@@ -286,12 +288,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Exit page
   // TODO: warn if unsaved
   cancel(id?: number) {
-    if (id && !this.id) {
+    if (id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
-    } else if (id) {
-      this.router.navigate(['../'], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../../'], {relativeTo: this.route});
+      this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 
@@ -360,12 +360,4 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // When window is resized check for width
-  onResize(event: any) {
-    const willMapShow = event.target.innerWidth >= 1400;
-    if (!this.isMapShowing && willMapShow) {
-      this.isFilterOpen = false;
-    }
-    this.isMapShowing = willMapShow;
-  }
 }

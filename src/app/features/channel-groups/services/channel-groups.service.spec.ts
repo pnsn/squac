@@ -14,23 +14,20 @@ describe('ChannelGroupsService', () => {
     1,
     'name',
     'description',
+    1,
     false,
     true,
     []
   );
   let squacApiService;
 
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testChannelGroup );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService
-      }]
+      providers: [{provide: SquacApiService, useValue: mockSquacApiService}, ]
     });
-
     channelGroupsService = TestBed.inject(ChannelGroupsService);
     squacApiService = TestBed.inject(SquacApiService);
   });
@@ -42,19 +39,10 @@ describe('ChannelGroupsService', () => {
   });
 
 
-  it('should fetch channelGroups', (done: DoneFn) => {
-    channelGroupsService.fetchChannelGroups();
-
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
+  it('should get channelGroups', (done: DoneFn) => {
+    channelGroupsService.getChannelGroups().subscribe(channelGroups => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
-    });
-
-  });
-
-  it('should return channelGroups', () => {
-    channelGroupsService.getChannelGroups.subscribe(channelGroups => {
-      expect(channelGroups).toBeTruthy();
     });
   });
 
@@ -65,38 +53,39 @@ describe('ChannelGroupsService', () => {
     });
   });
 
-  it('should update channel group', (done: DoneFn) => {
-    channelGroupsService.updateChannelGroup(testChannelGroup);
-
-    channelGroupsService.getChannelGroup(1).subscribe(channelGroup => {
-      expect(channelGroup.name).toEqual(testChannelGroup.name);
-      done();
-    });
+  it('should put channel group with id', (done: DoneFn) => {
+    channelGroupsService.updateChannelGroup(testChannelGroup).subscribe(
+      response => {
+        done();
+      }
+    );
   });
 
-  it('should put channel group with id', () => {
-    apiSpy = spyOn(squacApiService, 'put');
-
-    channelGroupsService.updateChannelGroup(testChannelGroup);
-
-    expect(apiSpy).toHaveBeenCalled();
-  });
-
-  it('should post channel group without id', () => {
-    apiSpy = spyOn(squacApiService, 'post');
-
+  it('should post channel group without id', (done: DoneFn) => {
     const newChannelGroup = new ChannelGroup(
       null,
       null,
       'name',
       'description',
+      1,
       true,
       true,
       []
     );
 
-    channelGroupsService.updateChannelGroup(newChannelGroup);
+    channelGroupsService.updateChannelGroup(newChannelGroup).subscribe(
+      response => {
+        done();
+      }
+    );
 
-    expect(apiSpy).toHaveBeenCalled();
   });
+
+  it('should delete dashboard', (done: DoneFn) => {
+    channelGroupsService.deleteChannelGroup(1).subscribe(response => {
+      expect(response).toBeTruthy();
+      done();
+    });
+  });
+
 });

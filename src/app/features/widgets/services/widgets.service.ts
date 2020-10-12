@@ -1,12 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, forkJoin, empty, EMPTY } from 'rxjs';
-import { Widget } from '@core/models/widget';
+import { Observable, forkJoin, empty, EMPTY, of } from 'rxjs';
+import { Widget } from '@features/widgets/models/widget';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { ChannelGroupsService } from '../../channel-groups/services/channel-groups.service';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Threshold } from '../models/threshold';
 import { Metric } from '@core/models/metric';
+import { ViewService } from '@core/services/view.service';
 
 
 
@@ -15,7 +16,6 @@ interface WidgetHttpData {
   description: string;
   metrics: number[];
   dashboard: number;
-  organization: number;
   widgettype: number;
   stattype: number;
   columns: number;
@@ -42,7 +42,7 @@ export class WidgetsService {
 
   widgetUpdated = new EventEmitter<number>();
 
-  getWidgetsByDashboardId(dashboardId: number): Observable<Widget[]> {
+  getWidgets(dashboardId: number): Observable<Widget[]> {
     const widgets: Widget[] = [];
     return this.squacApi.get(this.url, null,
       {
@@ -133,7 +133,6 @@ export class WidgetsService {
       response.user_id,
       response.name,
       response.description,
-      response.organization,
       response.widgettype.id,
       response.dashboard.id,
       response.channel_group,
@@ -158,7 +157,6 @@ export class WidgetsService {
       metrics: widget.metricsIds,
       widgettype: widget.typeId,
       dashboard: widget.dashboardId,
-      organization: widget.orgId,
       columns: widget.columns,
       rows: widget.rows,
       x_position: widget.x,

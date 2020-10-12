@@ -1,8 +1,8 @@
 import { AbilityBuilder, Ability, AbilityClass, InferSubjects } from '@casl/ability';
-import { Widget } from '../models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { ChannelGroup } from '../models/channel-group';
 import { Metric } from '../models/metric';
-import { User } from '../models/user';
+import { User } from '@features/user/models/user';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
@@ -22,9 +22,9 @@ export const AppAbility = Ability as AbilityClass<AppAbility>;
 
 export function defineAbilitiesFor(user: User) {
   const { can, rules } = new AbilityBuilder(AppAbility);
-
+  can('read', 'all');
   if (user.inGroup('viewer')) {
-    can('read', 'all');
+
     can('read', 'Dashboard');
   }
 

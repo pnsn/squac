@@ -7,6 +7,7 @@ describe('ChannelGroup', () => {
       1,
       'test',
       'description',
+      1,
       true,
       true,
       []

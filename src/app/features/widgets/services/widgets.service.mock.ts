@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 
 
 export class MockWidgetsService {
@@ -18,11 +18,10 @@ export class MockWidgetsService {
     1,
     1,
     1,
-    1,
     []
   );
 
-  getWidgetsByDashboardId(id: number): Observable<Widget[]> {
+  getWidgets(id: number): Observable<Widget[]> {
     if ( id === this.testWidget.id) {
       return of([this.testWidget]);
     } else {

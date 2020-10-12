@@ -35,13 +35,16 @@ describe('ChannelGroupsViewComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              paramMap: {
-                get(id: number) {
-                  return 123;
+            parent: {
+              snapshot : {data : { channelGroups: []}}
+            } ,
+            firstChild: {
+              snapshot: {
+                params: {
+                  id: 123
                 }
               }
-            }
+            },
           }
         },
         { provide: AppAbility, useValue: new AppAbility() },

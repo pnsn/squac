@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ThresholdEditComponent } from './threshold-edit.component';
 import {MatListModule } from '@angular/material/list';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { WidgetEditService } from '../widget-edit.service';
+import { WidgetEditService } from '../../../services/widget-edit.service';
 import { of } from 'rxjs';
 
 describe('ThresholdEditComponent', () => {
@@ -18,7 +18,7 @@ describe('ThresholdEditComponent', () => {
         {
           provide: WidgetEditService,
           useValue: {
-            metrics: of([]),
+            selectedMetrics: of([]),
             getThresholds: () => null
           }
         }

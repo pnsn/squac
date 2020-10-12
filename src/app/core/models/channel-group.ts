@@ -7,24 +7,16 @@ export class ChannelGroup {
     public owner: number,
     public name: string,
     public description: string,
+    public orgId: number,
     public shareOrg: boolean,
     public shareAll: boolean,
-    public channels?: Channel[]
+    public channelIds: number[]
   ) {
   }
 
-  // get ids from the channels
-  get channelsIdsArray(): string[] {
-    const array = [];
-
-    this.channels.forEach(channel => {
-      array.push(channel.id);
-    });
-
-    return array;
-  }
+  channels: Channel[];
 
   get channelsString(): string {
-    return this.channelsIdsArray.toString();
+    return this.channelIds.toString();
   }
 }

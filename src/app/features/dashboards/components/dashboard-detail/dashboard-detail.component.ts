@@ -4,7 +4,6 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from '@features/widgets/components/widget-edit/widget-edit.component';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
@@ -18,14 +17,15 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
-  id: number;
   dashboard: Dashboard;
   dialogRef;
   subscription: Subscription = new Subscription();
   status;
   maxDate: moment.Moment;
   error: string = null;
-  unsaved: boolean;
+  unsaved = false;
+
+  // TODO: make this a separate component, its making this too busy
   selected: {
     startDate,
     endDate
@@ -66,40 +66,28 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.maxDate = moment.utc();
-    // if no dates, default to last 1 hour for quick loading
-    const dashSub = this.viewService.currentDashboard.subscribe(
-      (dashboard: Dashboard) => {
-        this.dashboard = dashboard;
+
+    this.route.data.subscribe(
+      data => {
+        console.log(data.dashboard);
+        this.dashboard = data.dashboard;
         if (this.dashboard) {
+          this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
+        } else {
+          console.log('should not be possible tog et ehre');
         }
-        // set dashboard dates
-        // should have dates strings at this point, if not default to something
-      },
-      error => {
-        this.error = 'Could not load dashboard.';
-        console.log('error in dashboard detail: ' + error);
-      }
-    );
-
-    const dashIdSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.id;
-        this.error = null;
-        this.viewService.dashboardSelected(this.id);
-        console.log('new dashboard ' + this.id);
-      },
-      error => {
-        this.error = 'Could not load dashboard.';
-        console.log('error in dashboard detail route: ' + error);
       }
     );
 
     const statusSub  = this.viewService.status.subscribe(
       status => {
-        this.status = status;
-        console.log('Status: ' + this.status);
+        if (status !== this.status) {
+          this.status = status;
+          console.log('Status: ' + this.status);
+        }
+
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
@@ -113,8 +101,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
 
 
-    this.subscription.add(dashSub);
-    this.subscription.add(dashIdSub);
+    // this.subscription.add(dashSub);
+    // this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }
@@ -126,7 +114,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
       this.liveMode = true;
-      console.log(endDate.diff(startDate), Math.round(endDate.diff(startDate) / 100000));
       const diff = Math.round(endDate.diff(startDate) / 100000 ) * 100; // account for ms of weirdness
       this.selectedRange = this.rangeLookUp[diff];
       return diff;
@@ -148,7 +135,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // make date range selector
     for (const range in this.rangeLookUp) {
       if (this.rangeLookUp[range]) {
-        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(parseInt(range, 10), 'seconds'), this.startDate];
+        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
       }
     }
 
@@ -182,6 +169,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+  addWidget() {
+    this.router.navigate(['widgets', 'new'], {relativeTo: this.route});
+
+  }
 
   // currently saves any time dates are changed, may want to move to a save button
   selectDateRange(startDate: moment.Moment, endDate: moment.Moment, range?: number) {
@@ -192,6 +183,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       range
     );
 
+
+    // FIXME: add check to keep it from saving on open
     if (this.ability.can('update', this.dashboard)) {
       this.saveDashboard();
     }
@@ -199,8 +192,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteDashboard() {
-    this.viewService.deleteDashboard(this.dashboard);
-    this.router.navigate(['/dashboards']);
+    if (this.ability.can('delete', this.dashboard)) {
+      this.viewService.deleteDashboard(this.dashboard);
+      this.router.navigate(['/dashboards']);
+    }
   }
 
   refreshData() {
@@ -213,34 +208,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('dashboard detail destroyed');
     if (this.dialogRef) {
       this.dialogRef.close();
     }
     this.subscription.unsubscribe();
   }
 
-  addWidget() {
-    // this.router.navigate(['widget', 'new'], {relativeTo: this.route});
-    this.dialogRef = this.dialog.open(WidgetEditComponent, {
-      data : {
-        widget: null,
-        dashboardId: this.id
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(
-      result => {
-        if (result && result.id) {
-          console.log('Dialog closed and widget saved');
-          this.viewService.addWidget(result.id);
-        } else {
-          console.log('Dialog closed and not saved');
-        }
-      },
-      error => {
-        // this.error = 'Failed to save widget.';
-        console.log('error during close of widget' + error);
-      }
-    );
 
-    }
 }

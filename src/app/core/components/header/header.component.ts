@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user';
-import { UserService } from '../../services/user.service';
+import { User } from '@features/user/models/user';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.userService.user.subscribe(
-      user => {
+      (user: User) => {
         this.user = user;
       },
       error => {

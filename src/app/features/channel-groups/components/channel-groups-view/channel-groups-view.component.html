@@ -2,21 +2,17 @@
   <h1>
     Channel Groups
   </h1>
-  <div class="btn-container-right" *ngIf="'update' | able: 'ChannelGroup'">
-    <button mat-flat-button color="accent" [disabled]="!isSelected"
+  <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
+    <button mat-flat-button color="primary" [disabled]="!selectedChannelGroupId"
       class="add-btn" (click)="editChannelGroup()"
-    >+ Edit Channel Group</button>
+    >Edit Channel Group</button>
     <button mat-flat-button color="accent"
       class="add-btn" (click)="addChannelGroup()"
-    >+ Add Channel Group</button>
+    >Add Channel Group</button>
   </div>
 </div>
 
-<div id="map-and-channel-group">
-  <div id="map-box" class="box">
-    <app-map [selectedChannels]="selectedChannels" [editPage]=false></app-map>
-  </div>
-  <div id="channel-groups">
+  <div id="channel-groups" class="box">
     <ngx-datatable
       id="channel-group-table"
       class="material"
@@ -31,54 +27,40 @@
       (select)="onSelect($event)"
     >
       <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="1"> 
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.name }}
-        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.description }}
+          {{ row.channelIds ? row.channelIds.length : '0'}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Public" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.isPublic ? "Public" : "Private" }}
+          {{ row.orgId }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Shared with Org" prop="shareOrg" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ row.shareOrg ? "Shared" : "Private" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Shared with All" prop="shareAll" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ row.shareAll ? "Shared" : "Private" }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
   </div>
-</div>
-<div id="channels">
-  <ngx-datatable
-    id="channel-table"
-    class="material"
-    [rows]="selectedChannels"
-    [columnMode]="ColumnMode.flex"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="50"
-    [scrollbarV]="50"
-  >
-  <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [flexGrow]="1">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.networkCode | uppercase }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Station" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{ row.stationCode | uppercase }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Channel" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{ row.code | uppercase }}
-    </ng-template>
-  </ngx-datatable-column>
 
-  <ngx-datatable-column name="Location" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{ row.name }}
-    </ng-template>
-  </ngx-datatable-column>
-  </ngx-datatable>
-</div>
+  <div id="select-group" *ngIf="!selectedChannelGroupId">
+    <p>Select a group to view details.</p>
+  </div>
+
+<router-outlet></router-outlet>
+
+  <!-- <app-channel-groups-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></app-channel-groups-detail> -->
+

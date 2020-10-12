@@ -1,31 +1,48 @@
 
-<!-- <button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
-  <mat-icon>add</mat-icon> New Dashboard
-</button> -->
+<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
+ Create Dashboard
+</button>
 
-<div id="dashboard-list-container" *ngIf="!!userId">
-  <div class="dashboard-group">
-    <div class="list-header">Your Dashboards</div>
+<div id="dashboard-list-container" *ngIf="userId && orgId">
+
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Your Dashboards
+      </mat-panel-title>
+    </mat-expansion-panel-header>
     <mat-nav-list class="mat-nav-list-dense" dense  >
       <ng-container *ngFor="let dashboard of dashboards"  >
         <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active" *ngIf="userId === dashboard.owner">{{dashboard.name}} </a>
       </ng-container>
 
     </mat-nav-list>
-  </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Organization Dashboards
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+      <mat-nav-list class="mat-nav-list-dense" dense >
+        <ng-container *ngFor="let dashboard of dashboards">
+          <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active"  *ngIf="userId !== dashboard.owner && orgId === dashboard.orgId" >{{dashboard.name}} </a>
+        </ng-container>
+      </mat-nav-list>
 
-  <mat-divider></mat-divider>
-  <div class="dashboard-group">
-    <div class="list-header">Public Dashboards</div>
-    <mat-nav-list class="mat-nav-list-dense" dense >
-      <ng-container *ngFor="let dashboard of dashboards">
-        <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active"  *ngIf="userId !== dashboard.owner" >{{dashboard.name}} </a>
-      </ng-container>
-    </mat-nav-list>
-  </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Public Dashboards
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+      <mat-nav-list class="mat-nav-list-dense" dense >
+        <ng-container *ngFor="let dashboard of dashboards">
+          <a mat-list-item [routerLink]="[dashboard.id]" routerLinkActive="active"  *ngIf="userId !== dashboard.owner && orgId !== dashboard.orgId" >{{dashboard.name}} </a>
+        </ng-container>
+      </mat-nav-list>
+  </mat-expansion-panel>
+
 
 </div>
-<app-loading *ngIf="!dashboards"></app-loading>
-<button mat-flat-button color="accent" (click)="newDashboard()" *ngIf="'create' | able: 'Dashboard'">
-  <mat-icon>add</mat-icon> New Dashboard
-</button>

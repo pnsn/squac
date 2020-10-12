@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angul
 import { Threshold } from '../../../models/threshold';
 import {ColumnMode, id} from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
-import { WidgetEditService } from '../widget-edit.service';
+import { WidgetEditService } from '../../../services/widget-edit.service';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-threshold-edit',
@@ -32,7 +32,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   lastEditedCell;
 
   ngOnInit() {
-    const sub = this.widgetEditService.metrics.subscribe(
+    const sub = this.widgetEditService.selectedMetrics.subscribe(
       metrics => {
         this.metrics = metrics;
         this.thresholds = this.widgetEditService.getThresholds();

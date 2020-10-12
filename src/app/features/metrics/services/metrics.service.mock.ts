@@ -1,5 +1,6 @@
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { Metric } from '@core/models/metric';
+import { MetricsService } from './metrics.service';
 
 export class MockMetricsService {
   testMetric = new Metric(
@@ -14,14 +15,15 @@ export class MockMetricsService {
     1
   );
 
-  getMetrics = new BehaviorSubject<Metric[]>([]);
+  metrics = new BehaviorSubject<Metric[]>([]);
 
-  getMetric(metricId: number): Observable<Metric> {
-    return of(this.testMetric);
+  getMetrics(metricId: number): Observable<Metric[]> {
+    this.metrics.next([this.testMetric]);
+    return of([this.testMetric]);
   }
 
-  fetchMetrics(): void {
-    this.getMetrics.next([this.testMetric]);
+  getMetric(): Observable<Metric> {
+    return of(this.testMetric);
   }
 
   updateMetric(metric: Metric) {

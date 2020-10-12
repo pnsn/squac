@@ -7,15 +7,14 @@ export class MockChannelGroupsService {
     1,
     'name',
     'description',
+    1,
     true,
     false,
     []
   );
 
-  getChannelGroups = new BehaviorSubject<ChannelGroup[]>([]);
-
-  fetchChannelGroups() {
-    this.getChannelGroups.next([this.testChannelGroup]);
+  getChannelGroups(): Observable<ChannelGroup[]> {
+    return of([this.testChannelGroup]);
   }
 
   getChannelGroup(id: number): Observable<ChannelGroup> {
@@ -26,7 +25,11 @@ export class MockChannelGroupsService {
     }
   }
 
-  updateChannelGroup(channelGroup: ChannelGroup) {
+  updateChannelGroup(channelGroup: ChannelGroup): Observable<ChannelGroup> {
     return of(channelGroup);
+  }
+
+  deleteChannelGroup(id: number): Observable<ChannelGroup> {
+    return of(this.testChannelGroup);
   }
 }

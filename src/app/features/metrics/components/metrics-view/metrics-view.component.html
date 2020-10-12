@@ -1,0 +1,35 @@
+<div id="title">
+  <h1>
+    Metrics
+  </h1>
+  <div id="button-container" *ngIf="'update' | able: 'Metric'">
+    <button mat-flat-button color="primary" id ="edit-metric-btn"
+      (click)="editMetric()" class="add-btn" [disabled]="!selected"
+    >Edit Metric</button>
+    <button mat-flat-button color="accent" id="add-metric-btn"
+      (click)="addMetric()" class="add-btn"
+    >+ Add Metric</button>
+  </div>
+</div> 
+
+<div id="metric-container" class="box">
+  <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.flex"
+        [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
+        [selectionType]="SelectionType.single" (select)="onSelect($event)">
+    <ngx-datatable-column name="Name" [flexGrow]="2" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.name }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Unit" [flexGrow]="1"  [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.unit }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Description" [flexGrow]="3"  [draggable]="false" [sortable]="false">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.description }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

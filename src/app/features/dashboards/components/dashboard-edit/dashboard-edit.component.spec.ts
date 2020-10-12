@@ -9,6 +9,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '@shared/material.module';
+import { MockDashboardsService } from '@features/dashboards/services/dashboards.service.mock';
+import { MockUserService } from '@features/user/services/user.service.mock';
+import { UserService } from '@features/user/services/user.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 
 describe('DashboardEditComponent', () => {
   let component: DashboardEditComponent;
@@ -20,16 +25,30 @@ describe('DashboardEditComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule
       ],
       declarations: [ DashboardEditComponent ],
       providers: [
-        ChannelGroupsService,
-        DashboardsService,
+        {provide: DashboardsService, useClass: MockDashboardsService},
+        {provide: UserService, useClass: MockUserService},
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({id: 123})
+            params: of({id: 123}),
+            data : of({}),
+            snapshot : {
+              data: {dashboard: new Dashboard(
+                1,
+                1,
+                'name',
+                'description',
+                false,
+                false,
+                1,
+                []
+              )}
+            }
           }
         }]
     })

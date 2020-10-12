@@ -5,7 +5,7 @@ import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import { ChannelGroup } from '@core/models/channel-group';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
@@ -60,7 +60,6 @@ export class TabularComponent implements OnInit, OnDestroy {
     }
 
     this.buildRows(this.data);
-    this.viewService.status.next('finished');
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {

@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
 import { Dashboard } from '../../models/dashboard';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-dashboard-view',
@@ -14,9 +13,9 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   dashboards: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
-  userId;
+  userId: number;
+  orgId: number;
   constructor(
-    private dashboardsService: DashboardsService,
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
@@ -33,25 +32,18 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
         console.log('error in dashboard view ' + error);
       }
     );
-    const dashboardsService = this.dashboardsService.getDashboards.subscribe(
-      (dashboards: Dashboard[]) => {
-        this.dashboards = dashboards;
-        // if(dashboards && dashboards[0] && !this.activeDashboardId) {
-        //   //TODO: user favorite dashboard
-        //   this.router.navigate([dashboards[0].id], {relativeTo: this.route});
-        // }
 
-      },
-      error => {
-        console.log('error in dashboard view get:  + ' + error);
-      }
-    );
+    if (this.route.snapshot && this.route.snapshot.data) {
+      this.dashboards = this.route.snapshot.data.dashboards;
+    }
+
     const userService = this.userService.user.subscribe(
       user => {
         this.userId = user ? user.id : null;
+        this.orgId = user ? user.orgId : null;
       }
     );
-    this.subscription.add(dashboardsService);
+    // this.subscription.add(dashboardsService);
     this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
   }

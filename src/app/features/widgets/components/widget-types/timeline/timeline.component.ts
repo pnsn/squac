@@ -6,7 +6,7 @@ import { ViewService } from '@core/services/view.service';
 import { ChannelGroup } from '@core/models/channel-group';
 import TimelinesChart, { Val } from 'timelines-chart';
 import * as d3 from 'd3';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
@@ -62,7 +62,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     }
     // this.startdate = this.viewService.getStartdate();
     // this.enddate = this.viewService.getEnddate();
-    console.log(changes);
     if (this.data) {
       this.buildRows(this.data);
     }
@@ -78,9 +77,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       this.chart.rightMargin(55);
       this.chart.useUtc(true);
     }
-
-
-    this.viewService.status.next('finished');
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
@@ -111,7 +107,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
   // FIXME: This is...not great
   private buildRows(measurements) {
-    console.log('current metric in timeline', this.currentMetric);
     const data = [];
     let dataMax: number;
     let dataMin: number;

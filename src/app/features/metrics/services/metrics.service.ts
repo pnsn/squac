@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Metric } from '@core/models/metric';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 interface MetricsHttpData {
   name: string;
@@ -21,77 +20,59 @@ interface MetricsHttpData {
 })
 
 export class MetricsService {
-  getMetrics = new BehaviorSubject<Metric[]>([]);
+  // Squacapi route for data
   private url = 'measurement/metrics/';
+  // Most recent set of metrics
+  private localMetrics: Metric[] = [];
+  metrics = new BehaviorSubject<Metric[]>([]);
+
+  // Time stamp for last full metric data refresh
+  lastRefresh: number;
 
   constructor(
     private squacApi: SquacApiService
-  ) {
-  }
+  ) {}
 
-  private updateMetrics(metrics: Metric[]) {
-    this.getMetrics.next(metrics);
-  }
+  // Get all metrics available to user from squac
+  getMetrics(): Observable<Metric[]> {
 
-  // Gets channel groups from server
-  fetchMetrics(): void {
-    // temp
-    this.squacApi.get(this.url).pipe(
+    // Request new data if > 5 minutes since last request
+    if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
+      console.log('return local metrics');
+      return of(this.localMetrics);
+    }
+    return this.squacApi.get(this.url).pipe(
       map(
         results => {
           const metrics: Metric[] = [];
 
           results.forEach(m => {
-            const metric = new Metric(
-              m.id,
-              m.owner,
-              m.name,
-              m.code,
-              m.description,
-              m.url,
-              m.unit,
-              m.default_minval,
-              m.default_maxval
-            );
-            metrics.push(metric);
+            metrics.push(this.mapMetric(m));
           });
           return metrics;
         }
-      )
-    )
-    .subscribe(
-      result => {
-        this.updateMetrics(result);
-      },
-      error => {
-        console.log('error in metrics service: ' + error);
-      }
-    );
-  }
-
-
-  getMetric(id: number): Observable<Metric> {
-    // temp
-    return this.squacApi.get(this.url, id).pipe(
-      map(
-        result => {
-          const metric = new Metric(
-              result.id,
-              result.user_id,
-              result.name,
-              result.code,
-              result.description,
-              result.reference_url,
-              result.unit,
-              result.default_minval,
-              result.default_maxval
-          );
-          return metric;
+      ),
+      tap(
+        metrics => {
+          this.lastRefresh = new Date().getTime();
+          this.updateMetrics(metrics);
         }
       )
     );
   }
 
+  // Get metric data with id from squac
+  getMetric(id: number): Observable<Metric> {
+    const index = this.localMetrics.findIndex(m => m.id === id);
+    if (index > -1 && new Date().getTime() < this.lastRefresh + 5 * 60000) {
+      return of(this.localMetrics[index]);
+    }
+    return this.squacApi.get(this.url, id).pipe(
+      map(data => this.mapMetric(data))
+    );
+  }
+
+  // Send metric to squac
   updateMetric(metric: Metric): Observable<Metric> {
     const postData: MetricsHttpData = {
       name: metric.name,
@@ -104,9 +85,48 @@ export class MetricsService {
     };
     if (metric.id) {
       postData.id = metric.id;
-      return this.squacApi.put(this.url, metric.id, postData);
-    } else {
-      return this.squacApi.post(this.url, postData);
+      return this.squacApi.put(this.url, metric.id, postData).pipe(
+        map(data => this.mapMetric(data))
+      );
     }
+    return this.squacApi.post(this.url, postData).pipe(map(data => this.mapMetric(data)));
+  }
+
+  // Update metrics to subscribers
+  private updateMetrics(metrics: Metric[]) {
+    this.metrics.next(metrics);
+  }
+
+  // Save/update/delete a metric from the local storage
+  private updateLocalMetrics(id: number, metric?: Metric) {
+    const index = this.localMetrics.findIndex(d => d.id === id);
+
+    if (index > -1) {
+      if (metric) {
+        this.localMetrics[index] = metric;
+
+      } else {
+        this.localMetrics.splice(index, 1);
+      }
+    } else {
+      this.localMetrics.push(metric);
+    }
+  }
+
+  // Map Squac data to a Metric object
+  private mapMetric(squacData): Metric {
+    const metric = new Metric(
+      squacData.id,
+      squacData.user_id,
+      squacData.name,
+      squacData.code,
+      squacData.description,
+      squacData.reference_url,
+      squacData.unit,
+      squacData.default_minval,
+      squacData.default_maxval
+    );
+    this.updateLocalMetrics(metric.id, metric);
+    return metric;
   }
 }

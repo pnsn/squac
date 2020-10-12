@@ -20,15 +20,14 @@ describe('MetricsService', () => {
   );
   let squacApiService;
 
-  let apiSpy;
   const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService
-      }]
+      providers: [
+        {provide: SquacApiService, useValue: mockSquacApiService}
+      ]
     });
 
     metricsService = TestBed.inject(MetricsService);
@@ -41,19 +40,8 @@ describe('MetricsService', () => {
     expect(service).toBeTruthy();
   });
 
-
-  it('should fetch metrics', (done: DoneFn) => {
-    metricsService.fetchMetrics();
-
-    metricsService.getMetrics.subscribe(metrics => {
-      expect(metrics[0].id).toEqual(testMetric.id);
-      done();
-    });
-
-  });
-
-  it('should return metrics', () => {
-    metricsService.getMetrics.subscribe(metrics => {
+  it('should return all metrics', () => {
+    metricsService.getMetrics().subscribe(metrics => {
       expect(metrics).toBeTruthy();
     });
   });
@@ -74,17 +62,17 @@ describe('MetricsService', () => {
     });
   });
 
-  it('should post channel group with id', () => {
-    apiSpy = spyOn(squacApiService, 'put');
+  it('should put metric with id', (done: DoneFn) => {
+    metricsService.updateMetric(testMetric).subscribe(
+      metric => {
+        done();
+      }
+    );
 
-    metricsService.updateMetric(testMetric);
 
-    expect(apiSpy).toHaveBeenCalled();
   });
 
-  it('should put channel group without id', () => {
-    apiSpy = spyOn(squacApiService, 'post');
-
+  it('should post metric without id', (done: DoneFn) => {
     const newMetric = new Metric(
       null,
       1,
@@ -95,8 +83,12 @@ describe('MetricsService', () => {
       'unit'
     );
 
-    metricsService.updateMetric(newMetric);
+    metricsService.updateMetric(newMetric).subscribe(
+      metric => {
+        done();
+      }
+    );
 
-    expect(apiSpy).toHaveBeenCalled();
+
   });
 });

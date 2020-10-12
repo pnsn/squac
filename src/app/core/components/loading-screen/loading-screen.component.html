@@ -1,1 +1,8 @@
-<div>Loading squac...</div>
+<div id="loading-container" *ngIf="loading">
+  <div id="loading-gif">
+    <img src="assets/squac-blinking.gif" alt="">
+  </div>
+  <div id="loading-text">
+    {{status}}
+  </div>
+</div>

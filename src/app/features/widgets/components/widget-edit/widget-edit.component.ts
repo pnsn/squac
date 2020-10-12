@@ -1,14 +1,11 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription, merge } from 'rxjs';
-import { WidgetsService } from '../../services/widgets.service';
-import { Widget } from '@core/models/widget';
+import { Subscription } from 'rxjs';
+import { Widget } from '@features/widgets/models/widget';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
-import { ThresholdsService } from '../../services/thresholds.service';
-import { WidgetEditService } from './widget-edit.service';
-import { StatTypeService } from '@core/services/stattype.service';
-import { MetricsService } from '@features/metrics/services/metrics.service';
+import { WidgetEditService } from '../../services/widget-edit.service';
+import { Metric } from '@core/models/metric';
+import { ChannelGroup } from '@core/models/channel-group';
 
 @Component({
   selector: 'app-widget-edit',
@@ -23,6 +20,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   widgetForm: FormGroup;
   subscriptions: Subscription = new Subscription();
   dashboardId: number;
+  metrics: Metric[];
+  channelGroups: ChannelGroup[];
 
   widgetTypes = [ // TODO: get from squac, this is for test
     {
@@ -54,16 +53,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private widgetService: WidgetsService,
-    private metricsService: MetricsService,
-    private thresholdService: ThresholdsService,
-    private channelGroupsService: ChannelGroupsService,
     private widgetEditService: WidgetEditService,
-    private statTypeService: StatTypeService
   ) { }
-
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
+    this.statTypes = this.data.statTypes;
+    this.metrics = this.data.metrics;
+    this.channelGroups = this.data.channelGroups;
+
     const sub = this.widgetEditService.isValid.subscribe(
       valid => {
         this.isValid = valid;
@@ -72,23 +69,12 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.statTypeService.statTypes.subscribe(
-      statTypes => {
-        this.statTypes = statTypes;
-      },
-      error => {
-        console.log('error in stattype ' + error);
-      }
-    );
     this.widgetEditService.setWidget(this.widget);
 
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
     console.log('widget', this.widget);
     this.initForm();
-
-    this.metricsService.fetchMetrics();
-    this.channelGroupsService.fetchChannelGroups();
 
     this.subscriptions.add(sub);
   }
@@ -142,49 +128,15 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       statType
     );
 
-    const newWidget = this.widgetEditService.getWidget();
-
-    let widget;
-
-    this.widgetService.updateWidget(
-      newWidget
-    ).subscribe(
-      response => {
-        widget = response;
-
-        const thresholdObs = this.thresholdService.updateThresholds(
-            newWidget.metrics,
-            newWidget.thresholds,
-            widget.id
-          );
-        let count = 0;
-        if (thresholdObs && thresholdObs.length > 0) {
-            merge(...thresholdObs).subscribe(
-              result => {
-                count++;
-                if (widget && count === thresholdObs.length) {
-                  this.cancel(widget);
-                }
-
-              }, error => {
-                console.log('error in widget edit threshold: ' + error);
-              }
-            );
-          } else {
-            this.cancel(widget);
-          }
-      }, error => {
-        console.log('error in widget edit update: ' + error);
+    this.widgetEditService.saveWidget().subscribe(
+      () => {
+        this.cancel();
       }
     );
   }
 
   cancel(widget?: Widget) {
-    if (widget) {
-      this.dialogRef.close(widget);
-    } else {
-      this.dialogRef.close(null);
-    }
-
+    this.widgetEditService.clearWidget();
+    this.dialogRef.close(widget);
   }
 }

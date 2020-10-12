@@ -12,14 +12,18 @@ import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LoadingComponent } from '../../../../shared/loading/loading.component';
 import { MaterialModule } from '@shared/material.module';
-import { ChannelGroupsTableComponent } from './channel-groups-table/channel-groups-table.component';
-import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
 import { MapComponent } from '../../../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
+import { ChannelGroupsFilterComponent } from './channel-groups-filter/channel-groups-filter.component';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { UserService } from '@features/user/services/user.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
+// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
@@ -30,6 +34,7 @@ describe('ChannelGroupsEditComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
+        NoopAnimationsModule,
         ReactiveFormsModule,
         NgxDatatableModule,
         MaterialModule,
@@ -40,7 +45,6 @@ describe('ChannelGroupsEditComponent', () => {
       declarations: [
         ChannelGroupsEditComponent,
         LoadingComponent,
-        ChannelGroupsTableComponent,
         ChannelGroupsFilterComponent,
         MapComponent
       ],
@@ -48,6 +52,7 @@ describe('ChannelGroupsEditComponent', () => {
         ChannelGroupsService,
         ChannelsService,
         NetworksService,
+        {provide: UserService, useClass: MockUserService},
         {
           provide: ActivatedRoute,
           useValue: {

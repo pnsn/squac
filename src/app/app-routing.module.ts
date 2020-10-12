@@ -1,21 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChannelGroupsComponent } from './features/channel-groups/components/channel-groups.component';
-import { ChannelGroupsEditComponent } from './features/channel-groups/components/channel-groups-edit/channel-groups-edit.component';
 import { AuthComponent } from './core/components/auth/auth.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { ChannelGroupsViewComponent } from './features/channel-groups/components/channel-groups-view/channel-groups-view.component';
-import { MetricsComponent } from './features/metrics/metrics.component';
-import { MetricsEditComponent } from './features/metrics/metrics-edit/metrics-edit.component';
-import { MetricsViewComponent } from './features/metrics/metrics-view/metrics-view.component';
+import { MetricsComponent } from '@features/metrics/components/metrics/metrics.component';
+import { MetricsEditComponent } from '@features/metrics/components/metrics-edit/metrics-edit.component';
+import { MetricsViewComponent } from '@features/metrics/components/metrics-view/metrics-view.component';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
-import { UserComponent } from './core/components/user/user.component';
+import { UserComponent } from '@features/user/components/user/user.component';
 import { PermissionGuard } from './core/guards/permission.guard';
-import { PasswordResetComponent } from './core/components/password-reset/password-reset.component';
-import { LoginComponent } from './core/components/login/login.component';
-import { OrganizationComponent } from '@core/components/organization/organization.component';
-import { UserEditComponent } from '@core/components/user-edit/user-edit.component';
+import { PasswordResetComponent } from '@features/user/components/password-reset/password-reset.component';
+import { LoginComponent } from '@features/user/components/login/login.component';
+import { OrganizationComponent } from '@features/user/components/organization/organization.component';
+import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
+import { UserResolver } from '@features/user/user.resolver';
+import { OrganizationResolver } from '@features/user/organization.resolver';
+import { MetricsResolver } from '@features/metrics/metrics.resolver';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
+import { HomeComponent } from '@core/components/home/home.component';
+import { DashboardsResolver } from '@features/dashboards/dashboards.resolver';
+import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
+import { StatTypeResolver } from '@features/widgets/stat-type.resolver';
 
 // TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
@@ -48,39 +52,45 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-  { path: 'user', canActivate: [AuthGuard], component: UserComponent},
-
-  { path: 'organization', canActivate: [AuthGuard], component: OrganizationComponent},
-  { path: 'metrics',
-    component: MetricsComponent,
-    canActivate: [AuthGuard, PermissionGuard],
-    data: {subject: 'Metric', action: 'read'},
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      dashboards: DashboardsResolver,
+      channelGroups: ChannelGroupsResolver,
+      metrics: MetricsResolver,
+      user: UserResolver,
+      statType: StatTypeResolver
+    },
     children: [
-      { path: '', component: MetricsViewComponent, pathMatch: 'full'},
       {
-        path: 'new',
-        component: MetricsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'create'}
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboards'
       },
       {
-        path: ':id',
-        component: MetricsViewComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'read'}
+        path: 'dashboards',
+        loadChildren: () => import('@features/dashboards/dashboards.module').then(m => m.DashboardsModule)
       },
       {
-        path: ':id/edit',
-        component: MetricsEditComponent,
-        canActivate: [PermissionGuard],
-        data: {subject: 'Metric', action: 'update'}
+        path: 'channel-groups',
+        loadChildren: () => import('@features/channel-groups/channel-groups.module').then(m => m.ChannelGroupsModule)
       },
+      {
+        path: 'metrics',
+        loadChildren: () => import('@features/metrics/metrics.module').then(m => m.MetricsModule)
+      },
+      {
+        path: 'user',
+        loadChildren: () => import('@features/user/user.module').then(m => m.UserModule)
+      },
+      { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
+      { path: '**', redirectTo: 'not-found'}
     ]
-  }
+  },
   // Currently overrides the child components - will need to rethink
-  // { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },
-  // { path: '**', redirectTo: 'not-found'}
+
 
 ];
 

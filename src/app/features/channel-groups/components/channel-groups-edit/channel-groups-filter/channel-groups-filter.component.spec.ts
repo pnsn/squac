@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsFilterComponent } from './channel-groups-filter.component';
 import { MaterialModule } from '@shared/material.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ChannelGroupsFilterComponent', () => {
   let component: ChannelGroupsFilterComponent;
@@ -9,7 +10,7 @@ describe('ChannelGroupsFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, NoopAnimationsModule],
       declarations: [ ChannelGroupsFilterComponent ]
     })
     .compileComponents();

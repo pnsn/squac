@@ -42,7 +42,7 @@ describe('WidgetsService', () => {
   });
 
   it('should get widgets with dashboard id', (done: DoneFn) => {
-    widgetsService.getWidgetsByDashboardId(1).subscribe(widgets => {
+    widgetsService.getWidgets(1).subscribe(widgets => {
       expect(widgets.length).toEqual(1);
       done();
     });

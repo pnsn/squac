@@ -31,19 +31,7 @@ export class ChannelsService {
       response => {
         const channels = [];
         response.forEach(c => {
-          const channel = new Channel(
-            c.id,
-            c.code,
-            c.name,
-            c.sample_rate,
-            c.lat,
-            c.lon,
-            c.elev,
-            c.loc,
-            c.station_code,
-            c.network
-          );
-          channels.push(channel);
+          channels.push(this.mapChannel(c));
         });
         return channels;
       })
@@ -56,24 +44,32 @@ export class ChannelsService {
     } else {
       return this.squacApi.get(this.url, id).pipe(
         map(
+          response => {
+            return this.mapChannel(response);
+          }
+        ),
+        tap (
           channel => {
-            const channelObject = new Channel(
-              channel.id,
-              channel.code,
-              channel.name,
-              channel.sample_rate,
-              channel.lat,
-              channel.lon,
-              channel.elev,
-              channel.loc,
-              channel.station_code,
-              channel.network
-            );
-            this.localChannels[channel.id] = channelObject;
-            return channelObject;
+            // this.localChannels[channel.id] = channel;
           }
         )
       );
     }
+  }
+
+  private mapChannel(squacData): Channel {
+    const channel = new Channel(
+      squacData.id,
+      squacData.code,
+      squacData.name,
+      squacData.sample_rate,
+      squacData.lat,
+      squacData.lon,
+      squacData.elev,
+      squacData.loc,
+      squacData.station_code,
+      squacData.network
+    );
+    return channel;
   }
 }

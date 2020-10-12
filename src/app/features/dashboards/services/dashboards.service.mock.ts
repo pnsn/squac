@@ -13,10 +13,8 @@ export class MockDashboardsService {
     1,
     []
   );
-  getDashboards = new BehaviorSubject <Dashboard[]>([]);
-
-  fetchDashboards() {
-    this.getDashboards.next([this.testDashboard]);
+  getDashboards(): Observable<Dashboard[]> {
+    return of([this.testDashboard]);
   }
 
   getDashboard(id: number): Observable<Dashboard> {
@@ -27,9 +25,11 @@ export class MockDashboardsService {
     }
   }
 
-
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
     return of(dashboard);
   }
 
+  deleteDashboard(dashboardId: number) {
+    return of();
+  }
 }

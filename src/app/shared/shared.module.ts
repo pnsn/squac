@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ModalComponent } from './modal/modal.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -12,7 +11,7 @@ import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ErrorComponent } from './error/error.component';
-
+import { AbilityModule } from '@casl/angular';
 @NgModule({
   declarations: [
     ModalComponent,
@@ -25,7 +24,8 @@ import { ErrorComponent } from './error/error.component';
     CommonModule,
     MaterialModule,
     LeafletModule,
-    LeafletDrawModule
+    LeafletDrawModule,
+    AbilityModule
   ],
   exports: [
     MaterialModule,
@@ -34,11 +34,11 @@ import { ErrorComponent } from './error/error.component';
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule,
     LoadingComponent,
     NgxDatatableModule,
     MapComponent,
-    ErrorComponent
+    ErrorComponent,
+    AbilityModule
   ]
 })
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { UserService } from './user.service';
+import { UserService } from '@features/user/services/user.service';
+import { BehaviorSubject } from 'rxjs';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +17,13 @@ export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
 
+  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
   expirationTime = 6; // hours before token doesn't let auto login
   constructor(
     private router: Router,
     private squacApi: SquacApiService,
-    private userService: UserService
+    private userService: UserService,
+    private loadingService: LoadingService
   ) { }
 
   // True if a user logged in
@@ -33,6 +35,7 @@ export class AuthService {
   get auth(): string {
     return this.token;
   }
+
 
   // Checks if user data exists in browser
   autologin() {
@@ -70,6 +73,7 @@ export class AuthService {
 
   // after user hits log out, wipe data
   logout() {
+    this.userLoggedIn.next(false);
     this.userService.logout();
     this.token = null;
     this.router.navigate(['/login']);
@@ -92,28 +96,6 @@ export class AuthService {
     // }, expirationDuration);
   }
 
-  // Handles login errors
-  // FIXME: blocked by error interceptor
-  // private handleError(errorRes: HttpErrorResponse) {
-  //   console.log(errorRes);
-  //   let errorMessage = 'An unknown error occured!';
-  //   if (!errorRes.error || !errorRes.error.error) {
-  //     return throwError(errorMessage);
-  //   }
-  //   switch (errorRes.error.error.message) {
-  //     case 'EMAIL_EXISTS':
-  //       errorMessage = 'This email exists already';
-  //       break;
-  //     case 'EMAIL_NOT_FOUND':
-  //       errorMessage = 'Email does not exist.';
-  //       break;
-  //     case 'INVALID_PASSWORD':
-  //       errorMessage = 'Password invalid';
-  //       break;
-  //   }
-  //   return throwError(errorMessage);
-  // }
-
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {
     const msToExpire = expiresIn * 60 * 60 * 1000;
@@ -130,8 +112,12 @@ export class AuthService {
 
   // handles the sign in
   private signInUser(token, expiration) {
+    // console.log("User signed in");
+
     this.autologout(expiration);
     this.token = token;
-    this.userService.fetchUser();
+    this.userLoggedIn.next(true);
+
+    this.loadingService.getInitialData();
   }
 }

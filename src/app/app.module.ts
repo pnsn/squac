@@ -1,64 +1,50 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
+import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './core/components/auth/auth.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
-import { MetricsComponent } from './features/metrics/metrics.component';
-import { MetricsDetailComponent } from './features/metrics/metrics-detail/metrics-detail.component';
-import { MetricsViewComponent } from './features/metrics/metrics-view/metrics-view.component';
-import { MetricsEditComponent } from './features/metrics/metrics-edit/metrics-edit.component';
-import { HttpErrorInterceptor } from './core/interceptors/http-error-interceptor.service';
-import { DashboardsModule } from '@features/dashboards/dashboards.module';
+
 import { SharedModule } from '@shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { UserComponent } from '@core/components/user/user.component';
-import { AbilityModule } from '@casl/angular';
+
 import { Ability, PureAbility } from '@casl/ability';
-import { PasswordResetComponent } from '@core/components/password-reset/password-reset.component';
-import { LoginComponent } from '@core/components/login/login.component';
+
 import { AppAbility } from '@core/utils/ability';
-import { ChannelGroupsModule } from './features/channel-groups/channel-groups.module';
+
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
-import { OrganizationComponent } from '@core/components/organization/organization.component';
-import { UserEditComponent } from './core/components/user-edit/user-edit.component';
+
+import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
+import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
+import { HomeComponent } from './core/components/home/home.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     HeaderComponent,
-    MetricsComponent,
-    MetricsDetailComponent,
-    MetricsViewComponent,
-    MetricsEditComponent,
-    UserComponent,
-    PasswordResetComponent,
-    LoginComponent,
     NotFoundComponent,
-    OrganizationComponent,
     LoadingScreenComponent,
-    UserEditComponent
+    HomeComponent,
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    DashboardsModule,
+    HttpClientModule,
     SharedModule,
-    ChannelGroupsModule,
+    NoopAnimationsModule,
     BrowserAnimationsModule,
+    BrowserModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
-    AbilityModule
+
+    // Always load this at the end or the routing gets weird
+    AppRoutingModule
   ],
   providers: [
     {
@@ -69,6 +55,11 @@ import { UserEditComponent } from './core/components/user-edit/user-edit.compone
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     },
     { provide: AppAbility, useValue: new AppAbility() },

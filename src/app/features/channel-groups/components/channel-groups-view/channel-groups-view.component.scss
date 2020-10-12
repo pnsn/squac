@@ -1,53 +1,25 @@
 @import 'variables';
 
 #title {
-    margin: 15px 5vw;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
 
-    h1 {
-        width: 350px;
-        display: inline-block;
+  #button-container {
+    button {
+      margin-left: 10px;
     }
+  }
 }
 
-#map-and-channel-group {
-    margin: 30px 5% 15px 5%;
-    width: 90vw;
-    display: inline-flex;
-
-    #map-box {
-        width: 20vw;
-        height: 35vh;
-        margin: 0 2% 0 0;
-        float: left;
-        
-        app-map {
-            width: 20vw;
-            height: 35vh;
-        }
-    }
-
-    #channel-groups {
-        width: 70vw;
-        height: 35vh;
-
-        #channel-group-table {
-            border: 1px solid $sq-lt-gray;
-            border-radius: 5px;
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
-
-#channels {
-    width: 90vw;
-    height: 40vh;
-    margin: 15px 5%;
-
-    #channel-table {
-        border: 2px solid $sq-lt-gray;
-        border-radius: 10px;
-        width: 100%;
-        height: 100%;
-    }
+#channel-groups {
+  width: 100%;
+  height: 35vh;
+  overflow:hidden;
+  #channel-group-table {
+          width: 100%;
+    height: 100%;
+  }
 }

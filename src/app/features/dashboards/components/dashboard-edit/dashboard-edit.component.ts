@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-dashboard-edit',
@@ -14,6 +15,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   id: number;
   dashboard: Dashboard;
   editMode: boolean;
+  orgId: number;
   dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
 
@@ -21,7 +23,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private dashboardService: DashboardsService
+    private dashboardService: DashboardsService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.id = +params.id;
         this.editMode = !!this.id;
-
+        this.orgId = this.userService.userOrg;
         this.initForm();
       },
       error => {
@@ -54,23 +57,33 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   private initForm() {
 
     if (this.editMode) {
-      const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
-        dashboard => {
-          this.dashboard = dashboard;
-          this.dashboardForm.patchValue(
-            {
-              name : dashboard.name,
-              description : dashboard.description,
-              shareAll: dashboard.shareAll,
-              shareOrg: dashboard.shareOrg
-            }
-          );
-        },
-        error => {
-          console.log('error in dashboard edit: ' + error);
+      this.dashboard = this.route.snapshot.data.dashboard;
+      this.dashboardForm.patchValue(
+        {
+          name : this.dashboard.name,
+          description : this.dashboard.description,
+          shareAll: this.dashboard.shareAll,
+          shareOrg: this.dashboard.shareOrg
         }
       );
-      this.subscriptions.add(dashboardSub);
+
+      // const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
+      //   dashboard => {
+      //     this.dashboard = dashboard;
+      //     this.dashboardForm.patchValue(
+      //       {
+      //         name : dashboard.name,
+      //         description : dashboard.description,
+      //         shareAll: dashboard.shareAll,
+      //         shareOrg: dashboard.shareOrg
+      //       }
+      //     );
+      //   },
+      //   error => {
+      //     console.log('error in dashboard edit: ' + error);
+      //   }
+      // );
+      // this.subscriptions.add(dashboardSub);
     }
   }
 
@@ -84,8 +97,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         values.description,
         values.shareOrg,
         values.shareAll,
-        this.dashboard.orgId,
-        this.dashboard.widgetIds
+        this.orgId,
+        this.dashboard && this.dashboard.widgets ? this.dashboard.widgetIds : []
       )
     ).subscribe(
       result => {

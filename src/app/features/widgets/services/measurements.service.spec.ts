@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Widget } from '@core/models/widget';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { ChannelGroup } from '@core/models/channel-group';
 import { MeasurementsService } from './measurements.service';
+import { ViewService } from '@core/services/view.service';
+import { MockViewService } from '@core/services/view.service.mock';
 
 describe('MeasurementsService', () => {
   const testData = {
@@ -29,9 +29,9 @@ describe('MeasurementsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         MeasurementsService,
-        {
-        provide: SquacApiService, useValue: mockSquacApiService
-      }]
+        { provide: SquacApiService, useValue: mockSquacApiService },
+        { provide: ViewService, useClass: MockViewService}
+     ]
     });
 
     measurementsService = TestBed.inject(MeasurementsService);
@@ -40,6 +40,18 @@ describe('MeasurementsService', () => {
 
   it('should be created', () => {
     expect(measurementsService).toBeTruthy();
+  });
+
+  it('should set widget', () => {
+
+  });
+
+  it('should get measurements for widget', () => {
+
+  });
+
+  it('should not try to fetch measurements if no widget', () => {
+
   });
 
   // it('should get measurements', (done: DoneFn) => {

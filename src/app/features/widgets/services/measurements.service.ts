@@ -2,8 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
-import { Widget } from '@core/models/widget';
-import { formatDate } from '@angular/common';
+import { Widget } from '@features/widgets/models/widget';
 import { SquacApiService } from '@core/services/squacapi.service';
 import * as moment from 'moment';
 import { ViewService } from '@core/services/view.service';
@@ -38,7 +37,7 @@ export class MeasurementsService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
-    if (widget && widget.metrics.length > 0) {
+    if (widget && widget.metrics && widget.metrics.length > 0) {
       widget.channelGroup.channels.forEach(channel => {
         this.localData[channel.id] = {};
         widget.metrics.forEach(metric => {
@@ -48,17 +47,10 @@ export class MeasurementsService implements OnDestroy {
     }
   }
 
-  // some sort of timer that gets the data and
-  updateMeasurement() {
-    if (this.viewService.isLive()) {
-      this.updateTimeout = setTimeout(() => {
-        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
-      }, this.refreshInterval);
-    }
-  }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString: string, endString: string): void {
-    if (this.widget && this.widget.metrics.length > 0) {
+    this.viewService.widgetStartedLoading();
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.getMeasurements(startString, endString).subscribe(
         success => {
           // there is new data, update.
@@ -75,14 +67,29 @@ export class MeasurementsService implements OnDestroy {
           console.log('error in fetch measurements');
         },
         () => {
+          this.viewService.widgetFinishedLoading();
           this.lastEndString = endString;
           this.updateMeasurement();
           console.log('completed get data for ' + this.widget.id);
         }
       );
+    } else {
+      // return error somehow
+      this.data.next({});
+      this.viewService.widgetFinishedLoading();
     }
   }
 
+  // some sort of timer that gets the data and
+  private updateMeasurement() {
+    if (this.viewService.isLive) {
+      this.updateTimeout = setTimeout(() => {
+        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
+      }, this.refreshInterval);
+    }
+  }
+
+  // Get measurements from squac
   private getMeasurements(starttime: string, endtime: string ): Observable<any> {
     return this.squacApi.get(this.url, null,
       {

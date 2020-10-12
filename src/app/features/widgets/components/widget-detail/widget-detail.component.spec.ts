@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WidgetDetailComponent } from './widget-detail.component';
 import { WidgetsModule } from '../../widgets.module';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Widget } from '@core/models/widget';
+import { Widget } from '@features/widgets/models/widget';
 import { MeasurementsService } from '@features/widgets/services/measurements.service';
 import { MockMeasurementsService } from '@features/widgets/services/measurements.service.mock';
 import { AppAbility } from '@core/utils/ability';
@@ -10,6 +10,7 @@ import { PureAbility, Ability } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { ViewService } from '@core/services/view.service';
 import { MockViewService } from '@core/services/view.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WidgetDetailComponent', () => {
   let component: WidgetDetailComponent;
@@ -20,7 +21,8 @@ describe('WidgetDetailComponent', () => {
       imports: [
         WidgetsModule,
         RouterTestingModule.withRoutes([]),
-        AbilityModule
+        AbilityModule,
+        HttpClientTestingModule
       ],
       providers: [
         {provide: MeasurementsService, useValue: new MockMeasurementsService()},
@@ -36,7 +38,7 @@ describe('WidgetDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetDetailComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, 1, []);
+    component.widget = new Widget(1, 1, 'name', 'description', 1, 1, 1, 1, 1, 1, 1, []);
     fixture.detectChanges();
   });
 
