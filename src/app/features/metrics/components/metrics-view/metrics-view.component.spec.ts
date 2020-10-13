@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetricsViewComponent } from './metrics-view.component';
 import { Metric } from '@core/models/metric';
@@ -16,7 +16,7 @@ describe('MetricsViewComponent', () => {
   let component: MetricsViewComponent;
   let fixture: ComponentFixture<MetricsViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, NgxDatatableModule, AbilityModule],
       declarations: [ MetricsViewComponent ],

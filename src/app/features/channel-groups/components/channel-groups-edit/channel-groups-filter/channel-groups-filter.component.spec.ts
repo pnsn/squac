@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsFilterComponent } from './channel-groups-filter.component';
 import { MaterialModule } from '@shared/material.module';
@@ -8,7 +8,7 @@ describe('ChannelGroupsFilterComponent', () => {
   let component: ChannelGroupsFilterComponent;
   let fixture: ComponentFixture<ChannelGroupsFilterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MaterialModule, NoopAnimationsModule],
       declarations: [ ChannelGroupsFilterComponent ]

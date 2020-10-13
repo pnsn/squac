@@ -17,10 +17,6 @@ import { MetricsRoutingModule} from './metrics-routing.module';
     CommonModule,
     SharedModule,
     MetricsRoutingModule
-  ],
-  exports: [
-  ],
-  entryComponents: [
   ]
 })
 export class MetricsModule { }

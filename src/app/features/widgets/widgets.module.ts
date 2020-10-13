@@ -34,13 +34,6 @@ import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-e
     SharedModule,
     NgxChartsModule,
     GridsterModule
-  ],
-  exports: [
-  ],
-  entryComponents: [
-    WidgetEditComponent,
-    MetricsEditComponent,
-    ThresholdEditComponent
   ]
 })
 export class WidgetsModule { }

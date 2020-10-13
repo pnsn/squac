@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrganizationComponent } from './organization.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -16,7 +16,7 @@ describe('OrganizationComponent', () => {
   let component: OrganizationComponent;
   let fixture: ComponentFixture<OrganizationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OrganizationComponent ],
       imports: [ ReactiveFormsModule , MaterialModule,  NgxDatatableModule,

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimeseriesComponent } from './timeseries.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -12,7 +12,7 @@ describe('TimeseriesComponent', () => {
   let fixture: ComponentFixture<TimeseriesComponent>;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeseriesComponent],
       imports: [NgxChartsModule, HttpClientTestingModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsDetailComponent } from './channel-groups-detail.component';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,7 @@ describe('ChannelGroupsDetailComponent', () => {
   let component: ChannelGroupsDetailComponent;
   let fixture: ComponentFixture<ChannelGroupsDetailComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ChannelGroupsDetailComponent, MapComponent ],
       imports: [NgxDatatableModule],

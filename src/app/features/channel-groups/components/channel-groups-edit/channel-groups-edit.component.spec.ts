@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelGroupsEditComponent } from './channel-groups-edit.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,7 +29,7 @@ describe('ChannelGroupsEditComponent', () => {
   let component: ChannelGroupsEditComponent;
   let fixture: ComponentFixture<ChannelGroupsEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
