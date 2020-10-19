@@ -106,7 +106,7 @@ export class ViewService {
     }
 
     this.dashboard = dashboard;
-    //if no widgets
+    // if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
       this.status.next('finished');
     }
@@ -119,23 +119,23 @@ export class ViewService {
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
-  updateWidget(widgetId: number, widget? : Widget): void {
+  updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1  && !widget) {
       this.dashboard.widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
-      //get widget data since incomplete widget is coming in
+      // get widget data since incomplete widget is coming in
       this.widgetService.getWidget(widgetId).subscribe(
         newWidget => {
-          if(index > -1) {
+          if (index > -1) {
             this.dashboard.widgets[index] = newWidget;
           } else {
             this.dashboard.widgets.push(newWidget);
           }
           this.widgetChanged(widgetId);
         }
-      )
+      );
     }
 
   }

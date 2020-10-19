@@ -65,7 +65,7 @@ export class MeasurementsService implements OnDestroy {
           }
         },
         error => {
-          console.log(error)
+          console.log(error);
           console.log('error in fetch measurements');
         },
         () => {

@@ -15,7 +15,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
-export class DashboardDetailComponent implements OnInit {
+export class DashboardDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
@@ -103,9 +103,6 @@ export class DashboardDetailComponent implements OnInit {
     this.subscription.add(errorSub);
   }
 
-  // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
-  // }\
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {

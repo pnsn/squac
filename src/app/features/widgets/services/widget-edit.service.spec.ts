@@ -23,17 +23,17 @@ describe('WidgetEditService', () => {
   const testMetric = new Metric(
     1,
     1,
-    "name",
-    "code",
-    "desc",
-    "",
-    ""
+    'name',
+    'code',
+    'desc',
+    '',
+    ''
   );
   const testWidget = new Widget(
     1,
     1,
-    "name",
-    "desc",
+    'name',
+    'desc',
     1,
     1,
     1,
@@ -106,12 +106,12 @@ describe('WidgetEditService', () => {
     expect(service.getChannelGroup()).toBeUndefined();
     service.setWidget(testWidget);
 
-    const testChannelGroup = new ChannelGroup(1,1,"","", 1, false, false, []);
+    const testChannelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, []);
 
     service.updateChannelGroup(testChannelGroup);
 
     expect(service.getChannelGroup()).toEqual(testChannelGroup);
-    
+
   });
 
   it('should return the metric Ids', () => {
@@ -132,10 +132,10 @@ describe('WidgetEditService', () => {
   it('should save the widget info', () => {
     service.setWidget(testWidget);
 
-    const newName = "new name";
+    const newName = 'new name';
     service.updateWidgetInfo(
       newName,
-      "desc",
+      'desc',
       1,
       1
     );

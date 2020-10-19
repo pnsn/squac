@@ -29,11 +29,11 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
         catchError(this.handleError)
       );
       // return all of them
-    } 
+    }
   }
 
   handleError(error): Observable<any> {
-    console.log("widget error", error)
+    console.log('widget error', error);
     // TODO: route to show error
     return of({ error });
   }

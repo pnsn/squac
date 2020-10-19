@@ -34,7 +34,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
   }
 
   handleError(error): Observable<any> {
-    console.log(error)
+    console.log(error);
     // TODO: route to show error
     return of({ error });
   }

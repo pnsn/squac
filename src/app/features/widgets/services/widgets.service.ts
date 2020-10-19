@@ -150,7 +150,7 @@ export class WidgetsService {
 
   }
 
-  //Post and put for widget don't return serialized values
+  // Post and put for widget don't return serialized values
   updateWidget(widget: Widget): Observable<any> {
     const postData: WidgetHttpData = {
       name: widget.name,

@@ -10,7 +10,7 @@ import { ViewService } from '@core/services/view.service';
 import { switchMap, tap } from 'rxjs/operators';
 
 interface Thresholds {
-  [metricId: number]: Threshold
+  [metricId: number]: Threshold;
 }
 
 // TODO: this whole thing just needs a fixin'
@@ -169,7 +169,7 @@ export class WidgetEditService {
         response => {
           newWidget = response;
 
-          //returns observables for saving each thresholds
+          // returns observables for saving each thresholds
           const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
             this.widget.thresholds,
