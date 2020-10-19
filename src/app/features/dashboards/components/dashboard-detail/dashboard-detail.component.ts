@@ -18,7 +18,6 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 export class DashboardDetailComponent implements OnInit {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
-  dialogRef;
   subscription: Subscription = new Subscription();
   status;
   maxDate: moment.Moment;
@@ -60,7 +59,6 @@ export class DashboardDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dialog: MatDialog,
     private ability: AppAbility
   ) { }
 
@@ -207,9 +205,6 @@ export class DashboardDetailComponent implements OnInit {
 
   ngOnDestroy() {
     console.log('dashboard detail destroyed');
-    if (this.dialogRef) {
-      this.dialogRef.close();
-    }
     this.subscription.unsubscribe();
   }
 
