@@ -19,7 +19,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   data: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
-  dialogRef;
   loading = true;
   error: string;
   noData: boolean;
@@ -30,7 +29,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
-    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -76,9 +74,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    if (this.dialogRef) {
-      this.dialogRef.close();
-    }
   }
 
   refreshWidget() {

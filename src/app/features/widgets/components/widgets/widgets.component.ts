@@ -20,13 +20,11 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
-  dialogRef;
 
   canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
     private viewService: ViewService,
-    private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -109,7 +107,6 @@ private addWidgetsToView(widgets: Widget[]) {
         this.addWidgetsToView(widgets);
       }
     );
-    console.log('widgets component loaded');
     this.canUpdate = this.viewService.canUpdate;
 
     this.route.data.subscribe(
@@ -126,10 +123,6 @@ private addWidgetsToView(widgets: Widget[]) {
   }
 
   ngOnDestroy() {
-    console.log('widget destroyed');
-    if (this.dialogRef) {
-      this.dialogRef.close();
-    }
     this.subscription.unsubscribe();
   }
 
