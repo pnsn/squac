@@ -50,6 +50,7 @@ export class SquacApiService {
   // for deleting
   delete(path: string, id: number) {
     const url = this.baseUrl + path + (id ? id + '/' : '');
+    console.log('delete: ', url);
     return this.http.delete<any>(url);
   }
 }

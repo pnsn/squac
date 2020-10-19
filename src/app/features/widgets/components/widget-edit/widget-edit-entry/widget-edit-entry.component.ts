@@ -21,7 +21,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('loaded widget edit entry');
+
     this.paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.widgetId = +params.widgetid;
@@ -33,7 +33,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         if (this.route.parent) {
           dashboardId = this.route.parent.parent.snapshot.paramMap.get('id');
         }
-        if (this.route.snapshot.data) {
+        if (this.route.snapshot && this.route.snapshot.data) {
           statTypes = this.route.snapshot.data.statTypes;
           metrics = this.route.snapshot.data.metrics;
           channelGroups = this.route.snapshot.data.channelGroups;

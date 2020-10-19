@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetEditEntryComponent } from './widget-edit-entry.component';
 import { ViewService } from '@core/services/view.service';
@@ -12,7 +12,7 @@ describe('WidgetEditEntryComponent', () => {
   let component: WidgetEditEntryComponent;
   let fixture: ComponentFixture<WidgetEditEntryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WidgetEditEntryComponent],
       imports: [RouterTestingModule.withRoutes([]), MatDialogModule],

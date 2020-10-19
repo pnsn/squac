@@ -23,8 +23,6 @@ import { WidgetsModule } from '@features/widgets/widgets.module';
     SharedModule,
     AbilityModule,
     NgxDaterangepickerMd.forRoot()
-  ],
-  entryComponents: [
   ]
 })
 export class DashboardsModule { }

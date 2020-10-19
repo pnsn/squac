@@ -6,7 +6,8 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 import { WidgetsService } from '../../services/widgets.service';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-widgets',
   templateUrl: './widgets.component.html',
@@ -19,14 +20,13 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
-  dialogRef;
 
   canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
     private viewService: ViewService,
-    private dialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   options: GridsterConfig = {
@@ -80,25 +80,38 @@ itemChange(item) {
   }
 }
 
+addWidget() {
+  this.router.navigate(['new'], {relativeTo: this.route});
+
+}
+
+private addWidgetsToView(widgets: Widget[]) {
+  this.widgets = [];
+  if (widgets && widgets.length > 0) {
+    widgets.forEach(widget => {
+      this.widgets.push({
+        cols: widget.columns ? widget.columns : 1,
+        rows: widget.rows ? widget.rows : 1,
+        y: widget.y ? widget.y : 0,
+        x: widget.x ? widget.x : 0,
+        widget
+      });
+    });
+  }
+  this.loading = false;
+
+}
   ngOnInit(): void {
-    console.log('widget component loaded');
+    this.viewService.currentWidgets.subscribe(
+      widgets => {
+        this.addWidgetsToView(widgets);
+      }
+    );
     this.canUpdate = this.viewService.canUpdate;
 
     this.route.data.subscribe(
       data => {
-        this.widgets = [];
-        if (data.widgets && data.widgets.length > 0) {
-          data.widgets.forEach(widget => {
-            this.widgets.push({
-              cols: widget.columns ? widget.columns : 1,
-              rows: widget.rows ? widget.rows : 1,
-              y: widget.y ? widget.y : 0,
-              x: widget.x ? widget.x : 0,
-              widget
-            });
-          });
-        }
-        this.loading = false;
+        this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
             // allow dragable and resizable if they have permission to edit dashboard
@@ -110,10 +123,6 @@ itemChange(item) {
   }
 
   ngOnDestroy() {
-    console.log('widget destroyed');
-    if (this.dialogRef) {
-      this.dialogRef.close();
-    }
     this.subscription.unsubscribe();
   }
 

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TabularComponent } from './tabular.component';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
@@ -12,7 +12,7 @@ describe('TabularComponent', () => {
   let component: TabularComponent;
   let fixture: ComponentFixture<TabularComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TabularComponent , MeasurementPipe],
       imports: [NgxDatatableModule, HttpClientTestingModule],

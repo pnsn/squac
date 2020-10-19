@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Dashboard } from '../../models/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,6 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
-  dialogRef;
   subscription: Subscription = new Subscription();
   status;
   maxDate: moment.Moment;
@@ -60,7 +59,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private dialog: MatDialog,
     private ability: AppAbility
   ) { }
 
@@ -69,14 +67,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     this.route.data.subscribe(
       data => {
-        console.log(data.dashboard);
         this.dashboard = data.dashboard;
         if (this.dashboard) {
           this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
+
         } else {
-          console.log('should not be possible tog et ehre');
+          console.log('should not be possible to get here');
         }
       }
     );
@@ -85,9 +83,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       status => {
         if (status !== this.status) {
           this.status = status;
-          console.log('Status: ' + this.status);
         }
-
       },
       error => {
         console.log('error in dasbhboard detail status' + error);
@@ -107,9 +103,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(errorSub);
   }
 
-  // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
-  // }\
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
@@ -209,9 +202,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('dashboard detail destroyed');
-    if (this.dialogRef) {
-      this.dialogRef.close();
-    }
     this.subscription.unsubscribe();
   }
 

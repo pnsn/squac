@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
 import { DashboardsService } from '../../services/dashboards.service';
@@ -19,7 +19,7 @@ describe('DashboardEditComponent', () => {
   let component: DashboardEditComponent;
   let fixture: ComponentFixture<DashboardEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimelineComponent } from './timeline.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -15,7 +15,7 @@ describe('TimelineComponent', () => {
   let fixture: ComponentFixture<TimelineComponent>;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TimelineComponent , MeasurementPipe],
       imports: [NgxDatatableModule, MatTooltipModule, HttpClientTestingModule],

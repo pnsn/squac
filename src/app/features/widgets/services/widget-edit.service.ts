@@ -7,8 +7,11 @@ import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
+interface Thresholds {
+  [metricId: number]: Threshold;
+}
 
 // TODO: this whole thing just needs a fixin'
 @Injectable({
@@ -17,15 +20,15 @@ import { tap } from 'rxjs/operators';
 export class WidgetEditService {
   private widget: Widget;
   private channelGroup: ChannelGroup;
-  private thresholds: { [metricId: number]: Threshold} = {};
+  private thresholds: Thresholds = {};
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
 
   // default widget dimensions
   rows = 3;
   columns = 6;
-  x = 1;
-  y = 1;
+  x = 0;
+  y = 0;
 
   constructor(
     private widgetsService: WidgetsService,
@@ -49,7 +52,7 @@ export class WidgetEditService {
   }
 
   // Returns the current thresholds
-  getThresholds(): { [metricId: number]: Threshold} {
+  getThresholds(): Thresholds {
     return this.thresholds;
   }
 
@@ -57,7 +60,7 @@ export class WidgetEditService {
   setWidget(widget: Widget): void {
     if (widget) {
       this.widget = widget;
-      this.thresholds = widget.thresholds;
+      this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
 
@@ -123,7 +126,7 @@ export class WidgetEditService {
   }
 
   // Save the new selected thresholds
-  updateThresholds(thresholds): void {
+  updateThresholds(thresholds: any[]): void {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
         threshold.id,
@@ -134,7 +137,7 @@ export class WidgetEditService {
         threshold.max !== null ? +threshold.max : null
       );
     });
-    console.log('updateThresholds', this.thresholds);
+
     this.widget.thresholds = this.thresholds;
     this.updateValidity();
   }
@@ -162,10 +165,11 @@ export class WidgetEditService {
     return this.widgetsService.updateWidget(
       this.widget
     ).pipe(
-      tap (
+      switchMap (
         response => {
           newWidget = response;
 
+          // returns observables for saving each thresholds
           const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
             this.widget.thresholds,
@@ -177,12 +181,12 @@ export class WidgetEditService {
                 tap(result => {
                   count++;
                   if (newWidget && count === thresholdObs.length) {
-                    this.viewService.updateWidget(newWidget);
+                    this.viewService.updateWidget(newWidget.id, newWidget);
                   }
                 })
               );
             } else {
-              this.viewService.updateWidget(newWidget);
+              this.viewService.updateWidget(newWidget.id, newWidget);
               return of(newWidget);
             }
         }

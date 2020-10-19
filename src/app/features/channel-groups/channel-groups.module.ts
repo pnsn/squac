@@ -20,10 +20,6 @@ import { ChannelGroupsDetailComponent } from './components/channel-groups-detail
     CommonModule,
     SharedModule,
     ChannelGroupsRoutingModule
-  ],
-  exports: [
-  ],
-  entryComponents: [
   ]
 })
 export class ChannelGroupsModule { }

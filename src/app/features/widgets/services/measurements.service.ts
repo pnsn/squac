@@ -43,6 +43,7 @@ export class MeasurementsService implements OnDestroy {
         widget.metrics.forEach(metric => {
           this.localData[channel.id][metric.id] = [];
         });
+
       });
     }
   }
@@ -64,6 +65,7 @@ export class MeasurementsService implements OnDestroy {
           }
         },
         error => {
+          console.log(error);
           console.log('error in fetch measurements');
         },
         () => {
