@@ -74,6 +74,7 @@ export class DashboardDetailComponent implements OnInit {
           this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
+
         } else {
           console.log('should not be possible to get here');
         }
