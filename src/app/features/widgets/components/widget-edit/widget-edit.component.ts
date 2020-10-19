@@ -73,7 +73,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
     this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
-    console.log('widget', this.widget);
     this.initForm();
 
     this.subscriptions.add(sub);

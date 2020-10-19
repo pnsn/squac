@@ -87,25 +87,34 @@ addWidget() {
 
 }
 
+private addWidgetsToView(widgets: Widget[]) {
+  this.widgets = [];
+  if (widgets && widgets.length > 0) {
+    widgets.forEach(widget => {
+      this.widgets.push({
+        cols: widget.columns ? widget.columns : 1,
+        rows: widget.rows ? widget.rows : 1,
+        y: widget.y ? widget.y : 0,
+        x: widget.x ? widget.x : 0,
+        widget
+      });
+    });
+  }
+  this.loading = false;
+
+}
   ngOnInit(): void {
+    this.viewService.currentWidgets.subscribe(
+      widgets => {
+        this.addWidgetsToView(widgets);
+      }
+    )
     console.log('widget component loaded');
     this.canUpdate = this.viewService.canUpdate;
 
     this.route.data.subscribe(
       data => {
-        this.widgets = [];
-        if (data.widgets && data.widgets.length > 0) {
-          data.widgets.forEach(widget => {
-            this.widgets.push({
-              cols: widget.columns ? widget.columns : 1,
-              rows: widget.rows ? widget.rows : 1,
-              y: widget.y ? widget.y : 0,
-              x: widget.x ? widget.x : 0,
-              widget
-            });
-          });
-        }
-        this.loading = false;
+        this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
             // allow dragable and resizable if they have permission to edit dashboard

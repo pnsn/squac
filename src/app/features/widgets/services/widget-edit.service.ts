@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 interface Thresholds {
   [metricId: number]: Threshold
@@ -165,7 +165,7 @@ export class WidgetEditService {
     return this.widgetsService.updateWidget(
       this.widget
     ).pipe(
-      tap (
+      switchMap (
         response => {
           newWidget = response;
 
@@ -181,12 +181,12 @@ export class WidgetEditService {
                 tap(result => {
                   count++;
                   if (newWidget && count === thresholdObs.length) {
-                    this.viewService.updateWidget(newWidget);
+                    this.viewService.updateWidget(newWidget.id, newWidget);
                   }
                 })
               );
             } else {
-              this.viewService.updateWidget(newWidget);
+              this.viewService.updateWidget(newWidget.id, newWidget);
               return of(newWidget);
             }
         }

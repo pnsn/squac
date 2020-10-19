@@ -15,10 +15,8 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
 
     if (id) {
       // get specific resource
-      console.log('dashboard id', id);
       return this.dashboardsService.getDashboard(id).pipe(
         tap(data => {
-          console.log(data)
           console.log('in resolver, dashboard');
         }),
         catchError(this.handleError)

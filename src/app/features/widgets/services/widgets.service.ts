@@ -72,7 +72,6 @@ export class WidgetsService {
         ),
         map(
           (channelGroups: any) => {
-            console.log(widgets);
             widgets.forEach(w => {
               w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
                 return cg.id === w.channelGroupId;
@@ -156,6 +155,7 @@ export class WidgetsService {
 
   }
 
+  //Post and put for widget don't return serialized values
   updateWidget(widget: Widget): Observable<any> {
     const postData: WidgetHttpData = {
       name: widget.name,

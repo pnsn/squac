@@ -69,14 +69,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     this.route.data.subscribe(
       data => {
-        console.log(data.dashboard);
         this.dashboard = data.dashboard;
         if (this.dashboard) {
           this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
         } else {
-          console.log('should not be possible tog et ehre');
+          console.log('should not be possible to get here');
         }
       }
     );

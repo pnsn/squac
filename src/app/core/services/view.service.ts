@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Widget } from '@features/widgets/models/widget';
@@ -28,14 +28,13 @@ export class ViewService {
   get isLive(): boolean {
     return this.live;
   }
-  currentWidgets = new BehaviorSubject<Widget[]>([]);
-  dates = new Subject<{start: string, end: string, live: boolean, range: number}>();
+  currentWidgets = new Subject<Widget[]>();
+  dates = new ReplaySubject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
   status = new BehaviorSubject<string>('finished'); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
-  private widgets: Widget[] = [];
   private dashboard: Dashboard;
 
   queuedWidgets = 0;
@@ -61,7 +60,6 @@ export class ViewService {
   }
   setWidgets(widgets: Widget[]): void {
     this.dashboard.widgets = widgets;
-    console.log(this.dashboard.widgets);
   }
   getWidget(id): Widget | boolean {
     const index = this.getWidgetIndexById(id);
@@ -101,14 +99,10 @@ export class ViewService {
   }
 
   dashboardSelected(dashboard: Dashboard): void {
-    console.log(dashboard)
-    // set dates
-
     // clear old widgets
     if (this.dashboard) {
       this.dashboard.widgets = [];
       this.queuedWidgets = 0;
-      this.updateCurrentWidgets();
     }
 
     this.dashboard = dashboard;
@@ -118,35 +112,40 @@ export class ViewService {
   }
 
   // FIXME: this currently will cause all widgets to reload;
-  private widgetsChanged(): void {
+  private widgetChanged(widgetId: number): void {
     this.status.next('finished');
     this.error.next(null);
-    this.updateCurrentWidgets();
-  }
-
-  private updateCurrentWidgets(): void {
-    // add widgets to Dashboard
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
-
-  updateWidget(widget): void {
-    console.log('get widgets');
-    const index = this.getWidgetIndexById(widget.id);
-    if (index > -1) {
-      this.dashboard.widgets[index] = widget;
+  updateWidget(widgetId: number, widget? : Widget): void {
+    const index = this.getWidgetIndexById(widgetId);
+    if (index > -1  && !widget) {
+      this.dashboard.widgets.splice(index, 1);
+      this.widgetChanged(widgetId);
     } else {
-      this.dashboard.widgets.push(widget);
+      //get widget data since incomplete widget is coming in
+      this.widgetService.getWidget(widgetId).subscribe(
+        newWidget => {
+          if(index > -1) {
+            this.dashboard.widgets[index] = newWidget;
+          } else {
+            this.dashboard.widgets.push(newWidget);
+          }
+          this.widgetChanged(widgetId);
+        }
+      )
     }
+
   }
+
 
   deleteWidget(widgetId): void {
     this.status.next('loading');
     const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
-        this.dashboard.widgets.splice(index, 1);
-        this.widgetsChanged();
+        this.updateWidget(widgetId);
       },
       error => {
         this.handleError('Could not delete widget with ID: ' + widgetId, 'deleteWidget', error);
@@ -181,7 +180,6 @@ export class ViewService {
   }
 
   saveDashboard(): void {
-    console.log(this.dashboard);
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
         console.log('dashboard saved');
@@ -190,7 +188,7 @@ export class ViewService {
         this.handleError('Could not save dashboard.', 'saveDashboard', error);
       },
       () => {
-        console.log('Dashboard save complete');
+
       }
     );
   }

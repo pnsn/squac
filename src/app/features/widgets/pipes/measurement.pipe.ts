@@ -57,7 +57,6 @@ private min(values): number {
 
 // TODO: handle stattypesthat are unknown
 transform(values: any, type: any): any {
-  console.log(values);
   if (values && values.length > 0) {
     const sortedValues = this.sort(values);
     switch (type) {
