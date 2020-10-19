@@ -65,11 +65,6 @@ export class WidgetsService {
             return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
           }
         ),
-        tap(
-          response => {
-            console.log(response)
-          }
-        ),
         map(
           (channelGroups: any) => {
             widgets.forEach(w => {

@@ -106,6 +106,7 @@ export class ViewService {
     }
 
     this.dashboard = dashboard;
+    //if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
       this.status.next('finished');
     }
@@ -141,8 +142,6 @@ export class ViewService {
 
 
   deleteWidget(widgetId): void {
-    this.status.next('loading');
-    const index = this.getWidgetIndexById(widgetId);
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
         this.updateWidget(widgetId);

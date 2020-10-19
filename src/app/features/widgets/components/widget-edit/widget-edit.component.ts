@@ -108,14 +108,11 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   }
 
   selectType(type) {
-    console.log(type);
     this.selectedType = type;
     this.widgetEditService.updateType(type);
   }
 
   save() {
-    console.log('save');
-  //   //save thresholds
     const values = this.widgetForm.value;
     const statType = this.statTypes.find((st) => {
       return st.id === values.statType;

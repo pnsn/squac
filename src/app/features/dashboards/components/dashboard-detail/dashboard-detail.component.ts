@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Dashboard } from '../../models/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
-export class DashboardDetailComponent implements OnInit, OnDestroy {
+export class DashboardDetailComponent implements OnInit {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   dialogRef;
@@ -84,9 +84,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       status => {
         if (status !== this.status) {
           this.status = status;
-          console.log('Status: ' + this.status);
         }
-
       },
       error => {
         console.log('error in dasbhboard detail status' + error);

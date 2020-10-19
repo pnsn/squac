@@ -108,8 +108,8 @@ private addWidgetsToView(widgets: Widget[]) {
       widgets => {
         this.addWidgetsToView(widgets);
       }
-    )
-    console.log('widget component loaded');
+    );
+    console.log('widgets component loaded');
     this.canUpdate = this.viewService.canUpdate;
 
     this.route.data.subscribe(
