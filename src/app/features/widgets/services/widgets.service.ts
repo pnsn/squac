@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, forkJoin, empty, EMPTY, of } from 'rxjs';
 import { Widget } from '@features/widgets/models/widget';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { ChannelGroup } from '@core/models/channel-group';
@@ -62,11 +62,17 @@ export class WidgetsService {
             cGRequests = cGRequests.map(id => {
               return this.channelGroupsService.getChannelGroup(id);
             });
-            return forkJoin(cGRequests);
+            return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
+          }
+        ),
+        tap(
+          response => {
+            console.log(response)
           }
         ),
         map(
           (channelGroups: any) => {
+            console.log(widgets);
             widgets.forEach(w => {
               w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
                 return cg.id === w.channelGroupId;

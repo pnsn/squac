@@ -101,7 +101,7 @@ export class ViewService {
   }
 
   dashboardSelected(dashboard: Dashboard): void {
-
+    console.log(dashboard)
     // set dates
 
     // clear old widgets

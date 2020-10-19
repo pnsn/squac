@@ -6,7 +6,8 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 import { WidgetsService } from '../../services/widgets.service';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-widgets',
   templateUrl: './widgets.component.html',
@@ -27,6 +28,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   options: GridsterConfig = {
@@ -78,6 +80,11 @@ itemChange(item) {
     );
     this.viewService.resizeWidget(item.widget.id);
   }
+}
+
+addWidget() {
+  this.router.navigate(['widgets', 'new'], {relativeTo: this.route});
+
 }
 
   ngOnInit(): void {
