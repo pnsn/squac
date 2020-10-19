@@ -83,7 +83,7 @@ itemChange(item) {
 }
 
 addWidget() {
-  this.router.navigate(['widgets', 'new'], {relativeTo: this.route});
+  this.router.navigate(['new'], {relativeTo: this.route});
 
 }
 
