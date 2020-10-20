@@ -43,6 +43,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         if (dashboardId && statTypes && metrics && channelGroups) {
             // get dashboard && widget from url
             this.dialogRef = this.dialog.open(WidgetEditComponent, {
+              closeOnNavigation: true,
               data : {
                 widget,
                 dashboardId,

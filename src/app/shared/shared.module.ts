@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ModalComponent } from './modal/modal.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PopupComponent } from './popup/popup.component';
@@ -14,7 +13,6 @@ import { ErrorComponent } from './error/error.component';
 import { AbilityModule } from '@casl/angular';
 @NgModule({
   declarations: [
-    ModalComponent,
     PopupComponent,
     LoadingComponent,
     MapComponent,
@@ -29,7 +27,6 @@ import { AbilityModule } from '@casl/angular';
   ],
   exports: [
     MaterialModule,
-    ModalComponent,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,

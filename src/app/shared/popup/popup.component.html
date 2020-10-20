@@ -1,6 +1,13 @@
+<div class="popup-background"></div>
 <div class="popup">
   <div class="popup-body">
       <ng-content></ng-content>
+      <button (click)="yes()">
+        Yes
+      </button>
+      <button (click)="no()">
+        No
+      </button>
   </div>
 </div>
-<div class="popup-background"></div>`
+
