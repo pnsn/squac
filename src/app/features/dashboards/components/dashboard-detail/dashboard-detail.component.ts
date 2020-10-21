@@ -187,23 +187,21 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteDashboard() {
-    if (this.ability.can('delete', this.dashboard)) {
-      this.confirmDialog.open(
-        {
-          title: "Delete Dashboard",
-          message: "This action is permanent.",
-          cancelText: "No, cancel.",
-          confirmText: "Yes, delete."
+    this.confirmDialog.open(
+      {
+        title: "Delete: " + this.dashboard.name,
+        message: "This action is permanent and cannot be undone.",
+        cancelText: "Cancel",
+        confirmText: "Delete"
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if(confirm) {
+          this.viewService.deleteDashboard(this.dashboard.id);
+          this.router.navigate(['/dashboards']);
         }
-      );
-      this.confirmDialog.confirmed().subscribe(
-        confirm => {
-          if(confirm) {
-            this.viewService.deleteDashboard(this.dashboard);
-            this.router.navigate(['/dashboards']);
-          }
-      });
-    }
+    });
   }
 
   refreshData() {

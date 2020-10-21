@@ -66,24 +66,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
           shareOrg: this.dashboard.shareOrg
         }
       );
-
-      // const dashboardSub = this.dashboardService.getDashboard(this.id).subscribe(
-      //   dashboard => {
-      //     this.dashboard = dashboard;
-      //     this.dashboardForm.patchValue(
-      //       {
-      //         name : dashboard.name,
-      //         description : dashboard.description,
-      //         shareAll: dashboard.shareAll,
-      //         shareOrg: dashboard.shareOrg
-      //       }
-      //     );
-      //   },
-      //   error => {
-      //     console.log('error in dashboard edit: ' + error);
-      //   }
-      // );
-      // this.subscriptions.add(dashboardSub);
     }
   }
 

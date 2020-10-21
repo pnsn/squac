@@ -6,6 +6,7 @@ import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-widget-detail',
@@ -30,7 +31,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmDialog : ConfirmDialogService
   ) {
 
   }
@@ -98,6 +100,20 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteWidget() {
-    this.viewService.deleteWidget(this.widget.id);
+    this.confirmDialog.open(
+      {
+        title: "Delete: " + this.widget.name,
+        message: "This action is permanent and cannot be undone.",
+        cancelText: "Cancel",
+        confirmText: "Delete"
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if(confirm) {
+          this.viewService.deleteWidget(this.widget.id);
+          this.router.navigate(['/dashboards']);
+        }
+    });
   }
 }

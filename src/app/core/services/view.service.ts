@@ -166,8 +166,8 @@ export class ViewService {
     this.status.next('error');
   }
 
-  deleteDashboard(dashboard): void {
-    this.dashboardService.deleteDashboard(dashboard.id).subscribe(
+  deleteDashboard(dashboardId): void {
+    this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {
         console.log('dashboard deleted');
         // redirect to /dashboards

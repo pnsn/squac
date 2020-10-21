@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@shared/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ interface ConfirmDialogOptions {
 @Injectable({
   providedIn: 'root'
 })
-export class ConfirmDialogService {
+export class ConfirmDialogService implements OnDestroy {
 
   constructor(
     private dialog: MatDialog
@@ -43,6 +43,12 @@ export class ConfirmDialogService {
       return res;
     }
   ));
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.dialog.closeAll();
   }
 }
 
