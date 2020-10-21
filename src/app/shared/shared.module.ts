@@ -11,14 +11,15 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ErrorComponent } from './error/error.component';
 import { AbilityModule } from '@casl/angular';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-
+import { ReplacePipe } from './pipes/replace.pipe';
 
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
     LoadingComponent,
     MapComponent,
-    ErrorComponent
+    ErrorComponent,
+    ReplacePipe
   ],
   imports: [
     CommonModule,
@@ -38,7 +39,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MapComponent,
     ErrorComponent,
     AbilityModule,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ReplacePipe
   ]
 })
 

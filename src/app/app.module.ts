@@ -32,7 +32,7 @@ import { BrowserModule } from '@angular/platform-browser';
     HeaderComponent,
     NotFoundComponent,
     LoadingScreenComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     HttpClientModule,

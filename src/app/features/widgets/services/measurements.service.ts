@@ -21,7 +21,7 @@ export class MeasurementsService implements OnDestroy {
   data = new Subject();
   private localData = {};
   private widget;
-  private refreshInterval = 5 * 60 * 1000; // 5 mintues now, this will be config
+  private refreshInterval = 5; // 5 mintues now, this will be config
   private lastEndString: string;
   private successCount = 0; // number of successful requests
   updateTimeout;
@@ -87,7 +87,7 @@ export class MeasurementsService implements OnDestroy {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
         this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
-      }, this.refreshInterval);
+      }, this.refreshInterval * 60 * 1000);
     }
   }
 
