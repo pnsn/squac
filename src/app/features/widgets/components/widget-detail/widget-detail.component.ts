@@ -53,6 +53,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       dates => {
         this.data = {};
         this.loading = true;
+        console.log("dates ")
         // get new data and start timers over
         this.getData();
       },
@@ -103,7 +104,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.confirmDialog.open(
       {
         title: "Delete: " + this.widget.name,
-        message: "This action is permanent and cannot be undone.",
+        message: "Are you sure? This action is permanent.",
         cancelText: "Cancel",
         confirmText: "Delete"
       }
@@ -112,7 +113,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       confirm => {
         if(confirm) {
           this.viewService.deleteWidget(this.widget.id);
-          this.router.navigate(['/dashboards']);
         }
     });
   }

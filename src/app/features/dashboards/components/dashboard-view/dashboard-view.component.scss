@@ -10,7 +10,7 @@
   }
 
 }
-::ng-deep .mat-list-item-content {
+:host ::ng-deep .mat-list-item-content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -27,7 +27,7 @@ button {
   margin: 10px auto;
 }
 
-::ng-deep .mat-expansion-panel-body {
+:host ::ng-deep .mat-expansion-panel-body {
   max-height: 50vh;
   overflow:scroll;
 }

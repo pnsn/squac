@@ -190,7 +190,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.confirmDialog.open(
       {
         title: "Delete: " + this.dashboard.name,
-        message: "This action is permanent and cannot be undone.",
+        message: "Are you sure? This action is permanent.",
         cancelText: "Cancel",
         confirmText: "Delete"
       }
