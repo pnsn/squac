@@ -103,7 +103,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   deleteWidget() {
     this.confirmDialog.open(
       {
-        title: "Delete: " + this.widget.name,
+        title: `Delete: ${this.widget.name}`,
         message: "Are you sure? This action is permanent.",
         cancelText: "Cancel",
         confirmText: "Delete"

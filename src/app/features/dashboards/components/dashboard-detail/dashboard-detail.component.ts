@@ -189,7 +189,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   deleteDashboard() {
     this.confirmDialog.open(
       {
-        title: "Delete: " + this.dashboard.name,
+        title: `Delete: ${this.dashboard.name}`,
         message: "Are you sure? This action is permanent.",
         cancelText: "Cancel",
         confirmText: "Delete"

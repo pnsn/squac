@@ -278,8 +278,8 @@
           </ngx-datatable-column>
         </ngx-datatable>
     <div id="save-cancel-cg">
-      <button mat-flat-button color="warn" (click)="onDelete()">Delete</button>
-      <button mat-flat-button color="primary" (click)="formUnsaved()">
+      <button mat-button color="warn" (click)="onDelete()">Delete</button>
+      <button mat-button color="primary" (click)="formUnsaved()">
         Cancel
       </button>
       <button
@@ -296,32 +296,3 @@
 
 </div>
 
-
-
-<div id="channel-group-popup" class="popup hidden">
-  <div id="channel-group-popup-box" class="box popup-box">
-    <p>{{ getPopupText() }}</p>
-    <p>Would you like to continue?</p>
-    <div class="btn-container">
-      <button mat-flat-button color="primary" (click)="closePopup()">
-        Cancel
-      </button>
-      <button
-        mat-flat-button
-        color="accent"
-        (click)="cancel()"
-        *ngIf="popupAction === 'cancel'"
-      >
-        Continue
-      </button>
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="delete()"
-        *ngIf="popupAction === 'delete'"
-      >
-        Delete
-      </button>
-    </div>
-  </div>
-</div>
