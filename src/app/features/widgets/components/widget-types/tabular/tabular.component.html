@@ -35,6 +35,7 @@
     [cellClass]="getCellClass"
     [canAutoResize]="true"
     [flexGrow]="3"
+    [sortable]="false"  
     >
     <ng-template let-column="column" ngx-datatable-header-template> 
       {{ column.name | replace : '_' : ' ' | titlecase }}
