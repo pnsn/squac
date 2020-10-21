@@ -37,6 +37,7 @@ export class ConfirmDialogService {
     }); 
   }  
 
+  // Observable response is true if confirm, false if cancel
   public confirmed(): Observable<any> {
     return this.dialogRef.afterClosed().pipe(take(1), map(res => {
       return res;
@@ -44,3 +45,21 @@ export class ConfirmDialogService {
   ));
   }
 }
+
+//EXAMPLE USE
+// this.confirmDialog.open(
+//   {
+//     title: "Delete",
+//     message: "This action is permanent.",
+//     cancelText: "No, cancel.",
+//     confirmText: "Yes, delete."
+//   }
+// );
+// this.confirmDialog.confirmed().subscribe(
+//   confirm => {
+//     if(confirm) {
+//       this.viewService.deleteDashboard(this.dashboard);
+//       this.router.navigate(['/dashboards']);
+//     }
+// });
+// Returns true if confirm, false for cancel
