@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 //
 @Component({
@@ -59,7 +60,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private confirmDialog:  ConfirmDialogService
   ) { }
 
   ngOnInit() {
@@ -186,8 +188,21 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   deleteDashboard() {
     if (this.ability.can('delete', this.dashboard)) {
-      this.viewService.deleteDashboard(this.dashboard);
-      this.router.navigate(['/dashboards']);
+      this.confirmDialog.open(
+        {
+          title: "Delete Dashboard",
+          message: "This action is permanent.",
+          cancelText: "No, cancel.",
+          confirmText: "Yes, delete."
+        }
+      );
+      this.confirmDialog.confirmed().subscribe(
+        confirm => {
+          if(confirm) {
+            this.viewService.deleteDashboard(this.dashboard);
+            this.router.navigate(['/dashboards']);
+          }
+      });
     }
   }
 

@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '@shared/confirmation/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@shared/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+
+
+interface ConfirmDialogOptions {
+  title: string;
+  message: string;
+  cancelText: string;
+  confirmText: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +26,7 @@ export class ConfirmDialogService {
     this.dialogRef.close(false);
   }
 
-  public open(options) {
+  public open(options: ConfirmDialogOptions) {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent, {    
       data: {
         title: options.title,

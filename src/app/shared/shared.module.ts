@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PopupComponent } from './popup/popup.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from './material.module';
@@ -11,9 +10,12 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ErrorComponent } from './error/error.component';
 import { AbilityModule } from '@casl/angular';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+
+
 @NgModule({
   declarations: [
-    PopupComponent,
+    ConfirmDialogComponent,
     LoadingComponent,
     MapComponent,
     ErrorComponent
@@ -35,7 +37,8 @@ import { AbilityModule } from '@casl/angular';
     NgxDatatableModule,
     MapComponent,
     ErrorComponent,
-    AbilityModule
+    AbilityModule,
+    ConfirmDialogComponent
   ]
 })
 
