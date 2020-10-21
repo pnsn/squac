@@ -16,16 +16,10 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
     if (id) {
       // get specific resource
       return this.dashboardsService.getDashboard(id).pipe(
-        tap(data => {
-          console.log('in resolver, dashboard');
-        }),
         catchError(this.handleError)
       );
     } else {
       return this.dashboardsService.getDashboards().pipe(
-        tap(data => {
-          console.log('in resolver, dashboards');
-        }),
         catchError(this.handleError)
       );
       // return all of them

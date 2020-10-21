@@ -12,9 +12,6 @@ export class UserResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     return this.userService.getUser().pipe(
-      tap(data => {
-        console.log('in resolver, user');
-      }),
       catchError(this.handleError)
     );
   }

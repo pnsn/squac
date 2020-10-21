@@ -31,7 +31,7 @@ export class ViewService {
   currentWidgets = new Subject<Widget[]>();
   dates = new ReplaySubject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
-  status = new BehaviorSubject<string>('finished'); // loading, error, finished
+  status = new BehaviorSubject<string>('loading'); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
@@ -82,11 +82,17 @@ export class ViewService {
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
     const start = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
     const end = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
-    this.live = live;
 
-    this.dashboard.timeRange = range;
-    this.dashboard.starttime = start;
-    this.dashboard.endtime = end;
+
+    if( range && range!== this.dashboard.timeRange || 
+        start !== this.dashboard.starttime || 
+        end !== this.dashboard.endtime || 
+        this.live != live) {
+          
+      this.live = live;
+      this.dashboard.timeRange = range;
+      this.dashboard.starttime = start;
+      this.dashboard.endtime = end;
 
     this.dates.next({
       start,
@@ -94,6 +100,11 @@ export class ViewService {
       live,
       range
     });
+
+
+    }
+
+
     // this is setting status to loading when it shouldn't
     // this.status.next('loading');
   }
@@ -108,6 +119,7 @@ export class ViewService {
     this.dashboard = dashboard;
     // if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
+      console.log("dashboard done")
       this.status.next('finished');
     }
   }

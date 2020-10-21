@@ -14,16 +14,10 @@ export class MetricsResolver implements Resolve<Observable<any>> {
     const id = +route.paramMap.get('id');
     if (id) {
       return this.metricsService.getMetric(id).pipe(
-        tap(data => {
-          console.log('in resolver, metric');
-        }),
         catchError(this.handleError)
       );
     } else {
       return this.metricsService.getMetrics().pipe(
-        tap(data => {
-          console.log('in resolver, metrics');
-        }),
         catchError(this.handleError)
       );
       // return all of them

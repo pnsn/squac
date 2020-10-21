@@ -16,16 +16,10 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
 
     if (widgetId) {
       return this.widgetsService.getWidget(widgetId).pipe(
-        tap(data => {
-          console.log('in resolver, widget');
-        }),
         catchError(this.handleError)
       );
     } else {
       return this.widgetsService.getWidgets(dashboardId).pipe(
-        tap(data => {
-          console.log('in resolver, widgets');
-        }),
         catchError(this.handleError)
       );
       // return all of them

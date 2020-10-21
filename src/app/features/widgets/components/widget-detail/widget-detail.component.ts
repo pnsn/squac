@@ -53,7 +53,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       dates => {
         this.data = {};
         this.loading = true;
-        console.log("dates ")
         // get new data and start timers over
         this.getData();
       },

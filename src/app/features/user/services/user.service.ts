@@ -36,7 +36,6 @@ export class UserService {
     return this.currentUser.orgId;
   }
   getUser(): Observable<User> {
-    console.log('getting User');
     if (this.currentUser) {
       return of(this.currentUser);
     }

@@ -123,6 +123,7 @@ private addWidgetsToView(widgets: Widget[]) {
   }
 
   ngOnDestroy() {
+    console.log("widgets destroyed")
     this.subscription.unsubscribe();
   }
 

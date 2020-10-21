@@ -12,9 +12,6 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     return this.orgService.getOrganization().pipe(
-      tap(data => {
-        console.log('in resolver, organization');
-      }),
       catchError(this.handleError)
     );
   }

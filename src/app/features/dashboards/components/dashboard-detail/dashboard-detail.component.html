@@ -30,7 +30,7 @@
               [showCustomRangeLabel]="true"
               alwaysShowCalendars="true"
               [showRangeLabelOnInput]="true"
-              (ngModelChange)="datesSelected($event)"
+              (change)="datesSelected($event)"
             />
           </mat-form-field>
           <!-- if they have permission, otherwise show copy only -->

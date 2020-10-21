@@ -40,7 +40,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     direction: 'ltr', // could be rtl
   };
   ranges = {};
-
   // annoying way to get date ranges and match squacapi
   // time duration (s) : label
   // TODO: this should be meaningful, not just seconds (i.e. 1 month != 30 days)
@@ -65,6 +64,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log("Dashboard selected")
     this.maxDate = moment.utc();
 
     this.route.data.subscribe(
@@ -122,9 +122,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if (chosenDate && chosenDate.startDate && chosenDate.endDate) {
       const range = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
       this.selectDateRange(chosenDate.startDate, chosenDate.endDate, range ? range : null );
-    }
+          // FIXME: add check to keep it from saving on open
+
+      this.saveDashboard();
+    } 
   }
 
+  //FIXME: should this be part of the view service
   setInitialDates() {
     this.startDate = moment.utc();
     // make date range selector
@@ -155,6 +159,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         endDate: this.startDate
       };
     }
+
+    this.selectDateRange(this.selected.startDate, this.selected.endDate, this.dashboard.timeRange ? this.dashboard.timeRange  : null );
   }
 
   openDatePicker(): void {
@@ -177,13 +183,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.liveMode,
       range
     );
-
-
-    // FIXME: add check to keep it from saving on open
-    if (this.ability.can('update', this.dashboard)) {
-      this.saveDashboard();
-    }
-
   }
 
   deleteDashboard() {
@@ -209,8 +208,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   saveDashboard() {
-    this.unsaved = false;
-    this.viewService.saveDashboard();
+    if (this.ability.can('update', this.dashboard)) {
+      this.unsaved = false;
+      this.viewService.saveDashboard();
+    }
   }
 
   ngOnDestroy() {
