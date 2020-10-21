@@ -1,5 +1,5 @@
 
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,13 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
 import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 import { HomeComponent } from './core/components/home/home.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { ConfigurationService } from '@core/services/configuration.service';
+
+
+export function initApp(configurationService: ConfigurationService) {
+  return () => configurationService.load().toPromise();
+}
+
 
 @NgModule({
   declarations: [
@@ -48,6 +55,12 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   providers: [
     {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [ConfigurationService]
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
@@ -68,3 +81,5 @@ import { BrowserModule } from '@angular/platform-browser';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

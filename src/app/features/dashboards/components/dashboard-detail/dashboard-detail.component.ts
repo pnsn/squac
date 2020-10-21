@@ -74,7 +74,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
           this.setInitialDates();
-
+          this.status = "loading";
         } else {
           console.log('should not be possible to get here');
         }
