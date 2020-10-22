@@ -116,11 +116,7 @@ export class ViewService {
 
   dashboardSelected(dashboard: Dashboard): void {
     // clear old widgets
-    if (this.dashboard) {
-      this.dashboard.widgets = [];
-      this.queuedWidgets = 0;
-    }
-
+    this.queuedWidgets = 0;
     this.dashboard = dashboard;
     // if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {

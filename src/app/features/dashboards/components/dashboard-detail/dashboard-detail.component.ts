@@ -112,6 +112,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
+    console.log("dates selected")
     if (chosenDate && chosenDate.startDate && chosenDate.endDate) {
       const range = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
       this.selectDateRange(chosenDate.startDate, chosenDate.endDate, range ? range : null );
