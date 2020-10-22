@@ -10,7 +10,6 @@ export class ConfigurationService {
   private configuration = {};
 
   constructor(private httpClient: HttpClient) {
-    console.log("create config")
   }
 
   load(): Observable<void> {

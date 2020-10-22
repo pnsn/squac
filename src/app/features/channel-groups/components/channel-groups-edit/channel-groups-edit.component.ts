@@ -298,7 +298,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         {
           title: "Cancel editing",
           message: "You have unsaved changes, if you cancel they will be lost.",
-          cancelText: "Keep Editing",
+          cancelText: "Keep editing",
           confirmText: "Cancel"
         }
       );

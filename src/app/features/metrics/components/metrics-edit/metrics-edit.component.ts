@@ -5,6 +5,7 @@ import { MetricsService } from '@features/metrics/services/metrics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { subscribeOn } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-metrics-edit',
@@ -21,7 +22,8 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private metricsService: MetricsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private confirmDialog: ConfirmDialogService
   ) { }
 
   ngOnInit() {
@@ -111,15 +113,22 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   formUnsaved(e: Event) {
     e.preventDefault();
     if (this.metricForm.dirty) {
-      const popup = document.getElementById('metric-popup');
-      popup.classList.remove('hidden');
+      this.confirmDialog.open(
+        {
+          title: "Cancel editing",
+          message: "You have unsaved changes, if you cancel they will be lost.",
+          cancelText: "Keep editing",
+          confirmText: "Cancel"
+        }
+      );
+      this.confirmDialog.confirmed().subscribe(
+        confirm => {
+          if(confirm) {
+            this.cancel();
+          }
+      });
     } else {
       this.cancel();
     }
-  }
-
-  closePopup() {
-    const popup = document.getElementById('metric-popup');
-    popup.classList.add('hidden');
   }
 }
