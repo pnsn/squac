@@ -90,19 +90,11 @@ export class OrganizationsService {
 
   getOrganization(): Observable<Organization> {
     const id = this.userService.userOrg;
-    const path = "organizations/"
-  //  const org = this.localOrganizations.find(
-  //     org => org.id === id
-  //   );
-
-    // if (org) {
-    //   return of(org);
-    // } else {
-
+    const path = "organizations/";
     return forkJoin(
         {
           users: this.getOrganizationUsers(id),
-          organization: this.squacApi.get(this.url+ path, id)
+          organization: this.squacApi.get(this.url + path, id)
         }
       ).pipe( map(
           response => {
@@ -110,7 +102,6 @@ export class OrganizationsService {
           }
         )
       );
-    // }
   }
 
   getOrganizationUsers(orgId): Observable<User[]> {
