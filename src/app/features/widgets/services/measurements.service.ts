@@ -32,7 +32,7 @@ export class MeasurementsService implements OnDestroy {
     private viewService: ViewService,
     private configService: ConfigurationService
   ) {
-    this.refreshInterval = configService.getValue('dataRefreshInterval');
+    this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes');
   }
 
   ngOnDestroy() {

@@ -8,26 +8,13 @@ import { Widget } from '@features/widgets/models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
+import { ConfigurationService } from './configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewService {
   // handle refreshing
-
-  constructor(
-    private dashboardService: DashboardsService,
-    private widgetService: WidgetsService,
-    private ability: Ability
-  ) { }
-
-  get canUpdate(): boolean {
-    return this.ability.can('update', this.dashboard);
-  }
-
-  get isLive(): boolean {
-    return this.live;
-  }
   currentWidgets = new Subject<Widget[]>();
   dates = new ReplaySubject<{start: string, end: string, live: boolean, range: number}>();
   resize = new Subject<number>();
@@ -38,6 +25,24 @@ export class ViewService {
   private dashboard: Dashboard;
 
   queuedWidgets = 0;
+  locale;
+  constructor(
+    private dashboardService: DashboardsService,
+    private widgetService: WidgetsService,
+    private ability: Ability,
+    private configService: ConfigurationService
+  ) {
+    this.locale = configService.getValue("locale");
+  }
+
+  get canUpdate(): boolean {
+    return this.ability.can('update', this.dashboard);
+  }
+
+  get isLive(): boolean {
+    return this.live;
+  }
+
 
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex(w => w.id === id);
@@ -80,8 +85,8 @@ export class ViewService {
   }
 
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
-    const start = startDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
-    const end = endDate.format('YYYY-MM-DDTHH:mm:ss[Z]');
+    const start = startDate.format(this.locale.format);
+    const end = endDate.format(this.locale.format);
 
 
     if( range && range!== this.dashboard.timeRange || 

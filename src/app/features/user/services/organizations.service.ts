@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 providedIn: 'root'
 })
 export class OrganizationsService {
-  private url = 'organization/organizations/';
+  private url = 'organization/';
   private localOrganizations: Organization[] = [];
 
   constructor(
@@ -33,7 +33,8 @@ export class OrganizationsService {
   }
 
   getOrganizations(): Observable<Organization[]> {
-    return this.squacApi.get(this.url).pipe(
+    const path = "organizations/"
+    return this.squacApi.get(this.url + path).pipe(
       map(
         response => {
           const organizations = [];
@@ -54,7 +55,7 @@ export class OrganizationsService {
   }
 
   updateUser(user: {email: string, isAdmin: boolean, orgId: number, groups: string[], id?: number}): Observable<User> {
-    const url = 'organization/users/';
+    const path = 'users/';
 
     // get the ids
     const groups = [];
@@ -75,11 +76,11 @@ export class OrganizationsService {
       is_org_admin : user.isAdmin
     };
     if (user.id) {
-      return this.squacApi.put(url, user.id, postData).pipe(
+      return this.squacApi.put(this.url + path, user.id, postData).pipe(
         map((data) => this.mapOrgUsers(data))
       );
     } else {
-      return this.squacApi.post(url, postData).pipe(
+      return this.squacApi.post(this.url + path, postData).pipe(
           map((data) => this.mapOrgUsers(data))
 
         );
@@ -89,7 +90,7 @@ export class OrganizationsService {
 
   getOrganization(): Observable<Organization> {
     const id = this.userService.userOrg;
-
+    const path = "organizations/"
   //  const org = this.localOrganizations.find(
   //     org => org.id === id
   //   );
@@ -101,7 +102,7 @@ export class OrganizationsService {
     return forkJoin(
         {
           users: this.getOrganizationUsers(id),
-          organization: this.squacApi.get(this.url, id)
+          organization: this.squacApi.get(this.url+ path, id)
         }
       ).pipe( map(
           response => {
@@ -113,8 +114,8 @@ export class OrganizationsService {
   }
 
   getOrganizationUsers(orgId): Observable<User[]> {
-    const url = 'organization/users/';
-    return this.squacApi.get(url, null, {
+    const path = 'users/';
+    return this.squacApi.get(this.url + path, null, {
         organization: orgId
       }).pipe(map(response => {
         const users = [];

@@ -9,6 +9,8 @@ import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { config } from 'process';
 
 //
 @Component({
@@ -34,34 +36,25 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   liveMode: boolean;
   startDate: moment.Moment;
   // settings for date select
-  locale = {
-    format: 'YYYY-MM-DDTHH:mm:ss.SSSS[Z]',
-    displayFormat: 'YYYY/MM/DD HH:mm', // default is format value
-    direction: 'ltr', // could be rtl
-  };
+  locale;
   ranges = {};
   // annoying way to get date ranges and match squacapi
   // time duration (s) : label
   // TODO: this should be meaningful, not just seconds (i.e. 1 month != 30 days)
   // Get from squac?
-  rangeLookUp = {
-   900 : 'last 15 minutes',
-   1800 : 'last 30 minutes',
-   3600 : 'last 1 hour',
-   43200 : 'last 12 hours',
-   86400: 'last 24 hours',
-   604800 : 'last 7 days',
-   1209600 : 'last 14 days',
-   2592000 : 'last 30 days'
-  };
+  rangeLookUp ;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
     private ability: AppAbility,
-    private confirmDialog:  ConfirmDialogService
-  ) { }
+    private confirmDialog:  ConfirmDialogService,
+    private configService: ConfigurationService
+  ) { 
+    this.rangeLookUp = configService.getValue("dateRanges");
+    this.locale = configService.getValue("locale");
+  }
 
   ngOnInit() {
     console.log("Dashboard selected")
@@ -114,7 +107,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       return diff;
     } else {
       this.liveMode = false;
-      this.selectedRange = startDate.format('YYYY/MM/DD HH:mm') + ' - ' + endDate.format('YYYY/MM/DD HH:mm');
+      this.selectedRange = startDate.format(this.locale.displayFormat) + ' - ' + endDate.format(this.locale.displayFormat);
     }
   }
 
