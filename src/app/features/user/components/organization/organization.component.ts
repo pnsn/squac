@@ -49,9 +49,15 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.organization = this.route.snapshot.data.organization;
-    this.user = this.route.parent.snapshot.data.user;
-    this.isAdmin = this.user.isAdmin;
+    const orgSub = this.route.data.subscribe(
+      data => {
+        this.user = this.route.parent.snapshot.data.user;
+        this.organization = data.organization;
+        this.isAdmin = this.user.orgAdmin && this.user.orgId === this.organization.id;
+      }
+    );
+
+
 
     this.addUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -64,7 +70,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       editIsAdmin: [null, Validators.required]
     });
 
-    // this.subscription.add(userSub);
+    this.subscription.add(orgSub);
   }
 
   ngOnDestroy() {

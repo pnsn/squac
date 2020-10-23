@@ -2,7 +2,7 @@
 <div id="organization-content" >
   <div id="column" *ngIf="user && organization; else noUser">
     <h1>{{organization.name}} Organization</h1>
-    <p>Hello, {{user.firstName}} {{user.lastName}}!</p>
+    <p>You are {{user.orgId === organization.id ? "" : "not "}}part of this organization.</p>
 
     <h2>Organization Users</h2>
     <div class="box" id="org-users-container">
@@ -30,7 +30,7 @@
           {{ row.firstName}} {{row.lastName}}
          </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
+      <ngx-datatable-column name="Email" prop="email" [width]="200" *ngIf="isAdmin"></ngx-datatable-column>
       <ngx-datatable-column name="Groups" prop="groups" [width]="100">
         <ng-template let-value="value" ngx-datatable-cell-template >
           {{ value.join(', ') }}

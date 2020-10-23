@@ -4,6 +4,9 @@
           <h2>
               {{dashboard.name}}
           </h2>
+          <span [ngSwitch]="">
+            by {{orgName}}
+          </span>
           <!-- TODO: add dashboard owner name & copy -->
       </div>
         <div id="header-controls">

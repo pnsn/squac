@@ -11,6 +11,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { config } from 'process';
+import { OrganizationsService } from '@features/user/services/organizations.service';
 
 //
 @Component({
@@ -35,6 +36,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
   selectedRange: string;
   liveMode: boolean;
   startDate: moment.Moment;
+  orgName: string;
   // settings for date select
   locale;
   ranges = {};
@@ -50,7 +52,8 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
     private viewService: ViewService,
     private ability: AppAbility,
     private confirmDialog:  ConfirmDialogService,
-    private configService: ConfigurationService
+    configService: ConfigurationService,
+    private orgService: OrganizationsService
   ) { 
     this.rangeLookUp = configService.getValue("dateRanges");
     this.locale = configService.getValue("locale");
@@ -66,6 +69,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
     this.route.data.subscribe(
       data => {
         this.dashboard = data.dashboard;
+        this.orgName = this.orgService.getOrgName(this.dashboard.orgId);
         if (this.dashboard) {
           this.viewService.setDashboard(this.dashboard);
           const range =this.viewService.getRange();

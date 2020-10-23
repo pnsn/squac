@@ -11,9 +11,17 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(private orgService: OrganizationsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    return this.orgService.getOrganization().pipe(
-      catchError(this.handleError)
-    );
+    const id = +route.paramMap.get('orgId');
+
+    if(id) {
+      return this.orgService.getOrganization(id).pipe(
+        catchError(this.handleError)
+      );
+    } else {
+      return this.orgService.getOrganizations().pipe(
+        catchError(this.handleError)
+      );
+    }
   }
 
   handleError(error): Observable<any> {

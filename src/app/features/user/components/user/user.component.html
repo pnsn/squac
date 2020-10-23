@@ -41,12 +41,12 @@
     <h2>
       Organization
     </h2>
-    <ul *ngIf="!!organization">
+    <ul *ngIf="orgName">
         <span>
-          {{organization.name}}
+          {{orgName}}
         </span>
         <span>
-          ({{user.isAdmin ? "Admin" : "User"}})
+          ({{user.orgAdmin ? "Admin" : "User"}})
         </span>
     </ul>
     <h2>Password</h2>
