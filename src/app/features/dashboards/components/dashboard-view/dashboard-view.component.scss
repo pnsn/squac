@@ -14,7 +14,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display:block !important;
+  line-height: 40px;
 }
+
 button {
   mat-icon {
     font-size: 20px;
@@ -27,7 +30,7 @@ button {
   margin: 10px auto;
 }
 :host ::ng-deep .mat-expansion-panel-header.mat-expanded {
-  height:50px;
+  height:40px;
 }
 
 :host ::ng-deep .mat-expansion-panel-body {

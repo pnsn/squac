@@ -88,7 +88,6 @@ addWidget() {
 }
 
 private addWidgetsToView(widgets: Widget[]) {
-  console.log(widgets)
   this.widgets.splice(0, this.widgets.length);
   if (widgets && widgets.length > 0) {
     widgets.forEach(widget => {
@@ -101,14 +100,12 @@ private addWidgetsToView(widgets: Widget[]) {
       });
     });
   }
-  console.log(this.widgets)
   this.loading = false;
 
 }
   ngOnInit(): void {
     const widgetSub = this.viewService.currentWidgets.subscribe(
       widgets => {
-        console.log("new widgets from view")
         this.addWidgetsToView(widgets);
       }
     );
@@ -116,7 +113,6 @@ private addWidgetsToView(widgets: Widget[]) {
 
     const dataSub = this.route.data.subscribe(
       data => {
-        console.log("new widgets from route")
         this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
