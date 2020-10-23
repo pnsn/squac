@@ -73,19 +73,21 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
         if (this.dashboard) {
           this.viewService.setDashboard(this.dashboard);
           const range =this.viewService.getRange();
+          const start = this.viewService.getStartdate();
+          const end = this.viewService.getEnddate();
+
           if(range) {
             this.selectedRange = this.rangeLookUp[range];
+            this.selected = {
+              startDate: this.ranges[this.selectedRange][0], 
+              endDate: this.ranges[this.selectedRange][1]
+            };
           } else {
-            const start = this.viewService.getStartdate();
-            const end = this.viewService.getEnddate();
-
-            this.selectedRange = start + ' - ' + end;
-
-
             this.selected = {
               startDate: moment.utc(start), 
               endDate: moment.utc(end)
             }
+            this.selectedRange = start + ' - ' + end;
           }
           this.error = null;
           this.status = "loading";
@@ -152,14 +154,10 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
   }
 
   datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
-    console.log("dates selected")
     const start = chosenDate.startDate;
     const end = chosenDate.endDate;
-
-    console.log(start.isUtc)
     if (start && end) {
       const range = this.lookupRange(start, end);
-
       this.viewService.datesChanged(
         start,
         end,
@@ -167,7 +165,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
         range ? range : null
       );
 
-      // this.saveDashboard();
+      this.saveDashboard();
     } 
   }
 
