@@ -33,10 +33,10 @@ export class MeasurementsService implements OnDestroy {
     private configService: ConfigurationService
   ) {
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
-    console.log(this.refreshInterval)
   }
 
   ngOnDestroy() {
+    console.log("measurement destroyed")
     if(this.measurementSubscription){
       this.measurementSubscription.unsubscribe();
     }
@@ -58,10 +58,20 @@ export class MeasurementsService implements OnDestroy {
   }
 
   // TODO: needs to truncate old measurement
-  fetchMeasurements(startString: string, endString: string): void {
-    this.viewService.widgetStartedLoading();
+  fetchMeasurements(startString?: string, endString?: string): void {
+
+    let start, end;
+    if(!startString || !endString) {
+      start = this.viewService.getStartdate();
+      end = this.viewService.getEnddate();
+    } else {
+      start = startString;
+      end = endString;
+    }
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
-      this.measurementSubscription = this.getMeasurements(startString, endString).subscribe(
+      this.viewService.widgetStartedLoading();
+      console.log("measurements")
+      this.measurementSubscription = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.
           if (success.length > 0) {
@@ -79,15 +89,13 @@ export class MeasurementsService implements OnDestroy {
         },
         () => {
           this.viewService.widgetFinishedLoading();
-          this.lastEndString = endString;
+          this.lastEndString = end;
           this.updateMeasurement();
           console.log('completed get data for ' + this.widget.id);
         }
       );
     } else {
-      // return error somehow
       this.data.next({});
-      this.viewService.widgetFinishedLoading();
     }
   }
 

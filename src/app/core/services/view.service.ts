@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Subject, BehaviorSubject, ReplaySubject, range } from 'rxjs';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Widget } from '@features/widgets/models/widget';
@@ -16,16 +16,17 @@ import { ConfigurationService } from './configuration.service';
 export class ViewService {
   // handle refreshing
   currentWidgets = new Subject<Widget[]>();
-  dates = new ReplaySubject<{start: string, end: string, live: boolean, range: number}>();
+  dates = new ReplaySubject<number>(1);
   resize = new Subject<number>();
   status = new BehaviorSubject<string>('loading'); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
   private dashboard: Dashboard;
-
+  private dateRanges;
   queuedWidgets = 0;
   locale;
+  defaultTimeRange;
   constructor(
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
@@ -33,6 +34,8 @@ export class ViewService {
     private configService: ConfigurationService
   ) {
     this.locale = configService.getValue("locale");
+    this.dateRanges = configService.getValue("dateRanges");
+    this.defaultTimeRange = configService.getValue("defaultTimeRange", 3);
   }
 
   get canUpdate(): boolean {
@@ -63,9 +66,39 @@ export class ViewService {
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
   }
+
   setWidgets(widgets: Widget[]): void {
     this.dashboard.widgets = widgets;
+
+    this.setIntialDates();
+    //init dates
   }
+
+  private setIntialDates(){
+    console.log(this.dashboard.id);
+    const current = moment.utc();
+    let startDate, endDate, liveMode, range;
+    // make date range selector
+
+    if (this.dashboard.timeRange) {
+      liveMode = true;
+      startDate = moment.utc().subtract(this.dashboard.timeRange, 'seconds'),
+      endDate = current;
+      // set default dates
+    } else if (this.dashboard.starttime && this.dashboard.endtime) {
+      liveMode = false;
+      startDate = moment.utc(this.dashboard.starttime);
+      endDate = moment.utc(this.dashboard.endtime);
+    } else {
+      // default dates
+      liveMode = true;
+      startDate = moment.utc().subtract(this.defaultTimeRange, 'seconds');
+      endDate = current;
+    }
+
+    this.datesChanged(startDate, endDate, liveMode);
+  }
+  
   getWidget(id): Widget | boolean {
     const index = this.getWidgetIndexById(id);
     return index > -1 ? this.dashboard.widgets[index] : false;
@@ -88,7 +121,7 @@ export class ViewService {
     const start = startDate.format(this.locale.format);
     const end = endDate.format(this.locale.format);
 
-
+    console.log("dates changed?")
     if( range && range!== this.dashboard.timeRange || 
         start !== this.dashboard.starttime || 
         end !== this.dashboard.endtime || 
@@ -99,12 +132,8 @@ export class ViewService {
       this.dashboard.starttime = start;
       this.dashboard.endtime = end;
 
-    this.dates.next({
-      start,
-      end,
-      live,
-      range
-    });
+    this.dates.next(this.dashboard.id);
+
 
 
     }
@@ -115,9 +144,12 @@ export class ViewService {
   }
 
   dashboardSelected(dashboard: Dashboard): void {
+    console.log("new dashboard")
+    this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
+    // this.currentWidgets.next([]);
     // if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
       console.log("dashboard done")
@@ -127,16 +159,19 @@ export class ViewService {
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetChanged(widgetId: number): void {
+    console.log("widget changed")
     this.status.next('finished');
     this.error.next(null);
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
   updateWidget(widgetId: number, widget?: Widget): void {
+    console.log("update widget")
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1  && !widget) {
       this.dashboard.widgets.splice(index, 1);
       this.widgetChanged(widgetId);
+
     } else {
       // get widget data since incomplete widget is coming in
       this.widgetService.getWidget(widgetId).subscribe(

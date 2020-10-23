@@ -77,6 +77,8 @@ itemChange(item) {
       }
     );
     this.viewService.resizeWidget(item.widget.id);
+  } else {
+    console.log("item change no")
   }
 }
 
@@ -86,7 +88,8 @@ addWidget() {
 }
 
 private addWidgetsToView(widgets: Widget[]) {
-  this.widgets = [];
+  console.log(widgets)
+  this.widgets.splice(0, this.widgets.length);
   if (widgets && widgets.length > 0) {
     widgets.forEach(widget => {
       this.widgets.push({
@@ -98,19 +101,22 @@ private addWidgetsToView(widgets: Widget[]) {
       });
     });
   }
+  console.log(this.widgets)
   this.loading = false;
 
 }
   ngOnInit(): void {
-    this.viewService.currentWidgets.subscribe(
+    const widgetSub = this.viewService.currentWidgets.subscribe(
       widgets => {
+        console.log("new widgets from view")
         this.addWidgetsToView(widgets);
       }
     );
     this.canUpdate = this.viewService.canUpdate;
 
-    this.route.data.subscribe(
+    const dataSub = this.route.data.subscribe(
       data => {
+        console.log("new widgets from route")
         this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
@@ -120,6 +126,8 @@ private addWidgetsToView(widgets: Widget[]) {
         if (this.options.api) { this.options.api.optionsChanged(); }
       }
     );
+    this.subscription.add(widgetSub);
+    this.subscription.add(dataSub);
   }
 
   ngOnDestroy() {

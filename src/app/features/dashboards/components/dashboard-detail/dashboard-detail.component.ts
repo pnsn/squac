@@ -57,22 +57,27 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("Dashboard selected")
+
     this.maxDate = moment.utc();
+    this.makeTimeRanges();
+   
 
     this.route.data.subscribe(
       data => {
         this.dashboard = data.dashboard;
         if (this.dashboard) {
+          console.log("Dashboard selected", data.dashboard.id)
           this.viewService.dashboardSelected(this.dashboard);
           this.error = null;
-          this.setInitialDates();
           this.status = "loading";
+
         } else {
           console.log('should not be possible to get here');
         }
       }
     );
+
+
 
     const statusSub  = this.viewService.status.subscribe(
       status => {
@@ -96,6 +101,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
+  }
+
+  makeTimeRanges(){
+    for (const range in this.rangeLookUp) {
+      if (this.rangeLookUp[range]) {
+        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
+      }
+    }
   }
 
   // FIXME: milliseconds of difference are causing it to not recognize
@@ -124,35 +137,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   //FIXME: should this be part of the view service
   setInitialDates() {
-    this.startDate = moment.utc();
-    // make date range selector
-    for (const range in this.rangeLookUp) {
-      if (this.rangeLookUp[range]) {
-        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
-      }
-    }
-
-    if (this.dashboard.timeRange) {
-      this.liveMode = true;
-      this.selected = {
-        startDate: moment.utc().subtract(this.dashboard.timeRange, 'seconds'),
-        endDate: this.startDate
-      };
-      // set default dates
-    } else if (this.dashboard.starttime && this.dashboard.endtime) {
-      this.liveMode = false;
-      this.selected = {
-        startDate: moment.utc(this.dashboard.starttime),
-        endDate: moment.utc(this.dashboard.endtime)
-      };
-    } else {
-      // default dates
-      this.liveMode = true;
-      this.selected = {
-        startDate: this.ranges['last 1 hour'][0],
-        endDate: this.startDate
-      };
-    }
 
     this.selectDateRange(this.selected.startDate, this.selected.endDate, this.dashboard.timeRange ? this.dashboard.timeRange  : null );
   }

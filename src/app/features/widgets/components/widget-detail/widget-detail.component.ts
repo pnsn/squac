@@ -38,6 +38,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log("widget init")
     this.loading = true;
     const dataSub = this.measurementsService.data.subscribe(
       data => {
@@ -50,11 +51,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.measurementsService.setWidget(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(
-      dates => {
+      dashboardId => {
+        console.log(dashboardId, this.widget.dashboardId)
         this.data = {};
-        this.loading = true;
-        // get new data and start timers over
-        this.getData();
+        if(this.widget.dashboardId === dashboardId) {
+          this.loading = true;
+          // get new data and start timers over
+          this.getData();
+        }
       },
       error => {
         console.log('error in widget detail dates: ' + error);
@@ -75,23 +79,17 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    console.log("destroy widget detail")
     this.subscription.unsubscribe();
   }
 
   refreshWidget() {
+    console.log("refresh widget");
     this.getData();
   }
 
   private getData() {
-    if (this.viewService.getEnddate && this.viewService.getStartdate) {
-      this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
-      console.log('get data', this.widget.id);
-    }
-
-
-    // TODO: Currently when page is refreshed or widget added, widgets reload completely
-    // Rethink this so so that the new data can be added to widget seamlessly
-
+    this.measurementsService.fetchMeasurements();
   }
 
 

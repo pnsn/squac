@@ -14,10 +14,11 @@
       "2592000" : "last 30 days"
      },
 
-    "locale" : {
-      "format": "YYYY-MM-DDTHH:mm:ss[Z]",
-      "displayFormat": "YYYY/MM/DD HH:mm",
-      "direction": "ltr"
-    },
-    "userExpirationTimeHours" : 6
-  }
+  "locale" : {
+    "format": "YYYY-MM-DDTHH:mm:ss[Z]",
+    "displayFormat": "YYYY/MM/DD HH:mm",
+    "direction": "ltr"
+  },
+  "userExpirationTimeHours" : 6,
+  "defaultTimeRange": 3600
+}
