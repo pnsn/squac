@@ -54,7 +54,6 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
   ) { 
     this.rangeLookUp = configService.getValue("dateRanges");
     this.locale = configService.getValue("locale");
-    console.log(this.rangeLookUp)
   }
 
   ngOnInit() {
@@ -68,13 +67,10 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
       data => {
         this.dashboard = data.dashboard;
         if (this.dashboard) {
-          console.log("Dashboard selected", data.dashboard.id)
           this.viewService.setDashboard(this.dashboard);
           const range =this.viewService.getRange();
           if(range) {
-            console.log(range)
             this.selectedRange = this.rangeLookUp[range];
-            console.log(this.selectedRange)
           } else {
             const start = this.viewService.getStartdate();
             const end = this.viewService.getEnddate();
@@ -86,8 +82,6 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
               startDate: moment.utc(start), 
               endDate: moment.utc(end)
             }
-
-            console.log(this.selected)
           }
           this.error = null;
           this.status = "loading";
@@ -133,7 +127,6 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
         this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
       }
     }
-    console.log(this.ranges)
   }
 
   // FIXME: milliseconds of difference are causing it to not recognize

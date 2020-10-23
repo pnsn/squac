@@ -36,7 +36,6 @@ export class MeasurementsService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("measurement destroyed")
     if(this.measurementSubscription){
       this.measurementSubscription.unsubscribe();
     }
@@ -70,7 +69,6 @@ export class MeasurementsService implements OnDestroy {
     }
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.viewService.widgetStartedLoading();
-      console.log("measurements")
       this.measurementSubscription = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.

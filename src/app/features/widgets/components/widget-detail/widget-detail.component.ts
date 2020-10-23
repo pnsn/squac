@@ -38,7 +38,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log("widget init")
     this.loading = true;
     const dataSub = this.measurementsService.data.subscribe(
       data => {
@@ -52,7 +51,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const datesSub = this.viewService.dates.subscribe(
       dashboardId => {
-        console.log(dashboardId, this.widget.dashboardId)
         this.data = {};
         if(this.widget.dashboardId === dashboardId) {
           this.loading = true;
@@ -79,12 +77,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    console.log("destroy widget detail")
     this.subscription.unsubscribe();
   }
 
   refreshWidget() {
-    console.log("refresh widget");
     this.getData();
   }
 

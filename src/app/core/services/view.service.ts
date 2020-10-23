@@ -52,7 +52,6 @@ export class ViewService {
   }
 
   getRange(): number {
-    console.log(this.dashboard.timeRange)
     return this.dashboard.timeRange;
   }
 
@@ -74,11 +73,9 @@ export class ViewService {
   }
 
   private setIntialDates(){
-    console.log(this.dashboard.id);
     const current = moment.utc();
     let startDate, endDate, liveMode, range;
     // make date range selector
-    console.log(this.dashboard.timeRange)
     if (this.dashboard.timeRange) {
       liveMode = true;
       startDate = moment.utc().subtract(this.dashboard.timeRange, 'seconds'),
@@ -121,7 +118,6 @@ export class ViewService {
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
     const start = startDate.format(this.locale.format);
     const end = endDate.format(this.locale.format);
-    console.log(start)
       this.live = live;
 
       this.dashboard.timeRange = range;
@@ -134,7 +130,6 @@ export class ViewService {
   }
 
   setDashboard(dashboard: Dashboard): void {
-    console.log("new dashboard")
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
@@ -142,7 +137,6 @@ export class ViewService {
     // this.currentWidgets.next([]);
     // if no widgets
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
-      console.log("dashboard done")
       this.status.next('finished');
     }
 
