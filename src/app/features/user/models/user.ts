@@ -21,7 +21,6 @@ export class User {
         }
       }
     }
-    console.log(this.groups)
   }
   lastLogin: string;
   squacAdmin: boolean;

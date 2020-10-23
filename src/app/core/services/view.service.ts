@@ -52,6 +52,7 @@ export class ViewService {
   }
 
   getRange(): number {
+    console.log(this.dashboard.timeRange)
     return this.dashboard.timeRange;
   }
 
@@ -69,8 +70,6 @@ export class ViewService {
 
   setWidgets(widgets: Widget[]): void {
     this.dashboard.widgets = widgets;
-
-    this.setIntialDates();
     //init dates
   }
 
@@ -79,11 +78,12 @@ export class ViewService {
     const current = moment.utc();
     let startDate, endDate, liveMode, range;
     // make date range selector
-
+    console.log(this.dashboard.timeRange)
     if (this.dashboard.timeRange) {
       liveMode = true;
       startDate = moment.utc().subtract(this.dashboard.timeRange, 'seconds'),
       endDate = current;
+      range = this.dashboard.timeRange;
       // set default dates
     } else if (this.dashboard.starttime && this.dashboard.endtime) {
       liveMode = false;
@@ -93,10 +93,11 @@ export class ViewService {
       // default dates
       liveMode = true;
       startDate = moment.utc().subtract(this.defaultTimeRange, 'seconds');
+      range = this.dashboard.timeRange;
       endDate = current;
     }
 
-    this.datesChanged(startDate, endDate, liveMode);
+    this.datesChanged(startDate, endDate, liveMode, range);
   }
   
   getWidget(id): Widget | boolean {
@@ -120,30 +121,19 @@ export class ViewService {
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
     const start = startDate.format(this.locale.format);
     const end = endDate.format(this.locale.format);
-
-    console.log("dates changed?")
-    if( range && range!== this.dashboard.timeRange || 
-        start !== this.dashboard.starttime || 
-        end !== this.dashboard.endtime || 
-        this.live != live) {
-          
+    console.log(start)
       this.live = live;
+
       this.dashboard.timeRange = range;
       this.dashboard.starttime = start;
       this.dashboard.endtime = end;
 
     this.dates.next(this.dashboard.id);
 
-
-
-    }
-
-
-    // this is setting status to loading when it shouldn't
     // this.status.next('loading');
   }
 
-  dashboardSelected(dashboard: Dashboard): void {
+  setDashboard(dashboard: Dashboard): void {
     console.log("new dashboard")
     this.currentWidgets.next([]);
     // clear old widgets
@@ -155,6 +145,9 @@ export class ViewService {
       console.log("dashboard done")
       this.status.next('finished');
     }
+
+    this.setIntialDates();
+    //return dates
   }
 
   // FIXME: this currently will cause all widgets to reload;

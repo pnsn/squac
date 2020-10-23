@@ -5,7 +5,7 @@
   }
  mat-panel-title {
 
-    font-size: 14pt;
+    font-size: 1.1 rem;
     font-weight: 600;
   }
 
@@ -26,8 +26,12 @@ button {
   line-height: 22px;
   margin: 10px auto;
 }
+:host ::ng-deep .mat-expansion-panel-header.mat-expanded {
+  height:50px;
+}
 
 :host ::ng-deep .mat-expansion-panel-body {
   max-height: 50vh;
   overflow:scroll;
+  padding: 0px 5px 0px 20px;
 }

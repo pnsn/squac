@@ -18,7 +18,7 @@ import { config } from 'process';
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
-export class DashboardDetailComponent implements OnInit, OnDestroy {
+export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
@@ -54,20 +54,41 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) { 
     this.rangeLookUp = configService.getValue("dateRanges");
     this.locale = configService.getValue("locale");
+    console.log(this.rangeLookUp)
   }
 
   ngOnInit() {
 
     this.maxDate = moment.utc();
+    this.startDate = moment.utc();
     this.makeTimeRanges();
-   
+
 
     this.route.data.subscribe(
       data => {
         this.dashboard = data.dashboard;
         if (this.dashboard) {
           console.log("Dashboard selected", data.dashboard.id)
-          this.viewService.dashboardSelected(this.dashboard);
+          this.viewService.setDashboard(this.dashboard);
+          const range =this.viewService.getRange();
+          if(range) {
+            console.log(range)
+            this.selectedRange = this.rangeLookUp[range];
+            console.log(this.selectedRange)
+          } else {
+            const start = this.viewService.getStartdate();
+            const end = this.viewService.getEnddate();
+
+            this.selectedRange = start + ' - ' + end;
+
+
+            this.selected = {
+              startDate: moment.utc(start), 
+              endDate: moment.utc(end)
+            }
+
+            console.log(this.selected)
+          }
           this.error = null;
           this.status = "loading";
 
@@ -76,7 +97,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }
       }
     );
-
 
 
     const statusSub  = this.viewService.status.subscribe(
@@ -96,11 +116,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-
     // this.subscription.add(dashSub);
     // this.subscription.add(dashIdSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
   }
 
   makeTimeRanges(){
@@ -109,11 +133,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
       }
     }
+    console.log(this.ranges)
   }
 
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
+    console.log("range", Math.abs(endDate.diff(this.startDate)) < 1000)
+
+
+    //check if end of range close to now
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
+
       this.liveMode = true;
       const diff = Math.round(endDate.diff(startDate) / 100000 ) * 100; // account for ms of weirdness
       this.selectedRange = this.rangeLookUp[diff];
@@ -126,19 +156,22 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
     console.log("dates selected")
-    if (chosenDate && chosenDate.startDate && chosenDate.endDate) {
-      const range = this.lookupRange(chosenDate.startDate, chosenDate.endDate);
-      this.selectDateRange(chosenDate.startDate, chosenDate.endDate, range ? range : null );
-          // FIXME: add check to keep it from saving on open
+    const start = chosenDate.startDate;
+    const end = chosenDate.endDate;
 
-      this.saveDashboard();
+    console.log(start.isUtc)
+    if (start && end) {
+      const range = this.lookupRange(start, end);
+
+      this.viewService.datesChanged(
+        start,
+        end,
+        this.liveMode,
+        range ? range : null
+      );
+
+      // this.saveDashboard();
     } 
-  }
-
-  //FIXME: should this be part of the view service
-  setInitialDates() {
-
-    this.selectDateRange(this.selected.startDate, this.selected.endDate, this.dashboard.timeRange ? this.dashboard.timeRange  : null );
   }
 
   openDatePicker(): void {
@@ -155,12 +188,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // currently saves any time dates are changed, may want to move to a save button
   selectDateRange(startDate: moment.Moment, endDate: moment.Moment, range?: number) {
-    this.viewService.datesChanged(
-      startDate,
-      endDate,
-      this.liveMode,
-      range
-    );
+
   }
 
   deleteDashboard() {
