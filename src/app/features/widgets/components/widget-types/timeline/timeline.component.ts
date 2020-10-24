@@ -83,7 +83,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
         if (!widgetId || widgetId === this.widget.id) {
           setTimeout(()=>{
             this.resize();
-          }, 1000)
+          }, 500)
 
         }
       }, error => {

@@ -77,7 +77,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   private resize() {
     setTimeout(()=>{
       this.table.recalculate();
-    }, 1000)
+    }, 500)
 
 
   }
