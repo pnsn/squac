@@ -8,6 +8,7 @@ export class MockViewService {
   currentWidgets = new Subject<Widget[]>();
   dates = new Subject<{start: Date, end: Date}>();
   resize = new Subject<number>();
+  refresh = new Subject<string>();
   status = new Subject<string>();
   private testStartdate: Date = new Date();
   private testEnddate: Date = new Date();
@@ -116,6 +117,7 @@ export class MockViewService {
   // TODO: does this actuall refresh data?
   refreshWidgets() {
     console.log('refresh!');
+
     this.widgetsChanged();
   }
 

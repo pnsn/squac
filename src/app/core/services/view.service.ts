@@ -18,6 +18,7 @@ export class ViewService {
   currentWidgets = new Subject<Widget[]>();
   dates = new ReplaySubject<number>(1);
   resize = new Subject<number>();
+  refresh = new Subject<string>();
   status = new BehaviorSubject<string>('loading'); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
@@ -196,6 +197,7 @@ export class ViewService {
   // Will rerender widgets, but not get new widget information
   refreshWidgets(): void {
     console.log('refresh!');
+    this.refresh.next('refresh');
     // this.getWidgets(this.dashboard.id);
   }
 

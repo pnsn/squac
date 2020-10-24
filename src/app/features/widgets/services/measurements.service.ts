@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
 import { Widget } from '@features/widgets/models/widget';
@@ -26,20 +26,27 @@ export class MeasurementsService implements OnDestroy {
   private lastEndString: string;
   private successCount = 0; // number of successful requests
   updateTimeout;
-  private measurementSubscription;
+  private subscription: Subscription = new Subscription();
   constructor(
     private squacApi: SquacApiService,
     private viewService: ViewService,
     private configService: ConfigurationService
   ) {
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
+
+    const refreshSub = this.viewService.refresh.subscribe(
+      refresh => {
+        console.log("refresh measurements")
+        this.fetchMeasurements();
+      }
+    );
+
+    this.subscription.add(refreshSub)
   }
 
   ngOnDestroy() {
-    if(this.measurementSubscription){
-      this.measurementSubscription.unsubscribe();
-    }
 
+    this.subscription.unsubscribe();
     clearTimeout(this.updateTimeout);
   }
 
@@ -69,7 +76,7 @@ export class MeasurementsService implements OnDestroy {
     }
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.viewService.widgetStartedLoading();
-      this.measurementSubscription = this.getMeasurements(start, end).subscribe(
+      const measurementSub = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.
           if (success.length > 0) {
@@ -92,6 +99,8 @@ export class MeasurementsService implements OnDestroy {
           console.log('completed get data for ' + this.widget.id);
         }
       );
+
+      this.subscription.add(measurementSub);
     } else {
       this.data.next({});
     }
