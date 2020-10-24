@@ -26,12 +26,14 @@ export class MeasurementsService implements OnDestroy {
   private lastEndString: string;
   private successCount = 0; // number of successful requests
   updateTimeout;
+  locale;
   private subscription: Subscription = new Subscription();
   constructor(
     private squacApi: SquacApiService,
     private viewService: ViewService,
-    private configService: ConfigurationService
+    configService: ConfigurationService
   ) {
+    this.locale = configService.getValue("locale");
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
 
     const refreshSub = this.viewService.refresh.subscribe(
@@ -47,7 +49,10 @@ export class MeasurementsService implements OnDestroy {
   ngOnDestroy() {
 
     this.subscription.unsubscribe();
-    clearTimeout(this.updateTimeout);
+    if(this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+
   }
 
   setWidget(widget: Widget) {
@@ -111,7 +116,7 @@ export class MeasurementsService implements OnDestroy {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
         console.log("timeout")
-        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
+        this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
       }, this.refreshInterval * 60 * 1000);
     }
   }
