@@ -14,6 +14,7 @@ import { ChannelGroupsEditComponent } from './components/widget-edit/channel-gro
 import { SharedModule } from '@shared/shared.module';
 import { WidgetsComponent } from './components/widgets/widgets.component';
 import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-entry/widget-edit-entry.component';
+import { MapComponent } from './components/widget-types/map/map.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-e
     MeasurementPipe,
     MetricsEditComponent,
     ChannelGroupsEditComponent,
-    WidgetEditEntryComponent
+    WidgetEditEntryComponent,
+    MapComponent
   ],
   imports: [
     SharedModule,

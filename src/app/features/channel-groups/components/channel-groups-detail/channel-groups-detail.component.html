@@ -1,7 +1,7 @@
 <h2>{{channelGroup.name}}</h2>
 <div id="channel-group-container" class="box">
   <div id="map-container">
-    <app-map [selectedChannels]="channelGroup.channels" [editPage]=false></app-map>
+    <app-channel-group-map [selectedChannels]="channelGroup.channels" [editPage]=false></app-channel-group-map>
   </div>
   <div id="channels-container">
     <ngx-datatable

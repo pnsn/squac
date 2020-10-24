@@ -3,7 +3,7 @@ import { Channel } from '@core/models/channel';
 import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-map',
+  selector: 'app-channel-group-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })

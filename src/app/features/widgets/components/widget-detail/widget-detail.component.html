@@ -43,6 +43,10 @@
     >
 
     </app-timeseries>
+    <app-map *ngSwitchCase="'map'" class="widget"
+    [widget]="widget"
+    [data]="data"
+    > </app-map>
     <div  *ngSwitchDefault class="widget-message">
       <p>
         Error: could not load widget...

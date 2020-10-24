@@ -40,7 +40,9 @@ import { ReplacePipe } from './pipes/replace.pipe';
     ErrorComponent,
     AbilityModule,
     ConfirmDialogComponent,
-    ReplacePipe
+    ReplacePipe,
+    LeafletModule,
+    LeafletDrawModule,
   ]
 })
 

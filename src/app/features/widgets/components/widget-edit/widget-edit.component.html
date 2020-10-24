@@ -34,7 +34,8 @@
               </mat-button-toggle-group>
             </div>
             <div id="stat-type-container">
-              <ng-container  *ngIf="selectedType && selectedType==1; else rawDataOnly">
+              <!-- FIXME: don't hardcode the type -->
+              <ng-container  *ngIf="selectedType && selectedType===1 || selectedType===4; else rawDataOnly">
                 <div class="label">Select statistical type: </div>  
                 <mat-form-field >
                   <mat-label>Stat type</mat-label>
