@@ -67,6 +67,10 @@ export class ViewService {
     this.resize.next(widgetId);
   }
 
+  resizeAll() {
+    this.resize.next(null);
+  }
+
   setWidgets(widgets: Widget[]): void {
     this.dashboard.widgets = widgets;
     //init dates
