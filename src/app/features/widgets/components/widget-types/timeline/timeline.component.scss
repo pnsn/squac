@@ -30,6 +30,10 @@
   #in-threshold, #out-of-threshold {
     color: white;
   }
+
+  #out-of-threshold {
+    margin-left: 10px;
+  }
 }
 
 // ::ng-deep .brusher {
