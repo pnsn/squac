@@ -13,6 +13,10 @@ mat-toolbar {
     display: inline-block;
     margin: 5px;
   }
+
+  a.active {
+    font-weight: bold;
+  }
 }
 
 #user-icon {

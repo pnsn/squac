@@ -101,7 +101,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
       const offset = 55;
-      console.log(width, height)
       if ( width > 0 && height > 0) {
         this.chart.width(width);
         this.chart.maxHeight(height - offset);

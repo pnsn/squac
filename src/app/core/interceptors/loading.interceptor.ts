@@ -18,8 +18,7 @@ export class LoadingInterceptor implements HttpInterceptor {
    */
   skipUrls = [
     'measurements',
-    'channels',
-    'v1.0'
+    'channels'
   ];
 
   constructor(
