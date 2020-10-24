@@ -68,6 +68,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
 
     this.route.data.subscribe(
       data => {
+        this.status = "loading";
         this.dashboard = data.dashboard;
         this.orgName = this.orgService.getOrgName(this.dashboard.orgId);
         if (this.dashboard) {
@@ -90,7 +91,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
             this.selectedRange = start + ' - ' + end;
           }
           this.error = null;
-          this.status = "loading";
+
 
         } else {
           console.log('should not be possible to get here');
@@ -101,9 +102,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
 
     const statusSub  = this.viewService.status.subscribe(
       status => {
-        if (status !== this.status) {
-          this.status = status;
-        }
+        this.status = status;
       },
       error => {
         console.log('error in dasbhboard detail status' + error);

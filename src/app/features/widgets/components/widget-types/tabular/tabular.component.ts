@@ -63,7 +63,7 @@ export class TabularComponent implements OnInit, OnDestroy {
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
-        if (widgetId === this.widget.id) {
+        if(!widgetId || widgetId === this.widget.id) {
           this.resize();
         }
       }, error => {
@@ -75,7 +75,11 @@ export class TabularComponent implements OnInit, OnDestroy {
   }
 
   private resize() {
-    this.rows = [...this.rows];
+    setTimeout(()=>{
+      this.table.recalculate();
+    }, 1000)
+
+
   }
 
 
