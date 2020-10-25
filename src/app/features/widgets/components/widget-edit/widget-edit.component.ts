@@ -23,6 +23,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   metrics: Metric[];
   channelGroups: ChannelGroup[];
 
+  // TODO: Get this from SQUAC
   widgetTypes = 
   [
       {
