@@ -40,8 +40,9 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
   loading = true;
   domainMin: number;
   domainMax: number;
-  inThresholdColor = '#336178';
-  outOfThresholdColor = '#ffa52d';
+  inThresholdColor = '#4488A9';
+  outOfThresholdColor = '#ffb758';
+
   // rows = [];
   constructor(
     private viewService: ViewService,

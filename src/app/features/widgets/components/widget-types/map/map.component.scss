@@ -8,26 +8,25 @@
   }
 }
 
-:host ::ng-deep .in-spec {
-  background-color: blue;
+.map-icon {
   height: 10px;
   width: 10px;
   border-radius: 50%;
+  border: 1px solid black;
+}
 
+:host ::ng-deep .in-spec{
+  @extend .map-icon;
+  background-color: #4488A9 !important;
+  
 }
 
 :host ::ng-deep .out-of-spec {
-  background-color: red;
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-
+  @extend .map-icon;
+  background-color: #ffb758  !important;
 }
 
 :host ::ng-deep .no-threshold {
-  background-color: green;
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-
+  @extend .map-icon;
+  background-color: white;
 }

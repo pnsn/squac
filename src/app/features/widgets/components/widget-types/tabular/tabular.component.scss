@@ -18,12 +18,11 @@
 }
 
 :host ::ng-deep .in-spec {
-  background-color: rgb(129, 231, 171) !important;
+  background-color: #4488A9 !important;
 }
 :host ::ng-deep .out-of-spec {
-  background-color: rgb(250, 154, 154) !important;
+  background-color: #ffb758  !important;
 }
-
 
 :host ::ng-deep .datatable-tree-button:disabled {
   display:none;
