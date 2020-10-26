@@ -32,7 +32,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private measurementsService: MeasurementsService,
     private router: Router,
     private route: ActivatedRoute,
-    private confirmDialog : ConfirmDialogService
+    private confirmDialog: ConfirmDialogService
   ) {
 
   }
@@ -52,7 +52,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const datesSub = this.viewService.dates.subscribe(
       dashboardId => {
         this.data = {};
-        if(this.widget.dashboardId === dashboardId) {
+        if (this.widget.dashboardId === dashboardId) {
           this.loading = true;
           // get new data and start timers over
           this.getData();
@@ -97,14 +97,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.confirmDialog.open(
       {
         title: `Delete: ${this.widget.name}`,
-        message: "Are you sure? This action is permanent.",
-        cancelText: "Cancel",
-        confirmText: "Delete"
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
       }
     );
     this.confirmDialog.confirmed().subscribe(
       confirm => {
-        if(confirm) {
+        if (confirm) {
           this.viewService.deleteWidget(this.widget.id);
         }
     });

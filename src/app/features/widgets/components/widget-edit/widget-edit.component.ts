@@ -24,31 +24,31 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
   channelGroups: ChannelGroup[];
 
   // TODO: Get this from SQUAC
-  widgetTypes = 
+  widgetTypes =
   [
       {
-          "id": 1,
-          "name": "tabular",
-          "type": "tabular",
-          "description": "Table of measurement values displayed with a single value calculated with the stat type."
+          id: 1,
+          name: 'tabular',
+          type: 'tabular',
+          description: 'Table of measurement values displayed with a single value calculated with the stat type.'
       },
       {
-          "id": 2,
-          "name": "timeline",
-          "type": "timeline",
-          "description": "Timeline of measurement data for a single metric displayed with values 'in' or 'out' of set threshold values."
+          id: 2,
+          name: 'timeline',
+          type: 'timeline',
+          description: 'Timeline of measurement data for a single metric displayed with values \'in\' or \'out\' of set threshold values.'
       },
       {
-          "id": 3,
-          "name": "time series",
-          "type": "timeseries",
-          "description": "Time chart of measurement values for a single metric."
+          id: 3,
+          name: 'time series',
+          type: 'timeseries',
+          description: 'Time chart of measurement values for a single metric.'
       },
       {
-          "id": 4,
-          "name": "Map",
-          "type": "map",
-          "description": "A map of channels represented by values for measurements calculated with stattype."
+          id: 4,
+          name: 'Map',
+          type: 'map',
+          description: 'A map of channels represented by values for measurements calculated with stattype.'
       }
   ];
 

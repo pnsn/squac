@@ -51,7 +51,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     outerMargin: true,
     mobileBreakpoint: 640,
     compactType: 'none',
-    displayGrid: 'onDrag&Resize', 
+    displayGrid: 'onDrag&Resize',
     scrollToNewItems: true,
     itemChangeCallback: (item) => {this.itemChange(item); },
     itemInitCallback : (item) => {this.inited++; },
@@ -78,7 +78,7 @@ itemChange(item) {
     );
     this.viewService.resizeWidget(item.widget.id);
   } else {
-    console.log("item change no")
+    console.log('item change no');
   }
 }
 
@@ -129,14 +129,14 @@ private addWidgetsToView(widgets: Widget[]) {
           this.options.api.resize();
         }
       }
-    )
+    );
     this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }
 
   ngOnDestroy() {
-    console.log("widgets destroyed")
+    console.log('widgets destroyed');
     this.subscription.unsubscribe();
   }
 

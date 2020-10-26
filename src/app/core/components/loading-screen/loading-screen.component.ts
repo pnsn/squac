@@ -24,11 +24,11 @@ export class LoadingScreenComponent implements OnInit , OnDestroy {
     );
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
       text => {
-        if(text) {
+        if (text) {
           this.statuses.push(text);
-          if(this.statuses.length > 1) {
+          if (this.statuses.length > 1) {
             this.statuses.splice(0, 1);
-          } 
+          }
         } else {
           this.statuses = [];
         }

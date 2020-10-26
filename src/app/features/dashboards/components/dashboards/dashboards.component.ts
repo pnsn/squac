@@ -11,7 +11,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
   opened = true;
-  @ViewChild(MatSidenav) sidenav : MatSidenav;
+  @ViewChild(MatSidenav) sidenav: MatSidenav;
 
   constructor(
     private viewService: ViewService
@@ -26,7 +26,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   }
 
   collapseSidebar(){
-    this.viewService.resizeAll()
+    this.viewService.resizeAll();
     this.sidenav.toggle();
   }
 }

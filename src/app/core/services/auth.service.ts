@@ -27,7 +27,7 @@ export class AuthService {
     private loadingService: LoadingService,
     private configService: ConfigurationService
   ) {
-    this.expirationTime = configService.getValue("userExpirationTimeHours", 6);
+    this.expirationTime = configService.getValue('userExpirationTimeHours', 6);
   }
 
   // True if a user logged in

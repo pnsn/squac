@@ -19,7 +19,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
-export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy {
+export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
@@ -51,12 +51,12 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
     private router: Router,
     private viewService: ViewService,
     private ability: AppAbility,
-    private confirmDialog:  ConfirmDialogService,
+    private confirmDialog: ConfirmDialogService,
     configService: ConfigurationService,
     private orgService: OrganizationsService
-  ) { 
-    this.rangeLookUp = configService.getValue("dateRanges");
-    this.locale = configService.getValue("locale");
+  ) {
+    this.rangeLookUp = configService.getValue('dateRanges');
+    this.locale = configService.getValue('locale');
   }
 
   ngOnInit() {
@@ -68,26 +68,26 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
 
     this.route.data.subscribe(
       data => {
-        this.status = "loading";
+        this.status = 'loading';
         this.dashboard = data.dashboard;
         this.orgName = this.orgService.getOrgName(this.dashboard.orgId);
         if (this.dashboard) {
           this.viewService.setDashboard(this.dashboard);
-          const range =this.viewService.getRange();
+          const range = this.viewService.getRange();
           const start = this.viewService.getStartdate();
           const end = this.viewService.getEnddate();
 
-          if(range) {
+          if (range) {
             this.selectedRange = this.rangeLookUp[range];
             this.selected = {
-              startDate: this.ranges[this.selectedRange][0], 
+              startDate: this.ranges[this.selectedRange][0],
               endDate: this.ranges[this.selectedRange][1]
             };
           } else {
             this.selected = {
-              startDate: moment.utc(start), 
+              startDate: moment.utc(start),
               endDate: moment.utc(end)
-            }
+            };
             this.selectedRange = start + ' - ' + end;
           }
           this.error = null;
@@ -122,8 +122,8 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
 
   }
 
@@ -137,10 +137,10 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
 
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
-    console.log("range", Math.abs(endDate.diff(this.startDate)) < 1000)
+    console.log('range', Math.abs(endDate.diff(this.startDate)) < 1000);
 
 
-    //check if end of range close to now
+    // check if end of range close to now
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
 
       this.liveMode = true;
@@ -166,7 +166,7 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
       );
 
       this.saveDashboard();
-    } 
+    }
   }
 
   openDatePicker(): void {
@@ -190,14 +190,14 @@ export class DashboardDetailComponent implements OnInit,AfterViewInit, OnDestroy
     this.confirmDialog.open(
       {
         title: `Delete: ${this.dashboard.name}`,
-        message: "Are you sure? This action is permanent.",
-        cancelText: "Cancel",
-        confirmText: "Delete"
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
       }
     );
     this.confirmDialog.confirmed().subscribe(
       confirm => {
-        if(confirm) {
+        if (confirm) {
           this.viewService.deleteDashboard(this.dashboard.id);
           this.router.navigate(['/dashboards']);
         }

@@ -16,7 +16,7 @@ export class ConfirmDialogComponent implements OnInit {
       title: string
     },
     private matDialogRef: MatDialogRef<ConfirmDialogComponent>
-    
+
     ){}
   ngOnInit(): void {
 
@@ -33,7 +33,7 @@ export class ConfirmDialogComponent implements OnInit {
     this.close(true);
   }
 
-  @HostListener("keydown.esc") 
+  @HostListener('keydown.esc')
   public onEsc() {
     this.close(false);
   }

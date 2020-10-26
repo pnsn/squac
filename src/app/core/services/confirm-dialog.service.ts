@@ -27,15 +27,15 @@ export class ConfirmDialogService implements OnDestroy {
   }
 
   public open(options: ConfirmDialogOptions) {
-    this.dialogRef = this.dialog.open(ConfirmDialogComponent, {    
+    this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: options.title,
         message: options.message,
         cancelText: options.cancelText,
         confirmText: options.confirmText
       }
-    }); 
-  }  
+    });
+  }
 
   // Observable response is true if confirm, false if cancel
   public confirmed(): Observable<any> {
@@ -46,13 +46,13 @@ export class ConfirmDialogService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.dialog.closeAll();
   }
 }
 
-//EXAMPLE USE
+// EXAMPLE USE
 // this.confirmDialog.open(
 //   {
 //     title: "Delete",

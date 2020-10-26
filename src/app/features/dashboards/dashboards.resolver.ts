@@ -10,21 +10,21 @@ import { LoadingService } from '@core/services/loading.service';
 })
 export class DashboardsResolver implements Resolve<Observable<any>> {
   constructor(
-    private dashboardsService: DashboardsService, 
-    private loadingService : LoadingService
+    private dashboardsService: DashboardsService,
+    private loadingService: LoadingService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get('id');
 
     if (id) {
-      this.loadingService.setStatus("Loading dashboard")
+      this.loadingService.setStatus('Loading dashboard');
       // get specific resource
       return this.dashboardsService.getDashboard(id).pipe(
         catchError(this.handleError)
       );
     } else {
-      this.loadingService.setStatus("Loading dashboards")
+      this.loadingService.setStatus('Loading dashboards');
       return this.dashboardsService.getDashboards().pipe(
         catchError(this.handleError)
       );

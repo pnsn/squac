@@ -32,13 +32,13 @@ export class OrganizationsService {
     return this.localOrganizations.slice();
   }
 
-  getOrgName(id) : string{
-    const org = this.localOrganizations.find(org => org.id === id);
-    return org ? org.name : "unknown";
+  getOrgName(id): string{
+    const org = this.localOrganizations.find(o => o.id === id);
+    return org ? org.name : 'unknown';
   }
 
   getOrganizations(): Observable<Organization[]> {
-    const path = "organizations/"
+    const path = 'organizations/';
     return this.squacApi.get(this.url + path).pipe(
       map(
         response => {
@@ -93,8 +93,8 @@ export class OrganizationsService {
 
   }
 
-  getOrganization(id : number): Observable<Organization> {
-    const path = "organizations/";
+  getOrganization(id: number): Observable<Organization> {
+    const path = 'organizations/';
     return forkJoin(
         {
           users: this.getOrganizationUsers(id),

@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private configService: ConfigurationService
   ) {
-    this.title = configService.getValue("appTitle");
+    this.title = configService.getValue('appTitle');
   }
 
 

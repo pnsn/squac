@@ -115,15 +115,15 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
     if (this.metricForm.dirty) {
       this.confirmDialog.open(
         {
-          title: "Cancel editing",
-          message: "You have unsaved changes, if you cancel they will be lost.",
-          cancelText: "Keep editing",
-          confirmText: "Cancel"
+          title: 'Cancel editing',
+          message: 'You have unsaved changes, if you cancel they will be lost.',
+          cancelText: 'Keep editing',
+          confirmText: 'Cancel'
         }
       );
       this.confirmDialog.confirmed().subscribe(
         confirm => {
-          if(confirm) {
+          if (confirm) {
             this.cancel();
           }
       });

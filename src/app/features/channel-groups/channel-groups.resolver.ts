@@ -11,18 +11,18 @@ import { ChannelGroupsService } from './services/channel-groups.service';
 export class ChannelGroupsResolver implements Resolve<Observable<any>> {
   constructor(
     private channelGroupsService: ChannelGroupsService,
-    private loadingService : LoadingService
+    private loadingService: LoadingService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get('id');
     if (id) {
-      this.loadingService.setStatus("Loading channel group")
+      this.loadingService.setStatus('Loading channel group');
       return this.channelGroupsService.getChannelGroup(id).pipe(
         catchError(this.handleError)
       );
     } else {
-      this.loadingService.setStatus("Loading channel groups")
+      this.loadingService.setStatus('Loading channel groups');
       return this.channelGroupsService.getChannelGroups().pipe(
         catchError(this.handleError)
       );

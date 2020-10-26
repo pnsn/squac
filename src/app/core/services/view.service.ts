@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, ReplaySubject, range } from 'rxjs';
+import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Widget } from '@features/widgets/models/widget';
@@ -34,9 +34,9 @@ export class ViewService {
     private ability: Ability,
     private configService: ConfigurationService
   ) {
-    this.locale = configService.getValue("locale");
-    this.dateRanges = configService.getValue("dateRanges");
-    this.defaultTimeRange = configService.getValue("defaultTimeRange", 3);
+    this.locale = configService.getValue('locale');
+    this.dateRanges = configService.getValue('dateRanges');
+    this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
   }
 
   get canUpdate(): boolean {
@@ -74,12 +74,15 @@ export class ViewService {
 
   setWidgets(widgets: Widget[]): void {
     this.dashboard.widgets = widgets;
-    //init dates
+    // init dates
   }
 
   private setIntialDates(){
     const current = moment.utc();
-    let startDate, endDate, liveMode, range;
+    let startDate;
+    let endDate;
+    let liveMode;
+    let range;
     // make date range selector
     if (this.dashboard.timeRange) {
       liveMode = true;
@@ -101,7 +104,7 @@ export class ViewService {
 
     this.datesChanged(startDate, endDate, liveMode, range);
   }
-  
+
   getWidget(id): Widget | boolean {
     const index = this.getWidgetIndexById(id);
     return index > -1 ? this.dashboard.widgets[index] : false;
@@ -123,11 +126,11 @@ export class ViewService {
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
     const start = startDate.format(this.locale.format);
     const end = endDate.format(this.locale.format);
-      this.live = live;
+    this.live = live;
 
-      this.dashboard.timeRange = range;
-      this.dashboard.starttime = start;
-      this.dashboard.endtime = end;
+    this.dashboard.timeRange = range;
+    this.dashboard.starttime = start;
+    this.dashboard.endtime = end;
 
     this.dates.next(this.dashboard.id);
 
@@ -146,19 +149,19 @@ export class ViewService {
     }
 
     this.setIntialDates();
-    //return dates
+    // return dates
   }
 
   // FIXME: this currently will cause all widgets to reload;
   private widgetChanged(widgetId: number): void {
-    console.log("widget changed")
+    console.log('widget changed');
     this.status.next('finished');
     this.error.next(null);
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
   updateWidget(widgetId: number, widget?: Widget): void {
-    console.log("update widget")
+    console.log('update widget');
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1  && !widget) {
       this.dashboard.widgets.splice(index, 1);

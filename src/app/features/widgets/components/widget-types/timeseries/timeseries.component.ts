@@ -33,7 +33,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   };
 
 
-  
+
 
   constructor(
     private viewService: ViewService

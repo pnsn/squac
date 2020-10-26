@@ -296,15 +296,15 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     if (this.channelGroupForm.dirty || this.changeMade) {
       this.confirmDialog.open(
         {
-          title: "Cancel editing",
-          message: "You have unsaved changes, if you cancel they will be lost.",
-          cancelText: "Keep editing",
-          confirmText: "Cancel"
+          title: 'Cancel editing',
+          message: 'You have unsaved changes, if you cancel they will be lost.',
+          cancelText: 'Keep editing',
+          confirmText: 'Cancel'
         }
       );
       this.confirmDialog.confirmed().subscribe(
         confirm => {
-          if(confirm) {
+          if (confirm) {
             this.cancel();
           }
       });
@@ -318,15 +318,15 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   onDelete() {
     this.confirmDialog.open(
       {
-        title: `Delete ${this.editMode ? this.channelGroup.name : "Channel Group"}`,
-        message: "Are you sure? This action is permanent.",
-        cancelText: "Cancel",
-        confirmText: "Delete"
+        title: `Delete ${this.editMode ? this.channelGroup.name : 'Channel Group'}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
       }
     );
     this.confirmDialog.confirmed().subscribe(
       confirm => {
-        if(confirm) {
+        if (confirm) {
           this.channelGroupService.deleteChannelGroup(this.id).subscribe(
             result => {
               this.cancel();

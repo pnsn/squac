@@ -13,6 +13,7 @@ interface ChannelGroupsHttpData {
   share_org: boolean;
   share_all: boolean;
   id?: number;
+  organization: number;
 }
 
 @Injectable({
@@ -90,7 +91,8 @@ export class ChannelGroupsService {
       description: channelGroup.description,
       share_org: channelGroup.shareOrg,
       share_all: channelGroup.shareAll,
-      channels : channelGroup.channelIds
+      channels : channelGroup.channelIds,
+      organization: channelGroup.orgId
     };
     if (channelGroup.id) {
       postData.id = channelGroup.id;

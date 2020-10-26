@@ -94,7 +94,7 @@ export class MapComponent implements OnInit {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    
+
     const metric = this.metrics[0];
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
@@ -106,20 +106,20 @@ export class MapComponent implements OnInit {
       const threshold = this.thresholds[metric.id];
       const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
 
-        if (threshold && val != null && !inThreshold) {
+      if (threshold && val != null && !inThreshold) {
           agg++;
         }
 
-        let iconClass : string;
+      let iconClass: string;
 
-        if(!threshold) {
-          iconClass = 'no-threshold'
-        } else if( val !== null && !inThreshold && !!threshold){
-          iconClass = 'out-of-spec'
-        } else if( val !== null && inThreshold && !!threshold) {
-          iconClass = 'in-spec'
+      if (!threshold) {
+          iconClass = 'no-threshold';
+        } else if ( val !== null && !inThreshold && !!threshold){
+          iconClass = 'out-of-spec';
+        } else if ( val !== null && inThreshold && !!threshold) {
+          iconClass = 'in-spec';
         }
-        
+
 
       const title = channel.networkCode + '.' + channel.stationCode + '.' + channel.loc + '.' + channel.code;
       let row = {
@@ -162,17 +162,17 @@ export class MapComponent implements OnInit {
 
 
     });
-    
+
     this.stations = [];
     stationRows.forEach(station => {
-      
+
       this.stations.push(
         L.marker([station.lat, station.lon], {
           icon:  L.divIcon({className: station.class})
         }).bindPopup(
         station.staCode.toUpperCase())
       );
-      
+
     });
     this.stationLayer = L.layerGroup(this.stations);
 
@@ -189,7 +189,7 @@ export class MapComponent implements OnInit {
     }
     return  station;
   }
-  
+
 
   // TODO: yes, this is bad boolean but I'm going to change it
   checkThresholds(threshold, value): boolean {

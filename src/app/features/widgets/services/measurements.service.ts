@@ -33,23 +33,23 @@ export class MeasurementsService implements OnDestroy {
     private viewService: ViewService,
     configService: ConfigurationService
   ) {
-    this.locale = configService.getValue("locale");
+    this.locale = configService.getValue('locale');
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
 
     const refreshSub = this.viewService.refresh.subscribe(
       refresh => {
-        console.log("refresh measurements")
+        console.log('refresh measurements');
         this.fetchMeasurements();
       }
     );
 
-    this.subscription.add(refreshSub)
+    this.subscription.add(refreshSub);
   }
 
   ngOnDestroy() {
 
     this.subscription.unsubscribe();
-    if(this.updateTimeout) {
+    if (this.updateTimeout) {
       clearTimeout(this.updateTimeout);
     }
 
@@ -71,8 +71,9 @@ export class MeasurementsService implements OnDestroy {
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
 
-    let start, end;
-    if(!startString || !endString) {
+    let start;
+    let end;
+    if (!startString || !endString) {
       start = this.viewService.getStartdate();
       end = this.viewService.getEnddate();
     } else {
@@ -115,7 +116,7 @@ export class MeasurementsService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        console.log("timeout")
+        console.log('timeout');
         this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
       }, this.refreshInterval * 60 * 1000);
     }

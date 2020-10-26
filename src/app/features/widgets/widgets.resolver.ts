@@ -17,7 +17,7 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const dashboardId = +route.parent.paramMap.get('id');
     const widgetId = +route.paramMap.get('widgetid');
-    this.loadingService.setStatus("Loading widgets");
+    this.loadingService.setStatus('Loading widgets');
     if (widgetId) {
 
       return this.widgetsService.getWidget(widgetId).pipe(
