@@ -287,7 +287,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     if (id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../'], {relativeTo: this.route});
+      this.router.navigate(['../../'], {relativeTo: this.route});
     }
   }
 

@@ -28,5 +28,10 @@
 
 :host ::ng-deep .no-threshold {
   @extend .map-icon;
+  background-color: gray;
+}
+
+:host ::ng-deep .no-threshold {
+  @extend .map-icon;
   background-color: white;
 }

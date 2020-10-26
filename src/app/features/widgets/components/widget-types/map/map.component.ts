@@ -90,6 +90,7 @@ export class MapComponent implements OnInit {
     }, 0);
   }
 
+  //modified from tabular, needs a another look
   private buildRows(data) {
     const rows = [];
     const stations = [];
@@ -98,7 +99,6 @@ export class MapComponent implements OnInit {
     const metric = this.metrics[0];
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
-
 
       let agg = 0;
 
@@ -118,6 +118,8 @@ export class MapComponent implements OnInit {
           iconClass = 'out-of-spec';
         } else if ( val !== null && inThreshold && !!threshold) {
           iconClass = 'in-spec';
+        } else {
+          iconClass = 'unknown'
         }
 
 
@@ -125,9 +127,9 @@ export class MapComponent implements OnInit {
       let row = {
         title,
         id: channel.id,
-        nslc: channel.nslc,
         parentId: identifier,
-        treeStatus: 'disabled',
+        staCode: channel.stationCode,
+        netCode: channel.networkCode,
         lat: channel.lat,
         lon: channel.lon,
         class: iconClass,
@@ -144,7 +146,6 @@ export class MapComponent implements OnInit {
             ...{
           title,
           id: identifier,
-          treeStatus: 'collapsed',
           staCode: channel.stationCode,
           netCode: channel.networkCode,
           lat: channel.lat,
@@ -154,6 +155,7 @@ export class MapComponent implements OnInit {
           }
         }
         );
+        
       } else {
         stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
@@ -165,12 +167,15 @@ export class MapComponent implements OnInit {
 
     this.stations = [];
     stationRows.forEach(station => {
-
+      if(!station.staCode) {
+        console.log(station)
+      }
       this.stations.push(
         L.marker([station.lat, station.lon], {
           icon:  L.divIcon({className: station.class})
         }).bindPopup(
-        station.staCode.toUpperCase())
+        station.staCode.toUpperCase()
+        )
       );
 
     });
@@ -182,10 +187,10 @@ export class MapComponent implements OnInit {
   private findWorstChannel(channel, station) {
     if ( channel.agg > station.agg ) {
       const newStation = {...channel};
-      newStation.treeStatus = station.treeStatus;
       newStation.id = station.id;
-      newStation.parentId = null;
+      newStation.parentId = null; //It is the parent now
       return newStation;
+
     }
     return  station;
   }
