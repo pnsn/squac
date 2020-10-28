@@ -278,19 +278,32 @@
           </ngx-datatable-column>
         </ngx-datatable>
     <div id="save-cancel-cg">
-      <button mat-button color="warn" (click)="onDelete()">Delete</button>
+      <button 
+        mat-icon-button 
+        color="warn"
+        class="add-btn"
+        (click)="onDelete()"
+        matTooltip="Delete channel group"
+        aria-label="Button that deletes the channel group"
+        > 
+         <mat-icon>delete</mat-icon>
+      </button>
       <button mat-button color="primary" (click)="formUnsaved()">
         Cancel
       </button>
-      <button
-        mat-flat-button
-        color="accent"
-        (click)="save()"
-        [disabled]="selectedChannels?.length === 0"
-        *ngIf="'update' | able: 'ChannelGroup'"
-      >
-        Save Group
-      </button>
+
+      <button 
+      mat-icon-button 
+      color="accent"
+      class="add-btn"
+      (click)="save()"
+      [disabled]="selectedChannels?.length === 0"
+      *ngIf="'update' | able: 'ChannelGroup'"
+      matTooltip="Save channel group"
+      aria-label="Button that saves the changes to the channel group"
+      > 
+       <mat-icon>save</mat-icon>
+    </button>
     </div>
   </div>
 

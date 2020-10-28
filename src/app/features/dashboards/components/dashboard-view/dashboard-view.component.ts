@@ -16,7 +16,6 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   activeDashboardId: number;
   userId: number;
   orgId: number;
-  userOrg: string;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -44,8 +43,6 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
       user => {
         this.userId = user ? user.id : null;
         this.orgId = user ? user.orgId : null;
-
-        this.userOrg = this.orgService.getOrgName(this.orgId);
       }
     );
     // this.subscription.add(dashboardsService);

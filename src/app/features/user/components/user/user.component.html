@@ -41,9 +41,9 @@
     <h2>
       Organization
     </h2>
-    <ul *ngIf="orgName">
+    <ul>
         <span>
-          {{orgName}}
+          {{user.orgId | organization}}
         </span>
         <span>
           ({{user.orgAdmin ? "Admin" : "User"}})

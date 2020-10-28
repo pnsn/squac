@@ -12,6 +12,7 @@ import { ErrorComponent } from './error/error.component';
 import { AbilityModule } from '@casl/angular';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ReplacePipe } from './pipes/replace.pipe';
+import { OrganizationPipe } from './pipes/organization.pipe';
 
 @NgModule({
   declarations: [
@@ -19,14 +20,16 @@ import { ReplacePipe } from './pipes/replace.pipe';
     LoadingComponent,
     MapComponent,
     ErrorComponent,
-    ReplacePipe
+    ReplacePipe,
+    OrganizationPipe
   ],
   imports: [
     CommonModule,
     MaterialModule,
     LeafletModule,
     LeafletDrawModule,
-    AbilityModule
+    AbilityModule,
+    NgxDatatableModule
   ],
   exports: [
     MaterialModule,
@@ -43,6 +46,7 @@ import { ReplacePipe } from './pipes/replace.pipe';
     ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
+    OrganizationPipe
   ]
 })
 

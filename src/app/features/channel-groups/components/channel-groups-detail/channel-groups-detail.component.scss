@@ -23,3 +23,17 @@
     }
   }
 }
+#title {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  
+  #button-container {
+    button {
+      margin-left: 10px;
+    }
+  }
+  
+}

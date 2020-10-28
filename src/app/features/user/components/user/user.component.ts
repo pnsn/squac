@@ -19,7 +19,6 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
-  orgName: string;
   id;
   constructor(
     private route: ActivatedRoute,
@@ -41,7 +40,6 @@ export class UserComponent implements OnInit, OnDestroy {
     if (this.route.parent) {
       this.user = this.route.parent.snapshot.data.user;
       this.initForm(this.user);
-      this.orgName = this.orgService.getOrgName(this.user.orgId);
     }
 
 

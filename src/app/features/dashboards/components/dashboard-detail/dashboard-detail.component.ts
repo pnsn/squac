@@ -36,7 +36,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
   selectedRange: string;
   liveMode: boolean;
   startDate: moment.Moment;
-  orgName: string;
   // settings for date select
   locale;
   ranges = {};
@@ -53,7 +52,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
     configService: ConfigurationService,
-    private orgService: OrganizationsService
   ) {
     this.rangeLookUp = configService.getValue('dateRanges');
     this.locale = configService.getValue('locale');
@@ -70,7 +68,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
       data => {
         this.status = 'loading';
         this.dashboard = data.dashboard;
-        this.orgName = this.orgService.getOrgName(this.dashboard.orgId);
         if (this.dashboard) {
           this.viewService.setDashboard(this.dashboard);
           const range = this.viewService.getRange();

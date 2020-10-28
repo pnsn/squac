@@ -17,7 +17,8 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +28,13 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  editChannelGroup() {
+
+    console.log(this.channelGroup.id)
+    this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
 
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.

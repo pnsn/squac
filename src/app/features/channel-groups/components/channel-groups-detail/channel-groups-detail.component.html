@@ -1,4 +1,20 @@
-<h2>{{channelGroup.name}}</h2>
+<div id="title">
+  <h2>{{channelGroup.name}}</h2>
+  <div id="button-container" *ngIf="'update' | able: 'channelGroup'">
+    <button 
+      mat-icon-button 
+      color="primary"
+      class="add-btn"
+      (click)="editChannelGroup()"
+      matTooltip="Edit channel group"
+      aria-label="Button that navigates to edit channel group page"
+    > 
+    <mat-icon>edit</mat-icon>
+  </button>
+  </div>
+</div>
+
+
 <div id="channel-group-container" class="box">
   <div id="map-container">
     <app-channel-group-map [selectedChannels]="channelGroup.channels" [editPage]=false></app-channel-group-map>
@@ -31,6 +47,12 @@
     </ngx-datatable-column>
   
     <ngx-datatable-column name="Location" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.loc }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Name" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="3">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.name }}
       </ng-template>
