@@ -11,44 +11,44 @@
       #userTable
       class="material"
       [rows]="organization.users"
-      [columnMode]="ColumnMode.force"
+      [columnMode]="ColumnMode.flex"
       [headerHeight]="50"
       [footerHeight]="50"
       [rowHeight]="50"
       [scrollbarV]="true"
       [scrollbarH]="true"
     >
-      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin" [width]="50">
+      <ngx-datatable-column name="" prop="id" *ngIf="isAdmin" [width]="50" [sortable]="false" [flexGrow]="0.5">
         <ng-template let-row="row"  let-expanded="expanded" ngx-datatable-cell-template >
           <button mat-button class="user-table-button" color="primary" *ngIf="!expanded" (click)="expandRow(row)">Edit</button> 
           <button mat-button class="user-table-button" color="warn" *ngIf="expanded" (click)="cancelUserEdit(row)">Cancel</button> 
           <!-- toggle edit and cancel button -->
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="firstName" [width]="200">
+      <ngx-datatable-column name="Name" prop="firstName" [flexGrow]="1.5">
         <ng-template let-row="row" ngx-datatable-cell-template >
           {{ row.firstName}} {{row.lastName}}
          </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Email" prop="email" [width]="200" *ngIf="isAdmin"></ngx-datatable-column>
-      <ngx-datatable-column name="Groups" prop="groups" [width]="100">
+      <ngx-datatable-column name="Email" prop="email" [flexGrow]="2" *ngIf="isAdmin"></ngx-datatable-column>
+      <ngx-datatable-column name="Groups" prop="groups" [flexGrow]="2">
         <ng-template let-value="value" ngx-datatable-cell-template >
           {{ value.join(', ') }}
          </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Last Login" prop="lastLogin" [width]="100" *ngIf="isAdmin">
+      <ngx-datatable-column name="Last Login" prop="lastLogin" [flexGrow]="1" *ngIf="isAdmin">
         <ng-template let-value="value" ngx-datatable-cell-template >
          {{ value | date:'shortDate' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Org. Admin" prop="isAdmin" [width]="75">
+      <ngx-datatable-column name="Org. Admin" prop="isAdmin" [flexGrow]="0.75">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value ? "Admin" : ""}}
          </ng-template>
 
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Active" prop="isActive" [width]="75" *ngIf="isAdmin"></ngx-datatable-column>
+      <ngx-datatable-column name="Active" prop="isActive" [flexGrow]="0.75" *ngIf="isAdmin"></ngx-datatable-column>
 
       <ngx-datatable-row-detail  [rowHeight]="125" #detailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
