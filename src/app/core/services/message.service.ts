@@ -22,7 +22,7 @@ export class MessageService {
         type,
         action
       },
-      panelClass: "mat-snack-bar-test",
+      panelClass: "mat-snack-bar-themed",
       duration: d * 1000
     });
 
@@ -40,21 +40,25 @@ export class MessageService {
     this.snackBarRef.dismiss();
   }
   // type: 'error', 'alert', 'warn'
-  message(message) {
+  message(message : string) {
     this.openSnackBar(
       "default", message,
     );
   }
 
-  error(message){
+  error(message : string){
     this.openSnackBar(
       "error", message, "close"
     );
   }
 
-  alert(message){
+  alert(message : string){
     this.openSnackBar(
       "alert", message, "close"
     );
   }
 }
+
+
+// Shows a popup at the bottom of the page that can have an action
+// .message() has no dismiss action

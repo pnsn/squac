@@ -210,13 +210,7 @@ export class ViewService {
     this.refresh.next('refresh');
     // this.getWidgets(this.dashboard.id);
   }
-
-  private handleError(message, source, error): void {
-    this.error.next(message);
-    console.log('Error in view service ' + source + ': ' + error);
-    this.status.next('error');
-  }
-
+  
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {

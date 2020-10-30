@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { User } from '@features/user/models/user';
 import { UserService } from '@features/user/services/user.service';
+import { MessageService } from '@core/services/message.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) { }
 
 
@@ -27,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = user;
       },
       error => {
-        console.log('error in header: ' + error);
+        this.messageService.error("Could not load user information.")
       }
     );
   }

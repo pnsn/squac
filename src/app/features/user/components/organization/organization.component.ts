@@ -10,6 +10,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@features/user/services/invite.service';
 import { ThrowStmt } from '@angular/compiler';
 import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { MessageService } from '@core/services/message.service';
 
 @Component({
   selector: 'app-organization',
@@ -45,7 +46,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     private orgService: OrganizationsService,
     private formBuilder: FormBuilder,
     private inviteService: InviteService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -90,9 +92,11 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       newUser => {
         // this.userAdded = newUser;
         this.editUserForm.reset();
+        this.messageService.message(`Saved user ${row.email}`);
         // this.organization.users.push(newUser);
       },
       error => {
+        this.messageService.error(`Could not save user ${row.email}`);
         this.error = error;
       }
     );
@@ -144,8 +148,11 @@ export class OrganizationComponent implements OnInit, OnDestroy {
         this.sendInvite(newUser.id);
         this.addUserForm.reset();
         // this.organization.users.push(newUser);
+        this.messageService.message(`Added user ${values.email}`);
+        // this.organization.users.push(newUser);
       },
       error => {
+        this.messageService.error(`Could not add user ${values.email}`);
         this.error = error;
       }
     );

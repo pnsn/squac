@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 import { UserService } from '@features/user/services/user.service';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { MessageService } from '@core/services/message.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private channelsService: ChannelsService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private confirmDialog: ConfirmDialogService
+    private confirmDialog: ConfirmDialogService,
+    private messageService: MessageService
   ) { }
 
   id: number;
@@ -103,6 +105,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.originalSelectedChannels = [...this.selectedChannels];
           this.filteredChannels = [...this.selectedChannels];
           this.getIdsFromChannels();
+        },
+        error =>{
+          this.messageService.error("Could not load channel group.")
         }
       );
     }
@@ -269,6 +274,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.updateChannelGroup(cg).subscribe(
       result => {
         this.cancel(result.id);
+        this.messageService.message("Channel group saved.")
+      },
+      error => {
+        this.messageService.error("Could not save channel group.")
       }
     );
   }
@@ -278,7 +287,12 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.deleteChannelGroup(this.id).subscribe(
       result => {
         this.cancel();
-    });
+        this.messageService.message("Channel group delete.");
+      }, 
+      error => {
+        this.messageService.error("Could not delete channel group");
+      }
+    );
   }
 
   // Exit page
@@ -327,10 +341,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.confirmDialog.confirmed().subscribe(
       confirm => {
         if (confirm) {
-          this.channelGroupService.deleteChannelGroup(this.id).subscribe(
-            result => {
-              this.cancel();
-          });
+          this.delete();
         }
     });
   }
