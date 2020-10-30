@@ -11,6 +11,7 @@ import { InviteService } from '@features/user/services/invite.service';
 import { ThrowStmt } from '@angular/compiler';
 import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { MessageService } from '@core/services/message.service';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-organization',
@@ -47,7 +48,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private inviteService: InviteService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmDialog: ConfirmDialogService
   ) { }
 
   ngOnInit(): void {
@@ -84,14 +86,17 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       {
         email: row.email,
         orgId: this.organization.id,
-        groups: values.groups,
-        isAdmin: values.isAdmin,
+        groups: values.editGroups,
+        isAdmin: values.editIsAdmin,
+        firstName: row.firstName,
+        lastName: row.lastName,
         id: row.id
       }
     ).subscribe(
-      newUser => {
+      savedUser => {
         // this.userAdded = newUser;
         this.editUserForm.reset();
+        this.table.rowDetail.toggleExpandRow(row);
         this.messageService.message(`Saved user ${row.email}`);
         // this.organization.users.push(newUser);
       },
@@ -101,6 +106,32 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       }
     );
 
+  }
+
+  deleteUser(row) {
+    this.confirmDialog.open(
+      {
+        title: `Delete: ${row.email}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if (confirm) {
+          this.orgService.deleteUser(row.id).subscribe(
+            user => {
+              this.messageService.message("User deleted.")
+              this.table.rowDetail.toggleExpandRow(row);
+              this.refreshOrgUsers();
+            },
+            error => {
+              this.messageService.error("Could not delete user.")
+            }
+          )
+        }
+    });
   }
 
   cancelUserEdit(row) {
@@ -121,10 +152,20 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     );
   }
 
+  refreshOrgUsers() {
+    this.orgService.getOrganizationUsers(this.organization.id).subscribe(
+      users => {
+        this.organization.users = users;
+      }
+    )
+
+  }
+
   sendInvite(id) {
     this.inviteService.sendInviteToUser(id).subscribe(
       response => {
         console.log(response);
+        this.refreshOrgUsers();
       },
       error => {
         this.error = error;

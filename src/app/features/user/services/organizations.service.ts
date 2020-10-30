@@ -59,7 +59,16 @@ export class OrganizationsService {
     );
   }
 
-  updateUser(user: {email: string, isAdmin: boolean, orgId: number, groups: string[], id?: number}): Observable<User> {
+  updateUser(user: {  
+    email: string, 
+    isAdmin: boolean,
+    orgId: number,
+    groups: string[], 
+    id?: number,
+    firstName?: string,
+    lastName?: string
+  }
+    ): Observable<User> {
     const path = 'users/';
 
     // get the ids
@@ -73,15 +82,15 @@ export class OrganizationsService {
 
     const postData = {
       email: user.email,
-      password: 'pwthatgetsignored',
-      firstname: 'firstName',
-      lastname: 'lastName',
       groups,
       organization: user.orgId,
       is_org_admin : user.isAdmin
     };
     if (user.id) {
-      return this.squacApi.put(this.url + path, user.id, postData).pipe(
+      // return this.squacApi.put(this.url + path, user.id, postData).pipe(
+      //   map((data) => this.mapOrgUsers(data))
+      // );
+      return this.squacApi.patch(this.url + path, user.id, postData).pipe(
         map((data) => this.mapOrgUsers(data))
       );
     } else {
@@ -120,6 +129,11 @@ export class OrganizationsService {
         return users;
       }
     ));
+  }
+
+  deleteUser(userId) : Observable<User> {
+    const path = 'users/';
+    return this.squacApi.delete(this.url + path, userId);
   }
 
   private mapOrganization(squacData, users?): Organization {
