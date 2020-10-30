@@ -1,10 +1,17 @@
+@import 'variables.scss';
+#snackbar-body {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
 .error {
-  color: red;
+  color: $sq-warn;
 }
 
 .default {
-  color: blue;
+  color: $sq-blue;
 }
 .alert {
-  color: yellow;
+  color: $sq-yellow;
 }

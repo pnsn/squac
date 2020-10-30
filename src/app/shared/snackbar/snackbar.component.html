@@ -1,7 +1,7 @@
-<div class="snackbar-text">
-  <span color="primary" >{{type}}</span>
-  : 
-  <span>{{message}}</span>
-
-  <button mat-button  [class]="type" (click)="action()">Action</button>
+<div id="snackbar-body">
+  <div id="snackbar-text">
+    <span *ngIf="type !== 'default'" [class]="type">{{type | titlecase }}: </span>
+    <span>{{message}}</span>
+  </div>
+  <button mat-button *ngIf="action" [class]="type" (click)="dismiss()">{{ action | titlecase }}</button>
 </div>

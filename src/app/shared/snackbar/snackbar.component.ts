@@ -10,6 +10,7 @@ import { MessageService } from '@core/services/message.service';
 export class SnackbarComponent implements OnInit {
   message:string;
   type: string;
+  action: string;
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
     private matSnackBarRef: MatSnackBarRef<SnackbarComponent> 
@@ -18,9 +19,10 @@ export class SnackbarComponent implements OnInit {
   ngOnInit(): void {
     this.message = this.data.message;
     this.type  = this.data.type;
+    this.action = this.data.action;
   }
 
-  action() {
+  dismiss() {
     this.matSnackBarRef.dismiss();
   }
 

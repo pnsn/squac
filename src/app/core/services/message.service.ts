@@ -8,21 +8,22 @@ import { duration } from 'moment';
 })
 export class MessageService {
   private snackBarRef: MatSnackBarRef<SnackbarComponent>;
-  private durationInSeconds : number = 20;
+  private durationInSeconds : number = 3;
   constructor(
     private snackBar : MatSnackBar
   ) { }
 
 
-  openSnackBar(type, message, duration?) {
-    const d = duration? duration : this.durationInSeconds;
+  openSnackBar(type, message, action?, duration?) {
+    const d = duration ? duration : this.durationInSeconds;
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data : {
         message,
-        type
+        type,
+        action
       },
       panelClass: "mat-snack-bar-test",
-      duration: this.durationInSeconds * 1000
+      duration: d * 1000
     });
 
     // this.snackBarRef.afterDismissed().subscribe(() => {
@@ -47,13 +48,13 @@ export class MessageService {
 
   error(message){
     this.openSnackBar(
-      "error", message,
+      "error", message, "close"
     );
   }
 
   alert(message){
     this.openSnackBar(
-      "alert", message,
+      "alert", message, "close"
     );
   }
 }
