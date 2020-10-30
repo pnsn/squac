@@ -291,19 +291,38 @@
       <button mat-button color="primary" (click)="formUnsaved()">
         Cancel
       </button>
+      <ng-container *ngIf="editMode; else notEditMode">
+        <button 
+        *ngIf="'update' | able: 'ChannelGroup'"
+        mat-icon-button 
+        color="accent"
+        class="add-btn"
+        (click)="save()"
+        [disabled]="selectedChannels?.length === 0"
 
-      <button 
-      mat-icon-button 
-      color="accent"
-      class="add-btn"
-      (click)="save()"
-      [disabled]="selectedChannels?.length === 0"
-      *ngIf="'update' | able: 'ChannelGroup'"
-      matTooltip="Save channel group"
-      aria-label="Button that saves the changes to the channel group"
-      > 
+        matTooltip="Save channel group"
+        aria-label="Button that saves the changes to the channel group"
+        > 
        <mat-icon>save</mat-icon>
-    </button>
+        </button>
+      </ng-container>
+      <ng-template #notEditMode>
+        <button 
+        *ngIf="'create' | able: 'ChannelGroup'"
+        mat-raised-button 
+        color="accent"
+        class="add-btn"
+        (click)="save()"
+        [disabled]="selectedChannels?.length === 0"
+
+        matTooltip="Create channel group"
+        aria-label="Button that creates the channel group"
+        > 
+        Create
+        </button>
+      </ng-template>
+      
+
     </div>
   </div>
 

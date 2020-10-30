@@ -1,49 +1,41 @@
 <h3>
   Channel Groups
 </h3>
+<div>Selected: {{selectedChannelGroup[0] ? selectedChannelGroup[0].name : "Select a channel group"}}</div>
 <div id="channel-group-selector-container">
-  <div id="groups-container">
-    <mat-selection-list dense *ngIf="availableChannelGroups" id="channel-group-selector" >
-        <mat-list-option 
-          *ngFor="let channelGroup of availableChannelGroups"
-          (click)="getChannelsForChannelGroup(channelGroup)"
-          [value]="channelGroup.id"
-          [class.selected]="channelGroup.id === selectedChannelGroup?.id"
-          >
-          {{channelGroup.name}}
-        </mat-list-option>
-      </mat-selection-list>
-  </div>
-  <mat-divider [vertical]="true"></mat-divider>
 
-  <div id="selection-container" >
-    <app-loading *ngIf="loading"></app-loading>
-    <div *ngIf="!loading" id="channel-group-details">
-      <h4 *ngIf="selectedChannelGroup">
-        {{selectedChannelGroup.name}}  ({{selectedChannelGroup.channels.length}} channels)
-      </h4>
-  
-      <h4 *ngIf="!selectedChannelGroup">
-        Please select a channel group.
-      </h4>
-  
-      <div id="selected-channels" *ngIf="selectedChannelGroup">
-        <mat-list dense *ngIf="selectedChannelGroup.channels">
-          <mat-list-item *ngFor="let channel of selectedChannelGroup.channels">
-              {{channel.nslc}}
-          </mat-list-item>
-        </mat-list>
-      </div>
-      <div id="channel-group-detail" *ngIf="selectedChannelGroup && selectedChannelGroup.channels">
-        <!-- <div class="detail-subhead">Number of Channels</div>
-        <div>{{selectedChannelGroup.channels.length}}</div> -->
-        <div class="detail-subhead">Description:</div>
-        <div>{{selectedChannelGroup.description}}</div>
-      </div>
-  
-    </div>
-
-  </div>
-
-
+  <ngx-datatable
+  id="channel-group-table"
+  class="material"
+  [rows]="availableChannelGroups"
+  [columnMode]="ColumnMode.flex"
+  [footerHeight]="50"
+  [rowHeight]="30"
+  [scrollbarV]="true"
+  [headerHeight]="30"
+  [selectionType]=SelectionType.single
+  [selected]="selectedChannelGroup"
+  (select)="onSelect($event)"
+>
+  <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="1"> 
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{row.orgId | organization}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{ row.channelIds ? row.channelIds.length : '0'}}
+    </ng-template>
+  </ngx-datatable-column>
+<!-- 
+  <ngx-datatable-column [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <button mat-button (click)="viewChannels(row.id)">View</button>
+    </ng-template>
+  </ngx-datatable-column> -->
+</ngx-datatable>
 </div>
