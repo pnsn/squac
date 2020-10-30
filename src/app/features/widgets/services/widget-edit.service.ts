@@ -23,7 +23,6 @@ export class WidgetEditService {
   private thresholds: Thresholds = {};
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
-
   // default widget dimensions
   rows = 3;
   columns = 6;
@@ -42,7 +41,9 @@ export class WidgetEditService {
 
     if (this.widget) {
       this.isValid.next(
-        this.widget.typeId
+        this.widget.name.length > 0
+        && this.widget.stattype
+        && this.widget.typeId
         && this.widget.channelGroupId
         && this.widget.metrics
         && this.widget.metrics.length > 0
@@ -56,8 +57,9 @@ export class WidgetEditService {
     return this.thresholds;
   }
 
+
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget): void {
+  setWidget(widget: Widget, dashboardId): void {
     if (widget) {
       this.widget = widget;
       this.thresholds = widget.thresholds ? widget.thresholds : {};
@@ -72,7 +74,7 @@ export class WidgetEditService {
         null,
         null,
         null,
-        null,
+        dashboardId,
         null,
         this.columns,
         this.rows,
@@ -143,10 +145,9 @@ export class WidgetEditService {
   }
 
   // Update the widgets info
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ): void {
+  updateWidgetInfo(name: string, description: string, statType ): void {
     this.widget.name = name;
     this.widget.description = description;
-    this.widget.dashboardId = dashboardId;
     this.widget.stattype = statType;
     this.updateValidity();
   }
@@ -161,37 +162,39 @@ export class WidgetEditService {
 
   // save widget and thresholds to squac
   saveWidget(): Observable<Widget> {
-    let newWidget;
-    return this.widgetsService.updateWidget(
-      this.widget
-    ).pipe(
-      switchMap (
-        response => {
-          newWidget = response;
+    console.log(this.widget)
+    return of();
+    // let newWidget;
+    // return this.widgetsService.updateWidget(
+    //   this.widget
+    // ).pipe(
+    //   switchMap (
+    //     response => {
+    //       newWidget = response;
 
-          // returns observables for saving each thresholds
-          const thresholdObs = this.thresholdService.updateThresholds(
-            this.widget.metrics,
-            this.widget.thresholds,
-            newWidget.id
-          );
-          let count = 0;
-          if (thresholdObs && thresholdObs.length > 0) {
-              return merge(...thresholdObs).pipe(
-                tap(result => {
-                  count++;
-                  if (newWidget && count === thresholdObs.length) {
-                    this.viewService.updateWidget(newWidget.id, newWidget);
-                  }
-                })
-              );
-            } else {
-              this.viewService.updateWidget(newWidget.id, newWidget);
-              return of(newWidget);
-            }
-        }
-      )
-    );
+    //       // returns observables for saving each thresholds
+    //       const thresholdObs = this.thresholdService.updateThresholds(
+    //         this.widget.metrics,
+    //         this.widget.thresholds,
+    //         newWidget.id
+    //       );
+    //       let count = 0;
+    //       if (thresholdObs && thresholdObs.length > 0) {
+    //           return merge(...thresholdObs).pipe(
+    //             tap(result => {
+    //               count++;
+    //               if (newWidget && count === thresholdObs.length) {
+    //                 this.viewService.updateWidget(newWidget.id, newWidget);
+    //               }
+    //             })
+    //           );
+    //         } else {
+    //           this.viewService.updateWidget(newWidget.id, newWidget);
+    //           return of(newWidget);
+    //         }
+    //     }
+    //   )
+    // );
   }
 
 

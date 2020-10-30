@@ -1,0 +1,64 @@
+<form action="" [formGroup]="widgetForm" >
+  <div class="label">Name your widget: </div>
+  <mat-form-field floatLabel="never">
+    <input matInput 
+      type="text" 
+      id="name" 
+      formControlName="name" 
+      placeholder="Widget name"
+      (change)="updateInfo()"
+      required
+    >
+  </mat-form-field>
+  <br>
+  <div id="type-container">
+    <div id="widget-type-container">
+      <div class="label">Select type of widget: </div>  
+      <mat-button-toggle-group #group="matButtonToggleGroup" (change)="selectType(group.value)" [value]="selectedType">
+        <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type.id">
+          <div class="img-container">
+            <img class="white" src="assets/{{type.type}}-white.svg" alt="">
+            <img class="dark" src="assets/{{type.type}}-dark.svg" alt="">
+          </div>
+
+          <div class="type-label">{{type.name | titlecase}}</div>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div id="stat-type-container">
+      <!-- FIXME: don't hardcode the type -->
+      <ng-container  *ngIf="selectedType && selectedType===1 || selectedType===4; else rawDataOnly">
+        <div class="label">Select statistical type: </div>  
+        <mat-form-field >
+          <mat-label>Stat type</mat-label>
+          <mat-select formControlName="statType" *ngIf="statTypes" (selectionChange)="updateInfo()" required>
+            <mat-option *ngFor="let statType of statTypes" [value]="statType.id">
+              {{statType.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-template #rawDataOnly>
+        <p class="help-text">
+          This widget type will only display raw (most recent) values. 
+        </p>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+
+  <div id="description"> 
+    <p *ngIf="selectedType; else noSelectedType" class="help-text">
+      {{selectedType ? getStatTypeById(selectedType)?.description : "blah"}}
+    </p>
+    <ng-template #noSelectedType>
+      <p class="help-text">
+        Widgets display measurements for selected metrics and channels. 
+      </p>
+    </ng-template>
+
+ </div>
+
+</form>
