@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
@@ -10,8 +10,9 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
   templateUrl: './channel-groups-edit.component.html',
   styleUrls: ['./channel-groups-edit.component.scss']
 })
-export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
+export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() channelGroups: ChannelGroup[];
+  @ViewChild('channelTable') channelTable;
   availableChannelGroups: ChannelGroup[];
   selectedChannelGroup: ChannelGroup[] = [];
   subscriptions: Subscription = new Subscription();
@@ -36,13 +37,18 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  ngAfterViewInit(){
+    console.log("chagne")
+    this.availableChannelGroups = [...this.availableChannelGroups]; //This is input into <ngx-datatable>
+    this.channelTable.recalculate(); //ngx-datatable reference
+  }
     // onSelect function for data table selection
     onSelect($event) { // When a row is selected, route the page and select that channel group
-      // const selectedId = $event.selected[0].id;
-      // if (selectedId) {
-      //   this.selectedChannelGroupId = selectedId;
-      //   this.selectChannelGroup(selectedId);
-      // }
+      const selectedId = $event.selected[0].id;
+      if (selectedId) {
+        this.selectedChannelGroupId = selectedId;
+        this.selectChannelGroup(selectedId);
+      }
     }
 
       // Getting a selected channel group and setting variables

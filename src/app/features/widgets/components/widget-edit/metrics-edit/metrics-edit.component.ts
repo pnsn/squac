@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
 import { MetricsService } from '@features/metrics/services/metrics.service';
@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MetricsEditComponent implements OnInit, OnDestroy {
   @Input() metrics: Metric[];
+  @ViewChild('metricTable') metricTable;
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
@@ -52,6 +53,12 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    this.availableMetrics = [...this.availableMetrics]
+      //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.metricTable.recalculate();
+  }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
