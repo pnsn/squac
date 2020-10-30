@@ -7,6 +7,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirm-dialog.component.scss']
 })
 export class ConfirmDialogComponent implements OnInit {
+  confirmButtonColor: string;
+  canceButtonColor: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -19,7 +21,11 @@ export class ConfirmDialogComponent implements OnInit {
 
     ){}
   ngOnInit(): void {
-
+    if(this.data.confirmText.toLowerCase() === "delete") {
+      this.confirmButtonColor = "warn";
+    } else {
+      this.confirmButtonColor = "primary";
+    }
 
   }
 
