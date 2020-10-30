@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { MessageService } from '@core/services/message.service';
 
 import { AuthService } from './core/services/auth.service';
 
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit {
   title;
   constructor(
     private authService: AuthService,
-    private configService: ConfigurationService
+    private configService: ConfigurationService,
+    private messageService:MessageService
   ) {
     this.title = configService.getValue('appTitle');
   }
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.autologin();
-
+    this.messageService.message("Hello");
   }
 
 }

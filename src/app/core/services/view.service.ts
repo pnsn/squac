@@ -9,6 +9,8 @@ import { WidgetsService } from '@features/widgets/services/widgets.service';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { ConfigurationService } from './configuration.service';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +34,8 @@ export class ViewService {
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
     private ability: Ability,
-    private configService: ConfigurationService
+    configService: ConfigurationService,
+    private messageService: MessageService
   ) {
     this.locale = configService.getValue('locale');
     this.dateRanges = configService.getValue('dateRanges');
@@ -177,20 +180,24 @@ export class ViewService {
             this.dashboard.widgets.push(newWidget);
           }
           this.widgetChanged(widgetId);
+          this.messageService.message("Widget updated.")
+        },
+        error => {
+          this.messageService.message("Error: could not updated widget.")
         }
       );
     }
 
   }
 
-
   deleteWidget(widgetId): void {
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
         this.updateWidget(widgetId);
+        this.messageService.message("Widget deleted.");
       },
       error => {
-        this.handleError('Could not delete widget with ID: ' + widgetId, 'deleteWidget', error);
+        this.messageService.message("Error: could not delete widget.");
       }
     );
 
@@ -213,11 +220,11 @@ export class ViewService {
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {
-        console.log('dashboard deleted');
-        // redirect to /dashboards
+        this.messageService.message("Dashboard deleted.");
+        //redirect to dashboards
       },
       error => {
-        console.log('Failed to delete dashboard.');
+        this.messageService.message("Error: could not delete dashboard.");
       }
     );
   }
@@ -225,13 +232,10 @@ export class ViewService {
   saveDashboard(): void {
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
-        console.log('dashboard saved');
+        this.messageService.message("Dashboard saved.");
       },
       error => {
-        this.handleError('Could not save dashboard.', 'saveDashboard', error);
-      },
-      () => {
-
+        this.messageService.message("Error: could not save dashboard.");
       }
     );
   }
