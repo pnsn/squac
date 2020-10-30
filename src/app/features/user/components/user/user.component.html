@@ -6,8 +6,23 @@
     {{user.email}}
     <div id="user-info-top">
       <h2>User Information</h2>
-      <button mat-icon-button color="accent" *ngIf="editMode" [disabled]="!userForm.valid" (click)="save()"><mat-icon>save</mat-icon></button>
-      <button mat-icon-button color="primary" (click)="editForm()" *ngIf="!editMode" aria-labrl="Edit User Information">
+      <button
+        mat-icon-button
+        color="accent" 
+        *ngIf="editMode" 
+        [disabled]="!userForm.valid" 
+        (click)="save()"
+        matTooltip="Save user information."
+        aria-label="Button that saves the user information."
+        ><mat-icon>save</mat-icon></button>
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="editForm()"
+        *ngIf="!editMode"
+        matTooltip="Edot user information."
+        aria-label="Button that enables editing of the user information."
+        >
         <mat-icon>edit</mat-icon>
       </button>
     </div>
@@ -18,7 +33,10 @@
           First Name:
         </div>
         <mat-form-field >
-          <input matInput formControlName="firstName" [readonly]="!editMode">
+          <input
+            matInput
+            formControlName="firstName"
+            [readonly]="!editMode">
         </mat-form-field>
       </div>
       <div class="form-group">
