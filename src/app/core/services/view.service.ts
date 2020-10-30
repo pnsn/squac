@@ -183,7 +183,7 @@ export class ViewService {
           this.messageService.message("Widget updated.")
         },
         error => {
-          this.messageService.message("Error: could not updated widget.")
+          this.messageService.error("Could not updated widget.")
         }
       );
     }
@@ -197,7 +197,7 @@ export class ViewService {
         this.messageService.message("Widget deleted.");
       },
       error => {
-        this.messageService.message("Error: could not delete widget.");
+        this.messageService.error("Could not delete widget.");
       }
     );
 
@@ -224,7 +224,7 @@ export class ViewService {
         //redirect to dashboards
       },
       error => {
-        this.messageService.message("Error: could not delete dashboard.");
+        this.messageService.error("Could not delete dashboard.");
       }
     );
   }
@@ -235,7 +235,7 @@ export class ViewService {
         this.messageService.message("Dashboard saved.");
       },
       error => {
-        this.messageService.message("Error: could not save dashboard.");
+        this.messageService.error("Could not save dashboard.");
       }
     );
   }

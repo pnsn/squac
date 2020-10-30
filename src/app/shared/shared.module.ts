@@ -13,6 +13,7 @@ import { AbilityModule } from '@casl/angular';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ReplacePipe } from './pipes/replace.pipe';
 import { OrganizationPipe } from './pipes/organization.pipe';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { OrganizationPipe } from './pipes/organization.pipe';
     MapComponent,
     ErrorComponent,
     ReplacePipe,
-    OrganizationPipe
+    OrganizationPipe,
+    SnackbarComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { OrganizationPipe } from './pipes/organization.pipe';
     ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
-    OrganizationPipe
+    OrganizationPipe,
+    SnackbarComponent
   ]
 })
 

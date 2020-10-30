@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.autologin();
-    this.messageService.message("Hello");
+    this.messageService.alert("Hello");
   }
 
 }
