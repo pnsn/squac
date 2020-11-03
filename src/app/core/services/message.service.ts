@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from '@shared/snackbar/snackbar.component';
+import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
 import { duration } from 'moment';
 
 @Injectable({
