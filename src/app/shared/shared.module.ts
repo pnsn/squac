@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from './material.module';
-import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ErrorComponent } from './components/error/error.component';
@@ -19,7 +18,6 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
   declarations: [
     ConfirmDialogComponent,
     LoadingComponent,
-    MapComponent,
     ErrorComponent,
     ReplacePipe,
     OrganizationPipe,
@@ -41,7 +39,6 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     FormsModule,
     LoadingComponent,
     NgxDatatableModule,
-    MapComponent,
     ErrorComponent,
     AbilityModule,
     ConfirmDialogComponent,
