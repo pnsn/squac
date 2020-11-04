@@ -97,15 +97,22 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     this.subscription.add(resizeSub);
   }
 
-  private resize() {
+  private resize(rows? : number) {
     if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
       const offset = 55;
       if ( width > 0 && height > 0) {
+        console.log(width, height)
         this.chart.width(width);
         this.chart.maxHeight(height - offset);
-        this.chart.maxLineHeight((height - offset) / this.chart.getNLines());
+        let lineCount;
+        if(rows) {
+          lineCount = rows;
+        } else {
+          lineCount = this.chart.getNLines();
+        }
+        this.chart.maxLineHeight((height - offset) / lineCount);
       }
       this.chart.refresh();
     }
@@ -216,7 +223,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
   ngAfterViewInit(): void {
     this.chart(this.timelineDiv.nativeElement);
     this.chart.onZoom(([startDate, endDate], [startY, endY]) => {
-      this.resize();
+      const visibleLines = endY - startY;
+      this.resize(visibleLines);
     });
     this.resize();
 
