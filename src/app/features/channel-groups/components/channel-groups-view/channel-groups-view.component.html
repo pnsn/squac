@@ -27,27 +27,31 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
       </ngx-datatable-column>
-      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="false" [flexGrow]="1">
-      </ngx-datatable-column>
       <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.channelIds ? row.channelIds.length : '0'}}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value | user}}
+        </ng-template>
+      </ngx-datatable-column>
+
       <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{row.orgId | organization}}
+          {{value | organization}}
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Shared with Org" prop="shareOrg" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.shareOrg ? "Shared" : "Private" }}
+          {{ value ? "Shared" : "Private" }}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Shared with All" prop="shareAll" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.shareAll ? "Shared" : "Private" }}
+          {{ value ? "Shared" : "Private" }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

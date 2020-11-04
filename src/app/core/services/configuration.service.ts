@@ -24,3 +24,7 @@ export class ConfigurationService {
     return this.configuration[key] || defaultValue;
   }
 }
+
+//Used to access config file information
+// see /assets/config.json to change values
+//

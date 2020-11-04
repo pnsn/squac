@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { ReplacePipe } from './pipes/replace.pipe';
 import { OrganizationPipe } from './pipes/organization.pipe';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { UserPipe } from './pipes/user.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     ErrorComponent,
     ReplacePipe,
     OrganizationPipe,
-    SnackbarComponent
+    SnackbarComponent,
+    UserPipe
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     LeafletModule,
     LeafletDrawModule,
     OrganizationPipe,
-    SnackbarComponent
+    SnackbarComponent,
+    UserPipe
   ]
 })
 

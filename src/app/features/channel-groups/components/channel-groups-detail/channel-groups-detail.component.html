@@ -1,5 +1,11 @@
 <div id="title">
-  <h2>{{channelGroup.name}}</h2>
+  <div id="channel-group-info">
+    <h2>{{channelGroup.name}}</h2>
+    <span >
+      by {{channelGroup.owner | user}} ({{channelGroup.orgId | organization}})
+    </span>  
+  </div>
+
   <div id="button-container" *ngIf="'update' | able: 'channelGroup'">
     <button 
       mat-icon-button 

@@ -14,7 +14,7 @@ providedIn: 'root'
 export class OrganizationsService {
   private url = 'organization/';
   private localOrganizations: Organization[] = [];
-
+  private orgUsers = {};
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
@@ -35,6 +35,11 @@ export class OrganizationsService {
   getOrgName(id): string{
     const org = this.localOrganizations.find(o => o.id === id);
     return org ? org.name : 'unknown';
+  }
+
+  getOrgUserName(id) : string {
+    const orgUser = this.orgUsers[id];
+    return orgUser ? orgUser.first + " " + orgUser.last : 'unknown';
   }
 
   getOrganizations(): Observable<Organization[]> {
@@ -137,6 +142,7 @@ export class OrganizationsService {
   }
 
   private mapOrganization(squacData, users?): Organization {
+    this.storeOrgUsers(squacData.users);
     const newOrg = new Organization(
       squacData.id,
       squacData.name,
@@ -144,6 +150,15 @@ export class OrganizationsService {
       users ? users : []
     );
     return newOrg;
+  }
+
+  private storeOrgUsers(orgUsers) : void {
+    for(let user of orgUsers) {
+      this.orgUsers[user.id] = {
+        first: user.firstname,
+        last: user.lastname
+      }
+    }
   }
 
   private mapOrgUsers(user): User {

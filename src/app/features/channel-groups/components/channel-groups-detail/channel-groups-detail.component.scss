@@ -26,10 +26,17 @@
 #title {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  
+  margin-top: 10px;
+  #channel-group-info {
+    h2 {
+      display:inline
+    }
+    span{
+      font-weight: 200;
+    }
+  }
   #button-container {
     button {
       margin-left: 10px;

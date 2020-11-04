@@ -5,7 +5,7 @@
               {{dashboard.name}}
           </h2>
           <span >
-            by {{dashboard.orgId | organization}}
+            by {{dashboard.owner | user}} ({{dashboard.orgId | organization}})
           </span>
           <!-- TODO: add dashboard owner name & copy -->
       </div>
