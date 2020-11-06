@@ -4,6 +4,7 @@ import { DashboardsService } from './services/dashboards.service';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { LoadingService } from '@core/services/loading.service';
+import { MessageService } from '@core/services/message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { LoadingService } from '@core/services/loading.service';
 export class DashboardsResolver implements Resolve<Observable<any>> {
   constructor(
     private dashboardsService: DashboardsService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private messageService: MessageService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
@@ -35,6 +37,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
 
   handleError(error): Observable<any> {
     console.log(error);
+    this.messageService.error("Could not load dashboard.")
     // TODO: route to show error
     return of({ error });
   }

@@ -151,6 +151,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
+    this.unsaved = true;
     const start = chosenDate.startDate;
     const end = chosenDate.endDate;
     if (start && end) {
@@ -161,8 +162,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
         this.liveMode,
         range ? range : null
       );
-
-      this.saveDashboard();
     }
   }
 
@@ -205,7 +204,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
     this.viewService.refreshWidgets();
   }
 
-  saveDashboard() {
+  save() {
     if (this.ability.can('update', this.dashboard)) {
       this.unsaved = false;
       this.viewService.saveDashboard();

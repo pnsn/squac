@@ -10,12 +10,25 @@
           <!-- TODO: add dashboard owner name & copy -->
       </div>
         <div id="header-controls">
-          <button mat-flat-button color="accent" (click)="saveDashboard()" *ngIf="unsaved">
-            <mat-icon>save</mat-icon>
-            Save
-          </button>
-          <button mat-icon-button (click)="refreshData()" color="primary" aria-label="refresh data">
+
+          <button
+            mat-icon-button
+            (click)="refreshData()"
+            color="primary"
+            matTooltip="Refresh data"
+            aria-label="Button that requests new data from the database">
               <mat-icon >refresh</mat-icon>  
+          </button>
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="save()"
+            [disabled]="!unsaved"
+            *ngIf="'update' | able: dashboard"
+            matTooltip="Save dashboard"
+            aria-label="Button that saves changes to the dashboard"
+            >
+            <mat-icon>save</mat-icon>
           </button>
           <mat-form-field id="date-range">
             <input #datePicker matInput ngxDaterangepickerMd
@@ -55,12 +68,9 @@
         >
       </mat-progress-bar>
 
-      <!-- TODO: move this to widget component -->
       <div id="dashboard-body">
         <router-outlet></router-outlet>
       </div>
-      <!-- <app-widgets [canUpdate]="'update' | able: dashboard" dashboardId="{{dashboard.id}}"></app-widgets> -->
-
       
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>
