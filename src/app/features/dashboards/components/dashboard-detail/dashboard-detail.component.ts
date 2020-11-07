@@ -66,11 +66,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
 
     this.route.data.subscribe(
       data => {
-        console.log(data)
         this.status = 'loading';
         this.dashboard = data.dashboard;
         if (data.dashboard.error) {
-          console.log("dashboard failed for some reason")
           this.viewService.status.next("error");
         } else {
           this.viewService.setDashboard(this.dashboard);

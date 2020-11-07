@@ -30,7 +30,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService
   ) { }
-
+  
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean;
@@ -52,7 +52,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
-
+  filtersChanged:boolean;
+  searchFilters: any;
   // Map stuff
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
@@ -162,9 +163,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.previous = newPrevious;
   }
 
-
   getChannelsWithFilters(searchFilters: object) {
-    if (searchFilters !== {}) {
+    if (this.searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelsService.getChannelsByFilters(searchFilters).subscribe(
         response => {

@@ -13,7 +13,7 @@
   height: auto;
 
   h2 {
-    margin-top: 10px; 
+    margin-top: 0px; 
   }
 
 }
@@ -30,11 +30,11 @@
 }
 #filter-container {
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   #filter-button-container {
     display:flex;
-    flex-direction: column-reverse;
+    flex-direction: row;
     align-content: flex-end;
     justify-content: space-around;
     padding-right: 20px;
@@ -93,7 +93,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
+  #cg-form{
+    width: 100%;
+  }
   #cg-form-input {
     .channel-group-input {
       display: inline-block;

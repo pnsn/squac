@@ -1,5 +1,6 @@
+<p class="help-text">Regular expression allowed for channel (for example: [H,C]..)</p>
 <div id="filter-box">
-  <p class="help-text">Regular expression allowed for channel (for example: [H,C]..)</p>
+
   
   <mat-form-field class="filter-chip-input">
     <input
@@ -33,6 +34,15 @@
       (keydown.enter)="addFilter($event, 'channel')"
     >
   </mat-form-field>
+  <button
+    mat-icon-button
+    color="primary"
+    (click)="updateFilters()"
+    matTooltip="Search for channels"
+    aria-label="Button that searches for channels matching filters"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
 </div>
 
 <!-- <mat-chip-list #chipList aria-label="Channel group filters">
