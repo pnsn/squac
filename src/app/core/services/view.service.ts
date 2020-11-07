@@ -76,7 +76,10 @@ export class ViewService {
   }
 
   setWidgets(widgets: Widget[]): void {
-    this.dashboard.widgets = widgets;
+    if(this.dashboard) {
+      this.dashboard.widgets = widgets;
+    }
+
     // init dates
   }
 

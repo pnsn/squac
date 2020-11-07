@@ -14,13 +14,19 @@
 </ng-container>
 <app-loading *ngIf="loading"></app-loading>
 <ng-template #noWidgets>
-  <div id="add-widget" *ngIf="!loading">
+  <div id="add-widget" *ngIf="!loading && !error">
     <p>
       There are currently no widgets for this dashboard.
     </p>
     <button  mat-flat-button *ngIf="canUpdate" color="accent" aria-label="Add widget" (click)="addWidget()">
       Add Widget
     </button>
+  </div>
+
+  <div *ngIf="error">
+    <p>
+      {{error}}
+    </p>
   </div>
 
 </ng-template>

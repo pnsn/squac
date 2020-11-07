@@ -15,7 +15,11 @@ export class MessageService {
 
 
   openSnackBar(type, message, action?, duration?) {
-    const d = duration ? duration : this.durationInSeconds;
+    let d;
+    if (duration) {
+      d = duration ? duration : this.durationInSeconds;      
+    }
+
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data : {
         message,
@@ -23,7 +27,7 @@ export class MessageService {
         action
       },
       panelClass: "mat-snack-bar-themed",
-      duration: d * 1000
+      duration: d  ? d * 1000 : null
     });
 
     // this.snackBarRef.afterDismissed().subscribe(() => {
@@ -54,7 +58,7 @@ export class MessageService {
 
   alert(message : string){
     this.openSnackBar(
-      "alert", message, "close"
+      "alert", message
     );
   }
 }

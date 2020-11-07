@@ -4,7 +4,7 @@
           <h2>
               {{dashboard.name}}
           </h2>
-          <span >
+          <span *ngIf="dashboard.owner && dashboard.orgId">
             by {{dashboard.owner | user}} ({{dashboard.orgId | organization}})
           </span>
           <!-- TODO: add dashboard owner name & copy -->

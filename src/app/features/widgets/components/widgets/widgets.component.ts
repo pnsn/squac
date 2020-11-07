@@ -20,7 +20,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
-
+  error : string;
   canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
@@ -113,13 +113,18 @@ private addWidgetsToView(widgets: Widget[]) {
 
     const dataSub = this.route.data.subscribe(
       data => {
-        this.addWidgetsToView(data.widgets);
-        // this.options.api.res
-        this.viewService.setWidgets(data.widgets);
-            // allow dragable and resizable if they have permission to edit dashboard
-        this.options.draggable.enabled = this.canUpdate;
-        this.options.resizable.enabled = this.canUpdate;
-        if (this.options.api) { this.options.api.optionsChanged(); }
+        if(data.widgets.error ){
+          this.error = "Could not load dashboard or widgets";
+        } else {
+          this.addWidgetsToView(data.widgets);
+          // this.options.api.res
+          this.viewService.setWidgets(data.widgets);
+              // allow dragable and resizable if they have permission to edit dashboard
+          this.options.draggable.enabled = this.canUpdate;
+          this.options.resizable.enabled = this.canUpdate;
+          if (this.options.api) { this.options.api.optionsChanged(); }
+        }
+
       }
     );
 
