@@ -88,9 +88,9 @@ export class OrganizationComponent implements OnInit, OnDestroy {
         orgId: this.organization.id,
         groups: values.editGroups,
         isAdmin: values.editIsAdmin,
+        id: row.id,
         firstName: row.firstName,
         lastName: row.lastName,
-        id: row.id
       }
     ).subscribe(
       savedUser => {

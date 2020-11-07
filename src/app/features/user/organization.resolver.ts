@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { LoadingService } from '@core/services/loading.service';
+import { MessageService } from '@core/services/message.service';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { OrganizationsService } from './services/organizations.service';
@@ -11,7 +12,8 @@ import { OrganizationsService } from './services/organizations.service';
 export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(
     private orgService: OrganizationsService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private messageService: MessageService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
@@ -20,12 +22,18 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
     if (id) {
       this.loadingService.setStatus('Loading organization');
       return this.orgService.getOrganization(id).pipe(
-        catchError(this.handleError)
+        catchError(error => {
+          this.messageService.error("Could not load organization.")
+          return this.handleError(error);
+        })
       );
     } else {
       this.loadingService.setStatus('Loading organizations');
       return this.orgService.getOrganizations().pipe(
-        catchError(this.handleError)
+        catchError(error => {
+          this.messageService.error("Could not load organizations.")
+          return this.handleError(error);
+        })
       );
     }
   }
