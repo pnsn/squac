@@ -20,9 +20,9 @@
       </div>
 
     </div>
-    <h3>Selected Channels</h3>
+    <h3>Search Results</h3>
     <div  id="select-channels-controls">
-      <span>{{availableChannels.length}} channels selected</span>
+      <span>{{availableChannels.length}} channels available</span>
       <div>
         <button
         mat-flat-button
@@ -166,7 +166,7 @@
               ></textarea>
             </mat-form-field>
           </div>
-
+          <span>{{selectedChannels.length}} channels selected</span>
           <h3>Selected Channels</h3>
           <div>
             <app-channel-groups-filter
@@ -180,7 +180,7 @@
             (click)="removeChannels()"
             [disabled]="!isSelectedFiltered"
           >
-            Remove Channels
+            Remove {{isSelectedFiltered ? filteredChannels.length : "" }} Channels
           </button>
           </div>
 
