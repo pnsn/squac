@@ -27,17 +27,17 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
           return this.handleError(error);
         })
       );
-    } else if(dashboardId){
+    } else if (dashboardId){
       return this.widgetsService.getWidgets(dashboardId).pipe(
         catchError(error => {
-          console.log(error)
+          console.log(error);
           return this.handleError(error);
         })
       );
       // return all of them
     } else {
       return of({
-        error : "Could not load dashboard widgets."
+        error : 'Could not load dashboard widgets.'
       });
     }
   }

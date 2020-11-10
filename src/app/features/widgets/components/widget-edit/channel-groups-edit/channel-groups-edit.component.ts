@@ -27,7 +27,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnInit() {
     this.availableChannelGroups = this.channelGroups;
-    this.selectedChannelGroup[0]=this.widgetEditService.getChannelGroup();
+    this.selectedChannelGroup[0] = this.widgetEditService.getChannelGroup();
     if (this.selectedChannelGroup ) {
       this.loading = false;
     }
@@ -38,9 +38,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   ngAfterViewInit(){
-    console.log("chagne")
-    this.availableChannelGroups = [...this.availableChannelGroups]; //This is input into <ngx-datatable>
-    this.channelTable.recalculate(); //ngx-datatable reference
+    if(this.availableChannelGroups) {
+      this.availableChannelGroups = [...this.availableChannelGroups]; // This is input into <ngx-datatable>
+      this.channelTable.recalculate(); // ngx-datatable reference
+    }
   }
     // onSelect function for data table selection
     onSelect($event) { // When a row is selected, route the page and select that channel group
@@ -59,7 +60,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   viewChannels(id) {
-    console.log(id)
+    console.log(id);
   }
 
   getChannelsForChannelGroup(group) {

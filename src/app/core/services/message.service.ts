@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
-import { duration } from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
   private snackBarRef: MatSnackBarRef<SnackbarComponent>;
-  private durationInSeconds : number = 3;
+  private durationInSeconds = 3;
   constructor(
-    private snackBar : MatSnackBar
+    private snackBar: MatSnackBar
   ) { }
 
 
   openSnackBar(type, message, action?, duration?) {
     let d;
     if (duration) {
-      d = duration ? duration : this.durationInSeconds;      
+      d = duration ? duration : this.durationInSeconds;
     }
 
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
@@ -26,15 +25,15 @@ export class MessageService {
         type,
         action
       },
-      panelClass: "mat-snack-bar-themed",
+      panelClass: 'mat-snack-bar-themed',
       duration: d  ? d * 1000 : null
     });
 
     // this.snackBarRef.afterDismissed().subscribe(() => {
     //   console.log('The snack-bar was dismissed');
     // });
-    
-    
+
+
     // this.snackBarRef.onAction().subscribe(() => {
     //   console.log('The snack-bar action was triggered!');
     // });
@@ -44,21 +43,21 @@ export class MessageService {
     this.snackBarRef.dismiss();
   }
   // type: 'error', 'alert', 'warn'
-  message(message : string) {
+  message(message: string) {
     this.openSnackBar(
-      "default", message,
+      'default', message,
     );
   }
 
-  error(message : string){
+  error(message: string){
     this.openSnackBar(
-      "error", message, "close"
+      'error', message, 'close'
     );
   }
 
-  alert(message : string){
+  alert(message: string){
     this.openSnackBar(
-      "alert", message
+      'alert', message
     );
   }
 }

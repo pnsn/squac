@@ -25,6 +25,6 @@ export class ConfigurationService {
   }
 }
 
-//Used to access config file information
+// Used to access config file information
 // see /assets/config.json to change values
 //

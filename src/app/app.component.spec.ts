@@ -11,6 +11,7 @@ import { MockAuthService } from './core/services/auth.service.mock';
 import { UserService } from './features/user/services/user.service';
 import { MockUserService } from './features/user/services/user.service.mock';
 import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 
 describe('AppComponent', () => {
@@ -32,7 +33,8 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
-        UserService
+        ConfigurationService
+
       ],
     }).compileComponents();
 
@@ -44,8 +46,8 @@ describe('AppComponent', () => {
     expect(appComponent).toBeTruthy();
   });
 
-  it('should have as title "squac-ui"', () => {
-    expect(appComponent.title).toEqual('squac-ui');
+  it('should have as title "SQUAC"', () => {
+    expect(appComponent.title).toEqual('SQUAC');
   });
 
 });

@@ -21,10 +21,10 @@ export class ConfirmDialogComponent implements OnInit {
 
     ){}
   ngOnInit(): void {
-    if(this.data.confirmText.toLowerCase() === "delete") {
-      this.confirmButtonColor = "warn";
+    if (this.data.confirmText.toLowerCase() === 'delete') {
+      this.confirmButtonColor = 'warn';
     } else {
-      this.confirmButtonColor = "primary";
+      this.confirmButtonColor = 'primary';
     }
 
   }

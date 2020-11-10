@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
   templateUrl: './channel-groups-view.component.html',
   styleUrls: ['./channel-groups-view.component.scss']
 })
-export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
+export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   channelGroups: ChannelGroup[];
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
@@ -39,9 +39,9 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    this.selected = [...this.selected]
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
+    this.selected = [...this.selected];
   }
 
   ngOnDestroy(): void {

@@ -15,10 +15,9 @@ export class AppComponent implements OnInit {
   title;
   constructor(
     private authService: AuthService,
-    private configService: ConfigurationService,
-    private messageService:MessageService
+    configService: ConfigurationService,
   ) {
-    this.title = configService.getValue('appTitle');
+    this.title = configService.getValue('appTitle', 'SQUAC');
   }
 
 

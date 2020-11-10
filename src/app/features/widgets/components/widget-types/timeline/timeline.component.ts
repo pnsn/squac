@@ -97,17 +97,17 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     this.subscription.add(resizeSub);
   }
 
-  private resize(rows? : number) {
+  private resize(rows?: number) {
     if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
       const offset = 55;
       if ( width > 0 && height > 0) {
-        console.log(width, height)
+        console.log(width, height);
         this.chart.width(width);
         this.chart.maxHeight(height - offset);
         let lineCount;
-        if(rows) {
+        if (rows) {
           lineCount = rows;
         } else {
           lineCount = this.chart.getNLines();

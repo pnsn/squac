@@ -37,9 +37,9 @@ export class OrganizationsService {
     return org ? org.name : 'unknown';
   }
 
-  getOrgUserName(id) : string {
+  getOrgUserName(id): string {
     const orgUser = this.orgUsers[id];
-    return orgUser ? orgUser.first + " " + orgUser.last : 'unknown';
+    return orgUser ? orgUser.first + ' ' + orgUser.last : 'unknown';
   }
 
   getOrganizations(): Observable<Organization[]> {
@@ -64,11 +64,11 @@ export class OrganizationsService {
     );
   }
 
-  updateUser(user: {  
-    email: string, 
+  updateUser(user: {
+    email: string,
     isAdmin: boolean,
     orgId: number,
-    groups: string[], 
+    groups: string[],
     id?: number,
     firstName?: string,
     lastName?: string
@@ -136,7 +136,7 @@ export class OrganizationsService {
     ));
   }
 
-  deleteUser(userId) : Observable<User> {
+  deleteUser(userId): Observable<User> {
     const path = 'users/';
     return this.squacApi.delete(this.url + path, userId);
   }
@@ -152,12 +152,12 @@ export class OrganizationsService {
     return newOrg;
   }
 
-  private storeOrgUsers(orgUsers) : void {
-    for(let user of orgUsers) {
+  private storeOrgUsers(orgUsers): void {
+    for (const user of orgUsers) {
       this.orgUsers[user.id] = {
         first: user.firstname,
         last: user.lastname
-      }
+      };
     }
   }
 

@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@shared/material.module';
 import { UserService } from '@features/user/services/user.service';
-import { Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { InviteService } from '@features/user/services/invite.service';
 import { OrganizationsService } from '@features/user/services/organizations.service';
@@ -36,7 +36,10 @@ describe('OrganizationComponent', () => {
                 user: {isAdmin: false}
               }
             }
-          }
+          },
+          data: of({
+            organization: {}
+          })
         }},
         InviteService,
         OrganizationsService,

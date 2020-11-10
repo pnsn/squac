@@ -20,7 +20,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
-  error : string;
+  error: string;
   canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
@@ -113,8 +113,8 @@ private addWidgetsToView(widgets: Widget[]) {
 
     const dataSub = this.route.data.subscribe(
       data => {
-        if(data.widgets.error ){
-          this.error = "Could not load dashboard or widgets";
+        if (data.widgets.error ){
+          this.error = 'Could not load dashboard or widgets';
         } else {
           this.addWidgetsToView(data.widgets);
           // this.options.api.res

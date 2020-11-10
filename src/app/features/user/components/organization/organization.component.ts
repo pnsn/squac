@@ -120,14 +120,14 @@ export class OrganizationComponent implements OnInit, OnDestroy {
         if (confirm) {
           this.orgService.deleteUser(row.id).subscribe(
             user => {
-              this.messageService.message("User deleted.")
+              this.messageService.message('User deleted.');
               this.table.rowDetail.toggleExpandRow(row);
               this.refreshOrgUsers();
             },
             error => {
-              this.messageService.error("Could not delete user.")
+              this.messageService.error('Could not delete user.');
             }
-          )
+          );
         }
     });
   }
@@ -155,7 +155,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       users => {
         this.organization.users = users;
       }
-    )
+    );
 
   }
 

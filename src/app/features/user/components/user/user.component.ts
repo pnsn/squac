@@ -67,10 +67,10 @@ export class UserComponent implements OnInit, OnDestroy {
       user => {
         this.userService.fetchUser();
         this.editMode = false;
-        this.messageService.message("User information updated.");
+        this.messageService.message('User information updated.');
       },
       error => {
-        this.messageService.error("Could not save user information.");
+        this.messageService.error('Could not save user information.');
         console.log('error in change user: ', error);
       }
     );

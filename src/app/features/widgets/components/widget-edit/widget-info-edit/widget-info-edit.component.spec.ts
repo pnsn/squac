@@ -1,4 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ViewService } from '@core/services/view.service';
+import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
+import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
 
 import { WidgetInfoEditComponent } from './widget-info-edit.component';
 
@@ -8,7 +13,9 @@ describe('WidgetInfoEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WidgetInfoEditComponent ]
+      declarations: [ WidgetInfoEditComponent ],
+      imports: [HttpClientTestingModule, MatButtonToggleModule],
+      providers: [ {provide: WidgetEditService, useValue: new MockWidgetEditService()}]
     })
     .compileComponents();
   });

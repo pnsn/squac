@@ -26,7 +26,7 @@ export class ViewService {
   private live: boolean;
   // refresh = new Subject<number>();
   private dashboard: Dashboard;
-  private dateRanges;
+  dateRanges;
   queuedWidgets = 0;
   locale;
   defaultTimeRange;
@@ -76,7 +76,7 @@ export class ViewService {
   }
 
   setWidgets(widgets: Widget[]): void {
-    if(this.dashboard) {
+    if (this.dashboard) {
       this.dashboard.widgets = widgets;
     }
 
@@ -183,10 +183,10 @@ export class ViewService {
             this.dashboard.widgets.push(newWidget);
           }
           this.widgetChanged(widgetId);
-          this.messageService.message("Widget updated.")
+          this.messageService.message('Widget updated.');
         },
         error => {
-          this.messageService.error("Could not updated widget.")
+          this.messageService.error('Could not updated widget.');
         }
       );
     }
@@ -197,10 +197,10 @@ export class ViewService {
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
         this.updateWidget(widgetId);
-        this.messageService.message("Widget deleted.");
+        this.messageService.message('Widget deleted.');
       },
       error => {
-        this.messageService.error("Could not delete widget.");
+        this.messageService.error('Could not delete widget.');
       }
     );
 
@@ -213,15 +213,15 @@ export class ViewService {
     this.refresh.next('refresh');
     // this.getWidgets(this.dashboard.id);
   }
-  
+
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {
-        this.messageService.message("Dashboard deleted.");
-        //redirect to dashboards
+        this.messageService.message('Dashboard deleted.');
+        // redirect to dashboards
       },
       error => {
-        this.messageService.error("Could not delete dashboard.");
+        this.messageService.error('Could not delete dashboard.');
       }
     );
   }
@@ -229,10 +229,10 @@ export class ViewService {
   saveDashboard(): void {
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
-        this.messageService.message("Dashboard saved.");
+        this.messageService.message('Dashboard saved.');
       },
       error => {
-        this.messageService.error("Could not save dashboard.");
+        this.messageService.error('Could not save dashboard.');
       }
     );
   }

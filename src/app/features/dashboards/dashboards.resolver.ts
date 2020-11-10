@@ -9,7 +9,7 @@ import { Dashboard } from './models/dashboard';
 
 export interface DashboardResolved {
   dashboard: Dashboard;
-  error? : any;
+  error?: any;
 }
 
 @Injectable({
@@ -30,7 +30,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
       // get specific resource
       return this.dashboardsService.getDashboard(id).pipe(
         catchError(error => {
-          this.messageService.error("Could not load dashboard.")
+          this.messageService.error('Could not load dashboard.');
           return this.handleError(error);
         })
       );
@@ -38,7 +38,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
       this.loadingService.setStatus('Loading dashboards');
       return this.dashboardsService.getDashboards().pipe(
         catchError(error => {
-          this.messageService.error("Could not load dashboards.")
+          this.messageService.error('Could not load dashboards.');
           return this.handleError(error);
         })
       );

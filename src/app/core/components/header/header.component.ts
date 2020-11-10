@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = user;
       },
       error => {
-        this.messageService.error("Could not load user information.")
+        this.messageService.error('Could not load user information.');
       }
     );
   }

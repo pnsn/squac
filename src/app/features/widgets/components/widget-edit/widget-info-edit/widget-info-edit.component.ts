@@ -44,7 +44,7 @@ export class WidgetInfoEditComponent implements OnInit {
             description: 'A map of channels represented by values for measurements calculated with stattype.'
         }
     ];
-  
+
 
   constructor(
     private widgetEditService: WidgetEditService

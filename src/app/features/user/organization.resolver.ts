@@ -23,7 +23,7 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
       this.loadingService.setStatus('Loading organization');
       return this.orgService.getOrganization(id).pipe(
         catchError(error => {
-          this.messageService.error("Could not load organization.")
+          this.messageService.error('Could not load organization.');
           return this.handleError(error);
         })
       );
@@ -31,7 +31,7 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
       this.loadingService.setStatus('Loading organizations');
       return this.orgService.getOrganizations().pipe(
         catchError(error => {
-          this.messageService.error("Could not load organizations.")
+          this.messageService.error('Could not load organizations.');
           return this.handleError(error);
         })
       );

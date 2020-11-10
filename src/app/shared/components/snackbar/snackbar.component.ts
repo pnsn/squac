@@ -7,12 +7,12 @@ import { MatSnackBar, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/materi
   styleUrls: ['./snackbar.component.scss']
 })
 export class SnackbarComponent implements OnInit {
-  message:string;
+  message: string;
   type: string;
   action: string;
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
-    private matSnackBarRef: MatSnackBarRef<SnackbarComponent> 
+    private matSnackBarRef: MatSnackBarRef<SnackbarComponent>
     ) { }
 
   ngOnInit(): void {

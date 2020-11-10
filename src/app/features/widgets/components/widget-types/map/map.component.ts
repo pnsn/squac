@@ -44,7 +44,9 @@ export class MapComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initMap();
+    if(this.widget) {
+      this.initMap();
+    }
   }
 
   // ngOnChanges() {
@@ -90,7 +92,7 @@ export class MapComponent implements OnInit {
     }, 0);
   }
 
-  //modified from tabular, needs a another look
+  // modified from tabular, needs a another look
   private buildRows(data) {
     const rows = [];
     const stations = [];
@@ -119,7 +121,7 @@ export class MapComponent implements OnInit {
         } else if ( val !== null && inThreshold && !!threshold) {
           iconClass = 'in-spec';
         } else {
-          iconClass = 'unknown'
+          iconClass = 'unknown';
         }
 
 
@@ -155,7 +157,7 @@ export class MapComponent implements OnInit {
           }
         }
         );
-        
+
       } else {
         stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
@@ -167,8 +169,8 @@ export class MapComponent implements OnInit {
 
     this.stations = [];
     stationRows.forEach(station => {
-      if(!station.staCode) {
-        console.log(station)
+      if (!station.staCode) {
+        console.log(station);
       }
       this.stations.push(
         L.marker([station.lat, station.lon], {
@@ -188,7 +190,7 @@ export class MapComponent implements OnInit {
     if ( channel.agg > station.agg ) {
       const newStation = {...channel};
       newStation.id = station.id;
-      newStation.parentId = null; //It is the parent now
+      newStation.parentId = null; // It is the parent now
       return newStation;
 
     }

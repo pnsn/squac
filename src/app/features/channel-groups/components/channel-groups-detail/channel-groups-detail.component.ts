@@ -25,7 +25,7 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.channelGroupSub = this.route.data.subscribe(
       data => {
-        if(data.channelGroup.error){
+        if (data.channelGroup.error){
           this.error = true;
         } else {
           this.error = false;
@@ -37,7 +37,7 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
 
   editChannelGroup() {
 
-    console.log(this.channelGroup.id)
+    console.log(this.channelGroup.id);
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 

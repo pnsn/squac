@@ -30,7 +30,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService
   ) { }
-  
+
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean;
@@ -52,7 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
-  filtersChanged:boolean;
+  filtersChanged: boolean;
   searchFilters: any;
   // Map stuff
   bounds: any; // Latlng bounds to either filter by or make a new request with
@@ -107,8 +107,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.filteredChannels = [...this.selectedChannels];
           this.getIdsFromChannels();
         },
-        error =>{
-          this.messageService.error("Could not load channel group.")
+        error => {
+          this.messageService.error('Could not load channel group.');
         }
       );
     }
@@ -274,10 +274,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.updateChannelGroup(cg).subscribe(
       result => {
         this.cancel(result.id);
-        this.messageService.message("Channel group saved.")
+        this.messageService.message('Channel group saved.');
       },
       error => {
-        this.messageService.error("Could not save channel group.")
+        this.messageService.error('Could not save channel group.');
       }
     );
   }
@@ -287,10 +287,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.deleteChannelGroup(this.id).subscribe(
       result => {
         this.cancel();
-        this.messageService.message("Channel group delete.");
-      }, 
+        this.messageService.message('Channel group delete.');
+      },
       error => {
-        this.messageService.error("Could not delete channel group");
+        this.messageService.error('Could not delete channel group');
       }
     );
   }
