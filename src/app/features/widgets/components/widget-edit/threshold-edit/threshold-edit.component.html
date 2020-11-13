@@ -45,7 +45,7 @@
           title="Double click to edit"
           *ngIf="!editing[rowIndex + '-min']"
         >
-        {{ !value && value !== 0  ? "Enter a min" : value }}
+        {{ value || value === 0  ? value : "enter a min" }}
         </span>
         <input matInput
           autofocus
@@ -65,7 +65,7 @@
           *ngIf="!editing[rowIndex + '-max']"
 
         >
-        {{ !value && value !== 0  ? "Enter a max" : value }}
+        {{ value || value === 0  ? value : "enter a max" }}
         </span>
         <input matInput
           autofocus
