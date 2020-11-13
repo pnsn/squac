@@ -136,8 +136,8 @@ export class WidgetEditService {
         threshold.owner,
         this.widget.id,
         threshold.metric.id,
-        threshold.min !== null ? +threshold.min : null,
-        threshold.max !== null ? +threshold.max : null
+        threshold.min || threshold.min === 0 ? +threshold.min : null,
+        threshold.max || threshold.max === 0 ? +threshold.max : null
       );
     });
 

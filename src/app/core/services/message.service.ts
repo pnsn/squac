@@ -45,7 +45,7 @@ export class MessageService {
   // type: 'error', 'alert', 'warn'
   message(message: string) {
     this.openSnackBar(
-      'default', message,
+      'default', message, null, this.durationInSeconds
     );
   }
 
@@ -57,7 +57,7 @@ export class MessageService {
 
   alert(message: string){
     this.openSnackBar(
-      'alert', message
+      'alert', message, null, this.durationInSeconds
     );
   }
 }
