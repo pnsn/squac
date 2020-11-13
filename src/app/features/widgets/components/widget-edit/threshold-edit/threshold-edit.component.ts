@@ -107,12 +107,10 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
     if (cell === 'metricId') {
       this.rows[rowIndex].name = this.getMetric(event.target.value);
     }
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
     this.updateThresholds();
   }
 
   updateThresholds() {
-    console.log(this.rows)
     this.rows = [...this.rows];
     this.widgetEditService.updateThresholds(this.rows);
   }
