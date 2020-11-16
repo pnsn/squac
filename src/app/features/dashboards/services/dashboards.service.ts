@@ -39,7 +39,6 @@ export class DashboardsService {
 
     // Fetch new dashboards if > 5 minutes since refresh
     if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
-      console.log("localdashboards")
       return of(this.localDashboards);
     } else {
       return this.squacApi.get(this.url).pipe(
