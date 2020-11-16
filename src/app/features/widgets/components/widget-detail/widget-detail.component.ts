@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { DashboardsService } from '@features/dashboards/services/dashboards.service';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 
 @Component({
   selector: 'app-widget-detail',
@@ -23,6 +25,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   loading = true;
   error: string;
   noData: boolean;
+  dashboards: Dashboard[];
   // temp
 
   styles: any;
@@ -32,7 +35,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private measurementsService: MeasurementsService,
     private router: Router,
     private route: ActivatedRoute,
-    private confirmDialog: ConfirmDialogService
+    private confirmDialog: ConfirmDialogService,
+    private dashboardsService: DashboardsService
   ) {
 
   }
@@ -63,6 +67,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
+    this.dashboardsService.getDashboards().subscribe(
+      dashboards => {
+        this.dashboards = dashboards;
+      }
+    )
 
     this.subscription.add(datesSub);
 
@@ -88,6 +97,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.measurementsService.fetchMeasurements();
   }
 
+  addWidgetToDashboard(dashboardId) {
+    //select dashboard
+    // navigate to dashboard
+    this.router.navigate(['dashboards', dashboardId, 'widgets', this.widget.id, 'edit']);
+  }
 
   editWidget() {
     this.router.navigate([this.widget.id, 'edit'], {relativeTo: this.route});
