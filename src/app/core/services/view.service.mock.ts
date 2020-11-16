@@ -63,8 +63,8 @@ export class MockViewService{
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex(w => w.id === id);
   }
-  private setIntialDates() {};
-  private widgetChanged(widgetId: number): void {};
+  private setIntialDates() {}
+  private widgetChanged(widgetId: number): void {}
 
   resizeAll() {
     this.resize.next(null);

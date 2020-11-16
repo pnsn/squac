@@ -66,7 +66,7 @@ describe('WidgetEditComponent', () => {
       fixture = TestBed.createComponent(WidgetEditComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-  
+
     }
     )
   );

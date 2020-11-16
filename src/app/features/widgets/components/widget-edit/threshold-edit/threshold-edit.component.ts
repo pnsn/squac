@@ -47,9 +47,9 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
           const newRows = [];
           this.metrics.forEach(
             (metric) => {
-              const minVal = metric.minVal || metric.minVal === 0? +metric.minVal : null;
-              const maxVal = metric.maxVal || metric.maxVal === 0? +metric.maxVal : null;
-              
+              const minVal = metric.minVal || metric.minVal === 0 ? +metric.minVal : null;
+              const maxVal = metric.maxVal || metric.maxVal === 0 ? +metric.maxVal : null;
+
               if (this.thresholds[metric.id]) {
                 const setMin = this.thresholds[metric.id].min;
                 const setMax = this.thresholds[metric.id].max;
@@ -62,7 +62,7 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
                   defaultMax: maxVal
                 });
               } else {
-                console.log("no thresholds")
+                console.log('no thresholds');
                 newRows.push({
                   id : null,
                   metric,

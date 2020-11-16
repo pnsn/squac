@@ -54,7 +54,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(this.availableMetrics) {
+    if (this.availableMetrics) {
       this.availableMetrics = [...this.availableMetrics];
       this.metricTable.recalculate();
     }

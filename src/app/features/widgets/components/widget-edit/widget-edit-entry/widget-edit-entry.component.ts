@@ -45,7 +45,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         }
 
         this.widget = this.viewService.getWidget(this.widgetId);
-        if(this.widget) {
+        if (this.widget) {
           this.openWidget();
         } else {
           this.widgetsService.getWidget(this.widgetId).subscribe(
@@ -53,7 +53,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
               this.widget = widget;
               this.openWidget();
             }
-          )
+          );
         }
 
 

@@ -8,11 +8,11 @@ import { defineAbilitiesFor, AppAbility } from '@core/utils/ability';
 import { flatMap, map, tap } from 'rxjs/operators';
 
 interface UserHttpData {
-  email ? : string;
-  password ? : string;
+  email ?: string;
+  password ?: string;
   firstname: string;
   lastname:	string;
-  organization ? : string;
+  organization ?: string;
 }
 
 // Service to get user info & reset things
@@ -73,7 +73,7 @@ export class UserService {
 
   // User needs to enter password to make changes
   updateUser(user) {
-    const putData : UserHttpData = {
+    const putData: UserHttpData = {
       firstname: user.firstName,
       lastname: user.lastName
     };

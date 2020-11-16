@@ -44,7 +44,7 @@ export class MapComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.widget) {
+    if (this.widget) {
       this.initMap();
     }
   }

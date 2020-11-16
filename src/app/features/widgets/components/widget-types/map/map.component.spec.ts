@@ -21,7 +21,7 @@ describe('MapComponent', () => {
     fixture.detectChanges();
 
     component.widget = new Widget(
-      1, 1, "name", "description", 1, 1, 1, 0, 0, 1, 1, []
+      1, 1, 'name', 'description', 1, 1, 1, 0, 0, 1, 1, []
     );
   });
 

@@ -30,8 +30,8 @@ describe('ChannelGroupsDetailComponent', () => {
         UserPipe,
         OrganizationPipe],
       imports: [
-        NgxDatatableModule, 
-        RouterTestingModule, 
+        NgxDatatableModule,
+        RouterTestingModule,
         HttpClientTestingModule,
         AbilityModule],
       providers: [

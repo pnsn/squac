@@ -41,6 +41,7 @@ export class WidgetEditService {
   // Keeps track of widget having all required properties
   updateValidity(): void {
     if (this.widget) {
+
       const hasName = this.widget.name && this.widget.name.length > 0;
       const hasTypes = this.widget.stattype && this.widget.typeId;
       const hasCg = this.widget.channelGroupId;
@@ -49,6 +50,8 @@ export class WidgetEditService {
       this.isValid.next(
         hasName && hasTypes && hasCg && hasMetrics
       );
+
+
     } else {
       this.isValid.next(
         false
@@ -73,8 +76,8 @@ export class WidgetEditService {
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
 
-      //in case of copying widget from other dashboard, must set to new dash
-      if(widget.dashboardId !== this.dashboardId) {
+      // in case of copying widget from other dashboard, must set to new dash
+      if (widget.dashboardId !== this.dashboardId) {
         this.widget.id = null;
         this.widget.dashboardId = this.dashboardId;
       }

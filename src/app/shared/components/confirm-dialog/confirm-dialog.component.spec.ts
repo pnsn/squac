@@ -18,11 +18,11 @@ describe('ConfirmDialogComponent', () => {
       declarations: [ ConfirmDialogComponent ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {
-            cancelText: "string",
-            confirmText: "string",
-            message: "string",
-            title: "string"
-          
+            cancelText: 'string',
+            confirmText: 'string',
+            message: 'string',
+            title: 'string'
+
         }},
         {
           provide: MatDialogRef,
@@ -38,7 +38,7 @@ describe('ConfirmDialogComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  
+
   beforeEach(inject([MatDialog, MAT_DIALOG_DATA],
     (d: MatDialog) => {
       console.log(MAT_DIALOG_DATA);

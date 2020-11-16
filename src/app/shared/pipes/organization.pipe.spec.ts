@@ -7,7 +7,6 @@ import { OrganizationPipe } from './organization.pipe';
 
 describe('OrganizationPipe', () => {
   let orgService;
-  let userService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -17,6 +16,7 @@ describe('OrganizationPipe', () => {
         { provide: OrganizationsService, useValue: new MockOrganizationsService() }
       ]
     });
+    orgService = TestBed.inject(OrganizationsService);
   });
 
   it('create an instance', () => {

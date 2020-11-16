@@ -71,7 +71,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       dashboards => {
         this.dashboards = dashboards;
       }
-    )
+    );
 
     this.subscription.add(datesSub);
 
@@ -98,7 +98,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addWidgetToDashboard(dashboardId) {
-    //select dashboard
+    // select dashboard
     // navigate to dashboard
     this.router.navigate(['dashboards', dashboardId, 'widgets', this.widget.id, 'edit']);
   }

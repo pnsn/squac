@@ -38,7 +38,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   ngAfterViewInit(){
-    if(this.availableChannelGroups) {
+    if (this.availableChannelGroups) {
       this.availableChannelGroups = [...this.availableChannelGroups]; // This is input into <ngx-datatable>
       this.channelTable.recalculate(); // ngx-datatable reference
     }

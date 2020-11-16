@@ -72,6 +72,7 @@ describe('WidgetEditService', () => {
   });
 
   it('should be valid if widget has all properties', (done: DoneFn) => {
+    testWidget.stattype = 1;
     service.setWidget(testWidget, 1);
 
     service.isValid.subscribe(

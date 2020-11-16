@@ -12,7 +12,7 @@ describe('SnackbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SnackbarComponent ],
-      providers:[
+      providers: [
         { provide: MAT_SNACK_BAR_DATA, useValue: {
             data : {}
           }

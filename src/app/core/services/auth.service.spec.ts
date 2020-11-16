@@ -43,7 +43,7 @@ describe('AuthService', () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     authService = TestBed.inject(AuthService);
     squacApiService = TestBed.inject(SquacApiService);
-    
+
     let store = {};
 
     // set up fake local storage to test against
