@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
 import { Metric } from '@core/models/metric';
 import { MetricsService } from '@features/metrics/services/metrics.service';
@@ -11,8 +11,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './metrics-edit.component.html',
   styleUrls: ['./metrics-edit.component.scss']
 })
-export class MetricsEditComponent implements OnInit, OnDestroy {
+export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metrics: Metric[];
+  @ViewChild('metricTable') metricTable;
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
@@ -52,6 +53,13 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    if (this.availableMetrics) {
+      this.availableMetrics = [...this.availableMetrics];
+      this.metricTable.recalculate();
+    }
+
+  }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }

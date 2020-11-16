@@ -10,55 +10,34 @@
     background-color: $sq-blue;
     color: white;
   }
-}
 
-:host ::ng-deep #channel-group-selector {
- mat-pseudo-checkbox.mat-pseudo-checkbox {
-    display:none !important;
+  #channel-group-table {
+    height: 485px;
   }
 }
 
-#groups-container, #selection-container {
-  height:480px;
-}
+// #selected-channels, #channel-group-selector,  #channel-group-detail  {
+//   height:100%;
+//   overflow:scroll;
+//   padding: 10px 0px;
+// }
 
-#groups-container {
-  width: 30%;
-}
+// #channel-group-detail {
+//   .detail-subhead {
+//     font-weight: bold;
+//   }
+// }
 
-#selection-container {
-  width: 70%;
-  padding: 10px;
-  overflow:hidden;
-  // background-color: $sq-lt-gray;
-  #channel-group-details{
-    height: 100%;
-  }
-}
+// #selected-channels, #channel-group-detail {
 
-#selected-channels, #channel-group-selector,  #channel-group-detail  {
-  height:100%;
-  overflow:scroll;
-  padding: 10px 0px;
-}
+//   display: inline-block;
+// }
 
-#channel-group-detail {
-  font-size: 12pt;
-  .detail-subhead {
-    font-weight: bold;
-  }
-}
-
-#selected-channels, #channel-group-detail {
-
-  display: inline-block;
-}
-
-#selected-channels {
-  width: 150px;
-}
-.edit-tab-body {
-  height: 500px;
-  overflow:hidden;
-}
+// #selected-channels {
+//   width: 150px;
+// }
+// .edit-tab-body {
+//   height: 500px;
+//   overflow:hidden;
+// }
 

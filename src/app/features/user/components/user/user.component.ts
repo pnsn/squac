@@ -7,6 +7,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
 import { Organization } from '@features/user/models/organization';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MessageService } from '@core/services/message.service';
 
 @Component({
   selector: 'app-user',
@@ -19,12 +20,12 @@ export class UserComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   editMode: boolean;
   hide = true;
-  organization: Organization;
   id;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private orgService: OrganizationsService
+    private orgService: OrganizationsService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -37,7 +38,7 @@ export class UserComponent implements OnInit, OnDestroy {
         console.log('error getting params: ' + error);
       }
     );
-    this.organization = this.route.snapshot.data.organzation;
+
     if (this.route.parent) {
       this.user = this.route.parent.snapshot.data.user;
       this.initForm(this.user);
@@ -52,8 +53,7 @@ export class UserComponent implements OnInit, OnDestroy {
         user.firstName,
         Validators.required
         ),
-      lastName: new FormControl(user.lastName, Validators.required),
-      email: new FormControl(user.email, [Validators.required, Validators.email])
+      lastName: new FormControl(user.lastName, Validators.required)
     });
   }
 
@@ -62,13 +62,15 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   save() {
-
+    console.log(this.userForm.value);
     this.userService.updateUser(this.userForm.value).subscribe(
       user => {
         this.userService.fetchUser();
         this.editMode = false;
+        this.messageService.message('User information updated.');
       },
       error => {
+        this.messageService.error('Could not save user information.');
         console.log('error in change user: ', error);
       }
     );

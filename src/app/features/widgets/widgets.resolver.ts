@@ -1,34 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { LoadingService } from '@core/services/loading.service';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Widget } from './models/widget';
 import { WidgetsService } from './services/widgets.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WidgetsResolver implements Resolve<Observable<any>> {
-  constructor(private widgetsService: WidgetsService) {}
+  constructor(
+    private widgetsService: WidgetsService,
+    private loadingService: LoadingService
+    ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Widget> | Observable<Widget[]> | Observable<any>{
     const dashboardId = +route.parent.paramMap.get('id');
     const widgetId = +route.paramMap.get('widgetid');
+    this.loadingService.setStatus('Loading widgets');
 
     if (widgetId) {
+
       return this.widgetsService.getWidget(widgetId).pipe(
-        tap(data => {
-          console.log('in resolver, widget');
-        }),
-        catchError(this.handleError)
+        catchError(error => {
+          return this.handleError(error);
+        })
       );
-    } else {
+    } else if (dashboardId){
       return this.widgetsService.getWidgets(dashboardId).pipe(
-        tap(data => {
-          console.log('in resolver, widgets');
-        }),
-        catchError(this.handleError)
+        catchError(error => {
+          console.log(error);
+          return this.handleError(error);
+        })
       );
       // return all of them
+    } else {
+      return of({
+        error : 'Could not load dashboard widgets.'
+      });
     }
   }
 

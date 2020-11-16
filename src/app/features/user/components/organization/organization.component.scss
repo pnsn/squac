@@ -18,8 +18,15 @@
 }
 #user-edit-title {
   height: 45px;
-  padding: 10px;
+  display: flex;
+  padding: 0px 10px;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
   button {
+    float:right
+  };
+  button#activate {
     position:absolute;
     right: 10px;
     top:10px
@@ -29,7 +36,7 @@
   padding: 10px;
   flex-direction: row;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 .user-table-button {

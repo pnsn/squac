@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dashboard } from '../models/dashboard';
 import { BehaviorSubject, Observable, of} from 'rxjs';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { map, tap} from 'rxjs/operators';
+import { filter, map, tap} from 'rxjs/operators';
 
 interface DashboardsHttpData {
   name: string;
@@ -34,7 +34,7 @@ export class DashboardsService {
   ) {
   }
 
-  // Get all dashboards from squac
+  // Get all dashboards viewable by user from squac
   getDashboards(): Observable<Dashboard[]> {
 
     // Fetch new dashboards if > 5 minutes since refresh

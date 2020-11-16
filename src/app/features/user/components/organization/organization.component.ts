@@ -10,6 +10,8 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@features/user/services/invite.service';
 import { ThrowStmt } from '@angular/compiler';
 import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { MessageService } from '@core/services/message.service';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-organization',
@@ -45,13 +47,19 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     private orgService: OrganizationsService,
     private formBuilder: FormBuilder,
     private inviteService: InviteService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private confirmDialog: ConfirmDialogService
   ) { }
 
   ngOnInit(): void {
-    this.organization = this.route.snapshot.data.organization;
-    this.user = this.route.parent.snapshot.data.user;
-    this.isAdmin = this.user.isAdmin;
+    const orgSub = this.route.data.subscribe(
+      data => {
+        this.user = this.route.parent.snapshot.data.user;
+        this.organization = data.organization;
+        this.isAdmin = this.user.isStaff || this.user.orgAdmin && this.user.orgId === this.organization.id;
+      }
+    );
 
     this.addUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -64,7 +72,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       editIsAdmin: [null, Validators.required]
     });
 
-    // this.subscription.add(userSub);
+    this.subscription.add(orgSub);
   }
 
   ngOnDestroy() {
@@ -76,21 +84,52 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       {
         email: row.email,
         orgId: this.organization.id,
-        groups: values.groups,
-        isAdmin: values.isAdmin,
-        id: row.id
+        groups: values.editGroups,
+        isAdmin: values.editIsAdmin,
+        id: row.id,
+        firstName: row.firstName,
+        lastName: row.lastName,
       }
     ).subscribe(
-      newUser => {
+      savedUser => {
         // this.userAdded = newUser;
         this.editUserForm.reset();
+        this.table.rowDetail.toggleExpandRow(row);
+        this.messageService.message(`Saved user ${row.email}`);
         // this.organization.users.push(newUser);
       },
       error => {
+        this.messageService.error(`Could not save user ${row.email}`);
         this.error = error;
       }
     );
 
+  }
+
+  deleteUser(row) {
+    this.confirmDialog.open(
+      {
+        title: `Delete: ${row.email}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if (confirm) {
+          this.orgService.deleteUser(row.id).subscribe(
+            user => {
+              this.messageService.message('User deleted.');
+              this.table.rowDetail.toggleExpandRow(row);
+              this.refreshOrgUsers();
+            },
+            error => {
+              this.messageService.error('Could not delete user.');
+            }
+          );
+        }
+    });
   }
 
   cancelUserEdit(row) {
@@ -111,10 +150,20 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     );
   }
 
+  refreshOrgUsers() {
+    this.orgService.getOrganizationUsers(this.organization.id).subscribe(
+      users => {
+        this.organization.users = users;
+      }
+    );
+
+  }
+
   sendInvite(id) {
     this.inviteService.sendInviteToUser(id).subscribe(
       response => {
         console.log(response);
+        this.refreshOrgUsers();
       },
       error => {
         this.error = error;
@@ -138,8 +187,11 @@ export class OrganizationComponent implements OnInit, OnDestroy {
         this.sendInvite(newUser.id);
         this.addUserForm.reset();
         // this.organization.users.push(newUser);
+        this.messageService.message(`Added user ${values.email}`);
+        // this.organization.users.push(newUser);
       },
       error => {
+        this.messageService.error(`Could not add user ${values.email}`);
         this.error = error;
       }
     );

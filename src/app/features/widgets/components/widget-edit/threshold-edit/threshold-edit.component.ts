@@ -47,23 +47,29 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
           const newRows = [];
           this.metrics.forEach(
             (metric) => {
+              const minVal = metric.minVal || metric.minVal === 0 ? +metric.minVal : null;
+              const maxVal = metric.maxVal || metric.maxVal === 0 ? +metric.maxVal : null;
+
               if (this.thresholds[metric.id]) {
+                const setMin = this.thresholds[metric.id].min;
+                const setMax = this.thresholds[metric.id].max;
                 newRows.push({
                   id : +this.thresholds[metric.id].id,
                   metric,
-                  min: +this.thresholds[metric.id].min,
-                  max: +this.thresholds[metric.id].max,
-                  defaultMin: metric.minVal ? metric.minVal : null,
-                  defaultMax: metric.maxVal ? metric.maxVal : null
+                  min: setMin || setMin === 0 ? +setMin : null,
+                  max: setMax || setMax === 0 ? +setMax : null,
+                  defaultMin: minVal,
+                  defaultMax: maxVal
                 });
               } else {
+                console.log('no thresholds');
                 newRows.push({
                   id : null,
                   metric,
                   min: null,
                   max: null,
-                  defaultMin: metric.minVal ? metric.minVal : null,
-                  defaultMax: metric.maxVal ? metric.maxVal : null
+                  defaultMin: minVal,
+                  defaultMax: maxVal
                 });
               }
 
@@ -96,13 +102,11 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   }
 
   updateValue(event, cell, rowIndex) {
-    console.log('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     if (cell === 'metricId') {
       this.rows[rowIndex].name = this.getMetric(event.target.value);
     }
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
     this.updateThresholds();
   }
 

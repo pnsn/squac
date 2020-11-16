@@ -8,7 +8,7 @@
     >Edit Metric</button>
     <button mat-flat-button color="accent" id="add-metric-btn"
       (click)="addMetric()" class="add-btn"
-    >+ Add Metric</button>
+    >Add Metric</button>
   </div>
 </div> 
 
@@ -18,7 +18,17 @@
         [selectionType]="SelectionType.single" (select)="onSelect($event)">
     <ngx-datatable-column name="Name" [flexGrow]="2" [draggable]="false" [sortable]="true">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{ row.name }}
+        {{ row.name | replace: "_" : " " |  titlecase }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Default Min" [flexGrow]="1" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.minVal }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Default Max" [flexGrow]="1" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.maxVal }}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Unit" [flexGrow]="1"  [draggable]="false" [sortable]="true">

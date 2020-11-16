@@ -12,6 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
+import { MessageService } from '@core/services/message.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
@@ -23,10 +26,12 @@ describe('MetricsEditComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
-        AbilityModule
+        AbilityModule,
+        MatDialogModule
       ],
       declarations: [ MetricsEditComponent ],
       providers: [
+        ConfirmDialogService,
         {provide: MetricsService, useClass: MockMetricsService},
                 { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }

@@ -1,44 +1,55 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ModalComponent } from './modal/modal.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PopupComponent } from './popup/popup.component';
-import { LoadingComponent } from './loading/loading.component';
+import { LoadingComponent } from './components/loading/loading.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MaterialModule } from './material.module';
-import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { ErrorComponent } from './error/error.component';
+import { ErrorComponent } from './components/error/error.component';
 import { AbilityModule } from '@casl/angular';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ReplacePipe } from './pipes/replace.pipe';
+import { OrganizationPipe } from './pipes/organization.pipe';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { UserPipe } from './pipes/user.pipe';
+
 @NgModule({
   declarations: [
-    ModalComponent,
-    PopupComponent,
+    ConfirmDialogComponent,
     LoadingComponent,
-    MapComponent,
-    ErrorComponent
+    ErrorComponent,
+    ReplacePipe,
+    OrganizationPipe,
+    SnackbarComponent,
+    UserPipe
   ],
   imports: [
     CommonModule,
     MaterialModule,
     LeafletModule,
     LeafletDrawModule,
-    AbilityModule
+    AbilityModule,
+    NgxDatatableModule
   ],
   exports: [
     MaterialModule,
-    ModalComponent,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
     LoadingComponent,
     NgxDatatableModule,
-    MapComponent,
     ErrorComponent,
-    AbilityModule
+    AbilityModule,
+    ConfirmDialogComponent,
+    ReplacePipe,
+    LeafletModule,
+    LeafletDrawModule,
+    OrganizationPipe,
+    SnackbarComponent,
+    UserPipe
   ]
 })
 

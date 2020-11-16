@@ -1,11 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Measurement } from '../models/measurement';
 import { Widget } from '@features/widgets/models/widget';
 import { SquacApiService } from '@core/services/squacapi.service';
 import * as moment from 'moment';
 import { ViewService } from '@core/services/view.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 interface MeasurementsHttpData {
   name: string;
@@ -21,18 +22,37 @@ export class MeasurementsService implements OnDestroy {
   data = new Subject();
   private localData = {};
   private widget;
-  private refreshInterval = 5 * 60 * 1000; // 5 mintues now, this will be config
+  private refreshInterval;
   private lastEndString: string;
   private successCount = 0; // number of successful requests
   updateTimeout;
-
+  locale;
+  private subscription: Subscription = new Subscription();
   constructor(
     private squacApi: SquacApiService,
-    private viewService: ViewService
-  ) {}
+    private viewService: ViewService,
+    configService: ConfigurationService
+  ) {
+    this.locale = configService.getValue('locale');
+    this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
+
+    const refreshSub = this.viewService.refresh.subscribe(
+      refresh => {
+        console.log('refresh measurements');
+        this.fetchMeasurements();
+      }
+    );
+
+    this.subscription.add(refreshSub);
+  }
 
   ngOnDestroy() {
-    clearTimeout(this.updateTimeout);
+
+    this.subscription.unsubscribe();
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+
   }
 
   setWidget(widget: Widget) {
@@ -49,10 +69,20 @@ export class MeasurementsService implements OnDestroy {
   }
 
   // TODO: needs to truncate old measurement
-  fetchMeasurements(startString: string, endString: string): void {
-    this.viewService.widgetStartedLoading();
+  fetchMeasurements(startString?: string, endString?: string): void {
+
+    let start;
+    let end;
+    if (!startString || !endString) {
+      start = this.viewService.getStartdate();
+      end = this.viewService.getEnddate();
+    } else {
+      start = startString;
+      end = endString;
+    }
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
-      this.getMeasurements(startString, endString).subscribe(
+      this.viewService.widgetStartedLoading();
+      const measurementSub = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.
           if (success.length > 0) {
@@ -70,15 +100,15 @@ export class MeasurementsService implements OnDestroy {
         },
         () => {
           this.viewService.widgetFinishedLoading();
-          this.lastEndString = endString;
+          this.lastEndString = end;
           this.updateMeasurement();
           console.log('completed get data for ' + this.widget.id);
         }
       );
+
+      this.subscription.add(measurementSub);
     } else {
-      // return error somehow
       this.data.next({});
-      this.viewService.widgetFinishedLoading();
     }
   }
 
@@ -86,8 +116,9 @@ export class MeasurementsService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        this.fetchMeasurements(this.lastEndString, moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]'));
-      }, this.refreshInterval);
+        console.log('timeout');
+        this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
+      }, this.refreshInterval * 60 * 1000);
     }
   }
 

@@ -3,6 +3,7 @@ import { WidgetEditComponent } from '../widget-edit.component';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { WidgetsService } from '@features/widgets/services/widgets.service';
 
 @Component({
   selector: 'app-widget-edit-entry',
@@ -13,11 +14,18 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;
   widgetId;
   paramsSub;
+  dashboardId;
+  statTypes;
+  metrics;
+  channelGroups;
+  widget;
+
   constructor(
     private viewService: ViewService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private widgetsService: WidgetsService
   ) { }
 
   ngOnInit(): void {
@@ -25,35 +33,29 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.widgetId = +params.widgetid;
-        let dashboardId;
-        let statTypes;
-        let metrics;
-        let channelGroups;
+
 
         if (this.route.parent) {
-          dashboardId = this.route.parent.parent.snapshot.paramMap.get('id');
+          this.dashboardId = this.route.parent.parent.snapshot.paramMap.get('id');
         }
         if (this.route.snapshot && this.route.snapshot.data) {
-          statTypes = this.route.snapshot.data.statTypes;
-          metrics = this.route.snapshot.data.metrics;
-          channelGroups = this.route.snapshot.data.channelGroups;
+          this.statTypes = this.route.snapshot.data.statTypes;
+          this.metrics = this.route.snapshot.data.metrics;
+          this.channelGroups = this.route.snapshot.data.channelGroups;
         }
 
-        const widget = this.viewService.getWidget(this.widgetId);
-        if (dashboardId && statTypes && metrics && channelGroups) {
-            // get dashboard && widget from url
-            this.dialogRef = this.dialog.open(WidgetEditComponent, {
-              data : {
-                widget,
-                dashboardId,
-                statTypes,
-                metrics,
-                channelGroups
-              }
-            });
+        this.widget = this.viewService.getWidget(this.widgetId);
+        if (this.widget) {
+          this.openWidget();
         } else {
-          // show error
+          this.widgetsService.getWidget(this.widgetId).subscribe(
+            widget => {
+              this.widget = widget;
+              this.openWidget();
+            }
+          );
         }
+
 
 
       }
@@ -73,9 +75,22 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         }
       );
     }
+  }
 
-
-
+  openWidget( ) {
+    if (this.dashboardId && this.statTypes && this.metrics && this.channelGroups) {
+      // get dashboard && widget from url
+      this.dialogRef = this.dialog.open(WidgetEditComponent, {
+        closeOnNavigation: true,
+        data : {
+          widget: this.widget,
+          dashboardId: this.dashboardId,
+          statTypes: this.statTypes,
+          metrics: this.metrics,
+          channelGroups: this.channelGroups
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {

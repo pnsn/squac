@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Dashboard } from '../../models/dashboard';
 import { UserService } from '@features/user/services/user.service';
+import { OrganizationsService } from '@features/user/services/organizations.service';
 
 @Component({
   selector: 'app-dashboard-view',
@@ -18,7 +19,8 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private orgService: OrganizationsService
   ) {
 
   }

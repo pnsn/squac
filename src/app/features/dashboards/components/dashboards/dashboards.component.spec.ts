@@ -5,12 +5,12 @@ import { DashboardsService } from '@features/dashboards/services/dashboards.serv
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DashboardViewComponent } from '@features/dashboards/components/dashboard-view/dashboard-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LoadingComponent } from '@shared/loading/loading.component';
 import { MaterialModule } from '@shared/material.module';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('DashboardComponent', () => {
   let component: DashboardsComponent;
@@ -23,7 +23,8 @@ describe('DashboardComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         MaterialModule,
-        AbilityModule
+        AbilityModule,
+        MatToolbarModule
       ],
       declarations: [ DashboardsComponent , DashboardViewComponent],
       providers: [

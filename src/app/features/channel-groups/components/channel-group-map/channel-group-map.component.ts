@@ -3,11 +3,11 @@ import { Channel } from '@core/models/channel';
 import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  selector: 'app-channel-group-map',
+  templateUrl: './channel-group-map.component.html',
+  styleUrls: ['./channel-group-map.component.scss']
 })
-export class MapComponent implements OnInit, OnChanges {
+export class ChannelGroupMapComponent implements OnInit, OnChanges {
   @Input() originalSelectedChannels: Channel[];
   @Input() selectedChannels: Channel[];
   @Input() searchChannels: Channel[];

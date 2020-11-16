@@ -14,7 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 12pt;
+  font-size: 11pt;
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -28,37 +28,53 @@
   background-color: $sq-lt-gray;
 }
 
+// body {
+//   background-color:$sq-lt-gray;
+// }
+
 /* Text styles */
 
 h1 {
   margin-top: 15px;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
 h2 {
   margin-top: 25px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+h3 {
+  margin-top: 0px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+h4 {
+  margin-top: 0px;
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
 p {
   margin-top: 25px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 
-.unselect-links {
-  font-size: 1.3rem;
-  color: white;
-  font-weight: 400;
-}
+// .unselect-links {
+//   font-size: 1.3rem;
+//   color: white;
+//   font-weight: 400;
+// }
 
-.select-links {
-  font-size: 1.3rem;
-  color: $sq-lt-blue;
-  font-weight: 600;
-}
+// .select-links {
+//   font-size: 1.3rem;
+//   color: $sq-lt-blue;
+//   font-weight: 600;
+// }
 
 /* Button styling on headers */
 .btn-container-right {
@@ -241,3 +257,6 @@ body {
   background-color: $sq-dk-gray !important;
 }
 
+.mat-snack-bar-themed {
+  background-color: $sq-dk-gray !important;
+}

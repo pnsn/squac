@@ -9,14 +9,15 @@ import { MockWidgetsService } from '@features/widgets/services/widgets.service.m
 import { WidgetsService } from '@features/widgets/services/widgets.service';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ViewService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, AbilityModule],
+      imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
       providers: [{
         provide: DashboardsService, useClass: MockDashboardsService,
       },

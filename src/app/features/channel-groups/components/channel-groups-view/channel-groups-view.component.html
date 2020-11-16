@@ -3,12 +3,9 @@
     Channel Groups
   </h1>
   <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
-    <button mat-flat-button color="primary" [disabled]="!selectedChannelGroupId"
-      class="add-btn" (click)="editChannelGroup()"
-    >Edit Channel Group</button>
     <button mat-flat-button color="accent"
       class="add-btn" (click)="addChannelGroup()"
-    >Add Channel Group</button>
+    >Create Channel Group</button>
   </div>
 </div>
 
@@ -26,31 +23,35 @@
       [selected]="selected"
       (select)="onSelect($event)"
     >
-      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="1"> 
+      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
       </ngx-datatable-column>
       <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
       </ngx-datatable-column>
-      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
-      </ngx-datatable-column>
-      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.channelIds ? row.channelIds.length : '0'}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.orgId }}
+          {{value | user}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Shared with Org" prop="shareOrg" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.shareOrg ? "Shared" : "Private" }}
+          {{value | organization}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Shared with All" prop="shareAll" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+
+      <ngx-datatable-column name="Shared with Org" prop="shareOrg" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.shareAll ? "Shared" : "Private" }}
+          {{ value ? "Shared" : "Private" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Shared with All" prop="shareAll" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ value ? "Shared" : "Private" }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

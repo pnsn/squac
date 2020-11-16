@@ -19,6 +19,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UserPipe } from '@shared/pipes/user.pipe';
+import { OrganizationPipe } from '@shared/pipes/organization.pipe';
 
 
 describe('DashboardDetailComponent', () => {
@@ -61,7 +63,9 @@ describe('DashboardDetailComponent', () => {
         {provide: ViewService, useValue: new MockViewService()}
       ],
       declarations: [
-        DashboardDetailComponent
+        DashboardDetailComponent,
+        UserPipe,
+        OrganizationPipe
       ]
     })
     .compileComponents();

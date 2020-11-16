@@ -5,6 +5,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { UserService } from '@features/user/services/user.service';
 import { BehaviorSubject } from 'rxjs';
 import { LoadingService } from './loading.service';
+import { ConfigurationService } from './configuration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,16 @@ export class AuthService {
   private tokenExpirationTimer: any; // Time left before token expires
 
   userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  expirationTime = 6; // hours before token doesn't let auto login
+  expirationTime;
   constructor(
     private router: Router,
     private squacApi: SquacApiService,
     private userService: UserService,
-    private loadingService: LoadingService
-  ) { }
+    private loadingService: LoadingService,
+    private configService: ConfigurationService
+  ) {
+    this.expirationTime = configService.getValue('userExpirationTimeHours', 6);
+  }
 
   // True if a user logged in
   get loggedIn(): boolean {

@@ -32,9 +32,9 @@ export class ThresholdsService {
     for (const metric of metrics) {
       if (thresholds[metric.id]) {
         const threshold = thresholds[metric.id];
-        if (threshold.id && !threshold.max && !threshold.min) {
+        if (threshold.id && threshold.max === null && threshold.min === null) {
           thresholdSubs.push(this.deleteThreshold(threshold.id));
-        } else if (threshold.max != null || threshold.min != null) {
+        } else if (threshold.max !== null || threshold.min !== null) {
           thresholdSubs.push(this.updateThreshold(threshold, widgetId));
         }
       }

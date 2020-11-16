@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, SimpleChanges, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Widget } from '@features/widgets/models/widget';
@@ -16,40 +16,15 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   id: number;
   widget: Widget;
-  editMode: boolean;
-  widgetForm: FormGroup;
+
   subscriptions: Subscription = new Subscription();
-  dashboardId: number;
+
   metrics: Metric[];
   channelGroups: ChannelGroup[];
-
-  widgetTypes = [ // TODO: get from squac, this is for test
-    {
-      id: 1,
-      type: 'tabular',
-      name: 'tabular',
-      description: 'tabular descriptioon'
-    },
-    {
-      id: 2,
-      type: 'timeline',
-      name: 'timeline',
-      description: 'timeline descriptioon'
-    },
-    {
-      id: 3,
-      type: 'timeseries',
-      name: 'time series',
-      description: 'timeseries descriptioon'
-    }
-  ];
-
   statTypes;
-
-  selectedType: number;
+  editMode: boolean;
 
   isValid: boolean;
-
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -68,61 +43,18 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         console.log('error in widget edit valid: ' + error);
       }
     );
-
-    this.widgetEditService.setWidget(this.widget);
-
-    this.dashboardId = this.data.dashboardId;
     this.editMode = !!this.widget;
-    this.initForm();
-
+    this.widgetEditService.setWidget(this.widget, this.data.dashboardId);
     this.subscriptions.add(sub);
   }
 
-  getStatTypeById(id) {
-    return this.widgetTypes.find(type => type.id === id);
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  private initForm() {
-    this.widgetForm = new FormGroup({
-      name : new FormControl('', Validators.required),
-      statType: new FormControl(13, Validators.required) // default is raw data
-    });
-
-
-
-    if (this.editMode) {
-      this.id = this.widget.id;
-      this.widgetForm.patchValue(
-        {
-          name : this.widget.name,
-          statType: this.widget.stattype.id
-        }
-      );
-      this.selectedType = this.widget.typeId;
-
-    }
-  }
-
-  selectType(type) {
-    this.selectedType = type;
-    this.widgetEditService.updateType(type);
-  }
 
   save() {
-    const values = this.widgetForm.value;
-    const statType = this.statTypes.find((st) => {
-      return st.id === values.statType;
-    });
-    this.widgetEditService.updateWidgetInfo(
-      values.name,
-       '',
-      this.dashboardId,
-      statType
-    );
 
     this.widgetEditService.saveWidget().subscribe(
       () => {

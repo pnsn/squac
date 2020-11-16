@@ -9,6 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '../../utils/ability';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MessageService } from '@core/services/message.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -21,9 +23,11 @@ describe('HeaderComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         MatToolbarModule,
-        AbilityModule
+        AbilityModule,
+        MatSnackBarModule
       ],
       providers: [
+        MessageService,
         { provide: SquacApiService, useValue: MockSquacApiService },
                 { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }

@@ -40,8 +40,9 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
   loading = true;
   domainMin: number;
   domainMax: number;
-  inThresholdColor = '#336178';
-  outOfThresholdColor = '#ffa52d';
+  inThresholdColor = '#4488A9';
+  outOfThresholdColor = '#ffb758';
+
   // rows = [];
   constructor(
     private viewService: ViewService,
@@ -80,8 +81,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
     const resizeSub = this.viewService.resize.subscribe(
       widgetId => {
-        if (widgetId === this.widget.id) {
-          this.resize();
+        if (!widgetId || widgetId === this.widget.id) {
+          setTimeout(() => {
+            this.resize();
+          }, 500);
+
         }
       }, error => {
         console.log('error in timeline resize: ' + error);
@@ -93,14 +97,23 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     this.subscription.add(resizeSub);
   }
 
-  private resize() {
+  private resize(rows?: number) {
     if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
+      const offset = 55;
       if ( width > 0 && height > 0) {
+        console.log(width, height);
         this.chart.width(width);
+        this.chart.maxHeight(height - offset);
+        let lineCount;
+        if (rows) {
+          lineCount = rows;
+        } else {
+          lineCount = this.chart.getNLines();
+        }
+        this.chart.maxLineHeight((height - offset) / lineCount);
       }
-
       this.chart.refresh();
     }
   }
@@ -209,7 +222,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
   ngAfterViewInit(): void {
     this.chart(this.timelineDiv.nativeElement);
-
+    this.chart.onZoom(([startDate, endDate], [startY, endY]) => {
+      const visibleLines = endY - startY;
+      this.resize(visibleLines);
+    });
     this.resize();
 
   }

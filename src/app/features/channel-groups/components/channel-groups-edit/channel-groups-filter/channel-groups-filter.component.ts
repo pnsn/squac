@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-channel-groups-filter',
@@ -8,7 +8,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class ChannelGroupsFilterComponent implements OnInit {
   constructor() { }
   @Output() filtersChanged = new EventEmitter<any>();
-
   filters = {
     network : '',
     chan_search: '',
@@ -33,8 +32,9 @@ export class ChannelGroupsFilterComponent implements OnInit {
     } else {
       this.filters[type] = '';
     }
-    this.updateFilters();
   }
+
+
 
   updateFilters() {
     this.filtersChanged.next(this.filters);

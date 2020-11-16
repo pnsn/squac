@@ -18,13 +18,10 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: UserComponent,
-        resolve: {
-          organization: OrganizationResolver
-        }
+        component: UserComponent
       },
       {
-        path: 'organization',
+        path: 'organization/:orgId',
         canActivate: [AuthGuard],
         component: OrganizationComponent,
         resolve: {

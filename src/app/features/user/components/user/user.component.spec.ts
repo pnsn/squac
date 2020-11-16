@@ -10,6 +10,8 @@ import { AppAbility } from '@core/utils/ability';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MessageService } from '@core/services/message.service';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -18,7 +20,7 @@ describe('UserComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UserComponent ],
-      imports: [HttpClientTestingModule, AbilityModule],
+      imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -32,6 +34,7 @@ describe('UserComponent', () => {
           }
         },
         UserService,
+        MessageService,
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability }
       ]

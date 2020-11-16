@@ -20,7 +20,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   subscription: Subscription = new Subscription();
-
+  error: string;
   canUpdate: boolean;
   constructor(
     private widgetService: WidgetsService,
@@ -77,6 +77,8 @@ itemChange(item) {
       }
     );
     this.viewService.resizeWidget(item.widget.id);
+  } else {
+    console.log('item change no');
   }
 }
 
@@ -86,7 +88,7 @@ addWidget() {
 }
 
 private addWidgetsToView(widgets: Widget[]) {
-  this.widgets = [];
+  this.widgets.splice(0, this.widgets.length);
   if (widgets && widgets.length > 0) {
     widgets.forEach(widget => {
       this.widgets.push({
@@ -102,27 +104,44 @@ private addWidgetsToView(widgets: Widget[]) {
 
 }
   ngOnInit(): void {
-    this.viewService.currentWidgets.subscribe(
+    const widgetSub = this.viewService.currentWidgets.subscribe(
       widgets => {
         this.addWidgetsToView(widgets);
       }
     );
     this.canUpdate = this.viewService.canUpdate;
 
-    this.route.data.subscribe(
+    const dataSub = this.route.data.subscribe(
       data => {
-        this.addWidgetsToView(data.widgets);
-        // this.options.api.res
-        this.viewService.setWidgets(data.widgets);
-            // allow dragable and resizable if they have permission to edit dashboard
-        this.options.draggable.enabled = this.canUpdate;
-        this.options.resizable.enabled = this.canUpdate;
-        if (this.options.api) { this.options.api.optionsChanged(); }
+        if (data.widgets.error ){
+          this.error = 'Could not load dashboard or widgets';
+        } else {
+          this.addWidgetsToView(data.widgets);
+          // this.options.api.res
+          this.viewService.setWidgets(data.widgets);
+              // allow dragable and resizable if they have permission to edit dashboard
+          this.options.draggable.enabled = this.canUpdate;
+          this.options.resizable.enabled = this.canUpdate;
+          if (this.options.api) { this.options.api.optionsChanged(); }
+        }
+
       }
     );
+
+    const resizeSub = this.viewService.resize.subscribe(
+      widgetId => {
+        if (!widgetId) {
+          this.options.api.resize();
+        }
+      }
+    );
+    this.subscription.add(widgetSub);
+    this.subscription.add(dataSub);
+    this.subscription.add(resizeSub);
   }
 
   ngOnDestroy() {
+    console.log('widgets destroyed');
     this.subscription.unsubscribe();
   }
 

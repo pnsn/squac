@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, OnDestroy } from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { ColumnMode, id, SelectionType } from '@swimlane/ngx-datatable';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,18 +15,32 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
+  error: boolean;
 
-  constructor(
-    private route: ActivatedRoute
+    constructor(
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.channelGroupSub = this.route.data.subscribe(
       data => {
-        this.channelGroup = data.channelGroup;
+        if (data.channelGroup.error){
+          this.error = true;
+        } else {
+          this.error = false;
+          this.channelGroup = data.channelGroup;
+        }
       }
     );
   }
+
+  editChannelGroup() {
+
+    console.log(this.channelGroup.id);
+    this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
 
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.

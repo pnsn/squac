@@ -2,7 +2,10 @@
   <div id="loading-gif">
     <img src="assets/squac-blinking.gif" alt="">
   </div>
-  <div id="loading-text">
-    {{status}}
-  </div>
+  <ul id="loading-text">
+    <li *ngFor="let status of statuses">
+      {{status}}
+    </li>
+
+  </ul>
 </div>

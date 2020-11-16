@@ -12,9 +12,9 @@ import { UserService } from './user.service';
 providedIn: 'root'
 })
 export class OrganizationsService {
-  private url = 'organization/organizations/';
+  private url = 'organization/';
   private localOrganizations: Organization[] = [];
-
+  private orgUsers = {};
   constructor(
     private http: HttpClient,
     private squacApi: SquacApiService,
@@ -32,8 +32,19 @@ export class OrganizationsService {
     return this.localOrganizations.slice();
   }
 
+  getOrgName(id): string{
+    const org = this.localOrganizations.find(o => o.id === id);
+    return org ? org.name : 'unknown';
+  }
+
+  getOrgUserName(id): string {
+    const orgUser = this.orgUsers[id];
+    return orgUser ? orgUser.first + ' ' + orgUser.last : 'unknown';
+  }
+
   getOrganizations(): Observable<Organization[]> {
-    return this.squacApi.get(this.url).pipe(
+    const path = 'organizations/';
+    return this.squacApi.get(this.url + path).pipe(
       map(
         response => {
           const organizations = [];
@@ -53,8 +64,17 @@ export class OrganizationsService {
     );
   }
 
-  updateUser(user: {email: string, isAdmin: boolean, orgId: number, groups: string[], id?: number}): Observable<User> {
-    const url = 'organization/users/';
+  updateUser(user: {
+    email: string,
+    isAdmin: boolean,
+    orgId: number,
+    groups: string[],
+    id?: number,
+    firstName?: string,
+    lastName?: string
+  }
+    ): Observable<User> {
+    const path = 'users/';
 
     // get the ids
     const groups = [];
@@ -67,19 +87,19 @@ export class OrganizationsService {
 
     const postData = {
       email: user.email,
-      password: 'pwthatgetsignored',
-      firstname: 'firstName',
-      lastname: 'lastName',
       groups,
       organization: user.orgId,
       is_org_admin : user.isAdmin
     };
     if (user.id) {
-      return this.squacApi.put(url, user.id, postData).pipe(
+      // return this.squacApi.put(this.url + path, user.id, postData).pipe(
+      //   map((data) => this.mapOrgUsers(data))
+      // );
+      return this.squacApi.patch(this.url + path, user.id, postData).pipe(
         map((data) => this.mapOrgUsers(data))
       );
     } else {
-      return this.squacApi.post(url, postData).pipe(
+      return this.squacApi.post(this.url + path, postData).pipe(
           map((data) => this.mapOrgUsers(data))
 
         );
@@ -87,21 +107,12 @@ export class OrganizationsService {
 
   }
 
-  getOrganization(): Observable<Organization> {
-    const id = this.userService.userOrg;
-
-  //  const org = this.localOrganizations.find(
-  //     org => org.id === id
-  //   );
-
-    // if (org) {
-    //   return of(org);
-    // } else {
-
+  getOrganization(id: number): Observable<Organization> {
+    const path = 'organizations/';
     return forkJoin(
         {
           users: this.getOrganizationUsers(id),
-          organization: this.squacApi.get(this.url, id)
+          organization: this.squacApi.get(this.url + path, id)
         }
       ).pipe( map(
           response => {
@@ -109,12 +120,11 @@ export class OrganizationsService {
           }
         )
       );
-    // }
   }
 
   getOrganizationUsers(orgId): Observable<User[]> {
-    const url = 'organization/users/';
-    return this.squacApi.get(url, null, {
+    const path = 'users/';
+    return this.squacApi.get(this.url + path, null, {
         organization: orgId
       }).pipe(map(response => {
         const users = [];
@@ -126,7 +136,13 @@ export class OrganizationsService {
     ));
   }
 
+  deleteUser(userId): Observable<User> {
+    const path = 'users/';
+    return this.squacApi.delete(this.url + path, userId);
+  }
+
   private mapOrganization(squacData, users?): Organization {
+    this.storeOrgUsers(squacData.users);
     const newOrg = new Organization(
       squacData.id,
       squacData.name,
@@ -134,6 +150,15 @@ export class OrganizationsService {
       users ? users : []
     );
     return newOrg;
+  }
+
+  private storeOrgUsers(orgUsers): void {
+    for (const user of orgUsers) {
+      this.orgUsers[user.id] = {
+        first: user.firstname,
+        last: user.lastname
+      };
+    }
   }
 
   private mapOrgUsers(user): User {

@@ -7,9 +7,10 @@ import { ChannelGroupsViewComponent } from './components/channel-groups-view/cha
 import { ChannelGroupsFilterComponent } from './components/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
 import { ChannelGroupsRoutingModule } from './channel-groups-routing.module';
 import { ChannelGroupsDetailComponent } from './components/channel-groups-detail/channel-groups-detail.component';
-
+import { ChannelGroupMapComponent } from './components/channel-group-map/channel-group-map.component';
 @NgModule({
   declarations: [
+    ChannelGroupMapComponent,
     ChannelGroupsComponent,
     ChannelGroupsEditComponent,
     ChannelGroupsViewComponent,

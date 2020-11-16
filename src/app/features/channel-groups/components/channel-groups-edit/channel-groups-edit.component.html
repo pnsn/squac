@@ -6,37 +6,44 @@
 <div id="edit-container">
   <div id="select-channels-container" class="box">
     <div id="selection-filter">
-      <h2>Search for channels</h2>
+      <h2>Search for Channels</h2>
       <div id="filter-container">
         <p class="help-text">
-          Use the filters to the right to search for channels or use the map to search within a region.
+          Use the filters to the below to search for channels or use the map to search within a region.
         </p>
         <app-channel-groups-filter
           (filtersChanged)="getChannelsWithFilters($event)"
         >
         </app-channel-groups-filter>
-        <div id="filter-button-container">
-          <button
-            mat-flat-button
-            color="accent"
-            (click)="addChannelsToSelected()"
-            [disabled]="!availableChannels || availableChannels.length === 0"
-          >
-            Add Channels
-          </button>
-          <button
-            mat-flat-button
-            color="warn"
-            (click)="undoSelectRemove()"
-            [disabled]="!changeMade"
-          >
-            Undo Last
-          </button>
-        </div>
+        
+
       </div>
 
     </div>
-    <h3>Selection Preview</h3>
+    <h3>Search Results</h3>
+    <div  id="select-channels-controls">
+      <span>{{availableChannels.length}} channels available</span>
+      <div>
+        <button
+        mat-flat-button
+        color="accent"
+        (click)="addChannelsToSelected()"
+        [disabled]="!availableChannels || availableChannels.length === 0"
+      >
+        Add Channels
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="undoSelectRemove()"
+        [disabled]="!changeMade"
+      >
+        Undo Last
+      </button>
+      </div>
+    </div>
+
+
     <div id="preview-container">
 
       <div id="preview-list" class="table-container">
@@ -44,14 +51,14 @@
           *ngIf="!loading; else isLoading"
           #availableTable
           id="channel-selector"
-          class="material"
+          class="material channel-table"
           [rows]="availableChannels"
           [columnMode]="ColumnMode.flex"
           [headerHeight]="50"
-          [footerHeight]="50"
+          [footerHeight]="0"
           [rowHeight]="50"
           [scrollbarV]="true"
-          rowHeight="auto"
+          [rowHeight]="auto"
           [limit]="9"
           [sortType]="SortType.multi"
         >
@@ -118,7 +125,7 @@
       </div>
   
       <div id="map-box" >
-        <app-map
+        <app-channel-group-map
           [originalSelectedChannels]="originalSelectedChannels"
           [selectedChannels]="selectedChannels"
           [searchChannels]="searchChannels"
@@ -126,7 +133,7 @@
           [isRemoving]="isSelectedFiltered"
           [editPage]="true"
           (boundsChange)="updateBounds($event)"
-        ></app-map>
+        ></app-channel-group-map>
       </div>
     </div>
 
@@ -159,43 +166,33 @@
               ></textarea>
             </mat-form-field>
           </div>
-
+          <span>{{selectedChannels.length}} channels selected</span>
           <h3>Selected Channels</h3>
-          <mat-expansion-panel
-            [expanded]="isFilterOpen"
-            (opened)="onFilteringOpen()"
-            (closed)="onFilteringClose()"
-            (keydown.enter)="$event.preventDefault()"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Remove channels with filter
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+          <div>
             <app-channel-groups-filter
-              #selectedFilter
-              (filtersChanged)="onSelectedFilter($event)"
-            >
-            </app-channel-groups-filter>
-            <button
-              mat-flat-button
-              color="warn"
-              (click)="removeChannels()"
-              [disabled]="!isSelectedFiltered"
-            >
-              Remove Channels
-            </button>
-          </mat-expansion-panel>
+            #selectedFilter
+            (filtersChanged)="onSelectedFilter($event)"
+          >
+          </app-channel-groups-filter>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="removeChannels()"
+            [disabled]="!isSelectedFiltered"
+          >
+            Remove {{isSelectedFiltered ? filteredChannels.length : "" }} Channels
+          </button>
+          </div>
 
       </form>
         <ngx-datatable
           #selectedTable
           id="group-channels"
-          class="material"
+          class="material channel-table"
           [rows]="filteredChannels"
           [columnMode]="ColumnMode.flex"
           [headerHeight]="50"
-          [footerHeight]="50"
+          [footerHeight]="0"
           [rowHeight]="50"
           [scrollbarV]="true"
           rowHeight="auto"
@@ -249,7 +246,7 @@
           <ngx-datatable-column
             name="Location"
             [draggable]="false"
-            [sortable]="true"
+            [sortable]="false"
             [resizeable]="false"
             [flexGrow]="1"
           >
@@ -277,51 +274,61 @@
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>
-    <div id="save-cancel-cg">
-      <button mat-flat-button color="warn" (click)="onDelete()">Delete</button>
-      <button mat-flat-button color="primary" (click)="formUnsaved()">
-        Cancel
-      </button>
-      <button
-        mat-flat-button
-        color="accent"
-        (click)="save()"
-        [disabled]="selectedChannels?.length === 0"
-        *ngIf="'update' | able: 'ChannelGroup'"
-      >
-        Save Group
-      </button>
-    </div>
+
+        <div id="cg-edit-footer">
+          <mat-divider></mat-divider>
+          <div id="save-cancel-cg">
+      
+            <button 
+              mat-icon-button 
+              *ngIf="editMode"
+              color="warn"
+              class="add-btn"
+              (click)="onDelete()"
+              matTooltip="Delete channel group"
+              aria-label="Button that deletes the channel group"
+              > 
+               <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-button color="primary" (click)="formUnsaved()">
+              Cancel
+            </button>
+            <ng-container *ngIf="editMode; else notEditMode">
+              <button 
+              *ngIf="'update' | able: 'ChannelGroup'"
+              mat-icon-button 
+              color="accent"
+              class="add-btn"
+              (click)="save()"
+              [disabled]="selectedChannels?.length === 0"
+      
+              matTooltip="Save channel group"
+              aria-label="Button that saves the changes to the channel group"
+              > 
+              Save
+              </button>
+            </ng-container>
+            <ng-template #notEditMode>
+              <button 
+              *ngIf="'create' | able: 'ChannelGroup'"
+              mat-raised-button 
+              color="accent"
+              class="add-btn"
+              (click)="save()"
+              [disabled]="selectedChannels?.length === 0"
+      
+              matTooltip="Create channel group"
+              aria-label="Button that creates the channel group"
+              > 
+              Create
+              </button>
+            </ng-template>
+            
+      
+          </div>
+        </div>
+
   </div>
 
 </div>
 
-
-
-<div id="channel-group-popup" class="popup hidden">
-  <div id="channel-group-popup-box" class="box popup-box">
-    <p>{{ getPopupText() }}</p>
-    <p>Would you like to continue?</p>
-    <div class="btn-container">
-      <button mat-flat-button color="primary" (click)="closePopup()">
-        Cancel
-      </button>
-      <button
-        mat-flat-button
-        color="accent"
-        (click)="cancel()"
-        *ngIf="popupAction === 'cancel'"
-      >
-        Continue
-      </button>
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="delete()"
-        *ngIf="popupAction === 'delete'"
-      >
-        Delete
-      </button>
-    </div>
-  </div>
-</div>

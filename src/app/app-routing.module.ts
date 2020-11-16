@@ -61,7 +61,8 @@ const appRoutes: Routes = [
       channelGroups: ChannelGroupsResolver,
       metrics: MetricsResolver,
       user: UserResolver,
-      statType: StatTypeResolver
+      statType: StatTypeResolver,
+      organizations: OrganizationResolver
     },
     children: [
       {

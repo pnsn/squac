@@ -8,6 +8,8 @@ import { Channel } from '@core/models/channel';
 import { Subscription } from 'rxjs';
 import { ColumnMode, SelectionType, SortType } from '@swimlane/ngx-datatable';
 import { UserService } from '@features/user/services/user.service';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { MessageService } from '@core/services/message.service';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     private channelGroupService: ChannelGroupsService,
     private channelsService: ChannelsService,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private confirmDialog: ConfirmDialogService,
+    private messageService: MessageService
   ) { }
 
   id: number;
@@ -48,7 +52,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
-
+  filtersChanged: boolean;
+  searchFilters: any;
   // Map stuff
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
@@ -56,9 +61,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   SortType = SortType;
-
-  // popup stuff
-  popupAction: string;
 
   @ViewChild('availableTable') availableTable: any;
   @ViewChild('selectedTable') selectedTable: any;
@@ -77,7 +79,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.orgId = this.userService.userOrg;
     this.isFilterOpen = false;
     this.subscriptions.add(paramsSub);
-    this.popupAction = 'cancel';
   }
 
   // Inits group edit form
@@ -100,10 +101,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             shareAll: channelGroup.shareAll,
             shareOrg: channelGroup.shareOrg
           });
+          this.channelGroup = channelGroup;
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
           this.originalSelectedChannels = [...this.selectedChannels];
           this.filteredChannels = [...this.selectedChannels];
           this.getIdsFromChannels();
+        },
+        error => {
+          this.messageService.error('Could not load channel group.');
         }
       );
     }
@@ -158,12 +163,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.previous = newPrevious;
   }
 
-  updateTable() {
-    // unselect existing from table, but don't make more of a search
-  }
-
   getChannelsWithFilters(searchFilters: object) {
-    if (searchFilters !== {}) {
+    if (this.searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelsService.getChannelsByFilters(searchFilters).subscribe(
         response => {
@@ -273,6 +274,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.updateChannelGroup(cg).subscribe(
       result => {
         this.cancel(result.id);
+        this.messageService.message('Channel group saved.');
+      },
+      error => {
+        this.messageService.error('Could not save channel group.');
       }
     );
   }
@@ -282,7 +287,12 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.deleteChannelGroup(this.id).subscribe(
       result => {
         this.cancel();
-    });
+        this.messageService.message('Channel group delete.');
+      },
+      error => {
+        this.messageService.error('Could not delete channel group');
+      }
+    );
   }
 
   // Exit page
@@ -291,15 +301,28 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     if (id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../'], {relativeTo: this.route});
+      this.router.navigate(['../../'], {relativeTo: this.route});
     }
   }
 
   // Check if form has unsaved fields
   formUnsaved() {
     if (this.channelGroupForm.dirty || this.changeMade) {
-      this.popupAction = 'cancel';
-      this.openPopup();
+      this.confirmDialog.open(
+        {
+          title: 'Cancel editing',
+          message: 'You have unsaved changes, if you cancel they will be lost.',
+          cancelText: 'Keep editing',
+          confirmText: 'Cancel'
+        }
+      );
+      this.confirmDialog.confirmed().subscribe(
+        confirm => {
+          if (confirm) {
+            this.cancel();
+          }
+      });
+
     } else {
       this.cancel();
     }
@@ -307,27 +330,22 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   // Give a warning to user that delete will also delete widgets
   onDelete() {
-    this.popupAction = 'delete';
-    this.openPopup();
+    this.confirmDialog.open(
+      {
+        title: `Delete ${this.editMode ? this.channelGroup.name : 'Channel Group'}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if (confirm) {
+          this.delete();
+        }
+    });
   }
 
-  getPopupText() {
-    if (this.popupAction === 'cancel') {
-      return 'Your new channel group will not be saved.';
-    } else {
-      return 'Deleting a channel group also deletes linked widgets.';
-    }
-  }
-
-  openPopup() {
-    const popup = document.getElementById('channel-group-popup');
-    popup.classList.remove('hidden');
-  }
-
-  closePopup() {
-    const popup = document.getElementById('channel-group-popup');
-    popup.classList.add('hidden');
-  }
 
   // Filter searched channels using the map bounds
   filterBounds() {

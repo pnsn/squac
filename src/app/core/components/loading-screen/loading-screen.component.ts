@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class LoadingScreenComponent implements OnInit , OnDestroy {
   loading: boolean;
-  status: string;
+  statuses: string[] = [];
   subscription: Subscription = new Subscription();
   constructor(
     private loadingService: LoadingService
@@ -24,7 +24,14 @@ export class LoadingScreenComponent implements OnInit , OnDestroy {
     );
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
       text => {
-        this.status = text;
+        if (text) {
+          this.statuses.push(text);
+          if (this.statuses.length > 1) {
+            this.statuses.splice(0, 1);
+          }
+        } else {
+          this.statuses = [];
+        }
       }
     );
     this.subscription.add(loadStatusSub);

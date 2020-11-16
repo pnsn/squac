@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ChannelGroup } from '@core/models/channel-group';
+import { LoadingService } from '@core/services/loading.service';
+import { MessageService } from '@core/services/message.service';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ChannelGroupsService } from './services/channel-groups.service';
@@ -8,23 +11,29 @@ import { ChannelGroupsService } from './services/channel-groups.service';
   providedIn: 'root'
 })
 export class ChannelGroupsResolver implements Resolve<Observable<any>> {
-  constructor(private channelGroupsService: ChannelGroupsService) {}
+  constructor(
+    private channelGroupsService: ChannelGroupsService,
+    private loadingService: LoadingService,
+    private messageService: MessageService
+    ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ChannelGroup> | Observable<ChannelGroup[]> {
     const id = +route.paramMap.get('id');
     if (id) {
+      this.loadingService.setStatus('Loading channel group');
       return this.channelGroupsService.getChannelGroup(id).pipe(
-        tap(data => {
-          console.log('in resolver, channel group');
-        }),
-        catchError(this.handleError)
+        catchError(error => {
+          this.messageService.error('Could not load channel group.');
+          return this.handleError(error);
+        })
       );
     } else {
+      this.loadingService.setStatus('Loading channel groups');
       return this.channelGroupsService.getChannelGroups().pipe(
-        tap(data => {
-          console.log('in resolver, channelgroups');
-        }),
-        catchError(this.handleError)
+        catchError(error => {
+          this.messageService.error('Could not load channel groups.');
+          return this.handleError(error);
+        })
       );
       // return all of them
     }

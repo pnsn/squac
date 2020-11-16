@@ -8,6 +8,7 @@ import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
 import { switchMap, tap } from 'rxjs/operators';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 interface Thresholds {
   [metricId: number]: Threshold;
@@ -23,7 +24,7 @@ export class WidgetEditService {
   private thresholds: Thresholds = {};
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
-
+  dashboardId: number;
   // default widget dimensions
   rows = 3;
   columns = 6;
@@ -39,14 +40,22 @@ export class WidgetEditService {
 
   // Keeps track of widget having all required properties
   updateValidity(): void {
-
     if (this.widget) {
+
+      const hasName = this.widget.name && this.widget.name.length > 0;
+      const hasTypes = this.widget.stattype && this.widget.typeId;
+      const hasCg = this.widget.channelGroupId;
+      const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
+
       this.isValid.next(
-        this.widget.typeId
-        && this.widget.channelGroupId
-        && this.widget.metrics
-        && this.widget.metrics.length > 0
+        hasName && hasTypes && hasCg && hasMetrics
       );
+
+
+    } else {
+      this.isValid.next(
+        false
+        );
     }
 
   }
@@ -56,14 +65,22 @@ export class WidgetEditService {
     return this.thresholds;
   }
 
+
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget): void {
+  setWidget(widget: Widget, dashboardId): void {
+    this.dashboardId = dashboardId;
     if (widget) {
+
       this.widget = widget;
       this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
 
+      // in case of copying widget from other dashboard, must set to new dash
+      if (widget.dashboardId !== this.dashboardId) {
+        this.widget.id = null;
+        this.widget.dashboardId = this.dashboardId;
+      }
     } else {
 
       this.widget = new Widget(
@@ -72,7 +89,7 @@ export class WidgetEditService {
         null,
         null,
         null,
-        null,
+        dashboardId,
         null,
         this.columns,
         this.rows,
@@ -133,8 +150,8 @@ export class WidgetEditService {
         threshold.owner,
         this.widget.id,
         threshold.metric.id,
-        threshold.min !== null ? +threshold.min : null,
-        threshold.max !== null ? +threshold.max : null
+        threshold.min || threshold.min === 0 ? +threshold.min : null,
+        threshold.max || threshold.max === 0 ? +threshold.max : null
       );
     });
 
@@ -143,10 +160,9 @@ export class WidgetEditService {
   }
 
   // Update the widgets info
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType ): void {
+  updateWidgetInfo(name: string, description: string, statType ): void {
     this.widget.name = name;
     this.widget.description = description;
-    this.widget.dashboardId = dashboardId;
     this.widget.stattype = statType;
     this.updateValidity();
   }

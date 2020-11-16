@@ -18,7 +18,6 @@ describe('WidgetEditService', () => {
 
   let squacApiService;
   let service: WidgetEditService;
-  const mockSquacApiService = new MockSquacApiService(  );
   let widgetsService: WidgetsService;
   const testMetric = new Metric(
     1,
@@ -47,7 +46,7 @@ describe('WidgetEditService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService},
+        provide: SquacApiService, useValue: new MockSquacApiService()},
         { provide: ViewService, useValue: new MockViewService()},
         { provide: WidgetsService, useValue: new MockWidgetsService()},
         { provide: ThresholdsService, useValue: new MockThresholdsService() }
@@ -66,25 +65,29 @@ describe('WidgetEditService', () => {
   it('should set given widget', () => {
     expect(service.getWidget()).toBeFalsy();
 
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
 
     expect(service.getWidget()).toBeTruthy();
     expect(service.getWidget()).toEqual(testWidget);
   });
 
   it('should be valid if widget has all properties', (done: DoneFn) => {
-    service.setWidget(testWidget);
+    testWidget.stattype = 1;
+    service.setWidget(testWidget, 1);
+
     service.isValid.subscribe(
       isValid => {
         expect(isValid).toBeTruthy();
         done();
       }
     );
+
     service.updateMetrics([testMetric]);
+
   });
 
   it('should update thresholds', () => {
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
     const testThreshold = {
       id : 1,
       metric: {id: 1},
@@ -104,7 +107,7 @@ describe('WidgetEditService', () => {
 
   it('should return channel group', () => {
     expect(service.getChannelGroup()).toBeUndefined();
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
 
     const testChannelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, []);
 
@@ -115,14 +118,14 @@ describe('WidgetEditService', () => {
   });
 
   it('should return the metric Ids', () => {
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
 
     expect(service.getMetricIds()).toEqual([testMetric.id]);
 
   });
 
   it('should update the saved type', () => {
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
     const testTypeId = 2;
     service.updateType(testTypeId);
 
@@ -130,13 +133,12 @@ describe('WidgetEditService', () => {
   });
 
   it('should save the widget info', () => {
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
 
     const newName = 'new name';
     service.updateWidgetInfo(
       newName,
       'desc',
-      1,
       1
     );
 
@@ -144,7 +146,7 @@ describe('WidgetEditService', () => {
   });
 
   it('should clear the saved widget information', () => {
-    service.setWidget(testWidget);
+    service.setWidget(testWidget, 1);
 
     service.clearWidget();
 

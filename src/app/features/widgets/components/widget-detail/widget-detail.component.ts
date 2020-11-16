@@ -6,6 +6,9 @@ import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { DashboardsService } from '@features/dashboards/services/dashboards.service';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 
 @Component({
   selector: 'app-widget-detail',
@@ -22,6 +25,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   loading = true;
   error: string;
   noData: boolean;
+  dashboards: Dashboard[];
   // temp
 
   styles: any;
@@ -30,7 +34,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmDialog: ConfirmDialogService,
+    private dashboardsService: DashboardsService
   ) {
 
   }
@@ -48,17 +54,24 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.measurementsService.setWidget(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(
-      dates => {
+      dashboardId => {
         this.data = {};
-        this.loading = true;
-        // get new data and start timers over
-        this.getData();
+        if (this.widget.dashboardId === dashboardId) {
+          this.loading = true;
+          // get new data and start timers over
+          this.getData();
+        }
       },
       error => {
         console.log('error in widget detail dates: ' + error);
       }
     );
 
+    this.dashboardsService.getDashboards().subscribe(
+      dashboards => {
+        this.dashboards = dashboards;
+      }
+    );
 
     this.subscription.add(datesSub);
 
@@ -81,23 +94,33 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getData() {
-    if (this.viewService.getEnddate && this.viewService.getStartdate) {
-      this.measurementsService.fetchMeasurements(this.viewService.getStartdate(), this.viewService.getEnddate());
-      console.log('get data', this.widget.id);
-    }
-
-
-    // TODO: Currently when page is refreshed or widget added, widgets reload completely
-    // Rethink this so so that the new data can be added to widget seamlessly
-
+    this.measurementsService.fetchMeasurements();
   }
 
+  addWidgetToDashboard(dashboardId) {
+    // select dashboard
+    // navigate to dashboard
+    this.router.navigate(['dashboards', dashboardId, 'widgets', this.widget.id, 'edit']);
+  }
 
   editWidget() {
     this.router.navigate([this.widget.id, 'edit'], {relativeTo: this.route});
   }
 
   deleteWidget() {
-    this.viewService.deleteWidget(this.widget.id);
+    this.confirmDialog.open(
+      {
+        title: `Delete: ${this.widget.name}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if (confirm) {
+          this.viewService.deleteWidget(this.widget.id);
+        }
+    });
   }
 }

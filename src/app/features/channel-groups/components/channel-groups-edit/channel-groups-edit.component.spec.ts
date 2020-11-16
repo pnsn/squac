@@ -10,9 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NetworksService } from '../../services/networks.service';
 import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { LoadingComponent } from '../../../../shared/loading/loading.component';
+import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { MaterialModule } from '@shared/material.module';
-import { MapComponent } from '../../../../shared/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { AbilityModule } from '@casl/angular';
@@ -23,6 +22,7 @@ import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UserService } from '@features/user/services/user.service';
 import { MockUserService } from '@features/user/services/user.service.mock';
+import { ChannelGroupMapComponent } from '../channel-group-map/channel-group-map.component';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ChannelGroupsEditComponent', () => {
@@ -46,7 +46,7 @@ describe('ChannelGroupsEditComponent', () => {
         ChannelGroupsEditComponent,
         LoadingComponent,
         ChannelGroupsFilterComponent,
-        MapComponent
+        ChannelGroupMapComponent
       ],
       providers: [
         ChannelGroupsService,

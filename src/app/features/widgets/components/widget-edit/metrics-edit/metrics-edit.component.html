@@ -13,6 +13,7 @@ placeholder="Filter by metric name..."
 <div class="table-container" *ngIf="!loading">
   <ngx-datatable
   id="metric-select-table"
+    #metricTable
     class="material"
     [rows]="tableRows"
     [headerHeight]="30"

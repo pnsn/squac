@@ -7,6 +7,7 @@ import { UserEditComponent } from '@features/user/components/user-edit/user-edit
 
 import { SharedModule } from '@shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
+import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
 
 
 
@@ -16,7 +17,8 @@ import { UserRoutingModule } from './user-routing.module';
     PasswordResetComponent,
     LoginComponent,
     OrganizationComponent,
-    UserEditComponent
+    UserEditComponent,
+    OrganizationsViewComponent
   ],
   imports: [
     SharedModule,

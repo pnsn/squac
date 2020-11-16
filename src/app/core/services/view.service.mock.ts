@@ -1,18 +1,30 @@
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Widget } from '@features/widgets/models/widget';
 
-export class MockViewService {
-
-  currentDashboard = new Subject<Dashboard>();
+export class MockViewService{
   currentWidgets = new Subject<Widget[]>();
-  dates = new Subject<{start: Date, end: Date}>();
+  dates = new ReplaySubject<number>(1);
   resize = new Subject<number>();
-  status = new Subject<string>();
-  private testStartdate: Date = new Date();
-  private testEnddate: Date = new Date();
-  private widgets: Widget[] = [];
+  refresh = new Subject<string>();
+  status = new BehaviorSubject<string>('loading'); // loading, error, finished
   error = new BehaviorSubject<string>(null);
+  private live: boolean;
+  // refresh = new Subject<number>();
+  private dashboard: Dashboard;
+  private dateRanges;
+  queuedWidgets = 0;
+  locale;
+  defaultTimeRange;
+
+
+  // Services used by ViewService
+  dashboardService;
+  widgetService;
+  messageService;
+  ability;
+  configservice;
+  mesageService;
 
   testDashboard: Dashboard = new Dashboard(
     1,
@@ -48,6 +60,16 @@ export class MockViewService {
     return false;
   }
 
+  private getWidgetIndexById(id: number): number {
+    return this.dashboard.widgets.findIndex(w => w.id === id);
+  }
+  private setIntialDates() {}
+  private widgetChanged(widgetId: number): void {}
+
+  resizeAll() {
+    this.resize.next(null);
+  }
+
   getRange(): number {
     return 1;
   }
@@ -65,7 +87,7 @@ export class MockViewService {
   }
 
   setWidgets(widgets: Widget[]): void {
-    this.widgets = widgets;
+    this.testDashboard.widgets = widgets;
   }
 
   getWidget(id: number ): Widget | boolean {
@@ -80,25 +102,16 @@ export class MockViewService {
     this.status.next('start');
   }
 
-  datesChanged(start: Date, end: Date) {
-    this.testStartdate = start;
-    this.testEnddate = end;
-    this.dates.next({
-      start,
-      end
-    });
+  datesChanged(start, end) {
+    this.dates.next(this.dashboard.id);
   }
 
-  dashboardSelected(id, start, end) {
-    this.testStartdate = start;
-    this.testEnddate = end;
-    this.status.next('loading');
-
-    this.currentDashboard.next(this.testDashboard);
+  setDashboard(dashboard: Dashboard) {
+     this.dashboard = dashboard;
   }
 
   private widgetsChanged() {
-    this.currentWidgets.next(this.widgets.slice());
+    this.currentWidgets.next(this.dashboard.widgets.slice());
     this.status.next('finished');
   }
 
@@ -116,14 +129,15 @@ export class MockViewService {
   // TODO: does this actuall refresh data?
   refreshWidgets() {
     console.log('refresh!');
+
     this.widgetsChanged();
   }
 
-  saveDashboard(dashboard: Dashboard) {
-    this.currentDashboard.next(dashboard);
+  saveDashboard() {
+    this.dashboard = this.dashboard;
   }
 
   deleteDashboard() {
-    this.currentDashboard.next();
+    this.dashboard = null;
   }
 }
