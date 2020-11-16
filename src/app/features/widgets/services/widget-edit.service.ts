@@ -40,17 +40,19 @@ export class WidgetEditService {
 
   // Keeps track of widget having all required properties
   updateValidity(): void {
-
     if (this.widget) {
+      const hasName = this.widget.name && this.widget.name.length > 0;
+      const hasTypes = this.widget.stattype && this.widget.typeId;
+      const hasCg = this.widget.channelGroupId;
+      const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
+
       this.isValid.next(
-        this.widget.name
-        && this.widget.name.length > 0
-        && this.widget.stattype
-        && this.widget.typeId
-        && this.widget.channelGroupId
-        && this.widget.metrics
-        && this.widget.metrics.length > 0
+        hasName && hasTypes && hasCg && hasMetrics
       );
+    } else {
+      this.isValid.next(
+        false
+        );
     }
 
   }

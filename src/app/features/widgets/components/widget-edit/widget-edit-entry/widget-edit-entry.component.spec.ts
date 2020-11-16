@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WidgetEditEntryComponent', () => {
   let component: WidgetEditEntryComponent;
@@ -15,7 +16,11 @@ describe('WidgetEditEntryComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WidgetEditEntryComponent],
-      imports: [RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        MatDialogModule,
+        HttpClientTestingModule
+      ],
       providers: [
         {provide: ViewService, useClass: MockViewService},
         {provide: ActivatedRoute, useValue: {

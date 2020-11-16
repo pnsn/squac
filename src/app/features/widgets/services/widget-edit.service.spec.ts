@@ -18,7 +18,6 @@ describe('WidgetEditService', () => {
 
   let squacApiService;
   let service: WidgetEditService;
-  const mockSquacApiService = new MockSquacApiService(  );
   let widgetsService: WidgetsService;
   const testMetric = new Metric(
     1,
@@ -47,7 +46,7 @@ describe('WidgetEditService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService},
+        provide: SquacApiService, useValue: new MockSquacApiService()},
         { provide: ViewService, useValue: new MockViewService()},
         { provide: WidgetsService, useValue: new MockWidgetsService()},
         { provide: ThresholdsService, useValue: new MockThresholdsService() }
