@@ -7,18 +7,14 @@ import { SnackbarComponent } from '@shared/components/snackbar/snackbar.componen
 })
 export class MessageService {
   private snackBarRef: MatSnackBarRef<SnackbarComponent>;
-  private durationInSeconds = 3;
+  private durationInSeconds = 4;
   constructor(
     private snackBar: MatSnackBar
   ) { }
 
 
-  openSnackBar(type, message, action?, duration?) {
-    let d;
-    if (duration) {
-      d = duration ? duration : this.durationInSeconds;
-    }
-
+  openSnackBar(type, message, action?) {
+    
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data : {
         message,
@@ -26,7 +22,7 @@ export class MessageService {
         action
       },
       panelClass: 'mat-snack-bar-themed',
-      duration: d  ? d * 1000 : null
+      duration: this.durationInSeconds * 1000
     });
 
     // this.snackBarRef.afterDismissed().subscribe(() => {
@@ -45,7 +41,7 @@ export class MessageService {
   // type: 'error', 'alert', 'warn'
   message(message: string) {
     this.openSnackBar(
-      'default', message, null, this.durationInSeconds
+      'default', message, null
     );
   }
 
@@ -57,7 +53,7 @@ export class MessageService {
 
   alert(message: string){
     this.openSnackBar(
-      'alert', message, null, this.durationInSeconds
+      'alert', message, null
     );
   }
 }
