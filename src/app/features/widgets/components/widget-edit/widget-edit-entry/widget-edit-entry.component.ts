@@ -45,15 +45,16 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         }
 
         this.widget = this.viewService.getWidget(this.widgetId);
-        if (this.widget) {
-          this.openWidget();
-        } else {
+        
+        if(this.widgetId && !this.widget){
           this.widgetsService.getWidget(this.widgetId).subscribe(
             widget => {
               this.widget = widget;
               this.openWidget();
             }
           );
+        } else {
+          this.openWidget();
         }
 
 
