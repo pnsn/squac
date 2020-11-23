@@ -46,7 +46,7 @@ export class WidgetEditService {
       const hasTypes = this.widget.stattype && this.widget.typeId;
       const hasCg = this.widget.channelGroupId;
       const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
-
+      console.log(hasName, hasTypes, hasCg, hasMetrics)
       this.isValid.next(
         hasName && hasTypes && hasCg && hasMetrics
       );
