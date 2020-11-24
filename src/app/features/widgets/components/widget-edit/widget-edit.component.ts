@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WidgetEditService } from '../../services/widget-edit.service';
 import { Metric } from '@core/models/metric';
 import { ChannelGroup } from '@core/models/channel-group';
+import { MessageService } from '@core/services/message.service';
 
 @Component({
   selector: 'app-widget-edit',
@@ -29,6 +30,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetEditService: WidgetEditService,
+    private messageService: MessageService
   ) { }
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
@@ -44,7 +46,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       }
     );
     this.editMode = !!this.widget;
-    this.widgetEditService.setWidget(this.widget, this.data.dashboardId);
+    this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
     this.subscriptions.add(sub);
   }
 
@@ -59,6 +61,9 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.widgetEditService.saveWidget().subscribe(
       () => {
         this.cancel();
+      },
+      error => {
+        this.messageService.error('Could not save widget.');
       }
     );
   }

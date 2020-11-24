@@ -8,7 +8,6 @@ import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
 import { switchMap, tap } from 'rxjs/operators';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 interface Thresholds {
   [metricId: number]: Threshold;
@@ -46,7 +45,7 @@ export class WidgetEditService {
       const hasTypes = this.widget.stattype && this.widget.typeId;
       const hasCg = this.widget.channelGroupId;
       const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
-      console.log(hasName, hasTypes, hasCg, hasMetrics);
+
       this.isValid.next(
         hasName && hasTypes && hasCg && hasMetrics
       );
@@ -67,7 +66,7 @@ export class WidgetEditService {
 
 
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget, dashboardId): void {
+  setWidget(widget: Widget, dashboardId: number): void {
     this.dashboardId = dashboardId;
     if (widget) {
 
@@ -75,7 +74,6 @@ export class WidgetEditService {
       this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
-
       // in case of copying widget from other dashboard, must set to new dash
       if (widget.dashboardId !== this.dashboardId) {
         this.widget.id = null;
@@ -146,7 +144,7 @@ export class WidgetEditService {
   updateThresholds(thresholds: any[]): void {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
-        threshold.id,
+        this.widget.id ? threshold.id : null,
         threshold.owner,
         this.widget.id,
         threshold.metric.id,
@@ -184,7 +182,6 @@ export class WidgetEditService {
       switchMap (
         response => {
           newWidget = response;
-
           // returns observables for saving each thresholds
           const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
@@ -209,7 +206,4 @@ export class WidgetEditService {
       )
     );
   }
-
-
-
 }
