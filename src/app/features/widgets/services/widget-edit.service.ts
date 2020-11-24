@@ -7,8 +7,7 @@ import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
-import { catchError, switchMap, tap } from 'rxjs/operators';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
+import { switchMap, tap } from 'rxjs/operators';
 
 interface Thresholds {
   [metricId: number]: Threshold;
@@ -67,18 +66,16 @@ export class WidgetEditService {
 
 
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget, dashboardId): void {
+  setWidget(widget: Widget, dashboardId: number): void {
     this.dashboardId = dashboardId;
-    console.log(widget)
     if (widget) {
 
       this.widget = widget;
       this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
-
       // in case of copying widget from other dashboard, must set to new dash
-      if (+widget.dashboardId !== +this.dashboardId) {
+      if (widget.dashboardId !== this.dashboardId) {
         this.widget.id = null;
         this.widget.dashboardId = this.dashboardId;
       }
