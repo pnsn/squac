@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
 import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 interface Thresholds {
@@ -69,6 +69,7 @@ export class WidgetEditService {
   // FIXME: don't init a widget like this, return the final widget when needed
   setWidget(widget: Widget, dashboardId): void {
     this.dashboardId = dashboardId;
+    console.log(widget)
     if (widget) {
 
       this.widget = widget;
@@ -77,7 +78,7 @@ export class WidgetEditService {
       this.selectedMetrics.next(this.widget.metrics);
 
       // in case of copying widget from other dashboard, must set to new dash
-      if (widget.dashboardId !== this.dashboardId) {
+      if (+widget.dashboardId !== +this.dashboardId) {
         this.widget.id = null;
         this.widget.dashboardId = this.dashboardId;
       }
@@ -146,7 +147,7 @@ export class WidgetEditService {
   updateThresholds(thresholds: any[]): void {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
-        threshold.id,
+        this.widget.id ? threshold.id : null,
         threshold.owner,
         this.widget.id,
         threshold.metric.id,
@@ -178,13 +179,14 @@ export class WidgetEditService {
   // save widget and thresholds to squac
   saveWidget(): Observable<Widget> {
     let newWidget;
+    console.log(this.widget)
     return this.widgetsService.updateWidget(
       this.widget
     ).pipe(
       switchMap (
         response => {
           newWidget = response;
-
+          console.log(newWidget)
           // returns observables for saving each thresholds
           const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
