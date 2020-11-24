@@ -107,7 +107,7 @@
   width:40%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   #cg-form{
     width: 100%;
   }
@@ -124,9 +124,6 @@
     }
   }
 
-  mat-expansion-panel {
-    margin: 4px 0px;
-  }
 
   #group-channels {
     flex-grow: 1;
@@ -137,8 +134,9 @@
   }
 }
 
-#cg-edit-footer {
+#remove-filter-box, #cg-edit-footer {
   width: 100%;
+  margin-top: 10px;
 }
 
 #save-cancel-cg {
@@ -148,7 +146,7 @@
   width: 100%;
 }
 
-p.help-text {
+.help-text {
   font-size: .9rem;
   font-weight: 300;
   margin-top: 5px;

@@ -22,7 +22,14 @@
     </div>
     <h3>Search Results</h3>
     <div  id="select-channels-controls">
-      <span>{{availableChannels.length}} channels available</span>
+
+      <ng-container *ngIf="availableChannels.length === 0; else hasChannels">
+        <span class="help-text">Search above to find channels to add to your channel group.</span>
+      </ng-container>
+      <ng-template #hasChannels>
+        <span class="help-text">{{availableChannels.length}} channels matching search criteria.</span>
+      </ng-template>
+      
       <div>
         <button
         mat-flat-button
@@ -58,8 +65,6 @@
           [footerHeight]="0"
           [rowHeight]="50"
           [scrollbarV]="true"
-          [rowHeight]="auto"
-          [limit]="9"
           [sortType]="SortType.multi"
         >
           <ngx-datatable-column
@@ -147,6 +152,7 @@
                 matInput
                 placeholder="Name"
                 formControlName="name"
+                required
               />
             </mat-form-field>
             <div class="channel-group-input">
@@ -163,28 +169,13 @@
                 matInput
                 placeholder="Description"
                 formControlName="description"
+                required
               ></textarea>
             </mat-form-field>
           </div>
-          <span>{{selectedChannels.length}} channels selected</span>
-          <h3>Selected Channels</h3>
-          <div>
-            <app-channel-groups-filter
-            #selectedFilter
-            (filtersChanged)="onSelectedFilter($event)"
-          >
-          </app-channel-groups-filter>
-          <button
-            mat-flat-button
-            color="warn"
-            (click)="removeChannels()"
-            [disabled]="!isSelectedFiltered"
-          >
-            Remove {{isSelectedFiltered ? filteredChannels.length : "" }} Channels
-          </button>
-          </div>
-
       </form>
+      <h3>{{selectedChannels.length}} Channels Selected</h3>
+
         <ngx-datatable
           #selectedTable
           id="group-channels"
@@ -193,9 +184,8 @@
           [columnMode]="ColumnMode.flex"
           [headerHeight]="50"
           [footerHeight]="0"
-          [rowHeight]="50"
+          [rowHeight]="40"
           [scrollbarV]="true"
-          rowHeight="auto"
           [selected]="filteredChannels"
           [selectionType]="SelectionType.checkbox"
           (select)="onSelect($event)"
@@ -275,6 +265,30 @@
           </ngx-datatable-column>
         </ngx-datatable>
 
+        <div id="remove-filter-box">
+          <h4>Remove Channels Matching Filters</h4>
+          <ng-container *ngIf="!isSelectedFiltered; else hasRemovableChannels">
+            <span class="help-text">Search below to find channels to remove from your channel group.</span>
+          </ng-container>
+          <ng-template #hasRemovableChannels>
+            <span class="help-text">{{filteredChannels.length}} channels matching search criteria.</span>
+          </ng-template>
+          <app-channel-groups-filter
+          #selectedFilter
+          (filtersChanged)="onSelectedFilter($event)"
+        >
+        </app-channel-groups-filter>
+
+
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="removeChannels()"
+          [disabled]="!isSelectedFiltered"
+        >
+          Remove Channels
+        </button>
+        </div>
         <div id="cg-edit-footer">
           <mat-divider></mat-divider>
           <div id="save-cancel-cg">
@@ -295,12 +309,12 @@
             </button>
             <ng-container *ngIf="editMode; else notEditMode">
               <button 
-              *ngIf="'update' | able: 'ChannelGroup'"
+              *ngIf="'update' | able: channelGroup"
               mat-icon-button 
               color="accent"
               class="add-btn"
               (click)="save()"
-              [disabled]="selectedChannels?.length === 0"
+              [disabled]="!channelGroupForm.valid || selectedChannels?.length !== 0"
       
               matTooltip="Save channel group"
               aria-label="Button that saves the changes to the channel group"
@@ -311,11 +325,11 @@
             <ng-template #notEditMode>
               <button 
               *ngIf="'create' | able: 'ChannelGroup'"
-              mat-raised-button 
+              mat-flat-button 
               color="accent"
               class="add-btn"
               (click)="save()"
-              [disabled]="selectedChannels?.length === 0"
+              [disabled]="!channelGroupForm.valid || selectedChannels?.length === 0"
       
               matTooltip="Create channel group"
               aria-label="Button that creates the channel group"
@@ -330,5 +344,5 @@
 
   </div>
 
-</div>
+</div>a
 

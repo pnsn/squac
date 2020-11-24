@@ -57,6 +57,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
     this.selectedChannelGroup = this.channelGroups.filter( cg => { // Select row with channel group
       return (cg.id === selectedChannelGroupId);
     });
+
+    this.widgetEditService.updateChannelGroup(this.selectedChannelGroup[0]);
   }
 
   viewChannels(id) {
