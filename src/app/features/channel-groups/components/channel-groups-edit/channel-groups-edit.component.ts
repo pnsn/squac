@@ -185,7 +185,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.searchChannels = [];
     }
 
-    this.availableChannels=[...this.availableChannels];
+    this.availableChannels = [...this.availableChannels];
   }
 
   onSelect(event) {

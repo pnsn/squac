@@ -14,7 +14,7 @@ export class MessageService {
 
 
   openSnackBar(type, message, action?) {
-    
+
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data : {
         message,
