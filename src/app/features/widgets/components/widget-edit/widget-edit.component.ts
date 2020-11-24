@@ -63,7 +63,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         this.cancel();
       },
       error => {
-        this.messageService.error("Could not save widget.")
+        this.messageService.error('Could not save widget.');
       }
     );
   }
