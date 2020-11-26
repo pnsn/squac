@@ -3,12 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { AlarmsComponent } from './components/alarms/alarms.component';
 import { AlarmEditComponent } from './components/alarm-edit/alarm-edit.component';
 import { AlarmDetailComponent } from './components/alarm-detail/alarm-detail.component';
+import { AlarmViewComponent } from './components/alarm-view/alarm-view.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: AlarmsComponent,
     children: [
+      {
+        path: '',
+        component: AlarmViewComponent,
+      },
       {
         path: 'new',
         component: AlarmEditComponent,
