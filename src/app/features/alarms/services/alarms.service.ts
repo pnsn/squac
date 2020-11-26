@@ -12,8 +12,11 @@ export class AlarmsService {
   constructor(
     private squacApi: SquacApiService
   ) {}
-
-
+  
+  getAlarms() {
+    this.squacApi.get()
+  }
+ 
   //getAlarms
 
   //getAlarm
