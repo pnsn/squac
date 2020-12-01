@@ -68,7 +68,14 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="" minWidth="20" [flexGrow]="0" [sortable]="false">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-      <button aria-label="clear" (click)="clearThreshold(rowIndex)">x</button>
+      <button
+        aria-label="button that clears threshold settings"
+        (click)="clearThreshold(rowIndex)"
+        matTooltip="Clear threshold"
+        >
+      <mat-icon>
+        clear
+      </mat-icon></button>
     </ng-template>
   </ngx-datatable-column>
 
