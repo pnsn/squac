@@ -54,6 +54,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    console.log("i am destroyed")
   }
 
 
