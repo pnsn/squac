@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Widget } from '@features/widgets/models/widget';
 import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
@@ -8,7 +8,7 @@ import { WidgetEditService } from '@features/widgets/services/widget-edit.servic
   templateUrl: './widget-info-edit.component.html',
   styleUrls: ['./widget-info-edit.component.scss']
 })
-export class WidgetInfoEditComponent implements OnInit {
+export class WidgetInfoEditComponent implements OnInit, AfterViewInit{
   @Input() widget: Widget;
   @Input() statTypes;
   editMode: boolean;
@@ -16,7 +16,7 @@ export class WidgetInfoEditComponent implements OnInit {
 
   id;
   selectedType;
-  error : string = "";
+  error : string = "Missing widget name";
   done: boolean = false;
     // TODO: Get this from SQUAC
     widgetTypes =
@@ -63,6 +63,12 @@ export class WidgetInfoEditComponent implements OnInit {
     this.initForm();
   }
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.checkValid();
+  }
+
 
   getStatTypeById(id) {
     return this.widgetTypes.find(type => type.id === id);
@@ -80,8 +86,6 @@ export class WidgetInfoEditComponent implements OnInit {
       );
       this.selectedType = this.widget.typeId;
     }
-
-    this.checkValid();
   }
 
   selectType(type) {

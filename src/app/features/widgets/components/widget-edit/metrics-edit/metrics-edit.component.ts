@@ -51,7 +51,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
     }
-    this.checkValid();
+
   }
 
   ngAfterViewInit(): void {
@@ -59,7 +59,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
       this.availableMetrics = [...this.availableMetrics];
       this.metricTable.recalculate();
     }
-
+    this.checkValid();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

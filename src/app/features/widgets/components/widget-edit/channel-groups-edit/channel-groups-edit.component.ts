@@ -34,8 +34,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     this.loading = false;
-    
-    this.checkValid();
+
   }
 
   ngOnDestroy(): void {
@@ -47,6 +46,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
       this.availableChannelGroups = [...this.availableChannelGroups]; // This is input into <ngx-datatable>
       this.channelTable.recalculate(); // ngx-datatable reference
     }
+
+    this.checkValid();
   }
     // onSelect function for data table selection
     onSelect($event) { // When a row is selected, route the page and select that channel group
