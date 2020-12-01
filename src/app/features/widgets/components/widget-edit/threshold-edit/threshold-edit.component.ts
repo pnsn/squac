@@ -96,9 +96,11 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
   }
 
   clearThreshold(rowIndex) {
-    this.rows[rowIndex].min = null;
-    this.rows[rowIndex].max = null;
-    this.updateThresholds();
+    if (this.rows[rowIndex].min !== null || this.rows[rowIndex].max !== null) {
+      this.rows[rowIndex].min = null;
+      this.rows[rowIndex].max = null;
+      this.updateThresholds();
+    }
   }
 
   updateValue(event, cell, rowIndex) {

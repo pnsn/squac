@@ -22,7 +22,7 @@ placeholder="Filter by metric name..."
     [rowHeight]="30"
     [scrollbarV]="true"
     [selected]="selectedMetrics"
-    [selectionType]="SelectionType.checkbox"
+    [selectionType]="SelectionType.multiClick"
     [selectAllRowsOnPage]="false"
     (select)="metricsSelected($event)"
     [messages]="messages"
@@ -37,9 +37,9 @@ placeholder="Filter by metric name..."
       [checkboxable]="true"
     >
     </ngx-datatable-column>
-    <ngx-datatable-column name="Name" [flexGrow]="2"></ngx-datatable-column>
-    <ngx-datatable-column name="Unit" prop="unit" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Description" [flexGrow]="4"></ngx-datatable-column>
+    <ngx-datatable-column name="Name" [flexGrow]="2"   [resizeable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="Unit" prop="unit" [flexGrow]="1"   [resizeable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="Description" [flexGrow]="4"   [resizeable]="false"></ngx-datatable-column>
   </ngx-datatable>
 </div>
 

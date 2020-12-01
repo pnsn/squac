@@ -5,6 +5,7 @@
   </p>
   <ngx-datatable
   #thresholdDataTable
+  id="threshold-table"
   class="material"
   headerHeight="30"
   [columnMode]="ColumnMode.flex"
@@ -14,33 +15,33 @@
   [messages]="messages"
 >
 
-  <ngx-datatable-column name="Metric" [flexGrow]="3" >
+  <ngx-datatable-column name="Metric" [flexGrow]="3"   [resizeable]="false">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
-      <div class="row-container">
+      <div class="">
         {{value.name}}
       </div>
 
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Default Min" prop="defaultMin" [flexGrow]="1" [sortable]="false">
+  <ngx-datatable-column name="Default Min" prop="defaultMin" [flexGrow]="1" [sortable]="false"   [resizeable]="false">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
-      <div class="row-container" >
+      <div class="default" >
         {{value}}
       </div>
 
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Default Max" prop="defaultMax" [flexGrow]="1" [sortable]="false" >
+  <ngx-datatable-column name="Default Max" prop="defaultMax" [flexGrow]="1" [sortable]="false"  [resizeable]="false" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
-      <div class="row-container">
+      <div class="default">
         {{value}}
       </div>
 
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Min" [flexGrow]="1" [sortable]="false">
+  <ngx-datatable-column name="Min" [flexGrow]="1" [sortable]="false"   [resizeable]="false">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" >
-      <div class="row-container">
+      <div class="threshold">
         <input matInput
           autofocus
           (change)="updateValue($event, 'min', rowIndex)"
@@ -51,9 +52,9 @@
       </div>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Max" [flexGrow]="1" [sortable]="false" >
+  <ngx-datatable-column name="Max" [flexGrow]="1" [sortable]="false"  [resizeable]="false" >
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-      <div class="row-container" >
+      <div class="threshold" >
         <input matInput
           autofocus
           (change)="updateValue($event, 'max', rowIndex)"
@@ -66,9 +67,19 @@
 
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="" minWidth="20" [flexGrow]="0" [sortable]="false">
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-      <button aria-label="clear" (click)="clearThreshold(rowIndex)">x</button>
+  <ngx-datatable-column name="" [maxWidth]="30" [width]="30" [sortable]="false" [flexGrow]="0.25" [resizeable]="false">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row">
+      <button
+      class="clear-button"
+      [disabled]="row.min === null && row.max === null"
+      mat-icon-button
+        aria-label="button that clears threshold settings"
+        (click)="clearThreshold(rowIndex)"
+        matTooltip="Clear threshold"
+        >
+      <mat-icon>
+        clear
+      </mat-icon></button>
     </ng-template>
   </ngx-datatable-column>
 
