@@ -4,27 +4,49 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
 import { AlarmEditComponent } from './components/alarm-edit/alarm-edit.component';
 import { AlarmDetailComponent } from './components/alarm-detail/alarm-detail.component';
 import { AlarmViewComponent } from './components/alarm-view/alarm-view.component';
+import { AlarmsResolver } from './alarms.resolver';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { PermissionGuard } from '@core/guards/permission.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: AlarmsComponent,
+    canActivate:[AuthGuard],
+    // data: {subject: 'Alarm', action: 'read'}
+    resolve: {
+      alarms: AlarmsResolver
+    },
     children: [
       {
         path: '',
-        component: AlarmViewComponent,
+        // canActivate: [PermissionGuard],
+        // data: {subject: 'Alarm', action: 'read'},
+        component: AlarmViewComponent
       },
       {
         path: 'new',
-        component: AlarmEditComponent,
+        // canActivate: [PermissionGuard],
+        // data: {subject: 'Alarm', action: 'create'},
+        component: AlarmEditComponent
       },
       {
         path: ':id',
-        component: AlarmDetailComponent
+        // canActivate: [PermissionGuard],
+        // data: {subject: 'Alarm', action: 'create'},
+        component: AlarmDetailComponent,
+        resolve: {
+          alarm: AlarmsResolver
+        },
       },
       {
         path: ':id/edit',
-        component: AlarmEditComponent
+        component: AlarmEditComponent,
+        resolve: {
+          alarm: AlarmsResolver
+        },
+        // canActivate: [PermissionGuard],
+        // data: {subject: 'Alarm', action: 'create'},
       },
 
     ]
