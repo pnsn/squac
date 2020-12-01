@@ -199,7 +199,8 @@ ngx-datatable {
 }
 .datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group {
-  background-color: $sq-gray !important;
+  background-color: darken($sq-lt-blue, 15%) !important;
+
 }
 .datatable-body-row:hover, 
 .datatable-body-row:hover .datatable-row-group {
