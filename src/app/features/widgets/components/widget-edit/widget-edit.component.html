@@ -5,7 +5,12 @@
    
 <div mat-dialog-content id="edit-container">
 
-    <mat-horizontal-stepper [linear]="!editMode" color="primary" #stepper>
+    <mat-horizontal-stepper
+      #stepper
+      [linear]="!editMode"
+      color="primary"
+      (selectionChange)="stepSelected();"
+      >
       <mat-step
         #infoStep
         [errorMessage]="infoTab.error"

@@ -46,7 +46,6 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
       }
     );
     this.editMode = !!this.widget;
-    console.log(this.editMode)
     this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
     this.subscriptions.add(sub);
   }
@@ -57,6 +56,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     console.log("i am destroyed")
   }
 
+  //Tables need to be resized when the tab appears
+  stepSelected() {
+    window.dispatchEvent(new Event('resize'));
+  }
 
   save() {
 
