@@ -20,7 +20,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
   loading = true;
   ColumnMode = ColumnMode;
   SelectionType =  SelectionType;
-  done: boolean = false;
+  done = false;
   constructor(
     private channelGroupsService: ChannelGroupsService,
     private widgetEditService: WidgetEditService,
@@ -29,7 +29,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
   ngOnInit() {
     this.availableChannelGroups = this.channelGroups;
     const group = this.widgetEditService.getChannelGroup();
-    if(group) {
+    if (group) {
       this.selectedChannelGroup[0] = group;
     }
 
@@ -71,7 +71,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
     console.log(id);
   }
   checkValid() {
-    this.done = this.selectedChannelGroup.length > 0;    
+    this.done = this.selectedChannelGroup.length > 0;
   }
 
   getChannelsForChannelGroup(group) {

@@ -16,8 +16,8 @@ export class WidgetInfoEditComponent implements OnInit, AfterViewInit{
 
   id;
   selectedType;
-  error : string = "Missing widget name";
-  done: boolean = false;
+  error = 'Missing widget name';
+  done = false;
     // TODO: Get this from SQUAC
     widgetTypes =
     [
@@ -64,8 +64,8 @@ export class WidgetInfoEditComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
     this.checkValid();
   }
 
@@ -96,13 +96,13 @@ export class WidgetInfoEditComponent implements OnInit, AfterViewInit{
 
   checkValid() {
     this.done = !!this.widgetForm && this.widgetForm.valid && !!this.selectedType;
-    if(!this.done) {
-      if(this.widgetForm && !this.widgetForm.valid) {
-        this.error = "Missing widget name";
-      } else if(!this.selectedType) {
-        this.error = "Missing widget type";
+    if (!this.done) {
+      if (this.widgetForm && !this.widgetForm.valid) {
+        this.error = 'Missing widget name';
+      } else if (!this.selectedType) {
+        this.error = 'Missing widget type';
       } else {
-        this.error = "Missing widget info";
+        this.error = 'Missing widget info';
       }
     }
   }

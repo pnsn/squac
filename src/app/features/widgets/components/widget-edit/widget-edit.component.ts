@@ -53,10 +53,10 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    console.log("i am destroyed")
+    console.log('i am destroyed');
   }
 
-  //Tables need to be resized when the tab appears
+  // Tables need to be resized when the tab appears
   stepSelected() {
     window.dispatchEvent(new Event('resize'));
   }

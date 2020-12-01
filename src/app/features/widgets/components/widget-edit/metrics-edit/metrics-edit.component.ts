@@ -22,7 +22,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
-  done : boolean = false;
+  done = false;
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -69,7 +69,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
     this.checkValid();
-    
+
     this.widgetEditService.updateMetrics(this.selectedMetrics);
     // this.selectedMetrics = event;
   }
