@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Alarm } from '@features/alarms/models/alarm';
 
 @Component({
   selector: 'app-alarm-view',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alarm-view.component.scss']
 })
 export class AlarmViewComponent implements OnInit {
-
-  constructor() { }
+  alarms: Alarm[];
+  constructor(
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.alarms = this.route.parent.snapshot.data.alarms;
   }
 
 }

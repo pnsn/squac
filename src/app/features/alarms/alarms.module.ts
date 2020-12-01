@@ -12,7 +12,7 @@ import { AlarmsRoutingModule } from './alarms-routing.module';
   declarations: [AlarmsComponent, AlarmDetailComponent, AlarmEditComponent, AlarmViewComponent],
   imports: [
     CommonModule,
-     AlarmsRoutingModule
+    AlarmsRoutingModule
   ]
 })
 export class AlarmsModule { }

@@ -1,1 +1,5 @@
 <p>alarm-view works!</p>
+
+<ul *ngFor="let alarm of alarms">
+  <li>{{alarm | json}}</li>
+</ul>
