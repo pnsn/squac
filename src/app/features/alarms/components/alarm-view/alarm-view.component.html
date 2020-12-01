@@ -1,5 +1,5 @@
 <p>alarm-view works!</p>
 
 <ul *ngFor="let alarm of alarms">
-  <li>{{alarm | json}}</li>
+  <li>{{alarm | json}} <a [routerLink]="[  alarm.id ]">alarm.id</a></li>
 </ul>
