@@ -15,7 +15,7 @@ export class AlarmEditComponent implements OnInit {
   editMode:boolean;
   orgId: number;
   alarm: Alarm;
-  
+
   constructor(
     private route: ActivatedRoute ,
     private userService: UserService
