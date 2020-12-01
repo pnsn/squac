@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { AlarmViewComponent } from './alarm-view.component';
 
@@ -8,7 +9,19 @@ describe('AlarmViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AlarmViewComponent ]
+      declarations: [ AlarmViewComponent ],
+      providers: [
+        { provide: ActivatedRoute, useValue: {
+          parent: {
+            snapshot: {
+              data: {
+                alarms: []
+              }
+            }
+          }
+        }
+        }
+      ]
     })
     .compileComponents();
   });

@@ -15,11 +15,10 @@ export class AlarmEditComponent implements OnInit {
   editMode:boolean;
   orgId: number;
   alarm: Alarm;
-  userService: UserService
-
+  
   constructor(
     private route: ActivatedRoute ,
-    userService: UserService
+    private userService: UserService
   ) { }
 
   ngOnInit() {
