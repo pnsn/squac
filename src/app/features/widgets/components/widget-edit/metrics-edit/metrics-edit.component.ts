@@ -5,6 +5,7 @@ import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-metrics-edit',
