@@ -6,17 +6,17 @@
 <div mat-dialog-content id="edit-container">
 
     <mat-horizontal-stepper [linear]="!editMode" color="primary" #stepper>
-      <mat-step errorMessage="Missing information.">
+      <mat-step [errorMessage]="infoTab.error" [completed]="infoTab.done" [hasError]="!infoTab.done">
         <ng-template matStepLabel>Widget Information</ng-template>
-        <app-widget-info-edit class="edit-tab-body" [widget]="widget" [statTypes]="statTypes"></app-widget-info-edit>
+        <app-widget-info-edit class="edit-tab-body" [widget]="widget" [statTypes]="statTypes" #infoTab></app-widget-info-edit>
       </mat-step>
-      <mat-step errorMessage="Metric is required."> 
+      <mat-step errorMessage="Metric is required." [completed]="metricsTab.done" [hasError]="!metricsTab.done"> 
         <ng-template matStepLabel>Select Metrics</ng-template>
-          <app-metrics-edit class="edit-tab-body" [metrics]="metrics"></app-metrics-edit>
+          <app-metrics-edit class="edit-tab-body" [metrics]="metrics" #metricsTab></app-metrics-edit>
       </mat-step>
-      <mat-step  errorMessage="Channel Group is required.">
+      <mat-step  errorMessage="Channel Group is required." [completed]="channelGroupsTab.done" [hasError]="!channelGroupsTab.done"> 
         <ng-template matStepLabel>Select Channel Group</ng-template>
-        <app-channel-groups-edit class="edit-tab-body" [channelGroups]="channelGroups"></app-channel-groups-edit>
+        <app-channel-groups-edit class="edit-tab-body" [channelGroups]="channelGroups" #channelGroupsTab></app-channel-groups-edit>
       </mat-step>
       <mat-step [optional]="true">
         <ng-template matStepLabel>Set Thresholds</ng-template>  

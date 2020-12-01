@@ -21,7 +21,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
-
+  done : boolean = false;
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -35,8 +35,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
 };
 
   constructor(
-    private metricsService: MetricsService,
-    private widgetEditService: WidgetEditService,
+    private widgetEditService: WidgetEditService
   ) { }
 
   ngOnInit() {
@@ -44,13 +43,14 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableRows = this.availableMetrics;
     const metricIds = this.widgetEditService.getMetricIds();
     if (metricIds && metricIds.length > 0) {
+      this.done = true;
       this.selectedMetrics = this.availableMetrics.filter(
         metric => {
           return metricIds.indexOf(metric.id) >= 0;
         }
       );
     }
-
+    this.checkValid();
   }
 
   ngAfterViewInit(): void {
@@ -67,10 +67,14 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   metricsSelected({selected}) {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
-
-
+    this.checkValid();
+    
     this.widgetEditService.updateMetrics(this.selectedMetrics);
     // this.selectedMetrics = event;
+  }
+
+  checkValid() {
+    this.done = this.selectedMetrics && this.selectedMetrics.length > 0;
   }
 
   updateFilter(event) {
