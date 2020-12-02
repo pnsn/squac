@@ -21,7 +21,6 @@ import { DashboardsResolver } from '@features/dashboards/dashboards.resolver';
 import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
 import { StatTypeResolver } from '@features/widgets/stat-type.resolver';
 
-// TODO:consider breaking into module for creation stuff
 const appRoutes: Routes = [
   {
     path: 'password_reset/confirm', redirectTo: 'login/password-reset', pathMatch: 'full'
