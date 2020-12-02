@@ -13,12 +13,12 @@ export class MeasurementPipe implements PipeTransform {
 
   private mostRecent(values): number {
 
-    values.sort((a, b) => { 
+    values.sort((a, b) => {
 
       return (new Date(a.starttime)).getTime() - (new Date(b.starttime)).getTime();
     });
 
-    return values[ values.length -1 ].value;
+    return values[ values.length - 1 ].value;
   }
 
 // Calculates the median for the channel
