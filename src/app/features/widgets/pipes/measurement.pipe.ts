@@ -1,16 +1,24 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 
 @Pipe({
   name: 'measurement'
 })
 export class MeasurementPipe implements PipeTransform {
-  // most recent?
+
   // Calculates the values for the channel
   private sort(values): Array<any> {
-    if ( !values || values.length === 0 ) {
-      values.sort((a, b) => a.value - b.value);
-    }
-    return values;
+    return values.sort((a, b) => a.value - b.value);
+  }
+
+  private mostRecent(values): number {
+
+    values.sort((a, b) => {
+
+      return (new Date(a.starttime)).getTime() - (new Date(b.starttime)).getTime();
+    });
+
+    return values[ values.length - 1 ].value;
   }
 
 // Calculates the median for the channel
@@ -58,7 +66,7 @@ private min(values): number {
 // TODO: handle stattypesthat are unknown
 transform(values: any, type: any): any {
   if (values && values.length > 0) {
-    const sortedValues = this.sort(values);
+    const sortedValues = this.sort(values.slice());
     switch (type) {
         case 1:
         return this.average(sortedValues);
@@ -77,7 +85,7 @@ transform(values: any, type: any): any {
 // 6-10 are percentiles
 // 13 is raw
         default: // most recent
-          return values[values.length - 1].value;
+          return this.mostRecent(values);
       }
   } else {
     return null;
