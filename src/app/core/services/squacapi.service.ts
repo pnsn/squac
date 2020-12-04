@@ -20,7 +20,7 @@ export class SquacApiService {
 
   // http get with optional id & params
   get( path: string , id?: number, params?: Params ): Observable<any> {
-    const url = this.baseUrl + path + (id ? id : '');
+    const url = this.baseUrl + path + (id ? id + '/' : '');
     return this.http.get<any>( url , {
       params
     });
