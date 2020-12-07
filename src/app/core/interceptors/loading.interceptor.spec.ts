@@ -28,11 +28,14 @@ describe('LoadingInterceptor', () => {
       ]
   }));
 
-  it('should be created', () => {
-    const interceptor: LoadingInterceptor = TestBed.inject(LoadingInterceptor);
+  beforeEach(() => {
     loadingService = TestBed.inject(LoadingService);
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
+  });
+  it('should be created', () => {
+    const interceptor: LoadingInterceptor = TestBed.inject(LoadingInterceptor);
+
     expect(interceptor).toBeTruthy();
   });
 
@@ -58,6 +61,31 @@ describe('LoadingInterceptor', () => {
     );
 
     expect(startSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not display loading screen non get request', () => {
+    const startSpy = spyOn(loadingService, 'startLoading');
+
+    httpClient.delete('https://test.test.test/measurements')
+      .subscribe(response => {
+        expect(response).toBeTruthy();
+      }
+    );
+
+    expect(startSpy).not.toHaveBeenCalled();
+  });
+
+  it('should stop displaying loading screen when requests finished', () => {
+    const stopSpy = spyOn(loadingService, 'stopLoading');
+
+    httpClient.get('https://test.test.test/')
+      .subscribe(response => {
+        expect(response).toBeTruthy();
+        expect(stopSpy).toHaveBeenCalled();
+      }
+    );
+
+
   });
   
 });
