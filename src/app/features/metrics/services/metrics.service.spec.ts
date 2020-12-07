@@ -5,6 +5,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { MetricsService } from './metrics.service';
 import { Metric } from '@core/models/metric';
+import { fakeAsyncResponse } from '@core/utils/utils'
 
 describe('MetricsService', () => {
   let metricsService: MetricsService;
@@ -63,16 +64,17 @@ describe('MetricsService', () => {
   });
 
   it('should put metric with id', (done: DoneFn) => {
+    const putSpy = spyOn(squacApiService, 'put').and.returnValue(fakeAsyncResponse([]));
     metricsService.updateMetric(testMetric).subscribe(
       metric => {
+        expect(putSpy).toHaveBeenCalled();
         done();
       }
     );
-
-
   });
 
   it('should post metric without id', (done: DoneFn) => {
+    const postSpy = spyOn(squacApiService, 'post').and.returnValue(fakeAsyncResponse([]));
     const newMetric = new Metric(
       null,
       1,
@@ -85,10 +87,9 @@ describe('MetricsService', () => {
 
     metricsService.updateMetric(newMetric).subscribe(
       metric => {
+        expect(postSpy).toHaveBeenCalled();
         done();
       }
     );
-
-
   });
 });

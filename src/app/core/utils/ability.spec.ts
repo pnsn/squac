@@ -4,6 +4,7 @@ import { defineAbilitiesFor, AppAbility } from './ability';
 import { Ability, PureAbility } from '@casl/ability';
 import { User } from '@features/user/models/user';
 import { userInfo } from 'os';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 
 
 describe('Ability', () => {
@@ -45,12 +46,18 @@ describe('Ability', () => {
     expect(testAbility.can('manage', 'all')).toEqual(true);
   });
 
-  it('should not allow without permission to cud', () => {
+  it('should allow with permission', () => {
+    testUser.groups = ['viewer'];
+
+    testAbility.update(defineAbilitiesFor(testUser));
+    expect(testAbility.can('read', 'Dashboard')).toEqual(true);
+  });
+
+  it('should not allow without permission', () => {
     testUser.groups = ['viewer'];
 
     testAbility.update(defineAbilitiesFor(testUser));
     expect(testAbility.can('update', 'Dashboard')).toEqual(false);
-    expect(testAbility.can('read', 'Dashboard')).toEqual(true);
   });
 
   it('should allow for multiple groups', () => {
@@ -59,14 +66,56 @@ describe('Ability', () => {
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can('update', 'Measurement')).toEqual(true);
-    expect(testAbility.can('update', 'Widget')).toEqual(false);
   });
 
-  it('should allow user to update own object', () => {
+  it('should allow user to update owned object', () => {
+    testUser.groups = ['viewer', 'contributor', 'reporter'];
+    const testDashboard = new Dashboard(
+      1, 
+      testUser.id,
+      "test",
+      "description",
+      true,
+      false,
+      1,
+      []     
+    )
+    testAbility.update(defineAbilitiesFor(testUser));
 
+    expect(testAbility.can('update', testDashboard)).toEqual(true);
   });
 
   it('should not allow user to update not owned object', () => {
+    testUser.groups = ['viewer', 'contributor', 'reporter'];
+    const testDashboard = new Dashboard(
+      1, 
+      3,
+      "test",
+      "description",
+      true,
+      false,
+      1,
+      []     
+    )
+    testAbility.update(defineAbilitiesFor(testUser));
 
+    expect(testAbility.can('update', testDashboard)).toEqual(false);
+  });
+
+  it('should allow user to update owned object', () => {
+    testUser.groups = ['viewer', 'contributor', 'reporter'];
+    const testDashboard = new Dashboard(
+      1, 
+      testUser.id,
+      "test",
+      "description",
+      true,
+      false,
+      1,
+      []     
+    )
+    testAbility.update(defineAbilitiesFor(testUser));
+
+    expect(testAbility.can('update', testDashboard)).toEqual(true);
   });
 });
