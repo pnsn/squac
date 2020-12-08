@@ -35,7 +35,7 @@ describe('AuthService', () => {
       providers: [
         { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) },
         { provide: Ability, useValue: new Ability()},
-        { provide: UserService, useClass: MockUserService}
+        { provide: UserService, useValue: new MockUserService()}
       ]
     });
 

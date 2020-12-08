@@ -28,7 +28,8 @@ describe('OrganizationsService', () => {
     id: 1,
     name: "name",
     description: "description",
-    users: [testUser]
+    users: [testUser],
+    groups: [1]
   }
   beforeEach(() => {
     TestBed.configureTestingModule({

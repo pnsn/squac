@@ -8,8 +8,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MockAuthService } from './core/services/auth.service.mock';
-import { UserService } from './features/user/services/user.service';
-import { MockUserService } from './features/user/services/user.service.mock';
 import { LoadingScreenComponent } from '@core/components/loading-screen/loading-screen.component';
 import { ConfigurationService } from '@core/services/configuration.service';
 
