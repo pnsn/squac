@@ -21,13 +21,15 @@ export class ConfirmDialogService implements OnDestroy {
     private dialog: MatDialog
   ) { }
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
-
+  
+  // Closes the dialog with a false response
   public close(){
     if(this.dialogRef) {
       this.dialogRef.close(false);
     }
   }
 
+  // Opens a dialog with given options
   public open(options: ConfirmDialogOptions) {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -41,10 +43,7 @@ export class ConfirmDialogService implements OnDestroy {
 
   // Observable response is true if confirm, false if cancel
   public confirmed(): Observable<any> {
-    return this.dialogRef.afterClosed().pipe(take(1), map(res => {
-      return res;
-    }
-  ));
+    return this.dialogRef.afterClosed().pipe(take(1));
   }
 
   ngOnDestroy(): void {

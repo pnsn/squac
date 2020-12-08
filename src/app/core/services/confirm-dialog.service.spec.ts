@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { observable, of, scheduled } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { serialize } from 'v8';
 
 import { ConfirmDialogService } from './confirm-dialog.service';
 
@@ -22,6 +24,9 @@ describe('ConfirmDialogService', () => {
                   return scheduled([true], null);
                 }
               };
+            },
+            closeAll: () => {
+
             }
           },
         }
@@ -34,6 +39,7 @@ describe('ConfirmDialogService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
   it('should open the dialog', () => {
     const openSpy = spyOn(dialog, 'open');
     service.open({
@@ -44,6 +50,7 @@ describe('ConfirmDialogService', () => {
     });
     expect(openSpy).toHaveBeenCalled();
   });
+  
   it('should close the dialog', () => {
     service.open({
       title: "",
@@ -72,6 +79,20 @@ describe('ConfirmDialogService', () => {
     );
 
     service.dialogRef.close(true);
+  });
+
+  it('should close dialogs after destroy', () => {
+    service.open({
+      title: "", 
+      message: "",
+      cancelText: "",
+      confirmText: ""
+    });
+
+    const closeSpy = spyOn(dialog, 'closeAll');
+    service.ngOnDestroy();
+    expect(closeSpy).toHaveBeenCalled();
+  
   });
 
 });
