@@ -185,7 +185,6 @@ export class ViewService {
   // FIXME: this currently will cause all widgets to reload;
   // Tells widgets to get new data
   private widgetChanged(widgetId: number): void {
-    console.log('widget changed');
     this.status.next('finished');
     this.error.next(null);
     this.currentWidgets.next(this.dashboard.widgets.slice());

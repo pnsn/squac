@@ -8,11 +8,17 @@ import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 describe('StatTypeService', () => {
   let statTypeService: StatTypeService;
   let squacApiService;
+  const testData = {
+    id: 1,
+    type: "string",
+    name: "string",
+    description: "string"
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [{
-        provide: SquacApiService, useValue: new MockSquacApiService()
+        provide: SquacApiService, useValue: new MockSquacApiService(testData)
       }]
     });
 
@@ -22,5 +28,18 @@ describe('StatTypeService', () => {
 
   it('should be created', () => {
     expect(statTypeService).toBeTruthy();
+  });
+
+  it('should get stattypes', () => {
+    const statSpy = spyOn(squacApiService, "get").and.callThrough();
+    statTypeService.getStatTypes().subscribe();
+    expect(statSpy).toHaveBeenCalled();    
+  });
+
+  it('should return local stattypes', () => {
+    statTypeService.getStatTypes().subscribe();
+    const statSpy = spyOn(squacApiService, "get").and.callThrough();
+    statTypeService.getStatTypes().subscribe();
+    expect(statSpy).not.toHaveBeenCalled();   
   });
 });
