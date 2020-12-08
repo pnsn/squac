@@ -21,7 +21,7 @@ describe('ConfirmDialogService', () => {
               return { 
                 close:(value)=> {},
                 afterClosed: () => {
-                  return scheduled([true], null);
+                  return of(true);
                 }
               };
             },

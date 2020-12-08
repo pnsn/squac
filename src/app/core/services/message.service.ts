@@ -36,7 +36,9 @@ export class MessageService {
   }
 
   close(){
-    this.snackBarRef.dismiss();
+    if(this.snackBarRef) {
+      this.snackBarRef.dismiss();
+    }
   }
   // type: 'error', 'alert', 'warn'
   message(message: string) {
@@ -55,6 +57,12 @@ export class MessageService {
     this.openSnackBar(
       'alert', message, null
     );
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.close();
   }
 }
 
