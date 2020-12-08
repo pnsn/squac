@@ -72,9 +72,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
           this.viewService.status.next('error');
         } else {
           this.viewService.setDashboard(this.dashboard);
-          const range = this.viewService.getRange();
-          const start = this.viewService.getStartdate();
-          const end = this.viewService.getEnddate();
+          const range = this.viewService.range;
+          const start = this.viewService.startdate;
+          const end = this.viewService.enddate;
 
           if (range && this.rangeLookUp) {
             this.selectedRange = this.rangeLookUp[range];

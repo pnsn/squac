@@ -74,8 +74,8 @@ export class MeasurementsService implements OnDestroy {
     let start;
     let end;
     if (!startString || !endString) {
-      start = this.viewService.getStartdate();
-      end = this.viewService.getEnddate();
+      start = this.viewService.startdate;
+      end = this.viewService.enddate;
     } else {
       start = startString;
       end = endString;

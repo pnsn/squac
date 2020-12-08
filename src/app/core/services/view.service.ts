@@ -37,8 +37,14 @@ export class ViewService {
     configService: ConfigurationService,
     private messageService: MessageService
   ) {
-    this.locale = configService.getValue('locale');
-    this.dateRanges = configService.getValue('dateRanges');
+    this.locale = configService.getValue('locale',
+      {
+        "format": "YYYY-MM-DDTHH:mm:ss[Z]",
+        "displayFormat": "YYYY/MM/DD HH:mm",
+        "direction": "ltr"
+      }
+    );
+    this.dateRanges = configService.getValue('dateRanges', {"3600" : "last 1 hour"});
     this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
   }
 
@@ -50,22 +56,23 @@ export class ViewService {
     return this.live;
   }
 
+  get range(): number {
+    return this.dashboard.timeRange;
+  }
+
+  get startdate(): string {
+    return this.dashboard.starttime;
+  }
+
+  get enddate(): string {
+    return this.dashboard.endtime;
+  }
+
 
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex(w => w.id === id);
   }
 
-  getRange(): number {
-    return this.dashboard.timeRange;
-  }
-
-  getStartdate(): string {
-    return this.dashboard.starttime;
-  }
-
-  getEnddate(): string {
-    return this.dashboard.endtime;
-  }
 
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
@@ -104,10 +111,10 @@ export class ViewService {
       // default dates
       liveMode = true;
       startDate = moment.utc().subtract(this.defaultTimeRange, 'seconds');
-      range = this.dashboard.timeRange;
+      range = this.defaultTimeRange;
       endDate = current;
     }
-
+    
     this.datesChanged(startDate, endDate, liveMode, range);
   }
 
@@ -130,16 +137,17 @@ export class ViewService {
   }
 
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
-    const start = startDate.format(this.locale.format);
-    const end = endDate.format(this.locale.format);
-    this.live = live;
-
-    this.dashboard.timeRange = range;
-    this.dashboard.starttime = start;
-    this.dashboard.endtime = end;
-
-    this.dates.next(this.dashboard.id);
-
+    if(startDate && endDate) {
+      const start = startDate.format(this.locale.format);
+      const end = endDate.format(this.locale.format);
+      this.live = live;
+  
+      this.dashboard.timeRange = range;
+      this.dashboard.starttime = start;
+      this.dashboard.endtime = end;
+  
+      this.dates.next(this.dashboard.id);
+    }
     // this.status.next('loading');
   }
 
@@ -148,8 +156,7 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
-    // this.currentWidgets.next([]);
-    // if no widgets
+
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
       this.status.next('finished');
     }
