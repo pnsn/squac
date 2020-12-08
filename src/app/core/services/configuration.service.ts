@@ -8,18 +8,20 @@ import { mapTo, tap } from 'rxjs/operators';
 })
 export class ConfigurationService {
   private configuration = {};
-
+  private path : string = '/assets/config.json';
   constructor(private httpClient: HttpClient) {
   }
 
+  // Loads config file
   load(): Observable<void> {
-    return this.httpClient.get('/assets/config.json')
+    return this.httpClient.get(this.path)
       .pipe(
         tap((configuration: any) => this.configuration = configuration),
         mapTo(undefined),
       );
   }
 
+  // Returns value of configuration for the key, or default
   getValue(key: string, defaultValue?: any): any {
     return this.configuration[key] || defaultValue;
   }
