@@ -25,7 +25,6 @@ export class UserService {
     // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new BehaviorSubject<User>(null);
   constructor(
-    private http: HttpClient,
     private squacApi: SquacApiService,
     private ability: AppAbility
   ) { }
@@ -57,6 +56,7 @@ export class UserService {
       ),
       tap(
         user => {
+
           this.currentUser = user;
           this.ability.update(defineAbilitiesFor(this.currentUser));
           this.user.next(this.currentUser);

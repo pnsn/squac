@@ -193,7 +193,6 @@ export class ViewService {
 
   // updates the widget
   updateWidget(widgetId: number, widget?: Widget): void {
-    console.log('update widget');
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1  && !widget) {
       this.dashboard.widgets.splice(index, 1);
