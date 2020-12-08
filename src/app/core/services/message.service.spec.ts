@@ -46,6 +46,13 @@ describe('MessageService', () => {
     expect(closeSpy).toHaveBeenCalled();
   });
 
+  it('should do nothing if there is no snackbar', ()=> {
+    expect(service.snackBarRef).toBeUndefined();
+    service.close();
+
+    expect(service.snackBarRef).toBeUndefined();
+  });
+
   it('should open a message snackbar', () => {
     const openSpy = spyOn(snackbar, "openFromComponent");
     service.message("message");

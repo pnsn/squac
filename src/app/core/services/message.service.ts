@@ -12,7 +12,7 @@ export class MessageService {
     private snackBar: MatSnackBar
   ) { }
 
-
+  // opens a snackbar and passes data to component
   openSnackBar(type, message, action?) {
 
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
@@ -35,11 +35,14 @@ export class MessageService {
     // });
   }
 
+  // Closes any open snackbar
   close(){
     if(this.snackBarRef) {
       this.snackBarRef.dismiss();
     }
   }
+
+  // Component friendly, opens a snackbar 
   // type: 'error', 'alert', 'warn'
   message(message: string) {
     this.openSnackBar(
@@ -59,13 +62,10 @@ export class MessageService {
     );
   }
 
+  // Close all snackbars on destroy
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.close();
   }
 }
 
-
 // Shows a popup at the bottom of the page that can have an action
-// .message() has no dismiss action
