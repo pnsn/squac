@@ -34,28 +34,41 @@ describe('MessageService', () => {
 
   it('should open snackbar', () => {
     const openSpy = spyOn(snackbar, "openFromComponent");
-    service.openSnackBar(SnackbarComponent, "message");
+    service.openSnackBar('default', "message");
     expect(openSpy).toHaveBeenCalled();
   });
 
   it('should close snackbar', ()=> {
+    service.openSnackBar("default", "message");
+    const closeSpy = spyOn(service.snackBarRef, "dismiss");
+    service.close();
 
+    expect(closeSpy).toHaveBeenCalled();
   });
 
   it('should open a message snackbar', () => {
-
+    const openSpy = spyOn(snackbar, "openFromComponent");
+    service.message("message");
+    expect(openSpy).toHaveBeenCalled();
   });
 
   it('should open an error snackbar', () => {
-
+    const openSpy = spyOn(snackbar, "openFromComponent");
+    service.error("error");
+    expect(openSpy).toHaveBeenCalled();
   });
 
   it('should open an alert snackbar', () => {
-
+    const openSpy = spyOn(snackbar, "openFromComponent");
+    service.alert("alert");
+    expect(openSpy).toHaveBeenCalled();
   });
 
   it("should close on destroy", () => {
+    const closeSpy = spyOn(service, "close");
+    service.ngOnDestroy();
 
+    expect(closeSpy).toHaveBeenCalled();
   });
 
 });

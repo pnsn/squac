@@ -6,7 +6,7 @@ import { SnackbarComponent } from '@shared/components/snackbar/snackbar.componen
   providedIn: 'root'
 })
 export class MessageService {
-  private snackBarRef: MatSnackBarRef<SnackbarComponent>;
+  snackBarRef: MatSnackBarRef<SnackbarComponent>;
   private durationInSeconds = 4;
   constructor(
     private snackBar: MatSnackBar
