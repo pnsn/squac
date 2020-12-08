@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '@core/services/squacapi.service';
 
 // Service to get user info & reset things
@@ -13,7 +12,6 @@ export class InviteService {
   // registration both post
 
   constructor(
-    private http: HttpClient,
     private squacApi: SquacApiService
   ) { }
 
