@@ -27,12 +27,12 @@ describe('ConfigurationService', () => {
   it('should load the config file', () => {
 
     service.load().subscribe((res) => {
-      expect(res[0]).toEqual(testConfig);
+      expect(res).toBeUndefined();
     });
 
     const req = httpMock.expectOne('/assets/config.json');
     expect(req.request.method).toEqual("GET");
-    req.flush([testConfig]);
+    req.flush(testConfig);
 
     httpMock.verify();
   });
