@@ -28,12 +28,13 @@ export class UserService {
     private squacApi: SquacApiService,
     private ability: AppAbility
   ) { }
-  fetchUser() {
-    this.getUser().subscribe();
-  }
-  get userOrg() {
+  
+  //returns orgId for current user
+  get userOrg() : number {
     return this.currentUser.orgId;
   }
+
+  // gets current logged in user
   getUser(): Observable<User> {
     if (this.currentUser) {
       return of(this.currentUser);
@@ -65,14 +66,20 @@ export class UserService {
     );
   }
 
-  logout() {
+  // get user and subcsribe
+  fetchUser() : void{
+    this.getUser().subscribe();
+  }
+
+  // logs current user out
+  logout() : void{
     this.currentUser = null;
     this.user.next(this.currentUser);
     this.ability.update([]);
   }
 
   // User needs to enter password to make changes
-  updateUser(user) {
+  updateUser(user) : Observable<any>{
     const putData: UserHttpData = {
       firstname: user.firstName,
       lastname: user.lastName
