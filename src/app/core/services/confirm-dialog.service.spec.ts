@@ -57,4 +57,21 @@ describe('ConfirmDialogService', () => {
     expect(closeSpy).toHaveBeenCalled();
   });
 
+  it('should confirm after close', () => {
+    service.open({
+      title: "",
+      message: "",
+      cancelText: "",
+      confirmText: ""
+    });
+
+    service.confirmed().subscribe(
+      confirm => {
+        expect(confirm).toBe(true);
+      }
+    );
+
+    service.dialogRef.close(true);
+  });
+
 });
