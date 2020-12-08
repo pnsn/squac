@@ -23,7 +23,9 @@ export class ConfirmDialogService implements OnDestroy {
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   public close(){
-    this.dialogRef.close(false);
+    if(this.dialogRef) {
+      this.dialogRef.close(false);
+    }
   }
 
   public open(options: ConfirmDialogOptions) {
