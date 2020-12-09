@@ -15,6 +15,7 @@ import { ConfigurationService } from '@core/services/configuration.service';
 describe('AppComponent', () => {
   let fixture;
   let appComponent: AppComponent;
+  let authService;
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
@@ -38,6 +39,7 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     appComponent = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
   }));
 
   it('should create the app', () => {
@@ -47,5 +49,13 @@ describe('AppComponent', () => {
   it('should have as title "SQUAC"', () => {
     expect(appComponent.title).toEqual('SQUAC');
   });
+
+  it('should call autologin', () => { 
+    const loginSpy = spyOn(authService, "autologin");
+    appComponent.ngOnInit();
+
+    expect(loginSpy).toHaveBeenCalled();
+  });
+
 
 });
