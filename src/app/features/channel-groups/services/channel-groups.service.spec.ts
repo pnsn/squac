@@ -5,6 +5,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { ChannelGroupsService } from './channel-groups.service';
 import { ChannelGroup } from '@core/models/channel-group';
+import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 
 describe('ChannelGroupsService', () => {
   let channelGroupsService: ChannelGroupsService;
@@ -56,6 +57,7 @@ describe('ChannelGroupsService', () => {
   it('should put channel group with id', (done: DoneFn) => {
     channelGroupsService.updateChannelGroup(testChannelGroup).subscribe(
       response => {
+        expect(response).toBeDefined();
         done();
       }
     );
@@ -75,6 +77,7 @@ describe('ChannelGroupsService', () => {
 
     channelGroupsService.updateChannelGroup(newChannelGroup).subscribe(
       response => {
+        expect(response).toBeDefined();
         done();
       }
     );

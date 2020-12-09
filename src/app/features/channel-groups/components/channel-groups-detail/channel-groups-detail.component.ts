@@ -36,8 +36,6 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   }
 
   editChannelGroup() {
-
-    console.log(this.channelGroup.id);
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 

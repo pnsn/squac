@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
-  private snackBarRef: MatSnackBarRef<SnackbarComponent>;
+export class MessageService  implements OnDestroy{
+  snackBarRef: MatSnackBarRef<SnackbarComponent>;
   private durationInSeconds = 4;
   constructor(
     private snackBar: MatSnackBar
   ) { }
 
-
+  // opens a snackbar and passes data to component
   openSnackBar(type, message, action?) {
 
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
@@ -35,9 +35,14 @@ export class MessageService {
     // });
   }
 
+  // Closes any open snackbar
   close(){
-    this.snackBarRef.dismiss();
+    if (this.snackBarRef) {
+      this.snackBarRef.dismiss();
+    }
   }
+
+  // Component friendly, opens a snackbar
   // type: 'error', 'alert', 'warn'
   message(message: string) {
     this.openSnackBar(
@@ -56,8 +61,11 @@ export class MessageService {
       'alert', message, null
     );
   }
+
+  // Close all snackbars on destroy
+  ngOnDestroy(): void {
+    this.close();
+  }
 }
 
-
 // Shows a popup at the bottom of the page that can have an action
-// .message() has no dismiss action

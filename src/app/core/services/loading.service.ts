@@ -7,25 +7,22 @@ export class LoadingService {
   loading: Subject<boolean> = new BehaviorSubject(false);
   loadingStatus: Subject<string> = new BehaviorSubject(null);
 
-  activeRequests = 0;
   constructor(
   ) { }
 
-
-  setStatus(text: string) {
+  // changes the text shown on the loading screen
+  setStatus(text: string): void {
     this.loadingStatus.next(text);
   }
 
-  getInitialData() {
-    this.loadingStatus.next('Logging in and loading data...');
-  }
-
-  startLoading() {
+  // Emits true to loading subscribers
+  startLoading(): void {
     this.loading.next(true);
-
   }
 
-  stopLoading() {
+  // Emits false to loading subscribers
+  // Removes message
+  stopLoading(): void {
     this.loading.next(false);
     this.loadingStatus.next(null);
   }

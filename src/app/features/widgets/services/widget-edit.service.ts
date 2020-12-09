@@ -190,18 +190,18 @@ export class WidgetEditService {
           );
           let count = 0;
           if (thresholdObs && thresholdObs.length > 0) {
-              return merge(...thresholdObs).pipe(
-                tap(result => {
-                  count++;
-                  if (newWidget && count === thresholdObs.length) {
-                    this.viewService.updateWidget(newWidget.id, newWidget);
-                  }
-                })
-              );
-            } else {
-              this.viewService.updateWidget(newWidget.id, newWidget);
-              return of(newWidget);
-            }
+            return merge(...thresholdObs).pipe(
+              tap(result => {
+                count++;
+                if (newWidget && count === thresholdObs.length) {
+                  this.viewService.updateWidget(newWidget.id, newWidget);
+                }
+              })
+            );
+          } else {
+            this.viewService.updateWidget(newWidget.id, newWidget);
+            return of(newWidget);
+          }
         }
       )
     );

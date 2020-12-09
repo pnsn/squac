@@ -111,7 +111,10 @@ export class MockViewService{
   }
 
   private widgetsChanged() {
-    this.currentWidgets.next(this.dashboard.widgets.slice());
+    if (this.dashboard) {
+      this.currentWidgets.next(this.dashboard.widgets.slice());
+
+    }
     this.status.next('finished');
   }
 

@@ -7,6 +7,8 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { MeasurementsService } from './measurements.service';
 import { ViewService } from '@core/services/view.service';
 import { MockViewService } from '@core/services/view.service.mock';
+import { Widget } from '../models/widget';
+import { ChannelGroup } from '@core/models/channel-group';
 
 describe('MeasurementsService', () => {
   const testData = {
@@ -19,10 +21,16 @@ describe('MeasurementsService', () => {
   };
   const testMetric = new Metric(1, 1, '', '', '', '', '');
   const testChannel = new Channel(1, '', '', 1, 1, 1, 1, '', '', '');
+  const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
+    testMetric
+  ]);
+  testWidget.channelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, [ 1, 2]);
+  testWidget.channelGroup.channels = [testChannel];
 
   let squacApiService;
   let measurementsService: MeasurementsService;
   const mockSquacApiService = new MockSquacApiService( testData );
+  let viewService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,11 +38,12 @@ describe('MeasurementsService', () => {
       providers: [
         MeasurementsService,
         { provide: SquacApiService, useValue: mockSquacApiService },
-        { provide: ViewService, useClass: MockViewService}
+        { provide: ViewService, useValue: new MockViewService()}
      ]
     });
 
     measurementsService = TestBed.inject(MeasurementsService);
+    viewService = TestBed.inject(ViewService);
     squacApiService = TestBed.inject(SquacApiService);
   });
 
@@ -43,39 +52,26 @@ describe('MeasurementsService', () => {
   });
 
   it('should set widget', () => {
+    const widgetSpy = spyOn(measurementsService, 'setWidget');
 
-  });
+    measurementsService.setWidget(testWidget);
 
-  it('should get measurements for widget', () => {
-
+    expect(widgetSpy).toHaveBeenCalled();
   });
 
   it('should not try to fetch measurements if no widget', () => {
-
+    const viewSpy = spyOn(viewService, 'widgetStartedLoading');
+    measurementsService.fetchMeasurements('start', 'end');
+    expect(viewSpy).not.toHaveBeenCalled();
   });
 
-  // it('should get measurements', (done: DoneFn) => {
-  //   const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
-  //     testMetric
-  //   ]);
+  it('should try to get measurements if there is a widget and dates', () => {
 
-  //   testWidget.channelGroup = new ChannelGroup(
-  //     1, 1, '', '', true, [
-  //       testChannel
-  //     ]
-  //   );
+    measurementsService.setWidget(testWidget);
 
-  //   measurementsService.data.subscribe(
-  //     response => {
-  //       expect(response[1][1].id).toEqual(1);
-  //       done();
-  //     }
-  //   );
-
-  //   measurementsService.fetchMeasurements(
-  //     new Date(),
-  //     new Date()
-  //   );
-  // });
+    const viewSpy = spyOn(viewService, 'widgetStartedLoading');
+    measurementsService.fetchMeasurements('start', 'end');
+    expect(viewSpy).toHaveBeenCalled();
+  });
 
 });

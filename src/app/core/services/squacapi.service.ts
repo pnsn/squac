@@ -35,21 +35,21 @@ export class SquacApiService {
 
   // for updating
   put(path: string, id: number, data: any ): Observable<any> {
-    const url = this.baseUrl + path + (id ? id + '/' : '');
+    const url = this.baseUrl + path + id + '/';
     console.log('put: ', url);
     return this.http.put<any>(url, data);
   }
 
   // for updating
   patch(path: string, id: number, data: any ): Observable<any> {
-    const url = this.baseUrl + path + (id ? id + '/' : '');
+    const url = this.baseUrl + path + id + '/';
     console.log('patch: ', url);
     return this.http.patch<any>(url, data);
   }
 
   // for deleting
   delete(path: string, id: number) {
-    const url = this.baseUrl + path + (id ? id + '/' : '');
+    const url = this.baseUrl + path + id + '/';
     console.log('delete: ', url);
     return this.http.delete<any>(url);
   }

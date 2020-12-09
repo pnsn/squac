@@ -16,9 +16,7 @@ export class OrganizationsService {
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
-    private http: HttpClient,
-    private squacApi: SquacApiService,
-    private userService: UserService
+    private squacApi: SquacApiService
   ) { }
 
   // Temp until Jon fixes
@@ -163,6 +161,7 @@ export class OrganizationsService {
 
   private mapOrgUsers(user): User {
     const groups = [];
+    console.log(user.groups);
     for (const groupID of user.groups) {
       const group = this.groupIds.find(groupId => groupId.id === groupID);
       if (group) {

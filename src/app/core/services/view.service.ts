@@ -9,7 +9,6 @@ import { WidgetsService } from '@features/widgets/services/widgets.service';
 import * as moment from 'moment';
 import { Ability } from '@casl/ability';
 import { ConfigurationService } from './configuration.service';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -30,6 +29,7 @@ export class ViewService {
   queuedWidgets = 0;
   locale;
   defaultTimeRange;
+
   constructor(
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
@@ -37,44 +37,92 @@ export class ViewService {
     configService: ConfigurationService,
     private messageService: MessageService
   ) {
-    this.locale = configService.getValue('locale');
-    this.dateRanges = configService.getValue('dateRanges');
+    this.locale = configService.getValue('locale',
+      {
+        format: 'YYYY-MM-DDTHH:mm:ss[Z]',
+        displayFormat: 'YYYY/MM/DD HH:mm',
+        direction: 'ltr'
+      }
+    );
+    this.dateRanges = configService.getValue('dateRanges', {3600 : 'last 1 hour'});
     this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
   }
 
+  // returns if current user can update the current dashboard
   get canUpdate(): boolean {
     return this.ability.can('update', this.dashboard);
   }
 
+  // returns if dashboard is live
   get isLive(): boolean {
     return this.live;
   }
 
+  // returns the dashboard time range
+  get range(): number {
+    return this.dashboard.timeRange;
+  }
 
+  // returns the dashboard starttime
+  get startdate(): string {
+    return this.dashboard.starttime;
+  }
+
+  // returns the dashboard end date
+  get enddate(): string {
+    return this.dashboard.endtime;
+  }
+
+  // sets the given dashboard and sets up dates
+  setDashboard(dashboard: Dashboard): void {
+    this.currentWidgets.next([]);
+    // clear old widgets
+    this.queuedWidgets = 0;
+    this.dashboard = dashboard;
+
+    if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
+      this.status.next('finished');
+    }
+
+    this.setIntialDates();
+    // return dates
+  }
+
+  // takes given date config and saves it, emits changed dates
+  datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
+    if (startDate && endDate) {
+      const start = startDate.format(this.locale.format);
+      const end = endDate.format(this.locale.format);
+      this.live = live;
+
+      if (range) {
+        this.dashboard.timeRange = range;
+      }
+
+      this.dashboard.starttime = start;
+      this.dashboard.endtime = end;
+
+      this.dates.next(this.dashboard.id);
+    }
+    // this.status.next('loading');
+  }
+
+  // returns the wdiget index
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex(w => w.id === id);
   }
 
-  getRange(): number {
-    return this.dashboard.timeRange;
-  }
-
-  getStartdate(): string {
-    return this.dashboard.starttime;
-  }
-
-  getEnddate(): string {
-    return this.dashboard.endtime;
-  }
-
+  // send id to resize subscribers
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
   }
 
+  // sends resize with no id
   resizeAll() {
     this.resize.next(null);
   }
 
+  // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
       this.dashboard.widgets = widgets;
@@ -83,6 +131,7 @@ export class ViewService {
     // init dates
   }
 
+  // Sets up dates for dashboard
   private setIntialDates(){
     const current = moment.utc();
     let startDate;
@@ -104,17 +153,20 @@ export class ViewService {
       // default dates
       liveMode = true;
       startDate = moment.utc().subtract(this.defaultTimeRange, 'seconds');
-      range = this.dashboard.timeRange;
+      range = this.defaultTimeRange;
       endDate = current;
     }
 
     this.datesChanged(startDate, endDate, liveMode, range);
   }
 
+  // returns widget with id, or false if there's none
   getWidget(id): Widget | boolean {
     const index = this.getWidgetIndexById(id);
     return index > -1 ? this.dashboard.widgets[index] : false;
   }
+
+  // decrements count of widgets still loading
   widgetFinishedLoading(): void {
     this.queuedWidgets--;
     if (this.queuedWidgets <= 0) {
@@ -122,6 +174,7 @@ export class ViewService {
     }
   }
 
+  // increments cound of widgets still loading
   widgetStartedLoading(): void {
     this.queuedWidgets++;
     if (this.queuedWidgets > 0) {
@@ -129,45 +182,16 @@ export class ViewService {
     }
   }
 
-  datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
-    const start = startDate.format(this.locale.format);
-    const end = endDate.format(this.locale.format);
-    this.live = live;
-
-    this.dashboard.timeRange = range;
-    this.dashboard.starttime = start;
-    this.dashboard.endtime = end;
-
-    this.dates.next(this.dashboard.id);
-
-    // this.status.next('loading');
-  }
-
-  setDashboard(dashboard: Dashboard): void {
-    this.currentWidgets.next([]);
-    // clear old widgets
-    this.queuedWidgets = 0;
-    this.dashboard = dashboard;
-    // this.currentWidgets.next([]);
-    // if no widgets
-    if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
-      this.status.next('finished');
-    }
-
-    this.setIntialDates();
-    // return dates
-  }
-
   // FIXME: this currently will cause all widgets to reload;
+  // Tells widgets to get new data
   private widgetChanged(widgetId: number): void {
-    console.log('widget changed');
     this.status.next('finished');
     this.error.next(null);
     this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
+  // updates the widget
   updateWidget(widgetId: number, widget?: Widget): void {
-    console.log('update widget');
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1  && !widget) {
       this.dashboard.widgets.splice(index, 1);
@@ -193,6 +217,7 @@ export class ViewService {
 
   }
 
+  // delets given widget
   deleteWidget(widgetId): void {
     this.widgetService.deleteWidget(widgetId).subscribe(
       next => {
@@ -214,6 +239,7 @@ export class ViewService {
     // this.getWidgets(this.dashboard.id);
   }
 
+  // deletes the dashboard
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {
@@ -226,6 +252,7 @@ export class ViewService {
     );
   }
 
+  // saves the dashboard to squac
   saveDashboard(): void {
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       response => {
