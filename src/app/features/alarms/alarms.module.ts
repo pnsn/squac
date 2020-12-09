@@ -6,11 +6,12 @@ import { AlarmEditComponent } from './components/alarm-edit/alarm-edit.component
 import { AlarmViewComponent } from './components/alarm-view/alarm-view.component';
 import { AlarmsRoutingModule } from './alarms-routing.module';
 import { SharedModule } from '@shared/shared.module';
+import { AlarmChartComponent } from './components/alarm-chart/alarm-chart.component';
 
 
 
 @NgModule({
-  declarations: [AlarmsComponent, AlarmDetailComponent, AlarmEditComponent, AlarmViewComponent],
+  declarations: [AlarmsComponent, AlarmDetailComponent, AlarmEditComponent, AlarmViewComponent, AlarmChartComponent],
   imports: [
     CommonModule,
     AlarmsRoutingModule,
