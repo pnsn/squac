@@ -78,8 +78,7 @@ describe('LoadingInterceptor', () => {
   it('should stop displaying loading screen when requests finished', () => {
     const stopSpy = spyOn(loadingService, 'stopLoading');
 
-    httpClient.get('https://test.test.test/')
-      .subscribe(response => {
+    httpClient.get('https://test.test.test/dashboards').subscribe(response => {
         expect(response).toBeTruthy();
         expect(stopSpy).toHaveBeenCalled();
       }
