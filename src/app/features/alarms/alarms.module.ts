@@ -5,6 +5,7 @@ import { AlarmDetailComponent } from './components/alarm-detail/alarm-detail.com
 import { AlarmEditComponent } from './components/alarm-edit/alarm-edit.component';
 import { AlarmViewComponent } from './components/alarm-view/alarm-view.component';
 import { AlarmsRoutingModule } from './alarms-routing.module';
+import { SharedModule } from '@shared/shared.module';
 
 
 
@@ -12,7 +13,8 @@ import { AlarmsRoutingModule } from './alarms-routing.module';
   declarations: [AlarmsComponent, AlarmDetailComponent, AlarmEditComponent, AlarmViewComponent],
   imports: [
     CommonModule,
-    AlarmsRoutingModule
+    AlarmsRoutingModule,
+    SharedModule
   ]
 })
 export class AlarmsModule { }
