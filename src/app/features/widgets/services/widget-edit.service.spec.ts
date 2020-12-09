@@ -19,6 +19,8 @@ describe('WidgetEditService', () => {
   let squacApiService;
   let service: WidgetEditService;
   let widgetsService: WidgetsService;
+  let viewService : ViewService;
+  let thresholdsService: ThresholdsService;
   const testMetric = new Metric(
     1,
     1,
@@ -41,6 +43,15 @@ describe('WidgetEditService', () => {
     1,
     1,
     [testMetric]);
+  
+  const testThreshold = {
+      id : 1,
+      metric: {id: 1},
+      min: 0,
+      max: 2,
+      defaultMin: null,
+      defaultMax: null
+    } ;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +66,8 @@ describe('WidgetEditService', () => {
 
     widgetsService = TestBed.inject(WidgetsService);
     service = TestBed.inject(WidgetEditService);
-    squacApiService = TestBed.inject(SquacApiService);
+    viewService  = TestBed.inject(ViewService);
+    thresholdsService = TestBed.inject(ThresholdsService);
   });
 
   it('should be created', () => {
@@ -88,14 +100,7 @@ describe('WidgetEditService', () => {
 
   it('should update thresholds', () => {
     service.setWidget(testWidget, 1);
-    const testThreshold = {
-      id : 1,
-      metric: {id: 1},
-      min: 0,
-      max: 2,
-      defaultMin: null,
-      defaultMax: null
-    } ;
+
 
     expect(service.getThresholds()).toBeDefined();
 
@@ -151,5 +156,26 @@ describe('WidgetEditService', () => {
     service.clearWidget();
 
     expect(service.getWidget()).toBeNull();
+  });
+
+  it('should save the widget to squac', () => {
+    const widgetSpy = spyOn(widgetsService, 'updateWidget').and.callThrough();
+
+    service.setWidget(testWidget, 1);
+
+    service.saveWidget().subscribe();
+    expect(widgetSpy).toHaveBeenCalled();
+  });
+
+
+  it('should save the widget and thresholds to squac', () => {
+    const thresholdSpy = spyOn(thresholdsService, 'updateThresholds').and.callThrough();
+
+    service.setWidget(testWidget, 1);
+    
+    service.updateThresholds([testThreshold]);
+
+    service.saveWidget().subscribe();
+    expect(thresholdSpy).toHaveBeenCalled();
   });
 });

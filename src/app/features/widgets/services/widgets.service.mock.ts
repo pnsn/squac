@@ -43,7 +43,7 @@ export class MockWidgetsService {
   }
 
   updateWidget(widget: Widget): Observable<any> {
-    return of(this.testWidget);
+    return of(widget);
   }
 
 
