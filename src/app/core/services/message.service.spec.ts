@@ -18,7 +18,7 @@ describe('MessageService', () => {
             openFromComponent: (component, config) => {
               return {
                 dismiss: () => {}
-              }
+              };
             }
           }
         }
@@ -33,20 +33,20 @@ describe('MessageService', () => {
   });
 
   it('should open snackbar', () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.openSnackBar('default', "message");
+    const openSpy = spyOn(snackbar, 'openFromComponent');
+    service.openSnackBar('default', 'message');
     expect(openSpy).toHaveBeenCalled();
   });
 
-  it('should close snackbar', ()=> {
-    service.openSnackBar("default", "message");
-    const closeSpy = spyOn(service.snackBarRef, "dismiss");
+  it('should close snackbar', () => {
+    service.openSnackBar('default', 'message');
+    const closeSpy = spyOn(service.snackBarRef, 'dismiss');
     service.close();
 
     expect(closeSpy).toHaveBeenCalled();
   });
 
-  it('should do nothing if there is no snackbar', ()=> {
+  it('should do nothing if there is no snackbar', () => {
     expect(service.snackBarRef).toBeUndefined();
     service.close();
 
@@ -54,25 +54,25 @@ describe('MessageService', () => {
   });
 
   it('should open a message snackbar', () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.message("message");
+    const openSpy = spyOn(snackbar, 'openFromComponent');
+    service.message('message');
     expect(openSpy).toHaveBeenCalled();
   });
 
   it('should open an error snackbar', () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.error("error");
+    const openSpy = spyOn(snackbar, 'openFromComponent');
+    service.error('error');
     expect(openSpy).toHaveBeenCalled();
   });
 
   it('should open an alert snackbar', () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.alert("alert");
+    const openSpy = spyOn(snackbar, 'openFromComponent');
+    service.alert('alert');
     expect(openSpy).toHaveBeenCalled();
   });
 
-  it("should close on destroy", () => {
-    const closeSpy = spyOn(service, "close");
+  it('should close on destroy', () => {
+    const closeSpy = spyOn(service, 'close');
     service.ngOnDestroy();
 
     expect(closeSpy).toHaveBeenCalled();

@@ -13,24 +13,24 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Widget } from '@features/widgets/models/widget';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { take } from 'rxjs/operators';
-import  * as moment from 'moment';
+import * as moment from 'moment';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
 describe('ViewService', () => {
-  let service : ViewService;
+  let service: ViewService;
   let widgetsService;
   let dashboardsService;
   const abilityMock = {
     can: (permission, resource) => {
       return resource && resource.owner && resource.owner === 1;
     }
-  }
-  let testWidget = new Widget(
-    1, 1, "name", "description", 1, 1, 2, 1, 1, 1, 1, []
+  };
+  const testWidget = new Widget(
+    1, 1, 'name', 'description', 1, 1, 2, 1, 1, 1, 1, []
   );
 
-  let testDashboard = new Dashboard(
-    1, 1, "name", "description", false, false, 1, [1]
+  const testDashboard = new Dashboard(
+    1, 1, 'name', 'description', false, false, 1, [1]
   );
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
@@ -41,7 +41,7 @@ describe('ViewService', () => {
       {
         provide: DashboardsService, useClass: MockDashboardsService,
       },
-      { 
+      {
         provide: WidgetsService, useClass: MockWidgetsService},
       { provide: Ability, useValue: abilityMock},
       { provide: MessageService, useValue: {
@@ -61,43 +61,43 @@ describe('ViewService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set dashboard', ()=> {
+  it('should set dashboard', () => {
     const dateSpy = spyOn(service, 'datesChanged');
     service.setDashboard(testDashboard);
     expect(dateSpy).toHaveBeenCalled();
   });
 
-  it('should return update ability', ()=> {
+  it('should return update ability', () => {
     expect(service.canUpdate).toBeUndefined();
     service.setDashboard(testDashboard);
     expect(service.canUpdate).toBe(true);
   });
 
-  it('should return live', ()=> {
+  it('should return live', () => {
     expect(service.isLive).toBeUndefined();
     service.setDashboard(testDashboard);
     expect(service.isLive).toBe(true);
   });
 
-  it('should return range', ()=> {
+  it('should return range', () => {
     service.setDashboard(testDashboard);
     expect(service.range).toEqual(3);
   });
 
-  it('should return start date', ()=> {
+  it('should return start date', () => {
     service.setDashboard(testDashboard);
     expect(service.startdate).toBeDefined();
   });
 
-  it('should return enddate', ()=> {
+  it('should return enddate', () => {
     service.setDashboard(testDashboard);
     expect(service.enddate).toBeDefined();
   });
 
-  it('should send out widget id to resize', ()=> {
+  it('should send out widget id to resize', () => {
     service.resize.pipe(take(1)).subscribe(
       id => {
-        expect(id).toEqual(1);        
+        expect(id).toEqual(1);
       }
     );
 
@@ -107,21 +107,21 @@ describe('ViewService', () => {
   it('should emit resize to all widgets', () => {
     service.resize.pipe(take(1)).subscribe(
       id => {
-        expect(id).toBeNull();        
+        expect(id).toBeNull();
       }
     );
 
     service.resizeAll();
   });
 
-  it('should set the dashboard widgets', ()=> {
+  it('should set the dashboard widgets', () => {
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
 
     expect(service.getWidget(1)).toEqual(testWidget);
   });
 
-  it('should return wdiget with id', ()=> {
+  it('should return wdiget with id', () => {
     service.setDashboard(testDashboard);
     service.setWidgets([]);
     expect(service.getWidget(1)).toEqual(false);
@@ -130,7 +130,7 @@ describe('ViewService', () => {
     expect(service.getWidget(1)).toEqual(testWidget);
   });
 
-  it('should stop loading', ()=> {
+  it('should stop loading', () => {
     service.queuedWidgets = 1;
     service.widgetFinishedLoading();
     service.status.pipe(take(1)).subscribe(
@@ -142,7 +142,7 @@ describe('ViewService', () => {
 
   });
 
-  it('should start loading', ()=> {
+  it('should start loading', () => {
     service.queuedWidgets = 0;
     service.widgetStartedLoading();
     service.status.pipe(take(1)).subscribe(
@@ -153,16 +153,16 @@ describe('ViewService', () => {
 
   });
 
-  it('should send out new dates', ()=> {
+  it('should send out new dates', () => {
     service.setDashboard(testDashboard);
     const datesSpy = spyOn(service.dates, 'next');
 
     service.datesChanged(moment.utc(), moment.utc(), true);
 
-    expect(datesSpy).toHaveBeenCalled();    
+    expect(datesSpy).toHaveBeenCalled();
   });
 
-  it('should update given widget', ()=> {
+  it('should update given widget', () => {
     const widgetSpy = spyOn(widgetsService, 'getWidget').and.returnValue(of(testWidget));
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
@@ -171,7 +171,7 @@ describe('ViewService', () => {
     expect(widgetSpy).toHaveBeenCalled();
   });
 
-  it('should add new widget', ()=> {
+  it('should add new widget', () => {
     const widgetSpy = spyOn(widgetsService, 'getWidget').and.returnValue(of(testWidget));
     service.setDashboard(testDashboard);
     service.setWidgets([]);
@@ -180,7 +180,7 @@ describe('ViewService', () => {
     expect(widgetSpy).toHaveBeenCalled();
   });
 
-  it('should remove the given widget if it exists', ()=> {
+  it('should remove the given widget if it exists', () => {
 
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
@@ -188,49 +188,49 @@ describe('ViewService', () => {
 
     service.currentWidgets.subscribe( widgets => {
       expect(widgets).toEqual([]);
-    })
+    });
   });
 
-  it('should delete given widget', ()=> {
+  it('should delete given widget', () => {
     const widgetSpy = spyOn(widgetsService, 'deleteWidget').and.returnValue(of(true));
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
 
     service.deleteWidget(testWidget.id);
-  
+
     expect(widgetSpy).toHaveBeenCalled();
   });
 
 
-  it('should refresh widgets', ()=> {
+  it('should refresh widgets', () => {
     service.refresh.subscribe(
       value => {
-        expect(value).toEqual("refresh");
+        expect(value).toEqual('refresh');
       }
-    )
+    );
 
     service.refreshWidgets();
   });
 
 
-  it('should delete dashboard', ()=> {
+  it('should delete dashboard', () => {
     const dashSpy = spyOn(dashboardsService, 'deleteDashboard').and.returnValue(of(true));
 
     service.deleteDashboard(testDashboard.id);
-  
+
     expect(dashSpy).toHaveBeenCalled();
   });
 
 
-  it('should save dashboard', ()=> {
+  it('should save dashboard', () => {
 
     service.setDashboard(testDashboard);
     const dashSpy = spyOn(dashboardsService, 'updateDashboard').and.returnValue(of(testDashboard));
 
     service.saveDashboard();
-  
+
     expect(dashSpy).toHaveBeenCalled();
   });
 
-  
+
 });

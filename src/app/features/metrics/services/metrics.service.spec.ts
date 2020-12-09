@@ -5,7 +5,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { MetricsService } from './metrics.service';
 import { Metric } from '@core/models/metric';
-import { fakeAsyncResponse } from '@core/utils/utils'
+import { fakeAsyncResponse } from '@core/utils/utils';
 
 describe('MetricsService', () => {
   let metricsService: MetricsService;

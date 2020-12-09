@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessageService  implements OnDestroy{
   snackBarRef: MatSnackBarRef<SnackbarComponent>;
   private durationInSeconds = 4;
   constructor(
@@ -37,12 +37,12 @@ export class MessageService {
 
   // Closes any open snackbar
   close(){
-    if(this.snackBarRef) {
+    if (this.snackBarRef) {
       this.snackBarRef.dismiss();
     }
   }
 
-  // Component friendly, opens a snackbar 
+  // Component friendly, opens a snackbar
   // type: 'error', 'alert', 'warn'
   message(message: string) {
     this.openSnackBar(

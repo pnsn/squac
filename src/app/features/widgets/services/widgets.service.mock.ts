@@ -38,7 +38,7 @@ export class MockWidgetsService {
     }
   }
 
-  deleteWidget(widgetId : number): Observable<any> {
+  deleteWidget(widgetId: number): Observable<any> {
     return of(true);
   }
 

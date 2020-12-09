@@ -15,7 +15,7 @@ describe('ThresholdsService', () => {
   };
 
   const testMetrics = [
-    new Metric(1, 1, "name", "code", "desc", "ref", "unit")
+    new Metric(1, 1, 'name', 'code', 'desc', 'ref', 'unit')
   ];
   const testThresholds = {
     1 : {
@@ -23,7 +23,7 @@ describe('ThresholdsService', () => {
       max: 2,
       id: 1
     }
-  }
+  };
 
   let squacApiService;
   let thresholdsService: ThresholdsService;
@@ -47,27 +47,27 @@ describe('ThresholdsService', () => {
   });
 
   it('should delete threshold', () => {
-   const deleteSpy = spyOn(squacApiService, "delete").and.callThrough();
+   const deleteSpy = spyOn(squacApiService, 'delete').and.callThrough();
 
-    const reqs = thresholdsService.updateThresholds(testMetrics, {1 : {id: 1, min: null, max:null}}, 1);
+   const reqs = thresholdsService.updateThresholds(testMetrics, {1 : {id: 1, min: null, max: null}}, 1);
 
-    reqs[0].subscribe();
+   reqs[0].subscribe();
 
-    expect (deleteSpy).toHaveBeenCalled();
+   expect (deleteSpy).toHaveBeenCalled();
   });
 
   it('should return no requests if no metric', () => {
-     const reqs = thresholdsService.updateThresholds([], {1 : {id: 1, min: null, max:null}}, 1);
+     const reqs = thresholdsService.updateThresholds([], {1 : {id: 1, min: null, max: null}}, 1);
      expect (reqs.length).toEqual(0);
    });
 
-   it('should ignore metrics with no thresholds', () => {
-    const reqs = thresholdsService.updateThresholds(testMetrics, {2 : {id: 1, min: null, max:null}}, 1);
+  it('should ignore metrics with no thresholds', () => {
+    const reqs = thresholdsService.updateThresholds(testMetrics, {2 : {id: 1, min: null, max: null}}, 1);
     expect (reqs.length).toEqual(0);
   });
 
   it('should save new threshold', () => {
-    const postSpy = spyOn(squacApiService, "post").and.callThrough();
+    const postSpy = spyOn(squacApiService, 'post').and.callThrough();
 
     const reqs = thresholdsService.updateThresholds(testMetrics, {1 : {min: 1}}, 1);
     reqs[0].subscribe();
@@ -75,7 +75,7 @@ describe('ThresholdsService', () => {
   });
 
   it('should update existing threshold', () => {
-    const putSpy = spyOn(squacApiService, "put").and.callThrough();
+    const putSpy = spyOn(squacApiService, 'put').and.callThrough();
 
     const reqs = thresholdsService.updateThresholds(testMetrics, {1 : {id: 1, min: 1}}, 1);
     reqs[0].subscribe();

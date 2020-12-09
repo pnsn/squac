@@ -23,21 +23,21 @@ describe('PasswordResetService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should tell squac to reset password', ()=> {
+  it('should tell squac to reset password', () => {
     const postSpy = spyOn(squacApiService, 'post').and.callThrough();
-    service.resetPassword("email").subscribe();
+    service.resetPassword('email').subscribe();
     expect(postSpy).toHaveBeenCalled();
   });
 
-  it('should  send squac the token', ()=> {
+  it('should  send squac the token', () => {
     const postSpy = spyOn(squacApiService, 'post').and.callThrough();
-    service.validateToken("token").subscribe();
+    service.validateToken('token').subscribe();
     expect(postSpy).toHaveBeenCalled();
   });
 
-  it('should send squac the password ', ()=> {
+  it('should send squac the password ', () => {
     const postSpy = spyOn(squacApiService, 'post').and.callThrough();
-    service.confirmPassword("password").subscribe();
+    service.confirmPassword('password').subscribe();
     expect(postSpy).toHaveBeenCalled();
   });
 });

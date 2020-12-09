@@ -111,7 +111,7 @@ export class MockViewService{
   }
 
   private widgetsChanged() {
-    if(this.dashboard) {
+    if (this.dashboard) {
       this.currentWidgets.next(this.dashboard.widgets.slice());
 
     }

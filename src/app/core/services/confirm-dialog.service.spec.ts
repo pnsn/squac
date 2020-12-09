@@ -17,9 +17,9 @@ describe('ConfirmDialogService', () => {
         {
           provide: MatDialog,
           useValue: {
-            open:(ref, options) => {
-              return { 
-                close:(value)=> {},
+            open: (ref, options) => {
+              return {
+                close: (value) => {},
                 afterClosed: () => {
                   return of(true);
                 }
@@ -43,20 +43,20 @@ describe('ConfirmDialogService', () => {
   it('should open the dialog', () => {
     const openSpy = spyOn(dialog, 'open');
     service.open({
-      title: "",
-      message: "",
-      cancelText: "",
-      confirmText: ""
+      title: '',
+      message: '',
+      cancelText: '',
+      confirmText: ''
     });
     expect(openSpy).toHaveBeenCalled();
   });
-  
+
   it('should close the dialog', () => {
     service.open({
-      title: "",
-      message: "",
-      cancelText: "",
-      confirmText: ""
+      title: '',
+      message: '',
+      cancelText: '',
+      confirmText: ''
     });
 
     const closeSpy = spyOn(service.dialogRef, 'close');
@@ -66,10 +66,10 @@ describe('ConfirmDialogService', () => {
 
   it('should confirm after close', () => {
     service.open({
-      title: "",
-      message: "",
-      cancelText: "",
-      confirmText: ""
+      title: '',
+      message: '',
+      cancelText: '',
+      confirmText: ''
     });
 
     service.confirmed().subscribe(
@@ -83,16 +83,16 @@ describe('ConfirmDialogService', () => {
 
   it('should close dialogs after destroy', () => {
     service.open({
-      title: "", 
-      message: "",
-      cancelText: "",
-      confirmText: ""
+      title: '',
+      message: '',
+      cancelText: '',
+      confirmText: ''
     });
 
     const closeSpy = spyOn(dialog, 'closeAll');
     service.ngOnDestroy();
     expect(closeSpy).toHaveBeenCalled();
-  
+
   });
 
 });

@@ -8,7 +8,7 @@ import { mapTo, tap } from 'rxjs/operators';
 })
 export class ConfigurationService {
   private configuration = {};
-  private path : string = '/assets/config.json';
+  private path = '/assets/config.json';
   constructor(private httpClient: HttpClient) {
   }
 

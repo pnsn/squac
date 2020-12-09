@@ -57,8 +57,8 @@ describe('WidgetsService', () => {
   });
 
   it('should put widget with id', (done: DoneFn) => {
-    const putSpy = spyOn(squacApiService, "put").and.callThrough();
-    const testWidget = new Widget(1, 1, "", "", 1, 1, 1, 1, 1, 1, 1, []);
+    const putSpy = spyOn(squacApiService, 'put').and.callThrough();
+    const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, []);
     widgetsService.updateWidget(testWidget).subscribe(
       widget => {
         expect(putSpy).toHaveBeenCalled();
@@ -69,8 +69,8 @@ describe('WidgetsService', () => {
   });
 
   it('should post widget with id', (done: DoneFn) => {
-    const postSpy = spyOn(squacApiService, "post").and.callThrough();
-    const testWidget = new Widget(null, 1, "", "", 1, 1, 1, 1, 1, 1, 1, []);
+    const postSpy = spyOn(squacApiService, 'post').and.callThrough();
+    const testWidget = new Widget(null, 1, '', '', 1, 1, 1, 1, 1, 1, 1, []);
     widgetsService.updateWidget(testWidget).subscribe(
       widget => {
         expect(postSpy).toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe('WidgetsService', () => {
 
 
   it('should delete widget with id', (done: DoneFn) => {
-    const deleteSpy = spyOn(squacApiService, "delete").and.callThrough();
+    const deleteSpy = spyOn(squacApiService, 'delete').and.callThrough();
 
     widgetsService.deleteWidget(1).subscribe(
       widget => {

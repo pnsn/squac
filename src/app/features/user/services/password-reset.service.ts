@@ -15,7 +15,7 @@ export class PasswordResetService {
   }
 
   // send email to squac, it sends token to user
-  resetPassword(email: string) : Observable<any>{
+  resetPassword(email: string): Observable<any>{
     return this.squacApi.post(this.url, {
         email
       }
@@ -23,7 +23,7 @@ export class PasswordResetService {
   }
 
   // check token is valid
-  validateToken(token: string) : Observable<any>{
+  validateToken(token: string): Observable<any>{
     const path = 'validate_token/';
     this.token = token;
     return this.squacApi.post(this.url + path, {
@@ -32,7 +32,7 @@ export class PasswordResetService {
   }
 
   // send new password
-  confirmPassword(password: string) : Observable<any>{
+  confirmPassword(password: string): Observable<any>{
     const path = 'confirm/';
     return this.squacApi.post(this.url + path, {
       password,

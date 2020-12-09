@@ -28,9 +28,9 @@ export class UserService {
     private squacApi: SquacApiService,
     private ability: AppAbility
   ) { }
-  
-  //returns orgId for current user
-  get userOrg() : number {
+
+  // returns orgId for current user
+  get userOrg(): number {
     return this.currentUser.orgId;
   }
 
@@ -67,19 +67,19 @@ export class UserService {
   }
 
   // get user and subcsribe
-  fetchUser() : void{
+  fetchUser(): void{
     this.getUser().subscribe();
   }
 
   // logs current user out
-  logout() : void{
+  logout(): void{
     this.currentUser = null;
     this.user.next(this.currentUser);
     this.ability.update([]);
   }
 
   // User needs to enter password to make changes
-  updateUser(user) : Observable<any>{
+  updateUser(user): Observable<any>{
     const putData: UserHttpData = {
       firstname: user.firstName,
       lastname: user.lastName

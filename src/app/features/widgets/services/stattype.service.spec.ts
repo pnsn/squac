@@ -10,9 +10,9 @@ describe('StatTypeService', () => {
   let squacApiService;
   const testData = {
     id: 1,
-    type: "string",
-    name: "string",
-    description: "string"
+    type: 'string',
+    name: 'string',
+    description: 'string'
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,15 +31,15 @@ describe('StatTypeService', () => {
   });
 
   it('should get stattypes', () => {
-    const statSpy = spyOn(squacApiService, "get").and.callThrough();
+    const statSpy = spyOn(squacApiService, 'get').and.callThrough();
     statTypeService.getStatTypes().subscribe();
-    expect(statSpy).toHaveBeenCalled();    
+    expect(statSpy).toHaveBeenCalled();
   });
 
   it('should return local stattypes', () => {
     statTypeService.getStatTypes().subscribe();
-    const statSpy = spyOn(squacApiService, "get").and.callThrough();
+    const statSpy = spyOn(squacApiService, 'get').and.callThrough();
     statTypeService.getStatTypes().subscribe();
-    expect(statSpy).not.toHaveBeenCalled();   
+    expect(statSpy).not.toHaveBeenCalled();
   });
 });

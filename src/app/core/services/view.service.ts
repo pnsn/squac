@@ -39,12 +39,12 @@ export class ViewService {
   ) {
     this.locale = configService.getValue('locale',
       {
-        "format": "YYYY-MM-DDTHH:mm:ss[Z]",
-        "displayFormat": "YYYY/MM/DD HH:mm",
-        "direction": "ltr"
+        format: 'YYYY-MM-DDTHH:mm:ss[Z]',
+        displayFormat: 'YYYY/MM/DD HH:mm',
+        direction: 'ltr'
       }
     );
-    this.dateRanges = configService.getValue('dateRanges', {"3600" : "last 1 hour"});
+    this.dateRanges = configService.getValue('dateRanges', {3600 : 'last 1 hour'});
     this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
   }
 
@@ -57,7 +57,7 @@ export class ViewService {
   get isLive(): boolean {
     return this.live;
   }
-  
+
   // returns the dashboard time range
   get range(): number {
     return this.dashboard.timeRange;
@@ -90,18 +90,18 @@ export class ViewService {
 
   // takes given date config and saves it, emits changed dates
   datesChanged(startDate: moment.Moment, endDate: moment.Moment, live: boolean, range?: number): void {
-    if(startDate && endDate) {
+    if (startDate && endDate) {
       const start = startDate.format(this.locale.format);
       const end = endDate.format(this.locale.format);
       this.live = live;
-      
-      if(range) {
+
+      if (range) {
         this.dashboard.timeRange = range;
       }
 
       this.dashboard.starttime = start;
       this.dashboard.endtime = end;
-  
+
       this.dates.next(this.dashboard.id);
     }
     // this.status.next('loading');
@@ -122,7 +122,7 @@ export class ViewService {
     this.resize.next(null);
   }
 
-  // saves the given widgets  
+  // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
       this.dashboard.widgets = widgets;
@@ -156,7 +156,7 @@ export class ViewService {
       range = this.defaultTimeRange;
       endDate = current;
     }
-    
+
     this.datesChanged(startDate, endDate, liveMode, range);
   }
 
@@ -239,7 +239,7 @@ export class ViewService {
     // this.getWidgets(this.dashboard.id);
   }
 
-  // deletes the dashboard 
+  // deletes the dashboard
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       response => {

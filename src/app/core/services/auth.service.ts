@@ -122,6 +122,6 @@ export class AuthService {
     this.token = token;
     this.userLoggedIn.next(true);
 
-    this.loadingService.setStatus("Logging in and loading data.")
+    this.loadingService.setStatus('Logging in and loading data.');
   }
 }

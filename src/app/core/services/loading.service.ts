@@ -11,18 +11,18 @@ export class LoadingService {
   ) { }
 
   // changes the text shown on the loading screen
-  setStatus(text: string) : void {
+  setStatus(text: string): void {
     this.loadingStatus.next(text);
   }
 
   // Emits true to loading subscribers
-  startLoading() : void {
+  startLoading(): void {
     this.loading.next(true);
   }
 
   // Emits false to loading subscribers
   // Removes message
-  stopLoading() : void {
+  stopLoading(): void {
     this.loading.next(false);
     this.loadingStatus.next(null);
   }

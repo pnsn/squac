@@ -6,10 +6,10 @@ import { ConfigurationService } from './configuration.service';
 describe('ConfigurationService', () => {
   let service: ConfigurationService;
   let httpMock: HttpTestingController;
-  let testConfig = {
-    "test": "testValue",
-    "anotherTest": {
-      "test1" : "Test2"
+  const testConfig = {
+    test: 'testValue',
+    anotherTest: {
+      test1 : 'Test2'
     }
   };
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('ConfigurationService', () => {
       imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(ConfigurationService);
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -31,7 +31,7 @@ describe('ConfigurationService', () => {
     });
 
     const req = httpMock.expectOne('/assets/config.json');
-    expect(req.request.method).toEqual("GET");
+    expect(req.request.method).toEqual('GET');
     req.flush(testConfig);
 
     httpMock.verify();
@@ -39,39 +39,39 @@ describe('ConfigurationService', () => {
 
   it('should return a value for key', () => {
     service.load().subscribe((res) => {
-      
-      const value = service.getValue("test");
-      expect(value).toEqual("testValue");
+
+      const value = service.getValue('test');
+      expect(value).toEqual('testValue');
     });
 
     const req = httpMock.expectOne('/assets/config.json');
-    expect(req.request.method).toEqual("GET");
+    expect(req.request.method).toEqual('GET');
     req.flush(testConfig);
     httpMock.verify();
   });
 
   it('should return the default when the value is not found', () => {
     service.load().subscribe((res) => {
-      
-      const value = service.getValue("anything", "defaultValue");
-      expect(value).toEqual("defaultValue");
+
+      const value = service.getValue('anything', 'defaultValue');
+      expect(value).toEqual('defaultValue');
     });
 
     const req = httpMock.expectOne('/assets/config.json');
-    expect(req.request.method).toEqual("GET");
+    expect(req.request.method).toEqual('GET');
     req.flush(testConfig);
     httpMock.verify();
   });
-  
+
   it('should return undefined when the value is not found and there is no default', () => {
     service.load().subscribe((res) => {
-      
-      const value = service.getValue("anything");
+
+      const value = service.getValue('anything');
       expect(value).toBeUndefined();
     });
 
     const req = httpMock.expectOne('/assets/config.json');
-    expect(req.request.method).toEqual("GET");
+    expect(req.request.method).toEqual('GET');
     req.flush(testConfig);
     httpMock.verify();
   });

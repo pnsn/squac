@@ -14,13 +14,13 @@ describe('LoadingService', () => {
     expect(service).toBeTruthy();
   });
 
-  it("should set status of loading screen", () => {
-    service.setStatus("test")
+  it('should set status of loading screen', () => {
+    service.setStatus('test');
     service.loadingStatus.subscribe(
         status => {
-          expect(status).toBe("test");
+          expect(status).toBe('test');
         }
-    )
+    );
   });
 
   it('should start loading', () => {
@@ -29,7 +29,7 @@ describe('LoadingService', () => {
         loading => {
           expect(loading).toEqual(true);
         }
-    )
+    );
   });
 
   it('should stop loading', () => {
@@ -39,7 +39,7 @@ describe('LoadingService', () => {
         loading => {
           expect(loading).toEqual(false);
         }
-    )
+    );
   });
 
   it('should empty status', () => {
@@ -49,7 +49,7 @@ describe('LoadingService', () => {
         status => {
           expect(status).toBeNull();
         }
-    )
+    );
   });
 
 });

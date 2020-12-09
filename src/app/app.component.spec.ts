@@ -50,8 +50,8 @@ describe('AppComponent', () => {
     expect(appComponent.title).toEqual('SQUAC');
   });
 
-  it('should call autologin', () => { 
-    const loginSpy = spyOn(authService, "autologin");
+  it('should call autologin', () => {
+    const loginSpy = spyOn(authService, 'autologin');
     appComponent.ngOnInit();
 
     expect(loginSpy).toHaveBeenCalled();

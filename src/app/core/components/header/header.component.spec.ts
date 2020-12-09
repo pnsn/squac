@@ -49,18 +49,18 @@ describe('HeaderComponent', () => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    authService = TestBed.inject(AuthService)
-    userService = TestBed.inject(UserService)
-    messageService = TestBed.inject(MessageService)
+    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
+    messageService = TestBed.inject(MessageService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should logout', ()=> {
-    const authSpy = spyOn(authService, "logout");
+  it('should logout', () => {
+    const authSpy = spyOn(authService, 'logout');
     component.logout();
     expect(authSpy).toHaveBeenCalled();
-  })
+  });
 });

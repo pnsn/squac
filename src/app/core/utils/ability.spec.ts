@@ -71,15 +71,15 @@ describe('Ability', () => {
   it('should allow user to update owned object', () => {
     testUser.groups = ['viewer', 'contributor', 'reporter'];
     const testDashboard = new Dashboard(
-      1, 
+      1,
       testUser.id,
-      "test",
-      "description",
+      'test',
+      'description',
       true,
       false,
       1,
-      []     
-    )
+      []
+    );
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can('update', testDashboard)).toEqual(true);
@@ -88,15 +88,15 @@ describe('Ability', () => {
   it('should not allow user to update not owned object', () => {
     testUser.groups = ['viewer', 'contributor', 'reporter'];
     const testDashboard = new Dashboard(
-      1, 
+      1,
       3,
-      "test",
-      "description",
+      'test',
+      'description',
       true,
       false,
       1,
-      []     
-    )
+      []
+    );
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can('update', testDashboard)).toEqual(false);
@@ -105,15 +105,15 @@ describe('Ability', () => {
   it('should allow user to update owned object', () => {
     testUser.groups = ['viewer', 'contributor', 'reporter'];
     const testDashboard = new Dashboard(
-      1, 
+      1,
       testUser.id,
-      "test",
-      "description",
+      'test',
+      'description',
       true,
       false,
       1,
-      []     
-    )
+      []
+    );
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can('update', testDashboard)).toEqual(true);

@@ -24,7 +24,7 @@ describe('MeasurementsService', () => {
   const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
     testMetric
   ]);
-  testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, false, false, [ 1, 2]);
+  testWidget.channelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, [ 1, 2]);
   testWidget.channelGroup.channels = [testChannel];
 
   let squacApiService;
@@ -61,17 +61,17 @@ describe('MeasurementsService', () => {
 
   it('should not try to fetch measurements if no widget', () => {
     const viewSpy = spyOn(viewService, 'widgetStartedLoading');
-    measurementsService.fetchMeasurements("start", "end");
+    measurementsService.fetchMeasurements('start', 'end');
     expect(viewSpy).not.toHaveBeenCalled();
   });
-  
-  it('should try to get measurements if there is a widget and dates', ()=> {
+
+  it('should try to get measurements if there is a widget and dates', () => {
 
     measurementsService.setWidget(testWidget);
 
     const viewSpy = spyOn(viewService, 'widgetStartedLoading');
-    measurementsService.fetchMeasurements("start", "end");
+    measurementsService.fetchMeasurements('start', 'end');
     expect(viewSpy).toHaveBeenCalled();
-  })
+  });
 
 });

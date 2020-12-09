@@ -15,11 +15,9 @@ import { Metric } from '@core/models/metric';
 import { ChannelGroup } from '@core/models/channel-group';
 
 describe('WidgetEditService', () => {
-
-  let squacApiService;
   let service: WidgetEditService;
   let widgetsService: WidgetsService;
-  let viewService : ViewService;
+  let viewService: ViewService;
   let thresholdsService: ThresholdsService;
   const testMetric = new Metric(
     1,
@@ -43,7 +41,7 @@ describe('WidgetEditService', () => {
     1,
     1,
     [testMetric]);
-  
+
   const testThreshold = {
       id : 1,
       metric: {id: 1},
@@ -172,7 +170,7 @@ describe('WidgetEditService', () => {
     const thresholdSpy = spyOn(thresholdsService, 'updateThresholds').and.callThrough();
 
     service.setWidget(testWidget, 1);
-    
+
     service.updateThresholds([testThreshold]);
 
     service.saveWidget().subscribe();

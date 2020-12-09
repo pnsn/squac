@@ -30,9 +30,9 @@ describe('InviteService', () => {
     expect(postSpy).toHaveBeenCalled();
   });
 
-  it('should send register info', ()=> {
+  it('should send register info', () => {
     const postSpy = spyOn(squacApiService, 'post').and.callThrough();
-    service.registerUser("name", "lastname", "token", "password").subscribe();
+    service.registerUser('name', 'lastname', 'token', 'password').subscribe();
     expect(postSpy).toHaveBeenCalled();
   });
 });

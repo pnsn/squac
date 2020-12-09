@@ -15,22 +15,22 @@ describe('OrganizationsService', () => {
   let squacApiService: SquacApiService;
   const testUser = {
     id: 1,
-    email: "email",
-    firstname: "first",
-    lastname: "last",
-    organization:1,
-    is_org_admin:false,
-    groups: [1], 
-    is_active: true, 
+    email: 'email',
+    firstname: 'first',
+    lastname: 'last',
+    organization: 1,
+    is_org_admin: false,
+    groups: [1],
+    is_active: true,
     last_login: true
-  }
+  };
   const testData = {
     id: 1,
-    name: "name",
-    description: "description",
+    name: 'name',
+    description: 'description',
     users: [testUser],
     groups: [1]
-  }
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
@@ -39,7 +39,7 @@ describe('OrganizationsService', () => {
       ]
     });
     service = TestBed.inject(OrganizationsService);
-    squacApiService = TestBed.inject(SquacApiService)
+    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it('should be created', () => {
@@ -79,8 +79,8 @@ describe('OrganizationsService', () => {
 
   it('should return org user name', () => {
     spyOn(service, 'getOrganizationUsers').and.returnValue(of( new User(
-      1, "email", "first", "last", 1, false, []
-    )))
+      1, 'email', 'first', 'last', 1, false, []
+    )));
     service.getOrganization(1).pipe(take(1)).subscribe(
       org => {
         expect(service.getOrgUserName(1)).toEqual(testUser.firstname + ' ' + testUser.lastname);
@@ -93,29 +93,29 @@ describe('OrganizationsService', () => {
   });
 
   it('should update user - post', () => {
-    const postSpy = spyOn(squacApiService, "post").and.returnValue(of(testUser));
+    const postSpy = spyOn(squacApiService, 'post').and.returnValue(of(testUser));
     service.updateUser({
-      email: "string",
+      email: 'string',
       isAdmin: false,
       orgId: 1,
-      groups: ["viewer"],
-      firstName: "name",
-      lastName: "name"
+      groups: ['viewer'],
+      firstName: 'name',
+      lastName: 'name'
     });
 
     expect(postSpy).toHaveBeenCalled();
   });
 
   it('should update user - patch', () => {
-    const patchSpy = spyOn(squacApiService, "patch").and.returnValue(of(testUser));
+    const patchSpy = spyOn(squacApiService, 'patch').and.returnValue(of(testUser));
     service.updateUser({
-      email: "string",
+      email: 'string',
       isAdmin: false,
       orgId: 1,
-      groups: ["viewer"],
+      groups: ['viewer'],
       id: 1,
-      firstName: "name",
-      lastName: "name"
+      firstName: 'name',
+      lastName: 'name'
     });
 
     expect(patchSpy).toHaveBeenCalled();
@@ -124,17 +124,17 @@ describe('OrganizationsService', () => {
 
   it('should  get organization with id', () => {
     service.getOrganization(1).pipe(take(1)).subscribe(
-      org =>{
+      org => {
         expect(org.id).toEqual(1);
       }
     );
 
-    
+
   });
 
-  it('should get org users', ()=> {
+  it('should get org users', () => {
     const userSpy = spyOn(service, 'getOrganizationUsers').and.returnValue(of( new User(
-      1, "email", "first", "last", 1, false, []
+      1, 'email', 'first', 'last', 1, false, []
     )));
 
     service.getOrganizationUsers(1).subscribe();
@@ -142,8 +142,8 @@ describe('OrganizationsService', () => {
     expect(userSpy).toHaveBeenCalled();
   });
 
-  it('should delete org user', ()=> {
-    const deleteSpy = spyOn(squacApiService, 'delete').and.callThrough()
+  it('should delete org user', () => {
+    const deleteSpy = spyOn(squacApiService, 'delete').and.callThrough();
 
     service.deleteUser(1);
 

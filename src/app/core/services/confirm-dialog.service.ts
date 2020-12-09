@@ -21,10 +21,10 @@ export class ConfirmDialogService implements OnDestroy {
     private dialog: MatDialog
   ) { }
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
-  
+
   // Closes the dialog with a false response
   public close(){
-    if(this.dialogRef) {
+    if (this.dialogRef) {
       this.dialogRef.close(false);
     }
   }

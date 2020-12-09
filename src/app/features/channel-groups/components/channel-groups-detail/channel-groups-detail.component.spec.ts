@@ -72,16 +72,16 @@ describe('ChannelGroupsDetailComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = TestBed.inject(Router);
-    router.initialNavigation()
+    router.initialNavigation();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to channel group', ()=> {
+  it('should navigate to channel group', () => {
     const routerSpy = spyOn(router, 'navigate');
     component.editChannelGroup();
     expect(routerSpy).toHaveBeenCalled();
-  })
+  });
 });

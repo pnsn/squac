@@ -50,7 +50,7 @@ describe('LoadingInterceptor', () => {
 
     expect(startSpy).toHaveBeenCalled();
   });
-  
+
   it('should not display loading screen for get request in expeception list ', () => {
     const startSpy = spyOn(loadingService, 'startLoading');
 
@@ -86,5 +86,5 @@ describe('LoadingInterceptor', () => {
 
 
   });
-  
+
 });

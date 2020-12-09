@@ -16,13 +16,13 @@ export class InviteService {
     private squacApi: SquacApiService
   ) { }
 
-  //tells squac to send an invite to existing user
-  sendInviteToUser(user: number) : Observable<any>{
+  // tells squac to send an invite to existing user
+  sendInviteToUser(user: number): Observable<any>{
     return this.squacApi.post(this.url + 'invite/', {user});
   }
 
   // sends registration info to squac
-  registerUser(firstname: string, lastname: string,  token: string, password: string) : Observable<any>{
+  registerUser(firstname: string, lastname: string,  token: string, password: string): Observable<any>{
     return this.squacApi.post(this.url + 'register/', {firstname, lastname, token, password});
   }
 
