@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WidgetsService } from './widgets.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
+import { Widget } from '../models/widget';
 
 describe('WidgetsService', () => {
   const testData = {
@@ -53,6 +54,43 @@ describe('WidgetsService', () => {
       expect(widget.id).toEqual(testData.id);
       done();
     });
+  });
+
+  it('should put widget with id', (done: DoneFn) => {
+    const putSpy = spyOn(squacApiService, "put").and.callThrough();
+    const testWidget = new Widget(1, 1, "", "", 1, 1, 1, 1, 1, 1, 1, []);
+    widgetsService.updateWidget(testWidget).subscribe(
+      widget => {
+        expect(putSpy).toHaveBeenCalled();
+        done();
+      }
+    );
+
+  });
+
+  it('should post widget with id', (done: DoneFn) => {
+    const postSpy = spyOn(squacApiService, "post").and.callThrough();
+    const testWidget = new Widget(null, 1, "", "", 1, 1, 1, 1, 1, 1, 1, []);
+    widgetsService.updateWidget(testWidget).subscribe(
+      widget => {
+        expect(postSpy).toHaveBeenCalled();
+        done();
+      }
+    );
+
+  });
+
+
+  it('should delete widget with id', (done: DoneFn) => {
+    const deleteSpy = spyOn(squacApiService, "delete").and.callThrough();
+
+    widgetsService.deleteWidget(1).subscribe(
+      widget => {
+        expect(deleteSpy).toHaveBeenCalled();
+        done();
+      }
+    );
+
   });
 });
 
