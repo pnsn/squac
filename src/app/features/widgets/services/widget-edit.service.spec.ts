@@ -26,7 +26,8 @@ describe('WidgetEditService', () => {
     'code',
     'desc',
     '',
-    ''
+    '',
+    1
   );
   const testWidget = new Widget(
     1,

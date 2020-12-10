@@ -121,6 +121,7 @@ export class WidgetsService {
           m.description,
           m.url,
           m.unit,
+          m.sample_rate,
           m.default_minval,
           m.default_maxval
         );

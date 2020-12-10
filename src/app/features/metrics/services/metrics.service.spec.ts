@@ -17,7 +17,8 @@ describe('MetricsService', () => {
     'code',
     'description',
     'reference',
-    'unit'
+    'unit',
+    1
   );
   let squacApiService;
 
@@ -82,7 +83,8 @@ describe('MetricsService', () => {
       'code',
       'description',
       'reference',
-      'unit'
+      'unit',
+      1
     );
 
     metricsService.updateMetric(newMetric).subscribe(
