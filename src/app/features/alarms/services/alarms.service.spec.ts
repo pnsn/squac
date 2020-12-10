@@ -16,4 +16,22 @@ describe('AlarmsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should get all alarms', () => {
+
+  });
+
+  it('should get alarm with id', () => {
+
+  });
+
+  it('should put alarm without id', () => {
+
+  });
+
+  it('should post alarm with id', () => {
+
+  });
+
+  
 });
