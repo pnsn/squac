@@ -65,7 +65,7 @@ describe('MetricsService', () => {
   });
 
   it('should put metric with id', (done: DoneFn) => {
-    const putSpy = spyOn(squacApiService, 'put').and.returnValue(fakeAsyncResponse([]));
+    const putSpy = spyOn(squacApiService, 'put').and.callThrough();
     metricsService.updateMetric(testMetric).subscribe(
       metric => {
         expect(putSpy).toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('MetricsService', () => {
   });
 
   it('should post metric without id', (done: DoneFn) => {
-    const postSpy = spyOn(squacApiService, 'post').and.returnValue(fakeAsyncResponse([]));
+    const postSpy = spyOn(squacApiService, 'post').and.callThrough();
     const newMetric = new Metric(
       null,
       1,

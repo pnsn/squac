@@ -234,7 +234,7 @@ export class ViewService {
   // TODO: this should refresh widget info if its going to be lvie
   // Will rerender widgets, but not get new widget information
   refreshWidgets(): void {
-    console.log('refresh!');
+  
     this.refresh.next('refresh');
     // this.getWidgets(this.dashboard.id);
   }

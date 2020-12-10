@@ -17,10 +17,13 @@ import { Dashboard } from '@features/dashboards/models/dashboard';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { UserPipe } from '@shared/pipes/user.pipe';
 import { OrganizationPipe } from '@shared/pipes/organization.pipe';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('DashboardDetailComponent', () => {
@@ -38,7 +41,12 @@ describe('DashboardDetailComponent', () => {
         AbilityModule,
         MatMenuModule,
         MatToolbarModule,
-        MatIconModule
+        MatIconModule,
+        NgxDaterangepickerMd.forRoot(),
+        MatProgressBarModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatFormFieldModule
       ],
       providers: [
         DashboardsService,

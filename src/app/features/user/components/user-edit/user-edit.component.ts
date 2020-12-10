@@ -63,8 +63,8 @@ export class UserEditComponent implements OnInit {
     }
     this.inviteService.registerUser(values.firstName, values.lastName, this.token, password1).subscribe(
       response => {
-        console.log(response);
         // go to next step
+        console.log("user edit")
         this.router.navigate(['/login']);
         this.tokenValidated = !!response;
       },

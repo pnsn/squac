@@ -131,7 +131,6 @@ export class MockViewService{
 
   // TODO: does this actuall refresh data?
   refreshWidgets() {
-    console.log('refresh!');
 
     this.widgetsChanged();
   }

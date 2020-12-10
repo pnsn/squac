@@ -132,8 +132,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
 
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
-    console.log('range', Math.abs(endDate.diff(this.startDate)) < 1000);
-
 
     // check if end of range close to now
     if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
@@ -210,7 +208,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnDestroy() {
-    console.log('dashboard detail destroyed');
     this.subscription.unsubscribe();
   }
 

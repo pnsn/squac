@@ -7,6 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserService } from '@features/user/services/user.service';
 import { MockUserService } from '@features/user/services/user.service.mock';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -14,7 +15,7 @@ describe('HomeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, MatSnackBarModule],
+      imports: [RouterTestingModule, HttpClientTestingModule, MatSnackBarModule, MatToolbarModule],
       declarations: [ HomeComponent , HeaderComponent],
       providers: [{provide: UserService, useClass: MockUserService}]
     })
