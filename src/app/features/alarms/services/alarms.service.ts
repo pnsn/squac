@@ -4,6 +4,15 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Alarm } from '../models/alarm';
 
+interface AlarmPostData {
+  channel_group: number,
+  metric: number,
+  interval_type: string,
+  interval_count: number,
+  num_channels: number,
+  stat: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,9 +27,8 @@ export class AlarmsService {
 
   testAlarm: Alarm = {
     id: 1,
-    url: "url",
-    channelGroup: 1,
-    metric: 1,
+    channelGroupId: 1,
+    metricId: 1,
     intervalType: "interval",
     intervalCount: 10,
     numberChannels: 1,
@@ -59,9 +67,15 @@ export class AlarmsService {
 
     // Replaces channel group with new channel group
     updateAlarm(alarm: Alarm) : Observable<Alarm>{
-      const postData = {
-        id: 1
+      const postData : AlarmPostData = {
+        channel_group: alarm.channelGroupId,
+        metric: alarm.metricId,
+        interval_type: alarm.intervalType,
+        interval_count: alarm.intervalCount,
+        num_channels: alarm.numberChannels,
+        stat: alarm.stat
       };
+      
       return of(alarm);
       // if (alarm.id) {
       //   postData.id = alarm.id;

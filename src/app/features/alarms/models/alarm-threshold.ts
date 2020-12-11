@@ -1,7 +1,6 @@
 export class AlarmThreshold {
   id: number;
-  url: string;
-  alarm: number;
+  alarmId: number;
   min: number;
   max: number;
   bandInclusive: boolean;

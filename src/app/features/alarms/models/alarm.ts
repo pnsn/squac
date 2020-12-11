@@ -1,8 +1,7 @@
 export class Alarm {
   id: number;
-  url: string;
-  channelGroup: number;
-  metric: number;
+  channelGroupId: number;
+  metricId: number;
   intervalType: string;
   intervalCount: number;
   numberChannels: number;
