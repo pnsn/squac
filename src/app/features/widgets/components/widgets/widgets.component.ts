@@ -77,9 +77,7 @@ itemChange(item) {
       }
     );
     this.viewService.resizeWidget(item.widget.id);
-  } else {
-    console.log('item change no');
-  }
+  } 
 }
 
 addWidget() {

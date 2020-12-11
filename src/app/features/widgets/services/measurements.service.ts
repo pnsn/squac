@@ -35,7 +35,7 @@ export class MeasurementsService implements OnDestroy {
   ) {
     this.locale = configService.getValue('locale');
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
-
+    // this.refreshInterval = 0.5;
     const refreshSub = this.viewService.refresh.subscribe(
       refresh => {
         this.fetchMeasurements();
@@ -46,50 +46,67 @@ export class MeasurementsService implements OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.clearTimeout();
     this.subscription.unsubscribe();
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
+
 
   }
 
   setWidget(widget: Widget) {
     this.widget = widget;
-    if (widget && widget.metrics && widget.metrics.length > 0) {
-      widget.channelGroup.channels.forEach(channel => {
+
+  }
+  private initLocalData() {
+    console.log("init local data")
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+      this.widget.channelGroup.channels.forEach(channel => {
         this.localData[channel.id] = {};
-        widget.metrics.forEach(metric => {
+        this.widget.metrics.forEach(metric => {
           this.localData[channel.id][metric.id] = [];
         });
-
       });
     }
   }
-
+  private clearTimeout() {
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+  }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
-
+    this.clearTimeout();
     let start;
     let end;
     if (!startString || !endString) {
       start = this.viewService.startdate;
       end = this.viewService.enddate;
+
+      this.initLocalData();
+      //clear data
     } else {
       start = startString;
       end = endString;
     }
+    console.log("start: ", start, "end :", end);
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.
           if (success.length > 0) {
+            //there is new data
             this.successCount++;
+            console.log("new data", this.localData);
             this.data.next(this.localData);
           } else if (this.successCount === 0) {
+            //no data for this request and no data from earlier requests
             this.data.next({});
-          } else {
+            console.log("empty data")
+          } else if(this.successCount > 0){
+            this.data.next(this.localData);
+            // there is data from old request, but none in this new 
+            console.log(this.successCount)
+            console.log("in the ese")
             // do nothing - no new data
           }
         },
@@ -114,6 +131,7 @@ export class MeasurementsService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
+        console.log("refresh", new Date())
         this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
       }, this.refreshInterval * 60 * 1000);
     }

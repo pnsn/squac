@@ -32,15 +32,30 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-
+  xScaleMin;
+  xScaleMax;
 
 
   constructor(
     private viewService: ViewService
   ) { }
 
+ 
+  // ngOnChanges(changes: SimpleChanges) {
+  //   for (const propName in changes) {
+  //     const chng = changes[propName];
+  //     const cur  = JSON.stringify(chng.currentValue);
+  //     const prev = JSON.stringify(chng.previousValue);
+  //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+  //   }
+  // }
+  
   ngOnInit() {
-
+    console.log(
+      "init"
+    )
+    this.xScaleMin = this.viewService.startdate;
+    this.xScaleMax = this.viewService.enddate;
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
