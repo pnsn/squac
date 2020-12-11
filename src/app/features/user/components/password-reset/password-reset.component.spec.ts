@@ -16,10 +16,10 @@ describe('PasswordResetComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule, 
-        RouterTestingModule, 
-        NoopAnimationsModule, 
-        MaterialModule, 
+        HttpClientTestingModule,
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MaterialModule,
         ReactiveFormsModule],
       declarations: [ PasswordResetComponent ],
       providers: [

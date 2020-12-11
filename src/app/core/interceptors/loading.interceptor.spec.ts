@@ -44,7 +44,7 @@ describe('LoadingInterceptor', () => {
 
     httpClient.get('https://test.test.test/')
       .subscribe(response => {
-        console.log("done")
+        console.log('done');
         expect(response).toBeTruthy();
       }
     );

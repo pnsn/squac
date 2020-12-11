@@ -25,10 +25,10 @@ describe('UserComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ UserComponent ],
       imports: [
-        HttpClientTestingModule, 
-        AbilityModule, 
-        MatSnackBarModule, 
-        ReactiveFormsModule, 
+        HttpClientTestingModule,
+        AbilityModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         MatInputModule,
         MatFormFieldModule],

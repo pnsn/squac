@@ -19,7 +19,7 @@ describe('WidgetInfoEditComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ WidgetInfoEditComponent ],
       imports: [
-        HttpClientTestingModule, 
+        HttpClientTestingModule,
         MatButtonToggleModule,
         BrowserAnimationsModule,
         MatInputModule,
