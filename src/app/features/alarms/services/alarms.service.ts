@@ -28,6 +28,7 @@ export class AlarmsService {
   testAlarm: Alarm = {
     id: 1,
     channelGroupId: 1,
+    name: "alarm name",
     metricId: 1,
     intervalType: "interval",
     intervalCount: 10,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { Alarm } from '@features/alarms/models/alarm';
 import { UserService } from '@features/user/services/user.service';
@@ -15,25 +16,26 @@ export class AlarmEditComponent implements OnInit {
   editMode:boolean;
   orgId: number;
   alarm: Alarm;
-
+  alarmForm: FormGroup;
   constructor(
     private route: ActivatedRoute ,
-    private userService: UserService
+    private userService: UserService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    // this.alarmForm = this.formBuilder.group({
-    //   name: ['', Validators.required],
-    //   description: ['', Validators.required],
-    //   shareAll: [false],
-    //   shareOrg: [false]
-    // });
+    this.alarmForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      intervalType: ['', Validators.required],
+      intervalCount: ['', Validators.required],
+      numberChannels: ['', Validators.required],
+      stat: ['', Validators.required]
+    });
 
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.id;
         this.editMode = !!this.id;
-        this.orgId = this.userService.userOrg;
         this.initForm();
       },
       error => {
@@ -52,14 +54,15 @@ export class AlarmEditComponent implements OnInit {
 
     if (this.editMode) {
       this.alarm = this.route.snapshot.data.alarm;
-      // this.alarmForm.patchValue(
-      //   {
-      //     name : this.alarm.name,
-      //     description : this.alarm.description,
-      //     shareAll: this.alarm.shareAll,
-      //     shareOrg: this.alarm.shareOrg
-      //   }
-      // );
+      this.alarmForm.patchValue(
+        {
+          name: this.alarm.name,
+          intervalType: this.alarm.intervalType,
+          intervalCount: this.alarm.intervalCount,
+          numberChannels: this.alarm.numberChannels,
+          stat: this.alarm.stat
+        }
+      );
     }
   }
 }

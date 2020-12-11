@@ -1,8 +1,24 @@
 <p>alarm-edit works!</p>
-<form #alarmEditForm>
+<form #alarmEditForm [formGroup]="alarmForm">
   <mat-form-field>
-    <label for="name">Name:</label>
-    <input matInput type="text"> 
+    <mat-label for="name">Name:</mat-label>
+    <input matInput type="text" name="name" formControlName="name"> 
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="intervalType">Interval Type:</mat-label>
+    <input matInput type="text" name="intervalType" formControlName="intervalType"> 
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="intervalCount">Interval Count:</mat-label>
+    <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="numberChannels">Number of Channels:</mat-label>
+    <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="stat">Stat:</mat-label>
+    <input matInput type="text" name="stat" formControlName="stat"> 
   </mat-form-field>
 
 <mat-form-field>
