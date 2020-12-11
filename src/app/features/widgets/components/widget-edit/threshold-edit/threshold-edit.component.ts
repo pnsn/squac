@@ -62,7 +62,6 @@ export class ThresholdEditComponent implements OnInit, OnDestroy {
                   defaultMax: maxVal
                 });
               } else {
-                console.log('no thresholds');
                 newRows.push({
                   id : null,
                   metric,

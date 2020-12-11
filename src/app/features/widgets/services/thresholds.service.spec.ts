@@ -15,7 +15,7 @@ describe('ThresholdsService', () => {
   };
 
   const testMetrics = [
-    new Metric(1, 1, 'name', 'code', 'desc', 'ref', 'unit')
+    new Metric(1, 1, 'name', 'code', 'desc', 'ref', 'unit', 1)
   ];
   const testThresholds = {
     1 : {

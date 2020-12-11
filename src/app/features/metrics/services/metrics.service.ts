@@ -123,6 +123,7 @@ export class MetricsService {
       squacData.description,
       squacData.reference_url,
       squacData.unit,
+      squacData.sample_rate,
       squacData.default_minval,
       squacData.default_maxval
     );

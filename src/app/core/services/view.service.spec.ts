@@ -184,11 +184,10 @@ describe('ViewService', () => {
 
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
-    service.updateWidget(1);
-
     service.currentWidgets.subscribe( widgets => {
       expect(widgets).toEqual([]);
     });
+    service.updateWidget(1);
   });
 
   it('should delete given widget', () => {

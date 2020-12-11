@@ -38,7 +38,6 @@ export class MeasurementsService implements OnDestroy {
 
     const refreshSub = this.viewService.refresh.subscribe(
       refresh => {
-        console.log('refresh measurements');
         this.fetchMeasurements();
       }
     );
@@ -102,7 +101,6 @@ export class MeasurementsService implements OnDestroy {
           this.viewService.widgetFinishedLoading();
           this.lastEndString = end;
           this.updateMeasurement();
-          console.log('completed get data for ' + this.widget.id);
         }
       );
 
@@ -116,7 +114,6 @@ export class MeasurementsService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        console.log('timeout');
         this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
       }, this.refreshInterval * 60 * 1000);
     }

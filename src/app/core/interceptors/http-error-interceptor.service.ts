@@ -19,10 +19,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           let errorMessage = 'Unknown error occured.';
           if (error.error instanceof Error) {
             // client-side error
-            console.log('Client error', error);
             errorMessage = 'Error: ' + error.error.message;
           } else if (typeof error.error === 'string') {
-            console.log('Server error', error);
             // server-side error
             errorMessage = 'Error: ' + error.error;
           } else if (error.error instanceof Object) {

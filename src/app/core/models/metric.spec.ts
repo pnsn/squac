@@ -11,6 +11,7 @@ describe('Metric', () => {
       'reference',
       'unit',
       1,
+      1,
       10
     )).toBeTruthy();
   });

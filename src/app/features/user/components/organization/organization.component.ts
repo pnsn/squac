@@ -162,14 +162,12 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   sendInvite(id) {
     this.inviteService.sendInviteToUser(id).subscribe(
       response => {
-        console.log(response);
         this.refreshOrgUsers();
       },
       error => {
         this.error = error;
       }
     );
-    console.log('send invite to user ', id);
   }
 
   addNewUser() {

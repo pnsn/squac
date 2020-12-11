@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
 
@@ -10,7 +11,7 @@ describe('MessageService', () => {
   let snackbar: MatSnackBar;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
+      imports: [MatSnackBarModule, MatButtonModule],
       providers: [
         {
           provide: MatSnackBar,

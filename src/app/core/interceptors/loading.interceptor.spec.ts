@@ -44,6 +44,7 @@ describe('LoadingInterceptor', () => {
 
     httpClient.get('https://test.test.test/')
       .subscribe(response => {
+        console.log('done');
         expect(response).toBeTruthy();
       }
     );
@@ -73,18 +74,6 @@ describe('LoadingInterceptor', () => {
     );
 
     expect(startSpy).not.toHaveBeenCalled();
-  });
-
-  it('should stop displaying loading screen when requests finished', () => {
-    const stopSpy = spyOn(loadingService, 'stopLoading');
-
-    httpClient.get('https://test.test.test/dashboards').subscribe(response => {
-        expect(response).toBeTruthy();
-        expect(stopSpy).toHaveBeenCalled();
-      }
-    );
-
-
   });
 
 });
