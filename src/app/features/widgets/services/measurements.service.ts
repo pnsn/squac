@@ -48,30 +48,12 @@ export class MeasurementsService implements OnDestroy {
   ngOnDestroy() {
     this.clearTimeout();
     this.subscription.unsubscribe();
-
-
   }
 
   setWidget(widget: Widget) {
     this.widget = widget;
+  }
 
-  }
-  private initLocalData() {
-    console.log("init local data")
-    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
-      this.widget.channelGroup.channels.forEach(channel => {
-        this.localData[channel.id] = {};
-        this.widget.metrics.forEach(metric => {
-          this.localData[channel.id][metric.id] = [];
-        });
-      });
-    }
-  }
-  private clearTimeout() {
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
-  }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
     this.clearTimeout();
@@ -87,7 +69,7 @@ export class MeasurementsService implements OnDestroy {
       start = startString;
       end = endString;
     }
-    console.log("start: ", start, "end :", end);
+
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.getMeasurements(start, end).subscribe(
@@ -96,18 +78,15 @@ export class MeasurementsService implements OnDestroy {
           if (success.length > 0) {
             //there is new data
             this.successCount++;
-            console.log("new data", this.localData);
             this.data.next(this.localData);
           } else if (this.successCount === 0) {
             //no data for this request and no data from earlier requests
             this.data.next({});
-            console.log("empty data")
           } else if(this.successCount > 0){
+          // there is data from old request, but none in this new 
             this.data.next(this.localData);
-            // there is data from old request, but none in this new 
-            console.log(this.successCount)
-            console.log("in the ese")
-            // do nothing - no new data
+
+
           }
         },
         error => {
@@ -124,6 +103,25 @@ export class MeasurementsService implements OnDestroy {
       this.subscription.add(measurementSub);
     } else {
       this.data.next({});
+    }
+  }
+
+  // sets up data storage
+  private initLocalData() {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+      this.widget.channelGroup.channels.forEach(channel => {
+        this.localData[channel.id] = {};
+        this.widget.metrics.forEach(metric => {
+          this.localData[channel.id][metric.id] = [];
+        });
+      });
+    }
+  }
+
+  // Clears any active timeout
+  private clearTimeout() {
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
     }
   }
 
