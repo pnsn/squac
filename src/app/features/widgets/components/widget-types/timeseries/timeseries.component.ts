@@ -51,9 +51,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   // }
   
   ngOnInit() {
-    console.log(
-      "init"
-    )
     this.xScaleMin = this.viewService.startdate;
     this.xScaleMax = this.viewService.enddate;
     this.metrics = this.widget.metrics;
