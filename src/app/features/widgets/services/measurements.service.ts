@@ -129,7 +129,6 @@ export class MeasurementsService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        console.log("refresh", new Date())
         this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
       }, this.refreshInterval * 60 * 1000);
     }
