@@ -40,7 +40,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     private viewService: ViewService
   ) { }
 
- 
+
   // ngOnChanges(changes: SimpleChanges) {
   //   for (const propName in changes) {
   //     const chng = changes[propName];
@@ -49,7 +49,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
   //   }
   // }
-  
+
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
     this.xScaleMax = this.viewService.enddate;
@@ -84,17 +84,17 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
   addThresholds() {
     const threshold = this.thresholds[this.currentMetric.id];
-    if(threshold) {
-      if(threshold.min) {
+    if (threshold) {
+      if (threshold.min) {
         this.referenceLines.push({
-          name: "Min Threshold",
+          name: 'Min Threshold',
           value: threshold.min
         });
       }
-  
-      if(threshold.max) {
+
+      if (threshold.max) {
         this.referenceLines.push({
-          name: "Max Threshold",
+          name: 'Max Threshold',
           value: threshold.max
         });
       }
@@ -117,8 +117,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     } else {
       formatOptions = { year: 'numeric' };
     }
-      formatOptions.hour12 = false;
-      formatOptions.timeZone = 'UTC';
+    formatOptions.hour12 = false;
+    formatOptions.timeZone = 'UTC';
     return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
   }
 

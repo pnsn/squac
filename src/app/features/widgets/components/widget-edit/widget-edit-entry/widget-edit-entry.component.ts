@@ -61,7 +61,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
 
       }
     );
-    
+
   }
 
   openWidget( ) {

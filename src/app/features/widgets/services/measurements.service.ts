@@ -64,7 +64,7 @@ export class MeasurementsService implements OnDestroy {
       end = this.viewService.enddate;
 
       this.initLocalData();
-      //clear data
+      // clear data
     } else {
       start = startString;
       end = endString;
@@ -76,14 +76,14 @@ export class MeasurementsService implements OnDestroy {
         success => {
           // there is new data, update.
           if (success.length > 0) {
-            //there is new data
+            // there is new data
             this.successCount++;
             this.data.next(this.localData);
           } else if (this.successCount === 0) {
-            //no data for this request and no data from earlier requests
+            // no data for this request and no data from earlier requests
             this.data.next({});
-          } else if(this.successCount > 0){
-          // there is data from old request, but none in this new 
+          } else if (this.successCount > 0){
+          // there is data from old request, but none in this new
             this.data.next(this.localData);
 
 

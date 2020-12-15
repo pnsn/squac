@@ -77,7 +77,7 @@ itemChange(item) {
       }
     );
     this.viewService.resizeWidget(item.widget.id);
-  } 
+  }
 }
 
 addWidget() {
