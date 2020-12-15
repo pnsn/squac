@@ -1,5 +1,6 @@
 <div *ngIf="dashboard" id="dashboard-container">
   <mat-toolbar id="dashboard-header" >
+    
     <div id="dashboard-info">
         <h2>
             {{dashboard.name}}
@@ -7,7 +8,38 @@
         <span *ngIf="dashboard.owner && dashboard.orgId">
           by {{dashboard.owner | user}} ({{dashboard.orgId | organization}})
         </span>
-        <!-- TODO: add dashboard owner name & copy -->
+
+        <span 
+          class="cdk-visually-hidden"
+        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
+
+        aria-label="Icon that shows dashboard is private"
+        >
+        Dashboard is private
+      </span>
+          <mat-icon         *ngIf="!dashboard.shareOrg && !dashboard.shareAll" 
+          matTooltip="Dashboard is private">visibility_off</mat-icon>
+
+
+        <span class="cdk-visually-hidden"
+        *ngIf="dashboard.shareOrg"
+          
+          aria-label="Icon that shows dashboard is shared with {{dashboard.orgId | organization}}"
+        >
+        Dashboard shared with organization
+      </span>
+          <mat-icon *ngIf="dashboard.shareOrg && !dashboard.shareAll" matTooltip="Dashboard shared with organization">visibility</mat-icon>
+
+
+        <span
+        class="cdk-visually-hidden"
+          *ngIf="dashboard.shareAll"
+
+          aria-label="Icon that shows dashboard is public">
+          Dashboard shared with all
+        </span>
+          <mat-icon *ngIf="dashboard.shareAll" matTooltip="Dashboard shared with all">public</mat-icon>
+
     </div>
       <div id="header-controls">
 
