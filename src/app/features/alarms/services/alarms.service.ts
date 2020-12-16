@@ -100,6 +100,20 @@ export class AlarmsService {
         num_channels: alarm.numberChannels,
         stat: alarm.stat
       };
+
+      this.testAlarms.push(
+        {
+          id: this.testAlarms.length + 1,
+          channelGroupId: alarm.channelGroupId,
+          name: "alarm name",
+          metricId: alarm.metricId,
+          intervalType: alarm.intervalType,
+          intervalCount: alarm.intervalCount,
+          numberChannels: alarm.numberChannels,
+          stat: alarm.stat,
+          owner: 1
+        }
+      )
       
       return of(alarm);
       // if (alarm.id) {

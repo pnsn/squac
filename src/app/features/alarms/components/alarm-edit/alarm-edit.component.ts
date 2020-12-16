@@ -43,13 +43,13 @@ export class AlarmEditComponent implements OnInit {
       numberChannels: ['', Validators.required],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      channelGroup: ['', Validators.required],
-      metric: ['', Validators.required]
+      channelGroupId: ['', Validators.required],
+      metricId: ['', Validators.required]
     });
 
     this.metrics = this.route.snapshot.data.metrics;
     this.channelGroups = this.route.snapshot.data.channelGroups;
-
+    console.log(this.channelGroups)
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.id = +params.alarmId;
@@ -72,6 +72,11 @@ export class AlarmEditComponent implements OnInit {
 
     this.alarmsService.updateAlarm(
       this.alarmForm.value
+    ).subscribe(
+      success=> {
+        console.log(success)
+        // this.router.navigate()
+      }
     )
   }
 

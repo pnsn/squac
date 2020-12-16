@@ -30,7 +30,11 @@ export const routes: Routes = [
         path: 'new',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'create'},
-        component: AlarmEditComponent
+        component: AlarmEditComponent,
+        resolve: {
+          channelGroups: ChannelGroupsResolver,
+          metrics: MetricsResolver
+        },
       },
       {
         path: ':alarmId',
