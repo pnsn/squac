@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Alarm } from '@features/alarms/models/alarm';
+import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-alarm-view',
@@ -12,6 +13,10 @@ export class AlarmViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute
   ) { }
+
+  // Table stuff
+  ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
 
   ngOnInit(): void {
     this.alarms = this.route.parent.snapshot.data.alarms;

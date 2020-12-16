@@ -27,13 +27,22 @@ export class AlarmEditComponent implements OnInit {
     private formBuilder: FormBuilder
   ) { }
 
+  intervalTypes : string[] = ["minute", "hour", "day"];
+  stats : string[] = ["count", "sum", "avg", "min", "max"];
+  // selectedType;
+  // selectedStat;
+  selectedChannelGroup;
+  selectedMetric;
+
   ngOnInit() {
     this.alarmForm = this.formBuilder.group({
       name: ['', Validators.required],
-      intervalType: ['', Validators.required],
       intervalCount: ['', Validators.required],
       numberChannels: ['', Validators.required],
-      stat: ['', Validators.required]
+      intervalType: ['', Validators.required],
+      stat: ['', Validators.required],
+      channelGroup: ['', Validators.required],
+      metric: ['', Validators.required]
     });
 
     this.metrics = this.route.snapshot.data.metrics;
@@ -64,10 +73,12 @@ export class AlarmEditComponent implements OnInit {
       this.alarmForm.patchValue(
         {
           name: this.alarm.name,
-          intervalType: this.alarm.intervalType,
           intervalCount: this.alarm.intervalCount,
           numberChannels: this.alarm.numberChannels,
-          stat: this.alarm.stat
+          intervalType: this.alarm.intervalType,
+          stat: this.alarm.stat,
+          channelGroup: this.alarm.channelGroupId,
+          metric: this.alarm.metricId
         }
       );
     }

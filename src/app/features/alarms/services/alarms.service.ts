@@ -25,20 +25,44 @@ export class AlarmsService {
     private squacApi: SquacApiService
   ) {}
 
-  testAlarm: Alarm = {
-    id: 1,
-    channelGroupId: 1,
-    name: "alarm name",
-    metricId: 1,
-    intervalType: "interval",
-    intervalCount: 10,
-    numberChannels: 1,
-    stat: "sstat",
-    owner: 1
-  }
+  testAlarms: Alarm[] = [
+    {
+      id: 1,
+      channelGroupId: 1,
+      name: "alarm name",
+      metricId: 5,
+      intervalType: "minute",
+      intervalCount: 10,
+      numberChannels: 1,
+      stat: "count",
+      owner: 1
+    },
+    {
+      id: 2,
+      channelGroupId: 4,
+      name: "alarm name",
+      metricId: 5,
+      intervalType: "hour",
+      intervalCount: 10,
+      numberChannels: 1,
+      stat: "max",
+      owner: 1
+    },
+    {
+      id: 3,
+      channelGroupId: 5,
+      name: "alarm name",
+      metricId: 5,
+      intervalType: "day",
+      intervalCount: 10,
+      numberChannels: 1,
+      stat: "avg",
+      owner: 1
+    }
+  ]
   
   getAlarms() : Observable<Alarm[]>{
-    return of([this.testAlarm, this.testAlarm, this.testAlarm]);
+    return of(this.testAlarms);
 
     // return this.squacApi.get(this.url).pipe(
     //   map(
@@ -56,7 +80,7 @@ export class AlarmsService {
   
   getAlarm(id: number) : Observable<Alarm>{
 
-    return of(this.testAlarm);
+    return of(this.testAlarms[id]);
     // return this.squacApi.get(this.url, id).pipe(
     //   map(
     //     response => {
