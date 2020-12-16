@@ -35,7 +35,7 @@ export class MeasurementsService implements OnDestroy {
   ) {
     this.locale = configService.getValue('locale');
     this.refreshInterval = configService.getValue('dataRefreshIntervalMinutes', 4);
-
+    // this.refreshInterval = 0.5;
     const refreshSub = this.viewService.refresh.subscribe(
       refresh => {
         this.fetchMeasurements();
@@ -46,51 +46,47 @@ export class MeasurementsService implements OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.clearTimeout();
     this.subscription.unsubscribe();
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
-
   }
 
   setWidget(widget: Widget) {
     this.widget = widget;
-    if (widget && widget.metrics && widget.metrics.length > 0) {
-      widget.channelGroup.channels.forEach(channel => {
-        this.localData[channel.id] = {};
-        widget.metrics.forEach(metric => {
-          this.localData[channel.id][metric.id] = [];
-        });
-
-      });
-    }
   }
 
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
-
+    this.clearTimeout();
     let start;
     let end;
     if (!startString || !endString) {
       start = this.viewService.startdate;
       end = this.viewService.enddate;
+
+      this.initLocalData();
+      // clear data
     } else {
       start = startString;
       end = endString;
     }
+
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.getMeasurements(start, end).subscribe(
         success => {
           // there is new data, update.
           if (success.length > 0) {
+            // there is new data
             this.successCount++;
             this.data.next(this.localData);
           } else if (this.successCount === 0) {
+            // no data for this request and no data from earlier requests
             this.data.next({});
-          } else {
-            // do nothing - no new data
+          } else if (this.successCount > 0){
+          // there is data from old request, but none in this new
+            this.data.next(this.localData);
+
+
           }
         },
         error => {
@@ -107,6 +103,25 @@ export class MeasurementsService implements OnDestroy {
       this.subscription.add(measurementSub);
     } else {
       this.data.next({});
+    }
+  }
+
+  // sets up data storage
+  private initLocalData() {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+      this.widget.channelGroup.channels.forEach(channel => {
+        this.localData[channel.id] = {};
+        this.widget.metrics.forEach(metric => {
+          this.localData[channel.id][metric.id] = [];
+        });
+      });
+    }
+  }
+
+  // Clears any active timeout
+  private clearTimeout() {
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
     }
   }
 

@@ -24,7 +24,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
-
+  referenceLines;
   xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -32,19 +32,33 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-
+  xScaleMin;
+  xScaleMax;
 
 
   constructor(
     private viewService: ViewService
   ) { }
 
-  ngOnInit() {
 
+  // ngOnChanges(changes: SimpleChanges) {
+  //   for (const propName in changes) {
+  //     const chng = changes[propName];
+  //     const cur  = JSON.stringify(chng.currentValue);
+  //     const prev = JSON.stringify(chng.previousValue);
+  //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+  //   }
+  // }
+
+  ngOnInit() {
+    this.xScaleMin = this.viewService.startdate;
+    this.xScaleMax = this.viewService.enddate;
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
+
+    this.referenceLines = [];
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
@@ -68,10 +82,52 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.results = [...this.results];
   }
 
+  addThresholds() {
+    const threshold = this.thresholds[this.currentMetric.id];
+    if (threshold) {
+      if (threshold.min) {
+        this.referenceLines.push({
+          name: 'Min Threshold',
+          value: threshold.min
+        });
+      }
+
+      if (threshold.max) {
+        this.referenceLines.push({
+          name: 'Max Threshold',
+          value: threshold.max
+        });
+      }
+    }
+
+  }
+
+  xAxisTickFormatting(value) {
+    let formatOptions;
+    if (value.getSeconds() !== 0) {
+      formatOptions = { second: '2-digit' };
+    } else if (value.getMinutes() !== 0) {
+      formatOptions = { hour: '2-digit', minute: '2-digit' };
+    } else if (value.getHours() !== 0) {
+      formatOptions = { hour: '2-digit' , minute: '2-digit'};
+    } else if (value.getDate() !== 1) {
+      formatOptions = value.getDay() === 0 ? { month: 'short', day: '2-digit' } : { month: 'short', day: '2-digit' };
+    } else if (value.getMonth() !== 0) {
+      formatOptions = { month: 'long' };
+    } else {
+      formatOptions = { year: 'numeric' };
+    }
+    formatOptions.hour12 = false;
+    formatOptions.timeZone = 'UTC';
+    return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
+  }
 
   buildChartData(data) {
     this.hasData = false;
     this.results = [];
+
+    this.addThresholds();
+
     this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
     this.channels.forEach(
       channel => {

@@ -1,76 +1,136 @@
 <div *ngIf="dashboard" id="dashboard-container">
-  <mat-toolbar id="dashboard-header" >
+  <mat-toolbar id="dashboard-header">
     <div id="dashboard-info">
-        <h2>
-            {{dashboard.name}}
-        </h2>
-        <span *ngIf="dashboard.owner && dashboard.orgId">
-          by {{dashboard.owner | user}} ({{dashboard.orgId | organization}})
-        </span>
-        <!-- TODO: add dashboard owner name & copy -->
+      <h2>
+        {{ dashboard.name }}
+      </h2>
+      <span *ngIf="dashboard.owner && dashboard.orgId">
+        by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
+      </span>
+
+      <span
+        class="cdk-visually-hidden"
+        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
+        aria-label="Icon that shows dashboard is private"
+      >
+        Dashboard is private
+      </span>
+      <mat-icon
+        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
+        matTooltip="Dashboard is private"
+        >visibility_off</mat-icon
+      >
+
+      <span
+        class="cdk-visually-hidden"
+        *ngIf="dashboard.shareOrg"
+        aria-label="Icon that shows dashboard is shared with {{
+          dashboard.orgId | organization
+        }}"
+      >
+        Dashboard shared with organization
+      </span>
+      <mat-icon
+        *ngIf="dashboard.shareOrg && !dashboard.shareAll"
+        matTooltip="Dashboard shared with organization"
+        >visibility</mat-icon
+      >
+
+      <span
+        class="cdk-visually-hidden"
+        *ngIf="dashboard.shareAll"
+        aria-label="Icon that shows dashboard is public"
+      >
+        Dashboard shared with all
+      </span>
+      <mat-icon
+        *ngIf="dashboard.shareAll"
+        matTooltip="Dashboard shared with all"
+        >public</mat-icon
+      >
     </div>
-      <div id="header-controls">
-
-        <button
-          mat-icon-button
-          (click)="refreshData()"
-          color="primary"
-          matTooltip="Refresh data"
-          aria-label="Button that requests new data from the database">
-            <mat-icon >refresh</mat-icon>  
+    <div id="header-controls">
+      <button
+        mat-icon-button
+        (click)="refreshData()"
+        color="primary"
+        matTooltip="Refresh data"
+        aria-label="Button that requests new data from the database"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="accent"
+        (click)="save()"
+        [disabled]="!unsaved"
+        *ngIf="'update' | able: dashboard"
+        matTooltip="Save dashboard"
+        aria-label="Button that saves changes to the dashboard"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+      <mat-form-field id="date-range">
+        <input
+          #datePicker
+          matInput
+          ngxDaterangepickerMd
+          type="text"
+          [locale]="locale"
+          [showCancel]="true"
+          [maxDate]="maxDate"
+          [(ngModel)]="selected"
+          [timePicker]="true"
+          [timePicker24Hour]="true"
+          [ranges]="ranges"
+          [showCustomRangeLabel]="true"
+          [alwaysShowCalendars]="true"
+          [showRangeLabelOnInput]="true"
+          (change)="datesSelected($event)"
+        />
+      </mat-form-field>
+      <!-- if they have permission, otherwise show copy only -->
+      <mat-menu
+        #appMenu="matMenu"
+        class="mat-menu-dense"
+        yPosition="below"
+        xPosition="before"
+      >
+        <button mat-menu-item (click)="addWidget()">Add Widget</button>
+        <button mat-menu-item (click)="editDashboard()">
+          Edit Dashboard Information
         </button>
         <button
-          mat-icon-button
-          color="accent"
-          (click)="save()"
-          [disabled]="!unsaved"
-          *ngIf="'update' | able: dashboard"
-          matTooltip="Save dashboard"
-          aria-label="Button that saves changes to the dashboard"
-          >
-          <mat-icon>save</mat-icon>
-        </button>
-        <mat-form-field id="date-range">
-          <input #datePicker matInput ngxDaterangepickerMd
-            type="text"
-            [locale]="locale"
-            [showCancel]="true"
-            [maxDate]="maxDate"
-            [(ngModel)]="selected"
-            [timePicker]="true"
-            [timePicker24Hour]="true"
-            [ranges]="ranges"
-            [showCustomRangeLabel]="true"
-            [alwaysShowCalendars]="true"
-            [showRangeLabelOnInput]="true"
-            (change)="datesSelected($event)"
-          />
-        </mat-form-field>
-        <!-- if they have permission, otherwise show copy only -->
-        <mat-menu #appMenu="matMenu" class="mat-menu-dense" yPosition="below" xPosition="before">
-          <button mat-menu-item (click)="addWidget()" >Add Widget</button> 
-          <button mat-menu-item (click)="editDashboard()">Edit Dashboard Information</button>
-          <button mat-menu-item id="delete-dashboard" (click)="deleteDashboard()" *ngIf="'delete' | able: dashboard">Delete Dashboard</button>
-        </mat-menu>
-        
-        <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary" *ngIf="'update' | able: dashboard">
-          <mat-icon>settings_application</mat-icon>
-        </button>
-      </div>
-  </mat-toolbar>
-      <mat-progress-bar
-        *ngIf="status && status !== 'finished'"
-        [mode]="status !== 'error' ? 'indeterminate' : 'determinate'"
-        value = "1001"
-        [color]="status === 'error' ? 'warn' : 'primary'"
-
+          mat-menu-item
+          id="delete-dashboard"
+          (click)="deleteDashboard()"
+          *ngIf="'delete' | able: dashboard"
         >
-      </mat-progress-bar>
+          Delete Dashboard
+        </button>
+      </mat-menu>
 
-      <div id="dashboard-body">
-        <router-outlet></router-outlet>
-      </div>
-      
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="appMenu"
+        color="primary"
+        *ngIf="'update' | able: dashboard"
+      >
+        <mat-icon>settings_application</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-progress-bar
+    *ngIf="status && status !== 'finished'"
+    [mode]="status !== 'error' ? 'indeterminate' : 'determinate'"
+    value="1001"
+    [color]="status === 'error' ? 'warn' : 'primary'"
+  >
+  </mat-progress-bar>
+
+  <div id="dashboard-body">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>
 <app-loading *ngIf="!dashboard && !error"></app-loading>

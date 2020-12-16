@@ -62,20 +62,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.dialogRef) {
-      this.dialogRef.afterClosed().subscribe(
-        result => {
-          if (this.widgetId) {
-            this.router.navigate(['../../../'], {relativeTo: this.route});
-          } else {
-            this.router.navigate(['../'], {relativeTo: this.route});
-          }
-          // route to exit
-        }, error => {
-          console.log('error in widget detail: ' + error);
-        }
-      );
-    }
   }
 
   openWidget( ) {
@@ -92,6 +78,19 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           channelGroups: this.channelGroups
         }
       });
+
+      this.dialogRef.afterClosed().subscribe(
+        result => {
+          if (this.widgetId) {
+            this.router.navigate(['../../../'], {relativeTo: this.route});
+          } else {
+            this.router.navigate(['../'], {relativeTo: this.route});
+          }
+          // route to exit
+        }, error => {
+          console.log('error in widget detail: ' + error);
+        }
+      );
     }
   }
 
