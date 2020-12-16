@@ -4,6 +4,7 @@ import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { Alarm } from '@features/alarms/models/alarm';
+import { AlarmsService } from '@features/alarms/services/alarms.service';
 import { UserService } from '@features/user/services/user.service';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +25,8 @@ export class AlarmEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute ,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private alarmsService: AlarmsService
   ) { }
 
   intervalTypes : string[] = ["minute", "hour", "day"];
@@ -64,6 +66,13 @@ export class AlarmEditComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  submitForm() {
+
+    this.alarmsService.updateAlarm(
+      this.alarmForm.value
+    )
   }
 
   private initForm() {

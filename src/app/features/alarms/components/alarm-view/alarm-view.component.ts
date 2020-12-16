@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Alarm } from '@features/alarms/models/alarm';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
@@ -11,7 +11,8 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 export class AlarmViewComponent implements OnInit {
   alarms: Alarm[];
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   // Table stuff
@@ -20,6 +21,10 @@ export class AlarmViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.alarms = this.route.parent.snapshot.data.alarms;
+  }
+
+  addAlarm() {
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }

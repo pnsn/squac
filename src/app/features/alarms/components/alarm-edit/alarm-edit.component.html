@@ -1,4 +1,5 @@
 
+{{editMode ? "Edit Alarm" : "Create Alarm"}}
 <form #alarmEditForm [formGroup]="alarmForm">
   <mat-form-field>
     <mat-label for="name">Name:</mat-label>
@@ -42,7 +43,7 @@
   </mat-select>
 </mat-form-field>
 
-<button mat-button>Submit</button>
+<button mat-button type="submit" click="submitForm()">Submit</button>
 </form>
 
 <app-alarm-chart>
