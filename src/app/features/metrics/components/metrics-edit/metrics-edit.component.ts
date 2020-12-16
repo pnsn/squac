@@ -29,10 +29,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const sub = this.route.params.subscribe(
       (params: Params) => {
-        this.editMode = !!params.id;
+        this.editMode = !!params.metricId;
 
         if (this.editMode) {
-          this.id = +params.id;
+          this.id = +params.metricId;
           this.metric = this.route.snapshot.data.metric;
         }
 
