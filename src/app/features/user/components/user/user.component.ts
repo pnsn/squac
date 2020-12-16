@@ -29,15 +29,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const paramsSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.id;
-        this.editMode = !!this.id;
-      },
-      error => {
-        console.log('error getting params: ' + error);
-      }
-    );
 
     if (this.route.parent) {
       this.user = this.route.parent.snapshot.data.user;
