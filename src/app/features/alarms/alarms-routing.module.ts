@@ -9,6 +9,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
 import { MetricsResolver } from '@features/metrics/metrics.resolver';
+import { AlarmEditEntryComponent } from './components/alarm-edit-entry/alarm-edit-entry.component';
 
 export const routes: Routes = [
   {
@@ -30,7 +31,7 @@ export const routes: Routes = [
         path: 'new',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'create'},
-        component: AlarmEditComponent,
+        component: AlarmEditEntryComponent,
         resolve: {
           channelGroups: ChannelGroupsResolver,
           metrics: MetricsResolver
@@ -47,7 +48,7 @@ export const routes: Routes = [
       },
       {
         path: ':alarmId/edit',
-        component: AlarmEditComponent,
+        component: AlarmEditEntryComponent,
         resolve: {
           alarm: AlarmsResolver,
           channelGroups: ChannelGroupsResolver,
