@@ -7,6 +7,8 @@ import { AlarmViewComponent } from './components/alarm-view/alarm-view.component
 import { AlarmsResolver } from './alarms.resolver';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
+import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
+import { MetricsResolver } from '@features/metrics/metrics.resolver';
 
 export const routes: Routes = [
   {
@@ -31,7 +33,7 @@ export const routes: Routes = [
         component: AlarmEditComponent
       },
       {
-        path: ':id',
+        path: ':alarmid',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'create'},
         component: AlarmDetailComponent,
@@ -40,10 +42,12 @@ export const routes: Routes = [
         },
       },
       {
-        path: ':id/edit',
+        path: ':alarmid/edit',
         component: AlarmEditComponent,
         resolve: {
-          alarm: AlarmsResolver
+          alarm: AlarmsResolver,
+          channelGroups: ChannelGroupsResolver,
+          metrics: MetricsResolver
         },
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'create'},

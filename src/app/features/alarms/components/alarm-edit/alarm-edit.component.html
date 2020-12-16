@@ -26,14 +26,14 @@
     Channel Group
   </mat-label>
   <mat-select>
-    <mat-option>Channel group 1</mat-option>
+    <mat-option *ngFor="let channelGroup of channelGroups">{{channelGroup.name}}</mat-option>
   </mat-select>
 </mat-form-field>
 
 <mat-form-field>
   <mat-label>Metric</mat-label>
   <mat-select>
-    <mat-option>Metric 1</mat-option>
+    <mat-option *ngFor="let metric of metrics">{{metric.name}} </mat-option>
   </mat-select>
 </mat-form-field>
 

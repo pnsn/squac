@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Metric } from '@core/models/metric';
 import { Alarm } from '@features/alarms/models/alarm';
 import { UserService } from '@features/user/services/user.service';
 import { Subscription } from 'rxjs';
@@ -17,6 +19,8 @@ export class AlarmEditComponent implements OnInit {
   orgId: number;
   alarm: Alarm;
   alarmForm: FormGroup;
+  channelGroups: ChannelGroup[];
+  metrics: Metric[];
   constructor(
     private route: ActivatedRoute ,
     private userService: UserService,
@@ -31,6 +35,9 @@ export class AlarmEditComponent implements OnInit {
       numberChannels: ['', Validators.required],
       stat: ['', Validators.required]
     });
+
+    this.metrics = this.route.snapshot.data.metrics;
+    this.channelGroups = this.route.snapshot.data.channelGroups;
 
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
