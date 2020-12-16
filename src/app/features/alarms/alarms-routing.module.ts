@@ -25,38 +25,44 @@ export const routes: Routes = [
         path: '',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'read'},
-        component: AlarmViewComponent
-      },
-      {
-        path: 'new',
-        // canActivate: [PermissionGuard],
-        // data: {subject: 'Alarm', action: 'create'},
-        component: AlarmEditEntryComponent,
-        resolve: {
-          channelGroups: ChannelGroupsResolver,
-          metrics: MetricsResolver
-        },
-      },
-      {
-        path: ':alarmId',
-        // canActivate: [PermissionGuard],
-        // data: {subject: 'Alarm', action: 'create'},
-        component: AlarmDetailComponent,
-        resolve: {
-          alarm: AlarmsResolver
-        },
-      },
-      {
-        path: ':alarmId/edit',
-        component: AlarmEditEntryComponent,
-        resolve: {
-          alarm: AlarmsResolver,
-          channelGroups: ChannelGroupsResolver,
-          metrics: MetricsResolver
-        },
-        // canActivate: [PermissionGuard],
-        // data: {subject: 'Alarm', action: 'create'},
-      },
+        component: AlarmViewComponent,
+        children: [
+          {
+            path: 'new',
+            // canActivate: [PermissionGuard],
+            // data: {subject: 'Alarm', action: 'create'},
+            component: AlarmEditEntryComponent,
+            resolve: {
+              channelGroups: ChannelGroupsResolver,
+              metrics: MetricsResolver
+            },
+          },
+          {
+            path: ':alarmId',
+            // canActivate: [PermissionGuard],
+            // data: {subject: 'Alarm', action: 'create'},
+            component: AlarmDetailComponent,
+            resolve: {
+              alarm: AlarmsResolver
+            },
+            children: [
+              {
+                path: 'edit',
+                component: AlarmEditEntryComponent,
+                resolve: {
+                  alarm: AlarmsResolver,
+                  channelGroups: ChannelGroupsResolver,
+                  metrics: MetricsResolver
+                },
+                // canActivate: [PermissionGuard],
+                // data: {subject: 'Alarm', action: 'create'},
+              }
+            ]
+          }
+
+        ]
+      }
+
 
     ]
   }

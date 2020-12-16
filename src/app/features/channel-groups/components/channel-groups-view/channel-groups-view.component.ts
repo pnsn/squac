@@ -15,7 +15,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
-  selectedChannels = [];
+
 
   // Table stuff
   ColumnMode = ColumnMode;

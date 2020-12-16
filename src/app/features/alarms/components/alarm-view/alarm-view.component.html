@@ -21,6 +21,9 @@
       [footerHeight]="50"
       [rowHeight]="50"
       [scrollbarV]="50"
+      [selectionType]=SelectionType.single
+      [selected]="selected"
+      (select)="onSelect($event)"
     >
       <!-- <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
       </ngx-datatable-column>
@@ -44,3 +47,4 @@
 
     </ngx-datatable>
   </div>
+<router-outlet></router-outlet>

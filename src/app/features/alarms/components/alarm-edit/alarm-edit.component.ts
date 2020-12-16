@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
@@ -7,6 +8,7 @@ import { Alarm } from '@features/alarms/models/alarm';
 import { AlarmsService } from '@features/alarms/services/alarms.service';
 import { UserService } from '@features/user/services/user.service';
 import { Subscription } from 'rxjs';
+import { AlarmEditEntryComponent } from '../alarm-edit-entry/alarm-edit-entry.component';
 
 @Component({
   selector: 'app-alarm-edit',
@@ -23,10 +25,10 @@ export class AlarmEditComponent implements OnInit {
   channelGroups: ChannelGroup[];
   metrics: Metric[];
   constructor(
-    private route: ActivatedRoute ,
-    private userService: UserService,
     private formBuilder: FormBuilder,
-    private alarmsService: AlarmsService
+    private alarmsService: AlarmsService,
+    public dialogRef: MatDialogRef<AlarmEditEntryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   intervalTypes : string[] = ["minute", "hour", "day"];
@@ -47,21 +49,11 @@ export class AlarmEditComponent implements OnInit {
       metricId: ['', Validators.required]
     });
 
-    this.metrics = this.route.snapshot.data.metrics;
-    this.channelGroups = this.route.snapshot.data.channelGroups;
-    console.log(this.channelGroups)
-    const paramsSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.alarmId;
-        this.editMode = !!this.id;
-        this.initForm();
-      },
-      error => {
-        console.log('error getting params: ' + error);
-      }
-    );
+    this.metrics = this.data.metrics;
+    this.channelGroups = this.data.channelGroups;
+    this.editMode = !!this.data.alarm;
 
-    this.subscriptions.add(paramsSub);
+    this.initForm();
   }
 
   ngOnDestroy(): void {
@@ -83,7 +75,7 @@ export class AlarmEditComponent implements OnInit {
   private initForm() {
 
     if (this.editMode) {
-      this.alarm = this.route.snapshot.data.alarm;
+      this.alarm = this.data.alarm;
       this.alarmForm.patchValue(
         {
           name: this.alarm.name,
