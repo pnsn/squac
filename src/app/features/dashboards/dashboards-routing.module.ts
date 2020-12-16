@@ -24,7 +24,7 @@ export const routes: Routes = [
         data: {subject: 'Dashboard', action: 'create'} 
       },
       {
-        path: ':id',
+        path: ':dashboardId',
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Dashboard', action: 'read'},
@@ -35,7 +35,7 @@ export const routes: Routes = [
         // loadChildren: () => import('@features/widgets/widgets.module').then(m=>m.WidgetsModule)
       },
       {
-        path: ':id/edit',
+        path: ':dashboardId/edit',
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Dashboard', action: 'update'},
