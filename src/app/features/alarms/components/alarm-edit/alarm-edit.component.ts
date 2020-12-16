@@ -41,7 +41,7 @@ export class AlarmEditComponent implements OnInit {
 
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params.id;
+        this.id = +params.alarmId;
         this.editMode = !!this.id;
         this.initForm();
       },

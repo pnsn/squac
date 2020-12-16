@@ -33,7 +33,7 @@ export const routes: Routes = [
         component: AlarmEditComponent
       },
       {
-        path: ':alarmid',
+        path: ':alarmId',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Alarm', action: 'create'},
         component: AlarmDetailComponent,
@@ -42,7 +42,7 @@ export const routes: Routes = [
         },
       },
       {
-        path: ':alarmid/edit',
+        path: ':alarmId/edit',
         component: AlarmEditComponent,
         resolve: {
           alarm: AlarmsResolver,
