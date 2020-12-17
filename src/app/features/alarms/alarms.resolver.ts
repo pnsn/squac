@@ -19,6 +19,7 @@ export class AlarmsResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Alarm> | Observable<Alarm[]> {
     const id = +route.paramMap.get('alarmId');
+    console.log(route.paramMap)
     if (id) {
       this.loadingService.setStatus('Loading alarm');
       return this.alarmsService.getAlarm(id).pipe(

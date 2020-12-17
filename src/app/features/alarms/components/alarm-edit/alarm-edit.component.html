@@ -1,51 +1,62 @@
+<div mat-dialog-title id="edit-title">
+  <h3>{{ editMode ? "Edit Alarm": "New Alarm"}}</h3>
+  <button mat-icon-button type="button"><mat-icon>close</mat-icon></button>
+</div>
 
-{{editMode ? "Edit Alarm" : "Create Alarm"}}
-<form #alarmEditForm [formGroup]="alarmForm">
+<div mat-dialog-content id="edit-container">
+  <form #alarmEditForm [formGroup]="alarmForm">
+    <mat-form-field>
+      <mat-label for="name">Name:</mat-label>
+      <input matInput type="text" name="name" formControlName="name"> 
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Interval Type</mat-label>
+      <mat-select formControlName="intervalType">
+        <mat-option *ngFor="let type of intervalTypes"  value="type">{{type}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label for="intervalCount">Interval Count:</mat-label>
+      <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="numberChannels">Number of Channels:</mat-label>
+      <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Stat</mat-label>
+      <mat-select formControlName="stat">
+        <mat-option *ngFor="let stat of stats"  value="stat"> {{stat}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
   <mat-form-field>
-    <mat-label for="name">Name:</mat-label>
-    <input matInput type="text" name="name" formControlName="name"> 
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Interval Type</mat-label>
-    <mat-select formControlName="intervalType">
-      <mat-option *ngFor="let type of intervalTypes"  value="type">{{type}} </mat-option>
+    <mat-label>
+      Channel Group
+    </mat-label>
+    <mat-select formControlName="channelGroupId">
+      <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup.id">{{channelGroup.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-
-  <mat-form-field>
-    <mat-label for="intervalCount">Interval Count:</mat-label>
-    <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label for="numberChannels">Number of Channels:</mat-label>
-    <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Stat</mat-label>
-    <mat-select formControlName="stat">
-      <mat-option *ngFor="let stat of stats"  value="stat"> {{stat}} </mat-option>
+  
+  <mat-form-field >
+    <mat-label>Metric</mat-label>
+    <mat-select formControlName="metricId">
+      <mat-option *ngFor="let metric of metrics"  [value]="metric.id">{{metric.name}} </mat-option>
     </mat-select>
   </mat-form-field>
+  
+  <button mat-button type="submit" click="submitForm()">Submit</button>
+  </form>
 
-<mat-form-field>
-  <mat-label>
-    Channel Group
-  </mat-label>
-  <mat-select formControlName="channelGroupId">
-    <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup.id">{{channelGroup.name}}</mat-option>
-  </mat-select>
-</mat-form-field>
+  <app-alarm-chart [metric]="selectedMetric"></app-alarm-chart>
+</div>
 
-<mat-form-field >
-  <mat-label>Metric</mat-label>
-  <mat-select formControlName="metricId">
-    <mat-option *ngFor="let metric of metrics"  [value]="metric.id">{{metric.name}} </mat-option>
-  </mat-select>
-</mat-form-field>
 
-<button mat-button type="submit" click="submitForm()">Submit</button>
-</form>
 
-<app-alarm-chart>
-
-</app-alarm-chart>
+<div mat-dialog-actions id="dialog-options">
+  <div>
+    <button id="save" mat-flat-button color="accent" (click)="save()" >Save</button>
+  </div>
+</div>

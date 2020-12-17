@@ -52,7 +52,7 @@ export class AlarmEditComponent implements OnInit {
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.alarm;
-
+    console.log(this.data.alarm)
     this.initForm();
   }
 
@@ -70,6 +70,16 @@ export class AlarmEditComponent implements OnInit {
         // this.router.navigate()
       }
     )
+  }
+
+
+  save() {
+
+    // this.widgetEditService.saveWidget().subscribe(
+    //   () => {
+    //     this.cancel();
+    //   }
+    // );
   }
 
   private initForm() {

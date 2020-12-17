@@ -50,7 +50,6 @@ export const routes: Routes = [
                 path: 'edit',
                 component: AlarmEditEntryComponent,
                 resolve: {
-                  alarm: AlarmsResolver,
                   channelGroups: ChannelGroupsResolver,
                   metrics: MetricsResolver
                 },

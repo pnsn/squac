@@ -35,10 +35,9 @@ export class AlarmEditEntryComponent implements OnInit, OnDestroy {
 
 
         if (this.route.parent) {
-          this.dashboardId = this.route.parent.parent.snapshot.paramMap.get('dashboardId');
+          this.alarm = this.route.parent.snapshot.data.alarm;
         }
         if (this.route.snapshot && this.route.snapshot.data) {
-          this.alarm = this.route.snapshot.data.alarm;
           this.metrics = this.route.snapshot.data.metrics;
           this.channelGroups = this.route.snapshot.data.channelGroups;
         }
