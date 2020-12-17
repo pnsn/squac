@@ -79,8 +79,7 @@ export class AlarmsService {
   }
   
   getAlarm(id: number) : Observable<Alarm>{
-
-    return of(this.testAlarms[id]);
+    return of(this.testAlarms[id -1]);
     // return this.squacApi.get(this.url, id).pipe(
     //   map(
     //     response => {

@@ -35,8 +35,8 @@ export class AlarmEditComponent implements OnInit {
   stats : string[] = ["count", "sum", "avg", "min", "max"];
   // selectedType;
   // selectedStat;
-  selectedChannelGroup;
-  selectedMetric;
+  selectedChannelGroup: ChannelGroup;
+  selectedMetric: Metric;
 
   ngOnInit() {
     this.alarmForm = this.formBuilder.group({
@@ -45,8 +45,8 @@ export class AlarmEditComponent implements OnInit {
       numberChannels: ['', Validators.required],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      channelGroupId: ['', Validators.required],
-      metricId: ['', Validators.required]
+      channelGroup: ['', Validators.required],
+      metric: ['', Validators.required]
     });
 
     this.metrics = this.data.metrics;
@@ -60,8 +60,7 @@ export class AlarmEditComponent implements OnInit {
     this.subscriptions.unsubscribe();
   }
 
-  submitForm() {
-
+  save() {
     this.alarmsService.updateAlarm(
       this.alarmForm.value
     ).subscribe(
@@ -70,11 +69,6 @@ export class AlarmEditComponent implements OnInit {
         // this.router.navigate()
       }
     )
-  }
-
-
-  save() {
-
     // this.widgetEditService.saveWidget().subscribe(
     //   () => {
     //     this.cancel();
@@ -82,10 +76,17 @@ export class AlarmEditComponent implements OnInit {
     // );
   }
 
+  cancel(alarm?: Alarm) {
+    this.dialogRef.close(alarm);
+  }
+
   private initForm() {
 
     if (this.editMode) {
       this.alarm = this.data.alarm;
+      this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.alarm.channelGroupId);
+      this.selectedMetric = this.metrics.find(m => m.id === this.alarm.metricId);
+
       this.alarmForm.patchValue(
         {
           name: this.alarm.name,
@@ -93,10 +94,12 @@ export class AlarmEditComponent implements OnInit {
           numberChannels: this.alarm.numberChannels,
           intervalType: this.alarm.intervalType,
           stat: this.alarm.stat,
-          channelGroup: this.alarm.channelGroupId,
-          metric: this.alarm.metricId
+          channelGroup: this.selectedChannelGroup,
+          metric: this.selectedMetric
         }
       );
+
+
     }
   }
 }
