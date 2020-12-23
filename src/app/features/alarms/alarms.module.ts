@@ -8,6 +8,7 @@ import { AlarmsRoutingModule } from './alarms-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { AlarmChartComponent } from './components/alarm-chart/alarm-chart.component';
 import { AlarmEditEntryComponent } from './components/alarm-edit-entry/alarm-edit-entry.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -16,7 +17,8 @@ import { AlarmEditEntryComponent } from './components/alarm-edit-entry/alarm-edi
   imports: [
     CommonModule,
     AlarmsRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule
   ]
 })
 export class AlarmsModule { }
