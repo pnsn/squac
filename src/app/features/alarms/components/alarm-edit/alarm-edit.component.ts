@@ -1,5 +1,6 @@
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
@@ -46,7 +47,15 @@ export class AlarmEditComponent implements OnInit {
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
       channelGroup: ['', Validators.required],
-      metric: ['', Validators.required]
+      metric: ['', Validators.required],
+      thresholds: this.formBuilder.array(
+       [
+         this.formBuilder.group({
+          min: [''],
+          max: ['']          
+         })
+       ] 
+      )
     });
 
     this.metrics = this.data.metrics;
@@ -56,11 +65,23 @@ export class AlarmEditComponent implements OnInit {
     this.initForm();
   }
 
+  get thresholds(){
+    return this.alarmForm.get('thresholds') as FormArray;
+  }  
+
+  addThreshold() {
+    this.thresholds.push( this.formBuilder.group({
+      min: [''],
+      max: ['']          
+    }));
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
   save() {
+    console.log(this.alarmForm.value)
     this.alarmsService.updateAlarm(
       this.alarmForm.value
     ).subscribe(

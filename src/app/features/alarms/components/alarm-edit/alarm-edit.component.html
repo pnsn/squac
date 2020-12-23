@@ -23,7 +23,7 @@
     <mat-form-field>
       <mat-label for="numberChannels">Number of Channels:</mat-label>
       <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
-    </mat-form-field>
+    </mat-form-field>a
     <mat-form-field>
       <mat-label>Stat</mat-label>
       <mat-select formControlName="stat">
@@ -47,10 +47,35 @@
     </mat-select>
   </mat-form-field>
 
+  <div>
+    <h3>Thresholds</h3>
+    <div formArrayName="thresholds">
+      <button (click)="addThreshold()">Add Threshold</button>
+    
+      <div *ngFor="let threshold of thresholds.controls; let i=index">
+
+        <div [formGroupName]="i">
+          <label>
+            min:
+            <input type="number" formControlName="min">
+          </label>
+          <label>
+            max:
+            <input type="number" formControlName="max">
+          </label>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
   </form>
+
+
 
   <app-alarm-chart [metric]="alarmForm.value.metric"></app-alarm-chart>
 </div>
+
 
 
 
