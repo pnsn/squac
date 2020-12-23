@@ -49,12 +49,7 @@ export class AlarmEditComponent implements OnInit {
       channelGroup: ['', Validators.required],
       metric: ['', Validators.required],
       thresholds: this.formBuilder.array(
-       [
-         this.formBuilder.group({
-          min: [''],
-          max: ['']          
-         })
-       ] 
+       [] 
       )
     });
 
@@ -74,6 +69,11 @@ export class AlarmEditComponent implements OnInit {
       min: [''],
       max: ['']          
     }));
+  }
+
+  removeThreshold(index){
+    console.log(index)
+    this.thresholds.removeAt(index);
   }
 
   ngOnDestroy(): void {
