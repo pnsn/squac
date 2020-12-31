@@ -3,11 +3,13 @@
   flex-direction:row;
 
   form {
-    width: 66%;
+    width: 100%;
     display:flex;
     flex-direction: row;
-    mat-form-field {
-      display:block;
+
+    .form-row mat-form-field{
+      // display: inline-block;
+      
     }
     #alarm-edit-container, #threshold-container {
       display:inline-block;
@@ -32,7 +34,7 @@
   display:flex;
   flex-direction: row;
   mat-form-field {
-    width: 45%;
+    width: 20%;
   }
 }
 

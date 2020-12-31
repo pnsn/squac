@@ -11,6 +11,7 @@
       <mat-label for="name">Name:</mat-label>
       <input matInput type="text" name="name" formControlName="name"> 
     </mat-form-field>
+    <div class="form-row">
     <mat-form-field>
       <mat-label>
         Channel Group
@@ -19,35 +20,41 @@
         <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup">{{channelGroup.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    
-    <mat-form-field >
-      <mat-label>Metric</mat-label>
-      <mat-select formControlName="metric">
-        <mat-option *ngFor="let metric of metrics"  [value]="metric">{{metric.name}} </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Interval</mat-label>
-      <mat-select formControlName="intervalType">
-        <mat-option *ngFor="let type of intervalTypes"  [value]="type">{{type}} </mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field>
-      <mat-label for="intervalCount">Interval Count:</mat-label>
-      <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
-    </mat-form-field>
     <mat-form-field>
       <mat-label for="numberChannels">Number of Channels:</mat-label>
       <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Stat</mat-label>
-      <mat-select formControlName="stat">
-        <mat-option *ngFor="let stat of stats"  [value]="stat"> {{stat}} </mat-option>
-      </mat-select>
-    </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field >
+        <mat-label>Metric</mat-label>
+        <mat-select formControlName="metric">
+          <mat-option *ngFor="let metric of metrics"  [value]="metric">{{metric.name}} </mat-option>
+        </mat-select>
+      </mat-form-field>
   
+      <mat-form-field>
+        <mat-label>Stat</mat-label>
+        <mat-select formControlName="stat">
+          <mat-option *ngFor="let stat of stats"  [value]="stat"> {{stat}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field>
+        <mat-label>Interval</mat-label>
+        <mat-select formControlName="intervalType">
+          <mat-option *ngFor="let type of intervalTypes"  [value]="type">{{type}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label for="intervalCount">Interval Count:</mat-label>
+        <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
+      </mat-form-field>
+    </div>
+
 
 </div>
   <div id="threshold-container">
@@ -70,6 +77,16 @@
             <mat-label for="max">max:</mat-label>
             <input matInput type="number" name="max" formControlName="max"> 
           </mat-form-field>
+
+          <mat-checkbox [formControl]="inclusive">inclusive</mat-checkbox>
+
+          <mat-form-field>
+            <mat-label>Level</mat-label>
+            <mat-select formControlName="level">
+              <mat-option *ngFor="let level of levels"  [value]="level"> {{level}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <button mat-icon-button (click)="removeThreshold(i)"><mat-icon> delete </mat-icon></button>
         </div>
   
@@ -79,9 +96,9 @@
   </div>
   </form>
 
-<div id="chart-container">
+<!-- <div id="chart-container">
   <app-alarm-chart [metric]="alarmForm.value.metric"></app-alarm-chart>
-</div>
+</div> -->
 
 
 </div>

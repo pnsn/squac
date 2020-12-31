@@ -34,6 +34,7 @@ export class AlarmEditComponent implements OnInit {
 
   intervalTypes : string[] = ["minute", "hour", "day"];
   stats : string[] = ["count", "sum", "avg", "min", "max"];
+  levels: string[] = ["1", "2", "3"]
   // selectedType;
   // selectedStat;
   selectedChannelGroup: ChannelGroup;
@@ -67,7 +68,9 @@ export class AlarmEditComponent implements OnInit {
   addThreshold() {
     this.thresholds.push( this.formBuilder.group({
       min: [''],
-      max: ['']          
+      max: [''],
+      inclusive: [''],
+      level: []         
     }));
   }
 
