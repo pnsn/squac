@@ -76,8 +76,8 @@ export class AlarmEditEntryComponent implements OnInit, OnDestroy {
   openAlarm( ) {
     this.dialogRef = this.dialog.open(AlarmEditComponent, {
       closeOnNavigation: true,
+      width: '70vw',
       data : {
-        width: '70vw',
         alarm: this.alarm,
         metrics: this.metrics,
         channelGroups: this.channelGroups

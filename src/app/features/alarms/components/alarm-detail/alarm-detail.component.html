@@ -1,5 +1,10 @@
 <p>alarm-detail works!</p>
-{{alarm | json}}
+<div *ngIf="alarm">
+  {{alarm.name}}
+  
+
+
+</div>
 
 <a button mat-button [routerLink]="[ 'edit' ]">Edit</a>
 

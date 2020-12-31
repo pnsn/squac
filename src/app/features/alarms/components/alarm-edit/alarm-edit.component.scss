@@ -1,11 +1,38 @@
 #edit-container{
   display:flex;
   flex-direction:row;
+
+  form {
+    width: 66%;
+    display:flex;
+    flex-direction: row;
+    mat-form-field {
+      display:block;
+    }
+    #alarm-edit-container, #threshold-container {
+      display:inline-block;
+      width: 50%;
+
+
+    }
+  }
+
+  #chart-container {
+    width: 33%;
+  }
 }
-form {
-  // width: 300px;
+
+#threshold-title {
+  h4 {
+    display:inline;
+  }
+}
+
+.threshold {
+  display:flex;
+  flex-direction: row;
   mat-form-field {
-    display:block;
+    width: 45%;
   }
 }
 
