@@ -1,0 +1,57 @@
+#edit-container{
+  display:flex;
+  flex-direction:row;
+
+  form {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+
+
+    #monitor-edit-container, #trigger-container {
+      display:inline-block;
+      width: 50%;
+
+
+    }
+  }
+
+  #chart-container {
+    width: 33%;
+  }
+}
+
+#trigger-title {
+  h4 {
+    display:inline;
+  }
+}
+
+.trigger {
+  display:flex;
+  flex-direction: row;
+  mat-form-field {
+    width: 20%;
+  }
+}
+
+#edit-title {
+  h3 {
+    display:inline;
+  }
+  button {
+    float:right;
+  }
+}
+
+
+h3{
+  margin-bottom: 10px;
+}
+
+
+#dialog-options {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}

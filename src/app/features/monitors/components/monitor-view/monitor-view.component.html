@@ -1,0 +1,50 @@
+
+
+<div id="title">
+  <h1>
+    Monitors
+  </h1>
+  <div id="button-container" *ngIf="'update' | able: 'Monitor'">
+    <button mat-flat-button color="accent"
+      class="add-btn" (click)="addMonitor()"
+    >Create Monitor</button>
+  </div>
+</div>
+
+  <div id="channel-groups" class="box">
+    <ngx-datatable
+      id="channel-group-table"
+      class="material"
+      [rows]="monitors"
+      [columnMode]="ColumnMode.flex"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [scrollbarV]="50"
+      [selectionType]=SelectionType.single
+      [selected]="selected"
+      (select)="onSelect($event)"
+    >
+      <!-- <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="Monitor" prop="id" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Metric" prop="metricId" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Interval Type" prop="intervalType" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Interval Count" prop="intervalCount" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Number of Channels" prop="numberChannels" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Stat" prop="stat" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+
+<!-- click to show more detail -->
+    </ngx-datatable>
+  </div>
+<router-outlet></router-outlet>

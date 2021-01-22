@@ -1,0 +1,12 @@
+<p>monitor-detail works!</p>
+<div *ngIf="monitor">
+  {{monitor.name}}
+  
+  {{monitor.id}}
+
+</div>
+
+<a button mat-button [routerLink]="[ 'edit' ]">Edit</a>
+
+<app-monitor-chart *ngIf="monitor" [metric]="monitor.metricId"></app-monitor-chart>
+<router-outlet></router-outlet>
