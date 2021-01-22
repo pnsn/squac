@@ -11,7 +11,7 @@
       // display: inline-block;
       
     }
-    #alarm-edit-container, #threshold-container {
+    #alarm-edit-container, #trigger-container {
       display:inline-block;
       width: 50%;
 
@@ -24,13 +24,13 @@
   }
 }
 
-#threshold-title {
+#trigger-title {
   h4 {
     display:inline;
   }
 }
 
-.threshold {
+.trigger {
   display:flex;
   flex-direction: row;
   mat-form-field {

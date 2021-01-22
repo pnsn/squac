@@ -57,18 +57,18 @@
 
 
 </div>
-  <div id="threshold-container">
-    <div id="threshold-title">
-      <h4>Thresholds</h4>
-      <button mat-icon-button (click)="addThreshold()"><mat-icon>add</mat-icon></button>
+  <div id="trigger-container">
+    <div id="trigger-title">
+      <h4>Triggers</h4>
+      <button mat-icon-button (click)="addTrigger()"><mat-icon>add</mat-icon></button>
     </div>
 
-    <div formArrayName="thresholds">
+    <div formArrayName="triggers">
 
     
-      <div *ngFor="let threshold of thresholds.controls; let i=index">
+      <div *ngFor="let trigger of triggers.controls; let i=index">
 
-        <div [formGroupName]="i" class="threshold"> 
+        <div [formGroupName]="i" class="trigger"> 
           <mat-form-field>
             <mat-label for="min">min:</mat-label>
             <input matInput type="number" name="min" formControlName="min"> 
