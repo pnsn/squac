@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Monitor } from '@features/alarms/models/monitor';
+import { Monitor } from '@features/monitors/models/monitor';
 import { Subscription } from 'rxjs';
 
 @Component({

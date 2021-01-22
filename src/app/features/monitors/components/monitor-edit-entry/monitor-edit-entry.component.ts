@@ -3,7 +3,7 @@ import { MonitorEditComponent } from '../monitor-edit/monitor-edit.component';
 import { ViewService } from '@core/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { MonitorsService } from '@features/alarms/services/monitors.service';
+import { MonitorsService } from '@features/monitors/services/monitors.service';
 
 @Component({
   selector: 'app-monitor-edit-entry',

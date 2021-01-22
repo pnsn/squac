@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Monitor } from '@features/alarms/models/monitor';
+import { Monitor } from '@features/monitors/models/monitor';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
