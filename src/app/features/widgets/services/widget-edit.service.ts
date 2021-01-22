@@ -192,6 +192,7 @@ export class WidgetEditService {
             newWidget.id
           );
           let count = 0;
+          // Wait to update view until all are saved
           if (thresholdObs && thresholdObs.length > 0) {
               return merge(...thresholdObs).pipe(
                 tap(result => {

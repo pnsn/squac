@@ -1,9 +1,12 @@
 export class Trigger {
-  id: number;
-  monitorId: number;
-  min: number;
-  max: number;
-  bandInclusive: boolean;
-  level: number;
-  owner: number;
+  constructor(
+    public id: number,
+    public monitorId: number,
+    public bandInclusive: boolean,
+    public level: number,
+    public owner: number,
+    public min?: number,
+    public max?: number
+  ) {}
+
 }

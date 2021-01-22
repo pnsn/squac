@@ -3,6 +3,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Monitor } from '../models/monitor';
+import { Trigger } from '../models/trigger';
 
 interface MonitorPostData {
   channel_group: number,
@@ -18,7 +19,7 @@ interface MonitorPostData {
 })
 export class MonitorsService {
 
-  private url = 'measurement/alarms/';
+  private url = 'measurement/monitors/';
 
 
   constructor(
@@ -71,25 +72,42 @@ export class MonitorsService {
       ));
     }
 
-  mapMonitor(monitor) {
-    let newMonitor: Monitor = {
-      id: monitor.id,
-      name: "name",
-      channelGroupId: monitor.channel_group,
-      metricId: monitor.metric,
-      intervalType: monitor.interval_type,
-      intervalCount: monitor.interval_count,
-      numberChannels: monitor.num_channels,
-      stat: monitor.stat,
-      owner: monitor.user_id,
+  mapMonitor(response) {
+    const triggers = [];
+    if (response.triggers) {
+      response.triggers.forEach(t => {
+        const trigger: Trigger = {
+          id: t.id,
+          monitorId: t.monitor,
+          bandInclusive: t.band_inclusive,
+          level: t.level,
+          owner: t.user_id,
+          min: t.minval,
+          max: t.maxval
+        };
+        triggers.push(trigger);
+      });
 
+
+    }
+    let newMonitor: Monitor = {
+      id: response.id,
+      name: "name",
+      channelGroupId: response.channel_group,
+      metricId: response.metric,
+      intervalType: response.interval_type,
+      intervalCount: response.interval_count,
+      numberChannels: response.num_channels,
+      stat: response.stat,
+      owner: response.user_id,
+      triggers: triggers
     }
 
     return newMonitor;
   }
 
-  deleteMonitor(){
-
+  deleteMonitor(id: number){
+    return this.squacApi.delete(this.url, id);
   };
   //getMonitors
 

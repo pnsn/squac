@@ -7,8 +7,10 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { Monitor } from '@features/monitors/models/monitor';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
+import { TriggersService } from '@features/monitors/services/triggers.service';
 import { UserService } from '@features/user/services/user.service';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-entry.component';
 
 @Component({
@@ -29,6 +31,7 @@ export class MonitorEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private monitorsService: MonitorsService,
     public dialogRef: MatDialogRef<MonitorEditEntryComponent>,
+    private triggersService: TriggersService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -84,10 +87,28 @@ export class MonitorEditComponent implements OnInit {
   }
 
   save() {
-    console.log(this.monitorForm.value)
+    const values = this.monitorForm.value;
+
+    const monitor = new Monitor(
+      this.id,
+      values.name,
+      values.channelGroupId,
+      values.metricId,
+      values.intervalType,
+      values.intervalCount,
+      values.numberchannels,
+      values.stat,
+      null, 
+      values.triggers
+    );
     this.monitorsService.updateMonitor(
       this.monitorForm.value
-    ).subscribe(
+    ).pipe(
+      switchMap(monitor => {
+        return this.triggersService.updateTriggers(values.triggers, monitor.id);
+      })
+    )
+    .subscribe(
       success=> {
         console.log(success)
         // this.router.navigate()

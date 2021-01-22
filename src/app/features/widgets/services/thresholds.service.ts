@@ -26,7 +26,6 @@ export class ThresholdsService {
   ) {
   }
 
-  // how to handle deleting?
   updateThresholds(metrics: Metric[], thresholds: any, widgetId: number): Observable<Threshold>[] {
     const thresholdSubs = [];
     for (const metric of metrics) {

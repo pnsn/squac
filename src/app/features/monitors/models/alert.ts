@@ -1,9 +1,13 @@
 export class Alert {
-  id: number;
-  owner: number;
-  triggerId: number;
-  timestamp: string;
-  message: string;
-  inMonitor: boolean; 
+  constructor(
+    public id: number,
+    public owner: number,
+    public triggerId: number,
+    public timestamp: string,
+    public message: string,
+    public inMonitor: boolean
+  ){
+  }
+
 }
 
