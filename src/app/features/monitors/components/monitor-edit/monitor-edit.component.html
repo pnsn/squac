@@ -16,8 +16,8 @@
       <mat-label>
         Channel Group
       </mat-label>
-      <mat-select formControlName="channelGroup">
-        <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup">{{channelGroup.name}}</mat-option>
+      <mat-select formControlName="channelGroupId">
+        <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup.id">{{channelGroup.name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -28,8 +28,8 @@
     <div class="form-row">
       <mat-form-field >
         <mat-label>Metric</mat-label>
-        <mat-select formControlName="metric">
-          <mat-option *ngFor="let metric of metrics"  [value]="metric">{{metric.name}} </mat-option>
+        <mat-select formControlName="metricId">
+          <mat-option *ngFor="let metric of metrics"  [value]="metric.id">{{metric.name}} </mat-option>
         </mat-select>
       </mat-form-field>
   

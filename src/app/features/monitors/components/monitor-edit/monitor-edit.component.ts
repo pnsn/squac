@@ -37,8 +37,8 @@ export class MonitorEditComponent implements OnInit {
   levels: string[] = ["1", "2", "3"]
   // selectedType;
   // selectedStat;
-  selectedChannelGroup: ChannelGroup;
-  selectedMetric: Metric;
+  selectedChannelGroupId: number;
+  selectedMetricId: number;
 
   ngOnInit() {
     this.monitorForm = this.formBuilder.group({
@@ -47,8 +47,8 @@ export class MonitorEditComponent implements OnInit {
       numberChannels: ['', Validators.required],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      channelGroup: ['', Validators.required],
-      metric: ['', Validators.required],
+      channelGroupId: ['', Validators.required],
+      metricId: ['', Validators.required],
       triggers: this.formBuilder.array(
        [] 
       )
@@ -93,11 +93,6 @@ export class MonitorEditComponent implements OnInit {
         // this.router.navigate()
       }
     )
-    // this.widgetEditService.saveWidget().subscribe(
-    //   () => {
-    //     this.cancel();
-    //   }
-    // );
   }
 
   cancel(monitor?: Monitor) {
@@ -108,8 +103,10 @@ export class MonitorEditComponent implements OnInit {
 
     if (this.editMode) {
       this.monitor = this.data.monitor;
-      this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroupId);
-      this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metricId);
+      this.selectedChannelGroupId = this.monitor.channelGroupId;
+      this.selectedMetricId = this.monitor.metricId;
+      // this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroupId);
+      // this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metricId);
 
       this.monitorForm.patchValue(
         {
@@ -118,8 +115,8 @@ export class MonitorEditComponent implements OnInit {
           numberChannels: this.monitor.numberChannels,
           intervalType: this.monitor.intervalType,
           stat: this.monitor.stat,
-          channelGroup: this.selectedChannelGroup,
-          metric: this.selectedMetric
+          channelGroupId: this.selectedChannelGroupId,
+          metricId: this.selectedMetricId
         }
       );
 
