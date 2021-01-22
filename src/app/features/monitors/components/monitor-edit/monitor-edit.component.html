@@ -81,9 +81,9 @@
           <mat-checkbox [formControl]="inclusive">inclusive</mat-checkbox>
 
           <mat-form-field>
-            <mat-label>Level</mat-label>
-            <mat-select formControlName="level">
-              <mat-option *ngFor="let level of levels"  [value]="level"> {{level}} </mat-option>
+            <mat-label for="level">Level</mat-label>
+            <mat-select formControlName="level" name="level">
+              <mat-option *ngFor="let l of levels"  [value]="l"> {{l}} </mat-option>
             </mat-select>
           </mat-form-field>
 

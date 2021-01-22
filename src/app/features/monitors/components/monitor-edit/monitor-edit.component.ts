@@ -9,7 +9,7 @@ import { Monitor } from '@features/monitors/models/monitor';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { TriggersService } from '@features/monitors/services/triggers.service';
 import { UserService } from '@features/user/services/user.service';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-entry.component';
 
@@ -96,21 +96,22 @@ export class MonitorEditComponent implements OnInit {
       values.metricId,
       values.intervalType,
       values.intervalCount,
-      values.numberchannels,
+      values.numberChannels,
       values.stat,
       null, 
       values.triggers
     );
     this.monitorsService.updateMonitor(
-      this.monitorForm.value
+      monitor
     ).pipe(
       switchMap(monitor => {
-        return this.triggersService.updateTriggers(values.triggers, monitor.id);
+        return merge(...this.triggersService.updateTriggers(values.triggers, monitor.id));
       })
     )
     .subscribe(
       success=> {
         console.log(success)
+        this.cancel();
         // this.router.navigate()
       }
     )
@@ -118,12 +119,14 @@ export class MonitorEditComponent implements OnInit {
 
   cancel(monitor?: Monitor) {
     this.dialogRef.close(monitor);
+    //route out of edit
   }
 
   private initForm() {
 
     if (this.editMode) {
       this.monitor = this.data.monitor;
+      this.id = this.monitor.id;
       this.selectedChannelGroupId = this.monitor.channelGroupId;
       this.selectedMetricId = this.monitor.metricId;
       // this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroupId);
