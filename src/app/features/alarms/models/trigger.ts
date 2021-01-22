@@ -1,4 +1,4 @@
-export class AlarmThreshold {
+export class Trigger {
   id: number;
   alarmId: number;
   min: number;
