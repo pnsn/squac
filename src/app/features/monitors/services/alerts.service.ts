@@ -59,6 +59,16 @@ export class AlertsService {
 
   mapAlert(alert) {
 
-    return alert;
+    const newAlert : Alert = {
+      id: alert.id,
+      triggerId: alert.trigger,
+      timestamp: alert.timestamp,
+      message: alert.message,
+      inAlarm: alert.in_alarm,
+      owner: alert.user_id,
+      title: alert.title
+    };
+
+    return newAlert;
   }
 }

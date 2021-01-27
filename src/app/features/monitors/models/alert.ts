@@ -5,7 +5,8 @@ export class Alert {
     public triggerId: number,
     public timestamp: string,
     public message: string,
-    public inMonitor: boolean
+    public inAlarm: boolean,
+    public title: string
   ){
   }
 
