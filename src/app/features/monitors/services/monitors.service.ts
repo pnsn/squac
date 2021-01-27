@@ -21,6 +21,35 @@ export class MonitorsService {
 
   private url = 'measurement/monitors/';
 
+  testTriggers : Trigger[] = [
+    {
+      id: 1,
+      monitorId: 1,
+      bandInclusive: false,
+      level: 1,
+      owner: 2,
+      min: 0,
+      max: 10
+    },
+    {
+      id: 2,
+      monitorId: 1,
+      bandInclusive: true,
+      level: 2,
+      owner: 2,
+      min: 0,
+      max: 10
+    },
+    {
+      id: 3,
+      monitorId: 1,
+      bandInclusive: false,
+      level: 3,
+      owner: 2,
+      min: 0,
+      max: 10
+    }
+  ]
 
   constructor(
     private squacApi: SquacApiService
@@ -73,7 +102,7 @@ export class MonitorsService {
     }
 
   mapMonitor(response) {
-    const triggers = [];
+    let triggers = [];
     if (response.triggers) {
       response.triggers.forEach(t => {
         const trigger: Trigger = {
@@ -89,6 +118,8 @@ export class MonitorsService {
       });
 
 
+    } else {
+     triggers = [...this.testTriggers];
     }
     let newMonitor: Monitor = {
       id: response.id,

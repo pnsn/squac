@@ -25,33 +25,39 @@
   
   
   <div id="monitor-container" class="box">
-    <div id="monitor-detail">
+    <div id="monitor-detail" class="col">
       <h3>Configuration</h3>
-      <div>
-        Channel Group
+      <div >
+        Channel Group {{monitor.channelGroupId}}
       </div>
       <div>
-        Metric
+        Metric {{monitor.metricId}}
       </div>
       <div>
-        Stat Type
+        Stat Type {{monitor.stat}}
       </div>
       <div>
-        # of channels
+        # of channels {{monitor.numberChannels}}
+      </div>
+      <div>
+        Interval type {{monitor.intervalType}}
+      </div>
+      <div>
+        Interval count {{monitor.intervalCount}}
       </div>
     </div>
-    <div id="monitor-triggers">
+    <div id="monitor-triggers" class="col">
       <h3>Triggers</h3>
-      <ng-container *ngFor="let trigger of monitor.triggers">
-        <div>{{trigger.min}}</div>
-        <div>{{trigger.max}}<div>
-        <div>{{trigger.bandInclusive}}</div>
-        <div>{{trigger.level}}</div>
-      </ng-container>
+      <div *ngFor="let trigger of monitor.triggers">
+        <span>Min: {{trigger.min}}</span>
+        <span>Max: {{trigger.max}}</span>
+        <span>Band Inclusive: {{trigger.bandInclusive}}</span>
+        <span>Level: {{trigger.level}}</span>
+      </div>
     </div>
-    <div id="monitor-chart">
+    <div id="monitor-chart" class="col">
       <h3>Alarm History</h3>
-      <monitor-chart metric="1"></monitor-chart>
+      <app-monitor-chart metric="1"></app-monitor-chart>
     </div>
   </div>
   
