@@ -20,7 +20,7 @@ export class MonitorChartComponent implements OnInit {
   hasData: boolean;
   referenceLines: any[] = [];
   xAxisLabel = 'Last Two Weeks';
-  yAxisLabel: string;
+  yAxisLabel: string =" Example data ";
   currentMetric: Metric;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
