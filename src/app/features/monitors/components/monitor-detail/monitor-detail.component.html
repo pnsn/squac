@@ -57,7 +57,7 @@
     </div>
     <div id="monitor-chart" class="col">
       <h3>Alarm History</h3>
-      <app-monitor-chart metric="1"></app-monitor-chart>
+      <app-monitor-chart [metric]="monitor.metricId" channel="1" [triggers]="monitor.triggers"></app-monitor-chart>
     </div>
   </div>
   

@@ -28,8 +28,8 @@ export class MonitorsService {
       bandInclusive: false,
       level: 1,
       owner: 2,
-      min: 0,
-      max: 10
+      min: -1000,
+      max: -500
     },
     {
       id: 2,
@@ -37,8 +37,8 @@ export class MonitorsService {
       bandInclusive: true,
       level: 2,
       owner: 2,
-      min: 0,
-      max: 10
+      min: -500,
+      max: -250
     },
     {
       id: 3,
@@ -46,8 +46,8 @@ export class MonitorsService {
       bandInclusive: false,
       level: 3,
       owner: 2,
-      min: 0,
-      max: 10
+      min: -250,
+      max: 0
     }
   ]
 

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '@core/models/metric';
+import { Trigger } from '@features/monitors/models/trigger';
+import { min } from 'rxjs/operators';
 import { testData } from './monitor-chart-test-data';
 
 @Component({
@@ -9,12 +11,14 @@ import { testData } from './monitor-chart-test-data';
 })
 export class MonitorChartComponent implements OnInit {
   @Input() metric?: number;
+  @Input() triggers: Trigger[];
+  @Input() channel: number;
   constructor() {
     this.results = testData;
    }
   results: Array<any>;
   hasData: boolean;
-
+  referenceLines: any[] = [];
   xAxisLabel = 'Last Two Weeks';
   yAxisLabel: string;
   currentMetric: Metric;
@@ -25,6 +29,24 @@ export class MonitorChartComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.results)
     this.hasData = this.results.length > 0;
+
+
+    this.triggers.forEach(( trigger )=> {
+      this.referenceLines.push(
+        {
+          name: `${trigger.id} max`,
+          value: trigger.max
+        }
+      );
+      this.referenceLines.push(
+        {
+          name: `${trigger.id} min`,
+          value: trigger.min
+        }
+      );
+
+    })
+    console.log(this.referenceLines);
     // this.results = [
     //   {
     //     name: moment.utc(measurement.starttime).toDate(),
