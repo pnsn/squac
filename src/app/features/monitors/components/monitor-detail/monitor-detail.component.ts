@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Monitor } from '@features/monitors/models/monitor';
 import { Subscription } from 'rxjs';
 
@@ -11,14 +11,22 @@ import { Subscription } from 'rxjs';
 export class MonitorDetailComponent implements OnInit {
   monitor : Monitor;
   subscription: Subscription = new Subscription();
+  error : boolean;
+
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(
       data => {
-        this.monitor = data.monitor;
+        if (data.monitor.error){
+          this.error = true;
+        } else {
+          this.error = false;
+          this.monitor = data.monitor;
+        }
       }
     )
 
@@ -26,5 +34,11 @@ export class MonitorDetailComponent implements OnInit {
     
     console.log(this.monitor)
   }
+
+
+  editMonitor() {
+    this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
 
 }

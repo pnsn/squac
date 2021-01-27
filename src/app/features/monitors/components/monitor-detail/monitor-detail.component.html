@@ -1,12 +1,59 @@
-<p>monitor-detail works!</p>
-<div *ngIf="monitor">
-  {{monitor.name}}
-  
-  {{monitor.id}}
-
-</div>
-
-<a button mat-button [routerLink]="[ 'edit' ]">Edit</a>
-
-<!-- <app-monitor-chart *ngIf="monitor" [metric]="monitor.metricId"></app-monitor-chart> -->
 <router-outlet></router-outlet>
+
+<ng-container *ngIf="error && !monitor; else hasMonitor">
+  <p> Could not load monitor.</p>
+</ng-container>
+<ng-template #hasMonitor>
+  <div id="title">
+    <div id="monitor-info">
+      <h2>{{monitor.name}}</h2>
+    </div>
+  
+    <div id="button-container" *ngIf="'update' | able: 'monitor'">
+      <button 
+        mat-flat-button 
+        color="primary"
+        class="add-btn"
+        (click)="editMonitor()"
+        matTooltip="Edit channel group"
+        aria-label="Button that navigates to edit channel group page"
+      > 
+      Edit
+    </button>
+    </div>
+  </div>
+  
+  
+  <div id="monitor-container" class="box">
+    <div id="monitor-detail">
+      <h3>Configuration</h3>
+      <div>
+        Channel Group
+      </div>
+      <div>
+        Metric
+      </div>
+      <div>
+        Stat Type
+      </div>
+      <div>
+        # of channels
+      </div>
+    </div>
+    <div id="monitor-triggers">
+      <h3>Triggers</h3>
+      <ng-container *ngFor="let trigger of monitor.triggers">
+        <div>{{trigger.min}}</div>
+        <div>{{trigger.max}}<div>
+        <div>{{trigger.bandInclusive}}</div>
+        <div>{{trigger.level}}</div>
+      </ng-container>
+    </div>
+    <div id="monitor-chart">
+      <h3>Alarm History</h3>
+      <monitor-chart metric="1"></monitor-chart>
+    </div>
+  </div>
+  
+</ng-template>
+
