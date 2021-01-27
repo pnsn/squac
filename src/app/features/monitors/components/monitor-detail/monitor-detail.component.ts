@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Metric } from '@core/models/metric';
 import { Monitor } from '@features/monitors/models/monitor';
 import { Subscription } from 'rxjs';
 
@@ -13,12 +15,18 @@ export class MonitorDetailComponent implements OnInit {
   subscription: Subscription = new Subscription();
   error : boolean;
 
+  metrics: Metric[];
+  channelGroups: ChannelGroup[];
   constructor(
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    if (this.route.parent.snapshot && this.route.parent.snapshot.data) {
+      this.metrics = this.route.snapshot.parent.data.metrics;
+      this.channelGroups = this.route.snapshot.parent.data.channelGroups;
+    }
     this.route.data.subscribe(
       data => {
         if (data.monitor.error){
@@ -28,13 +36,23 @@ export class MonitorDetailComponent implements OnInit {
           this.monitor = data.monitor;
         }
       }
-    )
+    );
 
 
     
     console.log(this.monitor)
   }
 
+
+  channelGroupName(id : number) : string{
+    const group = this.channelGroups.find(cG => cG.id === id)
+    return group ? group.name : "unknown";
+  }
+
+  metricName(id : number) : string {
+    const metric = this.metrics.find(m => m.id === id)
+    return metric ? metric.name : "unknown";
+  }
 
   editMonitor() {
     this.router.navigate(['edit'], {relativeTo: this.route});

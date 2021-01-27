@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Metric } from '@core/models/metric';
 import { Monitor } from '@features/monitors/models/monitor';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
@@ -15,7 +17,8 @@ export class MonitorViewComponent implements OnInit {
 
   selectedMonitorId: number;
 
-
+  metrics: Metric[];
+  channelGroups: ChannelGroup[];
   constructor(
     private route: ActivatedRoute,
     private router: Router
@@ -28,6 +31,10 @@ export class MonitorViewComponent implements OnInit {
   ngOnInit(): void {
     this.selected = [];
     this.monitors = this.route.parent.snapshot.data.monitors;
+    if (this.route.snapshot && this.route.snapshot.data) {
+      this.metrics = this.route.snapshot.data.metrics;
+      this.channelGroups = this.route.snapshot.data.channelGroups;
+    }
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
@@ -38,6 +45,16 @@ export class MonitorViewComponent implements OnInit {
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
     this.selected = [...this.selected];
+  }
+
+  channelGroupName(id : number) : string{
+    const group = this.channelGroups.find(cG => cG.id === id)
+    return group ? group.name : "unknown";
+  }
+
+  metricName(id : number) : string {
+    const metric = this.metrics.find(m => m.id === id)
+    return metric ? metric.name : "unknown";
   }
 
   addMonitor() {
