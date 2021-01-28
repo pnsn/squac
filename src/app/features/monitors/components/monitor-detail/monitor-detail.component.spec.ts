@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Ability, PureAbility } from '@casl/ability';
+import { AbilityModule } from '@casl/angular';
+import { AppAbility } from '@core/utils/ability';
+import { of } from 'rxjs';
+import { MonitorChartComponent } from '../monitor-chart/monitor-chart.component';
 
 import { MonitorDetailComponent } from './monitor-detail.component';
 
@@ -10,26 +15,23 @@ describe('MonitorDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MonitorDetailComponent],
+      declarations: [ MonitorDetailComponent, MonitorChartComponent],
       imports: [
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        AbilityModule
       ],
       providers: [
-        {provide: ActivatedRoute, useValue: {
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability },
+        {
+          provide: ActivatedRoute, useValue: {
           parent: {
             snapshot: {
-
               data : {
-                monitor: {}
               }
             }
           },
-          snapshot: {
-
-            data : {
-              monitor: {}
-            }
-          }
+          data : of()
         }}
       ]
     })

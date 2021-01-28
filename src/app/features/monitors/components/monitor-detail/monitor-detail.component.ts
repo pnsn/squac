@@ -24,8 +24,8 @@ export class MonitorDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.parent.snapshot && this.route.parent.snapshot.data) {
-      this.metrics = this.route.snapshot.parent.data.metrics;
-      this.channelGroups = this.route.snapshot.parent.data.channelGroups;
+      this.metrics = this.route.parent.snapshot.data.metrics;
+      this.channelGroups = this.route.parent.snapshot.data.channelGroups;
     }
     this.route.data.subscribe(
       data => {

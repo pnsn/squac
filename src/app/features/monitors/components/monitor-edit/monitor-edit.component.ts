@@ -52,8 +52,8 @@ export class MonitorEditComponent implements OnInit {
       numberChannels: ['', Validators.required],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      channelGroupId: ['', Validators.required],
       metricId: ['', Validators.required],
+      channelGroupId: ['', Validators.required],
       triggers: this.formBuilder.array(
        [] 
       )

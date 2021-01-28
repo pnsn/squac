@@ -1,9 +1,9 @@
 <router-outlet></router-outlet>
 
-<ng-container *ngIf="error && !monitor; else hasMonitor">
+<ng-template #noMonitor >
   <p> Could not load monitor.</p>
-</ng-container>
-<ng-template #hasMonitor>
+</ng-template>
+<ng-container *ngIf="!error && monitor; else noMonitor">
   <div id="title">
     <div id="monitor-info">
       <h2>{{monitor.name}}</h2>
@@ -61,5 +61,5 @@
     </div>
   </div>
   
-</ng-template>
+</ng-container>
 
