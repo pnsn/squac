@@ -77,9 +77,10 @@ export class MonitorChartComponent implements OnInit {
     console.log('get data')
     let data = {};
     //try to get x datapoints
+    const rate = metric.sampleRate;
+    const numMeasurements = 10;
 
-    console.log(metric)
-    const starttime = moment().utc().subtract(1, 'hour').format(this.locale.format)
+    const starttime = moment().utc().subtract(rate * numMeasurements, 'seconds').format(this.locale.format)
     const endtime = moment().utc().format(this.locale.format)
     //calculate starttime
     this.squacApi.get(this.url, null,

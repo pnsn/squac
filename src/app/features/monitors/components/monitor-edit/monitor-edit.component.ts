@@ -60,7 +60,6 @@ export class MonitorEditComponent implements OnInit {
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
-    console.log(this.data.monitor)
     this.initForm();
   }
 
