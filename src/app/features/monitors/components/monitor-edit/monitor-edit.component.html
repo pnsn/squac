@@ -61,6 +61,7 @@
     <div id="trigger-title">
       <h4>Triggers</h4>
       <button mat-icon-button (click)="addTrigger()"><mat-icon>add</mat-icon></button>
+      <p class="help-text">Must have at least one</p>
     </div>
 
     <div formArrayName="triggers">
@@ -108,6 +109,6 @@
 
 <div mat-dialog-actions id="dialog-options">
   <div>
-    <button id="save" mat-flat-button color="accent" (click)="save()" >Save</button>
+    <button id="save" mat-flat-button color="accent" (click)="save()" [disabled]="!monitorForm.valid || triggers.length === 0">Save</button>
   </div>
 </div>

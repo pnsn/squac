@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
+import { MessageService } from '@core/services/message.service';
 import { Monitor } from '@features/monitors/models/monitor';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { TriggersService } from '@features/monitors/services/triggers.service';
@@ -32,6 +33,7 @@ export class MonitorEditComponent implements OnInit {
     private monitorsService: MonitorsService,
     public dialogRef: MatDialogRef<MonitorEditEntryComponent>,
     private triggersService: TriggersService,
+    private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -69,9 +71,9 @@ export class MonitorEditComponent implements OnInit {
 
   addTrigger() {
     this.triggers.push( this.formBuilder.group({
-      min: [''],
-      max: [''],
-      inclusive: [''],
+      min: [],
+      max: [],
+      inclusive: [false],
       level: []         
     }));
   }
@@ -116,6 +118,9 @@ export class MonitorEditComponent implements OnInit {
         console.log("success")
         this.cancel();
         // this.router.navigate()
+      },
+      error => {
+        this.messageService.error("Could not save monitor.")
       }
     )
   }

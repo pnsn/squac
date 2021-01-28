@@ -4,7 +4,6 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { Trigger } from '@features/monitors/models/trigger';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
-import { testData } from './monitor-chart-test-data';
 
 @Component({
   selector: 'app-monitor-chart',
@@ -37,22 +36,6 @@ export class MonitorChartComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.getData(this.metric, this.channelGroupId);
-    this.triggers.forEach(( trigger )=> {
-      this.referenceLines.push(
-        {
-          name: `${trigger.id} max`,
-          value: trigger.max
-        }
-      );
-      this.referenceLines.push(
-        {
-          name: `${trigger.id} min`,
-          value: trigger.min
-        }
-      );
-
-    })
     console.log(this.referenceLines);
     // this.results = [
     //   {
@@ -66,16 +49,35 @@ export class MonitorChartComponent implements OnInit {
 
   // this is functionally a widget - should have a measurement service?
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-  //   //Add '${implements OnChanges}' to the class.
-  //   console.log(changes)
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if(this.metric && this.channelGroupId) {
+      this.getData(this.metric, this.channelGroupId);
+      this.triggers.forEach(( trigger )=> {
+        this.referenceLines.push(
+          {
+            name: `${trigger.id} max`,
+            value: trigger.max
+          }
+        );
+        this.referenceLines.push(
+          {
+            name: `${trigger.id} min`,
+            value: trigger.min
+          }
+        );
+  
+      });
+    }
+  }
 
   //ToDo: put in service so locale and squac aren't in here
   getData(metric : Metric, channelGroupId){
     console.log('get data')
     let data = {};
+    this.results = [];
+    this.hasData = false;
     //try to get x datapoints
     const rate = metric.sampleRate;
     const numMeasurements = 10;
@@ -113,7 +115,7 @@ export class MonitorChartComponent implements OnInit {
             "series" : data[channel]
           });
         }
-        console.log(this.results)
+        console.log("resultts", this.results)
         this.hasData = this.results.length > 0;
       }
     );
