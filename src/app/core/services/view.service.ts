@@ -112,6 +112,7 @@ export class ViewService {
   }
 
   getWidget(id): Widget | boolean {
+    console.log("vew service get")
     const index = this.getWidgetIndexById(id);
     return index > -1 ? this.dashboard.widgets[index] : false;
   }
