@@ -10,15 +10,24 @@ import { MonitorChartComponent } from './components/monitor-chart/monitor-chart.
 import { MonitorEditEntryComponent } from './components/monitor-edit-entry/monitor-edit-entry.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AlertViewComponent } from './components/alert-view/alert-view.component';
+import { AbilityModule } from '@casl/angular';
 
 
 
 @NgModule({
-  declarations: [MonitorsComponent, MonitorDetailComponent, MonitorEditComponent, MonitorViewComponent, MonitorChartComponent, MonitorEditEntryComponent, AlertViewComponent],
+  declarations: [
+    MonitorsComponent, 
+    MonitorDetailComponent, 
+    MonitorEditComponent, 
+    MonitorViewComponent, 
+    MonitorChartComponent, 
+    MonitorEditEntryComponent, 
+    AlertViewComponent],
   imports: [
     CommonModule,
     MonitorsRoutingModule,
     SharedModule,
+    AbilityModule,
     NgxChartsModule
   ]
 })

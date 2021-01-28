@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SquacApiService } from '@core/services/squacapi.service';
+import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 
 import { MonitorChartComponent } from './monitor-chart.component';
 
@@ -8,7 +11,11 @@ describe('MonitorChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MonitorChartComponent ]
+      declarations: [ MonitorChartComponent ],
+      imports: [HttpClientTestingModule],
+      providers: [ 
+        {provide: SquacApiService, useValue: new MockSquacApiService()}
+      ]
     })
     .compileComponents();
   });

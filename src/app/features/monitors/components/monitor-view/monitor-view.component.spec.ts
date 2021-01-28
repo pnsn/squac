@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Ability, PureAbility } from '@casl/ability';
+import { AbilityModule } from '@casl/angular';
+import { AppAbility } from '@core/utils/ability';
 
 import { MonitorViewComponent } from './monitor-view.component';
 
@@ -20,7 +24,13 @@ describe('MonitorViewComponent', () => {
             }
           }
         }
-        }
+        },
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility , useExisting: Ability }
+      ],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        AbilityModule
       ]
     })
     .compileComponents();
