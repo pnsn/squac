@@ -92,29 +92,27 @@ export class MonitorChartComponent implements OnInit {
     ).pipe(
       map(response => {
         response.forEach(m => {
-          if(data[m.channel]) {
-            data[m.channel].push(
-              {
-                "name" : m.starttime,
-                "value" : m.value
-              }
-            );
-          } else {
+          if(!data[m.channel]) {
             data[m.channel] = [];
-          }
-
+          } 
+          data[m.channel].push(
+            {
+              "name" : m.starttime,
+              "value" : m.value
+            }
+          );
         });
-        return response;
+        return data;
       })
     ).subscribe(
-      data => {        
-        for(let channel in data) {
+      result => {        
+        for(let channel in result) {
           this.results.push({
             "name" : channel,
             "series" : data[channel]
           });
         }
-
+        console.log(this.results)
         this.hasData = this.results.length > 0;
       }
     );

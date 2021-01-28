@@ -1,5 +1,6 @@
 <div id="chart-container">
   <ngx-charts-line-chart
+  *ngIf="hasData"
   [results]="results"
   [xAxis]="false"
   [scheme]="colorScheme"
