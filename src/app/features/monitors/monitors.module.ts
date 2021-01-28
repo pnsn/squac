@@ -9,11 +9,12 @@ import { SharedModule } from '@shared/shared.module';
 import { MonitorChartComponent } from './components/monitor-chart/monitor-chart.component';
 import { MonitorEditEntryComponent } from './components/monitor-edit-entry/monitor-edit-entry.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AlertViewComponent } from './components/alert-view/alert-view.component';
 
 
 
 @NgModule({
-  declarations: [MonitorsComponent, MonitorDetailComponent, MonitorEditComponent, MonitorViewComponent, MonitorChartComponent, MonitorEditEntryComponent],
+  declarations: [MonitorsComponent, MonitorDetailComponent, MonitorEditComponent, MonitorViewComponent, MonitorChartComponent, MonitorEditEntryComponent, AlertViewComponent],
   imports: [
     CommonModule,
     MonitorsRoutingModule,
