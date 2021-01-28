@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '@core/models/metric';
+import { SquacApiService } from '@core/services/squacapi.service';
 import { Trigger } from '@features/monitors/models/trigger';
-import { min } from 'rxjs/operators';
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
 import { testData } from './monitor-chart-test-data';
 
 @Component({
@@ -10,13 +12,19 @@ import { testData } from './monitor-chart-test-data';
   styleUrls: ['./monitor-chart.component.scss']
 })
 export class MonitorChartComponent implements OnInit {
-  @Input() metric?: number;
+  @Input() metric?: Metric;
   @Input() triggers: Trigger[];
-  @Input() channel: number;
-  constructor() {
-    this.results = testData;
+  @Input() channelGroupId: number;
+  locale;
+  private url = 'measurement/measurements/';
+  constructor(    private squacApi: SquacApiService) {
+    this.locale =  {
+      "format": "YYYY-MM-DDTHH:mm:ss[Z]",
+      "displayFormat": "YYYY/MM/DD HH:mm",
+      "direction": "ltr"
+    };
    }
-  results: Array<any>;
+  results: Array<any> = [];
   hasData: boolean;
   referenceLines: any[] = [];
   xAxisLabel = 'Last Two Weeks';
@@ -27,10 +35,9 @@ export class MonitorChartComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log(this.results)
-    this.hasData = this.results.length > 0;
 
 
+    this.getData(this.metric, this.channelGroupId);
     this.triggers.forEach(( trigger )=> {
       this.referenceLines.push(
         {
@@ -64,4 +71,56 @@ export class MonitorChartComponent implements OnInit {
   //   //Add '${implements OnChanges}' to the class.
   //   console.log(changes)
   // }
+
+  //ToDo: put in service so locale and squac aren't in here
+  getData(metric : Metric, channelGroupId){
+    console.log('get data')
+    let data = {};
+    //try to get x datapoints
+
+    console.log(metric)
+    const starttime = moment().utc().subtract(1, 'hour').format(this.locale.format)
+    const endtime = moment().utc().format(this.locale.format)
+    //calculate starttime
+    this.squacApi.get(this.url, null,
+      {
+          metric: metric.id,
+          group: channelGroupId,
+          starttime,
+          endtime,
+      }
+    ).pipe(
+      map(response => {
+        response.forEach(m => {
+          if(data[m.channel]) {
+            data[m.channel].push(
+              {
+                "name" : m.starttime,
+                "value" : m.value
+              }
+            );
+          } else {
+            data[m.channel] = [];
+          }
+
+        });
+        return response;
+      })
+    ).subscribe(
+      data => {        
+        for(let channel in data) {
+          this.results.push({
+            "name" : channel,
+            "series" : data[channel]
+          });
+        }
+
+        this.hasData = this.results.length > 0;
+      }
+    );
+  }
+
+  formatData() {
+
+  }
 }

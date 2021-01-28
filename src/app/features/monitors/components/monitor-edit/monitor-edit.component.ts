@@ -10,7 +10,7 @@ import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { TriggersService } from '@features/monitors/services/triggers.service';
 import { UserService } from '@features/user/services/user.service';
 import { merge, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-entry.component';
 
 @Component({
@@ -106,11 +106,15 @@ export class MonitorEditComponent implements OnInit {
     ).pipe(
       switchMap(monitor => {
         return merge(...this.triggersService.updateTriggers(values.triggers, monitor.id));
-      })
-    )
-    .subscribe(
-      success=> {
-        console.log(success)
+      }),
+      tap(
+        results => {
+          console.log("results", results)
+        }
+      )
+    ).subscribe(
+      success => {
+        console.log("success")
         this.cancel();
         // this.router.navigate()
       }

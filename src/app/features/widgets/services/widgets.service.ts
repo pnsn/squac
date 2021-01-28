@@ -79,6 +79,7 @@ export class WidgetsService {
   }
 
   getWidget(id: number): Observable<Widget> {
+    console.log("get widget", id)
     let widget: Widget;
     return this.squacApi.get(this.url, id).pipe(
       switchMap(response => {

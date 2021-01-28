@@ -14,7 +14,7 @@ export class MonitorDetailComponent implements OnInit {
   monitor : Monitor;
   subscription: Subscription = new Subscription();
   error : boolean;
-
+  metric : Metric;
   metrics: Metric[];
   channelGroups: ChannelGroup[];
   constructor(
@@ -34,6 +34,7 @@ export class MonitorDetailComponent implements OnInit {
         } else {
           this.error = false;
           this.monitor = data.monitor;
+          this.metric = this.metrics.find(m => m.id === this.monitor.metricId);
         }
       }
     );

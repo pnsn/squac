@@ -25,6 +25,7 @@ export class TriggersService {
   
   updateTriggers(triggers: Trigger[], monitorId: number): Observable<Trigger>[] {
     const triggerSubs = [];
+    console.log("update trigger")
     for (const trigger of triggers) {
       if (trigger.id && trigger.max === null && trigger.min === null) {
         triggerSubs.push(this.deleteTrigger(trigger.id));
