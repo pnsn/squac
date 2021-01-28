@@ -10,6 +10,7 @@ import { PermissionGuard } from '@core/guards/permission.guard';
 import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.resolver';
 import { MetricsResolver } from '@features/metrics/metrics.resolver';
 import { MonitorEditEntryComponent } from './components/monitor-edit-entry/monitor-edit-entry.component';
+import { AlertViewComponent } from './components/alert-view/alert-view.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,10 @@ export const routes: Routes = [
       monitors: MonitorsResolver
     },
     children: [
+      { 
+        path: 'alerts',
+        component: AlertViewComponent
+     },
       {
         path: '',
         // canActivate: [PermissionGuard],

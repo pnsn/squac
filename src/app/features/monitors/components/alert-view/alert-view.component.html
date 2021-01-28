@@ -1,1 +1,41 @@
-<p>alert-view works!</p>
+<div id="title">
+  <h1>
+    Alerts
+  </h1>
+</div>
+
+  <div id="alerts" class="box">
+    <ngx-datatable
+      id="alert-table"
+      class="material"
+      [rows]="alerts"
+      [columnMode]="ColumnMode.flex"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [scrollbarV]="50"
+    >
+      <!-- <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="TimeStamp" prop="timestamp" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Alert" prop="id" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Trigger" prop="triggerId" [draggable]="false" [sortable]="false" [flexGrow]="1">
+
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Message" [draggable]="false" [sortable]="false" [flexGrow]="1">
+
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+        <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+          {{value ? "in alarm" : "not in alarm"}}
+        </ng-template>
+      </ngx-datatable-column>
+
+<!-- click to show more detail -->
+    </ngx-datatable>
+  </div>
+<router-outlet></router-outlet>

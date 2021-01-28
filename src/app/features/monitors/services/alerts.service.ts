@@ -8,7 +8,7 @@ import { Alert } from '../models/alert';
 })
 export class AlertsService {
 
-  private url = 'measurement/alert/';
+  private url = 'measurement/alerts/';
 
 
   constructor(
@@ -65,8 +65,7 @@ export class AlertsService {
       timestamp: alert.timestamp,
       message: alert.message,
       inAlarm: alert.in_alarm,
-      owner: alert.user_id,
-      title: alert.title
+      owner: alert.user_id
     };
 
     return newAlert;
