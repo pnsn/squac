@@ -22,12 +22,17 @@ export const routes: Routes = [
       monitors: MonitorsResolver
     },
     children: [
+      {
+        path: '',
+        redirectTo: 'monitors',
+        pathMatch: 'full'
+      },
       { 
         path: 'alerts',
         component: AlertViewComponent
-     },
+      },
       {
-        path: '',
+        path: 'monitors',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Monitor', action: 'read'},
         component: MonitorViewComponent,
