@@ -30,5 +30,5 @@ describe('TriggersService', () => {
 
   });
 
-  
+
 });

@@ -6,8 +6,8 @@ describe('Alert', () => {
       1,
       1,
       1,
-      "timestamp",
-      "message",
+      'timestamp',
+      'message',
       false
     )).toBeTruthy();
   });

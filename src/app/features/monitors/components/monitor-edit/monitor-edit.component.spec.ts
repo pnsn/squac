@@ -37,7 +37,7 @@ describe('MonitorEditComponent', () => {
           useValue: mockDialogRef
         },
         {
-          provide: UserService, useValue: new MockUserService() 
+          provide: UserService, useValue: new MockUserService()
         },
         { provide: MAT_DIALOG_DATA, useValue: {
           data : {

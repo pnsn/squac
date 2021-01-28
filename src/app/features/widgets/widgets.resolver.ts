@@ -21,7 +21,7 @@ export class WidgetsResolver implements Resolve<Observable<any>> {
     this.loadingService.setStatus('Loading widgets');
 
     if (widgetId) {
-      console.log("resolver", widgetId)
+      console.log('resolver', widgetId);
       return this.widgetsService.getWidget(widgetId).pipe(
         catchError(error => {
           return this.handleError(error);

@@ -21,7 +21,7 @@ export const routes: Routes = [
         path: 'new',
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'create'} 
+        data: {subject: 'Dashboard', action: 'create'}
       },
       {
         path: ':dashboardId',

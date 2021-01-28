@@ -13,7 +13,7 @@ describe('MonitorChartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ MonitorChartComponent ],
       imports: [HttpClientTestingModule],
-      providers: [ 
+      providers: [
         {provide: SquacApiService, useValue: new MockSquacApiService()}
       ]
     })

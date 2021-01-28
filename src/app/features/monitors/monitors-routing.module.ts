@@ -16,7 +16,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MonitorsComponent,
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     // data: {subject: 'Monitor', action: 'read'}
     resolve: {
       monitors: MonitorsResolver
@@ -27,7 +27,7 @@ export const routes: Routes = [
         redirectTo: 'monitors',
         pathMatch: 'full'
       },
-      { 
+      {
         path: 'alerts',
         component: AlertViewComponent
       },

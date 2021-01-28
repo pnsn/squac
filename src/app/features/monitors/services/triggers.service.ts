@@ -22,10 +22,10 @@ export class TriggersService {
   constructor(
     private squacApi: SquacApiService
   ) {}
-  
+
   updateTriggers(triggers: Trigger[], monitorId: number): Observable<Trigger>[] {
     const triggerSubs = [];
-    console.log("update trigger")
+    console.log('update trigger');
     for (const trigger of triggers) {
       if (trigger.id && trigger.max === null && trigger.min === null) {
         triggerSubs.push(this.deleteTrigger(trigger.id));
@@ -56,7 +56,7 @@ export class TriggersService {
     }
   }
 
-  deleteTrigger(id) : Observable<any>{
+  deleteTrigger(id): Observable<any>{
     return this.squacApi.delete(this.url, id);
   }
 }

@@ -1,4 +1,4 @@
-import { Trigger } from "./trigger";
+import { Trigger } from './trigger';
 
 export class Monitor {
   constructor(

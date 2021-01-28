@@ -20,9 +20,9 @@ import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-en
   styleUrls: ['./monitor-edit.component.scss']
 })
 export class MonitorEditComponent implements OnInit {
-  subscriptions : Subscription = new Subscription();
+  subscriptions: Subscription = new Subscription();
   id: number;
-  editMode:boolean;
+  editMode: boolean;
   orgId: number;
   monitor: Monitor;
   monitorForm: FormGroup;
@@ -37,9 +37,9 @@ export class MonitorEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  intervalTypes : string[] = ["minute", "hour", "day"];
-  stats : string[] = ["count", "sum", "avg", "min", "max"];
-  levels: string[] = ["1", "2", "3"]
+  intervalTypes: string[] = ['minute', 'hour', 'day'];
+  stats: string[] = ['count', 'sum', 'avg', 'min', 'max'];
+  levels: string[] = ['1', '2', '3'];
   // selectedType;
   // selectedStat;
   selectedChannelGroupId: number;
@@ -55,7 +55,7 @@ export class MonitorEditComponent implements OnInit {
       metricId: ['', Validators.required],
       channelGroupId: ['', Validators.required],
       triggers: this.formBuilder.array(
-       [] 
+       []
       )
     });
 
@@ -67,19 +67,19 @@ export class MonitorEditComponent implements OnInit {
 
   get triggers(){
     return this.monitorForm.get('triggers') as FormArray;
-  }  
+  }
 
   addTrigger() {
     this.triggers.push( this.formBuilder.group({
       min: [],
       max: [],
       inclusive: [false],
-      level: []         
+      level: []
     }));
   }
 
   removeThreshold(index){
-    console.log(index)
+    console.log(index);
     this.triggers.removeAt(index);
   }
 
@@ -99,7 +99,7 @@ export class MonitorEditComponent implements OnInit {
       values.intervalCount,
       values.numberChannels,
       values.stat,
-      null, 
+      null,
       values.triggers
     );
     this.monitorsService.updateMonitor(
@@ -110,24 +110,24 @@ export class MonitorEditComponent implements OnInit {
       }),
       tap(
         results => {
-          console.log("results", results)
+          console.log('results', results);
         }
       )
     ).subscribe(
       success => {
-        console.log("success")
+        console.log('success');
         this.cancel();
         // this.router.navigate()
       },
       error => {
-        this.messageService.error("Could not save monitor.")
+        this.messageService.error('Could not save monitor.');
       }
-    )
+    );
   }
 
   cancel(monitor?: Monitor) {
     this.dialogRef.close(monitor);
-    //route out of edit
+    // route out of edit
   }
 
   private initForm() {

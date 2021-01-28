@@ -6,12 +6,12 @@ import { Monitor } from '../models/monitor';
 import { Trigger } from '../models/trigger';
 
 interface MonitorPostData {
-  channel_group: number,
-  metric: number,
-  interval_type: string,
-  interval_count: number,
-  num_channels: number,
-  stat: string
+  channel_group: number;
+  metric: number;
+  interval_type: string;
+  interval_count: number;
+  num_channels: number;
+  stat: string;
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ export class MonitorsService {
 
   private url = 'measurement/monitors/';
 
-  testTriggers : Trigger[] = [
+  testTriggers: Trigger[] = [
     {
       id: 1,
       monitorId: 1,
@@ -49,13 +49,13 @@ export class MonitorsService {
       min: -250,
       max: 0
     }
-  ]
+  ];
 
   constructor(
     private squacApi: SquacApiService
   ) {}
 
-  getMonitors() : Observable<Monitor[]>{
+  getMonitors(): Observable<Monitor[]>{
     return this.squacApi.get(this.url).pipe(
       map(
         results => {
@@ -69,8 +69,8 @@ export class MonitorsService {
       )
     );
   }
-  
-  getMonitor(id: number) : Observable<Monitor>{
+
+  getMonitor(id: number): Observable<Monitor>{
     return this.squacApi.get(this.url, id).pipe(
       map(
         response => {
@@ -81,8 +81,8 @@ export class MonitorsService {
   }
 
     // Replaces channel group with new channel group
-    updateMonitor(monitor: Monitor) : Observable<Monitor>{
-      const postData : MonitorPostData = {
+    updateMonitor(monitor: Monitor): Observable<Monitor>{
+      const postData: MonitorPostData = {
         interval_type: monitor.intervalType,
         interval_count: monitor.intervalCount,
         num_channels: monitor.numberChannels,
@@ -90,7 +90,7 @@ export class MonitorsService {
         metric: monitor.metricId,
         stat: monitor.stat
       };
-      console.log(postData)
+      console.log(postData);
       if (monitor.id) {
         return this.squacApi.put(this.url, monitor.id, postData).pipe(map(
           response => this.mapMonitor(response)
@@ -121,9 +121,9 @@ export class MonitorsService {
     } else {
      triggers = [...this.testTriggers];
     }
-    let newMonitor: Monitor = {
+    const newMonitor: Monitor = {
       id: response.id,
-      name: "name",
+      name: 'name',
       channelGroupId: response.channel_group,
       metricId: response.metric,
       intervalType: response.interval_type,
@@ -131,17 +131,17 @@ export class MonitorsService {
       numberChannels: response.num_channels,
       stat: response.stat,
       owner: response.user_id,
-      triggers: triggers
-    }
+      triggers
+    };
 
     return newMonitor;
   }
 
   deleteMonitor(id: number){
     return this.squacApi.delete(this.url, id);
-  };
-  //getMonitors
+  }
+  // getMonitors
 
-  //getMonitor
+  // getMonitor
 
 }

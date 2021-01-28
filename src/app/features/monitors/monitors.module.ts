@@ -16,12 +16,12 @@ import { AbilityModule } from '@casl/angular';
 
 @NgModule({
   declarations: [
-    MonitorsComponent, 
-    MonitorDetailComponent, 
-    MonitorEditComponent, 
-    MonitorViewComponent, 
-    MonitorChartComponent, 
-    MonitorEditEntryComponent, 
+    MonitorsComponent,
+    MonitorDetailComponent,
+    MonitorEditComponent,
+    MonitorViewComponent,
+    MonitorChartComponent,
+    MonitorEditEntryComponent,
     AlertViewComponent],
   imports: [
     CommonModule,

@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./monitor-detail.component.scss']
 })
 export class MonitorDetailComponent implements OnInit {
-  monitor : Monitor;
+  monitor: Monitor;
   subscription: Subscription = new Subscription();
-  error : boolean;
-  metric : Metric;
+  error: boolean;
+  metric: Metric;
   metrics: Metric[];
   channelGroups: ChannelGroup[];
   constructor(
@@ -40,19 +40,19 @@ export class MonitorDetailComponent implements OnInit {
     );
 
 
-    
-    console.log(this.monitor)
+
+    console.log(this.monitor);
   }
 
 
-  channelGroupName(id : number) : string{
-    const group = this.channelGroups.find(cG => cG.id === id)
-    return group ? group.name : "unknown";
+  channelGroupName(id: number): string{
+    const group = this.channelGroups.find(cG => cG.id === id);
+    return group ? group.name : 'unknown';
   }
 
-  metricName(id : number) : string {
-    const metric = this.metrics.find(m => m.id === id)
-    return metric ? metric.name : "unknown";
+  metricName(id: number): string {
+    const metric = this.metrics.find(m => m.id === id);
+    return metric ? metric.name : 'unknown';
   }
 
   editMonitor() {

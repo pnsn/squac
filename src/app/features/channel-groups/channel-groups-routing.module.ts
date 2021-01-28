@@ -29,7 +29,7 @@ export const routes: Routes = [
         component: ChannelGroupsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'ChannelGroup', action: 'update'}
-      }, //FIXME: channel group edit still doesn't use updated resovler
+      }, // FIXME: channel group edit still doesn't use updated resovler
       {
         path: '',
         component: ChannelGroupsViewComponent,

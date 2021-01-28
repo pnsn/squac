@@ -14,7 +14,7 @@ export class AlertsService {
   constructor(
     private squacApi: SquacApiService
   ) {}
-  
+
   getAlerts() {
     return this.squacApi.get(this.url).pipe(
       map(
@@ -29,7 +29,7 @@ export class AlertsService {
       )
     );
   }
-  
+
   getAlert(id: number) {
     return this.squacApi.get(this.url, id).pipe(
       map(
@@ -37,7 +37,7 @@ export class AlertsService {
           return this.mapAlert(response);
         }
       )
-    )
+    );
   }
 
     // Replaces channel group with new channel group
@@ -59,7 +59,7 @@ export class AlertsService {
 
   mapAlert(alert) {
 
-    const newAlert : Alert = {
+    const newAlert: Alert = {
       id: alert.id,
       triggerId: alert.trigger,
       timestamp: alert.timestamp,

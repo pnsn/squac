@@ -47,14 +47,14 @@ export class MonitorViewComponent implements OnInit {
     this.selected = [...this.selected];
   }
 
-  channelGroupName(id : number) : string{
-    const group = this.channelGroups.find(cG => cG.id === id)
-    return group ? group.name : "unknown";
+  channelGroupName(id: number): string{
+    const group = this.channelGroups.find(cG => cG.id === id);
+    return group ? group.name : 'unknown';
   }
 
-  metricName(id : number) : string {
-    const metric = this.metrics.find(m => m.id === id)
-    return metric ? metric.name : "unknown";
+  metricName(id: number): string {
+    const metric = this.metrics.find(m => m.id === id);
+    return metric ? metric.name : 'unknown';
   }
 
   addMonitor() {
