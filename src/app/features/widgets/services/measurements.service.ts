@@ -108,7 +108,7 @@ export class MeasurementsService implements OnDestroy {
 
   // sets up data storage
   private initLocalData() {
-    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup.channels) {
       this.widget.channelGroup.channels.forEach(channel => {
         this.localData[channel.id] = {};
         this.widget.metrics.forEach(metric => {
