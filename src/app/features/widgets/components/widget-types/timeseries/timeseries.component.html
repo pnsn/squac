@@ -7,9 +7,16 @@
   [legend]="true"
   [showYAxisLabel]="true"
   [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
+  [yAxisLabel]="yAxisLabel | replace: '_' : ' ' | titlecase "
   [roundDomains]="true"
   [animations]="false"
+  [xScaleMin]="xScaleMin"
+  [xScaleMax]="xScaleMax"
+  [referenceLines]="referenceLines"
+  [showRefLines]="referenceLines.length > 0"
+  legendTitle="Channels"
+
+  [xAxisTickFormatting]="xAxisTickFormatting"
 >
 </ngx-charts-line-chart>
 <ng-template #elseTemplate>

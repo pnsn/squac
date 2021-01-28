@@ -16,6 +16,7 @@ import { WidgetsComponent } from './components/widgets/widgets.component';
 import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-entry/widget-edit-entry.component';
 import { MapComponent } from './components/widget-types/map/map.component';
 import { WidgetInfoEditComponent } from './components/widget-edit/widget-info-edit/widget-info-edit.component';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 
 
@@ -39,6 +40,13 @@ import { WidgetInfoEditComponent } from './components/widget-edit/widget-info-ed
     SharedModule,
     NgxChartsModule,
     GridsterModule
+  ],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true }
+    }
   ]
 })
 export class WidgetsModule { }
+

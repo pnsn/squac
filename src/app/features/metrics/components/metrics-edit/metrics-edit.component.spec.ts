@@ -15,6 +15,7 @@ import { AppAbility } from '@core/utils/ability';
 import { MessageService } from '@core/services/message.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;

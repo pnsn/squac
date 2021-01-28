@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 import { SnackbarComponent } from './snackbar.component';
@@ -11,7 +12,8 @@ describe('SnackbarComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SnackbarComponent ],
+      imports: [MatButtonModule],
+      declarations: [ SnackbarComponent],
       providers: [
         { provide: MAT_SNACK_BAR_DATA, useValue: {
             data : {}

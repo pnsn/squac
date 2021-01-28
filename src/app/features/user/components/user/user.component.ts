@@ -53,7 +53,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    console.log(this.userForm.value);
     this.userService.updateUser(this.userForm.value).subscribe(
       user => {
         this.userService.fetchUser();

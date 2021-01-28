@@ -36,10 +36,26 @@
         {{ row.unit }}
       </ng-template>
     </ngx-datatable-column>
+    <ngx-datatable-column name="Sample Rate" [flexGrow]="1"  [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ row.sampleRate }}
+      </ng-template>
+    </ngx-datatable-column>
     <ngx-datatable-column name="Description" [flexGrow]="3"  [draggable]="false" [sortable]="false">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.description }}
       </ng-template>
     </ngx-datatable-column>
+    <ngx-datatable-column name="Info" [flexGrow]="0.5"  [draggable]="false" [sortable]="false">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        
+        <a href="{{row.refUrl}}" target="_blank" rel="noopener noreferrer" matTooltip="{{row.refUrl}}"><mat-icon>open_in_new</mat-icon></a>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- <ngx-datatable-column name="Owner" [flexGrow]="1" [draggable]="false" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.owner | user }}
+      </ng-template>
+    </ngx-datatable-column> -->
   </ngx-datatable>
 </div>

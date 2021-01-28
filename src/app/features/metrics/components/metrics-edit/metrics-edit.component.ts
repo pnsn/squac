@@ -57,6 +57,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
       code: new FormControl('', Validators.required),
       refUrl: new FormControl('', Validators.required),
       unit: new FormControl('', Validators.required),
+      sampleRate: new FormControl(''),
       minVal: new FormControl(''),
       maxVal: new FormControl('')
     });
@@ -68,6 +69,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         description : this.metric.description,
         refUrl: this.metric.refUrl,
         unit : this.metric.unit,
+        sampleRate: this.metric.sampleRate,
         minVal : this.metric.minVal,
         maxVal : this.metric.maxVal
       });
@@ -85,6 +87,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         values.description,
         values.refUrl,
         values.unit,
+        values.sampleRate,
         values.minVal,
         values.maxVal
       )

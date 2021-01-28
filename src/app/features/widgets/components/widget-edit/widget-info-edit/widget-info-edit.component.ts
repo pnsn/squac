@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Widget } from '@features/widgets/models/widget';
 import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
@@ -8,14 +8,16 @@ import { WidgetEditService } from '@features/widgets/services/widget-edit.servic
   templateUrl: './widget-info-edit.component.html',
   styleUrls: ['./widget-info-edit.component.scss']
 })
-export class WidgetInfoEditComponent implements OnInit {
+export class WidgetInfoEditComponent implements OnInit, AfterViewInit{
   @Input() widget: Widget;
   @Input() statTypes;
   editMode: boolean;
   widgetForm: FormGroup;
+
   id;
   selectedType;
-
+  error = 'Missing widget name';
+  done = false;
     // TODO: Get this from SQUAC
     widgetTypes =
     [
@@ -53,7 +55,18 @@ export class WidgetInfoEditComponent implements OnInit {
   ngOnInit(): void {
 
     this.editMode = !!this.widget;
+
+    this.widgetForm = new FormGroup({
+      name : new FormControl('', Validators.required),
+      statType: new FormControl(13, Validators.required) // default is raw data
+    });
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
+    this.checkValid();
   }
 
 
@@ -61,11 +74,6 @@ export class WidgetInfoEditComponent implements OnInit {
     return this.widgetTypes.find(type => type.id === id);
   }
   private initForm() {
-    this.widgetForm = new FormGroup({
-      name : new FormControl('', Validators.required),
-      statType: new FormControl(13, Validators.required) // default is raw data
-    });
-
 
 
     if (this.editMode) {
@@ -77,13 +85,26 @@ export class WidgetInfoEditComponent implements OnInit {
         }
       );
       this.selectedType = this.widget.typeId;
-
     }
   }
 
   selectType(type) {
     this.selectedType = type;
     this.widgetEditService.updateType(type);
+    this.checkValid();
+  }
+
+  checkValid() {
+    this.done = !!this.widgetForm && this.widgetForm.valid && !!this.selectedType;
+    if (!this.done) {
+      if (this.widgetForm && !this.widgetForm.valid) {
+        this.error = 'Missing widget name';
+      } else if (!this.selectedType) {
+        this.error = 'Missing widget type';
+      } else {
+        this.error = 'Missing widget info';
+      }
+    }
   }
 
   updateInfo() {

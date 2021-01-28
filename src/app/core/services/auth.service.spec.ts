@@ -35,7 +35,7 @@ describe('AuthService', () => {
       providers: [
         { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) },
         { provide: Ability, useValue: new Ability()},
-        { provide: UserService, useClass: MockUserService}
+        { provide: UserService, useValue: new MockUserService()}
       ]
     });
 
@@ -112,6 +112,25 @@ describe('AuthService', () => {
     expect(localStorage.getItem('userData')).toBeNull();
   });
 
+  it('should return true if user logged in', () => {
+    expect(authService.loggedIn).toBe(false);
+    authService.login(testUserData.email, 'password').subscribe(
+      response => {
+        expect(authService.loggedIn).toEqual(true);
+      }
+    );
+
+  });
+
+  it('should return the auth token', () => {
+    expect(authService.auth).toBeUndefined();
+    authService.login(testUserData.email, 'password').subscribe(
+      response => {
+        expect(authService.auth).toBeDefined();
+      }
+    );
+
+  });
   // it('should log user out after time expires', fakeAsync( () => {
   //   spyOn(authService, 'logout');
 

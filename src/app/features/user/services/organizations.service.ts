@@ -16,9 +16,7 @@ export class OrganizationsService {
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
-    private http: HttpClient,
-    private squacApi: SquacApiService,
-    private userService: UserService
+    private squacApi: SquacApiService
   ) { }
 
   // Temp until Jon fixes

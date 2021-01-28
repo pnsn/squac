@@ -45,15 +45,16 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         }
 
         this.widget = this.viewService.getWidget(this.widgetId);
-        if (this.widget) {
-          this.openWidget();
-        } else {
+
+        if (this.widgetId && !this.widget){
           this.widgetsService.getWidget(this.widgetId).subscribe(
             widget => {
               this.widget = widget;
               this.openWidget();
             }
           );
+        } else {
+          this.openWidget();
         }
 
 
@@ -61,7 +62,23 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.dialogRef) {
+  }
+
+  openWidget( ) {
+    if (this.dashboardId && this.statTypes && this.metrics && this.channelGroups) {
+      // get dashboard && widget from url
+      this.dialogRef = this.dialog.open(WidgetEditComponent, {
+        width: '70vw',
+        closeOnNavigation: true,
+        data : {
+          widget: this.widget,
+          dashboardId: this.dashboardId,
+          statTypes: this.statTypes,
+          metrics: this.metrics,
+          channelGroups: this.channelGroups
+        }
+      });
+
       this.dialogRef.afterClosed().subscribe(
         result => {
           if (this.widgetId) {
@@ -74,22 +91,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           console.log('error in widget detail: ' + error);
         }
       );
-    }
-  }
-
-  openWidget( ) {
-    if (this.dashboardId && this.statTypes && this.metrics && this.channelGroups) {
-      // get dashboard && widget from url
-      this.dialogRef = this.dialog.open(WidgetEditComponent, {
-        closeOnNavigation: true,
-        data : {
-          widget: this.widget,
-          dashboardId: this.dashboardId,
-          statTypes: this.statTypes,
-          metrics: this.metrics,
-          channelGroups: this.channelGroups
-        }
-      });
     }
   }
 

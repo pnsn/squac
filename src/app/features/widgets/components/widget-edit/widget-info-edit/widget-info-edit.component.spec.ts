@@ -1,6 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewService } from '@core/services/view.service';
 import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
 import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
@@ -14,7 +18,14 @@ describe('WidgetInfoEditComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ WidgetInfoEditComponent ],
-      imports: [HttpClientTestingModule, MatButtonToggleModule],
+      imports: [
+        HttpClientTestingModule,
+        MatButtonToggleModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule
+      ],
       providers: [ {provide: WidgetEditService, useValue: new MockWidgetEditService()}]
     })
     .compileComponents();

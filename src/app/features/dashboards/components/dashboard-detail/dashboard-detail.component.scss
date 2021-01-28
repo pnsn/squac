@@ -24,10 +24,13 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 0px 1px $sq-dk-gray;
-
+  
   #dashboard-info {
     h2 {
       display:inline
+    }
+    mat-icon{ 
+      vertical-align: text-bottom;
     }
     span{
       font-weight: 200;

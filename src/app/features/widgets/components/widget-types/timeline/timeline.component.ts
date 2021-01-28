@@ -61,8 +61,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-    // this.startdate = this.viewService.getStartdate();
-    // this.enddate = this.viewService.getEnddate();
     if (this.data) {
       this.buildRows(this.data);
     }
@@ -103,7 +101,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       const height = this.timelineDiv.nativeElement.offsetHeight;
       const offset = 55;
       if ( width > 0 && height > 0) {
-        console.log(width, height);
         this.chart.width(width);
         this.chart.maxHeight(height - offset);
         let lineCount;

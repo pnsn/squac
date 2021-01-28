@@ -7,15 +7,34 @@ import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { AbilityModule } from '@casl/angular';
 import { Ability } from '@casl/ability';
+import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 describe('UserService', () => {
-  let httpClientSpy: { get: jasmine.Spy};
   let userService: UserService;
-  const mockSquacApiService = new MockSquacApiService(  );
+  const testData = {
+    id: 1,
+    email: 'email',
+    firstname: 'first',
+    lastname: 'last',
+    organization: 1,
+    is_org_admin: false,
+    groups: [1, 2],
+    is_staff: false
+  };
+  const mockSquacApiService = {
+    get: (url) => {
+      return of(testData);
+    },
+    patch: (url, id, data) => {
+      return of(testData);
+    }
+  };
+  let squacApiService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         AbilityModule
       ],
       providers: [
@@ -23,8 +42,8 @@ describe('UserService', () => {
         { provide: Ability, useValue: new Ability()}
       ]
     });
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     userService = TestBed.inject(UserService);
+    squacApiService = TestBed.inject(SquacApiService);
     // authService = new AuthService(httpClientSpy as any, router);
   });
 
@@ -32,10 +51,72 @@ describe('UserService', () => {
     expect(userService).toBeTruthy();
   });
 
-  // get user
-  // fetch user
-  // logout
-  // update user
+  it('should get user', () => {
+    const getSpy = spyOn(squacApiService, 'get').and.callThrough() ;
+    userService.getUser().subscribe(
+      response => {
+        expect(response.id).toEqual(1);
+      }
+    );
 
+    expect(getSpy).toHaveBeenCalled();
+  });
+  it('should return current user once set', () => {
+    userService.getUser().subscribe(
+      response => {
+        expect(response.id).toEqual(1);
+      }
+    );
+    const getSpy = spyOn(squacApiService, 'get').and.returnValue(of({}));
+
+    userService.getUser().subscribe(
+      response => {
+        expect(response.id).toEqual(1);
+      }
+    );
+
+    expect(getSpy).not.toHaveBeenCalled();
+  });
+
+  it('should return user org', () => {
+    userService.fetchUser();
+    expect(userService.userOrg).toEqual(1);
+  });
+
+  it('should log user out', () => {
+    userService.fetchUser();
+    userService.logout();
+    userService.user.subscribe(
+      user => {
+        expect(user).toBeNull();
+      }
+    );
+  });
+
+
+  it('should update user info', () => {
+    const patchSpy = spyOn(squacApiService, 'patch').and.callThrough();
+
+    userService.updateUser({firstname: 'name', lastname: 'lastname'}).subscribe();
+
+    expect(patchSpy).toHaveBeenCalled();
+  });
+
+  it('should fetch user', () => {
+    userService.user.pipe(take(1)).subscribe(
+      user => {
+        expect(user).toBeNull();
+      }
+    );
+
+    userService.fetchUser();
+
+    userService.user.pipe(take(1)).subscribe(
+      user => {
+        expect(user).toBeDefined();
+      }
+    );
+
+  });
 
 });

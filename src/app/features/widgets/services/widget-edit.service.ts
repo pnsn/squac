@@ -8,7 +8,6 @@ import { WidgetsService } from './widgets.service';
 import { ThresholdsService } from './thresholds.service';
 import { ViewService } from '@core/services/view.service';
 import { switchMap, tap } from 'rxjs/operators';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 interface Thresholds {
   [metricId: number]: Threshold;
@@ -67,7 +66,7 @@ export class WidgetEditService {
 
 
   // FIXME: don't init a widget like this, return the final widget when needed
-  setWidget(widget: Widget, dashboardId): void {
+  setWidget(widget: Widget, dashboardId: number): void {
     this.dashboardId = dashboardId;
     if (widget) {
 
@@ -75,7 +74,6 @@ export class WidgetEditService {
       this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
-
       // in case of copying widget from other dashboard, must set to new dash
       if (widget.dashboardId !== this.dashboardId) {
         this.widget.id = null;
@@ -146,7 +144,7 @@ export class WidgetEditService {
   updateThresholds(thresholds: any[]): void {
     thresholds.forEach(threshold => {
       this.thresholds[threshold.metric.id] = new Threshold(
-        threshold.id,
+        this.widget.id ? threshold.id : null,
         threshold.owner,
         this.widget.id,
         threshold.metric.id,
@@ -184,7 +182,6 @@ export class WidgetEditService {
       switchMap (
         response => {
           newWidget = response;
-
           // returns observables for saving each thresholds
           const thresholdObs = this.thresholdService.updateThresholds(
             this.widget.metrics,
@@ -194,23 +191,20 @@ export class WidgetEditService {
           let count = 0;
           // Wait to update view until all are saved
           if (thresholdObs && thresholdObs.length > 0) {
-              return merge(...thresholdObs).pipe(
-                tap(result => {
-                  count++;
-                  if (newWidget && count === thresholdObs.length) {
-                    this.viewService.updateWidget(newWidget.id, newWidget);
-                  }
-                })
-              );
-            } else {
-              this.viewService.updateWidget(newWidget.id, newWidget);
-              return of(newWidget);
-            }
+            return merge(...thresholdObs).pipe(
+              tap(result => {
+                count++;
+                if (newWidget && count === thresholdObs.length) {
+                  this.viewService.updateWidget(newWidget.id, newWidget);
+                }
+              })
+            );
+          } else {
+            this.viewService.updateWidget(newWidget.id, newWidget);
+            return of(newWidget);
+          }
         }
       )
     );
   }
-
-
-
 }

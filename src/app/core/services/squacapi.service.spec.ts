@@ -79,4 +79,36 @@ describe('SquacApiService', () => {
 
   });
 
+  it('can patch data', () => {
+    const testData: Data = {name: 'Test Data', id: 1};
+
+    service.patch(testUrl, testData.id, testData)
+      .subscribe(data =>
+        expect(data).toEqual(testData)
+      );
+
+    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
+
+    expect(req.request.method).toEqual('PATCH');
+
+    req.flush(testData);
+
+  });
+
+  it('can delete data', () => {
+    const testData: Data = {name: 'Test Data', id: 1};
+
+    service.delete(testUrl, testData.id)
+      .subscribe(data =>
+        expect(data).toEqual(testData)
+      );
+
+    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
+
+    expect(req.request.method).toEqual('DELETE');
+
+    req.flush(testData);
+
+  });
+
 });

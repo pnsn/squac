@@ -5,6 +5,7 @@ import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-metrics-edit',
@@ -21,7 +22,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
-
+  done = false;
   messages = {
       // Message to show when array is presented
   // but contains no values
@@ -35,8 +36,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
 };
 
   constructor(
-    private metricsService: MetricsService,
-    private widgetEditService: WidgetEditService,
+    private widgetEditService: WidgetEditService
   ) { }
 
   ngOnInit() {
@@ -44,6 +44,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableRows = this.availableMetrics;
     const metricIds = this.widgetEditService.getMetricIds();
     if (metricIds && metricIds.length > 0) {
+      this.done = true;
       this.selectedMetrics = this.availableMetrics.filter(
         metric => {
           return metricIds.indexOf(metric.id) >= 0;
@@ -58,7 +59,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
       this.availableMetrics = [...this.availableMetrics];
       this.metricTable.recalculate();
     }
-
+    this.checkValid();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
@@ -67,10 +68,14 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   metricsSelected({selected}) {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
-
+    this.checkValid();
 
     this.widgetEditService.updateMetrics(this.selectedMetrics);
     // this.selectedMetrics = event;
+  }
+
+  checkValid() {
+    this.done = this.selectedMetrics && this.selectedMetrics.length > 0;
   }
 
   updateFilter(event) {

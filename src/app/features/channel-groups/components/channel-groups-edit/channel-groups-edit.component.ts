@@ -174,6 +174,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           if (this.bounds !== undefined) {
             this.filterBounds();
           }
+
+
           // add channels to selected Channels
         }
       );
@@ -182,6 +184,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.availableChannels = [];
       this.searchChannels = [];
     }
+
+    this.availableChannels = [...this.availableChannels];
   }
 
   onSelect(event) {

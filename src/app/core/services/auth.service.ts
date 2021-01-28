@@ -94,7 +94,7 @@ export class AuthService {
 
   // Logs out user after expiration time passes
   autologout(expirationDuration: number) {
-    console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
+    // console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
     // this.tokenExpirationTimer = setTimeout(() => {
     //   this.logout();
     // }, expirationDuration);
@@ -122,6 +122,6 @@ export class AuthService {
     this.token = token;
     this.userLoggedIn.next(true);
 
-    this.loadingService.getInitialData();
+    this.loadingService.setStatus('Logging in and loading data.');
   }
 }

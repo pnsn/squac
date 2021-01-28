@@ -8,6 +8,7 @@ export class Metric {
     public description: string,
     public refUrl: string,
     public unit: string,
+    public sampleRate: number,
     public minVal?: number,
     public maxVal?: number
   ) {

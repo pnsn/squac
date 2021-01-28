@@ -12,6 +12,10 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessageService } from '@core/services/message.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -20,7 +24,14 @@ describe('UserComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UserComponent ],
-      imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
+      imports: [
+        HttpClientTestingModule,
+        AbilityModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatFormFieldModule],
       providers: [
         {
           provide: ActivatedRoute,

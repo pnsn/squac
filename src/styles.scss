@@ -193,18 +193,21 @@ ngx-datatable {
   }
 }
 
-.ngx-datatable.material.single-selection .datatable-body-row.active, .ngx-datatable.material.single-selection
+.datatable-body-row.active,
 .datatable-body-row.active .datatable-row-group {
-  background-color: $sq-lt-blue;
+  background-color: $sq-lt-blue !important;
 }
-.ngx-datatable.material.single-selection .datatable-body-row.active:hover, .ngx-datatable.material.single-selection
+.datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group {
-  background-color: $sq-gray;
+  background-color: darken($sq-lt-blue, 15%) !important;
+
 }
-.ngx-datatable.material.single-selection .datatable-body-row:hover, .ngx-datatable.material.single-selection
+.datatable-body-row:hover, 
 .datatable-body-row:hover .datatable-row-group {
-  background-color: $sq-lt-gray;
+  background-color: $sq-lt-gray !important;
 }
+
+
 
 // Material overrides
 .mat-list-item.active {

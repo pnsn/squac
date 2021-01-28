@@ -1,4 +1,5 @@
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -14,7 +15,7 @@ describe('ConfirmDialogComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, MatButtonToggleModule],
+      imports: [MatDialogModule, MatButtonModule],
       declarations: [ ConfirmDialogComponent ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {
@@ -41,7 +42,6 @@ describe('ConfirmDialogComponent', () => {
 
   beforeEach(inject([MatDialog, MAT_DIALOG_DATA],
     (d: MatDialog) => {
-      console.log(MAT_DIALOG_DATA);
       dialog = d;
     })
   );

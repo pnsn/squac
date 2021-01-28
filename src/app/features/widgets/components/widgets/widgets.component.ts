@@ -77,8 +77,6 @@ itemChange(item) {
       }
     );
     this.viewService.resizeWidget(item.widget.id);
-  } else {
-    console.log('item change no');
   }
 }
 
@@ -141,7 +139,6 @@ private addWidgetsToView(widgets: Widget[]) {
   }
 
   ngOnDestroy() {
-    console.log('widgets destroyed');
     this.subscription.unsubscribe();
   }
 
