@@ -52,6 +52,7 @@ export class MonitorChartComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     // Add '${implements OnChanges}' to the class.
+    console.log(changes)
     if (this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
       this.triggers.forEach(( trigger ) => {
@@ -115,7 +116,7 @@ export class MonitorChartComponent implements OnInit {
             series : data[channel]
           });
         }
-        console.log('resultts', this.results);
+        // console.log('resultts', this.results);
         this.hasData = this.results.length > 0;
       }
     );

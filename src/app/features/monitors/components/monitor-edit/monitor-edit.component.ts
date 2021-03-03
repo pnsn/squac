@@ -7,6 +7,7 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { MessageService } from '@core/services/message.service';
 import { Monitor } from '@features/monitors/models/monitor';
+import { Trigger } from '@features/monitors/models/trigger';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { TriggersService } from '@features/monitors/services/triggers.service';
 import { UserService } from '@features/user/services/user.service';
@@ -39,7 +40,7 @@ export class MonitorEditComponent implements OnInit {
 
   intervalTypes: string[] = ['minute', 'hour', 'day'];
   stats: string[] = ['count', 'sum', 'avg', 'min', 'max'];
-  levels: string[] = ['1', '2', '3'];
+  levels: number[] = [1, 2, 3];
   // selectedType;
   // selectedStat;
   selectedChannelGroupId: number;
@@ -69,12 +70,12 @@ export class MonitorEditComponent implements OnInit {
     return this.monitorForm.get('triggers') as FormArray;
   }
 
-  addTrigger() {
+  addTrigger(trigger? : Trigger) {
     this.triggers.push( this.formBuilder.group({
-      min: [],
-      max: [],
-      inclusive: [false],
-      level: []
+      min: [trigger ? trigger.min : null],
+      max: [trigger ? trigger.max : null],
+      inclusive: [trigger ? trigger.bandInclusive : false],
+      level: [trigger ? trigger.level : null]
     }));
   }
 
@@ -152,7 +153,10 @@ export class MonitorEditComponent implements OnInit {
         }
       );
 
-
+      this.monitor.triggers.forEach((trigger)=> {
+        this.addTrigger(trigger);
+      });
+      
     }
   }
 }
