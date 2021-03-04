@@ -29,6 +29,7 @@ export class AlertViewComponent implements OnInit {
     this.alertsService.getAlerts().subscribe(
       alerts => {
         this.alerts = alerts;
+        console.log(this.alerts);
       }
     );
 

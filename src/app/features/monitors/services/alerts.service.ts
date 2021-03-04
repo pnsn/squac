@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { map } from 'rxjs/operators';
 import { Alert } from '../models/alert';
+import { Trigger } from '../models/trigger';
 
 @Injectable({
   providedIn: 'root'
@@ -58,15 +59,25 @@ export class AlertsService {
     }
 
   mapAlert(alert) {
+    const t = alert.trigger;
+    const trigger = new Trigger(
+      t.id,
+      t.monitor,
+      t.band_inclusive,
+      t.level,
+      t.user_id,
+      t.minval,
+      t.maxval
+    );
 
-    const newAlert: Alert = {
-      id: alert.id,
-      triggerId: alert.trigger,
-      timestamp: alert.timestamp,
-      message: alert.message,
-      inAlarm: alert.in_alarm,
-      owner: alert.user_id
-    };
+    const newAlert = new Alert(
+      alert.id,
+      alert.user_id,
+      alert.timestamp,
+      alert.message,
+      alert.in_alarm,
+      trigger
+    );
 
     return newAlert;
   }

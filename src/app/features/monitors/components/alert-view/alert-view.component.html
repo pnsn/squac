@@ -23,8 +23,10 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Alert" prop="id" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
-      <ngx-datatable-column name="Trigger" prop="triggerId" [draggable]="false" [sortable]="false" [flexGrow]="1">
-
+      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+          {{value.id}}
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Message" [draggable]="false" [sortable]="false" [flexGrow]="1">
 
