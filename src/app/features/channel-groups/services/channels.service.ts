@@ -18,7 +18,6 @@ export class ChannelsService {
     private channelAdapter: ChannelAdapter
   ) {
   }
-  channels = new BehaviorSubject<Channel[]>([]);
 
   getChannelsByFilters(filters: Params): Observable<Channel[]> {
    return this.squacApi.get(this.url, null, filters).pipe(

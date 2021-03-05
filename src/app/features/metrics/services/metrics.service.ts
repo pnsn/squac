@@ -34,9 +34,7 @@ export class MetricsService {
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(
-      map( 
-        results => results.map(r => this.metricAdapter.adaptFromApi(r))
-      ),
+      map( results => results.map(r => this.metricAdapter.adaptFromApi(r))),
       tap(
         metrics => {
           this.lastRefresh = new Date().getTime();
