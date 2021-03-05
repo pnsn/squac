@@ -19,7 +19,7 @@ export class Monitor {
     public triggers: Trigger[]
   ) {}
 
-  channelGroup : ChannelGroup;
+  channelGroup: ChannelGroup;
   metric: Metric;
 }
 
@@ -36,45 +36,55 @@ export interface ApiGetMonitor {
   created_at: string;
   updated_at: string;
   user_id: string;
-  triggers?: Array<ApiGetTrigger>
+  triggers?: Array<ApiGetTrigger>;
+}
+
+export interface ApiPostMonitor {
+  channel_group?: number;
+  metric?: number;
+  interval_type: string;
+  interval_count?: number;
+  num_channels?: number;
+  stat: string;
+  name: string;
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class MonitorAdapter implements Adapter<Monitor> {
-  //channelgroup adapter,metric adapter
+  // channelgroup adapter,metric adapter
   constructor(
     private metricAdapter: MetricAdapter,
     private channelGroupAdapter: ChannelGroupAdapter,
     private triggerAdapter: TriggerAdapter
   ) {}
-  adapt(item: ApiGetMonitor): Monitor {
+  adaptFromApi(item: ApiGetMonitor): Monitor {
     let channelGroupId;
     let metricId;
     let channelGroup: ChannelGroup;
     let metric: Metric;
     let triggers: Trigger[];
-    //sometimes API returns number, sometimes group
-    if(typeof item.channel_group === "number") {
+    // sometimes API returns number, sometimes group
+    if (typeof item.channel_group === 'number') {
       channelGroupId = item.channel_group;
     } else {
       channelGroupId = item.channel_group.id;
-      channelGroup = this.channelGroupAdapter.adapt(item.channel_group);
+      channelGroup = this.channelGroupAdapter.adaptFromApi(item.channel_group);
     }
 
-    if(typeof item.metric === "number") {
+    if (typeof item.metric === 'number') {
       metricId = item.metric;
     } else {
       metricId = item.metric.id;
-      metric = this.metricAdapter.adapt(item.metric);
+      metric = this.metricAdapter.adaptFromApi(item.metric);
     }
 
-    if(item.triggers) {
-      triggers = item.triggers.map(t => this.triggerAdapter.adapt(t));
+    if (item.triggers) {
+      triggers = item.triggers.map(t => this.triggerAdapter.adaptFromApi(t));
     }
 
-    let monitor = new Monitor(
+    const monitor = new Monitor(
       item.id,
       item.name,
       channelGroupId,
@@ -91,5 +101,18 @@ export class MonitorAdapter implements Adapter<Monitor> {
     monitor.metric = metric;
 
     return monitor;
+  }
+
+  adaptToApi(item: Monitor): ApiPostMonitor {
+    const postData: ApiPostMonitor = {
+      interval_type: item.intervalType,
+      interval_count: item.intervalCount,
+      num_channels: item.numberChannels,
+      channel_group: item.channelGroupId,
+      metric: item.metricId,
+      stat: item.stat,
+      name: item.name
+    };
+    return postData;
   }
 }

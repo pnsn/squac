@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "./adapter";
+import { Injectable } from '@angular/core';
+import { Adapter } from './adapter';
 
 // Describes a channel object
 export class Channel {
@@ -26,7 +26,7 @@ export class Channel {
 
 
 export interface ApiGetChannel {
-  id: number,
+  id: number;
   class_name: string;
   code?: string;
   name?: string;
@@ -43,17 +43,17 @@ export interface ApiGetChannel {
   azimuth: number;
   dip: number;
   created_at: string;
-  updated_at:string;
+  updated_at: string;
   user_id: string;
   starttime: string;
   endtime: string;
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ChannelAdapter implements Adapter<Channel> {
-  adapt(item: ApiGetChannel): Channel {
+  adaptFromApi(item: ApiGetChannel): Channel {
     return new Channel(
       item.id,
       item.code,
@@ -67,4 +67,6 @@ export class ChannelAdapter implements Adapter<Channel> {
       item.network
     );
   }
+
+  adaptToApi(){}
 }

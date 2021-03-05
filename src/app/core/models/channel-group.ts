@@ -39,24 +39,24 @@ export interface ApiGetChannelGroup {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   constructor(
     private channelAdapter: ChannelAdapter
   ){}
-  adapt(item: ApiGetChannelGroup): ChannelGroup {
+  adaptFromApi(item: ApiGetChannelGroup): ChannelGroup {
     let channelIds;
     let channels;
 
-    if(item.channels[0] && typeof item.channels[0] === "number") {
+    if (item.channels[0] && typeof item.channels[0] === 'number') {
       channelIds = item.channels;
     } else {
       channelIds = item.channels;
-      channels = item.channels.map( c => this.channelAdapter.adapt(c));
+      channels = item.channels.map( c => this.channelAdapter.adaptFromApi(c));
     }
 
-    let channelGroup = new ChannelGroup(
+    const channelGroup = new ChannelGroup(
       item.id,
       +item.user_id,
       item.name,
@@ -65,10 +65,14 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.share_org,
       item.share_all,
       channelIds
-      //TODO: deal with channels
+      // TODO: deal with channels
     );
 
     channelGroup.channels = channels;
     return channelGroup;
+  }
+
+  adaptToApi(item: ChannelGroup): any {
+
   }
 }

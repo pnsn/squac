@@ -70,7 +70,7 @@ export class MonitorEditComponent implements OnInit {
     return this.monitorForm.get('triggers') as FormArray;
   }
 
-  addTrigger(trigger? : Trigger) {
+  addTrigger(trigger?: Trigger) {
     this.triggers.push( this.formBuilder.group({
       min: [trigger ? trigger.min : null],
       max: [trigger ? trigger.max : null],
@@ -153,10 +153,10 @@ export class MonitorEditComponent implements OnInit {
         }
       );
 
-      this.monitor.triggers.forEach((trigger)=> {
+      this.monitor.triggers.forEach((trigger) => {
         this.addTrigger(trigger);
       });
-      
+
     }
   }
 }

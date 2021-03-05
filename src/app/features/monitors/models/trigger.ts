@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
+import { Injectable } from '@angular/core';
+import { Adapter } from '@core/models/adapter';
 
 export class Trigger {
   constructor(
@@ -28,10 +28,10 @@ export interface ApiGetTrigger {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class TriggerAdapter implements Adapter<Trigger> {
-  adapt(item: ApiGetTrigger): Trigger {
+  adaptFromApi(item: ApiGetTrigger): Trigger {
     return new Trigger(
       item.id,
       item.monitor,
@@ -41,5 +41,8 @@ export class TriggerAdapter implements Adapter<Trigger> {
       item.minval,
       item.maxval
     );
+  }
+  adaptToApi(item: Trigger) : any {
+
   }
 }
