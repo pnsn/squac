@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ChannelGroup } from '@core/models/channel-group';
+import { ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
 import { Channel } from '@core/models/channel';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -28,7 +28,8 @@ export class ChannelGroupsService {
   private lastRefresh: number;
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private channelGroupAdapter: ChannelGroupAdapter
   ) {
   }
 
@@ -38,16 +39,7 @@ export class ChannelGroupsService {
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
-      map(
-        results => {
-          const channelGroups: ChannelGroup[] = [];
-
-          results.forEach(cG => {
-            channelGroups.push(this.mapChannelGroup(cG));
-          });
-          return channelGroups;
-        }
-      ),
+      map( results => results.map(r => this.channelGroupAdapter.adaptFromApi(r))),
       tap(
         channelGroups => {
           this.lastRefresh = new Date().getTime();
@@ -75,34 +67,24 @@ export class ChannelGroupsService {
   // Gets a specific channel group with id from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
     return this.squacApi.get(this.url, id).pipe(
-      map(
-        response => {
-          return this.mapChannelGroup(response);
-        }
-      )
+      map( response => this.channelGroupAdapter.adaptFromApi(response)),
+      tap( group => this.updateLocalChannelGroup(group.id, group))
     );
-
   }
 
   // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup) {
-    const postData: ChannelGroupsHttpData = {
-      name: channelGroup.name,
-      description: channelGroup.description,
-      share_org: channelGroup.shareOrg,
-      share_all: channelGroup.shareAll,
-      channels : channelGroup.channelIds,
-      organization: channelGroup.orgId
-    };
+    const postData = this.channelGroupAdapter.adaptToApi(channelGroup);
     if (channelGroup.id) {
-      postData.id = channelGroup.id;
-      return this.squacApi.put(this.url, channelGroup.id, postData).pipe(map(
-        response => this.mapChannelGroup(response)
-      ));
+      return this.squacApi.put(this.url, channelGroup.id, postData).pipe(
+        map( response => this.channelGroupAdapter.adaptFromApi(response)),
+        tap(group =>this.updateLocalChannelGroup(group.id, group))
+      );
     }
-    return this.squacApi.post(this.url, postData).pipe(map(
-      response => this.mapChannelGroup(response)
-    ));
+    return this.squacApi.post(this.url, postData).pipe(
+      map( response => this.channelGroupAdapter.adaptFromApi(response)),
+      tap(group =>this.updateLocalChannelGroup(group.id, group))
+    );
   }
 
 
@@ -156,7 +138,7 @@ export class ChannelGroupsService {
     if (channels.length > 0) {
       channelGroup.channels = channels;
     }
-    this.updateLocalChannelGroup(channelGroup.id, channelGroup);
+
     return channelGroup;
   }
 

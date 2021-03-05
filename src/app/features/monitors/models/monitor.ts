@@ -104,7 +104,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
   }
 
   adaptToApi(item: Monitor): ApiPostMonitor {
-    const postData: ApiPostMonitor = {
+    return {
       interval_type: item.intervalType,
       interval_count: item.intervalCount,
       num_channels: item.numberChannels,
@@ -113,6 +113,5 @@ export class MonitorAdapter implements Adapter<Monitor> {
       stat: item.stat,
       name: item.name
     };
-    return postData;
   }
 }

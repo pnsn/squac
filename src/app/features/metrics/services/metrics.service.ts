@@ -64,7 +64,7 @@ export class MetricsService {
     if (metric.id) {
       return this.squacApi.put(this.url, metric.id, postData).pipe(
         map(data => this.metricAdapter.adaptFromApi(data)),
-        tap( metric => this.updateLocalMetrics(metric.id, metric))
+        tap(metric => this.updateLocalMetrics(metric.id, metric))
       );
     }
     return this.squacApi.post(this.url, postData).pipe(

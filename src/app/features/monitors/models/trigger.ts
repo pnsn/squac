@@ -52,13 +52,12 @@ export class TriggerAdapter implements Adapter<Trigger> {
   }
 
   adaptToApi(item: Trigger) : any {
-    const postData : ApiPostTrigger = {
+    return {
       monitor: item.monitorId,
       band_inclusive: item.bandInclusive,
       level: item.level,
       minval: item.min,
       maxval: item.max
-    }
-    return postData;
+    };
   }
 }

@@ -38,6 +38,16 @@ export interface ApiGetChannelGroup {
   organization?: number;
 }
 
+export interface ApiPostChannelGroup {
+  name?: string;
+  description: string;
+  channels?: number[];
+  share_org: boolean;
+  share_all: boolean;
+  id?: number;
+  organization?: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -72,7 +82,14 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     return channelGroup;
   }
 
-  adaptToApi(item: ChannelGroup): any {
-
+  adaptToApi(item: ChannelGroup): ApiPostChannelGroup {
+    return {
+      name: item.name,
+      description: item.description,
+      share_org: item.shareOrg,
+      share_all: item.shareAll,
+      channels: item.channelIds,
+      organization: item.orgId
+    };
   }
 }

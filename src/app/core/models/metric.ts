@@ -64,7 +64,7 @@ export class MetricAdapter implements Adapter<Metric> {
   }
 
   adaptToApi( item: Metric): ApiPostMetric {
-    const postData: ApiPostMetric = {
+    return {
       name: item.name,
       code: item.code,
       description: item.description,
@@ -73,6 +73,5 @@ export class MetricAdapter implements Adapter<Metric> {
       default_minval : item.minVal,
       default_maxval : item.maxVal
     };
-    return postData;
   }
 }
