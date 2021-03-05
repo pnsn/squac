@@ -1,3 +1,6 @@
+import { Injectable } from "@angular/core";
+import { Adapter } from "./adapter";
+
 // Describes a metric object
 export class Metric {
   constructor(
@@ -13,9 +16,40 @@ export class Metric {
     public maxVal?: number
   ) {
   }
+}
 
+export interface apiGetMonitor {
+  id: number;
+  name?: string;
+  code?: string;
+  url: string;
+  description: string;
+  unit?: string;
+  created_at: string;
+  updated_at: string;
+  default_minval: number;
+  default_maxval: number;
+  user_id: string;
+  reference_url?: string;
+  sample_rate: number;
+}
 
-  static get modelName() {
-    return 'Metric';
+@Injectable({
+  providedIn: "root",
+})
+export class MetricAdapter implements Adapter<Metric> {
+  adapt(item: apiGetMonitor): Metric {
+    return new Metric(
+      item.id,
+      +item.user_id,
+      item.name,
+      item.code,
+      item.description,
+      item.reference_url,
+      item.unit,
+      item.sample_rate,
+      item.default_minval,
+      item.default_maxval
+    );
   }
 }
