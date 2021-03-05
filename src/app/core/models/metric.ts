@@ -34,6 +34,16 @@ export interface ApiGetMetric {
   sample_rate: number;
 }
 
+export interface ApiPostMetric {
+  name?: string;
+  code?: string;
+  description: string;
+  unit?: string;
+  reference_url?: string;
+  default_minval?: number;
+  default_maxval?: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,5 +63,16 @@ export class MetricAdapter implements Adapter<Metric> {
     );
   }
 
-  adaptToApi( item: Metric): any {}
+  adaptToApi( item: Metric): ApiPostMetric {
+    const postData: ApiPostMetric = {
+      name: item.name,
+      code: item.code,
+      description: item.description,
+      reference_url: item.refUrl,
+      unit : item.unit,
+      default_minval : item.minVal,
+      default_maxval : item.maxVal
+    };
+    return postData;
+  }
 }

@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Metric } from '@core/models/metric';
+import { Metric, MetricAdapter } from '@core/models/metric';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-interface MetricsHttpData {
-  name: string;
-  code: string;
-  description: string;
-  unit: string;
-  reference_url: string;
-  default_minval?: number;
-  default_maxval?: number;
-  id?: number;
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +21,8 @@ export class MetricsService {
   lastRefresh: number;
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private metricAdapter: MetricAdapter
   ) {}
 
   // Get all metrics available to user from squac
@@ -42,15 +34,8 @@ export class MetricsService {
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(
-      map(
-        results => {
-          const metrics: Metric[] = [];
-
-          results.forEach(m => {
-            metrics.push(this.mapMetric(m));
-          });
-          return metrics;
-        }
+      map( 
+        results => results.map(r => this.metricAdapter.adaptFromApi(r))
       ),
       tap(
         metrics => {
@@ -68,28 +53,24 @@ export class MetricsService {
       return of(this.localMetrics[index]);
     }
     return this.squacApi.get(this.url, id).pipe(
-      map(data => this.mapMetric(data))
+      map(data => this.metricAdapter.adaptFromApi(data)),
+      tap( metric => this.updateLocalMetrics(metric.id, metric))
     );
   }
 
   // Send metric to squac
   updateMetric(metric: Metric): Observable<Metric> {
-    const postData: MetricsHttpData = {
-      name: metric.name,
-      code: metric.code,
-      description: metric.description,
-      reference_url: metric.refUrl,
-      unit : metric.unit,
-      default_minval : metric.minVal,
-      default_maxval : metric.maxVal
-    };
+    const postData = this.metricAdapter.adaptToApi(metric);
     if (metric.id) {
-      postData.id = metric.id;
       return this.squacApi.put(this.url, metric.id, postData).pipe(
-        map(data => this.mapMetric(data))
+        map(data => this.metricAdapter.adaptFromApi(data)),
+        tap( metric => this.updateLocalMetrics(metric.id, metric))
       );
     }
-    return this.squacApi.post(this.url, postData).pipe(map(data => this.mapMetric(data)));
+    return this.squacApi.post(this.url, postData).pipe(
+      map(data => this.metricAdapter.adaptFromApi(data)),
+      tap( metric => this.updateLocalMetrics(metric.id, metric))
+    );
   }
 
   // Update metrics to subscribers
@@ -111,23 +92,5 @@ export class MetricsService {
     } else {
       this.localMetrics.push(metric);
     }
-  }
-
-  // Map Squac data to a Metric object
-  private mapMetric(squacData): Metric {
-    const metric = new Metric(
-      squacData.id,
-      squacData.user_id,
-      squacData.name,
-      squacData.code,
-      squacData.description,
-      squacData.reference_url,
-      squacData.unit,
-      squacData.sample_rate,
-      squacData.default_minval,
-      squacData.default_maxval
-    );
-    this.updateLocalMetrics(metric.id, metric);
-    return metric;
   }
 }
