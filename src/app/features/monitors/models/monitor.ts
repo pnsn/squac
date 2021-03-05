@@ -3,7 +3,7 @@ import { Adapter } from '@core/models/adapter';
 import { Channel } from '@core/models/channel';
 import { ApiGetChannelGroup, ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
 import { Metric, ApiGetMetric, MetricAdapter } from '@core/models/metric';
-import { Trigger } from './trigger';
+import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
 
 export class Monitor {
   constructor(
@@ -36,6 +36,7 @@ export interface ApiGetMonitor {
   created_at: string;
   updated_at: string;
   user_id: string;
+  triggers?: Array<ApiGetTrigger>
 }
 
 @Injectable({
@@ -45,14 +46,15 @@ export class MonitorAdapter implements Adapter<Monitor> {
   //channelgroup adapter,metric adapter
   constructor(
     private metricAdapter: MetricAdapter,
-    private channelGroupAdapter: ChannelGroupAdapter
+    private channelGroupAdapter: ChannelGroupAdapter,
+    private triggerAdapter: TriggerAdapter
   ) {}
   adapt(item: ApiGetMonitor): Monitor {
     let channelGroupId;
     let metricId;
     let channelGroup: ChannelGroup;
     let metric: Metric;
-
+    let triggers: Trigger[];
     //sometimes API returns number, sometimes group
     if(typeof item.channel_group === "number") {
       channelGroupId = item.channel_group;
@@ -68,6 +70,10 @@ export class MonitorAdapter implements Adapter<Monitor> {
       metric = this.metricAdapter.adapt(item.metric);
     }
 
+    if(item.triggers) {
+      triggers = item.triggers.map(t => this.triggerAdapter.adapt(t));
+    }
+
     let monitor = new Monitor(
       item.id,
       item.name,
@@ -78,7 +84,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
       item.num_channels,
       item.stat,
       +item.user_id,
-      []
+      triggers
     );
 
     monitor.channelGroup = channelGroup;

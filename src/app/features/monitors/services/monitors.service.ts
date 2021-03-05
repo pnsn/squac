@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Monitor } from '../models/monitor';
+import { Monitor, MonitorAdapter } from '../models/monitor';
 import { Trigger } from '../models/trigger';
 
 interface MonitorPostData {
@@ -21,51 +21,15 @@ export class MonitorsService {
 
   private url = 'measurement/monitors/';
 
-  testTriggers: Trigger[] = [
-    {
-      id: 1,
-      monitorId: 1,
-      bandInclusive: false,
-      level: 1,
-      owner: 2,
-      min: -1000,
-      max: -500
-    },
-    {
-      id: 2,
-      monitorId: 1,
-      bandInclusive: true,
-      level: 2,
-      owner: 2,
-      min: -500,
-      max: -250
-    },
-    {
-      id: 3,
-      monitorId: 1,
-      bandInclusive: false,
-      level: 3,
-      owner: 2,
-      min: -250,
-      max: 0
-    }
-  ];
-
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private monitorAdapter: MonitorAdapter
   ) {}
 
   getMonitors(): Observable<Monitor[]>{
     return this.squacApi.get(this.url).pipe(
       map(
-        results => {
-          const monitors: Monitor[] = [];
-
-          results.forEach(monitor => {
-            monitors.push(this.mapMonitor(monitor));
-          });
-          return monitors;
-        }
+        results => results.map(monitor => this.monitorAdapter.adapt(monitor))
       )
     );
   }
@@ -73,9 +37,7 @@ export class MonitorsService {
   getMonitor(id: number): Observable<Monitor>{
     return this.squacApi.get(this.url, id).pipe(
       map(
-        response => {
-          return this.mapMonitor(response);
-        }
+        response => this.monitorAdapter.adapt(response)
       )
     );
   }
@@ -93,49 +55,49 @@ export class MonitorsService {
       console.log(postData);
       if (monitor.id) {
         return this.squacApi.put(this.url, monitor.id, postData).pipe(map(
-          response => this.mapMonitor(response)
+          response => this.monitorAdapter.adapt(response)
         ));
       }
       return this.squacApi.post(this.url, postData).pipe(map(
-        response => this.mapMonitor(response)
+        response => this.monitorAdapter.adapt(response)
       ));
     }
 
-  mapMonitor(response) {
-    let triggers = [];
-    if (response.triggers) {
-      response.triggers.forEach(t => {
-        const trigger: Trigger = {
-          id: t.id,
-          monitorId: t.monitor,
-          bandInclusive: t.band_inclusive,
-          level: t.level,
-          owner: t.user_id,
-          min: t.minval,
-          max: t.maxval
-        };
-        triggers.push(trigger);
-      });
+  // mapMonitor(response) {
+  //   let triggers = [];
+  //   if (response.triggers) {
+  //     response.triggers.forEach(t => {
+  //       const trigger: Trigger = {
+  //         id: t.id,
+  //         monitorId: t.monitor,
+  //         bandInclusive: t.band_inclusive,
+  //         level: t.level,
+  //         owner: t.user_id,
+  //         min: t.minval,
+  //         max: t.maxval
+  //       };
+  //       triggers.push(trigger);
+  //     });
 
 
-    } else {
-     triggers = [...this.testTriggers];
-    }
-    const newMonitor: Monitor = {
-      id: response.id,
-      name: 'name',
-      channelGroupId: response.channel_group,
-      metricId: response.metric,
-      intervalType: response.interval_type,
-      intervalCount: response.interval_count,
-      numberChannels: response.num_channels,
-      stat: response.stat,
-      owner: response.user_id,
-      triggers
-    };
+  //   } else {
+  //    triggers = [...this.testTriggers];
+  //   }
+  //   const newMonitor: Monitor = {
+  //     id: response.id,
+  //     name: 'name',
+  //     channelGroupId: response.channel_group,
+  //     metricId: response.metric,
+  //     intervalType: response.interval_type,
+  //     intervalCount: response.interval_count,
+  //     numberChannels: response.num_channels,
+  //     stat: response.stat,
+  //     owner: response.user_id,
+  //     triggers
+  //   };
 
-    return newMonitor;
-  }
+  //   return newMonitor;
+  // }
 
   deleteMonitor(id: number){
     return this.squacApi.delete(this.url, id);
