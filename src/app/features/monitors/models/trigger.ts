@@ -27,6 +27,14 @@ export interface ApiGetTrigger {
   user_id: string;
 }
 
+export interface ApiPostTrigger {
+  monitor?: number;
+  minval: number;
+  maxval: number;
+  band_inclusive: boolean;
+  level: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -42,7 +50,15 @@ export class TriggerAdapter implements Adapter<Trigger> {
       item.maxval
     );
   }
-  adaptToApi(item: Trigger) : any {
 
+  adaptToApi(item: Trigger) : any {
+    const postData : ApiPostTrigger = {
+      monitor: item.monitorId,
+      band_inclusive: item.bandInclusive,
+      level: item.level,
+      minval: item.min,
+      maxval: item.max
+    }
+    return postData;
   }
 }

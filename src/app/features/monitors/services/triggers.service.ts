@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Trigger } from '../models/trigger';
+import { Trigger, TriggerAdapter } from '../models/trigger';
 
 interface TriggerHttpData {
   monitor: number;
@@ -20,7 +20,8 @@ export class TriggersService {
 
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private triggerAdapter: TriggerAdapter
   ) {}
 
   updateTriggers(triggers: Trigger[], monitorId: number): Observable<Trigger>[] {
@@ -37,17 +38,8 @@ export class TriggersService {
   }
 
   private updateTrigger(trigger: Trigger, monitorId) {
-    const postData: TriggerHttpData = {
-      monitor: monitorId,
-      band_inclusive: trigger.bandInclusive,
-      level: trigger.level
-    };
-    if (trigger.min !== null) {
-      postData.minval = trigger.min;
-    }
-    if (trigger.max !== null) {
-      postData.maxval = trigger.max;
-    }
+    trigger.monitorId = monitorId;
+    const postData = this.triggerAdapter.adaptToApi(trigger);
 
     if (trigger.id) {
       return this.squacApi.put(this.url, trigger.id, postData);
