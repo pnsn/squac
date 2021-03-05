@@ -10,7 +10,7 @@ import { Network, NetworkAdapter } from '../models/network';
 
 // Service for handling networks
 export class NetworksService {
-
+  networks: Network[];
   private url = 'nslc/networks/';
   // Subscribeable networks
   constructor(
@@ -26,6 +26,7 @@ export class NetworksService {
     )
     .subscribe(
       networks => {
+        this.networks = networks;
       },
       error => {
         console.log('error in networks service: ' + error);

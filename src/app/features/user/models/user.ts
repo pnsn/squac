@@ -39,3 +39,16 @@ export class User {
     return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
 }
+
+export interface ApiGetUser {
+  email?: string;
+  firstname?: string;
+  lastname?: string;
+  is_staff: boolean;
+  groups: Array<string>;
+  id: number;
+  organization:number;
+  is_org_admin: boolean;
+  last_login: string;
+  is_active: boolean;
+}
