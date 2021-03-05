@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from '@core/models/adapter';
-import { MetricAdapter } from '@core/models/metric';
+import { Channel } from '@core/models/channel';
+import { ApiGetChannelGroup, ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
+import { Metric, ApiGetMetric, MetricAdapter } from '@core/models/metric';
 import { Trigger } from './trigger';
 
 export class Monitor {
@@ -16,13 +18,16 @@ export class Monitor {
     public owner: number,
     public triggers: Trigger[]
   ) {}
+
+  channelGroup : ChannelGroup;
+  metric: Metric;
 }
 
-export interface apiGetMonitor {
+export interface ApiGetMonitor {
   id: number;
   url: string;
-  channel_group?: number | any;
-  metric?: number | any;
+  channel_group?: number | ApiGetChannelGroup;
+  metric?: number | ApiGetMetric;
   interval_type: string;
   interval_count?: number;
   num_channels?: number;
@@ -39,14 +44,35 @@ export interface apiGetMonitor {
 export class MonitorAdapter implements Adapter<Monitor> {
   //channelgroup adapter,metric adapter
   constructor(
-    private metricAdapter: MetricAdapter
+    private metricAdapter: MetricAdapter,
+    private channelGroupAdapter: ChannelGroupAdapter
   ) {}
-  adapt(item: apiGetMonitor): Monitor {
-    return new Monitor(
+  adapt(item: ApiGetMonitor): Monitor {
+    let channelGroupId;
+    let metricId;
+    let channelGroup: ChannelGroup;
+    let metric: Metric;
+
+    //sometimes API returns number, sometimes group
+    if(typeof item.channel_group === "number") {
+      channelGroupId = item.channel_group;
+    } else {
+      channelGroupId = item.channel_group.id;
+      channelGroup = this.channelGroupAdapter.adapt(item.channel_group);
+    }
+
+    if(typeof item.metric === "number") {
+      metricId = item.metric;
+    } else {
+      metricId = item.metric.id;
+      metric = this.metricAdapter.adapt(item.metric);
+    }
+
+    let monitor = new Monitor(
       item.id,
       item.name,
-      item.channel_group,
-      item.metric,
+      channelGroupId,
+      metricId,
       item.interval_type,
       item.interval_count,
       item.num_channels,
@@ -54,5 +80,10 @@ export class MonitorAdapter implements Adapter<Monitor> {
       +item.user_id,
       []
     );
+
+    monitor.channelGroup = channelGroup;
+    monitor.metric = metric;
+
+    return monitor;
   }
 }

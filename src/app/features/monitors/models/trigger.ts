@@ -14,7 +14,7 @@ export class Trigger {
 
 }
 
-export interface apiGetTrigger {
+export interface ApiGetTrigger {
   id: number;
   url: string;
   monitor?: number;
@@ -31,7 +31,7 @@ export interface apiGetTrigger {
   providedIn: "root",
 })
 export class TriggerAdapter implements Adapter<Trigger> {
-  adapt(item: apiGetTrigger): Trigger {
+  adapt(item: ApiGetTrigger): Trigger {
     return new Trigger(
       item.id,
       item.monitor,

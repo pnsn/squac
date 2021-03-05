@@ -18,7 +18,7 @@ export class Metric {
   }
 }
 
-export interface apiGetMonitor {
+export interface ApiGetMetric {
   id: number;
   name?: string;
   code?: string;
@@ -38,7 +38,7 @@ export interface apiGetMonitor {
   providedIn: "root",
 })
 export class MetricAdapter implements Adapter<Metric> {
-  adapt(item: apiGetMonitor): Metric {
+  adapt(item: ApiGetMetric): Metric {
     return new Metric(
       item.id,
       +item.user_id,

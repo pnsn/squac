@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from './adapter';
-import { Channel } from './channel';
+import { Channel, ChannelAdapter } from './channel';
 import { Metric } from './metric';
 
 // Describes a channel group object
@@ -24,9 +24,8 @@ export class ChannelGroup {
   }
 }
 
-
-export interface apiGetChannelGroup {
-  name: string;
+export interface ApiGetChannelGroup {
+  name?: string;
   id: number;
   url: string;
   description: string;
@@ -36,15 +35,28 @@ export interface apiGetChannelGroup {
   created_at: string;
   updated_at: string;
   user_id: string;
-  organization: number;
+  organization?: number;
 }
 
 @Injectable({
   providedIn: "root",
 })
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
-  adapt(item: apiGetChannelGroup): ChannelGroup {
-    return new ChannelGroup(
+  constructor(
+    private channelAdapter: ChannelAdapter
+  ){}
+  adapt(item: ApiGetChannelGroup): ChannelGroup {
+    let channelIds;
+    let channels;
+
+    if(item.channels[0] && typeof item.channels[0] === "number") {
+      channelIds = item.channels;
+    } else {
+      channelIds = item.channels;
+      channels = item.channels.map( c => this.channelAdapter.adapt(c));
+    }
+
+    let channelGroup = new ChannelGroup(
       item.id,
       +item.user_id,
       item.name,
@@ -52,7 +64,11 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.organization,
       item.share_org,
       item.share_all,
-      item.channels
+      channelIds
+      //TODO: deal with channels
     );
+
+    channelGroup.channels = channels;
+    return channelGroup;
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
-import { apiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
+import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
 
 export class Alert {
   constructor(
@@ -13,10 +13,10 @@ export class Alert {
   ){}
 }
 
-export interface apiGetAlert {
+export interface ApiGetAlert {
   id: number;
   url: string;
-  trigger: apiGetTrigger;
+  trigger: ApiGetTrigger;
   timeStamp?: string;
   message?: string;
   in_alarm: boolean;
@@ -32,7 +32,7 @@ export class AlertAdapter implements Adapter<Alert> {
   constructor(
     private triggerAdapter: TriggerAdapter
   ) {}
-  adapt(item: apiGetAlert): Alert {
+  adapt(item: ApiGetAlert): Alert {
     return new Alert(
       item.id,
       +item.user_id,
