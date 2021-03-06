@@ -1,3 +1,6 @@
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+
 // Describes a user object
 export class User {
 
@@ -8,7 +11,7 @@ export class User {
     public lastName: string,
     public orgId: number,
     public orgAdmin: boolean,
-    groupsArr: any
+    groupsArr?: any
   ) {
 
     this.groups = [];
@@ -45,10 +48,37 @@ export interface ApiGetUser {
   firstname?: string;
   lastname?: string;
   is_staff: boolean;
-  groups: Array<string>;
+  groups?: Array<number|string>;
   id: number;
-  organization:number;
+  organization?:number;
   is_org_admin: boolean;
   last_login: string;
   is_active: boolean;
+}
+
+export interface ApiPostUser {
+  
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UserAdapter implements Adapter<User> {
+  adaptFromApi(item: ApiGetUser): User {
+    const user = new User(
+      item.id,
+      item.email,
+      item.firstname,
+      item.lastname,
+      item.organization,
+      item.is_org_admin,
+      item.groups
+    );
+    user.lastLogin = item.last_login;
+    user.squacAdmin = item.is_staff;
+    user.isActive = item.is_active;
+    return user;
+  }
+
+  adaptToApi(){}
 }
