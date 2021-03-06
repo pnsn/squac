@@ -23,11 +23,12 @@ export interface ApiGetOrganization {
 @Injectable({
   providedIn: 'root',
 })
-export class NetworkAdapter implements Adapter<Organization> {
+export class OrganizationAdapter implements Adapter<Organization> {
   constructor(
     private userAdapter: UserAdapter  
   ){}
   adaptFromApi(item: ApiGetOrganization): Organization {
+    console.log(item)
     return new Organization(
       item.id,
       item.name,

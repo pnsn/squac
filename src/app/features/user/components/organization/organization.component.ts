@@ -81,15 +81,15 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   saveUser(row) {
     const values = this.editUserForm.value;
     this.orgService.updateUser(
-      {
-        email: row.email,
-        orgId: this.organization.id,
-        groups: values.editGroups,
-        isAdmin: values.editIsAdmin,
-        id: row.id,
-        firstName: row.firstName,
-        lastName: row.lastName,
-      }
+      new User(
+        row.id,
+        row.email,
+        row.firstName,
+        row.lastName,
+        this.organization.id,
+        values.editIsAdmin,
+        values.editGroups
+      )
     ).subscribe(
       savedUser => {
         // this.userAdded = newUser;
@@ -173,12 +173,15 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   addNewUser() {
     const values = this.addUserForm.value;
     this.orgService.updateUser(
-      {
-        email: values.email,
-        orgId: this.organization.id,
-        groups: values.groups,
-        isAdmin: values.isAdmin
-      }
+      new User(
+        null,
+        values.email,
+        null,
+        null,
+        this.organization.id,
+        values.isAdmin,
+        values.groups
+      )
     ).subscribe(
       newUser => {
         this.userAdded = newUser;
