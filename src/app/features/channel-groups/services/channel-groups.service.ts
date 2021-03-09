@@ -39,7 +39,13 @@ export class ChannelGroupsService {
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
-      map( results => results.map(r => this.channelGroupAdapter.adaptFromApi(r))),
+      map( results => results.map(
+        r => { 
+          const group = this.channelGroupAdapter.adaptFromApi(r);
+          this.updateLocalChannelGroup(group.id, group);
+          return group;
+        }
+        )),
       tap(
         channelGroups => {
           this.lastRefresh = new Date().getTime();
