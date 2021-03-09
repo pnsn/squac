@@ -38,10 +38,15 @@ export class OrganizationsService {
   getOrganizations(): Observable<Organization[]> {
     const path = 'organizations/';
     return this.squacApi.get(this.url + path).pipe(
-      map( response => response.map(r => this.organizationAdapter.adaptFromApi(r))),
+      map( response => response.map(
+        r => { 
+          this.storeOrgUsers(r.users);
+          return this.organizationAdapter.adaptFromApi(r)
+        })),
       tap(
         organizations => {
           this.localOrganizations = organizations.slice();
+
         }
       )
     );

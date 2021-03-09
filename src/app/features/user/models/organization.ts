@@ -28,7 +28,6 @@ export class OrganizationAdapter implements Adapter<Organization> {
     private userAdapter: UserAdapter  
   ){}
   adaptFromApi(item: ApiGetOrganization): Organization {
-    console.log(item)
     return new Organization(
       item.id,
       item.name,
