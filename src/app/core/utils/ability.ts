@@ -6,6 +6,7 @@ import { User } from '@features/user/models/user';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
+import { Monitor } from '@features/monitors/models/monitor';
 
 
 type Actions = 'create' | 'read' | 'update' | 'delete' | 'manage';
@@ -15,7 +16,9 @@ type Subjects = InferSubjects <
   typeof Threshold |
   typeof ChannelGroup |
   typeof Measurement |
-  typeof Metric, true > |
+  typeof Metric |
+  typeof Monitor 
+  , true > |
   'all';
 export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
@@ -29,8 +32,8 @@ export function defineAbilitiesFor(user: User) {
   }
 
   if (user.inGroup('reporter')) {
-    can(['update', 'delete'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup'], {owner: user.id});
-    can(['read', 'create'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup']);
+    can(['update', 'delete'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup', 'Monitor'], {owner: user.id});
+    can(['read', 'create'], ['Dashboard', 'Widget', 'Threshold', 'ChannelGroup', 'Monitor']);
   }
 
   if (user.inGroup('contributor')) {
