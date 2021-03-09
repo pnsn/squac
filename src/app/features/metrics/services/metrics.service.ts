@@ -44,7 +44,6 @@ export class MetricsService {
         metrics => {
           this.lastRefresh = new Date().getTime();
           this.updateMetrics(metrics);
-          console.log(metrics)
         }
       )
     );

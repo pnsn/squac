@@ -4,8 +4,10 @@
   <h1>
     Monitors
   </h1>
-  <div id="button-container" *ngIf="'update' | able: 'Monitor'">
-    <button mat-flat-button color="accent"
+
+  <div id="button-container" >
+    <a mat-button [routerLink]="[ '../alerts' ]">View All Alerts</a>
+    <button mat-flat-button color="accent" *ngIf="'update' | able: 'Monitor'"
       class="add-btn" (click)="addMonitor()"
     >Create Monitor</button>
   </div>
@@ -29,7 +31,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
       </ngx-datatable-column> -->
-      <ngx-datatable-column name="Monitor" prop="id" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
       <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
