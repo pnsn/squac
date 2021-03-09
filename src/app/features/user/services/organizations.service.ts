@@ -21,13 +21,6 @@ export class OrganizationsService {
     private userAdapter: UserAdapter
   ) { }
 
-  // Temp until Jon fixes
-  private groupIds = [
-    {id: 1, name: 'viewer'},
-    {id: 2, name: 'reporter'},
-    {id: 3, name: 'contributor'}
-  ];
-
   get organizations() {
     return this.localOrganizations.slice();
   }
@@ -72,9 +65,10 @@ export class OrganizationsService {
 
   getOrganization(id: number): Observable<Organization> {
     const path = 'organizations/';
+    const userPath = 'users/';
     return forkJoin(
         {
-          users: this.getOrganizationUsers(id), //I have to do this because the /organization/id doesn't return the groups
+          users: this.squacApi.get(this.url + userPath, null, {organization: id}), //I have to do this because the /organization/id doesn't return the groups
           organization: this.squacApi.get(this.url + path, id)
         }
       ).pipe( 
@@ -84,13 +78,19 @@ export class OrganizationsService {
         map(
           response => {
             response.organization.users = response.users;
-            return this.organizationAdapter.adaptFromApi(response.organization);
+            const org = this.organizationAdapter.adaptFromApi(response.organization);
+            return org;
+          }
+        ),
+        tap(
+          organization => {
+            console.log(organization)
           }
         )
       );
   }
 
-  getOrganizationUsers(orgId): Observable<User[]> {
+  getOrganizationUsers(orgId: number): Observable<User[]> {
     const path = 'users/';
     return this.squacApi.get(this.url + path, null, {
         organization: orgId

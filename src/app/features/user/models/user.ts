@@ -79,21 +79,24 @@ export class UserAdapter implements Adapter<User> {
   ];
 
   adaptFromApi(item: ApiGetUser): User {
-    console.log(item)
-    const groups = item.groups.map(
-      g => {
-        if(typeof g === "number") {
-          const group = this.groupIds.find(groupId => groupId.id === g);
-          if (group) {
-            return group.name;
+    let groups = [];
+    if(item.groups) {
+      groups = item.groups.map(
+        g => {
+          if(typeof g === "number") {
+            const group = this.groupIds.find(groupId => groupId.id === g);
+            if (group) {
+              return group.name;
+            } else {
+              return;
+            }
           } else {
-            return;
+            return g;
           }
-        } else {
-          return g;
         }
-      }
-    )
+      );
+    }
+
     const user = new User(
       item.id,
       item.email,
