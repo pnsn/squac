@@ -15,6 +15,7 @@ export class MetricsResolver implements Resolve<Observable<any>> {
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    console.log(route)
     const id = +route.paramMap.get('metricId');
     if (id) {
       this.loadingService.setStatus('Loading metric');
@@ -24,6 +25,9 @@ export class MetricsResolver implements Resolve<Observable<any>> {
     } else {
       this.loadingService.setStatus('Loading metrics');
       return this.metricsService.getMetrics().pipe(
+        tap(r => {
+          console.log(r)
+        }),
         catchError(this.handleError)
       );
       // return all of them

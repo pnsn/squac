@@ -34,11 +34,17 @@ export class MetricsService {
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(
-      map( results => results.map(r => this.metricAdapter.adaptFromApi(r))),
+      map( results => results.map(
+        r => { 
+          const metric = this.metricAdapter.adaptFromApi(r);
+          this.updateLocalMetrics(metric.id, metric);
+          return metric;
+        })),
       tap(
         metrics => {
           this.lastRefresh = new Date().getTime();
           this.updateMetrics(metrics);
+          console.log(metrics)
         }
       )
     );

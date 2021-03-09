@@ -28,10 +28,10 @@
     <div id="monitor-detail" class="col">
       <h3>Configuration</h3>
       <div >
-        Channel Group: {{channelGroupName(monitor.channelGroupId)}}
+        Channel Group: {{monitor.channelGroup?.name}}
       </div>
       <div>
-        Metric: {{metricName(monitor.metricId)}}
+        Metric: {{monitor.metric?.name}}
       </div>
       <div>
         Stat Type: {{monitor.stat}}

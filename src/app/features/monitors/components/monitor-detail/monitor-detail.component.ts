@@ -23,10 +23,6 @@ export class MonitorDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.route.parent.snapshot && this.route.parent.snapshot.data) {
-      this.metrics = this.route.parent.snapshot.data.metrics;
-      this.channelGroups = this.route.parent.snapshot.data.channelGroups;
-    }
     this.route.data.subscribe(
       data => {
         if (data.monitor.error){
@@ -34,25 +30,9 @@ export class MonitorDetailComponent implements OnInit {
         } else {
           this.error = false;
           this.monitor = data.monitor;
-          this.metric = this.metrics.find(m => m.id === this.monitor.metricId);
         }
       }
     );
-
-
-
-    console.log(this.monitor);
-  }
-
-
-  channelGroupName(id: number): string{
-    const group = this.channelGroups.find(cG => cG.id === id);
-    return group ? group.name : 'unknown';
-  }
-
-  metricName(id: number): string {
-    const metric = this.metrics.find(m => m.id === id);
-    return metric ? metric.name : 'unknown';
   }
 
   editMonitor() {

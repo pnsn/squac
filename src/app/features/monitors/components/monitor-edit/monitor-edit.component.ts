@@ -136,8 +136,8 @@ export class MonitorEditComponent implements OnInit {
     if (this.editMode) {
       this.monitor = this.data.monitor;
       this.id = this.monitor.id;
-      this.selectedChannelGroupId = this.monitor.channelGroupId;
-      this.selectedMetricId = this.monitor.metricId;
+      this.selectedChannelGroupId = this.monitor.channelGroup.id;
+      this.selectedMetricId = this.monitor.metric.id;
       // this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroupId);
       // this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metricId);
 
