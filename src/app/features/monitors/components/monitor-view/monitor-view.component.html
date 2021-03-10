@@ -35,12 +35,12 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
-          <strong>{{channelGroupName(value)}}</strong>
+          {{channelGroupName(value)}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Metric" prop="metricId" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
-          <strong>{{metricName(value)}}</strong>
+          {{metricName(value)}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">

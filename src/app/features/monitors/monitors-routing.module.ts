@@ -29,7 +29,10 @@ export const routes: Routes = [
       },
       {
         path: 'alerts',
-        component: AlertViewComponent
+        component: AlertViewComponent,
+        resolve: {
+          monitor: MonitorsResolver
+        },
       },
       {
         path: 'monitors',

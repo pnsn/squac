@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from '@core/models/adapter';
+import { Monitor } from './monitor';
 import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
 
 export class Alert {
@@ -11,13 +12,15 @@ export class Alert {
     public inAlarm: boolean,
     public trigger: Trigger
   ){}
+  
+  monitor: Monitor
 }
 
 export interface ApiGetAlert {
   id: number;
   url: string;
   trigger: ApiGetTrigger;
-  timeStamp?: string;
+  timestamp?: string;
   message?: string;
   in_alarm: boolean;
   created_at: string;
@@ -36,7 +39,7 @@ export class AlertAdapter implements Adapter<Alert> {
     return new Alert(
       item.id,
       +item.user_id,
-      item.timeStamp,
+      item.timestamp,
       item.message,
       item.in_alarm,
       this.triggerAdapter.adaptFromApi(item.trigger)
