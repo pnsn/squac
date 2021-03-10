@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
@@ -14,7 +14,7 @@ export class MonitorViewComponent implements OnInit {
   monitors: Monitor[];
 
   selected: Monitor[];
-
+  @ViewChild('monitorTable') table: any;
   selectedMonitorId: number;
 
   metrics: Metric[];
@@ -66,6 +66,15 @@ export class MonitorViewComponent implements OnInit {
     this.selected = this.monitors.filter( cg => { // Select row with channel group
       return (cg.id === selectedMonitorId);
     });
+  }
+
+
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    // console.log('Detail Toggled', event);
   }
 
   // onSelect function for data table selection

@@ -17,32 +17,6 @@
       [scrollbarV]="50"
       #alertTable
     >
-    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <div style="padding-left:35px;">
-          <div><strong>Address</strong></div>
-          <div>{{ row.trigger}}</div>
-        </div>
-      </ng-template>
-    </ngx-datatable-row-detail>
-    <ngx-datatable-column
-    [width]="50"
-    [resizeable]="false"
-    [sortable]="false"
-    [draggable]="false"
-    [canAutoResize]="false"
-  >
-    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-      <a
-        href="javascript:void(0)"
-        title="Expand/Collapse Row"
-        (click)="toggleExpandRow(row)"
-      >
-      <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
-      <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
-      </a>
-    </ng-template>
-  </ngx-datatable-column>
       <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{ value | date:'short' }}
@@ -55,7 +29,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          {{value.id}}
+          min: {{value.min}} max: {{value.max}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Message" [draggable]="false" [sortable]="false" [flexGrow]="3">

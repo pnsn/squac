@@ -15,6 +15,7 @@
 
   <div id="monitors" class="box">
     <ngx-datatable
+      #monitorTable
       id="monitor-table"
       class="material"
       [rows]="monitors"
@@ -27,10 +28,32 @@
       [selected]="selected"
       (select)="onSelect($event)"
     >
-      <!-- <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
-      </ngx-datatable-column> -->
+    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div style="padding-left:35px;">
+          <div><strong>Address</strong></div>
+          <div>{{ row.trigger}}</div>
+        </div>
+      </ng-template>
+    </ngx-datatable-row-detail>
+    <ngx-datatable-column
+    [width]="50"
+    [resizeable]="false"
+    [sortable]="false"
+    [draggable]="false"
+    [canAutoResize]="false"
+  >
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a
+        href="javascript:void(0)"
+        title="Expand/Collapse Row"
+        (click)="toggleExpandRow(row)"
+      >
+      <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
       <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
       <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">

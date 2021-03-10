@@ -18,7 +18,7 @@ export class AlertViewComponent implements OnInit {
   SelectionType = SelectionType;
   error: boolean;
   monitors: Monitor[];
-  @ViewChild('alertTable') table: any;
+
 
   constructor(
     private alertsService: AlertsService,
@@ -70,13 +70,6 @@ export class AlertViewComponent implements OnInit {
 
   }
 
-  toggleExpandRow(row) {
-    this.table.rowDetail.toggleExpandRow(row);
-  }
-
-  onDetailToggle(event) {
-    // console.log('Detail Toggled', event);
-  }
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
