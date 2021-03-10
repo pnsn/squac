@@ -87,4 +87,12 @@ export class MonitorViewComponent implements OnInit {
     }
   }
 
+  viewMonitor(id) {
+    if (id) {
+      this.router.navigate([id], {relativeTo: this.route});
+      this.selectedMonitorId = id;
+      this.selectMonitor(id);
+    }
+  }
+
 }

@@ -24,15 +24,12 @@
       [footerHeight]="50"
       [rowHeight]="50"
       [scrollbarV]="50"
-      [selectionType]=SelectionType.single
-      [selected]="selected"
-      (select)="onSelect($event)"
     >
-    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+    <!-- <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <div style="padding-left:35px;">
-          <div><strong>Address</strong></div>
-          <div>{{ row.trigger}}</div>
+        {{row.triggers}}
+        <div *ngFor="let trigger of row.triggers">
+          {{trigger.min}} {{trigger.max}} {{trigger.bandInclusive}} {{trigger.level}}
         </div>
       </ng-template>
     </ngx-datatable-row-detail>
@@ -52,18 +49,18 @@
       <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
       <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
       </a>
-    </ng-template>
-  </ngx-datatable-column>
+    </ng-template> -->
+  <!-- </ngx-datatable-column> -->
       <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
       <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
-        <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
-          {{channelGroupName(value)}}
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+         {{row.numberChannels}} channels in {{channelGroupName(value)}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Metric" prop="metricId" [draggable]="false" [sortable]="false" [flexGrow]="1">
-        <ng-template let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
-          {{metricName(value)}}
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.stat}} of {{metricName(value)}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
@@ -71,8 +68,18 @@
           <strong>no data</strong>
         </ng-template>
       </ngx-datatable-column>
+    <ngx-datatable-column [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template >
+        <a
+          href="javascript:void(0)"
+          title="Expand/Collapse Row"
+          (click)="viewMonitor(row.id)"
+        >
+        View Detail
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
 
 <!-- click to show more detail -->
     </ngx-datatable>
   </div>
-<router-outlet></router-outlet>
