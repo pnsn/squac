@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
@@ -13,7 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./monitor-detail.component.scss']
 })
 export class MonitorDetailComponent implements OnInit {
-  monitor: Monitor;
+  @Input() monitor: Monitor;
+  // monitor: Monitor;
   subscription: Subscription = new Subscription();
   error: boolean;
   metric: Metric;
@@ -27,16 +28,17 @@ export class MonitorDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      data => {
-        if (data.monitor.error){
-          this.error = true;
-        } else {
-          this.error = false;
-          this.monitor = data.monitor;
-        }
-      }
-    );
+    console.log(this.monitor)
+    // this.route.data.subscribe(
+    //   data => {
+    //     if (data.monitor.error){
+    //       this.error = true;
+    //     } else {
+    //       this.error = false;
+    //       this.monitor = data.monitor;
+    //     }
+    //   }
+    // );
   }
 
   editMonitor() {

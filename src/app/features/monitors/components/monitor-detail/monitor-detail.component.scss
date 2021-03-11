@@ -3,7 +3,7 @@
   margin-top: 10px;
   display:flex;
   flex-direction: row;
-  height: 30vh;
+  height: 300px;
   overflow: hidden;
   align-items: flex-start;
   justify-content: flex-start;
@@ -18,25 +18,4 @@
     padding-bottom:40px;
     padding-top: 10px;
   }
-}
-#title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-  #monitor-info {
-    h2 {
-      display:inline
-    }
-    span{
-      font-weight: 200;
-    }
-  }
-  #button-container {
-    button {
-      margin-left: 10px;
-    }
-  }
-  
 }

@@ -25,12 +25,9 @@
       [rowHeight]="50"
       [scrollbarV]="50"
     >
-    <!-- <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+    <ngx-datatable-row-detail [rowHeight]="300" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        {{row.triggers}}
-        <div *ngFor="let trigger of row.triggers">
-          {{trigger.min}} {{trigger.max}} {{trigger.bandInclusive}} {{trigger.level}}
-        </div>
+        <app-monitor-detail [monitor]="row"></app-monitor-detail>
       </ng-template>
     </ngx-datatable-row-detail>
     <ngx-datatable-column
@@ -49,8 +46,8 @@
       <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
       <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
       </a>
-    </ng-template> -->
-  <!-- </ngx-datatable-column> -->
+    </ng-template>
+  </ngx-datatable-column>
   <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
     <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
       <span *ngIf="getAlert(row.id)?.inAlarm; else notAlarm"><strong>In Alarm</strong></span>
@@ -69,18 +66,6 @@
         {{row.stat}} of {{metricName(value)}}
         </ng-template>
       </ngx-datatable-column>
-
-    <ngx-datatable-column [draggable]="false" [sortable]="false" [flexGrow]="0.5">
-      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template >
-        <a
-          href="javascript:void(0)"
-          title="Expand/Collapse Row"
-          (click)="viewMonitor(row.id)"
-        >
-        View Detail
-        </a>
-      </ng-template>
-    </ngx-datatable-column>
 
 <!-- click to show more detail -->
     </ngx-datatable>

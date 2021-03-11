@@ -4,37 +4,36 @@
   <p> Could not load monitor.</p>
 </ng-template>
 <ng-container *ngIf="!error && monitor; else noMonitor">
-  <div id="title">
-    <div id="monitor-info">
-      <h2>{{monitor.name}}</h2>
+  <div id="monitor-container">
+    <div id="title">
+      <div id="monitor-info">
+        <h2>{{monitor.name}}</h2>
+      </div>
+    
+      <div id="button-container" *ngIf="'update' | able: 'monitor'">
+        <button 
+          mat-icon-button 
+          color="warn"
+          class=""
+          (click)="deleteMonitor()"
+          matTooltip="Delete monitor"
+          aria-label="Button that deletes the selected monitor"
+        > 
+        <mat-icon>delete</mat-icon>
+      </button>
+        <button 
+          mat-flat-button 
+          color="primary"
+          class="add-btn"
+          (click)="editMonitor()"
+          matTooltip="Edit channel group"
+          aria-label="Button that navigates to edit channel group page"
+        > 
+        Edit
+      </button>
+      </div>
     </div>
   
-    <div id="button-container" *ngIf="'update' | able: 'monitor'">
-      <button 
-        mat-icon-button 
-        color="warn"
-        class=""
-        (click)="deleteMonitor()"
-        matTooltip="Delete monitor"
-        aria-label="Button that deletes the selected monitor"
-      > 
-      <mat-icon>delete</mat-icon>
-    </button>
-      <button 
-        mat-flat-button 
-        color="primary"
-        class="add-btn"
-        (click)="editMonitor()"
-        matTooltip="Edit channel group"
-        aria-label="Button that navigates to edit channel group page"
-      > 
-      Edit
-    </button>
-    </div>
-  </div>
-  
-  
-  <div id="monitor-container" class="box">
     <div id="monitor-detail" class="col">
       <h3>Configuration</h3>
       <div >
