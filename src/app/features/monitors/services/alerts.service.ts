@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SquacApiService } from '@core/services/squacapi.service';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Alert, AlertAdapter } from '../models/alert';
 import { Trigger } from '../models/trigger';
@@ -8,7 +9,8 @@ import { Trigger } from '../models/trigger';
   providedIn: 'root'
 })
 export class AlertsService {
-
+  localAlerts: {[monitorId : number]: Alert[]} = {};
+  alerts : Subject<Alert[]> = new Subject();
   private url = 'measurement/alerts/';
 
 
@@ -17,13 +19,30 @@ export class AlertsService {
     private alertAdapter: AlertAdapter
   ) {}
 
-  getAlerts() {
-    return this.squacApi.get(this.url).pipe(
+  fetchAlerts() : void{
+    this.squacApi.get(this.url).pipe(
       map( results => results.map(r => this.alertAdapter.adaptFromApi(r)) )
+    ).subscribe(
+      alerts => {
+        this.updateAlerts(alerts);
+      }
     );
   }
 
-  getAlert(id: number) {
+  updateAlerts(alerts: Alert[]) : void {
+    this.alerts.next(alerts.slice());
+    for(let alert of alerts) {
+      const localAlerts = this.localAlerts[alert.trigger.monitorId];
+      if(localAlerts) {
+        localAlerts.push(alert)
+      } else {
+        this.localAlerts[alert.trigger.monitorId]=[alert];
+      }
+    }
+    console.log(this.localAlerts)
+  }
+
+  getAlert(id: number) : Observable<Alert> {
     return this.squacApi.get(this.url, id).pipe(
       map( response => this.alertAdapter.adaptFromApi(response))
     );

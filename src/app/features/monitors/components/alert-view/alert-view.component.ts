@@ -26,7 +26,17 @@ export class AlertViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.alertsService.alerts.subscribe(
+      alerts => {
+        console.log(alerts)
+        this.findMonitorsForAlerts(alerts);
+        //need to group alarms by trigger
+      }
+    );
+
     this.getAlerts();
+
     this.interval = setInterval(
       ()=>{this.getAlerts()},
       60 * 1000
@@ -46,14 +56,7 @@ export class AlertViewComponent implements OnInit {
 
   // request alerts from squac
   getAlerts() {
-    this.alertsService.getAlerts().subscribe(
-      alerts => {
-        console.log(alerts)
-        this.findMonitorsForAlerts(alerts);
-        //need to group alarms by trigger
-      }
-    );
-
+    this.alertsService.fetchAlerts();
   }
 
   // match alerts and monitors

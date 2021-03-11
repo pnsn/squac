@@ -51,6 +51,11 @@
       </a>
     </ng-template> -->
   <!-- </ngx-datatable-column> -->
+  <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>no data</strong>
+    </ng-template>
+  </ngx-datatable-column>
       <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
       <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
@@ -63,11 +68,7 @@
         {{row.stat}} of {{metricName(value)}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
-        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-          <strong>no data</strong>
-        </ng-template>
-      </ngx-datatable-column>
+
     <ngx-datatable-column [draggable]="false" [sortable]="false" [flexGrow]="0.5">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template >
         <a
