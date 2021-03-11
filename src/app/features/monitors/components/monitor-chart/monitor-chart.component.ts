@@ -55,7 +55,7 @@ export class MonitorChartComponent implements OnInit {
     console.log(changes);
     if (this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
-      this.triggers.forEach(( trigger ) => {
+      this.triggers?.forEach(( trigger ) => {
         this.referenceLines.push(
           {
             name: `${trigger.id} max`,

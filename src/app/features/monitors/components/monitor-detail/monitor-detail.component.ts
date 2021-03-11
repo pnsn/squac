@@ -45,6 +45,7 @@ export class MonitorDetailComponent implements OnInit {
   }
 
   onDelete() {
+    console.log("delete")
     this.confirmDialog.open(
       {
         title: `Delete ${this.monitor.name}`,
