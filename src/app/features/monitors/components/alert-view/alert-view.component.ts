@@ -29,7 +29,6 @@ export class AlertViewComponent implements OnInit {
 
     this.alertsService.alerts.subscribe(
       alerts => {
-        console.log(alerts)
         this.findMonitorsForAlerts(alerts);
         //need to group alarms by trigger
       }
@@ -63,7 +62,6 @@ export class AlertViewComponent implements OnInit {
   findMonitorsForAlerts(alerts: Alert[]) {
     this.alerts = [];
     if(this.monitors.length > 0 && alerts.length>0){
-      console.log(alerts.length)
       this.alerts = alerts.map(alert => {
         
         alert.monitor = this.monitors.find(m => m.id === alert.trigger.monitorId);

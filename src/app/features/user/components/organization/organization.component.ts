@@ -57,7 +57,6 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       data => {
         this.user = this.route.parent.snapshot.data.user;
         this.organization = data.organization;
-        console.log(data.organization)
         this.isAdmin = this.user.isStaff || this.user.orgAdmin && this.user.orgId === this.organization.id;
       }
     );

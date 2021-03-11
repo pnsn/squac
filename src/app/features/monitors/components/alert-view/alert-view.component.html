@@ -17,29 +17,31 @@
       [scrollbarV]="50"
       #alertTable
     >
-      <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [sortable]="false" [flexGrow]="1">
+    <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false"  [flexGrow]="0.5">
+      <ng-template  let-value="value" ngx-datatable-cell-template>
+        <span *ngIf="value; else notAlarm"><strong>In Alarm</strong></span>
+        <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
+      </ng-template>
+    </ngx-datatable-column>
+      <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [flexGrow]="0.5">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{ value | date:'short' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Monitor" prop="monitor" [draggable]="false" [sortable]="false" [flexGrow]="2">
+      <ngx-datatable-column name="Monitor" prop="monitor" [draggable]="false" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{ value.name}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          min: {{value.min}} max: {{value.max}}
+          min: {{value.min}} max: {{value.max}} {{value.bandInclusive? "inclusive" : "exclusive"}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Message" [draggable]="false" [sortable]="false" [flexGrow]="3">
+      <ngx-datatable-column name="Message" [draggable]="false" [flexGrow]="1">
 
       </ngx-datatable-column>
-      <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
-        <ng-template  let-value="value" ngx-datatable-cell-template>
-          {{value ? "in alarm" : "not in alarm"}}
-        </ng-template>
-      </ngx-datatable-column>
+
 
 <!-- click to show more detail -->
     </ngx-datatable>

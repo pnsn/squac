@@ -19,7 +19,6 @@ export class MonitorsResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Monitor> | Observable<Monitor[]> {
     const id = +route.paramMap.get('monitorId');
-
     if (id) {
       this.loadingService.setStatus('Loading monitor');
       return this.monitorsService.getMonitor(id).pipe(

@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
+import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
+import { AlertsService } from '@features/monitors/services/alerts.service';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
@@ -19,9 +21,12 @@ export class MonitorViewComponent implements OnInit {
 
   metrics: Metric[];
   channelGroups: ChannelGroup[];
+
+  alerts: Alert[] = [];
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertsService: AlertsService
   ) { }
 
   // Table stuff
@@ -39,6 +44,11 @@ export class MonitorViewComponent implements OnInit {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
     }
+    
+    this.alertsService.getAlerts(true).subscribe(
+      alerts => {
+        this.alerts = alerts;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -57,6 +67,11 @@ export class MonitorViewComponent implements OnInit {
     return metric ? metric.name : 'unknown';
   }
 
+  getAlert(id: number) {
+    const alert = this.alerts.filter(a => a.trigger.monitorId === id)[0];
+    return alert ? alert : "no data";
+  }
+ 
   addMonitor() {
     this.router.navigate(['new'], {relativeTo: this.route});
   }

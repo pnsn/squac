@@ -28,11 +28,9 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     this.paramsSub = this.route.params.subscribe(
       (params: Params) => {
         this.monitorId = +params.monitorId;
-
 
         if (this.route.parent) {
           this.monitor = this.route.parent.snapshot.data.monitor;
@@ -41,7 +39,6 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
           this.metrics = this.route.snapshot.data.metrics;
           this.channelGroups = this.route.snapshot.data.channelGroups;
         }
-        console.log(this.metrics, this.channelGroups)
 
         if (this.monitorId && !this.monitor) {
           this.monitorsService.getMonitor(this.monitorId).subscribe(

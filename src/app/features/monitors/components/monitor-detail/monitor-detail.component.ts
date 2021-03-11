@@ -34,7 +34,6 @@ export class MonitorDetailComponent implements OnInit {
         } else {
           this.error = false;
           this.monitor = data.monitor;
-          console.log(this.monitor)
         }
       }
     );

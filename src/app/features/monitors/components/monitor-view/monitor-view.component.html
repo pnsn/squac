@@ -53,7 +53,8 @@
   <!-- </ngx-datatable-column> -->
   <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
     <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-      <strong>no data</strong>
+      <span *ngIf="getAlert(row.id)?.inAlarm; else notAlarm"><strong>In Alarm</strong></span>
+      <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
     </ng-template>
   </ngx-datatable-column>
       <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
@@ -84,3 +85,4 @@
 <!-- click to show more detail -->
     </ngx-datatable>
   </div>
+<router-outlet></router-outlet>
