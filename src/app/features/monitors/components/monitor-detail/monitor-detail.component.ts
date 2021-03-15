@@ -41,7 +41,7 @@ export class MonitorDetailComponent implements OnInit {
   }
 
   editMonitor() {
-    this.router.navigate(['edit'], {relativeTo: this.route});
+    this.router.navigate([this.monitor.id, 'edit'], {relativeTo: this.route});
   }
 
   onDelete() {

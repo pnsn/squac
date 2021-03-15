@@ -25,9 +25,12 @@
       [rowHeight]="50"
       [scrollbarV]="50"
     >
-    <ngx-datatable-row-detail [rowHeight]="300" #myDetailRow (toggle)="onDetailToggle($event)">
+    <ngx-datatable-row-detail [rowHeight]="340" #myDetailRow (toggle)="onDetailToggle($event)">
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <app-monitor-detail [monitor]="row" [channelGroup]="channelGroup(row.channelGroupId)" [metric]="metric(row.metricId)"></app-monitor-detail>
+        <app-monitor-detail 
+          [monitor]="row" 
+          [channelGroup]="channelGroup(row.channelGroupId)" 
+          [metric]="metric(row.metricId)"></app-monitor-detail>
       </ng-template>
     </ngx-datatable-row-detail>
     <ngx-datatable-column

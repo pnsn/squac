@@ -56,19 +56,22 @@ export class MonitorChartComponent implements OnInit {
     if (this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
       this.triggers?.forEach(( trigger ) => {
-        this.referenceLines.push(
-          {
-            name: `${trigger.id} max`,
-            value: trigger.max
-          }
-        );
-        this.referenceLines.push(
-          {
-            name: `${trigger.id} min`,
-            value: trigger.min
-          }
-        );
-
+        if(trigger.max !== null) {
+          this.referenceLines.push(
+            {
+              name: `${trigger.id} max`,
+              value: trigger.max
+            }
+          );
+        }
+        if(trigger.min !== null) {
+          this.referenceLines.push(
+            {
+              name: `${trigger.id} min`,
+              value: trigger.min
+            }
+          );
+        }
       });
     }
   }

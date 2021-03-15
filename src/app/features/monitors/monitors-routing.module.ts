@@ -58,7 +58,6 @@ export const routes: Routes = [
             path: ':monitorId',
             // canActivate: [PermissionGuard],
             // data: {subject: 'Monitor', action: 'create'},
-            component: MonitorDetailComponent,
             resolve: {
               monitor: MonitorsResolver
             },

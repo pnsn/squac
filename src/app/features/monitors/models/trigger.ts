@@ -10,7 +10,8 @@ export class Trigger {
     public owner: number,
     public min?: number,
     public max?: number
-  ) {}
+  ) {
+  }
 
 }
 
