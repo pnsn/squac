@@ -21,7 +21,7 @@ interface UserHttpData {
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'user/';
+  private url = 'user/me/';
   private currentUser: User;
     // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new BehaviorSubject<User>(null);
@@ -37,11 +37,10 @@ export class UserService {
 
   // gets current logged in user
   getUser(): Observable<User> {
-    const path = "me/";
     if (this.currentUser) {
       return of(this.currentUser);
     }
-    return this.squacApi.get(this.url + path).pipe(
+    return this.squacApi.get(this.url).pipe(
       map(
         response => {
           const currentUser = new User(
@@ -82,24 +81,14 @@ export class UserService {
 
   // User needs to enter password to make changes
   updateUser(user): Observable<any>{
-    const path = "me/";
     const putData: UserHttpData = {
       firstname: user.firstName,
       lastname: user.lastName
     };
 
     // other user ifo
-    return this.squacApi.patch(this.url + path, null, putData);
+    return this.squacApi.patch(this.url, null, putData);
     // TODO: after it puts, update current user
-  }
-
-  getContacts() {
-    const path = "contacts/"
-  }
-
-
-  updateContact(contact: Contact){
-
   }
 
 }
