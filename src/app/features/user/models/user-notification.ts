@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 
-export class Notification {
+export class UserNotification {
 
   constructor(
     public id : number,
@@ -34,9 +34,9 @@ export interface ApiPostNotification{
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationAdapter implements Adapter<Notification> {
-  adaptFromApi(item: ApiGetNotification): Notification {
-    return new Notification(
+export class UserNotificationAdapter implements Adapter<UserNotification> {
+  adaptFromApi(item: ApiGetNotification): UserNotification {
+    return new UserNotification(
       item.id,
       +item.user_id,
       item.notification_type,
@@ -45,7 +45,7 @@ export class NotificationAdapter implements Adapter<Notification> {
     );
   }
 
-  adaptToApi(item: Notification) : ApiPostNotification {
+  adaptToApi(item: UserNotification) : ApiPostNotification {
     return {
       notification_type: item.type, //email, sms, slack
       contact: item.contactId,

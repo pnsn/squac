@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 
-export class Contact {
+export class UserContact {
 
   constructor(
     public id : number,
@@ -31,9 +31,9 @@ export interface ApiPostContact{
 @Injectable({
   providedIn: 'root',
 })
-export class ContactAdapter implements Adapter<Contact> {
-  adaptFromApi(item: ApiGetContact): Contact {
-    return new Contact(
+export class UserContactAdapter implements Adapter<UserContact> {
+  adaptFromApi(item: ApiGetContact): UserContact {
+    return new UserContact(
       item.id,
       +item.user_id,
       item.email_value,
@@ -41,7 +41,7 @@ export class ContactAdapter implements Adapter<Contact> {
     );
   }
 
-  adaptToApi(item: Contact) : ApiPostContact {
+  adaptToApi(item: UserContact) : ApiPostContact {
     return {
       email_value: item.email,
       sms_value: item.sms
