@@ -8,6 +8,7 @@ import { UserEditComponent } from '@features/user/components/user-edit/user-edit
 import { SharedModule } from '@shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
 import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
+import { UserNotificationComponent } from './components/user-notification/user-notification.component';
 
 
 
@@ -18,7 +19,8 @@ import { OrganizationsViewComponent } from './components/organizations-view/orga
     LoginComponent,
     OrganizationComponent,
     UserEditComponent,
-    OrganizationsViewComponent
+    OrganizationsViewComponent,
+    UserNotificationComponent
   ],
   imports: [
     SharedModule,

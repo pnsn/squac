@@ -1,0 +1,20 @@
+
+<h2>Notification Settings</h2>
+
+<h3>Contact Information</h3>
+<div *ngIf="contact.email || contact.text; else noContact">
+<div>
+  Email: {{contact.email}}
+</div>
+
+<div>
+  Phone (for texts): {{contact.phone}} 
+</div>
+
+</div>
+
+<h3>Alarm Levels</h3>
+<div *ngIf="contact.email || contact.text; else noContact"></div>
+<ng-template #noContact>
+Add an email or phone number to enable alarm notifications.
+</ng-template>
