@@ -1,37 +1,39 @@
 
-<h2>Notification Settings</h2>
-<h3>Alarm Levels</h3>
+<div id="column">
+  <h2>Notification Settings</h2>
+  <h3>Alarm Levels</h3>
 
-<button (click)="addNotification()" >Add Notification</button>
+  <button (click)="addNotification()" >Add Notification</button>
 
-<form [formGroup]="notificationsForm">
-  <div formArrayName="notifications">
+  <form [formGroup]="notificationsForm">
+    <div formArrayName="notifications">
 
+      
+      <div *ngFor="let notification of notifications.controls; let i=index">
     
-    <div *ngFor="let notification of notifications.controls; let i=index">
-  
-      <div [formGroupName]="i" class="notification"> 
-        <mat-form-field>
-          <mat-label for="level">Level</mat-label>
-          <mat-select formControlName="level" name="level">
-            <mat-option *ngFor="let l of ['1', '2', '3']" [value]="l"> {{l}} </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div [formGroupName]="i" class="notification"> 
+          <mat-form-field>
+            <mat-label for="level">Level</mat-label>
+            <mat-select formControlName="level" name="level">
+              <mat-option *ngFor="let l of ['1', '2', '3']" [value]="l"> {{l}} </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label for="type">Type</mat-label>
-          <mat-select formControlName="type" name="type" #typeInput>
-            <mat-option *ngFor="let t of ['email', 'sms']"  [value]="t"> {{t}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field >
-          <mat-label for="contact">Contact {{typeInput.value === 'sms' ? 'phone' : 'email'}}</mat-label>
-          <input matInput [disabled]= "!typeInput.value" [type]="typeInput.value === 'sms' ? 'tel' : 'email'">
-        </mat-form-field>
-        
-        <button (click)="removeNotification(i)">x</button>
+          <mat-form-field>
+            <mat-label for="type">Type</mat-label>
+            <mat-select formControlName="type" name="type" #typeInput>
+              <mat-option *ngFor="let t of ['email', 'sms']"  [value]="t"> {{t}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field >
+            <mat-label for="contact">Contact {{typeInput.value === 'sms' ? 'phone' : 'email'}}</mat-label>
+            <input matInput [disabled]= "!typeInput.value" [type]="typeInput.value === 'sms' ? 'tel' : 'email'">
+          </mat-form-field>
+          
+          <button (click)="removeNotification(i)">x</button>
+        </div>
+    
       </div>
-  
     </div>
-  </div>
-</form>
+  </form>
+</div>

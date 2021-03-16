@@ -46,7 +46,6 @@ export class OrganizationsService {
       tap(
         organizations => {
           this.localOrganizations = organizations.slice();
-
         }
       )
     );
@@ -70,29 +69,9 @@ export class OrganizationsService {
 
   getOrganization(id: number): Observable<Organization> {
     const path = 'organizations/';
-    const userPath = 'users/';
-    return forkJoin(
-        {
-          users: this.squacApi.get(this.url + userPath, null, {organization: id}), //I have to do this because the /organization/id doesn't return the groups
-          organization: this.squacApi.get(this.url + path, id)
-        }
-      ).pipe( 
-        tap(response => {
-          this.storeOrgUsers(response.users)
-        }),
-        map(
-          response => {
-            response.organization.users = response.users;
-            const org = this.organizationAdapter.adaptFromApi(response.organization);
-            return org;
-          }
-        ),
-        tap(
-          organization => {
-            console.log(organization)
-          }
-        )
-      );
+    return this.squacApi.get(this.url + path, id).pipe(
+      map(response => this.organizationAdapter.adaptFromApi(response))
+    );
   }
 
   getOrganizationUsers(orgId: number): Observable<User[]> {
@@ -116,6 +95,7 @@ export class OrganizationsService {
         last: user.lastname
       };
     }
+    console.log(this.orgUsers)
   }
 
 }
