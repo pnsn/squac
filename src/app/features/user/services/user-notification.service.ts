@@ -38,6 +38,13 @@ export class UserNotificationService {
     }
   }
 
+  getContacts() : Observable<UserContact[]> {
+    const path = "contacts/";
+    return this.squacApi.get(this.url + path).pipe(
+      map( response => response.map(r => this.contactsAdapter.adaptFromApi(r)))
+    );
+  }
+
   updateContact(contact: UserContact) {
     const path = "contacts/";
     const postData = this.contactsAdapter.adaptToApi(contact);

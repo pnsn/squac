@@ -7,7 +7,8 @@ export class UserContact {
     public id : number,
     public owner: number,
     public email: string,
-    public sms: string
+    public sms: string,
+    public name: string
   ) {
 
   }
@@ -20,12 +21,14 @@ export interface ApiGetContact {
  sms_value: string, 
  created_at: string,
  updated_at: string,
- user_id: string
+ user_id: string,
+ name: string
 }
 
 export interface ApiPostContact{
   email_value: string,
-  sms_value: string
+  sms_value: string,
+  name: string
 }
 
 @Injectable({
@@ -37,14 +40,16 @@ export class UserContactAdapter implements Adapter<UserContact> {
       item.id,
       +item.user_id,
       item.email_value,
-      item.sms_value
+      item.sms_value,
+      item.name
     );
   }
 
   adaptToApi(item: UserContact) : ApiPostContact {
     return {
       email_value: item.email,
-      sms_value: item.sms
+      sms_value: item.sms,
+      name: item.name
     }
   }
 }

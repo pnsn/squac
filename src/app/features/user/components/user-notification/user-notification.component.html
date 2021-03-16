@@ -1,8 +1,35 @@
 
 <div id="column">
   <h2>Notification Settings</h2>
-  <h3>Alarm Levels</h3>
 
+  <h3>Contacts</h3>
+  <button (click)="addContact()" >Add Contact</button>
+  <form [formGroup]="contactsForm">
+    <div formArrayName="contacts">
+
+      <div *ngFor="let contact of contacts.controls; let i=index">
+    
+        <div [formGroupName]="i" class="contact"> 
+          <mat-form-field>
+            <mat-label for="name">Name</mat-label>
+            <input matInput formControlName="name" type="text">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label for="email">Email</mat-label>
+            <input matInput formControlName="email" type="email">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label for="sms">SMS</mat-label>
+            <input matInput formControlName="sms" type="tel">
+          </mat-form-field>
+          <button (click)="removeContact(i)">x</button>
+        </div>
+    
+      </div>
+    </div>
+  </form>
+
+  <h3>Notifications</h3>
   <button (click)="addNotification()" >Add Notification</button>
 
   <form [formGroup]="notificationsForm">
@@ -18,22 +45,25 @@
               <mat-option *ngFor="let l of ['1', '2', '3']" [value]="l"> {{l}} </mat-option>
             </mat-select>
           </mat-form-field>
-
+          
           <mat-form-field>
-            <mat-label for="type">Type</mat-label>
-            <mat-select formControlName="type" name="type" #typeInput>
-              <mat-option *ngFor="let t of ['email', 'sms']"  [value]="t"> {{t}} </mat-option>
+            <mat-label for="contact">Contact</mat-label>
+            <mat-select formControlName="contact" name="contact">
+              <mat-option *ngFor="let contact of availableContacts" [value]="contact"> {{contact.name}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field >
-            <mat-label for="contact">Contact {{typeInput.value === 'sms' ? 'phone' : 'email'}}</mat-label>
-            <input matInput [disabled]= "!typeInput.value" [type]="typeInput.value === 'sms' ? 'tel' : 'email'">
-          </mat-form-field>
           
+          <mat-radio-group aria-label="Select an type" formControlName="type">
+            <mat-radio-button value="email" default>Email</mat-radio-button>
+            <mat-radio-button value="sms">SMS</mat-radio-button>
+          </mat-radio-group>
+
           <button (click)="removeNotification(i)">x</button>
         </div>
     
       </div>
     </div>
   </form>
+
+
 </div>

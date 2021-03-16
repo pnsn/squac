@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ApiGetContact, UserContact, UserContactAdapter } from "./user-contact";
 
 export class UserNotification {
 
@@ -7,7 +8,7 @@ export class UserNotification {
     public id : number,
     public owner: number,
     public type: string,
-    public contactId: number,
+    public contact: UserContact,
     public level: number
   ) {
 
@@ -18,7 +19,7 @@ export interface ApiGetNotification {
  id: number,
  url: string,
  notification_type: string, //email, sms, slack
- contact: number,
+ contact: ApiGetContact,
  level: number, //1, 2, 3
  created_at: string,
  updated_at: string,
@@ -35,12 +36,15 @@ export interface ApiPostNotification{
   providedIn: 'root',
 })
 export class UserNotificationAdapter implements Adapter<UserNotification> {
+  constructor(
+    private userContactAdapter: UserContactAdapter
+  ) {}
   adaptFromApi(item: ApiGetNotification): UserNotification {
     return new UserNotification(
       item.id,
       +item.user_id,
       item.notification_type,
-      item.contact,
+      this.userContactAdapter.adaptFromApi(item.contact),
       item.level
     );
   }
@@ -48,7 +52,7 @@ export class UserNotificationAdapter implements Adapter<UserNotification> {
   adaptToApi(item: UserNotification) : ApiPostNotification {
     return {
       notification_type: item.type, //email, sms, slack
-      contact: item.contactId,
+      contact: item.contact.id,
       level: item.level
     }
   }

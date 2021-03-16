@@ -95,7 +95,6 @@ export class OrganizationsService {
         last: user.lastname
       };
     }
-    console.log(this.orgUsers)
   }
 
 }
