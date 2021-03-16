@@ -8,7 +8,7 @@ export class UserNotification {
     public owner: number,
     public type: string,
     public contactId: number,
-    public level: number,
+    public level: number
   ) {
 
   }

@@ -55,9 +55,7 @@ export class MonitorEditComponent implements OnInit {
       stat: ['', Validators.required],
       metricId: ['', Validators.required],
       channelGroupId: ['', Validators.required],
-      triggers: this.formBuilder.array(
-       []
-      )
+      triggers: this.formBuilder.array([])
     });
 
     this.metrics = this.data.metrics;
