@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrganizationComponent } from './organization.component';
+import { OrganizationDetailComponent } from './organization-detail.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@shared/material.module';
@@ -12,13 +12,13 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
 import { MockUserService } from '@features/user/services/user.service.mock';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
-describe('OrganizationComponent', () => {
-  let component: OrganizationComponent;
-  let fixture: ComponentFixture<OrganizationComponent>;
+describe('OrganizationDetailComponent', () => {
+  let component: OrganizationDetailComponent;
+  let fixture: ComponentFixture<OrganizationDetailComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrganizationComponent ],
+      declarations: [ OrganizationDetailComponent ],
       imports: [ ReactiveFormsModule , MaterialModule,  NgxDatatableModule,
         HttpClientTestingModule
       ],
@@ -52,7 +52,7 @@ describe('OrganizationComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationComponent);
+    fixture = TestBed.createComponent(OrganizationDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

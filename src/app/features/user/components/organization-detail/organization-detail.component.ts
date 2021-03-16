@@ -15,10 +15,10 @@ import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-organization',
-  templateUrl: './organization.component.html',
-  styleUrls: ['./organization.component.scss']
+  templateUrl: './organization-detail.component.html',
+  styleUrls: ['./organization-detail.component.scss']
 })
-export class OrganizationComponent implements OnInit, OnDestroy {
+export class OrganizationDetailComponent implements OnInit, OnDestroy {
   user: User;
   isAdmin: boolean;
   organization: Organization;

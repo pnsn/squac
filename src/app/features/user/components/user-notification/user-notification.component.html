@@ -2,7 +2,7 @@
 <h2>Notification Settings</h2>
 <h3>Alarm Levels</h3>
 
-<button (click)="addNotification()" *ngIf="notifications.length < 3">Add Notification</button>
+<button (click)="addNotification()" >Add Notification</button>
 
 <form [formGroup]="notificationsForm">
   <div formArrayName="notifications">
