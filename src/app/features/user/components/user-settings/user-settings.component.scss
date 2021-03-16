@@ -1,14 +1,9 @@
-#user-content {
-  flex-direction: row;
+
+#column {
+  flex-direction: column;
   display: flex;
-  justify-content: center;
-  #column {
-    flex-direction: column;
-    display: flex;
-    width: 35%;
-    min-width: 200px;
-    max-width: 600px;
-  }
+  min-width: 200px;
+  width: 30vw;
 }
 
 .form-group {
