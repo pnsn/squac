@@ -24,7 +24,7 @@ describe('MonitorDetailComponent', () => {
         AbilityModule,
         MatDialogModule,
         HttpClientTestingModule,
-        MaterialModule     
+        MaterialModule
       ],
       providers: [
         { provide: AppAbility, useValue: new AppAbility() },

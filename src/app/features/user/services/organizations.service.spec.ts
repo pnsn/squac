@@ -94,9 +94,9 @@ describe('OrganizationsService', () => {
     const postSpy = spyOn(squacApiService, 'post').and.returnValue(of(testUser));
     service.updateUser(new User(
       null,
-      "email",
-      "first",
-      "last",
+      'email',
+      'first',
+      'last',
       1,
       false,
       []
@@ -110,9 +110,9 @@ describe('OrganizationsService', () => {
     service.updateUser(
       new User(
         1,
-        "email",
-        "first",
-        "last",
+        'email',
+        'first',
+        'last',
         1,
         false,
         []

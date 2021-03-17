@@ -45,9 +45,9 @@ export class UserContactAdapter implements Adapter<UserContact> {
 
   adaptToApi(item: UserContact): ApiPostContact {
     return {
-      email_value: item.email ? item.email : "",
-      sms_value: item.sms ? item.sms : "",
-      name: item.name 
+      email_value: item.email ? item.email : '',
+      sms_value: item.sms ? item.sms : '',
+      name: item.name
     };
   }
 }

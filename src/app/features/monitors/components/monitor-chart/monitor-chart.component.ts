@@ -114,7 +114,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     ).subscribe(
       result => {
         for (const channel in result) {
-          if(channel && data[channel]) {
+          if (channel && data[channel]) {
             this.results.push({
               name : channel,
               series : data[channel]

@@ -10,14 +10,14 @@ import { Network } from '../models/network';
 describe('NetworksService', () => {
   let networksService: NetworksService;
   const testNetwork = {
-    class_name: "string",
-    code: "code",
-    name: "name",
-    url: "url",
-    description: "desc",
-    created_at: "date",
-    updated_at: "date",
-    user_id: "1"
+    class_name: 'string',
+    code: 'code',
+    name: 'name',
+    url: 'url',
+    description: 'desc',
+    created_at: 'date',
+    updated_at: 'date',
+    user_id: '1'
   };
   let squacApiService;
   const mockSquacApiService = new MockSquacApiService( testNetwork );

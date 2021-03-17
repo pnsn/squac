@@ -14,7 +14,7 @@ describe('UserNotificationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ UserNotificationComponent ],
-      imports: [ 
+      imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule

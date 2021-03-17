@@ -4,9 +4,9 @@ describe('Contact', () => {
   it('should create an instance', () => {
     expect(new UserContact(
       1,
-      "email",
-      "sms",
-      "name"
+      'email',
+      'sms',
+      'name'
     )).toBeTruthy();
   });
 });

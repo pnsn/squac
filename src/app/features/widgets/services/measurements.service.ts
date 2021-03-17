@@ -146,7 +146,7 @@ export class MeasurementsService implements OnDestroy {
     ).pipe(
       map(response => {
         response.forEach(m => {
-          if(this.localData && this.localData[m.channel]) {
+          if (this.localData && this.localData[m.channel]) {
             this.localData[m.channel][m.metric].push(
               new Measurement(
                 m.id,

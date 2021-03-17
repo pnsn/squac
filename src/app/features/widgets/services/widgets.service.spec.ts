@@ -12,25 +12,25 @@ import { MockChannelGroupsService } from '@features/channel-groups/services/chan
 describe('WidgetsService', () => {
   const testData = {
     id: 1,
-    name: "string",
+    name: 'string',
     dashboard: {},
-    description: "desc",
+    description: 'desc',
     widgettype: {},
     metrics: [],
-    thresholds:[],
-    columns: 1, 
+    thresholds: [],
+    columns: 1,
     rows: 1,
     x_position: 1,
     y_position: 1,
     stattype: {},
     channel_group: 1,
-    user_id: "1",
-    color_palette:"string"
+    user_id: '1',
+    color_palette: 'string'
   };
 
   let squacApiService;
   let widgetsService: WidgetsService;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

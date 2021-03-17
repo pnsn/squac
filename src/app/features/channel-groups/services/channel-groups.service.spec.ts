@@ -11,18 +11,18 @@ describe('ChannelGroupsService', () => {
   let channelGroupsService: ChannelGroupsService;
 
   const testChannelGroup = {
-    name: "name",
+    name: 'name',
     id: 1,
-    url: "url",
-    description: "description",
+    url: 'url',
+    description: 'description',
     channels: [],
     share_all: false,
     share_org: false,
-    created_at: "date",
-    updated_at: "date",
-    user_id: "1",
+    created_at: 'date',
+    updated_at: 'date',
+    user_id: '1',
     organization: 1
-  }
+  };
   let squacApiService;
 
   const mockSquacApiService = new MockSquacApiService( testChannelGroup );
@@ -61,8 +61,8 @@ describe('ChannelGroupsService', () => {
     const testGroup = new ChannelGroup(
       1,
       1,
-      "name",
-      "description",
+      'name',
+      'description',
       1,
       false,
       false,
