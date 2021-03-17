@@ -22,7 +22,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private orgService: OrganizationsService,
     private messageService: MessageService
   ) { }
 

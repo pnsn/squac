@@ -9,6 +9,7 @@ import { MockUserService } from './user.service.mock';
 import { User } from '../models/user';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Organization } from '../models/organization';
 
 describe('OrganizationsService', () => {
   let service: OrganizationsService;
@@ -19,17 +20,17 @@ describe('OrganizationsService', () => {
     firstname: 'first',
     lastname: 'last',
     organization: 1,
-    is_org_admin: false,
+    is_staff: false,
     groups: [1],
     is_active: true,
+    is_org_admin: false,
     last_login: true
   };
   const testData = {
     id: 1,
     name: 'name',
     description: 'description',
-    users: [testUser],
-    groups: [1]
+    users: [testUser]
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,10 +79,7 @@ describe('OrganizationsService', () => {
   });
 
   it('should return org user name', () => {
-    spyOn(service, 'getOrganizationUsers').and.returnValue(of( new User(
-      1, 'email', 'first', 'last', 1, false, []
-    )));
-    service.getOrganization(1).pipe(take(1)).subscribe(
+    service.getOrganizations().pipe(take(1)).subscribe(
       org => {
         expect(service.getOrgUserName(1)).toEqual(testUser.firstname + ' ' + testUser.lastname);
       }
@@ -92,31 +90,33 @@ describe('OrganizationsService', () => {
     expect(service.getOrgUserName(4)).toEqual('unknown');
   });
 
-  it('should update user - post', () => {
+  it('should add user - post', () => {
     const postSpy = spyOn(squacApiService, 'post').and.returnValue(of(testUser));
-    service.updateUser({
-      email: 'string',
-      isAdmin: false,
-      orgId: 1,
-      groups: ['viewer'],
-      firstName: 'name',
-      lastName: 'name'
-    });
+    service.updateUser(new User(
+      null,
+      "email",
+      "first",
+      "last",
+      1,
+      false,
+      []
+    ));
 
     expect(postSpy).toHaveBeenCalled();
   });
 
   it('should update user - patch', () => {
     const patchSpy = spyOn(squacApiService, 'patch').and.returnValue(of(testUser));
-    service.updateUser({
-      email: 'string',
-      isAdmin: false,
-      orgId: 1,
-      groups: ['viewer'],
-      id: 1,
-      firstName: 'name',
-      lastName: 'name'
-    });
+    service.updateUser(
+      new User(
+        1,
+        "email",
+        "first",
+        "last",
+        1,
+        false,
+        []
+      ));
 
     expect(patchSpy).toHaveBeenCalled();
 

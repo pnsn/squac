@@ -5,10 +5,10 @@ describe('Alert', () => {
     expect(new Alert(
       1,
       1,
-      1,
       'timestamp',
       'message',
-      false
+      false,
+      null
     )).toBeTruthy();
   });
 });

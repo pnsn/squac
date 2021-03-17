@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { AlertViewComponent } from './alert-view.component';
 
@@ -11,7 +13,15 @@ describe('AlertViewComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AlertViewComponent ],
       imports : [
-        HttpClientTestingModule      ]
+        HttpClientTestingModule      ],
+      providers: [ {
+        provide: ActivatedRoute,
+        useValue: {
+          data : of({
+            monitor: {}
+          })
+        }
+      }]
     })
     .compileComponents();
   });

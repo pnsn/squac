@@ -1,4 +1,11 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { UserService } from '@features/user/services/user.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
+import { SharedModule } from '@shared/shared.module';
 
 import { UserSettingsComponent } from './user-settings.component';
 
@@ -8,7 +15,17 @@ describe('UserSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserSettingsComponent ]
+      declarations: [ UserSettingsComponent ],
+      providers: [
+        {provide: UserService, useClass: MockUserService},
+        {provide: ActivatedRoute, useValue: {
+        }}
+      ],
+      imports: [
+        SharedModule,
+        RouterTestingModule,
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

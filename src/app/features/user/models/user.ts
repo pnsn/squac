@@ -44,13 +44,13 @@ export class User {
 }
 
 export interface ApiGetUser {
-  email?: string;
-  firstname?: string;
-  lastname?: string;
+  email: string;
+  firstname: string;
+  lastname: string;
   is_staff: boolean;
   groups?: Array<number|string>;
   id: number;
-  organization?: number;
+  organization: number;
   is_org_admin: boolean;
   last_login: string;
   is_active: boolean;

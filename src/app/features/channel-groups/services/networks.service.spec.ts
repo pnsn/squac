@@ -9,12 +9,16 @@ import { Network } from '../models/network';
 
 describe('NetworksService', () => {
   let networksService: NetworksService;
-  const testNetwork: Network = new Network(
-    1,
-    'code',
-    'name',
-    'description'
-  );
+  const testNetwork = {
+    class_name: "string",
+    code: "code",
+    name: "name",
+    url: "url",
+    description: "desc",
+    created_at: "date",
+    updated_at: "date",
+    user_id: "1"
+  };
   let squacApiService;
   const mockSquacApiService = new MockSquacApiService( testNetwork );
 
@@ -37,19 +41,7 @@ describe('NetworksService', () => {
 
   it('should fetch networks', (done: DoneFn) => {
     networksService.fetchNetworks();
-
-    networksService.networks.subscribe(networks => {
-      expect(networks).toEqual([testNetwork]);
-      done();
-    });
-
-  });
-
-  it('should get network with id', (done: DoneFn) => {
-    networksService.getNetwork(1).subscribe(network => {
-      expect(network).toEqual(testNetwork);
-      done();
-    });
+    expect(networksService.networks[0].name).toEqual(testNetwork.name);
   });
 
 });

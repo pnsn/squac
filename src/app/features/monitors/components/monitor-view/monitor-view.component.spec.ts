@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,6 +17,9 @@ describe('MonitorViewComponent', () => {
       declarations: [ MonitorViewComponent ],
       providers: [
         { provide: ActivatedRoute, useValue: {
+          snapshot: {
+
+          },
           parent: {
             snapshot: {
               data: {
@@ -30,7 +34,8 @@ describe('MonitorViewComponent', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        AbilityModule
+        AbilityModule,
+        HttpClientTestingModule
       ]
     })
     .compileComponents();

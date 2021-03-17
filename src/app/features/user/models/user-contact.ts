@@ -25,8 +25,8 @@ export interface ApiGetContact {
 }
 
 export interface ApiPostContact{
-  email_value: string;
-  sms_value: string;
+  email_value?: string;
+  sms_value?: string;
   name: string;
 }
 
@@ -45,9 +45,9 @@ export class UserContactAdapter implements Adapter<UserContact> {
 
   adaptToApi(item: UserContact): ApiPostContact {
     return {
-      email_value: item.email,
-      sms_value: item.sms,
-      name: item.name
+      email_value: item.email ? item.email : "",
+      sms_value: item.sms ? item.sms : "",
+      name: item.name 
     };
   }
 }

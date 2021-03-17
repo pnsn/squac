@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { UserNotificationComponent } from './user-notification.component';
 
@@ -8,7 +11,8 @@ describe('UserNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserNotificationComponent ]
+      declarations: [ UserNotificationComponent ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, MatSnackBarModule]
     })
     .compileComponents();
   });
