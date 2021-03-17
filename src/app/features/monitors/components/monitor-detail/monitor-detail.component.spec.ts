@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
+import { MaterialModule } from '@shared/material.module';
 import { of } from 'rxjs';
 import { MonitorChartComponent } from '../monitor-chart/monitor-chart.component';
 
@@ -22,7 +23,8 @@ describe('MonitorDetailComponent', () => {
         RouterTestingModule.withRoutes([]),
         AbilityModule,
         MatDialogModule,
-        HttpClientTestingModule        
+        HttpClientTestingModule,
+        MaterialModule     
       ],
       providers: [
         { provide: AppAbility, useValue: new AppAbility() },

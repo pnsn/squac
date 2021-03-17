@@ -16,22 +16,4 @@ describe('MonitorsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
-  it('should get all monitors', () => {
-
-  });
-
-  it('should get monitor with id', () => {
-
-  });
-
-  it('should put monitor without id', () => {
-
-  });
-
-  it('should post monitor with id', () => {
-
-  });
-
-
 });

@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewService } from '@core/services/view.service';
 import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
 import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
+import { MaterialModule } from '@shared/material.module';
 
 import { WidgetInfoEditComponent } from './widget-info-edit.component';
 
@@ -20,10 +21,8 @@ describe('WidgetInfoEditComponent', () => {
       declarations: [ WidgetInfoEditComponent ],
       imports: [
         HttpClientTestingModule,
-        MatButtonToggleModule,
         BrowserAnimationsModule,
-        MatInputModule,
-        MatFormFieldModule,
+        MaterialModule,
         ReactiveFormsModule
       ],
       providers: [ {provide: WidgetEditService, useValue: new MockWidgetEditService()}]

@@ -17,18 +17,4 @@ describe('TriggersService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
-  it('should get triggers for monitor id', () => {
-
-  });
-
-  it('should update triggers, put without id', () => {
-
-  });
-
-  it('should update triggers, post with id', () => {
-
-  });
-
-
 });
