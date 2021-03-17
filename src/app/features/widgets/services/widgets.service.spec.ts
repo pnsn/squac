@@ -5,20 +5,25 @@ import { WidgetsService } from './widgets.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Widget } from '../models/widget';
+import { StatTypeResolver } from '../stat-type.resolver';
 
 describe('WidgetsService', () => {
   const testData = {
     id: 1,
-    name: 'test',
-    widgettype : {
-      id: 1,
-      type: 'type'
-    },
-    dashboard: {
-      id: 1
-    },
+    name: "string",
+    dashboard: {},
+    description: "desc",
+    widgettype: {},
     metrics: [],
-    thresholds: []
+    thresholds:[],
+    columns: 1, 
+    rows: 1,
+    x_position: 1,
+    y_position: 1,
+    stattype: {},
+    channel_group: 1,
+    user_id: "1",
+    color_palette:"string"
   };
 
   let squacApiService;

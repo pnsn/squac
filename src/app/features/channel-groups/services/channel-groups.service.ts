@@ -1,20 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
-import { Channel } from '@core/models/channel';
-import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
-
-interface ChannelGroupsHttpData {
-  name: string;
-  description: string;
-  channels: number[];
-  share_org: boolean;
-  share_all: boolean;
-  id?: number;
-  organization: number;
-}
 
 @Injectable({
   providedIn: 'root'

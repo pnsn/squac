@@ -39,7 +39,7 @@ describe('NetworksService', () => {
   });
 
 
-  it('should fetch networks', (done: DoneFn) => {
+  it('should fetch networks', () => {
     networksService.fetchNetworks();
     expect(networksService.networks[0].name).toEqual(testNetwork.name);
   });

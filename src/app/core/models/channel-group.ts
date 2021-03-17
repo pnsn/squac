@@ -25,7 +25,7 @@ export class ChannelGroup {
 }
 
 export interface ApiGetChannelGroup {
-  name?: string;
+  name: string;
   id: number;
   url: string;
   description: string;
@@ -35,11 +35,11 @@ export interface ApiGetChannelGroup {
   created_at: string;
   updated_at: string;
   user_id: string;
-  organization?: number;
+  organization: number;
 }
 
 export interface ApiPostChannelGroup {
-  name?: string;
+  name: string;
   description: string;
   channels?: number[];
   share_org: boolean;
