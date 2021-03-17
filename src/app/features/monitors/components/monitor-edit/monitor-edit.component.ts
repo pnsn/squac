@@ -104,8 +104,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.monitorsService.updateMonitor(
       monitor
     ).pipe(
-      switchMap(monitor => {
-        return merge(...this.triggersService.updateTriggers(values.triggers, monitor.id));
+      switchMap(m => {
+        return merge(...this.triggersService.updateTriggers(values.triggers, m.id));
       }),
       tap(
         results => {
