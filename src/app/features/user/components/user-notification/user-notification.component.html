@@ -22,6 +22,7 @@
             <mat-label for="sms">SMS</mat-label>
             <input matInput formControlName="sms" type="tel">
           </mat-form-field>
+          <button (click)="saveContact(i)">save</button>
           <button (click)="removeContact(i)">x</button>
         </div>
     
@@ -42,7 +43,7 @@
           <mat-form-field>
             <mat-label for="level">Level</mat-label>
             <mat-select formControlName="level" name="level">
-              <mat-option *ngFor="let l of ['1', '2', '3']" [value]="l"> {{l}} </mat-option>
+              <mat-option *ngFor="let l of [1, 2, 3]" [value]="l"> {{l}} </mat-option>
             </mat-select>
           </mat-form-field>
           
@@ -57,7 +58,7 @@
             <mat-radio-button value="email" default>Email</mat-radio-button>
             <mat-radio-button value="sms">SMS</mat-radio-button>
           </mat-radio-group>
-
+          <button (click)="saveNotification(i)">save</button>
           <button (click)="removeNotification(i)">x</button>
         </div>
     

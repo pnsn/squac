@@ -59,4 +59,14 @@ export class UserNotificationService {
       );
     }
   }
+
+  deleteNotification(id: number) {
+    const path = "notifications/";
+    return this.squacApi.delete(this.url + path, id);
+  }
+
+  deleteContact(id: number) {
+    const path = "contacts/";
+    return this.squacApi.delete(this.url + path, id);
+  }
 }

@@ -6,7 +6,6 @@ export class UserNotification {
 
   constructor(
     public id : number,
-    public owner: number,
     public type: string,
     public contact: UserContact,
     public level: number
@@ -42,7 +41,6 @@ export class UserNotificationAdapter implements Adapter<UserNotification> {
   adaptFromApi(item: ApiGetNotification): UserNotification {
     return new UserNotification(
       item.id,
-      +item.user_id,
       item.notification_type,
       this.userContactAdapter.adaptFromApi(item.contact),
       item.level

@@ -5,7 +5,6 @@ export class UserContact {
 
   constructor(
     public id : number,
-    public owner: number,
     public email: string,
     public sms: string,
     public name: string
@@ -38,7 +37,6 @@ export class UserContactAdapter implements Adapter<UserContact> {
   adaptFromApi(item: ApiGetContact): UserContact {
     return new UserContact(
       item.id,
-      +item.user_id,
       item.email_value,
       item.sms_value,
       item.name

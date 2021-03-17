@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { UserContact } from '@features/user/models/user-contact';
+import { UserContact, UserContactAdapter } from '@features/user/models/user-contact';
 import { UserNotification } from '@features/user/models/user-notification';
 import { UserNotificationService } from '@features/user/services/user-notification.service';
 
@@ -12,7 +12,7 @@ import { UserNotificationService } from '@features/user/services/user-notificati
 export class UserNotificationComponent implements OnInit {
   notificationsForm: FormGroup;
   contactsForm: FormGroup;
-  availableContacts: UserContact[];
+  availableContacts: UserContact[] = [];
   constructor(
     private userNotificationService: UserNotificationService,
     private formBuilder: FormBuilder
@@ -20,6 +20,7 @@ export class UserNotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.userNotificationService.getNotifications().subscribe(n => {
+      console.log(n)
       this.initNotificationsForm(n);
     });
     this.userNotificationService.getContacts().subscribe(c => {
@@ -36,10 +37,15 @@ export class UserNotificationComponent implements OnInit {
   }
 
   addNotification(notification?: UserNotification) {
+    let contact;
+    if(notification && notification.contact.id) {
+      contact = this.availableContacts.find(c => c.id === notification?.contact.id);
+    }
     this.notifications.push( this.formBuilder.group({
       type: notification ? notification.type : null,
-      contact: notification ? notification.contact.id : null,
-      level:notification ? notification.level : null
+      contact: contact ? contact : null,
+      level: notification ? notification.level : null,
+      id: notification ? notification.id : null
     }));
   }
 
@@ -47,17 +53,30 @@ export class UserNotificationComponent implements OnInit {
     this.contacts.push( this.formBuilder.group({
       email: contact ? contact.email : null,
       sms: contact ? contact.sms : null,
-      name: contact ? contact.name : null
+      name: contact ? contact.name : null,
+      id: contact? contact.id : null
     }));
   }
 
   removeNotification(index){
-    console.log(index);
+    const notification = this.contactsForm.value.notifications[index];
     this.notifications.removeAt(index);
+    if(notification.id) {
+      this.userNotificationService.deleteNotification(notification.id).subscribe();
+    }
+
   }
 
   removeContact(index) {
+    const contact = this.contactsForm.value.contacts[index];
     this.contacts.removeAt(index);
+    if(contact.id) {
+      this.userNotificationService.deleteContact(contact.id).subscribe(
+        c => {
+          this.updateAvailableContacts(c.id, c);
+        }
+      )
+    }
   }
 
   get notifications(){
@@ -80,11 +99,32 @@ export class UserNotificationComponent implements OnInit {
     })
   }
 
-  saveNotifications() {
-
+  saveNotification(i) {
+    const notification = this.notificationsForm.value.notifications[i];
+    this.userNotificationService.updateNotification(notification).subscribe(
+      n => {}
+    )
   }
 
-  saveContacts() {
+  updateAvailableContacts(contactId : number, contact?: UserContact) {
+    const index = this.availableContacts.findIndex(c => c.id === contactId);
+    if(index > -1) {
+      if(contact) {
+        this.availableContacts[index] = contact;
+      } {
+        this.availableContacts.splice(index,1 );
+      }
+    } else {
+      this.availableContacts.push(contact);
+    }
+  }
 
+  saveContact(i) {
+    const contact = this.contactsForm.value.contacts[i];
+    this.userNotificationService.updateContact(contact).subscribe(
+      c => {
+        this.updateAvailableContacts(c.id, c);
+      }
+    )
   }
 }
