@@ -9,8 +9,8 @@ import { Trigger } from '../models/trigger';
   providedIn: 'root'
 })
 export class AlertsService implements OnDestroy{
-  localAlerts: {[monitorId : number]: Alert[]} = {};
-  alerts : Subject<Alert[]> = new Subject();
+  localAlerts: {[monitorId: number]: Alert[]} = {};
+  alerts: Subject<Alert[]> = new Subject();
   refreshTimeout;
 
   private url = 'measurement/alerts/';
@@ -32,19 +32,19 @@ export class AlertsService implements OnDestroy{
     }
   }
 
-  getAlerts(refresh: boolean) : Subject<Alert[]>{
-    if(refresh && !this.refreshTimeout) {
+  getAlerts(refresh: boolean): Subject<Alert[]>{
+    if (refresh && !this.refreshTimeout) {
       this.refreshTimeout = setTimeout(() => {
         this.fetchAlerts();
       }, 5 * 60 * 1000);
-    } 
-    
+    }
+
     this.fetchAlerts();
-  
+
     return this.alerts;
   }
 
-  fetchAlerts() : void{
+  fetchAlerts(): void{
     this.squacApi.get(this.url).pipe(
       map( results => results.map(r => this.alertAdapter.adaptFromApi(r)) )
     ).subscribe(
@@ -54,7 +54,7 @@ export class AlertsService implements OnDestroy{
     );
   }
 
-  updateAlerts(alerts: Alert[]) : void {
+  updateAlerts(alerts: Alert[]): void {
     this.alerts.next(alerts.slice());
     // this.localAlerts = {};
     // for(let alert of alerts) {
@@ -67,7 +67,7 @@ export class AlertsService implements OnDestroy{
     // }
   }
 
-  getAlert(id: number) : Observable<Alert> {
+  getAlert(id: number): Observable<Alert> {
     return this.squacApi.get(this.url, id).pipe(
       map( response => this.alertAdapter.adaptFromApi(response))
     );

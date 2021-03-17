@@ -13,21 +13,21 @@ export class UserNotificationService {
   constructor(
     private squacApi: SquacApiService,
     private notificationAdapter: UserNotificationAdapter,
-    private contactsAdapter: UserContactAdapter 
+    private contactsAdapter: UserContactAdapter
   ) { }
 
-  getNotifications() : Observable<UserNotification[]> {
-    const path = "notifications/";
+  getNotifications(): Observable<UserNotification[]> {
+    const path = 'notifications/';
     return this.squacApi.get(this.url + path).pipe(
       map( response => response.map(r => this.notificationAdapter.adaptFromApi(r)))
     );
   }
 
   updateNotification(notification: UserNotification){
-    const path = "notifications/";
+    const path = 'notifications/';
     const postData = this.notificationAdapter.adaptToApi(notification);
 
-    if(notification.id) {
+    if (notification.id) {
       return this.squacApi.put(this.url + path, notification.id, postData).pipe(
         map(response => this.notificationAdapter.adaptFromApi(response))
       );
@@ -38,18 +38,18 @@ export class UserNotificationService {
     }
   }
 
-  getContacts() : Observable<UserContact[]> {
-    const path = "contacts/";
+  getContacts(): Observable<UserContact[]> {
+    const path = 'contacts/';
     return this.squacApi.get(this.url + path).pipe(
       map( response => response.map(r => this.contactsAdapter.adaptFromApi(r)))
     );
   }
 
   updateContact(contact: UserContact) {
-    const path = "contacts/";
+    const path = 'contacts/';
     const postData = this.contactsAdapter.adaptToApi(contact);
 
-    if(contact.id) {
+    if (contact.id) {
       return this.squacApi.put(this.url + path, contact.id, postData).pipe(
         map(response => this.contactsAdapter.adaptFromApi(response))
       );
@@ -61,12 +61,12 @@ export class UserNotificationService {
   }
 
   deleteNotification(id: number) {
-    const path = "notifications/";
+    const path = 'notifications/';
     return this.squacApi.delete(this.url + path, id);
   }
 
   deleteContact(id: number) {
-    const path = "contacts/";
+    const path = 'contacts/';
     return this.squacApi.delete(this.url + path, id);
   }
 }

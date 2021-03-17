@@ -52,7 +52,7 @@ export class TriggerAdapter implements Adapter<Trigger> {
     );
   }
 
-  adaptToApi(item: Trigger) : any {
+  adaptToApi(item: Trigger): any {
     return {
       monitor: item.monitorId,
       band_inclusive: item.bandInclusive,

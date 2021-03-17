@@ -40,7 +40,7 @@ export class ChannelGroupsService {
     }
     return this.squacApi.get(this.url).pipe(
       map( results => results.map(
-        r => { 
+        r => {
           const group = this.channelGroupAdapter.adaptFromApi(r);
           this.updateLocalChannelGroup(group.id, group);
           return group;
@@ -84,12 +84,12 @@ export class ChannelGroupsService {
     if (channelGroup.id) {
       return this.squacApi.put(this.url, channelGroup.id, postData).pipe(
         map( response => this.channelGroupAdapter.adaptFromApi(response)),
-        tap(group =>this.updateLocalChannelGroup(group.id, group))
+        tap(group => this.updateLocalChannelGroup(group.id, group))
       );
     }
     return this.squacApi.post(this.url, postData).pipe(
       map( response => this.channelGroupAdapter.adaptFromApi(response)),
-      tap(group =>this.updateLocalChannelGroup(group.id, group))
+      tap(group => this.updateLocalChannelGroup(group.id, group))
     );
   }
 

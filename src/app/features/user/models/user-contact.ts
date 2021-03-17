@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
+import { Injectable } from '@angular/core';
+import { Adapter } from '@core/models/adapter';
 
 export class UserContact {
 
   constructor(
-    public id : number,
+    public id: number,
     public email: string,
     public sms: string,
     public name: string
@@ -14,20 +14,20 @@ export class UserContact {
 }
 
 export interface ApiGetContact {
- id: number,
- url: string,
- email_value: string,
- sms_value: string, 
- created_at: string,
- updated_at: string,
- user_id: string,
- name: string
+ id: number;
+ url: string;
+ email_value: string;
+ sms_value: string;
+ created_at: string;
+ updated_at: string;
+ user_id: string;
+ name: string;
 }
 
 export interface ApiPostContact{
-  email_value: string,
-  sms_value: string,
-  name: string
+  email_value: string;
+  sms_value: string;
+  name: string;
 }
 
 @Injectable({
@@ -43,11 +43,11 @@ export class UserContactAdapter implements Adapter<UserContact> {
     );
   }
 
-  adaptToApi(item: UserContact) : ApiPostContact {
+  adaptToApi(item: UserContact): ApiPostContact {
     return {
       email_value: item.email,
       sms_value: item.sms,
       name: item.name
-    }
+    };
   }
 }

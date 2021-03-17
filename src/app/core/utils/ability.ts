@@ -17,7 +17,7 @@ type Subjects = InferSubjects <
   typeof ChannelGroup |
   typeof Measurement |
   typeof Metric |
-  typeof Monitor 
+  typeof Monitor
   , true > |
   'all';
 export type AppAbility = Ability<[Actions, Subjects]>;

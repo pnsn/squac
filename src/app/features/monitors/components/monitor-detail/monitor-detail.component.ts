@@ -27,7 +27,7 @@ export class MonitorDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.monitor)
+    console.log(this.monitor);
     // this.route.data.subscribe(
     //   data => {
     //     if (data.monitor.error){
@@ -45,7 +45,7 @@ export class MonitorDetailComponent implements OnInit {
   }
 
   onDelete() {
-    console.log("delete")
+    console.log('delete');
     this.confirmDialog.open(
       {
         title: `Delete ${this.monitor.name}`,
@@ -67,6 +67,6 @@ export class MonitorDetailComponent implements OnInit {
       success => {
         this.router.navigate(['/alarms/monitors']);
       }
-    )
+    );
   }
 }

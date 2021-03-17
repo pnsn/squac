@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
+import { Injectable } from '@angular/core';
+import { Adapter } from '@core/models/adapter';
 
 // Describes a user object
 export class User {
@@ -50,20 +50,20 @@ export interface ApiGetUser {
   is_staff: boolean;
   groups?: Array<number|string>;
   id: number;
-  organization?:number;
+  organization?: number;
   is_org_admin: boolean;
   last_login: string;
   is_active: boolean;
 }
 
 export interface ApiPostUser {
-  email: string,
-  password?: string,
-  firstname: string,
-  lastname: string,
-  groups: Array<number>,
-  organization: number,
-  is_org_admin: boolean
+  email: string;
+  password?: string;
+  firstname: string;
+  lastname: string;
+  groups: Array<number>;
+  organization: number;
+  is_org_admin: boolean;
 }
 
 @Injectable({
@@ -80,10 +80,10 @@ export class UserAdapter implements Adapter<User> {
 
   adaptFromApi(item: ApiGetUser): User {
     let groups = [];
-    if(item.groups) {
+    if (item.groups) {
       groups = item.groups.map(
         g => {
-          if(typeof g === "number") {
+          if (typeof g === 'number') {
             const group = this.groupIds.find(groupId => groupId.id === g);
             if (group) {
               return group.name;
@@ -112,7 +112,7 @@ export class UserAdapter implements Adapter<User> {
     return user;
   }
 
-  adaptToApi(item: User) : ApiPostUser {
+  adaptToApi(item: User): ApiPostUser {
     const groups = item.groups.map(
       g => {
         const group = this.groupIds.find(groupId => groupId.name === g);
@@ -124,13 +124,13 @@ export class UserAdapter implements Adapter<User> {
       }
     );
 
-  return {
+    return {
     email: item.email,
     firstname: item.firstName,
     lastname: item.lastName,
     organization: item.orgId,
     is_org_admin: item.orgAdmin,
-    groups: groups
-  }
+    groups
+  };
   }
 }

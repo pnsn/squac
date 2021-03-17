@@ -12,8 +12,8 @@ export class Alert {
     public inAlarm: boolean,
     public trigger: Trigger
   ){}
-  
-  monitor: Monitor
+
+  monitor: Monitor;
 }
 
 export interface ApiGetAlert {

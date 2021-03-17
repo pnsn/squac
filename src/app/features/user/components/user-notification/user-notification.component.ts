@@ -41,7 +41,7 @@ export class UserNotificationComponent implements OnInit {
 
   addNotification(notification?: UserNotification) {
     let contact;
-    if(notification && notification.contact.id) {
+    if (notification && notification.contact.id) {
       contact = this.availableContacts.find(c => c.id === notification.contact.id);
     }
     this.notifications.push( this.formBuilder.group({
@@ -57,14 +57,14 @@ export class UserNotificationComponent implements OnInit {
       email: contact ? contact.email : null,
       sms: contact ? contact.sms : null,
       name: contact ? contact.name : null,
-      id: contact? contact.id : null
+      id: contact ? contact.id : null
     }));
   }
 
   removeNotification(index){
     const notification = this.notificationsForm.value.notifications[index];
     this.notifications.removeAt(index);
-    if(notification.id) {
+    if (notification.id) {
       this.userNotificationService.deleteNotification(notification.id).subscribe(
         n => {}
       );
@@ -75,12 +75,12 @@ export class UserNotificationComponent implements OnInit {
   removeContact(index) {
     const contact = this.contactsForm.value.contacts[index];
     this.contacts.removeAt(index);
-    if(contact.id) {
+    if (contact.id) {
       this.userNotificationService.deleteContact(contact.id).subscribe(
         c => {
           this.updateAvailableContacts(c.id, c);
         }
-      )
+      );
     }
   }
 
@@ -95,32 +95,32 @@ export class UserNotificationComponent implements OnInit {
   initNotificationsForm(notifications: UserNotification[]) {
     notifications.forEach(notification => {
       this.addNotification(notification);
-    })
+    });
   }
 
   initContactsForm(contacts: UserContact[]) {
     contacts.forEach(contact => {
       this.addContact(contact);
-    })
+    });
   }
 
   saveNotification(i) {
     const notification = this.notificationsForm.value.notifications[i];
     this.userNotificationService.updateNotification(notification).subscribe(
       n => {},
-      error=> {
-        this.messageService.error("Could not save notification.");
+      error => {
+        this.messageService.error('Could not save notification.');
       }
-    )
+    );
   }
 
-  updateAvailableContacts(contactId : number, contact?: UserContact) {
+  updateAvailableContacts(contactId: number, contact?: UserContact) {
     const index = this.availableContacts.findIndex(c => c.id === contactId);
-    if(index > -1) {
-      if(contact) {
+    if (index > -1) {
+      if (contact) {
         this.availableContacts[index] = contact;
-      } {
-        this.availableContacts.splice(index,1 );
+      } else {
+        this.availableContacts.splice(index, 1 );
       }
     } else {
       this.availableContacts.push(contact);
@@ -134,8 +134,8 @@ export class UserNotificationComponent implements OnInit {
         this.updateAvailableContacts(c.id, c);
       },
       error => {
-        this.messageService.error("Could not save contact.");
+        this.messageService.error('Could not save contact.');
       }
-    )
+    );
   }
 }

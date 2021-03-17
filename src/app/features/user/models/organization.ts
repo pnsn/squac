@@ -13,11 +13,11 @@ export class Organization {
 }
 
 export interface ApiGetOrganization {
-  id: number,
-  name?: string, 
-  description: string,
-  created_at: string,
-  users: Array<ApiGetUser>
+  id: number;
+  name?: string;
+  description: string;
+  created_at: string;
+  users: Array<ApiGetUser>;
 }
 
 @Injectable({
@@ -25,7 +25,7 @@ export interface ApiGetOrganization {
 })
 export class OrganizationAdapter implements Adapter<Organization> {
   constructor(
-    private userAdapter: UserAdapter  
+    private userAdapter: UserAdapter
   ){}
   adaptFromApi(item: ApiGetOrganization): Organization {
     return new Organization(

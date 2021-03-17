@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
@@ -10,7 +10,7 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
   templateUrl: './alert-view.component.html',
   styleUrls: ['./alert-view.component.scss']
 })
-export class AlertViewComponent implements OnInit {
+export class AlertViewComponent implements OnInit, OnDestroy {
   alerts: Alert[];
   interval;
   // Table stuff
@@ -30,14 +30,14 @@ export class AlertViewComponent implements OnInit {
     this.alertsService.alerts.subscribe(
       alerts => {
         this.findMonitorsForAlerts(alerts);
-        //need to group alarms by trigger
+        // need to group alarms by trigger
       }
     );
 
     this.getAlerts();
 
     this.interval = setInterval(
-      ()=>{this.getAlerts()},
+      () => {this.getAlerts(); },
       60 * 1000
     );
 
@@ -61,12 +61,12 @@ export class AlertViewComponent implements OnInit {
   // match alerts and monitors
   findMonitorsForAlerts(alerts: Alert[]) {
     this.alerts = [];
-    if(this.monitors.length > 0 && alerts.length>0){
+    if (this.monitors.length > 0 && alerts.length > 0){
       this.alerts = alerts.map(alert => {
-        
+
         alert.monitor = this.monitors.find(m => m.id === alert.trigger.monitorId);
         return alert;
-      })
+      });
     }
 
   }

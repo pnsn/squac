@@ -35,7 +35,7 @@ export class MetricsService {
     }
     return this.squacApi.get(this.url).pipe(
       map( results => results.map(
-        r => { 
+        r => {
           const metric = this.metricAdapter.adaptFromApi(r);
           this.updateLocalMetrics(metric.id, metric);
           return metric;
@@ -67,12 +67,12 @@ export class MetricsService {
     if (metric.id) {
       return this.squacApi.put(this.url, metric.id, postData).pipe(
         map(data => this.metricAdapter.adaptFromApi(data)),
-        tap(metric => this.updateLocalMetrics(metric.id, metric))
+        tap(m => this.updateLocalMetrics(m.id, m))
       );
     }
     return this.squacApi.post(this.url, postData).pipe(
       map(data => this.metricAdapter.adaptFromApi(data)),
-      tap( metric => this.updateLocalMetrics(metric.id, metric))
+      tap( m => this.updateLocalMetrics(m.id, m))
     );
   }
 

@@ -1,5 +1,5 @@
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
@@ -20,7 +20,7 @@ import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-en
   templateUrl: './monitor-edit.component.html',
   styleUrls: ['./monitor-edit.component.scss']
 })
-export class MonitorEditComponent implements OnInit {
+export class MonitorEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   id: number;
   editMode: boolean;

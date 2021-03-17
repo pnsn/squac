@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '@core/models/metric';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Trigger } from '@features/monitors/models/trigger';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './monitor-chart.component.html',
   styleUrls: ['./monitor-chart.component.scss']
 })
-export class MonitorChartComponent implements OnInit {
+export class MonitorChartComponent implements OnInit, OnChanges {
   @Input() metric?: Metric;
   @Input() triggers: Trigger[];
   @Input() channelGroupId: number;
@@ -56,7 +56,7 @@ export class MonitorChartComponent implements OnInit {
     if (this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
       this.triggers?.forEach(( trigger ) => {
-        if(trigger.max !== null) {
+        if (trigger.max !== null) {
           this.referenceLines.push(
             {
               name: `${trigger.id} max`,
@@ -64,7 +64,7 @@ export class MonitorChartComponent implements OnInit {
             }
           );
         }
-        if(trigger.min !== null) {
+        if (trigger.min !== null) {
           this.referenceLines.push(
             {
               name: `${trigger.id} min`,

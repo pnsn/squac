@@ -39,9 +39,9 @@ export class OrganizationsService {
     const path = 'organizations/';
     return this.squacApi.get(this.url + path).pipe(
       map( response => response.map(
-        r => { 
+        r => {
           this.storeOrgUsers(r.users);
-          return this.organizationAdapter.adaptFromApi(r)
+          return this.organizationAdapter.adaptFromApi(r);
         })),
       tap(
         organizations => {

@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
-import { ApiGetChannel, Channel } from "@core/models/channel";
+import { Injectable } from '@angular/core';
+import { Adapter } from '@core/models/adapter';
+import { ApiGetChannel, Channel } from '@core/models/channel';
 
 export class Network {
   constructor(
@@ -16,10 +16,10 @@ export interface ApiGetNetwork {
   class_name: string;
   code?: string;
   name?: string;
-  url:string;
+  url: string;
   description: string;
-  created_at:string;
-  updated_at:string;
+  created_at: string;
+  updated_at: string;
   user_id: string;
 }
 
