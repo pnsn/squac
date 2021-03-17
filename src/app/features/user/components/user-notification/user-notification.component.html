@@ -1,9 +1,13 @@
 
 <div id="column">
   <h2>Notification Settings</h2>
+  <div class="header-info">
+    <h3>Contacts</h3>
+    <button mat-button (click)="addContact()" > <mat-icon>add</mat-icon>Add Contact</button>
+  </div>
 
-  <h3>Contacts</h3>
-  <button (click)="addContact()" >Add Contact</button>
+  <p class="help-text" *ngIf="availableContacts.length === 0">Add contacts in order to set up notifications.</p>
+
   <form [formGroup]="contactsForm">
     <div formArrayName="contacts">
 
@@ -22,16 +26,25 @@
             <mat-label for="sms">SMS</mat-label>
             <input matInput formControlName="sms" type="tel">
           </mat-form-field>
-          <button (click)="saveContact(i)">save</button>
-          <button (click)="removeContact(i)">x</button>
+          <div class="button-container">
+            <button mat-icon-button color="accent" (click)="saveContact(i)"><mat-icon>save</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="removeContact(i)"><mat-icon>delete</mat-icon></button>
+          </div>
+
         </div>
     
       </div>
     </div>
   </form>
 
-  <h3>Notifications</h3>
-  <button (click)="addNotification()" >Add Notification</button>
+  <div class="header-info">
+    <h3>Notifications</h3>
+    <button mat-button (click)="addNotification()" > <mat-icon>add</mat-icon>Add Notification</button>
+  </div>
+  <p class="help-text" *ngIf="availableContacts.length === 0">Add contacts in order to set up notifications.</p>
+  <p class="help-text">
+    Select a level, a contact, and a type of notification to receive alerts.
+  </p>
 
   <form [formGroup]="notificationsForm">
     <div formArrayName="notifications">
@@ -58,8 +71,10 @@
             <mat-radio-button value="email" default>Email</mat-radio-button>
             <mat-radio-button value="sms">SMS</mat-radio-button>
           </mat-radio-group>
-          <button (click)="saveNotification(i)">save</button>
-          <button (click)="removeNotification(i)">x</button>
+          <div class="button-container">
+            <button  mat-icon-button color="accent" (click)="saveNotification(i)"><mat-icon>save</mat-icon></button>
+            <button  mat-icon-button color="warn" (click)="removeNotification(i)"><mat-icon>delete</mat-icon></button>
+          </div>
         </div>
     
       </div>

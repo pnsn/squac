@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MessageService } from '@core/services/message.service';
 import { UserContact, UserContactAdapter } from '@features/user/models/user-contact';
 import { UserNotification } from '@features/user/models/user-notification';
 import { UserNotificationService } from '@features/user/services/user-notification.service';
@@ -13,19 +14,21 @@ export class UserNotificationComponent implements OnInit {
   notificationsForm: FormGroup;
   contactsForm: FormGroup;
   availableContacts: UserContact[] = [];
+
   constructor(
     private userNotificationService: UserNotificationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
-    this.userNotificationService.getNotifications().subscribe(n => {
-      console.log(n)
-      this.initNotificationsForm(n);
-    });
     this.userNotificationService.getContacts().subscribe(c => {
       this.availableContacts = c;
       this.initContactsForm(c);
+    });
+
+    this.userNotificationService.getNotifications().subscribe(n => {
+      this.initNotificationsForm(n);
     });
 
     this.notificationsForm = this.formBuilder.group({
@@ -39,7 +42,7 @@ export class UserNotificationComponent implements OnInit {
   addNotification(notification?: UserNotification) {
     let contact;
     if(notification && notification.contact.id) {
-      contact = this.availableContacts.find(c => c.id === notification?.contact.id);
+      contact = this.availableContacts.find(c => c.id === notification.contact.id);
     }
     this.notifications.push( this.formBuilder.group({
       type: notification ? notification.type : null,
@@ -59,10 +62,12 @@ export class UserNotificationComponent implements OnInit {
   }
 
   removeNotification(index){
-    const notification = this.contactsForm.value.notifications[index];
+    const notification = this.notificationsForm.value.notifications[index];
     this.notifications.removeAt(index);
     if(notification.id) {
-      this.userNotificationService.deleteNotification(notification.id).subscribe();
+      this.userNotificationService.deleteNotification(notification.id).subscribe(
+        n => {}
+      );
     }
 
   }
@@ -102,7 +107,10 @@ export class UserNotificationComponent implements OnInit {
   saveNotification(i) {
     const notification = this.notificationsForm.value.notifications[i];
     this.userNotificationService.updateNotification(notification).subscribe(
-      n => {}
+      n => {},
+      error=> {
+        this.messageService.error("Could not save notification.");
+      }
     )
   }
 
@@ -124,6 +132,9 @@ export class UserNotificationComponent implements OnInit {
     this.userNotificationService.updateContact(contact).subscribe(
       c => {
         this.updateAvailableContacts(c.id, c);
+      },
+      error => {
+        this.messageService.error("Could not save contact.");
       }
     )
   }

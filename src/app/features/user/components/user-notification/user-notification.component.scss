@@ -3,3 +3,18 @@
   flex-direction: column;
   width: 50vw;
 }
+
+.header-info, .contact, .notification {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-radio-button {
+  margin-left: 5px;
+}
+
+.button-container {
+  width: 80px;
+}
