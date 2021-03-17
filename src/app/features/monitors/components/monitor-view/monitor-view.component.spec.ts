@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { MonitorViewComponent } from './monitor-view.component';
 
@@ -35,7 +36,8 @@ describe('MonitorViewComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         AbilityModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        NgxDatatableModule
       ]
     })
     .compileComponents();

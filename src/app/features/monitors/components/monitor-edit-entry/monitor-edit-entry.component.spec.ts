@@ -6,6 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from '@shared/material.module';
 import { of } from 'rxjs';
 
 import { MonitorEditEntryComponent } from './monitor-edit-entry.component';
@@ -19,11 +20,10 @@ describe('MonitorEditEntryComponent', () => {
       declarations: [ MonitorEditEntryComponent ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        MatDialogModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
-        MatSnackBarModule
+        MaterialModule
       ],
       providers: [
         {provide: ActivatedRoute, useValue: {

@@ -146,17 +146,20 @@ export class MeasurementsService implements OnDestroy {
     ).pipe(
       map(response => {
         response.forEach(m => {
-          this.localData[m.channel][m.metric].push(
-            new Measurement(
-              m.id,
-              m.user_id,
-              m.metric,
-              m.channel,
-              m.value,
-              m.starttime,
-              m.endtime
-            )
-          );
+          if(this.localData && this.localData[m.channel]) {
+            this.localData[m.channel][m.metric].push(
+              new Measurement(
+                m.id,
+                m.user_id,
+                m.metric,
+                m.channel,
+                m.value,
+                m.starttime,
+                m.endtime
+              )
+            );
+          }
+
         });
         return response;
       })

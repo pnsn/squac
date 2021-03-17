@@ -6,6 +6,8 @@ import { MockSquacApiService } from '@core/services/squacapi.service.mock';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Widget } from '../models/widget';
 import { StatTypeResolver } from '../stat-type.resolver';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
+import { MockChannelGroupsService } from '@features/channel-groups/services/channel-groups.service.mock';
 
 describe('WidgetsService', () => {
   const testData = {
@@ -28,14 +30,14 @@ describe('WidgetsService', () => {
 
   let squacApiService;
   let widgetsService: WidgetsService;
-  const mockSquacApiService = new MockSquacApiService( testData );
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{
-        provide: SquacApiService, useValue: mockSquacApiService
-      }]
+      providers: [
+        {provide: SquacApiService, useValue: new MockSquacApiService( testData )},
+        {provide: ChannelGroupsService, useClass: MockChannelGroupsService}
+      ]
     });
 
     widgetsService = TestBed.inject(WidgetsService);
