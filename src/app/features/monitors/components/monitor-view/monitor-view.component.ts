@@ -19,9 +19,6 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   @ViewChild('monitorTable') table: any;
   selectedMonitorId: number;
 
-  metrics: Metric[];
-  channelGroups: ChannelGroup[];
-
   alerts: Alert[] = [];
   constructor(
     private route: ActivatedRoute,
@@ -36,10 +33,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.selected = [];
     this.monitors = this.route.parent.snapshot.data.monitors;
-    if (this.route.snapshot && this.route.snapshot.data) {
-      this.metrics = this.route.snapshot.data.metrics;
-      this.channelGroups = this.route.snapshot.data.channelGroups;
-    }
+
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
@@ -55,16 +49,6 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
     this.selected = [...this.selected];
-  }
-
-  channelGroup(id: number): ChannelGroup{
-    const group = this.channelGroups.find(cG => cG.id === id);
-    return group;
-  }
-
-  metric(id: number): Metric {
-    const metric = this.metrics.find(m => m.id === id);
-    return metric;
   }
 
   getAlert(id: number) {

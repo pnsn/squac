@@ -17,8 +17,6 @@ export class MonitorDetailComponent implements OnInit {
   // monitor: Monitor;
   subscription: Subscription = new Subscription();
   error: boolean;
-  @Input() metric: Metric;
-  @Input() channelGroup: ChannelGroup[];
   constructor(
     private route: ActivatedRoute,
     private router: Router,

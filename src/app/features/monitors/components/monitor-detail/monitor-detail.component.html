@@ -35,25 +35,28 @@
   <div id="monitor-container">
     <div id="monitor-detail" class="col">
       <h3>Configuration</h3>
-      <div >
-        Channel Group: {{channelGroup?.name}}
+      <div>
+        <strong>Channel Group: </strong>{{monitor.channelGroup?.name}}
       </div>
       <div>
-        Metric: {{metric?.name}}
+        <strong># of channels: </strong>{{monitor.numberChannels}}
       </div>
       <div>
-        Stat Type: {{monitor.stat}}
+        <strong>Metric: </strong>{{monitor.metric?.name}}
       </div>
       <div>
-        # of channels: {{monitor.numberChannels}}
+        <strong>Statistic:</strong>{{monitor.stat}}
       </div>
       <div>
-        Interval type: {{monitor.intervalType}}
+        <strong>Interval type: </strong>{{monitor.intervalType}}
       </div>
       <div>
-        Interval count: {{monitor.intervalCount}}
+        <strong>Interval count: </strong>{{monitor.intervalCount}}
       </div>
+      <p>Alarm will alert when the {{monitor.stat}} of {{monitor.metric?.name}} 
+        for {{monitor.numberChannels}} channels in {{monitor.channelGroup?.name}} exceeds a threshold in </p>
     </div>
+   
     <div id="monitor-triggers" class="col">
       <h3>Triggers</h3>
       <div *ngFor="let trigger of monitor.triggers">

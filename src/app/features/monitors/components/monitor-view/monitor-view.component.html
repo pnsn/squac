@@ -29,8 +29,7 @@
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <app-monitor-detail 
           [monitor]="row" 
-          [channelGroup]="channelGroup(row.channelGroupId)" 
-          [metric]="metric(row.metricId)"></app-monitor-detail>
+        ></app-monitor-detail>
       </ng-template>
     </ngx-datatable-row-detail>
     <ngx-datatable-column
@@ -59,17 +58,21 @@
   </ngx-datatable-column>
       <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
       </ngx-datatable-column>
-      <ngx-datatable-column name="Channel Group" prop="channelGroupId" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Channels" prop="channelGroup" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-         {{row.numberChannels}} channels in {{channelGroup(value).name}}
+         {{row.numberChannels}} channels in {{value.name}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Metric" prop="metricId" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Metric" prop="metric" [draggable]="false" [sortable]="false" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{row.stat}} of {{metric(value).name}}
+        {{row.stat}} of {{value.name}}
         </ng-template>
       </ngx-datatable-column>
-
+      <ngx-datatable-column name="Interval" prop="intervalType" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.intervalCount}} {{value}}{{row.intervalCount > 1 ? "s" : ""}}
+        </ng-template>
+      </ngx-datatable-column>
 <!-- click to show more detail -->
     </ngx-datatable>
   </div>

@@ -39,10 +39,6 @@ export const routes: Routes = [
         // canActivate: [PermissionGuard],
         // data: {subject: 'Monitor', action: 'read'},
         component: MonitorViewComponent,
-        resolve: {
-          channelGroups: ChannelGroupsResolver,
-          metrics: MetricsResolver
-        },
         children: [
           {
             path: 'new',
