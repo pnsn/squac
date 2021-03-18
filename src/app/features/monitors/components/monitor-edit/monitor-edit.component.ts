@@ -78,7 +78,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   removeThreshold(index){
-    console.log(index);
     this.triggers.removeAt(index);
   }
 
@@ -92,8 +91,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     const monitor = new Monitor(
       this.id,
       values.name,
-      values.channelGroupId,
-      values.metricId,
+      values.channelGroup.id,
+      values.metric.id,
       values.intervalType,
       values.intervalCount,
       values.numberChannels,
@@ -106,15 +105,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     ).pipe(
       switchMap(m => {
         return merge(...this.triggersService.updateTriggers(values.triggers, m.id));
-      }),
-      tap(
-        results => {
-          console.log('results', results);
-        }
-      )
+      })
     ).subscribe(
       success => {
-        console.log('success');
         this.cancel();
         // this.router.navigate()
       },
@@ -136,7 +129,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.id = this.monitor.id;
       this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroup.id);
       this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metric.id);
-      console.log(this.selectedChannelGroup)
+
       this.monitorForm.patchValue(
         {
           name: this.monitor.name,

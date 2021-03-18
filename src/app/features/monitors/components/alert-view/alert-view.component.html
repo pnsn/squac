@@ -35,10 +35,12 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          min: {{value.min}} max: {{value.max}} {{value.bandInclusive? "inclusive" : "exclusive"}}
+          Level: {{value.level}}
+           {{value.bandInclusive? "inclusive" : "exclusive"}}
+           min: {{value.min}}  max: {{value.max}} 
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Message" [draggable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Message" [draggable]="false" [flexGrow]="2">
 
       </ngx-datatable-column>
 

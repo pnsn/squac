@@ -80,15 +80,15 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     // console.log('Detail Toggled', event);
   }
 
-  // onSelect function for data table selection
-  onSelect($event) { // When a row is selected, route the page and select that channel group
-    const selectedId = $event.selected[0].id;
-    if (selectedId) {
-      this.router.navigate([selectedId], {relativeTo: this.route});
-      this.selectedMonitorId = selectedId;
-      this.selectMonitor(selectedId);
-    }
-  }
+  // // onSelect function for data table selection
+  // onSelect($event) { // When a row is selected, route the page and select that channel group
+  //   const selectedId = $event.selected[0].id;
+  //   if (selectedId) {
+  //     this.router.navigate([selectedId], {relativeTo: this.route});
+  //     this.selectedMonitorId = selectedId;
+  //     this.selectMonitor(selectedId);
+  //   }
+  // }
 
   viewMonitor(id) {
     if (id) {
