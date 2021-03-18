@@ -27,7 +27,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   hasData: boolean;
   referenceLines: any[] = [];
   xAxisLabel = 'Last Ten Measurements';
-  yAxisLabel = "";
+  yAxisLabel = '';
   currentMetric: Metric;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
