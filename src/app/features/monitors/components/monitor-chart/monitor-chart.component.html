@@ -2,7 +2,7 @@
   <ngx-charts-line-chart
   *ngIf="hasData"
   [results]="results"
-  [xAxis]="false"
+  [xAxis]="true"
   [scheme]="colorScheme"
   [yAxis]="true"
   [legend]="false"
@@ -10,11 +10,13 @@
   [showXAxisLabel]="true"
   [xAxisLabel]="xAxisLabel"
   [yAxisLabel]="yAxisLabel"
+  [xAxisTickFormatting]="xAxisTickFormatting"
   [roundDomains]="true"
   [animations]="false"
   [referenceLines]="referenceLines"
   [showRefLines]="true"
   [showRefLabels]="true"
+  [tooltipDisabled]="true"
   [view]=""
 >
 </ngx-charts-line-chart>

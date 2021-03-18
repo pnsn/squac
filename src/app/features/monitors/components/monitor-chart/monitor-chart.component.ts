@@ -26,40 +26,26 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   results: Array<any> = [];
   hasData: boolean;
   referenceLines: any[] = [];
-  xAxisLabel = 'Last Two Weeks';
-  yAxisLabel = ' Example data ';
+  xAxisLabel = 'Last Ten Measurements';
+  yAxisLabel = "";
   currentMetric: Metric;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
   ngOnInit(): void {
-
-
-    console.log(this.referenceLines);
-    // this.results = [
-    //   {
-    //     name: moment.utc(measurement.starttime).toDate(),
-    //     value: measurement.value
-    //   }
-    // ]
-
-    // this.results = [...this.results]
   }
-
   // this is functionally a widget - should have a measurement service?
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
-    console.log(changes);
     if (this.metric && this.channelGroupId) {
+
       this.getData(this.metric, this.channelGroupId);
       this.triggers?.forEach(( trigger ) => {
         if (trigger.max !== null) {
           this.referenceLines.push(
             {
-              name: `${trigger.id} max`,
+              name: `max: ` + trigger.max,
               value: trigger.max
             }
           );
@@ -67,7 +53,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
         if (trigger.min !== null) {
           this.referenceLines.push(
             {
-              name: `${trigger.id} min`,
+              name: `min: ` + trigger.min,
               value: trigger.min
             }
           );
@@ -76,12 +62,35 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     }
   }
 
+
+// date formatting used in charts
+  xAxisTickFormatting(value) {
+  let formatOptions;
+  if (value.getSeconds() !== 0) {
+    formatOptions = { second: '2-digit' };
+  } else if (value.getMinutes() !== 0) {
+    formatOptions = { hour: '2-digit', minute: '2-digit' };
+  } else if (value.getHours() !== 0) {
+    formatOptions = { hour: '2-digit' , minute: '2-digit'};
+  } else if (value.getDate() !== 1) {
+    formatOptions = value.getDay() === 0 ? { month: 'short', day: '2-digit' } : { month: 'short', day: '2-digit' };
+  } else if (value.getMonth() !== 0) {
+    formatOptions = { month: 'long' };
+  } else {
+    formatOptions = { year: 'numeric' };
+  }
+  formatOptions.hour12 = false;
+  formatOptions.timeZone = 'UTC';
+  return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
+}
+
   // ToDo: put in service so locale and squac aren't in here
   getData(metric: Metric, channelGroupId){
     console.log('get data');
     const data = {};
     this.results = [];
     this.hasData = false;
+    this.yAxisLabel = this.metric.unit;
     // try to get x datapoints
     const rate = metric.sampleRate;
     const numMeasurements = 10;
@@ -104,7 +113,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
           }
           data[m.channel].push(
             {
-              name : m.starttime,
+              name : moment.utc(m.starttime).toDate(),
               value : m.value
             }
           );
