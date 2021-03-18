@@ -30,7 +30,6 @@ export class MetricsService {
 
     // Request new data if > 5 minutes since last request
     if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
-      console.log('return local metrics');
       return of(this.localMetrics);
     }
     return this.squacApi.get(this.url).pipe(

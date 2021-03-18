@@ -86,7 +86,6 @@ export class MonitorChartComponent implements OnInit, OnChanges {
 
   // ToDo: put in service so locale and squac aren't in here
   getData(metric: Metric, channelGroupId){
-    console.log('get data');
     const data = {};
     this.results = [];
     this.hasData = false;

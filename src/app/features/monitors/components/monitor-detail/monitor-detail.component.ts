@@ -27,17 +27,6 @@ export class MonitorDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.monitor);
-    // this.route.data.subscribe(
-    //   data => {
-    //     if (data.monitor.error){
-    //       this.error = true;
-    //     } else {
-    //       this.error = false;
-    //       this.monitor = data.monitor;
-    //     }
-    //   }
-    // );
   }
 
   editMonitor() {
