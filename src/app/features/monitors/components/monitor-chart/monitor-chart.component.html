@@ -1,3 +1,10 @@
+<div id="loading">
+
+  <div *ngIf="!channelGroupId" >Select a channel group</div>
+  <div *ngIf="!metric" >Select a metric</div>
+  <div *ngIf="metric && channelGroupId && !hasData" >Loading...</div>
+</div>
+
 <div id="chart-container">
   <ngx-charts-line-chart
   *ngIf="hasData"
@@ -22,4 +29,3 @@
 </ngx-charts-line-chart>
 
 </div>
-<div *ngIf="!hasData">Loading...</div>

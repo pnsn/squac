@@ -43,8 +43,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   levels: number[] = [1, 2, 3];
   // selectedType;
   // selectedStat;
-  selectedChannelGroupId: number;
-  selectedMetricId: number;
+  selectedChannelGroup: ChannelGroup;
+  selectedMetric: Metric;
 
   ngOnInit() {
     this.monitorForm = this.formBuilder.group({
@@ -53,8 +53,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       numberChannels: ['', Validators.required],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      metricId: ['', Validators.required],
-      channelGroupId: ['', Validators.required],
+      metric: ['', Validators.required],
+      channelGroup: ['', Validators.required],
       triggers: this.formBuilder.array([])
     });
 
@@ -134,11 +134,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.monitor = this.data.monitor;
       this.id = this.monitor.id;
-      this.selectedChannelGroupId = this.monitor.channelGroup.id;
-      this.selectedMetricId = this.monitor.metric.id;
-      // this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroupId);
-      // this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metricId);
-
+      this.selectedChannelGroup = this.channelGroups.find(cG => cG.id === this.monitor.channelGroup.id);
+      this.selectedMetric = this.metrics.find(m => m.id === this.monitor.metric.id);
+      console.log(this.selectedChannelGroup)
       this.monitorForm.patchValue(
         {
           name: this.monitor.name,
@@ -146,8 +144,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           numberChannels: this.monitor.numberChannels,
           intervalType: this.monitor.intervalType,
           stat: this.monitor.stat,
-          channelGroupId: this.selectedChannelGroupId,
-          metricId: this.selectedMetricId
+          channelGroup: this.selectedChannelGroup,
+          metric: this.selectedMetric
         }
       );
 

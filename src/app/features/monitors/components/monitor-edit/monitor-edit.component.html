@@ -12,47 +12,52 @@
       <input matInput type="text" name="name" formControlName="name"> 
     </mat-form-field>
     <div class="form-row">
-    <mat-form-field>
+
+    <mat-form-field class="first">
+      <mat-label for="numberChannels"># Channels:</mat-label>
+      <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
+    </mat-form-field>
+
+    <mat-form-field class="second">
       <mat-label>
         Channel Group
       </mat-label>
-      <mat-select formControlName="channelGroupId" name="channelGroupId">
-        <mat-option *ngFor="let channelGroup of channelGroups"  [value]="channelGroup.id">{{channelGroup.name}}</mat-option>
+      <mat-select formControlName="channelGroup" name="channelGroup">
+        <mat-option *ngFor="let c of channelGroups"  [value]="c">{{c.name}} ({{c.channelIds.length}} channels)</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="numberChannels">Number of Channels:</mat-label>
-      <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
-    </mat-form-field>
+
     </div>
     <div class="form-row">
-      <mat-form-field >
-        <mat-label>Metric</mat-label>
-        <mat-select formControlName="metricId" name="metricId">
-          <mat-option *ngFor="let metric of metrics"  [value]="metric.id">{{metric.name}} </mat-option>
-        </mat-select>
-      </mat-form-field>
+
   
-      <mat-form-field>
+      <mat-form-field class="first">
         <mat-label>Stat</mat-label>
         <mat-select formControlName="stat" name="stat">
           <mat-option *ngFor="let stat of stats"  [value]="stat"> {{stat}} </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field class="second">
+        <mat-label>Metric</mat-label>
+        <mat-select formControlName="metric" name="metric">
+          <mat-option *ngFor="let m of metrics"  [value]="m">{{m.name}} </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="form-row">
-      <mat-form-field>
+      <mat-form-field class="first">
+        <mat-label for="intervalCount">Count:</mat-label>
+        <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
+      </mat-form-field>
+      <mat-form-field class="second">
         <mat-label>Interval</mat-label>
         <mat-select formControlName="intervalType" name="intervalType">
           <mat-option *ngFor="let type of intervalTypes"  [value]="type">{{type}} </mat-option>
         </mat-select>
       </mat-form-field>
     
-      <mat-form-field>
-        <mat-label for="intervalCount">Interval Count:</mat-label>
-        <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
-      </mat-form-field>
     </div>
 
 
@@ -60,16 +65,26 @@
   <div id="trigger-container">
     <div id="trigger-title">
       <h4>Triggers</h4>
-      <button mat-icon-button (click)="addTrigger()"><mat-icon>add</mat-icon></button>
-      <p class="help-text">Must have at least one</p>
+      <button 
+        mat-button
+        (click)="addTrigger()"
+        aria-label="button that adds a new trigger"
+        ><mat-icon>add</mat-icon> new trigger</button>
+
     </div>
 
     <div formArrayName="triggers">
 
-    
+      <p class="help-text" *ngIf="triggers.length === 0">Must have at least one</p>
       <div *ngFor="let trigger of triggers.controls; let i=index">
 
         <div [formGroupName]="i" class="trigger"> 
+          <mat-form-field>
+            <mat-label for="level">Level</mat-label>
+            <mat-select formControlName="level" name="level">
+              <mat-option *ngFor="let l of levels"  [value]="l"> {{l}} </mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field>
             <mat-label for="min">min:</mat-label>
             <input matInput type="number" name="min" formControlName="min"> 
@@ -81,14 +96,14 @@
 
           <mat-checkbox name="inclusive" formControlName="inclusive">inclusive</mat-checkbox>
 
-          <mat-form-field>
-            <mat-label for="level">Level</mat-label>
-            <mat-select formControlName="level" name="level">
-              <mat-option *ngFor="let l of levels"  [value]="l"> {{l}} </mat-option>
-            </mat-select>
-          </mat-form-field>
 
-          <button mat-icon-button (click)="removeThreshold(i)"><mat-icon> delete </mat-icon></button>
+
+          <button 
+            mat-icon-button
+            color="warn"
+            (click)="removeThreshold(i)"
+            aria-label="button that removes the trigger"
+            ><mat-icon> delete </mat-icon></button>
         </div>
   
       </div>
@@ -97,9 +112,10 @@
   </div>
   </form>
 
-<!-- <div id="chart-container">
-  <app-monitor-chart [metric]="monitorForm.value.metric"></app-monitor-chart>
-</div> -->
+<div id="chart-container">
+  <h4>Preview</h4>
+  <app-monitor-chart [metric]="monitorForm.value.metric" [triggers]="monitorForm.value.triggers" [channelGroupId]="monitorForm.value.channelGroup.id"></app-monitor-chart>
+</div>
 
 
 </div>
@@ -110,5 +126,8 @@
 <div mat-dialog-actions id="dialog-options">
   <div>
     <button id="save" mat-flat-button color="accent" (click)="save()" [disabled]="!monitorForm.valid || triggers.length === 0">Save</button>
+  </div>
+  <div>
+    All fields are required.
   </div>
 </div>
