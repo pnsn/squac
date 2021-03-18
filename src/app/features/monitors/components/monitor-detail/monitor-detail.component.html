@@ -33,43 +33,19 @@
     </div>
   </div>
   <div id="monitor-container">
-    <div id="monitor-detail" class="col">
-      <h3>Configuration</h3>
-      <div>
-        <strong>Channel Group: </strong>{{monitor.channelGroup?.name}}
-      </div>
-      <div>
-        <strong># of channels: </strong>{{monitor.numberChannels}}
-      </div>
-      <div>
-        <strong>Metric: </strong>{{monitor.metric?.name}}
-      </div>
-      <div>
-        <strong>Statistic:</strong>{{monitor.stat}}
-      </div>
-      <div>
-        <strong>Interval type: </strong>{{monitor.intervalType}}
-      </div>
-      <div>
-        <strong>Interval count: </strong>{{monitor.intervalCount}}
-      </div>
-      <p>Alarm will alert when the {{monitor.stat}} of {{monitor.metric?.name}} 
-        for {{monitor.numberChannels}} channels in {{monitor.channelGroup?.name}} exceeds a threshold in </p>
-    </div>
-   
-    <div id="monitor-triggers" class="col">
+    <div id="monitor-triggers" id="triggers" class="col">
       <h3>Triggers</h3>
-      <div *ngFor="let trigger of monitor.triggers">
-        <span>Min: {{trigger.min}} </span>
-        <span>Max: {{trigger.max}} </span>
-        <span>Band Inclusive: {{trigger.bandInclusive}} </span>
-        <span>Level: {{trigger.level}}</span>
+      <div *ngFor="let trigger of monitor.triggers" class="trigger">
+        <div>Level: {{trigger.level}}</div>
+        <div>{{trigger.bandInclusive? "Inclusive" : "Exclusive"}} </div>
+        <div>Min: {{trigger.min}} </div>
+        <div>Max: {{trigger.max}} </div>
       </div>
       <div *ngIf=!monitor.triggers>Missing trigger information</div>
     </div>
     <div id="monitor-chart" class="col">
-      <h3>Alarm History</h3>
-      <app-monitor-chart *ngIf="metric" [metric]="metric" [channelGroupId]="monitor.channelGroupId" [triggers]="monitor.triggers"></app-monitor-chart>
+      <h3>History</h3>
+      <app-monitor-chart *ngIf="monitor.metric" [metric]="monitor.metric" [channelGroupId]="monitor.channelGroup.id" [triggers]="monitor.triggers"></app-monitor-chart>
     </div>
   </div>
   

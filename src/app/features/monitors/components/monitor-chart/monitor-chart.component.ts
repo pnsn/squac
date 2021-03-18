@@ -34,6 +34,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   };
 
   ngOnInit(): void {
+    console.log("making")
   }
   // this is functionally a widget - should have a measurement service?
 

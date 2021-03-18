@@ -56,6 +56,10 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     return alert ? alert : 'no data';
   }
 
+  getAlerts(id: number) {
+    return this.alerts.filter(a => a.trigger.monitorId === id);
+  }
+
   addMonitor() {
     this.router.navigate(['new'], {relativeTo: this.route});
   }

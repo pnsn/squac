@@ -20,8 +20,18 @@
     text-align: start;
     height:100%;
   }
+  #triggers {
+    width: 40%;
+  }
   #monitor-chart {
-    width: 50%;
+    width: 60%;
     height: 100%;
+  }
+}
+
+.trigger {
+  div {
+    width: 20%;
+    display: inline-block;
   }
 }

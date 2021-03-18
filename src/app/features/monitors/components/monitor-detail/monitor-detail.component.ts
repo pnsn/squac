@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { Subscription } from 'rxjs';
@@ -14,6 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class MonitorDetailComponent implements OnInit {
   @Input() monitor: Monitor;
+  @Input() alerts: Alert;
   // monitor: Monitor;
   subscription: Subscription = new Subscription();
   error: boolean;

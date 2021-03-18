@@ -29,6 +29,7 @@
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <app-monitor-detail 
           [monitor]="row" 
+          [alerts]="getAlerts(row.id)"
         ></app-monitor-detail>
       </ng-template>
     </ngx-datatable-row-detail>
