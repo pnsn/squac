@@ -42,7 +42,7 @@ export class UserContactAdapter implements Adapter<UserContact> {
       item.name
     );
   }
-
+1
   adaptToApi(item: UserContact): ApiPostContact {
     return {
       email_value: item.email ? item.email : '',

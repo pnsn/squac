@@ -17,7 +17,7 @@ export interface ApiGetOrganization {
   name?: string;
   description: string;
   created_at: string;
-  users: Array<ApiGetUser>;
+  users?: ApiGetUser[];
 }
 
 @Injectable({
@@ -28,11 +28,15 @@ export class OrganizationAdapter implements Adapter<Organization> {
     private userAdapter: UserAdapter
   ){}
   adaptFromApi(item: ApiGetOrganization): Organization {
+    let users = [];
+    if(item.users ){
+      users = item.users.map(u => this.userAdapter.adaptFromApi(u))
+    }
     return new Organization(
       item.id,
       item.name,
       item.description,
-      item.users.map(u => this.userAdapter.adaptFromApi(u))
+      users
     );
   }
 
