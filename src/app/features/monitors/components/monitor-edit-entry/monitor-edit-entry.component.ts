@@ -14,8 +14,6 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;
   monitorId;
   paramsSub;
-  dashboardId;
-  statTypes;
   metrics;
   channelGroups;
   monitor;
