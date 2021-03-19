@@ -20,8 +20,8 @@ export interface ApiGetAlert {
   id: number;
   url: string;
   trigger: ApiGetTrigger;
-  timestamp?: string;
-  message?: string;
+  timestamp: string;
+  message: string;
   in_alarm: boolean;
   created_at: string;
   updated_at: string;

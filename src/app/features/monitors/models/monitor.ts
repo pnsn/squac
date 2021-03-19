@@ -26,11 +26,11 @@ export class Monitor {
 export interface ApiGetMonitor {
   id: number;
   url: string;
-  channel_group?: number | ApiGetChannelGroup;
-  metric?: number | ApiGetMetric;
+  channel_group: number | ApiGetChannelGroup;
+  metric: number | ApiGetMetric;
   interval_type: string;
-  interval_count?: number;
-  num_channels?: number;
+  interval_count: number;
+  num_channels: number;
   stat: string;
   name: string;
   created_at: string;
@@ -40,11 +40,11 @@ export interface ApiGetMonitor {
 }
 
 export interface ApiPostMonitor {
-  channel_group?: number;
-  metric?: number;
+  channel_group: number;
+  metric: number;
   interval_type: string;
-  interval_count?: number;
-  num_channels?: number;
+  interval_count: number;
+  num_channels: number;
   stat: string;
   name: string;
 }

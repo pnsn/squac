@@ -18,7 +18,7 @@ export class Trigger {
 export interface ApiGetTrigger {
   id: number;
   url: string;
-  monitor?: number;
+  monitor: number;
   minval: number;
   maxval: number;
   band_inclusive: boolean;
@@ -29,7 +29,7 @@ export interface ApiGetTrigger {
 }
 
 export interface ApiPostTrigger {
-  monitor?: number;
+  monitor: number;
   minval: number;
   maxval: number;
   band_inclusive: boolean;
