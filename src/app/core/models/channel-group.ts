@@ -41,11 +41,11 @@ export interface ApiGetChannelGroup {
 export interface ApiPostChannelGroup {
   name: string;
   description: string;
-  channels?: number[];
+  channels: number[];
   share_org: boolean;
   share_all: boolean;
   id?: number;
-  organization?: number;
+  organization: number;
 }
 
 @Injectable({

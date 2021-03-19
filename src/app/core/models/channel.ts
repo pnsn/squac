@@ -28,17 +28,17 @@ export class Channel {
 export interface ApiGetChannel {
   id: number;
   class_name: string;
-  code?: string;
-  name?: string;
-  station_code?: string;
+  code: string;
+  name: string;
+  station_code: string;
   station_name: string;
   url: string;
   description: string;
   sample_rate: number;
-  network?: string;
+  network: string;
   loc: string;
-  lat?: number;
-  lon?: number;
+  lat: number;
+  lon: number;
   elev: number;
   azimuth: number;
   dip: number;

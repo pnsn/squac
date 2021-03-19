@@ -20,28 +20,28 @@ export class Metric {
 
 export interface ApiGetMetric {
   id: number;
-  name?: string;
-  code?: string;
+  name: string;
+  code: string;
   url: string;
   description: string;
-  unit?: string;
+  unit: string;
   created_at: string;
   updated_at: string;
   default_minval: number;
   default_maxval: number;
   user_id: string;
-  reference_url?: string;
+  reference_url: string;
   sample_rate: number;
 }
 
 export interface ApiPostMetric {
-  name?: string;
-  code?: string;
+  name: string;
+  code: string;
   description: string;
-  unit?: string;
-  reference_url?: string;
-  default_minval?: number;
-  default_maxval?: number;
+  unit: string;
+  reference_url: string;
+  default_minval: number;
+  default_maxval: number;
 }
 
 @Injectable({

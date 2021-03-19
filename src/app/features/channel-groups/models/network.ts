@@ -14,8 +14,8 @@ export class Network {
 
 export interface ApiGetNetwork {
   class_name: string;
-  code?: string;
-  name?: string;
+  code: string;
+  name: string;
   url: string;
   description: string;
   created_at: string;
