@@ -29,8 +29,8 @@ export class OrganizationAdapter implements Adapter<Organization> {
   ){}
   adaptFromApi(item: ApiGetOrganization): Organization {
     let users = [];
-    if(item.users ){
-      users = item.users.map(u => this.userAdapter.adaptFromApi(u))
+    if (item.users ){
+      users = item.users.map(u => this.userAdapter.adaptFromApi(u));
     }
     return new Organization(
       item.id,

@@ -39,27 +39,27 @@ describe('Channel', () => {
     adapter = TestBed.inject(ChannelAdapter);
     const testData: ApiGetChannel = {
       id: 1,
-      class_name: "string",
-      code: "code",
-      name: "name",
-      station_code: "string",
-      station_name: "string",
-      url: "string",
-      description: "string",
+      class_name: 'string',
+      code: 'code',
+      name: 'name',
+      station_code: 'string',
+      station_name: 'string',
+      url: 'string',
+      description: 'string',
       sample_rate: 1,
-      network: "string",
-      loc: "string",
+      network: 'string',
+      loc: 'string',
       lat: 2,
       lon: 2,
       elev: 2,
       azimuth: 2,
       dip: 1,
-      created_at: "string",
-      updated_at: "string",
-      user_id: "string",
-      starttime: "string",
-      endtime: "string"
-    }
+      created_at: 'string',
+      updated_at: 'string',
+      user_id: 'string',
+      starttime: 'string',
+      endtime: 'string'
+    };
     const channel = adapter.adaptFromApi(testData);
     expect(channel).toBeDefined();
     expect(channel.id).toBe(1);

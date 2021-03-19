@@ -3,7 +3,7 @@ import { Channel } from './channel';
 import { ApiGetChannelGroup, ChannelGroup, ChannelGroupAdapter } from './channel-group';
 
 describe('ChannelGroup', () => {
-  let adapter : ChannelGroupAdapter;
+  let adapter: ChannelGroupAdapter;
 
   it('should create an instance', () => {
     expect(new ChannelGroup(
@@ -21,18 +21,18 @@ describe('ChannelGroup', () => {
   it('should create new channel group from api', () => {
     adapter = TestBed.inject(ChannelGroupAdapter);
     const testData: ApiGetChannelGroup = {
-      name: "string",
+      name: 'string',
       id: 1,
-      url: "string",
-      description: "string",
-      channels:[],
+      url: 'string',
+      description: 'string',
+      channels: [],
       share_all: false,
       share_org: false,
-      created_at: "string",
-      updated_at: "string",
-      user_id: "1",
+      created_at: 'string',
+      updated_at: 'string',
+      user_id: '1',
       organization: 1
-    }
+    };
     const channelGroup = adapter.adaptFromApi(testData);
     expect(channelGroup).toBeDefined();
     expect(channelGroup.id).toBe(1);
@@ -43,8 +43,8 @@ describe('ChannelGroup', () => {
     const testGroup: ChannelGroup = new ChannelGroup(
       1,
       1,
-      "testName",
-      "description",
+      'testName',
+      'description',
       1,
       false,
       false,
@@ -52,6 +52,6 @@ describe('ChannelGroup', () => {
     );
     const channelGroupJson = adapter.adaptToApi(testGroup);
     expect(channelGroupJson).toBeDefined();
-    expect(channelGroupJson.name).toBe("testName");
+    expect(channelGroupJson.name).toBe('testName');
   });
 });

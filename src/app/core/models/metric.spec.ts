@@ -22,19 +22,19 @@ describe('Metric', () => {
     adapter = TestBed.inject(MetricAdapter);
     const testData: ApiGetMetric = {
       id: 1,
-      name: "testName",
-      code: "string",
-      url: "string",
-      description: "string",
-      unit: "string",
-      created_at: "string",
-      updated_at: "string",
+      name: 'testName',
+      code: 'string',
+      url: 'string',
+      description: 'string',
+      unit: 'string',
+      created_at: 'string',
+      updated_at: 'string',
       default_minval: 2,
       default_maxval: 3,
-      user_id: "string",
+      user_id: 'string',
       reference_url: 'string',
       sample_rate: 1
-    }
+    };
     const metric = adapter.adaptFromApi(testData);
     expect(metric).toBeDefined();
     expect(metric.id).toBe(1);
@@ -45,17 +45,17 @@ describe('Metric', () => {
     const testMetric: Metric = new Metric(
       1,
       1,
-      "testName",
-      "code",
-      "description",
-      "ref",
-      "unit",
+      'testName',
+      'code',
+      'description',
+      'ref',
+      'unit',
       1,
       2,
       1
     );
     const metricJson = adapter.adaptToApi(testMetric);
     expect(metricJson).toBeDefined();
-    expect(metricJson.name).toBe("testName");
+    expect(metricJson.name).toBe('testName');
   });
 });

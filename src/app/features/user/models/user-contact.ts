@@ -34,6 +34,7 @@ export interface ApiPostContact{
   providedIn: 'root',
 })
 export class UserContactAdapter implements Adapter<UserContact> {
+1;
   adaptFromApi(item: ApiGetContact): UserContact {
     return new UserContact(
       item.id,
@@ -42,7 +43,6 @@ export class UserContactAdapter implements Adapter<UserContact> {
       item.name
     );
   }
-1
   adaptToApi(item: UserContact): ApiPostContact {
     return {
       email_value: item.email ? item.email : '',

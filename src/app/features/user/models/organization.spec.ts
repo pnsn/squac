@@ -7,16 +7,16 @@ describe('Organization', () => {
     expect(new Organization(1, '', '', [])).toBeTruthy();
   });
 
-  it('should adapt from api to organization', ()=> {
+  it('should adapt from api to organization', () => {
     adapter = TestBed.inject(OrganizationAdapter);
-    const testData : ApiGetOrganization = {
-      name: "testName",
+    const testData: ApiGetOrganization = {
+      name: 'testName',
       id: 1,
-      description: "",
-      created_at: ""
+      description: '',
+      created_at: ''
     };
 
     const organization = adapter.adaptFromApi(testData);
     expect(organization).toBeDefined();
-  })
+  });
 });

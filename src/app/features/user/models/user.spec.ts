@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiGetUser, User, UserAdapter } from './user';
 
 describe('User', () => {
-  let adapter : UserAdapter;
+  let adapter: UserAdapter;
   it('should create an instance', () => {
     expect(new User(1, '', '', '', 1, false, [])).toBeTruthy();
   });
@@ -25,18 +25,18 @@ describe('User', () => {
 
   it('should adapt from api to user', () => {
     adapter = TestBed.inject(UserAdapter);
-    let testData : ApiGetUser = {
-      email: "string",
-      firstname: "string",
-      lastname: "string",
+    const testData: ApiGetUser = {
+      email: 'string',
+      firstname: 'string',
+      lastname: 'string',
       is_staff: false,
       groups: [1],
       id: 1,
       organization: 1,
       is_org_admin: false,
-      last_login: "string",
+      last_login: 'string',
       is_active: true
-    }
+    };
 
     const user = adapter.adaptFromApi(testData);
     expect(user).toBeDefined();
@@ -45,11 +45,11 @@ describe('User', () => {
   it('should adapt to api from user', () => {
     adapter = TestBed.inject(UserAdapter);
 
-    let user = new User(
+    const user = new User(
       1,
-      "eamuil",
-      "",
-      "",
+      'eamuil',
+      '',
+      '',
       1,
       false,
       []
@@ -58,6 +58,6 @@ describe('User', () => {
     const userJson = adapter.adaptToApi(user);
     expect(userJson).toBeDefined();
   });
-  
-  
+
+
 });
