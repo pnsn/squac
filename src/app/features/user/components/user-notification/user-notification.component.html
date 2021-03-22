@@ -1,9 +1,15 @@
 
 <div id="column">
-  <h2>Notification Settings</h2>
+  <div id="title">
+    <h2>Notification Settings</h2>
+    <a mat-button [routerLink]="[ '/alarms' ]">View Alarms</a>
+  </div>
   <div class="header-info">
     <h3>Contacts</h3>
-    <button mat-button (click)="addContact()" > <mat-icon>add</mat-icon>Add Contact</button>
+    <button
+      mat-button
+      color="primary"
+      (click)="addContact()" > <mat-icon>add</mat-icon>Add Contact</button>
   </div>
 
   <p class="help-text" *ngIf="availableContacts.length === 0">Add contacts in order to set up notifications.</p>
@@ -39,7 +45,11 @@
 
   <div class="header-info">
     <h3>Notifications</h3>
-    <button mat-button (click)="addNotification()" > <mat-icon>add</mat-icon>Add Notification</button>
+    <button
+      mat-button
+      (click)="addNotification()" 
+      color="primary"
+      > <mat-icon>add</mat-icon>Add Notification</button>
   </div>
   <p class="help-text" *ngIf="availableContacts.length === 0">Add contacts in order to set up notifications.</p>
   <p class="help-text">
