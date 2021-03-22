@@ -7,6 +7,12 @@
 
   <div id="button-container" >
     <a mat-button [routerLink]="[ '../alerts' ]">View All Alerts</a>
+    <a mat-icon-button 
+      color="primary"
+      matTooltip="Notification Settings"
+      [routerLink]="[ '/user/notifications' ]"
+      aria-label="Button that navigates to notifications settings"
+      ><mat-icon>settings</mat-icon></a>
     <button mat-flat-button color="accent" *ngIf="'update' | able: 'Monitor'"
       class="add-btn" (click)="addMonitor()"
     >Create Monitor</button>

@@ -2,7 +2,23 @@
   <h1>
     Alert History
   </h1>
-  <a mat-button [routerLink]="[ '../monitors' ]">View All Monitors</a>
+
+  <div id="button-container" >
+    <a mat-button [routerLink]="[ '../monitors' ]">View All Monitors</a>
+    <a mat-icon-button 
+      color="primary"
+      matTooltip="Notification Settings"
+      [routerLink]="[ '/user/notifications' ]"
+      aria-label="Button that navigates to notifications settings"
+      ><mat-icon>settings</mat-icon></a>
+    <a
+      mat-flat-button
+      color="accent"
+      *ngIf="'update' | able: 'Monitor'"
+      class="add-btn"
+      [routerLink]="[ '../monitors/new' ]"
+    >Create Monitor</a>
+  </div>
 </div>
 
   <div id="alerts" class="box">
