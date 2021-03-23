@@ -41,25 +41,30 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     if (this.metric && this.channelGroupId) {
 
       this.getData(this.metric, this.channelGroupId);
-      this.triggers?.forEach(( trigger ) => {
-        if (trigger.max !== null) {
-          this.referenceLines.push(
-            {
-              name: `max: ` + trigger.max,
-              value: trigger.max
-            }
-          );
-        }
-        if (trigger.min !== null) {
-          this.referenceLines.push(
-            {
-              name: `min: ` + trigger.min,
-              value: trigger.min
-            }
-          );
-        }
-      });
+      this.addTriggers();
     }
+  }
+
+  addTriggers() {
+    this.referenceLines = [];
+    this.triggers?.forEach(( trigger ) => {
+      if (trigger.max !== null) {
+        this.referenceLines.push(
+          {
+            name: `max: ` + trigger.max,
+            value: trigger.max
+          }
+        );
+      }
+      if (trigger.min !== null) {
+        this.referenceLines.push(
+          {
+            name: `min: ` + trigger.min,
+            value: trigger.min
+          }
+        );
+      }
+    });
   }
 
 
