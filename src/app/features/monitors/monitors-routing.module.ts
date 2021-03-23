@@ -23,11 +23,6 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: '',
-        redirectTo: 'monitors',
-        pathMatch: 'full'
-      },
-      {
         path: 'alerts',
         component: AlertViewComponent,
         resolve: {

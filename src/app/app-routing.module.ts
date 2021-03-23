@@ -80,7 +80,7 @@ const appRoutes: Routes = [
         loadChildren: () => import('@features/user/user.module').then(m => m.UserModule)
       },
       {
-        path: 'alarms',
+        path: 'monitors',
         loadChildren: () => import('@features/monitors/monitors.module').then(m => m.MonitorsModule)
       },
       { path: 'not-found', component: NotFoundComponent, pathMatch: 'full' },

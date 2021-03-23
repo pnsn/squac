@@ -54,7 +54,7 @@ export class MonitorDetailComponent implements OnInit {
   deleteMonitor() {
     this.monitorService.deleteMonitor(this.monitor.id).subscribe(
       success => {
-        this.router.navigate(['/alarms/monitors']);
+        this.router.navigate(['/monitors']);
       }
     );
   }
