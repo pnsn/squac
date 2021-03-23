@@ -4,7 +4,7 @@
   </h1>
 
   <div id="button-container" >
-    <a mat-button [routerLink]="[ '../monitors' ]">View All Monitors</a>
+    <a mat-button [routerLink]="[ '/monitors' ]">View All Monitors</a>
     <a mat-icon-button 
       color="primary"
       matTooltip="Notification Settings"
@@ -16,7 +16,7 @@
       color="accent"
       *ngIf="'update' | able: 'Monitor'"
       class="add-btn"
-      [routerLink]="[ '../monitors/new' ]"
+      [routerLink]="[ '/monitors', 'new' ]"
     >Create Monitor</a>
   </div>
 </div>

@@ -30,7 +30,7 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'monitors',
+        path: '',
         // canActivate: [PermissionGuard],
         // data: {subject: 'Monitor', action: 'read'},
         component: MonitorViewComponent,
