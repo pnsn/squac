@@ -11,10 +11,11 @@
       <mat-label for="name">Name:</mat-label>
       <input matInput type="text" name="name" formControlName="name"> 
     </mat-form-field>
+
     <div class="form-row">
 
     <mat-form-field class="first">
-      <mat-label for="numberChannels"># Channels:</mat-label>
+      <mat-label for="numberChannels"># of Breaching Channels:</mat-label>
       <input matInput type="number" name="numberChannels" formControlName="numberChannels"> 
     </mat-form-field>
 
@@ -29,8 +30,6 @@
 
     </div>
     <div class="form-row">
-
-  
       <mat-form-field class="first">
         <mat-label>Stat</mat-label>
         <mat-select formControlName="stat" name="stat">
@@ -48,18 +47,17 @@
 
     <div class="form-row">
       <mat-form-field class="first">
-        <mat-label for="intervalCount">Count:</mat-label>
+        <mat-label for="intervalCount"># of intervals:</mat-label>
         <input matInput type="number" name="intervalCount" formControlName="intervalCount"> 
       </mat-form-field>
       <mat-form-field class="second">
-        <mat-label>Interval</mat-label>
+        <mat-label>Length of Interval</mat-label>
         <mat-select formControlName="intervalType" name="intervalType">
           <mat-option *ngFor="let type of intervalTypes"  [value]="type">{{type}} </mat-option>
         </mat-select>
       </mat-form-field>
     
     </div>
-
 
 </div>
   <div id="trigger-container">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '@core/services/message.service';
 import { UserContact, UserContactAdapter } from '@features/user/models/user-contact';
 import { UserNotification } from '@features/user/models/user-notification';
@@ -45,18 +45,18 @@ export class UserNotificationComponent implements OnInit {
       contact = this.availableContacts.find(c => c.id === notification.contact.id);
     }
     this.notifications.push( this.formBuilder.group({
-      type: notification ? notification.type : null,
-      contact: contact ? contact : null,
-      level: notification ? notification.level : null,
-      id: notification ? notification.id : null
+      type: [notification ? notification.type : null, Validators.required],
+      contact: [contact ? contact : null, Validators.required],
+      level: [notification ? notification.level : null, Validators.required],
+      id: [notification ? notification.id : null]
     }));
   }
 
   addContact(contact?: UserContact){
     this.contacts.push( this.formBuilder.group({
-      email: contact ? contact.email : null,
-      sms: contact ? contact.sms : null,
-      name: contact ? contact.name : null,
+      email: [contact ? contact.email : null, [Validators.required, Validators.email]],
+      // sms: contact ? contact.sms : null,
+      name: [contact ? contact.name : null, [Validators.required]],
       id: contact ? contact.id : null
     }));
   }
