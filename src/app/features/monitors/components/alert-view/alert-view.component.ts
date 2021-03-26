@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
 import { AlertsService } from '@features/monitors/services/alerts.service';
+import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
@@ -22,42 +23,37 @@ export class AlertViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertsService: AlertsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private monitorsService: MonitorsService
   ) { }
 
   ngOnInit(): void {
-
-    this.alertsService.alerts.subscribe(
-      alerts => {
-        this.findMonitorsForAlerts(alerts);
-        // need to group alarms by trigger
-      }
-    );
-
-    this.getAlerts();
-
-    this.interval = setInterval(
-      () => {this.getAlerts(); },
-      60 * 1000
-    );
-
-    this.route.data.subscribe(
+    this.route.parent.data.subscribe(
       data => {
-        if (data.monitor.error){
+        if (data.monitors.error || data.alerts.error){
           this.error = true;
+          console.log(data.monitors)
         } else {
           this.error = false;
-          this.monitors = data.monitor;
+          this.monitors = data.monitors;
+          this.findMonitorsForAlerts(data.alerts);
         }
+        console.log(this.monitors)
       }
     );
   }
 
-  // request alerts from squac
-  getAlerts() {
-    this.alertsService.fetchAlerts();
+  refresh() {
+    this.monitorsService.getMonitors().subscribe(
+      monitors => {
+        this.monitors= monitors;
+      }
+    )
+    this.alertsService.getAlerts().subscribe(
+      alerts => {
+        this.findMonitorsForAlerts(alerts);
+    });
   }
-
   // match alerts and monitors
   findMonitorsForAlerts(alerts: Alert[]) {
     this.alerts = [];

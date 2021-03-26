@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { MessageService } from '@core/services/message.service';
 import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
@@ -23,7 +24,8 @@ export class MonitorDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private confirmDialog: ConfirmDialogService,
-    private monitorService: MonitorsService
+    private monitorService: MonitorsService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +57,11 @@ export class MonitorDetailComponent implements OnInit {
     this.monitorService.deleteMonitor(this.monitor.id).subscribe(
       success => {
         this.router.navigate(['/monitors']);
-      }
+        this.messageService.error("Monitor deleted.");
+      },
+       error => {
+        this.messageService.error("Could not delete monitor.");
+       }
     );
   }
 }

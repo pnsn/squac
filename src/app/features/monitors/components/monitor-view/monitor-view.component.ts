@@ -5,6 +5,7 @@ import { Metric } from '@core/models/metric';
 import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
 import { AlertsService } from '@features/monitors/services/alerts.service';
+import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
@@ -18,12 +19,13 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   selected: Monitor[];
   @ViewChild('monitorTable') table: any;
   selectedMonitorId: number;
-
+  error: boolean;
   alerts: Alert[] = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private monitorsService : MonitorsService
   ) { }
 
   // Table stuff
@@ -32,17 +34,36 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.selected = [];
-    this.monitors = this.route.parent.snapshot.data.monitors;
+
+    this.route.parent.data.subscribe(
+      data => {
+        if (data.monitors.error || data.alerts.error){
+          this.error = true;
+        } else {
+          this.error = false;
+          this.monitors = data.monitors;
+          this.alerts = data.alerts;
+        }
+      }
+    );
 
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
     }
 
-    this.alertsService.getAlerts(true).subscribe(
+  }
+
+  refresh() {
+    this.alertsService.getAlerts().subscribe(
       alerts => {
         this.alerts = alerts;
     });
+    this.monitorsService.getMonitors().subscribe(
+      monitors => {
+        this.monitors = monitors;
+      }
+    )
   }
 
   ngAfterViewInit(): void {

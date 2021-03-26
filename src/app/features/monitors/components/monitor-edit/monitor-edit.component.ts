@@ -108,6 +108,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       })
     ).subscribe(
       success => {
+        this.messageService.message("Monitor saved.");
         this.cancel();
         // this.router.navigate()
       },

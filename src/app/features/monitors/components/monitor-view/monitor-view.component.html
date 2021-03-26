@@ -6,6 +6,10 @@
   </h1>
 
   <div id="button-container" >
+    <button
+    mat-icon-button
+    aria-label="button that refreshes data"
+    (click)="refresh()"><mat-icon>refresh</mat-icon></button>
     <a mat-button [routerLink]="[ 'alerts' ]">View All Alerts</a>
     <a mat-icon-button 
       color="primary"

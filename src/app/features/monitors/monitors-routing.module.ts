@@ -11,6 +11,7 @@ import { ChannelGroupsResolver } from '@features/channel-groups/channel-groups.r
 import { MetricsResolver } from '@features/metrics/metrics.resolver';
 import { MonitorEditEntryComponent } from './components/monitor-edit-entry/monitor-edit-entry.component';
 import { AlertViewComponent } from './components/alert-view/alert-view.component';
+import { AlertsResolver } from './alerts.resolver';
 
 export const routes: Routes = [
   {
@@ -19,15 +20,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     // data: {subject: 'Monitor', action: 'read'}
     resolve: {
-      monitors: MonitorsResolver
+      monitors: MonitorsResolver,
+      alerts: AlertsResolver 
     },
+    runGuardsAndResolvers: 'pathParamsChange',
     children: [
       {
         path: 'alerts',
-        component: AlertViewComponent,
-        resolve: {
-          monitor: MonitorsResolver
-        },
+        component: AlertViewComponent
       },
       {
         path: '',
