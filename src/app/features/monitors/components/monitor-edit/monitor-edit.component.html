@@ -76,7 +76,7 @@
       <p class="help-text" *ngIf="triggers.length === 0">Must have at least one</p>
       <div *ngFor="let trigger of triggers.controls; let i=index">
 
-        <div [formGroupName]="i" class="trigger"> 
+        <div [formGroupName]="i" class="trigger" *ngIf="!trigger.value.id || trigger.value.min !== null || trigger.value.max !== null"> 
           <mat-form-field>
             <mat-label for="level">Level</mat-label>
             <mat-select formControlName="level" name="level">

@@ -73,12 +73,24 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       min: [trigger ? trigger.min : null],
       max: [trigger ? trigger.max : null],
       inclusive: [trigger ? trigger.bandInclusive : false],
-      level: [trigger ? trigger.level : null]
+      level: [trigger ? trigger.level : null],
+      id: [trigger? trigger.id : null]
     }));
   }
 
   removeThreshold(index){
-    this.triggers.removeAt(index);
+    const trigger = this.triggers.at(index).value;
+    if(trigger.id) {
+      this.triggers.at(index).setValue({
+        id: trigger.id,
+        min: null,
+        max: null,
+        level: null,
+       inclusive: null
+      });
+    } else {
+      this.triggers.removeAt(index);
+    }
   }
 
   ngOnDestroy(): void {
@@ -100,6 +112,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       null,
       values.triggers
     );
+
+    console.log(values.triggers);
     this.monitorsService.updateMonitor(
       monitor
     ).pipe(
