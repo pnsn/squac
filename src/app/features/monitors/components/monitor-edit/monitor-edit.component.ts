@@ -113,7 +113,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.triggers
     );
 
-    console.log(values.triggers);
     this.monitorsService.updateMonitor(
       monitor
     ).pipe(

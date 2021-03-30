@@ -56,13 +56,16 @@
     float:right;
   }
 }
+mat-form-field {
+  padding: 0px 3px;
+  &.small{
+    width: 30%;
+  }
+  &.large {
+    width: 65%
+  }
+}
 
-.small {
-  width: 30%
-}
-.large {
-  width: 65%
-}
 h3{
   margin-bottom: 10px;
 }

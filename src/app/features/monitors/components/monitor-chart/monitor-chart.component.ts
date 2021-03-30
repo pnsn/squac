@@ -38,9 +38,9 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   // this is functionally a widget - should have a measurement service?
 
   ngOnChanges(changes: SimpleChanges): void {
-
     //only update data if these change
-    if ((changes.metric || changes.channelGroup) &&  this.metric && this.channelGroupId) {
+    console.log(changes)
+    if ((changes.metric || changes.channelGroupId) &&  this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
     }
 
@@ -96,6 +96,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
 
   // ToDo: put in service so locale and squac aren't in here
   getData(metric: Metric, channelGroupId){
+    console.log("getting data")
     const data = {};
     this.results = [];
     this.hasData = false;
