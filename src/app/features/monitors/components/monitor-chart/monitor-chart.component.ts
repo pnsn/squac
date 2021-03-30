@@ -39,7 +39,6 @@ export class MonitorChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     //only update data if these change
-    console.log(changes)
     if ((changes.metric || changes.channelGroupId) &&  this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
     }
