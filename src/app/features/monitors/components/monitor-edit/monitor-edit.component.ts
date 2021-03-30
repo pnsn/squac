@@ -49,8 +49,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.monitorForm = this.formBuilder.group({
       name: ['', Validators.required],
-      intervalCount: ['', Validators.required],
-      numberChannels: ['', Validators.required],
+      intervalCount: ['',[ Validators.required, Validators.min(1)]],
+      numberChannels: ['', [Validators.required, Validators.min(1)]],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
       metric: ['', Validators.required],
