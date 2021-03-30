@@ -92,7 +92,7 @@
             <input matInput type="number" name="max" formControlName="max"> 
           </mat-form-field>
 
-          <mat-checkbox name="inclusive" formControlName="inclusive">inclusive</mat-checkbox>
+          <mat-checkbox [disabled]="trigger.value.min === nul || trigger.value.max === null" name="inclusive" formControlName="inclusive">inclusive</mat-checkbox>
 
 
 

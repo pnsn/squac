@@ -38,12 +38,13 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   // this is functionally a widget - should have a measurement service?
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
 
+    //only update data if these change
     if ((changes.metric || changes.channelGroup) &&  this.metric && this.channelGroupId) {
       this.getData(this.metric, this.channelGroupId);
     }
 
+    //only update triggers when they change
     if(changes.triggers) {
       this.addTriggers();
     }
