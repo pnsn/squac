@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, ReplaySubject, Subject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../models/user';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { Ability, AbilityBuilder } from '@casl/ability';
 import { defineAbilitiesFor, AppAbility } from '@core/utils/ability';
-import { flatMap, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 interface UserHttpData {
   email ?: string;
@@ -89,6 +87,5 @@ export class UserService {
     return this.squacApi.patch(this.url, null, putData);
     // TODO: after it puts, update current user
   }
-
 
 }

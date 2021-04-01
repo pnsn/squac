@@ -68,7 +68,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params.id;
+        this.id = +params.channelGroupId;
         this.editMode = !!this.id;
 
         this.initForm();
