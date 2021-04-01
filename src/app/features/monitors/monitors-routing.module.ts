@@ -21,7 +21,7 @@ export const routes: Routes = [
     // data: {subject: 'Monitor', action: 'read'}
     resolve: {
       monitors: MonitorsResolver,
-      alerts: AlertsResolver 
+      alerts: AlertsResolver
     },
     runGuardsAndResolvers: 'pathParamsChange',
     children: [

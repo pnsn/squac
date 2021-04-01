@@ -7,6 +7,7 @@ import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
 import { MaterialModule } from '@shared/material.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { of } from 'rxjs';
 
 import { MonitorViewComponent } from './monitor-view.component';
 
@@ -23,11 +24,7 @@ describe('MonitorViewComponent', () => {
 
           },
           parent: {
-            snapshot: {
-              data: {
-                monitors: []
-              }
-            }
+            data: of()
           }
         }
         },

@@ -25,7 +25,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertsService: AlertsService,
-    private monitorsService : MonitorsService
+    private monitorsService: MonitorsService
   ) { }
 
   // Table stuff
@@ -63,7 +63,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
       monitors => {
         this.monitors = monitors;
       }
-    )
+    );
   }
 
   ngAfterViewInit(): void {

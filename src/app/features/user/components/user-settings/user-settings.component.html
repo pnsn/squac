@@ -4,7 +4,7 @@
   <p>Hello, {{user.firstName}} {{user.lastName}}!</p>
 
   <p>
-    Organization: <a [routerLink]="[ '/organizations', user.orgId ]">{{user.orgId | organization}} </a> 
+    Organization: <a [routerLink]="[ 'organizations', user.orgId ]">{{user.orgId | organization}} </a> 
     ({{user.orgAdmin ? "Admin" : "User"}})
     <a mat-button color="primary" [routerLink]="[ '../organizations' ]">View All Organizations</a>
   </p>

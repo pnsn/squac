@@ -32,13 +32,13 @@ export class AlertViewComponent implements OnInit, OnDestroy {
       data => {
         if (data.monitors.error || data.alerts.error){
           this.error = true;
-          console.log(data.monitors)
+          console.log(data.monitors);
         } else {
           this.error = false;
           this.monitors = data.monitors;
           this.findMonitorsForAlerts(data.alerts);
         }
-        console.log(this.monitors)
+        console.log(this.monitors);
       }
     );
   }
@@ -46,9 +46,9 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   refresh() {
     this.monitorsService.getMonitors().subscribe(
       monitors => {
-        this.monitors= monitors;
+        this.monitors = monitors;
       }
-    )
+    );
     this.alertsService.getAlerts().subscribe(
       alerts => {
         this.findMonitorsForAlerts(alerts);

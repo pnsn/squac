@@ -67,10 +67,10 @@ export class UserNotificationComponent implements OnInit {
     if (notification.id) {
       this.userNotificationService.deleteNotification(notification.id).subscribe(
         n => {
-          this.messageService.message("Notification deleted.");
+          this.messageService.message('Notification deleted.');
         },
         error => {
-          this.messageService.error("Could not delete notification.");
+          this.messageService.error('Could not delete notification.');
         }
       );
     }
@@ -84,10 +84,10 @@ export class UserNotificationComponent implements OnInit {
       this.userNotificationService.deleteContact(contact.id).subscribe(
         c => {
           this.updateAvailableContacts(contact.id);
-          this.messageService.message("Contact deleted.");
+          this.messageService.message('Contact deleted.');
         },
          error => {
-          this.messageService.error("Could not delete contact.");
+          this.messageService.error('Could not delete contact.');
          }
       );
     }
@@ -117,7 +117,7 @@ export class UserNotificationComponent implements OnInit {
     const notification = this.notificationsForm.value.notifications[i];
     this.userNotificationService.updateNotification(notification).subscribe(
       n => {
-        this.messageService.message("Notification saved.");
+        this.messageService.message('Notification saved.');
       },
       error => {
         this.messageService.error('Could not save notification.');
@@ -143,7 +143,7 @@ export class UserNotificationComponent implements OnInit {
     this.userNotificationService.updateContact(contact).subscribe(
       c => {
         this.updateAvailableContacts(c.id, c);
-        this.messageService.message("Contact saved.");
+        this.messageService.message('Contact saved.');
       },
       error => {
         this.messageService.error('Could not save contact.');

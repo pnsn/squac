@@ -49,7 +49,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.monitorForm = this.formBuilder.group({
       name: ['', Validators.required],
-      intervalCount: ['',[ Validators.required, Validators.min(1)]],
+      intervalCount: ['', [ Validators.required, Validators.min(1)]],
       numberChannels: ['', [Validators.required, Validators.min(1)]],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
@@ -74,13 +74,13 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       max: [trigger ? trigger.max : null],
       inclusive: [trigger ? trigger.bandInclusive : false],
       level: [trigger ? trigger.level : null],
-      id: [trigger? trigger.id : null]
+      id: [trigger ? trigger.id : null]
     }));
   }
 
   removeThreshold(index){
     const trigger = this.triggers.at(index).value;
-    if(trigger.id) {
+    if (trigger.id) {
       this.triggers.at(index).setValue({
         id: trigger.id,
         min: null,
@@ -121,7 +121,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       })
     ).subscribe(
       success => {
-        this.messageService.message("Monitor saved.");
+        this.messageService.message('Monitor saved.');
         this.cancel();
         // this.router.navigate()
       },
