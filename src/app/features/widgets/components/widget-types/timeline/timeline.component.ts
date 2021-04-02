@@ -102,14 +102,18 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       const offset = 55;
       if ( width > 0 && height > 0) {
         this.chart.width(width);
-        this.chart.maxHeight(height - offset);
+        // this.chart.maxHeight(height-offset);
         let lineCount;
         if (rows) {
           lineCount = rows;
         } else {
           lineCount = this.chart.getNLines();
         }
-        this.chart.maxLineHeight((height - offset) / lineCount);
+        if(lineCount) {
+          console.log('here');
+          this.chart.maxHeight(lineCount*12);
+        }
+        
       }
       this.chart.refresh();
     }
@@ -120,6 +124,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     const data = [];
     let dataMax: number;
     let dataMin: number;
+    let lines = 0;
 
     this.channels.forEach((channel) => {
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
@@ -141,8 +146,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
         };
 
         channelData.push(dataPoint);
+        
         }
       );
+      lines++;
 
       const channelRow = {
         label: channel.loc + '.' + channel.code,
@@ -185,6 +192,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
 
     this.chart.data(data);
+    this.chart.maxHeight(lines*12);
     this.resize();
   }
 
@@ -218,11 +226,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
   }
 
   ngAfterViewInit(): void {
+    // d3.selectAll("rect").attr('height', '20px');
     this.chart(this.timelineDiv.nativeElement);
-    this.chart.onZoom(([startDate, endDate], [startY, endY]) => {
-      const visibleLines = endY - startY;
-      this.resize(visibleLines);
-    });
+
+    // this.chart.onZoom(([startDate, endDate], [startY, endY]) => {
+    //   const visibleLines = endY - startY;
+    //   this.chart.maxHeight(visibleLines*12);
+    //   this.resize(visibleLines);
+    // });
     this.resize();
 
   }
