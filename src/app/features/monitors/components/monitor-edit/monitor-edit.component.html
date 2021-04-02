@@ -93,7 +93,7 @@
             <div *ngFor="let trigger of triggers.controls; let i=index">
 
               <div [formGroupName]="i" class="trigger"
-                *ngIf="!trigger.value.id || trigger.value.min !== null || trigger.value.max !== null || trigger.level !== null">
+                *ngIf="!trigger.value.id || (trigger.value.min || trigger.value.max || trigger.level)">
                 <div class="trigger-form">
                   <mat-form-field>
                     <mat-label for="level">Level</mat-label>
