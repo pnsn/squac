@@ -88,8 +88,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         level: null,
        inclusive: null
       });
-
-      console.log(this.triggers.at(index).value)
     } else {
       this.triggers.removeAt(index);
     }
