@@ -34,13 +34,13 @@ export class SquacApiService {
 
   // for updating
   put(path: string, id: number, data: any ): Observable<any> {
-    const url = this.baseUrl + path + id + '/';
+    const url = this.baseUrl + path + (id ? id + '/' : '');
     return this.http.put<any>(url, data);
   }
 
   // for updating
   patch(path: string, id: number, data: any ): Observable<any> {
-    const url = this.baseUrl + path + id + '/';
+    const url = this.baseUrl + path + (id ? id + '/' : '');
     return this.http.patch<any>(url, data);
   }
 

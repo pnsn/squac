@@ -25,11 +25,11 @@ export const routes: Routes = [
         data: {subject: 'ChannelGroup', action: 'create'}
       },
       {
-        path: ':id/edit',
+        path: ':channelGroupId/edit',
         component: ChannelGroupsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'ChannelGroup', action: 'update'}
-      },
+      }, // FIXME: channel group edit still doesn't use updated resovler
       {
         path: '',
         component: ChannelGroupsViewComponent,
@@ -37,7 +37,7 @@ export const routes: Routes = [
         data: {subject: 'ChannelGroup', action: 'read'},
         children: [
           {
-            path: ':id',
+            path: ':channelGroupId',
             component: ChannelGroupsDetailComponent,
             canActivate: [PermissionGuard],
             data: {subject: 'ChannelGroup', action: 'update'},

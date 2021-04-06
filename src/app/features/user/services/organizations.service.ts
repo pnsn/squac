@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SquacApiService } from '@core/services/squacapi.service';
 import {  Observable, ReplaySubject, forkJoin } from 'rxjs';
-import { Organization } from '@features/user/models/organization';
+import { Organization, OrganizationAdapter} from '@features/user/models/organization';
 import { map, tap} from 'rxjs/operators';
-import { User } from '@features/user/models/user';
+import { User, UserAdapter } from '@features/user/models/user';
 import { UserService } from './user.service';
 
 // Service to get user info & reset things
@@ -16,15 +16,10 @@ export class OrganizationsService {
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private organizationAdapter: OrganizationAdapter,
+    private userAdapter: UserAdapter
   ) { }
-
-  // Temp until Jon fixes
-  private groupIds = [
-    {id: 1, name: 'viewer'},
-    {id: 2, name: 'reporter'},
-    {id: 3, name: 'contributor'}
-  ];
 
   get organizations() {
     return this.localOrganizations.slice();
@@ -43,17 +38,11 @@ export class OrganizationsService {
   getOrganizations(): Observable<Organization[]> {
     const path = 'organizations/';
     return this.squacApi.get(this.url + path).pipe(
-      map(
-        response => {
-          const organizations = [];
-
-          for (const org of response) {
-            organizations.push(this.mapOrganization(org));
-          }
-
-          return organizations;
-        }
-      ),
+      map( response => response.map(
+        r => {
+          this.storeOrgUsers(r.users);
+          return this.organizationAdapter.adaptFromApi(r);
+        })),
       tap(
         organizations => {
           this.localOrganizations = organizations.slice();
@@ -62,92 +51,41 @@ export class OrganizationsService {
     );
   }
 
-  updateUser(user: {
-    email: string,
-    isAdmin: boolean,
-    orgId: number,
-    groups: string[],
-    id?: number,
-    firstName?: string,
-    lastName?: string
-  }
-    ): Observable<User> {
+  updateUser(user: User): Observable<User> {
     const path = 'users/';
 
-    // get the ids
-    const groups = [];
-    for (const groupName of user.groups) {
-      const group = this.groupIds.find(groupId => groupId.name === groupName);
-      if (group) {
-        groups.push(group.id);
-      }
-    }
-
-    const postData = {
-      email: user.email,
-      groups,
-      organization: user.orgId,
-      is_org_admin : user.isAdmin
-    };
+    const postData = this.userAdapter.adaptToApi(user);
     if (user.id) {
-      // return this.squacApi.put(this.url + path, user.id, postData).pipe(
-      //   map((data) => this.mapOrgUsers(data))
-      // );
       return this.squacApi.patch(this.url + path, user.id, postData).pipe(
-        map((data) => this.mapOrgUsers(data))
+        map(response => this.userAdapter.adaptFromApi(response))
       );
     } else {
       return this.squacApi.post(this.url + path, postData).pipe(
-          map((data) => this.mapOrgUsers(data))
-
-        );
+        map(response => this.userAdapter.adaptFromApi(response))
+      );
     }
 
   }
 
   getOrganization(id: number): Observable<Organization> {
     const path = 'organizations/';
-    return forkJoin(
-        {
-          users: this.getOrganizationUsers(id),
-          organization: this.squacApi.get(this.url + path, id)
-        }
-      ).pipe( map(
-          response => {
-            return this.mapOrganization(response.organization, response.users);
-          }
-        )
-      );
+    return this.squacApi.get(this.url + path, id).pipe(
+      map(response => this.organizationAdapter.adaptFromApi(response))
+    );
   }
 
-  getOrganizationUsers(orgId): Observable<User[]> {
+  getOrganizationUsers(orgId: number): Observable<User[]> {
     const path = 'users/';
     return this.squacApi.get(this.url + path, null, {
         organization: orgId
-      }).pipe(map(response => {
-        const users = [];
-        for (const user of response) {
-          users.push(this.mapOrgUsers(user));
-        }
-        return users;
-      }
+      }).pipe(
+        map(response => response.map(r => this.userAdapter.adaptFromApi(r))
     ));
   }
 
   deleteUser(userId): Observable<User> {
     const path = 'users/';
     return this.squacApi.delete(this.url + path, userId);
-  }
-
-  private mapOrganization(squacData, users?): Organization {
-    this.storeOrgUsers(squacData.users);
-    const newOrg = new Organization(
-      squacData.id,
-      squacData.name,
-      squacData.description,
-      users ? users : []
-    );
-    return newOrg;
   }
 
   private storeOrgUsers(orgUsers): void {
@@ -159,25 +97,4 @@ export class OrganizationsService {
     }
   }
 
-  private mapOrgUsers(user): User {
-    const groups = [];
-    for (const groupID of user.groups) {
-      const group = this.groupIds.find(groupId => groupId.id === groupID);
-      if (group) {
-        groups.push(group.name);
-      }
-    }
-    const newUser = new User(
-      user.id,
-      user.email,
-      user.firstname,
-      user.lastname,
-      user.organization,
-      user.is_org_admin,
-      groups
-    );
-    newUser.isActive = user.is_active;
-    newUser.lastLogin = user.last_login;
-    return newUser;
-  }
 }

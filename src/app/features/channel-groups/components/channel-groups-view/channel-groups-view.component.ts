@@ -15,7 +15,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
-  selectedChannels = [];
+
 
   // Table stuff
   ColumnMode = ColumnMode;
@@ -32,7 +32,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
 
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
     if (this.route.firstChild) {
-      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.id;
+      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.channelGroupId;
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
 

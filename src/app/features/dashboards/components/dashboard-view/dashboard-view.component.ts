@@ -28,7 +28,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const dashboardsSub = this.route.params.subscribe(
       (params: Params) => {
-        this.activeDashboardId = +params.id;
+        this.activeDashboardId = +params.dashboardId;
       },
       error => {
         console.log('error in dashboard view ' + error);

@@ -39,7 +39,7 @@ export const widgetRoutes: Routes = [
       //   component: DashboardDetailComponent
       // },
       {
-        path: ':widgetid/edit',
+        path: ':widgetId/edit',
         resolve: {
           metrics: MetricsResolver,
           channelGroups: ChannelGroupsResolver,
@@ -48,7 +48,7 @@ export const widgetRoutes: Routes = [
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Widget', action: 'update'}
-      },
+      }
     ]
   }
 ];

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components/snackbar/snackbar.component';
 
 @Injectable({
@@ -21,6 +21,7 @@ export class MessageService  implements OnDestroy{
         type,
         action
       },
+      verticalPosition: 'top',
       panelClass: 'mat-snack-bar-themed',
       duration: this.durationInSeconds * 1000
     });

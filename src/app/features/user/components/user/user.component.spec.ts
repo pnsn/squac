@@ -1,7 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UserComponent } from './user.component';
-import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserService } from '@features/user/services/user.service';
 import { AbilityModule } from '@casl/angular';
@@ -10,12 +8,9 @@ import { AppAbility } from '@core/utils/ability';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessageService } from '@core/services/message.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -25,13 +20,10 @@ describe('UserComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ UserComponent ],
       imports: [
+        RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         AbilityModule,
-        MatSnackBarModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatInputModule,
-        MatFormFieldModule],
+        BrowserAnimationsModule],
       providers: [
         {
           provide: ActivatedRoute,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { LoadingService } from '@core/services/loading.service';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { MetricsService } from './services/metrics.service';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class MetricsResolver implements Resolve<Observable<any>> {
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = +route.paramMap.get('id');
+    const id = +route.paramMap.get('metricId');
     if (id) {
       this.loadingService.setStatus('Loading metric');
       return this.metricsService.getMetric(id).pipe(
