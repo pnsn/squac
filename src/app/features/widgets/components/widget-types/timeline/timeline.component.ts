@@ -109,11 +109,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
         } else {
           lineCount = this.chart.getNLines();
         }
-        if(lineCount) {
+        if (lineCount) {
           console.log('here');
-          this.chart.maxHeight(lineCount*12);
+          this.chart.maxHeight(lineCount * 12);
         }
-        
+
       }
       this.chart.refresh();
     }
@@ -146,7 +146,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
         };
 
         channelData.push(dataPoint);
-        
+
         }
       );
       lines++;
@@ -192,7 +192,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
 
     this.chart.data(data);
-    this.chart.maxHeight(lines*12);
+    this.chart.maxHeight(lines * 12);
     this.resize();
   }
 
