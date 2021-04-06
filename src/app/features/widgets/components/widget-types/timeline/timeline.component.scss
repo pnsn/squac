@@ -2,6 +2,8 @@
   //FIXME: this should just be size of the widget
   width: calc(100% - 22px);
   height: calc(100% - 52.5px);
+  margin-top: 26px;
+  padding-bottom: 50px;
   overflow-x:hidden;
   overflow-y: scroll;
   visibility: visible;
@@ -22,6 +24,7 @@
 #timeline-key {
   position: fixed;
   left: 15px;
+  background-color: white;
   div {
     display: inline-block;
     margin: 0px 3px;
