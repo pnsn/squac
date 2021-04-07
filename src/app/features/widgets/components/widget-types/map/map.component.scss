@@ -15,6 +15,31 @@
   border: 1px solid black;
 }
 
+:host ::ng-deep .legend {
+  line-height: 18px;
+  color: #555;
+}
+:host ::ng-deep .legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
+:host ::ng-deep .info {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+:host ::ng-deep .info h4 {
+  margin: 0 0 5px;
+  color: #777;
+}
+
 :host ::ng-deep .in-spec{
   @extend .map-icon;
   background-color: #4488A9 !important;
