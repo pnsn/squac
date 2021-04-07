@@ -75,6 +75,8 @@ export class MapComponent implements OnInit {
 
     this.buildRows(this.data);
 
+
+
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
       center: L.latLng(45.0000, -120.0000),
@@ -82,10 +84,34 @@ export class MapComponent implements OnInit {
       layers: this.layers
     };
 
+
+
   }
 
   onMapReady(map: L.Map) {
+    const metric = this.metrics[0];
+    const threshold = this.thresholds[metric.id];
+    console.log(threshold);
     this.map = map;
+
+    const legend = new L.Control({position: 'bottomright'});
+    legend.onAdd = (() => {
+      const div = L.DomUtil.create('div', 'info legend');
+
+
+      div.innerHTML += ('<h4>' + threshold.min + ' ≤ in threshold ≤ ' + threshold.max + '</h4>');
+      div.innerHTML += ('<p><i style="background:#4488A9"> </i>' + 'Within Threshold</p>');
+      div.innerHTML += ('<p><i style="background:#ffb758"> </i>' + 'Outside Threshold</p>');
+      div.innerHTML += ('<p><i style="background:gray"> </i>' + 'No Threshold</p>');
+
+      console.log('here');
+
+      return div;
+    });
+    legend.addTo(this.map);
+
+
+
     setTimeout(() => {
       this.map.invalidateSize();
       // this.updateMap();
@@ -172,12 +198,17 @@ export class MapComponent implements OnInit {
       if (!station.staCode) {
         console.log(station);
       }
-      this.stations.push(
-        L.marker([station.lat, station.lon], {
-          icon:  L.divIcon({className: station.class})
-        }).bindPopup(
+      const marker = L.marker([station.lat, station.lon], {
+        icon:  L.divIcon({className: station.class})
+      }).bindPopup(
         station.staCode.toUpperCase()
-        )
+      );
+
+      marker.on('mouseover', ((ev) => {
+        ev.target.openPopup();
+      }));
+      this.stations.push(
+        marker
       );
 
     });
