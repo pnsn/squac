@@ -42,19 +42,6 @@ describe('ChannelsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return channels', () => {
-    channelsService.channels.subscribe(channels => {
-      expect(channels).toBeTruthy();
-    });
-  });
-
-  it('should get channel with id', (done: DoneFn) => {
-    channelsService.getChannel(1).subscribe(channel => {
-      expect(channel.id).toEqual(testChannel.id);
-      done();
-    });
-  });
-
   it('should get channels with filters', (done: DoneFn) => {
     const filter = {net : 1};
     channelsService.getChannelsByFilters(filter).subscribe(channels => {

@@ -1,0 +1,91 @@
+
+
+<div id="title">
+  <h1>
+    Monitors
+  </h1>
+
+  <div id="button-container" >
+    <button
+    mat-icon-button
+    aria-label="button that refreshes data"
+    (click)="refresh()"><mat-icon>refresh</mat-icon></button>
+    <a mat-button [routerLink]="[ 'alerts' ]">View All Alerts</a>
+    <a mat-icon-button 
+      color="primary"
+      matTooltip="Notification Settings"
+      [routerLink]="[ '/user/notifications' ]"
+      aria-label="Button that navigates to notifications settings"
+      ><mat-icon>settings</mat-icon></a>
+    <button mat-flat-button color="accent" *ngIf="'update' | able: 'Monitor'"
+      class="add-btn" (click)="addMonitor()"
+    >Create Monitor</button>
+  </div>
+</div>
+
+  <div id="monitors" class="box">
+    <ngx-datatable
+      #monitorTable
+      id="monitor-table"
+      class="material"
+      [rows]="monitors"
+      [columnMode]="ColumnMode.flex"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [scrollbarV]="50"
+
+    >
+    <ngx-datatable-row-detail [rowHeight]="340" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <app-monitor-detail 
+          [monitor]="row" 
+          [alerts]="getAlerts(row.id)"
+        ></app-monitor-detail>
+      </ng-template>
+    </ngx-datatable-row-detail>
+    <ngx-datatable-column
+    [width]="50"
+    [resizeable]="false"
+    [sortable]="false"
+    [draggable]="false"
+    [canAutoResize]="false"
+  >
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a
+        href="javascript:void(0)"
+        title="Expand/Collapse Row"
+        (click)="toggleExpandRow(row)"
+      >
+      <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+    <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <span *ngIf="getAlert(row.id)?.inAlarm; else notAlarm"><strong>In Alarm</strong></span>
+      <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
+    </ng-template>
+  </ngx-datatable-column>
+      <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Channels" prop="channelGroup" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+         {{row.numberChannels}} channels in {{value.name}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Metric" prop="metric" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.stat}} of {{value.name}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Interval" prop="intervalType" [draggable]="false" [sortable]="false" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{row.intervalCount}} {{value}}{{row.intervalCount > 1 ? "s" : ""}}
+        </ng-template>
+      </ngx-datatable-column>
+<!-- click to show more detail -->
+    </ngx-datatable>
+  </div>
+<router-outlet></router-outlet>

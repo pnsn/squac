@@ -9,7 +9,6 @@ export class MockNetworksService {
   networks = new BehaviorSubject<Network[]>([]);
 
   testNetwork = new Network(
-    1,
     'code',
     'name',
     'description'
@@ -18,14 +17,5 @@ export class MockNetworksService {
   fetchNetworks() {
     this.networks.next([this.testNetwork]);
   }
-
-  getNetwork(id: number): Observable<Network> {
-    if ( id === this.testNetwork.id) {
-      return of(this.testNetwork);
-    } else {
-      return throwError('not found');
-    }
-  }
-
 
 }

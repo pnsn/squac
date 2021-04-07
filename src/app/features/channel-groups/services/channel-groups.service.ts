@@ -1,20 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
-import { Channel } from '@core/models/channel';
-import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
-
-interface ChannelGroupsHttpData {
-  name: string;
-  description: string;
-  channels: number[];
-  share_org: boolean;
-  share_all: boolean;
-  id?: number;
-  organization: number;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +16,8 @@ export class ChannelGroupsService {
   private lastRefresh: number;
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private channelGroupAdapter: ChannelGroupAdapter
   ) {
   }
 
@@ -38,16 +27,13 @@ export class ChannelGroupsService {
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
-      map(
-        results => {
-          const channelGroups: ChannelGroup[] = [];
-
-          results.forEach(cG => {
-            channelGroups.push(this.mapChannelGroup(cG));
-          });
-          return channelGroups;
+      map( results => results.map(
+        r => {
+          const group = this.channelGroupAdapter.adaptFromApi(r);
+          this.updateLocalChannelGroup(group.id, group);
+          return group;
         }
-      ),
+        )),
       tap(
         channelGroups => {
           this.lastRefresh = new Date().getTime();
@@ -75,34 +61,24 @@ export class ChannelGroupsService {
   // Gets a specific channel group with id from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
     return this.squacApi.get(this.url, id).pipe(
-      map(
-        response => {
-          return this.mapChannelGroup(response);
-        }
-      )
+      map( response => this.channelGroupAdapter.adaptFromApi(response)),
+      tap( group => this.updateLocalChannelGroup(group.id, group))
     );
-
   }
 
   // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup) {
-    const postData: ChannelGroupsHttpData = {
-      name: channelGroup.name,
-      description: channelGroup.description,
-      share_org: channelGroup.shareOrg,
-      share_all: channelGroup.shareAll,
-      channels : channelGroup.channelIds,
-      organization: channelGroup.orgId
-    };
+    const postData = this.channelGroupAdapter.adaptToApi(channelGroup);
     if (channelGroup.id) {
-      postData.id = channelGroup.id;
-      return this.squacApi.put(this.url, channelGroup.id, postData).pipe(map(
-        response => this.mapChannelGroup(response)
-      ));
+      return this.squacApi.put(this.url, channelGroup.id, postData).pipe(
+        map( response => this.channelGroupAdapter.adaptFromApi(response)),
+        tap(group => this.updateLocalChannelGroup(group.id, group))
+      );
     }
-    return this.squacApi.post(this.url, postData).pipe(map(
-      response => this.mapChannelGroup(response)
-    ));
+    return this.squacApi.post(this.url, postData).pipe(
+      map( response => this.channelGroupAdapter.adaptFromApi(response)),
+      tap(group => this.updateLocalChannelGroup(group.id, group))
+    );
   }
 
 
@@ -111,53 +87,6 @@ export class ChannelGroupsService {
     // remove group from local
     this.updateLocalChannelGroup(id);
     return this.squacApi.delete(this.url, id);
-  }
-
-  // Map squacapi channel group to channel group
-  private mapChannelGroup(squacData): ChannelGroup {
-    const channels = [];
-    const channelIds = [];
-    let channelGroup: ChannelGroup;
-    if (squacData.channels) {
-      squacData.channels.forEach(c => {
-        if (c.id) {
-          const channel = new Channel(
-            c.id,
-            c.code,
-            c.name,
-            c.sample_rate,
-            c.lat,
-            c.lon,
-            c.elev,
-            c.loc,
-            c.station_code,
-            c.network
-          );
-
-          channels.push(channel);
-          channelIds.push(channel.id);
-        } else {
-          channelIds.push(c);
-        }
-      });
-    }
-
-    channelGroup = new ChannelGroup(
-      squacData.id,
-      squacData.user_id,
-      squacData.name,
-      squacData.description,
-      squacData.organization,
-      squacData.share_org,
-      squacData.share_all,
-      channelIds
-    );
-
-    if (channels.length > 0) {
-      channelGroup.channels = channels;
-    }
-    this.updateLocalChannelGroup(channelGroup.id, channelGroup);
-    return channelGroup;
   }
 
 }

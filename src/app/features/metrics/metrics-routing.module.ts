@@ -32,7 +32,7 @@ export const routes: Routes = [
       //   data: {subject: 'Metric', action: 'read'}
       // },
       {
-        path: ':id/edit',
+        path: ':metricId/edit',
         component: MetricsEditComponent,
         canActivate: [PermissionGuard],
         data: {subject: 'Metric', action: 'update'},

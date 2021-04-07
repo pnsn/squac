@@ -152,6 +152,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         this.results.push(channelObj);
       }
     );
+
+    console.log(this.results);
   }
 
   ngOnDestroy(): void {

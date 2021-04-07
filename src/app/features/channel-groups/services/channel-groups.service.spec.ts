@@ -10,16 +10,19 @@ import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/templa
 describe('ChannelGroupsService', () => {
   let channelGroupsService: ChannelGroupsService;
 
-  const testChannelGroup: ChannelGroup = new ChannelGroup(
-    1,
-    1,
-    'name',
-    'description',
-    1,
-    false,
-    true,
-    []
-  );
+  const testChannelGroup = {
+    name: 'name',
+    id: 1,
+    url: 'url',
+    description: 'description',
+    channels: [],
+    share_all: false,
+    share_org: false,
+    created_at: 'date',
+    updated_at: 'date',
+    user_id: '1',
+    organization: 1
+  };
   let squacApiService;
 
   const mockSquacApiService = new MockSquacApiService( testChannelGroup );
@@ -55,7 +58,17 @@ describe('ChannelGroupsService', () => {
   });
 
   it('should put channel group with id', (done: DoneFn) => {
-    channelGroupsService.updateChannelGroup(testChannelGroup).subscribe(
+    const testGroup = new ChannelGroup(
+      1,
+      1,
+      'name',
+      'description',
+      1,
+      false,
+      false,
+      []
+    );
+    channelGroupsService.updateChannelGroup(testGroup).subscribe(
       response => {
         expect(response).toBeDefined();
         done();

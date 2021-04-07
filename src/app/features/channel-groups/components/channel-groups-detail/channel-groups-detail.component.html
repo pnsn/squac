@@ -1,7 +1,7 @@
-<ng-container *ngIf="error && !channelGroup; else missingChannelGroup">
+<ng-container *ngIf="error && !channelGroup; else hasChannelGroup">
   <p> Could not load channel group.</p>
 </ng-container>
-<ng-template #missingChannelGroup>
+<ng-template #hasChannelGroup>
   <div id="title">
     <div id="channel-group-info">
       <h2>{{channelGroup.name}}</h2>

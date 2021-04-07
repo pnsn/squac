@@ -1,1 +1,6 @@
-<p>organizations-view works!</p>
+<h1>Organizations</h1>
+<ul>
+  <li *ngFor="let org of organizations">
+    <a [routerLink]="[ org.id ]">{{org.name}}</a>
+  </li>
+</ul>

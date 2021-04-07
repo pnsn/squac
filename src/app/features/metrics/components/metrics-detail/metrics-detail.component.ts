@@ -22,7 +22,7 @@ export class MetricsDetailComponent implements OnInit, OnDestroy  {
   ngOnInit() {
     const sub = this.route.params.subscribe(
       (params: Params) => {
-        this.id = +params.id;
+        this.id = +params.metricId;
         this.metricsService.getMetric(this.id).subscribe(
           metric => {
             this.metric = metric;
