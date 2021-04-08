@@ -91,7 +91,6 @@ export class MapComponent implements OnInit {
   onMapReady(map: L.Map) {
     const metric = this.metrics[0];
     const threshold = this.thresholds[metric.id];
-    console.log(threshold);
     this.map = map;
 
     const legend = new L.Control({position: 'bottomright'});
@@ -104,7 +103,6 @@ export class MapComponent implements OnInit {
       div.innerHTML += ('<p><i style="background:#ffb758"> </i>' + 'Outside Threshold</p>');
       div.innerHTML += ('<p><i style="background:gray"> </i>' + 'No Threshold</p>');
 
-      console.log('here');
 
       return div;
     });
@@ -123,16 +121,22 @@ export class MapComponent implements OnInit {
     const rows = [];
     const stations = [];
     const stationRows = [];
+    const stationChannels = {};
 
     const metric = this.metrics[0];
     this.channels.forEach((channel, index) => {
       const identifier = channel.networkCode + '.' + channel.stationCode;
-
       let agg = 0;
 
       const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
       const threshold = this.thresholds[metric.id];
       const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
+
+      if (!stationChannels[channel.stationCode]) {
+        stationChannels[channel.stationCode] = '';
+      }
+
+      stationChannels[channel.stationCode] = stationChannels[channel.stationCode] + (`<p>${channel.code}: ${val}</p>`);
 
       if (threshold && val != null && !inThreshold) {
           agg++;
@@ -200,12 +204,16 @@ export class MapComponent implements OnInit {
       }
       const marker = L.marker([station.lat, station.lon], {
         icon:  L.divIcon({className: station.class})
-      }).bindPopup(
-        station.staCode.toUpperCase()
+      }).bindPopup(`<b>
+        ${station.staCode.toUpperCase()}</b>${stationChannels[station.staCode]}`
       );
 
       marker.on('mouseover', ((ev) => {
         ev.target.openPopup();
+      }));
+
+      marker.on('mouseout', ((ev) => {
+        ev.target.closePopup();
       }));
       this.stations.push(
         marker
