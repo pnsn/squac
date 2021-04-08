@@ -23,7 +23,7 @@ export class DashboardsResolver implements Resolve<Observable<any>> {
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Dashboard> | Observable<Dashboard[]> {
-    const id = +route.paramMap.get('id');
+    const id = +route.paramMap.get('dashboardId');
 
     if (id) {
       this.loadingService.setStatus('Loading dashboard');

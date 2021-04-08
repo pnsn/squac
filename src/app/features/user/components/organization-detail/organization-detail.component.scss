@@ -1,13 +1,14 @@
-#organization-content {
-  flex-direction: row;
+
+#column {
+  flex-direction: column;
   display: flex;
-  justify-content: center;
-  #column {
-    flex-direction: column;
-    display: flex;
-    width: 80%;
-    min-width: 200px;
-  }
+  min-width: 200px;
+  width: 80vw;
+}
+#header-info {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
 }
 #org-users-container {
   margin: 10px 0px;

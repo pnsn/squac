@@ -4,8 +4,11 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { PermissionGuard } from '@core/guards/permission.guard';
 import { UserComponent } from './components/user/user.component';
 import { UserResolver } from './user.resolver';
-import { OrganizationComponent } from './components/organization/organization.component';
+import { OrganizationDetailComponent } from './components/organization-detail/organization-detail.component';
 import { OrganizationResolver } from './organization.resolver';
+import { UserSettingsComponent } from './components/user-settings/user-settings.component';
+import { UserNotificationComponent } from './components/user-notification/user-notification.component';
+import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
 
 
 // TODO: fix this weird routing set up
@@ -15,15 +18,32 @@ export const routes: Routes = [
     resolve: {
       user: UserResolver
     },
+    component: UserComponent,
     children: [
       {
         path: '',
-        component: UserComponent
+        pathMatch: 'full',
+        redirectTo: 'settings'
       },
       {
-        path: 'organization/:orgId',
+        path: 'settings',
+        component: UserSettingsComponent
+      },
+      {
+        path: 'notifications',
+        component: UserNotificationComponent
+      },
+      {
+        path: 'organizations',
+        component: OrganizationsViewComponent,
+        resolve: {
+          organizations: OrganizationResolver
+        }
+      },
+      {
+        path: 'organizations/:orgId',
         canActivate: [AuthGuard],
-        component: OrganizationComponent,
+        component: OrganizationDetailComponent,
         resolve: {
           organization: OrganizationResolver
         }

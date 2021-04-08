@@ -108,7 +108,7 @@ export class MeasurementsService implements OnDestroy {
 
   // sets up data storage
   private initLocalData() {
-    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup.channels) {
       this.widget.channelGroup.channels.forEach(channel => {
         this.localData[channel.id] = {};
         this.widget.metrics.forEach(metric => {
@@ -146,17 +146,20 @@ export class MeasurementsService implements OnDestroy {
     ).pipe(
       map(response => {
         response.forEach(m => {
-          this.localData[m.channel][m.metric].push(
-            new Measurement(
-              m.id,
-              m.user_id,
-              m.metric,
-              m.channel,
-              m.value,
-              m.starttime,
-              m.endtime
-            )
-          );
+          if (this.localData && this.localData[m.channel]) {
+            this.localData[m.channel][m.metric].push(
+              new Measurement(
+                m.id,
+                m.user_id,
+                m.metric,
+                m.channel,
+                m.value,
+                m.starttime,
+                m.endtime
+              )
+            );
+          }
+
         });
         return response;
       })
