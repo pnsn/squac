@@ -205,7 +205,7 @@ export class MapComponent implements OnInit {
       const marker = L.marker([station.lat, station.lon], {
         icon:  L.divIcon({className: station.class})
       }).bindPopup(`<b>
-        ${station.staCode.toUpperCase()}\n</b>${stationChannels[station.staCode]}`
+        ${station.staCode.toUpperCase()}</b>${stationChannels[station.staCode]}`
       );
 
       marker.on('mouseover', ((ev) => {
