@@ -203,7 +203,7 @@ export class MapComponent implements OnInit {
         console.log(station);
       }
       console.log(station);
-      
+
       const marker = L.marker([station.lat, station.lon], {
         icon:  L.divIcon({className: station.class})
       }).bindPopup(`<b>
