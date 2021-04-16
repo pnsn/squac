@@ -14,7 +14,7 @@ export class Metric {
     public sampleRate: number,
     public minVal?: number,
     public maxVal?: number,
-    public comparator?: Function,
+    public comparator?: () => void,
   ) {
   }
 }
