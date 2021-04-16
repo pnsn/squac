@@ -170,7 +170,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
 
     });
-    console.log(stationRows);
     this.rows = [...stationRows, ...rows];
   }
 
