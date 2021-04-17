@@ -2,3 +2,11 @@
   height: 100%;
   width: 100%;
 }
+
+:host ::ng-deep g[ngx-charts-circle-series] {
+  visibility: hidden;
+}
+
+:host ::ng-deep g[ngx-charts-circle-series] :hover {
+  visibility: visible;
+}
