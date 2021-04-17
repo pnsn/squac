@@ -128,7 +128,7 @@
                 <div class="trigger-help">
                   <span *ngIf="trigger.value.min !== null || trigger.value.max !== null"> Will be in alarm when </span>
                   <span *ngIf="trigger.value.min !== null && trigger.value.max !== null">
-                    value {{trigger.value.inclusive ? "not between" : "between"}} {{trigger.value.min}} and
+                    value {{trigger.value.inclusive ? "between" : "not between"}} {{trigger.value.min}} and
                     {{trigger.value.max}}
                   </span>
                   <span *ngIf="trigger.value.min !== null && trigger.value.max === null">
