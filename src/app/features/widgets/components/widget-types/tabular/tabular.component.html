@@ -30,16 +30,14 @@
 
   <ngx-datatable-column 
     *ngFor="let metric of metrics"
-    name="{{metric.name}}" prop="{{metric.id}}" 
+    name="{{metric.name | replace : '_' : ' ' | titlecase}}" prop="{{metric.id}}" 
+    [comparator] = "metric.comparator"
     [minWidth]="100" 
     [cellClass]="getCellClass"
     [canAutoResize]="true"
     [flexGrow]="3"
-    [sortable]="false"  
+    [sortable]="true"
     >
-    <ng-template let-column="column" ngx-datatable-header-template> 
-      {{ column.name | replace : '_' : ' ' | titlecase }}
-    </ng-template>
   
     <ng-template let-value="value" ngx-datatable-cell-template>
       {{ value.value !== null ? (value.value | number:'1.0-2') : "n/a" }}
