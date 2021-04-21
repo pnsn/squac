@@ -9,6 +9,7 @@ import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
+
 @Component({
   selector: 'app-tabular',
   templateUrl: './tabular.component.html',
@@ -53,6 +54,12 @@ export class TabularComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.metrics = this.widget.metrics;
+    this.metrics.forEach(metric => {
+      metric.comparator = this.metricComparator.bind(this);
+
+    });
+
+
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     if ( this.channelGroup) {
@@ -72,6 +79,11 @@ export class TabularComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(resizeSub);
+  }
+
+  private metricComparator(propA, propB) {
+    const result = propA.value - propB.value;
+    return result;
   }
 
   private resize() {
@@ -155,6 +167,7 @@ export class TabularComponent implements OnInit, OnDestroy {
         stationRows[staIndex] = this.findWorstChannel(row, stationRows[staIndex]);
         // check if agg if worse than current agg
       }
+
 
     });
     this.rows = [...stationRows, ...rows];
