@@ -48,7 +48,7 @@ export class AuthService {
       token: string,
       tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'));
-
+    
     // if no data or the expiration date has passed
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
