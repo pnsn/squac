@@ -8,6 +8,8 @@ import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';
+import * as d3 from 'd3';
+
 @Component({
   selector: 'app-timeseries',
   templateUrl: './timeseries.component.html',
@@ -76,6 +78,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(resizeSub);
+
+
   }
 
   private resize() {
@@ -154,6 +158,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     console.log(this.results);
+
   }
 
   ngOnDestroy(): void {
