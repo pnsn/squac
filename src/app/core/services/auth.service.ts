@@ -120,7 +120,6 @@ export class AuthService {
     this.token = token;
 
     if(this.redirectUrl) {
-      console.log(this.redirectUrl);
       this.router.navigate([this.redirectUrl]);
       this.redirectUrl = "";
     } else {

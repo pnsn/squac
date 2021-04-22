@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
 
   // Returns true if there is a user and allows user to navigate
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("auth guard", state.url)
     const url: string = state.url;
     return this.checkLogin(url);
   }
