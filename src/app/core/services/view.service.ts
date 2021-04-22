@@ -95,10 +95,8 @@ export class ViewService {
       const end = endDate.format(this.locale.format);
       this.live = live;
 
-      if (range) {
-        this.dashboard.timeRange = range;
-      }
-
+      this.dashboard.timeRange = range ? range : null;
+      
       this.dashboard.starttime = start;
       this.dashboard.endtime = end;
 
