@@ -78,7 +78,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(resizeSub);
-    
+
 
   }
 
@@ -158,7 +158,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     );
 
     console.log(this.results);
-    
+
   }
 
   ngOnDestroy(): void {
