@@ -28,10 +28,7 @@ describe('ViewService', () => {
   const testWidget = new Widget(
     1, 1, 'name', 'description', 1, 1, 2, 1, 1, 1, 1, []
   );
-
-  const testDashboard = new Dashboard(
-    1, 1, 'name', 'description', false, false, 1, [1]
-  );
+  let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
@@ -54,7 +51,9 @@ describe('ViewService', () => {
     service = TestBed.inject(ViewService);
     widgetsService = TestBed.inject(WidgetsService);
     dashboardsService = TestBed.inject(DashboardsService);
-
+    testDashboard = new Dashboard(
+      1, 1, 'name', 'description', false, false, 1, [1]
+    );
   });
   it('should be created', () => {
 
@@ -80,6 +79,7 @@ describe('ViewService', () => {
   });
 
   it('should return range', () => {
+    expect(service.range).toBeUndefined();
     service.setDashboard(testDashboard);
     expect(service.range).toEqual(3);
   });

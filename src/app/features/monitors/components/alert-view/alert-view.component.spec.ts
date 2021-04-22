@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
+import { MaterialModule } from '@shared/material.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { of } from 'rxjs';
 
@@ -21,6 +22,7 @@ describe('AlertViewComponent', () => {
         AbilityModule,
         HttpClientTestingModule,
         NgxDatatableModule,
+        MaterialModule,
         RouterTestingModule.withRoutes([])],
       providers: [
         { provide: AppAbility, useValue: new AppAbility() },
