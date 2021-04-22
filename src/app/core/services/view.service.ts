@@ -97,7 +97,7 @@ export class ViewService {
       this.live = live;
 
       this.dashboard.timeRange = range ? range : null;
-      
+
       this.dashboard.starttime = start;
       this.dashboard.endtime = end;
 

@@ -32,13 +32,13 @@ describe('AuthGuard', () => {
   it('should not allow routing if not authorized', () => {
 
     expect(authService.loggedIn).toBeFalsy();
-    expect(guard.canActivate(new ActivatedRouteSnapshot(), <RouterStateSnapshot>{url: '/'})).toBeTruthy();
+    expect(guard.canActivate(new ActivatedRouteSnapshot(), {url: '/'} as RouterStateSnapshot)).toBeTruthy();
 
   });
 
   it('should allow routing after authorization', () => {
     authService.login('email', 'password');
-    expect(guard.canActivate(new ActivatedRouteSnapshot(), <RouterStateSnapshot>{url: '/'})).toEqual(true);
+    expect(guard.canActivate(new ActivatedRouteSnapshot(), {url: '/'} as RouterStateSnapshot)).toEqual(true);
   });
 
 });

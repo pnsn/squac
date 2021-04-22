@@ -119,9 +119,9 @@ export class AuthService {
     this.autologout(expiration);
     this.token = token;
 
-    if(this.redirectUrl) {
+    if (this.redirectUrl) {
       this.router.navigate([this.redirectUrl]);
-      this.redirectUrl = "";
+      this.redirectUrl = '';
     } else {
       this.router.navigate(['/dashboards']);
     }
