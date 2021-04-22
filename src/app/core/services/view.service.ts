@@ -46,6 +46,7 @@ export class ViewService {
     );
     this.dateRanges = configService.getValue('dateRanges', {3600 : 'last 1 hour'});
     this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
+
   }
 
   // returns if current user can update the current dashboard
@@ -60,17 +61,17 @@ export class ViewService {
 
   // returns the dashboard time range
   get range(): number {
-    return this.dashboard.timeRange;
+    return this.dashboard?.timeRange;
   }
 
   // returns the dashboard starttime
   get startdate(): string {
-    return this.dashboard.starttime;
+    return this.dashboard?.starttime;
   }
 
   // returns the dashboard end date
   get enddate(): string {
-    return this.dashboard.endtime;
+    return this.dashboard?.endtime;
   }
 
   // sets the given dashboard and sets up dates
@@ -154,7 +155,6 @@ export class ViewService {
       range = this.defaultTimeRange;
       endDate = current;
     }
-
     this.datesChanged(startDate, endDate, liveMode, range);
   }
 

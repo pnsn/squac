@@ -8,7 +8,9 @@ import { AbilityModule } from '@casl/angular';
 import { UserService } from '@features/user/services/user.service';
 import { MockUserService } from '@features/user/services/user.service.mock';
 import { MaterialModule } from '@shared/material.module';
+import { SharedModule } from '@shared/shared.module';
 import { of } from 'rxjs';
+import { MonitorChartComponent } from '../monitor-chart/monitor-chart.component';
 
 import { MonitorEditComponent } from './monitor-edit.component';
 
@@ -20,13 +22,14 @@ describe('MonitorEditComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MonitorEditComponent ],
+      declarations: [ MonitorEditComponent , MonitorChartComponent],
       imports: [
         NoopAnimationsModule,
         AbilityModule,
         HttpClientTestingModule ,
         ReactiveFormsModule,
-        MaterialModule],
+        SharedModule
+      ],
       providers: [
         {
           provide: MatDialogRef,
