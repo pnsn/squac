@@ -123,6 +123,8 @@ export class AuthService {
       console.log(this.redirectUrl);
       this.router.navigate([this.redirectUrl]);
       this.redirectUrl = "";
+    } else {
+      this.router.navigate(['/dashboards']);
     }
 
     this.loadingService.setStatus('Logging in and loading data.');
