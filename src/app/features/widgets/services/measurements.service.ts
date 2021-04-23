@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Measurement } from '../models/measurement';
+import { Measurement, MeasurementAdapter } from '../models/measurement';
 import { Widget } from '@features/widgets/models/widget';
 import { SquacApiService } from '@core/services/squacapi.service';
 import * as moment from 'moment';
@@ -31,6 +31,7 @@ export class MeasurementsService implements OnDestroy {
   constructor(
     private squacApi: SquacApiService,
     private viewService: ViewService,
+    private measurementAdapter : MeasurementAdapter,
     configService: ConfigurationService
   ) {
     this.locale = configService.getValue('locale');
@@ -148,16 +149,8 @@ export class MeasurementsService implements OnDestroy {
         response.forEach(m => {
           if (this.localData && this.localData[m.channel]) {
             this.localData[m.channel][m.metric].push(
-              new Measurement(
-                m.id,
-                m.user_id,
-                m.metric,
-                m.channel,
-                m.value,
-                m.starttime,
-                m.endtime
-              )
-            );
+              this.measurementAdapter.adaptFromApi(m)
+            )
           }
 
         });
