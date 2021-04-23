@@ -97,7 +97,7 @@ export class MapComponent implements OnInit {
     legend.onAdd = (() => {
       const div = L.DomUtil.create('div', 'info legend');
 
-      if(threshold) {
+      if (threshold) {
         div.innerHTML += ('<h4>' + threshold.min + ' ≤ in threshold ≤ ' + threshold.max + '</h4>');
       }
       div.innerHTML += ('<p><i style="background:#4488A9"> </i>' + 'Within Threshold</p>');
