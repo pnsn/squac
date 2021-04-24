@@ -26,6 +26,7 @@ export class MeasurementsService {
     console.log("I exist");
   }
 
+  //don't like the dependency on widget
   // sets up data storage
   private initLocalData(widget) {
     const data = {};
@@ -40,22 +41,34 @@ export class MeasurementsService {
     }
   }
 
+  //needs tos end back the data
+
   getData(starttime: string, endtime: string, widget: Widget, archiveType?: string) {
     const data = this.initLocalData(widget);
+    const widgetType = widget.typeId;
     const params = {
       metric: widget.metricsString,
       group: widget.channelGroup.id,
       starttime,
-      endtime,
+      endtime
     }
+
     if(archiveType) {
-      return this.getArchive(starttime, endtime, archiveType).pipe(
-        map()
-      );
+      return this.getArchive(starttime, endtime, archiveType, params).pipe(
+        map(response => {
+          response.forEach(m => {
+            if (data && data[m.channel]) {
+              data[m.channel][m.metric].push(
+                //calculate measurement
+              )
+            }
+        });
+        return data;
+      }));
     } else if (widgetType === 1 || widgetType === 4) {
-      return this.getAggregated(starttime, endtime);
+      return this.getAggregated(starttime, endtime, params);
     } else {
-      return this.getMeasurements(starttime, endtime);
+      return this.getMeasurements(starttime, endtime, params);
     }
   }
 
