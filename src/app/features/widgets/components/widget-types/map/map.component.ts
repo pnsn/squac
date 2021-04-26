@@ -97,8 +97,9 @@ export class MapComponent implements OnInit {
     legend.onAdd = (() => {
       const div = L.DomUtil.create('div', 'info legend');
 
-
-      div.innerHTML += ('<h4>' + threshold.min + ' ≤ in threshold ≤ ' + threshold.max + '</h4>');
+      if (threshold) {
+        div.innerHTML += ('<h4>' + threshold.min + ' ≤ in threshold ≤ ' + threshold.max + '</h4>');
+      }
       div.innerHTML += ('<p><i style="background:#4488A9"> </i>' + 'Within Threshold</p>');
       div.innerHTML += ('<p><i style="background:#ffb758"> </i>' + 'Outside Threshold</p>');
       div.innerHTML += ('<p><i style="background:gray"> </i>' + 'No Threshold</p>');
@@ -202,7 +203,6 @@ export class MapComponent implements OnInit {
       if (!station.staCode) {
         console.log(station);
       }
-      console.log(station);
 
       const marker = L.marker([station.lat, station.lon], {
         icon:  L.divIcon({className: station.class})
