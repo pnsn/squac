@@ -4,7 +4,7 @@ import { ViewService } from '@core/services/view.service';
 import { Subject, Subscription } from 'rxjs';
 import { Widget } from '../models/widget';
 import { MeasurementsService } from './measurements.service';
-
+import * as moment from 'moment';
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   private url = 'measurement/';
@@ -42,9 +42,23 @@ export class WidgetDataService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
-
+    this.initLocalData();
     //viewservice get archive type and archive value
     // if raw -> use widget preference which will be 
+  }
+
+  private initLocalData() {
+    const widget = this.widget;
+    const data = {};
+    if (widget && widget.metrics && widget.metrics.length > 0 && widget.channelGroup.channels) {
+      widget.channelGroup.channels.forEach(channel => {
+        data[channel.id] = {};
+        widget.metrics.forEach(metric => {
+          data[channel.id][metric.id] = [];
+        });
+      });
+      this.localData = data;
+    }
   }
 
     // TODO: needs to truncate old measurement
@@ -55,8 +69,7 @@ export class WidgetDataService implements OnDestroy {
       if (!startString || !endString) {
         start = this.viewService.startdate;
         end = this.viewService.enddate;
-  
-        this.initLocalData();
+
         // clear data
       } else {
         start = startString;
@@ -66,7 +79,7 @@ export class WidgetDataService implements OnDestroy {
       if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
         this.viewService.widgetStartedLoading();
         const measurementSub = this.measurementsService
-          .getData(start, end, this.widget.typeId, ).subscribe(
+          .getData(start, end, this.widget, data).subscribe(
           success => {
             // there is new data, update.
             if (success.length > 0) {
@@ -100,17 +113,7 @@ export class WidgetDataService implements OnDestroy {
       }
     }
   
-    // sets up data storage
-    private initLocalData() {
-      if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup.channels) {
-        this.widget.channelGroup.channels.forEach(channel => {
-          this.localData[channel.id] = {};
-          this.widget.metrics.forEach(metric => {
-            this.localData[channel.id][metric.id] = [];
-          });
-        });
-      }
-    }
+
   
     // Clears any active timeout
     private clearTimeout() {
@@ -128,13 +131,5 @@ export class WidgetDataService implements OnDestroy {
         }, this.refreshInterval * 60 * 1000);
       }
     }
+
 }
-
-// response.forEach(m => {
-//   if (this.localData && this.localData[m.channel]) {
-//     this.localData[m.channel][m.metric].push(
-//       m
-//     )
-//   }
-
-// });
