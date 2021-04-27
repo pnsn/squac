@@ -8,46 +8,8 @@
         by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
       </span>
 
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
-        aria-label="Icon that shows dashboard is private"
-      >
-        Dashboard is private
-      </span>
-      <mat-icon
-        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
-        matTooltip="Dashboard is private"
-        >visibility_off</mat-icon
-      >
+      <app-shared-indicator [shareAll]="dashboard.shareAll" [shareOrg]="dashboard.shareOrg" resource="dashboard"></app-shared-indicator>
 
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="dashboard.shareOrg"
-        aria-label="Icon that shows dashboard is shared with {{
-          dashboard.orgId | organization
-        }}"
-      >
-        Dashboard shared with organization
-      </span>
-      <mat-icon
-        *ngIf="dashboard.shareOrg && !dashboard.shareAll"
-        matTooltip="Dashboard shared with organization"
-        >visibility</mat-icon
-      >
-
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="dashboard.shareAll"
-        aria-label="Icon that shows dashboard is public"
-      >
-        Dashboard shared with all
-      </span>
-      <mat-icon
-        *ngIf="dashboard.shareAll"
-        matTooltip="Dashboard shared with all"
-        >public</mat-icon
-      >
     </div>
     <div id="header-controls">
       <button
@@ -115,6 +77,7 @@
         [matMenuTriggerFor]="appMenu"
         color="primary"
         *ngIf="'update' | able: dashboard"
+        matTooltip="Dashboard configuration"
       >
         <mat-icon>settings_application</mat-icon>
       </button>

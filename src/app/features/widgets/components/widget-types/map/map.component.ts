@@ -133,15 +133,13 @@ export class MapComponent implements OnInit {
       const rowData : Aggregate[] | Archive[] = data[channel.id][metric.id];
       const statType = this.widget.stattype.type;
       let val : number;
+      console.log(statType)
       if(rowData.length > 1) { ///figure out if archive data (archive data could have only 1)
         //calculate display value
       } else if(rowData.length === 1 && rowData[0][statType]){
         val = rowData[0][statType];
       } else {
-        if(rowData[0]) {
-          val = rowData[0]['max'];
-        }
-
+        //no data
         // no val
       }
 

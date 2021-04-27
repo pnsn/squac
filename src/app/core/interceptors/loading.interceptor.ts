@@ -17,7 +17,7 @@ export class LoadingInterceptor implements HttpInterceptor {
    * URLs for which the loading screen should not be enabled
    */
   skipUrls = [
-    'measurements',
+    'measurement',
     'channels',
     'monitors'
   ];
