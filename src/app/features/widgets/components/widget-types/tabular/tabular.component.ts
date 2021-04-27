@@ -9,6 +9,8 @@ import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
+import { Aggregate } from '@features/widgets/models/aggregate';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-tabular',
@@ -52,7 +54,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+    console.log("tabular");
     this.metrics = this.widget.metrics;
     this.metrics.forEach(metric => {
       metric.comparator = this.metricComparator.bind(this);
@@ -107,6 +109,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   }
 
   private buildRows(data) {
+
     const rows = [];
     const stations = [];
     const stationRows = [];
@@ -118,7 +121,24 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
-        const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
+
+        const rowData : Aggregate[] | Archive[] = data[channel.id][metric.id];
+        const statType = this.widget.stattype.type;
+        let val : number;
+        console.log(rowData)
+        if(rowData.length > 1) { ///figure out if archive data (archive data could have only 1)
+          //calculate display value
+        } else if(rowData.length === 1 && rowData[0][statType]){
+          val = rowData[0][statType];
+        } else {
+          if(rowData[0]) {
+            val = rowData[0]['max'];
+          }
+ 
+          // no val
+        }
+
+        // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
 
@@ -198,7 +218,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     return row[column.prop].classes;
   }
 
-  // TODO: yes, this is bad boolean but I'm going to change it
+
   checkThresholds(threshold, value): boolean {
     let withinThresholds = true;
     if (threshold.max !== null && value !== null && value > threshold.max) {

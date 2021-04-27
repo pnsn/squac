@@ -75,26 +75,13 @@ export class WidgetDataService implements OnDestroy {
         start = startString;
         end = endString;
       }
-  
+      const archiveType = this.viewService.archiveType;
       if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
         this.viewService.widgetStartedLoading();
         const measurementSub = this.measurementsService
-          .getData(start, end, this.widget, data).subscribe(
+          .getData(start, end, this.widget, this.localData, archiveType).subscribe(
           success => {
-            // there is new data, update.
-            if (success.length > 0) {
-              // there is new data
-              this.successCount++;
-              this.data.next(this.localData);
-            } else if (this.successCount === 0) {
-              // no data for this request and no data from earlier requests
-              this.data.next({});
-            } else if (this.successCount > 0){
-            // there is data from old request, but none in this new
-              this.data.next(this.localData);
-  
-  
-            }
+            this.data.next(success);
           },
           error => {
             console.log(error);
@@ -112,7 +99,6 @@ export class WidgetDataService implements OnDestroy {
         this.data.next({});
       }
     }
-  
 
   
     // Clears any active timeout
@@ -122,7 +108,7 @@ export class WidgetDataService implements OnDestroy {
       }
     }
 
-  
+    // FIXME: needs to get new range
     // some sort of timer that gets the data and
     private updateMeasurement() {
       if (this.viewService.isLive) {

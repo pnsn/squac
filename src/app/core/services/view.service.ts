@@ -74,6 +74,10 @@ export class ViewService {
     return this.dashboard?.endtime;
   }
 
+  get archiveType(): string {
+    return this.dashboard?.archiveType;
+  }
+
   // sets the given dashboard and sets up dates
   setDashboard(dashboard: Dashboard): void {
     this.currentWidgets.next([]);

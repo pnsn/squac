@@ -5,6 +5,7 @@ import { SquacApiService } from '@core/services/squacapi.service';
 import { ApiGetMeasurement, Measurement, MeasurementAdapter } from '../models/measurement';
 import { map } from 'rxjs/operators';
 import { ApiGetArchive, Archive, ArchiveAdapter } from '../models/archive';
+import { Aggregate, AggregateAdapter, ApiGetAggregate } from '../models/aggregate';
 
 export class MeasurementHttpData {
   metric: string;
@@ -21,13 +22,13 @@ export class MeasurementsService {
   constructor(
     private squacApi: SquacApiService,
     private measurementAdapter : MeasurementAdapter,
-    private archiveAdapter : ArchiveAdapter
+    private archiveAdapter : ArchiveAdapter,
+    private aggregateAdapter: AggregateAdapter
   ) {
     console.log("I exist");
   }
 
-  //needs tos end back the data
-
+  // gets data from squac, returns measurements or archives
   getData(starttime: string, endtime: string, widget: Widget, data: any, archiveType?: string) {
     const widgetType = widget.typeId;
     const params = {
@@ -37,23 +38,35 @@ export class MeasurementsService {
       endtime
     }
     let path;
-    if(archiveType) {
+    if(archiveType &&  archiveType !== 'raw') {
       path = archiveType + "-archives";
     } else if (widgetType === 1 || widgetType === 4) {
       path = "aggregated";
     } else {
       path = "measurements";
     }
-
+    console.log(path)
     return this.squacApi.get(this.url + path, null, params).pipe(
       map(response => {
         response.forEach( m => {
           if(data && data[m.channel] && data[m.channel][m.metric]) {
-            const value = path === "measurements" ? this.measurementAdapter.adaptFromApi(m) : this.archiveAdapter.adaptFromApi(m);
+            let value: Measurement | Aggregate | Archive;
+            switch (path) {
+              case "measurements":
+                value = this.measurementAdapter.adaptFromApi(m)
+                break;
+              case "aggregated":
+                value = this.aggregateAdapter.adaptFromApi(m)
+                break;
+          
+              default:
+                value = this.archiveAdapter.adaptFromApi(m);
+                break;
+            }
             data[m.channel][m.metric].push(value);
           }
         });
-        return response;
+        return data;
       })
     );
   }
@@ -64,7 +77,7 @@ export class MeasurementsService {
   }
 
   // Get measurement aggregate from squac
-  private getAggregated(starttime: string, endtime: string , params : MeasurementHttpData): Observable<ApiGetArchive[]> {
+  private getAggregated(starttime: string, endtime: string , params : MeasurementHttpData): Observable<ApiGetAggregate[]> {
     return this.squacApi.get(this.url + "aggregated", null, params);
   }
 
