@@ -11,6 +11,8 @@ import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
 import { Aggregate } from '@features/widgets/models/aggregate';
 import { Archive } from '@features/widgets/models/archive';
+import { checkThresholds } from '@core/utils/utils';
+
 
 @Component({
   selector: 'app-tabular',
@@ -125,7 +127,6 @@ export class TabularComponent implements OnInit, OnDestroy {
         const rowData : Aggregate[] | Archive[] = data[channel.id][metric.id];
         const statType = this.widget.stattype.type;
         let val : number;
-        console.log(rowData)
         if(rowData.length > 1) { ///figure out if archive data (archive data could have only 1)
           //calculate display value
         } else if(rowData.length === 1 && rowData[0][statType]){
@@ -140,7 +141,7 @@ export class TabularComponent implements OnInit, OnDestroy {
 
         // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
-        const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
+        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
         if (threshold && val != null && !inThreshold) {
           agg++;
@@ -216,23 +217,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   getCellClass({ row, column, value }): any {
     return row[column.prop].classes;
-  }
-
-
-  checkThresholds(threshold, value): boolean {
-    let withinThresholds = true;
-    if (threshold.max !== null && value !== null && value > threshold.max) {
-      withinThresholds = false;
-    }
-    if (threshold.min !== null && value !== null && value < threshold.min) {
-      withinThresholds = false;
-    }
-
-    // TODO: is no thresholds in or out
-    if (threshold.min === null && threshold.max === null) {
-      withinThresholds = false;
-    }
-    return withinThresholds;
   }
 
 }

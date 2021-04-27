@@ -6,7 +6,9 @@ import { Threshold } from '@features/widgets/models/threshold';
 import { Widget } from '@features/widgets/models/widget';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import * as L from 'leaflet';
-
+import { checkThresholds } from '@core/utils/utils';
+import { Aggregate } from '@features/widgets/models/aggregate';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-map',
@@ -128,9 +130,23 @@ export class MapComponent implements OnInit {
       const identifier = channel.networkCode + '.' + channel.stationCode;
       let agg = 0;
 
-      const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
+      const rowData : Aggregate[] | Archive[] = data[channel.id][metric.id];
+      const statType = this.widget.stattype.type;
+      let val : number;
+      if(rowData.length > 1) { ///figure out if archive data (archive data could have only 1)
+        //calculate display value
+      } else if(rowData.length === 1 && rowData[0][statType]){
+        val = rowData[0][statType];
+      } else {
+        if(rowData[0]) {
+          val = rowData[0]['max'];
+        }
+
+        // no val
+      }
+
       const threshold = this.thresholds[metric.id];
-      const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
+      const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
       if (!stationChannels[channel.stationCode]) {
         stationChannels[channel.stationCode] = '';
@@ -235,23 +251,5 @@ export class MapComponent implements OnInit {
 
     }
     return  station;
-  }
-
-
-  // TODO: yes, this is bad boolean but I'm going to change it
-  checkThresholds(threshold, value): boolean {
-    let withinThresholds = true;
-    if (threshold.max !== null && value !== null && value > threshold.max) {
-      withinThresholds = false;
-    }
-    if (threshold.min !== null && value !== null && value < threshold.min) {
-      withinThresholds = false;
-    }
-
-    // TODO: is no thresholds in or out
-    if (threshold.min === null && threshold.max === null) {
-      withinThresholds = false;
-    }
-    return withinThresholds;
   }
 }
