@@ -1,3 +1,4 @@
+import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 
 export class Threshold {
@@ -11,10 +12,6 @@ export class Threshold {
     public max: number
   ) {
 
-  }
-
-  static get modelName() {
-    return 'Threshold';
   }
 }
 
@@ -37,6 +34,9 @@ export interface ApiPostThreshold {
   maxval: number;
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ThresholdAdapter implements Adapter<Threshold> {
   adaptFromApi(item: ApiGetThreshold): Threshold {
     return new Threshold(

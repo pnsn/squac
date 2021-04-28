@@ -1,11 +1,13 @@
 import { ApiGetDashboard, Dashboard } from '@features/dashboards/models/dashboard';
 import { ApiGetThreshold, Threshold, ThresholdAdapter } from '@features/widgets/models/threshold';
-import { ChannelGroup } from '@core/models/channel-group';
 import { ApiGetMetric, Metric, MetricAdapter } from '@core/models/metric';
 import { Adapter } from '@core/models/adapter';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Injectable } from '@angular/core';
 
 export class Widget {
   public type: string;
+  public dashboard: Dashboard;
   public channelGroup: ChannelGroup;
   constructor(
     public id: number,
@@ -77,14 +79,17 @@ export interface ApiPostWidget {
   color_pallet: string;
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class WidgetAdapter implements Adapter<Widget> {
   constructor(
-    private metricAdapter: MetricAdapter,
-    private thresholdsAdapter: ThresholdAdapter
+    public metricAdapter: MetricAdapter,
+    public thresholdsAdapter: ThresholdAdapter
   ) {}
   adaptFromApi(item: ApiGetWidget): Widget {
     const metrics = [];
-    const thresholds = [];
+    const thresholds = {};
 
     if (item.metrics) {
       item.metrics.forEach(m => {
@@ -94,7 +99,7 @@ export class WidgetAdapter implements Adapter<Widget> {
 
     if(item.thresholds) {
       item.thresholds.forEach(t => {
-        thresholds.push( this.thresholdsAdapter.adaptFromApi(t) );
+        thresholds[t.metric] = this.thresholdsAdapter.adaptFromApi(t);
       })
     }
     const widget = new Widget(

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from './adapter';
 import { Channel, ChannelAdapter } from './channel';
-import { Metric } from './metric';
 
 // Describes a channel group object
 export class ChannelGroup {
