@@ -42,6 +42,7 @@ export class WidgetDataService implements OnDestroy {
   }
     // TODO: needs to truncate old measurement
     fetchMeasurements(startString?: string, endString?: string): void {
+      console.log(startString, endString)
       this.clearTimeout();
       let start;
       let end;
@@ -93,7 +94,7 @@ export class WidgetDataService implements OnDestroy {
     private updateMeasurement() {
       if (this.viewService.isLive) {
         this.updateTimeout = setTimeout(() => {
-          this.fetchMeasurements(this.lastEndString, moment().utc().format(this.locale.format));
+          this.fetchMeasurements(moment().subtract(this.viewService.range, 'seconds').utc().format(this.locale.format), moment().utc().format(this.locale.format));
         }, this.refreshInterval * 60 * 1000);
       }
     }
