@@ -9,6 +9,7 @@ export class Widget {
   public type: string;
   public dashboard: Dashboard;
   public channelGroup: ChannelGroup;
+  public useAggregate: boolean;
   constructor(
     public id: number,
     public owner: number,
@@ -49,7 +50,7 @@ export interface ApiGetWidget {
   name: string;
   dashboard: ApiGetDashboard;
   description: string;
-  widgettype
+  widgettype: any;
   metrics: ApiGetMetric[];
   created_at: string;
   updated_at: string;
@@ -116,6 +117,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.y_position,
       metrics
     );
+    widget.useAggregate = item.widgettype.use_aggregate;
     widget.thresholds = thresholds;
     widget.stattype = item.stattype;
     widget.type = item.widgettype.type;
