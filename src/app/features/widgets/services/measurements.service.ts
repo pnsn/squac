@@ -59,7 +59,6 @@ export class MeasurementsService {
     } else {
       path = 'measurements';
     }
-    console.log(path);
     return this.squacApi.get(this.url + path, null, params).pipe(
       map((response) => {
         response.forEach((m) => {
@@ -90,7 +89,6 @@ export class MeasurementsService {
 
           data[m.channel][m.metric].push(value);
         });
-        console.log(data);
         return data;
       })
     );

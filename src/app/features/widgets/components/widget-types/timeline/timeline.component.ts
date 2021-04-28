@@ -129,7 +129,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
       const channelData = [];
 
-      if (measurements[channel.id && measurements[channel.id][this.currentMetric.id]]) {
+      if (measurements[channel.id] && measurements[channel.id][this.currentMetric.id]) {
         // go through the measurements
         measurements[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement | Archive, index) => {
