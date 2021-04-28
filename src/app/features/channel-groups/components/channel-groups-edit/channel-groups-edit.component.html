@@ -156,12 +156,14 @@
               />
             </mat-form-field>
             <div class="channel-group-input">
-              <mat-checkbox formControlName="shareOrg" >
-                Share with org
-              </mat-checkbox>
-              <mat-checkbox formControlName="shareAll" >
-                Share with all
-              </mat-checkbox>
+              <div>
+                Sharing setting: 
+              </div>
+              <mat-radio-group aria-label="change view permissions" formControlName="share" vertical>
+                <mat-radio-button value="private">Private</mat-radio-button>
+                <mat-radio-button value="shareOrg">Share with org</mat-radio-button>
+                <mat-radio-button value="shareAll">Share with all</mat-radio-button>
+              </mat-radio-group>
             </div>
 
             <mat-form-field id="description">

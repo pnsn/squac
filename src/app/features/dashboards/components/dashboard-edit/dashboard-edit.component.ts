@@ -19,7 +19,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   orgId: number;
   dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-  share = "private";
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -57,13 +57,14 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   private initForm() {
 
     if (this.editMode) {
+
+      this.dashboard = this.route.snapshot.data.dashboard;
       let share = 'private';
       if(this.dashboard.shareAll) {
         share = 'shareAll';
       } else if (this.dashboard.shareOrg) {
         share = 'shareOrg';
       }
-      this.dashboard = this.route.snapshot.data.dashboard;
       this.dashboardForm.patchValue(
         {
           name : this.dashboard.name,

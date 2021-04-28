@@ -86,8 +86,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupForm = this.formBuilder.group({
       name : new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      shareOrg: new FormControl(false),
-      shareAll: new FormControl(false)
+      share: new FormControl('private', Validators.required)
     });
 
     // if editing existing group, populate with the info
@@ -95,11 +94,16 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.channelGroupService.getChannelGroup(this.id).subscribe(
         channelGroup => {
+          let share = 'private';
+          if(channelGroup.shareAll) {
+            share = 'shareAll';
+          } else if (channelGroup.shareOrg) {
+            share = 'shareOrg';
+          }
           this.channelGroupForm.patchValue({
             name : channelGroup.name,
             description : channelGroup.description,
-            shareAll: channelGroup.shareAll,
-            shareOrg: channelGroup.shareOrg
+            share: share
           });
           this.channelGroup = channelGroup;
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
@@ -263,15 +267,17 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
-    values.isPublic = values.isPublic ? true : false;
+    const shareAll = values.share === 'shareAll';
+    const shareOrg = values.share === 'shareOrg'|| shareAll;
+  
     const cg = new ChannelGroup(
       this.id,
       null,
       values.name,
       values.description,
       this.orgId,
-      values.shareOrg,
-      values.shareAll,
+      shareOrg,
+      shareAll,
       this.selectedChannelIds
     );
 
