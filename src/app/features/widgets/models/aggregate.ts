@@ -23,20 +23,20 @@ export class Aggregate {
 }
 
 export interface ApiGetAggregate {
-  channel: number,
-  metric:	number,
-  min: number,
-  max: number,
-  mean: number,
-  median: number,
-  stdev: number,
-  num_samps: number,
-  p05: number,
-  p10: number,
-  p90: number,
-  p95: number,
-  starttime: string,
-  endtime: string
+  channel: number;
+  metric:	number;
+  min: number;
+  max: number;
+  mean: number;
+  median: number;
+  stdev: number;
+  num_samps: number;
+  p05: number;
+  p10: number;
+  p90: number;
+  p95: number;
+  starttime: string;
+  endtime: string;
 }
 
 @Injectable({
@@ -63,6 +63,6 @@ export class AggregateAdapter implements Adapter<Aggregate> {
       item.starttime,
       item.endtime
     );
-    return aggregate
+    return aggregate;
   }
 }

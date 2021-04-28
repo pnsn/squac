@@ -50,28 +50,4 @@ describe('MeasurementsService', () => {
   it('should be created', () => {
     expect(measurementsService).toBeTruthy();
   });
-
-  it('should set widget', () => {
-    const widgetSpy = spyOn(measurementsService, 'setWidget');
-
-    measurementsService.setWidget(testWidget);
-
-    expect(widgetSpy).toHaveBeenCalled();
-  });
-
-  it('should not try to fetch measurements if no widget', () => {
-    const viewSpy = spyOn(viewService, 'widgetStartedLoading');
-    measurementsService.fetchMeasurements('start', 'end');
-    expect(viewSpy).not.toHaveBeenCalled();
-  });
-
-  it('should try to get measurements if there is a widget and dates', () => {
-
-    measurementsService.setWidget(testWidget);
-
-    const viewSpy = spyOn(viewService, 'widgetStartedLoading');
-    measurementsService.fetchMeasurements('start', 'end');
-    expect(viewSpy).toHaveBeenCalled();
-  });
-
 });

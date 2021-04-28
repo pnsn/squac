@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { Widget } from "@features/widgets/models/widget";
-import { SquacApiService } from "@core/services/squacapi.service";
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { Widget } from '@features/widgets/models/widget';
+import { SquacApiService } from '@core/services/squacapi.service';
 import {
   ApiGetMeasurement,
   Measurement,
   MeasurementAdapter,
-} from "../models/measurement";
-import { map } from "rxjs/operators";
-import { ApiGetArchive, Archive, ArchiveAdapter } from "../models/archive";
+} from '../models/measurement';
+import { map } from 'rxjs/operators';
+import { ApiGetArchive, Archive, ArchiveAdapter } from '../models/archive';
 import {
   Aggregate,
   AggregateAdapter,
   ApiGetAggregate,
-} from "../models/aggregate";
+} from '../models/aggregate';
 
 export class MeasurementHttpData {
   metric: string;
@@ -22,10 +22,10 @@ export class MeasurementHttpData {
   endtime: string;
 }
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class MeasurementsService {
-  private url = "measurement/";
+  private url = 'measurement/';
 
   constructor(
     private squacApi: SquacApiService,
@@ -52,12 +52,12 @@ export class MeasurementsService {
       endtime,
     };
     let path;
-    if (archiveType && archiveType !== "raw") {
-      path = archiveType + "-archives";
+    if (archiveType && archiveType !== 'raw') {
+      path = archiveType + '-archives';
     } else if (widget.useAggregate) {
-      path = "aggregated";
+      path = 'aggregated';
     } else {
-      path = "measurements";
+      path = 'measurements';
     }
     console.log(path);
     return this.squacApi.get(this.url + path, null, params).pipe(
@@ -65,15 +65,15 @@ export class MeasurementsService {
         response.forEach((m) => {
           let value: Measurement | Aggregate | Archive;
           switch (path) {
-            case "measurements":
+            case 'measurements':
               value = this.measurementAdapter.adaptFromApi(m);
               break;
-            case "aggregated":
+            case 'aggregated':
               value = this.aggregateAdapter.adaptFromApi(m);
               break;
 
             default:
-              //archive stat
+              // archive stat
               value = this.archiveAdapter.adaptFromApi(m);
               if (archiveStat) {
                 value.value = value[archiveStat];
@@ -83,14 +83,14 @@ export class MeasurementsService {
 
           if (!data[m.channel]) {
             data[m.channel] = {};
-          } 
+          }
           if (!data[m.channel][m.metric]) {
             data[m.channel][m.metric] = [];
           }
 
           data[m.channel][m.metric].push(value);
         });
-        console.log(data)
+        console.log(data);
         return data;
       })
     );
@@ -102,7 +102,7 @@ export class MeasurementsService {
     endtime: string,
     params: MeasurementHttpData
   ): Observable<ApiGetMeasurement[]> {
-    return this.squacApi.get(this.url + "measurements", null, params);
+    return this.squacApi.get(this.url + 'measurements', null, params);
   }
 
   // Get measurement aggregate from squac
@@ -111,7 +111,7 @@ export class MeasurementsService {
     endtime: string,
     params: MeasurementHttpData
   ): Observable<ApiGetAggregate[]> {
-    return this.squacApi.get(this.url + "aggregated", null, params);
+    return this.squacApi.get(this.url + 'aggregated', null, params);
   }
 
   // Get measurement aggregate from squac
@@ -122,7 +122,7 @@ export class MeasurementsService {
     params: MeasurementHttpData
   ): Observable<ApiGetArchive[]> {
     return this.squacApi.get(
-      this.url + archiveType + "-archives",
+      this.url + archiveType + '-archives',
       null,
       params
     );

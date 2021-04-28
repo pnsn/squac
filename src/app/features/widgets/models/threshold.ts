@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
+import { Injectable } from '@angular/core';
+import { Adapter } from '@core/models/adapter';
 
 export class Threshold {
 
@@ -46,15 +46,15 @@ export class ThresholdAdapter implements Adapter<Threshold> {
       item.metric,
       item.minval,
       item.maxval
-    )
+    );
   }
 
-  adaptToApi(item: Threshold) : ApiPostThreshold {
+  adaptToApi(item: Threshold): ApiPostThreshold {
     return {
       metric: item.metricId,
       widget: item.widgetId,
       minval: item.min,
       maxval: item.max
-    }
+    };
   }
 }

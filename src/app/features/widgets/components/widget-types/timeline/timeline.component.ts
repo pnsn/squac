@@ -128,8 +128,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     this.channels.forEach((channel) => {
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
       const channelData = [];
- 
-      if(measurements[channel.id && measurements[channel.id][this.currentMetric.id]]) {
+
+      if (measurements[channel.id && measurements[channel.id][this.currentMetric.id]]) {
         // go through the measurements
         measurements[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement | Archive, index) => {
@@ -144,9 +144,9 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
             val: measurement.value,
             timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
           };
-  
+
           channelData.push(dataPoint);
-  
+
           }
         );
 

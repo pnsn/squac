@@ -141,7 +141,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           series : []
         };
 
-        if( data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        if ( data[channel.id] && data[channel.id][this.currentMetric.id]) {
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement | Archive) => {
               channelObj.series.push(

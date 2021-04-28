@@ -43,7 +43,7 @@ export class Dashboard {
 export interface ApiGetDashboard {
   id: number;
   name: string;
-  description: string; 
+  description: string;
   created_at: string;
   updated_at: string;
   user_id: string;
@@ -55,7 +55,7 @@ export interface ApiGetDashboard {
   organization: number;
   home: boolean;
   archive_type: string;
-  widgets?: number[]
+  widgets?: number[];
 }
 
 export interface ApiPostDashboard {
@@ -69,7 +69,7 @@ export interface ApiPostDashboard {
   organization: number;
   home: boolean;
   archive_type: string;
-  archive_stat: string;  
+  archive_stat: string;
 }
 
 @Injectable({
@@ -86,8 +86,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.share_org,
       item.share_all,
       item.organization,
-      item.widgets? item.widgets : []
-    )
+      item.widgets ? item.widgets : []
+    );
     if (item.window_seconds) {
       dashboard.timeRange = item.window_seconds;
     } else {
@@ -98,8 +98,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
 
     dashboard.archiveStat =  item.archive_type ? item.archive_type : '';
     // dashboard.archiveType = "hour";
-    dashboard.archiveType = item.archive_type ? item.archive_type : 'raw';    
-    // dashboard.archiveType = item.archive_stat;    
+    dashboard.archiveType = item.archive_type ? item.archive_type : 'raw';
+    // dashboard.archiveType = item.archive_stat;
     dashboard.home = item.home;
 
     return dashboard;
@@ -119,7 +119,7 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       home: item.home,
       archive_type: item.archiveType,
       archive_stat: item.archiveStat
-    }
+    };
 
-  };
+  }
 }

@@ -35,7 +35,7 @@ export class ThresholdsService {
 
   private updateThreshold(threshold: Threshold, widgetId) {
     threshold.widgetId = widgetId;
-    const postData : ApiPostThreshold = this.thresholdAdapter.adaptToApi(threshold);
+    const postData: ApiPostThreshold = this.thresholdAdapter.adaptToApi(threshold);
 
     if (threshold.id) {
       return this.squacApi.put(this.url, threshold.id, postData);

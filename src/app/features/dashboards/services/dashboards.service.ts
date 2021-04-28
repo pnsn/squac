@@ -61,7 +61,7 @@ export class DashboardsService {
     const postData = this.dashboardAdapter.adaptToApi(dashboard);
 
     if (dashboard.id) {
-      
+
       return this.squacApi.put(this.url, dashboard.id, postData).pipe(
         map(response => this.dashboardAdapter.adaptFromApi(response))
       );

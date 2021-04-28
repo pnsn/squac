@@ -1,10 +1,10 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { ConfigurationService } from "@core/services/configuration.service";
-import { ViewService } from "@core/services/view.service";
-import { Subject, Subscription } from "rxjs";
-import { Widget } from "../models/widget";
-import { MeasurementsService } from "./measurements.service";
-import * as moment from "moment";
+import { Injectable, OnDestroy } from '@angular/core';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { ViewService } from '@core/services/view.service';
+import { Subject, Subscription } from 'rxjs';
+import { Widget } from '../models/widget';
+import { MeasurementsService } from './measurements.service';
+import * as moment from 'moment';
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
@@ -19,9 +19,9 @@ export class WidgetDataService implements OnDestroy {
     private measurementsService: MeasurementsService,
     configService: ConfigurationService
   ) {
-    this.locale = configService.getValue("locale");
+    this.locale = configService.getValue('locale');
     this.refreshInterval = configService.getValue(
-      "dataRefreshIntervalMinutes",
+      'dataRefreshIntervalMinutes',
       4
     );
     // this.refreshInterval = 0.5;
@@ -66,7 +66,7 @@ export class WidgetDataService implements OnDestroy {
           },
           (error) => {
             console.log(error);
-            console.log("error in fetch measurements");
+            console.log('error in fetch measurements');
           },
           () => {
             this.viewService.widgetFinishedLoading();
@@ -94,7 +94,7 @@ export class WidgetDataService implements OnDestroy {
       this.updateTimeout = setTimeout(() => {
         this.fetchMeasurements(
           moment()
-            .subtract(this.viewService.range, "seconds")
+            .subtract(this.viewService.range, 'seconds')
             .utc()
             .format(this.locale.format),
           moment().utc().format(this.locale.format)

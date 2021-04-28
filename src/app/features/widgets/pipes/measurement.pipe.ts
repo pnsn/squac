@@ -16,36 +16,36 @@ transform(values: any, type: string): any {
   if (values && values.length > 0) {
     const sortedValues = this.sort(values.slice());
     switch (type) {
-        case "ave":
+        case 'ave':
         return average(sortedValues);
 
-        case "med":
+        case 'med':
           return median(sortedValues);
 
-        case "min":
+        case 'min':
           return min(sortedValues);
 
-        case "max":
+        case 'max':
           return max(sortedValues);
 
-        case "num_samps":
+        case 'num_samps':
           return sortedValues.length;
 
-        case "p99" : 
+        case 'p99' :
           return percentile(sortedValues, 99);
 
-        case "p90" : 
+        case 'p90' :
           return percentile(sortedValues, 90);
 
-        case "p10" : 
+        case 'p10' :
           return percentile(sortedValues, 10);
 
-        case "p05" : 
+        case 'p05' :
           return percentile(sortedValues, 5);
 
-        case "latest" :
+        case 'latest' :
           return mostRecent(values);
-          
+
         default: // most recent
           return mostRecent(values);
       }

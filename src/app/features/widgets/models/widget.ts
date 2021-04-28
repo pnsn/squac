@@ -98,10 +98,10 @@ export class WidgetAdapter implements Adapter<Widget> {
       });
     }
 
-    if(item.thresholds) {
+    if (item.thresholds) {
       item.thresholds.forEach(t => {
         thresholds[t.metric] = this.thresholdsAdapter.adaptFromApi(t);
-      })
+      });
     }
     const widget = new Widget(
       item.id,
@@ -124,7 +124,7 @@ export class WidgetAdapter implements Adapter<Widget> {
     return widget;
   }
 
-  adaptToApi(item: Widget) : ApiPostWidget {
+  adaptToApi(item: Widget): ApiPostWidget {
     return {
       name: item.name,
       description: item.description,
@@ -137,7 +137,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       y_position: item.y,
       channel_group: item.channelGroupId,
       stattype: item.stattype ? item.stattype.id : 1,
-      color_pallet: "squac"
-    }
+      color_pallet: 'squac'
+    };
   }
 }

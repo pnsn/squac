@@ -5,7 +5,7 @@ import { Adapter } from '@core/models/adapter';
 export class Archive {
   public value: number;
   constructor(
-    public id : number,
+    public id: number,
     public metricId: number,
     public channelId: number,
     public min: number,
@@ -21,19 +21,19 @@ export class Archive {
 }
 
 export interface ApiGetArchive {
-  channel: number,
-  metric:	number,
-  id:	string,
-  min: number,
-  max: number,
-  mean: number,
-  median: number,
-  stdev: number,
-  num_samps: number,
-  starttime: string,
-  endtime: string,
-  created_at: string,
-  updated_at: string
+  channel: number;
+  metric:	number;
+  id:	string;
+  min: number;
+  max: number;
+  mean: number;
+  median: number;
+  stdev: number;
+  num_samps: number;
+  starttime: string;
+  endtime: string;
+  created_at: string;
+  updated_at: string;
 }
 
 @Injectable({
@@ -45,7 +45,7 @@ export class ArchiveAdapter implements Adapter<Archive> {
 
   adaptFromApi(item: ApiGetArchive): Archive {
     const archive = new Archive(
-      +item.id, 
+      +item.id,
       item.metric,
       item.channel,
       item.min,
@@ -58,6 +58,6 @@ export class ArchiveAdapter implements Adapter<Archive> {
       item.endtime
 
     );
-    return archive
+    return archive;
   }
 }

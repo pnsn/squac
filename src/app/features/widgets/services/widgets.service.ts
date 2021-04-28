@@ -1,21 +1,21 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { Observable, forkJoin, of } from "rxjs";
+import { Injectable, EventEmitter } from '@angular/core';
+import { Observable, forkJoin, of } from 'rxjs';
 import {
   ApiPostWidget,
   Widget,
   WidgetAdapter,
-} from "@features/widgets/models/widget";
-import { map, switchMap } from "rxjs/operators";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
-import { ChannelGroup } from "@core/models/channel-group";
+} from '@features/widgets/models/widget';
+import { map, switchMap } from 'rxjs/operators';
+import { SquacApiService } from '@core/services/squacapi.service';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
+import { ChannelGroup } from '@core/models/channel-group';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 // Class for widget interaction with squac
 export class WidgetsService {
-  private url = "dashboard/widgets/";
+  private url = 'dashboard/widgets/';
 
   constructor(
     private squacApi: SquacApiService,

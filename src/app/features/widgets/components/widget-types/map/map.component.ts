@@ -1,19 +1,19 @@
-import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widgets/models/threshold";
-import { Widget } from "@features/widgets/models/widget";
-import { MeasurementPipe } from "@features/widgets/pipes/measurement.pipe";
-import * as L from "leaflet";
-import { checkThresholds } from "@core/utils/utils";
-import { Aggregate } from "@features/widgets/models/aggregate";
-import { Archive } from "@features/widgets/models/archive";
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Channel } from '@core/models/channel';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Metric } from '@core/models/metric';
+import { Threshold } from '@features/widgets/models/threshold';
+import { Widget } from '@features/widgets/models/widget';
+import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
+import * as L from 'leaflet';
+import { checkThresholds } from '@core/utils/utils';
+import { Aggregate } from '@features/widgets/models/aggregate';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
-  selector: "app-map",
-  templateUrl: "./map.component.html",
-  styleUrls: ["./map.component.scss"],
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
   providers: [MeasurementPipe],
 })
 export class MapComponent implements OnInit {
@@ -57,13 +57,13 @@ export class MapComponent implements OnInit {
 
     // Add all the layers to the array that will be fed to options
     this.layers = [
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
     ];
 
-    this.icon = L.divIcon({ className: "my-div-icon" });
+    this.icon = L.divIcon({ className: 'my-div-icon' });
 
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
@@ -87,24 +87,24 @@ export class MapComponent implements OnInit {
     const threshold = this.thresholds[metric.id];
     this.map = map;
 
-    const legend = new L.Control({ position: "bottomright" });
+    const legend = new L.Control({ position: 'bottomright' });
     legend.onAdd = () => {
-      const div = L.DomUtil.create("div", "info legend");
+      const div = L.DomUtil.create('div', 'info legend');
 
       if (threshold) {
         div.innerHTML +=
-          "<h4>" +
+          '<h4>' +
           threshold.min +
-          " ≤ in threshold ≤ " +
+          ' ≤ in threshold ≤ ' +
           threshold.max +
-          "</h4>";
+          '</h4>';
       }
       div.innerHTML +=
-        '<p><i style="background:#4488A9"> </i>' + "Within Threshold</p>";
+        '<p><i style="background:#4488A9"> </i>' + 'Within Threshold</p>';
       div.innerHTML +=
-        '<p><i style="background:#ffb758"> </i>' + "Outside Threshold</p>";
+        '<p><i style="background:#ffb758"> </i>' + 'Outside Threshold</p>';
       div.innerHTML +=
-        '<p><i style="background:gray"> </i>' + "No Threshold</p>";
+        '<p><i style="background:gray"> </i>' + 'No Threshold</p>';
 
       return div;
     };
@@ -125,7 +125,7 @@ export class MapComponent implements OnInit {
 
     const metric = this.metrics[0];
     this.channels.forEach((channel, index) => {
-      const identifier = channel.networkCode + "." + channel.stationCode;
+      const identifier = channel.networkCode + '.' + channel.stationCode;
       const statType = this.widget.stattype.type;
       let agg = 0;
 
@@ -137,23 +137,23 @@ export class MapComponent implements OnInit {
 
         // if it has value, show value else find the staType to show
         if (rowData[0] && rowData[0].value) {
-          if(rowData.length > 0) {
+          if (rowData.length > 0) {
             val = this.measurementPipe.transform(rowData, statType);
           } else{
             val = rowData[0].value;
           }
-          //still need to calculate
+          // still need to calculate
         } else if (rowData[0][statType]) {
           val = rowData[0][statType];
         }
       }
-      
+
 
       const threshold = this.thresholds[metric.id];
       const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
       if (!stationChannels[channel.stationCode]) {
-        stationChannels[channel.stationCode] = "";
+        stationChannels[channel.stationCode] = '';
       }
 
       stationChannels[channel.stationCode] =
@@ -166,22 +166,22 @@ export class MapComponent implements OnInit {
       let iconClass: string;
 
       if (!threshold) {
-        iconClass = "no-threshold";
+        iconClass = 'no-threshold';
       } else if (val !== null && !inThreshold && !!threshold) {
-        iconClass = "out-of-spec";
+        iconClass = 'out-of-spec';
       } else if (val !== null && inThreshold && !!threshold) {
-        iconClass = "in-spec";
+        iconClass = 'in-spec';
       } else {
-        iconClass = "unknown";
+        iconClass = 'unknown';
       }
 
       const title =
         channel.networkCode +
-        "." +
+        '.' +
         channel.stationCode +
-        "." +
+        '.' +
         channel.loc +
-        "." +
+        '.' +
         channel.code;
       let row = {
         title,
@@ -234,11 +234,11 @@ export class MapComponent implements OnInit {
         stationChannels[station.staCode]
       }`);
 
-      marker.on("mouseover", (ev) => {
+      marker.on('mouseover', (ev) => {
         ev.target.openPopup();
       });
 
-      marker.on("mouseout", (ev) => {
+      marker.on('mouseout', (ev) => {
         ev.target.closePopup();
       });
       this.stations.push(marker);

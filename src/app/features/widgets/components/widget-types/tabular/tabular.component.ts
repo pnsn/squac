@@ -128,12 +128,12 @@ export class TabularComponent implements OnInit, OnDestroy {
 
           // if it has value, show value else find the staType to show
           if (rowData[0] && rowData[0].value) {
-            if(rowData.length > 0) {
+            if (rowData.length > 0) {
               val = this.measurementPipe.transform(rowData, statType);
             } else{
               val = rowData[0].value;
             }
-            //still need to calculate
+            // still need to calculate
           } else if (rowData[0][statType]) {
             val = rowData[0][statType];
           }

@@ -8,8 +8,8 @@ describe('Measurement', () => {
       1,
       1,
       1,
-      new Date(),
-      new Date()
+      '',
+      ''
     )).toBeTruthy();
   });
 });

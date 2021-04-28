@@ -45,8 +45,8 @@ return average;
 }
 
 // // Returns requested percentile, probably
-export function percentile(values, percentile : number) : number {
-  let index = Math.ceil(percentile / 100 * values.length);
+export function percentile(values, percentile: number): number {
+  const index = Math.ceil(percentile / 100 * values.length);
   return index == values.length ? values[index - 1] : values[index];
 }
 
