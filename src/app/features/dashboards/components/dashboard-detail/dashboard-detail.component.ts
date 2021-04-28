@@ -23,7 +23,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   maxDate: moment.Moment;
   error: string = null;
   unsaved = false;
-
+  archiveType: string;
+  archiveStat: string;
+  archiveStatTypes: string[] = ['min', 'max', 'mean', 'median', 'stdev', 'num_samps', 'p05', 'p10', 'p90', 'p95'];
   // TODO: make this a separate component, its making this too busy
   selected: {
     startDate,
@@ -71,7 +73,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           const range = this.viewService.range;
           const start = this.viewService.startdate;
           const end = this.viewService.enddate;
-
+          this.archiveStat = this.dashboard.archiveStat;
+          this.archiveType = this.dashboard.archiveType;
           if (range && this.rangeLookUp) {
             this.selectedRange = this.rangeLookUp[range];
             this.selected = {
@@ -120,6 +123,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectArchiveType(type, stat) {
+    this.archiveType = type;
+    this.archiveStat = stat;
+    console.log(this.archiveType, this.archiveStat)
+    this.unsaved = true;
+    // this.viewService.setArchive(this.archiveType, this.archiveStat)
+  }
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
 

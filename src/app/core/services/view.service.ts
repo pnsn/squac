@@ -149,7 +149,7 @@ export class ViewService {
     // init dates
   }
 
-  setArchive({ archiveType, archiveStat }) {
+  setArchive( archiveType, archiveStat ) {
     this.dashboard.archiveStat = archiveStat;
     this.dashboard.archiveType = archiveType;
 

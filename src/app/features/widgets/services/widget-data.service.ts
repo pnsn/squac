@@ -10,7 +10,6 @@ export class WidgetDataService implements OnDestroy {
   data = new Subject();
   private widget : Widget;
   private refreshInterval;
-  private lastEndString: string;
   updateTimeout;
   locale;
   private subscription: Subscription = new Subscription();
@@ -42,7 +41,6 @@ export class WidgetDataService implements OnDestroy {
   }
     // TODO: needs to truncate old measurement
     fetchMeasurements(startString?: string, endString?: string): void {
-      console.log(startString, endString)
       this.clearTimeout();
       let start;
       let end;
@@ -70,7 +68,6 @@ export class WidgetDataService implements OnDestroy {
           },
           () => {
             this.viewService.widgetFinishedLoading();
-            this.lastEndString = end;
             this.updateMeasurement();
           }
         );
