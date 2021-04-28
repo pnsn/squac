@@ -11,7 +11,7 @@ export class Aggregate {
     public mean: number,
     public median: number,
     public stdev: number,
-    public numSamps: number,
+    public num_samps: number,
     public p05: number,
     public p10: number,
     public p90: number,
