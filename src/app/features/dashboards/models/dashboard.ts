@@ -95,9 +95,9 @@ export class DashboardAdapter implements Adapter<Dashboard> {
     }
 
 
-    dashboard.archiveStat =  "min";
+    dashboard.archiveStat =  item.archive_type ? item.archive_type : '';
     // dashboard.archiveType = "hour";
-    dashboard.archiveType = item.archive_type;    
+    dashboard.archiveType = item.archive_type ? item.archive_type : 'raw';    
     // dashboard.archiveType = item.archive_stat;    
     dashboard.home = item.home;
 

@@ -126,9 +126,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   selectArchiveType(type, stat) {
     this.archiveType = type;
     this.archiveStat = stat;
-    console.log(this.archiveType, this.archiveStat)
     this.unsaved = true;
-    // this.viewService.setArchive(this.archiveType, this.archiveStat)
+    this.viewService.setArchive(this.archiveType, this.archiveStat)
   }
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {

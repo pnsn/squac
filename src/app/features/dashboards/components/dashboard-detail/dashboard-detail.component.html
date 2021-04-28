@@ -29,6 +29,16 @@
       </mat-form-field> -->
 
       <button
+      mat-button
+      [matMenuTriggerFor]="dataType"
+      matTooltip="Dashboard configuration"
+      matTooltip="Select data type"
+      aria-label="Button that opens menu to select data type"
+    >
+      {{archiveStat !==''? archiveStat + ' of ' : ''}}{{archiveType !== 'raw' ? archiveType + ' archive' : archiveType + ' data'}}
+    </button>
+
+      <button
         mat-icon-button
         (click)="refreshData()"
         color="primary"
