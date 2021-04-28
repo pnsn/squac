@@ -9,45 +9,41 @@ export function fakeAsyncResponse<T>(data: T) {
 }
 
 export function mostRecent(values): number {
-
   values.sort((a, b) => {
-
-    return (new Date(a.starttime)).getTime() - (new Date(b.starttime)).getTime();
+    return new Date(a.starttime).getTime() - new Date(b.starttime).getTime();
   });
 
-  return values[ values.length - 1 ].value;
+  return values[values.length - 1].value;
 }
 
 // Calculates the median for the channel
 export function median(values): number {
+  const midIndex = values.length / 2 - 0.5;
+  let med: number;
 
-const mid = values.length / 2 - 0.5;
-let median: number;
+  if (midIndex % 1 === 0) {
+    med = values[midIndex].value;
+  } else {
+    med = (values[midIndex - 0.5].value + values[midIndex - 0.5].value) / 2;
+  }
 
-if (mid % 1 === 0) {
-  median = values[mid].value;
-} else {
-  median = (values[mid - .5].value + values[mid - .5].value) / 2;
-}
-
-return median;
+  return med;
 }
 
 // Calculates the average value for the channel
 export function average(values): number {
-
-let sum = 0;
-for (const value of values) {
-  sum += value.value;
-}
-const average = sum / values.length;
-return average;
+  let sum = 0;
+  for (const value of values) {
+    sum += value.value;
+  }
+  const ave = sum / values.length;
+  return ave;
 }
 
 // // Returns requested percentile, probably
-export function percentile(values, percentile: number): number {
-  const index = Math.ceil(percentile / 100 * values.length);
-  return index == values.length ? values[index - 1] : values[index];
+export function percentile(values, percent: number): number {
+  const index = Math.ceil((percent / 100) * values.length);
+  return index === values.length ? values[index - 1] : values[index];
 }
 
 // Returns the channel's maximum value
