@@ -54,7 +54,7 @@ export class MeasurementsService {
     let path;
     if (archiveType && archiveType !== "raw") {
       path = archiveType + "-archives";
-    } else if (widgetType === 1 || widgetType === 4) {
+    } else if (widget.useAggregate) {
       path = "aggregated";
     } else {
       path = "measurements";
@@ -90,6 +90,7 @@ export class MeasurementsService {
 
           data[m.channel][m.metric].push(value);
         });
+        console.log(data)
         return data;
       })
     );
