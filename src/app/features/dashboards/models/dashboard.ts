@@ -68,7 +68,8 @@ export interface ApiPostDashboard {
   endtime: string;
   organization: number;
   home: boolean;
-  archive_type: string;  
+  archive_type: string;
+  archive_stat: string;  
 }
 
 @Injectable({
@@ -116,7 +117,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       endtime: item.endtime,
       organization: item.orgId,
       home: item.home,
-      archive_type: item.archiveType
+      archive_type: item.archiveType,
+      archive_stat: item.archiveStat
     }
 
   };

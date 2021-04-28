@@ -43,7 +43,7 @@ transform(values: any, type: string): any {
         case "p05" : 
           return percentile(sortedValues, 5);
 
-        case "recent" :
+        case "latest" :
           return mostRecent(values);
           
         default: // most recent
