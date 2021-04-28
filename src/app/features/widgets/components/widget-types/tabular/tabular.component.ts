@@ -53,7 +53,6 @@ export class TabularComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log("tabular");
     this.metrics = this.widget.metrics;
     this.metrics.forEach(metric => {
       metric.comparator = this.metricComparator.bind(this);

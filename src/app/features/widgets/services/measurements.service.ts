@@ -33,7 +33,6 @@ export class MeasurementsService {
     private archiveAdapter: ArchiveAdapter,
     private aggregateAdapter: AggregateAdapter
   ) {
-    console.log("I exist");
   }
 
   // gets data from squac, returns measurements or archives
@@ -91,7 +90,6 @@ export class MeasurementsService {
 
           data[m.channel][m.metric].push(value);
         });
-        console.log(data);
         return data;
       })
     );
