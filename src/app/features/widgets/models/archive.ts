@@ -3,6 +3,7 @@ import { Adapter } from '@core/models/adapter';
 
 // Describes an archive
 export class Archive {
+  public value: number;
   constructor(
     public id : number,
     public metricId: number,

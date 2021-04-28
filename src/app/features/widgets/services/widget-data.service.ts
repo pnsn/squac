@@ -7,13 +7,10 @@ import { MeasurementsService } from './measurements.service';
 import * as moment from 'moment';
 @Injectable()
 export class WidgetDataService implements OnDestroy {
-  private url = 'measurement/';
   data = new Subject();
-  private localData = {};
   private widget : Widget;
   private refreshInterval;
   private lastEndString: string;
-  private successCount = 0; // number of successful requests
   updateTimeout;
   locale;
   private subscription: Subscription = new Subscription();
@@ -42,25 +39,7 @@ export class WidgetDataService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
-    this.initLocalData();
-    //viewservice get archive type and archive value
-    // if raw -> use widget preference which will be 
   }
-
-  private initLocalData() {
-    const widget = this.widget;
-    const data = {};
-    if (widget && widget.metrics && widget.metrics.length > 0 && widget.channelGroup.channels) {
-      widget.channelGroup.channels.forEach(channel => {
-        data[channel.id] = {};
-        widget.metrics.forEach(metric => {
-          data[channel.id][metric.id] = [];
-        });
-      });
-      this.localData = data;
-    }
-  }
-
     // TODO: needs to truncate old measurement
     fetchMeasurements(startString?: string, endString?: string): void {
       this.clearTimeout();
@@ -76,10 +55,11 @@ export class WidgetDataService implements OnDestroy {
         end = endString;
       }
       const archiveType = this.viewService.archiveType;
+      const archiveStat = this.viewService.archiveStat;
       if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
         this.viewService.widgetStartedLoading();
         const measurementSub = this.measurementsService
-          .getData(start, end, this.widget, this.localData, archiveType).subscribe(
+          .getData(start, end, this.widget, archiveType, archiveStat).subscribe(
           success => {
             this.data.next(success);
           },

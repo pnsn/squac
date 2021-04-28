@@ -9,10 +9,7 @@ import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
-import { Aggregate } from '@features/widgets/models/aggregate';
-import { Archive } from '@features/widgets/models/archive';
 import { checkThresholds } from '@core/utils/utils';
-
 
 @Component({
   selector: 'app-tabular',
@@ -51,8 +48,8 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   // rows = [];
   constructor(
-    private measurement: MeasurementPipe,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private measurementPipe: MeasurementPipe
   ) { }
 
   ngOnInit() {
@@ -123,22 +120,25 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
-
-        const rowData : Aggregate[] | Archive[] = data[channel.id][metric.id];
         const statType = this.widget.stattype.type;
-        let val : number;
-        if(rowData.length > 1) { ///figure out if archive data (archive data could have only 1)
-          //calculate display value
-        } else if(rowData.length === 1 && rowData[0][statType]){
-          val = rowData[0][statType];
-        } else {
-          if(rowData[0]) {
-            val = rowData[0]['max'];
-          }
- 
-          // no val
-        }
 
+        let val: number = null;
+
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          const rowData = data[channel.id][metric.id];
+
+          // if it has value, show value else find the staType to show
+          if (rowData[0] && rowData[0].value) {
+            if(rowData.length > 0) {
+              val = this.measurementPipe.transform(rowData, statType);
+            } else{
+              val = rowData[0].value;
+            }
+            //still need to calculate
+          } else if (rowData[0][statType]) {
+            val = rowData[0][statType];
+          }
+        }
         // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? checkThresholds(threshold, val) : false;

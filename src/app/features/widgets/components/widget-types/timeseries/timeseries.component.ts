@@ -9,6 +9,7 @@ import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';
 import * as d3 from 'd3';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-timeseries',
@@ -140,25 +141,23 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           series : []
         };
 
-        data[channel.id][this.currentMetric.id].forEach(
-          (measurement: Measurement) => {
-            channelObj.series.push(
-              {
-                name: moment.utc(measurement.starttime).toDate(),
-                value: measurement.value
-              }
-            );
-          }
-        );
-
-        this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
+        if( data[channel.id] && data[channel.id][this.currentMetric.id]) {
+          data[channel.id][this.currentMetric.id].forEach(
+            (measurement: Measurement | Archive) => {
+              channelObj.series.push(
+                {
+                  name: moment.utc(measurement.starttime).toDate(),
+                  value: measurement.value
+                }
+              );
+            }
+          );
+        }
+        this.hasData = !this.hasData ? data[channel.id] &&  data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
 
         this.results.push(channelObj);
       }
     );
-
-    console.log(this.results);
-
   }
 
   ngOnDestroy(): void {

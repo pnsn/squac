@@ -9,7 +9,8 @@ export class Dashboard {
   public timeRange: number;
   public archiveType: string;
   public home: boolean;
-  
+  public archiveStat: string;
+
   constructor(
     public id: number,
     public owner: number,
@@ -93,7 +94,11 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       dashboard.endtime = item.endtime;
     }
 
-    dashboard.archiveType = item.archive_type;
+
+    dashboard.archiveStat =  "min";
+    // dashboard.archiveType = "hour";
+    dashboard.archiveType = item.archive_type;    
+    // dashboard.archiveType = item.archive_stat;    
     dashboard.home = item.home;
 
     return dashboard;
