@@ -17,11 +17,15 @@
     flex-direction: column;
     width: 80%;
     padding: 10px;
+    text-align: left;
   }
   #dashboard-edit-buttons{
     margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content:space-between; 
+  }
+  mat-radio-button {
+    display:block;
   }
 }

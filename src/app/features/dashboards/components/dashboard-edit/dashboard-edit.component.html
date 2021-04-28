@@ -24,22 +24,16 @@
           </textarea>
           <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
         </mat-form-field>
-        <mat-checkbox
-          matInput
-          id="shareOrg"
-          formControlName="shareOrg"
-          class="form-control"
-        >
-          Share with Organization
-        </mat-checkbox>
-        <mat-checkbox
-        matInput
-        id="shareAll"
-        formControlName="shareAll"
-        class="form-control"
-      >
-        Share with All Squac Users
-      </mat-checkbox>
+      
+      <div>
+        Sharing setting: 
+      </div>
+      <mat-radio-group aria-label="change view permissions" formControlName="share" vertical>
+        <mat-radio-button value="private">Private</mat-radio-button>
+        <mat-radio-button value="shareOrg">Share with your organization</mat-radio-button>
+        <mat-radio-button value="shareAll">Share with all SQUAC users</mat-radio-button>
+      </mat-radio-group>
+      
         <div id="dashboard-edit-buttons">
             <button mat-flat-button color="primary" type="button" (click)="cancel()">Cancel</button>
             <button mat-flat-button 

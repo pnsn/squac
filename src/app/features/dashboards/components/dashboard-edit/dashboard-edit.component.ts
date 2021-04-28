@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DashboardsService } from '../../services/dashboards.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '@features/user/services/user.service';
+import { isoFormat } from 'd3-time-format';
 
 @Component({
   selector: 'app-dashboard-edit',
@@ -18,7 +19,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   orgId: number;
   dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
-
+  share = "private";
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -31,8 +32,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.dashboardForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      shareAll: [false],
-      shareOrg: [false]
+      share: ['private', Validators.required]
     });
 
     const paramsSub = this.route.params.subscribe(
@@ -57,13 +57,18 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   private initForm() {
 
     if (this.editMode) {
+      let share = 'private';
+      if(this.dashboard.shareAll) {
+        share = 'shareAll';
+      } else if (this.dashboard.shareOrg) {
+        share = 'shareOrg';
+      }
       this.dashboard = this.route.snapshot.data.dashboard;
       this.dashboardForm.patchValue(
         {
           name : this.dashboard.name,
           description : this.dashboard.description,
-          shareAll: this.dashboard.shareAll,
-          shareOrg: this.dashboard.shareOrg
+          share: share
         }
       );
     }
@@ -71,14 +76,17 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
   save() {
     const values = this.dashboardForm.value;
+    const shareAll = values.share === 'shareAll';
+    const shareOrg = values.share === 'shareOrg'|| shareAll;
+  
     this.dashboardService.updateDashboard(
       new Dashboard(
         this.id,
         null,
         values.name,
         values.description,
-        values.shareOrg,
-        values.shareAll,
+        shareOrg,
+        shareAll,
         this.orgId,
         this.dashboard && this.dashboard.widgets ? this.dashboard.widgetIds : []
       )
