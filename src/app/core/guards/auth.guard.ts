@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url: string): true | UrlTree {
-    console.log(url, this.authService.loggedIn)
     if (this.authService.loggedIn) {
       return true;
     }
