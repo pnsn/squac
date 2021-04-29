@@ -60,7 +60,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
       this.dashboard = this.route.snapshot.data.dashboard;
       let share = 'private';
-      if(this.dashboard.shareAll) {
+      if (this.dashboard.shareAll) {
         share = 'shareAll';
       } else if (this.dashboard.shareOrg) {
         share = 'shareOrg';
@@ -69,7 +69,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         {
           name : this.dashboard.name,
           description : this.dashboard.description,
-          share: share
+          share
         }
       );
     }
@@ -78,8 +78,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   save() {
     const values = this.dashboardForm.value;
     const shareAll = values.share === 'shareAll';
-    const shareOrg = values.share === 'shareOrg'|| shareAll;
-  
+    const shareOrg = values.share === 'shareOrg' || shareAll;
+
     this.dashboardService.updateDashboard(
       new Dashboard(
         this.id,

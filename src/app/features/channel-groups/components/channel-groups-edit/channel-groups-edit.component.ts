@@ -95,7 +95,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
       this.channelGroupService.getChannelGroup(this.id).subscribe(
         channelGroup => {
           let share = 'private';
-          if(channelGroup.shareAll) {
+          if (channelGroup.shareAll) {
             share = 'shareAll';
           } else if (channelGroup.shareOrg) {
             share = 'shareOrg';
@@ -103,7 +103,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.channelGroupForm.patchValue({
             name : channelGroup.name,
             description : channelGroup.description,
-            share: share
+            share
           });
           this.channelGroup = channelGroup;
           this.selectedChannels = channelGroup.channels ? [...channelGroup.channels] : [];
@@ -268,8 +268,8 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   save() {
     const values = this.channelGroupForm.value;
     const shareAll = values.share === 'shareAll';
-    const shareOrg = values.share === 'shareOrg'|| shareAll;
-  
+    const shareOrg = values.share === 'shareOrg' || shareAll;
+
     const cg = new ChannelGroup(
       this.id,
       null,

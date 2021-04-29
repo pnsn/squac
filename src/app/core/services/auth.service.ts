@@ -122,7 +122,7 @@ export class AuthService {
     if (this.redirectUrl) {
       this.router.navigate([this.redirectUrl]);
       this.redirectUrl = '';
-    } 
+    }
     this.loadingService.setStatus('Logging in and loading data.');
   }
 }
