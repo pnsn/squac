@@ -113,7 +113,7 @@ describe('WidgetEditService', () => {
     expect(service.getChannelGroup()).toBeUndefined();
     service.setWidget(testWidget, 1);
 
-    const testChannelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, []);
+    const testChannelGroup = new ChannelGroup(1, 1, '', '', 1, []);
 
     service.updateChannelGroup(testChannelGroup);
 

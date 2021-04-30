@@ -24,7 +24,7 @@ describe('MeasurementsService', () => {
   const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
     testMetric
   ]);
-  testWidget.channelGroup = new ChannelGroup(1, 1, '', '', 1, false, false, [ 1, 2]);
+  testWidget.channelGroup = new ChannelGroup(1, 1, '', '', 1, [ 1, 2]);
   testWidget.channelGroup.channels = [testChannel];
 
   let squacApiService;

@@ -18,8 +18,6 @@ export class MockWidgetEditService {
     'name',
     'name',
     1,
-    true,
-    true,
     []
   );
 

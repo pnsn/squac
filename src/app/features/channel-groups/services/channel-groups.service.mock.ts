@@ -8,8 +8,6 @@ export class MockChannelGroupsService {
     'name',
     'description',
     1,
-    true,
-    false,
     []
   );
 

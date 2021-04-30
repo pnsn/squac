@@ -64,8 +64,6 @@ describe('ChannelGroupsService', () => {
       'name',
       'description',
       1,
-      false,
-      false,
       []
     );
     channelGroupsService.updateChannelGroup(testGroup).subscribe(
@@ -83,8 +81,6 @@ describe('ChannelGroupsService', () => {
       'name',
       'description',
       1,
-      true,
-      true,
       []
     );
 
