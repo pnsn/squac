@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
@@ -16,6 +16,11 @@ import * as d3 from 'd3';
   styleUrls: ['./timeseries.component.scss']
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
+
+
+  constructor(
+    private viewService: ViewService
+  ) { }
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
@@ -36,11 +41,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
   xScaleMin;
   xScaleMax;
+  yScaleMin;
+  yScaleMax;
+  @ViewChild('timeSeriesDivIdentifier')
+  timeSeriesDivIdentifier: ElementRef;
 
-
-  constructor(
-    private viewService: ViewService
-  ) { }
+  onScroll = (event: any) => {};
 
 
   // ngOnChanges(changes: SimpleChanges) {
@@ -55,11 +61,13 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
     this.xScaleMax = this.viewService.enddate;
+    this.yScaleMax = 0;
+    this.yScaleMin = 0;
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
-
+    this.onScroll = this.onWheel;
     this.referenceLines = [];
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
@@ -79,6 +87,30 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.subscription.add(resizeSub);
 
+
+  }
+  @HostListener('wheel', ['$event'])
+  onWheel(event) {
+    event.preventDefault();
+
+    const height = this.timeSeriesDivIdentifier.nativeElement.offsetHeight;
+    console.log('delta: ' + event.deltaY);
+    let yScaleMaxChange = 0;
+    let yScaleMinChange = 0;
+    if (event.deltaY > 0) {
+      yScaleMaxChange = -event.deltaY * 10 * (event.layerY / height) * 2;
+      yScaleMinChange = event.deltaY * 10 * ((height - event.layerY) / height) * 2;
+
+    }
+    if (event.deltaY < 0) {
+      yScaleMaxChange = -event.deltaY * 10 * ((height - event.layerY) / height) * 2;
+      yScaleMinChange = event.deltaY * 10 * (event.layerY / height) * 2;
+    }
+    this.yScaleMax += this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
+    this.yScaleMin += this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
+    console.log('max change: ' + yScaleMaxChange);
+    console.log('min change: ' + yScaleMinChange);
+    this.resize();
 
   }
 
@@ -127,6 +159,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   }
 
   buildChartData(data) {
+    let max = Number.MIN_VALUE;
+    let min = Number.MAX_VALUE;
     this.hasData = false;
     this.results = [];
 
@@ -142,6 +176,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
+            if (measurement.value > max) {
+              max = measurement.value;
+            }
+            if (measurement.value < min) {
+              min = measurement.value;
+            }
             channelObj.series.push(
               {
                 name: moment.utc(measurement.starttime).toDate(),
@@ -156,6 +196,9 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         this.results.push(channelObj);
       }
     );
+
+    this.yScaleMax = max + 100;
+    this.yScaleMin = min - 100;
 
     console.log(this.results);
 
