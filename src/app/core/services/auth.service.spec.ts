@@ -30,6 +30,7 @@ describe('AuthService', () => {
         RouterTestingModule.withRoutes([
           { path: 'login', component: AuthComponent},
           { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
+          { path: 'dashboards', component: AuthComponent}
         ])
       ],
       providers: [

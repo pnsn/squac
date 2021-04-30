@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginSub = this.loginService.login(email, password).subscribe(
       response => {
         this.error = null;
-        this.router.navigate(['/dashboards']);
       },
       error => {
         this.error = 'Failed to log in - please try again';
