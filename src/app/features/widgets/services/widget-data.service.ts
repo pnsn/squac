@@ -56,7 +56,7 @@ export class WidgetDataService implements OnDestroy {
     }
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
- 
+
     if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementsService

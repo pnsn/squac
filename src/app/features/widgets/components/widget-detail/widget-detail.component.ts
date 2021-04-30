@@ -98,7 +98,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getData() {
-    console.log("init wiodget")
+    console.log('init wiodget');
     this.widgetDataService.fetchMeasurements();
   }
 
