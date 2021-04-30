@@ -43,8 +43,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    if(!this.widget.metrics || !this.widget.channelGroup) {
-      this.error = "Widget failed to load."
+
+    if (!this.widget.metrics || !this.widget.channelGroup) {
+      this.error = 'Widget failed to load.';
     }
     this.loading = true;
     const dataSub = this.widgetDataService.data.subscribe(
@@ -97,6 +98,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getData() {
+    console.log("init wiodget")
     this.widgetDataService.fetchMeasurements();
   }
 

@@ -1,4 +1,4 @@
-import { ApiGetDashboard, Dashboard } from '@features/dashboards/models/dashboard';
+import { Dashboard } from '@features/dashboards/models/dashboard';
 import { ApiGetThreshold, Threshold, ThresholdAdapter } from '@features/widgets/models/threshold';
 import { ApiGetMetric, Metric, MetricAdapter } from '@core/models/metric';
 import { Adapter } from '@core/models/adapter';
@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 
 export class Widget {
   public type: string;
-  public dashboard: Dashboard;
   public channelGroup: ChannelGroup;
   public useAggregate: boolean;
   constructor(
@@ -48,7 +47,7 @@ export class Widget {
 export interface ApiGetWidget {
   id: number;
   name: string;
-  dashboard: ApiGetDashboard;
+  dashboard: number;
   description: string;
   widgettype: any;
   metrics: ApiGetMetric[];
@@ -109,7 +108,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.name,
       item.description,
       item.widgettype.id,
-      item.dashboard.id,
+      item.dashboard,
       item.channel_group,
       item.columns,
       item.rows,

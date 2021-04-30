@@ -53,21 +53,21 @@ export class MeasurementsService {
     };
     let path;
     if (archiveType && archiveType !== 'raw') {
-      path = archiveType + '-archives';
+      path = archiveType + '-archives/';
     } else if (widget.useAggregate) {
-      path = 'aggregated';
+      path = 'aggregated/';
     } else {
-      path = 'measurements';
+      path = 'measurements/';
     }
     return this.squacApi.get(this.url + path, null, params).pipe(
       map((response) => {
         response.forEach((m) => {
           let value: Measurement | Aggregate | Archive;
           switch (path) {
-            case 'measurements':
+            case 'measurements/':
               value = this.measurementAdapter.adaptFromApi(m);
               break;
-            case 'aggregated':
+            case 'aggregated/':
               value = this.aggregateAdapter.adaptFromApi(m);
               break;
 

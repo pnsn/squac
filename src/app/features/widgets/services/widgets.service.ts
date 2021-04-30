@@ -42,10 +42,10 @@ export class WidgetsService {
           });
 
           cGRequests = cGRequests.map((id) => {
-            return this.channelGroupsService.getChannelGroup(id).pipe(catchError((err)=> {console.log(id); return of(id)}));
+            return this.channelGroupsService.getChannelGroup(id).pipe(catchError((err) => {console.log(id); return of(id); }));
           });
           return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
-        }),        
+        }),
         map((channelGroups: any) => {
           widgets.forEach((w) => {
             w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
