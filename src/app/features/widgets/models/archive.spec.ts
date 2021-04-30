@@ -1,8 +1,12 @@
-import { Measurement } from './measurement';
+import { Archive } from './archive';
 
-describe('Measurement', () => {
+describe('Archive', () => {
   it('should create an instance', () => {
-    expect(new Measurement(
+    expect(new Archive(
+      1,
+      1,
+      1,
+      1,
       1,
       1,
       1,

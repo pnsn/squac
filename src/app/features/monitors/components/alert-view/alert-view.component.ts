@@ -32,13 +32,11 @@ export class AlertViewComponent implements OnInit, OnDestroy {
       data => {
         if (data.monitors.error || data.alerts.error){
           this.error = true;
-          console.log(data.monitors);
         } else {
           this.error = false;
           this.monitors = data.monitors;
           this.findMonitorsForAlerts(data.alerts);
         }
-        console.log(this.monitors);
       }
     );
   }

@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Send data and log user in
     const loginSub = this.loginService.login(email, password).subscribe(
       response => {
-        this.error = null;
+        this.error = 'Login successful.';
       },
       error => {
         this.error = 'Failed to log in - please try again';

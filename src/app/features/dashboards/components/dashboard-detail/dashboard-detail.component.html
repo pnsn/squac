@@ -8,48 +8,36 @@
         by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
       </span>
 
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
-        aria-label="Icon that shows dashboard is private"
-      >
-        Dashboard is private
-      </span>
-      <mat-icon
-        *ngIf="!dashboard.shareOrg && !dashboard.shareAll"
-        matTooltip="Dashboard is private"
-        >visibility_off</mat-icon
-      >
-
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="dashboard.shareOrg"
-        aria-label="Icon that shows dashboard is shared with {{
-          dashboard.orgId | organization
-        }}"
-      >
-        Dashboard shared with organization
-      </span>
-      <mat-icon
-        *ngIf="dashboard.shareOrg && !dashboard.shareAll"
-        matTooltip="Dashboard shared with organization"
-        >visibility</mat-icon
-      >
-
-      <span
-        class="cdk-visually-hidden"
-        *ngIf="dashboard.shareAll"
-        aria-label="Icon that shows dashboard is public"
-      >
-        Dashboard shared with all
-      </span>
-      <mat-icon
-        *ngIf="dashboard.shareAll"
-        matTooltip="Dashboard shared with all"
-        >public</mat-icon
-      >
+      <app-shared-indicator
+        [shareAll]="dashboard.shareAll"
+        [shareOrg]="dashboard.shareOrg"
+        resource="dashboard"
+      ></app-shared-indicator>
     </div>
     <div id="header-controls">
+      <!-- <mat-form-field *ngIf="archiveType !== 'raw">
+        <mat-label>Toppings</mat-label>
+        <mat-select [formControl]="toppings" multiple>
+          <mat-select-trigger>
+            {{toppings.value ? toppings.value[0] : ''}}
+            <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+              (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <button
+      mat-button
+      [matMenuTriggerFor]="dataType"
+      matTooltip="Dashboard configuration"
+      matTooltip="Select data type"
+      aria-label="Button that opens menu to select data type"
+    >
+      {{archiveType !=='raw'? archiveStat + ' of ' : ''}}{{archiveType !== 'raw' ? archiveType + ' archive' : archiveType + ' data'}}
+    </button>
+
       <button
         mat-icon-button
         (click)="refreshData()"
@@ -96,6 +84,7 @@
         yPosition="below"
         xPosition="before"
       >
+        <button mat-menu-item [matMenuTriggerFor]="dataType">Data Type</button>
         <button mat-menu-item (click)="addWidget()">Add Widget</button>
         <button mat-menu-item (click)="editDashboard()">
           Edit Dashboard Information
@@ -109,12 +98,56 @@
           Delete Dashboard
         </button>
       </mat-menu>
-
+      <mat-menu
+        #dataType="matMenu"
+        class="mat-menu-dense"
+        yPosition="below"
+        xPosition="before"
+      >
+        <button mat-menu-item (click)="selectArchiveType('raw', '')">
+          Use raw data
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="dayArchiveStat">
+          Use day archives
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="monthArchiveStat">
+          Use month archives
+        </button>
+      </mat-menu>
+      <mat-menu
+        #dayArchiveStat="matMenu"
+        class="mat-menu-dense"
+        yPosition="below"
+        xPosition="before"
+      >
+        <button
+          mat-menu-item
+          *ngFor="let item of archiveStatTypes"
+          (click)="selectArchiveType('day', item)"
+        >
+          {{ item }}
+        </button>
+      </mat-menu>
+      <mat-menu
+        #monthArchiveStat="matMenu"
+        class="mat-menu-dense"
+        yPosition="below"
+        xPosition="before"
+      >
+        <button
+          mat-menu-item
+          *ngFor="let item of archiveStatTypes"
+          (click)="selectArchiveType('month', item)"
+        >
+          {{ item }}
+        </button>
+      </mat-menu>
       <button
         mat-icon-button
         [matMenuTriggerFor]="appMenu"
         color="primary"
         *ngIf="'update' | able: dashboard"
+        matTooltip="Dashboard configuration"
       >
         <mat-icon>settings_application</mat-icon>
       </button>

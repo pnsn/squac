@@ -60,8 +60,6 @@ describe('ChannelGroupsDetailComponent', () => {
               'name',
               'description',
               1,
-              false,
-              false,
               []
             )})
           }
