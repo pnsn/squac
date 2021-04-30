@@ -10,8 +10,6 @@ export class ChannelGroup {
     public name: string,
     public description: string,
     public orgId: number,
-    public shareOrg: boolean,
-    public shareAll: boolean,
     public channelIds: number[]
   ) {
   }
@@ -29,8 +27,6 @@ export interface ApiGetChannelGroup {
   url: string;
   description: string;
   channels: Array<number | any>;
-  share_all: boolean;
-  share_org: boolean;
   created_at: string;
   updated_at: string;
   user_id: string;
@@ -41,8 +37,6 @@ export interface ApiPostChannelGroup {
   name: string;
   description: string;
   channels: number[];
-  share_org: boolean;
-  share_all: boolean;
   id?: number;
   organization: number;
 }
@@ -71,10 +65,7 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.name,
       item.description,
       item.organization,
-      item.share_org,
-      item.share_all,
       channelIds
-      // TODO: deal with channels
     );
 
     channelGroup.channels = channels;
@@ -85,8 +76,6 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     return {
       name: item.name,
       description: item.description,
-      share_org: item.shareOrg,
-      share_all: item.shareAll,
       channels: item.channelIds,
       organization: item.orgId
     };
