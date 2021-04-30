@@ -56,7 +56,7 @@ export class WidgetDataService implements OnDestroy {
     }
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
-    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0) {
+    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementsService
         .getData(start, end, this.widget, archiveType, archiveStat)
@@ -77,6 +77,7 @@ export class WidgetDataService implements OnDestroy {
       this.subscription.add(measurementSub);
     } else {
       this.data.next({});
+      this.viewService.widgetFinishedLoading();
     }
   }
 

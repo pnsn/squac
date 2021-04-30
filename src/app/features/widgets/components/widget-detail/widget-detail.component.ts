@@ -43,6 +43,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    if(!this.widget.metrics || !this.widget.channelGroup) {
+      this.error = "Widget failed to load."
+    }
     this.loading = true;
     const dataSub = this.widgetDataService.data.subscribe(
       data => {
@@ -51,7 +54,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = false;
       }
     );
-
     this.widgetDataService.setWidget(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(

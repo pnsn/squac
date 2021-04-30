@@ -1,11 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
 import {
   ApiPostWidget,
   Widget,
   WidgetAdapter,
 } from '@features/widgets/models/widget';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 import { ChannelGroup } from '@core/models/channel-group';
@@ -42,10 +42,10 @@ export class WidgetsService {
           });
 
           cGRequests = cGRequests.map((id) => {
-            return this.channelGroupsService.getChannelGroup(id);
+            return this.channelGroupsService.getChannelGroup(id).pipe(catchError((err)=> {console.log(id); return of(id)}));
           });
           return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
-        }),
+        }),        
         map((channelGroups: any) => {
           widgets.forEach((w) => {
             w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
