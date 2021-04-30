@@ -70,6 +70,14 @@ export class AuthService {
       tap(resData => {
         // TODO: Get expiration time from Jon
         this.handleAuth(resData.token, this.expirationTime);
+
+        if (this.redirectUrl) {
+          this.router.navigate([this.redirectUrl]);
+          this.redirectUrl = null;
+        } else {
+          this.router.navigate(["/"]);
+        }
+
       })
     );
   }
@@ -114,15 +122,9 @@ export class AuthService {
 
   // handles the sign in
   private signInUser(token, expiration) {
-    // console.log("User signed in");
 
     this.autologout(expiration);
     this.token = token;
-
-    if (this.redirectUrl) {
-      this.router.navigate([this.redirectUrl]);
-      this.redirectUrl = '';
-    }
     this.loadingService.setStatus('Logging in and loading data.');
   }
 }
