@@ -85,7 +85,7 @@ export class MapComponent implements OnInit {
   onMapReady(map: L.Map) {
     let metric: Metric;
     let threshold: Threshold;
-    if(this.metrics) {
+    if (this.metrics) {
       metric = this.metrics[0];
       threshold = this.thresholds[metric.id];
     }
