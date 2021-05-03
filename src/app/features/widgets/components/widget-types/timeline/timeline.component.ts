@@ -110,7 +110,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
           lineCount = this.chart.getNLines();
         }
         if (lineCount) {
-          console.log('here');
           this.chart.maxHeight(lineCount * 12);
         }
 

@@ -15,11 +15,13 @@ if [[ "$1" = "production" ]] ; then
     dest_dir=$PRODUCTION_DIR
 fi
 
-echo "SSH into $DEPLOY_HOST as $DEPLOY_USER"
-ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_SCRIPT $stage
-
-echo "Deploying to: $dest_dir"
-scp -r $BUILD_DIR $DEPLOY_USER@$DEPLOY_HOST:$dest_dir 
+if ng build --configuration=$stage
+then
+  echo "Build successful for: $stage"
+else
+  echo "ERROR: Build failed for: $stage"
+  exit 1
+fi
 
 echo done
 
