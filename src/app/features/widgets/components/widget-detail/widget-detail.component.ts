@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Widget } from '@features/widgets/models/widget';
 import { Subject, Subscription } from 'rxjs';
-import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';
-import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
@@ -98,7 +95,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getData() {
-    console.log('init wiodget');
     this.widgetDataService.fetchMeasurements();
   }
 

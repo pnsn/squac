@@ -55,6 +55,7 @@ export interface ApiGetDashboard {
   organization: number;
   home: boolean;
   archive_type: string;
+  archive_stat: string;
   widgets?: number[];
 }
 
@@ -95,7 +96,7 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       dashboard.endtime = item.endtime;
     }
 
-    dashboard.archiveStat =  item.archive_type ? item.archive_type : '';
+    dashboard.archiveStat =  item.archive_stat ? item.archive_stat : 'min';
     dashboard.archiveType = item.archive_type ? item.archive_type : 'raw';
 
     dashboard.home = item.home;

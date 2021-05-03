@@ -27,7 +27,6 @@
           <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
         </mat-select>
       </mat-form-field> -->
-
       <button
       mat-button
       [matMenuTriggerFor]="dataType"
@@ -102,7 +101,7 @@
         #dataType="matMenu"
         class="mat-menu-dense"
         yPosition="below"
-        xPosition="before"
+        xPosition="after"
       >
         <button mat-menu-item (click)="selectArchiveType('raw', '')">
           Use raw data
@@ -118,7 +117,7 @@
         #dayArchiveStat="matMenu"
         class="mat-menu-dense"
         yPosition="below"
-        xPosition="before"
+        xPosition="after"
       >
         <button
           mat-menu-item
@@ -132,7 +131,7 @@
         #monthArchiveStat="matMenu"
         class="mat-menu-dense"
         yPosition="below"
-        xPosition="before"
+        xPosition="after"
       >
         <button
           mat-menu-item

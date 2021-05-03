@@ -125,7 +125,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
-
           // if it has value, show value else find the staType to show
           if (rowData[0] && rowData[0].value) {
             if (rowData.length > 0) {
