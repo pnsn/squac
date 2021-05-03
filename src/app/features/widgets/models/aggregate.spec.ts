@@ -15,6 +15,7 @@ describe('Aggregate', () => {
       1,
       1,
       1,
+      1,
       '',
       ''
     )).toBeTruthy();

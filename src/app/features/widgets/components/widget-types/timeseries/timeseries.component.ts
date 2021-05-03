@@ -8,23 +8,23 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-} from "@angular/core";
-import { Subject, Subscription } from "rxjs";
-import { Metric } from "@core/models/metric";
-import { Channel } from "@core/models/channel";
-import { ViewService } from "@core/services/view.service";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Widget } from "@features/widgets/models/widget";
-import { Threshold } from "@features/widgets/models/threshold";
-import { Measurement } from "@features/widgets/models/measurement";
-import * as moment from "moment";
-import * as d3 from "d3";
-import { Archive } from "@features/widgets/models/archive";
+} from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { Metric } from '@core/models/metric';
+import { Channel } from '@core/models/channel';
+import { ViewService } from '@core/services/view.service';
+import { ChannelGroup } from '@core/models/channel-group';
+import { Widget } from '@features/widgets/models/widget';
+import { Threshold } from '@features/widgets/models/threshold';
+import { Measurement } from '@features/widgets/models/measurement';
+import * as moment from 'moment';
+import * as d3 from 'd3';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
-  selector: "app-timeseries",
-  templateUrl: "./timeseries.component.html",
-  styleUrls: ["./timeseries.component.scss"],
+  selector: 'app-timeseries',
+  templateUrl: './timeseries.component.html',
+  styleUrls: ['./timeseries.component.scss'],
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
   constructor(private viewService: ViewService) {}
@@ -39,18 +39,18 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   results: Array<any>;
   hasData: boolean;
   referenceLines;
-  xAxisLabel = "Measurement Start Date";
+  xAxisLabel = 'Measurement Start Date';
   yAxisLabel: string;
   currentMetric: Metric;
   colorScheme = {
-    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
 
   xScaleMin;
   xScaleMax;
   yScaleMin;
   yScaleMax;
-  @ViewChild("timeSeriesDivIdentifier")
+  @ViewChild('timeSeriesDivIdentifier')
   timeSeriesDivIdentifier: ElementRef;
 
   onScroll = (event: any) => {};
@@ -88,18 +88,18 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        console.log("error in timeseries resize: " + error);
+        console.log('error in timeseries resize: ' + error);
       }
     );
 
     this.subscription.add(resizeSub);
   }
-  @HostListener("wheel", ["$event"])
+  @HostListener('wheel', ['$event'])
   onWheel(event) {
     event.preventDefault();
 
     const height = this.timeSeriesDivIdentifier.nativeElement.offsetHeight;
-    console.log("delta: " + event.deltaY);
+    console.log('delta: ' + event.deltaY);
     let yScaleMaxChange = 0;
     let yScaleMinChange = 0;
     if (event.deltaY > 0) {
@@ -116,8 +116,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin +=
       this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    console.log("max change: " + yScaleMaxChange);
-    console.log("min change: " + yScaleMinChange);
+    console.log('max change: ' + yScaleMaxChange);
+    console.log('min change: ' + yScaleMinChange);
     this.resize();
   }
 
@@ -130,14 +130,14 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     if (threshold) {
       if (threshold.min) {
         this.referenceLines.push({
-          name: "Min Threshold",
+          name: 'Min Threshold',
           value: threshold.min,
         });
       }
 
       if (threshold.max) {
         this.referenceLines.push({
-          name: "Max Threshold",
+          name: 'Max Threshold',
           value: threshold.max,
         });
       }
@@ -147,24 +147,24 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   xAxisTickFormatting(value) {
     let formatOptions;
     if (value.getSeconds() !== 0) {
-      formatOptions = { second: "2-digit" };
+      formatOptions = { second: '2-digit' };
     } else if (value.getMinutes() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
+      formatOptions = { hour: '2-digit', minute: '2-digit' };
     } else if (value.getHours() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
+      formatOptions = { hour: '2-digit', minute: '2-digit' };
     } else if (value.getDate() !== 1) {
       formatOptions =
         value.getDay() === 0
-          ? { month: "short", day: "2-digit" }
-          : { month: "short", day: "2-digit" };
+          ? { month: 'short', day: '2-digit' }
+          : { month: 'short', day: '2-digit' };
     } else if (value.getMonth() !== 0) {
-      formatOptions = { month: "long" };
+      formatOptions = { month: 'long' };
     } else {
-      formatOptions = { year: "numeric" };
+      formatOptions = { year: 'numeric' };
     }
     formatOptions.hour12 = false;
-    formatOptions.timeZone = "UTC";
-    return new Intl.DateTimeFormat("en-US", formatOptions).format(value);
+    formatOptions.timeZone = 'UTC';
+    return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
   }
 
   buildChartData(data) {
@@ -177,7 +177,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.yAxisLabel = this.currentMetric.name
       ? this.currentMetric.name
-      : "Unknown";
+      : 'Unknown';
     this.channels.forEach((channel) => {
       const channelObj = {
         name: channel.nslc,

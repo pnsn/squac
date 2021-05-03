@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Channel } from '@core/models/channel';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
-import { Threshold } from '@features/widgets/models/threshold';
+import { Threshold, ThresholdAdapter } from '@features/widgets/models/threshold';
 import { Widget } from '@features/widgets/models/widget';
 import { MeasurementPipe } from '@features/widgets/pipes/measurement.pipe';
 import * as L from 'leaflet';
@@ -83,8 +83,12 @@ export class MapComponent implements OnInit {
   }
 
   onMapReady(map: L.Map) {
-    const metric = this.metrics[0];
-    const threshold = this.thresholds[metric.id];
+    let metric: Metric;
+    let threshold: Threshold;
+    if(this.metrics) {
+      metric = this.metrics[0];
+      threshold = this.thresholds[metric.id];
+    }
     this.map = map;
 
     const legend = new L.Control({ position: 'bottomright' });
