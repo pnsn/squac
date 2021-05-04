@@ -10,7 +10,7 @@ before_script:
 script:
   - npm run lint
   - npm run test-headless
-  - sh scripts/build.sh
+  - ./scripts/build.sh
 
 deploy:
   - provider: s3
@@ -19,6 +19,7 @@ deploy:
     bucket: "staging-squac.pnsn.org"
     region: "us-west-2"
     skip_cleanup: true
+    local_dir: dist
     on: 
       branch: staging
   - provider: s3
@@ -27,5 +28,6 @@ deploy:
     bucket: "squac.pnsn.org"
     region: "us-west-2"
     skip_cleanup: true
+    local_dir: dist
     on: 
       branch: main

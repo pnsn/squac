@@ -1,7 +1,7 @@
 
 #! /usr/bin/env bash
 
-branch=$(git branch --show-current)
+branch=$(git rev-parse --abbrev-ref HEAD)
 echo "building for $branch"
 
 stage=staging
