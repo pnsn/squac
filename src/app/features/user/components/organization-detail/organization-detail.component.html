@@ -79,7 +79,7 @@
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div id="user-edit-title">
           <span><strong>Edit User: </strong> {{row.firstName}} {{row.lastName}} </span>
-          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)">Send Invite</button>
+          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)" *ngIf="!row.isActive">Send Invite</button>
         </div>
         <mat-divider></mat-divider>
         <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form" id="user-edit">
