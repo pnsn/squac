@@ -17,6 +17,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
     bucket: "staging-squac.pnsn.org"
+    region: "us-west-2"
     skip_cleanup: true
     on: 
       branch: staging
@@ -24,6 +25,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
     bucket: "squac.pnsn.org"
+    region: "us-west-2"
     skip_cleanup: true
     on: 
       branch: main
