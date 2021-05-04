@@ -17,12 +17,12 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ~/.local/bin/aws s3 sync dist s3://staging-squac.pnsn.org --region=us-west-2 --delete 
+    script: bash scripts/deploy-staging.sh
     skip_cleanup: true
     on: 
       branch: staging
   - provider: script
-    script: ~/.local/bin/aws s3 sync dist s3://squac.pnsn.org --region=us-west-2 --delete 
+    script: ~bash scripts/deploy-production.sh 
     skip_cleanup: true
     on: 
       branch: main
