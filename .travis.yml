@@ -8,9 +8,9 @@ before_script:
   - npm install -g --silent @angular/cli
   
 script:
-  - npm run lint
-  - npm run test-headless
-  - ./scripts/build.sh
+  - npm run lint -- --silent
+  - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  - sh /scripts/build.sh
 
 deploy:
   - provider: s3
