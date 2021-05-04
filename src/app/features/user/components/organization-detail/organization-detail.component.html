@@ -79,12 +79,7 @@
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div id="user-edit-title">
           <span><strong>Edit User: </strong> {{row.firstName}} {{row.lastName}} </span>
-          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)" *ngIf="!row.isActive">Send Invite</button>
-          <button mat-icon-button color="warn" (click)="deleteUser(row)"
-          matTooltip="Delete user"
-          aria-label="Button that deletes the user"
-          >
-            <mat-icon> delete </mat-icon></button>
+          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)">Send Invite</button>
         </div>
         <mat-divider></mat-divider>
         <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form" id="user-edit">
@@ -96,6 +91,8 @@
           </mat-form-field>
         
           <mat-checkbox formControlName="editIsAdmin">Admin</mat-checkbox>
+                  
+          <mat-checkbox formControlName="editIsActive">Active</mat-checkbox>
           <button
             mat-icon-button
             color="accent"

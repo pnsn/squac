@@ -17,9 +17,10 @@ import { MockUserService } from '@features/user/services/user.service.mock';
 import { AppAbility } from '@core/utils/ability';
 import { AbilityModule } from '@casl/angular';
 import { Ability, PureAbility } from '@casl/ability';
-import { Location } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ChannelGroupsDetailComponent', () => {
   let component: ChannelGroupsDetailComponent;
@@ -31,7 +32,8 @@ describe('ChannelGroupsDetailComponent', () => {
         ChannelGroupsDetailComponent,
         ChannelGroupMapComponent,
         UserPipe,
-        OrganizationPipe],
+        OrganizationPipe
+      ],
       imports: [
         NgxDatatableModule,
         RouterTestingModule.withRoutes(
@@ -40,7 +42,10 @@ describe('ChannelGroupsDetailComponent', () => {
         HttpClientTestingModule,
         AbilityModule,
         LeafletModule,
-        LeafletDrawModule],
+        LeafletDrawModule,
+        MatDialogModule,
+        MatSnackBarModule
+      ],
       providers: [
         {
           provide: OrganizationsService, useValue: new MockOrganizationsService()

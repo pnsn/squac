@@ -64,6 +64,7 @@ export interface ApiPostUser {
   groups: Array<number>;
   organization: number;
   is_org_admin: boolean;
+  is_active?: boolean;
 }
 
 @Injectable({
@@ -130,6 +131,7 @@ export class UserAdapter implements Adapter<User> {
     lastname: item.lastName,
     organization: item.orgId,
     is_org_admin: item.orgAdmin,
+    is_active: item.isActive,
     groups
   };
   }
