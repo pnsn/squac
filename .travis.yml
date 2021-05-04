@@ -8,8 +8,8 @@ before_script:
   - npm install -g --silent @angular/cli
   
 script:
-  - npm run lint -- --silent
-  - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  - npm run lint-silent
+  - npm run test-headless
   - sh /scripts/build.sh
 
 deploy:
