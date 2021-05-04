@@ -69,9 +69,9 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
           this.delete();
         }
       }
-    )
+    );
   }
-    
+
 
   // Delete channel group
   delete() {
