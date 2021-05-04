@@ -1,14 +1,13 @@
 
 #! /usr/bin/env bash
 
-branch=$(git rev-parse --abbrev-ref HEAD)
-echo "building for $branch"
-
-stage=staging
-if [[ branch = "main" ]]; then
-  stage=production
+if [[ $# -lt 1 ]] 
+then
+  stage=staging
+else 
+  stage=$1
 fi
-
+echo "Building with configuration for $stage"
 if ng build --configuration=$stage
 then
   echo "Build successful for: $stage"
