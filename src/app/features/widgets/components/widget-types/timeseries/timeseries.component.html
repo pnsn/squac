@@ -1,4 +1,6 @@
 <div (wheel)="onWheel($event)" id="chart-container" #timeSeriesDivIdentifier> 
+  <input type="number" [(ngModel)]="yScaleMin"/>
+  <input type="number" [(ngModel)]="yScaleMax"/>
   <ngx-charts-line-chart *ngIf="hasData; else elseTemplate"
   [results]="results"
   [xAxis]="true"
