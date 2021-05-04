@@ -69,7 +69,8 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
 
     this.editUserForm = this.formBuilder.group({
       editGroups: [[], Validators.required],
-      editIsAdmin: [null, Validators.required]
+      editIsAdmin: [false, Validators.required],
+      editIsActive: [true, Validators.required]
     });
 
     this.subscription.add(orgSub);
@@ -80,16 +81,18 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   }
   saveUser(row) {
     const values = this.editUserForm.value;
+    const user = new User(
+      row.id,
+      row.email,
+      row.firstName,
+      row.lastName,
+      this.organization.id,
+      values.editIsAdmin,
+      values.editGroups
+    );
+    user.isActive = values.editIsActive;
     this.orgService.updateUser(
-      new User(
-        row.id,
-        row.email,
-        row.firstName,
-        row.lastName,
-        this.organization.id,
-        values.editIsAdmin,
-        values.editGroups
-      )
+      user
     ).subscribe(
       savedUser => {
         // this.userAdded = newUser;
@@ -106,32 +109,6 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
 
   }
 
-  deleteUser(row) {
-    this.confirmDialog.open(
-      {
-        title: `Delete: ${row.email}`,
-        message: 'Are you sure? This action is permanent.',
-        cancelText: 'Cancel',
-        confirmText: 'Delete'
-      }
-    );
-    this.confirmDialog.confirmed().subscribe(
-      confirm => {
-        if (confirm) {
-          this.orgService.deleteUser(row.id).subscribe(
-            user => {
-              this.messageService.message('User deleted.');
-              this.table.rowDetail.toggleExpandRow(row);
-              this.refreshOrgUsers();
-            },
-            error => {
-              this.messageService.error('Could not delete user.');
-            }
-          );
-        }
-    });
-  }
-
   cancelUserEdit(row) {
     this.editUserForm.reset();
     this.table.rowDetail.toggleExpandRow(row);
@@ -145,7 +122,8 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     this.editUserForm.patchValue(
       {
         editGroups : row.groups,
-        editIsAdmin: row.isAdmin
+        editIsAdmin: row.isAdmin,
+        editIsActive: row.isActive
       }
     );
   }
