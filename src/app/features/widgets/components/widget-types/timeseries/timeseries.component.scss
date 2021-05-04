@@ -10,3 +10,11 @@
 :host ::ng-deep g[ngx-charts-circle-series] :hover {
   visibility: visible;
 }
+#chart-scale-controls {
+  label{
+    margin-left: 10px;
+  }  
+  input {
+    width: 100px;
+  }
+}
