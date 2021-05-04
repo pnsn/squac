@@ -10,7 +10,7 @@ before_script:
 script:
   - npm run lint
   - npm run test-headless
-  - ng build --configuration=production
+  - sh scripts/build.sh
 
 deploy:
   - provider: s3
