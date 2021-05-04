@@ -5,9 +5,29 @@ dist: trusty
 sudo: required
   
 before_script:
-  - npm install -g @angular/cli
+  - npm install -g --silent @angular/cli
   
 script:
-  - ng lint
+  - npm run lint-silent
   - npm run test-headless
-  - ng build --prod 
+  - sh scripts/build.sh
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "staging-squac.pnsn.org"
+    region: "us-west-2"
+    skip_cleanup: true
+    local_dir: dist
+    on: 
+      branch: staging
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "squac.pnsn.org"
+    region: "us-west-2"
+    skip_cleanup: true
+    local_dir: dist
+    on: 
+      branch: main

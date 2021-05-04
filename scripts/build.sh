@@ -1,18 +1,12 @@
 
 #! /usr/bin/env bash
-source .env
-# After tests and linting pass
 
-if [[ $# -lt 1 ]] ; then
-    echo 'please provide environment'
-    echo 'production|staging' 
-    exit 1
-fi
+branch=$(git rev-parse --abbrev-ref HEAD)
+echo "building for $branch"
+
 stage=staging
-dest_dir=$STAGING_DIR
-if [[ "$1" = "production" ]] ; then
-    stage=production
-    dest_dir=$PRODUCTION_DIR
+if [[ branch = "main" ]]; then
+  stage=production
 fi
 
 if ng build --configuration=$stage
