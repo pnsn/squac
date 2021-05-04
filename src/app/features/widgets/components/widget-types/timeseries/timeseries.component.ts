@@ -167,7 +167,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   buildChartData(data) {
     let max = Number.MIN_VALUE;
     let min = Number.MAX_VALUE;
-    
+
     this.hasData = false;
     this.results = [];
 
@@ -199,10 +199,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             });
           }
         );
-        
+
       }
 
-      this.hasData = !this.hasData? rowHasData : this.hasData;
+      this.hasData = !this.hasData ? rowHasData : this.hasData;
 
       this.results.push(channelObj);
     });
