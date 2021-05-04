@@ -285,7 +285,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.channelGroupService.deleteChannelGroup(this.id).subscribe(
       result => {
         this.cancel();
-        this.messageService.message('Channel group delete.');
+        this.messageService.message('Channel group deleted.');
       },
       error => {
         this.messageService.error('Could not delete channel group');

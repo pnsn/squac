@@ -78,7 +78,7 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
     this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
       result => {
         this.router.navigate(['../'], {relativeTo: this.route});
-        this.messageService.message('Channel group delete.');
+        this.messageService.message('Channel group deleted.');
       },
       error => {
         this.messageService.error('Could not delete channel group');
