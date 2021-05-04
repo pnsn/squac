@@ -7,6 +7,7 @@ import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { WidgetDataService } from '@features/widgets/services/widget-data.service';
+import { AppAbility } from '@core/utils/ability';
 
 @Component({
   selector: 'app-widget-detail',
@@ -34,13 +35,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardsService: DashboardsService
+    private dashboardsService: DashboardsService,
+    private ability: AppAbility,
   ) {
 
   }
 
   ngOnInit() {
-
+    console.log("widget owner ", this.widget.owner)
+    console.log("widget edit ", this.ability.can('update', this.widget))
     if (!this.widget.metrics || !this.widget.channelGroup) {
       this.error = 'Widget failed to load.';
     }

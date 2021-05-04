@@ -167,6 +167,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   buildChartData(data) {
     let max = Number.MIN_VALUE;
     let min = Number.MAX_VALUE;
+    
     this.hasData = false;
     this.results = [];
 
@@ -180,8 +181,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         name: channel.nslc,
         series: [],
       };
-
+      let rowHasData = false;
       if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        rowHasData = data[channel.id][this.currentMetric.id].length > 0;
+
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -196,11 +199,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             });
           }
         );
+        
       }
 
-      this.hasData = !this.hasData
-        ? data[channel.id][this.currentMetric.id].length > 0
-        : this.hasData;
+      this.hasData = !this.hasData? rowHasData : this.hasData;
 
       this.results.push(channelObj);
     });
