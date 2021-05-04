@@ -1,5 +1,11 @@
-#chart-container {
+
+#chart-parent {
   height: 100%;
+  width: 100%;
+}
+
+#chart-container {
+  height: calc(100% - 20px);
   width: 100%;
 }
 

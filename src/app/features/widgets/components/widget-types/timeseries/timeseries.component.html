@@ -1,7 +1,7 @@
-<div (wheel)="onWheel($event)" id="chart-container" #timeSeriesDivIdentifier> 
+<div (wheel)="onWheel($event)" id="chart-parent" > 
   <div id="chart-scale-controls">
     <label for="yScaleMin">
-      Y Axis: min:
+      y-axis: min:
     </label>
     <input type="number" name="yScaleMin" [(ngModel)]="yScaleMin"/>
     <label for="yScaleMax">
@@ -10,32 +10,35 @@
     <input type="number" name="yScaleMax" [(ngModel)]="yScaleMax"/>
   </div>
 
-  <ngx-charts-line-chart *ngIf="hasData; else elseTemplate"
-  [results]="results"
-  [xAxis]="true"
-  [scheme]="colorScheme"
-  [yAxis]="true"
-  [legend]="true"
-  [showYAxisLabel]="true"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel | replace: '_' : ' ' | titlecase "
-  [roundDomains]="true"
-  [animations]="false"
-  [xScaleMin]="xScaleMin"
-  [xScaleMax]="xScaleMax"
-  [yScaleMin]="yScaleMin"
-  [yScaleMax]="yScaleMax"
-  [referenceLines]="referenceLines"
-  [showRefLines]="referenceLines.length > 0"
-  legendTitle="Channels"
-
-  [xAxisTickFormatting]="xAxisTickFormatting"
+  <div id="chart-container" #timeSeriesDivIdentifier>
+    <ngx-charts-line-chart *ngIf="hasData; else elseTemplate"
+    [results]="results"
+    [xAxis]="true"
+    [scheme]="colorScheme"
+    [yAxis]="true"
+    [legend]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel | replace: '_' : ' ' | titlecase "
+    [roundDomains]="true"
+    [animations]="false"
+    [xScaleMin]="xScaleMin"
+    [xScaleMax]="xScaleMax"
+    [yScaleMin]="yScaleMin"
+    [yScaleMax]="yScaleMax"
+    [referenceLines]="referenceLines"
+    [showRefLines]="referenceLines.length > 0"
+    legendTitle="Channels"
   
->
-</ngx-charts-line-chart>
-<ng-template #elseTemplate>
-  No data.
-</ng-template>
+    [xAxisTickFormatting]="xAxisTickFormatting"
+    
+  >
+  </ngx-charts-line-chart>
+  <ng-template #elseTemplate>
+    No data.
+  </ng-template>
+  </div>
+
 
 
 

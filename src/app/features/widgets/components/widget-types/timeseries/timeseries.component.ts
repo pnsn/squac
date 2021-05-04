@@ -99,7 +99,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     event.preventDefault();
 
     const height = this.timeSeriesDivIdentifier.nativeElement.offsetHeight;
-    console.log('delta: ' + event.deltaY);
     let yScaleMaxChange = 0;
     let yScaleMinChange = 0;
     if (event.deltaY > 0) {
@@ -116,8 +115,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin +=
       this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    console.log('max change: ' + yScaleMaxChange);
-    console.log('min change: ' + yScaleMinChange);
     this.resize();
   }
 
@@ -208,8 +205,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       this.results.push(channelObj);
     });
 
-    this.yScaleMax = max + 100;
-    this.yScaleMin = min - 100;
+    this.yScaleMax = Math.round(max) + 100;
+    this.yScaleMin = Math.round(min) - 100;
   }
 
   ngOnDestroy(): void {
