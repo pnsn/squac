@@ -3,6 +3,9 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ColumnMode, id, SelectionType } from '@swimlane/ngx-datatable';
 import { Subscription } from 'rxjs';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { MessageService } from '@core/services/message.service';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 
 @Component({
   selector: 'app-channel-groups-detail',
@@ -19,7 +22,10 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
 
     constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private confirmDialog: ConfirmDialogService,
+    private messageService: MessageService,
+    private channelGroupService: ChannelGroupsService
   ) { }
 
   ngOnInit(): void {
@@ -44,5 +50,39 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
     this.channelGroupSub.unsubscribe();
+  }
+
+
+  // Give a warning to user that delete will also delete widgets
+  onDelete() {
+    this.confirmDialog.open(
+      {
+        title: `Delete ${this.channelGroup.name}`,
+        message: 'Are you sure? This action is permanent.',
+        cancelText: 'Cancel',
+        confirmText: 'Delete'
+      }
+    );
+    this.confirmDialog.confirmed().subscribe(
+      confirm => {
+        if (confirm) {
+          this.delete();
+        }
+      }
+    )
+  }
+    
+
+  // Delete channel group
+  delete() {
+    this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
+      result => {
+        this.router.navigate(['../'], {relativeTo: this.route});
+        this.messageService.message('Channel group delete.');
+      },
+      error => {
+        this.messageService.error('Could not delete channel group');
+      }
+    );
   }
 }
