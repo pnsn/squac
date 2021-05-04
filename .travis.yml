@@ -10,7 +10,7 @@ before_script:
 script:
   - npm run lint-silent
   - npm run test-headless
-  - sh scripts/build.sh
+  - sh scripts/build.sh $BUILD_ENV
 
 deploy:
   - provider: s3
