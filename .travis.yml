@@ -10,18 +10,20 @@ before_script:
 script:
   - npm run lint
   - npm run test-headless
-
-before_deploy:
-  - pip install awscli --upgrade --user
+  - ng build --configuration=production
 
 deploy:
-  - provider: script
-    script: bash scripts/deploy-staging.sh
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "staging-squac.pnsn.org"
     skip_cleanup: true
     on: 
       branch: staging
-  - provider: script
-    script: bash scripts/deploy-production.sh 
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "squac.pnsn.org"
     skip_cleanup: true
     on: 
       branch: main
