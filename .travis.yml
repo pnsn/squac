@@ -10,7 +10,6 @@ before_script:
 script:
   - npm run lint
   - npm run test-headless
-  - ng build --prod 
 
 before_deploy:
   - pip install awscli --upgrade --user
@@ -22,7 +21,7 @@ deploy:
     on: 
       branch: staging
   - provider: script
-    script: ~bash scripts/deploy-production.sh 
+    script: bash scripts/deploy-production.sh 
     skip_cleanup: true
     on: 
       branch: main
