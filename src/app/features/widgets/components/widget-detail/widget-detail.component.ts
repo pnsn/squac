@@ -8,6 +8,7 @@ import { DashboardsService } from '@features/dashboards/services/dashboards.serv
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { WidgetDataService } from '@features/widgets/services/widget-data.service';
 import { AppAbility } from '@core/utils/ability';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-widget-detail',
@@ -37,12 +38,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private confirmDialog: ConfirmDialogService,
     private dashboardsService: DashboardsService,
     private ability: AppAbility,
+    private userService: UserService
   ) {
 
   }
 
   ngOnInit() {
     console.log('widget owner ', this.widget.owner);
+    console.log('user ', this.userService.getUser());
     console.log('widget edit ', this.ability.can('update', this.widget));
     if (!this.widget.metrics || !this.widget.channelGroup) {
       this.error = 'Widget failed to load.';
