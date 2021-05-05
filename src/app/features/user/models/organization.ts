@@ -10,6 +10,10 @@ export class Organization {
     public description: string,
     public users: User[]
   ) {}
+
+  static get modelName() {
+    return 'Organization';
+  }
 }
 
 export interface ApiGetOrganization {

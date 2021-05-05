@@ -13,6 +13,9 @@ export class Threshold {
   ) {
 
   }
+  static get modelName() {
+    return 'Threshold';
+  }
 }
 
 export interface ApiGetThreshold {

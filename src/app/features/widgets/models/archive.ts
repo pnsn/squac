@@ -18,6 +18,10 @@ export class Archive {
     public endtime: string
   ) {
   }
+
+  static get modelName() {
+    return 'Archive';
+  }
 }
 
 export interface ApiGetArchive {

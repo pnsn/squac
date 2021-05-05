@@ -44,9 +44,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('widget owner ', this.widget.owner);
-    console.log('user ', this.userService.getUser());
-    console.log('widget edit ', this.ability.can('update', this.widget));
     if (!this.widget.metrics || !this.widget.channelGroup) {
       this.error = 'Widget failed to load.';
     }

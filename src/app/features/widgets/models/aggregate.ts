@@ -21,6 +21,10 @@ export class Aggregate {
     public endtime: string
   ) {
   }
+
+  static get modelName() {
+    return 'Aggregate';
+  }
 }
 
 export interface ApiGetAggregate {

@@ -41,6 +41,10 @@ export class User {
   inGroup(group: string): boolean {
     return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
+
+  static get modelName() {
+    return 'User';
+  }
 }
 
 export interface ApiGetUser {
