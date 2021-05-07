@@ -12,6 +12,8 @@ describe('Archive', () => {
       1,
       1,
       1,
+      1,
+      1,
       '',
       ''
     )).toBeTruthy();

@@ -25,7 +25,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   unsaved = false;
   archiveType: string;
   archiveStat: string;
-  archiveStatTypes: string[] = ['min', 'max', 'mean', 'median', 'stdev', 'num_samps', 'p05', 'p10', 'p90', 'p95'];
+  archiveStatTypes: string[] = ['min', 'max', 'mean', 'median', 'stdev', 'num_samps', 'p05', 'p10', 'p90', 'p95', 'minabs', 'maxabs'];
   // TODO: make this a separate component, its making this too busy
   selected: {
     startDate,

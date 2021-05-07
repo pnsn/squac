@@ -64,6 +64,18 @@ describe('MeasurementPipe', () => {
     expect(pipe.transform(testValues, 'test')).toEqual(2);
   });
 
+  it('should return the min abs value', () => {
+    const pipe = new MeasurementPipe();
+
+    expect(pipe.transform(testValues, 'minabs')).toEqual(1);
+  });
+
+  it('should return the amx abs value', () => {
+    const pipe = new MeasurementPipe();
+
+    expect(pipe.transform(testValues, 'maxabs')).toEqual(3);
+  });
+
   it('should return null if no values', () => {
     const pipe = new MeasurementPipe();
 
