@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { average, median, min, max, percentile, mostRecent } from '@core/utils/utils';
+import { average, median, min, max, percentile, mostRecent , absvalue} from '@core/utils/utils';
 @Pipe({
   name: 'measurement'
 })
@@ -42,6 +42,12 @@ transform(values: any, type: string): any {
 
         case 'p05' :
           return percentile(sortedValues, 5);
+
+        case 'minabs' :
+          return absvalue(sortedValues, 'min');
+
+        case 'maxabs' :
+          return absvalue(sortedValues, 'max');
 
         case 'latest' :
           return mostRecent(values);
