@@ -58,7 +58,7 @@ export function min(values): number {
 
 // Returns the max or min (type) of the absolute value of the min and max
 // Most extreme value of the data
-export function absvalue(values, type: string) : number {
+export function absvalue(values, type: string): number {
   const maxValue = max(values);
   const minValue = min(values);
 
@@ -67,7 +67,7 @@ export function absvalue(values, type: string) : number {
 
   if (type === 'min') {
     return Math.min(minabs, maxabs);
-  } 
+  }
   if (type === 'max') {
     return Math.max(minabs, maxabs);
   }
