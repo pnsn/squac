@@ -192,8 +192,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         );
 
         this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
-
-        this.results.push(channelObj);
+        if (channelObj.series.length > 0) {
+          this.results.push(channelObj);
+        }
+        
       }
     );
 
