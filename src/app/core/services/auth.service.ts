@@ -17,8 +17,7 @@ export class AuthService {
 
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
-
-  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  redirectUrl: string;
   expirationTime;
   constructor(
     private router: Router,
@@ -77,7 +76,6 @@ export class AuthService {
 
   // after user hits log out, wipe data
   logout() {
-    this.userLoggedIn.next(false);
     this.userService.logout();
     this.token = null;
     this.router.navigate(['/login']);
@@ -120,7 +118,13 @@ export class AuthService {
 
     this.autologout(expiration);
     this.token = token;
-    this.userLoggedIn.next(true);
+
+    if (this.redirectUrl) {
+      this.router.navigate([this.redirectUrl]);
+      this.redirectUrl = '';
+    } else {
+      this.router.navigate(['/dashboards']);
+    }
 
     this.loadingService.setStatus('Logging in and loading data.');
   }

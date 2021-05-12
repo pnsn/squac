@@ -51,12 +51,12 @@
   background-color: #ffb758  !important;
 }
 
-:host ::ng-deep .no-threshold {
+:host ::ng-deep .unknown {
   @extend .map-icon;
   background-color: gray;
 }
 
 :host ::ng-deep .no-threshold {
   @extend .map-icon;
-  background-color: white;
+  background-color: gray;
 }
