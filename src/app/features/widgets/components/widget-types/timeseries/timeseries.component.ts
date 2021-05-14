@@ -69,6 +69,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.currentMetric = this.metrics[0];
     this.onScroll = this.onWheel;
     this.referenceLines = [];
+    console.log(this.currentMetric);
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
@@ -163,17 +164,19 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     let min = Number.MAX_VALUE;
     this.hasData = false;
     this.results = [];
+    
 
     this.addThresholds();
 
     this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
     this.channels.forEach(
+      
       channel => {
         const channelObj = {
           name : channel.nslc,
           series : []
         };
-
+        let tempCheck = false;
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -182,27 +185,47 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             if (measurement.value < min) {
               min = measurement.value;
             }
+            if(channelObj.series.length && !tempCheck) {
+              // console.log();
+              // console.log();
+              // console.log(measurement.value);
+              // console.log(channelObj);
+              // tempCheck = true;
+            }
+            if(channelObj.series.length > 0 && channelObj.series[channelObj.series.length-1]['name'].getTime() != moment.utc(measurement.starttime).toDate().getTime() - 3600*1000) {
+              // console.log(channel.nslc);
+              // console.log(channelObj);
+              this.results.push({name: channelObj.name, series: channelObj.series});
+              channelObj.series = [];
+              // console.log(channelObj);
+            }
+
             channelObj.series.push(
               {
                 name: moment.utc(measurement.starttime).toDate(),
                 value: measurement.value
               }
             );
-          }
-        );
 
+            
+          }
+
+          
+        );
+        // console.log(channelObj);
         this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
         if (channelObj.series.length > 0) {
           this.results.push(channelObj);
         }
         
       }
+      
     );
+    console.log(this.results);
 
     this.yScaleMax = max + 100;
     this.yScaleMin = min - 100;
 
-    console.log(this.results);
 
   }
 
