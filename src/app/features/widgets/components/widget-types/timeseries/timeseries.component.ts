@@ -164,19 +164,19 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     let min = Number.MAX_VALUE;
     this.hasData = false;
     this.results = [];
-    
+
 
     this.addThresholds();
 
     this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
     this.channels.forEach(
-      
+
       channel => {
         const channelObj = {
           name : channel.nslc,
           series : []
         };
-        let tempCheck = false;
+        const tempCheck = false;
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -185,14 +185,16 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             if (measurement.value < min) {
               min = measurement.value;
             }
-            if(channelObj.series.length && !tempCheck) {
+            if (channelObj.series.length && !tempCheck) {
               // console.log();
               // console.log();
               // console.log(measurement.value);
               // console.log(channelObj);
               // tempCheck = true;
             }
-            if(channelObj.series.length > 0 && channelObj.series[channelObj.series.length-1]['name'].getTime() != moment.utc(measurement.starttime).toDate().getTime() - 3600*1000) {
+            if (channelObj.series.length > 0 &&
+              channelObj.series[channelObj.series.length - 1].name.getTime() !==
+              moment.utc(measurement.starttime).toDate().getTime() - 3600 * 1000) {
               // console.log(channel.nslc);
               // console.log(channelObj);
               this.results.push({name: channelObj.name, series: channelObj.series});
@@ -207,19 +209,19 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               }
             );
 
-            
+
           }
 
-          
+
         );
         // console.log(channelObj);
         this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
         if (channelObj.series.length > 0) {
           this.results.push(channelObj);
         }
-        
+
       }
-      
+
     );
     console.log(this.results);
 
