@@ -25,15 +25,6 @@ export class MessageService  implements OnDestroy{
       panelClass: 'mat-snack-bar-themed',
       duration: this.durationInSeconds * 1000
     });
-
-    // this.snackBarRef.afterDismissed().subscribe(() => {
-    //   console.log('The snack-bar was dismissed');
-    // });
-
-
-    // this.snackBarRef.onAction().subscribe(() => {
-    //   console.log('The snack-bar action was triggered!');
-    // });
   }
 
   // Closes any open snackbar

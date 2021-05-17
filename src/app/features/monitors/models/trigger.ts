@@ -12,7 +12,9 @@ export class Trigger {
     public max?: number
   ) {
   }
-
+  static get modelName() {
+    return 'Trigger';
+  }
 }
 
 export interface ApiGetTrigger {

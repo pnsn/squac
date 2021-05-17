@@ -21,6 +21,10 @@ export class Monitor {
 
   channelGroup: ChannelGroup;
   metric: Metric;
+
+  static get modelName() {
+    return 'Monitor';
+  }
 }
 
 export interface ApiGetMonitor {

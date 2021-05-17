@@ -4,10 +4,10 @@
   </a>
 
   <div id="header-right" *ngIf="user">
-    <a mat-button [routerLink]="[ '/dashboards' ]" routerLinkActive="active" *ngIf="'read' | able: Dashboard">Dashboards</a>
-    <a mat-button [routerLink]="[ '/monitors' ]" routerLinkActive="active" *ngIf="'read' | able: Monitor">Monitors</a>
-    <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active" *ngIf="'read' | able: ChannelGroup">Channel Groups</a>
-    <a mat-button [routerLink]="[ '/metrics' ]" routerLinkActive="active" *ngIf="'read' | able: Metric">Metrics</a>  
+    <a mat-button [routerLink]="[ '/dashboards' ]" routerLinkActive="active" *ngIf="'read' | able: 'Dashboard'">Dashboards</a>
+    <a mat-button [routerLink]="[ '/monitors' ]" routerLinkActive="active" *ngIf="'read' | able: 'Monitor'">Monitors</a>
+    <a mat-button [routerLink]="[ '/channel-groups' ]" routerLinkActive="active" *ngIf="'read' | able: 'ChannelGroup'">Channel Groups</a>
+    <a mat-button [routerLink]="[ '/metrics' ]" routerLinkActive="active" *ngIf="'read' | able: 'Metric'">Metrics</a>  
 
     <mat-menu #appMenu="matMenu" class="mat-menu-dense">
         <a mat-menu-item [routerLink]="[ '/user' ]" routerLinkActive="active">User Settings</a>

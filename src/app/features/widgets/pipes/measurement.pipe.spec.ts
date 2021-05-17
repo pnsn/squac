@@ -24,50 +24,62 @@ describe('MeasurementPipe', () => {
   it('should return the average of the values', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 1)).toEqual(2);
+    expect(pipe.transform(testValues, 'mean')).toEqual(2);
   });
 
   it('should return the most recent value', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 13)).toEqual(2);
+    expect(pipe.transform(testValues, 'latest')).toEqual(2);
   });
 
   it('should return the minimum value', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 3)).toEqual(1);
+    expect(pipe.transform(testValues, 'min')).toEqual(1);
   });
 
   it('should return the maximum value', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 4)).toEqual(3);
+    expect(pipe.transform(testValues, 'max')).toEqual(3);
   });
 
   it('should return the count of the values', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 5)).toEqual(3);
+    expect(pipe.transform(testValues, 'num_samps')).toEqual(3);
   });
 
 
   it('should return the median of the values', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 2)).toEqual(2);
+    expect(pipe.transform(testValues, 'med')).toEqual(2);
   });
 
   it('should return the most recent value if unknown', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, 0)).toEqual(2);
+    expect(pipe.transform(testValues, 'test')).toEqual(2);
+  });
+
+  it('should return the min abs value', () => {
+    const pipe = new MeasurementPipe();
+
+    expect(pipe.transform(testValues, 'minabs')).toEqual(1);
+  });
+
+  it('should return the amx abs value', () => {
+    const pipe = new MeasurementPipe();
+
+    expect(pipe.transform(testValues, 'maxabs')).toEqual(3);
   });
 
   it('should return null if no values', () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform([], 0)).toBeNull();
+    expect(pipe.transform([], 'min')).toBeNull();
   });
 
 });

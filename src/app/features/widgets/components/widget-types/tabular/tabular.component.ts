@@ -9,6 +9,7 @@ import { Widget } from '@features/widgets/models/widget';
 import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
+import { checkThresholds } from '@core/utils/utils';
 
 @Component({
   selector: 'app-tabular',
@@ -47,12 +48,11 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   // rows = [];
   constructor(
-    private measurement: MeasurementPipe,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private measurementPipe: MeasurementPipe
   ) { }
 
   ngOnInit() {
-
     this.metrics = this.widget.metrics;
     this.metrics.forEach(metric => {
       metric.comparator = this.metricComparator.bind(this);
@@ -107,6 +107,7 @@ export class TabularComponent implements OnInit, OnDestroy {
   }
 
   private buildRows(data) {
+
     const rows = [];
     const stations = [];
     const stationRows = [];
@@ -118,9 +119,27 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach(metric => {
-        const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
+        const statType = this.widget.stattype.type;
+
+        let val: number = null;
+
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          const rowData = data[channel.id][metric.id];
+          // if it has value, show value else find the staType to show
+          if (rowData[0] && rowData[0].value) {
+            if (rowData.length > 0) {
+              val = this.measurementPipe.transform(rowData, statType);
+            } else{
+              val = rowData[0].value;
+            }
+            // still need to calculate
+          } else if (rowData[0][statType]) {
+            val = rowData[0][statType];
+          }
+        }
+        // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
-        const inThreshold = threshold ? this.checkThresholds(threshold, val) : false;
+        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
         if (threshold && val != null && !inThreshold) {
           agg++;
@@ -196,23 +215,6 @@ export class TabularComponent implements OnInit, OnDestroy {
 
   getCellClass({ row, column, value }): any {
     return row[column.prop].classes;
-  }
-
-  // TODO: yes, this is bad boolean but I'm going to change it
-  checkThresholds(threshold, value): boolean {
-    let withinThresholds = true;
-    if (threshold.max !== null && value !== null && value > threshold.max) {
-      withinThresholds = false;
-    }
-    if (threshold.min !== null && value !== null && value < threshold.min) {
-      withinThresholds = false;
-    }
-
-    // TODO: is no thresholds in or out
-    if (threshold.min === null && threshold.max === null) {
-      withinThresholds = false;
-    }
-    return withinThresholds;
   }
 
 }

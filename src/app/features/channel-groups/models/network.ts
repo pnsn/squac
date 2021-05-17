@@ -10,6 +10,10 @@ export class Network {
   ) {
 
   }
+
+  static get modelName() {
+    return 'Network';
+  }
 }
 
 export interface ApiGetNetwork {

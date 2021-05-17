@@ -17,6 +17,7 @@ import { WidgetEditEntryComponent } from './components/widget-edit/widget-edit-e
 import { MapComponent } from './components/widget-types/map/map.component';
 import { WidgetInfoEditComponent } from './components/widget-edit/widget-info-edit/widget-info-edit.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { WidgetAdapter } from './models/widget';
 
 
 

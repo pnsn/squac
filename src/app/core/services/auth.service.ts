@@ -17,8 +17,7 @@ export class AuthService {
 
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
-
-  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  redirectUrl: string;
   expirationTime;
   constructor(
     private router: Router,
@@ -71,13 +70,20 @@ export class AuthService {
       tap(resData => {
         // TODO: Get expiration time from Jon
         this.handleAuth(resData.token, this.expirationTime);
+
+        if (this.redirectUrl) {
+          this.router.navigate([this.redirectUrl]);
+          this.redirectUrl = null;
+        } else {
+          this.router.navigate(['/']);
+        }
+
       })
     );
   }
 
   // after user hits log out, wipe data
   logout() {
-    this.userLoggedIn.next(false);
     this.userService.logout();
     this.token = null;
     this.router.navigate(['/login']);
@@ -116,12 +122,9 @@ export class AuthService {
 
   // handles the sign in
   private signInUser(token, expiration) {
-    // console.log("User signed in");
 
     this.autologout(expiration);
     this.token = token;
-    this.userLoggedIn.next(true);
-
     this.loadingService.setStatus('Logging in and loading data.');
   }
 }

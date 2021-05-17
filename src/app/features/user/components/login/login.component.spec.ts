@@ -59,7 +59,7 @@ describe('LoginComponent', () => {
 
     component.onSubmit();
 
-    expect(component.error).toBeFalsy();
+    expect(component.error).toBe('Login successful.');
   });
 
   it('should not submit if the form is not valid', () => {

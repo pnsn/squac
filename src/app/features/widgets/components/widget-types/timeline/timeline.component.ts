@@ -11,6 +11,7 @@ import { Metric } from '@core/models/metric';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Channel } from '@core/models/channel';
 import { Measurement } from '@features/widgets/models/measurement';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-timeline',
@@ -45,8 +46,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
 
   // rows = [];
   constructor(
-    private viewService: ViewService,
-    private measurement: MeasurementPipe
+    private viewService: ViewService
   ) {
     this.chart = TimelinesChart();
   }
@@ -110,7 +110,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
           lineCount = this.chart.getNLines();
         }
         if (lineCount) {
-          console.log('here');
           this.chart.maxHeight(lineCount * 12);
         }
 
@@ -119,7 +118,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     }
   }
 
-  // FIXME: This is...not great
   private buildRows(measurements) {
     const data = [];
     let dataMax: number;
@@ -129,28 +127,30 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
     this.channels.forEach((channel) => {
       const stationGroup = channel.networkCode + '.' + channel.stationCode;
       const channelData = [];
-      // measurements[channel.id][this.currentMetric.id] = this.getFakeMeasurements(this.startdate, this.enddate, 20)
-      // go through the measurements
-      measurements[channel.id][this.currentMetric.id].forEach(
-       (measurement: Measurement, index) => {
-        if ((!dataMin && dataMin !== 0) || measurement.value < dataMin) {
-          dataMin = measurement.value;
-        }
-        if ((!dataMax && dataMax !== 0) || measurement.value > dataMax) {
-          dataMax = measurement.value;
-        }
-        // make a data point
-        const dataPoint = {
-          val: measurement.value,
-          timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
-        };
 
-        channelData.push(dataPoint);
+      if (measurements[channel.id] && measurements[channel.id][this.currentMetric.id]) {
+        // go through the measurements
+        measurements[channel.id][this.currentMetric.id].forEach(
+          (measurement: Measurement | Archive, index) => {
+          if ((!dataMin && dataMin !== 0) || measurement.value < dataMin) {
+            dataMin = measurement.value;
+          }
+          if ((!dataMax && dataMax !== 0) || measurement.value > dataMax) {
+            dataMax = measurement.value;
+          }
+          // make a data point
+          const dataPoint = {
+            val: measurement.value,
+            timeRange: [new Date(measurement.starttime), new Date(measurement.endtime)]
+          };
 
-        }
-      );
+          channelData.push(dataPoint);
+
+          }
+        );
+
+      }
       lines++;
-
       const channelRow = {
         label: channel.loc + '.' + channel.code,
         data: channelData

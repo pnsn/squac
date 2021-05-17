@@ -1,20 +1,20 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Widget } from '@features/widgets/models/widget';
 import { Subject, Subscription } from 'rxjs';
-import { MeasurementsService } from '../../services/measurements.service';
 import { ViewService } from '@core/services/view.service';
-import { MatDialog } from '@angular/material/dialog';
-import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Dashboard } from '@features/dashboards/models/dashboard';
+import { WidgetDataService } from '@features/widgets/services/widget-data.service';
+import { AppAbility } from '@core/utils/ability';
+import { UserService } from '@features/user/services/user.service';
 
 @Component({
   selector: 'app-widget-detail',
   templateUrl: './widget-detail.component.html',
   styleUrls: ['./widget-detail.component.scss'],
-  providers: [MeasurementsService]
+  providers: [WidgetDataService]
 })
 export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -32,26 +32,30 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private viewService: ViewService,
-    private measurementsService: MeasurementsService,
+    private widgetDataService: WidgetDataService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardsService: DashboardsService
+    private dashboardsService: DashboardsService,
+    private ability: AppAbility,
+    private userService: UserService
   ) {
 
   }
 
   ngOnInit() {
+    if (!this.widget.metrics || !this.widget.channelGroup) {
+      this.error = 'Widget failed to load.';
+    }
     this.loading = true;
-    const dataSub = this.measurementsService.data.subscribe(
+    const dataSub = this.widgetDataService.data.subscribe(
       data => {
         this.noData = data && Object.keys(data).length === 0;
         this.data = data;
         this.loading = false;
       }
     );
-
-    this.measurementsService.setWidget(this.widget);
+    this.widgetDataService.setWidget(this.widget);
 
     const datesSub = this.viewService.dates.subscribe(
       dashboardId => {
@@ -94,7 +98,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getData() {
-    this.measurementsService.fetchMeasurements();
+    this.widgetDataService.fetchMeasurements();
   }
 
   addWidgetToDashboard(dashboardId) {
