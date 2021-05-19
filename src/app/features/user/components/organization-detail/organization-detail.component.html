@@ -145,11 +145,17 @@
   </div>
   <div id="roles-container">
       <h2>
-        Squac User Roles:
+        Squac User Roles  (additive):
       </h2>
-      <mat-list *ngFor="let group of groups">
+      <mat-list dense>
+        <ng-container>
+          <mat-list-item *ngFor="let group of groups">
+            <strong>{{group.role | titlecase }}</strong> - {{group.description}}
+          </mat-list-item>
+        </ng-container>
+      
         <mat-list-item >
-          <strong>{{group.role | titlecase }}</strong> - {{group.description}}
+          <strong>Organization Admin</strong> - Can add users and assign roles.
         </mat-list-item>
       </mat-list>
     </div>

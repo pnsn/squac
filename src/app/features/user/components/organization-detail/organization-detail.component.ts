@@ -37,11 +37,12 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
       id: 1, role: 'viewer', description: 'can see all resources.'
     },
     {
-      id: 2, role: 'reporter', description: 'can create dashboards and channel groups.'
+      id: 2, role: 'reporter', description: 'can create dashboards, channel groups, and monitors.'
     },
     {
-      id: 3, role: 'contributor', description: 'can add metrics.'
+      id: 3, role: 'contributor', description: 'can add metrics and measurements.'
     }
+
   ];
   constructor(
     private orgService: OrganizationsService,
