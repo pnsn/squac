@@ -69,7 +69,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.currentMetric = this.metrics[0];
     this.onScroll = this.onWheel;
     this.referenceLines = [];
-    console.log(this.currentMetric);
     if ( this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
@@ -95,7 +94,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     event.preventDefault();
 
     const height = this.timeSeriesDivIdentifier.nativeElement.offsetHeight;
-    console.log('delta: ' + event.deltaY);
     let yScaleMaxChange = 0;
     let yScaleMinChange = 0;
     if (event.deltaY > 0) {
@@ -109,8 +107,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     }
     this.yScaleMax += this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin += this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    console.log('max change: ' + yScaleMaxChange);
-    console.log('min change: ' + yScaleMinChange);
     this.resize();
 
   }
@@ -176,7 +172,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           name : channel.nslc,
           series : []
         };
-        const tempCheck = false;
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -185,21 +180,11 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             if (measurement.value < min) {
               min = measurement.value;
             }
-            if (channelObj.series.length && !tempCheck) {
-              // console.log();
-              // console.log();
-              // console.log(measurement.value);
-              // console.log(channelObj);
-              // tempCheck = true;
-            }
             if (channelObj.series.length > 0 &&
               channelObj.series[channelObj.series.length - 1].name.getTime() !==
-              moment.utc(measurement.starttime).toDate().getTime() - 3600 * 1000) {
-              // console.log(channel.nslc);
-              // console.log(channelObj);
+              moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
               this.results.push({name: channelObj.name, series: channelObj.series});
               channelObj.series = [];
-              // console.log(channelObj);
             }
 
             channelObj.series.push(
