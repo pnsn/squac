@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { OrganizationsService } from '@features/user/services/organizations.service';
+import { UserService } from '@features/user/services/user.service';
+import { Organization } from '@features/user/models/organization';
 
 @Component({
   selector: 'app-channel-groups-view',
@@ -15,15 +17,16 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
-
-
+  showOnlyUserOrg : boolean = true;
+  userOrg : Organization;
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
-
+  temp = [];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private userService: UserService,
     private orgService: OrganizationsService
   ) { }
 
@@ -31,6 +34,17 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
     this.selected = [];
 
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
+
+    this.orgService.getOrganization(this.userService.userOrg).subscribe(
+      org => {
+        this.userOrg = org;
+        this.filterOrg();
+      }
+    );
+
+    //store copy of channel groups
+    this.temp = [...this.channelGroups];
+
     if (this.route.firstChild) {
       this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.channelGroupId;
       this.selectChannelGroup(this.selectedChannelGroupId);
@@ -66,5 +80,14 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
       this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
     }
+  }
+
+  filterOrg() {
+    // filter our data
+    const temp = this.temp.filter(cg => {
+      return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
+    });
+
+    this.channelGroups = temp;
   }
 }
