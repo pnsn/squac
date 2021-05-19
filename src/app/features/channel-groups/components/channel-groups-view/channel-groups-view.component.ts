@@ -19,6 +19,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
   selectedChannelGroupId: number;
   showOnlyUserOrg : boolean = true;
   userOrg : Organization;
+
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;

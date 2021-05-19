@@ -52,6 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
+  showOnlyCurrent: boolean = true;
   filtersChanged: boolean;
   searchFilters: any;
   // Map stuff
@@ -148,6 +149,15 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.changeMade = true;
   }
 
+  // Remove stations with offdates before today
+  filterCurrent() {
+    const current = new Date().getTime();
+    this.availableChannels = this.searchChannels.filter( channel => {
+      const offDate = new Date(channel.endttime).getTime();
+      return this.showOnlyCurrent ? current < offDate : true;
+    });
+  }
+
   undoSelectRemove() {
     const newPrevious = {
       selectedChannels: [...this.selectedChannels],
@@ -171,7 +181,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             this.filterBounds();
           }
 
-
+          this.filterCurrent();
           // add channels to selected Channels
         }
       );

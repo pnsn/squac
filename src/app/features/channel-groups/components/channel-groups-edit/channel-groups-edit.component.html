@@ -22,7 +22,9 @@
     </div>
     <h3>Search Results</h3>
     <div  id="select-channels-controls">
-
+      <mat-slide-toggle [(ngModel)]="showOnlyCurrent" (change)="filterCurrent()">
+        Only Show Current Channels
+      </mat-slide-toggle>
       <ng-container *ngIf="availableChannels.length === 0; else hasChannels">
         <span class="help-text">Search above to find channels to add to your channel group.</span>
       </ng-container>
