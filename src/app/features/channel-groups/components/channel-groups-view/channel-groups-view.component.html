@@ -11,8 +11,7 @@
     >Create Channel Group</button>
   </div>
 </div>
-
-  <div id="channel-groups" class="box">
+  <div id="channel-groups" class="box" [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'">
     <ngx-datatable
       id="channel-group-table"
       class="material"

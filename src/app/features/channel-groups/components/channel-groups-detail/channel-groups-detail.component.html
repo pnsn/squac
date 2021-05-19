@@ -24,14 +24,24 @@
     </button>
       <button 
         *ngIf="'update' | able: channelGroup"
-        mat-flat-button 
+        mat-icon-button 
         color="primary"
         class="add-btn"
         (click)="editChannelGroup()"
         matTooltip="Edit channel group"
         aria-label="Button that navigates to edit channel group page"
       > 
-      Edit
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button 
+      *ngIf="'update' | able: channelGroup"
+      mat-icon-button 
+      class="add-btn"
+      (click)="closeChannelGroup()"
+      matTooltip="Close channel group"
+      aria-label="Button that navigates to all channels"
+    > 
+    <mat-icon>close</mat-icon>
     </button>
     </div>
   </div>

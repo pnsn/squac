@@ -1,25 +1,27 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
-import { OrganizationsService } from '@features/user/services/organizations.service';
-import { UserService } from '@features/user/services/user.service';
-import { Organization } from '@features/user/models/organization';
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { ChannelGroup } from "@core/models/channel-group";
+import { pipe, Subscription } from "rxjs";
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from "@angular/router";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { OrganizationsService } from "@features/user/services/organizations.service";
+import { UserService } from "@features/user/services/user.service";
+import { Organization } from "@features/user/models/organization";
+import { filter, tap } from "rxjs/operators";
 
 @Component({
-  selector: 'app-channel-groups-view',
-  templateUrl: './channel-groups-view.component.html',
-  styleUrls: ['./channel-groups-view.component.scss']
+  selector: "app-channel-groups-view",
+  templateUrl: "./channel-groups-view.component.html",
+  styleUrls: ["./channel-groups-view.component.scss"],
 })
-export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChannelGroupsViewComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   channelGroups: ChannelGroup[];
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
-  showOnlyUserOrg : boolean = true;
-  userOrg : Organization;
-
+  showOnlyUserOrg: boolean = true;
+  userOrg: Organization;
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -29,28 +31,41 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
     private route: ActivatedRoute,
     private userService: UserService,
     private orgService: OrganizationsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.selected = [];
 
     this.channelGroups = this.route.parent.snapshot.data.channelGroups;
 
-    this.orgService.getOrganization(this.userService.userOrg).subscribe(
-      org => {
+    this.orgService
+      .getOrganization(this.userService.userOrg)
+      .subscribe((org) => {
         this.userOrg = org;
         this.filterOrg();
-      }
-    );
+      });
 
     //store copy of channel groups
     this.temp = [...this.channelGroups];
 
+    const routerEvents = this.router.events
+    .pipe(
+      filter(e => e instanceof NavigationEnd),
+      tap((event) => {
+        if (!this.route.firstChild) {
+          this.clearSelectedChannelGroup();
+        }
+      })
+      
+    ).subscribe();
+
     if (this.route.firstChild) {
-      this.selectedChannelGroupId = +this.route.firstChild.snapshot.params.channelGroupId;
+      this.selectedChannelGroupId =
+        +this.route.firstChild.snapshot.params.channelGroupId;
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
 
+    this.subscription.add(routerEvents);
   }
 
   ngAfterViewInit(): void {
@@ -64,20 +79,28 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   addChannelGroup() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(["new"], { relativeTo: this.route });
   }
+
+  clearSelectedChannelGroup() {
+    this.selectedChannelGroupId = null;
+    this.selected = [];
+  }
+
   // Getting a selected channel group and setting variables
   selectChannelGroup(selectedChannelGroupId: number) {
-    this.selected = this.channelGroups.filter( cg => { // Select row with channel group
-      return (cg.id === selectedChannelGroupId);
+    this.selected = this.channelGroups.filter((cg) => {
+      // Select row with channel group
+      return cg.id === selectedChannelGroupId;
     });
   }
 
   // onSelect function for data table selection
-  onSelect($event) { // When a row is selected, route the page and select that channel group
+  onSelect($event) {
+    // When a row is selected, route the page and select that channel group
     const selectedId = $event.selected[0].id;
     if (selectedId) {
-      this.router.navigate([selectedId], {relativeTo: this.route});
+      this.router.navigate([selectedId], { relativeTo: this.route });
       this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
     }
@@ -85,7 +108,7 @@ export class ChannelGroupsViewComponent implements OnInit, OnDestroy, AfterViewI
 
   filterOrg() {
     // filter our data
-    const temp = this.temp.filter(cg => {
+    const temp = this.temp.filter((cg) => {
       return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
     });
 

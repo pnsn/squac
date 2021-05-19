@@ -52,6 +52,9 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
     this.channelGroupSub.unsubscribe();
   }
 
+  closeChannelGroup() {
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
 
   // Give a warning to user that delete will also delete widgets
   onDelete() {
@@ -77,7 +80,7 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   delete() {
     this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
       result => {
-        this.router.navigate(['../'], {relativeTo: this.route});
+        this.closeChannelGroup();
         this.messageService.message('Channel group deleted.');
       },
       error => {
