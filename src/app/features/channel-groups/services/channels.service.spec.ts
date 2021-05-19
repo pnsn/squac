@@ -21,7 +21,7 @@ describe('ChannelsService', () => {
     'stationCode',
     'networkCode',
     '',
-    ''    
+    ''
   );
   let squacApiService;
   const mockSquacApiService = new MockSquacApiService( testChannel );
