@@ -12,6 +12,9 @@ import { Ability, PureAbility } from '@casl/ability';
 import { AbilityModule } from '@casl/angular';
 import { AppAbility } from '@core/utils/ability';
 import { ChannelGroupMapComponent } from '../channel-group-map/channel-group-map.component';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '@features/user/services/user.service';
+import { MockUserService } from '@features/user/services/user.service.mock';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -23,6 +26,7 @@ describe('ChannelGroupsViewComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         NgxDatatableModule,
+        FormsModule,
         LeafletModule,
         LeafletDrawModule,
         AbilityModule
@@ -32,6 +36,7 @@ describe('ChannelGroupsViewComponent', () => {
         ChannelGroupMapComponent
       ],
       providers: [
+        { provide: UserService, useValue: new MockUserService()},
         {
           provide: ActivatedRoute,
           useValue: {

@@ -52,7 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
-  showOnlyCurrent: boolean = true;
+  showOnlyCurrent = true;
   filtersChanged: boolean;
   searchFilters: any;
   // Map stuff

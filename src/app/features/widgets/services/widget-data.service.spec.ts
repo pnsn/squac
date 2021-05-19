@@ -23,7 +23,7 @@ describe('WidgetDataService', () => {
     endtime: 'end'
   };
   const testMetric = new Metric(1, 1, '', '', '', '', '', 1);
-  const testChannel = new Channel(1, '', '', 1, 1, 1, 1, '', '', '');
+  const testChannel = new Channel(1, '', '', 1, 1, 1, 1, '', '', '', '', '');
   const testWidget = new Widget(1, 1, '', '', 1, 1, 1, 1, 1, 1, 1, [
     testMetric
   ]);

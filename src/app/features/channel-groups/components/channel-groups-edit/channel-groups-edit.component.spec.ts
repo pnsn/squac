@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChannelGroupsService } from '../../services/channel-groups.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelsService } from '../../services/channels.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NetworksService } from '../../services/networks.service';
 import { of } from 'rxjs';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -35,6 +35,7 @@ describe('ChannelGroupsEditComponent', () => {
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         NoopAnimationsModule,
+        FormsModule,
         ReactiveFormsModule,
         NgxDatatableModule,
         MaterialModule,
@@ -52,7 +53,7 @@ describe('ChannelGroupsEditComponent', () => {
         ChannelGroupsService,
         ChannelsService,
         NetworksService,
-        {provide: UserService, useClass: MockUserService},
+        {provide: UserService, useValue: new MockUserService()},
         {
           provide: ActivatedRoute,
           useValue: {

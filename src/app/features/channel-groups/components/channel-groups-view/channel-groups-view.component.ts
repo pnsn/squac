@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { ChannelGroup } from "@core/models/channel-group";
-import { pipe, Subscription } from "rxjs";
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from "@angular/router";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { OrganizationsService } from "@features/user/services/organizations.service";
-import { UserService } from "@features/user/services/user.service";
-import { Organization } from "@features/user/models/organization";
-import { filter, tap } from "rxjs/operators";
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { ChannelGroup } from '@core/models/channel-group';
+import { pipe, Subscription } from 'rxjs';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { OrganizationsService } from '@features/user/services/organizations.service';
+import { UserService } from '@features/user/services/user.service';
+import { Organization } from '@features/user/models/organization';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
-  selector: "app-channel-groups-view",
-  templateUrl: "./channel-groups-view.component.html",
-  styleUrls: ["./channel-groups-view.component.scss"],
+  selector: 'app-channel-groups-view',
+  templateUrl: './channel-groups-view.component.html',
+  styleUrls: ['./channel-groups-view.component.scss'],
 })
 export class ChannelGroupsViewComponent
   implements OnInit, OnDestroy, AfterViewInit
@@ -20,7 +20,7 @@ export class ChannelGroupsViewComponent
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
-  showOnlyUserOrg: boolean = true;
+  showOnlyUserOrg = true;
   userOrg: Organization;
   // Table stuff
   ColumnMode = ColumnMode;
@@ -45,7 +45,7 @@ export class ChannelGroupsViewComponent
         this.filterOrg();
       });
 
-    //store copy of channel groups
+    // store copy of channel groups
     this.temp = [...this.channelGroups];
 
     const routerEvents = this.router.events
@@ -56,7 +56,7 @@ export class ChannelGroupsViewComponent
           this.clearSelectedChannelGroup();
         }
       })
-      
+
     ).subscribe();
 
     if (this.route.firstChild) {
@@ -79,7 +79,7 @@ export class ChannelGroupsViewComponent
   }
 
   addChannelGroup() {
-    this.router.navigate(["new"], { relativeTo: this.route });
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   clearSelectedChannelGroup() {
