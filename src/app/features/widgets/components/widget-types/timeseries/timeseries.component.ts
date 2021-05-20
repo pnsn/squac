@@ -185,10 +185,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           series : []
         };
 
-        let rowHasData = false;
-        if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
-        rowHasData = data[channel.id][this.currentMetric.id].length > 0;
-
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -225,7 +221,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     );
 
-    this.hasData = !this.hasData ? rowHasData : this.hasData;
     this.yScaleMax = Math.round(max) + 100;
     this.yScaleMin = Math.round(min) - 100;
   }
