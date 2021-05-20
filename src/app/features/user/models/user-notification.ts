@@ -12,6 +12,10 @@ export class UserNotification {
   ) {
 
   }
+
+  static get modelName() {
+    return 'UserNotification';
+  }
 }
 
 export interface ApiGetNotification {

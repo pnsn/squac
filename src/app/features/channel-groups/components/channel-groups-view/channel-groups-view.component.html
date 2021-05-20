@@ -43,17 +43,6 @@
           {{value | organization}}
         </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="Shared with Org" prop="shareOrg" [draggable]="false" [sortable]="false" [flexGrow]="1">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ value ? "Shared" : "Private" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Shared with All" prop="shareAll" [draggable]="false" [sortable]="false" [flexGrow]="1">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ value ? "Shared" : "Private" }}
-        </ng-template>
-      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 

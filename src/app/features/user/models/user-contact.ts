@@ -11,6 +11,10 @@ export class UserContact {
   ) {
 
   }
+
+  static get modelName() {
+    return 'UserContact';
+  }
 }
 
 export interface ApiGetContact {

@@ -24,6 +24,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedIndicatorComponent } from '@shared/components/shared-indicator/shared-indicator.component';
 
 
 describe('DashboardDetailComponent', () => {
@@ -73,7 +74,8 @@ describe('DashboardDetailComponent', () => {
       declarations: [
         DashboardDetailComponent,
         UserPipe,
-        OrganizationPipe
+        OrganizationPipe,
+        SharedIndicatorComponent
       ]
     })
     .compileComponents();

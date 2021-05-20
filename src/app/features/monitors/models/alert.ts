@@ -14,6 +14,10 @@ export class Alert {
   ){}
 
   monitor: Monitor;
+
+  static get modelName() {
+    return 'Alert';
+  }
 }
 
 export interface ApiGetAlert {

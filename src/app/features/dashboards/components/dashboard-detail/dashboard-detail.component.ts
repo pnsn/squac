@@ -3,15 +3,11 @@ import { Dashboard } from '../../models/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
-import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { Ability } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { ConfigurationService } from '@core/services/configuration.service';
-import { config } from 'process';
-import { OrganizationsService } from '@features/user/services/organizations.service';
 
 //
 @Component({
@@ -19,7 +15,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
-export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
@@ -27,7 +23,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
   maxDate: moment.Moment;
   error: string = null;
   unsaved = false;
-
+  archiveType: string;
+  archiveStat: string;
+  archiveStatTypes: string[] = ['min', 'max', 'mean', 'median', 'stdev', 'num_samps', 'p05', 'p10', 'p90', 'p95', 'minabs', 'maxabs'];
   // TODO: make this a separate component, its making this too busy
   selected: {
     startDate,
@@ -75,7 +73,8 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
           const range = this.viewService.range;
           const start = this.viewService.startdate;
           const end = this.viewService.enddate;
-
+          this.archiveStat = this.dashboard.archiveStat;
+          this.archiveType = this.dashboard.archiveType;
           if (range && this.rangeLookUp) {
             this.selectedRange = this.rangeLookUp[range];
             this.selected = {
@@ -116,12 +115,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
     this.subscription.add(errorSub);
   }
 
-  ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-
-  }
-
   makeTimeRanges(){
     for (const range in this.rangeLookUp) {
       if (this.rangeLookUp[range]) {
@@ -130,6 +123,12 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
+  selectArchiveType(type, stat) {
+    this.archiveType = type;
+    this.archiveStat = stat;
+    this.unsaved = true;
+    this.viewService.setArchive(this.archiveType, this.archiveStat);
+  }
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
 
@@ -168,9 +167,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, OnDestro
   editDashboard() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+
   addWidget() {
     this.router.navigate(['widgets', 'new'], {relativeTo: this.route});
-
   }
 
   // currently saves any time dates are changed, may want to move to a save button

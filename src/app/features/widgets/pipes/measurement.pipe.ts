@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-
+import { average, median, min, max, percentile, mostRecent , absvalue} from '@core/utils/utils';
 @Pipe({
   name: 'measurement'
 })
@@ -11,81 +11,49 @@ export class MeasurementPipe implements PipeTransform {
     return values.sort((a, b) => a.value - b.value);
   }
 
-  private mostRecent(values): number {
-
-    values.sort((a, b) => {
-
-      return (new Date(a.starttime)).getTime() - (new Date(b.starttime)).getTime();
-    });
-
-    return values[ values.length - 1 ].value;
-  }
-
-// Calculates the median for the channel
-private median(values): number {
-
-  const mid = values.length / 2 - 0.5;
-  let median: number;
-
-  if (mid % 1 === 0) {
-    median = values[mid].value;
-  } else {
-    median = (values[mid - .5].value + values[mid - .5].value) / 2;
-  }
-
-  return median;
-}
-
-// Calculates the average value for the channel
-private average(values): number {
-
-  let sum = 0;
-  for (const value of values) {
-    sum += value.value;
-  }
-  const average = sum / values.length;
-  return average;
-}
-
-// // Returns requested percentile, probably
-// private percentile(values, percentile : number) : number {
-//   let index = Math.ceil(percentile / 100 * values.length);
-//   return index == values.length ? values[index - 1] : values[index];
-// }
-
-// Returns the channel's maximum value
-private max(values): number {
-  return values[values.length - 1].value;
-}
-
-// Returns the channel's minimum value
-private min(values): number {
-  return values[0].value;
-}
-
 // TODO: handle stattypesthat are unknown
-transform(values: any, type: any): any {
+transform(values: any, type: string): any {
   if (values && values.length > 0) {
     const sortedValues = this.sort(values.slice());
     switch (type) {
-        case 1:
-        return this.average(sortedValues);
+        case 'ave':
+        return average(sortedValues);
 
-        case 2:
-          return this.median(sortedValues);
+        case 'med':
+          return median(sortedValues);
 
-        case 3:
-          return this.min(sortedValues);
+        case 'min':
+          return min(sortedValues);
 
-        case 4:
-          return this.max(sortedValues);
+        case 'max':
+          return max(sortedValues);
 
-        case 5:
+        case 'num_samps':
           return sortedValues.length;
-// 6-10 are percentiles
-// 13 is raw
+
+        case 'p99' :
+          return percentile(sortedValues, 99);
+
+        case 'p90' :
+          return percentile(sortedValues, 90);
+
+        case 'p10' :
+          return percentile(sortedValues, 10);
+
+        case 'p05' :
+          return percentile(sortedValues, 5);
+
+        case 'minabs' :
+          return absvalue(sortedValues, 'min');
+
+        case 'maxabs' :
+          return absvalue(sortedValues, 'max');
+
+        case 'latest' :
+          return mostRecent(values);
+
         default: // most recent
-          return this.mostRecent(values);
+          return mostRecent(values);
       }
   } else {
     return null;

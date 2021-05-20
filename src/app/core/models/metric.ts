@@ -17,6 +17,10 @@ export class Metric {
     public comparator?: () => void,
   ) {
   }
+
+  static get modelName() {
+    return 'Metric';
+  }
 }
 
 export interface ApiGetMetric {

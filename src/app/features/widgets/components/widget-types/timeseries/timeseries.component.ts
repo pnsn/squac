@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
@@ -9,22 +19,19 @@ import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';
 import * as d3 from 'd3';
+import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-timeseries',
   templateUrl: './timeseries.component.html',
-  styleUrls: ['./timeseries.component.scss']
+  styleUrls: ['./timeseries.component.scss'],
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
-
-
-  constructor(
-    private viewService: ViewService
-  ) { }
+  constructor(private viewService: ViewService) {}
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
-  thresholds: {[metricId: number]: Threshold};
+  thresholds: { [metricId: number]: Threshold };
   channelGroup: ChannelGroup;
 
   channels: Channel[];
@@ -36,7 +43,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   yAxisLabel: string;
   currentMetric: Metric;
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
 
   xScaleMin;
@@ -47,7 +54,6 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   timeSeriesDivIdentifier: ElementRef;
 
   onScroll = (event: any) => {};
-
 
   // ngOnChanges(changes: SimpleChanges) {
   //   for (const propName in changes) {
@@ -69,25 +75,24 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.currentMetric = this.metrics[0];
     this.onScroll = this.onWheel;
     this.referenceLines = [];
-    if ( this.channelGroup) {
+    if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
     if (this.currentMetric) {
       this.buildChartData(this.data);
     }
     const resizeSub = this.viewService.resize.subscribe(
-      widgetId => {
+      (widgetId) => {
         if (!widgetId || widgetId === this.widget.id) {
           this.resize();
         }
-      }, error => {
+      },
+      (error) => {
         console.log('error in timeseries resize: ' + error);
       }
     );
 
     this.subscription.add(resizeSub);
-
-
   }
   @HostListener('wheel', ['$event'])
   onWheel(event) {
@@ -98,17 +103,21 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     let yScaleMinChange = 0;
     if (event.deltaY > 0) {
       yScaleMaxChange = -event.deltaY * 10 * (event.layerY / height) * 2;
-      yScaleMinChange = event.deltaY * 10 * ((height - event.layerY) / height) * 2;
-
+      yScaleMinChange =
+        event.deltaY * 10 * ((height - event.layerY) / height) * 2;
     }
     if (event.deltaY < 0) {
-      yScaleMaxChange = -event.deltaY * 10 * ((height - event.layerY) / height) * 2;
+      yScaleMaxChange =
+        -event.deltaY * 10 * ((height - event.layerY) / height) * 2;
       yScaleMinChange = event.deltaY * 10 * (event.layerY / height) * 2;
     }
-    this.yScaleMax += this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
-    this.yScaleMin += this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    this.resize();
 
+    this.yScaleMax +=
+      this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
+    this.yScaleMin +=
+      this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
+    
+    this.resize();
   }
 
   private resize() {
@@ -121,18 +130,17 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       if (threshold.min) {
         this.referenceLines.push({
           name: 'Min Threshold',
-          value: threshold.min
+          value: threshold.min,
         });
       }
 
       if (threshold.max) {
         this.referenceLines.push({
           name: 'Max Threshold',
-          value: threshold.max
+          value: threshold.max,
         });
       }
     }
-
   }
 
   xAxisTickFormatting(value) {
@@ -142,9 +150,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     } else if (value.getMinutes() !== 0) {
       formatOptions = { hour: '2-digit', minute: '2-digit' };
     } else if (value.getHours() !== 0) {
-      formatOptions = { hour: '2-digit' , minute: '2-digit'};
+      formatOptions = { hour: '2-digit', minute: '2-digit' };
     } else if (value.getDate() !== 1) {
-      formatOptions = value.getDay() === 0 ? { month: 'short', day: '2-digit' } : { month: 'short', day: '2-digit' };
+      formatOptions =
+        value.getDay() === 0
+          ? { month: 'short', day: '2-digit' }
+          : { month: 'short', day: '2-digit' };
     } else if (value.getMonth() !== 0) {
       formatOptions = { month: 'long' };
     } else {
@@ -158,6 +169,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   buildChartData(data) {
     let max = Number.MIN_VALUE;
     let min = Number.MAX_VALUE;
+
     this.hasData = false;
     this.results = [];
 
@@ -172,6 +184,11 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           name : channel.nslc,
           series : []
         };
+
+      let rowHasData = false;
+      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        rowHasData = data[channel.id][this.currentMetric.id].length > 0;
+
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
             if (measurement.value > max) {
@@ -180,6 +197,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             if (measurement.value < min) {
               min = measurement.value;
             }
+
             if (channelObj.series.length > 0 &&
               channelObj.series[channelObj.series.length - 1].name.getTime() !==
               moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
@@ -194,9 +212,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               }
             );
 
-
           }
-
 
         );
         // console.log(channelObj);
@@ -208,12 +224,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       }
 
     );
-    console.log(this.results);
 
-    this.yScaleMax = max + 100;
-    this.yScaleMin = min - 100;
-
-
+    this.hasData = !this.hasData ? rowHasData : this.hasData;
+    this.yScaleMax = Math.round(max) + 100;
+    this.yScaleMin = Math.round(min) - 100;
   }
 
   ngOnDestroy(): void {

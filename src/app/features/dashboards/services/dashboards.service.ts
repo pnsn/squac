@@ -1,21 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Dashboard } from '../models/dashboard';
+import { Dashboard, DashboardAdapter } from '../models/dashboard';
 import { BehaviorSubject, Observable, of} from 'rxjs';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { filter, map, tap} from 'rxjs/operators';
 
-interface DashboardsHttpData {
-  name: string;
-  description: string;
-  share_all: boolean;
-  share_org: boolean;
-  widgets?: any;
-  organization: number;
-  window_seconds?: number;
-  starttime?: string;
-  endtime?: string;
-  id?: number;
-}
 // should I use index or id
 @Injectable({
   providedIn: 'root'
@@ -30,7 +18,8 @@ export class DashboardsService {
   private localDashboards: Dashboard[] = [];
 
   constructor(
-    private squacApi: SquacApiService
+    private squacApi: SquacApiService,
+    private dashboardAdapter: DashboardAdapter
   ) {
   }
 
@@ -43,14 +32,13 @@ export class DashboardsService {
     } else {
       return this.squacApi.get(this.url).pipe(
         map(
-          response => {
-            const dashboards: Dashboard[] = [];
-            for (const dashboard of response) {
-              dashboards.push(this.mapDashboard(dashboard));
+          results => results.map(
+            r => {
+              const dashboard = this.dashboardAdapter.adaptFromApi(r);
+              this.updateLocalDashboards(dashboard.id, dashboard);
+              return dashboard;
             }
-
-            return dashboards;
-          }
+          )
         ),
         tap(
           (dashboards: Dashboard[]) => {
@@ -65,29 +53,21 @@ export class DashboardsService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    return this.squacApi.get(this.url, id).pipe(map(data => this.mapDashboard(data)));
+    return this.squacApi.get(this.url, id).pipe(map(response => this.dashboardAdapter.adaptFromApi(response)));
   }
 
   // Post/Put dashboard to squac
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
-    const postData: DashboardsHttpData = {
-      name: dashboard.name,
-      description: dashboard.description,
-      share_org: dashboard.shareOrg,
-      share_all: dashboard.shareAll,
-      starttime: dashboard.starttime,
-      endtime: dashboard.endtime,
-      organization: dashboard.orgId,
-      window_seconds: dashboard.timeRange
-    };
+    const postData = this.dashboardAdapter.adaptToApi(dashboard);
+
     if (dashboard.id) {
-      postData.id = dashboard.id;
+
       return this.squacApi.put(this.url, dashboard.id, postData).pipe(
-        map(data => this.mapDashboard(data))
+        map(response => this.dashboardAdapter.adaptFromApi(response))
       );
     } else {
       return this.squacApi.post(this.url, postData).pipe(
-          map(data => this.mapDashboard(data))
+        map(response => this.dashboardAdapter.adaptFromApi(response))
         );
     }
 
@@ -114,29 +94,5 @@ export class DashboardsService {
       this.localDashboards.push(dashboard);
     }
   }
-
-  // Map squac dashboard to dashboard object
-  private mapDashboard(squacData): Dashboard {
-
-    const dashboard = new Dashboard(
-      squacData.id,
-      squacData.user_id,
-      squacData.name,
-      squacData.description,
-      squacData.share_org,
-      squacData.share_all,
-      squacData.organization,
-      squacData.widgets ? squacData.widgets : []
-    );
-    if (squacData.window_seconds) {
-      dashboard.timeRange = squacData.window_seconds;
-    } else {
-      dashboard.starttime = squacData.starttime;
-      dashboard.endtime = squacData.endtime;
-    }
-    this.updateLocalDashboards(dashboard.id, dashboard);
-    return dashboard;
-  }
-
 
 }

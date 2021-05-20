@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { DashboardsService } from '../../services/dashboards.service';
-import { StatTypeService } from '@features/widgets/services/stattype.service';
 import { ViewService } from '@core/services/view.service';
 import { MatSidenav } from '@angular/material/sidenav';
 

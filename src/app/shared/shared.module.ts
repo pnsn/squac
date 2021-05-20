@@ -14,6 +14,8 @@ import { ReplacePipe } from './pipes/replace.pipe';
 import { OrganizationPipe } from './pipes/organization.pipe';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { UserPipe } from './pipes/user.pipe';
+import { SharedIndicatorComponent } from './components/shared-indicator/shared-indicator.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { UserPipe } from './pipes/user.pipe';
     ReplacePipe,
     OrganizationPipe,
     SnackbarComponent,
-    UserPipe
+    UserPipe,
+    SharedIndicatorComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,7 @@ import { UserPipe } from './pipes/user.pipe';
     LeafletDrawModule,
     OrganizationPipe,
     SnackbarComponent,
+    SharedIndicatorComponent,
     UserPipe
   ]
 })

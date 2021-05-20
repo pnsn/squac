@@ -12,8 +12,6 @@ describe('ChannelGroup', () => {
       'test',
       'description',
       1,
-      true,
-      true,
       []
     )).toBeTruthy();
   });
@@ -26,8 +24,6 @@ describe('ChannelGroup', () => {
       url: 'string',
       description: 'string',
       channels: [],
-      share_all: false,
-      share_org: false,
       created_at: 'string',
       updated_at: 'string',
       user_id: '1',
@@ -46,8 +42,6 @@ describe('ChannelGroup', () => {
       'testName',
       'description',
       1,
-      false,
-      false,
       []
     );
     const channelGroupJson = adapter.adaptToApi(testGroup);

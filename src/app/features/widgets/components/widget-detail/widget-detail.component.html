@@ -25,12 +25,12 @@
 
 
   <app-loading *ngIf="loading"> </app-loading>
-  <app-error *ngIf="error" errorMsg="error"></app-error>
+  <app-error *ngIf="error" [errorMsg]="error"></app-error>
   <div class="widget-message" *ngIf="widget.metrics && widget.metrics.length === 0">
-    <p>Metrics missing.</p>
+    <p>Could not load metric. Resource may have been deleted.</p>
   </div>
   <div class="widget-message" *ngIf="!widget.channelGroup">
-    <p>Channel group missing.</p>
+    <p>Could not load channel group. Resource may have been deleted.</p>
   </div>
   <div *ngIf="!error && !loading && noData" class="widget-message"> <p> No Data </p></div>
   <div class="widget-content" *ngIf="!loading && !error && !noData">
