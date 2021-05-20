@@ -111,10 +111,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         -event.deltaY * 10 * ((height - event.layerY) / height) * 2;
       yScaleMinChange = event.deltaY * 10 * (event.layerY / height) * 2;
     }
+
     this.yScaleMax +=
       this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin +=
       this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
+
     this.resize();
   }
 
@@ -171,19 +173,17 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.hasData = false;
     this.results = [];
 
+
     this.addThresholds();
 
-    this.yAxisLabel = this.currentMetric.name
-      ? this.currentMetric.name
-      : 'Unknown';
-    this.channels.forEach((channel) => {
-      const channelObj = {
-        name: channel.nslc,
-        series: [],
-      };
-      let rowHasData = false;
-      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
-        rowHasData = data[channel.id][this.currentMetric.id].length > 0;
+    this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
+    this.channels.forEach(
+
+      channel => {
+        const channelObj = {
+          name : channel.nslc,
+          series : []
+        };
 
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
@@ -193,19 +193,33 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
             if (measurement.value < min) {
               min = measurement.value;
             }
-            channelObj.series.push({
-              name: moment.utc(measurement.starttime).toDate(),
-              value: measurement.value,
-            });
+
+            if (channelObj.series.length > 0 &&
+              channelObj.series[channelObj.series.length - 1].name.getTime() !==
+              moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
+              this.results.push({name: channelObj.name, series: channelObj.series});
+              channelObj.series = [];
+            }
+
+            channelObj.series.push(
+              {
+                name: moment.utc(measurement.starttime).toDate(),
+                value: measurement.value
+              }
+            );
+
           }
+
         );
+        // console.log(channelObj);
+        this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
+        if (channelObj.series.length > 0) {
+          this.results.push(channelObj);
+        }
 
       }
 
-      this.hasData = !this.hasData ? rowHasData : this.hasData;
-
-      this.results.push(channelObj);
-    });
+    );
 
     this.yScaleMax = Math.round(max) + 100;
     this.yScaleMin = Math.round(min) - 100;
