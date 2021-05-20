@@ -116,7 +116,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
       this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin +=
       this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    
+
     this.resize();
   }
 
@@ -185,8 +185,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           series : []
         };
 
-      let rowHasData = false;
-      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        let rowHasData = false;
+        if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
         rowHasData = data[channel.id][this.currentMetric.id].length > 0;
 
         data[channel.id][this.currentMetric.id].forEach(
