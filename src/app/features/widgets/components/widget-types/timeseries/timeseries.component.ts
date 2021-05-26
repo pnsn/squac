@@ -185,7 +185,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
           series : []
         };
 
-        if(data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement) => {
               if (measurement.value > max) {
@@ -194,28 +194,28 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               if (measurement.value < min) {
                 min = measurement.value;
               }
-  
+
               if (channelObj.series.length > 0 &&
                 channelObj.series[channelObj.series.length - 1].name.getTime() !==
                 moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
                 this.results.push({name: channelObj.name, series: channelObj.series});
                 channelObj.series = [];
               }
-  
+
               channelObj.series.push(
                 {
                   name: moment.utc(measurement.starttime).toDate(),
                   value: measurement.value
                 }
               );
-  
+
             }
-  
+
           );
           // console.log(channelObj);
           this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
-        } 
-        
+        }
+
         if (channelObj.series.length > 0) {
           this.results.push(channelObj);
         }
