@@ -309,7 +309,7 @@
               color="accent"
               class="add-btn"
               (click)="save()"
-              [disabled]="!channelGroupForm.valid || selectedChannels?.length !== 0"
+              [disabled]="!channelGroupForm.valid || selectedChannels?.length === 0"
       
               matTooltip="Save channel group"
               aria-label="Button that saves the changes to the channel group"
