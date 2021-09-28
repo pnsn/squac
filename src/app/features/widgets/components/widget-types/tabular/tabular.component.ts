@@ -141,10 +141,6 @@ export class TabularComponent implements OnInit, OnDestroy {
           } 
         }
 
-
-        if(metric.id == 77 && channel.id == 293) {
-          console.log(val)
-        }
         // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? checkThresholds(threshold, val) : false;
