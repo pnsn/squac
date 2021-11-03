@@ -48,11 +48,11 @@ export class MonitorChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // only update data if these change -> swap values if interval changes too
-    if ((changes.metric || changes.channelGroupId || changes.intervalCount || changes.intervalType) && 
-          this.metric && this.channelGroupId && 
+    if ((changes.metric || changes.channelGroupId || changes.intervalCount || changes.intervalType) &&
+          this.metric && this.channelGroupId &&
           this.intervalCount && this.stat && this.intervalType) {
           this.getData();
-    } else if(changes.stat && this.stat) {
+    } else if (changes.stat && this.stat) {
       this.recalculateStat();
     }
 
@@ -107,19 +107,19 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
 }
   recalculateStat() {
-    console.log("update stat");
-    if(this.responseCache) {
+    console.log('update stat');
+    if (this.responseCache) {
       const data = this.mapResponse(this.responseCache, {});
       this.toChartData(data);
     }
   }
 
   getAxisLabel(){
-    let label = "";
-    if (this.stat === "count") {
-      label = "count"
+    let label = '';
+    if (this.stat === 'count') {
+      label = 'count';
     } else {
-      label = this.stat + " of " + this.metric.unit;
+      label = this.stat + ' of ' + this.metric.unit;
     }
     this.yAxisLabel = label ;
   }
@@ -129,19 +129,19 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     const data = {};
     this.indexes = [];
     this.hasData = false;
-    //count, sum, avg, min, max
+    // count, sum, avg, min, max
     // ['minute', 'hour', 'day'];
-    const duration = moment.duration({ [this.intervalType] : 3})
+    const duration = moment.duration({ [this.intervalType] : 3});
     const numHours = 10;
 
     const requests = [];
-    let endtime = moment().utc().startOf('hour').add(5, 'minutes'); //last time alarms would have ran  
-    for(let i = 0; i < numHours; i++) {
+    const endtime = moment().utc().startOf('hour').add(5, 'minutes'); // last time alarms would have ran
+    for (let i = 0; i < numHours; i++) {
       const starttime = endtime.clone().subtract(duration);
 
-      const startString = starttime.clone().format(this.locale.format)
+      const startString = starttime.clone().format(this.locale.format);
       const endString = endtime.clone().format(this.locale.format);
-      requests.push( 
+      requests.push(
         this.measurementService.getAggregated(
           {
               metric: this.metric.id.toString(),
@@ -161,7 +161,7 @@ export class MonitorChartComponent implements OnInit, OnChanges {
 
   toChartData(data) {
     this.results = [];
-      for (const channel in data) {
+    for (const channel in data) {
         if (channel && data[channel]) {
           this.results.push({
             name : channel,
@@ -190,29 +190,29 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     return data;
   }
 
-  getValue(agg: ApiGetAggregate) : number {
+  getValue(agg: ApiGetAggregate): number {
     let value: number;
-    //count, sum, avg, min, max
+    // count, sum, avg, min, max
     switch (this.stat) {
-      case "count":
+      case 'count':
         value = agg.num_samps;
         break;
 
-      case "sum":
+      case 'sum':
         value = agg.mean * agg.num_samps;
         break;
-      case "avg":
+      case 'avg':
         value = agg.mean;
         break;
-      case "min":
+      case 'min':
         value = agg.min;
         break;
-      case "max":
+      case 'max':
         value = agg.max;
         break;
 
       default:
-        value = 0
+        value = 0;
         break;
     }
 
