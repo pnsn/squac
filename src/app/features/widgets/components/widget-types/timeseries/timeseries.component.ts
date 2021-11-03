@@ -176,7 +176,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.addThresholds();
 
-    this.yAxisLabel = this.currentMetric.name ? this.currentMetric.name : 'Unknown';
+    this.yAxisLabel = this.currentMetric ? this.currentMetric.name + " (" + this.currentMetric.unit + ")" : 'Unknown';
     this.channels.forEach(
 
       channel => {
