@@ -13,6 +13,8 @@ describe('Monitor', () => {
       1,
       1,
       'stat',
+      false
+      ,
       1,
       []
     )).toBeTruthy();
@@ -30,6 +32,7 @@ describe('Monitor', () => {
       interval_count: 1,
       num_channels: 1,
       stat: 'string',
+      invert_monitor: true,
       name: 'string',
       created_at: 'string',
       updated_at: 'string',
@@ -52,6 +55,7 @@ describe('Monitor', () => {
       1,
       1,
       'stat',
+      false,
       1,
       []
     );

@@ -53,6 +53,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       numberChannels: ['', [Validators.required, Validators.min(1)]],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
+      invert: [false, Validators.required],
       metric: ['', Validators.required],
       channelGroup: ['', Validators.required],
       triggers: this.formBuilder.array([])
@@ -66,6 +67,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   get triggers(){
     return this.monitorForm.get('triggers') as FormArray;
+  }
+
+  get inverted() {
+    return this.monitorForm.get('invert').value;
   }
 
   addTrigger(trigger?: Trigger) {
@@ -109,6 +114,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.intervalCount,
       values.numberChannels,
       values.stat,
+      values.invert,
       null,
       values.triggers
     );
@@ -151,6 +157,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           numberChannels: this.monitor.numberChannels,
           intervalType: this.monitor.intervalType,
           stat: this.monitor.stat,
+          invert: this.monitor.invert,
           channelGroup: this.selectedChannelGroup,
           metric: this.selectedMetric
         }

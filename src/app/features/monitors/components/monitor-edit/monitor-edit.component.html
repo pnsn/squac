@@ -21,8 +21,7 @@
           </mat-form-field>
 
           <div>
-            <span>Will be in alarm when the </span>
-
+            <span>Will be in alarm when the</span>
             <mat-form-field class="small">
               <mat-label>Statistic</mat-label>
               <mat-select formControlName="stat" name="stat">
@@ -37,13 +36,12 @@
                 <mat-option *ngFor="let m of metrics" [value]="m">{{m.name}} </mat-option>
               </mat-select>
             </mat-form-field>
-
             <span> for </span>
             <mat-form-field class="small">
               <mat-label for="numberChannels"># of Channels</mat-label>
               <input matInput type="number" name="numberChannels" formControlName="numberChannels">
             </mat-form-field>
-            <span> or more channels in </span>
+            <span> or {{inverted ? "fewer" : "more"}} channels in </span>
             <mat-form-field class="large">
               <mat-label>
                 Channel Group
@@ -54,7 +52,6 @@
               </mat-select>
             </mat-form-field>
             <span>breaches the set triggers in the last </span>
-
 
             <mat-form-field class="small">
               <mat-label for="intervalCount"># of intervals</mat-label>
@@ -67,6 +64,8 @@
                   {{type}}{{monitorForm.value.intervalCount > 1 ? "s." : "."}} </mat-option>
               </mat-select>
             </mat-form-field>
+
+            <mat-slide-toggle formControlName="invert">{{inverted ? "Inverted" : "Invert"}}</mat-slide-toggle>
 
           </div>
 
@@ -149,8 +148,16 @@
 
   <div id="chart-container">
     <h4>Preview</h4>
-    <app-monitor-chart [metric]="monitorForm.value.metric" [triggers]="monitorForm.value.triggers"
-      [channelGroupId]="monitorForm.value.channelGroup.id"></app-monitor-chart>
+    <app-monitor-chart
+      [metric]="monitorForm.value.metric"
+      [triggers]="monitorForm.value.triggers"
+      [channelGroupId]="monitorForm.value.channelGroup.id"
+      [stat]="monitorForm.value.stat"
+      [numberChannels]="monitorForm.value.numberChannels"
+      [intervalCount]="monitorForm.value.intervalCount"
+      [intervalType]="monitorForm.value.intervalType"
+      [invert]="monitorForm.value.invert"
+      ></app-monitor-chart>
   </div>
 
 
