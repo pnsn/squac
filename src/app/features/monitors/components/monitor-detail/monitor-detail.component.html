@@ -43,7 +43,17 @@
     </div>
     <div id="monitor-chart" class="col">
       <h3>History</h3>
-      <app-monitor-chart *ngIf="monitor.metric" [metric]="monitor.metric" [channelGroupId]="monitor.channelGroup.id" [triggers]="monitor.triggers"></app-monitor-chart>
+      <app-monitor-chart 
+        *ngIf="monitor.metric"
+          [metric]="monitor.metric"
+          [channelGroupId]="monitor.channelGroup.id"
+          [triggers]="monitor.triggers"
+          [stat]="monitor.stat"
+          [numberChannels]="monitor.numberChannels"
+          [intervalCount]="monitor.intervalCount"
+          [intervalType]="monitor.intervalType"
+          [invert]="monitor.invert"
+          ></app-monitor-chart>
     </div>
   </div>
   

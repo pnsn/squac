@@ -148,8 +148,16 @@
 
   <div id="chart-container">
     <h4>Preview</h4>
-    <app-monitor-chart [metric]="monitorForm.value.metric" [triggers]="monitorForm.value.triggers"
-      [channelGroupId]="monitorForm.value.channelGroup.id"></app-monitor-chart>
+    <app-monitor-chart
+      [metric]="monitorForm.value.metric"
+      [triggers]="monitorForm.value.triggers"
+      [channelGroupId]="monitorForm.value.channelGroup.id"
+      [stat]="monitorForm.value.stat"
+      [numberChannels]="monitorForm.value.numberChannels"
+      [intervalCount]="monitorForm.value.intervalCount"
+      [intervalType]="monitorForm.value.intervalType"
+      [invert]="monitorForm.value.invert"
+      ></app-monitor-chart>
   </div>
 
 

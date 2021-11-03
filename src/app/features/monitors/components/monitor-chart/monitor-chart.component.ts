@@ -1,9 +1,11 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '@core/models/metric';
-import { SquacApiService } from '@core/services/squacapi.service';
 import { Trigger } from '@features/monitors/models/trigger';
+import { ApiGetAggregate } from '@features/widgets/models/aggregate';
+import { MeasurementsService } from '@features/widgets/services/measurements.service';
 import * as moment from 'moment';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-monitor-chart',
@@ -14,9 +16,15 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   @Input() metric?: Metric;
   @Input() triggers: Trigger[];
   @Input() channelGroupId: number;
+  @Input() stat: string;
+  @Input() numberChannels: number;
+  @Input() intervalCount: number;
+  @Input() intervalType: string;
+  @Input() invert: boolean;
+
   locale;
   private url = 'measurement/measurements/';
-  constructor(    private squacApi: SquacApiService) {
+  constructor(    private measurementService: MeasurementsService) {
     this.locale =  {
       format: 'YYYY-MM-DDTHH:mm:ss[Z]',
       displayFormat: 'YYYY/MM/DD HH:mm',
@@ -26,27 +34,33 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   results: Array<any> = [];
   hasData: boolean;
   referenceLines: any[] = [];
-  xAxisLabel = 'Last Ten Measurements';
+  xAxisLabel = 'Last Ten Monitor Values';
   yAxisLabel = '';
   currentMetric: Metric;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
-
+  responseCache;
+  indexes;
   ngOnInit(): void {
   }
   // this is functionally a widget - should have a measurement service?
 
   ngOnChanges(changes: SimpleChanges): void {
-    // only update data if these change
-    if ((changes.metric || changes.channelGroupId) &&  this.metric && this.channelGroupId) {
-      this.getData(this.metric, this.channelGroupId);
+    // only update data if these change -> swap values if interval changes too
+    if ((changes.metric || changes.channelGroupId || changes.intervalCount || changes.intervalType) && 
+          this.metric && this.channelGroupId && 
+          this.intervalCount && this.stat && this.intervalType) {
+          this.getData();
+    } else if(changes.stat && this.stat) {
+      this.recalculateStat();
     }
 
     // only update triggers when they change
     if (changes.triggers) {
       this.addTriggers();
     }
+    this.getAxisLabel();
   }
 
   addTriggers() {
@@ -92,60 +106,116 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   formatOptions.timeZone = 'UTC';
   return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
 }
-
-  // ToDo: put in service so locale and squac aren't in here
-  getData(metric: Metric, channelGroupId){
-    console.log('getting data');
-    const data = {};
-    this.results = [];
-    this.hasData = false;
-    this.yAxisLabel = this.metric.unit;
-    // try to get x datapoints
-    const rate = metric.sampleRate;
-    const numMeasurements = 10;
-
-    const starttime = moment().utc().subtract(rate * numMeasurements, 'seconds').format(this.locale.format);
-    const endtime = moment().utc().format(this.locale.format);
-    // calculate starttime
-    this.squacApi.get(this.url, null,
-      {
-          metric: metric.id,
-          group: channelGroupId,
-          starttime,
-          endtime,
-      }
-    ).pipe(
-      map(response => {
-        response.forEach(m => {
-          if (!data[m.channel]) {
-            data[m.channel] = [];
-          }
-          data[m.channel].push(
-            {
-              name : moment.utc(m.starttime).toDate(),
-              value : m.value
-            }
-          );
-        });
-        return data;
-      })
-    ).subscribe(
-      result => {
-        for (const channel in result) {
-          if (channel && data[channel]) {
-            this.results.push({
-              name : channel,
-              series : data[channel]
-            });
-          }
-        }
-        // console.log('resultts', this.results);
-        this.hasData = this.results.length > 0;
-      }
-    );
+  recalculateStat() {
+    console.log("update stat");
+    if(this.responseCache) {
+      const data = this.mapResponse(this.responseCache, {});
+      this.toChartData(data);
+    }
   }
 
-  formatData() {
+  getAxisLabel(){
+    let label = "";
+    if (this.stat === "count") {
+      label = "count"
+    } else {
+      label = this.stat + " of " + this.metric.unit;
+    }
+    this.yAxisLabel = label ;
+  }
+  // ToDo: put in service so locale and squac aren't in here
+  getData(){
+    console.log('getting data');
+    const data = {};
+    this.indexes = [];
+    this.hasData = false;
+    //count, sum, avg, min, max
+    // ['minute', 'hour', 'day'];
+    const duration = moment.duration({ [this.intervalType] : 3})
+    const numHours = 10;
 
+    const requests = [];
+    let endtime = moment().utc().startOf('hour').add(5, 'minutes'); //last time alarms would have ran  
+    for(let i = 0; i < numHours; i++) {
+      const starttime = endtime.clone().subtract(duration);
+
+      const startString = starttime.clone().format(this.locale.format)
+      const endString = endtime.clone().format(this.locale.format);
+      requests.push( 
+        this.measurementService.getAggregated(
+          {
+              metric: this.metric.id.toString(),
+              group: this.channelGroupId,
+              starttime: startString,
+              endtime: endString
+          }
+      ));
+      this.indexes.push(endtime.clone());
+      endtime.subtract(1, 'hour');
+    }
+
+    forkJoin(requests).pipe(
+      map(r => this.mapResponse(r, data))
+    ).subscribe(d => this.toChartData(d));
+  }
+
+  toChartData(data) {
+    this.results = [];
+      for (const channel in data) {
+        if (channel && data[channel]) {
+          this.results.push({
+            name : channel,
+            series : data[channel]
+          });
+        }
+      }
+    this.hasData = this.results.length > 0;
+  }
+
+  mapResponse(response, data) {
+    this.responseCache = response;
+    response.forEach((values: Array<any>, i) => {
+      values.forEach(m => {
+        if (!data[m.channel]) {
+          data[m.channel] = [];
+        }
+        data[m.channel].push(
+          {
+            name : this.indexes[i].toDate(),
+            value : this.getValue(m)
+          }
+        );
+      });
+    });
+    return data;
+  }
+
+  getValue(agg: ApiGetAggregate) : number {
+    let value: number;
+    //count, sum, avg, min, max
+    switch (this.stat) {
+      case "count":
+        value = agg.num_samps;
+        break;
+
+      case "sum":
+        value = agg.mean * agg.num_samps;
+        break;
+      case "avg":
+        value = agg.mean;
+        break;
+      case "min":
+        value = agg.min;
+        break;
+      case "max":
+        value = agg.max;
+        break;
+
+      default:
+        value = 0
+        break;
+    }
+
+    return value;
   }
 }
