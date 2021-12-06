@@ -3,13 +3,11 @@ import {
   OnInit,
   Input,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
   ViewChild,
   ElementRef,
   HostListener,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { ViewService } from '@core/services/view.service';
@@ -18,8 +16,6 @@ import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';
-import * as d3 from 'd3';
-import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-timeseries',
@@ -53,16 +49,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   @ViewChild('timeSeriesDivIdentifier')
   timeSeriesDivIdentifier: ElementRef;
 
-  onScroll = (event: any) => {};
+  // Max allowable time between measurements to connect
+  maxMeasurementGap : number = 1 * 1000;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   for (const propName in changes) {
-  //     const chng = changes[propName];
-  //     const cur  = JSON.stringify(chng.currentValue);
-  //     const prev = JSON.stringify(chng.previousValue);
-  //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
-  //   }
-  // }
+  onScroll = (event: any) => {};
 
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
@@ -195,11 +185,19 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                 min = measurement.value;
               }
 
-              if (channelObj.series.length > 0 &&
-                channelObj.series[channelObj.series.length - 1].name.getTime() !==
-                moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
-                this.results.push({name: channelObj.name, series: channelObj.series});
-                channelObj.series = [];
+              
+ 
+
+              // If time between measurements is greater than gap, don't connect
+              if (channelObj.series.length > 0 ) {
+                //time since last measurement
+                const lastStart = moment.utc(channelObj.series[channelObj.series.length - 1].name);
+                const diff = lastStart.diff(moment.utc(measurement.starttime));
+
+                if(diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
+                  this.results.push({name: channelObj.name, series: channelObj.series});
+                  channelObj.series = [];
+                }
               }
 
               channelObj.series.push(
