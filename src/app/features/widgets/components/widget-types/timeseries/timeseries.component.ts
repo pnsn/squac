@@ -50,7 +50,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   timeSeriesDivIdentifier: ElementRef;
 
   // Max allowable time between measurements to connect
-  maxMeasurementGap : number = 2 * 1000;
+  maxMeasurementGap : number = 1 * 1000;
 
   // onScroll = (event: any) => {};
 
@@ -176,6 +176,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         };
 
         if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+
+          let lastEnd : moment.Moment;
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement) => {
               if (measurement.value > max) {
@@ -185,14 +187,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                 min = measurement.value;
               }
 
-              
- 
-
-              // If time between measurements is greater than gap, don't connect
-              if (channelObj.series.length > 0 ) {
+              // // If time between measurements is greater than gap, don't connect
+              if (channelObj.series.length > 0 && lastEnd) {
                 //time since last measurement
-                const lastStart = moment.utc(channelObj.series[channelObj.series.length - 1].name);
-                const diff = moment.utc(measurement.starttime).diff(lastStart);
+                const diff = moment.utc(measurement.starttime).diff(lastEnd);
                 
                 if(diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
                   this.results.push({name: channelObj.name, series: channelObj.series});
@@ -200,13 +198,23 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                 }
               }
 
+              // meas start
               channelObj.series.push(
                 {
                   name: moment.utc(measurement.starttime).toDate(),
                   value: measurement.value
                 }
-              );
+              )
 
+              //meas end
+              channelObj.series.push(
+                {
+                  name: moment.utc(measurement.endtime).toDate(),
+                  value: measurement.value
+                }
+              )
+
+              lastEnd = moment.utc(measurement.endtime);
             }
 
           );
@@ -222,8 +230,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     );
 
-    this.yScaleMax = Math.round(max) + 100;
-    this.yScaleMin = Math.round(min) - 100;
+    this.yScaleMax = Math.round(max) + 25;
+    this.yScaleMin = Math.round(min) - 25;
   }
 
   ngOnDestroy(): void {
