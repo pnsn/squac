@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { SquacApiService } from '@core/services/squacapi.service';
 
@@ -15,11 +15,14 @@ export class ChannelGroupsService {
   // Time stamp of last refresh
   private lastRefresh: number;
 
+
   constructor(
     private squacApi: SquacApiService,
     private channelGroupAdapter: ChannelGroupAdapter
   ) {
   }
+
+  channelGroups: Subject<ChannelGroup[]> = new Subject();
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
@@ -56,6 +59,8 @@ export class ChannelGroupsService {
     } else {
       this.localChannelGroups.push(channelGroup);
     }
+    this.lastRefresh = null;
+    this.channelGroups.next(this.localChannelGroups)
   }
 
   // Gets a specific channel group with id from server

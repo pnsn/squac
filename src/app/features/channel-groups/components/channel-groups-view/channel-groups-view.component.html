@@ -3,6 +3,10 @@
     Channel Groups
   </h1>
   <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
+    <button
+    mat-icon-button
+    aria-label="button that refreshes data"
+    (click)="refresh()"><mat-icon>refresh</mat-icon></button>
     <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
       Only Show {{userOrg?.name}} Groups
     </mat-slide-toggle>

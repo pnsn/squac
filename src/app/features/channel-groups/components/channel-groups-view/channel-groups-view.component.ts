@@ -7,6 +7,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
 import { UserService } from '@features/user/services/user.service';
 import { Organization } from '@features/user/models/organization';
 import { filter, tap } from 'rxjs/operators';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 
 @Component({
   selector: 'app-channel-groups-view',
@@ -30,7 +31,8 @@ export class ChannelGroupsViewComponent
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private orgService: OrganizationsService
+    private orgService: OrganizationsService,
+    private channelGroupsService: ChannelGroupsService
   ) {}
 
   ngOnInit() {
@@ -64,8 +66,23 @@ export class ChannelGroupsViewComponent
         +this.route.firstChild.snapshot.params.channelGroupId;
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
+    
+    const channelGroupsSub = this.channelGroupsService.channelGroups.subscribe(
+      channelGroups => {
+        this.channelGroups = channelGroups;
+      }
+    )
 
     this.subscription.add(routerEvents);
+    this.subscription.add(channelGroupsSub);
+  }
+
+  refresh() {
+    this.channelGroupsService.getChannelGroups().subscribe(
+      channelGroups => {
+        this.channelGroups = channelGroups;
+      }
+    )
   }
 
   ngAfterViewInit(): void {
