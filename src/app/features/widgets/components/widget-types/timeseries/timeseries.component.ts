@@ -52,7 +52,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   // Max allowable time between measurements to connect
   maxMeasurementGap : number = 2 * 1000;
 
-  onScroll = (event: any) => {};
+  // onScroll = (event: any) => {};
 
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
@@ -63,7 +63,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
-    this.onScroll = this.onWheel;
+    // this.onScroll = this.onWheel;
     this.referenceLines = [];
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
@@ -84,7 +84,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.subscription.add(resizeSub);
   }
-  @HostListener('wheel', ['$event'])
+  // @HostListener('wheel', ['$event'])
   onWheel(event) {
     event.preventDefault();
 
