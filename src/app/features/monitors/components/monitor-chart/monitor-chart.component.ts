@@ -138,11 +138,11 @@ export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
     this.hasData = false;
     // count, sum, avg, min, max
     // ['minute', 'hour', 'day'];
-    const duration = moment.duration({ [this.intervalType] : 3});
-    const numHours = 10;
+    const duration = moment.duration({ [this.intervalType] : this.intervalCount});
+    const numHours = 10; //number of monitor evaluations to show
 
     const requests = [];
-    const endtime = moment().utc().startOf('hour').add(5, 'minutes'); // last time alarms would have ran
+    const endtime = moment().utc().startOf('hour'); // last time alarms would have ran
     for (let i = 0; i < numHours; i++) {
       const starttime = endtime.clone().subtract(duration);
 
