@@ -142,8 +142,6 @@ private addWidgetsToView(widgets: Widget[]) {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-
 }
 
 

@@ -48,7 +48,7 @@ export class ChannelGroupsService {
 
   // Save channel groups to server
   updateLocalChannelGroup(id, channelGroup?): void {
-    const index = this.localChannelGroups.findIndex(d => d.id === id);
+    const index = this.localChannelGroups.findIndex(cG => cG.id === id);
 
     if (index > -1) {
       if (channelGroup) {

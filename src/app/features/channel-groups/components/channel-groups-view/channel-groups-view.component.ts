@@ -45,7 +45,6 @@ export class ChannelGroupsViewComponent
         } else {
           this.channelGroups = data.channelGroups;
         }
-        console.log("set channel groups")
       }
     );
 

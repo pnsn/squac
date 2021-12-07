@@ -71,6 +71,7 @@ export class DashboardsService {
         );
     }
 
+    this.lastRefresh = null;
   }
 
   // Delete dashboard from squac

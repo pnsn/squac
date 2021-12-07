@@ -94,5 +94,6 @@ export class MetricsService {
     } else {
       this.localMetrics.push(metric);
     }
+    this.lastRefresh = null;
   }
 }
