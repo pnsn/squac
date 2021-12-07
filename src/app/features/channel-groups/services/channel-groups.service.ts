@@ -22,11 +22,11 @@ export class ChannelGroupsService {
   ) {
   }
 
-  channelGroups: Subject<ChannelGroup[]> = new Subject();
-
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
+    console.log("get channel groups")
     if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
+      console.log("return local")
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
@@ -39,6 +39,7 @@ export class ChannelGroupsService {
         )),
       tap(
         channelGroups => {
+          console.log("fetch new")
           this.lastRefresh = new Date().getTime();
         }
       )
@@ -60,7 +61,6 @@ export class ChannelGroupsService {
       this.localChannelGroups.push(channelGroup);
     }
     this.lastRefresh = null;
-    this.channelGroups.next(this.localChannelGroups)
   }
 
   // Gets a specific channel group with id from server

@@ -38,9 +38,18 @@ export class ChannelGroupsViewComponent
   ngOnInit() {
     this.selected = [];
 
-    this.channelGroups = this.route.parent.snapshot.data.channelGroups;
+    const routeSub = this.route.parent.data.subscribe(
+      data => {
+        if (data.channelGroups.error){
+          console.log("error in channels")
+        } else {
+          this.channelGroups = data.channelGroups;
+        }
+        console.log("set channel groups")
+      }
+    );
 
-    this.orgService
+    const orgSub = this.orgService
       .getOrganization(this.userService.userOrg)
       .subscribe((org) => {
         this.userOrg = org;
@@ -66,15 +75,10 @@ export class ChannelGroupsViewComponent
         +this.route.firstChild.snapshot.params.channelGroupId;
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
-    
-    const channelGroupsSub = this.channelGroupsService.channelGroups.subscribe(
-      channelGroups => {
-        this.channelGroups = channelGroups;
-      }
-    )
 
     this.subscription.add(routerEvents);
-    this.subscription.add(channelGroupsSub);
+    this.subscription.add(routeSub);
+    this.subscription.add(orgSub);
   }
 
   refresh() {
