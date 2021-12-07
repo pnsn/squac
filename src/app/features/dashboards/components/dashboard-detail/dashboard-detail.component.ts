@@ -62,7 +62,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.makeTimeRanges();
 
 
-    this.route.data.subscribe(
+    const dashboardSub = this.route.data.subscribe(
       data => {
         this.status = 'loading';
         this.dashboard = data.dashboard;
@@ -109,8 +109,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    // this.subscription.add(dashSub);
-    // this.subscription.add(dashIdSub);
+    this.subscription.add(dashboardSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }

@@ -60,7 +60,6 @@ export class ChannelGroupsService {
     } else {
       this.localChannelGroups.push(channelGroup);
     }
-    this.lastRefresh = null;
   }
 
   // Gets a specific channel group with id from server

@@ -26,7 +26,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const dashboardsSub = this.route.params.subscribe(
+    const activeDashboardSub = this.route.params.subscribe(
       (params: Params) => {
         this.activeDashboardId = +params.dashboardId;
       },
@@ -35,10 +35,16 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.route.snapshot && this.route.snapshot.data) {
-      this.dashboards = this.route.snapshot.data.dashboards;
-    }
-
+    const dashboardsSub = this.route.data.subscribe(
+      data => {
+        if(data.dashboards.error) {
+          console.log("error in dashboard")
+        } else {
+          this.dashboards = data.dashboards;
+        }
+      }
+    )
+    
     const userService = this.userService.user.subscribe(
       user => {
         this.userId = user ? user.id : null;
@@ -48,6 +54,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     // this.subscription.add(dashboardsService);
     this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
+    this.subscription.add(activeDashboardSub);
   }
 
   ngOnDestroy(): void {
