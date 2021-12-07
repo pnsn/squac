@@ -50,7 +50,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   timeSeriesDivIdentifier: ElementRef;
 
   // Max allowable time between measurements to connect
-  maxMeasurementGap : number = 1 * 1000;
+  maxMeasurementGap : number = 2 * 1000;
 
   onScroll = (event: any) => {};
 
@@ -192,8 +192,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               if (channelObj.series.length > 0 ) {
                 //time since last measurement
                 const lastStart = moment.utc(channelObj.series[channelObj.series.length - 1].name);
-                const diff = lastStart.diff(moment.utc(measurement.starttime));
-
+                const diff = moment.utc(measurement.starttime).diff(lastStart);
+                
                 if(diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
                   this.results.push({name: channelObj.name, series: channelObj.series});
                   channelObj.series = [];

@@ -186,6 +186,16 @@ ngx-datatable {
   &.ngx-datatable.material {
     box-shadow: unset;
   }
+  .datatable-header-cell {
+    padding: 5px !important;
+    white-space: normal !important;
+  }
+  
+  .datatable-body-cell, .datatable-body-row{
+    padding: 1px 3px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
 }
 
 .datatable-row-detail { width: 100%; }
