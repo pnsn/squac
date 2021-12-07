@@ -10,12 +10,16 @@
   }
 
 }
+:host ::ng-deep .mat-list-item {
+  height:25px !important; 
+}
+
 :host ::ng-deep .mat-list-item-content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   display:block !important;
-  line-height: 40px;
+  line-height: 25px;
 }
 
 button {
@@ -29,12 +33,15 @@ button {
   line-height: 22px;
   margin: 10px auto;
 }
-:host ::ng-deep .mat-expansion-panel-header.mat-expanded {
-  height:40px;
+
+
+:host ::ng-deep .mat-expansion-panel-header {
+  height:30px;
+  padding: 0px 10px;
 }
 
 :host ::ng-deep .mat-expansion-panel-body {
   max-height: 50vh;
   overflow:scroll;
-  padding: 0px 5px 0px 20px;
+  padding: 0px 5px 0px 5px;
 }
