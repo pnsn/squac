@@ -16,7 +16,7 @@
       id="channel-group-table"
       class="material"
       [rows]="channelGroups"
-      [columnMode]="ColumnMode.flex"
+      [columnMode]="ColumnMode.force"
       [headerHeight]="30"
       [footerHeight]="50"
       [rowHeight]="23"
@@ -25,22 +25,22 @@
       [selected]="selected"
       (select)="onSelect($event)"
     >
-      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
+      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" > 
       </ngx-datatable-column>
-      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
+      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false">
       </ngx-datatable-column>
-      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [width]="30">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.channelIds ? row.channelIds.length : '0'}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="true" [flexGrow]="1">
+      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="true" [width]="100">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{value | user}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="true" [flexGrow]="1">
+      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="true" [width]="30">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{value | organization}}
         </ng-template>
