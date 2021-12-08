@@ -90,7 +90,7 @@ export class MapComponent implements OnInit {
 
     const legend = new L.Control({ position: 'bottomright' });
     legend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
+      const div = L.DomUtil.create('div', 'legend');
 
       if (threshold) {
         div.innerHTML +=
@@ -101,11 +101,11 @@ export class MapComponent implements OnInit {
           '</h4>';
       }
       div.innerHTML +=
-        '<p><i style="background:#4488A9"> </i>' + 'Within Threshold</p>';
+        '<p><div class="in-spec "></div>' + 'Within Threshold</p>';
       div.innerHTML +=
-        '<p><i style="background:#ffb758"> </i>' + 'Outside Threshold</p>';
+        '<p><div class="out-of-spec "></div>' + 'Outside Threshold</p>';
       div.innerHTML +=
-        '<p><i style="background:gray"> </i>' + 'No Threshold</p>';
+        '<p><div class="unknown"></div>' + 'No Threshold</p>';
 
       return div;
     };
@@ -153,13 +153,6 @@ export class MapComponent implements OnInit {
       const threshold = this.thresholds[metric.id];
       const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
-      if (!stationChannels[channel.stationCode]) {
-        stationChannels[channel.stationCode] = '';
-      }
-
-      stationChannels[channel.stationCode] =
-        stationChannels[channel.stationCode] + `<p>${channel.code}: ${val}</p>`;
-
       if (threshold && val != null && !inThreshold) {
         agg++;
       }
@@ -175,6 +168,13 @@ export class MapComponent implements OnInit {
       } else {
         iconClass = 'unknown';
       }
+
+      if (!stationChannels[channel.stationCode]) {
+        stationChannels[channel.stationCode] = '';
+      }
+
+      stationChannels[channel.stationCode] =
+        stationChannels[channel.stationCode] + `<p> <div class="${iconClass}"> </div>${channel.loc}.${channel.code}: ${val ? val : "no data"}</p>`;
 
       const title =
         channel.networkCode +
@@ -228,20 +228,18 @@ export class MapComponent implements OnInit {
         console.log(station);
       }
 
-      const marker = L.marker([station.lat, station.lon], {
-        icon: L.divIcon({ className: station.class }),
-      }).bindPopup(`<b>
-        ${station.staCode.toUpperCase()}</b>${
-        stationChannels[station.staCode]
-      }`);
+      const marker = L.marker([station.lat, station.lon], 
+        {
+          icon: L.divIcon({ className: station.class }),
+        })
+        .bindPopup(`<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4>
+        ${stationChannels[station.staCode]}`)
+        .bindTooltip(`${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()}`);
 
-      marker.on('mouseover', (ev) => {
+      marker.on('click', (ev) => {
         ev.target.openPopup();
       });
 
-      marker.on('mouseout', (ev) => {
-        ev.target.closePopup();
-      });
       this.stations.push(marker);
     });
     this.stationLayer = L.layerGroup(this.stations);
