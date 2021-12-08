@@ -134,7 +134,7 @@ private addWidgetsToView(widgets: Widget[]) {
         }
       }
     );
-    this.subscription.add(widgetSub);
+    // this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }

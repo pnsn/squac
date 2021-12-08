@@ -9,6 +9,7 @@ import { Dashboard } from '@features/dashboards/models/dashboard';
 import { WidgetDataService } from '@features/widgets/services/widget-data.service';
 import { AppAbility } from '@core/utils/ability';
 import { UserService } from '@features/user/services/user.service';
+import { WidgetsService } from '@features/widgets/services/widgets.service';
 
 @Component({
   selector: 'app-widget-detail',
@@ -31,14 +32,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   styles: any;
 
   constructor(
-    private viewService: ViewService,
     private widgetDataService: WidgetDataService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private dashboardsService: DashboardsService,
-    private ability: AppAbility,
-    private userService: UserService
+    private viewService: ViewService
   ) {
 
   }
