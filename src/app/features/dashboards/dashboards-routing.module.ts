@@ -16,6 +16,7 @@ export const routes: Routes = [
     resolve: {
       dashboards: DashboardsResolver
     },
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'new',

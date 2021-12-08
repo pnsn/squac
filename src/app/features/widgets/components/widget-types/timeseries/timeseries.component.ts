@@ -3,13 +3,11 @@ import {
   OnInit,
   Input,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
   ViewChild,
   ElementRef,
   HostListener,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { ViewService } from '@core/services/view.service';
@@ -18,8 +16,6 @@ import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
 import * as moment from 'moment';
-import * as d3 from 'd3';
-import { Archive } from '@features/widgets/models/archive';
 
 @Component({
   selector: 'app-timeseries',
@@ -53,16 +49,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   @ViewChild('timeSeriesDivIdentifier')
   timeSeriesDivIdentifier: ElementRef;
 
-  onScroll = (event: any) => {};
+  // Max allowable time between measurements to connect
+  maxMeasurementGap: number = 1 * 1000;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   for (const propName in changes) {
-  //     const chng = changes[propName];
-  //     const cur  = JSON.stringify(chng.currentValue);
-  //     const prev = JSON.stringify(chng.previousValue);
-  //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
-  //   }
-  // }
+  // onScroll = (event: any) => {};
 
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
@@ -73,7 +63,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
-    this.onScroll = this.onWheel;
+    // this.onScroll = this.onWheel;
     this.referenceLines = [];
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
@@ -94,7 +84,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.subscription.add(resizeSub);
   }
-  @HostListener('wheel', ['$event'])
+  // @HostListener('wheel', ['$event'])
   onWheel(event) {
     event.preventDefault();
 
@@ -186,6 +176,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         };
 
         if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+
+          let lastEnd: moment.Moment;
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement) => {
               if (measurement.value > max) {
@@ -195,13 +187,18 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                 min = measurement.value;
               }
 
-              if (channelObj.series.length > 0 &&
-                channelObj.series[channelObj.series.length - 1].name.getTime() !==
-                moment.utc(measurement.starttime).toDate().getTime() - this.currentMetric.sampleRate * 1000) {
-                this.results.push({name: channelObj.name, series: channelObj.series});
-                channelObj.series = [];
+              // // If time between measurements is greater than gap, don't connect
+              if (channelObj.series.length > 0 && lastEnd) {
+                // time since last measurement
+                const diff = moment.utc(measurement.starttime).diff(lastEnd);
+
+                if (diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
+                  this.results.push({name: channelObj.name, series: channelObj.series});
+                  channelObj.series = [];
+                }
               }
 
+              // meas start
               channelObj.series.push(
                 {
                   name: moment.utc(measurement.starttime).toDate(),
@@ -209,6 +206,15 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                 }
               );
 
+              // meas end
+              channelObj.series.push(
+                {
+                  name: moment.utc(measurement.endtime).toDate(),
+                  value: measurement.value
+                }
+              );
+
+              lastEnd = moment.utc(measurement.endtime);
             }
 
           );
@@ -224,8 +230,8 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     );
 
-    this.yScaleMax = Math.round(max) + 100;
-    this.yScaleMin = Math.round(min) - 100;
+    this.yScaleMax = Math.round(max) + 25;
+    this.yScaleMin = Math.round(min) - 25;
   }
 
   ngOnDestroy(): void {

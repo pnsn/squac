@@ -8,12 +8,15 @@
 
 
 .drag-handler {
-  line-height:24px;
+  margin: 2px 0px 0px 2px;
+  height: 24px;
+  width: 24px;
+  line-height:12px;
   display: inline;
   position: absolute;
   color:transparent;
   &:hover {
-    color:#eeeeee;
+    color:#c5c3c3;
   }
 }
 

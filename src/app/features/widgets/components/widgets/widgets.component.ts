@@ -43,6 +43,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     minCols: 20,
     maxCols: 20,
     minRows: 20,
+    margin: 5,
     pushItems: true,
     resizable: {
       enabled: true,
@@ -133,7 +134,7 @@ private addWidgetsToView(widgets: Widget[]) {
         }
       }
     );
-    this.subscription.add(widgetSub);
+    // this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }
@@ -141,8 +142,6 @@ private addWidgetsToView(widgets: Widget[]) {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-
 }
 
 

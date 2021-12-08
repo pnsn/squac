@@ -33,11 +33,6 @@
   height: 100%;
 }
 
-:host ::ng-deep .datatable-header-cell, :host ::ng-deep .datatable-body-cell {
-  padding: 5px !important;
-  white-space: normal !important;
-}
-
 // :host ::ng-deep datatable-header-cell-template-wrap {
 //   white-space: normal;
 // }

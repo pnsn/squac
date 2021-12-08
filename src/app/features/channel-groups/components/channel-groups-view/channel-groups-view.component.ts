@@ -7,6 +7,7 @@ import { OrganizationsService } from '@features/user/services/organizations.serv
 import { UserService } from '@features/user/services/user.service';
 import { Organization } from '@features/user/models/organization';
 import { filter, tap } from 'rxjs/operators';
+import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
 
 @Component({
   selector: 'app-channel-groups-view',
@@ -30,15 +31,26 @@ export class ChannelGroupsViewComponent
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private orgService: OrganizationsService
+    private orgService: OrganizationsService,
+    private channelGroupsService: ChannelGroupsService
   ) {}
 
   ngOnInit() {
     this.selected = [];
+    if (this.route.parent && this.route.parent.data) {
+      const routeSub = this.route.parent.data.subscribe(
+        data => {
+          if (data.channelGroups.error){
+            console.log('error in channels');
+          } else {
+            this.channelGroups = data.channelGroups;
+          }
+        }
+      );
+      this.subscription.add(routeSub);
+    }
 
-    this.channelGroups = this.route.parent.snapshot.data.channelGroups;
-
-    this.orgService
+    const orgSub = this.orgService
       .getOrganization(this.userService.userOrg)
       .subscribe((org) => {
         this.userOrg = org;
@@ -66,6 +78,15 @@ export class ChannelGroupsViewComponent
     }
 
     this.subscription.add(routerEvents);
+    this.subscription.add(orgSub);
+  }
+
+  refresh() {
+    this.channelGroupsService.getChannelGroups().subscribe(
+      channelGroups => {
+        this.channelGroups = channelGroups;
+      }
+    );
   }
 
   ngAfterViewInit(): void {

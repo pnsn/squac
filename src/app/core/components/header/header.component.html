@@ -17,9 +17,11 @@
         <!-- <button mat-menu-item>Help</button> -->
       </mat-menu>
 
+
+      <a mat-button [matMenuTriggerFor]="appMenu">Settings</a>  
       <!-- TODO: profile pic or first name -->
-      <button mat-mini-fab [matMenuTriggerFor]="appMenu">
+      <!-- <button mat-mini-fab [matMenuTriggerFor]="appMenu">
         <div id="user-icon">{{user?.firstName.charAt(0)}}</div>
-      </button>
+      </button> -->
   </div>
 </mat-toolbar>

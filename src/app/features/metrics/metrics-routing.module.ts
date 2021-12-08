@@ -17,6 +17,7 @@ export const routes: Routes = [
     resolve: {
       metrics: MetricsResolver
     },
+    runGuardsAndResolvers: 'always',
     children: [
       { path: '', component: MetricsViewComponent, pathMatch: 'full'},
       {

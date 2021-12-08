@@ -17,6 +17,7 @@ export const routes: Routes = [
     resolve: {
       channelGroups: ChannelGroupsResolver
     },
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'new',

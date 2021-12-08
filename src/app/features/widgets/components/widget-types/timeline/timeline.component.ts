@@ -72,7 +72,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit, OnCh
         // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
     if (this.chart) {
-      this.chart.leftMargin(85);
+      this.chart.leftMargin(75);
       this.chart.rightMargin(55);
       this.chart.useUtc(true);
     }

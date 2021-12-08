@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '@core/models/metric';
 import { Trigger } from '@features/monitors/models/trigger';
 import { ApiGetAggregate } from '@features/widgets/models/aggregate';
@@ -12,7 +12,7 @@ import { map, tap } from 'rxjs/operators';
   templateUrl: './monitor-chart.component.html',
   styleUrls: ['./monitor-chart.component.scss']
 })
-export class MonitorChartComponent implements OnInit, OnChanges {
+export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() metric?: Metric;
   @Input() triggers: Trigger[];
   @Input() channelGroupId: number;
@@ -42,9 +42,15 @@ export class MonitorChartComponent implements OnInit, OnChanges {
   };
   responseCache;
   indexes;
+  requests: Observable<any>;
   ngOnInit(): void {
   }
   // this is functionally a widget - should have a measurement service?
+
+  ngOnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // only update data if these change -> swap values if interval changes too
@@ -131,11 +137,11 @@ export class MonitorChartComponent implements OnInit, OnChanges {
     this.hasData = false;
     // count, sum, avg, min, max
     // ['minute', 'hour', 'day'];
-    const duration = moment.duration({ [this.intervalType] : 3});
-    const numHours = 10;
+    const duration = moment.duration({ [this.intervalType] : this.intervalCount});
+    const numHours = 10; // number of monitor evaluations to show
 
     const requests = [];
-    const endtime = moment().utc().startOf('hour').add(5, 'minutes'); // last time alarms would have ran
+    const endtime = moment().utc().startOf('hour'); // last time alarms would have ran
     for (let i = 0; i < numHours; i++) {
       const starttime = endtime.clone().subtract(duration);
 

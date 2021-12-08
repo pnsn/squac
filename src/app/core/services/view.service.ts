@@ -184,12 +184,6 @@ export class ViewService {
     this.datesChanged(startDate, endDate, liveMode, range);
   }
 
-  // returns widget with id, or false if there's none
-  getWidget(id): Widget | boolean {
-    const index = this.getWidgetIndexById(id);
-    return index > -1 ? this.dashboard.widgets[index] : false;
-  }
-
   // decrements count of widgets still loading
   widgetFinishedLoading(): void {
     this.queuedWidgets--;
@@ -211,7 +205,6 @@ export class ViewService {
   private widgetChanged(widgetId: number): void {
     this.status.next('finished');
     this.error.next(null);
-    this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
   // updates the widget
@@ -239,7 +232,7 @@ export class ViewService {
     }
   }
 
-  // delets given widget
+  // deletes given widget
   deleteWidget(widgetId): void {
     this.widgetService.deleteWidget(widgetId).subscribe(
       (next) => {
