@@ -92,11 +92,11 @@ export class ChannelGroupsViewComponent
     this.subscription.add(orgSub);
 
     this.columns = [
-      {name:'Name', draggable:'false',sortable:'true' },
-      {name:'Description', draggable:'false',sortable:'true'},
-      {name:'# Channels', prop: 'channelIds.length', draggable:'false',sortable:'true'},
-      {name:'Owner', prop:'owner', draggable: 'false', sortable:'true', width:"100", pipe: this.userPipe, comparator: this.userComparator.bind(this)},
-      {name:'Org', prop:'orgId',  draggable: 'false', sortable:'true', width:"30", pipe: this.orgPipe, comparator: this.orgComparator.bind(this) }
+      {name:'Name', draggable:false,sortable:true },
+      {name:'Description', draggable:false,sortable:true},
+      {name:'# Channels', prop: 'channelIds.length', draggable:false,sortable:true, width: 20},
+      {name:'Owner', prop:'owner', draggable: false, sortable:true, width: 50, pipe: this.userPipe, comparator: this.userComparator.bind(this)},
+      {name:'Org', prop:'orgId', draggable: false, sortable:true, width: 20, pipe: this.orgPipe, comparator: this.orgComparator.bind(this) }
     ];
   }
 
