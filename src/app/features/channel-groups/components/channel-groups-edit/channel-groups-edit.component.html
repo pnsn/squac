@@ -181,9 +181,6 @@
           [footerHeight]="0"
           [rowHeight]="23"
           [scrollbarV]="true"
-          [selected]="filteredChannels"
-          [selectionType]="SelectionType.checkbox"
-          (select)="onSelect($event)"
         >
           <ngx-datatable-column
             [width]="50"
@@ -199,7 +196,11 @@
               let-value="value"
               let-row="row"
             >
-              <button (click)="removeChannel(row)">X</button>
+              <button color="warn" class="remove-channel" mat-icon-button (click)="removeChannel(row)">
+              <mat-icon>
+                clear
+              </mat-icon>
+            </button>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column

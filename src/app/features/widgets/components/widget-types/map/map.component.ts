@@ -39,7 +39,6 @@ export class MapComponent implements OnInit {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
-  icon;
   constructor(private measurementPipe: MeasurementPipe) {}
 
   ngOnInit() {
@@ -62,8 +61,6 @@ export class MapComponent implements OnInit {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
     ];
-
-    this.icon = L.divIcon({ className: 'my-div-icon' });
 
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;

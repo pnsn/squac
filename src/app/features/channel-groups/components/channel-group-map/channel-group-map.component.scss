@@ -15,8 +15,52 @@
   height: 85%;
 }
 
+.map-icon {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+:host ::ng-deep .original-channels {
+  @extend .map-icon;
+  background-color: #00DB5B !important;
+}
+
+:host ::ng-deep .new-channels{
+  @extend .map-icon;
+  background-color: #00BAEB !important;
+  
+}
+
+:host ::ng-deep .filtered-channels {
+  @extend .map-icon;
+  background-color: #FF8E16  !important;
+}
+
+
+
+:host ::ng-deep .remove-channels {
+  @extend .map-icon;
+  background-color:#E60808 !important;
+}
+
+
 #legend {
-    padding:10px;
+    padding: 5px;
+    #legend-top, #legend-bottom{
+      width: 100%;
+      div.legend-item{
+        display:inline-block;
+        width: 50%;
+        div {
+          display: inline-block;
+        }
+      }
+      span {
+        padding-left: 5px;
+      }
+    }
   ul {
     list-style: none;
     width: fit-content;
