@@ -127,9 +127,6 @@ export class TabularComponent implements OnInit, OnDestroy {
           const rowData = data[channel.id][metric.id];
           // if it has value, show value else find the staType to show
           if (rowData[0] && rowData[0].value) {
-            if (metric.id === 77 && channel.id === 293) {
-              console.log(val);
-            }
             if (rowData.length > 0) {
               val = this.measurementPipe.transform(rowData, statType);
             } else{
