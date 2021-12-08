@@ -19,8 +19,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
-    private orgService: OrganizationsService
+    private route: ActivatedRoute
   ) {
 
   }
@@ -37,14 +36,14 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
     const dashboardsSub = this.route.data.subscribe(
       data => {
-        if(data.dashboards.error) {
-          console.log("error in dashboard")
+        if (data.dashboards && data.dashboards.error) {
+          console.log('error in dashboard');
         } else {
           this.dashboards = data.dashboards;
         }
       }
-    )
-    
+    );
+
     const userService = this.userService.user.subscribe(
       user => {
         this.userId = user ? user.id : null;

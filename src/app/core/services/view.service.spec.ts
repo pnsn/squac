@@ -114,22 +114,6 @@ describe('ViewService', () => {
     service.resizeAll();
   });
 
-  it('should set the dashboard widgets', () => {
-    service.setDashboard(testDashboard);
-    service.setWidgets([testWidget]);
-
-    expect(service.getWidget(1)).toEqual(testWidget);
-  });
-
-  it('should return wdiget with id', () => {
-    service.setDashboard(testDashboard);
-    service.setWidgets([]);
-    expect(service.getWidget(1)).toEqual(false);
-    service.setWidgets([testWidget]);
-
-    expect(service.getWidget(1)).toEqual(testWidget);
-  });
-
   it('should stop loading', () => {
     service.queuedWidgets = 1;
     service.widgetFinishedLoading();

@@ -15,6 +15,7 @@ import { ChannelGroupMapComponent } from '../channel-group-map/channel-group-map
 import { FormsModule } from '@angular/forms';
 import { UserService } from '@features/user/services/user.service';
 import { MockUserService } from '@features/user/services/user.service.mock';
+import { of } from 'rxjs';
 
 describe('ChannelGroupsViewComponent', () => {
   let component: ChannelGroupsViewComponent;
@@ -41,7 +42,8 @@ describe('ChannelGroupsViewComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             parent: {
-              snapshot : {data : { channelGroups: []}}
+              snapshot : {data : { channelGroups: []}},
+              data: of({channelGroups: []})
             } ,
             firstChild: {
               snapshot: {

@@ -38,17 +38,18 @@ describe('DashboardViewComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              data: {dashboard: new Dashboard(
-                1,
-                1,
-                'name',
-                'description',
-                false,
-                false,
-                1,
-                []
-              )}
+
             },
+            data: of({dashboards: [new Dashboard(
+              1,
+              1,
+              'name',
+              'description',
+              false,
+              false,
+              1,
+              []
+            )]}),
             params: of({id: 123}),
 
           }

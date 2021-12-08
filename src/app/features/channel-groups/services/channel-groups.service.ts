@@ -24,9 +24,9 @@ export class ChannelGroupsService {
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
-    console.log("get channel groups")
+    console.log('get channel groups');
     if (this.lastRefresh && new Date().getTime() < this.lastRefresh + 5 * 60000) {
-      console.log("return local")
+      console.log('return local');
       return of(this.localChannelGroups);
     }
     return this.squacApi.get(this.url).pipe(
@@ -39,7 +39,7 @@ export class ChannelGroupsService {
         )),
       tap(
         channelGroups => {
-          console.log("fetch new")
+          console.log('fetch new');
           this.lastRefresh = new Date().getTime();
         }
       )

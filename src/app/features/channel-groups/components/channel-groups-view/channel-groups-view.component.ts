@@ -37,16 +37,18 @@ export class ChannelGroupsViewComponent
 
   ngOnInit() {
     this.selected = [];
-
-    const routeSub = this.route.parent.data.subscribe(
-      data => {
-        if (data.channelGroups.error){
-          console.log("error in channels")
-        } else {
-          this.channelGroups = data.channelGroups;
+    if (this.route.parent && this.route.parent.data) {
+      const routeSub = this.route.parent.data.subscribe(
+        data => {
+          if (data.channelGroups.error){
+            console.log('error in channels');
+          } else {
+            this.channelGroups = data.channelGroups;
+          }
         }
-      }
-    );
+      );
+      this.subscription.add(routeSub);
+    }
 
     const orgSub = this.orgService
       .getOrganization(this.userService.userOrg)
@@ -76,7 +78,6 @@ export class ChannelGroupsViewComponent
     }
 
     this.subscription.add(routerEvents);
-    this.subscription.add(routeSub);
     this.subscription.add(orgSub);
   }
 
@@ -85,7 +86,7 @@ export class ChannelGroupsViewComponent
       channelGroups => {
         this.channelGroups = channelGroups;
       }
-    )
+    );
   }
 
   ngAfterViewInit(): void {

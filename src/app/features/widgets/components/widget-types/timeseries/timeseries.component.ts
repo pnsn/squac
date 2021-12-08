@@ -50,7 +50,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   timeSeriesDivIdentifier: ElementRef;
 
   // Max allowable time between measurements to connect
-  maxMeasurementGap : number = 1 * 1000;
+  maxMeasurementGap: number = 1 * 1000;
 
   // onScroll = (event: any) => {};
 
@@ -177,7 +177,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
         if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
 
-          let lastEnd : moment.Moment;
+          let lastEnd: moment.Moment;
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement) => {
               if (measurement.value > max) {
@@ -189,10 +189,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
               // // If time between measurements is greater than gap, don't connect
               if (channelObj.series.length > 0 && lastEnd) {
-                //time since last measurement
+                // time since last measurement
                 const diff = moment.utc(measurement.starttime).diff(lastEnd);
-                
-                if(diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
+
+                if (diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
                   this.results.push({name: channelObj.name, series: channelObj.series});
                   channelObj.series = [];
                 }
@@ -204,15 +204,15 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
                   name: moment.utc(measurement.starttime).toDate(),
                   value: measurement.value
                 }
-              )
+              );
 
-              //meas end
+              // meas end
               channelObj.series.push(
                 {
                   name: moment.utc(measurement.endtime).toDate(),
                   value: measurement.value
                 }
-              )
+              );
 
               lastEnd = moment.utc(measurement.endtime);
             }

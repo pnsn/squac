@@ -48,9 +48,8 @@ export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
   // this is functionally a widget - should have a measurement service?
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    console.log(this.metric.name)
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -139,7 +138,7 @@ export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
     // count, sum, avg, min, max
     // ['minute', 'hour', 'day'];
     const duration = moment.duration({ [this.intervalType] : this.intervalCount});
-    const numHours = 10; //number of monitor evaluations to show
+    const numHours = 10; // number of monitor evaluations to show
 
     const requests = [];
     const endtime = moment().utc().startOf('hour'); // last time alarms would have ran
