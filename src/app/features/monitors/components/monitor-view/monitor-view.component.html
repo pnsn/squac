@@ -29,7 +29,7 @@
       id="monitor-table"
       class="material"
       [rows]="monitors"
-      [columnMode]="ColumnMode.flex"
+      [columnMode]="ColumnMode.force"
       [headerHeight]="30"
       [footerHeight]="50"
       [rowHeight]="23"
@@ -45,7 +45,7 @@
       </ng-template>
     </ngx-datatable-row-detail>
     <ngx-datatable-column
-    [width]="50"
+    [width]="25"
     [resizeable]="false"
     [sortable]="false"
     [draggable]="false"
@@ -62,25 +62,25 @@
       </a>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [flexGrow]="0.5">
+  <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false" [sortable]="false" [width]="45" >
     <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
       <span *ngIf="getAlert(row.id)?.inAlarm; else notAlarm"><strong>In Alarm</strong></span>
       <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
     </ng-template>
   </ngx-datatable-column>
-      <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Monitor" prop="name" [draggable]="false" [sortable]="false" >
       </ngx-datatable-column>
-      <ngx-datatable-column name="Channels" prop="channelGroup" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Channels" prop="channelGroup" [draggable]="false" [sortable]="false">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
          {{row.numberChannels}} channels in {{value.name}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Metric" prop="metric" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Metric" prop="metric" [draggable]="false" [sortable]="false">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{row.stat}} of {{value.name}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Interval" prop="intervalType" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Interval" prop="intervalType" [draggable]="false" [sortable]="false" [width]="50">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{row.intervalCount}} {{value}}{{row.intervalCount > 1 ? "s" : ""}}
         </ng-template>

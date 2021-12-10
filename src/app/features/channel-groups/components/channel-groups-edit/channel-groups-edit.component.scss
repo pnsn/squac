@@ -111,6 +111,18 @@
   mat-radio-button {
     display:block;
   }
+  .remove-channel{
+    mat-icon {
+      font-size: 15px;
+      height: 15px;
+      width: 15px;
+      line-height: 15px;
+    }
+    height: 15px;
+    width:15px;
+    display:block;
+    line-height: 15px;
+  }
   #cg-form{
     width: 100%;
   }

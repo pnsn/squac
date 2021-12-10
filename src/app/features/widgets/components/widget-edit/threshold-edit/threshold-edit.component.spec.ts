@@ -5,6 +5,7 @@ import {MatListModule } from '@angular/material/list';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { WidgetEditService } from '../../../services/widget-edit.service';
 import { of } from 'rxjs';
+import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
 
 describe('ThresholdEditComponent', () => {
   let component: ThresholdEditComponent;
@@ -15,13 +16,7 @@ describe('ThresholdEditComponent', () => {
       imports: [NgxDatatableModule],
       declarations: [ ThresholdEditComponent ],
       providers: [
-        {
-          provide: WidgetEditService,
-          useValue: {
-            selectedMetrics: of([]),
-            getThresholds: () => null
-          }
-        }
+        { provide: WidgetEditService, useValue: new MockWidgetEditService()},
       ]
     })
     .compileComponents();

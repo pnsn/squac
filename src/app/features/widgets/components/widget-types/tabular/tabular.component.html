@@ -6,7 +6,7 @@
   [rows]="rows"
   [headerHeight]="50"
   [sortType]="SortType.multi"
-  [columnMode]="ColumnMode.flex"
+  [columnMode]="ColumnMode.force"
   [footerHeight]="0"
   [rowHeight]="23"
   [scrollbarH]="true"
@@ -22,7 +22,7 @@
   [frozenLeft]="true" [resizeable]="false">
 
   </ngx-datatable-column>
-  <ngx-datatable-column name="agg" [width]="50" [frozenLeft]="true" [canAutoResize]="false">
+  <ngx-datatable-column name="agg" [width]="50" [frozenLeft]="true" [canAutoResize]="false" [resizeable]="false">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
       </ng-template>
@@ -35,7 +35,6 @@
     [minWidth]="100" 
     [cellClass]="getCellClass"
     [canAutoResize]="true"
-    [flexGrow]="3"
     [sortable]="true"
     >
   

@@ -1,58 +1,45 @@
 <div id="title">
-  <h1>
-    Channel Groups
-  </h1>
+  <h1>Channel Groups</h1>
   <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
     <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
-      Only Show {{userOrg?.name}} Groups
+      Only Show {{ userOrg?.name }} Groups
     </mat-slide-toggle>
-    <button mat-flat-button color="accent"
-      class="add-btn" (click)="addChannelGroup()"
-    >Create Channel Group</button>
+    <button
+      mat-flat-button
+      color="accent"
+      class="add-btn"
+      (click)="addChannelGroup()"
+    >
+      Create Channel Group
+    </button>
   </div>
 </div>
-  <div id="channel-groups" class="box" [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'">
-    <ngx-datatable
-      id="channel-group-table"
-      class="material"
-      [rows]="channelGroups"
-      [columnMode]="ColumnMode.flex"
-      [headerHeight]="30"
-      [footerHeight]="50"
-      [rowHeight]="23"
-      [scrollbarV]="50"
-      [selectionType]=SelectionType.single
-      [selected]="selected"
-      (select)="onSelect($event)"
-    >
-      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="2"> 
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2">
-      </ngx-datatable-column>
-      <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="1">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{ row.channelIds ? row.channelIds.length : '0'}}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Owner" [draggable]="false" [sortable]="true" [flexGrow]="1">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{value | user}}
-        </ng-template>
-      </ngx-datatable-column>
+<div
+  id="channel-groups"
+  class="box"
+  [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'"
+>
+  <ngx-datatable
+    id="channel-group-table"
+    class="material"
+    [rows]="channelGroups"
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="30"
+    [footerHeight]="50"
+    [rowHeight]="23"
+    [scrollbarV]="50"
+    [selectionType]="SelectionType.single"
+    [selected]="selected"
+    (select)="onSelect($event)"
+    [columns]="columns"
+  >
+  </ngx-datatable>
+</div>
 
-      <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="true" [flexGrow]="1">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          {{value | organization}}
-        </ng-template>
-      </ngx-datatable-column>
-    </ngx-datatable>
-  </div>
-
-  <div id="select-group" *ngIf="!selectedChannelGroupId">
-    <p>Select a group to view details.</p>
-  </div>
+<div id="select-group" *ngIf="!selectedChannelGroupId">
+  <p>Select a group to view details.</p>
+</div>
 
 <router-outlet></router-outlet>
 
-  <!-- <app-channel-groups-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></app-channel-groups-detail> -->
-
+<!-- <app-channel-groups-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></app-channel-groups-detail> -->

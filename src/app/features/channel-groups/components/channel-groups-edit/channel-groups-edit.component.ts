@@ -194,10 +194,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.availableChannels = [...this.availableChannels];
   }
 
-  onSelect(event) {
-    console.log(event);
-  }
-
   onFilteringOpen() {
     this.isFilterOpen = true;
 

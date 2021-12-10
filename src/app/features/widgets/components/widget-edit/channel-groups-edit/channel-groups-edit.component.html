@@ -1,7 +1,18 @@
 <h3>
   Channel Groups
 </h3>
-<div>Selected: {{selectedChannelGroup[0] ? selectedChannelGroup[0].name : "Select a channel group"}}</div>
+<div>
+  <span *ngIf="selectedChannelGroup[0]; else noGroup">
+    Selected Group: {{selectedChannelGroup[0].name}}
+  </span>
+  <ng-template #noGroup>
+    <span>Select a channel group</span>
+  </ng-template>
+  <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
+    Only Show {{ userOrg?.name }} Groups
+  </mat-slide-toggle>
+</div>
+
 <div id="channel-group-selector-container">
 
   <ngx-datatable
@@ -9,7 +20,7 @@
   id="channel-group-table"
   class="material"
   [rows]="availableChannelGroups"
-  [columnMode]="ColumnMode.flex"
+  [columnMode]="ColumnMode.force"
   [footerHeight]="50"
   [rowHeight]="23"
   [scrollbarV]="true"
@@ -17,27 +28,6 @@
   [selectionType]=SelectionType.single
   [selected]="selectedChannelGroup"
   (select)="onSelect($event)"
-
->
-  <ngx-datatable-column name="Name" [draggable]="false" [sortable]="true" [flexGrow]="1"   [resizeable]="false"> 
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Description" [draggable]="false" [sortable]="false" [flexGrow]="2"   [resizeable]="false">
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Org" prop="orgId" [draggable]="false" [sortable]="false" [flexGrow]="0.5"   [resizeable]="false">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{row.orgId | organization}}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="# Channels" [draggable]="false" [sortable]="false" [flexGrow]="0.5"   [resizeable]="false">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      {{ row.channelIds ? row.channelIds.length : '0'}}
-    </ng-template>
-  </ngx-datatable-column>
-<!-- 
-  <ngx-datatable-column [draggable]="false" [sortable]="false" [flexGrow]="0.5">
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <button mat-button (click)="viewChannels(row.id)">View</button>
-    </ng-template>
-  </ngx-datatable-column> -->
-</ngx-datatable>
+  [columns]="columns"
+></ngx-datatable>
 </div>

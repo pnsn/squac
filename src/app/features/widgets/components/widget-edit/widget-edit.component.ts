@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, SimpleChanges, OnChanges, AfterContentInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Widget } from '@features/widgets/models/widget';
@@ -13,7 +13,7 @@ import { MessageService } from '@core/services/message.service';
   templateUrl: './widget-edit.component.html',
   styleUrls: ['./widget-edit.component.scss']
 })
-export class WidgetEditComponent implements OnInit, OnDestroy {
+export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy {
 
   id: number;
   widget: Widget;
@@ -38,6 +38,14 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
 
+    this.editMode = !!this.widget;
+    this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
+
+  }
+
+  ngAfterContentInit(): void {
+    // Called after ngOnInit when the component's or directive's content has been initialized.
+    // Add 'implements AfterContentInit' to the class.
     const sub = this.widgetEditService.isValid.subscribe(
       valid => {
         this.isValid = valid;
@@ -45,11 +53,8 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         console.log('error in widget edit valid: ' + error);
       }
     );
-    this.editMode = !!this.widget;
-    this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
     this.subscriptions.add(sub);
   }
-
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

@@ -164,16 +164,6 @@ describe('ViewService', () => {
     expect(widgetSpy).toHaveBeenCalled();
   });
 
-  it('should remove the given widget if it exists', () => {
-
-    service.setDashboard(testDashboard);
-    service.setWidgets([testWidget]);
-    service.currentWidgets.subscribe( widgets => {
-      expect(widgets).toEqual([]);
-    });
-    service.updateWidget(1);
-  });
-
   it('should delete given widget', () => {
     const widgetSpy = spyOn(widgetsService, 'deleteWidget').and.returnValue(of(true));
     service.setDashboard(testDashboard);
