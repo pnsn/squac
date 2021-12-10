@@ -25,6 +25,7 @@ import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 import { HomeComponent } from './core/components/home/home.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 export function initApp(configurationService: ConfigurationService) {
@@ -49,7 +50,7 @@ export function initApp(configurationService: ConfigurationService) {
     BrowserModule,
     LeafletModule,
     LeafletDrawModule,
-
+    NgxDaterangepickerMd.forRoot(),
     // Always load this at the end or the routing gets weird
     AppRoutingModule
   ],

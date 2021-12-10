@@ -36,7 +36,7 @@
     "leaflet": "^1.6.0",
     "leaflet-draw": "^1.0.4",
     "moment": "^2.27.0",
-    "ngx-daterangepicker-material": "^2.4.2",
+    "ngx-daterangepicker-material": "^5.0.1",
     "rxjs": "^7.4.0",
     "timelines-chart": "^2.11.2",
     "ts-node": "^10.4.0",

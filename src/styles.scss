@@ -280,24 +280,24 @@ body {
   background-color: $sq-dk-gray !important;
 }
 
-// Temp fix? for ngx-daterangepicker
-.md-drppicker td.active,
-.md-drppicker td.available.in-range.active,
-.md-drppicker td.active:hover,
-.md-drppicker .btn:not(.btn-default),
-.md-drppicker .ranges ul li button.active {
-    background-color: $sq-blue !important;
-    color: white !important;
-}
-// .md-drppicker.ltr .calendar.right { display: none; }
-.md-drppicker {
-  // width: 500px !important;
-  width: 638.3px !important;
-  height: 350.583px !important;
-  right: 15px !important;
-  left: auto !important;
-}
+// // Temp fix? for ngx-daterangepicker
+// .md-drppicker td.active,
+// .md-drppicker td.available.in-range.active,
+// .md-drppicker td.active:hover,
+// .md-drppicker .btn:not(.btn-default),
+// .md-drppicker .ranges ul li button.active {
+//     background-color: $sq-blue !important;
+//     color: white !important;
+// }
+// // .md-drppicker.ltr .calendar.right { display: none; }
+// .md-drppicker {
+//   // width: 500px !important;
+//   width: 638.3px !important;
+//   height: 350.583px !important;
+//   right: 15px !important;
+//   left: auto !important;
+// }
 
-.md-drppicker .calendar-time .select .select-item {
-  font-size: unset !important;
-}
+// .md-drppicker .calendar-time .select .select-item {
+//   font-size: unset !important;
+// }
