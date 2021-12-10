@@ -28,7 +28,7 @@ describe('AuthService', () => {
         AbilityModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
-          { path: '/login', component: AuthComponent},
+          { path: 'login', component: AuthComponent},
           { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
           { path: 'dashboards', component: AuthComponent}
         ])
