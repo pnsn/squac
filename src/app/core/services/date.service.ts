@@ -24,6 +24,14 @@ export class DateService {
     this.locale = configService.getValue('locale');
   }
 
+  correctForLocal(localDate: dayjs.Dayjs) : dayjs.Dayjs{
+    return localDate.add(localDate.utcOffset(), 'minutes').utc();
+  }
+
+  toUtc(localDate: dayjs.Dayjs) : dayjs.Dayjs {
+    return localDate.utc();
+  }
+
   // get now 
   now(): dayjs.Dayjs {
     return dayjs.utc().clone();

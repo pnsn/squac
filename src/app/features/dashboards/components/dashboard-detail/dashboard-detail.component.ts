@@ -4,6 +4,8 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
 import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+import * as timezone from 'dayjs/plugin/timezone';
 import { AppAbility } from '@core/utils/ability';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
@@ -51,7 +53,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
     private dateService: DateService
-  ) {}
+  ) {
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault('Etc/UTC');
+  }
 
   ngOnInit() {
     this.rangeLookUp = this.dateService.dateRanges;
@@ -146,10 +152,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   datesSelected(chosenDate: {startDate: dayjs.Dayjs; endDate: dayjs.Dayjs }): void {
-    this.unsaved = true;
-    const start = chosenDate.startDate;
-    const end = chosenDate.endDate;
+    let start = chosenDate.startDate;
+    let end = chosenDate.endDate
 
+    if(start && end) {
+      start = this.dateService.correctForLocal(start);
+      end = this.dateService.correctForLocal(end)
+    }
+
+    this.unsaved = true;
     console.log(start, end)
     if (start && end) {
       const range = this.lookupRange(start, end);
@@ -176,7 +187,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // currently saves any time dates are changed, may want to move to a save button
   selectDateRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, range?: number) {
-
+    this.selected.startDate = this.dateService.toUtc(startDate);
+    this.selected.endDate = this.dateService.toUtc(endDate);
   }
 
   deleteDashboard() {

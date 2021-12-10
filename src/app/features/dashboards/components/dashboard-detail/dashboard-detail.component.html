@@ -50,27 +50,29 @@
       >
         <mat-icon>save</mat-icon>
       </button>
-      <!-- <mat-form-field id="date-range"> -->
-      <input
-        #datePicker
-        ngxDaterangepickerMd
-        type="text"
-        [locale]="locale"
-        [showCancel]="true"
-        [maxDate]="maxDate"
-        [(ngModel)]="selected"
-        [timePicker]="true"
-        [timePicker24Hour]="true"
-        [ranges]="ranges"
-        [showCustomRangeLabel]="true"
-        [alwaysShowCalendars]="true"
-        [showRangeLabelOnInput]="true"
-        (change)="datesSelected($event)"
-        [opens]="right"
-        startKey="startDate"
-        endKey="endDate"
-      />
-      <!-- </mat-form-field> -->
+      <mat-form-field id="date-range">
+        <input
+          #datePicker
+          ngxDaterangepickerMd
+          matInput
+          type="text"
+          class="form-control"
+          [locale]="locale"
+          [showCancel]="true"
+          [maxDate]="maxDate"
+          [(ngModel)]="selected"
+          [timePicker]="true"
+          [timePicker24Hour]="true"
+          [ranges]="ranges"
+          [showCustomRangeLabel]="true"
+          [alwaysShowCalendars]="true"
+          [showRangeLabelOnInput]="true"
+          (change)="datesSelected($event)"
+          [opens]="right"
+          startKey="startDate"
+          endKey="endDate"
+        />
+      </mat-form-field>
       <!-- if they have permission, otherwise show copy only -->
       <mat-menu
         #appMenu="matMenu"
