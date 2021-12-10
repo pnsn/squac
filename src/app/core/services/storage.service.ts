@@ -8,5 +8,5 @@ export class StorageService {
   constructor() { }
 
 
-  //interact with local storage
+  // interact with local storage
 }

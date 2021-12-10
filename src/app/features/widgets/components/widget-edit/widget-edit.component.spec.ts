@@ -47,10 +47,10 @@ describe('WidgetEditComponent', () => {
         },
         { provide: MAT_DIALOG_DATA, useValue: {
             channelGroups: [
-              new ChannelGroup(1, 1, "name", "Desc", 1, [1])
+              new ChannelGroup(1, 1, 'name', 'Desc', 1, [1])
             ],
             metrics: [
-              new Metric(1, 1, "name", "code", "Code", "ref", "unit", 1, 1, 0)
+              new Metric(1, 1, 'name', 'code', 'Code', 'ref', 'unit', 1, 1, 0)
             ]
         } },
         { provide: AppAbility, useValue: new AppAbility() },

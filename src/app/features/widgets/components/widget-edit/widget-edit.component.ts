@@ -44,8 +44,8 @@ export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy 
   }
 
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
+    // Called after ngOnInit when the component's or directive's content has been initialized.
+    // Add 'implements AfterContentInit' to the class.
     const sub = this.widgetEditService.isValid.subscribe(
       valid => {
         this.isValid = valid;

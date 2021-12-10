@@ -99,7 +99,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: "original-channels" })}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: 'original-channels' })}).bindPopup(
               channel.stationCode.toUpperCase())
           );
         });
@@ -119,7 +119,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: "new-channels" })}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: 'new-channels' })}).bindPopup(
               channel.stationCode.toUpperCase())
           );
         });
@@ -136,7 +136,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: "filtered-channels" })}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: 'filtered-channels' })}).bindPopup(
               channel.stationCode.toUpperCase())
           ); // Push search channel markers onto array
         });
@@ -145,7 +145,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       if (this.isRemoving) {
         this.removeChannels.forEach( channel => {
           chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: "remove-channels" })}).bindPopup(
+            L.marker([channel.lat, channel.lon], {icon: L.divIcon({ className: 'remove-channels' })}).bindPopup(
               channel.stationCode.toUpperCase())
           ); // Push search channel markers onto array
         });

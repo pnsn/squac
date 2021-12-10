@@ -174,7 +174,7 @@ export class MapComponent implements OnInit {
       }
 
       stationChannels[channel.stationCode] =
-        stationChannels[channel.stationCode] + `<p> <div class="${iconClass}"> </div>${channel.loc}.${channel.code}: ${val ? val : "no data"}</p>`;
+        stationChannels[channel.stationCode] + `<p> <div class="${iconClass}"> </div>${channel.loc}.${channel.code}: ${val ? val : 'no data'}</p>`;
 
       const title =
         channel.networkCode +
@@ -228,7 +228,7 @@ export class MapComponent implements OnInit {
         console.log(station);
       }
 
-      const marker = L.marker([station.lat, station.lon], 
+      const marker = L.marker([station.lat, station.lon],
         {
           icon: L.divIcon({ className: station.class }),
         })

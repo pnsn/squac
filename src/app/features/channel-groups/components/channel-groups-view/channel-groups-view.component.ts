@@ -1,7 +1,18 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Pipe } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  Pipe,
+} from '@angular/core';
 import { ChannelGroup } from '@core/models/channel-group';
 import { pipe, Subscription } from 'rxjs';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationStart,
+} from '@angular/router';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { OrganizationsService } from '@features/user/services/organizations.service';
 import { UserService } from '@features/user/services/user.service';
@@ -11,7 +22,7 @@ import { ChannelGroupsService } from '@features/channel-groups/services/channel-
 import { UserPipe } from '@shared/pipes/user.pipe';
 import { OrganizationPipe } from '@shared/pipes/organization.pipe';
 
-//TODO: trackbyprop to use channelID
+// TODO: trackbyprop to use channelID
 @Component({
   selector: 'app-channel-groups-view',
   templateUrl: './channel-groups-view.component.html',
@@ -39,25 +50,22 @@ export class ChannelGroupsViewComponent
     private route: ActivatedRoute,
     private userService: UserService,
     private orgService: OrganizationsService,
-    private channelGroupsService: ChannelGroupsService,
+    private channelGroupsService: ChannelGroupsService
   ) {
-    this.userPipe = new UserPipe(orgService)
-    this.orgPipe = new OrganizationPipe(orgService)
+    this.userPipe = new UserPipe(orgService);
+    this.orgPipe = new OrganizationPipe(orgService);
   }
-
 
   ngOnInit() {
     this.selected = [];
     if (this.route.parent && this.route.parent.data) {
-      const routeSub = this.route.parent.data.subscribe(
-        data => {
-          if (data.channelGroups.error){
-            console.log('error in channels');
-          } else {
-            this.channelGroups = data.channelGroups;
-          }
+      const routeSub = this.route.parent.data.subscribe((data) => {
+        if (data.channelGroups.error) {
+          console.log('error in channels');
+        } else {
+          this.channelGroups = data.channelGroups;
         }
-      );
+      });
       this.subscription.add(routeSub);
     }
 
@@ -72,15 +80,15 @@ export class ChannelGroupsViewComponent
     this.temp = [...this.channelGroups];
 
     const routerEvents = this.router.events
-    .pipe(
-      filter(e => e instanceof NavigationEnd),
-      tap((event) => {
-        if (!this.route.firstChild) {
-          this.clearSelectedChannelGroup();
-        }
-      })
-
-    ).subscribe();
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        tap((event) => {
+          if (!this.route.firstChild) {
+            this.clearSelectedChannelGroup();
+          }
+        })
+      )
+      .subscribe();
 
     if (this.route.firstChild) {
       this.selectedChannelGroupId =
@@ -92,20 +100,40 @@ export class ChannelGroupsViewComponent
     this.subscription.add(orgSub);
 
     this.columns = [
-      {name:'Name', draggable:false,sortable:true },
-      {name:'Description', draggable:false,sortable:true},
-      {name:'# Channels', prop: 'channelIds.length', draggable:false,sortable:true, width: 20},
-      {name:'Owner', prop:'owner', draggable: false, sortable:true, width: 50, pipe: this.userPipe, comparator: this.userComparator.bind(this)},
-      {name:'Org', prop:'orgId', draggable: false, sortable:true, width: 20, pipe: this.orgPipe, comparator: this.orgComparator.bind(this) }
+      { name: 'Name', draggable: false, sortable: true },
+      { name: 'Description', draggable: false, sortable: true },
+      {
+        name: '# Channels',
+        prop: 'channelIds.length',
+        draggable: false,
+        sortable: true,
+        width: 20,
+      },
+      {
+        name: 'Owner',
+        prop: 'owner',
+        draggable: false,
+        sortable: true,
+        width: 50,
+        pipe: this.userPipe,
+        comparator: this.userComparator.bind(this),
+      },
+      {
+        name: 'Org',
+        prop: 'orgId',
+        draggable: false,
+        sortable: true,
+        width: 20,
+        pipe: this.orgPipe,
+        comparator: this.orgComparator.bind(this),
+      },
     ];
   }
 
   refresh() {
-    this.channelGroupsService.getChannelGroups().subscribe(
-      channelGroups => {
-        this.channelGroups = channelGroups;
-      }
-    );
+    this.channelGroupsService.getChannelGroups().subscribe((channelGroups) => {
+      this.channelGroups = channelGroups;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -159,10 +187,10 @@ export class ChannelGroupsViewComponent
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();
     const userNameB = this.userPipe.transform(userIdB).toLowerCase();
 
-    if(userNameA < userNameB) {
+    if (userNameA < userNameB) {
       return -1;
     }
-    if(userNameA > userNameB) {
+    if (userNameA > userNameB) {
       return 1;
     }
   }
@@ -171,10 +199,10 @@ export class ChannelGroupsViewComponent
     const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
     const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
 
-    if(orgNameA < orgNameB) {
+    if (orgNameA < orgNameB) {
       return -1;
     }
-    if(orgNameA > orgNameB) {
+    if (orgNameA > orgNameB) {
       return 1;
     }
   }
