@@ -54,7 +54,6 @@
       <input
         #datePicker
         ngxDaterangepickerMd
-        mat-input
         type="text"
         [locale]="locale"
         [showCancel]="true"
@@ -68,6 +67,8 @@
         [showRangeLabelOnInput]="true"
         (change)="datesSelected($event)"
         [opens]="right"
+        startKey="startDate"
+        endKey="endDate"
       />
       <!-- </mat-form-field> -->
       <!-- if they have permission, otherwise show copy only -->

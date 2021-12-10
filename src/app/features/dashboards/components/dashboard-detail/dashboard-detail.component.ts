@@ -58,7 +58,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.maxDate = this.dateService.now();
     this.startDate = this.dateService.now();
     this.makeTimeRanges();
-
+    this.locale = this.dateService.locale;
     const dashboardSub = this.route.data.subscribe(
       data => {
         this.status = 'loading';
@@ -74,10 +74,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.archiveType = this.dashboard.archiveType;
           if (range && this.rangeLookUp) {
             this.selectedRange = this.rangeLookUp[range];
+            
             this.selected = {
-              startDate: this.ranges[this.selectedRange][0],
-              endDate: this.ranges[this.selectedRange][1]
+              startDate: this.dateService.subtractFromNow(range, 'seconds'),
+              endDate: this.dateService.now()
             };
+
           } else {
             this.selected = {
               startDate: this.dateService.parseUtc(start),
@@ -85,6 +87,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             };
             this.selectedRange = start + ' - ' + end;
           }
+
+          console.log(start, end)
+          console.log(this.selected)
           this.error = null;
         }
       }
