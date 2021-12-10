@@ -129,9 +129,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy, AfterViewI
 
   filterOrg() {
     // filter our data
-    this.availableChannelGroups = this.channelGroups.filter((cg) => {
-      return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
-    });
+    if(this.channelGroups && this.channelGroups.length > 0 && this.userOrg.id) {
+      this.availableChannelGroups = this.channelGroups.filter((cg) => {
+        return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
+      });
+    }
   }
 
   userComparator(userIdA, userIdB) {

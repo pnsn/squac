@@ -1,62 +1,98 @@
 <div mat-dialog-title id="edit-title">
-  <h3>{{ editMode ? "Edit Widget": "New Widget"}}</h3>
-  <button mat-icon-button type="button" (click)="cancel()"><mat-icon>close</mat-icon></button>
+  <h3>{{ editMode ? "Edit Widget" : "New Widget" }}</h3>
+  <button mat-icon-button type="button" (click)="cancel()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
-   
+
 <div mat-dialog-content id="edit-container">
-
-    <mat-horizontal-stepper
-      #stepper
-      [linear]="!editMode"
-      color="primary"
-      (selectionChange)="stepSelected();"
-      >
-      <mat-step
-        #infoStep
-        [errorMessage]="infoTab.error"
-        [completed]="infoTab.done"
-        [hasError]="infoStep.interacted && !infoTab.done"
-        >
-        <ng-template matStepLabel>Widget Information</ng-template>
-        <app-widget-info-edit class="edit-tab-body" [widget]="widget" [statTypes]="statTypes" #infoTab></app-widget-info-edit>
-      </mat-step>
-      <mat-step
-        #metricsStep
-        errorMessage="Metric is required." 
-        [completed]="metricsTab.done" 
-        [hasError]="metricsStep.interacted && !metricsTab.done"> 
-        <ng-template matStepLabel>Select Metrics</ng-template>
-          <app-metrics-edit class="edit-tab-body" [metrics]="metrics" #metricsTab></app-metrics-edit>
-      </mat-step>
-      <mat-step 
-      #channelGroupStep 
-      errorMessage="Channel Group is required." 
-      [completed]="channelGroupsTab.done" 
-      [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"> 
-        <ng-template matStepLabel>Select Channel Group</ng-template>
-        <app-channel-groups-edit class="edit-tab-body" [channelGroups]="channelGroups" #channelGroupsTab></app-channel-groups-edit>
-      </mat-step>
-      <mat-step [optional]="true">
-        <ng-template matStepLabel>Set Thresholds</ng-template>  
-        <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
-      </mat-step>
+  <mat-horizontal-stepper
+    #stepper
+    [linear]="!editMode"
+    color="primary"
+    (selectionChange)="stepSelected()"
+  >
+    <mat-step
+      #infoStep
+      [errorMessage]="infoTab.error"
+      [completed]="infoTab.done"
+      [hasError]="infoStep.interacted && !infoTab.done"
+    >
+      <ng-template matStepLabel>Widget Information</ng-template>
+      <app-widget-info-edit
+        class="edit-tab-body"
+        [widget]="widget"
+        [statTypes]="statTypes"
+        #infoTab
+      ></app-widget-info-edit>
+    </mat-step>
+    <mat-step
+      #metricsStep
+      errorMessage="Metric is required."
+      [completed]="metricsTab.done"
+      [hasError]="metricsStep.interacted && !metricsTab.done"
+    >
+      <ng-template matStepLabel>Select Metrics</ng-template>
+      <app-metrics-edit
+        class="edit-tab-body"
+        [metrics]="metrics"
+        #metricsTab
+      ></app-metrics-edit>
+    </mat-step>
+    <mat-step
+      #channelGroupStep
+      errorMessage="Channel Group is required."
+      [completed]="channelGroupsTab.done"
+      [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
+    >
+      <ng-template matStepLabel>Select Channel Group</ng-template>
+      <app-channel-groups-edit
+        class="edit-tab-body"
+        [channelGroups]="channelGroups"
+        #channelGroupsTab
+      ></app-channel-groups-edit>
+    </mat-step>
+    <mat-step [optional]="true">
+      <ng-template matStepLabel>Set Thresholds</ng-template>
+      <app-threshold-edit class="edit-tab-body"></app-threshold-edit>
+    </mat-step>
   </mat-horizontal-stepper>
-
-  </div>
+</div>
 <div mat-dialog-actions id="dialog-options">
-
   <div>
-      <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex == 0 ">Back</button>
-      <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]='stepper.selectedIndex == 3'>Next</button>
-      <button id="save" mat-flat-button color="accent" (click)="save()" [disabled]='!isValid'>Save</button>
-    </div>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="stepper.previous()"
+      [disabled]="stepper.selectedIndex == 0"
+    >
+      Back
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="stepper.next()"
+      [disabled]="stepper.selectedIndex == 3"
+    >
+      Next
+    </button>
+    <button
+      id="save"
+      mat-flat-button
+      color="accent"
+      (click)="save()"
+      [disabled]="!isValid"
+    >
+      Save
+    </button>
+  </div>
   <p *ngIf="!isValid; else valid">
-    Click next to continue {{editMode ? "editing" : "creating"}} your widget.
+    Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
   </p>
   <ng-template #valid>
     <p>
-      {{editMode ? "Editing" : "Creating"}} widget on dashboard {{dashboardId}}
+      {{ editMode ? "Editing" : "Creating" }} widget on dashboard
+      {{ dashboardId }}
     </p>
   </ng-template>
-
 </div>
