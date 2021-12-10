@@ -1,15 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
 import { OrganizationsService } from './organizations.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { MockSquacApiService } from '@core/services/squacapi.service.mock';
-import { UserService } from './user.service';
-import { MockUserService } from './user.service.mock';
 import { User } from '../models/user';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Organization } from '../models/organization';
 
 describe('OrganizationsService', () => {
   let service: OrganizationsService;
@@ -133,9 +129,16 @@ describe('OrganizationsService', () => {
   });
 
   it('should get org users', () => {
-    const userSpy = spyOn(service, 'getOrganizationUsers').and.returnValue(of( new User(
-      1, 'email', 'first', 'last', 1, false, []
-    )));
+    const userSpy = spyOn(service, 'getOrganizationUsers').and.returnValue(
+      of( [new User(
+        1,
+        'email',
+        'first',
+        'last',
+        1,
+        false,
+        []
+      )]));
 
     service.getOrganizationUsers(1).subscribe();
 

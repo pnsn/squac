@@ -14,14 +14,15 @@ import { Widget } from '@features/widgets/models/widget';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { take } from 'rxjs/operators';
 import  * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
+import { DateService } from './date.service';
 
 describe('ViewService', () => {
   let service: ViewService;
   let widgetsService;
   let dashboardsService;
+  let dateService;
   const abilityMock = {
     can: (permission, resource) => {
       return resource && resource.owner && resource.owner === 1;
@@ -38,8 +39,7 @@ describe('ViewService', () => {
       imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
       providers: [
       {
-        provide: DashboardsService, useClass: MockDashboardsService,
-      },
+        provide: DashboardsService, useClass: MockDashboardsService},
       {
         provide: WidgetsService, useClass: MockWidgetsService},
       { provide: Ability, useValue: abilityMock},
@@ -53,6 +53,7 @@ describe('ViewService', () => {
     service = TestBed.inject(ViewService);
     widgetsService = TestBed.inject(WidgetsService);
     dashboardsService = TestBed.inject(DashboardsService);
+    dateService = TestBed.inject(DateService);
     testDashboard = new Dashboard(
       1, 1, 'name', 'description', false, false, 1, [1]
     );
