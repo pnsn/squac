@@ -3,11 +3,11 @@ import { Dashboard } from '../../models/dashboard';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ViewService } from '@core/services/view.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { AppAbility } from '@core/utils/ability';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
-import { ConfigurationService } from '@core/services/configuration.service';
+import { DateService } from '@core/services/date.service';
 
 //
 @Component({
@@ -20,7 +20,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
   status;
-  maxDate: moment.Moment;
+  startDate: dayjs.Dayjs;
+  maxDate: dayjs.Dayjs;
   error: string = null;
   unsaved = false;
   archiveType: string;
@@ -33,7 +34,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   };
   selectedRange: string;
   liveMode: boolean;
-  startDate: moment.Moment;
+
   // settings for date select
   locale;
   ranges = {};
@@ -49,18 +50,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
-    configService: ConfigurationService,
-  ) {
-    this.rangeLookUp = configService.getValue('dateRanges');
-    this.locale = configService.getValue('locale');
-  }
+    private dateService: DateService
+  ) {}
 
   ngOnInit() {
-
-    this.maxDate = moment.utc();
-    this.startDate = moment.utc();
+    this.rangeLookUp = this.dateService.dateRanges;
+    this.maxDate = this.dateService.now();
+    this.startDate = this.dateService.now();
     this.makeTimeRanges();
-
 
     const dashboardSub = this.route.data.subscribe(
       data => {
@@ -83,8 +80,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             };
           } else {
             this.selected = {
-              startDate: moment.utc(start),
-              endDate: moment.utc(end)
+              startDate: this.dateService.parseUtc(start),
+              endDate: this.dateService.parseUtc(end)
             };
             this.selectedRange = start + ' - ' + end;
           }
@@ -117,7 +114,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   makeTimeRanges(){
     for (const range in this.rangeLookUp) {
       if (this.rangeLookUp[range]) {
-        this.ranges[this.rangeLookUp[range]] = [moment.utc().subtract(+range, 'seconds'), this.startDate];
+        this.ranges[this.rangeLookUp[range]] = [this.dateService.subtractFromNow(+range, 'seconds'), this.startDate];
       }
     }
   }
@@ -129,22 +126,21 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.viewService.setArchive(this.archiveType, this.archiveStat);
   }
   // FIXME: milliseconds of difference are causing it to not recognize
-  lookupRange(startDate: moment.Moment, endDate: moment.Moment): number | void {
-
+  lookupRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): number | void {
+    let diff = this.dateService.diff(endDate, startDate);
     // check if end of range close to now
-    if (Math.abs(endDate.diff(this.startDate)) < 1000 ) {
-
+    if (Math.abs(diff) < 1 ) {
       this.liveMode = true;
-      const diff = Math.round(endDate.diff(startDate) / 100000 ) * 100; // account for ms of weirdness
-      this.selectedRange = this.rangeLookUp[diff];
-      return diff;
+      const roundDiff = Math.round(diff / 100 ) * 100; // account for ms of weirdness
+      this.selectedRange = this.rangeLookUp[roundDiff];
+      return roundDiff;
     } else {
       this.liveMode = false;
-      this.selectedRange = startDate.format(this.locale.displayFormat) + ' - ' + endDate.format(this.locale.displayFormat);
+      this.selectedRange = this.dateService.format(startDate) + ' - ' + this.dateService.format(startDate);
     }
   }
 
-  datesSelected(chosenDate: {startDate: moment.Moment; endDate: moment.Moment }): void {
+  datesSelected(chosenDate: {startDate: dayjs.Dayjs; endDate: dayjs.Dayjs }): void {
     this.unsaved = true;
     const start = chosenDate.startDate;
     const end = chosenDate.endDate;
@@ -174,7 +170,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   // currently saves any time dates are changed, may want to move to a save button
-  selectDateRange(startDate: moment.Moment, endDate: moment.Moment, range?: number) {
+  selectDateRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, range?: number) {
 
   }
 

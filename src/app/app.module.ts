@@ -27,7 +27,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
-
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
 }

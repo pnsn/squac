@@ -13,9 +13,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Widget } from '@features/widgets/models/widget';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { take } from 'rxjs/operators';
-import * as moment from 'moment';
+import  * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
+
 describe('ViewService', () => {
   let service: ViewService;
   let widgetsService;
@@ -141,7 +143,7 @@ describe('ViewService', () => {
     service.setDashboard(testDashboard);
     const datesSpy = spyOn(service.dates, 'next');
 
-    service.datesChanged(moment.utc(), moment.utc(), true);
+    service.datesChanged(dayjs.utc(), dayjs.utc(), true);
 
     expect(datesSpy).toHaveBeenCalled();
   });
