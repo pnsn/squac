@@ -148,6 +148,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.unsaved = true;
     const start = chosenDate.startDate;
     const end = chosenDate.endDate;
+
+    console.log(start, end)
     if (start && end) {
       const range = this.lookupRange(start, end);
       this.viewService.datesChanged(
