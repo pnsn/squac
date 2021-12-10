@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as dayjs from 'dayjs';
-import * as utc from 'dayjs';
-import * as duration from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+import * as duration from 'dayjs/plugin/duration';
 import { ConfigurationService } from './configuration.service';
 
 //service to help reduce imports of dayjs 
@@ -45,11 +45,11 @@ export class DateService {
   }
 
   format(date: dayjs.Dayjs): string {
-    return date.format(this.locale.format);
+    return date.utc().format(this.locale.format);
   }
 
   displayFormat(date: dayjs.Dayjs): string {
-    return date.format(this.locale.displayFormat);
+    return date.utc().format(this.locale.displayFormat);
   }
 
   //return in seconds
@@ -57,7 +57,7 @@ export class DateService {
     return date1.diff(date2, 'seconds');
   }
 
-  duration(count:number, type:string) {
+  duration(count:number, type:duration.DurationUnitType) {
     return dayjs.duration(count, type);
   }
 
