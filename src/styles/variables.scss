@@ -1,5 +1,5 @@
 /* Colors variables for Squac */
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @import './squac-theme.scss';
 @include mat.core();
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
