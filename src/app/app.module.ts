@@ -47,8 +47,8 @@ export function initApp(configurationService: ConfigurationService) {
     NoopAnimationsModule,
     BrowserAnimationsModule,
     BrowserModule,
-    LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
+    LeafletModule,
+    LeafletDrawModule,
 
     // Always load this at the end or the routing gets weird
     AppRoutingModule
