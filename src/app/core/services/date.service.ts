@@ -24,41 +24,49 @@ export class DateService {
     this.locale = configService.getValue('locale');
   }
 
+  // get now 
   now(): dayjs.Dayjs {
     return dayjs.utc().clone();
   }
 
+  // subtract time from start
   subtract(start: dayjs.Dayjs, amount:number, unit: string): dayjs.Dayjs {
     return start.utc().subtract(amount, unit);
   }
 
+  // subtract time from now
   subtractFromNow(amount: number, unit: string) : dayjs.Dayjs {
     return this.now().subtract(amount, unit);
   }
 
+  //subtract duration
   subtractDuration(start: dayjs.Dayjs, duration): dayjs.Dayjs {
     return start.utc().subtract(duration).clone();
   }
 
+  // parse utc date from string
   parseUtc(date: string) : dayjs.Dayjs {
     return dayjs.utc(date).clone();
   }
 
+  // format date
   format(date: dayjs.Dayjs): string {
     return date.utc().format(this.locale.format);
   }
 
+  //format date but prettier
   displayFormat(date: dayjs.Dayjs): string {
     return date.utc().format(this.locale.displayFormat);
   }
 
-  //return in seconds
+  // return differnece in seconds between two dates
   diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
     return date1.diff(date2, 'seconds');
   }
 
-  duration(count:number, type:duration.DurationUnitType) {
-    return dayjs.duration(count, type);
+  // return duration
+  duration(count:number, type: string) {
+    return dayjs.duration(count, type as duration.DurationUnitType);
   }
 
   get dateRanges () {
