@@ -99,8 +99,8 @@ export class ViewService {
     range?: number
   ): void {
     if (startDate && endDate) {
-      const start = this.dateService.format(startDate);
-      const end = this.dateService.format(endDate);
+      const start = this.dateService.displayFormat(startDate);
+      const end = this.dateService.displayFormat(endDate);
       this.live = live;
 
       this.dashboard.timeRange = range ? range : null;

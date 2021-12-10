@@ -136,7 +136,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       return roundDiff;
     } else {
       this.liveMode = false;
-      this.selectedRange = this.dateService.format(startDate) + ' - ' + this.dateService.format(startDate);
+      this.selectedRange = this.dateService.displayFormat(startDate) + ' - ' + this.dateService.displayFormat(startDate);
     }
   }
 

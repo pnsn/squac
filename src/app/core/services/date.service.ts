@@ -36,17 +36,29 @@ export class DateService {
     return this.now().subtract(amount, unit);
   }
 
+  subtractDuration(start: dayjs.Dayjs, duration): dayjs.Dayjs {
+    return start.utc().subtract(duration).clone();
+  }
+
   parseUtc(date: string) : dayjs.Dayjs {
     return dayjs.utc(date).clone();
   }
 
   format(date: dayjs.Dayjs): string {
+    return date.format(this.locale.format);
+  }
+
+  displayFormat(date: dayjs.Dayjs): string {
     return date.format(this.locale.displayFormat);
   }
 
   //return in seconds
   diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
     return date1.diff(date2, 'seconds');
+  }
+
+  duration(count:number, type:string) {
+    return dayjs.duration(count, type);
   }
 
   get dateRanges () {
