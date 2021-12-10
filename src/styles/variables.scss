@@ -1,31 +1,31 @@
 /* Colors variables for Squac */
+@use '~@angular/material' as mat;
 @import './squac-theme.scss';
-@import '~@angular/material/theming';
-@include mat-core();
+@include mat.core();
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 
-$squac-ui-primary: mat-palette($mat-sqblue);
-$squac-ui-accent: mat-palette($mat-sqyellow, 500, 900, A100);
-$squac-ui-neutral: mat-palette($mat-sqgray);
+$squac-ui-primary: mat.define-palette($mat-sqblue);
+$squac-ui-accent: mat.define-palette($mat-sqyellow, 500, 900, A100);
+$squac-ui-neutral: mat.define-palette($mat-sqgray);
 
 // The warn palette is optional (defaults to red).
-$squac-ui-warn: mat-palette($mat-red);
+$squac-ui-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$squac-ui-theme: mat-light-theme($squac-ui-primary, $squac-ui-accent, $squac-ui-warn);
+$squac-ui-theme: mat.define-light-theme($squac-ui-primary, $squac-ui-accent, $squac-ui-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($squac-ui-theme);
+@include mat.all-component-themes($squac-ui-theme);
 
-$sq-yellow: mat-color($squac-ui-accent);
-$sq-dk-yellow: mat-color($squac-ui-accent, darker);
-$sq-dk-blue: mat-color($squac-ui-primary, darker);
-$sq-blue: mat-color($squac-ui-primary);
-$sq-lt-blue: mat-color($squac-ui-primary, lighter);
-$sq-dk-gray: mat-color($squac-ui-neutral);
-$sq-gray: mat-color($squac-ui-neutral, 100);
-$sq-lt-gray: mat-color($squac-ui-neutral, 50);
-$sq-warn: mat-color($squac-ui-warn);
+$sq-yellow: mat.get-color-from-palette($squac-ui-accent);
+$sq-dk-yellow: mat.get-color-from-palette($squac-ui-accent, darker);
+$sq-dk-blue: mat.get-color-from-palette($squac-ui-primary, darker);
+$sq-blue: mat.get-color-from-palette($squac-ui-primary);
+$sq-lt-blue: mat.get-color-from-palette($squac-ui-primary, lighter);
+$sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral);
+$sq-gray: mat.get-color-from-palette($squac-ui-neutral, 100);
+$sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, 50);
+$sq-warn: mat.get-color-from-palette($squac-ui-warn);
