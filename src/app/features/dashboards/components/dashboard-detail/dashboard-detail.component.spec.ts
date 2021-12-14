@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedIndicatorComponent } from '@shared/components/shared-indicator/shared-indicator.component';
 import { DateService } from '@core/services/date.service';
+import { MockProvider } from 'ng-mocks';
 
 
 describe('DashboardDetailComponent', () => {
@@ -71,7 +72,7 @@ describe('DashboardDetailComponent', () => {
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility , useExisting: Ability },
         {provide: ViewService, useValue: new MockViewService()},
-        DateService
+        MockProvider(DateService)
       ],
       declarations: [
         DashboardDetailComponent,
