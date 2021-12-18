@@ -1,26 +1,22 @@
 import {
   Component,
   Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
+  OnChanges, SimpleChanges
 } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
 import { Trigger } from "@features/monitors/models/trigger";
 import { ApiGetAggregate } from "@features/widgets/models/aggregate";
 import { MeasurementsService } from "@features/widgets/services/measurements.service";
-import * as dayjs from "dayjs";
 import { forkJoin, Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-monitor-chart",
   templateUrl: "./monitor-chart.component.html",
   styleUrls: ["./monitor-chart.component.scss"],
 })
-export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
+export class MonitorChartComponent implements OnChanges {
   @Input() metric?: Metric;
   @Input() triggers: Trigger[];
   @Input() channelGroupId: number;
@@ -47,13 +43,6 @@ export class MonitorChartComponent implements OnInit, OnChanges, OnDestroy {
   responseCache;
   indexes;
   requests: Observable<any>;
-  ngOnInit(): void {}
-  // this is functionally a widget - should have a measurement service?
-
-  ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // only update data if these change -> swap values if interval changes too

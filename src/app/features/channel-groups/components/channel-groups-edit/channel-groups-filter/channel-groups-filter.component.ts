@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-channel-groups-filter',
   templateUrl: './channel-groups-filter.component.html',
   styleUrls: ['./channel-groups-filter.component.scss']
 })
-export class ChannelGroupsFilterComponent implements OnInit {
+export class ChannelGroupsFilterComponent {
   constructor() { }
   @Output() filtersChanged = new EventEmitter<any>();
   filters = {
@@ -14,10 +14,7 @@ export class ChannelGroupsFilterComponent implements OnInit {
     station: '',
     location: ''
   };
-
-  ngOnInit() {
-  }
-
+  
   addFilter(event: any, type: string): void {
     const value = event.target.value.toLowerCase();
     if (value) {

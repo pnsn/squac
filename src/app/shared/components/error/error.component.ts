@@ -5,11 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: '<div id="error-container">{{errorMsg}}<div>',
   styleUrls: ['./error.component.scss']
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   @Input() errorMsg: string;
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
