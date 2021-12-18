@@ -6,7 +6,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
-import {ngMocks} from 'ng-mocks';
 
 declare const require: any;
 // console.warn = (message) => {throw new Error(message)};
@@ -23,13 +22,3 @@ const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 
-ngMocks.autoSpy('jasmine'); // or jest
-
-// ngMocks.defaultMock helps to customize mocks
-// globally. Therefore, we can avoid copy-pasting
-// among tests.
-// https://ng-mocks.sudo.eu/api/ngMocks/defaultMock
-// ngMocks.defaultMock(AuthService, () => ({
-//   isLoggedIn$: EMPTY,
-//   currentUser$: EMPTY,
-// }));

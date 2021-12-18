@@ -17,6 +17,7 @@ import  * as dayjs from 'dayjs';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
 import { DateService } from './date.service';
+import { MockDateService } from './date.service.mock';
 
 describe('ViewService', () => {
   let service: ViewService;
@@ -46,8 +47,10 @@ describe('ViewService', () => {
       { provide: MessageService, useValue: {
         message: (text) => {},
         error: (text) => {}
+      }},
+      {
+        provide: DateService, useValue: new MockDateService()
       }
-    }
     ]
     });
     service = TestBed.inject(ViewService);
