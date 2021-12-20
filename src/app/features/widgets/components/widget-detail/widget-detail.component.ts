@@ -17,7 +17,7 @@ import { WidgetsService } from '@features/widgets/services/widgets.service';
   styleUrls: ['./widget-detail.component.scss'],
   providers: [WidgetDataService]
 })
-export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   @Input() widget: Widget;
   data: any;
@@ -80,12 +80,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscription.add(dataSub);
     // widget data errors here
-  }
-
-  ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    // this.getData();
   }
 
   ngOnDestroy(): void {

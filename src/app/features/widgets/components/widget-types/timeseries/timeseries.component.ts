@@ -15,7 +15,8 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
+import { DateService } from '@core/services/date.service';
 
 @Component({
   selector: 'app-timeseries',
@@ -23,7 +24,10 @@ import * as moment from 'moment';
   styleUrls: ['./timeseries.component.scss'],
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
-  constructor(private viewService: ViewService) {}
+  constructor(
+    private viewService: ViewService,
+    private dateService: DateService
+    ) {}
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
@@ -177,7 +181,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
         if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
 
-          let lastEnd: moment.Moment;
+          let lastEnd: dayjs.Dayjs;
           data[channel.id][this.currentMetric.id].forEach(
             (measurement: Measurement) => {
               if (measurement.value > max) {
@@ -190,7 +194,9 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               // // If time between measurements is greater than gap, don't connect
               if (channelObj.series.length > 0 && lastEnd) {
                 // time since last measurement
-                const diff = moment.utc(measurement.starttime).diff(lastEnd);
+                const start = this.dateService.parseUtc(measurement.starttime);
+
+                const diff = this.dateService.diff(start, lastEnd);
 
                 if (diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
                   this.results.push({name: channelObj.name, series: channelObj.series});
@@ -201,7 +207,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               // meas start
               channelObj.series.push(
                 {
-                  name: moment.utc(measurement.starttime).toDate(),
+                  name: this.dateService.parseUtc(measurement.starttime).toDate(),
                   value: measurement.value
                 }
               );
@@ -209,12 +215,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
               // meas end
               channelObj.series.push(
                 {
-                  name: moment.utc(measurement.endtime).toDate(),
+                  name: this.dateService.parseUtc(measurement.endtime).toDate(),
                   value: measurement.value
                 }
               );
 
-              lastEnd = moment.utc(measurement.endtime);
+              lastEnd = this.dateService.parseUtc(measurement.endtime);
             }
 
           );

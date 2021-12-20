@@ -6,9 +6,9 @@ import { DashboardEditComponent } from './components/dashboard-edit/dashboard-ed
 import { DashboardViewComponent } from './components/dashboard-view/dashboard-view.component';
 import { DashboardsRoutingModule } from './dashboards-routing.module';
 import { AbilityModule } from '@casl/angular';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedModule } from '@shared/shared.module';
 import { WidgetsModule } from '@features/widgets/widgets.module';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [
