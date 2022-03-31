@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { UserService } from '@features/user/services/user.service';
 import { OrganizationsService } from '@features/user/services/organizations.service';
 import { User } from '@features/user/models/user';
 import { Organization } from '@features/user/models/organization';
-import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, of } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@features/user/services/invite.service';
-import { ThrowStmt } from '@angular/compiler';
-import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '@core/services/message.service';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
