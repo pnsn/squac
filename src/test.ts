@@ -6,9 +6,19 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import {ngMocks} from 'ng-mocks';
 
 declare const require: any;
+declare const jasmine: any;
 // console.warn = (message) => {throw new Error(message)};
+ngMocks.autoSpy('jasmine');
+
+jasmine.getEnv().addReporter({
+  specDone: MockInstance.restore,
+  specStarted: MockInstance.remember,
+  suiteDone: MockInstance.restore,
+  suiteStarted: MockInstance.remember,
+});
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

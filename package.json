@@ -36,6 +36,7 @@
     "dayjs": "^1.10.7",
     "leaflet": "^1.6.0",
     "leaflet-draw": "^1.0.4",
+    "ng-mocks": "^13.3.0",
     "ngx-daterangepicker-material": "^5.0.1",
     "rxjs": "^7.4.0",
     "timelines-chart": "^2.11.2",
