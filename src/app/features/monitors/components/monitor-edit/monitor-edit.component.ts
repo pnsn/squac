@@ -1,8 +1,6 @@
-import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, ActivationEnd, Params } from '@angular/router';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { MessageService } from '@core/services/message.service';
@@ -10,9 +8,8 @@ import { Monitor } from '@features/monitors/models/monitor';
 import { Trigger } from '@features/monitors/models/trigger';
 import { MonitorsService } from '@features/monitors/services/monitors.service';
 import { TriggersService } from '@features/monitors/services/triggers.service';
-import { UserService } from '@features/user/services/user.service';
 import { merge, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-entry.component';
 
 @Component({
@@ -128,13 +125,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         return merge(...this.triggersService.updateTriggers(values.triggers, m.id));
       })
     ).subscribe(
-      success => {
-        this.messageService.message('Monitor saved.');
-        this.cancel();
-        // this.router.navigate()
-      },
-      error => {
-        this.messageService.error('Could not save monitor.');
+      {
+        next: () => {
+          this.messageService.message('Monitor saved.');
+          this.cancel();
+        },
+        error: () => {
+          this.messageService.error('Could not save monitor.');
+        }
       }
     );
   }

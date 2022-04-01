@@ -11,9 +11,10 @@
       <mat-step 
         label="Monitor Configuration"
         #infoStep
-        [completed]="monitorForm.valid"
-        [hasError]="infoStep.interacted && !monitorForm.valid"
+
         >
+        <!-- [completed]="monitorForm.valid"
+        [hasError]="infoStep.interacted && !monitorForm.valid" -->
         <div id="monitor-edit-container">
           <mat-form-field id="name">
             <mat-label for="name">Monitor Name</mat-label>
@@ -37,11 +38,6 @@
               </mat-select>
             </mat-form-field>
             <span> for </span>
-            <!-- <mat-form-field class="small">
-              <mat-label for="numberChannels"># of Channels</mat-label>
-              <input matInput type="number" name="numberChannels" formControlName="numberChannels">
-            </mat-form-field> -->
-            <!-- <span> or {{inverted ? "fewer" : "more"}} channels in </span> -->
             <mat-form-field class="large">
               <mat-label>
                 Channel Group
@@ -100,22 +96,37 @@
                       <mat-option *ngFor="let l of levels" [value]="l"> {{l}} </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <!-- <mat-form-field>
-                    <mat-label for="min">min:</mat-label>
-                    <input matInput type="number" name="min" formControlName="min">
+                  <mat-form-field>
+                    <mat-label for="val1">min:</mat-label>
+                    <input matInput type="number" name="val1" formControlName="val1">
                   </mat-form-field>
                   <mat-form-field>
-                    <mat-label for="max">max:</mat-label>
-                    <input matInput type="number" name="max" formControlName="max">
-                  </mat-form-field> -->
-
-                  <mat-checkbox *ngIf="trigger.value.min !== null && trigger.value.max !== null; else noInclusive"
-                    name="inclusive" formControlName="inclusive">
-                    <span>inclusive</span>
+                    <mat-label for="val2">max:</mat-label>
+                    <input matInput type="number" name="val2" formControlName="val2">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label for="value_operator">operator</mat-label>
+                    <mat-select formControlName="value_operator" name="value_operator">
+                      <mat-option *ngFor="let o of value_operators" [value]="o"> {{o}} </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label for="num_channels">num_channels:</mat-label>
+                    <input matInput type="number" name="num_channels" formControlName="num_channels">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label for="num_channels_operator">num_channels_operator</mat-label>
+                    <mat-select formControlName="num_channels_operator" name="num_channels_operator">
+                      <mat-option *ngFor="let n of num_channels_operators" [value]="n"> {{n}} </mat-option>
+                    </mat-select>
+                  </mat-form-field>                  
+                  <mat-checkbox
+                    name="alert_on_out_of_alarm" formControlName="alert_on_out_of_alarm">
+                    <span>Alert on Out of Alarm</span>
                   </mat-checkbox>
-                  <ng-template #noInclusive>
+                  <!-- <ng-template #noInclusive>
                     set {{trigger.value.min !== null ? "max" : "min"}} for band
-                  </ng-template>
+                  </ng-template> -->
 
                   <button mat-icon-button color="warn" (click)="removeThreshold(i)"
                     aria-label="button that removes the trigger">
@@ -124,7 +135,7 @@
 
                 </div>
 
-                <div class="trigger-help">
+                <!-- <div class="trigger-help">
                   <span *ngIf="trigger.value.min !== null || trigger.value.max !== null"> Will be in alarm when </span>
                   <span *ngIf="trigger.value.min !== null && trigger.value.max !== null">
                     value {{trigger.value.inclusive ? "between" : "not between"}} {{trigger.value.min}} and
@@ -135,7 +146,7 @@
                       *ngIf="trigger.value.max !== null && trigger.value.min === null">
                       values > {{trigger.value.max}}
                   </span>
-                </div>
+                </div> -->
               </div>
 
             </div>
