@@ -20,7 +20,6 @@ describe('HomeComponent', () => {
 
   it('should create', () => {
     const fixture = MockRender(HomeComponent);
-    fixture.detectChanges();
     const component = fixture.point.componentInstance;
     expect(component).toBeTruthy();
   });

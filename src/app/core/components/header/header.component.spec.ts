@@ -1,11 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from '@core/services/auth.service';
-import { MockDeclaration, MockedComponentFixture, MockInstance, MockModule, MockProvider, MockProviders, MockRender, MockService, ngMocks } from 'ng-mocks';
+import { MockInstance, MockModule, MockProviders, MockRender, ngMocks } from 'ng-mocks';
 import { SharedModule } from '@shared/shared.module';
-import { HomeComponent } from '../home/home.component';
-import { User } from '@features/user/models/user';
 import { AppAbility } from '@core/utils/ability';
 import { PureAbility } from '@casl/ability';
 
