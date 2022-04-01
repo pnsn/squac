@@ -6,7 +6,9 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
-import {ngMocks} from 'ng-mocks';
+import {ngMocks, MockInstance} from 'ng-mocks';
+import { UserService } from '@features/user/services/user.service';
+import { EMPTY } from 'rxjs';
 
 declare const require: any;
 declare const jasmine: any;
@@ -31,4 +33,3 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
-

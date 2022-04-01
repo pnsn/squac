@@ -84,6 +84,7 @@ export class AuthService {
 
   // after user hits log out, wipe data
   logout() {
+    console.log("AUTH LOGOUT")
     this.userService.logout();
     this.token = null;
     this.router.navigate(['/login']);

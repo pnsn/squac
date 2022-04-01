@@ -15,52 +15,67 @@ import { AuthService } from '@core/services/auth.service';
 import { MockAuthService } from '@core/services/auth.service.mock';
 import { UserService } from '@features/user/services/user.service';
 import { MockUserService } from '@features/user/services/user.service.mock';
-import { throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { MockInstance, MockModule, MockProvider, MockProviders, MockRender, MockService, ngMocks } from 'ng-mocks';
+import { SharedModule } from '@shared/shared.module';
+import { User } from '@features/user/models/user';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
-  let authService: AuthService;
-  let userService: UserService;
-  let messageService: MessageService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ],
+  let user : BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  ngMocks.faster();
+  MockInstance.scope();
+
+  beforeAll(async () => {
+    return TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        MatToolbarModule,
-        AbilityModule,
-        MatSnackBarModule
+        MockModule(SharedModule)
+      ],
+      declarations: [
+        HeaderComponent,
       ],
       providers: [
-        MessageService,
-        { provide: SquacApiService, useValue: MockSquacApiService },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: AuthService, useValue: new MockAuthService()},
-        { provide: PureAbility , useExisting: Ability },
-        { provide: UserService, useValue: new MockUserService()}
+        MockProviders(MessageService, AuthService, PureAbility, AppAbility, UserService)
       ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    authService = TestBed.inject(AuthService);
-    userService = TestBed.inject(UserService);
-    messageService = TestBed.inject(MessageService);
+  beforeEach(()=>{
+    MockInstance(UserService, instance =>
+      ngMocks.stub(instance, {
+        user,
+      })
+    )
+  });
+
+  afterAll(() => {
+    user.complete();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(HeaderComponent);
+    expect(
+      fixture.point.componentInstance,
+    ).toEqual(jasmine.any(HeaderComponent));
   });
 
   it('should logout', () => {
-    const authSpy = spyOn(authService, 'logout');
+    const spyLogout = MockInstance(
+      AuthService,
+      'logout',
+      jasmine.createSpy("logoutSpy")
+    );
+
+    const fixture = MockRender(HeaderComponent);
+    const component = fixture.point.componentInstance;
+
+    fixture.detectChanges();
+    user.next(MockService(User));
+
+
     component.logout();
-    expect(authSpy).toHaveBeenCalled();
+
+    expect(spyLogout).toHaveBeenCalled();
   });
 });

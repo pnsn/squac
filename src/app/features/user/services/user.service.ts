@@ -20,7 +20,6 @@ interface UserHttpData {
 export class UserService {
   private url = 'user/me/';
   private currentUser: User;
-    // FIXME: because it is a replay sometimes after logout a "user" still returns
   user = new BehaviorSubject<User>(null);
   constructor(
     private squacApi: SquacApiService,
