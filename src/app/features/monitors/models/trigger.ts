@@ -19,6 +19,7 @@ export class Trigger {
   static get modelName() {
     return 'Trigger';
   }
+
 }
 
 export interface ApiGetTrigger {

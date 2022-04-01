@@ -5,6 +5,7 @@ import {
 } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
+import { min } from "@core/utils/utils";
 import { Trigger } from "@features/monitors/models/trigger";
 import { ApiGetAggregate } from "@features/widgets/models/aggregate";
 import { MeasurementsService } from "@features/widgets/services/measurements.service";
@@ -72,18 +73,24 @@ export class MonitorChartComponent implements OnChanges {
   addTriggers() {
     this.referenceLines = [];
     this.triggers?.forEach((trigger) => {
-      if (trigger.max !== null) {
+      let min : number, max: number;
+      
+      if(trigger.val2 === null) {
+        min = trigger.val1;
+      } else {
+        min = Math.min(trigger.val1, trigger.val2);
+        max = Math.max(trigger.val1, trigger.val2);
         this.referenceLines.push({
-          name: `max: ` + trigger.max,
-          value: trigger.max,
+          name: `max: ` + max,
+          value: max,
         });
       }
-      if (trigger.min !== null) {
-        this.referenceLines.push({
-          name: `min: ` + trigger.min,
-          value: trigger.min,
-        });
-      }
+
+      this.referenceLines.push({
+        name: `min: ` + min,
+        value: min,
+      });
+
     });
   }
 

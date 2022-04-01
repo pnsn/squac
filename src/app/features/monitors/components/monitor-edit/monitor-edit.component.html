@@ -37,11 +37,11 @@
               </mat-select>
             </mat-form-field>
             <span> for </span>
-            <mat-form-field class="small">
+            <!-- <mat-form-field class="small">
               <mat-label for="numberChannels"># of Channels</mat-label>
               <input matInput type="number" name="numberChannels" formControlName="numberChannels">
-            </mat-form-field>
-            <span> or {{inverted ? "fewer" : "more"}} channels in </span>
+            </mat-form-field> -->
+            <!-- <span> or {{inverted ? "fewer" : "more"}} channels in </span> -->
             <mat-form-field class="large">
               <mat-label>
                 Channel Group
@@ -65,7 +65,7 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-slide-toggle formControlName="invert">{{inverted ? "Inverted" : "Invert"}}</mat-slide-toggle>
+            <!-- <mat-slide-toggle formControlName="invert">{{inverted ? "Inverted" : "Invert"}}</mat-slide-toggle> -->
 
           </div>
 
@@ -100,14 +100,14 @@
                       <mat-option *ngFor="let l of levels" [value]="l"> {{l}} </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                     <mat-label for="min">min:</mat-label>
                     <input matInput type="number" name="min" formControlName="min">
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label for="max">max:</mat-label>
                     <input matInput type="number" name="max" formControlName="max">
-                  </mat-form-field>
+                  </mat-form-field> -->
 
                   <mat-checkbox *ngIf="trigger.value.min !== null && trigger.value.max !== null; else noInclusive"
                     name="inclusive" formControlName="inclusive">

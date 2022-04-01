@@ -40,6 +40,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   intervalTypes: string[] = ['minute', 'hour', 'day'];
   stats: string[] = ['count', 'sum', 'avg', 'min', 'max'];
+  value_operators: string[] = ['outsideof', 'within', '==','<', '<=', '>', '>='];
+  channels_operators: string[] = ['any', '==', '<', '>'];
   levels: number[] = [1, 2, 3];
   // selectedType;
   // selectedStat;
@@ -50,10 +52,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.monitorForm = this.formBuilder.group({
       name: ['', Validators.required],
       intervalCount: ['', [ Validators.required, Validators.min(1)]],
-      numberChannels: ['', [Validators.required, Validators.min(1)]],
       intervalType: ['', Validators.required],
       stat: ['', Validators.required],
-      invert: [false, Validators.required],
       metric: ['', Validators.required],
       channelGroup: ['', Validators.required],
       triggers: this.formBuilder.array([])
@@ -69,29 +69,33 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     return this.monitorForm.get('triggers') as FormArray;
   }
 
-  get inverted() {
-    return this.monitorForm.get('invert').value;
-  }
-
   addTrigger(trigger?: Trigger) {
     this.triggers.push( this.formBuilder.group({
-      min: [trigger ? trigger.min : null],
-      max: [trigger ? trigger.max : null],
-      inclusive: [trigger ? trigger.bandInclusive : false],
+      val1: [trigger ? trigger.val1 : null],
+      val2: [trigger ? trigger.val2 : null],
       level: [trigger ? trigger.level : null],
-      id: [trigger ? trigger.id : null]
+      id: [trigger ? trigger.id : null],
+      value_operator: [trigger ? trigger.value_operator : null ],
+      num_channels:[trigger ? trigger.num_channels : null ],
+      num_channels_operator:[trigger ? trigger.num_channels_operator : null ],
+      alert_on_out_of_alarm: [trigger ? trigger.alert_on_out_of_alarm : null ],
+      email_list:[trigger ? trigger.email_list : null ]
     }));
   }
 
-  removeThreshold(index){
+  removeTrigger(index){
     const trigger = this.triggers.at(index).value;
     if (trigger.id) {
       this.triggers.at(index).setValue({
         id: trigger.id,
-        min: null,
-        max: null,
+        val1: null,
+        val2: null,
         level: null,
-       inclusive: null
+        value_operator: null,
+        num_channels: null,
+        num_channels_operator: null,
+        alert_on_out_of_alarm: null,
+        email_list: null
       });
     } else {
       this.triggers.removeAt(index);
@@ -112,9 +116,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.metric.id,
       values.intervalType,
       values.intervalCount,
-      values.numberChannels,
       values.stat,
-      values.invert,
       null,
       values.triggers
     );
@@ -154,10 +156,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         {
           name: this.monitor.name,
           intervalCount: this.monitor.intervalCount,
-          numberChannels: this.monitor.numberChannels,
           intervalType: this.monitor.intervalType,
           stat: this.monitor.stat,
-          invert: this.monitor.invert,
           channelGroup: this.selectedChannelGroup,
           metric: this.selectedMetric
         }
