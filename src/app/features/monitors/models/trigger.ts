@@ -5,11 +5,15 @@ export class Trigger {
   constructor(
     public id: number,
     public monitorId: number,
-    public bandInclusive: boolean,
+    public value_operator: string, //outsideof, within, ==, <, <=, >, >=
     public level: number,
+    public num_channels: number,
+    public num_channels_operator: string, //any, ==, <, >
     public owner: number,
-    public min?: number,
-    public max?: number
+    public alert_on_out_of_alarm: boolean,
+    public email_list: string, //comma separated
+    public val1: number,
+    public val2?: number
   ) {
   }
   static get modelName() {
@@ -21,21 +25,29 @@ export interface ApiGetTrigger {
   id: number;
   url: string;
   monitor: number;
-  minval: number;
-  maxval: number;
-  band_inclusive: boolean;
+  val1: number;
+  val2: number;
+  value_operator: string; //outsideof, within, ==, <, <=, >, >=
   level: number;
+  num_channels: number;
+  num_channels_operator: string; //any, ==, <, >
   created_at: string;
   updated_at: string;
   user_id: string;
+  alert_on_out_of_alarm: boolean;
+  email_list: string //comma separated
 }
 
 export interface ApiPostTrigger {
   monitor: number;
-  minval: number;
-  maxval: number;
-  band_inclusive: boolean;
+  val1: number;
+  val2: number;
+  value_operator: string; //outsideof, within, ==, <, <=, >, >=
   level: number;
+  num_channels: number;
+  num_channels_operator: string; //any, ==, <, >
+  alert_on_out_of_alarm: boolean;
+  email_list: string //comma separated
 }
 
 @Injectable({
@@ -46,21 +58,30 @@ export class TriggerAdapter implements Adapter<Trigger> {
     return new Trigger(
       item.id,
       item.monitor,
-      item.band_inclusive,
+      item.value_operator, //outsideof, within, ==, <, <=, >, >=
       item.level,
+      item.num_channels,
+      item.num_channels_operator, //any, ==, <, >
       +item.user_id,
-      item.minval,
-      item.maxval
+      item.alert_on_out_of_alarm,
+      item.email_list, //comma separated
+      item.val1,
+      item.val2
     );
   }
 
   adaptToApi(item: Trigger): any {
     return {
       monitor: item.monitorId,
-      band_inclusive: item.bandInclusive,
+      val1: item.val1,
+      val2: item.val2,
+      value_operator: item.value_operator,
       level: item.level,
-      minval: item.min,
-      maxval: item.max
+      num_channels: item.num_channels,
+      num_channels_operator: item.num_channels_operator,
+      alert_on_out_of_alarm: item.alert_on_out_of_alarm,
+      email_list: item.email_list 
     };
   }
 }
+

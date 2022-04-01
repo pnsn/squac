@@ -10,6 +10,7 @@ export class Alert {
     public timestamp: string,
     public message: string,
     public inAlarm: boolean,
+    public breaching_channels,
     public trigger: Trigger
   ){}
 
@@ -27,6 +28,7 @@ export interface ApiGetAlert {
   timestamp: string;
   message: string;
   in_alarm: boolean;
+  breaching_channels: string;
   created_at: string;
   updated_at: string;
   user_id: string;
@@ -46,6 +48,7 @@ export class AlertAdapter implements Adapter<Alert> {
       item.timestamp,
       item.message,
       item.in_alarm,
+      item.breaching_channels,
       this.triggerAdapter.adaptFromApi(item.trigger)
     );
   }

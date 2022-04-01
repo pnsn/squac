@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from '@core/models/adapter';
-import { Channel } from '@core/models/channel';
 import { ApiGetChannelGroup, ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
 import { Metric, ApiGetMetric, MetricAdapter } from '@core/models/metric';
 import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
@@ -13,9 +12,7 @@ export class Monitor {
     public metricId: number,
     public intervalType: string,
     public intervalCount: number,
-    public numberChannels: number,
     public stat: string,
-    public invert: boolean,
     public owner: number,
     public triggers: Trigger[]
   ) {}
@@ -35,9 +32,7 @@ export interface ApiGetMonitor {
   metric: number | ApiGetMetric;
   interval_type: string;
   interval_count: number;
-  num_channels: number;
   stat: string;
-  invert_monitor: boolean;
   name: string;
   created_at: string;
   updated_at: string;
@@ -50,9 +45,7 @@ export interface ApiPostMonitor {
   metric: number;
   interval_type: string;
   interval_count: number;
-  num_channels: number;
   stat: string;
-  invert_monitor: boolean;
   name: string;
 }
 
@@ -98,9 +91,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
       metricId,
       item.interval_type,
       item.interval_count,
-      item.num_channels,
       item.stat,
-      item.invert_monitor,
       +item.user_id,
       triggers
     );
@@ -115,10 +106,8 @@ export class MonitorAdapter implements Adapter<Monitor> {
     return {
       interval_type: item.intervalType,
       interval_count: item.intervalCount,
-      num_channels: item.numberChannels,
       channel_group: item.channelGroupId,
       metric: item.metricId,
-      invert_monitor: item.invert,
       stat: item.stat,
       name: item.name
     };

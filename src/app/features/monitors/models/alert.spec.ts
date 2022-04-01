@@ -1,39 +1,27 @@
 import { TestBed } from '@angular/core/testing';
+import { MockService } from 'ng-mocks';
 import { Alert, AlertAdapter, ApiGetAlert } from './alert';
+import { Trigger, TriggerAdapter } from './trigger';
 
-describe('Alert', () => {
+fdescribe('Alert', () => {
   let adapter: AlertAdapter;
   it('should create an instance', () => {
-    expect(new Alert(
-      1,
-      1,
-      'timestamp',
-      'message',
-      false,
-      null
-    )).toBeTruthy();
+    expect(MockService(Trigger)).toBeTruthy();
   });
 
   it('should adapt from api to Alert', () => {
     adapter = TestBed.inject(AlertAdapter);
+    let triggerAdapter = MockService(TriggerAdapter);
+    let trigger = triggerAdapter.adaptToApi(MockService(Trigger))
+    
     const testData: ApiGetAlert = {
       id: 1,
       url: 'urlString',
-      trigger: {
-        id: 1,
-        url: 'string',
-        monitor: 1,
-        minval: 1,
-        maxval: 2,
-        band_inclusive: false,
-        level: 1,
-        created_at: 'string',
-        updated_at: 'string',
-        user_id: '1'
-      },
+      trigger,
       timestamp: 'string',
       message: 'string',
       in_alarm: false,
+      breaching_channels: "string",
       created_at: 'string',
       updated_at: 'ng',
       user_id: '1'
