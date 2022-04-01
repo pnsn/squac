@@ -10,7 +10,7 @@ describe('AuthComponent', () => {
 
   beforeAll(async () => {
     return TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [RouterTestingModule],
       declarations: [AuthComponent]
     }).compileComponents();
   });

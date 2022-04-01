@@ -7,8 +7,6 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 import {ngMocks, MockInstance} from 'ng-mocks';
-import { UserService } from '@features/user/services/user.service';
-import { EMPTY } from 'rxjs';
 
 declare const require: any;
 declare const jasmine: any;

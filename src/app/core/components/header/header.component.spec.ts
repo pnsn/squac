@@ -1,56 +1,30 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SquacApiService } from '../../services/squacapi.service';
-import { MockSquacApiService } from '../../services/squacapi.service.mock';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { Ability, PureAbility } from '@casl/ability';
-import { AbilityModule } from '@casl/angular';
-import { AppAbility } from '../../utils/ability';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MessageService } from '@core/services/message.service';
 import { AuthService } from '@core/services/auth.service';
-import { MockAuthService } from '@core/services/auth.service.mock';
-import { UserService } from '@features/user/services/user.service';
-import { MockUserService } from '@features/user/services/user.service.mock';
-import { BehaviorSubject, throwError } from 'rxjs';
-import { MockInstance, MockModule, MockProvider, MockProviders, MockRender, MockService, ngMocks } from 'ng-mocks';
+import { MockDeclaration, MockedComponentFixture, MockInstance, MockModule, MockProvider, MockProviders, MockRender, MockService, ngMocks } from 'ng-mocks';
 import { SharedModule } from '@shared/shared.module';
+import { HomeComponent } from '../home/home.component';
 import { User } from '@features/user/models/user';
+import { AppAbility } from '@core/utils/ability';
+import { PureAbility } from '@casl/ability';
 
 describe('HeaderComponent', () => {
-  let user : BehaviorSubject<any> = new BehaviorSubject<any>(null);
   ngMocks.faster();
   MockInstance.scope();
 
   beforeAll(async () => {
     return TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
         MockModule(SharedModule)
       ],
       declarations: [
-        HeaderComponent,
+        HeaderComponent
       ],
       providers: [
-        MockProviders(MessageService, AuthService, PureAbility, AppAbility, UserService)
+        MockProviders(AuthService, AppAbility, PureAbility)
       ]
     }).compileComponents();
-  });
-
-  beforeEach(()=>{
-    MockInstance(UserService, instance =>
-      ngMocks.stub(instance, {
-        user,
-      })
-    )
-  });
-
-  afterAll(() => {
-    user.complete();
   });
 
   it('should create', () => {
@@ -68,11 +42,8 @@ describe('HeaderComponent', () => {
     );
 
     const fixture = MockRender(HeaderComponent);
+
     const component = fixture.point.componentInstance;
-
-    fixture.detectChanges();
-    user.next(MockService(User));
-
 
     component.logout();
 
