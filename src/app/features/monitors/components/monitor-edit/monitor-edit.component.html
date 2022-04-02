@@ -11,19 +11,19 @@
       <mat-step 
         label="Monitor Configuration"
         #infoStep
-
         >
         <!-- [completed]="monitorForm.valid"
         [hasError]="infoStep.interacted && !monitorForm.valid" -->
         <div id="monitor-edit-container">
-          <mat-form-field id="name">
+          <mat-form-field hintLabel="Max 60 characters" id="name">
             <mat-label for="name">Monitor Name</mat-label>
-            <input matInput type="text" name="name" formControlName="name">
+            <input matInput #name maxLength="60" type="text" name="name" formControlName="name">
+            <mat-hint align="end">{{name.value?.length || 0}}/60</mat-hint>
           </mat-form-field>
 
           <div>
-            <span>Will be in alarm when the</span>
-            <mat-form-field class="small">
+            <span>Alert if the</span>
+            <mat-form-field class="small" id="stat">
               <mat-label>Statistic</mat-label>
               <mat-select formControlName="stat" name="stat">
                 <mat-option *ngFor="let stat of stats" [value]="stat"> {{stat}} </mat-option>
@@ -31,14 +31,18 @@
             </mat-form-field>
 
             <span> of </span>
-            <mat-form-field class="large">
+            <mat-form-field class="large" id="metric"> 
               <mat-label>Metric</mat-label>
               <mat-select formControlName="metric" name="metric">
                 <mat-option *ngFor="let m of metrics" [value]="m">{{m.name}} </mat-option>
               </mat-select>
             </mat-form-field>
+            <span> measurements is</span>
+            <span> trigger 1 values & operator</span>
             <span> for </span>
-            <mat-form-field class="large">
+            <span> trigger 1 num chan operators</span>
+            <span>in</span>
+            <mat-form-field class="large" id="channelGroup">
               <mat-label>
                 Channel Group
               </mat-label>
@@ -47,13 +51,13 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <span>breaches the set triggers in the last </span>
+            <span>over the last </span>
 
-            <mat-form-field class="small">
+            <mat-form-field class="small" id="intervalCount">
               <mat-label for="intervalCount"># of intervals</mat-label>
               <input matInput type="number" name="intervalCount" formControlName="intervalCount">
             </mat-form-field>
-            <mat-form-field class="small">
+            <mat-form-field class="small" id="intervalType">
               <mat-label>Length of Interval</mat-label>
               <mat-select formControlName="intervalType" name="intervalType">
                 <mat-option *ngFor="let type of intervalTypes" [value]="type">
@@ -157,7 +161,7 @@
     </mat-horizontal-stepper>
   </form>
 
-  <div id="chart-container">
+  <!-- <div id="chart-container">
     <h4>Preview</h4>
     <app-monitor-chart
       [metric]="monitorForm.value.metric"
@@ -169,7 +173,7 @@
       [intervalType]="monitorForm.value.intervalType"
       [invert]="monitorForm.value.invert"
       ></app-monitor-chart>
-  </div>
+  </div> -->
 
 
 </div>

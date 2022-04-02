@@ -53,6 +53,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       stat: ['', Validators.required],
       metric: ['', Validators.required],
       channelGroup: ['', Validators.required],
+      defaultTrigger: this.formBuilder.group({}),
       triggers: this.formBuilder.array([])
     });
 
