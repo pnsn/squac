@@ -67,8 +67,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     return this.monitorForm.get('triggers') as FormArray;
   }
 
-  addTrigger(trigger?: Trigger) {
-    this.triggers.push( this.formBuilder.group({
+  makeTriggerForm (trigger?: Trigger) {
+    return this.formBuilder.group({
       val1: [trigger ? trigger.val1 : null],
       val2: [trigger ? trigger.val2 : null],
       level: [trigger ? trigger.level : null],
@@ -78,7 +78,11 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       num_channels_operator:[trigger ? trigger.num_channels_operator : null ],
       alert_on_out_of_alarm: [trigger ? trigger.alert_on_out_of_alarm : null ],
       email_list:[trigger ? trigger.email_list : null ]
-    }));
+    });
+  }
+
+  addTrigger(trigger?: Trigger) {
+    this.triggers.push(this.makeTriggerForm(trigger));
   }
 
   removeTrigger(index){
@@ -162,8 +166,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.monitor.triggers.forEach((trigger) => {
-        this.addTrigger(trigger);
+      this.monitor.triggers.forEach((trigger, i) => {
+        if (i == 0) {
+          this.monitorForm.patchValue(this.makeTriggerForm(trigger));
+        } else {
+          this.addTrigger(trigger);
+        }
       });
 
     }
