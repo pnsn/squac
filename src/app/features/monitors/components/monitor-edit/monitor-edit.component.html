@@ -172,6 +172,13 @@
         <div id="trigger-container">
           <p class="help-text">
             An alert will be sent when the monitor is 'in alarm'. 
+            <button
+            mat-button
+            (click)="addTrigger()"
+            aria-label="button that adds a new trigger"
+        >
+          <mat-icon> notification_add </mat-icon> add notification
+        </button>
           </p>
           <div formArrayName="triggers">
             <div *ngFor="let trigger of triggers.controls; let i = index">
@@ -188,15 +195,8 @@
               <div *ngIf="i === 0">
                 <p >
                   Default notification
-                  
                 </p>
-                <button
-                mat-button
-                (click)="addTrigger()"
-                aria-label="button that adds a new trigger"
-              >
-                <mat-icon> notification_add </mat-icon> new trigger
-              </button>
+
               </div>
 
                 <div class="trigger-form">
@@ -273,8 +273,8 @@
                   <mat-form-field>
                     <mat-label for="email_list">email list:</mat-label>
                     <input
+                      textarea
                       matInput
-                      type="email"
                       name="email_list"
                       formControlName="email_list"
                     />
