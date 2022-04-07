@@ -18,7 +18,6 @@ describe('Trigger', () => {
       val1: 1,
       val2: 1,
       value_operator: "string", //outsideof, within, ==, <, <=, >, >=
-      level: 1,
       num_channels: 1,
       num_channels_operator: "string", //any, ==, <, >
       created_at: "string",

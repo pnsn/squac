@@ -86,7 +86,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // Set up form fields
   ngOnInit() {
-    
+    let test = "test";
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
