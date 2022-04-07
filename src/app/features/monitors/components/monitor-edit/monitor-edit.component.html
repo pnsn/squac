@@ -55,7 +55,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <span>measurements   </span>
+              <span>measurements </span>
             </div>
 
             <ng-container formArrayName="triggers">
@@ -170,62 +170,54 @@
       >
         <div id="trigger-container">
           <p class="help-text">
-            An alert will be sent when the monitor enters the 'in alarm' state. It can also alert when the monitor is no longer 'in alarm'.
-            <button
-              mat-button
-              (click)="addTrigger()"
-              aria-label="button that adds a new trigger"
-            >
-              <mat-icon> notification_add </mat-icon> add notification
-            </button>
+            An alert will be sent when the monitor enters the 'in alarm' state.
+            It can also alert when the monitor is no longer 'in alarm'. Emails
+            must be a comma separated list with no spaces.
           </p>
           <div formArrayName="triggers">
             <table id="trigger-table">
               <tr>
-                <th>Alert on exit 'in alarm'</th>
+                <th>Alert on exit</th>
                 <th>Operator</th>
                 <th>Value</th>
                 <th>Value 2</th>
                 <th>Operator</th>
                 <th># of channels</th>
-
+                <th>Emails</th>
+                <th></th>
               </tr>
-              <ng-container *ngFor="let trigger of triggers.controls; let i = index">
-
-
-              <tr                   [formGroupName]="i"
-              class="trigger"
-              *ngIf="
-                !trigger.value.id ||
-                trigger.value.min ||
-                trigger.value.max ||
-                trigger.level
-              ">
-              <td>
-                <mat-slide-toggle
-                  name="alert_on_out_of_alarm"
-                  formControlName="alert_on_out_of_alarm"
+              <ng-container
+                *ngFor="let trigger of triggers.controls; let i = index"
+              >
+                <tr
+                  [formGroupName]="i"
+                  class="trigger"
                 >
-                </mat-slide-toggle>
-              </td>
-              <td>
-                <mat-form-field class="xsmall">
-                  <mat-label for="value_operator">operator</mat-label>
-                  <mat-select
-                    formControlName="value_operator"
-                    name="value_operator"
-                  >
-                    <mat-option
-                      *ngFor="let o of value_operators"
-                      [value]="o.value"
-                    >
-                      {{ o.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
                   <td>
-                    <mat-form-field class="xsmall">
+                    <mat-slide-toggle
+                      name="alert_on_out_of_alarm"
+                      formControlName="alert_on_out_of_alarm"
+                    >
+                    </mat-slide-toggle>
+                  </td>
+                  <td>
+                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                      <mat-label for="value_operator">operator</mat-label>
+                      <mat-select
+                        formControlName="value_operator"
+                        name="value_operator"
+                      >
+                        <mat-option
+                          *ngFor="let o of value_operators"
+                          [value]="o.value"
+                        >
+                          {{ o.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
@@ -236,7 +228,7 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall">
+                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
@@ -247,7 +239,7 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall">
+                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
                       <mat-label for="num_channels_operator"
                         >operator</mat-label
                       >
@@ -265,7 +257,7 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall">
+                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
@@ -284,7 +276,6 @@
                         name="email_list"
                         formControlName="email_list"
                       ></textarea>
-                      <mat-hint>Comma separated, no spaces</mat-hint>
                       <mat-error></mat-error>
                     </mat-form-field>
                   </td>
@@ -295,11 +286,16 @@
                       color="warn"
                       (click)="removeTrigger(i)"
                       aria-label="button that removes the trigger"
+                      *ngIf="i !== 0"
                     >
                       <mat-icon> delete </mat-icon>
                     </button>
                   </td>
-              </tr>
+                  <ng-template #default>
+                    default
+                  </ng-template>
+                  
+                </tr>
               </ng-container>
             </table>
             <!-- <div class="trigger-help">
@@ -328,6 +324,13 @@
               </span>
             </div> -->
           </div>
+          <button
+            mat-button
+            (click)="addTrigger()"
+            aria-label="button that adds a new trigger"
+          >
+            <mat-icon> notification_add </mat-icon> add notification
+          </button>
         </div>
       </mat-step>
       <ng-template matStepperIcon="monitor">
@@ -374,7 +377,6 @@
     >
       Back
     </button>
-
     <button
       id="save"
       mat-flat-button

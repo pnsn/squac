@@ -37,7 +37,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   emailValidator: Validators = Validators.pattern(/^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/)
   hideRequiredMarker = true;
   floatLabel='always';
-  
+  removeTriggerIDs=[];
   constructor(
     private formBuilder: FormBuilder,
     private monitorsService: MonitorsService,
@@ -56,7 +56,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     { value : 'max', name: 'maximum'}];
   value_operators: object[] = [
     { value: 'outsideof', name: 'outside of'},
-    { value: 'within', name: 'between'},
+    { value: 'within', name: 'within'},
     { value: '==', name: 'equal to'},
     { value: '<', name: 'less than'},
     { value: '<=', name: 'less than or equal to'},
@@ -86,6 +86,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // Set up form fields
   ngOnInit() {
+    
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
@@ -142,25 +143,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       num_channels.enable({emitEvent: false});
       num_channels.addValidators(Validators.required, {emitEvent: false});
     }
-    console.log(values);
   }
   // Remove given trigger
   removeTrigger(index){
     const trigger = this.triggers.at(index).value;
     if (trigger.id) {
-      this.triggers.at(index).setValue({
-        id: trigger.id,
-        val1: null,
-        val2: null,
-        value_operator: null,
-        num_channels: null,
-        num_channels_operator: null,
-        alert_on_out_of_alarm: null,
-        email_list: null
-      });
-    } else {
-      this.triggers.removeAt(index);
+      this.removeTriggerIDs.push(+trigger.id);
     }
+    this.triggers.removeAt(index);
   }
 
   // Kill any open subs 
@@ -171,7 +161,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // Save monitor to SQUACapi
   save() {
     const values = this.monitorForm.value;
-    return;
+    // console.log(values)
     const monitor = new Monitor(
       this.id,
       values.name,
@@ -188,7 +178,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       monitor
     ).pipe(
       switchMap(m => {
-        return merge(...this.triggersService.updateTriggers(values.triggers, m.id));
+        return merge(...this.triggersService.updateTriggers(values.triggers, this.removeTriggerIDs, m.id));
       })
     ).subscribe(
       {
@@ -230,6 +220,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       );
 
       this.monitor.triggers.forEach((trigger, i) => {
+        console.log(trigger)
         this.addTrigger(trigger);
       });
 
