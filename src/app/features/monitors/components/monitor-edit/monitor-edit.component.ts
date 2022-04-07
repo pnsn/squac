@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
 import { MessageService } from '@core/services/message.service';
@@ -15,7 +16,9 @@ import { MonitorEditEntryComponent } from '../monitor-edit-entry/monitor-edit-en
 @Component({
   selector: 'app-monitor-edit',
   templateUrl: './monitor-edit.component.html',
-  styleUrls: ['./monitor-edit.component.scss']
+  styleUrls: ['./monitor-edit.component.scss'],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {hideRequiredMarker: true}}]
 })
 export class MonitorEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
@@ -26,6 +29,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   monitorForm: FormGroup;
   channelGroups: ChannelGroup[];
   metrics: Metric[];
+  emailValidator: Validators = Validators.pattern(/^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/)
+  hideRequiredMarker = true;
+  floatLabel='always';
+  
   constructor(
     private formBuilder: FormBuilder,
     private monitorsService: MonitorsService,
@@ -36,15 +43,33 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ) { }
 
   intervalTypes: string[] = ['minute', 'hour', 'day'];
-  stats: string[] = ['count', 'sum', 'avg', 'min', 'max'];
-  value_operators: string[] = ['outsideof', 'within', '==','<', '<=', '>', '>='];
-  channels_operators: string[] = ['any', '==', '<', '>'];
-  levels: number[] = [1, 2, 3];
+  stats: object[] = [
+    { value: 'count', name: 'count'},
+    { value : 'sum', name: 'sum'},
+    { value : 'avg', name: 'average'},
+    { value : 'min', name: 'minimum'},
+    { value : 'max', name: 'maximum'}];
+  value_operators: object[] = [
+    { value: 'outsideof', name: 'outside of'},
+    { value: 'within', name: 'between'},
+    { value: '==', name: 'equal to'},
+    { value: '<', name: 'less than'},
+    { value: '<=', name: 'less than or equal to'},
+    { value: '>', name: 'greater than'},
+    { value: '>=', name: 'greater than or equal to'}];
+  num_channels_operators: object[] = [
+    { value: 'any', name: 'any'},
+    { value: '==', name: 'exactly'},
+    { value: '<', name: 'more than'},
+    { value: '>', name: 'less than'}
+  ];
+
   // selectedType;
   // selectedStat;
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
 
+  // Set up form fields
   ngOnInit() {
     this.monitorForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -53,7 +78,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       stat: ['', Validators.required],
       metric: ['', Validators.required],
       channelGroup: ['', Validators.required],
-      defaultTrigger: this.formBuilder.group({}),
       triggers: this.formBuilder.array([])
     });
 
@@ -62,29 +86,37 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.editMode = !!this.data.monitor;
     this.initForm();
   }
-
+  
+  // Access triggers
   get triggers(){
     return this.monitorForm.get('triggers') as FormArray;
   }
 
+  // Return first trigger, considered default
+  get defaultTrigger(){
+    return this.triggers.at(0).value;
+  }
+
+  // Add trigger info to form
   makeTriggerForm (trigger?: Trigger) {
     return this.formBuilder.group({
-      val1: [trigger ? trigger.val1 : null],
+      val1: [trigger ? trigger.val1 : null, Validators.required],
       val2: [trigger ? trigger.val2 : null],
-      level: [trigger ? trigger.level : null],
       id: [trigger ? trigger.id : null],
-      value_operator: [trigger ? trigger.value_operator : null ],
-      num_channels:[trigger ? trigger.num_channels : null ],
-      num_channels_operator:[trigger ? trigger.num_channels_operator : null ],
+      value_operator: [trigger ? trigger.value_operator : null, Validators.required],
+      num_channels:[trigger ? trigger.num_channels : null],
+      num_channels_operator:[trigger ? trigger.num_channels_operator : null, Validators.required],
       alert_on_out_of_alarm: [trigger ? trigger.alert_on_out_of_alarm : null ],
-      email_list:[trigger ? trigger.email_list : null ]
+      email_list:[trigger ? trigger.email_list : null, this.emailValidator]
     });
   }
 
+  // Add a new trigger
   addTrigger(trigger?: Trigger) {
     this.triggers.push(this.makeTriggerForm(trigger));
   }
 
+  // Remove given trigger
   removeTrigger(index){
     const trigger = this.triggers.at(index).value;
     if (trigger.id) {
@@ -92,7 +124,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         id: trigger.id,
         val1: null,
         val2: null,
-        level: null,
         value_operator: null,
         num_channels: null,
         num_channels_operator: null,
@@ -104,13 +135,15 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Kill any open subs 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  // Save monitor to SQUACapi
   save() {
     const values = this.monitorForm.value;
-
+    return;
     const monitor = new Monitor(
       this.id,
       values.name,
@@ -142,11 +175,13 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Cancel and don't save changes
   cancel(monitor?: Monitor) {
     this.dialogRef.close(monitor);
     // route out of edit
   }
 
+  // Fill in metric info
   private initForm() {
 
     if (this.editMode) {
@@ -167,13 +202,13 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       );
 
       this.monitor.triggers.forEach((trigger, i) => {
-        if (i == 0) {
-          this.monitorForm.patchValue(this.makeTriggerForm(trigger));
-        } else {
-          this.addTrigger(trigger);
-        }
+        this.addTrigger(trigger);
       });
 
+    } else {
+      this.addTrigger(); //have default trigger ready
     }
+
+
   }
 }

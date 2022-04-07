@@ -6,7 +6,6 @@ export class Trigger {
     public id: number,
     public monitorId: number,
     public value_operator: string, //outsideof, within, ==, <, <=, >, >=
-    public level: number,
     public num_channels: number,
     public num_channels_operator: string, //any, ==, <, >
     public owner: number,
@@ -44,7 +43,6 @@ export interface ApiPostTrigger {
   val1: number;
   val2: number;
   value_operator: string; //outsideof, within, ==, <, <=, >, >=
-  level: number;
   num_channels: number;
   num_channels_operator: string; //any, ==, <, >
   alert_on_out_of_alarm: boolean;
@@ -60,7 +58,6 @@ export class TriggerAdapter implements Adapter<Trigger> {
       item.id,
       item.monitor,
       item.value_operator, //outsideof, within, ==, <, <=, >, >=
-      item.level,
       item.num_channels,
       item.num_channels_operator, //any, ==, <, >
       +item.user_id,
@@ -77,7 +74,6 @@ export class TriggerAdapter implements Adapter<Trigger> {
       val1: item.val1,
       val2: item.val2,
       value_operator: item.value_operator,
-      level: item.level,
       num_channels: item.num_channels,
       num_channels_operator: item.num_channels_operator,
       alert_on_out_of_alarm: item.alert_on_out_of_alarm,

@@ -5,27 +5,33 @@
   form {
     // width: 50%;
     display:flex;
-    flex-direction: row;
-
-    #name {
-      width: 400px;
-    }
-    #stat {
+    flex-direction: column;
+    .xsmall {
       width: 100px;
     }
-    #metric {
-      width: 250px
+    .small {
+      width: 150px;
     }
-    #channelGroup {
-      width: 250px
+    .medium {
+      width: 250px;
+    }
+    .large {
+      width:400px;
+    }
+    
+    #monitor-body {
+      mat-form-field {
+        margin: 0px 10px;
+      }
     }
 
-    #intervalCount {
-      width: 150px;
+    #trigger-channels, #monitor-channels {
+      display: inline-block;
     }
-    #intervalType {
-      width: 150px;
-    }
+
+    // span {
+    //   margin: 0px 10px;
+    // }
   }
 
   // #chart-container {
@@ -37,6 +43,7 @@
     height: 500px;
     overflow-y: scroll;
   }
+
 }
 
 #trigger-title { 
@@ -49,43 +56,12 @@
   }
 }
 
-.trigger {
-  display:flex;
-  flex-direction: column;
-  align-items: baseline;
-
-}
-.trigger-form{
-  width: 100%;
-  display:flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: space-between;
-  mat-form-field {
-    width: 19%;
-    margin-right:1%;
-  }
-
-}
-
 #edit-title {
   h3 {
     display:inline;
   }
   button {
     float:right;
-  }
-}
-mat-form-field {
-  padding: 0px 3px;
-  &.small{
-    width: 30%;
-  }
-  &.medium{
-    width: 45%;
-  }
-  &.large {
-    width: 65%
   }
 }
 
