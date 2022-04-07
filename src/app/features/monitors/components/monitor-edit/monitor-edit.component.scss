@@ -23,15 +23,10 @@
       mat-form-field {
         margin: 0px 10px;
       }
+      div {
+        display: inline-block;
+      }
     }
-
-    #trigger-channels, #monitor-channels {
-      display: inline-block;
-    }
-
-    // span {
-    //   margin: 0px 10px;
-    // }
   }
 
   // #chart-container {
@@ -46,6 +41,12 @@
 
 }
 
+#trigger-table {
+ width: 100%;
+ th {
+   text-align: left;
+ }
+}
 
 #edit-title {
   margin-bottom: 10px;

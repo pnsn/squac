@@ -14,8 +14,7 @@
         state="monitor"
       >
         <div id="monitor-edit-container">
-
-          <mat-form-field  class="large">
+          <mat-form-field class="large">
             <!-- hintLabel="Max 60 characters" -->
             <mat-label for="name">Monitor Name</mat-label>
             <input
@@ -56,7 +55,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <span>measurements</span>
+              <span>measurements   </span>
             </div>
 
             <ng-container formArrayName="triggers">
@@ -171,37 +170,61 @@
       >
         <div id="trigger-container">
           <p class="help-text">
-            An alert will be sent when the monitor is 'in alarm'. 
+            An alert will be sent when the monitor enters the 'in alarm' state. It can also alert when the monitor is no longer 'in alarm'.
             <button
-            mat-button
-            (click)="addTrigger()"
-            aria-label="button that adds a new trigger"
-        >
-          <mat-icon> notification_add </mat-icon> add notification
-        </button>
+              mat-button
+              (click)="addTrigger()"
+              aria-label="button that adds a new trigger"
+            >
+              <mat-icon> notification_add </mat-icon> add notification
+            </button>
           </p>
           <div formArrayName="triggers">
-            <div *ngFor="let trigger of triggers.controls; let i = index">
-              <div
-                [formGroupName]="i"
-                class="trigger"
-                *ngIf="
-                  !trigger.value.id ||
-                  trigger.value.min ||
-                  trigger.value.max ||
-                  trigger.level
-                "
-              >
-              <div *ngIf="i === 0">
-                <p >
-                  Default notification
-                </p>
+            <table id="trigger-table">
+              <tr>
+                <th>Alert on exit 'in alarm'</th>
+                <th>Operator</th>
+                <th>Value</th>
+                <th>Value 2</th>
+                <th>Operator</th>
+                <th># of channels</th>
 
-              </div>
+              </tr>
+              <ng-container *ngFor="let trigger of triggers.controls; let i = index">
 
-                <div class="trigger-form">
 
-                  <ng-container *ngIf="i > 0">
+              <tr                   [formGroupName]="i"
+              class="trigger"
+              *ngIf="
+                !trigger.value.id ||
+                trigger.value.min ||
+                trigger.value.max ||
+                trigger.level
+              ">
+              <td>
+                <mat-slide-toggle
+                  name="alert_on_out_of_alarm"
+                  formControlName="alert_on_out_of_alarm"
+                >
+                </mat-slide-toggle>
+              </td>
+              <td>
+                <mat-form-field class="xsmall">
+                  <mat-label for="value_operator">operator</mat-label>
+                  <mat-select
+                    formControlName="value_operator"
+                    name="value_operator"
+                  >
+                    <mat-option
+                      *ngFor="let o of value_operators"
+                      [value]="o.value"
+                    >
+                      {{ o.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+                  <td>
                     <mat-form-field class="xsmall">
                       <mat-label for="val1">value</mat-label>
                       <input
@@ -211,6 +234,8 @@
                         formControlName="val1"
                       />
                     </mat-form-field>
+                  </td>
+                  <td>
                     <mat-form-field class="xsmall">
                       <mat-label for="val2">value 2</mat-label>
                       <input
@@ -220,29 +245,8 @@
                         formControlName="val2"
                       />
                     </mat-form-field>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="value_operator">operator</mat-label>
-                      <mat-select
-                        formControlName="value_operator"
-                        name="value_operator"
-                      >
-                        <mat-option
-                          *ngFor="let o of value_operators"
-                          [value]="o.value"
-                        >
-                          {{ o.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="num_channels"># of channels</mat-label>
-                      <input
-                        matInput
-                        type="number"
-                        name="num_channels"
-                        formControlName="num_channels"
-                      />
-                    </mat-form-field>
+                  </td>
+                  <td>
                     <mat-form-field class="xsmall">
                       <mat-label for="num_channels_operator"
                         >operator</mat-label
@@ -259,72 +263,70 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                  </ng-container>
-                  <mat-slide-toggle
-                    name="alert_on_out_of_alarm"
-                    formControlName="alert_on_out_of_alarm"
-                  >
-                    Also alert when monitor leaves alarm state
-                  </mat-slide-toggle>
-                  <ng-template #noInclusive>
-                    set {{ trigger.value.min !== null ? "max" : "min" }} for
-                    band
-                  </ng-template>
-                  <mat-form-field>
-                    <mat-label for="email_list">email list:</mat-label>
-                    <input
-                      textarea
-                      matInput
-                      name="email_list"
-                      formControlName="email_list"
-                    />
-                    <mat-hint>Comma separated, no spaces</mat-hint>
-                    <mat-error></mat-error>
-                  </mat-form-field>
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="removeTrigger(i)"
-                    aria-label="button that removes the trigger"
-                  >
-                    <mat-icon> delete </mat-icon>
-                  </button>
-                </div>
-                <div class="trigger-help">
-                  <span
-                    *ngIf="
-                      trigger.value.min !== null || trigger.value.max !== null
-                    "
-                  >
-                    Will be in alarm when
-                  </span>
-                  <span
-                    *ngIf="
-                      trigger.value.min !== null && trigger.value.max !== null
-                    "
-                  >
-                    value
-                    {{ trigger.value.inclusive ? "between" : "not between" }}
-                    {{ trigger.value.min }} and
-                    {{ trigger.value.max }}
-                  </span>
-                  <span
-                    *ngIf="
-                      trigger.value.min !== null && trigger.value.max === null
-                    "
-                  >
-                    values < {{ trigger.value.min }}
-                  </span>
-                  <span
-                    *ngIf="
-                      trigger.value.max !== null && trigger.value.min === null
-                    "
-                  >
-                    values > {{ trigger.value.max }}
-                  </span>
-                </div>
-              </div>
-            </div>
+                  </td>
+                  <td>
+                    <mat-form-field class="xsmall">
+                      <mat-label for="num_channels"># of channels</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        name="num_channels"
+                        formControlName="num_channels"
+                      />
+                    </mat-form-field>
+                  </td>
+
+                  <td>
+                    <mat-form-field>
+                      <mat-label for="email_list">email list:</mat-label>
+                      <textarea
+                        matInput
+                        name="email_list"
+                        formControlName="email_list"
+                      ></textarea>
+                      <mat-hint>Comma separated, no spaces</mat-hint>
+                      <mat-error></mat-error>
+                    </mat-form-field>
+                  </td>
+
+                  <td>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="removeTrigger(i)"
+                      aria-label="button that removes the trigger"
+                    >
+                      <mat-icon> delete </mat-icon>
+                    </button>
+                  </td>
+              </tr>
+              </ng-container>
+            </table>
+            <!-- <div class="trigger-help">
+              <span
+                *ngIf="trigger.value.min !== null || trigger.value.max !== null"
+              >
+                Will be in alarm when
+              </span>
+              <span
+                *ngIf="trigger.value.min !== null && trigger.value.max !== null"
+              >
+                value
+                {{ trigger.value.inclusive ? "between" : "not between" }}
+                {{ trigger.value.min }} and
+                {{ trigger.value.max }}
+              </span>
+              <span
+                *ngIf="trigger.value.min !== null && trigger.value.max === null"
+              >
+                values < {{ trigger.value.min }}
+              </span>
+              <span
+                *ngIf="trigger.value.max !== null && trigger.value.min === null"
+              >
+                values > {{ trigger.value.max }}
+              </span>
+            </div> -->
           </div>
         </div>
       </mat-step>

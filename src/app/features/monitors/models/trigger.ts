@@ -28,7 +28,6 @@ export interface ApiGetTrigger {
   val1: number;
   val2: number;
   value_operator: string; //outsideof, within, ==, <, <=, >, >=
-  level: number;
   num_channels: number;
   num_channels_operator: string; //any, ==, <, >
   created_at: string;
