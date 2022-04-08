@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { SquacApiService } from '@core/services/squacapi.service';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,8 +21,8 @@ export class AlertsService {
     private alertAdapter: AlertAdapter
   ) {}
 
-  getAlerts(): Observable<Alert[]>{
-    return this.squacApi.get(this.url).pipe(
+  getAlerts(params?: Params): Observable<Alert[]>{
+    return this.squacApi.get(this.url, null, params).pipe(
       map( results => results.map(r => this.alertAdapter.adaptFromApi(r)))
     );
   }

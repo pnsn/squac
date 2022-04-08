@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DateService } from '@core/services/date.service';
 import { Alert } from '@features/monitors/models/alert';
 import { Monitor } from '@features/monitors/models/monitor';
 import { AlertsService } from '@features/monitors/services/alerts.service';
@@ -24,7 +25,8 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   constructor(
     private alertsService: AlertsService,
     private route: ActivatedRoute,
-    private monitorsService: MonitorsService
+    private monitorsService: MonitorsService,
+    private dateService: DateService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,8 @@ export class AlertViewComponent implements OnInit, OnDestroy {
         this.monitors = monitors;
       }
     );
-    this.alertsService.getAlerts().subscribe(
+    const lastday = this.dateService.subtractFromNow(1, 'day').format();
+    this.alertsService.getAlerts({starttime: lastday}).subscribe(
       alerts => {
         this.findMonitorsForAlerts(alerts);
     });
