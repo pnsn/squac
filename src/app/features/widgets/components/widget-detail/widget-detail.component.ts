@@ -7,6 +7,9 @@ import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { WidgetDataService } from '@features/widgets/services/widget-data.service';
+import { AppAbility } from '@core/utils/ability';
+import { UserService } from '@features/user/services/user.service';
+import { WidgetsService } from '@features/widgets/services/widgets.service';
 
 @Component({
   selector: 'app-widget-detail',
@@ -14,7 +17,7 @@ import { WidgetDataService } from '@features/widgets/services/widget-data.servic
   styleUrls: ['./widget-detail.component.scss'],
   providers: [WidgetDataService]
 })
-export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class WidgetDetailComponent implements OnInit, OnDestroy {
 
   @Input() widget: Widget;
   data: any;
@@ -29,18 +32,17 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   styles: any;
 
   constructor(
-    private viewService: ViewService,
     private widgetDataService: WidgetDataService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardsService: DashboardsService
+    private dashboardsService: DashboardsService,
+    private viewService: ViewService
   ) {
 
   }
 
   ngOnInit() {
-
     if (!this.widget.metrics || !this.widget.channelGroup) {
       this.error = 'Widget failed to load.';
     }
@@ -78,12 +80,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscription.add(dataSub);
     // widget data errors here
-  }
-
-  ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    // this.getData();
   }
 
   ngOnDestroy(): void {

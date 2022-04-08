@@ -52,6 +52,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     selectedChannels: Channel[],
     selectedChannelIds: number[]
   };
+  showOnlyCurrent = true;
   filtersChanged: boolean;
   searchFilters: any;
   // Map stuff
@@ -148,6 +149,15 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     this.changeMade = true;
   }
 
+  // Remove stations with offdates before today
+  filterCurrent() {
+    const current = new Date().getTime();
+    this.availableChannels = this.searchChannels.filter( channel => {
+      const offDate = new Date(channel.endttime).getTime();
+      return this.showOnlyCurrent ? current < offDate : true;
+    });
+  }
+
   undoSelectRemove() {
     const newPrevious = {
       selectedChannels: [...this.selectedChannels],
@@ -171,7 +181,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
             this.filterBounds();
           }
 
-
+          this.filterCurrent();
           // add channels to selected Channels
         }
       );
@@ -182,10 +192,6 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
     }
 
     this.availableChannels = [...this.availableChannels];
-  }
-
-  onSelect(event) {
-    console.log(event);
   }
 
   onFilteringOpen() {
@@ -296,10 +302,10 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Exit page
   // TODO: warn if unsaved
   cancel(id?: number) {
-    if (id) {
+    if (id && !this.id) {
       this.router.navigate(['../', id], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../../'], {relativeTo: this.route});
+      this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
 

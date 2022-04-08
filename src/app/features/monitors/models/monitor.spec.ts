@@ -1,21 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { MockService } from 'ng-mocks';
 import { Monitor, MonitorAdapter, ApiGetMonitor } from './monitor';
 
 describe('Monitor', () => {
   let adapter: MonitorAdapter;
   it('should create an instance', () => {
-    expect(new Monitor(
-      1,
-      'name',
-      1,
-      1,
-      'intervalType',
-      1,
-      1,
-      'stat',
-      1,
-      []
-    )).toBeTruthy();
+    expect(MockService(Monitor)).toBeTruthy();
   });
 
   it('should adapt from json to monitor', () => {
@@ -28,7 +18,6 @@ describe('Monitor', () => {
       metric: 1 ,
       interval_type: 'string',
       interval_count: 1,
-      num_channels: 1,
       stat: 'string',
       name: 'string',
       created_at: 'string',
@@ -43,23 +32,10 @@ describe('Monitor', () => {
   it('should adapt from monitor to json', () => {
     adapter = TestBed.inject(MonitorAdapter);
 
-    const monitor = new Monitor(
-      1,
-      'name',
-      1,
-      1,
-      'intervalType',
-      1,
-      1,
-      'stat',
-      1,
-      []
-    );
+    const monitor = MockService(Monitor)
 
     const monitorJson = adapter.adaptToApi(monitor);
     expect(monitorJson).toBeDefined();
   });
-
-
 
 });

@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Metric } from '@core/models/metric';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 import { MessageService } from '@core/services/message.service';
 import { Alert } from '@features/monitors/models/alert';
@@ -14,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './monitor-detail.component.html',
   styleUrls: ['./monitor-detail.component.scss']
 })
-export class MonitorDetailComponent implements OnInit {
+export class MonitorDetailComponent {
   @Input() monitor: Monitor;
   @Input() alerts: Alert;
   // monitor: Monitor;
@@ -27,9 +25,6 @@ export class MonitorDetailComponent implements OnInit {
     private monitorService: MonitorsService,
     private messageService: MessageService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   editMonitor() {
     this.router.navigate([this.monitor.id, 'edit'], {relativeTo: this.route});

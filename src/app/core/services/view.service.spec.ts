@@ -13,13 +13,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Widget } from '@features/widgets/models/widget';
 import { Dashboard } from '@features/dashboards/models/dashboard';
 import { take } from 'rxjs/operators';
-import * as moment from 'moment';
+import  * as dayjs from 'dayjs';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
+import { DateService } from './date.service';
+import { MockDateService } from './date.service.mock';
+
 describe('ViewService', () => {
   let service: ViewService;
   let widgetsService;
   let dashboardsService;
+  let dateService;
   const abilityMock = {
     can: (permission, resource) => {
       return resource && resource.owner && resource.owner === 1;
@@ -36,21 +40,23 @@ describe('ViewService', () => {
       imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
       providers: [
       {
-        provide: DashboardsService, useClass: MockDashboardsService,
-      },
+        provide: DashboardsService, useClass: MockDashboardsService},
       {
         provide: WidgetsService, useClass: MockWidgetsService},
       { provide: Ability, useValue: abilityMock},
       { provide: MessageService, useValue: {
         message: (text) => {},
         error: (text) => {}
+      }},
+      {
+        provide: DateService, useValue: new MockDateService()
       }
-    }
     ]
     });
     service = TestBed.inject(ViewService);
     widgetsService = TestBed.inject(WidgetsService);
     dashboardsService = TestBed.inject(DashboardsService);
+    dateService = TestBed.inject(DateService);
     testDashboard = new Dashboard(
       1, 1, 'name', 'description', false, false, 1, [1]
     );
@@ -114,22 +120,6 @@ describe('ViewService', () => {
     service.resizeAll();
   });
 
-  it('should set the dashboard widgets', () => {
-    service.setDashboard(testDashboard);
-    service.setWidgets([testWidget]);
-
-    expect(service.getWidget(1)).toEqual(testWidget);
-  });
-
-  it('should return wdiget with id', () => {
-    service.setDashboard(testDashboard);
-    service.setWidgets([]);
-    expect(service.getWidget(1)).toEqual(false);
-    service.setWidgets([testWidget]);
-
-    expect(service.getWidget(1)).toEqual(testWidget);
-  });
-
   it('should stop loading', () => {
     service.queuedWidgets = 1;
     service.widgetFinishedLoading();
@@ -157,7 +147,7 @@ describe('ViewService', () => {
     service.setDashboard(testDashboard);
     const datesSpy = spyOn(service.dates, 'next');
 
-    service.datesChanged(moment.utc(), moment.utc(), true);
+    service.datesChanged(dayjs.utc(), dayjs.utc(), true);
 
     expect(datesSpy).toHaveBeenCalled();
   });
@@ -178,16 +168,6 @@ describe('ViewService', () => {
     service.updateWidget(1, testWidget);
 
     expect(widgetSpy).toHaveBeenCalled();
-  });
-
-  it('should remove the given widget if it exists', () => {
-
-    service.setDashboard(testDashboard);
-    service.setWidgets([testWidget]);
-    service.currentWidgets.subscribe( widgets => {
-      expect(widgets).toEqual([]);
-    });
-    service.updateWidget(1);
   });
 
   it('should delete given widget', () => {

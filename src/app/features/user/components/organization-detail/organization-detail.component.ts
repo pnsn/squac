@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { UserService } from '@features/user/services/user.service';
 import { OrganizationsService } from '@features/user/services/organizations.service';
 import { User } from '@features/user/models/user';
 import { Organization } from '@features/user/models/organization';
-import { flatMap, switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, of } from 'rxjs';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { InviteService } from '@features/user/services/invite.service';
-import { ThrowStmt } from '@angular/compiler';
-import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '@core/services/message.service';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
@@ -37,11 +34,12 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
       id: 1, role: 'viewer', description: 'can see all resources.'
     },
     {
-      id: 2, role: 'reporter', description: 'can create dashboards and channel groups.'
+      id: 2, role: 'reporter', description: 'can create dashboards, channel groups, and monitors.'
     },
     {
-      id: 3, role: 'contributor', description: 'can add metrics.'
+      id: 3, role: 'contributor', description: 'can add metrics and measurements.'
     }
+
   ];
   constructor(
     private orgService: OrganizationsService,

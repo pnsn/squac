@@ -24,14 +24,24 @@
     </button>
       <button 
         *ngIf="'update' | able: channelGroup"
-        mat-flat-button 
+        mat-icon-button 
         color="primary"
         class="add-btn"
         (click)="editChannelGroup()"
         matTooltip="Edit channel group"
         aria-label="Button that navigates to edit channel group page"
       > 
-      Edit
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button 
+      *ngIf="'update' | able: channelGroup"
+      mat-icon-button 
+      class="add-btn"
+      (click)="closeChannelGroup()"
+      matTooltip="Close channel group"
+      aria-label="Button that navigates to all channels"
+    > 
+    <mat-icon>close</mat-icon>
     </button>
     </div>
   </div>
@@ -46,35 +56,35 @@
         id="channel-table"
         class="material"
         [rows]="channelGroup.channels"
-        [columnMode]="ColumnMode.flex"
-        [headerHeight]="50"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="30"
         [footerHeight]="50"
-        [rowHeight]="50"
+        [rowHeight]="23"
         [scrollbarV]="50"
       >
-      <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [flexGrow]="1">
+      <ngx-datatable-column name="Network" [draggable]="false" [sortable]="true" [width]="30">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.networkCode | uppercase }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Station" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Station" [draggable]="false" [width]="30">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.stationCode | uppercase }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Channel" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Channel" [draggable]="false" [width]="30">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.code | uppercase }}
         </ng-template>
       </ngx-datatable-column>
     
-      <ngx-datatable-column name="Location" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Location" [draggable]="false" [sortable]="false" [width]="30">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.loc }}
         </ng-template>
       </ngx-datatable-column>
   
-      <ngx-datatable-column name="Name" width="auto" [draggable]="false" [sortable]="false" [flexGrow]="3">
+      <ngx-datatable-column name="Name" [draggable]="false" [sortable]="false" >
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.name }}
         </ng-template>

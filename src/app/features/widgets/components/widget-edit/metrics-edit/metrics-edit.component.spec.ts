@@ -6,34 +6,36 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MetricsService } from '@features/metrics/services/metrics.service';
 import { WidgetEditService } from '../../../services/widget-edit.service';
+import { Metric } from '@core/models/metric';
 
 describe('MetricsEditComponent', () => {
   let component: MetricsEditComponent;
   let fixture: ComponentFixture<MetricsEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NgxDatatableModule, HttpClientTestingModule],
-      providers: [
-        MetricsService,
-        {
-          provide: WidgetEditService,
-          useValue: {
-            getMetricIds: () => [],
-          }
-        }
-      ],
-      declarations: [ MetricsEditComponent , LoadingComponent]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgxDatatableModule, HttpClientTestingModule],
+        providers: [
+          MetricsService,
+          {
+            provide: WidgetEditService,
+            useValue: {
+              getMetricIds: () => [],
+            },
+          },
+        ],
+        declarations: [MetricsEditComponent, LoadingComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetricsEditComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     component.metrics = [];
     component.availableMetrics = [];
+    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -133,10 +133,11 @@ export class TabularComponent implements OnInit, OnDestroy {
               val = rowData[0].value;
             }
             // still need to calculate
-          } else if (rowData[0][statType]) {
+          } else if (rowData[0][statType] !== undefined && rowData[0][statType] !== null) {
             val = rowData[0][statType];
           }
         }
+
         // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
         const inThreshold = threshold ? checkThresholds(threshold, val) : false;

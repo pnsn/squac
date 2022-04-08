@@ -70,7 +70,6 @@ export class DashboardsService {
         map(response => this.dashboardAdapter.adaptFromApi(response))
         );
     }
-
   }
 
   // Delete dashboard from squac

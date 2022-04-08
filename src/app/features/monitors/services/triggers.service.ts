@@ -24,14 +24,13 @@ export class TriggersService {
     private triggerAdapter: TriggerAdapter
   ) {}
 
-  updateTriggers(triggers: Trigger[], monitorId: number): Observable<Trigger>[] {
+  updateTriggers(triggers: Trigger[], deleteTriggers: number[], monitorId: number): Observable<Trigger>[] {
     const triggerSubs = [];
     for (const trigger of triggers) {
-      if (trigger.id && trigger.max === null && trigger.min === null) {
-        triggerSubs.push(this.deleteTrigger(trigger.id));
-      } else if (trigger.max !== null || trigger.min !== null) {
-        triggerSubs.push(this.updateTrigger(trigger, monitorId));
-      }
+      triggerSubs.push(this.updateTrigger(trigger, monitorId));
+    }
+    for (const id of deleteTriggers) {
+      triggerSubs.push(this.deleteTrigger(id));
     }
     return triggerSubs;
   }

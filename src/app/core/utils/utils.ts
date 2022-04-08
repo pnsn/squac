@@ -56,6 +56,23 @@ export function min(values): number {
   return values[0].value;
 }
 
+// Returns the max or min (type) of the absolute value of the min and max
+// Most extreme value of the data
+export function absvalue(values, type: string): number {
+  const maxValue = max(values);
+  const minValue = min(values);
+
+  const maxabs = Math.abs(maxValue);
+  const minabs = Math.abs(minValue);
+
+  if (type === 'min') {
+    return Math.min(minabs, maxabs);
+  }
+  if (type === 'max') {
+    return Math.max(minabs, maxabs);
+  }
+}
+
 // returns true if in threshold, false if outside or no thresholds
 export function checkThresholds(threshold: Threshold, value: number): boolean {
   let withinThresholds = true;

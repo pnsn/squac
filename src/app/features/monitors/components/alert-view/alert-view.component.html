@@ -1,6 +1,6 @@
 <div id="title">
   <h1>
-    Alert History
+    Alert History (last day)
   </h1>
 
   <div id="button-container" >
@@ -30,37 +30,37 @@
       id="alert-table"
       class="material"
       [rows]="alerts"
-      [columnMode]="ColumnMode.flex"
-      [headerHeight]="50"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="30"
       [footerHeight]="50"
-      [rowHeight]="50"
+      [rowHeight]="23"
       [scrollbarV]="50"
       #alertTable
     >
-    <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false"  [flexGrow]="0.5">
+    <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false"  [width]="30">
       <ng-template  let-value="value" ngx-datatable-cell-template>
         <span *ngIf="value; else notAlarm"><strong>In Alarm</strong></span>
         <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
       </ng-template>
     </ngx-datatable-column>
-      <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [flexGrow]="0.5">
+      <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [width]="30">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{ value | date:'short' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Monitor" prop="monitor" [draggable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Monitor" prop="monitor" [draggable]="false" [width]="150">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{ value.name}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" [flexGrow]="1">
+      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" >
         <ng-template let-value="value" ngx-datatable-cell-template>
           Level: {{value.level}}
            {{value.bandInclusive? "inclusive" : "exclusive"}}
            min: {{value.min}}  max: {{value.max}} 
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Message" [draggable]="false" [flexGrow]="2">
+      <ngx-datatable-column name="Message" [draggable]="false">
 
       </ngx-datatable-column>
 

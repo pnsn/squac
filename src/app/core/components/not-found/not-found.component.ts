@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -7,11 +7,10 @@ import { filter } from 'rxjs/operators';
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent {
   previousUrl;
   constructor(
-    private router: Router,
-    private route: ActivatedRoute
+    router: Router
   ) {
     router.events
     .pipe(filter(event => event instanceof NavigationEnd))
@@ -20,8 +19,4 @@ export class NotFoundComponent implements OnInit {
       this.previousUrl = event.url;
     });
   }
-
-  ngOnInit(): void {
-  }
-
 }

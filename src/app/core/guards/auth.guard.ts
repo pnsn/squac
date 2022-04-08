@@ -14,18 +14,18 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   // Returns true if there is a user and allows user to navigate
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): true | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url: string = state.url;
     return this.checkLogin(url);
   }
 
-  checkLogin(url: string): true | UrlTree {
+  checkLogin(url: string): boolean {
     if (this.authService.loggedIn) {
       return true;
     }
-
     this.authService.redirectUrl = url;
-    return this.router.parseUrl('/login');
+    this.router.navigate(['../login']);
+    return false;
   }
 
 }

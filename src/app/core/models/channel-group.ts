@@ -19,6 +19,10 @@ export class ChannelGroup {
   get channelsString(): string {
     return this.channelIds.toString();
   }
+
+  static get modelName() {
+    return 'ChannelGroup';
+  }
 }
 
 export interface ApiGetChannelGroup {

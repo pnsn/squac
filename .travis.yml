@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10"
+  - "16"
 dist: trusty
 sudo: required
   
@@ -10,7 +10,7 @@ before_script:
 script:
   - npm run lint-silent
   - npm run test-headless
-  - sh scripts/build.sh $BUILD_ENV
+  - bash scripts/build.sh $BUILD_ENV
 
 deploy:
   - provider: s3

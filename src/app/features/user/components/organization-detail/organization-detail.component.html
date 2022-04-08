@@ -5,8 +5,6 @@
     <h1>{{organization.name}} Organization</h1>
     <a mat-button color="primary" [routerLink]="[ '../' ]">View All Organizations</a>
   </div>
-
-  <h2>Organization Users</h2>
   <p>You are {{user.orgId === organization.id ? "" : "not "}}part of this organization.</p>
   <div class="box" id="org-users-container">
 
@@ -16,9 +14,9 @@
     class="material"
     [rows]="organization.users"
     [columnMode]="ColumnMode.flex"
-    [headerHeight]="50"
+    [headerHeight]="30"
     [footerHeight]="50"
-    [rowHeight]="50"
+    [rowHeight]="23"
     [scrollbarV]="true"
     [scrollbarH]="true"
   >
@@ -79,7 +77,7 @@
       <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
         <div id="user-edit-title">
           <span><strong>Edit User: </strong> {{row.firstName}} {{row.lastName}} </span>
-          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)">Send Invite</button>
+          <button mat-button id="activate" color="primary" (click)="sendInvite(row.id)" *ngIf="!row.isActive">Send Invite</button>
         </div>
         <mat-divider></mat-divider>
         <form [formGroup]="editUserForm" (ngSubmit)="saveUser(row)" class="user-form" id="user-edit">
@@ -145,11 +143,17 @@
   </div>
   <div id="roles-container">
       <h2>
-        Squac User Roles:
+        Squac User Roles  (additive):
       </h2>
-      <mat-list *ngFor="let group of groups">
+      <mat-list dense>
+        <ng-container>
+          <mat-list-item *ngFor="let group of groups">
+            <strong>{{group.role | titlecase }}</strong> - {{group.description}}
+          </mat-list-item>
+        </ng-container>
+      
         <mat-list-item >
-          <strong>{{group.role | titlecase }}</strong> - {{group.description}}
+          <strong>Organization Admin</strong> - Can add users and assign roles.
         </mat-list-item>
       </mat-list>
     </div>

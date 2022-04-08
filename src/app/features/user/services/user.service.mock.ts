@@ -17,6 +17,10 @@ export class MockUserService {
   );
   user = new BehaviorSubject<User>(null);
 
+  get userOrg(): number {
+    return this.currentUser.orgId;
+  }
+
   getUser(): User {
     return this.currentUser;
   }

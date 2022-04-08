@@ -15,11 +15,17 @@ export class Channel {
     public elev: number,
     public loc: string,
     public stationCode: string,
-    public networkCode: string
+    public networkCode: string,
+    public starttime: string,
+    public endttime: string
   ) {}
 
   get nslc(): string {
     return this.networkCode + '.' + this.stationCode + '.' + this.loc + '.' + this.code;
+  }
+
+  static get modelName() {
+    return 'Channel';
   }
 
 }
@@ -64,7 +70,9 @@ export class ChannelAdapter implements Adapter<Channel> {
       item.elev,
       item.loc,
       item.station_code,
-      item.network
+      item.network,
+      item.starttime,
+      item.endtime
     );
   }
 

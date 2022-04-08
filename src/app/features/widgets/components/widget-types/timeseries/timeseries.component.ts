@@ -3,13 +3,11 @@ import {
   OnInit,
   Input,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
   ViewChild,
   ElementRef,
   HostListener,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Metric } from '@core/models/metric';
 import { Channel } from '@core/models/channel';
 import { ViewService } from '@core/services/view.service';
@@ -17,9 +15,8 @@ import { ChannelGroup } from '@core/models/channel-group';
 import { Widget } from '@features/widgets/models/widget';
 import { Threshold } from '@features/widgets/models/threshold';
 import { Measurement } from '@features/widgets/models/measurement';
-import * as moment from 'moment';
-import * as d3 from 'd3';
-import { Archive } from '@features/widgets/models/archive';
+import * as dayjs from 'dayjs';
+import { DateService } from '@core/services/date.service';
 
 @Component({
   selector: 'app-timeseries',
@@ -27,7 +24,10 @@ import { Archive } from '@features/widgets/models/archive';
   styleUrls: ['./timeseries.component.scss'],
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
-  constructor(private viewService: ViewService) {}
+  constructor(
+    private viewService: ViewService,
+    private dateService: DateService
+    ) {}
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
@@ -53,16 +53,10 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   @ViewChild('timeSeriesDivIdentifier')
   timeSeriesDivIdentifier: ElementRef;
 
-  onScroll = (event: any) => {};
+  // Max allowable time between measurements to connect
+  maxMeasurementGap: number = 1 * 1000;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   for (const propName in changes) {
-  //     const chng = changes[propName];
-  //     const cur  = JSON.stringify(chng.currentValue);
-  //     const prev = JSON.stringify(chng.previousValue);
-  //     console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
-  //   }
-  // }
+  // onScroll = (event: any) => {};
 
   ngOnInit() {
     this.xScaleMin = this.viewService.startdate;
@@ -73,7 +67,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.thresholds = this.widget.thresholds;
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
-    this.onScroll = this.onWheel;
+    // this.onScroll = this.onWheel;
     this.referenceLines = [];
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
@@ -94,12 +88,11 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
     this.subscription.add(resizeSub);
   }
-  @HostListener('wheel', ['$event'])
+  // @HostListener('wheel', ['$event'])
   onWheel(event) {
     event.preventDefault();
 
     const height = this.timeSeriesDivIdentifier.nativeElement.offsetHeight;
-    console.log('delta: ' + event.deltaY);
     let yScaleMaxChange = 0;
     let yScaleMinChange = 0;
     if (event.deltaY > 0) {
@@ -112,12 +105,12 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         -event.deltaY * 10 * ((height - event.layerY) / height) * 2;
       yScaleMinChange = event.deltaY * 10 * (event.layerY / height) * 2;
     }
+
     this.yScaleMax +=
       this.yScaleMax + yScaleMaxChange < 0 ? 0 : yScaleMaxChange;
     this.yScaleMin +=
       this.yScaleMin + yScaleMinChange > 0 ? 0 : yScaleMinChange;
-    console.log('max change: ' + yScaleMaxChange);
-    console.log('min change: ' + yScaleMinChange);
+
     this.resize();
   }
 
@@ -170,46 +163,81 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   buildChartData(data) {
     let max = Number.MIN_VALUE;
     let min = Number.MAX_VALUE;
+
     this.hasData = false;
     this.results = [];
 
+
     this.addThresholds();
 
-    this.yAxisLabel = this.currentMetric.name
-      ? this.currentMetric.name
-      : 'Unknown';
-    this.channels.forEach((channel) => {
-      const channelObj = {
-        name: channel.nslc,
-        series: [],
-      };
+    this.yAxisLabel = this.currentMetric ? this.currentMetric.name + ' (' + this.currentMetric.unit + ')' : 'Unknown';
+    this.channels.forEach(
 
-      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
-        data[channel.id][this.currentMetric.id].forEach(
-          (measurement: Measurement) => {
-            if (measurement.value > max) {
-              max = measurement.value;
+      channel => {
+        const channelObj = {
+          name : channel.nslc,
+          series : []
+        };
+
+        if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+
+          let lastEnd: dayjs.Dayjs;
+          data[channel.id][this.currentMetric.id].forEach(
+            (measurement: Measurement) => {
+              if (measurement.value > max) {
+                max = measurement.value;
+              }
+              if (measurement.value < min) {
+                min = measurement.value;
+              }
+
+              // // If time between measurements is greater than gap, don't connect
+              if (channelObj.series.length > 0 && lastEnd) {
+                // time since last measurement
+                const start = this.dateService.parseUtc(measurement.starttime);
+
+                const diff = this.dateService.diff(start, lastEnd);
+
+                if (diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
+                  this.results.push({name: channelObj.name, series: channelObj.series});
+                  channelObj.series = [];
+                }
+              }
+
+              // meas start
+              channelObj.series.push(
+                {
+                  name: this.dateService.parseUtc(measurement.starttime).toDate(),
+                  value: measurement.value
+                }
+              );
+
+              // meas end
+              channelObj.series.push(
+                {
+                  name: this.dateService.parseUtc(measurement.endtime).toDate(),
+                  value: measurement.value
+                }
+              );
+
+              lastEnd = this.dateService.parseUtc(measurement.endtime);
             }
-            if (measurement.value < min) {
-              min = measurement.value;
-            }
-            channelObj.series.push({
-              name: moment.utc(measurement.starttime).toDate(),
-              value: measurement.value,
-            });
-          }
-        );
+
+          );
+          // console.log(channelObj);
+          this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
+        }
+
+        if (channelObj.series.length > 0) {
+          this.results.push(channelObj);
+        }
+
       }
 
-      this.hasData = !this.hasData
-        ? data[channel.id][this.currentMetric.id].length > 0
-        : this.hasData;
+    );
 
-      this.results.push(channelObj);
-    });
-
-    this.yScaleMax = max + 100;
-    this.yScaleMin = min - 100;
+    this.yScaleMax = Math.round(max) + 25;
+    this.yScaleMin = Math.round(min) - 25;
   }
 
   ngOnDestroy(): void {

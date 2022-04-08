@@ -14,9 +14,15 @@ export class Archive {
     public median: number,
     public stdev: number,
     public numSamps: number,
+    public minabs: number,
+    public maxabs: number,
     public starttime: string,
     public endtime: string
   ) {
+  }
+
+  static get modelName() {
+    return 'Archive';
   }
 }
 
@@ -30,6 +36,8 @@ export interface ApiGetArchive {
   median: number;
   stdev: number;
   num_samps: number;
+  maxabs: number;
+  minabs: number;
   starttime: string;
   endtime: string;
   created_at: string;
@@ -54,9 +62,10 @@ export class ArchiveAdapter implements Adapter<Archive> {
       item.median,
       item.stdev,
       item.num_samps,
+      item.minabs,
+      item.maxabs,
       item.starttime,
       item.endtime
-
     );
     return archive;
   }

@@ -2,13 +2,13 @@
 @import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
-@import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
+// @import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
 @import '~leaflet/dist/leaflet.css';
 @import '~leaflet-draw/dist/leaflet.draw.css';
 
 /* You can add global styles to this file, and also import other style files */
 
-@include date-range-picker-theme($squac-ui-theme);
+// @include date-range-picker-theme($squac-ui-theme);
 
 * {
   margin: 0;
@@ -128,7 +128,7 @@ p {
   align-items: center;
   background-color: white;
   border: 1px solid $sq-gray;
-  border-radius: 5px;
+  border-radius: 2px;
   overflow:hidden;
 }
 
@@ -185,6 +185,16 @@ ngx-datatable {
   }
   &.ngx-datatable.material {
     box-shadow: unset;
+  }
+  .datatable-header-cell {
+    padding: 5px !important;
+    white-space: normal !important;
+  }
+  
+  .datatable-body-cell, .datatable-body-row{
+    padding: 1px 3px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
   }
 }
 
@@ -268,4 +278,39 @@ body {
 
 .mat-snack-bar-themed {
   background-color: $sq-dk-gray !important;
+}
+
+
+ngx-daterangepicker-material {
+  // Custom css for date range picker since its all messed up
+  .md-drppicker td.active,
+  .md-drppicker td.available.in-range.active,
+  .md-drppicker td.active:hover,
+  .md-drppicker .btn:not(.btn-default),
+  .md-drppicker .ranges ul li button.active {
+      background-color: $sq-blue !important;
+      color: white !important;
+  }
+  // .md-drppicker.ltr .calendar.right { display: none; }
+  .md-drppicker .calendar-time .select .select-item {
+    font-size: unset !important;
+  }
+  .md-drppicker {
+    
+    right: 0px !important;
+    left: auto !important;
+    width: max-content !important;
+
+
+  .buttons {
+    white-space: normal !important;
+    button {
+      margin-left:10px !important;
+    }
+  }
+
+  .calendar-table {
+      padding: 2px !important;
+  }
+}
 }

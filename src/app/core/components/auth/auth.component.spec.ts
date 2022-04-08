@@ -1,35 +1,24 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { MaterialModule } from '../../../shared/material.module';
-
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockAuthService } from '../../services/auth.service.mock';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-
+import { MockInstance, MockRender, ngMocks } from 'ng-mocks';
 
 describe('AuthComponent', () => {
-  let component: AuthComponent;
-  let fixture: ComponentFixture<AuthComponent>;
+  ngMocks.faster();
+  MockInstance.scope();
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AuthComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
+  beforeAll(async () => {
+    return TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [AuthComponent]
+    }).compileComponents();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(AuthComponent);
+    
+    expect(
+      fixture.point.componentInstance,
+    ).toEqual(jasmine.any(AuthComponent));
   });
 });

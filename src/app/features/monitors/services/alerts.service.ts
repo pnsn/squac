@@ -1,14 +1,14 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { SquacApiService } from '@core/services/squacapi.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Alert, AlertAdapter } from '../models/alert';
-import { Trigger } from '../models/trigger';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AlertsService implements OnDestroy{
+export class AlertsService {
   localAlerts: {[monitorId: number]: Alert[]} = {};
   alerts: Subject<Alert[]> = new Subject();
   refreshTimeout;
@@ -21,11 +21,8 @@ export class AlertsService implements OnDestroy{
     private alertAdapter: AlertAdapter
   ) {}
 
-  ngOnDestroy(): void {
-  }
-
-  getAlerts(): Observable<Alert[]>{
-    return this.squacApi.get(this.url).pipe(
+  getAlerts(params?: Params): Observable<Alert[]>{
+    return this.squacApi.get(this.url, null, params).pipe(
       map( results => results.map(r => this.alertAdapter.adaptFromApi(r)))
     );
   }

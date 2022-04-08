@@ -23,7 +23,7 @@ export const routes: Routes = [
       monitors: MonitorsResolver,
       alerts: AlertsResolver
     },
-    runGuardsAndResolvers: 'pathParamsChange',
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'alerts',

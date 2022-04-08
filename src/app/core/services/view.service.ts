@@ -6,10 +6,10 @@ import { Dashboard } from '@features/dashboards/models/dashboard';
 import { DashboardsService } from '@features/dashboards/services/dashboards.service';
 import { Widget } from '@features/widgets/models/widget';
 import { WidgetsService } from '@features/widgets/services/widgets.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { Ability } from '@casl/ability';
-import { ConfigurationService } from './configuration.service';
 import { MessageService } from './message.service';
+import { DateService } from './date.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +34,11 @@ export class ViewService {
     private dashboardService: DashboardsService,
     private widgetService: WidgetsService,
     private ability: Ability,
-    configService: ConfigurationService,
+    private dateService: DateService,
     private messageService: MessageService
   ) {
-    this.locale = configService.getValue('locale', {
-      format: 'YYYY-MM-DDTHH:mm:ss[Z]',
-      displayFormat: 'YYYY/MM/DD HH:mm',
-      direction: 'ltr',
-    });
-    this.dateRanges = configService.getValue('dateRanges', {
-      3600: 'last 1 hour',
-    });
-    this.defaultTimeRange = configService.getValue('defaultTimeRange', 3);
+    this.dateRanges = this.dateService.dateRanges;
+    this.defaultTimeRange = this.dateService.defaultTimeRange;
   }
 
   // returns if current user can update the current dashboard
@@ -100,14 +93,14 @@ export class ViewService {
 
   // takes given date config and saves it, emits changed dates
   datesChanged(
-    startDate: moment.Moment,
-    endDate: moment.Moment,
+    startDate: dayjs.Dayjs,
+    endDate: dayjs.Dayjs,
     live: boolean,
     range?: number
   ): void {
     if (startDate && endDate) {
-      const start = startDate.format(this.locale.format);
-      const end = endDate.format(this.locale.format);
+      const start = this.dateService.format(startDate);
+      const end = this.dateService.format(endDate);
       this.live = live;
 
       this.dashboard.timeRange = range ? range : null;
@@ -158,7 +151,7 @@ export class ViewService {
 
   // Sets up dates for dashboard
   private setIntialDates() {
-    const current = moment.utc();
+    const current = this.dateService.now();
     let startDate;
     let endDate;
     let liveMode;
@@ -166,28 +159,22 @@ export class ViewService {
     // make date range selector
     if (this.dashboard.timeRange) {
       liveMode = true;
-      (startDate = moment.utc().subtract(this.dashboard.timeRange, 'seconds')),
-        (endDate = current);
+      startDate = this.dateService.subtractFromNow(this.dashboard.timeRange, 'seconds'),
+      endDate = current;
       range = this.dashboard.timeRange;
       // set default dates
     } else if (this.dashboard.starttime && this.dashboard.endtime) {
       liveMode = false;
-      startDate = moment.utc(this.dashboard.starttime);
-      endDate = moment.utc(this.dashboard.endtime);
+      startDate = this.dateService.parseUtc(this.dashboard.starttime);
+      endDate = this.dateService.parseUtc(this.dashboard.endtime);
     } else {
       // default dates
       liveMode = true;
-      startDate = moment.utc().subtract(this.defaultTimeRange, 'seconds');
+      startDate = this.dateService.subtractFromNow(this.dashboard.timeRange, 'seconds');
       range = this.defaultTimeRange;
       endDate = current;
     }
     this.datesChanged(startDate, endDate, liveMode, range);
-  }
-
-  // returns widget with id, or false if there's none
-  getWidget(id): Widget | boolean {
-    const index = this.getWidgetIndexById(id);
-    return index > -1 ? this.dashboard.widgets[index] : false;
   }
 
   // decrements count of widgets still loading
@@ -211,7 +198,6 @@ export class ViewService {
   private widgetChanged(widgetId: number): void {
     this.status.next('finished');
     this.error.next(null);
-    this.currentWidgets.next(this.dashboard.widgets.slice());
   }
 
   // updates the widget
@@ -239,7 +225,7 @@ export class ViewService {
     }
   }
 
-  // delets given widget
+  // deletes given widget
   deleteWidget(widgetId): void {
     this.widgetService.deleteWidget(widgetId).subscribe(
       (next) => {

@@ -10,6 +10,7 @@
 }
 
 #dashboard-header{
+  height: 50px;
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
@@ -52,11 +53,11 @@
   color: $sq-warn;
 }
 
-#date-range {
-    width: 230px;
-    margin-left:10px;
-    margin-right:10px;
-}
+// #date-range {
+//     width: 230px;
+//     margin-left:10px;
+//     margin-right:10px;
+// }
 
 #dashboard-body {
   height: 100%;

@@ -4,7 +4,7 @@ import { ViewService } from '@core/services/view.service';
 import { Subject, Subscription } from 'rxjs';
 import { Widget } from '../models/widget';
 import { MeasurementsService } from './measurements.service';
-import * as moment from 'moment';
+import { DateService } from '@core/services/date.service';
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
@@ -17,9 +17,9 @@ export class WidgetDataService implements OnDestroy {
   constructor(
     private viewService: ViewService,
     private measurementsService: MeasurementsService,
-    configService: ConfigurationService
+    configService: ConfigurationService,
+    private dateService: DateService
   ) {
-    this.locale = configService.getValue('locale');
     this.refreshInterval = configService.getValue(
       'dataRefreshIntervalMinutes',
       4
@@ -96,12 +96,11 @@ export class WidgetDataService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
+
+        const start = this.dateService.subtractFromNow(this.viewService.range, 'seconds');
+        const end = this.dateService.now();
         this.fetchMeasurements(
-          moment()
-            .subtract(this.viewService.range, 'seconds')
-            .utc()
-            .format(this.locale.format),
-          moment().utc().format(this.locale.format)
+          this.dateService.format(start), this.dateService.format(end)
         );
       }, this.refreshInterval * 60 * 1000);
     }

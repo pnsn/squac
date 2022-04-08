@@ -17,7 +17,9 @@ export class MockChannelsService {
     1,
     'location',
     'staCode',
-    'netCode'
+    'netCode',
+    '',
+    ''
   );
 
   getChannelsByFilters(filters: Params): Observable<Channel[]> {

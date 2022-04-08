@@ -16,10 +16,16 @@ export class Aggregate {
     public p10: number,
     public p90: number,
     public p95: number,
+    public minabs: number,
+    public maxabs: number,
     public latest: number,
     public starttime: string,
     public endtime: string
   ) {
+  }
+
+  static get modelName() {
+    return 'Aggregate';
   }
 }
 
@@ -36,6 +42,8 @@ export interface ApiGetAggregate {
   p10: number;
   p90: number;
   p95: number;
+  minabs: number;
+  maxabs: number;
   latest: number;
   starttime: string;
   endtime: string;
@@ -62,6 +70,8 @@ export class AggregateAdapter implements Adapter<Aggregate> {
       item.p10,
       item.p90,
       item.p95,
+      item.minabs,
+      item.maxabs,
       item.latest,
       item.starttime,
       item.endtime

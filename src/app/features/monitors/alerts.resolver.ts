@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { DateService } from '@core/services/date.service';
 import { LoadingService } from '@core/services/loading.service';
 import { MessageService } from '@core/services/message.service';
 import { Observable, of } from 'rxjs';
@@ -15,7 +16,8 @@ export class AlertsResolver implements Resolve<Observable<any>> {
   constructor(
     private alertsService: AlertsService,
     private loadingService: LoadingService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dateService: DateService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Alert> | Observable<Alert[]> {
@@ -29,8 +31,9 @@ export class AlertsResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus('Loading alerts');
-      return this.alertsService.getAlerts().pipe(
+      this.loadingService.setStatus('Loading alerts for last day');
+      const lastday = this.dateService.subtractFromNow(1, 'day').format();
+      return this.alertsService.getAlerts( {starttime: lastday}).pipe(
         catchError(error => {
           this.messageService.error('Could not load alerts.');
           return this.handleError(error);

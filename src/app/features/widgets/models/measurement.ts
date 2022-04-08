@@ -11,6 +11,10 @@ export class Measurement {
     public starttime: string,
     public endtime: string
   ) {}
+
+  static get modelName() {
+    return 'Measurement';
+  }
 }
 
 export interface ApiGetMeasurement {

@@ -49,7 +49,7 @@ export class MeasurementsService {
       metric: widget.metricsString,
       group: widget.channelGroup.id,
       starttime,
-      endtime,
+      endtime
     };
     let path;
     if (archiveType && archiveType !== 'raw') {
@@ -104,9 +104,7 @@ export class MeasurementsService {
   }
 
   // Get measurement aggregate from squac
-  private getAggregated(
-    starttime: string,
-    endtime: string,
+  getAggregated(
     params: MeasurementHttpData
   ): Observable<ApiGetAggregate[]> {
     return this.squacApi.get(this.url + 'aggregated', null, params);

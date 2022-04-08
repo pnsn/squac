@@ -22,6 +22,7 @@ export const widgetRoutes: Routes = [
     resolve: {
       widgets: WidgetsResolver
     },
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'new',

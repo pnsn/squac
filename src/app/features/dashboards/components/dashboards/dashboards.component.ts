@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ViewService } from '@core/services/view.service';
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ViewService } from '@core/services/view.service';
 
 @Component({
   selector: 'app-dashboards',
   templateUrl: './dashboards.component.html',
   styleUrls: ['./dashboards.component.scss']
 })
-export class DashboardsComponent implements OnInit, OnDestroy {
+export class DashboardsComponent {
   opened = true;
   @ViewChild(MatSidenav) sidenav: MatSidenav;
 
@@ -16,13 +16,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   ) {
 
   }
-
-  ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-  }
-
   collapseSidebar(){
     this.viewService.resizeAll();
     this.sidenav.toggle();

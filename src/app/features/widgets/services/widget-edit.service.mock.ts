@@ -6,6 +6,7 @@ import { ChannelGroup } from '@core/models/channel-group';
 
 export class MockWidgetEditService {
   metrics = new BehaviorSubject<Metric[]>([]);
+  selectedMetrics = new BehaviorSubject<Metric[]>([]);
   isValid = new Subject<boolean>();
 
   testThresholds: { [metricId: number]: Threshold} = {

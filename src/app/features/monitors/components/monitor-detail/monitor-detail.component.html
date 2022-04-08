@@ -34,17 +34,28 @@
     <div id="monitor-triggers" id="triggers" class="col">
       <h3>Triggers</h3>
       <div *ngFor="let trigger of monitor.triggers" class="trigger">
-        <div>Level: {{trigger.level}}</div>
-        <div>{{trigger.bandInclusive? "Inclusive" : "Exclusive"}} </div>
-        <div>Min: {{trigger.min}} </div>
-        <div>Max: {{trigger.max}} </div>
+        <div>operator: {{trigger.value_operator}}</div>
+        <div>Min: {{trigger.val1}} </div>
+        <div *ngIf="trigger.val2">Max: {{trigger.val2}} </div>
+        <div>chan operator {{trigger.num_channels_operator}}</div>
+        <div># of channels {{trigger.num_channels}}</div>
       </div>
       <div *ngIf=!monitor.triggers>Missing trigger information</div>
     </div>
-    <div id="monitor-chart" class="col">
+    <!-- <div id="monitor-chart" class="col">
       <h3>History</h3>
-      <app-monitor-chart *ngIf="monitor.metric" [metric]="monitor.metric" [channelGroupId]="monitor.channelGroup.id" [triggers]="monitor.triggers"></app-monitor-chart>
-    </div>
+      <app-monitor-chart 
+        *ngIf="monitor.metric"
+          [metric]="monitor.metric"
+          [channelGroupId]="monitor.channelGroup.id"
+          [triggers]="monitor.triggers"
+          [stat]="monitor.stat"
+          [numberChannels]="monitor.numberChannels"
+          [intervalCount]="monitor.intervalCount"
+          [intervalType]="monitor.intervalType"
+          [invert]="monitor.invert"
+          ></app-monitor-chart>
+    </div> -->
   </div>
   
 </ng-container>

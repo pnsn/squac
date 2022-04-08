@@ -1,55 +1,118 @@
 <div id="title">
-  <h1>
-    Metrics
-  </h1>
+  <h1>Metrics</h1>
   <div id="button-container" *ngIf="'update' | able: 'Metric'">
-    <button mat-flat-button color="primary" id ="edit-metric-btn"
-      (click)="editMetric()" class="add-btn" [disabled]="!selected"
-    >Edit Metric</button>
-    <button mat-flat-button color="accent" id="add-metric-btn"
-      (click)="addMetric()" class="add-btn"
-    >Add Metric</button>
+    <button
+      mat-flat-button
+      color="primary"
+      id="edit-metric-btn"
+      (click)="editMetric()"
+      class="add-btn"
+      [disabled]="!selected"
+    >
+      Edit Metric
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      id="add-metric-btn"
+      (click)="addMetric()"
+      class="add-btn"
+    >
+      Add Metric
+    </button>
   </div>
-</div> 
+</div>
 
 <div id="metric-container" class="box">
-  <ngx-datatable id="metric-table" class="material" [rows]="metrics" [columnMode]="ColumnMode.flex"
-        [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
-        [selectionType]="SelectionType.single" (select)="onSelect($event)">
-    <ngx-datatable-column name="Name" [flexGrow]="2" [draggable]="false" [sortable]="true">
+  <ngx-datatable
+    id="metric-table"
+    class="material"
+    [rows]="metrics"
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="30"
+    [footerHeight]="50"
+    [rowHeight]="23"
+    [scrollbarV]="true"
+    [selectionType]="SelectionType.single"
+    (select)="onSelect($event)"
+  >
+    <ngx-datatable-column
+      name="Name"
+      [flexGrow]="2"
+      [draggable]="false"
+      [sortable]="true"
+    >
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{ row.name | replace: "_" : " " |  titlecase }}
+        {{ row.name }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Default Min" [flexGrow]="1" [draggable]="false" [sortable]="true">
+    <ngx-datatable-column
+      name="Default Min"
+      [flexGrow]="1"
+      [draggable]="false"
+      [sortable]="true"
+      [width]="30"
+    >
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.minVal }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Default Max" [flexGrow]="1" [draggable]="false" [sortable]="true">
+    <ngx-datatable-column
+      name="Default Max"
+      [flexGrow]="1"
+      [draggable]="false"
+      [sortable]="true"
+      [width]="30"
+    >
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.maxVal }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Unit" [flexGrow]="1"  [draggable]="false" [sortable]="true">
+    <ngx-datatable-column
+      name="Unit"
+      [flexGrow]="1"
+      [draggable]="false"
+      [sortable]="true"
+      [width]="30"
+    >
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.unit }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Sample Rate" [flexGrow]="1"  [draggable]="false" [sortable]="true">
+    <ngx-datatable-column
+      name="Sample Rate"
+      [flexGrow]="1"
+      [draggable]="false"
+      [sortable]="true"
+      [width]="30"
+    >
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.sampleRate }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Description" [flexGrow]="3"  [draggable]="false" [sortable]="false">
+    <ngx-datatable-column
+      name="Description"
+      [draggable]="false"
+      [sortable]="false"
+    >
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{ row.description }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Info" [flexGrow]="0.5"  [draggable]="false" [sortable]="false">
+    <ngx-datatable-column
+      name="Info"
+      [draggable]="false"
+      [sortable]="false"
+      [width]="5"
+    >
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        
-        <a href="{{row.refUrl}}" target="_blank" rel="noopener noreferrer" matTooltip="{{row.refUrl}}"><mat-icon>open_in_new</mat-icon></a>
+        <a
+          href="{{ row.refUrl }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          matTooltip="{{ row.refUrl }}"
+          ><mat-icon>open_in_new</mat-icon></a
+        >
       </ng-template>
     </ngx-datatable-column>
     <!-- <ngx-datatable-column name="Owner" [flexGrow]="1" [draggable]="false" [sortable]="true">
