@@ -67,7 +67,7 @@ export class TriggerAdapter implements Adapter<Trigger> {
     );
   }
 
-  adaptToApi(item: Trigger): any {
+  adaptToApi(item: Trigger): ApiPostTrigger {
     return {
       monitor: item.monitorId,
       val1: item.val1,
