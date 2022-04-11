@@ -20,6 +20,10 @@ jasmine.getEnv().addReporter({
   suiteStarted: MockInstance.remember,
 });
 
+ngMocks.config({
+  onTestBedFlushNeed: 'warn',
+});
+
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,

@@ -1,18 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockInstance, MockRender, ngMocks } from 'ng-mocks';
+import { MockBuilder, MockInstance, MockRender, ngMocks } from 'ng-mocks';
 
 describe('AuthComponent', () => {
   ngMocks.faster();
   MockInstance.scope();
-
-  beforeAll(async () => {
-    return TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AuthComponent]
-    }).compileComponents();
-  });
+  beforeEach(() =>
+    MockBuilder(AuthComponent).keep(RouterTestingModule),
+  );
 
   it('should create', () => {
     const fixture = MockRender(AuthComponent);
