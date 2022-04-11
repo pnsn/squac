@@ -1,29 +1,25 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { LoadingService } from '@core/services/loading.service';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { LoadingService } from "@core/services/loading.service";
+import { Subscription } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
-  selector: 'app-loading-screen',
-  templateUrl: './loading-screen.component.html',
-  styleUrls: ['./loading-screen.component.scss']
+  selector: "app-loading-screen",
+  templateUrl: "./loading-screen.component.html",
+  styleUrls: ["./loading-screen.component.scss"],
 })
-export class LoadingScreenComponent implements OnInit , OnDestroy {
+export class LoadingScreenComponent implements OnInit, OnDestroy {
   loading: boolean;
   statuses: string[] = [];
   subscription: Subscription = new Subscription();
-  constructor(
-    private loadingService: LoadingService
-    ) { }
+  constructor(private loadingService: LoadingService) {}
 
   ngOnInit(): void {
-    const loadingSub = this.loadingService.loading.subscribe(
-      loading => {
-        this.loading = loading;
-      }
-    );
+    const loadingSub = this.loadingService.loading.subscribe((loading) => {
+      this.loading = loading;
+    });
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
-      text => {
+      (text) => {
         if (text) {
           this.statuses.push(text);
           if (this.statuses.length > 1) {
@@ -44,5 +40,4 @@ export class LoadingScreenComponent implements OnInit , OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 }

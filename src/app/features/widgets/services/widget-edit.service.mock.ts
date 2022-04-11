@@ -1,23 +1,23 @@
-import { BehaviorSubject, Subject, of, Observable } from 'rxjs';
-import { Metric } from '@core/models/metric';
-import { Threshold } from '../models/threshold';
-import { Widget } from '@features/widgets/models/widget';
-import { ChannelGroup } from '@core/models/channel-group';
+import { BehaviorSubject, Subject, of, Observable } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { Threshold } from "../models/threshold";
+import { Widget } from "@features/widgets/models/widget";
+import { ChannelGroup } from "@core/models/channel-group";
 
 export class MockWidgetEditService {
   metrics = new BehaviorSubject<Metric[]>([]);
   selectedMetrics = new BehaviorSubject<Metric[]>([]);
   isValid = new Subject<boolean>();
 
-  testThresholds: { [metricId: number]: Threshold} = {
-    1 : new Threshold(1, 1, 1, 1, 1, 1)
+  testThresholds: { [metricId: number]: Threshold } = {
+    1: new Threshold(1, 1, 1, 1, 1, 1),
   };
 
   testChannelGroup: ChannelGroup = new ChannelGroup(
     1,
     1,
-    'name',
-    'name',
+    "name",
+    "name",
     1,
     []
   );
@@ -25,8 +25,8 @@ export class MockWidgetEditService {
   testWidget: Widget = new Widget(
     1,
     1,
-    'name',
-    'description',
+    "name",
+    "description",
     1,
     1,
     1,
@@ -41,7 +41,7 @@ export class MockWidgetEditService {
     this.isValid.next(true);
   }
 
-  getThresholds(): { [metricId: number]: Threshold} {
+  getThresholds(): { [metricId: number]: Threshold } {
     return this.testThresholds;
   }
 
@@ -80,7 +80,12 @@ export class MockWidgetEditService {
     this.updateValidity();
   }
 
-  updateWidgetInfo(name: string, description: string, dashboardId: number, statType): void {
+  updateWidgetInfo(
+    name: string,
+    description: string,
+    dashboardId: number,
+    statType
+  ): void {
     this.updateValidity();
   }
 
@@ -91,5 +96,4 @@ export class MockWidgetEditService {
   saveWidget(): Observable<Widget> {
     return of(this.testWidget);
   }
-
 }

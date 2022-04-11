@@ -1,20 +1,9 @@
-import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
-import { Metric } from '@core/models/metric';
-import { MetricsService } from './metrics.service';
+import { Observable, of, BehaviorSubject, throwError } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { MetricsService } from "./metrics.service";
 
 export class MockMetricsService {
-  testMetric = new Metric(
-    1,
-    1,
-    '',
-    '',
-    '',
-    '',
-    '',
-    1,
-    1,
-    1
-  );
+  testMetric = new Metric(1, 1, "", "", "", "", "", 1, 1, 1);
 
   metrics = new BehaviorSubject<Metric[]>([]);
 

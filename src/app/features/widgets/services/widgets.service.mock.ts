@@ -1,17 +1,17 @@
-import { EventEmitter } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { Widget } from '@features/widgets/models/widget';
+import { EventEmitter } from "@angular/core";
+import { Observable, of, throwError } from "rxjs";
+import { Widget } from "@features/widgets/models/widget";
 
 export class MockWidgetsService {
-  constructor(){}
+  constructor() {}
 
   widgetUpdated = new EventEmitter<number>();
 
   testWidget: Widget = new Widget(
     1,
     1,
-    'name',
-    'description',
+    "name",
+    "description",
     1,
     1,
     1,
@@ -23,7 +23,7 @@ export class MockWidgetsService {
   );
 
   getWidgets(id: number): Observable<Widget[]> {
-    if ( id === this.testWidget.id) {
+    if (id === this.testWidget.id) {
       return of([this.testWidget]);
     } else {
       return of([]);
@@ -31,10 +31,10 @@ export class MockWidgetsService {
   }
 
   getWidget(id: number): Observable<Widget> {
-    if ( id === this.testWidget.id) {
+    if (id === this.testWidget.id) {
       return of(this.testWidget);
     } else {
-      return throwError('not found');
+      return throwError("not found");
     }
   }
 
@@ -45,7 +45,4 @@ export class MockWidgetsService {
   updateWidget(widget: Widget): Observable<any> {
     return of(widget);
   }
-
-
-
 }

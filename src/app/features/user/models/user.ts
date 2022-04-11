@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 // Describes a user object
 export class User {
-
   constructor(
     public id: number,
     public email: string,
@@ -13,7 +12,6 @@ export class User {
     public orgAdmin: boolean,
     groupsArr?: any
   ) {
-
     this.groups = [];
     if (groupsArr) {
       for (const group of groupsArr) {
@@ -43,7 +41,7 @@ export class User {
   }
 
   static get modelName() {
-    return 'User';
+    return "User";
   }
 }
 
@@ -52,7 +50,7 @@ export interface ApiGetUser {
   firstname: string;
   lastname: string;
   is_staff: boolean;
-  groups?: Array<number|string>;
+  groups?: Array<number | string>;
   id: number;
   organization: number;
   is_org_admin: boolean;
@@ -72,34 +70,32 @@ export interface ApiPostUser {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserAdapter implements Adapter<User> {
   // Temp until Jon fixes
   private groupIds = [
-    {id: 1, name: 'viewer'},
-    {id: 2, name: 'reporter'},
-    {id: 3, name: 'contributor'},
-    {id: 4, name: 'admin'}
+    { id: 1, name: "viewer" },
+    { id: 2, name: "reporter" },
+    { id: 3, name: "contributor" },
+    { id: 4, name: "admin" },
   ];
 
   adaptFromApi(item: ApiGetUser): User {
     let groups = [];
     if (item.groups) {
-      groups = item.groups.map(
-        g => {
-          if (typeof g === 'number') {
-            const group = this.groupIds.find(groupId => groupId.id === g);
-            if (group) {
-              return group.name;
-            } else {
-              return;
-            }
+      groups = item.groups.map((g) => {
+        if (typeof g === "number") {
+          const group = this.groupIds.find((groupId) => groupId.id === g);
+          if (group) {
+            return group.name;
           } else {
-            return g;
+            return;
           }
+        } else {
+          return g;
         }
-      );
+      });
     }
 
     const user = new User(
@@ -118,25 +114,23 @@ export class UserAdapter implements Adapter<User> {
   }
 
   adaptToApi(item: User): ApiPostUser {
-    const groups = item.groups.map(
-      g => {
-        const group = this.groupIds.find(groupId => groupId.name === g);
-        if (group) {
-          return group.id;
-        } else {
-          return;
-        }
+    const groups = item.groups.map((g) => {
+      const group = this.groupIds.find((groupId) => groupId.name === g);
+      if (group) {
+        return group.id;
+      } else {
+        return;
       }
-    );
+    });
 
     return {
-    email: item.email,
-    firstname: item.firstName,
-    lastname: item.lastName,
-    organization: item.orgId,
-    is_org_admin: item.orgAdmin,
-    is_active: item.isActive,
-    groups
-  };
+      email: item.email,
+      firstname: item.firstName,
+      lastname: item.lastName,
+      organization: item.orgId,
+      is_org_admin: item.orgAdmin,
+      is_active: item.isActive,
+      groups,
+    };
   }
 }

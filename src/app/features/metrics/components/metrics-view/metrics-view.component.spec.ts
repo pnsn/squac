@@ -1,29 +1,28 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MetricsViewComponent } from './metrics-view.component';
-import { MetricsService } from '@features/metrics/services/metrics.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockMetricsService } from '@features/metrics/services/metrics.service.mock';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { AbilityModule } from '@casl/angular';
-import { Ability, PureAbility } from '@casl/ability';
-import { AppAbility } from '@core/utils/ability';
+import { MetricsViewComponent } from "./metrics-view.component";
+import { MetricsService } from "@features/metrics/services/metrics.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { MockMetricsService } from "@features/metrics/services/metrics.service.mock";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { AbilityModule } from "@casl/angular";
+import { Ability, PureAbility } from "@casl/ability";
+import { AppAbility } from "@core/utils/ability";
 
-describe('MetricsViewComponent', () => {
+describe("MetricsViewComponent", () => {
   let component: MetricsViewComponent;
   let fixture: ComponentFixture<MetricsViewComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, NgxDatatableModule, AbilityModule],
-      declarations: [ MetricsViewComponent ],
+      declarations: [MetricsViewComponent],
       providers: [
-        { provide: MetricsService, useClass: MockMetricsService},
-                { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility , useExisting: Ability }
-      ]
-    })
-    .compileComponents();
+        { provide: MetricsService, useClass: MockMetricsService },
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility, useExisting: Ability },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -32,7 +31,7 @@ describe('MetricsViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

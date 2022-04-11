@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Trigger, TriggerAdapter } from '../models/trigger';
+import { Injectable } from "@angular/core";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Trigger, TriggerAdapter } from "../models/trigger";
 
 interface TriggerHttpData {
   monitor: number;
@@ -13,18 +13,21 @@ interface TriggerHttpData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TriggersService {
-  private url = 'measurement/triggers/';
-
+  private url = "measurement/triggers/";
 
   constructor(
     private squacApi: SquacApiService,
     private triggerAdapter: TriggerAdapter
   ) {}
 
-  updateTriggers(triggers: Trigger[], deleteTriggers: number[], monitorId: number): Observable<Trigger>[] {
+  updateTriggers(
+    triggers: Trigger[],
+    deleteTriggers: number[],
+    monitorId: number
+  ): Observable<Trigger>[] {
     const triggerSubs = [];
     for (const trigger of triggers) {
       triggerSubs.push(this.updateTrigger(trigger, monitorId));
@@ -46,7 +49,7 @@ export class TriggersService {
     }
   }
 
-  deleteTrigger(id): Observable<any>{
+  deleteTrigger(id): Observable<any> {
     return this.squacApi.delete(this.url, id);
   }
 }

@@ -1,54 +1,43 @@
-<div id="chart-parent" > 
+<div id="chart-parent">
   <div id="chart-scale-controls">
-    <label for="yScaleMin">
-      y-axis: min:
-    </label>
-    <input type="number" name="yScaleMin" [(ngModel)]="yScaleMin"/>
-    <label for="yScaleMax">
-      max:
-    </label>
-    <input type="number" name="yScaleMax" [(ngModel)]="yScaleMax"/>
+    <label for="yScaleMin"> y-axis: min: </label>
+    <input type="number" name="yScaleMin" [(ngModel)]="yScaleMin" />
+    <label for="yScaleMax"> max: </label>
+    <input type="number" name="yScaleMax" [(ngModel)]="yScaleMax" />
   </div>
 
   <div id="chart-container" #timeSeriesDivIdentifier>
-    <ngx-charts-line-chart *ngIf="hasData; else elseTemplate"
-    [results]="results"
-    [xAxis]="true"
-    [scheme]="colorScheme"
-    [yAxis]="true"
-    [legend]="true"
-    [showYAxisLabel]="true"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel | replace: '_' : ' ' | titlecase "
-    [roundDomains]="true"
-    [animations]="false"
-    [xScaleMin]="xScaleMin"
-    [xScaleMax]="xScaleMax"
-    [yScaleMin]="yScaleMin"
-    [yScaleMax]="yScaleMax"
-    [referenceLines]="referenceLines"
-    [showRefLines]="referenceLines.length > 0"
-    legendTitle="Channels"
-  
-    [xAxisTickFormatting]="xAxisTickFormatting"
-    
-  >
-    <ng-template #tooltipTemplate let-model="model">
-      This is the single point tooltip template
-      <pre>{{model|json}}</pre>
-    </ng-template>
+    <ngx-charts-line-chart
+      *ngIf="hasData; else elseTemplate"
+      [results]="results"
+      [xAxis]="true"
+      [scheme]="colorScheme"
+      [yAxis]="true"
+      [legend]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel | replace: '_':' ' | titlecase"
+      [roundDomains]="true"
+      [animations]="false"
+      [xScaleMin]="xScaleMin"
+      [xScaleMax]="xScaleMax"
+      [yScaleMin]="yScaleMin"
+      [yScaleMax]="yScaleMax"
+      [referenceLines]="referenceLines"
+      [showRefLines]="referenceLines.length > 0"
+      legendTitle="Channels"
+      [xAxisTickFormatting]="xAxisTickFormatting"
+    >
+      <ng-template #tooltipTemplate let-model="model">
+        This is the single point tooltip template
+        <pre>{{ model | json }}</pre>
+      </ng-template>
 
-    <ng-template #seriesTooltipTemplate let-model="model">
-      This is vertical line tooltip template
-      <pre>{{model|json}}</pre>        
-    </ng-template>
-  </ngx-charts-line-chart>
-  <ng-template #elseTemplate>
-    No data.
-  </ng-template>
+      <ng-template #seriesTooltipTemplate let-model="model">
+        This is vertical line tooltip template
+        <pre>{{ model | json }}</pre>
+      </ng-template>
+    </ngx-charts-line-chart>
+    <ng-template #elseTemplate> No data. </ng-template>
   </div>
-
-
-
-
 </div>

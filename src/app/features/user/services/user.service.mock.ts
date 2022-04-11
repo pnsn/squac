@@ -1,20 +1,13 @@
-
-import { BehaviorSubject, of } from 'rxjs';
-import { User } from '../models/user';
+import { BehaviorSubject, of } from "rxjs";
+import { User } from "../models/user";
 
 // Service to get user info & reset things
 
 export class MockUserService {
   constructor() {}
-  private currentUser = new User(
-    1,
-    'email',
-    'firstName',
-    'lastName',
-    1,
-    true,
-    ['contributor']
-  );
+  private currentUser = new User(1, "email", "firstName", "lastName", 1, true, [
+    "contributor",
+  ]);
   user = new BehaviorSubject<User>(null);
 
   get userOrg(): number {

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 // Describes an aggregate
 export class Aggregate {
@@ -21,17 +21,16 @@ export class Aggregate {
     public latest: number,
     public starttime: string,
     public endtime: string
-  ) {
-  }
+  ) {}
 
   static get modelName() {
-    return 'Aggregate';
+    return "Aggregate";
   }
 }
 
 export interface ApiGetAggregate {
   channel: number;
-  metric:	number;
+  metric: number;
   min: number;
   max: number;
   mean: number;
@@ -50,11 +49,10 @@ export interface ApiGetAggregate {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AggregateAdapter implements Adapter<Aggregate> {
-  constructor(
-  ){}
+  constructor() {}
 
   adaptFromApi(item: ApiGetAggregate): Aggregate {
     const aggregate = new Aggregate(

@@ -1,13 +1,12 @@
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { Dashboard } from '../models/dashboard';
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import { Dashboard } from "../models/dashboard";
 
 export class MockDashboardsService {
-
   testDashboard: Dashboard = new Dashboard(
     1,
     1,
-    'name',
-    'description',
+    "name",
+    "description",
     false,
     true,
     1,
@@ -18,10 +17,10 @@ export class MockDashboardsService {
   }
 
   getDashboard(id: number): Observable<Dashboard> {
-    if ( id === this.testDashboard.id) {
+    if (id === this.testDashboard.id) {
       return of(this.testDashboard);
     } else {
-      return throwError('not found');
+      return throwError("not found");
     }
   }
 

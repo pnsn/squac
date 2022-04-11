@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from './adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "./adapter";
 
 // Describes a metric object
 export class Metric {
@@ -14,12 +14,11 @@ export class Metric {
     public sampleRate: number,
     public minVal?: number,
     public maxVal?: number,
-    public comparator?: () => void,
-  ) {
-  }
+    public comparator?: () => void
+  ) {}
 
   static get modelName() {
-    return 'Metric';
+    return "Metric";
   }
 }
 
@@ -50,7 +49,7 @@ export interface ApiPostMetric {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MetricAdapter implements Adapter<Metric> {
   adaptFromApi(item: ApiGetMetric): Metric {
@@ -68,15 +67,15 @@ export class MetricAdapter implements Adapter<Metric> {
     );
   }
 
-  adaptToApi( item: Metric): ApiPostMetric {
+  adaptToApi(item: Metric): ApiPostMetric {
     return {
       name: item.name,
       code: item.code,
       description: item.description,
       reference_url: item.refUrl,
-      unit : item.unit,
-      default_minval : item.minVal,
-      default_maxval : item.maxVal
+      unit: item.unit,
+      default_minval: item.minVal,
+      default_maxval: item.maxVal,
     };
   }
 }

@@ -1,14 +1,14 @@
-<p class="help-text">Regular expression allowed for channel (for example: [H,C]..)</p>
+<p class="help-text">
+  Regular expression allowed for channel (for example: [H,C]..)
+</p>
 <div id="filter-box">
-
-  
   <mat-form-field class="filter-chip-input">
     <input
       matInput
       placeholder="Network"
       (change)="addFilter($event, 'network')"
       (keydown.enter)="addFilter($event, 'network')"
-    >
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
@@ -16,7 +16,7 @@
       placeholder="Station"
       (change)="addFilter($event, 'station')"
       (keydown.enter)="addFilter($event, 'station')"
-    >
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
@@ -24,7 +24,7 @@
       placeholder="Location"
       (change)="addFilter($event, 'location')"
       (keydown.enter)="addFilter($event, 'location')"
-    >
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
@@ -32,7 +32,7 @@
       placeholder="Channel"
       (change)="addFilter($event, 'chan_search')"
       (keydown.enter)="addFilter($event, 'channel')"
-    >
+    />
   </mat-form-field>
   <button
     mat-flat-button

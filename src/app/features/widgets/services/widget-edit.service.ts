@@ -1,13 +1,13 @@
-import { Injectable} from '@angular/core';
-import { Widget } from '@features/widgets/models/widget';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Metric } from '@core/models/metric';
-import { Threshold } from '../models/threshold';
-import { BehaviorSubject, Subject, Observable, merge, of } from 'rxjs';
-import { WidgetsService } from './widgets.service';
-import { ThresholdsService } from './thresholds.service';
-import { ViewService } from '@core/services/view.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { Widget } from "@features/widgets/models/widget";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Metric } from "@core/models/metric";
+import { Threshold } from "../models/threshold";
+import { BehaviorSubject, Subject, Observable, merge, of } from "rxjs";
+import { WidgetsService } from "./widgets.service";
+import { ThresholdsService } from "./thresholds.service";
+import { ViewService } from "@core/services/view.service";
+import { switchMap, tap } from "rxjs/operators";
 
 interface Thresholds {
   [metricId: number]: Threshold;
@@ -15,7 +15,7 @@ interface Thresholds {
 
 // TODO: this whole thing just needs a fixin'
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class WidgetEditService {
   private widget: Widget;
@@ -36,27 +36,18 @@ export class WidgetEditService {
     private viewService: ViewService
   ) {}
 
-
   // Keeps track of widget having all required properties
   updateValidity(): void {
     if (this.widget) {
-
       const hasName = this.widget.name && this.widget.name.length > 0;
       const hasTypes = this.widget.stattype && this.widget.typeId;
       const hasCg = this.widget.channelGroupId;
       const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
 
-      this.isValid.next(
-        hasName && hasTypes && hasCg && hasMetrics
-      );
-
-
+      this.isValid.next(hasName && hasTypes && hasCg && hasMetrics);
     } else {
-      this.isValid.next(
-        false
-        );
+      this.isValid.next(false);
     }
-
   }
 
   // Returns the current thresholds
@@ -64,12 +55,10 @@ export class WidgetEditService {
     return this.thresholds;
   }
 
-
   // FIXME: don't init a widget like this, return the final widget when needed
   setWidget(widget: Widget, dashboardId: number): void {
     this.dashboardId = dashboardId;
     if (widget) {
-
       this.widget = widget;
       this.thresholds = widget.thresholds ? widget.thresholds : {};
       this.channelGroup = widget.channelGroup;
@@ -80,7 +69,6 @@ export class WidgetEditService {
         this.widget.dashboardId = this.dashboardId;
       }
     } else {
-
       this.widget = new Widget(
         null,
         null,
@@ -106,7 +94,6 @@ export class WidgetEditService {
     return this.channelGroup;
   }
 
-
   // Returns the current widet
   getWidget(): Widget {
     return this.widget;
@@ -117,7 +104,6 @@ export class WidgetEditService {
     if (this.widget) {
       return this.widget.metricsIds;
     }
-
   }
 
   // Saves new selected group
@@ -142,7 +128,7 @@ export class WidgetEditService {
 
   // Save the new selected thresholds
   updateThresholds(thresholds: any[]): void {
-    thresholds.forEach(threshold => {
+    thresholds.forEach((threshold) => {
       this.thresholds[threshold.metric.id] = new Threshold(
         this.widget.id ? threshold.id : null,
         threshold.owner,
@@ -158,7 +144,7 @@ export class WidgetEditService {
   }
 
   // Update the widgets info
-  updateWidgetInfo(name: string, description: string, statType ): void {
+  updateWidgetInfo(name: string, description: string, statType): void {
     this.widget.name = name;
     this.widget.description = description;
     this.widget.stattype = statType;
@@ -176,35 +162,31 @@ export class WidgetEditService {
   // save widget and thresholds to squac
   saveWidget(): Observable<Widget> {
     let newWidget;
-    return this.widgetsService.updateWidget(
-      this.widget
-    ).pipe(
-      switchMap (
-        response => {
-          newWidget = response;
-          // returns observables for saving each thresholds
-          const thresholdObs = this.thresholdService.updateThresholds(
-            this.widget.metrics,
-            this.widget.thresholds,
-            newWidget.id
+    return this.widgetsService.updateWidget(this.widget).pipe(
+      switchMap((response) => {
+        newWidget = response;
+        // returns observables for saving each thresholds
+        const thresholdObs = this.thresholdService.updateThresholds(
+          this.widget.metrics,
+          this.widget.thresholds,
+          newWidget.id
+        );
+        let count = 0;
+        // Wait to update view until all are saved
+        if (thresholdObs && thresholdObs.length > 0) {
+          return merge(...thresholdObs).pipe(
+            tap((result) => {
+              count++;
+              if (newWidget && count === thresholdObs.length) {
+                this.viewService.updateWidget(newWidget.id, newWidget);
+              }
+            })
           );
-          let count = 0;
-          // Wait to update view until all are saved
-          if (thresholdObs && thresholdObs.length > 0) {
-            return merge(...thresholdObs).pipe(
-              tap(result => {
-                count++;
-                if (newWidget && count === thresholdObs.length) {
-                  this.viewService.updateWidget(newWidget.id, newWidget);
-                }
-              })
-            );
-          } else {
-            this.viewService.updateWidget(newWidget.id, newWidget);
-            return of(newWidget);
-          }
+        } else {
+          this.viewService.updateWidget(newWidget.id, newWidget);
+          return of(newWidget);
         }
-      )
+      })
     );
   }
 }

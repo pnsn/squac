@@ -1,52 +1,69 @@
 <div id="dashboard-edit-container">
   <div id="dashboard-edit" class="box">
     <h1>
-        {{editMode && dashboard ? "Edit " + dashboard.name : "Create Dashboard"}}
+      {{
+        editMode && dashboard ? "Edit " + dashboard.name : "Create Dashboard"
+      }}
     </h1>
-      <form class="form" action="" [formGroup]="dashboardForm" (ngSubmit)="save()">
-        <mat-form-field >
-          <input matInput 
-            formControlName="name"
-            placeholder="Name"
-            type="text"
-            id="name">
-            <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
-        </mat-form-field>
-        <mat-form-field >
-            <textarea 
-              matInput
-              id="description"
-              placeholder="Description"
-              formControlName="description"
-              class="form-control"
-              >
-              
-          </textarea>
-          <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
-        </mat-form-field>
-      
-      <div>
-        Sharing setting: 
-      </div>
-      <mat-radio-group aria-label="change view permissions" formControlName="share" vertical>
+    <form
+      class="form"
+      action=""
+      [formGroup]="dashboardForm"
+      (ngSubmit)="save()"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="name"
+          placeholder="Name"
+          type="text"
+          id="name"
+        />
+        <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          matInput
+          id="description"
+          placeholder="Description"
+          formControlName="description"
+          class="form-control"
+        >
+        </textarea>
+        <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
+      </mat-form-field>
+
+      <div>Sharing setting:</div>
+      <mat-radio-group
+        aria-label="change view permissions"
+        formControlName="share"
+        vertical
+      >
         <mat-radio-button value="private">Private</mat-radio-button>
         <mat-radio-button value="shareOrg">Share with org</mat-radio-button>
         <mat-radio-button value="shareAll">Share with all</mat-radio-button>
       </mat-radio-group>
-      
-        <div id="dashboard-edit-buttons">
-            <button mat-flat-button color="primary" type="button" (click)="cancel()">Cancel</button>
-            <button mat-flat-button 
-              color="accent"
-              type="submit"
-              [disabled]='!dashboardForm.valid'
-            >
-            Save</button>
 
-        </div>
-      </form>
-    </div>
+      <div id="dashboard-edit-buttons">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+        <button
+          mat-flat-button
+          color="accent"
+          type="submit"
+          [disabled]="!dashboardForm.valid"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-
 
 <!-- TODO: Make generic else template -->

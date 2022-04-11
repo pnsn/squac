@@ -216,7 +216,11 @@
         [resizeable]="false"
         [flexGrow]="1"
       >
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
           {{ value | uppercase }}
         </ng-template>
       </ngx-datatable-column>

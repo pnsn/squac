@@ -1,9 +1,13 @@
-import { Dashboard } from '@features/dashboards/models/dashboard';
-import { ApiGetThreshold, Threshold, ThresholdAdapter } from '@features/widgets/models/threshold';
-import { ApiGetMetric, Metric, MetricAdapter } from '@core/models/metric';
-import { Adapter } from '@core/models/adapter';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Injectable } from '@angular/core';
+import { Dashboard } from "@features/dashboards/models/dashboard";
+import {
+  ApiGetThreshold,
+  Threshold,
+  ThresholdAdapter,
+} from "@features/widgets/models/threshold";
+import { ApiGetMetric, Metric, MetricAdapter } from "@core/models/metric";
+import { Adapter } from "@core/models/adapter";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Injectable } from "@angular/core";
 
 export class Widget {
   public type: string;
@@ -22,16 +26,14 @@ export class Widget {
     public x: number,
     public y: number,
     public metrics: Metric[]
-  ) {
-
-  }
+  ) {}
   public stattype;
-  public thresholds: { [metricId: number]: Threshold};
+  public thresholds: { [metricId: number]: Threshold };
   // get ids from the channels
   get metricsIds(): number[] {
     const array = [];
     if (this.metrics) {
-      this.metrics.forEach(metric => {
+      this.metrics.forEach((metric) => {
         array.push(metric.id);
       });
     }
@@ -44,7 +46,7 @@ export class Widget {
   }
 
   static get modelName() {
-    return 'Widget';
+    return "Widget";
   }
 }
 
@@ -84,7 +86,7 @@ export interface ApiPostWidget {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget> {
   constructor(
@@ -96,13 +98,13 @@ export class WidgetAdapter implements Adapter<Widget> {
     const thresholds = {};
 
     if (item.metrics) {
-      item.metrics.forEach(m => {
-        metrics.push( this.metricAdapter.adaptFromApi(m) );
+      item.metrics.forEach((m) => {
+        metrics.push(this.metricAdapter.adaptFromApi(m));
       });
     }
 
     if (item.thresholds) {
-      item.thresholds.forEach(t => {
+      item.thresholds.forEach((t) => {
         thresholds[t.metric] = this.thresholdsAdapter.adaptFromApi(t);
       });
     }
@@ -140,7 +142,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       y_position: item.y,
       channel_group: item.channelGroupId,
       stattype: item.stattype ? item.stattype.id : 1,
-      color_pallet: 'squac'
+      color_pallet: "squac",
     };
   }
 }

@@ -1,37 +1,43 @@
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { MatButtonModule } from "@angular/material/button";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 
-import { ConfirmDialogComponent } from './confirm-dialog.component';
+import { ConfirmDialogComponent } from "./confirm-dialog.component";
 
-describe('ConfirmDialogComponent', () => {
+describe("ConfirmDialogComponent", () => {
   let component: ConfirmDialogComponent;
   let fixture: ComponentFixture<ConfirmDialogComponent>;
   let dialog: MatDialog;
 
   const mockDialogRef = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy("close"),
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatDialogModule, MatButtonModule],
-      declarations: [ ConfirmDialogComponent ],
+      declarations: [ConfirmDialogComponent],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {
-            cancelText: 'string',
-            confirmText: 'string',
-            message: 'string',
-            title: 'string'
-
-        }},
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            cancelText: "string",
+            confirmText: "string",
+            message: "string",
+            title: "string",
+          },
+        },
         {
           provide: MatDialogRef,
-          useValue: mockDialogRef
+          useValue: mockDialogRef,
         },
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -40,16 +46,11 @@ describe('ConfirmDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  beforeEach(inject([MatDialog, MAT_DIALOG_DATA],
-    (d: MatDialog) => {
-      dialog = d;
-    })
-  );
+  beforeEach(inject([MatDialog, MAT_DIALOG_DATA], (d: MatDialog) => {
+    dialog = d;
+  }));
 
-
-
-
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,25 +1,25 @@
-import { TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { AuthService } from './auth.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
-import { MockSquacApiService } from '@core/services/squacapi.service.mock';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { AuthComponent } from '../components/auth/auth.component';
-import { AbilityModule } from '@casl/angular';
-import { Ability } from '@casl/ability';
-import { UserService } from '@features/user/services/user.service';
-import { MockUserService } from '@features/user/services/user.service.mock';
+import { TestBed, tick, fakeAsync } from "@angular/core/testing";
+import { AuthService } from "./auth.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Router } from "@angular/router";
+import { MockSquacApiService } from "@core/services/squacapi.service.mock";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { AuthComponent } from "../components/auth/auth.component";
+import { AbilityModule } from "@casl/angular";
+import { Ability } from "@casl/ability";
+import { UserService } from "@features/user/services/user.service";
+import { MockUserService } from "@features/user/services/user.service.mock";
 
-describe('AuthService', () => {
+describe("AuthService", () => {
   let router: Router;
-  let httpClientSpy: { get: jasmine.Spy};
+  let httpClientSpy: { get: jasmine.Spy };
   let authService: AuthService;
   let squacApiService: SquacApiService;
 
   const testUserData = {
-    email: 'email@mail.com',
-    token: '111111'
+    email: "email@mail.com",
+    token: "111111",
   };
 
   beforeEach(() => {
@@ -28,20 +28,23 @@ describe('AuthService', () => {
         AbilityModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
-          { path: 'login', component: AuthComponent},
-          { path: '', redirectTo: 'dashboards', pathMatch: 'full'},
-          { path: 'dashboards', component: AuthComponent}
-        ])
+          { path: "login", component: AuthComponent },
+          { path: "", redirectTo: "dashboards", pathMatch: "full" },
+          { path: "dashboards", component: AuthComponent },
+        ]),
       ],
       providers: [
-        { provide: SquacApiService, useValue: new MockSquacApiService(testUserData) },
-        { provide: Ability, useValue: new Ability()},
-        { provide: UserService, useValue: new MockUserService()}
-      ]
+        {
+          provide: SquacApiService,
+          useValue: new MockSquacApiService(testUserData),
+        },
+        { provide: Ability, useValue: new Ability() },
+        { provide: UserService, useValue: new MockUserService() },
+      ],
     });
 
     router = TestBed.inject(Router);
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
     authService = TestBed.inject(AuthService);
     squacApiService = TestBed.inject(SquacApiService);
 
@@ -60,77 +63,74 @@ describe('AuthService', () => {
       },
       clear: () => {
         store = {};
-      }
+      },
     };
-    spyOn(localStorage, 'getItem')
-      .and.callFake(mockLocalStorage.getItem);
-    spyOn(localStorage, 'setItem')
-      .and.callFake(mockLocalStorage.setItem);
-    spyOn(localStorage, 'removeItem')
-      .and.callFake(mockLocalStorage.removeItem);
-    spyOn(localStorage, 'clear')
-      .and.callFake(mockLocalStorage.clear);
+    spyOn(localStorage, "getItem").and.callFake(mockLocalStorage.getItem);
+    spyOn(localStorage, "setItem").and.callFake(mockLocalStorage.setItem);
+    spyOn(localStorage, "removeItem").and.callFake(mockLocalStorage.removeItem);
+    spyOn(localStorage, "clear").and.callFake(mockLocalStorage.clear);
   });
 
-
-  it('should be created', () => {
+  it("should be created", () => {
     expect(authService).toBeTruthy();
   });
 
-  it('should log existing user in', () => {
-    spyOn(authService, 'autologout');
+  it("should log existing user in", () => {
+    spyOn(authService, "autologout");
     const expDate = new Date().getTime() + 10000;
 
-    localStorage.setItem('userData', JSON.stringify({ email: 'email', token: 'token', tokenExpirationDate: expDate}));
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        email: "email",
+        token: "token",
+        tokenExpirationDate: expDate,
+      })
+    );
 
     authService.autologin();
     expect(authService.autologout).toHaveBeenCalled();
   });
 
-  it('should log new user in', () => {
-    authService.login(testUserData.email, 'password').subscribe(
-      response => {
-        expect(response).toEqual(testUserData);
-      }
-    );
+  it("should log new user in", () => {
+    authService.login(testUserData.email, "password").subscribe((response) => {
+      expect(response).toEqual(testUserData);
+    });
   });
 
-  it('should not log in if no user data', () => {
-    spyOn(authService, 'autologout');
+  it("should not log in if no user data", () => {
+    spyOn(authService, "autologout");
     localStorage.clear();
 
     authService.autologin();
 
-    expect(localStorage.getItem('userData')).toBeNull();
+    expect(localStorage.getItem("userData")).toBeNull();
     expect(authService.autologout).not.toHaveBeenCalled();
   });
 
-  it('should log user out', () => {
-    localStorage.setItem('userData', JSON.stringify({ email: '', token: '', tokenExpirationDate: 'string'}));
+  it("should log user out", () => {
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ email: "", token: "", tokenExpirationDate: "string" })
+    );
 
     authService.logout();
 
-    expect(localStorage.getItem('userData')).toBeNull();
+    expect(localStorage.getItem("userData")).toBeNull();
   });
 
-  it('should return true if user logged in', () => {
+  it("should return true if user logged in", () => {
     expect(authService.loggedIn).toBe(false);
-    authService.login(testUserData.email, 'password').subscribe(
-      response => {
-        expect(authService.loggedIn).toEqual(true);
-      }
-    );
-
+    authService.login(testUserData.email, "password").subscribe((response) => {
+      expect(authService.loggedIn).toEqual(true);
+    });
   });
 
-  it('should return the auth token', () => {
+  it("should return the auth token", () => {
     expect(authService.auth).toBeUndefined();
-    authService.login(testUserData.email, 'password').subscribe(
-      response => {
-        expect(authService.auth).toBeDefined();
-      }
-    );
-
+    authService.login(testUserData.email, "password").subscribe((response) => {
+      expect(authService.auth).toBeDefined();
+    });
   });
   // it('should log user out after time expires', fakeAsync( () => {
   //   spyOn(authService, 'logout');
@@ -141,5 +141,4 @@ describe('AuthService', () => {
   //   expect(authService.logout).toHaveBeenCalled();
 
   // }));
-
 });

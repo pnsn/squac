@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from './adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "./adapter";
 
 // Describes a channel object
 export class Channel {
@@ -21,15 +21,21 @@ export class Channel {
   ) {}
 
   get nslc(): string {
-    return this.networkCode + '.' + this.stationCode + '.' + this.loc + '.' + this.code;
+    return (
+      this.networkCode +
+      "." +
+      this.stationCode +
+      "." +
+      this.loc +
+      "." +
+      this.code
+    );
   }
 
   static get modelName() {
-    return 'Channel';
+    return "Channel";
   }
-
 }
-
 
 export interface ApiGetChannel {
   id: number;
@@ -56,7 +62,7 @@ export interface ApiGetChannel {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ChannelAdapter implements Adapter<Channel> {
   adaptFromApi(item: ApiGetChannel): Channel {
@@ -76,5 +82,5 @@ export class ChannelAdapter implements Adapter<Channel> {
     );
   }
 
-  adaptToApi(){}
+  adaptToApi() {}
 }

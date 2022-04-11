@@ -1,4 +1,4 @@
-@import 'variables';
+@import "variables";
 
 #title {
   display: flex;
@@ -16,8 +16,8 @@
 
 #alerts {
   width: 100%;
-  height:80%;
-  overflow:hidden;
+  height: 80%;
+  overflow: hidden;
   #alert-table {
     width: 100%;
     height: 100%;

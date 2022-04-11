@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { SharedModule } from '@shared/shared.module';
-import { NgModule } from '@angular/core';
-import { ChannelGroupsComponent } from './components/channel-groups.component';
-import { ChannelGroupsEditComponent } from './components/channel-groups-edit/channel-groups-edit.component';
-import { ChannelGroupsViewComponent } from './components/channel-groups-view/channel-groups-view.component';
-import { ChannelGroupsFilterComponent } from './components/channel-groups-edit/channel-groups-filter/channel-groups-filter.component';
-import { ChannelGroupsRoutingModule } from './channel-groups-routing.module';
-import { ChannelGroupsDetailComponent } from './components/channel-groups-detail/channel-groups-detail.component';
-import { ChannelGroupMapComponent } from './components/channel-group-map/channel-group-map.component';
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "@shared/shared.module";
+import { NgModule } from "@angular/core";
+import { ChannelGroupsComponent } from "./components/channel-groups.component";
+import { ChannelGroupsEditComponent } from "./components/channel-groups-edit/channel-groups-edit.component";
+import { ChannelGroupsViewComponent } from "./components/channel-groups-view/channel-groups-view.component";
+import { ChannelGroupsFilterComponent } from "./components/channel-groups-edit/channel-groups-filter/channel-groups-filter.component";
+import { ChannelGroupsRoutingModule } from "./channel-groups-routing.module";
+import { ChannelGroupsDetailComponent } from "./components/channel-groups-detail/channel-groups-detail.component";
+import { ChannelGroupMapComponent } from "./components/channel-group-map/channel-group-map.component";
 @NgModule({
   declarations: [
     ChannelGroupMapComponent,
@@ -15,12 +15,8 @@ import { ChannelGroupMapComponent } from './components/channel-group-map/channel
     ChannelGroupsEditComponent,
     ChannelGroupsViewComponent,
     ChannelGroupsFilterComponent,
-    ChannelGroupsDetailComponent
+    ChannelGroupsDetailComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ChannelGroupsRoutingModule
-  ]
+  imports: [CommonModule, SharedModule, ChannelGroupsRoutingModule],
 })
-export class ChannelGroupsModule { }
+export class ChannelGroupsModule {}

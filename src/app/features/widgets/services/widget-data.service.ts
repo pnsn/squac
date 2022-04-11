@@ -1,10 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
-import { ViewService } from '@core/services/view.service';
-import { Subject, Subscription } from 'rxjs';
-import { Widget } from '../models/widget';
-import { MeasurementsService } from './measurements.service';
-import { DateService } from '@core/services/date.service';
+import { Injectable, OnDestroy } from "@angular/core";
+import { ConfigurationService } from "@core/services/configuration.service";
+import { ViewService } from "@core/services/view.service";
+import { Subject, Subscription } from "rxjs";
+import { Widget } from "../models/widget";
+import { MeasurementsService } from "./measurements.service";
+import { DateService } from "@core/services/date.service";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
@@ -21,7 +21,7 @@ export class WidgetDataService implements OnDestroy {
     private dateService: DateService
   ) {
     this.refreshInterval = configService.getValue(
-      'dataRefreshIntervalMinutes',
+      "dataRefreshIntervalMinutes",
       4
     );
     // this.refreshInterval = 0.5;
@@ -57,7 +57,12 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
 
-    if (this.widget && this.widget.metrics && this.widget.metrics.length > 0 && this.widget.channelGroup) {
+    if (
+      this.widget &&
+      this.widget.metrics &&
+      this.widget.metrics.length > 0 &&
+      this.widget.channelGroup
+    ) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementsService
         .getData(start, end, this.widget, archiveType, archiveStat)
@@ -67,7 +72,7 @@ export class WidgetDataService implements OnDestroy {
           },
           (error) => {
             console.log(error);
-            console.log('error in fetch measurements');
+            console.log("error in fetch measurements");
             this.viewService.widgetFinishedLoading();
             this.data.next({});
           },
@@ -96,11 +101,14 @@ export class WidgetDataService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-
-        const start = this.dateService.subtractFromNow(this.viewService.range, 'seconds');
+        const start = this.dateService.subtractFromNow(
+          this.viewService.range,
+          "seconds"
+        );
         const end = this.dateService.now();
         this.fetchMeasurements(
-          this.dateService.format(start), this.dateService.format(end)
+          this.dateService.format(start),
+          this.dateService.format(end)
         );
       }, this.refreshInterval * 60 * 1000);
     }

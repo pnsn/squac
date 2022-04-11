@@ -1,22 +1,23 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { HttpClient } from '@angular/common/http';
-import { Data } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { TestBed, inject } from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { HttpClient } from "@angular/common/http";
+import { Data } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
-describe('SquacApiService', () => {
+describe("SquacApiService", () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: SquacApiService;
-  const testUrl = 'data/';
+  const testUrl = "data/";
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [
-        SquacApiService,
-      ]
+      providers: [SquacApiService],
     });
 
     // Inject the http service and test controller for each test
@@ -30,85 +31,84 @@ describe('SquacApiService', () => {
     httpTestingController.verify();
   });
 
-  it('can get data', () => {
-    const testData: Data = {name: 'Test Data'};
+  it("can get data", () => {
+    const testData: Data = { name: "Test Data" };
 
     // Make an HTTP GET request
-    service.get(testUrl)
-      .subscribe(data =>
-        // When observable resolves, result should match test data
-        expect(data).toEqual(testData)
-      );
+    service.get(testUrl).subscribe((data) =>
+      // When observable resolves, result should match test data
+      expect(data).toEqual(testData)
+    );
 
-    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl);
-    expect(req.request.method).toEqual('GET');
-
-    req.flush(testData);
-
-  });
-
-  it('can post data', () => {
-    const testData: Data = {name: 'Test Data'};
-
-    service.post(testUrl, testData)
-      .subscribe(data =>
-        expect(data).toEqual(testData)
-      );
-
-    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl);
-
-    expect(req.request.method).toEqual('POST');
+    const req = httpTestingController.expectOne(
+      environment.apiUrl + environment.version + testUrl
+    );
+    expect(req.request.method).toEqual("GET");
 
     req.flush(testData);
-
   });
 
-  it('can put data', () => {
-    const testData: Data = {name: 'Test Data', id: 1};
+  it("can post data", () => {
+    const testData: Data = { name: "Test Data" };
 
-    service.put(testUrl, testData.id, testData)
-      .subscribe(data =>
-        expect(data).toEqual(testData)
-      );
+    service
+      .post(testUrl, testData)
+      .subscribe((data) => expect(data).toEqual(testData));
 
-    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
+    const req = httpTestingController.expectOne(
+      environment.apiUrl + environment.version + testUrl
+    );
 
-    expect(req.request.method).toEqual('PUT');
+    expect(req.request.method).toEqual("POST");
 
     req.flush(testData);
-
   });
 
-  it('can patch data', () => {
-    const testData: Data = {name: 'Test Data', id: 1};
+  it("can put data", () => {
+    const testData: Data = { name: "Test Data", id: 1 };
 
-    service.patch(testUrl, testData.id, testData)
-      .subscribe(data =>
-        expect(data).toEqual(testData)
-      );
+    service
+      .put(testUrl, testData.id, testData)
+      .subscribe((data) => expect(data).toEqual(testData));
 
-    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
+    const req = httpTestingController.expectOne(
+      environment.apiUrl + environment.version + testUrl + testData.id + "/"
+    );
 
-    expect(req.request.method).toEqual('PATCH');
+    expect(req.request.method).toEqual("PUT");
 
     req.flush(testData);
-
   });
 
-  it('can delete data', () => {
-    const testData: Data = {name: 'Test Data', id: 1};
+  it("can patch data", () => {
+    const testData: Data = { name: "Test Data", id: 1 };
 
-    service.delete(testUrl, testData.id)
-      .subscribe(data =>
-        expect(data).toEqual(testData)
-      );
+    service
+      .patch(testUrl, testData.id, testData)
+      .subscribe((data) => expect(data).toEqual(testData));
 
-    const req = httpTestingController.expectOne(environment.apiUrl + environment.version + testUrl + testData.id + '/');
+    const req = httpTestingController.expectOne(
+      environment.apiUrl + environment.version + testUrl + testData.id + "/"
+    );
 
-    expect(req.request.method).toEqual('DELETE');
+    expect(req.request.method).toEqual("PATCH");
 
     req.flush(testData);
-
   });
 
+  it("can delete data", () => {
+    const testData: Data = { name: "Test Data", id: 1 };
+
+    service
+      .delete(testUrl, testData.id)
+      .subscribe((data) => expect(data).toEqual(testData));
+
+    const req = httpTestingController.expectOne(
+      environment.apiUrl + environment.version + testUrl + testData.id + "/"
+    );
+
+    expect(req.request.method).toEqual("DELETE");
+
+    req.flush(testData);
+  });
 });

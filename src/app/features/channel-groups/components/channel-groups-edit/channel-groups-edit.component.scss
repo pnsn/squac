@@ -8,21 +8,21 @@
 }
 
 #edit-container {
-  display:flex;
+  display: flex;
   flex-direction: row;
   height: auto;
 
   h2 {
-    margin-top: 0px; 
+    margin-top: 0px;
   }
-
 }
 
 #selection-filter {
   width: 100%;
 }
 
-#select-channels-container, #create-group-container {
+#select-channels-container,
+#create-group-container {
   padding: 10px;
   height: 80vh;
   text-align: start;
@@ -30,8 +30,8 @@
 }
 
 #select-channels-controls {
-  width:100%;
-  display:flex;
+  width: 100%;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
@@ -39,40 +39,42 @@
   div {
     button {
       margin-left: 5px;
-    } 
+    }
   }
 }
 #filter-container {
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 #select-channels-container {
   width: 60%;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   #filter-button-container {
-    display:flex;
+    display: flex;
     flex-direction: row;
     align-content: flex-end;
     justify-content: space-around;
     padding-right: 20px;
   }
-    mat-spinner {
-      margin: 25% auto;
-    }
+  mat-spinner {
+    margin: 25% auto;
+  }
 
   #preview-container {
-    display:flex;
+    display: flex;
     flex-direction: row;
     width: 100%;
-    height:100%;
+    height: 100%;
     flex-grow: 1;
     #preview-list {
-      padding-right:10px;
+      padding-right: 10px;
     }
-    #preview-list, #map-box, #channel-selector {
-      height:100%;
+    #preview-list,
+    #map-box,
+    #channel-selector {
+      height: 100%;
     }
     @media (max-width: 1000px) {
       #preview-list {
@@ -87,7 +89,7 @@
         width: 50%;
       }
       #map-box {
-        width:50%;
+        width: 50%;
         app-channel-group-map {
           width: 100%;
           height: 100%;
@@ -95,23 +97,21 @@
       }
     }
   }
-
 }
-
 
 #create-group-container {
   h2 {
     align-self: start;
   }
-  margin-left:15px;
-  width:40%;
+  margin-left: 15px;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   mat-radio-button {
-    display:block;
+    display: block;
   }
-  .remove-channel{
+  .remove-channel {
     mat-icon {
       font-size: 15px;
       height: 15px;
@@ -119,11 +119,11 @@
       line-height: 15px;
     }
     height: 15px;
-    width:15px;
-    display:block;
+    width: 15px;
+    display: block;
     line-height: 15px;
   }
-  #cg-form{
+  #cg-form {
     width: 100%;
   }
   #cg-form-input {
@@ -132,17 +132,16 @@
     }
   }
 
-
   #group-channels {
     flex-grow: 1;
     flex-shrink: 1;
 
     height: 100%;
-
   }
 }
 
-#remove-filter-box, #cg-edit-footer {
+#remove-filter-box,
+#cg-edit-footer {
   width: 100%;
   margin-top: 10px;
 }
@@ -155,7 +154,7 @@
 }
 
 .help-text {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 300;
   margin-top: 5px;
 }

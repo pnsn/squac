@@ -1,8 +1,5 @@
 <div>
-  <span
-    class="cdk-visually-hidden"
-    *ngIf="!shareOrg && !shareAll"
-  >
+  <span class="cdk-visually-hidden" *ngIf="!shareOrg && !shareAll">
     {{ resource }} is private
   </span>
   <mat-icon
@@ -11,10 +8,7 @@
     >visibility_off</mat-icon
   >
 
-  <span
-    class="cdk-visually-hidden"
-    *ngIf="shareOrg"
-  >
+  <span class="cdk-visually-hidden" *ngIf="shareOrg">
     {{ resource }} shared with organization
   </span>
   <mat-icon
@@ -23,11 +17,7 @@
     >visibility</mat-icon
   >
 
-  <span
-    class="cdk-visually-hidden"
-    *ngIf="shareAll"
-
-  >
+  <span class="cdk-visually-hidden" *ngIf="shareAll">
     {{ resource }} shared with all
   </span>
   <mat-icon

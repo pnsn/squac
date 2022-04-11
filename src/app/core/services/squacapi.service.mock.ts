@@ -1,15 +1,11 @@
-import { Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Observable, of } from "rxjs";
+import { Injectable } from "@angular/core";
 // Used to test services that use the squac api class
 export class MockSquacApiService {
   protected baseUrl: string;
   protected version: string;
 
-
-  constructor(
-    private testData?: any
-  ) {
-  }
+  constructor(private testData?: any) {}
 
   get(path: string, id?: number, params?: any): Observable<any> {
     return of(id ? this.testData : [this.testData]);

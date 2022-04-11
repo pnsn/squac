@@ -1,24 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { mapTo, tap } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { mapTo, tap } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ConfigurationService {
   private configuration = {};
-  private path = '/assets/config.json';
-  constructor(private httpClient: HttpClient) {
-  }
+  private path = "/assets/config.json";
+  constructor(private httpClient: HttpClient) {}
 
   // Loads config file
   load(): Observable<void> {
-    return this.httpClient.get(this.path)
-      .pipe(
-        tap((configuration: any) => this.configuration = configuration),
-        mapTo(undefined),
-      );
+    return this.httpClient.get(this.path).pipe(
+      tap((configuration: any) => (this.configuration = configuration)),
+      mapTo(undefined)
+    );
   }
 
   // Returns value of configuration for the key, or default

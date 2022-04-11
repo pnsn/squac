@@ -1,18 +1,18 @@
 // Handles communication between dashboard and widget
 
-import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { Dashboard } from '@features/dashboards/models/dashboard';
-import { DashboardsService } from '@features/dashboards/services/dashboards.service';
-import { Widget } from '@features/widgets/models/widget';
-import { WidgetsService } from '@features/widgets/services/widgets.service';
-import * as dayjs from 'dayjs';
-import { Ability } from '@casl/ability';
-import { MessageService } from './message.service';
-import { DateService } from './date.service';
+import { Injectable } from "@angular/core";
+import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
+import { Dashboard } from "@features/dashboards/models/dashboard";
+import { DashboardsService } from "@features/dashboards/services/dashboards.service";
+import { Widget } from "@features/widgets/models/widget";
+import { WidgetsService } from "@features/widgets/services/widgets.service";
+import * as dayjs from "dayjs";
+import { Ability } from "@casl/ability";
+import { MessageService } from "./message.service";
+import { DateService } from "./date.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ViewService {
   // handle refreshing
@@ -20,7 +20,7 @@ export class ViewService {
   dates = new ReplaySubject<number>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
-  status = new BehaviorSubject<string>('loading'); // loading, error, finished
+  status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
@@ -43,7 +43,7 @@ export class ViewService {
 
   // returns if current user can update the current dashboard
   get canUpdate(): boolean {
-    return this.ability.can('update', this.dashboard);
+    return this.ability.can("update", this.dashboard);
   }
 
   // returns if dashboard is live
@@ -84,7 +84,7 @@ export class ViewService {
     this.dashboard = dashboard;
 
     if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
-      this.status.next('finished');
+      this.status.next("finished");
     }
 
     this.setIntialDates();
@@ -142,7 +142,7 @@ export class ViewService {
     // init dates
   }
 
-  setArchive( archiveType, archiveStat ) {
+  setArchive(archiveType, archiveStat) {
     this.dashboard.archiveStat = archiveStat;
     this.dashboard.archiveType = archiveType;
 
@@ -159,8 +159,11 @@ export class ViewService {
     // make date range selector
     if (this.dashboard.timeRange) {
       liveMode = true;
-      startDate = this.dateService.subtractFromNow(this.dashboard.timeRange, 'seconds'),
-      endDate = current;
+      (startDate = this.dateService.subtractFromNow(
+        this.dashboard.timeRange,
+        "seconds"
+      )),
+        (endDate = current);
       range = this.dashboard.timeRange;
       // set default dates
     } else if (this.dashboard.starttime && this.dashboard.endtime) {
@@ -170,7 +173,10 @@ export class ViewService {
     } else {
       // default dates
       liveMode = true;
-      startDate = this.dateService.subtractFromNow(this.dashboard.timeRange, 'seconds');
+      startDate = this.dateService.subtractFromNow(
+        this.dashboard.timeRange,
+        "seconds"
+      );
       range = this.defaultTimeRange;
       endDate = current;
     }
@@ -181,7 +187,7 @@ export class ViewService {
   widgetFinishedLoading(): void {
     this.queuedWidgets--;
     if (this.queuedWidgets <= 0) {
-      this.status.next('finished');
+      this.status.next("finished");
     }
   }
 
@@ -189,14 +195,14 @@ export class ViewService {
   widgetStartedLoading(): void {
     this.queuedWidgets++;
     if (this.queuedWidgets > 0) {
-      this.status.next('loading');
+      this.status.next("loading");
     }
   }
 
   // FIXME: this currently will cause all widgets to reload;
   // Tells widgets to get new data
   private widgetChanged(widgetId: number): void {
-    this.status.next('finished');
+    this.status.next("finished");
     this.error.next(null);
   }
 
@@ -216,10 +222,10 @@ export class ViewService {
             this.dashboard.widgets.push(newWidget);
           }
           this.widgetChanged(widgetId);
-          this.messageService.message('Widget updated.');
+          this.messageService.message("Widget updated.");
         },
         (error) => {
-          this.messageService.error('Could not updated widget.');
+          this.messageService.error("Could not updated widget.");
         }
       );
     }
@@ -230,10 +236,10 @@ export class ViewService {
     this.widgetService.deleteWidget(widgetId).subscribe(
       (next) => {
         this.updateWidget(widgetId);
-        this.messageService.message('Widget deleted.');
+        this.messageService.message("Widget deleted.");
       },
       (error) => {
-        this.messageService.error('Could not delete widget.');
+        this.messageService.error("Could not delete widget.");
       }
     );
   }
@@ -241,7 +247,7 @@ export class ViewService {
   // TODO: this should refresh widget info if its going to be lvie
   // Will rerender widgets, but not get new widget information
   refreshWidgets(): void {
-    this.refresh.next('refresh');
+    this.refresh.next("refresh");
     // this.getWidgets(this.dashboard.id);
   }
 
@@ -249,11 +255,11 @@ export class ViewService {
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
       (response) => {
-        this.messageService.message('Dashboard deleted.');
+        this.messageService.message("Dashboard deleted.");
         // redirect to dashboards
       },
       (error) => {
-        this.messageService.error('Could not delete dashboard.');
+        this.messageService.error("Could not delete dashboard.");
       }
     );
   }
@@ -262,10 +268,10 @@ export class ViewService {
   saveDashboard(): void {
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       (response) => {
-        this.messageService.message('Dashboard saved.');
+        this.messageService.message("Dashboard saved.");
       },
       (error) => {
-        this.messageService.error('Could not save dashboard.');
+        this.messageService.error("Could not save dashboard.");
       }
     );
   }

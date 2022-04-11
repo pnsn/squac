@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 export class Threshold {
-
   constructor(
     public id: number,
     public owner: number,
@@ -10,11 +9,9 @@ export class Threshold {
     public metricId: number,
     public min: number,
     public max: number
-  ) {
-
-  }
+  ) {}
   static get modelName() {
-    return 'Threshold';
+    return "Threshold";
   }
 }
 
@@ -38,7 +35,7 @@ export interface ApiPostThreshold {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ThresholdAdapter implements Adapter<Threshold> {
   adaptFromApi(item: ApiGetThreshold): Threshold {
@@ -57,7 +54,7 @@ export class ThresholdAdapter implements Adapter<Threshold> {
       metric: item.metricId,
       widget: item.widgetId,
       minval: item.min,
-      maxval: item.max
+      maxval: item.max,
     };
   }
 }

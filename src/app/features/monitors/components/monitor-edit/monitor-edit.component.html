@@ -189,10 +189,7 @@
               <ng-container
                 *ngFor="let trigger of triggers.controls; let i = index"
               >
-                <tr
-                  [formGroupName]="i"
-                  class="trigger"
-                >
+                <tr [formGroupName]="i" class="trigger">
                   <td>
                     <mat-slide-toggle
                       name="alert_on_out_of_alarm"
@@ -201,7 +198,10 @@
                     </mat-slide-toggle>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
                       <mat-label for="value_operator">operator</mat-label>
                       <mat-select
                         formControlName="value_operator"
@@ -217,7 +217,10 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
@@ -228,7 +231,10 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
@@ -239,7 +245,10 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
                       <mat-label for="num_channels_operator"
                         >operator</mat-label
                       >
@@ -257,7 +266,10 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field class="xsmall" *ngIf="i !== 0; else default">
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
@@ -291,10 +303,7 @@
                       <mat-icon> delete </mat-icon>
                     </button>
                   </td>
-                  <ng-template #default>
-                    default
-                  </ng-template>
-                  
+                  <ng-template #default> default </ng-template>
                 </tr>
               </ng-container>
             </table>

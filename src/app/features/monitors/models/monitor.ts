@@ -1,8 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
-import { ApiGetChannelGroup, ChannelGroup, ChannelGroupAdapter } from '@core/models/channel-group';
-import { Metric, ApiGetMetric, MetricAdapter } from '@core/models/metric';
-import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+import {
+  ApiGetChannelGroup,
+  ChannelGroup,
+  ChannelGroupAdapter,
+} from "@core/models/channel-group";
+import { Metric, ApiGetMetric, MetricAdapter } from "@core/models/metric";
+import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
 
 export class Monitor {
   constructor(
@@ -21,7 +25,7 @@ export class Monitor {
   metric: Metric;
 
   static get modelName() {
-    return 'Monitor';
+    return "Monitor";
   }
 }
 
@@ -50,7 +54,7 @@ export interface ApiPostMonitor {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MonitorAdapter implements Adapter<Monitor> {
   // channelgroup adapter,metric adapter
@@ -66,14 +70,14 @@ export class MonitorAdapter implements Adapter<Monitor> {
     let metric: Metric;
     let triggers: Trigger[];
     // sometimes API returns number, sometimes group
-    if (typeof item.channel_group === 'number') {
+    if (typeof item.channel_group === "number") {
       channelGroupId = item.channel_group;
     } else {
       channelGroupId = item.channel_group.id;
       channelGroup = this.channelGroupAdapter.adaptFromApi(item.channel_group);
     }
 
-    if (typeof item.metric === 'number') {
+    if (typeof item.metric === "number") {
       metricId = item.metric;
     } else {
       metricId = item.metric.id;
@@ -81,7 +85,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
     }
 
     if (item.triggers) {
-      triggers = item.triggers.map(t => this.triggerAdapter.adaptFromApi(t));
+      triggers = item.triggers.map((t) => this.triggerAdapter.adaptFromApi(t));
     }
 
     const monitor = new Monitor(
@@ -109,7 +113,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
       channel_group: item.channelGroupId,
       metric: item.metricId,
       stat: item.stat,
-      name: item.name
+      name: item.name,
     };
   }
 }

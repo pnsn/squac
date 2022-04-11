@@ -3,12 +3,13 @@ mat-toolbar {
   height: 50px;
   align-items: center;
   justify-content: space-between;
-  img{
-    padding-top:5px;
+  img {
+    padding-top: 5px;
     height: 40px;
     width: auto;
   }
-  h1, a {
+  h1,
+  a {
     color: white;
     display: inline-block;
     margin: 5px;

@@ -1,10 +1,10 @@
-@import './styles/variables.scss';
-@import '~@swimlane/ngx-datatable/index.css';
-@import '~@swimlane/ngx-datatable/themes/material.scss';
-@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import "./styles/variables.scss";
+@import "~@swimlane/ngx-datatable/index.css";
+@import "~@swimlane/ngx-datatable/themes/material.scss";
+@import "~@swimlane/ngx-datatable/assets/icons.css";
 // @import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
-@import '~leaflet/dist/leaflet.css';
-@import '~leaflet-draw/dist/leaflet.draw.css';
+@import "~leaflet/dist/leaflet.css";
+@import "~leaflet-draw/dist/leaflet.draw.css";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -77,7 +77,7 @@ p {
 // }
 
 .help-text {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 300;
   margin-top: 5px;
 }
@@ -107,7 +107,7 @@ p {
     label {
       margin-top: 25px;
     }
-    
+
     input,
     textarea {
       width: 300px;
@@ -129,7 +129,7 @@ p {
   background-color: white;
   border: 1px solid $sq-gray;
   border-radius: 2px;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .square-box {
@@ -147,8 +147,8 @@ p {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .hidden {
@@ -190,15 +190,18 @@ ngx-datatable {
     padding: 5px !important;
     white-space: normal !important;
   }
-  
-  .datatable-body-cell, .datatable-body-row{
+
+  .datatable-body-cell,
+  .datatable-body-row {
     padding: 1px 3px !important;
     white-space: normal !important;
     line-height: 1.25 !important;
   }
 }
 
-.datatable-row-detail { width: 100%; }
+.datatable-row-detail {
+  width: 100%;
+}
 
 .ngx-datatable.material {
   .datatable-header {
@@ -216,14 +219,11 @@ ngx-datatable {
 .datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group {
   background-color: darken($sq-lt-blue, 15%) !important;
-
 }
-.datatable-body-row:hover, 
+.datatable-body-row:hover,
 .datatable-body-row:hover .datatable-row-group {
   background-color: $sq-lt-gray !important;
 }
-
-
 
 // Material overrides
 .mat-list-item.active {
@@ -242,7 +242,7 @@ ngx-datatable {
     a {
       height: 30px !important;
     }
-   }
+  }
 }
 #dashboard-header {
   background-color: $sq-lt-gray;
@@ -267,9 +267,12 @@ ngx-datatable {
   @extend .box;
 }
 
-html, body { height: 100%; }
-body { 
-  margin: 0 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
 }
 
 .chart-tooltip {
@@ -280,7 +283,6 @@ body {
   background-color: $sq-dk-gray !important;
 }
 
-
 ngx-daterangepicker-material {
   // Custom css for date range picker since its all messed up
   .md-drppicker td.active,
@@ -288,29 +290,27 @@ ngx-daterangepicker-material {
   .md-drppicker td.active:hover,
   .md-drppicker .btn:not(.btn-default),
   .md-drppicker .ranges ul li button.active {
-      background-color: $sq-blue !important;
-      color: white !important;
+    background-color: $sq-blue !important;
+    color: white !important;
   }
   // .md-drppicker.ltr .calendar.right { display: none; }
   .md-drppicker .calendar-time .select .select-item {
     font-size: unset !important;
   }
   .md-drppicker {
-    
     right: 0px !important;
     left: auto !important;
     width: max-content !important;
 
+    .buttons {
+      white-space: normal !important;
+      button {
+        margin-left: 10px !important;
+      }
+    }
 
-  .buttons {
-    white-space: normal !important;
-    button {
-      margin-left:10px !important;
+    .calendar-table {
+      padding: 2px !important;
     }
   }
-
-  .calendar-table {
-      padding: 2px !important;
-  }
-}
 }

@@ -1,22 +1,18 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChannelGroupMapComponent } from './channel-group-map.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { ChannelGroupMapComponent } from "./channel-group-map.component";
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 
-describe('MapComponent', () => {
+describe("MapComponent", () => {
   let component: ChannelGroupMapComponent;
   let fixture: ComponentFixture<ChannelGroupMapComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        LeafletModule,
-        LeafletDrawModule
-      ],
-      declarations: [ ChannelGroupMapComponent ]
-    })
-    .compileComponents();
+      imports: [LeafletModule, LeafletDrawModule],
+      declarations: [ChannelGroupMapComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -25,7 +21,7 @@ describe('MapComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

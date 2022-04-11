@@ -1,4 +1,4 @@
-#dashboard-edit-container{
+#dashboard-edit-container {
   height: 100%;
   width: 100%;
 
@@ -9,8 +9,7 @@
   #dashboard-edit {
     min-height: 300px;
     max-height: 50%;
-    width: 50%
-
+    width: 50%;
   }
   form {
     display: flex;
@@ -19,13 +18,13 @@
     padding: 10px;
     text-align: left;
   }
-  #dashboard-edit-buttons{
+  #dashboard-edit-buttons {
     margin-top: 10px;
     display: flex;
     flex-direction: row;
-    justify-content:space-between; 
+    justify-content: space-between;
   }
   mat-radio-button {
-    display:block;
+    display: block;
   }
 }

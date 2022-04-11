@@ -1,13 +1,13 @@
-import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { Dashboard } from '@features/dashboards/models/dashboard';
-import { Widget } from '@features/widgets/models/widget';
+import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
+import { Dashboard } from "@features/dashboards/models/dashboard";
+import { Widget } from "@features/widgets/models/widget";
 
-export class MockViewService{
+export class MockViewService {
   currentWidgets = new Subject<Widget[]>();
   dates = new ReplaySubject<number>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
-  status = new BehaviorSubject<string>('loading'); // loading, error, finished
+  status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
   // refresh = new Subject<number>();
@@ -16,7 +16,6 @@ export class MockViewService{
   queuedWidgets = 0;
   locale;
   defaultTimeRange;
-
 
   // Services used by ViewService
   dashboardService;
@@ -29,8 +28,8 @@ export class MockViewService{
   testDashboard: Dashboard = new Dashboard(
     1,
     1,
-    'name',
-    'description',
+    "name",
+    "description",
     false,
     true,
     1,
@@ -40,8 +39,8 @@ export class MockViewService{
   testWidget: Widget = new Widget(
     1,
     1,
-    'name',
-    'description',
+    "name",
+    "description",
     1,
     1,
     1,
@@ -61,7 +60,7 @@ export class MockViewService{
   }
 
   private getWidgetIndexById(id: number): number {
-    return this.dashboard.widgets.findIndex(w => w.id === id);
+    return this.dashboard.widgets.findIndex((w) => w.id === id);
   }
   private setIntialDates() {}
   private widgetChanged(widgetId: number): void {}
@@ -75,11 +74,11 @@ export class MockViewService{
   }
 
   getStartdate(): string {
-    return '';
+    return "";
   }
 
   getEnddate(): string {
-    return '';
+    return "";
   }
 
   resizeWidget(widgetId: number) {
@@ -90,16 +89,16 @@ export class MockViewService{
     this.testDashboard.widgets = widgets;
   }
 
-  getWidget(id: number ): Widget | boolean {
+  getWidget(id: number): Widget | boolean {
     return id === this.testWidget.id ? this.testWidget : false;
   }
 
   widgetFinishedLoading() {
-    this.status.next('stop');
+    this.status.next("stop");
   }
 
   widgetStartedLoading() {
-    this.status.next('start');
+    this.status.next("start");
   }
 
   datesChanged(start, end) {
@@ -107,31 +106,28 @@ export class MockViewService{
   }
 
   setDashboard(dashboard: Dashboard) {
-     this.dashboard = dashboard;
+    this.dashboard = dashboard;
   }
 
   private widgetsChanged() {
     if (this.dashboard) {
       this.currentWidgets.next(this.dashboard.widgets.slice());
-
     }
-    this.status.next('finished');
+    this.status.next("finished");
   }
 
   updateWidget(widgetId) {
-    this.status.next('loading');
+    this.status.next("loading");
     this.widgetsChanged();
   }
 
-
   deleteWidget(widgetId) {
-    this.status.next('loading');
+    this.status.next("loading");
     this.widgetsChanged();
   }
 
   // TODO: does this actuall refresh data?
   refreshWidgets() {
-
     this.widgetsChanged();
   }
 
