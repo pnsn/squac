@@ -1,5 +1,3 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 /dist
 /tmp
@@ -49,4 +47,14 @@ testem.log
 Thumbs.db
 
 # linting
-
+.prettierignore
+.eslintrc.json
+.prettierrc.json
+.travis.yml
+angular.json
+docker-compose.yml
+e2e/*
+package-lock.json
+package.json
+README.md
+tsconfig.*
