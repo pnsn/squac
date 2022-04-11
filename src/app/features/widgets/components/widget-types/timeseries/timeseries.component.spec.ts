@@ -6,6 +6,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Widget } from '@features/widgets/models/widget';
 import { MockViewService } from '@core/services/view.service.mock';
 import { ViewService } from '@core/services/view.service';
+import { MockModule } from 'ng-mocks';
+import { FormsModule } from '@angular/forms';
 
 describe('TimeseriesComponent', () => {
   let component: TimeseriesComponent;
@@ -15,7 +17,10 @@ describe('TimeseriesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeseriesComponent],
-      imports: [NgxChartsModule, HttpClientTestingModule],
+      imports: [ 
+        NgxChartsModule,
+        HttpClientTestingModule,
+        MockModule(FormsModule)],
       providers: [
         { provide: ViewService, useClass: MockViewService }
       ]
