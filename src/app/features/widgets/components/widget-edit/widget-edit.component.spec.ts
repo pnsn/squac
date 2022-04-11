@@ -7,19 +7,19 @@ import { MaterialModule } from '@shared/material.module';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AbilityModule } from '@casl/angular';
-import { Ability, PureAbility } from '@casl/ability';
+import { PureAbility } from '@casl/ability';
 import { AppAbility } from '@core/utils/ability';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
-import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
 import { MessageService } from '@core/services/message.service';
 import { ChannelGroup } from '@core/models/channel-group';
 import { Metric } from '@core/models/metric';
-import { UserService } from '@features/user/services/user.service';
-import { MockUserService } from '@features/user/services/user.service.mock';
-import { OrganizationsService } from '@features/user/services/organizations.service';
-import { MockOrganizationsService } from '@features/user/services/organizations.service.mock';
-import { Component } from '@angular/core';
+import { ChannelGroupsEditComponent } from './channel-groups-edit/channel-groups-edit.component';
+import { ThresholdEditComponent } from './threshold-edit/threshold-edit.component';
+import { MetricsEditComponent } from './metrics-edit/metrics-edit.component';
+import { MockComponents, MockProvider, MockProviders, MockService } from 'ng-mocks';
+import { WidgetInfoEditComponent } from './widget-info-edit/widget-info-edit.component';
+import { Subject } from 'rxjs';
 
 describe('WidgetEditComponent', () => {
   let component: WidgetEditComponent;
@@ -41,31 +41,32 @@ describe('WidgetEditComponent', () => {
         AbilityModule
       ],
       providers: [
-        {
-          provide: MatDialogRef,
-          useValue: mockDialogRef
-        },
+        MockProviders(
+          MatDialogRef,
+          AppAbility,
+          PureAbility,
+          MessageService
+          ),
+        MockProvider(WidgetEditService, {
+            isValid: new Subject(),
+          }),
         { provide: MAT_DIALOG_DATA, useValue: {
             channelGroups: [
-              new ChannelGroup(1, 1, 'name', 'Desc', 1, [1])
+             MockService(ChannelGroup)
             ],
             metrics: [
-              new Metric(1, 1, 'name', 'code', 'Code', 'ref', 'unit', 1, 1, 0)
+             MockService(Metric)
             ]
-        } },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility , useExisting: Ability },
-        { provide: WidgetEditService, useValue: new MockWidgetEditService()},
-        {
-          provide: UserService, useValue: new MockUserService()
-        },
-        {
-          provide: OrganizationsService, useValue: new MockOrganizationsService()
-        },
-        MessageService
+        } }
       ],
       declarations: [
-        WidgetEditComponent
+        WidgetEditComponent, 
+        MockComponents(
+          ChannelGroupsEditComponent, 
+          ThresholdEditComponent, 
+          MetricsEditComponent,
+          WidgetInfoEditComponent
+          )
       ]
     })
     .compileComponents();

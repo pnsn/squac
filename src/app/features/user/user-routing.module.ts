@@ -1,13 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '@core/guards/auth.guard';
-import { PermissionGuard } from '@core/guards/permission.guard';
 import { UserComponent } from './components/user/user.component';
 import { UserResolver } from './user.resolver';
 import { OrganizationDetailComponent } from './components/organization-detail/organization-detail.component';
 import { OrganizationResolver } from './organization.resolver';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
-import { UserNotificationComponent } from './components/user-notification/user-notification.component';
 import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
 
 
@@ -28,10 +26,6 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: UserSettingsComponent
-      },
-      {
-        path: 'notifications',
-        component: UserNotificationComponent
       },
       {
         path: 'organizations',

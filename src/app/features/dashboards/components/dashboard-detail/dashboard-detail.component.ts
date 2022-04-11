@@ -94,8 +94,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             this.selectedRange = start + ' - ' + end;
           }
 
-          console.log(start, end)
-          console.log(this.selected)
           this.error = null;
         }
       }

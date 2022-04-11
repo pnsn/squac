@@ -8,7 +8,6 @@ import { UserEditComponent } from '@features/user/components/user-edit/user-edit
 import { SharedModule } from '@shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
 import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
-import { UserNotificationComponent } from './components/user-notification/user-notification.component';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 
 
@@ -21,7 +20,6 @@ import { UserSettingsComponent } from './components/user-settings/user-settings.
     OrganizationDetailComponent,
     UserEditComponent,
     OrganizationsViewComponent,
-    UserNotificationComponent,
     UserSettingsComponent
   ],
   imports: [

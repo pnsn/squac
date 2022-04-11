@@ -220,7 +220,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       );
 
       this.monitor.triggers.forEach((trigger, i) => {
-        console.log(trigger)
         this.addTrigger(trigger);
       });
 

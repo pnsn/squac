@@ -2,24 +2,25 @@
   <span
     class="cdk-visually-hidden"
     *ngIf="!shareOrg && !shareAll"
-    aria-label="Icon that shows {{ resource }} is private"
   >
     {{ resource }} is private
   </span>
   <mat-icon
     *ngIf="!shareOrg && !shareAll"
     matTooltip="{{ resource | titlecase }} is private"
+    aria-label="Icon that shows {{ resource }} is private"
     >visibility_off</mat-icon
   >
 
   <span
     class="cdk-visually-hidden"
     *ngIf="shareOrg"
-    aria-label="Icon that shows {{ resource }} is shared with organization"
   >
     {{ resource }} shared with organization
   </span>
   <mat-icon
+    aria-label="Icon that shows {{ resource }} is shared with organization"
+
     *ngIf="shareOrg && !shareAll"
     matTooltip="{{ resource | titlecase }} shared with organization"
     >visibility</mat-icon
@@ -28,11 +29,12 @@
   <span
     class="cdk-visually-hidden"
     *ngIf="shareAll"
-    aria-label="Icon that shows {{ resource }} is public"
+
   >
     {{ resource }} shared with all
   </span>
   <mat-icon
+    aria-label="Icon that shows {{ resource }} is public"
     *ngIf="shareAll"
     matTooltip="{{ resource | titlecase }} shared with all"
     >public</mat-icon
