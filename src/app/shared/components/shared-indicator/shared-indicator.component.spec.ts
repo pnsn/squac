@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { MaterialModule } from "@shared/material.module";
 import { MockModule } from "ng-mocks";
 
 import { SharedIndicatorComponent } from "./shared-indicator.component";
