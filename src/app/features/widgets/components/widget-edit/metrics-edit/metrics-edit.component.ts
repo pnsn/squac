@@ -8,11 +8,8 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { MetricsService } from "@features/metrics/services/metrics.service";
 import { WidgetEditService } from "../../../services/widget-edit.service";
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-metrics-edit",

@@ -1,17 +1,12 @@
-import { Component, Input, OnChanges, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import {
-  Threshold,
-  ThresholdAdapter,
-} from "@features/widgets/models/threshold";
+import { Threshold } from "@features/widgets/models/threshold";
 import { Widget } from "@features/widgets/models/widget";
 import { MeasurementPipe } from "@features/widgets/pipes/measurement.pipe";
 import * as L from "leaflet";
 import { checkThresholds } from "@core/utils/utils";
-import { Aggregate } from "@features/widgets/models/aggregate";
-import { Archive } from "@features/widgets/models/archive";
 
 @Component({
   selector: "app-map",

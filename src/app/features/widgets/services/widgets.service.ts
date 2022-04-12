@@ -1,5 +1,5 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { Observable, forkJoin, of, throwError } from "rxjs";
+import { Injectable } from "@angular/core";
+import { Observable, forkJoin, of } from "rxjs";
 import {
   ApiPostWidget,
   Widget,

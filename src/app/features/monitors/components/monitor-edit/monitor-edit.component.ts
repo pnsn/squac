@@ -1,14 +1,7 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validator,
-  Validators,
-} from "@angular/forms";
+import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { MessageService } from "@core/services/message.service";
@@ -96,7 +89,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // Set up form fields
   ngOnInit() {
-    let test = "test";
+    const test = "test";
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;

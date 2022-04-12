@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
 import { InviteService } from "./invite.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 

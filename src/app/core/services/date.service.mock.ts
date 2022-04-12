@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import * as dayjs from "dayjs";
 import * as utc from "dayjs/plugin/utc";
 import * as duration from "dayjs/plugin/duration";
-import { ConfigurationService } from "./configuration.service";
 
 //service to help reduce imports of dayjs
 

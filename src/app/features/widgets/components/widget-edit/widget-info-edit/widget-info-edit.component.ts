@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
+import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Widget } from "@features/widgets/models/widget";
 import { WidgetEditService } from "@features/widgets/services/widget-edit.service";

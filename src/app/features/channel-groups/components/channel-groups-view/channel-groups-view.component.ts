@@ -1,18 +1,7 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  Pipe,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { pipe, Subscription } from "rxjs";
-import {
-  Router,
-  ActivatedRoute,
-  NavigationEnd,
-  NavigationStart,
-} from "@angular/router";
+import { Subscription } from "rxjs";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { OrganizationsService } from "@features/user/services/organizations.service";
 import { UserService } from "@features/user/services/user.service";

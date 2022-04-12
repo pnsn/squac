@@ -1,6 +1,6 @@
 import { environment } from "../../../environments/environment";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { throwError, Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 import { Params } from "@angular/router";
 import { Injectable } from "@angular/core";
 

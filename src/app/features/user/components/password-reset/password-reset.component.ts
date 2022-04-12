@@ -1,11 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormControl,
-  Validators,
-  FormGroupDirective,
-  NgForm,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
+import { FormControl, Validators } from "@angular/forms";
 import { PasswordResetService } from "../../services/password-reset.service";
 import { Router, ActivatedRoute } from "@angular/router";
 

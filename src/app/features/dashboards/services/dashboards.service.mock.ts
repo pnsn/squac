@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { Dashboard } from "../models/dashboard";
 
 export class MockDashboardsService {

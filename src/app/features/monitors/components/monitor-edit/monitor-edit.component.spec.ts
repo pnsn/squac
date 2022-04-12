@@ -7,7 +7,6 @@ import { ActivatedRoute } from "@angular/router";
 import { AbilityModule } from "@casl/angular";
 import { UserService } from "@features/user/services/user.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
-import { MaterialModule } from "@shared/material.module";
 import { SharedModule } from "@shared/shared.module";
 import { of } from "rxjs";
 import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component";

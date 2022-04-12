@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { Widget } from "@features/widgets/models/widget";
 import { Subject, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
@@ -13,9 +7,6 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { Dashboard } from "@features/dashboards/models/dashboard";
 import { WidgetDataService } from "@features/widgets/services/widget-data.service";
-import { AppAbility } from "@core/utils/ability";
-import { UserService } from "@features/user/services/user.service";
-import { WidgetsService } from "@features/widgets/services/widgets.service";
 
 @Component({
   selector: "app-widget-detail",

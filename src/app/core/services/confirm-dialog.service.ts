@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ConfirmDialogComponent } from "@shared/components/confirm-dialog/confirm-dialog.component";
 import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
+import { take } from "rxjs/operators";
 
 interface ConfirmDialogOptions {
   title: string;

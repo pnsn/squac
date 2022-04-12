@@ -1,13 +1,8 @@
 import { Injectable } from "@angular/core";
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from "@angular/common/http";
-import { map, tap, filter, catchError } from "rxjs/operators";
+
+import { map } from "rxjs/operators";
 import { Channel, ChannelAdapter } from "@core/models/channel";
-import { Subject, BehaviorSubject, throwError, Observable, of } from "rxjs";
-import { Network } from "../models/network";
+import { Observable } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Params } from "@angular/router";
 

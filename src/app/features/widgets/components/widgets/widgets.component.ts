@@ -1,11 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ViewService } from "@core/services/view.service";
 import { Widget } from "@features/widgets/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { WidgetsService } from "../../services/widgets.service";
-import { WidgetEditComponent } from "../widget-edit/widget-edit.component";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({

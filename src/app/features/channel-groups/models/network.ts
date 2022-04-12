@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
-import { ApiGetChannel, Channel } from "@core/models/channel";
 
 export class Network {
   constructor(

@@ -1,5 +1,4 @@
 import { Observable, of } from "rxjs";
-import { Injectable } from "@angular/core";
 // Used to test services that use the squac api class
 export class MockSquacApiService {
   protected baseUrl: string;

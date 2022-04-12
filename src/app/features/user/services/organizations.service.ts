@@ -1,14 +1,12 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { Observable, ReplaySubject, forkJoin } from "rxjs";
+import { Observable } from "rxjs";
 import {
   Organization,
   OrganizationAdapter,
 } from "@features/user/models/organization";
 import { map, tap } from "rxjs/operators";
 import { User, UserAdapter } from "@features/user/models/user";
-import { UserService } from "./user.service";
 
 // Service to get user info & reset things
 @Injectable({

@@ -1,9 +1,8 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { AbilityModule } from "@casl/angular";
 import { defineAbilitiesFor, AppAbility } from "./ability";
 import { Ability, PureAbility } from "@casl/ability";
 import { User } from "@features/user/models/user";
-import { userInfo } from "os";
 import { Dashboard } from "@features/dashboards/models/dashboard";
 
 describe("Ability", () => {

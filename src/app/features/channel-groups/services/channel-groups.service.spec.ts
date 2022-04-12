@@ -5,7 +5,6 @@ import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { ChannelGroupsService } from "./channel-groups.service";
 import { ChannelGroup } from "@core/models/channel-group";
-import { resolveSanitizationFn } from "@angular/compiler/src/render3/view/template";
 
 describe("ChannelGroupsService", () => {
   let channelGroupsService: ChannelGroupsService;

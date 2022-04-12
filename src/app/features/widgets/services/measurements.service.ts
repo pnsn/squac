@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { Widget } from "@features/widgets/models/widget";
 import { SquacApiService } from "@core/services/squacapi.service";
 import {

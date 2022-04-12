@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
-import { MessageService } from "@core/services/message.service";
 
 import { AuthService } from "./core/services/auth.service";
 

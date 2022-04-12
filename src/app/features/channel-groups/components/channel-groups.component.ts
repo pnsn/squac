@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
 import { NetworksService } from "../services/networks.service";
 
 @Component({

@@ -1,12 +1,8 @@
 import { Injectable } from "@angular/core";
-import {
-  Resolve,
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-} from "@angular/router";
+import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { DashboardsService } from "./services/dashboards.service";
 import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { catchError } from "rxjs/operators";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Dashboard } from "./models/dashboard";

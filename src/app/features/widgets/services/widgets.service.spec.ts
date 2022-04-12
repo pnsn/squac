@@ -5,7 +5,6 @@ import { WidgetsService } from "./widgets.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Widget } from "../models/widget";
-import { StatTypeResolver } from "../stat-type.resolver";
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
 import { MockChannelGroupsService } from "@features/channel-groups/services/channel-groups.service.mock";
 

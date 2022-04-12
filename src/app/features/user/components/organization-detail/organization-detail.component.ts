@@ -3,7 +3,7 @@ import { OrganizationsService } from "@features/user/services/organizations.serv
 import { User } from "@features/user/models/user";
 import { Organization } from "@features/user/models/organization";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Subscription, of } from "rxjs";
+import { Subscription } from "rxjs";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { InviteService } from "@features/user/services/invite.service";
 import { ActivatedRoute } from "@angular/router";

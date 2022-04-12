@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Metric } from "@core/models/metric";
 import { Alert } from "@features/monitors/models/alert";
 import { Monitor } from "@features/monitors/models/monitor";
 import { AlertsService } from "@features/monitors/services/alerts.service";

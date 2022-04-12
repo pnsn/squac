@@ -1,4 +1,3 @@
-import { TestBed } from "@angular/core/testing";
 import { AuthComponent } from "./auth.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";

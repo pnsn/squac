@@ -8,7 +8,6 @@ import {
 } from "@angular/forms";
 import { MetricsService } from "@features/metrics/services/metrics.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { subscribeOn } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 

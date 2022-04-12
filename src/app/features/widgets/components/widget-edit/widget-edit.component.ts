@@ -3,11 +3,8 @@ import {
   OnInit,
   OnDestroy,
   Inject,
-  SimpleChanges,
-  OnChanges,
   AfterContentInit,
 } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Widget } from "@features/widgets/models/widget";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";

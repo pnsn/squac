@@ -5,7 +5,6 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MeasurementPipe } from "@features/widgets/pipes/measurement.pipe";
-import { of } from "rxjs";
 import { Widget } from "@features/widgets/models/widget";
 import { MockViewService } from "@core/services/view.service.mock";
 import { ViewService } from "@core/services/view.service";

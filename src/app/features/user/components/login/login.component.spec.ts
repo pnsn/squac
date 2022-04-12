@@ -7,8 +7,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MockAuthService } from "@core/services/auth.service.mock";
 import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { MatInputModule } from "@angular/material/input";
-import { MatFormFieldModule } from "@angular/material/form-field";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;

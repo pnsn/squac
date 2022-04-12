@@ -1,13 +1,7 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  SimpleChanges,
-  OnDestroy,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Router, ActivatedRoute } from "@angular/router";
-import { ColumnMode, id, SelectionType } from "@swimlane/ngx-datatable";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";

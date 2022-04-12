@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { WidgetDetailComponent } from "./components/widget-detail/widget-detail.component";
 import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
 import { MeasurementPipe } from "./pipes/measurement.pipe";
@@ -17,7 +16,6 @@ import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-e
 import { MapComponent } from "./components/widget-types/map/map.component";
 import { WidgetInfoEditComponent } from "./components/widget-edit/widget-info-edit/widget-info-edit.component";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
-import { WidgetAdapter } from "./models/widget";
 
 @NgModule({
   declarations: [

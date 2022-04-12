@@ -1,7 +1,6 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
-import { HeaderComponent } from "./core/components/header/header.component";
 import { AuthService } from "./core/services/auth.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MatMenuModule } from "@angular/material/menu";

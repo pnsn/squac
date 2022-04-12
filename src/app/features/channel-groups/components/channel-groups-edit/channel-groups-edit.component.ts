@@ -5,10 +5,7 @@ import { ChannelGroupsService } from "../../services/channel-groups.service";
 import {
   FormGroup,
   FormControl,
-  FormArray,
-  FormGroupName,
   Validators,
-  NgForm,
   FormBuilder,
 } from "@angular/forms";
 import { ChannelsService } from "../../services/channels.service";

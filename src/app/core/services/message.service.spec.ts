@@ -1,12 +1,6 @@
-import { Component } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { MatButtonModule } from "@angular/material/button";
-import {
-  MatSnackBar,
-  MatSnackBarModule,
-  MatSnackBarRef,
-} from "@angular/material/snack-bar";
-import { SnackbarComponent } from "@shared/components/snackbar/snackbar.component";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 
 import { MessageService } from "./message.service";
 

@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { Channel } from "./channel";
 import {
   ApiGetChannelGroup,
   ChannelGroup,

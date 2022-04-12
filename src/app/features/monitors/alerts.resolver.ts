@@ -1,16 +1,11 @@
 import { Injectable } from "@angular/core";
-import {
-  Resolve,
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-} from "@angular/router";
+import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { catchError } from "rxjs/operators";
 import { Alert } from "./models/alert";
-import { Monitor } from "./models/monitor";
 import { AlertsService } from "./services/alerts.service";
 
 @Injectable({

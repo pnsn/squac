@@ -1,4 +1,3 @@
-import { Dashboard } from "@features/dashboards/models/dashboard";
 import {
   ApiGetThreshold,
   Threshold,

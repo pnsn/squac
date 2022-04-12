@@ -4,7 +4,6 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { NetworksService } from "./networks.service";
-import { Network } from "../models/network";
 
 describe("NetworksService", () => {
   let networksService: NetworksService;

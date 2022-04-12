@@ -1,12 +1,12 @@
-import { TestBed, tick, fakeAsync } from "@angular/core/testing";
+import { TestBed, fakeAsync } from "@angular/core/testing";
 
 import { PermissionGuard } from "./permission.guard";
 import { UserService } from "@features/user/services/user.service";
 
 import { AbilityModule } from "@casl/angular";
-import { Ability, AbilityBuilder, PureAbility } from "@casl/ability";
+import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "../utils/ability";
-import { Subscription, ReplaySubject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 
 class TestUserService {
   testUser;

@@ -5,7 +5,6 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  HostListener,
 } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";

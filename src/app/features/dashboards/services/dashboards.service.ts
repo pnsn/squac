@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Dashboard, DashboardAdapter } from "../models/dashboard";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { filter, map, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
 // should I use index or id
 @Injectable({

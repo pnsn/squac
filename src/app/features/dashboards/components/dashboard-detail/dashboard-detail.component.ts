@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
-import { ActivatedRoute, Router, Params } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import * as dayjs from "dayjs";
@@ -152,7 +146,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
   // FIXME: milliseconds of difference are causing it to not recognize
   lookupRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): number | void {
-    let diff = this.dateService.diff(endDate, startDate);
+    const diff = this.dateService.diff(endDate, startDate);
     // check if end of range close to now
     if (Math.abs(diff) < 1) {
       this.liveMode = true;

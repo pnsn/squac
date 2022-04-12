@@ -2,7 +2,6 @@ import { TestBed } from "@angular/core/testing";
 
 import { ViewService } from "./view.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { MockDashboardsService } from "@features/dashboards/services/dashboards.service.mock";
 import { MockWidgetsService } from "@features/widgets/services/widgets.service.mock";

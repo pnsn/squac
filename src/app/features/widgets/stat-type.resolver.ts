@@ -1,12 +1,6 @@
 import { Injectable } from "@angular/core";
-import {
-  Resolve,
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-} from "@angular/router";
+import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { WidgetsService } from "./services/widgets.service";
 import { StatTypeService } from "./services/stattype.service";
 
 @Injectable({

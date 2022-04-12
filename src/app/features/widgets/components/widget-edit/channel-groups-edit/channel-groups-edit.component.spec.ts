@@ -14,7 +14,6 @@ import { OrganizationsService } from "@features/user/services/organizations.serv
 import { MockOrganizationsService } from "@features/user/services/organizations.service.mock";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ChannelGroup } from "@core/models/channel-group";
 
 describe("ChannelGroupsEditComponent", () => {
   let component: ChannelGroupsEditComponent;

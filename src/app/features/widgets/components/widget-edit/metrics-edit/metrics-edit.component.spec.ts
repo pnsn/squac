@@ -6,7 +6,6 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MetricsService } from "@features/metrics/services/metrics.service";
 import { WidgetEditService } from "../../../services/widget-edit.service";
-import { Metric } from "@core/models/metric";
 
 describe("MetricsEditComponent", () => {
   let component: MetricsEditComponent;

@@ -1,12 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { MonitorsComponent } from "./components/monitors/monitors.component";
-import { MonitorEditComponent } from "./components/monitor-edit/monitor-edit.component";
-import { MonitorDetailComponent } from "./components/monitor-detail/monitor-detail.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
 import { MonitorsResolver } from "./monitors.resolver";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { PermissionGuard } from "@core/guards/permission.guard";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
 import { MetricsResolver } from "@features/metrics/metrics.resolver";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";

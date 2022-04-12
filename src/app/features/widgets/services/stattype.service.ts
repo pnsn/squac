@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 
 interface StatTypeHttpData {

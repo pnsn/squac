@@ -1,4 +1,4 @@
-import { BehaviorSubject, of } from "rxjs";
+import { of } from "rxjs";
 
 export class MockAuthService {
   constructor() {}

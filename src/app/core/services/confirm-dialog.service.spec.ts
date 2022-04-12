@@ -1,13 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "@shared/components/confirm-dialog/confirm-dialog.component";
-import { observable, of, scheduled } from "rxjs";
-import { take } from "rxjs/operators";
-import { serialize } from "v8";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { of } from "rxjs";
 
 import { ConfirmDialogService } from "./confirm-dialog.service";
 

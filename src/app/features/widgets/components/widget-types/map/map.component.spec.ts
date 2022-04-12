@@ -1,4 +1,3 @@
-import { compileNgModule } from "@angular/compiler";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";

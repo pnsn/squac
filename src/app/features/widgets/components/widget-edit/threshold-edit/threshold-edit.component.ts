@@ -1,13 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnDestroy,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Threshold } from "../../../models/threshold";
-import { ColumnMode, id } from "@swimlane/ngx-datatable";
+import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetEditService } from "../../../services/widget-edit.service";
 import { Subscription } from "rxjs";

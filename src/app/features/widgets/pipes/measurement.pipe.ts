@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { DateAdapter } from "@angular/material/core";
 import {
   average,
   median,
