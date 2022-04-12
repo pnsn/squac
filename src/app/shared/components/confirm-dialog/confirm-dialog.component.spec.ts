@@ -50,6 +50,7 @@ describe("ConfirmDialogComponent", () => {
   }));
 
   it("should create", () => {
+    expect(dialog).toBeTruthy();
     expect(component).toBeTruthy();
   });
 });

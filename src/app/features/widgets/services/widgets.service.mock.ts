@@ -3,8 +3,6 @@ import { Observable, of, throwError } from "rxjs";
 import { Widget } from "@features/widgets/models/widget";
 
 export class MockWidgetsService {
-  constructor() {}
-
   widgetUpdated = new EventEmitter<number>();
 
   testWidget: Widget = new Widget(
@@ -34,7 +32,7 @@ export class MockWidgetsService {
     if (id === this.testWidget.id) {
       return of(this.testWidget);
     } else {
-      return throwError("not found");
+      return throwError(() => new Error('not found'))
     }
   }
 

@@ -9,7 +9,7 @@ import { StatTypeService } from "./services/stattype.service";
 export class StatTypeResolver implements Resolve<Observable<any>> {
   constructor(private statTypeService: StatTypeService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  resolve(): Observable<any> {
     return this.statTypeService.getStatTypes();
   }
 

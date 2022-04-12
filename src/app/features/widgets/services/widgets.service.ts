@@ -42,7 +42,7 @@ export class WidgetsService {
           cGRequests = cGRequests.map((id) => {
             return this.channelGroupsService.getChannelGroup(id).pipe(
               catchError((err) => {
-                console.log(id);
+                console.log(id, err);
                 return of(id);
               })
             );
