@@ -1,4 +1,3 @@
-import { TestBed } from "@angular/core/testing";
 import { WidgetEditService } from "./widget-edit.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@core/services/view.service";
@@ -7,10 +6,10 @@ import { ThresholdsService } from "./thresholds.service";
 import { Widget } from "../models/widget";
 import { Metric } from "@core/models/metric";
 import { ChannelGroup } from "@core/models/channel-group";
-import { MockBuilder, MockRender, MockReset, ngMocks } from "ng-mocks";
+import { MockBuilder, MockRender, MockReset } from "ng-mocks";
 import { EMPTY } from "rxjs";
 
-fdescribe("WidgetEditService", () => {
+describe("WidgetEditService", () => {
   const testMetric = new Metric(1, 1, "name", "code", "desc", "", "", 1);
   const testWidget = new Widget(1, 1, "name", "desc", 1, 1, 1, 1, 1, 1, 1, [
     testMetric,

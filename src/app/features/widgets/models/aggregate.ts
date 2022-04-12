@@ -52,8 +52,6 @@ export interface ApiGetAggregate {
   providedIn: "root",
 })
 export class AggregateAdapter implements Adapter<Aggregate> {
-  constructor() {}
-
   adaptFromApi(item: ApiGetAggregate): Aggregate {
     const aggregate = new Aggregate(
       item.metric,

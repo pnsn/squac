@@ -82,7 +82,7 @@ export class PasswordResetComponent implements OnInit {
       return;
     }
     this.passwordResetService.confirmPassword(password1).subscribe(
-      (response) => {
+      () => {
         this.router.navigate(["/login"]);
       },
       (error) => {

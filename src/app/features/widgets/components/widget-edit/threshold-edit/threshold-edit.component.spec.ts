@@ -1,23 +1,28 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ThresholdEditComponent } from "./threshold-edit.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { WidgetEditService } from "../../../services/widget-edit.service";
-import { MockWidgetEditService } from "@features/widgets/services/widget-edit.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { BehaviorSubject } from "rxjs";
 
 describe("ThresholdEditComponent", () => {
   let component: ThresholdEditComponent;
   let fixture: ComponentFixture<ThresholdEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NgxDatatableModule],
-      declarations: [ThresholdEditComponent],
-      providers: [
-        { provide: WidgetEditService, useValue: new MockWidgetEditService() },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(() => {
+    return MockBuilder(ThresholdEditComponent)
+      .mock(NgxDatatableModule)
+      .provide({
+        provide: WidgetEditService,
+        useValue: {
+          selectedMetrics: new BehaviorSubject(null),
+          getThresholds: () => {
+            return;
+          },
+        },
+      });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ThresholdEditComponent);

@@ -48,7 +48,9 @@ describe("HttpErrorInterceptor", () => {
     httpHandlerSpy.handle.and.returnValue(throwError(testError));
     // act
     interceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => {},
+      () => {
+        return;
+      },
       (err) => {
         expect(err).toEqual(`Error: ${testError.error}`);
       }
@@ -66,7 +68,9 @@ describe("HttpErrorInterceptor", () => {
     httpHandlerSpy.handle.and.returnValue(throwError(testError));
     // act
     interceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => {},
+      () => {
+        return;
+      },
       (err) => {
         expect(err).toEqual("Error: " + "message " + testError.error.message);
       }
@@ -86,7 +90,9 @@ describe("HttpErrorInterceptor", () => {
     httpHandlerSpy.handle.and.returnValue(throwError(testError));
     // act
     interceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => {},
+      () => {
+        return;
+      },
       (err) => {
         expect(err).toEqual(`Error: ${testError.error.message}`);
       }

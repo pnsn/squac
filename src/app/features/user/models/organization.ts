@@ -36,6 +36,4 @@ export class OrganizationAdapter implements Adapter<Organization> {
     }
     return new Organization(item.id, item.name, item.description, users);
   }
-
-  adaptToApi() {}
 }

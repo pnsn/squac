@@ -105,7 +105,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     const rows = [];
     const stations = [];
     const stationRows = [];
-    this.channels.forEach((channel, index) => {
+    this.channels.forEach((channel) => {
       const identifier = channel.networkCode + "." + channel.stationCode;
 
       let agg = 0;
@@ -194,12 +194,8 @@ export class TabularComponent implements OnInit, OnDestroy {
     this.rows = [...stationRows, ...rows];
   }
 
-  getChannelsForStation(stationId) {
-    return [];
-  }
-
   onTreeAction(event: any) {
-    const index = event.rowIndex;
+    // const index = event.rowIndex;
     const row = event.row;
     if (row.treeStatus === "collapsed") {
       row.treeStatus = "loading";
@@ -215,7 +211,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getCellClass({ row, column, value }): any {
+  getCellClass({ row, column }): any {
     return row[column.prop].classes;
   }
 }

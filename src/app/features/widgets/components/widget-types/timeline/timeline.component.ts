@@ -6,7 +6,6 @@ import {
   OnDestroy,
   ElementRef,
   AfterViewInit,
-  SimpleChanges,
   OnChanges,
 } from "@angular/core";
 import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
@@ -61,7 +60,7 @@ export class TimelineComponent
     this.chart = TimelinesChart();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // this.chart = TimelinesChart();
     // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     this.metrics = this.widget.metrics;
@@ -105,7 +104,7 @@ export class TimelineComponent
     if (this.timelineDiv && this.timelineDiv.nativeElement) {
       const width = this.timelineDiv.nativeElement.offsetWidth;
       const height = this.timelineDiv.nativeElement.offsetHeight;
-      const offset = 55;
+      // const offset = 55;
       if (width > 0 && height > 0) {
         this.chart.width(width);
         // this.chart.maxHeight(height-offset);
@@ -139,7 +138,7 @@ export class TimelineComponent
       ) {
         // go through the measurements
         measurements[channel.id][this.currentMetric.id].forEach(
-          (measurement: Measurement | Archive, index) => {
+          (measurement: Measurement | Archive) => {
             if ((!dataMin && dataMin !== 0) || measurement.value < dataMin) {
               dataMin = measurement.value;
             }

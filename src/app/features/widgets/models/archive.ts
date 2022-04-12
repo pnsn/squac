@@ -47,8 +47,6 @@ export interface ApiGetArchive {
   providedIn: "root",
 })
 export class ArchiveAdapter implements Adapter<Archive> {
-  constructor() {}
-
   adaptFromApi(item: ApiGetArchive): Archive {
     const archive = new Archive(
       +item.id,

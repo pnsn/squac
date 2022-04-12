@@ -32,8 +32,6 @@ export interface ApiGetMeasurement {
   providedIn: "root",
 })
 export class MeasurementAdapter implements Adapter<Measurement> {
-  constructor() {}
-
   adaptFromApi(item: ApiGetMeasurement): Measurement {
     const measurement = new Measurement(
       item.id,

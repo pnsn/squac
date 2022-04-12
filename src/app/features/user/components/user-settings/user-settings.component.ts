@@ -44,7 +44,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   save() {
     this.userService.updateUser(this.userForm.value).subscribe(
-      (user) => {
+      () => {
         this.userService.fetchUser();
         this.editMode = false;
         this.messageService.message("User information updated.");

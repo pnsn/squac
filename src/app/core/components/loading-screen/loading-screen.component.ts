@@ -30,7 +30,7 @@ export class LoadingScreenComponent implements OnInit, OnDestroy {
       }
     );
     this.subscription.add(loadStatusSub);
-
+    this.subscription.add(loadingSub);
     // .pipe(
     //   debounceTime(200)
     // )

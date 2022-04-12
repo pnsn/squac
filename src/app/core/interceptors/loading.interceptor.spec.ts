@@ -20,8 +20,12 @@ describe("LoadingInterceptor", () => {
         {
           provide: LoadingService,
           useValue: {
-            startLoading: () => {},
-            stopLoading: () => {},
+            startLoading: () => {
+              return;
+            },
+            stopLoading: () => {
+              return;
+            },
           },
         },
         {

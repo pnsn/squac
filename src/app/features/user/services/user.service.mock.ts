@@ -4,7 +4,6 @@ import { User } from "../models/user";
 // Service to get user info & reset things
 
 export class MockUserService {
-  constructor() {}
   private currentUser = new User(1, "email", "firstName", "lastName", 1, true, [
     "contributor",
   ]);

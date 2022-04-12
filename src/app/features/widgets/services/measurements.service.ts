@@ -2,13 +2,9 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Widget } from "@features/widgets/models/widget";
 import { SquacApiService } from "@core/services/squacapi.service";
-import {
-  ApiGetMeasurement,
-  Measurement,
-  MeasurementAdapter,
-} from "../models/measurement";
+import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { map } from "rxjs/operators";
-import { ApiGetArchive, Archive, ArchiveAdapter } from "../models/archive";
+import { Archive, ArchiveAdapter } from "../models/archive";
 import {
   Aggregate,
   AggregateAdapter,
@@ -43,7 +39,6 @@ export class MeasurementsService {
     archiveStat?: string
   ) {
     const data = {};
-    const widgetType = widget.typeId;
     const params = {
       metric: widget.metricsString,
       group: widget.channelGroup.id,
@@ -93,31 +88,8 @@ export class MeasurementsService {
     );
   }
 
-  // Get measurements from squac
-  private getMeasurements(
-    starttime: string,
-    endtime: string,
-    params: MeasurementHttpData
-  ): Observable<ApiGetMeasurement[]> {
-    return this.squacApi.get(this.url + "measurements", null, params);
-  }
-
   // Get measurement aggregate from squac
   getAggregated(params: MeasurementHttpData): Observable<ApiGetAggregate[]> {
     return this.squacApi.get(this.url + "aggregated", null, params);
-  }
-
-  // Get measurement aggregate from squac
-  private getArchive(
-    starttime: string,
-    endtime: string,
-    archiveType: string,
-    params: MeasurementHttpData
-  ): Observable<ApiGetArchive[]> {
-    return this.squacApi.get(
-      this.url + archiveType + "-archives",
-      null,
-      params
-    );
   }
 }

@@ -29,8 +29,6 @@ describe("WidgetDataService", () => {
   ]);
   testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, [1, 2]);
   testWidget.channelGroup.channels = [testChannel];
-
-  let squacApiService;
   const mockSquacApiService = new MockSquacApiService(testData);
   let viewService;
 
@@ -47,7 +45,6 @@ describe("WidgetDataService", () => {
 
     service = TestBed.inject(WidgetDataService);
     viewService = TestBed.inject(ViewService);
-    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

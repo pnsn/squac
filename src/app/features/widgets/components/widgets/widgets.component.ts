@@ -64,7 +64,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     itemChangeCallback: (item) => {
       this.itemChange(item);
     },
-    itemInitCallback: (item) => {
+    itemInitCallback: () => {
       this.inited++;
     },
     gridSizeChanged: () => {
@@ -81,7 +81,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     item.widget.y = item.y;
     if (this.widgets && this.inited === this.widgets.length) {
       this.widgetService.updateWidget(item.widget).subscribe(
-        (success) => {
+        () => {
           console.log("widgets saved");
         },
         (error) => {
@@ -138,7 +138,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
         this.options.api.resize();
       }
     });
-    // this.subscription.add(widgetSub);
+    this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }

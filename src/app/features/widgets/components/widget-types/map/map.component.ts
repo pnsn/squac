@@ -32,7 +32,7 @@ export class MapComponent implements OnInit {
     zoom: number;
     layers: L.Layer[];
   };
-  drawOptions: {};
+  drawOptions: Record<string, never>;
   layers: L.Layer[];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
@@ -122,7 +122,7 @@ export class MapComponent implements OnInit {
     const stationChannels = {};
 
     const metric = this.metrics[0];
-    this.channels.forEach((channel, index) => {
+    this.channels.forEach((channel) => {
       const identifier = channel.networkCode + "." + channel.stationCode;
       const statType = this.widget.stattype.type;
       let agg = 0;

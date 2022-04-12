@@ -89,7 +89,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // Set up form fields
   ngOnInit() {
-    const test = "test";
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
@@ -239,7 +238,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         metric: this.selectedMetric,
       });
 
-      this.monitor.triggers.forEach((trigger, i) => {
+      this.monitor.triggers.forEach((trigger) => {
         this.addTrigger(trigger);
       });
     } else {

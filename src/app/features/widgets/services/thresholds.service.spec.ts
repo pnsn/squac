@@ -17,13 +17,6 @@ describe("ThresholdsService", () => {
   const testMetrics = [
     new Metric(1, 1, "name", "code", "desc", "ref", "unit", 1),
   ];
-  const testThresholds = {
-    1: {
-      min: 1,
-      max: 2,
-      id: 1,
-    },
-  };
 
   let squacApiService;
   let thresholdsService: ThresholdsService;

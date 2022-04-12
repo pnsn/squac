@@ -3,14 +3,6 @@ import { SquacApiService } from "@core/services/squacapi.service";
 import { Observable } from "rxjs";
 import { Trigger, TriggerAdapter } from "../models/trigger";
 
-interface TriggerHttpData {
-  monitor: number;
-  band_inclusive: boolean;
-  maxval?: number;
-  minval?: number;
-  level: number;
-}
-
 @Injectable({
   providedIn: "root",
 })

@@ -3,11 +3,11 @@ import { Organization } from "../models/organization";
 
 export class MockOrganizationsService {
   getOrgUserName(id): string {
-    return "name";
+    return "name" + id;
   }
 
   getOrgName(id): string {
-    return "name";
+    return "name" + id;
   }
 
   getOrganization(): Observable<any> {

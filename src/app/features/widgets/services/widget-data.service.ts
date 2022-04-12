@@ -25,7 +25,7 @@ export class WidgetDataService implements OnDestroy {
       4
     );
     // this.refreshInterval = 0.5;
-    const refreshSub = this.viewService.refresh.subscribe((refresh) => {
+    const refreshSub = this.viewService.refresh.subscribe(() => {
       this.fetchMeasurements();
     });
 

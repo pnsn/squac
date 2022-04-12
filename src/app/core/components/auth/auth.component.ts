@@ -5,6 +5,4 @@ import { Component } from "@angular/core";
   styleUrls: ["./auth.component.scss"],
 })
 // This component handles the login page
-export class AuthComponent {
-  constructor() {}
-}
+export class AuthComponent {}

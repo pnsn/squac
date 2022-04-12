@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Resolve } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { StatTypeService } from "./services/stattype.service";
 

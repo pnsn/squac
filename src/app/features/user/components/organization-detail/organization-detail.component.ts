@@ -8,7 +8,6 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 import { InviteService } from "@features/user/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 
 @Component({
   selector: "app-organization",
@@ -51,8 +50,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private inviteService: InviteService,
     private route: ActivatedRoute,
-    private messageService: MessageService,
-    private confirmDialog: ConfirmDialogService
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +93,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     );
     user.isActive = values.editIsActive;
     this.orgService.updateUser(user).subscribe(
-      (savedUser) => {
+      () => {
         // this.userAdded = newUser;
         this.editUserForm.reset();
         this.table.rowDetail.toggleExpandRow(row);
@@ -136,7 +134,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
 
   sendInvite(id) {
     this.inviteService.sendInviteToUser(id).subscribe(
-      (response) => {
+      () => {
         this.refreshOrgUsers();
       },
       (error) => {

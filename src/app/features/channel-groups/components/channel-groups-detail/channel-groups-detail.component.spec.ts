@@ -10,7 +10,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { OrganizationsService } from "@features/user/services/organizations.service";
-import { MockOrganizationsService } from "@features/user/services/organizations.service.mock";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserService } from "@features/user/services/user.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
@@ -21,6 +20,7 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MockProvider } from "ng-mocks";
 
 describe("ChannelGroupsDetailComponent", () => {
   let component: ChannelGroupsDetailComponent;
@@ -47,10 +47,7 @@ describe("ChannelGroupsDetailComponent", () => {
         MatSnackBarModule,
       ],
       providers: [
-        {
-          provide: OrganizationsService,
-          useValue: new MockOrganizationsService(),
-        },
+        MockProvider(OrganizationsService),
         {
           provide: UserService,
           useValue: new MockUserService(),

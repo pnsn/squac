@@ -32,12 +32,12 @@ export class MockWidgetsService {
     if (id === this.testWidget.id) {
       return of(this.testWidget);
     } else {
-      return throwError(() => new Error('not found'))
+      return throwError(() => new Error("not found"));
     }
   }
 
   deleteWidget(widgetId: number): Observable<any> {
-    return of(true);
+    return of(widgetId);
   }
 
   updateWidget(widget: Widget): Observable<any> {

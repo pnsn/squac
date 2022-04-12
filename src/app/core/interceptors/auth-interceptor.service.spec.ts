@@ -11,7 +11,6 @@ import { MockAuthService } from "../services/auth.service.mock";
 describe(`AuthInterceptor`, () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  const testUrl = "data/";
   let authService;
 
   beforeEach(() => {
