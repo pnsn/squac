@@ -54,6 +54,7 @@ export class WidgetDataService implements OnDestroy {
       start = startString;
       end = endString;
     }
+
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
 
@@ -71,7 +72,6 @@ export class WidgetDataService implements OnDestroy {
             this.data.next(success);
           },
           (error) => {
-            console.log(error);
             console.log("error in fetch measurements");
             this.viewService.widgetFinishedLoading();
             this.data.next({});

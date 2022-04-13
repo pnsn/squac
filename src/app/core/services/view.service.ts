@@ -156,14 +156,15 @@ export class ViewService {
     let endDate;
     let liveMode;
     let range;
+
     // make date range selector
     if (this.dashboard.timeRange) {
       liveMode = true;
-      (startDate = this.dateService.subtractFromNow(
+      startDate = this.dateService.subtractFromNow(
         this.dashboard.timeRange,
         "seconds"
-      )),
-        (endDate = current);
+      );
+      endDate = current;
       range = this.dashboard.timeRange;
       // set default dates
     } else if (this.dashboard.starttime && this.dashboard.endtime) {
@@ -173,11 +174,8 @@ export class ViewService {
     } else {
       // default dates
       liveMode = true;
-      startDate = this.dateService.subtractFromNow(
-        this.dashboard.timeRange,
-        "seconds"
-      );
       range = this.defaultTimeRange;
+      startDate = this.dateService.subtractFromNow(range, "seconds");
       endDate = current;
     }
     this.datesChanged(startDate, endDate, liveMode, range);

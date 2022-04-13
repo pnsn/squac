@@ -97,7 +97,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             startDate: this.dateService.subtractFromNow(range, "seconds"),
             endDate: this.dateService.now(),
           };
-        } else {
+        } else if (start && end) {
           this.selected = {
             startDate: this.dateService.parseUtc(start),
             endDate: this.dateService.parseUtc(end),
@@ -199,7 +199,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   // currently saves any time dates are changed, may want to move to a save button
-  selectDateRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
+  selectDateRange(
+    startDate: dayjs.Dayjs,
+    endDate: dayjs.Dayjs,
+    _range?: number
+  ) {
     this.selected.startDate = this.dateService.toUtc(startDate);
     this.selected.endDate = this.dateService.toUtc(endDate);
   }
