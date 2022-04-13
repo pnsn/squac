@@ -8,7 +8,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationsService } from "@features/user/services/organizations.service";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { EMPTY } from "rxjs";
@@ -20,7 +20,7 @@ describe("ChannelGroupsEditComponent", () => {
   beforeEach(() => {
     return MockBuilder(ChannelGroupsEditComponent)
       .mock(LoadingComponent)
-      .mock(ReactiveFormsModule)
+      .mock(FormsModule)
       .mock(MatSlideToggleModule)
       .mock(MaterialModule)
       .mock(NgxDatatableModule)

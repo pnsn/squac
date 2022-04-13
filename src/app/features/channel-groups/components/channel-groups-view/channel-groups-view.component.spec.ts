@@ -16,6 +16,7 @@ import { FormsModule } from "@angular/forms";
 import { UserService } from "@features/user/services/user.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
 import { of } from "rxjs";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 describe("ChannelGroupsViewComponent", () => {
   let component: ChannelGroupsViewComponent;
@@ -31,6 +32,7 @@ describe("ChannelGroupsViewComponent", () => {
         LeafletModule,
         LeafletDrawModule,
         AbilityModule,
+        MatSlideToggleModule,
       ],
       declarations: [ChannelGroupsViewComponent, ChannelGroupMapComponent],
       providers: [

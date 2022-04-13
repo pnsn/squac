@@ -97,7 +97,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             startDate: this.dateService.subtractFromNow(range, "seconds"),
             endDate: this.dateService.now(),
           };
-        } else if (start && end) {
+        } else {
           this.selected = {
             startDate: this.dateService.parseUtc(start),
             endDate: this.dateService.parseUtc(end),

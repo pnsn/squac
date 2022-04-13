@@ -71,7 +71,7 @@ export class WidgetDataService implements OnDestroy {
           (success) => {
             this.data.next(success);
           },
-          (error) => {
+          () => {
             console.log("error in fetch measurements");
             this.viewService.widgetFinishedLoading();
             this.data.next({});

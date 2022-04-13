@@ -211,7 +211,7 @@ export class TabularComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getCellClass({ row, column }): any {
+  getCellClass({ row, column, _value }): any {
     return row[column.prop].classes;
   }
 }

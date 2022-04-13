@@ -28,7 +28,7 @@ export class MockDashboardsService {
     return of(dashboard);
   }
 
-  deleteDashboard(dashboardId: number) {
+  deleteDashboard(_dashboardId: number) {
     return of();
   }
 }
