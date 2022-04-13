@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
@@ -10,23 +10,19 @@ import { Subscription } from "rxjs";
 })
 
 // This component handles the login page
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
-  loginForm: FormGroup;
+  loginForm: FormGroup = this.formBuilder.group({
+    email: ["", [Validators.required, Validators.email]],
+    password: ["", Validators.required],
+  });
 
   constructor(
     private loginService: AuthService,
     private formBuilder: FormBuilder
   ) {}
-
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
-    });
-  }
 
   // Form submit
   onSubmit() {

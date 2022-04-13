@@ -11,7 +11,7 @@ import { ngMocks, MockInstance } from "ng-mocks";
 declare const require: any;
 declare const jasmine: any;
 // console.warn = (message) => {throw new Error(message)};
-ngMocks.autoSpy("jasmine");
+// ngMocks.autoSpy("jasmine");
 
 jasmine.getEnv().addReporter({
   specDone: MockInstance.restore,

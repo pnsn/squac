@@ -8,7 +8,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationsService } from "@features/user/services/organizations.service";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { EMPTY } from "rxjs";

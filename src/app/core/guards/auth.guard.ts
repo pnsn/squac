@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
   // Returns true if there is a user and allows user to navigate
   canActivate(
-    next: ActivatedRouteSnapshot,
+    _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     const url: string = state.url;
