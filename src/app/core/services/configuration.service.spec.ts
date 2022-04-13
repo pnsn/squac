@@ -40,7 +40,7 @@ describe("ConfigurationService", () => {
   });
 
   it("should return a value for key", () => {
-    service.load().subscribe((res) => {
+    service.load().subscribe(() => {
       const value = service.getValue("test");
       expect(value).toEqual("testValue");
     });
@@ -52,7 +52,7 @@ describe("ConfigurationService", () => {
   });
 
   it("should return the default when the value is not found", () => {
-    service.load().subscribe((res) => {
+    service.load().subscribe(() => {
       const value = service.getValue("anything", "defaultValue");
       expect(value).toEqual("defaultValue");
     });
@@ -64,7 +64,7 @@ describe("ConfigurationService", () => {
   });
 
   it("should return undefined when the value is not found and there is no default", () => {
-    service.load().subscribe((res) => {
+    service.load().subscribe(() => {
       const value = service.getValue("anything");
       expect(value).toBeUndefined();
     });

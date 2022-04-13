@@ -39,7 +39,7 @@ describe("AppComponent", () => {
   it("should call autologin", () => {
     const loginSpy = jasmine.createSpy("loginSpy");
 
-    MockInstance(AuthService, (instance, injector) => {
+    MockInstance(AuthService, (instance) => {
       instance.autologin = loginSpy;
     });
     const fixture = MockRender(AppComponent);

@@ -7,11 +7,11 @@ export class MockMeasurementsService {
 
   data = new Subject();
 
-  setWidget(widget: Widget) {
+  setWidget(_widget: Widget) {
     return;
   }
 
-  fetchMeasurements(start: Date, end: Date) {
+  fetchMeasurements(_start: Date, _end: Date) {
     this.data.next({
       1: {
         1: [this.testMeasurement],

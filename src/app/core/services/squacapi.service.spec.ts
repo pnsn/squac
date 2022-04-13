@@ -4,12 +4,10 @@ import {
   HttpTestingController,
 } from "@angular/common/http/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { HttpClient } from "@angular/common/http";
 import { Data } from "@angular/router";
 import { environment } from "../../../environments/environment";
 
 describe("SquacApiService", () => {
-  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: SquacApiService;
   const testUrl = "data/";
@@ -21,7 +19,6 @@ describe("SquacApiService", () => {
     });
 
     // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
 
     service = TestBed.inject(SquacApiService);

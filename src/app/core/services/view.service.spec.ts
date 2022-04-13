@@ -22,9 +22,8 @@ describe("ViewService", () => {
   let service: ViewService;
   let widgetsService;
   let dashboardsService;
-  let dateService;
   const abilityMock = {
-    can: (permission, resource) => {
+    can: (_permission, resource) => {
       return resource && resource.owner && resource.owner === 1;
     },
   };
@@ -61,8 +60,12 @@ describe("ViewService", () => {
         {
           provide: MessageService,
           useValue: {
-            message: (text) => {},
-            error: (text) => {},
+            message: (_text) => {
+              return;
+            },
+            error: (_text) => {
+              return;
+            },
           },
         },
         {
@@ -74,7 +77,6 @@ describe("ViewService", () => {
     service = TestBed.inject(ViewService);
     widgetsService = TestBed.inject(WidgetsService);
     dashboardsService = TestBed.inject(DashboardsService);
-    dateService = TestBed.inject(DateService);
     testDashboard = new Dashboard(
       1,
       1,

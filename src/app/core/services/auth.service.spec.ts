@@ -2,7 +2,6 @@ import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Router } from "@angular/router";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { AuthComponent } from "../components/auth/auth.component";
@@ -12,10 +11,7 @@ import { UserService } from "@features/user/services/user.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
 
 describe("AuthService", () => {
-  let router: Router;
-  let httpClientSpy: { get: jasmine.Spy };
   let authService: AuthService;
-  let squacApiService: SquacApiService;
 
   const testUserData = {
     email: "email@mail.com",
@@ -43,10 +39,7 @@ describe("AuthService", () => {
       ],
     });
 
-    router = TestBed.inject(Router);
-    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
     authService = TestBed.inject(AuthService);
-    squacApiService = TestBed.inject(SquacApiService);
 
     let store = {};
 
@@ -121,14 +114,14 @@ describe("AuthService", () => {
 
   it("should return true if user logged in", () => {
     expect(authService.loggedIn).toBe(false);
-    authService.login(testUserData.email, "password").subscribe((response) => {
+    authService.login(testUserData.email, "password").subscribe(() => {
       expect(authService.loggedIn).toEqual(true);
     });
   });
 
   it("should return the auth token", () => {
     expect(authService.auth).toBeUndefined();
-    authService.login(testUserData.email, "password").subscribe((response) => {
+    authService.login(testUserData.email, "password").subscribe(() => {
       expect(authService.auth).toBeDefined();
     });
   });

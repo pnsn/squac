@@ -14,9 +14,11 @@ describe("MessageService", () => {
         {
           provide: MatSnackBar,
           useValue: {
-            openFromComponent: (component, config) => {
+            openFromComponent: (_component, _config) => {
               return {
-                dismiss: () => {},
+                dismiss: () => {
+                  return;
+                },
               };
             },
           },

@@ -22,7 +22,6 @@ describe("ChannelGroupsService", () => {
     user_id: "1",
     organization: 1,
   };
-  let squacApiService;
 
   const mockSquacApiService = new MockSquacApiService(testChannelGroup);
 
@@ -32,7 +31,6 @@ describe("ChannelGroupsService", () => {
       providers: [{ provide: SquacApiService, useValue: mockSquacApiService }],
     });
     channelGroupsService = TestBed.inject(ChannelGroupsService);
-    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

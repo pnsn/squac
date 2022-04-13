@@ -14,15 +14,19 @@ describe("ConfirmDialogService", () => {
         {
           provide: MatDialog,
           useValue: {
-            open: (ref, options) => {
+            open: (_ref, _options) => {
               return {
-                close: (value) => {},
+                close: (_value) => {
+                  return;
+                },
                 afterClosed: () => {
                   return of(true);
                 },
               };
             },
-            closeAll: () => {},
+            closeAll: () => {
+              return;
+            },
           },
         },
       ],

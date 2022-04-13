@@ -8,7 +8,6 @@ import { throwError } from "rxjs";
 import { SquacApiService } from "../services/squacapi.service";
 
 describe("HttpErrorInterceptor", () => {
-  let service: SquacApiService;
   let interceptor;
   let httpRequestSpy;
   let httpHandlerSpy;
@@ -30,7 +29,6 @@ describe("HttpErrorInterceptor", () => {
       ],
     });
     interceptor = TestBed.inject(HttpErrorInterceptor);
-    service = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

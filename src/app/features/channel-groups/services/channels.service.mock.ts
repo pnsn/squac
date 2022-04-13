@@ -20,7 +20,7 @@ export class MockChannelsService {
     ""
   );
 
-  getChannelsByFilters(filters: Params): Observable<Channel[]> {
+  getChannelsByFilters(_filters: Params): Observable<Channel[]> {
     return of([this.testChannel]);
   }
 

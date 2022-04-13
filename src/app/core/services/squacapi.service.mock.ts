@@ -6,19 +6,19 @@ export class MockSquacApiService {
 
   constructor(private testData?: any) {}
 
-  get(path: string, id?: number, params?: any): Observable<any> {
+  get(_path: string, id?: number, _params?: any): Observable<any> {
     return of(id ? this.testData : [this.testData]);
   }
 
-  post(path: string, data: any): Observable<any> {
+  post(_path: string, _data: any): Observable<any> {
     return of(this.testData);
   }
 
-  put(path: string, id: number, data: any): Observable<any> {
+  put(_path: string, _id: number, _data: any): Observable<any> {
     return of(this.testData);
   }
 
-  patch(path: string, id: number, data: any): Observable<any> {
+  patch(_path: string, _id: number, _data: any): Observable<any> {
     return of(this.testData);
   }
 

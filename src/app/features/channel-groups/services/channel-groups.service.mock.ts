@@ -20,7 +20,7 @@ export class MockChannelGroupsService {
     return of(channelGroup);
   }
 
-  deleteChannelGroup(id: number): Observable<ChannelGroup> {
+  deleteChannelGroup(_id: number): Observable<ChannelGroup> {
     return of(this.testChannelGroup);
   }
 }

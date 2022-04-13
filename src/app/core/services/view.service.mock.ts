@@ -62,8 +62,12 @@ export class MockViewService {
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex((w) => w.id === id);
   }
-  private setIntialDates() {}
-  private widgetChanged(widgetId: number): void {}
+  private setIntialDates() {
+    return;
+  }
+  private widgetChanged(_widgetId: number): void {
+    return;
+  }
 
   resizeAll() {
     this.resize.next(null);
@@ -101,7 +105,7 @@ export class MockViewService {
     this.status.next("start");
   }
 
-  datesChanged(start, end) {
+  datesChanged(_start, _end) {
     this.dates.next(this.dashboard.id);
   }
 
@@ -116,12 +120,12 @@ export class MockViewService {
     this.status.next("finished");
   }
 
-  updateWidget(widgetId) {
+  updateWidget(_widgetId) {
     this.status.next("loading");
     this.widgetsChanged();
   }
 
-  deleteWidget(widgetId) {
+  deleteWidget(_widgetId) {
     this.status.next("loading");
     this.widgetsChanged();
   }
@@ -132,7 +136,7 @@ export class MockViewService {
   }
 
   saveDashboard() {
-    this.dashboard = this.dashboard;
+    return;
   }
 
   deleteDashboard() {
