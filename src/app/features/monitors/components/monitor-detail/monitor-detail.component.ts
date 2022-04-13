@@ -47,11 +47,11 @@ export class MonitorDetailComponent {
 
   deleteMonitor() {
     this.monitorService.deleteMonitor(this.monitor.id).subscribe(
-      (success) => {
+      () => {
         this.router.navigate(["/monitors"]);
         this.messageService.error("Monitor deleted.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not delete monitor.");
       }
     );

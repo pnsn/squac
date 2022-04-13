@@ -199,11 +199,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   // currently saves any time dates are changed, may want to move to a save button
-  selectDateRange(
-    startDate: dayjs.Dayjs,
-    endDate: dayjs.Dayjs,
-    range?: number
-  ) {
+  selectDateRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
     this.selected.startDate = this.dateService.toUtc(startDate);
     this.selected.endDate = this.dateService.toUtc(endDate);
   }

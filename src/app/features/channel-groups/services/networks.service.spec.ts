@@ -17,7 +17,6 @@ describe("NetworksService", () => {
     updated_at: "date",
     user_id: "1",
   };
-  let squacApiService;
   const mockSquacApiService = new MockSquacApiService(testNetwork);
 
   beforeEach(() => {
@@ -27,7 +26,6 @@ describe("NetworksService", () => {
     });
 
     networksService = TestBed.inject(NetworksService);
-    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

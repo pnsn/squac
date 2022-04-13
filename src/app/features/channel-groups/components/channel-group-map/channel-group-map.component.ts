@@ -29,13 +29,11 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     zoom: number;
     layers: L.Layer[];
   };
-  drawOptions: {};
+  drawOptions: Record<string, unknown>;
   layers: L.Layer[];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
-
-  constructor() {}
 
   ngOnInit() {
     this.initMap();

@@ -201,7 +201,7 @@ export class ViewService {
 
   // FIXME: this currently will cause all widgets to reload;
   // Tells widgets to get new data
-  private widgetChanged(widgetId: number): void {
+  private widgetChanged(_widgetId: number): void {
     this.status.next("finished");
     this.error.next(null);
   }
@@ -224,7 +224,7 @@ export class ViewService {
           this.widgetChanged(widgetId);
           this.messageService.message("Widget updated.");
         },
-        (error) => {
+        () => {
           this.messageService.error("Could not updated widget.");
         }
       );
@@ -234,11 +234,11 @@ export class ViewService {
   // deletes given widget
   deleteWidget(widgetId): void {
     this.widgetService.deleteWidget(widgetId).subscribe(
-      (next) => {
+      () => {
         this.updateWidget(widgetId);
         this.messageService.message("Widget deleted.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not delete widget.");
       }
     );
@@ -254,11 +254,11 @@ export class ViewService {
   // deletes the dashboard
   deleteDashboard(dashboardId): void {
     this.dashboardService.deleteDashboard(dashboardId).subscribe(
-      (response) => {
+      () => {
         this.messageService.message("Dashboard deleted.");
         // redirect to dashboards
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not delete dashboard.");
       }
     );
@@ -267,10 +267,10 @@ export class ViewService {
   // saves the dashboard to squac
   saveDashboard(): void {
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
-      (response) => {
+      () => {
         this.messageService.message("Dashboard saved.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not save dashboard.");
       }
     );

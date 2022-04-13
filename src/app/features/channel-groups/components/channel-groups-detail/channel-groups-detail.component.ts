@@ -71,11 +71,11 @@ export class ChannelGroupsDetailComponent implements OnInit, OnDestroy {
   // Delete channel group
   delete() {
     this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
-      (result) => {
+      () => {
         this.closeChannelGroup();
         this.messageService.message("Channel group deleted.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not delete channel group");
       }
     );

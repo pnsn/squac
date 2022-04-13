@@ -23,7 +23,6 @@ describe("ChannelsService", () => {
     "",
     ""
   );
-  let squacApiService;
   const mockSquacApiService = new MockSquacApiService(testChannel);
 
   beforeEach(() => {
@@ -38,7 +37,6 @@ describe("ChannelsService", () => {
     });
 
     channelsService = TestBed.inject(ChannelsService);
-    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

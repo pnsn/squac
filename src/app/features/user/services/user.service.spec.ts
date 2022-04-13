@@ -21,10 +21,10 @@ describe("UserService", () => {
     is_staff: false,
   };
   const mockSquacApiService = {
-    get: (url) => {
+    get: () => {
       return of(testData);
     },
-    patch: (url, id, data) => {
+    patch: () => {
       return of(testData);
     },
   };

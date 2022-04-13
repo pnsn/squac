@@ -10,7 +10,7 @@ import { Ability } from "@casl/ability";
 export class PermissionGuard implements CanActivate {
   constructor(private userService: UserService, private ability: Ability) {}
   // Returns true if there is a user and allows user to navigate
-  canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(_next: ActivatedRouteSnapshot): Observable<boolean> {
     return of(true);
     // FIXME: temporarily disabled
     // if (next.data && next.data.action && next.data.subject) {

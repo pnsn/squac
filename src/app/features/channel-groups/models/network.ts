@@ -31,6 +31,4 @@ export class NetworkAdapter implements Adapter<Network> {
   adaptFromApi(item: ApiGetNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }
-
-  adaptToApi() {}
 }

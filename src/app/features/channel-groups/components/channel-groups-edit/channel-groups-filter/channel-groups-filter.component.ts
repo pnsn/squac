@@ -6,7 +6,6 @@ import { Component, EventEmitter, Output } from "@angular/core";
   styleUrls: ["./channel-groups-filter.component.scss"],
 })
 export class ChannelGroupsFilterComponent {
-  constructor() {}
   @Output() filtersChanged = new EventEmitter<any>();
   filters = {
     network: "",

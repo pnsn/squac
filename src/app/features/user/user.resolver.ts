@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Resolve } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -14,7 +14,7 @@ export class UserResolver implements Resolve<Observable<any>> {
     private loadingService: LoadingService
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  resolve(): Observable<any> {
     this.loadingService.setStatus("Loading user");
     return this.userService.getUser().pipe(catchError(this.handleError));
   }

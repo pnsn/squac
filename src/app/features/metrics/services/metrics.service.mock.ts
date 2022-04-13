@@ -6,7 +6,7 @@ export class MockMetricsService {
 
   metrics = new BehaviorSubject<Metric[]>([]);
 
-  getMetrics(metricId: number): Observable<Metric[]> {
+  getMetrics(): Observable<Metric[]> {
     this.metrics.next([this.testMetric]);
     return of([this.testMetric]);
   }

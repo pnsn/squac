@@ -90,7 +90,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   }
 
   onDetailToggle(event) {
-    // console.log('Detail Toggled', event);
+    console.log("Detail Toggled", event);
   }
 
   // // onSelect function for data table selection

@@ -54,7 +54,7 @@ describe("OrganizationsService", () => {
 
   it("should return recently fetched organizations", () => {
     expect(service.organizations).toEqual([]);
-    service.getOrganizations().subscribe((response) => {
+    service.getOrganizations().subscribe(() => {
       expect(service.organizations.length).toEqual(1);
     });
   });
@@ -75,7 +75,7 @@ describe("OrganizationsService", () => {
     service
       .getOrganizations()
       .pipe(take(1))
-      .subscribe((org) => {
+      .subscribe(() => {
         expect(service.getOrgUserName(1)).toEqual(
           testUser.firstname + " " + testUser.lastname
         );

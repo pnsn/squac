@@ -76,7 +76,7 @@ export class WidgetEditComponent
       () => {
         this.cancel();
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not save widget.");
       }
     );

@@ -81,6 +81,4 @@ export class ChannelAdapter implements Adapter<Channel> {
       item.endtime
     );
   }
-
-  adaptToApi() {}
 }

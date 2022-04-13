@@ -48,7 +48,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
 
     if (this.dialogRef) {
       this.dialogRef.afterClosed().subscribe(
-        (result) => {
+        () => {
           if (this.monitorId) {
             this.router.navigate(["../../"], { relativeTo: this.route });
           } else {

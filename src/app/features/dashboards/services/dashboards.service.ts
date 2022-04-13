@@ -39,7 +39,7 @@ export class DashboardsService {
             return dashboard;
           })
         ),
-        tap((dashboards: Dashboard[]) => {
+        tap(() => {
           this.lastRefresh = new Date().getTime();
         })
       );

@@ -1,19 +1,10 @@
-import {
-  waitForAsync,
-  ComponentFixture,
-  TestBed,
-  inject,
-} from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditComponent } from "./widget-edit.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
-import {
-  MatDialogRef,
-  MatDialog,
-  MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { PureAbility } from "@casl/ability";
@@ -38,11 +29,7 @@ import { Subject } from "rxjs";
 describe("WidgetEditComponent", () => {
   let component: WidgetEditComponent;
   let fixture: ComponentFixture<WidgetEditComponent>;
-  let dialog: MatDialog;
 
-  const mockDialogRef = {
-    close: jasmine.createSpy("close"),
-  };
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -79,13 +66,13 @@ describe("WidgetEditComponent", () => {
     }).compileComponents();
   }));
 
-  beforeEach(inject([MatDialog, MAT_DIALOG_DATA], (d: MatDialog) => {
-    dialog = d;
+  beforeEach(() => {
+    // dialog = d;
 
     fixture = TestBed.createComponent(WidgetEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it("should create", () => {
     expect(component).toBeTruthy();

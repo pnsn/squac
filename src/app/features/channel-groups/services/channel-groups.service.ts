@@ -36,7 +36,7 @@ export class ChannelGroupsService {
           return group;
         })
       ),
-      tap((channelGroups) => {
+      tap(() => {
         this.lastRefresh = new Date().getTime();
       })
     );

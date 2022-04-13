@@ -25,8 +25,6 @@ describe("DashboardsService", () => {
     []
   );
 
-  let squacApiService;
-
   const mockSquacApiService = new MockSquacApiService(testDashboard);
 
   beforeEach(() => {
@@ -40,7 +38,6 @@ describe("DashboardsService", () => {
     });
 
     dashboardsService = TestBed.inject(DashboardsService);
-    squacApiService = TestBed.inject(SquacApiService);
   });
 
   it("should be created", () => {

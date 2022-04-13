@@ -109,7 +109,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
           this.filteredChannels = [...this.selectedChannels];
           this.getIdsFromChannels();
         },
-        (error) => {
+        () => {
           this.messageService.error("Could not load channel group.");
         }
       );
@@ -285,7 +285,7 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
         this.cancel(result.id);
         this.messageService.message("Channel group saved.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not save channel group.");
       }
     );
@@ -294,11 +294,11 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
   // Delete channel group
   delete() {
     this.channelGroupService.deleteChannelGroup(this.id).subscribe(
-      (result) => {
+      () => {
         this.cancel();
         this.messageService.message("Channel group deleted.");
       },
-      (error) => {
+      () => {
         this.messageService.error("Could not delete channel group");
       }
     );

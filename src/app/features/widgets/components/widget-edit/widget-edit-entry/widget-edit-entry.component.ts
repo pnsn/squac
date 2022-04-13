@@ -74,7 +74,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       });
 
       this.dialogRef.afterClosed().subscribe(
-        (result) => {
+        () => {
           if (this.widgetId) {
             this.router.navigate(["../../../"], { relativeTo: this.route });
           } else {

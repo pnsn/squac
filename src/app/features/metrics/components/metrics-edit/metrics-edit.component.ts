@@ -98,7 +98,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(
-        (result) => {
+        () => {
           this.cancel();
         },
         (error) => {

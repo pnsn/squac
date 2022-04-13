@@ -96,7 +96,7 @@ export class AuthService {
   // Removed token expiration for test users
 
   // Logs out user after expiration time passes
-  autologout(expirationDuration: number) {
+  autologout(_expirationDuration: number) {
     // console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
     // this.tokenExpirationTimer = setTimeout(() => {
     //   this.logout();

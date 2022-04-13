@@ -63,7 +63,7 @@ describe("MetricsService", () => {
 
   it("should put metric with id", (done: DoneFn) => {
     const putSpy = spyOn(squacApiService, "put").and.callThrough();
-    metricsService.updateMetric(testMetric).subscribe((metric) => {
+    metricsService.updateMetric(testMetric).subscribe(() => {
       expect(putSpy).toHaveBeenCalled();
       done();
     });
@@ -82,7 +82,7 @@ describe("MetricsService", () => {
       1
     );
 
-    metricsService.updateMetric(newMetric).subscribe((metric) => {
+    metricsService.updateMetric(newMetric).subscribe(() => {
       expect(postSpy).toHaveBeenCalled();
       done();
     });

@@ -71,7 +71,7 @@ export class ChannelGroupsViewComponent
     const routerEvents = this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
-        tap((event) => {
+        tap(() => {
           if (!this.route.firstChild) {
             this.clearSelectedChannelGroup();
           }
