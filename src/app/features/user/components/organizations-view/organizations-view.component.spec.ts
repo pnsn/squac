@@ -1,26 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { of } from "rxjs";
 
-import { OrganizationsViewComponent } from './organizations-view.component';
+import { OrganizationsViewComponent } from "./organizations-view.component";
 
-describe('OrganizationsViewComponent', () => {
+describe("OrganizationsViewComponent", () => {
   let component: OrganizationsViewComponent;
   let fixture: ComponentFixture<OrganizationsViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrganizationsViewComponent ],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          data : of({
-            organizations: []
-          })
-        }
-      }]
-    })
-    .compileComponents();
+      declarations: [OrganizationsViewComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            data: of({
+              organizations: [],
+            }),
+          },
+        },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('OrganizationsViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

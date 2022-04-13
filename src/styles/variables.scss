@@ -1,6 +1,6 @@
 /* Colors variables for Squac */
-@use '@angular/material' as mat;
-@import './squac-theme.scss';
+@use "@angular/material" as mat;
+@import "./squac-theme.scss";
 @include mat.core();
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -13,7 +13,11 @@ $squac-ui-neutral: mat.define-palette($mat-sqgray);
 $squac-ui-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$squac-ui-theme: mat.define-light-theme($squac-ui-primary, $squac-ui-accent, $squac-ui-warn);
+$squac-ui-theme: mat.define-light-theme(
+  $squac-ui-primary,
+  $squac-ui-accent,
+  $squac-ui-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

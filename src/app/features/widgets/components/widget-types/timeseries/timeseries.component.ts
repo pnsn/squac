@@ -5,29 +5,28 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  HostListener,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Metric } from '@core/models/metric';
-import { Channel } from '@core/models/channel';
-import { ViewService } from '@core/services/view.service';
-import { ChannelGroup } from '@core/models/channel-group';
-import { Widget } from '@features/widgets/models/widget';
-import { Threshold } from '@features/widgets/models/threshold';
-import { Measurement } from '@features/widgets/models/measurement';
-import * as dayjs from 'dayjs';
-import { DateService } from '@core/services/date.service';
+} from "@angular/core";
+import { Subscription } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { Channel } from "@core/models/channel";
+import { ViewService } from "@core/services/view.service";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Widget } from "@features/widgets/models/widget";
+import { Threshold } from "@features/widgets/models/threshold";
+import { Measurement } from "@features/widgets/models/measurement";
+import * as dayjs from "dayjs";
+import { DateService } from "@core/services/date.service";
 
 @Component({
-  selector: 'app-timeseries',
-  templateUrl: './timeseries.component.html',
-  styleUrls: ['./timeseries.component.scss'],
+  selector: "app-timeseries",
+  templateUrl: "./timeseries.component.html",
+  styleUrls: ["./timeseries.component.scss"],
 })
 export class TimeseriesComponent implements OnInit, OnDestroy {
   constructor(
     private viewService: ViewService,
     private dateService: DateService
-    ) {}
+  ) {}
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
@@ -39,18 +38,18 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   results: Array<any>;
   hasData: boolean;
   referenceLines;
-  xAxisLabel = 'Measurement Start Date';
+  xAxisLabel = "Measurement Start Date";
   yAxisLabel: string;
   currentMetric: Metric;
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
   };
 
   xScaleMin;
   xScaleMax;
   yScaleMin;
   yScaleMax;
-  @ViewChild('timeSeriesDivIdentifier')
+  @ViewChild("timeSeriesDivIdentifier")
   timeSeriesDivIdentifier: ElementRef;
 
   // Max allowable time between measurements to connect
@@ -82,7 +81,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        console.log('error in timeseries resize: ' + error);
+        console.log("error in timeseries resize: " + error);
       }
     );
 
@@ -123,14 +122,14 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     if (threshold) {
       if (threshold.min) {
         this.referenceLines.push({
-          name: 'Min Threshold',
+          name: "Min Threshold",
           value: threshold.min,
         });
       }
 
       if (threshold.max) {
         this.referenceLines.push({
-          name: 'Max Threshold',
+          name: "Max Threshold",
           value: threshold.max,
         });
       }
@@ -140,24 +139,24 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
   xAxisTickFormatting(value) {
     let formatOptions;
     if (value.getSeconds() !== 0) {
-      formatOptions = { second: '2-digit' };
+      formatOptions = { second: "2-digit" };
     } else if (value.getMinutes() !== 0) {
-      formatOptions = { hour: '2-digit', minute: '2-digit' };
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
     } else if (value.getHours() !== 0) {
-      formatOptions = { hour: '2-digit', minute: '2-digit' };
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
     } else if (value.getDate() !== 1) {
       formatOptions =
         value.getDay() === 0
-          ? { month: 'short', day: '2-digit' }
-          : { month: 'short', day: '2-digit' };
+          ? { month: "short", day: "2-digit" }
+          : { month: "short", day: "2-digit" };
     } else if (value.getMonth() !== 0) {
-      formatOptions = { month: 'long' };
+      formatOptions = { month: "long" };
     } else {
-      formatOptions = { year: 'numeric' };
+      formatOptions = { year: "numeric" };
     }
     formatOptions.hour12 = false;
-    formatOptions.timeZone = 'UTC';
-    return new Intl.DateTimeFormat('en-US', formatOptions).format(value);
+    formatOptions.timeZone = "UTC";
+    return new Intl.DateTimeFormat("en-US", formatOptions).format(value);
   }
 
   buildChartData(data) {
@@ -167,74 +166,72 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
     this.hasData = false;
     this.results = [];
 
-
     this.addThresholds();
 
-    this.yAxisLabel = this.currentMetric ? this.currentMetric.name + ' (' + this.currentMetric.unit + ')' : 'Unknown';
-    this.channels.forEach(
+    this.yAxisLabel = this.currentMetric
+      ? this.currentMetric.name + " (" + this.currentMetric.unit + ")"
+      : "Unknown";
+    this.channels.forEach((channel) => {
+      const channelObj = {
+        name: channel.nslc,
+        series: [],
+      };
 
-      channel => {
-        const channelObj = {
-          name : channel.nslc,
-          series : []
-        };
-
-        if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
-
-          let lastEnd: dayjs.Dayjs;
-          data[channel.id][this.currentMetric.id].forEach(
-            (measurement: Measurement) => {
-              if (measurement.value > max) {
-                max = measurement.value;
-              }
-              if (measurement.value < min) {
-                min = measurement.value;
-              }
-
-              // // If time between measurements is greater than gap, don't connect
-              if (channelObj.series.length > 0 && lastEnd) {
-                // time since last measurement
-                const start = this.dateService.parseUtc(measurement.starttime);
-
-                const diff = this.dateService.diff(start, lastEnd);
-
-                if (diff >= this.currentMetric.sampleRate * this.maxMeasurementGap) {
-                  this.results.push({name: channelObj.name, series: channelObj.series});
-                  channelObj.series = [];
-                }
-              }
-
-              // meas start
-              channelObj.series.push(
-                {
-                  name: this.dateService.parseUtc(measurement.starttime).toDate(),
-                  value: measurement.value
-                }
-              );
-
-              // meas end
-              channelObj.series.push(
-                {
-                  name: this.dateService.parseUtc(measurement.endtime).toDate(),
-                  value: measurement.value
-                }
-              );
-
-              lastEnd = this.dateService.parseUtc(measurement.endtime);
+      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        let lastEnd: dayjs.Dayjs;
+        data[channel.id][this.currentMetric.id].forEach(
+          (measurement: Measurement) => {
+            if (measurement.value > max) {
+              max = measurement.value;
+            }
+            if (measurement.value < min) {
+              min = measurement.value;
             }
 
-          );
-          // console.log(channelObj);
-          this.hasData = !this.hasData ? data[channel.id][this.currentMetric.id].length > 0 : this.hasData;
-        }
+            // // If time between measurements is greater than gap, don't connect
+            if (channelObj.series.length > 0 && lastEnd) {
+              // time since last measurement
+              const start = this.dateService.parseUtc(measurement.starttime);
 
-        if (channelObj.series.length > 0) {
-          this.results.push(channelObj);
-        }
+              const diff = this.dateService.diff(start, lastEnd);
 
+              if (
+                diff >=
+                this.currentMetric.sampleRate * this.maxMeasurementGap
+              ) {
+                this.results.push({
+                  name: channelObj.name,
+                  series: channelObj.series,
+                });
+                channelObj.series = [];
+              }
+            }
+
+            // meas start
+            channelObj.series.push({
+              name: this.dateService.parseUtc(measurement.starttime).toDate(),
+              value: measurement.value,
+            });
+
+            // meas end
+            channelObj.series.push({
+              name: this.dateService.parseUtc(measurement.endtime).toDate(),
+              value: measurement.value,
+            });
+
+            lastEnd = this.dateService.parseUtc(measurement.endtime);
+          }
+        );
+        // console.log(channelObj);
+        this.hasData = !this.hasData
+          ? data[channel.id][this.currentMetric.id].length > 0
+          : this.hasData;
       }
 
-    );
+      if (channelObj.series.length > 0) {
+        this.results.push(channelObj);
+      }
+    });
 
     this.yScaleMax = Math.round(max) + 25;
     this.yScaleMin = Math.round(min) - 25;

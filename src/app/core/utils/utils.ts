@@ -1,5 +1,5 @@
-import { Threshold } from '@features/widgets/models/threshold';
-import { defer } from 'rxjs';
+import { Threshold } from "@features/widgets/models/threshold";
+import { defer } from "rxjs";
 
 // App wide helper functions
 
@@ -65,10 +65,10 @@ export function absvalue(values, type: string): number {
   const maxabs = Math.abs(maxValue);
   const minabs = Math.abs(minValue);
 
-  if (type === 'min') {
+  if (type === "min") {
     return Math.min(minabs, maxabs);
   }
-  if (type === 'max') {
+  if (type === "max") {
     return Math.max(minabs, maxabs);
   }
 }

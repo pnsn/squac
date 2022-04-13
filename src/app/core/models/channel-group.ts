@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from './adapter';
-import { Channel, ChannelAdapter } from './channel';
+import { Injectable } from "@angular/core";
+import { Adapter } from "./adapter";
+import { Channel, ChannelAdapter } from "./channel";
 
 // Describes a channel group object
 export class ChannelGroup {
@@ -11,8 +11,7 @@ export class ChannelGroup {
     public description: string,
     public orgId: number,
     public channelIds: number[]
-  ) {
-  }
+  ) {}
 
   channels: Channel[];
 
@@ -21,7 +20,7 @@ export class ChannelGroup {
   }
 
   static get modelName() {
-    return 'ChannelGroup';
+    return "ChannelGroup";
   }
 }
 
@@ -46,21 +45,19 @@ export interface ApiPostChannelGroup {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
-  constructor(
-    private channelAdapter: ChannelAdapter
-  ){}
+  constructor(private channelAdapter: ChannelAdapter) {}
   adaptFromApi(item: ApiGetChannelGroup): ChannelGroup {
     let channelIds;
     let channels;
 
-    if (item.channels[0] && typeof item.channels[0] === 'number') {
+    if (item.channels[0] && typeof item.channels[0] === "number") {
       channelIds = item.channels;
     } else {
       channelIds = item.channels;
-      channels = item.channels.map( c => this.channelAdapter.adaptFromApi(c));
+      channels = item.channels.map((c) => this.channelAdapter.adaptFromApi(c));
     }
 
     const channelGroup = new ChannelGroup(
@@ -81,7 +78,7 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       name: item.name,
       description: item.description,
       channels: item.channelIds,
-      organization: item.orgId
+      organization: item.orgId,
     };
   }
 }

@@ -4,6 +4,7 @@
     "extensions": [".ts", ".html"]
   },
 
+  "editor.formatOnSave": true,
   // ... more config
 
   "eslint.validate": [

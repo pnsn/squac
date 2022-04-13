@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { LoadingService } from './loading.service';
+import { LoadingService } from "./loading.service";
 
-describe('LoadingService', () => {
+describe("LoadingService", () => {
   let service: LoadingService;
 
   beforeEach(() => {
@@ -10,46 +10,37 @@ describe('LoadingService', () => {
     service = TestBed.inject(LoadingService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set status of loading screen', () => {
-    service.setStatus('test');
-    service.loadingStatus.subscribe(
-        status => {
-          expect(status).toBe('test');
-        }
-    );
+  it("should set status of loading screen", () => {
+    service.setStatus("test");
+    service.loadingStatus.subscribe((status) => {
+      expect(status).toBe("test");
+    });
   });
 
-  it('should start loading', () => {
+  it("should start loading", () => {
     service.startLoading();
-    service.loading.subscribe(
-        loading => {
-          expect(loading).toEqual(true);
-        }
-    );
+    service.loading.subscribe((loading) => {
+      expect(loading).toEqual(true);
+    });
   });
 
-  it('should stop loading', () => {
+  it("should stop loading", () => {
     service.startLoading();
     service.stopLoading();
-    service.loading.subscribe(
-        loading => {
-          expect(loading).toEqual(false);
-        }
-    );
+    service.loading.subscribe((loading) => {
+      expect(loading).toEqual(false);
+    });
   });
 
-  it('should empty status', () => {
+  it("should empty status", () => {
     service.startLoading();
     service.stopLoading();
-    service.loadingStatus.subscribe(
-        status => {
-          expect(status).toBeNull();
-        }
-    );
+    service.loadingStatus.subscribe((status) => {
+      expect(status).toBeNull();
+    });
   });
-
 });

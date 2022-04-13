@@ -1,32 +1,31 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, HostListener, Inject, OnInit } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-confirm-dialog',
-  templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+  selector: "app-confirm-dialog",
+  templateUrl: "./confirm-dialog.component.html",
+  styleUrls: ["./confirm-dialog.component.scss"],
 })
 export class ConfirmDialogComponent implements OnInit {
   confirmButtonColor: string;
   canceButtonColor: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      cancelText: string,
-      confirmText: string,
-      message: string,
-      title: string
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      cancelText: string;
+      confirmText: string;
+      message: string;
+      title: string;
     },
     private matDialogRef: MatDialogRef<ConfirmDialogComponent>
-
-    ){}
+  ) {}
   ngOnInit(): void {
-    if (this.data.confirmText.toLowerCase() === 'delete') {
-      this.confirmButtonColor = 'warn';
+    if (this.data.confirmText.toLowerCase() === "delete") {
+      this.confirmButtonColor = "warn";
     } else {
-      this.confirmButtonColor = 'primary';
+      this.confirmButtonColor = "primary";
     }
-
   }
 
   public cancel() {
@@ -39,10 +38,8 @@ export class ConfirmDialogComponent implements OnInit {
     this.close(true);
   }
 
-  @HostListener('keydown.esc')
+  @HostListener("keydown.esc")
   public onEsc() {
     this.close(false);
   }
-
-
 }

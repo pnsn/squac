@@ -4,11 +4,14 @@
   height: 423px;
   width: 100%;
 }
-#metric-select-table{
+#metric-select-table {
   height: 100%;
   width: 100% !important;
 
-  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+  .ngx-datatable.material
+    .datatable-body
+    .datatable-body-row
+    .datatable-body-cell {
     padding: unset;
   }
 }

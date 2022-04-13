@@ -1,35 +1,32 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { UserService } from '@features/user/services/user.service';
-import { MockUserService } from '@features/user/services/user.service.mock';
-import { MaterialModule } from '@shared/material.module';
-import { SharedModule } from '@shared/shared.module';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { UserService } from "@features/user/services/user.service";
+import { MockUserService } from "@features/user/services/user.service.mock";
+import { MaterialModule } from "@shared/material.module";
+import { SharedModule } from "@shared/shared.module";
 
-import { UserSettingsComponent } from './user-settings.component';
+import { UserSettingsComponent } from "./user-settings.component";
 
-describe('UserSettingsComponent', () => {
+describe("UserSettingsComponent", () => {
   let component: UserSettingsComponent;
   let fixture: ComponentFixture<UserSettingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserSettingsComponent ],
+      declarations: [UserSettingsComponent],
       providers: [
-        {provide: UserService, useClass: MockUserService},
-        {provide: ActivatedRoute, useValue: {
-        }}
+        { provide: UserService, useClass: MockUserService },
+        { provide: ActivatedRoute, useValue: {} },
       ],
       imports: [
         SharedModule,
         RouterTestingModule,
         HttpClientTestingModule,
-        MaterialModule
-      ]
-    })
-    .compileComponents();
+        MaterialModule,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -38,7 +35,7 @@ describe('UserSettingsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

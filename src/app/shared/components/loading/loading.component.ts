@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-loading',
+  selector: "app-loading",
   template: '<div id="loading-container"><span>loading...<span><div>',
-  styleUrls: ['./loading.component.scss']
+  styleUrls: ["./loading.component.scss"],
 })
-export class LoadingComponent {
-
-  constructor() { }
-}
+export class LoadingComponent {}

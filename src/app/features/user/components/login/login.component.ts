@@ -1,38 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService} from '@core/services/auth.service';
-import { onErrorResumeNext, Observable, Subject, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Component, OnDestroy } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { AuthService } from "@core/services/auth.service";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 
 // This component handles the login page
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   error: string = null; // Has there been an error?
   hide = true;
   subscription = new Subscription();
-  loginForm: FormGroup;
+  loginForm: FormGroup = this.formBuilder.group({
+    email: ["", [Validators.required, Validators.email]],
+    password: ["", Validators.required],
+  });
 
   constructor(
     private loginService: AuthService,
-    private router: Router,
     private formBuilder: FormBuilder
-  ) { }
-
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-  }
+  ) {}
 
   // Form submit
   onSubmit() {
-
     if (!this.loginForm.valid) {
       return;
     }
@@ -42,11 +35,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // Send data and log user in
     const loginSub = this.loginService.login(email, password).subscribe(
-      response => {
-        this.error = 'Login successful.';
+      () => {
+        this.error = "Login successful.";
       },
-      error => {
-        this.error = 'Failed to log in - please try again';
+      () => {
+        this.error = "Failed to log in - please try again";
       }
     );
 
@@ -56,5 +49,4 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 }

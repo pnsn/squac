@@ -1,33 +1,20 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ViewService } from '@core/services/view.service';
-import { WidgetEditService } from '@features/widgets/services/widget-edit.service';
-import { MockWidgetEditService } from '@features/widgets/services/widget-edit.service.mock';
-import { MaterialModule } from '@shared/material.module';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
+import { MaterialModule } from "@shared/material.module";
+import { MockBuilder } from "ng-mocks";
 
-import { WidgetInfoEditComponent } from './widget-info-edit.component';
+import { WidgetInfoEditComponent } from "./widget-info-edit.component";
 
-describe('WidgetInfoEditComponent', () => {
+describe("WidgetInfoEditComponent", () => {
   let component: WidgetInfoEditComponent;
   let fixture: ComponentFixture<WidgetInfoEditComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ WidgetInfoEditComponent ],
-      imports: [
-        HttpClientTestingModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        ReactiveFormsModule
-      ],
-      providers: [ {provide: WidgetEditService, useValue: new MockWidgetEditService()}]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    return MockBuilder(WidgetInfoEditComponent)
+      .mock(MaterialModule)
+      .mock(ReactiveFormsModule)
+      .mock(WidgetEditService);
   });
 
   beforeEach(() => {
@@ -36,7 +23,7 @@ describe('WidgetInfoEditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

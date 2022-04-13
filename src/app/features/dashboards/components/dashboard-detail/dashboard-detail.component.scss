@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-#dashboard-header{
+#dashboard-header {
   height: 50px;
   top: 0px;
   position: sticky;
@@ -25,19 +25,18 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 0px 1px $sq-dk-gray;
-  
+
   #dashboard-info {
     h2 {
-      display:inline
+      display: inline;
     }
-    mat-icon{ 
+    mat-icon {
       vertical-align: text-bottom;
     }
-    span{
+    span {
       font-weight: 200;
     }
   }
-
 
   #header-controls {
     // height: 20px;
@@ -63,4 +62,3 @@
   height: 100%;
   width: 100%;
 }
-

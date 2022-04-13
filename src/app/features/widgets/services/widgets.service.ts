@@ -1,21 +1,21 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, forkJoin, of, throwError } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable, forkJoin, of } from "rxjs";
 import {
   ApiPostWidget,
   Widget,
   WidgetAdapter,
-} from '@features/widgets/models/widget';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
-import { ChannelGroup } from '@core/models/channel-group';
+} from "@features/widgets/models/widget";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { ChannelGroup } from "@core/models/channel-group";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 // Class for widget interaction with squac
 export class WidgetsService {
-  private url = 'dashboard/widgets/';
+  private url = "dashboard/widgets/";
 
   constructor(
     private squacApi: SquacApiService,
@@ -40,7 +40,12 @@ export class WidgetsService {
           });
 
           cGRequests = cGRequests.map((id) => {
-            return this.channelGroupsService.getChannelGroup(id).pipe(catchError((err) => {console.log(id); return of(id); }));
+            return this.channelGroupsService.getChannelGroup(id).pipe(
+              catchError((err) => {
+                console.log(id, err);
+                return of(id);
+              })
+            );
           });
           return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
         }),

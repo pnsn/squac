@@ -1,16 +1,14 @@
-import { NgModule } from '@angular/core';
-import { UserComponent } from '@features/user/components/user/user.component';
-import { PasswordResetComponent } from '@features/user/components/password-reset/password-reset.component';
-import { LoginComponent } from '@features/user/components/login/login.component';
-import { OrganizationDetailComponent } from '@features/user/components/organization-detail/organization-detail.component';
-import { UserEditComponent } from '@features/user/components/user-edit/user-edit.component';
+import { NgModule } from "@angular/core";
+import { UserComponent } from "@features/user/components/user/user.component";
+import { PasswordResetComponent } from "@features/user/components/password-reset/password-reset.component";
+import { LoginComponent } from "@features/user/components/login/login.component";
+import { OrganizationDetailComponent } from "@features/user/components/organization-detail/organization-detail.component";
+import { UserEditComponent } from "@features/user/components/user-edit/user-edit.component";
 
-import { SharedModule } from '@shared/shared.module';
-import { UserRoutingModule } from './user-routing.module';
-import { OrganizationsViewComponent } from './components/organizations-view/organizations-view.component';
-import { UserSettingsComponent } from './components/user-settings/user-settings.component';
-
-
+import { SharedModule } from "@shared/shared.module";
+import { UserRoutingModule } from "./user-routing.module";
+import { OrganizationsViewComponent } from "./components/organizations-view/organizations-view.component";
+import { UserSettingsComponent } from "./components/user-settings/user-settings.component";
 
 @NgModule({
   declarations: [
@@ -20,11 +18,8 @@ import { UserSettingsComponent } from './components/user-settings/user-settings.
     OrganizationDetailComponent,
     UserEditComponent,
     OrganizationsViewComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
   ],
-  imports: [
-    SharedModule,
-    UserRoutingModule
-  ]
+  imports: [SharedModule, UserRoutingModule],
 })
-export class UserModule { }
+export class UserModule {}

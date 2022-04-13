@@ -1,76 +1,63 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { LoginComponent } from "./login.component";
+import { AuthService } from "@core/services/auth.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { MaterialModule } from "@shared/material.module";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
+import { of } from "rxjs";
+import { UserModule } from "@features/user/user.module";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { LoginComponent } from './login.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '@core/services/auth.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockAuthService } from '@core/services/auth.service.mock';
-import { MaterialModule } from '@shared/material.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-
-
-
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
-  let authService: AuthService;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginComponent ],
-      imports: [ ReactiveFormsModule , MaterialModule,
-        NoopAnimationsModule,
-        RouterTestingModule.withRoutes([
-          { path: 'dashboards', component: LoginComponent},
-        ]
-      )],
-      providers: [
-        { provide: AuthService, useValue: new MockAuthService() }
-
-      ]
-    })
-    .compileComponents();
-  }));
-
+describe("LoginComponent", () => {
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
-    fixture.detectChanges();
-
+    return MockBuilder(LoginComponent, UserModule)
+      .keep(ReactiveFormsModule)
+      .keep(RouterTestingModule.withRoutes([]))
+      .mock(MaterialModule, NoopAnimationsModule)
+      .provide({
+        provide: AuthService,
+        useValue: {
+          login: () => of("Login Successful"),
+        },
+      });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it("should create", () => {
+    const fixture = MockRender(LoginComponent);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should submit user info if the form is valid', () => {
-    // const authSpy = spyOn(authService, "login");
+  it("should submit user info if the form is valid", () => {
+    const fixture = MockRender(LoginComponent);
+    const component = fixture.componentInstance;
+
     expect(component.loginForm).toBeDefined();
 
     component.loginForm.patchValue({
-      email: 'mail@mail.com',
-      password: 'password'
+      email: "mail@mail.com",
+      password: "password",
     });
 
     expect(component.loginForm.valid).toBeTruthy();
 
     component.onSubmit();
 
-    expect(component.error).toBe('Login successful.');
+    expect(component.error).toBe("Login successful.");
   });
 
-  it('should not submit if the form is not valid', () => {
-    const authSpy = spyOn(authService, 'login');
+  it("should not submit if the form is not valid", () => {
+    const authSpy = jasmine.createSpy();
+    MockInstance(AuthService, () => ({
+      login: authSpy,
+    }));
+    const fixture = MockRender(LoginComponent);
+    const component = fixture.componentInstance;
+
     expect(component.loginForm).toBeDefined();
     expect(component.loginForm.valid).toBeFalsy();
 
     component.onSubmit();
 
     expect(authSpy).not.toHaveBeenCalled();
-
   });
-
 });

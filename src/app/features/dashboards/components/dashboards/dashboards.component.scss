@@ -2,11 +2,10 @@
   position: absolute;
   top: 50px;
   left: 0;
-  bottom:0;
+  bottom: 0;
   right: 0;
-
 }
-mat-sidenav{
+mat-sidenav {
   width: 18%;
   max-width: 350px;
   min-width: 150px;
@@ -18,7 +17,6 @@ mat-sidenav{
   z-index: 800 !important;
   visibility: visible !important;
   button {
-    color: white; 
+    color: white;
   }
 }
-

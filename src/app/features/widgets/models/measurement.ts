@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 export class Measurement {
   constructor(
@@ -13,14 +13,14 @@ export class Measurement {
   ) {}
 
   static get modelName() {
-    return 'Measurement';
+    return "Measurement";
   }
 }
 
 export interface ApiGetMeasurement {
   channel: number;
-  metric:	number;
-  id:	number;
+  metric: number;
+  id: number;
   user_id: string;
   value: number;
   starttime: string;
@@ -29,12 +29,9 @@ export interface ApiGetMeasurement {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MeasurementAdapter implements Adapter<Measurement> {
-  constructor(
-  ){}
-
   adaptFromApi(item: ApiGetMeasurement): Measurement {
     const measurement = new Measurement(
       item.id,

@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
-import { ApiGetChannel, Channel } from '@core/models/channel';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 export class Network {
   constructor(
     public code: string,
     public name: string,
     public description: string
-  ) {
-
-  }
+  ) {}
 
   static get modelName() {
-    return 'Network';
+    return "Network";
   }
 }
 
@@ -28,16 +25,10 @@ export interface ApiGetNetwork {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class NetworkAdapter implements Adapter<Network> {
   adaptFromApi(item: ApiGetNetwork): Network {
-    return new Network(
-      item.code,
-      item.name,
-      item.description
-    );
+    return new Network(item.code, item.name, item.description);
   }
-
-  adaptToApi(){}
 }

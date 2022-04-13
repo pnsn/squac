@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { UserService } from '@features/user/services/user.service';
-import { BehaviorSubject } from 'rxjs';
-import { LoadingService } from './loading.service';
-import { ConfigurationService } from './configuration.service';
+import { Injectable } from "@angular/core";
+import { tap } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { UserService } from "@features/user/services/user.service";
+import { LoadingService } from "./loading.service";
+import { ConfigurationService } from "./configuration.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 
 // Handles log in logic and API requests for login
 export class AuthService {
-  private url = 'user/token/';
+  private url = "user/token/";
 
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
@@ -26,7 +25,7 @@ export class AuthService {
     private loadingService: LoadingService,
     private configService: ConfigurationService
   ) {
-    this.expirationTime = configService.getValue('userExpirationTimeHours', 6);
+    this.expirationTime = configService.getValue("userExpirationTimeHours", 6);
   }
 
   // True if a user logged in
@@ -39,21 +38,20 @@ export class AuthService {
     return this.token;
   }
 
-
   // Checks if user data exists in browser
   autologin() {
-
     // Looks for local user data
     const authData: {
-      token: string,
-      tokenExpirationDate: string
-    } = JSON.parse(localStorage.getItem('userData'));
+      token: string;
+      tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem("userData"));
 
     // if no data or the expiration date has passed
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
     } else {
-      const expirationDuration = new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
+      const expirationDuration =
+        new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
 
       this.signInUser(authData.token, expirationDuration);
     }
@@ -61,33 +59,32 @@ export class AuthService {
 
   // after user enters data, log them in
   login(userEmail: string, userPassword: string) {
-    return this.squacApi.post(this.url,
-      {
-        email : userEmail,
-        password : userPassword
-      }
-    ).pipe(
-      tap(resData => {
-        // TODO: Get expiration time from Jon
-        this.handleAuth(resData.token, this.expirationTime);
-
-        if (this.redirectUrl) {
-          this.router.navigate([this.redirectUrl]);
-          this.redirectUrl = null;
-        } else {
-          this.router.navigate(['/']);
-        }
-
+    return this.squacApi
+      .post(this.url, {
+        email: userEmail,
+        password: userPassword,
       })
-    );
+      .pipe(
+        tap((resData) => {
+          // TODO: Get expiration time from Jon
+          this.handleAuth(resData.token, this.expirationTime);
+
+          if (this.redirectUrl) {
+            this.router.navigate([this.redirectUrl]);
+            this.redirectUrl = null;
+          } else {
+            this.router.navigate(["/"]);
+          }
+        })
+      );
   }
 
   // after user hits log out, wipe data
   logout() {
     this.userService.logout();
     this.token = null;
-    this.router.navigate(['/login']);
-    localStorage.removeItem('userData');
+    this.router.navigate(["/login"]);
+    localStorage.removeItem("userData");
 
     // TODO: make sure all modals close
     if (this.tokenExpirationTimer) {
@@ -99,7 +96,7 @@ export class AuthService {
   // Removed token expiration for test users
 
   // Logs out user after expiration time passes
-  autologout(expirationDuration: number) {
+  autologout(_expirationDuration: number) {
     // console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
     // this.tokenExpirationTimer = setTimeout(() => {
     //   this.logout();
@@ -113,18 +110,17 @@ export class AuthService {
 
     const authData = {
       token,
-      tokenExpirationDate: expirationDate
+      tokenExpirationDate: expirationDate,
     };
 
-    localStorage.setItem('userData', JSON.stringify(authData));
+    localStorage.setItem("userData", JSON.stringify(authData));
     this.signInUser(authData.token, msToExpire);
   }
 
   // handles the sign in
   private signInUser(token, expiration) {
-
     this.autologout(expiration);
     this.token = token;
-    this.loadingService.setStatus('Logging in and loading data.');
+    this.loadingService.setStatus("Logging in and loading data.");
   }
 }

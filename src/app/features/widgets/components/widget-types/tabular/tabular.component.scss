@@ -18,17 +18,17 @@
 }
 
 :host ::ng-deep .in-spec {
-  background-color: #4488A9 !important;
+  background-color: #4488a9 !important;
 }
 :host ::ng-deep .out-of-spec {
-  background-color: #ffb758  !important;
+  background-color: #ffb758 !important;
 }
 
 :host ::ng-deep .datatable-tree-button:disabled {
-  display:none;
+  display: none;
 }
 
-.ngx-datatable{
+.ngx-datatable {
   width: 100% !important;
   height: 100%;
 }

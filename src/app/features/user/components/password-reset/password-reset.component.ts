@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { PasswordResetService } from '../../services/password-reset.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
+import { PasswordResetService } from "../../services/password-reset.service";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-password-reset',
-  templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.scss']
+  selector: "app-password-reset",
+  templateUrl: "./password-reset.component.html",
+  styleUrls: ["./password-reset.component.scss"],
 })
 export class PasswordResetComponent implements OnInit {
-
   constructor(
     private passwordResetService: PasswordResetService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
   emailSent = false; // has email been sent
   tokenValidated = false; // has token been validated
   error: string; // error message
@@ -23,43 +21,37 @@ export class PasswordResetComponent implements OnInit {
   attempts = 0; // soft block for too many
   token: string; // the token
 
-  email = new FormControl('', [
+  email = new FormControl("", [Validators.required, Validators.email]);
+
+  newPassword = new FormControl("", [
     Validators.required,
-    Validators.email,
+    Validators.minLength(6),
   ]);
 
-  newPassword = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
-
-  passwordConfirm = new FormControl('', [
-    Validators.required
-  ]);
+  passwordConfirm = new FormControl("", [Validators.required]);
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(
-      params => {
-        this.token = params.token;
-        if (this.token) {
-          this.emailSent = true;
-          this.sendToken(this.token);
-        } else {
-          this.emailSent = false;
-        }
+    this.route.queryParams.subscribe((params) => {
+      this.token = params.token;
+      if (this.token) {
+        this.emailSent = true;
+        this.sendToken(this.token);
+      } else {
+        this.emailSent = false;
+      }
     });
   }
 
   sendEmail() {
     if (this.attempts > 4) {
-      this.error = 'Too many attempts, contact pnsn@uw.edu to reset password';
+      this.error = "Too many attempts, contact pnsn@uw.edu to reset password";
     }
     this.passwordResetService.resetPassword(this.email.value).subscribe(
-      response => {
+      (response) => {
         this.emailSent = !!response;
         this.attempts++;
       },
-      error => {
+      (error) => {
         this.error = error;
       }
     );
@@ -72,11 +64,11 @@ export class PasswordResetComponent implements OnInit {
 
   sendToken(token: string) {
     this.passwordResetService.validateToken(token).subscribe(
-      response => {
+      (response) => {
         // go to next step
         this.tokenValidated = !!response;
       },
-      error => {
+      (error) => {
         this.error = error;
       }
     );
@@ -90,10 +82,10 @@ export class PasswordResetComponent implements OnInit {
       return;
     }
     this.passwordResetService.confirmPassword(password1).subscribe(
-      response => {
-        this.router.navigate(['/login']);
+      () => {
+        this.router.navigate(["/login"]);
       },
-      error => {
+      (error) => {
         this.error = error;
       }
     );

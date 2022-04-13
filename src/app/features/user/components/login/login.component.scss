@@ -1,13 +1,13 @@
-@import 'variables';
+@import "variables";
 
 form {
-  display:flex;
+  display: flex;
   flex-direction: column;
   mat-form-field {
-    margin-top: 15px ;
+    margin-top: 15px;
   }
   .mat-form-field-wrapper {
-    margin: .12em 0;
+    margin: 0.12em 0;
   }
   #forgot-password {
     align-self: flex-start;
@@ -17,5 +17,5 @@ form {
 
 a {
   color: $sq-dk-gray;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }

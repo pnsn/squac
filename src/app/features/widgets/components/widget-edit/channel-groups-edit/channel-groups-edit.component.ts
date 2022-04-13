@@ -5,28 +5,28 @@ import {
   Input,
   AfterViewInit,
   ViewChild,
-} from '@angular/core';
-import { ChannelGroup } from '@core/models/channel-group';
-import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
-import { WidgetEditService } from '../../../services/widget-edit.service';
-import { Subscription } from 'rxjs';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
-import { Organization } from '@features/user/models/organization';
-import { OrganizationPipe } from '@shared/pipes/organization.pipe';
-import { OrganizationsService } from '@features/user/services/organizations.service';
-import { UserService } from '@features/user/services/user.service';
-import { UserPipe } from '@shared/pipes/user.pipe';
+} from "@angular/core";
+import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { WidgetEditService } from "../../../services/widget-edit.service";
+import { Subscription } from "rxjs";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { Organization } from "@features/user/models/organization";
+import { OrganizationPipe } from "@shared/pipes/organization.pipe";
+import { OrganizationsService } from "@features/user/services/organizations.service";
+import { UserService } from "@features/user/services/user.service";
+import { UserPipe } from "@shared/pipes/user.pipe";
 
 @Component({
-  selector: 'app-channel-groups-edit',
-  templateUrl: './channel-groups-edit.component.html',
-  styleUrls: ['./channel-groups-edit.component.scss'],
+  selector: "app-channel-groups-edit",
+  templateUrl: "./channel-groups-edit.component.html",
+  styleUrls: ["./channel-groups-edit.component.scss"],
 })
 export class ChannelGroupsEditComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() channelGroups: ChannelGroup[];
-  @ViewChild('channelTable') channelTable;
+  @ViewChild("channelTable") channelTable;
   availableChannelGroups: ChannelGroup[];
   selectedChannelGroup: ChannelGroup[] = [];
   subscriptions: Subscription = new Subscription();
@@ -71,18 +71,18 @@ export class ChannelGroupsEditComponent
     this.subscriptions.add(orgSub);
 
     this.columns = [
-      { name: 'Name', draggable: false, sortable: true },
-      { name: 'Description', draggable: false, sortable: true },
+      { name: "Name", draggable: false, sortable: true },
+      { name: "Description", draggable: false, sortable: true },
       {
-        name: '# Channels',
-        prop: 'channelIds.length',
+        name: "# Channels",
+        prop: "channelIds.length",
         draggable: false,
         sortable: true,
         width: 20,
       },
       {
-        name: 'Owner',
-        prop: 'owner',
+        name: "Owner",
+        prop: "owner",
         draggable: false,
         sortable: true,
         width: 50,
@@ -90,8 +90,8 @@ export class ChannelGroupsEditComponent
         comparator: this.userComparator.bind(this),
       },
       {
-        name: 'Org',
-        prop: 'orgId',
+        name: "Org",
+        prop: "orgId",
         draggable: false,
         sortable: true,
         width: 20,
@@ -154,7 +154,7 @@ export class ChannelGroupsEditComponent
             this.loading = false;
           },
           (error) => {
-            console.log('error in channel grouups edit update: ' + error);
+            console.log("error in channel grouups edit update: " + error);
           }
         );
 

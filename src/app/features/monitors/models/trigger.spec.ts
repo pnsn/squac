@@ -1,14 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { MockService } from 'ng-mocks';
-import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
+import { TestBed } from "@angular/core/testing";
+import { MockService } from "ng-mocks";
+import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
 
-describe('Trigger', () => {
+describe("Trigger", () => {
   let adapter: TriggerAdapter;
-  it('should create an instance', () => {
+  it("should create an instance", () => {
     expect(MockService(Trigger)).toBeTruthy();
   });
 
-  it('should adapt from api to trigger', () => {
+  it("should adapt from api to trigger", () => {
     adapter = TestBed.inject(TriggerAdapter);
 
     const testData: ApiGetTrigger = {
@@ -24,18 +24,17 @@ describe('Trigger', () => {
       updated_at: "string",
       user_id: "string",
       alert_on_out_of_alarm: false,
-      email_list: "string" //comma separated
+      email_list: "string", //comma separated
     };
 
     const trigger = adapter.adaptFromApi(testData);
     expect(trigger).toBeDefined();
   });
 
-  it('should adapt from trigger to api', () => {
+  it("should adapt from trigger to api", () => {
     adapter = TestBed.inject(TriggerAdapter);
     const trigger = MockService(Trigger);
     const triggerJson = adapter.adaptToApi(trigger);
     expect(triggerJson).toBeDefined();
   });
-
 });

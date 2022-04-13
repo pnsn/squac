@@ -1,24 +1,22 @@
-
 {
   "appTitle": "SQUAC",
-  "dataRefreshIntervalMinutes" : 5,
-  "dateRanges" : 
-    {
-      "900" : "last 15 minutes",
-      "1800" : "last 30 minutes",
-      "3600" : "last 1 hour",
-      "43200" : "last 12 hours",
-      "86400": "last 24 hours",
-      "604800" : "last 7 days",
-      "1209600" : "last 14 days",
-      "2592000" : "last 30 days"
-     },
+  "dataRefreshIntervalMinutes": 5,
+  "dateRanges": {
+    "900": "last 15 minutes",
+    "1800": "last 30 minutes",
+    "3600": "last 1 hour",
+    "43200": "last 12 hours",
+    "86400": "last 24 hours",
+    "604800": "last 7 days",
+    "1209600": "last 14 days",
+    "2592000": "last 30 days"
+  },
 
-  "locale" : {
+  "locale": {
     "format": "YYYY-MM-DDTHH:mm:ss[Z]",
     "displayFormat": "YYYY/MM/DD HH:mm",
     "direction": "ltr"
   },
-  "userExpirationTimeHours" : 6,
+  "userExpirationTimeHours": 6,
   "defaultTimeRange": 3600
 }
