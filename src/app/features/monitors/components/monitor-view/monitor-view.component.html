@@ -22,114 +22,83 @@
   </div>
 </div>
 
+<!-- [scrollbarV]="50"
+[rowHeight]="23"
+[headerHeight]="50"
+[footerHeight]="50"
+[rowHeight]="40" -->
+
 <div id="monitors" class="box">
   <ngx-datatable
     #monitorTable
-    id="monitor-table"
     class="material"
-    [rows]="monitors"
+    [rows]="triggers"
+    [groupRowsBy]="'id'"
     [columnMode]="ColumnMode.force"
-    [headerHeight]="30"
+    [scrollbarH]="true"
+    [groupExpansionDefault]="true"
+    [headerHeight]="50"
     [footerHeight]="50"
-    [rowHeight]="23"
-    [scrollbarV]="50"
+    [rowHeight]="40"
   >
-    <ngx-datatable-row-detail
-      [rowHeight]="340"
-      #myDetailRow
+    <!-- Group Header Template -->
+    <ngx-datatable-group-header
+      [rowHeight]="50"
+      #monitorHeader
       (toggle)="onDetailToggle($event)"
     >
       <ng-template
-        let-row="row"
+        let-group="group"
         let-expanded="expanded"
-        ngx-datatable-row-detail-template
+        ngx-datatable-group-header-template
       >
-        <app-monitor-detail
-          [monitor]="row"
-          [alerts]="getAlerts(row.id)"
-        ></app-monitor-detail>
-      </ng-template>
-    </ngx-datatable-row-detail>
-    <ngx-datatable-column
-      [width]="25"
-      [resizeable]="false"
-      [sortable]="false"
-      [draggable]="false"
-      [canAutoResize]="false"
-    >
-      <ng-template
-        let-row="row"
-        let-expanded="expanded"
-        ngx-datatable-cell-template
-      >
-        <a
-          href="javascript:void(0)"
-          title="Expand/Collapse Row"
-          (click)="toggleExpandRow(row)"
+        <div
+          class="monitor-container"
+          *ngIf="getMonitor(group.value[0]?.monitorId)[0] as monitor"
         >
-          <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
-          <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
-        </a>
+          {{ monitor?.name }}
+          <div>
+            <a
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Group"
+              (click)="toggleExpandGroup(group)"
+            >
+              <b>{{ monitor.name }}</b>
+            </a>
+            <span>
+              {{ monitor.stat }}
+              {{ monitor.intervalType }}
+              {{ monitor.intervalCount }}
+              {{ monitor.channelGroup.name }}
+              {{ monitor.metric.name }}
+            </span>
+          </div>
+        </div>
+      </ng-template>
+    </ngx-datatable-group-header>
+    <ngx-datatable-column name="State">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        {{ getAlert(row.id) }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Status"
-      prop="inAlarm"
-      [draggable]="false"
-      [sortable]="false"
-      [width]="45"
-    >
-      <ng-template
-        let-rowIndex="rowIndex"
-        let-row="row"
-        ngx-datatable-cell-template
-      >
-        <span *ngIf="getAlert(row.id)?.inAlarm; else notAlarm"
-          ><strong>In Alarm</strong></span
-        >
-        <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
+    <ngx-datatable-column name="Conditions">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        {{ row.num_channels }} {{ row.num_channels_operator }}
+        {{ row.value_operator }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Monitor"
-      prop="name"
-      [draggable]="false"
-      [sortable]="false"
-    >
-    </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Channels"
-      prop="channelGroup"
-      [draggable]="false"
-      [sortable]="false"
-    >
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{ value.name }}
+    <ngx-datatable-column name="Actions">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        {{ row.alert_on_out_of_alarm ? "alert when out" : "alert when in" }}
+        {{ row.email_list ? "email" : "" }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Metric"
-      prop="metric"
-      [draggable]="false"
-      [sortable]="false"
-    >
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{ row.stat }} of {{ value.name }}
+    <ngx-datatable-column name="Recipients">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        {{ row.email_list }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Interval"
-      prop="intervalType"
-      [draggable]="false"
-      [sortable]="false"
-      [width]="50"
-    >
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{ row.intervalCount }} {{ value
-        }}{{ row.intervalCount > 1 ? "s" : "" }}
-      </ng-template>
-    </ngx-datatable-column>
-    <!-- click to show more detail -->
   </ngx-datatable>
 </div>
 <router-outlet></router-outlet>

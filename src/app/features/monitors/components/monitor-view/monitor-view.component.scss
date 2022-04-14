@@ -18,8 +18,13 @@
   width: 100%;
   height: 85%;
   overflow: hidden;
+  text-align: unset;
   #monitor-table {
     width: 100%;
     height: 100%;
   }
+}
+
+.monitor-container {
+  height: 40px;
 }

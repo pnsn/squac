@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
 import { Monitor } from "@features/monitors/models/monitor";
+import { Trigger } from "@features/monitors/models/trigger";
 import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
+import { TriggersService } from "@features/monitors/services/triggers.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 @Component({
@@ -13,7 +16,7 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 })
 export class MonitorViewComponent implements OnInit, AfterViewInit {
   monitors: Monitor[];
-
+  triggers: Trigger[];
   selected: Monitor[];
   @ViewChild("monitorTable") table: any;
   selectedMonitorId: number;
@@ -23,7 +26,9 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertsService: AlertsService,
-    private monitorsService: MonitorsService
+    private monitorsService: MonitorsService,
+    private dateService: DateService,
+    private triggersService: TriggersService
   ) {}
 
   // Table stuff
@@ -32,7 +37,9 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.selected = [];
-
+    this.triggersService
+      .getTriggers()
+      .subscribe((triggers) => (this.triggers = triggers));
     this.route.parent.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
         this.error = true;
@@ -50,9 +57,12 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
-    this.alertsService.getAlerts().subscribe((alerts) => {
-      this.alerts = alerts;
-    });
+    const lastHour = this.dateService.subtractFromNow(1, "hour").format();
+    this.alertsService
+      .getAlerts({ starttime: lastHour })
+      .subscribe((alerts) => {
+        this.alerts = alerts;
+      });
     this.monitorsService.getMonitors().subscribe((monitors) => {
       this.monitors = monitors;
     });
@@ -65,8 +75,8 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   }
 
   getAlert(id: number) {
-    const alert = this.alerts.filter((a) => a.trigger.monitorId === id)[0];
-    return alert ? alert : "no data";
+    const alert = this.alerts.filter((a) => a.trigger.id === id)[0];
+    return alert ? alert : "insufficient data";
   }
 
   getAlerts(id: number) {
@@ -77,6 +87,10 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 
+  getMonitor(id: number) {
+    return this.monitors.filter((a) => a.id === id);
+  }
+
   // Getting a selected channel group and setting variables
   selectMonitor(selectedMonitorId: number) {
     this.selected = this.monitors.filter((cg) => {
@@ -85,8 +99,12 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleExpandRow(row) {
-    this.table.rowDetail.toggleExpandRow(row);
+  // toggleExpandRow(row) {
+  //   this.table.rowDetail.toggleExpandRow(row);
+  // }
+  toggleExpandGroup(group) {
+    console.log("Toggled Expand Group!", group);
+    this.table.groupHeader.toggleExpandGroup(group);
   }
 
   onDetailToggle(event) {

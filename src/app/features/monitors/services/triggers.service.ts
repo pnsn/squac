@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
+import { map, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Trigger, TriggerAdapter } from "../models/trigger";
 
@@ -13,6 +14,16 @@ export class TriggersService {
     private squacApi: SquacApiService,
     private triggerAdapter: TriggerAdapter
   ) {}
+
+  getTriggers(): Observable<Trigger[]> {
+    return this.squacApi
+      .get(this.url)
+      .pipe(
+        map((results) =>
+          results.map((r) => this.triggerAdapter.adaptFromApi(r))
+        )
+      );
+  }
 
   updateTriggers(
     triggers: Trigger[],

@@ -17,7 +17,7 @@ export class SquacApiService {
   // TODO test
 
   // http get with optional id & params
-  get(path: string, id?: number, params?: Params): Observable<any> {
+  get(path: string, id?: number, params?: Params): Observable<any | any[]> {
     const url = this.baseUrl + path + (id ? id + "/" : "");
     return this.http.get<any>(url, {
       params,
