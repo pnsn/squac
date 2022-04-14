@@ -5,9 +5,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 
-$squac-ui-primary: mat.define-palette($mat-sqblue);
+$squac-ui-primary: mat.define-palette($mat-sqblue, 500, 300, 700);
 $squac-ui-accent: mat.define-palette($mat-sqyellow, 500, 900, A100);
-$squac-ui-neutral: mat.define-palette($mat-sqgray);
+$squac-ui-neutral: mat.define-palette($mat-sqgray, 300, 50, 600);
 
 // The warn palette is optional (defaults to red).
 $squac-ui-warn: mat.define-palette(mat.$red-palette);
@@ -29,7 +29,7 @@ $sq-dk-yellow: mat.get-color-from-palette($squac-ui-accent, darker);
 $sq-dk-blue: mat.get-color-from-palette($squac-ui-primary, darker);
 $sq-blue: mat.get-color-from-palette($squac-ui-primary);
 $sq-lt-blue: mat.get-color-from-palette($squac-ui-primary, lighter);
-$sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral);
-$sq-gray: mat.get-color-from-palette($squac-ui-neutral, 100);
-$sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, 50);
+$sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral, darker);
+$sq-gray: mat.get-color-from-palette($squac-ui-neutral);
+$sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, lighter);
 $sq-warn: mat.get-color-from-palette($squac-ui-warn);

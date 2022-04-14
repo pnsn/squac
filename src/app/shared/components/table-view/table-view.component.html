@@ -1,0 +1,18 @@
+<div id="table-view-container" class="border-shadow">
+  <div id="table-head" class="gray-background">
+    <h2>
+      {{ title }}
+    </h2>
+    <div id="controls">
+      <ng-content select="[tableHeadControls]"> </ng-content>
+    </div>
+    <div id="filters">
+      <ng-content select="[tableHeadFilters]"> </ng-content>
+    </div>
+  </div>
+  <div id="table-body">
+    <ng-content select="[tableBody]"></ng-content>
+  </div>
+</div>
+
+<!-- manage data in parent component -->

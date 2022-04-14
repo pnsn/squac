@@ -18,6 +18,16 @@
   font-family: "Source Sans Pro", sans-serif;
 }
 
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  // background-color: darken($sq-lt-gray, 5);
+}
+
 /* Background color */
 
 .blue {
@@ -82,6 +92,11 @@ p {
   margin-top: 5px;
 }
 
+.mat-button,
+.mat-flat-button {
+  border-radius: 0 !important;
+}
+
 /* Button styling on headers */
 .btn-container-right {
   float: right;
@@ -138,6 +153,11 @@ p {
   border: 1px solid $sq-gray;
 }
 
+.border-shadow {
+  box-shadow: -1px 1px 2px $sq-lt-gray, 1px 1px 2px $sq-lt-gray;
+  border: 1px solid darken($sq-lt-gray, 10);
+}
+
 /* Popup formatting */
 .popup {
   position: fixed;
@@ -169,6 +189,51 @@ p {
 /* Data Table*/
 datatable-scroller {
   width: 100% !important;
+  border-bottom: 0px !important;
+}
+
+ngx-datatable.shared-view-table {
+  a {
+    color: $sq-blue;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  $default-border: 1px solid darken($sq-lt-gray, 10);
+  datatable-header {
+    background-color: $sq-lt-gray;
+    border-top: $default-border;
+    border-bottom: $default-border;
+    .datatable-row-center {
+      datatable-header-cell {
+        border-left: $default-border;
+        border-collapse: collapse;
+        line-height: unset !important;
+        .datatable-header-cell-wrapper {
+          padding: 0px 5px;
+          .datatable-header-cell-label {
+            font-weight: bold;
+          }
+        }
+        .sort-btn {
+          float: right;
+        }
+      }
+      datatable-header-cell:nth-child(1) {
+        border-left: none;
+      }
+    }
+  }
+  datatable-row-wrapper {
+    border-bottom: $default-border;
+    .datatable-group-header {
+      padding: 5px !important;
+    }
+  }
+  .datatable-group-header {
+    background-color: transparent !important;
+  }
 }
 ngx-datatable {
   width: 100% !important;
@@ -265,14 +330,6 @@ ngx-datatable {
 
 .widget-container {
   @extend .box;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
 }
 
 .chart-tooltip {

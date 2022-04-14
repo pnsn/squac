@@ -1,7 +1,5 @@
-<div id="title">
-  <h1>Monitors</h1>
-
-  <div id="button-container">
+<app-table-view title="Monitors" (refresh)="refresh()">
+  <ng-container tableHeadControls>
     <button
       mat-icon-button
       aria-label="button that refreshes data"
@@ -19,86 +17,101 @@
     >
       Create Monitor
     </button>
-  </div>
-</div>
+  </ng-container>
+  <ng-container tableHeadFilters> </ng-container>
+  <ng-container tableBody options="options">
+    <ngx-datatable
+      #monitorTable
+      class="shared-view-table"
+      id="monitor-table"
+      [rows]="rows"
+      [groupRowsBy]="'monitorId'"
+      [columnMode]="ColumnMode.force"
+      [scrollbarH]="false"
+      [groupExpansionDefault]="true"
+      [rowHeight]="undefined"
+    >
+      <!-- Group Header Template -->
+      <ngx-datatable-group-header
+        [rowHeight]="50"
+        #monitorHeader
+        (toggle)="onDetailToggle($event)"
+      >
+        <ng-template let-group="group" ngx-datatable-group-header-template>
+          <div
+            class="monitor-container"
+            *ngIf="group.value[0].monitor as monitor"
+          >
+            <div>
+              <a href="javascript:void(0)">
+                <b>{{ monitor.name }}</b>
+              </a>
+            </div>
+            <div>
+              {{ monitor.stat }}
+            </div>
+            <div>{{ monitor.intervalType }}</div>
+            <div>{{ monitor.intervalCount }}</div>
+            <div>{{ monitor.channelGroup.name }}</div>
+            <div>{{ monitor.metric.name }}</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-group-header>
+      <ngx-datatable-column
+        name="State"
+        width="80"
+        [resizeable]="false"
+        [canAutoResize]="false"
+        [sortable]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-row="row">
+          {{ row.lastAlarm ? row.lastAlarm.inAlarm : "no" }}
+          <ng-template #noAlert> false</ng-template>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Conditions"
+        [canAutoResize]="true"
+        [minWidth]="300"
+        [sortable]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-row="row">
+          Alarm if {{ row.num_channels_operator }}
+          {{ row.num_channels }} channel(s) in
+          {{ row.monitor.channelGroup.name }} are {{ row.value_operator }}
+          {{ row.val1 }} {{ row.val2 }} in the last
+          {{ row.monitor.intervalCount }}
+          {{ row.monitor.intervalType }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Actions"
+        [sortable]="false"
+        [width]="200"
+        [canAutoResize]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-row="row">
+          {{ row.alert_on_out_of_alarm ? "alert when out" : "alert when in" }}
+          {{ row.email_list ? "email" : "" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Recipients"
+        [sortable]="false"
+        [width]="200"
+        [canAutoResize]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-row="row">
+          {{ row.email_list }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ng-container>
+</app-table-view>
 
 <!-- [scrollbarV]="50"
 [rowHeight]="23"
 [headerHeight]="50"
 [footerHeight]="50"
 [rowHeight]="40" -->
-
-<div id="monitors" class="box">
-  <ngx-datatable
-    #monitorTable
-    class="material"
-    [rows]="triggers"
-    [groupRowsBy]="'id'"
-    [columnMode]="ColumnMode.force"
-    [scrollbarH]="true"
-    [groupExpansionDefault]="true"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="40"
-  >
-    <!-- Group Header Template -->
-    <ngx-datatable-group-header
-      [rowHeight]="50"
-      #monitorHeader
-      (toggle)="onDetailToggle($event)"
-    >
-      <ng-template
-        let-group="group"
-        let-expanded="expanded"
-        ngx-datatable-group-header-template
-      >
-        <div
-          class="monitor-container"
-          *ngIf="getMonitor(group.value[0]?.monitorId)[0] as monitor"
-        >
-          {{ monitor?.name }}
-          <div>
-            <a
-              [class.datatable-icon-right]="!expanded"
-              [class.datatable-icon-down]="expanded"
-              title="Expand/Collapse Group"
-              (click)="toggleExpandGroup(group)"
-            >
-              <b>{{ monitor.name }}</b>
-            </a>
-            <span>
-              {{ monitor.stat }}
-              {{ monitor.intervalType }}
-              {{ monitor.intervalCount }}
-              {{ monitor.channelGroup.name }}
-              {{ monitor.metric.name }}
-            </span>
-          </div>
-        </div>
-      </ng-template>
-    </ngx-datatable-group-header>
-    <ngx-datatable-column name="State">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        {{ getAlert(row.id) }}
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Conditions">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        {{ row.num_channels }} {{ row.num_channels_operator }}
-        {{ row.value_operator }}
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Actions">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        {{ row.alert_on_out_of_alarm ? "alert when out" : "alert when in" }}
-        {{ row.email_list ? "email" : "" }}
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Recipients">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        {{ row.email_list }}
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
-</div>
 <router-outlet></router-outlet>

@@ -1,0 +1,31 @@
+#table-view-container {
+  // box-shadow: 0 1px 1px 0;
+  margin: 10px;
+  #table-head {
+    padding: 12px 20px;
+    h2 {
+      margin-top: 5px;
+      span {
+        font-weight: 400;
+        font-size: inherit;
+      }
+    }
+    #controls,
+    #filters {
+      padding: 4px 0px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+  #table-body {
+  }
+
+  ngx-datatable {
+    span.sort-button {
+      text-align: right;
+    }
+  }
+}

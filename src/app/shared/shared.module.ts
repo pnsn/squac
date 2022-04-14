@@ -15,6 +15,7 @@ import { OrganizationPipe } from "./pipes/organization.pipe";
 import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
+import { TableViewComponent } from "./components/table-view/table-view.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SharedIndicatorComponent } from "./components/shared-indicator/shared-i
     SnackbarComponent,
     UserPipe,
     SharedIndicatorComponent,
+    TableViewComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { SharedIndicatorComponent } from "./components/shared-indicator/shared-i
     SnackbarComponent,
     SharedIndicatorComponent,
     UserPipe,
+    TableViewComponent,
   ],
 })
 export class SharedModule {}

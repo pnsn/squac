@@ -8,6 +8,7 @@ import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { TriggersService } from "@features/monitors/services/triggers.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { tap, map } from "rxjs";
 
 @Component({
   selector: "app-monitor-view",
@@ -16,9 +17,10 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 })
 export class MonitorViewComponent implements OnInit, AfterViewInit {
   monitors: Monitor[];
-  triggers: Trigger[];
   selected: Monitor[];
+  rows = [];
   @ViewChild("monitorTable") table: any;
+
   selectedMonitorId: number;
   error: boolean;
   alerts: Alert[] = [];
@@ -27,8 +29,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     private router: Router,
     private alertsService: AlertsService,
     private monitorsService: MonitorsService,
-    private dateService: DateService,
-    private triggersService: TriggersService
+    private dateService: DateService
   ) {}
 
   // Table stuff
@@ -37,9 +38,6 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.selected = [];
-    this.triggersService
-      .getTriggers()
-      .subscribe((triggers) => (this.triggers = triggers));
     this.route.parent.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
         this.error = true;
@@ -54,6 +52,21 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
     }
+
+    this.makeRows();
+  }
+
+  makeRows() {
+    this.monitors.forEach((monitor) => {
+      monitor.alerts = this.getAlerts(monitor.id);
+      monitor.triggers.forEach((trigger) => {
+        trigger.lastAlarm = monitor.alerts.find(
+          (a) => a.trigger.id === trigger.id
+        );
+        trigger.monitor = monitor;
+        this.rows.push(trigger);
+      });
+    });
   }
 
   refresh() {
@@ -76,7 +89,8 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
 
   getAlert(id: number) {
     const alert = this.alerts.filter((a) => a.trigger.id === id)[0];
-    return alert ? alert : "insufficient data";
+    console.log(alert);
+    return alert;
   }
 
   getAlerts(id: number) {
@@ -99,9 +113,9 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // toggleExpandRow(row) {
-  //   this.table.rowDetail.toggleExpandRow(row);
-  // }
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
   toggleExpandGroup(group) {
     console.log("Toggled Expand Group!", group);
     this.table.groupHeader.toggleExpandGroup(group);
