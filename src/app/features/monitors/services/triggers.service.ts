@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Trigger, TriggerAdapter } from "../models/trigger";
 
