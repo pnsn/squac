@@ -30,6 +30,8 @@
       [scrollbarH]="false"
       [groupExpansionDefault]="true"
       rowHeight="auto"
+      [footerHeight]="50"
+      [messages]="messages"
     >
       <!-- Group Header Template -->
       <ngx-datatable-group-header [rowHeight]="50" #monitorHeader>
@@ -43,38 +45,23 @@
             *ngIf="group.value[0].monitor as monitor"
           >
             <div class="monitor-status">
-              <a
-                href=""
-                title="Expand/Collapse Group"
-                (click)="toggleExpandGroup(group)"
-              >
-                <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
-                <mat-icon *ngIf="expanded">keyboard_arrow_down</mat-icon>
-              </a>
               <div class="alarm-status">
-                <a
-                  *ngIf="monitor.inAlarm"
-                  [color]="accent"
-                  title="Expand/Collapse Group"
-                  (click)="toggleExpandGroup(group)"
-                  >in alarm
-                </a>
-                <a
-                  *ngIf="!monitor.inAlarm"
-                  [color]="primary"
-                  title="Expand/Collapse Group"
-                  (click)="toggleExpandGroup(group)"
-                  >not in alarm
-                </a>
+                <mat-icon *ngIf="monitor.inAlarm" color="accent"
+                  >error_outline</mat-icon
+                >
+                <mat-icon *ngIf="!monitor.inAlarm" color="primary"
+                  >check_circle_outline</mat-icon
+                >
               </div>
               <div class="monitor-name">
-                {{ monitor.name }}
+                <strong>Name: </strong>{{ monitor.name }}
               </div>
-            </div>
-
-            <div>
-              <strong>metric:</strong> {{ monitor.stat }} of
-              {{ monitor.metric.name }}
+              <div class="monitor-details">
+                <strong>values: </strong> {{ monitor.stat }} of measurements for
+                {{ monitor.metric.name }} metric over last
+                {{ monitor.intervalCount }} {{ monitor.intervalType
+                }}{{ monitor.intervalCount > 1 ? "s" : "" }}
+              </div>
             </div>
             <div>
               <button
@@ -103,8 +90,8 @@
       </ngx-datatable-group-header>
       <ngx-datatable-column
         name="State"
-        [width]="80"
-        [minWidth]="80"
+        [width]="60"
+        [minWidth]="60"
         [resizeable]="false"
         [sortable]="false"
         [canAutoResize]="false"
@@ -114,22 +101,20 @@
             <a
               *ngIf="alarm.inAlarm"
               mat-icon-button
-              [color]="accent"
+              color="accent"
               aria-label="monitor in alarm"
               matTooltip="View alert"
-              (click)="viewAlert(alarm.id)"
             >
               <mat-icon>error_outline</mat-icon>
             </a>
             <a
               *ngIf="!alarm.inAlarm"
               mat-icon-button
-              [color]="primary"
+              color="primary"
               aria-label="
                 monitor not in alarm
               "
               matTooltip="View alert"
-              (click)="viewAlert(alarm.id)"
             >
               <mat-icon>check_circle_outline</mat-icon>
             </a>
@@ -150,24 +135,52 @@
         [canAutoResize]="false"
       >
         <ng-template ngx-datatable-cell-template let-row="row">
-          {{ row.lastAlarm ? row.lastAlarm.timestamp : "" }}
+          <div *ngIf="row.lastAlarm">
+            {{ row.inAlarm ? "in alarm" : "out of alarm" }}
+          </div>
+          <div>{{ row.lastAlarm ? row.lastAlarm.timestamp : "no alerts" }}</div>
           <ng-template #noAlert> false</ng-template>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Conditions" [sortable]="false" [width]="200">
+      <ngx-datatable-column
+        name="Breaching channels"
+        [sortable]="false"
+        [width]="100"
+      >
         <ng-template ngx-datatable-cell-template let-row="row">
-          Alarm if measurements for {{ row.num_channels_operator }}
-          {{ row.num_channels }} channel(s) in
-          {{ row.monitor.channelGroup.name }} are {{ row.value_operator }}
-          {{ row.val1 }} {{ row.val2 }} in the last
-          {{ row.monitor.intervalCount }}
-          {{ row.monitor.intervalType }}
+          <ng-container *ngIf="row.lastAlarm; else noChannels">
+            {{ row.lastAlarm.breaching_channels.length }}
+          </ng-container>
+          <ng-template #noChannels> N/A </ng-template>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Actions" [sortable]="false" [width]="100">
+      <ngx-datatable-column
+        name="'In alarm' conditions"
+        [sortable]="false"
+        [width]="200"
+      >
         <ng-template ngx-datatable-cell-template let-row="row">
-          {{ row.alert_on_out_of_alarm ? "alert when out" : "alert when in" }}
-          {{ row.email_list ? "email" : "" }}
+          values for
+          <span *ngIf="row.num_channels_operator !== '=='">
+            {{ row.num_channels_operator }}
+          </span>
+          {{ row.num_channels }} channel(s) in
+          {{ row.monitor.channelGroup.name }} are {{ row.value_operator }}
+          {{ row.val1 }}
+          <span *ngIf="row.val2"> and {{ row.val2 }} </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Actions" [sortable]="false" [width]="50">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <ng-container *ngIf="row.email_list; else noNotification">
+            email
+            {{
+              row.alert_on_out_of_alarm
+                ? "for all state changes"
+                : "when in alarm"
+            }}
+          </ng-container>
+          <ng-template #noNotification> none </ng-template>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Recipients" [sortable]="false" [width]="200">
@@ -178,10 +191,4 @@
     </ngx-datatable>
   </ng-container>
 </app-table-view>
-
-<!-- [scrollbarV]="50"
-[rowHeight]="23"
-[headerHeight]="50"
-[footerHeight]="50"
-[rowHeight]="40" -->
 <router-outlet></router-outlet>

@@ -17,14 +17,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 1px #e7e7e7;
+  // border-bottom: solid 1px #e7e7e7;
   .monitor-status {
     display: flex;
     flex-direction: row;
     align-items: center;
     .alarm-status {
       margin: 0px 3px;
-      width: 60px;
+      width: 30px;
       white-space: pre-wrap;
       overflow: hidden;
       text-align: left;
@@ -33,6 +33,11 @@
       width: 400px;
       font-size: 1.1rem;
       text-align: start;
+    }
+    .metric {
+    }
+    .time-span {
+      max-width: 150px;
     }
   }
 

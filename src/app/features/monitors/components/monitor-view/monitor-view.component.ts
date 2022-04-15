@@ -38,6 +38,10 @@ export class MonitorViewComponent implements OnInit {
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
 
+  messages = {
+    emptyMessage: "No monitors found.",
+    totalMessage: "monitors",
+  };
   ngOnInit(): void {
     this.selected = [];
     this.route.parent.data.subscribe((data) => {
@@ -113,8 +117,13 @@ export class MonitorViewComponent implements OnInit {
   }
 
   toggleExpandGroup(group) {
+    console.log("toggle");
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
+  }
+
+  rowIdentity(row) {
+    return row.id;
   }
 
   onDelete(monitor) {

@@ -222,6 +222,11 @@ ngx-datatable {
 }
 
 ngx-datatable.shared-view-table {
+  .datatable-body {
+    max-height: 80vh;
+    overflow-y: scroll;
+  }
+
   a {
     color: $sq-blue;
     text-decoration: none;
@@ -254,21 +259,30 @@ ngx-datatable.shared-view-table {
       }
     }
   }
+  datatable-footer {
+    border-top: $default-border;
+    .datatable-footer-inner {
+      .page-count {
+        display: inline-block;
+        padding: 0px 10px;
+      }
+    }
+  }
   datatable-row-wrapper {
-    border-bottom: $default-border;
     .datatable-group-header {
+      text-align: center;
+      background-color: white !important;
       padding: 5px 10px !important;
+      border-top: $default-border;
     }
     .datatable-body-cell,
     .datatable-body-row {
+      background-color: whitesmoke;
+      font-weight: lighter;
       padding: 2px 8px !important;
       white-space: normal !important;
       line-height: 1.25 !important;
     }
-  }
-  .datatable-group-header {
-    text-align: center;
-    background-color: transparent !important;
   }
 }
 
