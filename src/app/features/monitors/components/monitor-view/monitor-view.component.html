@@ -29,7 +29,7 @@
       [columnMode]="ColumnMode.force"
       [scrollbarH]="false"
       [groupExpansionDefault]="true"
-      [rowHeight]="undefined"
+      rowHeight="auto"
     >
       <!-- Group Header Template -->
       <ngx-datatable-group-header [rowHeight]="50" #monitorHeader>
@@ -42,35 +42,34 @@
             class="monitor-container"
             *ngIf="group.value[0].monitor as monitor"
           >
-            <div>
-              <a
-                *ngIf="monitor.inAlarm"
-                mat-icon-button
-                [color]="accent"
-                aria-label="monitor in alarm"
-                matTooltip="View alert"
-              >
-                <mat-icon>error_outline</mat-icon>
-              </a>
-              <a
-                *ngIf="!monitor.inAlarm"
-                mat-icon-button
-                [color]="primary"
-                aria-label="monitor not in alarm"
-                matTooltip="View alert"
-              >
-                <mat-icon>check_circle_outline</mat-icon>
-              </a>
+            <div class="monitor-status">
               <a
                 href=""
-                [class.datatable-icon-right]="!expanded"
-                [class.datatable-icon-down]="expanded"
                 title="Expand/Collapse Group"
                 (click)="toggleExpandGroup(group)"
-                class="monitor-name"
               >
-                {{ monitor.name }}
+                <mat-icon *ngIf="!expanded">keyboard_arrow_right</mat-icon>
+                <mat-icon *ngIf="expanded">keyboard_arrow_down</mat-icon>
               </a>
+              <div class="alarm-status">
+                <a
+                  *ngIf="monitor.inAlarm"
+                  [color]="accent"
+                  title="Expand/Collapse Group"
+                  (click)="toggleExpandGroup(group)"
+                  >in alarm
+                </a>
+                <a
+                  *ngIf="!monitor.inAlarm"
+                  [color]="primary"
+                  title="Expand/Collapse Group"
+                  (click)="toggleExpandGroup(group)"
+                  >not in alarm
+                </a>
+              </div>
+              <div class="monitor-name">
+                {{ monitor.name }}
+              </div>
             </div>
 
             <div>
@@ -135,7 +134,11 @@
               <mat-icon>check_circle_outline</mat-icon>
             </a>
           </ng-container>
-          <ng-template #noAlert> <mat-icon>help_outline</mat-icon></ng-template>
+          <ng-template #noAlert>
+            <a mat-icon-button aria-label="no alert data" disabled="true">
+              <mat-icon>help_outline</mat-icon>
+            </a>
+          </ng-template>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
@@ -153,7 +156,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Conditions" [sortable]="false" [width]="200">
         <ng-template ngx-datatable-cell-template let-row="row">
-          Alarm if {{ row.num_channels_operator }}
+          Alarm if measurements for {{ row.num_channels_operator }}
           {{ row.num_channels }} channel(s) in
           {{ row.monitor.channelGroup.name }} are {{ row.value_operator }}
           {{ row.val1 }} {{ row.val2 }} in the last
