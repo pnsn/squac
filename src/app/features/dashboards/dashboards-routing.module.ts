@@ -7,6 +7,7 @@ import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
 import { DashboardsResolver } from "./dashboards.resolver";
 import { widgetRoutes } from "@features/widgets/widgets.routes";
+import { DashboardViewNewComponent } from "./components/dashboard-view-new/dashboard-view-new.component";
 
 export const routes: Routes = [
   {
@@ -18,6 +19,14 @@ export const routes: Routes = [
     },
     runGuardsAndResolvers: "always",
     children: [
+      {
+        path: "test",
+        component: DashboardViewNewComponent,
+        canActivate: [PermissionGuard],
+        resolve: {
+          dashboards: DashboardsResolver,
+        },
+      },
       {
         path: "new",
         component: DashboardEditComponent,

@@ -9,6 +9,7 @@ import { AbilityModule } from "@casl/angular";
 import { SharedModule } from "@shared/shared.module";
 import { WidgetsModule } from "@features/widgets/widgets.module";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+import { DashboardViewNewComponent } from './components/dashboard-view-new/dashboard-view-new.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     DashboardDetailComponent,
     DashboardEditComponent,
     DashboardViewComponent,
+    DashboardViewNewComponent,
   ],
   imports: [
     WidgetsModule,
