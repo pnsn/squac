@@ -5,8 +5,10 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Ability, PureAbility } from "@casl/ability";
 import { AbilityModule } from "@casl/angular";
 import { AppAbility } from "@core/utils/ability";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MaterialModule } from "@shared/material.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { MockComponent } from "ng-mocks";
 import { of } from "rxjs";
 
 import { MonitorViewComponent } from "./monitor-view.component";
@@ -17,7 +19,7 @@ describe("MonitorViewComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MonitorViewComponent],
+      declarations: [MonitorViewComponent, MockComponent(TableViewComponent)],
       providers: [
         {
           provide: ActivatedRoute,

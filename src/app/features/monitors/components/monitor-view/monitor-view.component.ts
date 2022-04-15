@@ -1,45 +1,48 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
 import { Monitor } from "@features/monitors/models/monitor";
-import { Trigger } from "@features/monitors/models/trigger";
 import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
-import { TriggersService } from "@features/monitors/services/triggers.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { tap, mergeMap, filter, Subscription } from "rxjs";
 
 @Component({
   selector: "app-monitor-view",
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
 })
-export class MonitorViewComponent implements OnInit, AfterViewInit {
-  monitors: Monitor[];
-  triggers: Trigger[];
+export class MonitorViewComponent implements OnInit, OnDestroy {
+  monitors: Monitor[] = [];
   selected: Monitor[];
+  rows = [];
   @ViewChild("monitorTable") table: any;
+  subscription = new Subscription();
   selectedMonitorId: number;
   error: boolean;
   alerts: Alert[] = [];
+  refreshInProgress = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private alertsService: AlertsService,
     private monitorsService: MonitorsService,
-    private dateService: DateService,
-    private triggersService: TriggersService
+    private confirmDialog: ConfirmDialogService,
+    private dateService: DateService
   ) {}
 
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
 
+  messages = {
+    emptyMessage: "No monitors found.",
+    totalMessage: "monitors",
+  };
   ngOnInit(): void {
     this.selected = [];
-    this.triggersService
-      .getTriggers()
-      .subscribe((triggers) => (this.triggers = triggers));
     this.route.parent.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
         this.error = true;
@@ -54,29 +57,62 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
     }
+    const routerEvents = this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        tap((e: NavigationEnd) => {
+          if (e.urlAfterRedirects.toString() === "/monitors") {
+            this.refresh();
+          }
+        })
+      )
+      .subscribe();
+
+    this.makeRows();
+    this.subscription.add(routerEvents);
+  }
+
+  makeRows() {
+    this.monitors.forEach((monitor) => {
+      monitor.alerts = this.getAlerts(monitor.id);
+      monitor.inAlarm = false;
+      monitor.triggers.forEach((trigger) => {
+        trigger.lastAlarm = monitor.alerts.find(
+          (a) => a.trigger.id === trigger.id
+        );
+        if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
+          monitor.inAlarm = true;
+        }
+        trigger.monitor = monitor;
+        this.rows.push(trigger);
+      });
+    });
+    this.rows = [...this.rows];
   }
 
   refresh() {
-    const lastHour = this.dateService.subtractFromNow(1, "hour").format();
-    this.alertsService
-      .getAlerts({ starttime: lastHour })
-      .subscribe((alerts) => {
-        this.alerts = alerts;
-      });
-    this.monitorsService.getMonitors().subscribe((monitors) => {
-      this.monitors = monitors;
-    });
-  }
+    if (!this.refreshInProgress) {
+      this.refreshInProgress = true;
+      const lastHour = this.dateService.subtractFromNow(1, "hour").format();
+      const refreshRequests = this.alertsService
+        .getAlerts({ starttime: lastHour })
+        .pipe(
+          tap((alerts) => {
+            this.alerts = alerts;
+          }),
+          mergeMap(() => {
+            return this.monitorsService.getMonitors();
+          }),
+          tap((monitors) => {
+            this.monitors = monitors;
+            this.makeRows();
+            this.refreshInProgress = false;
+          })
+        )
+        .subscribe();
 
-  ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    this.selected = [...this.selected];
-  }
-
-  getAlert(id: number) {
-    const alert = this.alerts.filter((a) => a.trigger.id === id)[0];
-    return alert ? alert : "insufficient data";
+      this.subscription.add(refreshRequests);
+    }
   }
 
   getAlerts(id: number) {
@@ -85,6 +121,10 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
 
   addMonitor() {
     this.router.navigate(["new"], { relativeTo: this.route });
+  }
+
+  editMonitor(id: number) {
+    this.router.navigate([id, "edit"], { relativeTo: this.route });
   }
 
   getMonitor(id: number) {
@@ -99,27 +139,40 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // toggleExpandRow(row) {
-  //   this.table.rowDetail.toggleExpandRow(row);
-  // }
   toggleExpandGroup(group) {
-    console.log("Toggled Expand Group!", group);
+    console.log("toggle");
     this.table.groupHeader.toggleExpandGroup(group);
+    return false;
   }
 
-  onDetailToggle(event) {
-    console.log("Detail Toggled", event);
+  rowIdentity(row) {
+    return row.id;
   }
 
-  // // onSelect function for data table selection
-  // onSelect($event) { // When a row is selected, route the page and select that channel group
-  //   const selectedId = $event.selected[0].id;
-  //   if (selectedId) {
-  //     this.router.navigate([selectedId], {relativeTo: this.route});
-  //     this.selectedMonitorId = selectedId;
-  //     this.selectMonitor(selectedId);
-  //   }
-  // }
+  onDelete(monitor) {
+    this.confirmDialog.open({
+      title: `Delete ${monitor.name}`,
+      message: "Are you sure? This action is permanent.",
+      cancelText: "Cancel",
+      confirmText: "Delete",
+    });
+    this.confirmDialog.confirmed().subscribe((confirm) => {
+      if (confirm) {
+        this.deleteMonitor(monitor.id);
+      }
+    });
+  }
+
+  deleteMonitor(id) {
+    this.monitorsService
+      .deleteMonitor(id)
+      .pipe(
+        tap(() => {
+          this.refresh();
+        })
+      )
+      .subscribe();
+  }
 
   viewMonitor(id) {
     if (id) {
@@ -127,5 +180,11 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
       this.selectedMonitorId = id;
       this.selectMonitor(id);
     }
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
   }
 }

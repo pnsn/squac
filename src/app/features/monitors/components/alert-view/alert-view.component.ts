@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
@@ -6,6 +12,7 @@ import { Monitor } from "@features/monitors/models/monitor";
 import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { mergeMap, Subscription, tap } from "rxjs";
 
 @Component({
   selector: "app-alert-view",
@@ -20,7 +27,9 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   error: boolean;
   monitors: Monitor[];
-
+  refreshInProgress = false;
+  subscription = new Subscription();
+  @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
   constructor(
     private alertsService: AlertsService,
     private route: ActivatedRoute,
@@ -41,14 +50,29 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.monitorsService.getMonitors().subscribe((monitors) => {
-      this.monitors = monitors;
-    });
-    const lastday = this.dateService.subtractFromNow(1, "day").format();
-    this.alertsService.getAlerts({ starttime: lastday }).subscribe((alerts) => {
-      this.findMonitorsForAlerts(alerts);
-    });
+    if (!this.refreshInProgress) {
+      this.refreshInProgress = true;
+      const lastHour = this.dateService.subtractFromNow(1, "day").format();
+      const refreshRequests = this.monitorsService
+        .getMonitors()
+        .pipe(
+          tap((monitors) => {
+            this.monitors = monitors;
+          }),
+          mergeMap(() => {
+            return this.alertsService.getAlerts({ starttime: lastHour });
+          }),
+          tap((alerts) => {
+            this.findMonitorsForAlerts(alerts);
+            this.refreshInProgress = false;
+          })
+        )
+        .subscribe();
+
+      this.subscription.add(refreshRequests);
+    }
   }
+
   // match alerts and monitors
   findMonitorsForAlerts(alerts: Alert[]) {
     this.alerts = [];
@@ -65,6 +89,58 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
     clearInterval(this.interval);
   }
 }
+
+//name, prop, minWidth, maxWidth, flexGrow, width, resizeable, comparator, sortable,
+//draggable, canAutoResize, cellTemplate: TemplateRef, checkboxable, headercheckboxable,
+//headerClass, cellCass, frozenLeft, frozenRight,
+//pipe
+
+//   columns = [];
+//   options = {
+//     columnMode: ColumnMode.force,
+//     headerHeight: "30",
+//     footerHeight: "50",
+//     rowHeight: "auto",
+//     messages: {
+//       emptyMessage: "No alerts found.",
+//       totalMessage: "alerts",
+//     },
+//   };
+// // this.columns = [
+//   {
+//     name: "State",
+//     prop: "inAlarm",
+//     width: "60",
+//     minWidth: "60",
+//     resizeable: false,
+//     sortable: false,
+//     canAutoResize: false,
+//     templateRef: this.stateTemplate,
+//   },
+//   {
+//     name: "Time",
+//     prop: "timestamp",
+//     width: "30",
+//     draggable: "false",
+//   },
+//   {
+//     name: "Monitor",
+//     prop: "monitor",
+//     draggable: false,
+//     width: "150",
+//   },
+//   {
+//     name: "Trigger",
+//     prop: "trigger",
+//     draggable: false,
+//   },
+//   {
+//     name: "Breaching channels",
+//     prop: "breaching_channels",
+//     draggable: false,
+//   },
+// ];

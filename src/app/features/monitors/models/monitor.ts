@@ -6,6 +6,7 @@ import {
   ChannelGroupAdapter,
 } from "@core/models/channel-group";
 import { Metric, ApiGetMetric, MetricAdapter } from "@core/models/metric";
+import { Alert } from "./alert";
 import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
 
 export class Monitor {
@@ -23,7 +24,8 @@ export class Monitor {
 
   channelGroup: ChannelGroup;
   metric: Metric;
-
+  alerts: Alert[];
+  inAlarm: boolean;
   static get modelName() {
     return "Monitor";
   }

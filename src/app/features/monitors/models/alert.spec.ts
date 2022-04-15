@@ -34,7 +34,7 @@ describe("Alert", () => {
       timestamp: "string",
       message: "string",
       in_alarm: false,
-      breaching_channels: "string",
+      breaching_channels: [],
       created_at: "string",
       updated_at: "ng",
       user_id: "1",

@@ -1,30 +1,47 @@
-@import "variables";
-
-#title {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  #button-container {
-    button {
-      margin-left: 10px;
-    }
-  }
-}
-
 #monitors {
   width: 100%;
   height: 85%;
   overflow: hidden;
   text-align: unset;
-  #monitor-table {
-    width: 100%;
-    height: 100%;
-  }
+}
+
+.ngx-datatable {
+  width: 100% !important;
+  height: 100%;
 }
 
 .monitor-container {
   height: 40px;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  // border-bottom: solid 1px #e7e7e7;
+  .monitor-status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .alarm-status {
+      margin: 0px 3px;
+      width: 30px;
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-align: left;
+    }
+    .monitor-name {
+      width: 400px;
+      font-size: 1.1rem;
+      text-align: start;
+    }
+    .metric {
+    }
+    .time-span {
+      max-width: 150px;
+    }
+  }
+
+  div {
+    // display: inline-block;
+  }
 }

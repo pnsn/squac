@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { Alert } from "./alert";
+import { Monitor } from "./monitor";
 
 export class Trigger {
   constructor(
@@ -17,6 +19,12 @@ export class Trigger {
   static get modelName() {
     return "Trigger";
   }
+
+  // get conditionString(): string {
+  //   return `Alarm if ${this.num_channels_operator} ${this.num_channels}`
+  // }
+  lastAlarm: Alert;
+  monitor: Monitor;
 }
 
 export interface ApiGetTrigger {
