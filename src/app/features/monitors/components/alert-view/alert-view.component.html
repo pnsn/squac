@@ -1,4 +1,4 @@
-<app-table-view title="Alerts (last day)" (refresh)="refresh()">
+<app-table-view title="Alerts (last day)">
   <ng-container tableHeadControls>
     <button
       mat-icon-button
@@ -18,7 +18,7 @@
     >
   </ng-container>
   <ng-container tableHeadFilters> </ng-container>
-  <ng-container tableBody options="options">
+  <ng-container tableBody>
     <ngx-datatable
       id="alert-table"
       class="shared-view-table"
@@ -28,7 +28,6 @@
       [footerHeight]="50"
       rowHeight="auto"
       #alertTable
-      [messages]="messages"
     >
       <ngx-datatable-column
         name="State"
@@ -39,7 +38,11 @@
         [sortable]="false"
         [canAutoResize]="false"
       >
-        <ng-template let-value="inAlarm" ngx-datatable-cell-template>
+        <ng-template
+          #stateTemplate
+          let-value="inAlarm"
+          ngx-datatable-cell-template
+        >
           <a
             *ngIf="inAlarm"
             mat-icon-button

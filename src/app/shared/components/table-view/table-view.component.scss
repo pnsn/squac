@@ -1,4 +1,6 @@
 #table-view-container {
+  width: 100%;
+  height: 100%;
   // box-shadow: 0 1px 1px 0;
   margin: 10px;
   #table-head {
@@ -24,6 +26,8 @@
   }
 
   ngx-datatable {
+    width: 100%;
+    height: 100%;
     span.sort-button {
       text-align: right;
     }

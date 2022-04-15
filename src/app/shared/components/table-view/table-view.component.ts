@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 @Component({
   selector: "app-table-view",
   templateUrl: "./table-view.component.html",
@@ -7,8 +7,36 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 })
 export class TableViewComponent implements OnInit {
   rowCount = 3;
+  ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
+
   @Input() title: string;
-  @Output() refresh = new EventEmitter<boolean>();
+  // @Output() refresh = new EventEmitter<boolean>();
+  // @Input() parentOptions;
+  // @Input() rows;
+  // @Input() columns;
+
+  selectedRows = [];
+
+  //defaultOptions
+  options = {
+    columnMode: ColumnMode.force,
+    selectionType: undefined,
+    headerHeight: "30",
+    footerHeight: "50",
+    rowHeight: "auto",
+    limit: undefined,
+    reorderable: false,
+    scrollbarH: false,
+    scrollbarV: false,
+    sortType: "single",
+    sorts: [],
+    messages: {
+      emptyMessage: "No data",
+      totalMessage: "total",
+    },
+  };
+
   constructor() {}
 
   ngOnInit(): void {}
