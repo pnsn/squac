@@ -8,29 +8,24 @@ import { Component, EventEmitter, Output } from "@angular/core";
 export class ChannelGroupsFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
   filters = {
-    network: "",
+    net_search: "",
     chan_search: "",
-    station: "",
-    location: "",
+    sta_search: "",
+    loc_search: "",
   };
 
   addFilter(event: any, type: string): void {
     const value = event.target.value.toLowerCase();
     if (value) {
-      if (type === "chan_search") {
-        this.filters[type] = value.trim();
-      } else {
-        const paramArr = value.split(",");
-        this.filters[type] = paramArr.reduce((acc: string, param: string) => {
-          return `${acc},${param.trim()}`;
-        });
-      }
+      this.filters[type] = value.trim();
     } else {
       this.filters[type] = "";
     }
   }
 
+  // send filters to parent on submit
   updateFilters() {
+    console.log(this.filters);
     this.filtersChanged.next(this.filters);
   }
 }

@@ -210,29 +210,14 @@ export class ChannelGroupsEditComponent implements OnInit, OnDestroy {
 
   onSelectedFilter(searchFilters: object) {
     this.isSelectedFiltered = true; // enable remove button
-    const filtersMap = {
-      // convert filter strings to property names
-      network: "networkCode",
-      location: "loc",
-      station: "stationCode",
-    };
     if (searchFilters !== {}) {
       this.filteredChannels = this.selectedChannels; // reset filtered channels (list to display)
       for (const filter in searchFilters) {
         if (searchFilters[filter]) {
-          if (filter === "chan_search") {
-            const regex = RegExp(searchFilters[filter]);
-            this.filteredChannels = this.filteredChannels.filter((chan) => {
-              return regex.test(chan.code);
-            });
-          } else {
-            const filterParams = searchFilters[filter].split(","); // split string into array of search params
-            filterParams.forEach((param: string) => {
-              this.filteredChannels = this.filteredChannels.filter((chan) => {
-                return chan[filtersMap[filter]] === param;
-              });
-            });
-          }
+          const regex = RegExp(searchFilters[filter]);
+          this.filteredChannels = this.filteredChannels.filter((chan) => {
+            return regex.test(chan.code);
+          });
         }
       }
     }
