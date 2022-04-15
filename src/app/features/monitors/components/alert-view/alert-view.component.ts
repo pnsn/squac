@@ -6,6 +6,7 @@ import { Monitor } from "@features/monitors/models/monitor";
 import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { mergeMap, Subscription, tap } from "rxjs";
 
 @Component({
   selector: "app-alert-view",
@@ -20,13 +21,18 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   error: boolean;
   monitors: Monitor[];
-
+  refreshInProgress: boolean = false;
+  subscription = new Subscription();
   constructor(
     private alertsService: AlertsService,
     private route: ActivatedRoute,
     private monitorsService: MonitorsService,
     private dateService: DateService
   ) {}
+  messages = {
+    emptyMessage: "No alerts found.",
+    totalMessage: "alerts",
+  };
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((data) => {
@@ -41,14 +47,29 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.monitorsService.getMonitors().subscribe((monitors) => {
-      this.monitors = monitors;
-    });
-    const lastday = this.dateService.subtractFromNow(1, "day").format();
-    this.alertsService.getAlerts({ starttime: lastday }).subscribe((alerts) => {
-      this.findMonitorsForAlerts(alerts);
-    });
+    if (!this.refreshInProgress) {
+      this.refreshInProgress = true;
+      const lastHour = this.dateService.subtractFromNow(1, "day").format();
+      const refreshRequests = this.monitorsService
+        .getMonitors()
+        .pipe(
+          tap((monitors) => {
+            this.monitors = monitors;
+          }),
+          mergeMap(() => {
+            return this.alertsService.getAlerts({ starttime: lastHour });
+          }),
+          tap((alerts) => {
+            this.findMonitorsForAlerts(alerts);
+            this.refreshInProgress = false;
+          })
+        )
+        .subscribe();
+
+      this.subscription.add(refreshRequests);
+    }
   }
+
   // match alerts and monitors
   findMonitorsForAlerts(alerts: Alert[]) {
     this.alerts = [];
@@ -65,6 +86,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
     clearInterval(this.interval);
   }
 }

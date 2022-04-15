@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
@@ -9,7 +9,7 @@ import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { TriggersService } from "@features/monitors/services/triggers.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { tap, map } from "rxjs";
+import { tap, map, switchMap, mergeMap, filter, Subscription } from "rxjs";
 
 @Component({
   selector: "app-monitor-view",
@@ -21,10 +21,11 @@ export class MonitorViewComponent implements OnInit {
   selected: Monitor[];
   rows = [];
   @ViewChild("monitorTable") table: any;
-
+  subscription = new Subscription();
   selectedMonitorId: number;
   error: boolean;
   alerts: Alert[] = [];
+  refreshInProgress: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -58,8 +59,19 @@ export class MonitorViewComponent implements OnInit {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
       this.selectMonitor(this.selectedMonitorId);
     }
+    const routerEvents = this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        tap((e: NavigationEnd) => {
+          if (e.urlAfterRedirects.toString() === "/monitors") {
+            this.refresh();
+          }
+        })
+      )
+      .subscribe();
 
     this.makeRows();
+    this.subscription.add(routerEvents);
   }
 
   makeRows() {
@@ -78,18 +90,32 @@ export class MonitorViewComponent implements OnInit {
       });
     });
     this.rows = [...this.rows];
+    console.log("make rows");
   }
 
   refresh() {
-    const lastHour = this.dateService.subtractFromNow(1, "hour").format();
-    this.alertsService
-      .getAlerts({ starttime: lastHour })
-      .subscribe((alerts) => {
-        this.alerts = alerts;
-      });
-    this.monitorsService.getMonitors().subscribe((monitors) => {
-      this.monitors = monitors;
-    });
+    if (!this.refreshInProgress) {
+      this.refreshInProgress = true;
+      const lastHour = this.dateService.subtractFromNow(1, "hour").format();
+      const refreshRequests = this.alertsService
+        .getAlerts({ starttime: lastHour })
+        .pipe(
+          tap((alerts) => {
+            this.alerts = alerts;
+          }),
+          mergeMap(() => {
+            return this.monitorsService.getMonitors();
+          }),
+          tap((monitors) => {
+            this.monitors = monitors;
+            this.makeRows();
+            this.refreshInProgress = false;
+          })
+        )
+        .subscribe();
+
+      this.subscription.add(refreshRequests);
+    }
   }
 
   getAlerts(id: number) {
@@ -141,7 +167,14 @@ export class MonitorViewComponent implements OnInit {
   }
 
   deleteMonitor(id) {
-    this.monitorsService.deleteMonitor(id).subscribe();
+    this.monitorsService
+      .deleteMonitor(id)
+      .pipe(
+        tap(() => {
+          this.refresh();
+        })
+      )
+      .subscribe();
   }
 
   viewMonitor(id) {
@@ -150,5 +183,11 @@ export class MonitorViewComponent implements OnInit {
       this.selectedMonitorId = id;
       this.selectMonitor(id);
     }
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
   }
 }

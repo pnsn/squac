@@ -135,11 +135,15 @@
         [canAutoResize]="false"
       >
         <ng-template ngx-datatable-cell-template let-row="row">
-          <div *ngIf="row.lastAlarm">
-            {{ row.inAlarm ? "in alarm" : "out of alarm" }}
-          </div>
-          <div>{{ row.lastAlarm ? row.lastAlarm.timestamp : "no alerts" }}</div>
-          <ng-template #noAlert> false</ng-template>
+          <ng-container *ngIf="row.lastAlarm; else noAlert">
+            <div>
+              {{ row.inAlarm ? "in alarm" : "out of alarm" }}
+            </div>
+            <div>
+              {{ row.lastAlarm.timestamp | date: "short" }}
+            </div>
+          </ng-container>
+          <ng-template #noAlert>no alerts</ng-template>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column

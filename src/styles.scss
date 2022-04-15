@@ -235,6 +235,7 @@ ngx-datatable.shared-view-table {
     }
   }
   $default-border: 1px solid darken($sq-lt-gray, 10);
+  $light-border: 1px solid $sq-lt-gray;
   datatable-header {
     background-color: $sq-lt-gray;
     border-top: $default-border;
@@ -271,17 +272,20 @@ ngx-datatable.shared-view-table {
   datatable-row-wrapper {
     .datatable-group-header {
       text-align: center;
-      background-color: white !important;
+      background-color: rgba(255, 255, 255, 0.589) !important;
       padding: 5px 10px !important;
       border-top: $default-border;
+      border-bottom: $default-border;
     }
     .datatable-body-cell,
     .datatable-body-row {
-      background-color: whitesmoke;
       font-weight: lighter;
       padding: 2px 8px !important;
       white-space: normal !important;
       line-height: 1.25 !important;
+    }
+    .datatable-body-row {
+      border-bottom: $light-border;
     }
   }
 }

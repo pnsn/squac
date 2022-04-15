@@ -2,7 +2,7 @@
   // box-shadow: 0 1px 1px 0;
   margin: 10px;
   #table-head {
-    padding: 12px 20px;
+    padding: 10px 20px 5px 20px;
     h2 {
       margin-top: 5px;
       span {
@@ -17,7 +17,7 @@
       flex-direction: row;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: space-between;
+      justify-content: flex-end;
     }
   }
   #table-body {
