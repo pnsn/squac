@@ -3,10 +3,11 @@
   height: 85%;
   overflow: hidden;
   text-align: unset;
-  #monitor-table {
-    width: 100%;
-    height: 100%;
-  }
+}
+
+.ngx-datatable {
+  width: 100% !important;
+  height: 100%;
 }
 
 .monitor-container {
@@ -15,4 +16,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  .monitor-name {
+    font-size: 1.1rem;
+  }
 }

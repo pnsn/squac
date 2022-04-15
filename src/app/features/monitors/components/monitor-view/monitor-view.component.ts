@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
 import { Monitor } from "@features/monitors/models/monitor";
@@ -15,7 +16,7 @@ import { tap, map } from "rxjs";
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
 })
-export class MonitorViewComponent implements OnInit, AfterViewInit {
+export class MonitorViewComponent implements OnInit {
   monitors: Monitor[];
   selected: Monitor[];
   rows = [];
@@ -29,6 +30,7 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     private router: Router,
     private alertsService: AlertsService,
     private monitorsService: MonitorsService,
+    private confirmDialog: ConfirmDialogService,
     private dateService: DateService
   ) {}
 
@@ -59,14 +61,19 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
   makeRows() {
     this.monitors.forEach((monitor) => {
       monitor.alerts = this.getAlerts(monitor.id);
+      monitor.inAlarm = false;
       monitor.triggers.forEach((trigger) => {
         trigger.lastAlarm = monitor.alerts.find(
           (a) => a.trigger.id === trigger.id
         );
+        if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
+          monitor.inAlarm = true;
+        }
         trigger.monitor = monitor;
         this.rows.push(trigger);
       });
     });
+    this.rows = [...this.rows];
   }
 
   refresh() {
@@ -81,24 +88,16 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    this.selected = [...this.selected];
-  }
-
-  getAlert(id: number) {
-    const alert = this.alerts.filter((a) => a.trigger.id === id)[0];
-    console.log(alert);
-    return alert;
-  }
-
   getAlerts(id: number) {
     return this.alerts.filter((a) => a.trigger.monitorId === id);
   }
 
   addMonitor() {
     this.router.navigate(["new"], { relativeTo: this.route });
+  }
+
+  editMonitor(id: number) {
+    this.router.navigate([id, "edit"], { relativeTo: this.route });
   }
 
   getMonitor(id: number) {
@@ -113,27 +112,28 @@ export class MonitorViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleExpandRow(row) {
-    this.table.rowDetail.toggleExpandRow(row);
-  }
   toggleExpandGroup(group) {
-    console.log("Toggled Expand Group!", group);
     this.table.groupHeader.toggleExpandGroup(group);
+    return false;
   }
 
-  onDetailToggle(event) {
-    console.log("Detail Toggled", event);
+  onDelete(monitor) {
+    this.confirmDialog.open({
+      title: `Delete ${monitor.name}`,
+      message: "Are you sure? This action is permanent.",
+      cancelText: "Cancel",
+      confirmText: "Delete",
+    });
+    this.confirmDialog.confirmed().subscribe((confirm) => {
+      if (confirm) {
+        this.deleteMonitor(monitor.id);
+      }
+    });
   }
 
-  // // onSelect function for data table selection
-  // onSelect($event) { // When a row is selected, route the page and select that channel group
-  //   const selectedId = $event.selected[0].id;
-  //   if (selectedId) {
-  //     this.router.navigate([selectedId], {relativeTo: this.route});
-  //     this.selectedMonitorId = selectedId;
-  //     this.selectMonitor(selectedId);
-  //   }
-  // }
+  deleteMonitor(id) {
+    this.monitorsService.deleteMonitor(id).subscribe();
+  }
 
   viewMonitor(id) {
     if (id) {

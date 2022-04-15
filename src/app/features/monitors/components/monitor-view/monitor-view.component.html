@@ -32,49 +32,126 @@
       [rowHeight]="undefined"
     >
       <!-- Group Header Template -->
-      <ngx-datatable-group-header
-        [rowHeight]="50"
-        #monitorHeader
-        (toggle)="onDetailToggle($event)"
-      >
-        <ng-template let-group="group" ngx-datatable-group-header-template>
+      <ngx-datatable-group-header [rowHeight]="50" #monitorHeader>
+        <ng-template
+          let-group="group"
+          let-expanded="expanded"
+          ngx-datatable-group-header-template
+        >
           <div
             class="monitor-container"
             *ngIf="group.value[0].monitor as monitor"
           >
             <div>
-              <a href="javascript:void(0)">
-                <b>{{ monitor.name }}</b>
+              <a
+                *ngIf="monitor.inAlarm"
+                mat-icon-button
+                [color]="accent"
+                aria-label="monitor in alarm"
+                matTooltip="View alert"
+              >
+                <mat-icon>error_outline</mat-icon>
+              </a>
+              <a
+                *ngIf="!monitor.inAlarm"
+                mat-icon-button
+                [color]="primary"
+                aria-label="monitor not in alarm"
+                matTooltip="View alert"
+              >
+                <mat-icon>check_circle_outline</mat-icon>
+              </a>
+              <a
+                href=""
+                [class.datatable-icon-right]="!expanded"
+                [class.datatable-icon-down]="expanded"
+                title="Expand/Collapse Group"
+                (click)="toggleExpandGroup(group)"
+                class="monitor-name"
+              >
+                {{ monitor.name }}
               </a>
             </div>
+
             <div>
-              {{ monitor.stat }}
+              <strong>metric:</strong> {{ monitor.stat }} of
+              {{ monitor.metric.name }}
             </div>
-            <div>{{ monitor.intervalType }}</div>
-            <div>{{ monitor.intervalCount }}</div>
-            <div>{{ monitor.channelGroup.name }}</div>
-            <div>{{ monitor.metric.name }}</div>
+            <div>
+              <button
+                mat-icon-button
+                color="warn"
+                class="add-btn"
+                (click)="onDelete(monitor)"
+                matTooltip="Delete monitor"
+                aria-label="Button that deletes the channel group"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="primary"
+                class="add-btn"
+                (click)="editMonitor(monitor.id)"
+                matTooltip="Edit monitor"
+                aria-label="Button that navigates to edit monitor page"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
           </div>
         </ng-template>
       </ngx-datatable-group-header>
       <ngx-datatable-column
         name="State"
-        width="80"
+        [width]="80"
+        [minWidth]="80"
         [resizeable]="false"
-        [canAutoResize]="false"
         [sortable]="false"
+        [canAutoResize]="false"
       >
         <ng-template ngx-datatable-cell-template let-row="row">
-          {{ row.lastAlarm ? row.lastAlarm.inAlarm : "no" }}
-          <ng-template #noAlert> false</ng-template>
+          <ng-container *ngIf="row.lastAlarm as alarm; else noAlert">
+            <a
+              *ngIf="alarm.inAlarm"
+              mat-icon-button
+              [color]="accent"
+              aria-label="monitor in alarm"
+              matTooltip="View alert"
+              (click)="viewAlert(alarm.id)"
+            >
+              <mat-icon>error_outline</mat-icon>
+            </a>
+            <a
+              *ngIf="!alarm.inAlarm"
+              mat-icon-button
+              [color]="primary"
+              aria-label="
+                monitor not in alarm
+              "
+              matTooltip="View alert"
+              (click)="viewAlert(alarm.id)"
+            >
+              <mat-icon>check_circle_outline</mat-icon>
+            </a>
+          </ng-container>
+          <ng-template #noAlert> <mat-icon>help_outline</mat-icon></ng-template>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
-        name="Conditions"
-        [canAutoResize]="true"
-        [minWidth]="300"
+        name="Last state update"
+        [width]="160"
+        [minWidth]="160"
+        [resizeable]="false"
         [sortable]="false"
+        [canAutoResize]="false"
       >
+        <ng-template ngx-datatable-cell-template let-row="row">
+          {{ row.lastAlarm ? row.lastAlarm.timestamp : "" }}
+          <ng-template #noAlert> false</ng-template>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Conditions" [sortable]="false" [width]="200">
         <ng-template ngx-datatable-cell-template let-row="row">
           Alarm if {{ row.num_channels_operator }}
           {{ row.num_channels }} channel(s) in
@@ -84,23 +161,13 @@
           {{ row.monitor.intervalType }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Actions"
-        [sortable]="false"
-        [width]="200"
-        [canAutoResize]="false"
-      >
+      <ngx-datatable-column name="Actions" [sortable]="false" [width]="100">
         <ng-template ngx-datatable-cell-template let-row="row">
           {{ row.alert_on_out_of_alarm ? "alert when out" : "alert when in" }}
           {{ row.email_list ? "email" : "" }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Recipients"
-        [sortable]="false"
-        [width]="200"
-        [canAutoResize]="false"
-      >
+      <ngx-datatable-column name="Recipients" [sortable]="false" [width]="200">
         <ng-template ngx-datatable-cell-template let-row="row">
           {{ row.email_list }}
         </ng-template>

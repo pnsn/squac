@@ -10,7 +10,7 @@ $squac-ui-accent: mat.define-palette($mat-sqyellow, 500, 900, A100);
 $squac-ui-neutral: mat.define-palette($mat-sqgray, 300, 50, 600);
 
 // The warn palette is optional (defaults to red).
-$squac-ui-warn: mat.define-palette(mat.$red-palette);
+$squac-ui-warn: mat.define-palette(mat.$red-palette, 300);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $squac-ui-theme: mat.define-light-theme(

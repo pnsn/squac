@@ -25,6 +25,7 @@ export class Monitor {
   channelGroup: ChannelGroup;
   metric: Metric;
   alerts: Alert[];
+  inAlarm: boolean;
   static get modelName() {
     return "Monitor";
   }
