@@ -27,7 +27,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   error: boolean;
   monitors: Monitor[];
-  refreshInProgress: boolean = false;
+  refreshInProgress = false;
   subscription = new Subscription();
   @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
   constructor(

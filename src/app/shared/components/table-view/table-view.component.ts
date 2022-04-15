@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 @Component({
   selector: "app-table-view",
   templateUrl: "./table-view.component.html",
   styleUrls: ["./table-view.component.scss"],
 })
-export class TableViewComponent implements OnInit {
+export class TableViewComponent {
   rowCount = 3;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -36,8 +36,4 @@ export class TableViewComponent implements OnInit {
       totalMessage: "total",
     },
   };
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

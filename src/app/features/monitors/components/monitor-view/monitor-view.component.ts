@@ -1,23 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitors/models/alert";
 import { Monitor } from "@features/monitors/models/monitor";
-import { Trigger } from "@features/monitors/models/trigger";
 import { AlertsService } from "@features/monitors/services/alerts.service";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
-import { TriggersService } from "@features/monitors/services/triggers.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { tap, map, switchMap, mergeMap, filter, Subscription } from "rxjs";
+import { tap, mergeMap, filter, Subscription } from "rxjs";
 
 @Component({
   selector: "app-monitor-view",
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
 })
-export class MonitorViewComponent implements OnInit {
-  monitors: Monitor[];
+export class MonitorViewComponent implements OnInit, OnDestroy {
+  monitors: Monitor[] = [];
   selected: Monitor[];
   rows = [];
   @ViewChild("monitorTable") table: any;
@@ -25,7 +23,7 @@ export class MonitorViewComponent implements OnInit {
   selectedMonitorId: number;
   error: boolean;
   alerts: Alert[] = [];
-  refreshInProgress: boolean = false;
+  refreshInProgress = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -90,7 +88,6 @@ export class MonitorViewComponent implements OnInit {
       });
     });
     this.rows = [...this.rows];
-    console.log("make rows");
   }
 
   refresh() {
