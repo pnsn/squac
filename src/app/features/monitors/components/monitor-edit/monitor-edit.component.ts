@@ -121,7 +121,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         Validators.required,
       ],
       alert_on_out_of_alarm: [trigger ? trigger.alert_on_out_of_alarm : false],
-      email_list: [trigger ? trigger.email_list : null, this.emailValidator],
+      email_list: [trigger ? trigger.email_list : null, Validators.email], //this.emailValidator
     });
   }
 

@@ -171,8 +171,7 @@
         <div id="trigger-container">
           <p class="help-text">
             An alert will be sent when the monitor enters the 'in alarm' state.
-            It can also alert when the monitor is no longer 'in alarm'. Emails
-            must be a comma separated list with no spaces.
+            It can also alert when the monitor is no longer 'in alarm'.
           </p>
           <div formArrayName="triggers">
             <table id="trigger-table">
@@ -183,7 +182,7 @@
                 <th>Value 2</th>
                 <th>Operator</th>
                 <th># of channels</th>
-                <th>Emails</th>
+                <th>Email</th>
                 <th></th>
               </tr>
               <ng-container
@@ -282,7 +281,7 @@
 
                   <td>
                     <mat-form-field>
-                      <mat-label for="email_list">email list:</mat-label>
+                      <mat-label for="email_list">email:</mat-label>
                       <textarea
                         matInput
                         name="email_list"
