@@ -1,21 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockInstance, MockRender, ngMocks } from 'ng-mocks';
+import { TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { MockInstance, MockRender, ngMocks } from "ng-mocks";
 
-import { NotFoundComponent } from './not-found.component';
+import { NotFoundComponent } from "./not-found.component";
 
-describe('NotFoundComponent', () => {
+describe("NotFoundComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
   beforeAll(async () => {
     return TestBed.configureTestingModule({
       declarations: [NotFoundComponent],
-      imports: [RouterTestingModule.withRoutes([])]
+      imports: [RouterTestingModule.withRoutes([])],
     }).compileComponents();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     const fixture = MockRender(NotFoundComponent);
     const component = fixture.point.componentInstance;
     expect(component).toBeTruthy();

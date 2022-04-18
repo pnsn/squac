@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
-import { Monitor } from './monitor';
-import { ApiGetTrigger, Trigger, TriggerAdapter } from './trigger';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+import { Monitor } from "./monitor";
+import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
 
 export class Alert {
   constructor(
@@ -10,14 +10,14 @@ export class Alert {
     public timestamp: string,
     public message: string,
     public inAlarm: boolean,
-    public breaching_channels,
+    public breaching_channels: Array<any>,
     public trigger: Trigger
-  ){}
+  ) {}
 
   monitor: Monitor;
 
   static get modelName() {
-    return 'Alert';
+    return "Alert";
   }
 }
 
@@ -28,19 +28,17 @@ export interface ApiGetAlert {
   timestamp: string;
   message: string;
   in_alarm: boolean;
-  breaching_channels: string;
+  breaching_channels: Array<any>;
   created_at: string;
   updated_at: string;
   user_id: string;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AlertAdapter implements Adapter<Alert> {
-  constructor(
-    private triggerAdapter: TriggerAdapter
-  ) {}
+  constructor(private triggerAdapter: TriggerAdapter) {}
   adaptFromApi(item: ApiGetAlert): Alert {
     return new Alert(
       item.id,

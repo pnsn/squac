@@ -1,19 +1,18 @@
-<h2> Metric Detail</h2>
-<div *ngIf="!metric">
-  Could not load metric...or its still loading. 
-</div>
+<h2>Metric Detail</h2>
+<div *ngIf="!metric">Could not load metric...or its still loading.</div>
 <div *ngIf="metric">
-    <p>
-        {{metric.name}}
-      </p>
-      <p>
-        {{metric.description}}
-      </p>
-      <p> {{metric.refUrl}}
-      </p>
-      <p>
-        {{metric.unit}}
-      </p>
-      
-      <button (click)="editMetric()" *ngIf="'update' | able: 'Metric'">edit {{id}}</button>
+  <p>
+    {{ metric.name }}
+  </p>
+  <p>
+    {{ metric.description }}
+  </p>
+  <p>{{ metric.refUrl }}</p>
+  <p>
+    {{ metric.unit }}
+  </p>
+
+  <button (click)="editMetric()" *ngIf="'update' | able: 'Metric'">
+    edit {{ id }}
+  </button>
 </div>

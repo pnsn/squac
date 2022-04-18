@@ -1,18 +1,17 @@
-
-<h3>
-  Available Metrics
-</h3>
+<h3>Available Metrics</h3>
 <input
-type="text"
-style="padding:8px;margin:15px auto;width:30%;"
-placeholder="Filter by metric name..."
-(keyup)="updateFilter($event)"
+  type="text"
+  style="padding: 8px; margin: 15px auto; width: 30%"
+  placeholder="Filter by metric name..."
+  (keyup)="updateFilter($event)"
 />
-<div class="help-text">Some widgets will only display the first metric selected.</div>
+<div class="help-text">
+  Some widgets will only display the first metric selected.
+</div>
 <app-loading *ngIf="loading"></app-loading>
 <div class="table-container" *ngIf="!loading">
   <ngx-datatable
-  id="metric-select-table"
+    id="metric-select-table"
     #metricTable
     class="material"
     [rows]="tableRows"
@@ -37,9 +36,21 @@ placeholder="Filter by metric name..."
       [checkboxable]="true"
     >
     </ngx-datatable-column>
-    <ngx-datatable-column name="Name" [flexGrow]="2"   [resizeable]="false"></ngx-datatable-column>
-    <ngx-datatable-column name="Unit" prop="unit" [flexGrow]="1"   [resizeable]="false"></ngx-datatable-column>
-    <ngx-datatable-column name="Description" [flexGrow]="4"   [resizeable]="false"></ngx-datatable-column>
+    <ngx-datatable-column
+      name="Name"
+      [flexGrow]="2"
+      [resizeable]="false"
+    ></ngx-datatable-column>
+    <ngx-datatable-column
+      name="Unit"
+      prop="unit"
+      [flexGrow]="1"
+      [resizeable]="false"
+    ></ngx-datatable-column>
+    <ngx-datatable-column
+      name="Description"
+      [flexGrow]="4"
+      [resizeable]="false"
+    ></ngx-datatable-column>
   </ngx-datatable>
 </div>
-

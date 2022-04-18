@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
 
 // Describes an archive
 export class Archive {
@@ -18,18 +18,17 @@ export class Archive {
     public maxabs: number,
     public starttime: string,
     public endtime: string
-  ) {
-  }
+  ) {}
 
   static get modelName() {
-    return 'Archive';
+    return "Archive";
   }
 }
 
 export interface ApiGetArchive {
   channel: number;
-  metric:	number;
-  id:	string;
+  metric: number;
+  id: string;
   min: number;
   max: number;
   mean: number;
@@ -45,12 +44,9 @@ export interface ApiGetArchive {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ArchiveAdapter implements Adapter<Archive> {
-  constructor(
-  ){}
-
   adaptFromApi(item: ApiGetArchive): Archive {
     const archive = new Archive(
       +item.id,

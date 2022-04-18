@@ -1,69 +1,85 @@
 <div class="box" id="new-metric">
-    <h1>
-      {{editMode ? "Edit Metric" : "New Metric"}}
-    </h1>
-    <form class="form" action="" [formGroup]="metricForm" (ngSubmit)="save()">
-      <div class="form-group">
-        <label for="name">Display Name</label>
-        <input type="text" id="name"
-          formControlName="name"
-        class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="code">Code (must be unique, no spaces)</label>
-        <input type="text" id="code"
-          formControlName="code"
-        class="form-control">
-      </div>
-      <div class="form-group">
-          <label for="description">Description</label>
-          <textarea id="description"
-            formControlName="description"
-          class="form-control"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="url">Reference Url</label>
-        <input type="text" id="refUrl"
-          formControlName="refUrl"
-        class="form-control"/>
+  <h1>
+    {{ editMode ? "Edit Metric" : "New Metric" }}
+  </h1>
+  <form class="form" action="" [formGroup]="metricForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="name">Display Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+      />
     </div>
-      <div class="form-group">
-          <label for="unit">Unit</label>
-          <input type="text" id="unit"
-            formControlName="unit"
-          class="form-control"/>
-      </div>
-      <div class="form-group">
-        <label for="sampleRate">Sample Rate</label>
-        <input type="number" id="sampleRate"
-          formControlName="sampleRate"
-        class="form-control"/>
+    <div class="form-group">
+      <label for="code">Code (must be unique, no spaces)</label>
+      <input
+        type="text"
+        id="code"
+        formControlName="code"
+        class="form-control"
+      />
     </div>
-      <div id="value-container">
-        <div class="form-group" id="min-val">
-          <label for="minVal">Default Min Value</label>
-          <input type="number" 
-            formControlName="minVal"
-          class="form-control"/>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="url">Reference Url</label>
+      <input
+        type="text"
+        id="refUrl"
+        formControlName="refUrl"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="unit">Unit</label>
+      <input
+        type="text"
+        id="unit"
+        formControlName="unit"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="sampleRate">Sample Rate</label>
+      <input
+        type="number"
+        id="sampleRate"
+        formControlName="sampleRate"
+        class="form-control"
+      />
+    </div>
+    <div id="value-container">
+      <div class="form-group" id="min-val">
+        <label for="minVal">Default Min Value</label>
+        <input type="number" formControlName="minVal" class="form-control" />
       </div>
       <div class="form-group" id="max-val">
         <label for="maxVal">Default Max Value</label>
-        <input type="number" 
-          formControlName="maxVal"
-          class="form-control"/>
+        <input type="number" formControlName="maxVal" class="form-control" />
       </div>
-
     </div>
     <div class="btn-container">
-      <button mat-flat-button color="primary"
-        (click)="formUnsaved($event)"
-      >Cancel</button>
-      <button mat-flat-button color="accent" disabled 
-        type="submit" 
-        [disabled]='!metricForm.valid'
+      <button mat-flat-button color="primary" (click)="formUnsaved($event)">
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        disabled
+        type="submit"
+        [disabled]="!metricForm.valid"
         *ngIf="'update' | able: 'Metric'"
-      >Save</button>
+      >
+        Save
+      </button>
     </div>
   </form>
-
 </div>

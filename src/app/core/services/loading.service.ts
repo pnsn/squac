@@ -1,14 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Subject, forkJoin, BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Subject, BehaviorSubject } from "rxjs";
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class LoadingService {
   loading: Subject<boolean> = new BehaviorSubject(false);
   loadingStatus: Subject<string> = new BehaviorSubject(null);
-
-  constructor(
-  ) { }
 
   // changes the text shown on the loading screen
   setStatus(text: string): void {
@@ -26,5 +23,4 @@ export class LoadingService {
     this.loading.next(false);
     this.loadingStatus.next(null);
   }
-
 }

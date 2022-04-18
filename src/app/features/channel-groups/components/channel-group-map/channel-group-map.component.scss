@@ -1,7 +1,7 @@
 #map-container {
   height: 100%;
   width: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
   #map {
     flex-grow: 1;
@@ -24,43 +24,40 @@
 
 :host ::ng-deep .original-channels {
   @extend .map-icon;
-  background-color: #00DB5B !important;
+  background-color: #00db5b !important;
 }
 
-:host ::ng-deep .new-channels{
+:host ::ng-deep .new-channels {
   @extend .map-icon;
-  background-color: #00BAEB !important;
-  
+  background-color: #00baeb !important;
 }
 
 :host ::ng-deep .filtered-channels {
   @extend .map-icon;
-  background-color: #FF8E16  !important;
+  background-color: #ff8e16 !important;
 }
-
-
 
 :host ::ng-deep .remove-channels {
   @extend .map-icon;
-  background-color:#E60808 !important;
+  background-color: #e60808 !important;
 }
 
-
 #legend {
-    padding: 5px;
-    #legend-top, #legend-bottom{
-      width: 100%;
-      div.legend-item{
-        display:inline-block;
-        width: 50%;
-        div {
-          display: inline-block;
-        }
-      }
-      span {
-        padding-left: 5px;
+  padding: 5px;
+  #legend-top,
+  #legend-bottom {
+    width: 100%;
+    div.legend-item {
+      display: inline-block;
+      width: 50%;
+      div {
+        display: inline-block;
       }
     }
+    span {
+      padding-left: 5px;
+    }
+  }
   ul {
     list-style: none;
     width: fit-content;

@@ -1,20 +1,26 @@
-import { Component, OnInit, OnDestroy, Inject, SimpleChanges, OnChanges, AfterContentInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Widget } from '@features/widgets/models/widget';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { WidgetEditService } from '../../services/widget-edit.service';
-import { Metric } from '@core/models/metric';
-import { ChannelGroup } from '@core/models/channel-group';
-import { MessageService } from '@core/services/message.service';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  AfterContentInit,
+} from "@angular/core";
+import { Subscription } from "rxjs";
+import { Widget } from "@features/widgets/models/widget";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { WidgetEditService } from "../../services/widget-edit.service";
+import { Metric } from "@core/models/metric";
+import { ChannelGroup } from "@core/models/channel-group";
+import { MessageService } from "@core/services/message.service";
 
 @Component({
-  selector: 'app-widget-edit',
-  templateUrl: './widget-edit.component.html',
-  styleUrls: ['./widget-edit.component.scss']
+  selector: "app-widget-edit",
+  templateUrl: "./widget-edit.component.html",
+  styleUrls: ["./widget-edit.component.scss"],
 })
-export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy {
-
+export class WidgetEditComponent
+  implements OnInit, AfterContentInit, OnDestroy
+{
   id: number;
   widget: Widget;
 
@@ -31,7 +37,7 @@ export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetEditService: WidgetEditService,
     private messageService: MessageService
-  ) { }
+  ) {}
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
     this.statTypes = this.data.statTypes;
@@ -40,17 +46,17 @@ export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy 
 
     this.editMode = !!this.widget;
     this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
-
   }
 
   ngAfterContentInit(): void {
     // Called after ngOnInit when the component's or directive's content has been initialized.
     // Add 'implements AfterContentInit' to the class.
     const sub = this.widgetEditService.isValid.subscribe(
-      valid => {
+      (valid) => {
         this.isValid = valid;
-      }, error => {
-        console.log('error in widget edit valid: ' + error);
+      },
+      (error) => {
+        console.log("error in widget edit valid: " + error);
       }
     );
     this.subscriptions.add(sub);
@@ -62,17 +68,16 @@ export class WidgetEditComponent implements OnInit, AfterContentInit, OnDestroy 
 
   // Tables need to be resized when the tab appears
   stepSelected() {
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event("resize"));
   }
 
   save() {
-
     this.widgetEditService.saveWidget().subscribe(
       () => {
         this.cancel();
       },
-      error => {
-        this.messageService.error('Could not save widget.');
+      () => {
+        this.messageService.error("Could not save widget.");
       }
     );
   }

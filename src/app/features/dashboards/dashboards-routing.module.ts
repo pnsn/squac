@@ -1,56 +1,55 @@
-import { NgModule } from '@angular/core';
-import { DashboardsComponent } from './components/dashboards/dashboards.component';
-import { DashboardEditComponent } from './components/dashboard-edit/dashboard-edit.component';
-import { DashboardDetailComponent } from './components/dashboard-detail/dashboard-detail.component';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '@core/guards/auth.guard';
-import { PermissionGuard } from '@core/guards/permission.guard';
-import { DashboardsResolver } from './dashboards.resolver';
-import { widgetRoutes } from '@features/widgets/widgets.routes';
+import { NgModule } from "@angular/core";
+import { DashboardsComponent } from "./components/dashboards/dashboards.component";
+import { DashboardEditComponent } from "./components/dashboard-edit/dashboard-edit.component";
+import { DashboardDetailComponent } from "./components/dashboard-detail/dashboard-detail.component";
+import { Routes, RouterModule } from "@angular/router";
+import { AuthGuard } from "@core/guards/auth.guard";
+import { PermissionGuard } from "@core/guards/permission.guard";
+import { DashboardsResolver } from "./dashboards.resolver";
+import { widgetRoutes } from "@features/widgets/widgets.routes";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: DashboardsComponent,
     canActivate: [AuthGuard],
     resolve: {
-      dashboards: DashboardsResolver
+      dashboards: DashboardsResolver,
     },
-    runGuardsAndResolvers: 'always',
+    runGuardsAndResolvers: "always",
     children: [
       {
-        path: 'new',
+        path: "new",
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'create'}
+        data: { subject: "Dashboard", action: "create" },
       },
       {
-        path: ':dashboardId',
+        path: ":dashboardId",
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'read'},
+        data: { subject: "Dashboard", action: "read" },
         resolve: {
-          dashboard: DashboardsResolver
+          dashboard: DashboardsResolver,
         },
-        children: widgetRoutes
+        children: widgetRoutes,
         // loadChildren: () => import('@features/widgets/widgets.module').then(m=>m.WidgetsModule)
       },
       {
-        path: ':dashboardId/edit',
+        path: ":dashboardId/edit",
         component: DashboardEditComponent,
         canActivate: [PermissionGuard],
-        data: {subject: 'Dashboard', action: 'update'},
+        data: { subject: "Dashboard", action: "update" },
         resolve: {
-          dashboard: DashboardsResolver
+          dashboard: DashboardsResolver,
         },
       },
-
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardsRoutingModule { }
+export class DashboardsRoutingModule {}

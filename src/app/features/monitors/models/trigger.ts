@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+import { Alert } from "./alert";
+import { Monitor } from "./monitor";
 
 export class Trigger {
   constructor(
@@ -13,12 +15,16 @@ export class Trigger {
     public email_list: string, //comma separated
     public val1: number,
     public val2?: number
-  ) {
-  }
+  ) {}
   static get modelName() {
-    return 'Trigger';
+    return "Trigger";
   }
 
+  // get conditionString(): string {
+  //   return `Alarm if ${this.num_channels_operator} ${this.num_channels}`
+  // }
+  lastAlarm: Alert;
+  monitor: Monitor;
 }
 
 export interface ApiGetTrigger {
@@ -34,7 +40,7 @@ export interface ApiGetTrigger {
   updated_at: string;
   user_id: string;
   alert_on_out_of_alarm: boolean;
-  email_list: string //comma separated
+  email_list: string; //comma separated
 }
 
 export interface ApiPostTrigger {
@@ -45,11 +51,11 @@ export interface ApiPostTrigger {
   num_channels: number;
   num_channels_operator: string; //any, ==, <, >
   alert_on_out_of_alarm: boolean;
-  email_list: string //comma separated
+  email_list: string; //comma separated
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TriggerAdapter implements Adapter<Trigger> {
   adaptFromApi(item: ApiGetTrigger): Trigger {
@@ -76,8 +82,7 @@ export class TriggerAdapter implements Adapter<Trigger> {
       num_channels: item.num_channels,
       num_channels_operator: item.num_channels_operator,
       alert_on_out_of_alarm: item.alert_on_out_of_alarm,
-      email_list: item.email_list 
+      email_list: item.email_list,
     };
   }
 }
-

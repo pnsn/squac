@@ -1,11 +1,6 @@
-import {
-  Component,
-  Input,
-  OnChanges, SimpleChanges
-} from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
-import { min } from "@core/utils/utils";
 import { Trigger } from "@features/monitors/models/trigger";
 import { ApiGetAggregate } from "@features/widgets/models/aggregate";
 import { MeasurementsService } from "@features/widgets/services/measurements.service";
@@ -30,8 +25,7 @@ export class MonitorChartComponent implements OnChanges {
   constructor(
     private measurementService: MeasurementsService,
     private dateService: DateService
-    ) {
-  }
+  ) {}
   results: Array<any> = [];
   hasData: boolean;
   referenceLines: any[] = [];
@@ -73,9 +67,9 @@ export class MonitorChartComponent implements OnChanges {
   addTriggers() {
     this.referenceLines = [];
     this.triggers?.forEach((trigger) => {
-      let min : number, max: number;
-      
-      if(trigger.val2 === null) {
+      let min: number, max: number;
+
+      if (trigger.val2 === null) {
         min = trigger.val1;
       } else {
         min = Math.min(trigger.val1, trigger.val2);
@@ -90,7 +84,6 @@ export class MonitorChartComponent implements OnChanges {
         name: `min: ` + min,
         value: min,
       });
-
     });
   }
 
@@ -143,11 +136,14 @@ export class MonitorChartComponent implements OnChanges {
     // count, sum, avg, min, max
     // ['minute', 'hour', 'day'];
 
-    const duration = this.dateService.duration(this.intervalCount, this.intervalType);
+    const duration = this.dateService.duration(
+      this.intervalCount,
+      this.intervalType
+    );
     const numHours = 10; // number of monitor evaluations to show
 
     const requests = [];
-    let endtime = this.dateService.now().startOf('hour'); // last time alarms would have ran
+    let endtime = this.dateService.now().startOf("hour"); // last time alarms would have ran
     for (let i = 0; i < numHours; i++) {
       const starttime = this.dateService.subtractDuration(endtime, duration);
 
@@ -164,7 +160,7 @@ export class MonitorChartComponent implements OnChanges {
       );
       this.indexes.push(endtime.clone());
 
-      endtime = this.dateService.subtract(endtime, 1, 'hour');
+      endtime = this.dateService.subtract(endtime, 1, "hour");
     }
 
     forkJoin(requests)

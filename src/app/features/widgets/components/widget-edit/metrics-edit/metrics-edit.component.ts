@@ -1,20 +1,24 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { SelectionType, ColumnMode } from '@swimlane/ngx-datatable';
-import { Metric } from '@core/models/metric';
-import { MetricsService } from '@features/metrics/services/metrics.service';
-import { WidgetEditService } from '../../../services/widget-edit.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
+import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
+import { Metric } from "@core/models/metric";
+import { WidgetEditService } from "../../../services/widget-edit.service";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-metrics-edit',
-  templateUrl: './metrics-edit.component.html',
-  styleUrls: ['./metrics-edit.component.scss']
+  selector: "app-metrics-edit",
+  templateUrl: "./metrics-edit.component.html",
+  styleUrls: ["./metrics-edit.component.scss"],
 })
 export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() metrics: Metric[];
-  @ViewChild('metricTable') metricTable;
+  @ViewChild("metricTable") metricTable;
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   subscriptions: Subscription = new Subscription();
@@ -24,20 +28,18 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
   tableRows: Metric[];
   done = false;
   messages = {
-      // Message to show when array is presented
-  // but contains no values
-    emptyMessage: 'Loading data.',
+    // Message to show when array is presented
+    // but contains no values
+    emptyMessage: "Loading data.",
 
     // Footer total message
-    totalMessage: 'total',
+    totalMessage: "total",
 
     // Footer selected message
-    selectedMessage: 'selected'
-};
+    selectedMessage: "selected",
+  };
 
-  constructor(
-    private widgetEditService: WidgetEditService
-  ) { }
+  constructor(private widgetEditService: WidgetEditService) {}
 
   ngOnInit() {
     this.availableMetrics = this.metrics;
@@ -45,13 +47,10 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
     const metricIds = this.widgetEditService.getMetricIds();
     if (metricIds && metricIds.length > 0) {
       this.done = true;
-      this.selectedMetrics = this.availableMetrics.filter(
-        metric => {
-          return metricIds.indexOf(metric.id) >= 0;
-        }
-      );
+      this.selectedMetrics = this.availableMetrics.filter((metric) => {
+        return metricIds.indexOf(metric.id) >= 0;
+      });
     }
-
   }
 
   ngAfterViewInit(): void {
@@ -65,7 +64,7 @@ export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.unsubscribe();
   }
 
-  metricsSelected({selected}) {
+  metricsSelected({ selected }) {
     this.selectedMetrics.splice(0, this.selectedMetrics.length);
     this.selectedMetrics.push(...selected);
     this.checkValid();

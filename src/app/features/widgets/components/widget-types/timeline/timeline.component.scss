@@ -4,7 +4,7 @@
   height: calc(100% - 52.5px);
   margin-top: 26px;
   padding-bottom: 20px;
-  overflow-x:hidden;
+  overflow-x: hidden;
   overflow-y: scroll;
   visibility: visible;
   position: absolute;
@@ -30,7 +30,8 @@
     margin: 0px 3px;
     padding: 0px 2px;
   }
-  #in-threshold, #out-of-threshold {
+  #in-threshold,
+  #out-of-threshold {
     color: white;
   }
 
