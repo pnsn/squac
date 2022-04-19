@@ -1,24 +1,30 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { Metric } from '@core/models/metric';
-import { ApiPostThreshold, Threshold, ThresholdAdapter } from '../models/threshold';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { Metric } from "@core/models/metric";
+import {
+  ApiPostThreshold,
+  Threshold,
+  ThresholdAdapter,
+} from "../models/threshold";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 // Class for widget interaction with squac
 export class ThresholdsService {
-
-  private url = 'measurement/thresholds/';
+  private url = "measurement/thresholds/";
 
   constructor(
     private squacApi: SquacApiService,
     private thresholdAdapter: ThresholdAdapter
-  ) {
-  }
+  ) {}
 
-  updateThresholds(metrics: Metric[], thresholds: any, widgetId: number): Observable<Threshold>[] {
+  updateThresholds(
+    metrics: Metric[],
+    thresholds: any,
+    widgetId: number
+  ): Observable<Threshold>[] {
     const thresholdSubs = [];
     for (const metric of metrics) {
       if (thresholds[metric.id]) {
@@ -35,7 +41,8 @@ export class ThresholdsService {
 
   private updateThreshold(threshold: Threshold, widgetId) {
     threshold.widgetId = widgetId;
-    const postData: ApiPostThreshold = this.thresholdAdapter.adaptToApi(threshold);
+    const postData: ApiPostThreshold =
+      this.thresholdAdapter.adaptToApi(threshold);
 
     if (threshold.id) {
       return this.squacApi.put(this.url, threshold.id, postData);
@@ -47,5 +54,4 @@ export class ThresholdsService {
   deleteThreshold(id) {
     return this.squacApi.delete(this.url, id);
   }
-
 }

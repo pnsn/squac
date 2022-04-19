@@ -1,15 +1,15 @@
-@import 'variables';
+@import "variables";
 #title {
   h2 {
-  margin-top: 0px;
+    margin-top: 0px;
   }
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 }
 #monitor-container {
-  display:flex;
+  display: flex;
   flex-direction: row;
   height: 300;
   overflow: hidden;
@@ -18,15 +18,15 @@
   .col {
     flex-grow: 1;
     text-align: start;
-    height:100%;
-  }
-  #triggers {
-    width: 40%;
-  }
-  #monitor-chart {
-    width: 60%;
     height: 100%;
   }
+  // #triggers {
+  //   width: 40%;
+  // }
+  // #monitor-chart {
+  //   width: 60%;
+  //   height: 100%;
+  // }
 }
 
 .trigger {

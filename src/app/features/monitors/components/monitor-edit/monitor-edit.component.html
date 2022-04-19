@@ -1,152 +1,356 @@
 <div mat-dialog-title id="edit-title">
-  <h3>{{ editMode ? "Edit Monitor": "New Monitor"}}</h3>
+  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>
   <button mat-icon-button (click)="cancel()" type="button">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content id="edit-container">
   <form #monitorEditForm [formGroup]="monitorForm">
-    <mat-horizontal-stepper
-      #stepper [linear]="!editMode" color="primary">
-      <mat-step 
+    <mat-stepper #stepper orientation="horizontal" color="primary">
+      <mat-step
         label="Monitor Configuration"
         #infoStep
         [completed]="monitorForm.valid"
-        [hasError]="infoStep.interacted && !monitorForm.valid"
-        >
+        state="monitor"
+      >
         <div id="monitor-edit-container">
-          <mat-form-field id="name">
+          <mat-form-field class="large">
+            <!-- hintLabel="Max 60 characters" -->
             <mat-label for="name">Monitor Name</mat-label>
-            <input matInput type="text" name="name" formControlName="name">
+            <input
+              matInput
+              #name
+              maxLength="60"
+              type="text"
+              name="name"
+              formControlName="name"
+            />
+            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
           </mat-form-field>
+          <p class="help-text">
+            A monitor is 'in alarm' when the following conditions are true.
+          </p>
+          <div id="monitor-body">
+            <div>
+              <span>The</span>
+              <mat-form-field class="xsmall">
+                <mat-label>statistic</mat-label>
+                <mat-select formControlName="stat" name="stat">
+                  <mat-option *ngFor="let stat of stats" [value]="stat.value">
+                    {{ stat.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
-          <div>
-            <span>Will be in alarm when the</span>
-            <mat-form-field class="small">
-              <mat-label>Statistic</mat-label>
-              <mat-select formControlName="stat" name="stat">
-                <mat-option *ngFor="let stat of stats" [value]="stat"> {{stat}} </mat-option>
-              </mat-select>
-            </mat-form-field>
+              <span>of</span>
+              <mat-form-field class="medium">
+                <mat-label>Metric</mat-label>
+                <mat-select
+                  formControlName="metric"
+                  name="metric"
+                  placeholder="metric"
+                >
+                  <mat-option *ngFor="let m of metrics" [value]="m"
+                    >{{ m.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <span>measurements </span>
+            </div>
 
-            <span> of </span>
-            <mat-form-field class="large">
-              <mat-label>Metric</mat-label>
-              <mat-select formControlName="metric" name="metric">
-                <mat-option *ngFor="let m of metrics" [value]="m">{{m.name}} </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span> for </span>
-            <mat-form-field class="small">
-              <mat-label for="numberChannels"># of Channels</mat-label>
-              <input matInput type="number" name="numberChannels" formControlName="numberChannels">
-            </mat-form-field>
-            <span> or {{inverted ? "fewer" : "more"}} channels in </span>
-            <mat-form-field class="large">
-              <mat-label>
-                Channel Group
-              </mat-label>
-              <mat-select formControlName="channelGroup" name="channelGroup">
-                <mat-option *ngFor="let c of channelGroups" [value]="c">{{c.name}} ({{c.channelIds.length}} channels)
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span>breaches the set triggers in the last </span>
-
-            <mat-form-field class="small">
-              <mat-label for="intervalCount"># of intervals</mat-label>
-              <input matInput type="number" name="intervalCount" formControlName="intervalCount">
-            </mat-form-field>
-            <mat-form-field class="small">
-              <mat-label>Length of Interval</mat-label>
-              <mat-select formControlName="intervalType" name="intervalType">
-                <mat-option *ngFor="let type of intervalTypes" [value]="type">
-                  {{type}}{{monitorForm.value.intervalCount > 1 ? "s." : "."}} </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-slide-toggle formControlName="invert">{{inverted ? "Inverted" : "Invert"}}</mat-slide-toggle>
-
-          </div>
-
-        </div>
-      </mat-step>
-
-      <mat-step
-        label="Triggers"
-        #triggerStep
-        [completed]="triggers.valid && triggers.controls.length > 0"
-        >
-        <div id="trigger-container">
-          <div id="trigger-title">
-            <h4>Triggers</h4>
-            <button mat-button (click)="addTrigger()" aria-label="button that adds a new trigger">
-              <mat-icon>add</mat-icon> new trigger
-            </button>
-
-          </div>
-
-          <div formArrayName="triggers">
-
-            <p class="help-text" *ngIf="triggers.length === 0">Must have at least one</p>
-            <div *ngFor="let trigger of triggers.controls; let i=index">
-
-              <div [formGroupName]="i" class="trigger"
-                *ngIf="!trigger.value.id || (trigger.value.min || trigger.value.max || trigger.level)">
-                <div class="trigger-form">
-                  <mat-form-field>
-                    <mat-label for="level">Level</mat-label>
-                    <mat-select formControlName="level" name="level">
-                      <mat-option *ngFor="let l of levels" [value]="l"> {{l}} </mat-option>
+            <ng-container formArrayName="triggers">
+              <ng-container formGroupName="0">
+                <div>
+                  <span>is</span>
+                  <mat-form-field class="xsmall">
+                    <mat-label for="value_operator">operator</mat-label>
+                    <mat-select
+                      formControlName="value_operator"
+                      name="value_operator"
+                    >
+                      <mat-option
+                        *ngFor="let o of value_operators"
+                        [value]="o.value"
+                      >
+                        {{ o.name }}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field>
-                    <mat-label for="min">min:</mat-label>
-                    <input matInput type="number" name="min" formControlName="min">
+                  <mat-form-field class="xsmall">
+                    <mat-label for="val1">value</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      name="val1"
+                      formControlName="val1"
+                    />
                   </mat-form-field>
-                  <mat-form-field>
-                    <mat-label for="max">max:</mat-label>
-                    <input matInput type="number" name="max" formControlName="max">
+                  <ng-container> </ng-container>
+                  <span> and </span>
+                  <mat-form-field class="xsmall">
+                    <mat-label for="val2">value 2</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      name="val2"
+                      formControlName="val2"
+                    />
                   </mat-form-field>
-
-                  <mat-checkbox *ngIf="trigger.value.min !== null && trigger.value.max !== null; else noInclusive"
-                    name="inclusive" formControlName="inclusive">
-                    <span>inclusive</span>
-                  </mat-checkbox>
-                  <ng-template #noInclusive>
-                    set {{trigger.value.min !== null ? "max" : "min"}} for band
-                  </ng-template>
-
-                  <button mat-icon-button color="warn" (click)="removeThreshold(i)"
-                    aria-label="button that removes the trigger">
-                    <mat-icon> delete </mat-icon>
-                  </button>
-
                 </div>
-
-                <div class="trigger-help">
-                  <span *ngIf="trigger.value.min !== null || trigger.value.max !== null"> Will be in alarm when </span>
-                  <span *ngIf="trigger.value.min !== null && trigger.value.max !== null">
-                    value {{trigger.value.inclusive ? "between" : "not between"}} {{trigger.value.min}} and
-                    {{trigger.value.max}}
-                  </span>
-                  <span *ngIf="trigger.value.min !== null && trigger.value.max === null">
-                    values < {{trigger.value.min}} </span> <span
-                      *ngIf="trigger.value.max !== null && trigger.value.min === null">
-                      values > {{trigger.value.max}}
-                  </span>
+                <div id="trigger-channels">
+                  <span>for</span>
+                  <mat-form-field class="xsmall">
+                    <mat-label for="num_channels_operator">operator</mat-label>
+                    <mat-select
+                      formControlName="num_channels_operator"
+                      name="num_channels_operator"
+                    >
+                      <mat-option
+                        *ngFor="let n of num_channels_operators"
+                        [value]="n.value"
+                      >
+                        {{ n.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="xsmall">
+                    <mat-label for="num_channels"># of channels</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      name="num_channels"
+                      formControlName="num_channels"
+                    />
+                  </mat-form-field>
                 </div>
-              </div>
+              </ng-container>
+            </ng-container>
+            <div id="monitor-channels">
+              <span>in</span>
+              <mat-form-field class="medium">
+                <mat-label> Channel Group </mat-label>
+                <mat-select formControlName="channelGroup" name="channelGroup">
+                  <mat-option *ngFor="let c of channelGroups" [value]="c"
+                    >{{ c.name }} ({{ c.channelIds.length }} channels)
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <span>over the last</span>
 
+              <mat-form-field class="xsmall">
+                <mat-label for="intervalCount"># of intervals</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  name="intervalCount"
+                  formControlName="intervalCount"
+                />
+              </mat-form-field>
+              <mat-form-field class="xsmall">
+                <mat-label for="IntervalType">interval</mat-label>
+                <mat-select formControlName="intervalType" name="intervalType">
+                  <mat-option *ngFor="let type of intervalTypes" [value]="type">
+                    {{ type
+                    }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <span>.</span>
             </div>
           </div>
-
         </div>
       </mat-step>
-    </mat-horizontal-stepper>
+      <mat-step
+        label="Notification Settings"
+        #triggerStep
+        [completed]="triggers.valid && triggers.controls.length > 0"
+        state="trigger"
+      >
+        <div id="trigger-container">
+          <p class="help-text">
+            An alert will be sent when the monitor enters the 'in alarm' state.
+            It can also alert when the monitor is no longer 'in alarm'.
+          </p>
+          <div formArrayName="triggers">
+            <table id="trigger-table">
+              <tr>
+                <th>Alert on exit</th>
+                <th>Operator</th>
+                <th>Value</th>
+                <th>Value 2</th>
+                <th>Operator</th>
+                <th># of channels</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+              <ng-container
+                *ngFor="let trigger of triggers.controls; let i = index"
+              >
+                <tr [formGroupName]="i" class="trigger">
+                  <td>
+                    <mat-slide-toggle
+                      name="alert_on_out_of_alarm"
+                      formControlName="alert_on_out_of_alarm"
+                    >
+                    </mat-slide-toggle>
+                  </td>
+                  <td>
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
+                      <mat-label for="value_operator">operator</mat-label>
+                      <mat-select
+                        formControlName="value_operator"
+                        name="value_operator"
+                      >
+                        <mat-option
+                          *ngFor="let o of value_operators"
+                          [value]="o.value"
+                        >
+                          {{ o.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
+                      <mat-label for="val1">value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        name="val1"
+                        formControlName="val1"
+                      />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
+                      <mat-label for="val2">value 2</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        name="val2"
+                        formControlName="val2"
+                      />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
+                      <mat-label for="num_channels_operator"
+                        >operator</mat-label
+                      >
+                      <mat-select
+                        formControlName="num_channels_operator"
+                        name="num_channels_operator"
+                      >
+                        <mat-option
+                          *ngFor="let n of num_channels_operators"
+                          [value]="n.value"
+                        >
+                          {{ n.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field
+                      class="xsmall"
+                      *ngIf="i !== 0; else default"
+                    >
+                      <mat-label for="num_channels"># of channels</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        name="num_channels"
+                        formControlName="num_channels"
+                      />
+                    </mat-form-field>
+                  </td>
+
+                  <td>
+                    <mat-form-field>
+                      <mat-label for="email_list">email:</mat-label>
+                      <textarea
+                        matInput
+                        name="email_list"
+                        formControlName="email_list"
+                      ></textarea>
+                      <mat-error></mat-error>
+                    </mat-form-field>
+                  </td>
+
+                  <td>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="removeTrigger(i)"
+                      aria-label="button that removes the trigger"
+                      *ngIf="i !== 0"
+                    >
+                      <mat-icon> delete </mat-icon>
+                    </button>
+                  </td>
+                  <ng-template #default> default </ng-template>
+                </tr>
+              </ng-container>
+            </table>
+            <!-- <div class="trigger-help">
+              <span
+                *ngIf="trigger.value.min !== null || trigger.value.max !== null"
+              >
+                Will be in alarm when
+              </span>
+              <span
+                *ngIf="trigger.value.min !== null && trigger.value.max !== null"
+              >
+                value
+                {{ trigger.value.inclusive ? "between" : "not between" }}
+                {{ trigger.value.min }} and
+                {{ trigger.value.max }}
+              </span>
+              <span
+                *ngIf="trigger.value.min !== null && trigger.value.max === null"
+              >
+                values < {{ trigger.value.min }}
+              </span>
+              <span
+                *ngIf="trigger.value.max !== null && trigger.value.min === null"
+              >
+                values > {{ trigger.value.max }}
+              </span>
+            </div> -->
+          </div>
+          <button
+            mat-button
+            (click)="addTrigger()"
+            aria-label="button that adds a new trigger"
+          >
+            <mat-icon> notification_add </mat-icon> add notification
+          </button>
+        </div>
+      </mat-step>
+      <ng-template matStepperIcon="monitor">
+        <mat-icon>add_chart</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="trigger">
+        <mat-icon>edit_notifications</mat-icon>
+      </ng-template>
+    </mat-stepper>
   </form>
 
-  <div id="chart-container">
+  <!-- <div id="chart-container">
     <h4>Preview</h4>
     <app-monitor-chart
       [metric]="monitorForm.value.metric"
@@ -158,27 +362,38 @@
       [intervalType]="monitorForm.value.intervalType"
       [invert]="monitorForm.value.invert"
       ></app-monitor-chart>
-  </div>
-
-
+  </div> -->
 </div>
-
-
-
 
 <div mat-dialog-actions id="dialog-options">
   <div>
-
-    <button mat-stroked-button color="primary" (click)="stepper.next()"
-      [disabled]='stepper.selectedIndex === 1' *ngIf="stepper.selectedIndex === 0">Next</button>
-    <button mat-stroked-button color="primary" (click)="stepper.previous()"
-      [disabled]="stepper.selectedIndex === 0 " *ngIf="stepper.selectedIndex === 1">Back</button>
-
-    <button id="save" mat-flat-button color="accent" (click)="save()"
-    [disabled]="!monitorForm.valid || triggers.length === 0">Save</button>
-
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="stepper.next()"
+      [disabled]="stepper.selectedIndex === 1"
+      *ngIf="stepper.selectedIndex === 0"
+    >
+      Next
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="stepper.previous()"
+      [disabled]="stepper.selectedIndex === 0"
+      *ngIf="stepper.selectedIndex === 1"
+    >
+      Back
+    </button>
+    <button
+      id="save"
+      mat-flat-button
+      color="accent"
+      (click)="save()"
+      [disabled]="!monitorForm.valid || triggers.length === 0"
+    >
+      Save
+    </button>
   </div>
-  <div>
-    All fields are required.
-  </div>
+  <p class="help-text danger">* required field</p>
 </div>

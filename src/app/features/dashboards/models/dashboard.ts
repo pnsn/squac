@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from '@core/models/adapter';
-import { Widget } from '@features/widgets/models/widget';
+import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+import { Widget } from "@features/widgets/models/widget";
 
 export class Dashboard {
   public widgets: Widget[];
@@ -20,25 +20,20 @@ export class Dashboard {
     public shareAll: boolean,
     public orgId: number,
     public widgetIds?: number[]
-  ) {
-  }
+  ) {}
 
   static get modelName() {
-    return 'Dashboard';
+    return "Dashboard";
   }
 
   updateWidgets(widgets: Widget[]) {
     this.widgets = widgets;
-    this.widgetIds  = [];
-    this.widgets.forEach(
-      widget => {
-        this.widgetIds.push(widget.id);
-      }
-    );
+    this.widgetIds = [];
+    this.widgets.forEach((widget) => {
+      this.widgetIds.push(widget.id);
+    });
   }
-
 }
-
 
 export interface ApiGetDashboard {
   id: number;
@@ -74,10 +69,9 @@ export interface ApiPostDashboard {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DashboardAdapter implements Adapter<Dashboard> {
-
   adaptFromApi(item: ApiGetDashboard): Dashboard {
     const dashboard = new Dashboard(
       item.id,
@@ -96,8 +90,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       dashboard.endtime = item.endtime;
     }
 
-    dashboard.archiveStat =  item.archive_stat ? item.archive_stat : 'min';
-    dashboard.archiveType = item.archive_type ? item.archive_type : 'raw';
+    dashboard.archiveStat = item.archive_stat ? item.archive_stat : "min";
+    dashboard.archiveType = item.archive_type ? item.archive_type : "raw";
 
     dashboard.home = item.home;
 
@@ -105,7 +99,6 @@ export class DashboardAdapter implements Adapter<Dashboard> {
   }
 
   adaptToApi(item: Dashboard): ApiPostDashboard {
-
     return {
       name: item.name,
       description: item.description,
@@ -117,8 +110,7 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       organization: item.orgId,
       home: item.home,
       archive_type: item.archiveType,
-      archive_stat: item.archiveStat
+      archive_stat: item.archiveStat,
     };
-
   }
 }

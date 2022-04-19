@@ -1,38 +1,40 @@
-<p class="help-text">Regular expression allowed for channel (for example: [H,C]..)</p>
+<p class="help-text">
+  Regular expression allowed. Use . for wildcard and [ , ] for sets. For
+  example, [B,H].Z would return all channels starting with B or H and ending
+  with Z.
+</p>
 <div id="filter-box">
-
-  
   <mat-form-field class="filter-chip-input">
     <input
       matInput
       placeholder="Network"
-      (change)="addFilter($event, 'network')"
-      (keydown.enter)="addFilter($event, 'network')"
-    >
+      (change)="addFilter($event, 'net_search')"
+      (keydown.enter)="addFilter($event, 'net_search')"
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
       matInput
       placeholder="Station"
-      (change)="addFilter($event, 'station')"
-      (keydown.enter)="addFilter($event, 'station')"
-    >
+      (change)="addFilter($event, 'sta_search')"
+      (keydown.enter)="addFilter($event, 'sta_search')"
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
       matInput
       placeholder="Location"
-      (change)="addFilter($event, 'location')"
-      (keydown.enter)="addFilter($event, 'location')"
-    >
+      (change)="addFilter($event, 'loc_search')"
+      (keydown.enter)="addFilter($event, 'loc_search')"
+    />
   </mat-form-field>
   <mat-form-field class="filter-chip-input">
     <input
       matInput
       placeholder="Channel"
       (change)="addFilter($event, 'chan_search')"
-      (keydown.enter)="addFilter($event, 'channel')"
-    >
+      (keydown.enter)="addFilter($event, 'chan_search')"
+    />
   </mat-form-field>
   <button
     mat-flat-button
@@ -47,7 +49,7 @@
 
 <!-- <mat-chip-list #chipList aria-label="Channel group filters">
   <div *ngFor="let filterGroup of filters | keyvalue">
-    <mat-chip 
+    <mat-chip
       *ngFor="let filter of filterGroup.value"
       [removable]="true"
       (removed)="removeFilter(filter, filterGroup.key)"

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LoadingService } from '@core/services/loading.service';
-import { finalize } from 'rxjs/operators';
+  HttpInterceptor,
+} from "@angular/common/http";
+import { Observable } from "rxjs";
+import { LoadingService } from "@core/services/loading.service";
+import { finalize } from "rxjs/operators";
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
@@ -16,18 +16,15 @@ export class LoadingInterceptor implements HttpInterceptor {
   /**
    * URLs for which the loading screen should not be enabled
    */
-  skipUrls = [
-    'measurement',
-    'channels',
-    'monitors'
-  ];
+  skipUrls = ["measurement", "channels", "monitors"];
 
-  constructor(
-    private loadingService: LoadingService) {
-  }
+  constructor(private loadingService: LoadingService) {}
 
   // got this from the internet, not sure I like it
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     let displayLoadingScreen = true;
 
     for (const url of this.skipUrls) {
@@ -37,7 +34,7 @@ export class LoadingInterceptor implements HttpInterceptor {
       }
     }
 
-    if (request.method !== 'GET') {
+    if (request.method !== "GET") {
       displayLoadingScreen = false;
     }
 

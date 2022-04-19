@@ -1,25 +1,21 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
+import { MockInstance, MockRender, ngMocks } from "ng-mocks";
 
-import { LoadingScreenComponent } from './loading-screen.component';
+import { LoadingScreenComponent } from "./loading-screen.component";
 
-describe('LoadingScreenComponent', () => {
-  let component: LoadingScreenComponent;
-  let fixture: ComponentFixture<LoadingScreenComponent>;
+describe("LoadingScreenComponent", () => {
+  ngMocks.faster();
+  MockInstance.scope();
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoadingScreenComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingScreenComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeAll(async () => {
+    return TestBed.configureTestingModule({
+      declarations: [LoadingScreenComponent],
+    }).compileComponents();
   });
 
-  it('should create', () => {
+  it("should create", () => {
+    const fixture = MockRender(LoadingScreenComponent);
+    const component = fixture.point.componentInstance;
     expect(component).toBeTruthy();
   });
 });

@@ -1,16 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MockModule } from "ng-mocks";
 
-import { SharedIndicatorComponent } from './shared-indicator.component';
+import { SharedIndicatorComponent } from "./shared-indicator.component";
 
-describe('SharedIndicatorComponent', () => {
+describe("SharedIndicatorComponent", () => {
   let component: SharedIndicatorComponent;
   let fixture: ComponentFixture<SharedIndicatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SharedIndicatorComponent ]
-    })
-    .compileComponents();
+      imports: [MockModule(MatTooltipModule), MockModule(MatIconModule)],
+      declarations: [SharedIndicatorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('SharedIndicatorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

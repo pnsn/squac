@@ -1,71 +1,126 @@
-<div id="title">
-  <h1>
-    Alert History
-  </h1>
-
-  <div id="button-container" >
+<app-table-view title="Alerts (last day)">
+  <ng-container tableHeadControls>
     <button
       mat-icon-button
       aria-label="button that refreshes data"
-      (click)="refresh()"><mat-icon>refresh</mat-icon></button>
-    <a mat-button [routerLink]="[ '/monitors' ]">View All Monitors</a>
-    <a mat-icon-button 
-      color="primary"
-      matTooltip="Notification Settings"
-      [routerLink]="[ '/user/notifications' ]"
-      aria-label="Button that navigates to notifications settings"
-      ><mat-icon>settings</mat-icon></a>
+      (click)="refresh()"
+    >
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <a mat-button [routerLink]="['/monitors']">View All Monitors</a>
     <a
       mat-flat-button
       color="accent"
       *ngIf="'update' | able: 'Monitor'"
       class="add-btn"
-      [routerLink]="[ '/monitors', 'new' ]"
-    >Create Monitor</a>
-  </div>
-</div>
-
-  <div id="alerts" class="box">
+      [routerLink]="['/monitors', 'new']"
+      >Create Monitor</a
+    >
+  </ng-container>
+  <ng-container tableHeadFilters> </ng-container>
+  <ng-container tableBody>
     <ngx-datatable
       id="alert-table"
-      class="material"
+      class="shared-view-table"
       [rows]="alerts"
       [columnMode]="ColumnMode.force"
       [headerHeight]="30"
       [footerHeight]="50"
-      [rowHeight]="23"
-      [scrollbarV]="50"
+      rowHeight="auto"
       #alertTable
     >
-    <ngx-datatable-column name="Status" prop="inAlarm" [draggable]="false"  [width]="30">
-      <ng-template  let-value="value" ngx-datatable-cell-template>
-        <span *ngIf="value; else notAlarm"><strong>In Alarm</strong></span>
-        <ng-template #notAlarm><span>Not In Alarm</span></ng-template>
-      </ng-template>
-    </ngx-datatable-column>
-      <ngx-datatable-column name="Time" prop="timestamp" [draggable]="false" [width]="30">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value | date:'short' }}
+      <ngx-datatable-column
+        name="State"
+        prop="inAlarm"
+        [width]="60"
+        [minWidth]="60"
+        [resizeable]="false"
+        [sortable]="false"
+        [canAutoResize]="false"
+      >
+        <ng-template
+          #stateTemplate
+          let-value="inAlarm"
+          ngx-datatable-cell-template
+        >
+          <a
+            *ngIf="inAlarm"
+            mat-icon-button
+            color="accent"
+            aria-label="monitor in alarm"
+          >
+            <mat-icon>error_outline</mat-icon>
+          </a>
+          <a
+            *ngIf="!inAlarm"
+            mat-icon-button
+            color="primary"
+            aria-label="monitor not in alarm"
+          >
+            <mat-icon>check_circle_outline</mat-icon>
+          </a>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Monitor" prop="monitor" [draggable]="false" [width]="150">
+      <ngx-datatable-column
+        name="Time"
+        prop="timestamp"
+        [draggable]="false"
+        [width]="30"
+      >
         <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value.name}}
+          {{ value | date: "short" }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false" >
+      <ngx-datatable-column
+        name="Monitor"
+        prop="monitor"
+        [draggable]="false"
+        [width]="150"
+      >
         <ng-template let-value="value" ngx-datatable-cell-template>
-          Level: {{value.level}}
-           {{value.bandInclusive? "inclusive" : "exclusive"}}
-           min: {{value.min}}  max: {{value.max}} 
+          {{ value.name }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Message" [draggable]="false">
-
+      <ngx-datatable-column name="Trigger" prop="trigger" [draggable]="false">
+        <ng-template
+          let-value="value"
+          let-row="row"
+          ngx-datatable-cell-template
+        >
+          values for
+          <span *ngIf="value.num_channels_operator !== '=='">
+            {{ value.num_channels_operator }}
+          </span>
+          {{ value.num_channels }} channel(s) in
+          {{ row.monitor.channelGroup.name }} are {{ value.value_operator }}
+          {{ value.val1 }}
+          <span *ngIf="value.val2"> and {{ value.val2 }} </span>
+        </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column
+        name="Breaching Channels"
+        prop="breaching_channels"
+        [draggable]="false"
+      >
+        <ng-template
+          let-value="value"
+          let-row="row"
+          ngx-datatable-cell-template
+        >
+          <ul>
+            <li *ngFor="let chan of value">
+              <span>
+                {{ chan.channel }}
+                {{ row.monitor.stat }}: {{ chan[row.monitor.stat] }}
+              </span>
+            </li>
+          </ul>
+        </ng-template>
+      </ngx-datatable-column>
 
-<!-- click to show more detail -->
+      <!-- click to show more detail -->
     </ngx-datatable>
-  </div>
+  </ng-container>
+</app-table-view>
 <router-outlet></router-outlet>

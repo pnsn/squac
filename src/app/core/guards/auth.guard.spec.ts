@@ -1,44 +1,76 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, tick } from "@angular/core/testing";
+import { Location } from "@angular/common";
+import { AuthService } from "../services/auth.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Router, RouterModule, RouterOutlet } from "@angular/router";
+import { MockBuilder, MockRender, ngMocks, NG_MOCKS_GUARDS } from "ng-mocks";
+import { EMPTY } from "rxjs";
+import { AuthGuard } from "./auth.guard";
+import { AppModule } from "app/app.module";
+import { DashboardsModule } from "@features/dashboards/dashboards.module";
+import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
+import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
+import { UserResolver } from "@features/user/user.resolver";
+import { MetricsResolver } from "@features/metrics/metrics.resolver";
+import { StatTypeResolver } from "@features/widgets/stat-type.resolver";
+import { OrganizationResolver } from "@features/user/organization.resolver";
 
-import { AuthGuard } from './auth.guard';
-import { MockAuthService } from '../services/auth.service.mock';
-import { AuthService } from '../services/auth.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+describe("AuthGuard", () => {
+  ngMocks.faster();
 
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
-  let authService: AuthService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [],
-      imports: [
-        RouterTestingModule.withRoutes([
-        ]
-      )],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService}
-      ]
-    });
-    guard = TestBed.inject(AuthGuard);
-    authService = TestBed.inject(AuthService);
+  beforeAll(() => {
+    return MockBuilder(AuthGuard, AppModule)
+      .exclude(NG_MOCKS_GUARDS)
+      .mock(DashboardsModule)
+      .mock(DashboardsResolver)
+      .mock(ChannelGroupsResolver)
+      .mock(UserResolver)
+      .mock(MetricsResolver)
+      .mock(StatTypeResolver)
+      .mock(OrganizationResolver)
+      .mock(AuthService, {
+        login: () => EMPTY,
+        loggedIn: false,
+      })
+      .keep(RouterModule)
+      .keep(RouterTestingModule.withRoutes([]));
   });
 
-  it('should be created', () => {
-    expect(guard).toBeTruthy();
-  });
+  it("should not allow routing if not authorized", fakeAsync(() => {
+    const fixture = MockRender(RouterOutlet);
+    const router = TestBed.inject(Router);
+    const location = TestBed.inject(Location);
+    const authService: AuthService = TestBed.inject(AuthService);
 
-  it('should not allow routing if not authorized', () => {
+    expect(authService.loggedIn).toBeFalse();
 
-    expect(authService.loggedIn).toBeFalsy();
-    expect(guard.canActivate(new ActivatedRouteSnapshot(), {url: '/'} as RouterStateSnapshot)).toBeTruthy();
+    location.go("/");
 
-  });
+    if (fixture.ngZone) {
+      fixture.ngZone.run(() => router.initialNavigation());
+      tick(); // is needed for rendering of the current route.
+    }
 
-  it('should allow routing after authorization', () => {
-    authService.login('email', 'password');
-    expect(guard.canActivate(new ActivatedRouteSnapshot(), {url: '/'} as RouterStateSnapshot)).toEqual(true);
-  });
+    expect(location.path()).toEqual("/login");
+    flush();
+  }));
 
+  it("should allow routing after authorization", fakeAsync(() => {
+    const fixture = MockRender(RouterOutlet);
+    const router = TestBed.inject(Router);
+    const location = TestBed.inject(Location);
+    const authService: AuthService = TestBed.inject(AuthService);
+
+    ngMocks.stubMember(authService, "loggedIn", true);
+    expect(authService.loggedIn).toBeTrue();
+
+    location.go("/");
+    if (fixture.ngZone) {
+      fixture.ngZone.run(() => router.initialNavigation());
+      tick(); // is needed for rendering of the current route.
+    }
+
+    expect(location.path()).toEqual("/dashboards");
+    flush();
+  }));
 });

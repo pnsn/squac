@@ -1,32 +1,21 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  Pipe,
-} from '@angular/core';
-import { ChannelGroup } from '@core/models/channel-group';
-import { pipe, Subscription } from 'rxjs';
-import {
-  Router,
-  ActivatedRoute,
-  NavigationEnd,
-  NavigationStart,
-} from '@angular/router';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
-import { OrganizationsService } from '@features/user/services/organizations.service';
-import { UserService } from '@features/user/services/user.service';
-import { Organization } from '@features/user/models/organization';
-import { filter, tap } from 'rxjs/operators';
-import { ChannelGroupsService } from '@features/channel-groups/services/channel-groups.service';
-import { UserPipe } from '@shared/pipes/user.pipe';
-import { OrganizationPipe } from '@shared/pipes/organization.pipe';
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Subscription } from "rxjs";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { OrganizationsService } from "@features/user/services/organizations.service";
+import { UserService } from "@features/user/services/user.service";
+import { Organization } from "@features/user/models/organization";
+import { filter, tap } from "rxjs/operators";
+import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { UserPipe } from "@shared/pipes/user.pipe";
+import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 
 // TODO: trackbyprop to use channelID
 @Component({
-  selector: 'app-channel-groups-view',
-  templateUrl: './channel-groups-view.component.html',
-  styleUrls: ['./channel-groups-view.component.scss'],
+  selector: "app-channel-groups-view",
+  templateUrl: "./channel-groups-view.component.html",
+  styleUrls: ["./channel-groups-view.component.scss"],
 })
 export class ChannelGroupsViewComponent
   implements OnInit, OnDestroy, AfterViewInit
@@ -61,7 +50,7 @@ export class ChannelGroupsViewComponent
     if (this.route.parent && this.route.parent.data) {
       const routeSub = this.route.parent.data.subscribe((data) => {
         if (data.channelGroups.error) {
-          console.log('error in channels');
+          console.log("error in channels");
         } else {
           this.channelGroups = data.channelGroups;
         }
@@ -82,7 +71,7 @@ export class ChannelGroupsViewComponent
     const routerEvents = this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
-        tap((event) => {
+        tap(() => {
           if (!this.route.firstChild) {
             this.clearSelectedChannelGroup();
           }
@@ -100,18 +89,18 @@ export class ChannelGroupsViewComponent
     this.subscription.add(orgSub);
 
     this.columns = [
-      { name: 'Name', draggable: false, sortable: true },
-      { name: 'Description', draggable: false, sortable: true },
+      { name: "Name", draggable: false, sortable: true },
+      { name: "Description", draggable: false, sortable: true },
       {
-        name: '# Channels',
-        prop: 'channelIds.length',
+        name: "# Channels",
+        prop: "channelIds.length",
         draggable: false,
         sortable: true,
         width: 20,
       },
       {
-        name: 'Owner',
-        prop: 'owner',
+        name: "Owner",
+        prop: "owner",
         draggable: false,
         sortable: true,
         width: 50,
@@ -119,8 +108,8 @@ export class ChannelGroupsViewComponent
         comparator: this.userComparator.bind(this),
       },
       {
-        name: 'Org',
-        prop: 'orgId',
+        name: "Org",
+        prop: "orgId",
         draggable: false,
         sortable: true,
         width: 20,
@@ -147,7 +136,7 @@ export class ChannelGroupsViewComponent
   }
 
   addChannelGroup() {
-    this.router.navigate(['new'], { relativeTo: this.route });
+    this.router.navigate(["new"], { relativeTo: this.route });
   }
 
   clearSelectedChannelGroup() {

@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Metric } from '@core/models/metric';
-import { MetricsService } from '@features/metrics/services/metrics.service';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { MetricsService } from "@features/metrics/services/metrics.service";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 @Component({
-  selector: 'app-metrics-view',
-  templateUrl: './metrics-view.component.html',
-  styleUrls: ['./metrics-view.component.scss']
+  selector: "app-metrics-view",
+  templateUrl: "./metrics-view.component.html",
+  styleUrls: ["./metrics-view.component.scss"],
 })
 export class MetricsViewComponent implements OnInit, OnDestroy {
   metrics: Metric[];
@@ -24,37 +24,36 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private metricsService: MetricsService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     if (this.route.parent) {
       this.metrics = this.route.parent.snapshot.data.metrics;
     }
-
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   addMetric() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(["new"], { relativeTo: this.route });
   }
 
   editMetric() {
-    this.router.navigate([`${this.selectedMetric.id}/edit`], {relativeTo: this.route});
+    this.router.navigate([`${this.selectedMetric.id}/edit`], {
+      relativeTo: this.route,
+    });
   }
 
   onSelect($event) {
     this.selected = true;
     this.metricsService.getMetric($event.selected[0].id).subscribe(
-      metric => {
+      (metric) => {
         this.selectedMetric = metric;
       },
-      error => {
-        console.log('error in metrics view: ' + error);
+      (error) => {
+        console.log("error in metrics view: " + error);
       }
     );
   }
 }
-

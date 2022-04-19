@@ -1,24 +1,22 @@
 #dashboard-list-container {
-  mat-expansion-panel{
+  mat-expansion-panel {
     border-radius: 0px;
     box-shadow: none;
   }
- mat-panel-title {
-
+  mat-panel-title {
     font-size: 1.1 rem;
     font-weight: 600;
   }
-
 }
 :host ::ng-deep .mat-list-item {
-  height:25px !important; 
+  height: 25px !important;
 }
 
 :host ::ng-deep .mat-list-item-content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display:block !important;
+  display: block !important;
   line-height: 25px;
 }
 
@@ -29,19 +27,18 @@ button {
     width: 20px;
   }
   height: 30px;
-  display:block;
+  display: block;
   line-height: 22px;
   margin: 10px auto;
 }
 
-
 :host ::ng-deep .mat-expansion-panel-header {
-  height:30px;
+  height: 30px;
   padding: 0px 10px;
 }
 
 :host ::ng-deep .mat-expansion-panel-body {
   max-height: 50vh;
-  overflow:scroll;
+  overflow: scroll;
   padding: 0px 5px 0px 5px;
 }

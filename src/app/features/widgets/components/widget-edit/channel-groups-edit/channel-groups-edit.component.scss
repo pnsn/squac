@@ -1,10 +1,10 @@
-@import '../../../../../../styles/variables.scss';
+@import "../../../../../../styles/variables.scss";
 #channel-group-selector-container {
-  display:flex;
+  display: flex;
   width: 100%;
   flex-direction: row;
 
-  overflow:hidden;
+  overflow: hidden;
   padding-top: 15px;
   .selected {
     background-color: $sq-blue;
@@ -43,4 +43,3 @@ mat-slide-toggle {
 //   height: 500px;
 //   overflow:hidden;
 // }
-

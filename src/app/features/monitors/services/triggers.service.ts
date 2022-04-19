@@ -1,37 +1,41 @@
-import { Injectable } from '@angular/core';
-import { SquacApiService } from '@core/services/squacapi.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Trigger, TriggerAdapter } from '../models/trigger';
-
-interface TriggerHttpData {
-  monitor: number;
-  band_inclusive: boolean;
-  maxval?: number;
-  minval?: number;
-  level: number;
-}
+import { Injectable } from "@angular/core";
+import { SquacApiService } from "@core/services/squacapi.service";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Trigger, TriggerAdapter } from "../models/trigger";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TriggersService {
-  private url = 'measurement/triggers/';
-
+  private url = "measurement/triggers/";
 
   constructor(
     private squacApi: SquacApiService,
     private triggerAdapter: TriggerAdapter
   ) {}
 
-  updateTriggers(triggers: Trigger[], monitorId: number): Observable<Trigger>[] {
+  getTriggers(): Observable<Trigger[]> {
+    return this.squacApi
+      .get(this.url)
+      .pipe(
+        map((results) =>
+          results.map((r) => this.triggerAdapter.adaptFromApi(r))
+        )
+      );
+  }
+
+  updateTriggers(
+    triggers: Trigger[],
+    deleteTriggers: number[],
+    monitorId: number
+  ): Observable<Trigger>[] {
     const triggerSubs = [];
     for (const trigger of triggers) {
-      if (trigger.id && trigger.max === null && trigger.min === null) {
-        triggerSubs.push(this.deleteTrigger(trigger.id));
-      } else if (trigger.max !== null || trigger.min !== null) {
-        triggerSubs.push(this.updateTrigger(trigger, monitorId));
-      }
+      triggerSubs.push(this.updateTrigger(trigger, monitorId));
+    }
+    for (const id of deleteTriggers) {
+      triggerSubs.push(this.deleteTrigger(id));
     }
     return triggerSubs;
   }
@@ -47,7 +51,7 @@ export class TriggersService {
     }
   }
 
-  deleteTrigger(id): Observable<any>{
+  deleteTrigger(id): Observable<any> {
     return this.squacApi.delete(this.url, id);
   }
 }

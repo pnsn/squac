@@ -1,35 +1,32 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChannelGroupsComponent } from './channel-groups.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChannelGroupsService } from '../services/channel-groups.service';
-import { NetworksService } from '../services/networks.service';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { ChannelGroupsComponent } from "./channel-groups.component";
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ChannelGroupsService } from "../services/channel-groups.service";
+import { NetworksService } from "../services/networks.service";
+import { ActivatedRoute } from "@angular/router";
+import { of } from "rxjs";
 
-describe('ChannelGroupsComponent', () => {
+describe("ChannelGroupsComponent", () => {
   let component: ChannelGroupsComponent;
   let fixture: ComponentFixture<ChannelGroupsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule
-      ],
-      declarations: [ ChannelGroupsComponent ],
+      imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+      declarations: [ChannelGroupsComponent],
       providers: [
         ChannelGroupsService,
         NetworksService,
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({id: 123})
-          }
-        }]
-    })
-    .compileComponents();
+            params: of({ id: 123 }),
+          },
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,7 +35,7 @@ describe('ChannelGroupsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,42 +1,43 @@
-import { TestBed } from '@angular/core/testing';
-import { Alert, AlertAdapter, ApiGetAlert } from './alert';
+import { TestBed } from "@angular/core/testing";
+import { MockService } from "ng-mocks";
+import { Alert, AlertAdapter, ApiGetAlert } from "./alert";
+import { ApiGetTrigger } from "./trigger";
 
-describe('Alert', () => {
+describe("Alert", () => {
   let adapter: AlertAdapter;
-  it('should create an instance', () => {
-    expect(new Alert(
-      1,
-      1,
-      'timestamp',
-      'message',
-      false,
-      null
-    )).toBeTruthy();
+  it("should create an instance", () => {
+    expect(MockService(Alert)).toBeTruthy();
   });
 
-  it('should adapt from api to Alert', () => {
+  it("should adapt from api to Alert", () => {
     adapter = TestBed.inject(AlertAdapter);
+    const trigger: ApiGetTrigger = {
+      id: 1,
+      url: "string",
+      monitor: 2,
+      val1: 1,
+      val2: 2,
+      value_operator: "string", //outsideof, within, ==, <, <=, >, >=
+      num_channels: 2,
+      num_channels_operator: "string", //any, ==, <, >
+      created_at: "string",
+      updated_at: "string",
+      user_id: "string",
+      alert_on_out_of_alarm: false,
+      email_list: "string", //comma separated
+    };
+
     const testData: ApiGetAlert = {
       id: 1,
-      url: 'urlString',
-      trigger: {
-        id: 1,
-        url: 'string',
-        monitor: 1,
-        minval: 1,
-        maxval: 2,
-        band_inclusive: false,
-        level: 1,
-        created_at: 'string',
-        updated_at: 'string',
-        user_id: '1'
-      },
-      timestamp: 'string',
-      message: 'string',
+      url: "urlString",
+      trigger,
+      timestamp: "string",
+      message: "string",
       in_alarm: false,
-      created_at: 'string',
-      updated_at: 'ng',
-      user_id: '1'
+      breaching_channels: [],
+      created_at: "string",
+      updated_at: "ng",
+      user_id: "1",
     };
 
     const alert = adapter.adaptFromApi(testData);

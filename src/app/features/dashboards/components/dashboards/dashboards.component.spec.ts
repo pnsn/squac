@@ -1,18 +1,18 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DashboardsComponent } from './dashboards.component';
-import { DashboardsService } from '@features/dashboards/services/dashboards.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DashboardViewComponent } from '@features/dashboards/components/dashboard-view/dashboard-view.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from '@shared/material.module';
-import { Ability, PureAbility } from '@casl/ability';
-import { AbilityModule } from '@casl/angular';
-import { AppAbility } from '@core/utils/ability';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { DashboardsComponent } from "./dashboards.component";
+import { DashboardsService } from "@features/dashboards/services/dashboards.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { DashboardViewComponent } from "@features/dashboards/components/dashboard-view/dashboard-view.component";
+import { RouterTestingModule } from "@angular/router/testing";
+import { MaterialModule } from "@shared/material.module";
+import { Ability, PureAbility } from "@casl/ability";
+import { AbilityModule } from "@casl/angular";
+import { AppAbility } from "@core/utils/ability";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
-describe('DashboardComponent', () => {
+describe("DashboardComponent", () => {
   let component: DashboardsComponent;
   let fixture: ComponentFixture<DashboardsComponent>;
 
@@ -24,16 +24,15 @@ describe('DashboardComponent', () => {
         RouterTestingModule.withRoutes([]),
         MaterialModule,
         AbilityModule,
-        MatToolbarModule
+        MatToolbarModule,
       ],
-      declarations: [ DashboardsComponent , DashboardViewComponent],
+      declarations: [DashboardsComponent, DashboardViewComponent],
       providers: [
         DashboardsService,
-                { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility , useExisting: Ability }
-      ]
-    })
-    .compileComponents();
+        { provide: AppAbility, useValue: new AppAbility() },
+        { provide: PureAbility, useExisting: Ability },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -42,7 +41,7 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
