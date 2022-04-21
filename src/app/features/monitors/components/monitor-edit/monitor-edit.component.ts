@@ -67,6 +67,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ];
   num_channels_operators: object[] = [
     { value: "any", name: "any" },
+    { value: "all", name: "all" },
     { value: "==", name: "exactly" },
     { value: ">", name: "more than" },
     { value: "<", name: "less than" },
@@ -115,7 +116,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         trigger ? trigger.value_operator : null,
         Validators.required,
       ],
-      num_channels: [trigger ? trigger.num_channels : null],
+      num_channels: [
+        {
+          value: trigger ? trigger.num_channels : null,
+          disabled:
+            trigger.num_channels_operator === "any" ||
+            trigger.num_channels_operator === "all",
+        },
+      ],
       num_channels_operator: [
         trigger ? trigger.num_channels_operator : null,
         Validators.required,
@@ -134,6 +142,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.push(triggerFormGroup);
   }
 
+  onStepChange($event) {
+    console.log($event);
+  }
   validateTrigger(values, triggerFormGroup) {
     const val2 = triggerFormGroup.get("val2");
     const num_channels = triggerFormGroup.get("num_channels");
@@ -148,7 +159,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       val2.addValidators(Validators.required, { emitEvent: false });
       val2.enable({ emitEvent: false });
     }
-    if (values.num_channels_operator === "any") {
+    if (
+      values.num_channels_operator === "any" ||
+      values.num_channels_operator === "all"
+    ) {
       num_channels.setValue("", { emitEvent: false });
       num_channels.disable({ emitEvent: false });
       num_channels.removeValidators(Validators.required, { emitEvent: false });
