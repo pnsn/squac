@@ -68,8 +68,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   num_channels_operators: object[] = [
     { value: "any", name: "any" },
     { value: "==", name: "exactly" },
-    { value: "<", name: "more than" },
-    { value: ">", name: "less than" },
+    { value: ">", name: "more than" },
+    { value: "<", name: "less than" },
   ];
 
   // selectedType;
