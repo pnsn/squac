@@ -67,16 +67,16 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ];
   num_channels_operators: object[] = [
     { value: "any", name: "any" },
+    { value: "all", name: "all" },
     { value: "==", name: "exactly" },
-    { value: "<", name: "more than" },
-    { value: ">", name: "less than" },
+    { value: ">", name: "more than" },
+    { value: "<", name: "less than" },
   ];
 
   // selectedType;
   // selectedStat;
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
-
   monitorForm = this.formBuilder.group({
     name: ["", Validators.required],
     intervalCount: ["", [Validators.required, Validators.min(1)]],
@@ -93,16 +93,22 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
     this.initForm();
+    const triggerSub = this.triggers.valueChanges.subscribe({
+      next: (value) => {
+        this.triggers.patchValue(value, {
+          onlySelf: true,
+          emitEvent: false,
+        });
+      },
+    });
+
+    this.subscriptions.add(triggerSub);
   }
 
-  // Access triggers
-  get triggers() {
+  // emitModelToViewChange: true,
+  // // Access triggers
+  get triggers(): FormArray {
     return this.monitorForm.get("triggers") as FormArray;
-  }
-
-  // Return first trigger, considered default
-  get defaultTrigger() {
-    return this.triggers.at(0).value;
   }
 
   // Add trigger info to form
@@ -115,7 +121,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         trigger ? trigger.value_operator : null,
         Validators.required,
       ],
-      num_channels: [trigger ? trigger.num_channels : null],
+      num_channels: [
+        {
+          value: trigger ? trigger.num_channels : null,
+          disabled:
+            trigger?.num_channels_operator === "any" ||
+            trigger?.num_channels_operator === "all",
+        },
+      ],
       num_channels_operator: [
         trigger ? trigger.num_channels_operator : null,
         Validators.required,
@@ -133,7 +146,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     );
     this.triggers.push(triggerFormGroup);
   }
-
   validateTrigger(values, triggerFormGroup) {
     const val2 = triggerFormGroup.get("val2");
     const num_channels = triggerFormGroup.get("num_channels");
@@ -148,7 +160,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       val2.addValidators(Validators.required, { emitEvent: false });
       val2.enable({ emitEvent: false });
     }
-    if (values.num_channels_operator === "any") {
+    if (
+      values.num_channels_operator === "any" ||
+      values.num_channels_operator === "all"
+    ) {
       num_channels.setValue("", { emitEvent: false });
       num_channels.disable({ emitEvent: false });
       num_channels.removeValidators(Validators.required, { emitEvent: false });
@@ -174,7 +189,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // Save monitor to SQUACapi
   save() {
     const values = this.monitorForm.value;
-    // console.log(values)
     const monitor = new Monitor(
       this.id,
       values.name,
@@ -184,7 +198,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.intervalCount,
       values.stat,
       null,
-      values.triggers
+      this.triggers.value
     );
 
     this.monitorsService
@@ -193,7 +207,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         switchMap((m) => {
           return merge(
             ...this.triggersService.updateTriggers(
-              values.triggers,
+              this.triggers.value,
               this.removeTriggerIDs,
               m.id
             )
