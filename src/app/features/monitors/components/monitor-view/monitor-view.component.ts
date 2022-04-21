@@ -94,10 +94,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   refresh() {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
-      const lastHour = this.dateService.subtractFromNow(1, "hour").format();
-      console.log(lastHour);
+      const lastDay = this.dateService.subtractFromNow(1, "day").format();
       const refreshRequests = this.alertsService
-        .getAlerts({ starttime: lastHour })
+        .getAlerts({ starttime: lastDay })
         .pipe(
           tap((alerts) => {
             this.alerts = alerts;
