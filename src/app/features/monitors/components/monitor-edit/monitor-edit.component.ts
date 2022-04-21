@@ -1,4 +1,3 @@
-import { trigger } from "@angular/animations";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, Validators } from "@angular/forms";
@@ -126,8 +125,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         {
           value: trigger ? trigger.num_channels : null,
           disabled:
-            trigger.num_channels_operator === "any" ||
-            trigger.num_channels_operator === "all",
+            trigger?.num_channels_operator === "any" ||
+            trigger?.num_channels_operator === "all",
         },
       ],
       num_channels_operator: [
