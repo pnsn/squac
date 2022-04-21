@@ -1,3 +1,4 @@
+import { trigger } from "@angular/animations";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, Validators } from "@angular/forms";
@@ -77,7 +78,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // selectedStat;
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
-
   monitorForm = this.formBuilder.group({
     name: ["", Validators.required],
     intervalCount: ["", [Validators.required, Validators.min(1)]],
@@ -94,16 +94,22 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
     this.initForm();
+    const triggerSub = this.triggers.valueChanges.subscribe({
+      next: (value) => {
+        this.triggers.patchValue(value, {
+          onlySelf: true,
+          emitEvent: false,
+        });
+      },
+    });
+
+    this.subscriptions.add(triggerSub);
   }
 
-  // Access triggers
-  get triggers() {
+  // emitModelToViewChange: true,
+  // // Access triggers
+  get triggers(): FormArray {
     return this.monitorForm.get("triggers") as FormArray;
-  }
-
-  // Return first trigger, considered default
-  get defaultTrigger() {
-    return this.triggers.at(0).value;
   }
 
   // Add trigger info to form
@@ -140,10 +146,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.validateTrigger(value, triggerFormGroup)
     );
     this.triggers.push(triggerFormGroup);
-  }
-
-  onStepChange($event) {
-    console.log($event);
   }
   validateTrigger(values, triggerFormGroup) {
     const val2 = triggerFormGroup.get("val2");
@@ -188,7 +190,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // Save monitor to SQUACapi
   save() {
     const values = this.monitorForm.value;
-    // console.log(values)
     const monitor = new Monitor(
       this.id,
       values.name,
@@ -198,7 +199,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.intervalCount,
       values.stat,
       null,
-      values.triggers
+      this.triggers.value
     );
 
     this.monitorsService
@@ -207,7 +208,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         switchMap((m) => {
           return merge(
             ...this.triggersService.updateTriggers(
-              values.triggers,
+              this.triggers.value,
               this.removeTriggerIDs,
               m.id
             )

@@ -59,7 +59,7 @@
             </div>
 
             <ng-container formArrayName="triggers">
-              <ng-container formGroupName="0">
+              <ng-containe formGroupName="0">
                 <div>
                   <span>is</span>
                   <mat-form-field class="xsmall">
@@ -123,7 +123,7 @@
                     />
                   </mat-form-field>
                 </div>
-              </ng-container>
+              </ng-containe>
             </ng-container>
             <div id="monitor-channels">
               <span>in</span>
@@ -173,7 +173,7 @@
             An alert will be sent when the monitor enters the 'in alarm' state.
             It can also alert when the monitor is no longer 'in alarm'.
           </p>
-          <div formArrayName="triggers">
+          <ng-container formArrayName="triggers">
             <table id="trigger-table">
               <tr>
                 <th>Alert on exit</th>
@@ -312,7 +312,7 @@
                 values > {{ trigger.value.max }}
               </span>
             </div> -->
-          </div>
+          </ng-container>
           <button
             mat-button
             (click)="addTrigger()"
@@ -371,7 +371,7 @@
       mat-flat-button
       color="accent"
       (click)="save()"
-      [disabled]="!monitorForm.valid || triggers.length === 0"
+      [disabled]="!monitorForm.valid || !triggers.valid"
     >
       Save
     </button>
