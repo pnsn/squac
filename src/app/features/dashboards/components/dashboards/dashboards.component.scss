@@ -1,22 +1,6 @@
 #dashboards-container {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-mat-sidenav {
-  width: 18%;
-  max-width: 350px;
-  min-width: 150px;
-}
-.sidenav-toggle-container {
-  margin-top: 10px;
-  margin-left: -20px;
-  position: absolute;
-  z-index: 800 !important;
-  visibility: visible !important;
-  button {
-    color: white;
-  }
+  width: 90%;
+  height: 100%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
