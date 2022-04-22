@@ -18,7 +18,8 @@ import { DateService } from "@core/services/date.service";
   styleUrls: ["./dashboard-detail.component.scss"],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
-  @ViewChild(DaterangepickerDirective) datePicker: DaterangepickerDirective;
+  @ViewChild(DaterangepickerDirective, { static: false })
+  datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
   status;
@@ -70,6 +71,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     dayjs.extend(utc);
     dayjs.extend(timezone);
     dayjs.tz.setDefault("Etc/UTC");
+  }
+
+  get rangeKeys() {
+    return Object.keys(this.ranges);
   }
 
   ngOnInit() {
@@ -187,6 +192,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   openDatePicker(): void {
+    console.log("open");
     this.datePicker.open();
   }
 

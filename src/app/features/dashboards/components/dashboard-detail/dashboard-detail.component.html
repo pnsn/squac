@@ -16,7 +16,7 @@
     </div>
     <div id="header-controls">
       <button
-        mat-button
+        mat-stroked-button
         [matMenuTriggerFor]="dataType"
         matTooltip="Dashboard configuration"
         matTooltip="Select data type"
@@ -50,11 +50,22 @@
       >
         <mat-icon>save</mat-icon>
       </button>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle *ngFor="let key of rangeKeys" value="ranges[key]">{{
+          key
+        }}</mat-button-toggle>
+        <mat-button-toggle
+          class="ngx-daterangepicker-action"
+          (click)="openDatePicker()"
+        >
+        </mat-button-toggle>
+      </mat-button-toggle-group>
       <mat-form-field id="date-range">
         <input
           #datePicker
           ngxDaterangepickerMd
           matInput
+          class="datepicker-calendar-icon"
           type="text"
           class="form-control"
           [locale]="locale"

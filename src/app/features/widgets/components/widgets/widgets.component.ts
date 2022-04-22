@@ -57,6 +57,8 @@ export class WidgetsComponent implements OnInit, OnDestroy {
       },
     },
     outerMargin: true,
+    outerMarginRight: 20,
+    outerMarginLeft: 20,
     mobileBreakpoint: 640,
     compactType: "none",
     displayGrid: "onDrag&Resize",

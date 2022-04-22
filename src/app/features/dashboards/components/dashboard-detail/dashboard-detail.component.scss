@@ -8,6 +8,10 @@
   flex-direction: column;
   height: 100%;
 }
+:host ::ng-deep .mat-button-toggle-label-content {
+  padding: 3px !important;
+  line-height: unset !important;
+}
 
 #dashboard-header {
   height: 50px;
@@ -25,6 +29,11 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 0px 1px $sq-dk-gray;
+
+  mat-button-toggle {
+    height: 40px;
+    width: 40px;
+  }
 
   #dashboard-info {
     h2 {
