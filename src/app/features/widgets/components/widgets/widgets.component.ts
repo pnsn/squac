@@ -41,7 +41,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     minCols: 20,
     maxCols: 20,
     minRows: 20,
-    margin: 5,
+    margin: 10,
     pushItems: true,
     resizable: {
       enabled: true,
@@ -60,7 +60,7 @@ export class WidgetsComponent implements OnInit, OnDestroy {
     mobileBreakpoint: 640,
     compactType: "none",
     displayGrid: "onDrag&Resize",
-    scrollToNewItems: true,
+    // scrollToNewItems: true,
     itemChangeCallback: (item) => {
       this.itemChange(item);
     },
