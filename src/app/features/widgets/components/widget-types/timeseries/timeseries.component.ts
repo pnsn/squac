@@ -54,6 +54,7 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
 
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
+  test = 0;
 
   // onScroll = (event: any) => {};
 
@@ -134,6 +135,15 @@ export class TimeseriesComponent implements OnInit, OnDestroy {
         });
       }
     }
+  }
+
+  toolTipDate(dateString): string {
+    const date = this.dateService.parseUtc(dateString);
+    if (this.test <= 3) {
+      console.log(dateString, date);
+    }
+    this.test++;
+    return this.dateService.displayFormat(date);
   }
 
   xAxisTickFormatting(value) {
