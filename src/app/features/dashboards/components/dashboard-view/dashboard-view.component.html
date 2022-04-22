@@ -10,7 +10,13 @@
     </button>
   </ng-container>
   <ng-container tableHeadFilters>
-    <!-- <mat-form-field> </mat-form-field> -->
+    <mat-slide-toggle
+      color="primary"
+      checked="true"
+      (change)="toggleSharing($event)"
+    >
+      Only show my dashboards
+    </mat-slide-toggle>
     <mat-form-field style="min-width: 250px">
       <span matPrefix><mat-icon>search</mat-icon></span>
       <input
@@ -45,6 +51,9 @@
       [selectionType]="SelectionType.single"
     >
     </ngx-datatable>
+    <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+      <a [routerLink]="[row.id]">{{ row.name }}</a>
+    </ng-template>
     <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
       {{ row.shareOrg && row.shareAll ? "public" : "" }}
       <ng-container *ngIf="row.shareOrg && !row.shareAll; else private">

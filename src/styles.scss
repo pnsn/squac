@@ -305,11 +305,11 @@ ngx-datatable.shared-view-table {
 
 .datatable-body-row.active,
 .datatable-body-row.active .datatable-row-group {
-  background-color: $sq-lt-blue !important;
+  background-color: lighten($sq-lt-blue, 30%) !important;
 }
 .datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group {
-  background-color: darken($sq-lt-blue, 15%) !important;
+  background-color: $sq-lt-blue !important;
 }
 .datatable-body-row:hover,
 .datatable-body-row:hover .datatable-row-group {

@@ -23,8 +23,8 @@ import { OrganizationsService } from "@features/user/services/organizations.serv
 export class DashboardViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  dashboards: Dashboard[] = [];
-  rows: Dashboard[] = [];
+  dashboards: Dashboard[];
+  rows: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
   userId: number;
@@ -35,10 +35,10 @@ export class DashboardViewComponent
   orgPipe;
   selected = [];
   selectedId: number;
-  columns = [];
+  columns;
   searchString = "";
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
-
+  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -71,7 +71,9 @@ export class DashboardViewComponent
     const userService = this.userService.user.subscribe((user) => {
       this.userId = user ? user.id : null;
       this.orgId = user ? user.orgId : null;
+      this.toggleSharing({ checked: true });
     });
+
     // this.subscription.add(dashboardsService);
     this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
@@ -93,9 +95,9 @@ export class DashboardViewComponent
     this.columns = [
       {
         name: "Dashboard Name",
-        prop: "name",
         draggable: false,
         sortable: true,
+        cellTemplate: this.nameTemplate,
       },
       { name: "Description", draggable: false, sortable: true },
       {
@@ -148,7 +150,7 @@ export class DashboardViewComponent
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.dashboards.filter(function (d) {
+    const temp = this.dashboards.filter((d) => {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
@@ -161,6 +163,17 @@ export class DashboardViewComponent
   removeFilter() {
     this.rows = [...this.dashboards];
     this.searchString = "";
+  }
+
+  toggleSharing({ checked }) {
+    if (checked) {
+      const temp = this.dashboards.filter((d) => {
+        return this.userId === d.owner;
+      });
+      this.rows = temp;
+    } else {
+      this.rows = [...this.dashboards];
+    }
   }
 
   userComparator(userIdA, userIdB) {
