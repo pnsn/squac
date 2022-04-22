@@ -19,6 +19,9 @@
       [scrollbarH]="false"
       rowHeight="auto"
       [footerHeight]="50"
+      (select)="onSelect($event)"
+      [selected]="selected"
+      [selectionType]="SelectionType.single"
     >
       <ngx-datatable-column
         name="Dashboard Name"

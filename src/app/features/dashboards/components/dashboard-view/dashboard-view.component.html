@@ -1,59 +1,56 @@
-<button
-  mat-flat-button
-  color="accent"
-  (click)="newDashboard()"
-  *ngIf="'create' | able: 'Dashboard'"
->
-  Create Dashboard
-</button>
-
-<div id="dashboard-list-container" *ngIf="userId && orgId">
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Your Dashboards </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-nav-list class="mat-nav-list-dense" dense>
-      <ng-container *ngFor="let dashboard of dashboards">
-        <a
-          mat-list-item
-          [routerLink]="[dashboard.id]"
-          routerLinkActive="active"
-          *ngIf="userId === dashboard.owner"
-          >{{ dashboard.name }}
-        </a>
+<app-table-view title="Dashboards">
+  <ng-container tableHeadControls>
+    <div>
+      <mat-form-field style="width: 250px">
+        <span matPrefix><mat-icon>search</mat-icon></span>
+        <input
+          type="text"
+          matInput
+          placeholder="Type to filter the name column..."
+          (keyup)="updateFilter($event)"
+          [(ngModel)]="searchString"
+        />
+        <button
+          *ngIf="searchString"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="removeFilter()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="newDashboard()"
+      *ngIf="'create' | able: 'Dashboard'"
+    >
+      Create Dashboard
+    </button>
+  </ng-container>
+  <ng-container tableHeadFilters> </ng-container>
+  <ng-container tableBody options="options">
+    <ngx-datatable
+      class="shared-view-table"
+      id="dashboards-table"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [scrollbarH]="false"
+      rowHeight="auto"
+      (select)="onSelect($event)"
+      [selected]="selected"
+      [selectionType]="SelectionType.single"
+    >
+    </ngx-datatable>
+    <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
+      {{ row.shareOrg && row.shareAll ? "public" : "" }}
+      <ng-container *ngIf="row.shareOrg && !row.shareAll; else private">
+        shared with {{ row.orgId | organization }}
       </ng-container>
-    </mat-nav-list>
-  </mat-expansion-panel>
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{ orgId | organization }} Dashboards </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-nav-list class="mat-nav-list-dense" dense>
-      <ng-container *ngFor="let dashboard of dashboards">
-        <a
-          mat-list-item
-          [routerLink]="[dashboard.id]"
-          routerLinkActive="active"
-          *ngIf="userId !== dashboard.owner && orgId === dashboard.orgId"
-          >{{ dashboard.name }}
-        </a>
-      </ng-container>
-    </mat-nav-list>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> Public Dashboards </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-nav-list class="mat-nav-list-dense" dense>
-      <ng-container *ngFor="let dashboard of dashboards">
-        <a
-          mat-list-item
-          [routerLink]="[dashboard.id]"
-          routerLinkActive="active"
-          *ngIf="userId !== dashboard.owner && orgId !== dashboard.orgId"
-          >{{ dashboard.name }}
-        </a>
-      </ng-container>
-    </mat-nav-list>
-  </mat-expansion-panel>
-</div>
+      <ng-template #private> {{ !row.shareOrg ? "private" : "" }} </ng-template>
+    </ng-template>
+  </ng-container>
+</app-table-view>
