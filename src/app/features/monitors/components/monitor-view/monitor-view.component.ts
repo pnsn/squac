@@ -73,6 +73,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   }
 
   makeRows() {
+    this.rows = [];
     this.monitors.forEach((monitor) => {
       monitor.alerts = this.getAlerts(monitor.id);
       monitor.inAlarm = false;
@@ -93,9 +94,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   refresh() {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
-      const lastHour = this.dateService.subtractFromNow(1, "hour").format();
+      const lastDay = this.dateService.subtractFromNow(1, "day").format();
       const refreshRequests = this.alertsService
-        .getAlerts({ starttime: lastHour })
+        .getAlerts({ starttime: lastDay })
         .pipe(
           tap((alerts) => {
             this.alerts = alerts;

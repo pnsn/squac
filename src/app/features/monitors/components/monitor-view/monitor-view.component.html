@@ -136,7 +136,7 @@
         <ng-template ngx-datatable-cell-template let-row="row">
           <ng-container *ngIf="row.lastAlarm; else noAlert">
             <div>
-              {{ row.inAlarm ? "in alarm" : "out of alarm" }}
+              {{ row.lastAlarm.inAlarm ? "in alarm" : "out of alarm" }}
             </div>
             <div>
               {{ row.lastAlarm.timestamp | date: "short" }}

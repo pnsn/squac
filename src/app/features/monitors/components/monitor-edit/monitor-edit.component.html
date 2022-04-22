@@ -80,9 +80,9 @@
                     <mat-label for="val1">value</mat-label>
                     <input
                       matInput
-                      type="number"
                       name="val1"
                       formControlName="val1"
+                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                   <ng-container> </ng-container>
@@ -91,9 +91,9 @@
                     <mat-label for="val2">value 2</mat-label>
                     <input
                       matInput
-                      type="number"
                       name="val2"
                       formControlName="val2"
+                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                 </div>
@@ -117,7 +117,7 @@
                     <mat-label for="num_channels"># of channels</mat-label>
                     <input
                       matInput
-                      type="number"
+                      (keypress)="keyPressNumbers($event)"
                       name="num_channels"
                       formControlName="num_channels"
                     />
@@ -143,9 +143,9 @@
                 <mat-label for="intervalCount"># of intervals</mat-label>
                 <input
                   matInput
-                  type="number"
                   name="intervalCount"
                   formControlName="intervalCount"
+                  (keypress)="keyPressNumbers($event)"
                 />
               </mat-form-field>
               <mat-form-field class="xsmall">
@@ -171,20 +171,15 @@
         <div id="trigger-container">
           <p class="help-text">
             An alert will be sent when the monitor enters the 'in alarm' state.
-            It can also alert when the monitor is no longer 'in alarm'. Emails
-            must be a comma separated list with no spaces.
+            It can also alert when the monitor is no longer 'in alarm'.
           </p>
-          <div formArrayName="triggers">
+          <ng-container formArrayName="triggers">
             <table id="trigger-table">
               <tr>
                 <th>Alert on exit</th>
-                <th>Operator</th>
-                <th>Value</th>
-                <th>Value 2</th>
-                <th>Operator</th>
-                <th># of channels</th>
-                <th>Emails</th>
-                <th></th>
+                <th colspan="3">Values</th>
+                <th colspan="2"># of channels</th>
+                <th colspan="2">Email</th>
               </tr>
               <ng-container
                 *ngFor="let trigger of triggers.controls; let i = index"
@@ -198,10 +193,7 @@
                     </mat-slide-toggle>
                   </td>
                   <td>
-                    <mat-form-field
-                      class="xsmall"
-                      *ngIf="i !== 0; else default"
-                    >
+                    <mat-form-field class="xsmall">
                       <mat-label for="value_operator">operator</mat-label>
                       <mat-select
                         formControlName="value_operator"
@@ -217,38 +209,29 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field
-                      class="xsmall"
-                      *ngIf="i !== 0; else default"
-                    >
+                    <mat-form-field class="xsmall">
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbersWithDecimal($event)"
                         name="val1"
                         formControlName="val1"
                       />
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field
-                      class="xsmall"
-                      *ngIf="i !== 0; else default"
-                    >
+                    <mat-form-field class="xsmall">
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbersWithDecimal($event)"
                         name="val2"
                         formControlName="val2"
                       />
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field
-                      class="xsmall"
-                      *ngIf="i !== 0; else default"
-                    >
+                    <mat-form-field class="xsmall">
                       <mat-label for="num_channels_operator"
                         >operator</mat-label
                       >
@@ -266,14 +249,11 @@
                     </mat-form-field>
                   </td>
                   <td>
-                    <mat-form-field
-                      class="xsmall"
-                      *ngIf="i !== 0; else default"
-                    >
+                    <mat-form-field class="xsmall">
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbers($event)"
                         name="num_channels"
                         formControlName="num_channels"
                       />
@@ -282,7 +262,7 @@
 
                   <td>
                     <mat-form-field>
-                      <mat-label for="email_list">email list:</mat-label>
+                      <mat-label for="email_list">email:</mat-label>
                       <textarea
                         matInput
                         name="email_list"
@@ -332,7 +312,7 @@
                 values > {{ trigger.value.max }}
               </span>
             </div> -->
-          </div>
+          </ng-container>
           <button
             mat-button
             (click)="addTrigger()"
@@ -391,7 +371,7 @@
       mat-flat-button
       color="accent"
       (click)="save()"
-      [disabled]="!monitorForm.valid || triggers.length === 0"
+      [disabled]="!monitorForm.valid || !triggers.valid"
     >
       Save
     </button>
