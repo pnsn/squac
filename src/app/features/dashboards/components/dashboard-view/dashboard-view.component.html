@@ -1,5 +1,16 @@
 <app-table-view title="Dashboards">
   <ng-container tableHeadControls>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="newDashboard()"
+      *ngIf="'create' | able: 'Dashboard'"
+    >
+      Create Dashboard
+    </button>
+  </ng-container>
+  <ng-container tableHeadFilters>
+    <!-- <mat-form-field> </mat-form-field> -->
     <mat-form-field style="min-width: 250px">
       <span matPrefix><mat-icon>search</mat-icon></span>
       <input
@@ -19,16 +30,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <button
-      mat-flat-button
-      color="accent"
-      (click)="newDashboard()"
-      *ngIf="'create' | able: 'Dashboard'"
-    >
-      Create Dashboard
-    </button>
   </ng-container>
-  <ng-container tableHeadFilters> </ng-container>
   <ng-container tableBody options="options">
     <ngx-datatable
       class="shared-view-table"

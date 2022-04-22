@@ -1,13 +1,17 @@
 <div id="table-view-container" class="border-shadow">
   <div id="table-head" class="gray-background">
-    <h2>
-      {{ title }}
-    </h2>
-    <div id="controls">
-      <ng-content select="[tableHeadControls]"> </ng-content>
+    <div id="head-top-row">
+      <h2 id="title">
+        {{ title }}
+      </h2>
+      <div id="controls">
+        <ng-content select="[tableHeadControls]"> </ng-content>
+      </div>
     </div>
-    <div id="filters">
-      <ng-content select="[tableHeadFilters]"> </ng-content>
+    <div id="head-bottom-row">
+      <div id="filters">
+        <ng-content select="[tableHeadFilters]"> </ng-content>
+      </div>
     </div>
   </div>
   <div id="table-body">
