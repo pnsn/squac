@@ -147,6 +147,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.push(triggerFormGroup);
   }
   validateTrigger(values, triggerFormGroup) {
+    console.log(triggerFormGroup.get("val1").value);
     const val2 = triggerFormGroup.get("val2");
     const num_channels = triggerFormGroup.get("num_channels");
     if (
