@@ -23,8 +23,10 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<MonitorEditEntryComponent>,
     private dashboardService: DashboardsService,
     private userService: UserService
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
@@ -99,6 +101,12 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         }
       );
   }
+   // Cancel and don't save changes
+   cancel(dashboardId?: number) {
+    this.dialogRef.close(monitor);
+    // route out of edit
+  }
+
 
   cancel(id?: number) {
     if (id && !this.id) {

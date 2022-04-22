@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { DashboardsComponent } from "./components/dashboards/dashboards.component";
-import { DashboardEditComponent } from "./components/dashboard-edit/dashboard-edit.component";
 import { DashboardDetailComponent } from "./components/dashboard-detail/dashboard-detail.component";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
@@ -8,6 +7,7 @@ import { PermissionGuard } from "@core/guards/permission.guard";
 import { DashboardsResolver } from "./dashboards.resolver";
 import { widgetRoutes } from "@features/widgets/widgets.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
+import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 
 export const routes: Routes = [
   {
@@ -26,12 +26,15 @@ export const routes: Routes = [
         resolve: {
           dashboards: DashboardsResolver,
         },
-      },
-      {
-        path: "new",
-        component: DashboardEditComponent,
-        canActivate: [PermissionGuard],
-        data: { subject: "Dashboard", action: "create" },
+        children: [
+          {
+            path: "new",
+            component: DashboardEditEntryComponent,
+            canActivate: [PermissionGuard],
+            data: { subject: "Dashboard", action: "create" },
+          },
+          // loadChildren: () => import('@features/widgets/widgets.module').then(m=>m.WidgetsModule)
+        ],
       },
       {
         path: ":dashboardId",
@@ -41,17 +44,15 @@ export const routes: Routes = [
         resolve: {
           dashboard: DashboardsResolver,
         },
-        children: widgetRoutes,
-        // loadChildren: () => import('@features/widgets/widgets.module').then(m=>m.WidgetsModule)
-      },
-      {
-        path: ":dashboardId/edit",
-        component: DashboardEditComponent,
-        canActivate: [PermissionGuard],
-        data: { subject: "Dashboard", action: "update" },
-        resolve: {
-          dashboard: DashboardsResolver,
-        },
+        children: [
+          {
+            path: "edit",
+            component: DashboardEditEntryComponent,
+            canActivate: [PermissionGuard],
+            data: { subject: "Dashboard", action: "update" },
+          },
+          ...widgetRoutes,
+        ],
       },
     ],
   },

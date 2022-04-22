@@ -24,7 +24,7 @@ export class DashboardViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   dashboards: Dashboard[] = [];
-  rows = [];
+  rows: Dashboard[] = [];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
   userId: number;
