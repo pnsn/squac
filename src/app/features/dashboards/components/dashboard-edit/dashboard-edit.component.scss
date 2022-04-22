@@ -6,6 +6,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     .xsmall {
       width: 100px;
     }
@@ -51,6 +52,16 @@
   }
   button {
     float: right;
+  }
+}
+
+.sharing-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+  mat-radio-button {
+    margin-bottom: 5px;
   }
 }
 

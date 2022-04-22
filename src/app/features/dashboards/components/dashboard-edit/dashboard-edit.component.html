@@ -6,8 +6,8 @@
 </div>
 
 <div mat-dialog-content id="edit-container">
-  <form class="form" action="" [formGroup]="dashboardForm" (ngSubmit)="save()">
-    <mat-form-field>
+  <form class="form" action="" [formGroup]="dashboardForm">
+    <mat-form-field class="medium">
       <input
         matInput
         formControlName="name"
@@ -17,7 +17,7 @@
       />
       <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="large">
       <textarea
         matInput
         id="description"
@@ -29,26 +29,29 @@
       <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
     </mat-form-field>
 
-    <div>Sharing setting:</div>
+    <div class="help-text">Sharing settings:</div>
     <mat-radio-group
       aria-label="change view permissions"
       formControlName="share"
-      vertical
+      class="sharing-radio-group"
     >
       <mat-radio-button value="private">Private</mat-radio-button>
-      <mat-radio-button value="shareOrg">Share with org</mat-radio-button>
-      <mat-radio-button value="shareAll">Share with all</mat-radio-button>
+      <mat-radio-button value="shareOrg"
+        >Share with organization</mat-radio-button
+      >
+      <mat-radio-button value="shareAll"
+        >Share with all SQUAC users</mat-radio-button
+      >
     </mat-radio-group>
   </form>
+</div>
 
-  <div mat-dialog-actions id="dialog-options">
-    <button mat-flat-button color="primary" type="button" (click)="cancel()">
-      Cancel
-    </button>
+<div mat-dialog-actions id="dialog-options">
+  <div>
     <button
       mat-flat-button
       color="accent"
-      type="submit"
+      (click)="save()"
       [disabled]="!dashboardForm.valid"
     >
       Save

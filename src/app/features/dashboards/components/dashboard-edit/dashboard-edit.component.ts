@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { DashboardsService } from "../../services/dashboards.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@features/user/services/user.service";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { DashboardEditEntryComponent } from "./dashboard-edit-entry/dashboard-edit-entry.component";
 
 @Component({
   selector: "app-dashboard-edit",
@@ -12,7 +14,6 @@ import { UserService } from "@features/user/services/user.service";
   styleUrls: ["./dashboard-edit.component.scss"],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
-  id: number;
   dashboard: Dashboard;
   editMode: boolean;
   orgId: number;
@@ -23,32 +24,23 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<MonitorEditEntryComponent>,
+    public dialogRef: MatDialogRef<DashboardEditEntryComponent>,
     private dashboardService: DashboardsService,
-    private userService: UserService
+    private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
+    this.dashboard = this.data.dashboard;
     this.dashboardForm = this.formBuilder.group({
       name: ["", Validators.required],
       description: ["", Validators.required],
       share: ["private", Validators.required],
     });
 
-    const paramsSub = this.route.params.subscribe(
-      (params: Params) => {
-        this.id = +params.dashboardId;
-        this.editMode = !!this.id;
-        this.orgId = this.userService.userOrg;
-        this.initForm();
-      },
-      (error) => {
-        console.log("error getting params: " + error);
-      }
-    );
-
-    this.subscriptions.add(paramsSub);
+    this.editMode = !!this.dashboard;
+    this.orgId = this.userService.userOrg;
+    this.initForm();
   }
 
   ngOnDestroy(): void {
@@ -57,7 +49,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
   private initForm() {
     if (this.editMode) {
-      this.dashboard = this.route.snapshot.data.dashboard;
       let share = "private";
       if (this.dashboard.shareAll) {
         share = "shareAll";
@@ -76,11 +67,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     const values = this.dashboardForm.value;
     const shareAll = values.share === "shareAll";
     const shareOrg = values.share === "shareOrg" || shareAll;
-
+    const id = this.dashboard ? this.dashboard.id : null;
     this.dashboardService
       .updateDashboard(
         new Dashboard(
-          this.id,
+          id,
           null,
           values.name,
           values.description,
@@ -92,27 +83,19 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
             : []
         )
       )
-      .subscribe(
-        (result) => {
+      .subscribe({
+        next: (result) => {
+          console.log("done");
           this.cancel(result.id);
         },
-        (error) => {
+        error: (error) => {
           console.log("error in save dashboard: " + error);
-        }
-      );
+        },
+      });
   }
-   // Cancel and don't save changes
-   cancel(dashboardId?: number) {
-    this.dialogRef.close(monitor);
+  // Cancel and don't save changes
+  cancel(dashboardId?: number) {
+    this.dialogRef.close(dashboardId);
     // route out of edit
-  }
-
-
-  cancel(id?: number) {
-    if (id && !this.id) {
-      this.router.navigate(["../", id], { relativeTo: this.route });
-    } else {
-      this.router.navigate(["../"], { relativeTo: this.route });
-    }
   }
 }

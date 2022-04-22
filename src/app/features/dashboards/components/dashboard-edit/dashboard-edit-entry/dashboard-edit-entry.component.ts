@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 
@@ -23,11 +23,10 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.paramsSub = this.route.params.subscribe((params: Params) => {
-      this.dashboardId = +params.dashboardId;
-
+    this.paramsSub = this.route.params.subscribe(() => {
       if (this.route.parent) {
-        this.dashboard = this.route.parent.snapshot.data.monitor;
+        this.dashboardId = +this.route.parent.snapshot.params.dashboardId;
+        this.dashboard = this.route.parent.snapshot.data.dashboard;
       }
 
       if (this.dashboardId && !this.dashboard) {
@@ -44,9 +43,10 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
 
     if (this.dialogRef) {
       this.dialogRef.afterClosed().subscribe(
-        () => {
-          if (this.dashboardId) {
-            this.router.navigate(["../../"], { relativeTo: this.route });
+        (id?: number) => {
+          // go to newly created dashboard
+          if (!this.dashboardId && id) {
+            this.router.navigate(["../", id], { relativeTo: this.route });
           } else {
             this.router.navigate(["../"], { relativeTo: this.route });
           }
@@ -62,7 +62,6 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   openMonitor() {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
       closeOnNavigation: true,
-      width: "70vw",
       data: {
         dashboard: this.dashboard,
       },
