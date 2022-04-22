@@ -147,7 +147,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.push(triggerFormGroup);
   }
   validateTrigger(values, triggerFormGroup) {
-    console.log(triggerFormGroup.get("val1").value);
     const val2 = triggerFormGroup.get("val2");
     const num_channels = triggerFormGroup.get("num_channels");
     if (
@@ -224,6 +223,26 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           this.messageService.error("Could not save monitor.");
         },
       });
+  }
+
+  keyPressNumbersWithDecimal(event) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
+
+  keyPressNumbers(event) {
+    const charCode = event.which ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // Cancel and don't save changes
