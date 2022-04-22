@@ -59,7 +59,7 @@
             </div>
 
             <ng-container formArrayName="triggers">
-              <ng-containe formGroupName="0">
+              <ng-container formGroupName="0">
                 <div>
                   <span>is</span>
                   <mat-form-field class="xsmall">
@@ -80,9 +80,9 @@
                     <mat-label for="val1">value</mat-label>
                     <input
                       matInput
-                      type="number"
                       name="val1"
                       formControlName="val1"
+                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                   <ng-container> </ng-container>
@@ -91,9 +91,9 @@
                     <mat-label for="val2">value 2</mat-label>
                     <input
                       matInput
-                      type="number"
                       name="val2"
                       formControlName="val2"
+                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                 </div>
@@ -117,13 +117,13 @@
                     <mat-label for="num_channels"># of channels</mat-label>
                     <input
                       matInput
-                      type="number"
+                      (keypress)="keyPressNumbers($event)"
                       name="num_channels"
                       formControlName="num_channels"
                     />
                   </mat-form-field>
                 </div>
-              </ng-containe>
+              </ng-container>
             </ng-container>
             <div id="monitor-channels">
               <span>in</span>
@@ -143,9 +143,9 @@
                 <mat-label for="intervalCount"># of intervals</mat-label>
                 <input
                   matInput
-                  type="number"
                   name="intervalCount"
                   formControlName="intervalCount"
+                  (keypress)="keyPressNumbers($event)"
                 />
               </mat-form-field>
               <mat-form-field class="xsmall">
@@ -213,7 +213,7 @@
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbersWithDecimal($event)"
                         name="val1"
                         formControlName="val1"
                       />
@@ -224,7 +224,7 @@
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbersWithDecimal($event)"
                         name="val2"
                         formControlName="val2"
                       />
@@ -253,7 +253,7 @@
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
-                        type="number"
+                        (keypress)="keyPressNumbers($event)"
                         name="num_channels"
                         formControlName="num_channels"
                       />
