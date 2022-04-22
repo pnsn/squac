@@ -40,8 +40,7 @@
 
   #header-controls {
     // height: 20px;
-    display: block;
-    overflow: hidden;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -60,6 +59,7 @@
 // }
 
 #dashboard-body {
+  z-index: 0;
   height: 100%;
   width: 100%;
 }
