@@ -401,3 +401,15 @@ ngx-daterangepicker-material {
     }
   }
 }
+
+#date-range {
+  width: 245px;
+  height: 30px;
+  .mat-form-field-flex {
+    align-items: center;
+  }
+  .mat-form-field-infix {
+    border: none;
+    padding: none;
+  }
+}
