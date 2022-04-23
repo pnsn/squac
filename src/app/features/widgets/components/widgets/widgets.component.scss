@@ -7,15 +7,14 @@
 }
 
 .drag-handler {
-  margin: 2px 0px 0px 2px;
-  height: 24px;
-  width: 24px;
-  line-height: 12px;
+  height: 25px;
+  width: 90%;
   display: inline;
   position: absolute;
   color: transparent;
   &:hover {
     color: #c5c3c3;
+    cursor: move;
   }
 }
 

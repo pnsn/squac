@@ -41,7 +41,7 @@
     </button>
   </div>
 
-  <mat-menu #dashboardMenu="matMenu">
+  <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
     <ng-template matMenuContent let-dashboards="dashboards">
       <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
       <ng-container *ngFor="let dashboard of dashboards">

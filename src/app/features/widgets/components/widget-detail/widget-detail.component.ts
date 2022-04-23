@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { Widget } from "@features/widgets/models/widget";
-import { Subject, Subscription } from "rxjs";
+import { Subject, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { Dashboard } from "@features/dashboards/models/dashboard";
 import { WidgetDataService } from "@features/widgets/services/widget-data.service";
+import { Ability } from "@casl/ability";
 
 @Component({
   selector: "app-widget-detail",
@@ -33,7 +34,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private dashboardsService: DashboardsService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private ability: Ability
   ) {}
 
   ngOnInit() {
@@ -62,9 +64,18 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.dashboardsService.getDashboards().subscribe((dashboards) => {
-      this.dashboards = dashboards;
-    });
+    this.dashboardsService
+      .getDashboards()
+      .pipe(
+        tap((dashboards) => {
+          this.dashboards = dashboards.filter((d) => {
+            return this.ability.can("update", d);
+          });
+        })
+      )
+      .subscribe((dashboards) => {
+        this.dashboards = dashboards;
+      });
 
     this.subscription.add(datesSub);
 

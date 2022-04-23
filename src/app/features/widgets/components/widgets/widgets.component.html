@@ -1,13 +1,7 @@
 <ng-container *ngIf="widgets.length > 0; else noWidgets">
   <gridster id="dashboard-content" [options]="options">
     <gridster-item [item]="item" *ngFor="let item of widgets">
-      <button
-        mat-icon-button
-        class="drag-handler"
-        *ngIf="'update' | able: item.widget"
-      >
-        <mat-icon>open_with</mat-icon>
-      </button>
+      <div class="drag-handler" *ngIf="'update' | able: item.widget"></div>
       <app-widget-detail
         class="widget-detail"
         [widget]="item.widget"
