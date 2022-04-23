@@ -73,10 +73,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     dayjs.tz.setDefault("Etc/UTC");
   }
 
-  get rangeKeys() {
-    return Object.keys(this.ranges);
-  }
-
   ngOnInit() {
     this.rangeLookUp = this.dateService.dateRanges;
     this.maxDate = this.dateService.now();
