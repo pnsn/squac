@@ -93,7 +93,8 @@ p {
 }
 
 .mat-button,
-.mat-flat-button {
+.mat-flat-button,
+.mat-stroked-button {
   border-radius: 0 !important;
 }
 
@@ -382,6 +383,7 @@ ngx-daterangepicker-material {
     // font-size: unset !important;
   }
   .md-drppicker {
+    top: 50px !important;
     right: 0px !important;
     left: auto !important;
     width: max-content !important;
@@ -402,9 +404,17 @@ ngx-daterangepicker-material {
   }
 }
 
-#date-range {
-  width: 245px;
+#stat-type-select {
+  width: 100px;
+}
+#data-type-select {
+  width: 100px;
+}
+
+.dashboard-input {
   height: 30px;
+  width: 240px;
+  margin: 0 5px;
   .mat-form-field-flex {
     align-items: center;
   }
