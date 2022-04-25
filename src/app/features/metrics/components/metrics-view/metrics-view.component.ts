@@ -56,7 +56,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
         draggable: false,
         canAutoResize: false,
         sortable: true,
-        width: 100,
+        width: 115,
       },
       {
         name: "Default Max",
@@ -64,14 +64,14 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
         canAutoResize: false,
         draggable: false,
         sortable: true,
-        width: 100,
+        width: 115,
       },
       {
         name: "Unit",
         canAutoResize: false,
         draggable: false,
         sortable: true,
-        width: 100,
+        width: 115,
       },
       {
         name: "Sample Rate",
@@ -79,7 +79,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
         canAutoResize: false,
         draggable: false,
         sortable: true,
-        width: 70,
+        width: 115,
       },
       {
         name: "Description",
@@ -92,7 +92,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
         draggable: false,
         canAutoResize: false,
         sortable: true,
-        width: 50,
+        width: 70,
         cellTemplate: this.linkTemplate,
       },
     ];
