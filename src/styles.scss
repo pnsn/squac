@@ -25,7 +25,7 @@ body {
 
 body {
   margin: 0;
-  // background-color: darken($sq-lt-gray, 5);
+  background-color: darken($sq-lt-gray, 5);
 }
 
 /* Background color */
@@ -143,7 +143,7 @@ p {
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 1px solid $sq-gray;
+  border: 1px solid lighten($sq-gray, 15);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -155,8 +155,9 @@ p {
 }
 
 .border-shadow {
-  box-shadow: -1px 1px 2px $sq-lt-gray, 1px 1px 2px $sq-lt-gray;
-  border: 1px solid darken($sq-lt-gray, 10);
+  // box-shadow: -1px 1px 2px lighten($sq-gray, 10),
+  //   1px 1px 2px lighten($sq-gray, 10);
+  border: 1px solid lighten($sq-gray, 15);
 }
 
 /* Popup formatting */
@@ -237,6 +238,7 @@ ngx-datatable.shared-view-table {
   }
   $default-border: 1px solid darken($sq-lt-gray, 10);
   $light-border: 1px solid $sq-lt-gray;
+  background-color: white;
   datatable-header {
     background-color: $sq-lt-gray;
     border-top: $default-border;
