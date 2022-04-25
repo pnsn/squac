@@ -37,6 +37,7 @@ export class DashboardViewComponent
   selectedId: number;
   columns;
   searchString = "";
+  hideShared = true;
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   constructor(
@@ -64,14 +65,13 @@ export class DashboardViewComponent
         console.log("error in dashboard");
       } else {
         this.dashboards = [...data.dashboards];
-        this.rows = data.dashboards;
       }
     });
 
     const userService = this.userService.user.subscribe((user) => {
       this.userId = user ? user.id : null;
       this.orgId = user ? user.orgId : null;
-      this.toggleSharing({ checked: true });
+      this.toggleSharing({ checked: this.hideShared });
     });
 
     // this.subscription.add(dashboardsService);
@@ -148,10 +148,16 @@ export class DashboardViewComponent
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-
+    if (val) {
+      this.hideShared = false;
+    }
     // filter our data
     const temp = this.dashboards.filter((d) => {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+      return (
+        !val ||
+        d.name.toLowerCase().indexOf(val) !== -1 ||
+        d.description.toLowerCase().indexOf(val) !== -1
+      );
     });
 
     // update the rows
@@ -174,6 +180,7 @@ export class DashboardViewComponent
     } else {
       this.rows = [...this.dashboards];
     }
+    this.hideShared = checked;
   }
 
   userComparator(userIdA, userIdB) {

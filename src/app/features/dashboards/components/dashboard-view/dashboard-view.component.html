@@ -10,13 +10,6 @@
     </button>
   </ng-container>
   <ng-container tableHeadFilters>
-    <mat-slide-toggle
-      color="primary"
-      checked="true"
-      (change)="toggleSharing($event)"
-    >
-      Only show my dashboards
-    </mat-slide-toggle>
     <mat-form-field style="min-width: 250px">
       <span matPrefix><mat-icon>search</mat-icon></span>
       <input
@@ -36,6 +29,13 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+    <mat-slide-toggle
+      color="primary"
+      [checked]="hideShared"
+      (change)="toggleSharing($event)"
+    >
+      Hide Shared
+    </mat-slide-toggle>
   </ng-container>
   <ng-container tableBody options="options">
     <ngx-datatable
