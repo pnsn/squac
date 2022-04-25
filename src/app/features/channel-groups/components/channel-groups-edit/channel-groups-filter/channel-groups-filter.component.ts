@@ -15,9 +15,10 @@ export class ChannelGroupsFilterComponent {
   };
 
   addFilter(event: any, type: string): void {
-    const value = event.target.value.toLowerCase();
+    const value: string = event.target.value.toLowerCase();
     if (value) {
-      this.filters[type] = value.trim();
+      const filterStr = value.trim().replace(/\?/g, "."); //turn back to allowed character
+      this.filters[type] = `^${filterStr}$`;
     } else {
       this.filters[type] = "";
     }
@@ -25,7 +26,6 @@ export class ChannelGroupsFilterComponent {
 
   // send filters to parent on submit
   updateFilters() {
-    console.log(this.filters);
     this.filtersChanged.next(this.filters);
   }
 }
