@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  TemplateRef,
+} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
@@ -10,15 +17,17 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
   templateUrl: "./metrics-view.component.html",
   styleUrls: ["./metrics-view.component.scss"],
 })
-export class MetricsViewComponent implements OnInit, OnDestroy {
+export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   metrics: Metric[];
   subscription: Subscription = new Subscription();
   selectedMetric: Metric;
   selected = false;
-
+  options = {};
+  columns = [];
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
+  @ViewChild("linkTemplate") linkTemplate: TemplateRef<any>;
 
   constructor(
     private router: Router,
@@ -31,6 +40,64 @@ export class MetricsViewComponent implements OnInit, OnDestroy {
       this.metrics = this.route.parent.snapshot.data.metrics;
     }
   }
+
+  ngAfterViewInit(): void {
+    this.columns = [
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+        width: 300,
+        canAutoResize: false,
+      },
+      {
+        name: "Default Min",
+        prop: "minVal",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 100,
+      },
+      {
+        name: "Default Max",
+        prop: "maxVal",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 100,
+      },
+      {
+        name: "Unit",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 100,
+      },
+      {
+        name: "Sample Rate",
+        prop: "sampleRate",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 70,
+      },
+      {
+        name: "Description",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Info",
+        prop: "refUrl",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 50,
+        cellTemplate: this.linkTemplate,
+      },
+    ];
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

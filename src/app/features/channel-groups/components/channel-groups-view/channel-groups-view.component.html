@@ -1,7 +1,11 @@
 <div id="title">
   <h1>Channel Groups</h1>
   <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
-    <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showOnlyUserOrg"
+      (change)="filterOrg()"
+    >
       Only Show {{ userOrg?.name }} Groups
     </mat-slide-toggle>
     <button
