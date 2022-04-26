@@ -33,7 +33,11 @@ export class ChannelGroupsViewComponent
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
   columns;
-
+  options;
+  rows;
+  searchString;
+  userId;
+  orgId;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -53,17 +57,17 @@ export class ChannelGroupsViewComponent
           console.log("error in channels");
         } else {
           this.channelGroups = data.channelGroups;
+          this.rows = [...this.channelGroups];
         }
       });
       this.subscription.add(routeSub);
     }
 
-    const orgSub = this.orgService
-      .getOrganization(this.userService.userOrg)
-      .subscribe((org) => {
-        this.userOrg = org;
-        this.filterOrg();
-      });
+    const userService = this.userService.user.subscribe((user) => {
+      this.userId = user ? user.id : null;
+      this.orgId = user ? user.orgId : null;
+      this.filterOrg();
+    });
 
     // store copy of channel groups
     this.temp = [...this.channelGroups];
@@ -85,8 +89,8 @@ export class ChannelGroupsViewComponent
       this.selectChannelGroup(this.selectedChannelGroupId);
     }
 
+    this.subscription.add(userService);
     this.subscription.add(routerEvents);
-    this.subscription.add(orgSub);
 
     this.columns = [
       { name: "Name", draggable: false, sortable: true },
@@ -122,6 +126,7 @@ export class ChannelGroupsViewComponent
   refresh() {
     this.channelGroupsService.getChannelGroups().subscribe((channelGroups) => {
       this.channelGroups = channelGroups;
+      this.rows = [...this.channelGroups];
     });
   }
 
@@ -160,16 +165,39 @@ export class ChannelGroupsViewComponent
       this.router.navigate([selectedId], { relativeTo: this.route });
       this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
+      this.rows = [...this.rows];
     }
   }
 
-  filterOrg() {
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    if (val) {
+      this.showOnlyUserOrg = false;
+    }
     // filter our data
-    const temp = this.temp.filter((cg) => {
-      return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
+    const temp = this.channelGroups.filter((cG) => {
+      return (
+        !val ||
+        cG.name.toLowerCase().indexOf(val) !== -1 ||
+        cG.description.toLowerCase().indexOf(val) !== -1
+      );
     });
 
-    this.channelGroups = temp;
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    // this.table.offset = 0;
+  }
+
+  filterOrg() {
+    if (this.showOnlyUserOrg) {
+      const temp = this.channelGroups.filter((cG) => {
+        return this.orgId === cG.orgId;
+      });
+      this.rows = temp;
+    } else {
+      this.rows = [...this.channelGroups];
+    }
   }
 
   userComparator(userIdA, userIdB) {

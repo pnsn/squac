@@ -1,14 +1,7 @@
-<div id="title">
-  <h1>Channel Groups</h1>
-  <div id="button-container" *ngIf="'update' | able: 'ChannelGroup'">
-    <mat-slide-toggle
-      color="primary"
-      [(ngModel)]="showOnlyUserOrg"
-      (change)="filterOrg()"
-    >
-      Only Show {{ userOrg?.name }} Groups
-    </mat-slide-toggle>
+<app-table-view title="Channel Groups">
+  <ng-container tableHeadControls>
     <button
+      *ngIf="'update' | able: 'ChannelGroup'"
       mat-flat-button
       color="accent"
       class="add-btn"
@@ -16,33 +9,59 @@
     >
       Create Channel Group
     </button>
-  </div>
-</div>
-<div
-  id="channel-groups"
-  class="box"
-  [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'"
->
-  <ngx-datatable
-    id="channel-group-table"
-    class="material"
-    [rows]="channelGroups"
-    [columnMode]="ColumnMode.force"
-    [headerHeight]="30"
-    [footerHeight]="50"
-    [rowHeight]="23"
-    [scrollbarV]="50"
-    [selectionType]="SelectionType.single"
-    [selected]="selected"
-    (select)="onSelect($event)"
-    [columns]="columns"
-  >
-  </ngx-datatable>
-</div>
-
-<div id="select-group" *ngIf="!selectedChannelGroupId">
-  <p>Select a group to view details.</p>
-</div>
+  </ng-container>
+  <ng-container tableHeadFilters>
+    <mat-form-field style="min-width: 250px">
+      <span matPrefix><mat-icon>search</mat-icon></span>
+      <input
+        type="text"
+        matInput
+        placeholder="Type to filter..."
+        (keyup)="updateFilter($event)"
+        [(ngModel)]="searchString"
+      />
+      <button
+        *ngIf="searchString"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="removeFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showOnlyUserOrg"
+      (change)="filterOrg()"
+    >
+      Only Show {{ orgId | organization }} Groups
+    </mat-slide-toggle>
+  </ng-container>
+  <ng-container tableBody options="options">
+    <ngx-datatable
+      class="shared-view-table"
+      [rows]="rows"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="30"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [selectionType]="SelectionType.single"
+      (select)="onSelect($event)"
+      [columns]="columns"
+      [scrollbarH]="false"
+      [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'"
+    >
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+          <div style="padding: 5px 10px">
+            <div>Select a channel group to view details.</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </ng-container>
+</app-table-view>
 
 <router-outlet></router-outlet>
 

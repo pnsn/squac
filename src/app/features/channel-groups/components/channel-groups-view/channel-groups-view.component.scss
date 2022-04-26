@@ -13,16 +13,16 @@
     }
   }
 }
+.has-selected {
+  height: 35vh;
+}
+.no-selected {
+  height: 85vh;
+}
 
 #channel-groups {
   width: 100%;
 
-  &.has-selected {
-    height: 35vh;
-  }
-  &.no-selected {
-    height: 85vh;
-  }
   overflow: hidden;
   #channel-group-table {
     width: 100%;
