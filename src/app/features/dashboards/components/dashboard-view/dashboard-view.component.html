@@ -15,7 +15,7 @@
       <input
         type="text"
         matInput
-        placeholder="Type to filter the name column..."
+        placeholder="Type to filter..."
         (keyup)="updateFilter($event)"
         [(ngModel)]="searchString"
       />
@@ -49,7 +49,26 @@
       (select)="onSelect($event)"
       [selected]="selected"
       [selectionType]="SelectionType.single"
+      [footerHeight]="50"
+      [messages]="messages"
     >
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-selectedCount="selectedCount"
+          let-curPage="curPage"
+          let-offset="offset"
+        >
+          <div style="padding: 5px 10px">
+            <div>
+              Showing: {{ rowCount }} of {{ this.dashboards.length }} available
+              dashboards.
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
     </ngx-datatable>
     <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
       <a [routerLink]="[row.id]">{{ row.name }}</a>

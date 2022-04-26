@@ -191,6 +191,16 @@
           {{ row.email_list }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+          <div style="padding: 5px 10px">
+            <div>
+              Showing: {{ rowCount }} of {{ this.monitors.length }} active
+              monitors.
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
     </ngx-datatable>
   </ng-container>
 </app-table-view>

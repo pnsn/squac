@@ -36,6 +36,13 @@
       [columns]="columns"
       [scrollbarH]="false"
     >
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+          <div style="padding: 5px 10px">
+            <div>Showing: all available metrics.</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
     </ngx-datatable>
     <ng-template let-value="value" ngx-datatable-cell-template #linkTemplate>
       <a

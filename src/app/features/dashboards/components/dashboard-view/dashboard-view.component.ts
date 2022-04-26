@@ -40,6 +40,10 @@ export class DashboardViewComponent
   hideShared = true;
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
+
+  messages = {
+    emptyMessage: "You have no dashboards.",
+  };
   constructor(
     private userService: UserService,
     private router: Router,
