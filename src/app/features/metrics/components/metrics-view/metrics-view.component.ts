@@ -24,6 +24,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   selected = false;
   options = {};
   columns = [];
+  rows = [];
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -38,6 +39,7 @@ export class MetricsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     if (this.route.parent) {
       this.metrics = this.route.parent.snapshot.data.metrics;
+      this.rows = [...this.metrics];
     }
   }
 
