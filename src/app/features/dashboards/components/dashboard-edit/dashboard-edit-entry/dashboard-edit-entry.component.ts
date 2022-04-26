@@ -34,38 +34,35 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
           .getDashboard(this.dashboardId)
           .subscribe((dashboard) => {
             this.dashboard = dashboard;
-            this.openMonitor();
+            this.openDashboard();
           });
       } else {
-        this.openMonitor();
+        this.openDashboard();
       }
     });
-
-    if (this.dialogRef) {
-      this.dialogRef.afterClosed().subscribe(
-        (id?: number) => {
-          // go to newly created dashboard
-          if (!this.dashboardId && id) {
-            this.router.navigate(["../", id], { relativeTo: this.route });
-          } else {
-            this.router.navigate(["../"], { relativeTo: this.route });
-          }
-          // route to exit
-        },
-        (error) => {
-          console.log("error in monitor detail: " + error);
-        }
-      );
-    }
   }
 
-  openMonitor() {
+  openDashboard() {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
       closeOnNavigation: true,
       data: {
         dashboard: this.dashboard,
       },
     });
+    this.dialogRef.afterClosed().subscribe(
+      (id?: number) => {
+        // go to newly created dashboard
+        if (!this.dashboardId && id) {
+          this.router.navigate(["../", id], { relativeTo: this.route });
+        } else {
+          this.router.navigate(["../"], { relativeTo: this.route });
+        }
+        // route to exit
+      },
+      (error) => {
+        console.log("error in monitor detail: " + error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

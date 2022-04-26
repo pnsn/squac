@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
 import { DashboardsService } from "../../services/dashboards.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@features/user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { DashboardEditEntryComponent } from "./dashboard-edit-entry/dashboard-edit-entry.component";
 
 @Component({
   selector: "app-dashboard-edit",
@@ -21,10 +19,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<DashboardEditEntryComponent>,
+    public dialogRef: MatDialogRef<DashboardEditComponent>,
     private dashboardService: DashboardsService,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any

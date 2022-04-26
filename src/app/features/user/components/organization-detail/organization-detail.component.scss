@@ -54,6 +54,9 @@
 }
 
 #roles-container {
+  mat-list-item {
+    height: 30px;
+  }
   ul {
     list-style-type: none;
   }

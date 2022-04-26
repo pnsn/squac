@@ -45,22 +45,6 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         this.openMonitor();
       }
     });
-
-    if (this.dialogRef) {
-      this.dialogRef.afterClosed().subscribe(
-        () => {
-          if (this.monitorId) {
-            this.router.navigate(["../../"], { relativeTo: this.route });
-          } else {
-            this.router.navigate(["../"], { relativeTo: this.route });
-          }
-          // route to exit
-        },
-        (error) => {
-          console.log("error in monitor detail: " + error);
-        }
-      );
-    }
   }
 
   openMonitor() {
@@ -73,6 +57,20 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         channelGroups: this.channelGroups,
       },
     });
+
+    this.dialogRef.afterClosed().subscribe(
+      () => {
+        if (this.monitorId) {
+          this.router.navigate(["../../"], { relativeTo: this.route });
+        } else {
+          this.router.navigate(["../"], { relativeTo: this.route });
+        }
+        // route to exit
+      },
+      (error) => {
+        console.log("error in monitor detail: " + error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

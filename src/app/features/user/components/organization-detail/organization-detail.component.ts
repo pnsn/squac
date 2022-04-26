@@ -9,12 +9,12 @@ import {
 import { OrganizationsService } from "@features/user/services/organizations.service";
 import { User } from "@features/user/models/user";
 import { Organization } from "@features/user/models/organization";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Subscription } from "rxjs";
+import { Subscription, tap } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { InviteService } from "@features/user/services/invite.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
+import { filter } from "rxjs";
 
 @Component({
   selector: "app-organization",
@@ -27,8 +27,6 @@ export class OrganizationDetailComponent
   user: User;
   isAdmin: boolean;
   organization: Organization;
-  addUserForm: FormGroup;
-  editUserForm: FormGroup;
   userAdded: User;
   inviteSent: boolean;
   subscription: Subscription = new Subscription();
@@ -40,6 +38,8 @@ export class OrganizationDetailComponent
   expanded: any = {};
   rows;
   columns;
+  selectedId;
+  selected = [];
   groups = [
     {
       id: 1,
@@ -59,10 +59,10 @@ export class OrganizationDetailComponent
   ];
   constructor(
     private orgService: OrganizationsService,
-    private formBuilder: FormBuilder,
     private inviteService: InviteService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,32 +75,26 @@ export class OrganizationDetailComponent
         (this.user.orgAdmin && this.user.orgId === this.organization.id);
     });
 
-    this.addUserForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      isAdmin: [false, Validators.required],
-      groups: ["", Validators.required],
-    });
-
-    this.editUserForm = this.formBuilder.group({
-      editGroups: [[], Validators.required],
-      editIsAdmin: [false, Validators.required],
-      editIsActive: [true, Validators.required],
-    });
-
+    const routerEvents = this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        tap((e: NavigationEnd) => {
+          if (
+            e.urlAfterRedirects.toString() ===
+            `/user/organizations/${this.organization.id}`
+          ) {
+            this.refreshOrgUsers();
+          }
+        })
+      )
+      .subscribe();
+    this.subscription.add(routerEvents);
     this.subscription.add(orgSub);
   }
-
   ngAfterViewInit() {
+    console.log(this.organization);
     if (this.isAdmin) {
       this.columns = [
-        {
-          name: "",
-          prop: "id",
-          cellTemplate: this.editTemplate,
-          canAutoResize: false,
-          width: 50,
-          sortable: false,
-        },
         {
           name: "Name",
           prop: "",
@@ -191,48 +185,13 @@ export class OrganizationDetailComponent
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  saveUser(row) {
-    const values = this.editUserForm.value;
-    const user = new User(
-      row.id,
-      row.email,
-      row.firstName,
-      row.lastName,
-      this.organization.id,
-      values.editIsAdmin,
-      values.editGroups
-    );
-    user.isActive = values.editIsActive;
-    this.orgService.updateUser(user).subscribe(
-      () => {
-        // this.userAdded = newUser;
-        this.editUserForm.reset();
-        this.table.rowDetail.toggleExpandRow(row);
-        this.messageService.message(`Saved user ${row.email}`);
-        // this.organization.users.push(newUser);
-      },
-      (error) => {
-        this.messageService.error(`Could not save user ${row.email}`);
-        this.error = error;
-      }
-    );
-  }
 
-  cancelUserEdit(row) {
-    this.editUserForm.reset();
-    this.table.rowDetail.toggleExpandRow(row);
-  }
-
-  expandRow(row: User) {
-    this.editUserForm.reset();
-    this.table.rowDetail.collapseAllRows();
-
-    this.table.rowDetail.toggleExpandRow(row);
-    this.editUserForm.patchValue({
-      editGroups: row.groups,
-      editIsAdmin: row.isAdmin,
-      editIsActive: row.isActive,
-    });
+  addUser(id: number) {
+    if (id) {
+      this.router.navigate(["user", id, "edit"], { relativeTo: this.route });
+    } else {
+      this.router.navigate(["user", "new"], { relativeTo: this.route });
+    }
   }
 
   refreshOrgUsers() {
@@ -244,44 +203,37 @@ export class OrganizationDetailComponent
       });
   }
 
-  sendInvite(id) {
-    this.inviteService.sendInviteToUser(id).subscribe(
+  // onSelect function for data table selection
+  onSelect($event) {
+    const selectedId = $event.selected[0].id;
+    if (selectedId) {
+      // this.router.navigate([selectedId, "edit"], { relativeTo: this.route });
+      this.selectedId = selectedId;
+      this.selectUser(selectedId);
+    }
+  }
+
+  selectUser(selectedId) {
+    this.selected = this.rows.filter((d) => {
+      // Select row with channel group
+      return d.id === selectedId;
+    });
+  }
+  //deactivateUser
+
+  activate() {
+    console.log("activate user");
+  }
+
+  sendInvite() {
+    this.inviteService.sendInviteToUser(this.selectedId).subscribe(
       () => {
+        this.messageService.message("Invitation email sent.");
         this.refreshOrgUsers();
       },
       (error) => {
-        this.error = error;
+        this.messageService.error(error);
       }
     );
-  }
-
-  addNewUser() {
-    const values = this.addUserForm.value;
-    this.orgService
-      .updateUser(
-        new User(
-          null,
-          values.email,
-          null,
-          null,
-          this.organization.id,
-          values.isAdmin,
-          values.groups
-        )
-      )
-      .subscribe(
-        (newUser) => {
-          this.userAdded = newUser;
-          this.sendInvite(newUser.id);
-          this.addUserForm.reset();
-          // this.organization.users.push(newUser);
-          this.messageService.message(`Added user ${values.email}`);
-          // this.organization.users.push(newUser);
-        },
-        (error) => {
-          this.messageService.error(`Could not add user ${values.email}`);
-          this.error = error;
-        }
-      );
   }
 }

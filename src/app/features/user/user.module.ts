@@ -9,6 +9,9 @@ import { SharedModule } from "@shared/shared.module";
 import { UserRoutingModule } from "./user-routing.module";
 import { OrganizationsViewComponent } from "./components/organizations-view/organizations-view.component";
 import { UserSettingsComponent } from "./components/user-settings/user-settings.component";
+import { OrganizationEditComponent } from "./components/organization-edit/organization-edit.component";
+import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { UserSettingsComponent } from "./components/user-settings/user-settings.
     UserEditComponent,
     OrganizationsViewComponent,
     UserSettingsComponent,
+    OrganizationEditComponent,
+    OrganizationEditEntryComponent,
   ],
-  imports: [SharedModule, UserRoutingModule],
+  imports: [CommonModule, SharedModule, UserRoutingModule],
 })
 export class UserModule {}

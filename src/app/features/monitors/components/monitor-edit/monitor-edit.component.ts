@@ -11,7 +11,6 @@ import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { TriggersService } from "@features/monitors/services/triggers.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { MonitorEditEntryComponent } from "../monitor-edit-entry/monitor-edit-entry.component";
 
 @Component({
   selector: "app-monitor-edit",
@@ -42,7 +41,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private monitorsService: MonitorsService,
-    public dialogRef: MatDialogRef<MonitorEditEntryComponent>,
+    public dialogRef: MatDialogRef<MonitorEditComponent>,
     private triggersService: TriggersService,
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
