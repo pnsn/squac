@@ -11,6 +11,7 @@ import { ViewService } from "@core/services/view.service";
 import { MockViewService } from "@core/services/view.service.mock";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MockProvider } from "ng-mocks";
+import { ErrorComponent } from "@shared/components/error/error.component";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;
@@ -24,6 +25,7 @@ describe("WidgetDetailComponent", () => {
         AbilityModule,
         HttpClientTestingModule,
       ],
+      declarations: [WidgetDetailComponent, ErrorComponent],
       providers: [
         MockProvider(MeasurementService),
         { provide: ViewService, useValue: new MockViewService() },

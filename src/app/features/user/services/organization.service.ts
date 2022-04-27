@@ -51,7 +51,6 @@ export class OrganizationService {
   updateUser(user: User): Observable<User> {
     const path = "users/";
     const postData = this.userAdapter.adaptToApi(user);
-    console.log(postData);
     if (user.id) {
       return this.squacApi
         .patch(this.url + path, user.id, postData)

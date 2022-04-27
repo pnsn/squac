@@ -12,7 +12,8 @@ import { AppAbility } from "@core/utils/ability";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@core/services/view.service";
 import { MockViewService } from "@core/services/view.service.mock";
-import { MockProvider } from "ng-mocks";
+import { MockComponent, MockProvider } from "ng-mocks";
+import { WidgetDetailComponent } from "../widget-detail/widget-detail.component";
 
 describe("WidgetMainComponent", () => {
   let component: WidgetMainComponent;
@@ -26,6 +27,7 @@ describe("WidgetMainComponent", () => {
         WidgetModule,
         AbilityModule,
       ],
+      declarations: [WidgetMainComponent, MockComponent(WidgetDetailComponent)],
       providers: [
         { provide: ViewService, useClass: MockViewService },
         {

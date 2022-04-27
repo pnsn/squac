@@ -179,5 +179,5 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-<app-error *ngIf="error" [errorMsg]="error"></app-error>
+<shared-error *ngIf="error" [errorMsg]="error"></shared-error>
 <shared-loading *ngIf="!dashboard && !error"></shared-loading>

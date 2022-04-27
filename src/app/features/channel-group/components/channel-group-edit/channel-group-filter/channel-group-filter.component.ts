@@ -25,7 +25,6 @@ export class ChannelGroupFilterComponent {
 
   // send filters to parent on submit
   updateFilters() {
-    console.log(this.filters);
     this.filtersChanged.next(this.filters);
   }
 }

@@ -57,7 +57,7 @@
   </mat-menu>
 
   <shared-loading *ngIf="loading"> </shared-loading>
-  <app-error *ngIf="error" [errorMsg]="error"></app-error>
+  <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
   <div
     class="widget-message"
     *ngIf="widget.metrics && widget.metrics.length === 0"

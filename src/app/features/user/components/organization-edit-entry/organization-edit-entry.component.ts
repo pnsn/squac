@@ -30,7 +30,9 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
           return u.id === this.userId;
         });
       }
-      this.openUser();
+      if (this.organization) {
+        this.openUser();
+      }
     });
   }
 

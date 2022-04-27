@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ErrorComponent } from "@shared/components/error/error.component";
 
 describe("UserEditComponent", () => {
   let component: UserEditComponent;
@@ -12,7 +13,7 @@ describe("UserEditComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserEditComponent],
+      declarations: [UserEditComponent, ErrorComponent],
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
