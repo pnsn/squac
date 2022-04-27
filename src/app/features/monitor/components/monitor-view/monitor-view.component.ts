@@ -27,8 +27,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alertsService: AlertService,
-    private monitorsService: MonitorService,
+    private alertService: AlertService,
+    private monitorService: MonitorService,
     private confirmDialog: ConfirmDialogService,
     private dateService: DateService
   ) {}
@@ -95,14 +95,14 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
       const lastDay = this.dateService.subtractFromNow(1, "day").format();
-      const refreshRequests = this.alertsService
+      const refreshRequests = this.alertService
         .getAlerts({ starttime: lastDay })
         .pipe(
           tap((alerts) => {
             this.alerts = alerts;
           }),
           mergeMap(() => {
-            return this.monitorsService.getMonitors();
+            return this.monitorService.getMonitors();
           }),
           tap((monitors) => {
             this.monitors = monitors;
@@ -165,7 +165,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   }
 
   deleteMonitor(id) {
-    this.monitorsService
+    this.monitorService
       .deleteMonitor(id)
       .pipe(
         tap(() => {

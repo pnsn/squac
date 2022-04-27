@@ -31,9 +31,9 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
   constructor(
-    private alertsService: AlertService,
+    private alertService: AlertService,
     private route: ActivatedRoute,
-    private monitorsService: MonitorService,
+    private monitorService: MonitorService,
     private dateService: DateService
   ) {}
 
@@ -53,14 +53,14 @@ export class AlertViewComponent implements OnInit, OnDestroy {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
       const lastHour = this.dateService.subtractFromNow(1, "day").format();
-      const refreshRequests = this.monitorsService
+      const refreshRequests = this.monitorService
         .getMonitors()
         .pipe(
           tap((monitors) => {
             this.monitors = monitors;
           }),
           mergeMap(() => {
-            return this.alertsService.getAlerts({ starttime: lastHour });
+            return this.alertService.getAlerts({ starttime: lastHour });
           }),
           tap((alerts) => {
             this.findMonitorForAlerts(alerts);

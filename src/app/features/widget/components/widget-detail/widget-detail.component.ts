@@ -33,7 +33,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardsService: DashboardService,
+    private dashboardService: DashboardService,
     private viewService: ViewService,
     private ability: Ability
   ) {}
@@ -64,7 +64,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.dashboardsService
+    this.dashboardService
       .getDashboards()
       .pipe(
         tap((dashboards) => {

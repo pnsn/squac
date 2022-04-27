@@ -21,7 +21,7 @@ import { MockDateService } from "./date.service.mock";
 describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
-  let dashboardsService;
+  let dashboardService;
   const abilityMock = {
     can: (_permission, resource) => {
       return resource && resource.owner && resource.owner === 1;
@@ -76,7 +76,7 @@ describe("ViewService", () => {
     });
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
-    dashboardsService = TestBed.inject(DashboardService);
+    dashboardService = TestBed.inject(DashboardService);
     testDashboard = new Dashboard(
       1,
       1,
@@ -210,7 +210,7 @@ describe("ViewService", () => {
   });
 
   it("should delete dashboard", () => {
-    const dashSpy = spyOn(dashboardsService, "deleteDashboard").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "deleteDashboard").and.returnValue(
       of(true)
     );
 
@@ -221,7 +221,7 @@ describe("ViewService", () => {
 
   it("should save dashboard", () => {
     service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardsService, "updateDashboard").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "updateDashboard").and.returnValue(
       of(testDashboard)
     );
 

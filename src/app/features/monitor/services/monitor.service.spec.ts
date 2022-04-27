@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 
-import { MonitorService } from "./monitors.service";
+import { MonitorService } from "./monitor.service";
 
 describe("MonitorService", () => {
   let service: MonitorService;

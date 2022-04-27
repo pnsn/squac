@@ -23,7 +23,7 @@ import { OrganizationService } from "@user/services/organization.service";
 export class DashboardViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  dashboards: Dashboard[];
+  dashboards: Dashboard[] = [];
   rows: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
@@ -67,7 +67,7 @@ export class DashboardViewComponent
     const dashboardsSub = this.route.data.subscribe((data) => {
       if (data.dashboards && data.dashboards.error) {
         console.log("error in dashboard");
-      } else {
+      } else if (data.dashboards) {
         this.dashboards = [...data.dashboards];
       }
     });
@@ -78,7 +78,7 @@ export class DashboardViewComponent
       this.toggleSharing({ checked: this.hideShared });
     });
 
-    // this.subscription.add(dashboardsService);
+    // this.subscription.add(dashboardService);
     this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
     this.subscription.add(activeDashboardSub);
@@ -96,42 +96,44 @@ export class DashboardViewComponent
   }
 
   ngAfterViewInit(): void {
-    this.columns = [
-      {
-        name: "Dashboard Name",
-        draggable: false,
-        sortable: true,
-        cellTemplate: this.nameTemplate,
-      },
-      { name: "Description", draggable: false, sortable: true },
-      {
-        name: "Owner",
-        prop: "owner",
-        draggable: false,
-        sortable: true,
-        width: 50,
-        pipe: this.userPipe,
-        comparator: this.userComparator.bind(this),
-      },
-      {
-        name: "Organization",
-        prop: "orgId",
-        draggable: false,
-        sortable: true,
-        canAutoResize: false,
-        width: 120,
-        pipe: this.orgPipe,
-        comparator: this.orgComparator.bind(this),
-      },
-      {
-        name: "Sharing",
-        draggable: false,
-        canAutoResize: false,
-        width: 150,
-        sortable: false,
-        cellTemplate: this.sharingTemplate,
-      },
-    ];
+    setTimeout(() => {
+      this.columns = [
+        {
+          name: "Dashboard Name",
+          draggable: false,
+          sortable: true,
+          cellTemplate: this.nameTemplate,
+        },
+        { name: "Description", draggable: false, sortable: true },
+        {
+          name: "Owner",
+          prop: "owner",
+          draggable: false,
+          sortable: true,
+          width: 50,
+          pipe: this.userPipe,
+          comparator: this.userComparator.bind(this),
+        },
+        {
+          name: "Organization",
+          prop: "orgId",
+          draggable: false,
+          sortable: true,
+          canAutoResize: false,
+          width: 120,
+          pipe: this.orgPipe,
+          comparator: this.orgComparator.bind(this),
+        },
+        {
+          name: "Sharing",
+          draggable: false,
+          canAutoResize: false,
+          width: 150,
+          sortable: false,
+          cellTemplate: this.sharingTemplate,
+        },
+      ];
+    }, 0);
   }
 
   // Getting a selected channel group and setting variables

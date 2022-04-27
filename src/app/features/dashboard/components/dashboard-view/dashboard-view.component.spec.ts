@@ -1,61 +1,38 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardViewComponent } from "./dashboard-view.component";
-import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { BehaviorSubject } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
-import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { MaterialModule } from "@shared/material.module";
 import { AbilityModule } from "@casl/angular";
-import { Ability, PureAbility } from "@casl/ability";
-import { AppAbility } from "@core/utils/ability";
-import { DashboardService } from "../../services/dashboard.service";
-import { Dashboard } from "@dashboard/models/dashboard";
 import { UserService } from "@user/services/user.service";
-import { MockUserService } from "@user/services/user.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { OrganizationService } from "@features/user/services/organization.service";
+import { FormsModule } from "@angular/forms";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
 describe("DashboardViewComponent", () => {
   let component: DashboardViewComponent;
   let fixture: ComponentFixture<DashboardViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule,
-        MaterialModule,
-        AbilityModule,
-      ],
-      declarations: [DashboardViewComponent, LoadingComponent],
-      providers: [
-        DashboardService,
-        { provide: UserService, useClass: MockUserService },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {},
-            data: of({
-              dashboards: [
-                new Dashboard(1, 1, "name", "description", false, false, 1, []),
-              ],
-            }),
-            params: of({ id: 123 }),
-          },
-        },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-      ],
-    }).compileComponents();
-  }));
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardViewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    return MockBuilder(DashboardViewComponent)
+      .keep(RouterTestingModule.withRoutes([]))
+      .mock(MaterialModule)
+      .mock(AbilityModule)
+      .mock(FormsModule)
+      .mock(NgxDatatableModule)
+      .mock(TableViewComponent)
+      .mock(OrganizationService)
+      .mock(UserService, {
+        user: new BehaviorSubject(null),
+      });
   });
 
   it("should create", () => {
+    fixture = TestBed.createComponent(DashboardViewComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

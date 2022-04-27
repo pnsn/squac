@@ -12,6 +12,8 @@ import { OrganizationService } from "@user/services/organization.service";
 import { MockUserService } from "@user/services/user.service.mock";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { RouterTestingModule } from "@angular/router/testing";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { MockComponent } from "ng-mocks";
 
 describe("OrganizationDetailComponent", () => {
   let component: OrganizationDetailComponent;
@@ -19,7 +21,10 @@ describe("OrganizationDetailComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [OrganizationDetailComponent],
+      declarations: [
+        OrganizationDetailComponent,
+        MockComponent(TableViewComponent),
+      ],
       imports: [
         ReactiveFormsModule,
         MaterialModule,

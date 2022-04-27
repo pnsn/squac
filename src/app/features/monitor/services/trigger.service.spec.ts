@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 
-import { TriggerService } from "./triggers.service";
+import { TriggerService } from "./trigger.service";
 
 describe("TriggerService", () => {
   let service: TriggerService;

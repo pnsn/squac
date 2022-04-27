@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 
-import { AlertService } from "./alerts.service";
+import { AlertService } from "./alert.service";
 
 describe("AlertService", () => {
   let service: AlertService;

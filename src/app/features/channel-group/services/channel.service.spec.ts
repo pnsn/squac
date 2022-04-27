@@ -7,7 +7,7 @@ import { ChannelService } from "./channel.service";
 import { Channel } from "@core/models/channel";
 
 describe("ChannelService", () => {
-  let channelsService: ChannelService;
+  let channelService: ChannelService;
 
   const testChannel: Channel = new Channel(
     1,
@@ -36,7 +36,7 @@ describe("ChannelService", () => {
       ],
     });
 
-    channelsService = TestBed.inject(ChannelService);
+    channelService = TestBed.inject(ChannelService);
   });
 
   it("should be created", () => {
@@ -47,7 +47,7 @@ describe("ChannelService", () => {
 
   it("should get channels with filters", (done: DoneFn) => {
     const filter = { net: 1 };
-    channelsService.getChannelsByFilters(filter).subscribe((channels) => {
+    channelService.getChannelsByFilters(filter).subscribe((channels) => {
       expect(channels.length).toEqual(1);
       done();
     });

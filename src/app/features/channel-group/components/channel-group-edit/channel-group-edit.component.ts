@@ -28,7 +28,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
-    private channelsService: ChannelService,
+    private channelService: ChannelService,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
@@ -175,7 +175,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   getChannelsWithFilters(searchFilters: object) {
     if (this.searchFilters !== {}) {
       this.loading = true;
-      const channelsSub = this.channelsService
+      const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
         .subscribe((response) => {
           this.availableChannels = response;

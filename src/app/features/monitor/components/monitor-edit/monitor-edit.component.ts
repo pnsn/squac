@@ -40,9 +40,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   removeTriggerIDs = [];
   constructor(
     private formBuilder: FormBuilder,
-    private monitorsService: MonitorService,
+    private monitorService: MonitorService,
     public dialogRef: MatDialogRef<MonitorEditComponent>,
-    private triggersService: TriggerService,
+    private triggerService: TriggerService,
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -200,12 +200,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.triggers.value
     );
 
-    this.monitorsService
+    this.monitorService
       .updateMonitor(monitor)
       .pipe(
         switchMap((m) => {
           return merge(
-            ...this.triggersService.updateTriggers(
+            ...this.triggerService.updateTriggers(
               this.triggers.value,
               this.removeTriggerIDs,
               m.id

@@ -12,7 +12,7 @@ import { ChannelGroupService } from "./services/channel-group.service";
 })
 export class ChannelGroupResolver implements Resolve<Observable<any>> {
   constructor(
-    private channelGroupsService: ChannelGroupService,
+    private channelGroupService: ChannelGroupService,
     private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
@@ -24,7 +24,7 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
 
     if (id) {
       this.loadingService.setStatus("Loading channel group");
-      return this.channelGroupsService.getChannelGroup(id).pipe(
+      return this.channelGroupService.getChannelGroup(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel group.");
           return this.handleError(error);
@@ -32,7 +32,7 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
       );
     } else {
       this.loadingService.setStatus("Loading channel groups");
-      return this.channelGroupsService.getChannelGroups().pipe(
+      return this.channelGroupService.getChannelGroups().pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel groups.");
           return this.handleError(error);

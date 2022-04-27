@@ -7,7 +7,7 @@ import { ChannelGroupService } from "./channel-group.service";
 import { ChannelGroup } from "@core/models/channel-group";
 
 describe("ChannelGroupService", () => {
-  let channelGroupsService: ChannelGroupService;
+  let channelGroupService: ChannelGroupService;
 
   const testChannelGroup = {
     name: "name",
@@ -30,7 +30,7 @@ describe("ChannelGroupService", () => {
       imports: [HttpClientTestingModule],
       providers: [{ provide: SquacApiService, useValue: mockSquacApiService }],
     });
-    channelGroupsService = TestBed.inject(ChannelGroupService);
+    channelGroupService = TestBed.inject(ChannelGroupService);
   });
 
   it("should be created", () => {
@@ -40,14 +40,14 @@ describe("ChannelGroupService", () => {
   });
 
   it("should get channelGroups", (done: DoneFn) => {
-    channelGroupsService.getChannelGroups().subscribe((channelGroups) => {
+    channelGroupService.getChannelGroups().subscribe((channelGroups) => {
       expect(channelGroups[0].id).toEqual(testChannelGroup.id);
       done();
     });
   });
 
   it("should get channelGroup with id", (done: DoneFn) => {
-    channelGroupsService.getChannelGroup(1).subscribe((channelGroup) => {
+    channelGroupService.getChannelGroup(1).subscribe((channelGroup) => {
       expect(channelGroup.id).toEqual(testChannelGroup.id);
       done();
     });
@@ -55,7 +55,7 @@ describe("ChannelGroupService", () => {
 
   it("should put channel group with id", (done: DoneFn) => {
     const testGroup = new ChannelGroup(1, 1, "name", "description", 1, []);
-    channelGroupsService.updateChannelGroup(testGroup).subscribe((response) => {
+    channelGroupService.updateChannelGroup(testGroup).subscribe((response) => {
       expect(response).toBeDefined();
       done();
     });
@@ -71,7 +71,7 @@ describe("ChannelGroupService", () => {
       []
     );
 
-    channelGroupsService
+    channelGroupService
       .updateChannelGroup(newChannelGroup)
       .subscribe((response) => {
         expect(response).toBeDefined();
@@ -80,7 +80,7 @@ describe("ChannelGroupService", () => {
   });
 
   it("should delete dashboard", (done: DoneFn) => {
-    channelGroupsService.deleteChannelGroup(1).subscribe((response) => {
+    channelGroupService.deleteChannelGroup(1).subscribe((response) => {
       expect(response).toBeTruthy();
       done();
     });

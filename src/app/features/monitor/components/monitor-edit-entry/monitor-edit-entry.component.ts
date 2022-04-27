@@ -20,7 +20,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private monitorsService: MonitorService
+    private monitorService: MonitorService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
       }
 
       if (this.monitorId && !this.monitor) {
-        this.monitorsService.getMonitor(this.monitorId).subscribe((monitor) => {
+        this.monitorService.getMonitor(this.monitorId).subscribe((monitor) => {
           this.monitor = monitor;
           this.openMonitor();
         });

@@ -8,7 +8,7 @@ import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { ViewService } from "@core/services/view.service";
 import { MockViewService } from "@core/services/view.service.mock";
 import { Widget } from "../models/widget";
-import { MeasurementsService } from "./measurements.service";
+import { MeasurementService } from "./measurement.service";
 
 import { WidgetDataService } from "./widget-data.service";
 
@@ -36,7 +36,7 @@ describe("WidgetDataService", () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        MeasurementsService,
+        MeasurementService,
         WidgetDataService,
         { provide: SquacApiService, useValue: mockSquacApiService },
         { provide: ViewService, useValue: new MockViewService() },

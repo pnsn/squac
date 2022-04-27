@@ -18,7 +18,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private dashboardsService: DashboardService
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
       }
 
       if (this.dashboardId && !this.dashboard) {
-        this.dashboardsService
+        this.dashboardService
           .getDashboard(this.dashboardId)
           .subscribe((dashboard) => {
             this.dashboard = dashboard;

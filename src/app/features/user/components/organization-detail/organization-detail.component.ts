@@ -91,8 +91,7 @@ export class OrganizationDetailComponent
     this.subscription.add(routerEvents);
     this.subscription.add(orgSub);
   }
-  ngAfterViewInit() {
-    console.log(this.organization);
+  buildColumns() {
     if (this.isAdmin) {
       this.columns = [
         {
@@ -172,6 +171,9 @@ export class OrganizationDetailComponent
         },
       ];
     }
+  }
+  ngAfterViewInit() {
+    setTimeout(this.buildColumns, 0);
   }
 
   datePipe(value: string) {

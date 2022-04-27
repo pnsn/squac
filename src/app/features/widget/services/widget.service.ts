@@ -15,7 +15,7 @@ export class WidgetService {
 
   constructor(
     private squacApi: SquacApiService,
-    private channelGroupsService: ChannelGroupService,
+    private channelGroupService: ChannelGroupService,
     private widgetAdapter: WidgetAdapter
   ) {}
 
@@ -36,7 +36,7 @@ export class WidgetService {
           });
 
           cGRequests = cGRequests.map((id) => {
-            return this.channelGroupsService.getChannelGroup(id).pipe(
+            return this.channelGroupService.getChannelGroup(id).pipe(
               catchError((err) => {
                 console.log(id, err);
                 return of(id);
@@ -61,7 +61,7 @@ export class WidgetService {
     return this.squacApi.get(this.url, id).pipe(
       switchMap((response) => {
         widget = this.widgetAdapter.adaptFromApi(response);
-        return this.channelGroupsService.getChannelGroup(widget.channelGroupId);
+        return this.channelGroupService.getChannelGroup(widget.channelGroupId);
       }),
       map((channelGroup) => {
         widget.channelGroup = channelGroup;

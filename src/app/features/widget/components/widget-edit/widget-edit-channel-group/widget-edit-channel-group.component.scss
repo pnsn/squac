@@ -1,4 +1,3 @@
-@import "./styles/variables.scss";
 #channel-group-selector-container {
   display: flex;
   width: 100%;
@@ -7,7 +6,7 @@
   overflow: hidden;
   padding-top: 15px;
   .selected {
-    background-color: $sq-blue;
+    // background-color: $sq-blue;
     color: white;
   }
 

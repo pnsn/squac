@@ -1,8 +1,8 @@
 import { WidgetEditService } from "./widget-edit.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@core/services/view.service";
-import { WidgetsService } from "./widgets.service";
-import { ThresholdsService } from "./thresholds.service";
+import { WidgetService } from "./widget.service";
+import { ThresholdService } from "./threshold.service";
 import { Widget } from "../models/widget";
 import { Metric } from "@core/models/metric";
 import { ChannelGroup } from "@core/models/channel-group";
@@ -27,8 +27,8 @@ describe("WidgetEditService", () => {
   beforeEach(() => {
     return MockBuilder(WidgetEditService, HttpClientTestingModule)
       .mock(ViewService)
-      .mock(ThresholdsService)
-      .mock(WidgetsService, {
+      .mock(ThresholdService)
+      .mock(WidgetService, {
         updateWidget: () => EMPTY,
       });
   });

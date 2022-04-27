@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { MeasurementService } from "./measurements.service";
+import { MeasurementService } from "./measurement.service";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
 

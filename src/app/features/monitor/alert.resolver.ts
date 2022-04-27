@@ -13,7 +13,7 @@ import { AlertService } from "./services/alert.service";
 })
 export class AlertResolver implements Resolve<Observable<any>> {
   constructor(
-    private alertsService: AlertService,
+    private alertService: AlertService,
     private loadingService: LoadingService,
     private messageService: MessageService,
     private dateService: DateService
@@ -25,7 +25,7 @@ export class AlertResolver implements Resolve<Observable<any>> {
     const id = +route.paramMap.get("alertId");
     if (id) {
       this.loadingService.setStatus("Loading alert");
-      return this.alertsService.getAlert(id).pipe(
+      return this.alertService.getAlert(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load alert.");
           return this.handleError(error);
@@ -34,7 +34,7 @@ export class AlertResolver implements Resolve<Observable<any>> {
     } else {
       this.loadingService.setStatus("Loading alerts for last day");
       const lastday = this.dateService.subtractFromNow(1, "day").format();
-      return this.alertsService.getAlerts({ starttime: lastday }).pipe(
+      return this.alertService.getAlerts({ starttime: lastday }).pipe(
         catchError((error) => {
           this.messageService.error("Could not load alerts.");
           return this.handleError(error);

@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import { ThresholdService } from "./thresholds.service";
+import { ThresholdService } from "./threshold.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Metric } from "@core/models/metric";

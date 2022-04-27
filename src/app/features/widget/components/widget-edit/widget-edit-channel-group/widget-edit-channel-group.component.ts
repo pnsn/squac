@@ -43,7 +43,7 @@ export class WidgetEditChannelGroupComponent
   orgPipe: OrganizationPipe;
 
   constructor(
-    private channelGroupsService: ChannelGroupService,
+    private channelGroupService: ChannelGroupService,
     private widgetEditService: WidgetEditService,
     private userService: UserService,
     private orgService: OrganizationService
@@ -146,7 +146,7 @@ export class WidgetEditChannelGroupComponent
 
     if (this.selectedChannelGroup[0].id) {
       this.widgetEditService.updateChannelGroup(this.selectedChannelGroup);
-      const channelGroupsSub = this.channelGroupsService
+      const channelGroupsSub = this.channelGroupService
         .getChannelGroup(this.selectedChannelGroup[0].id)
         .subscribe(
           (channelGroup) => {

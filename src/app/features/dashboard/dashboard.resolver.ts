@@ -17,7 +17,7 @@ export interface DashboardResolved {
 })
 export class DashboardResolver implements Resolve<Observable<any>> {
   constructor(
-    private dashboardsService: DashboardService,
+    private dashboardService: DashboardService,
     private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
@@ -30,7 +30,7 @@ export class DashboardResolver implements Resolve<Observable<any>> {
     if (id) {
       this.loadingService.setStatus("Loading dashboard");
       // get specific resource
-      return this.dashboardsService.getDashboard(id).pipe(
+      return this.dashboardService.getDashboard(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load dashboard.");
           return this.handleError(error);
@@ -38,7 +38,7 @@ export class DashboardResolver implements Resolve<Observable<any>> {
       );
     } else {
       this.loadingService.setStatus("Loading dashboards");
-      return this.dashboardsService.getDashboards().pipe(
+      return this.dashboardService.getDashboards().pipe(
         catchError((error) => {
           this.messageService.error("Could not load dashboards.");
           return this.handleError(error);

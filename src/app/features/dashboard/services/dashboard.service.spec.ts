@@ -12,7 +12,7 @@ import { MockChannelGroupService } from "@channelGroup/services/channel-group.se
 import { MockWidgetService } from "@widget/services/widget.service.mock";
 
 describe("DashboardService", () => {
-  let dashboardsService: DashboardService;
+  let dashboardService: DashboardService;
 
   const testDashboard = new Dashboard(
     1,
@@ -37,7 +37,7 @@ describe("DashboardService", () => {
       ],
     });
 
-    dashboardsService = TestBed.inject(DashboardService);
+    dashboardService = TestBed.inject(DashboardService);
   });
 
   it("should be created", () => {
@@ -47,35 +47,35 @@ describe("DashboardService", () => {
   });
 
   it("should return dashboards", (done: DoneFn) => {
-    dashboardsService.getDashboards().subscribe((dashboards) => {
+    dashboardService.getDashboards().subscribe((dashboards) => {
       expect(dashboards[0].id).toEqual(1);
       done();
     });
   });
 
   it("should get dashboard with id", (done: DoneFn) => {
-    dashboardsService.getDashboard(1).subscribe((dashboard) => {
+    dashboardService.getDashboard(1).subscribe((dashboard) => {
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
   });
 
   it("should put dashboard with id", (done: DoneFn) => {
-    dashboardsService.updateDashboard(testDashboard).subscribe((dashboard) => {
+    dashboardService.updateDashboard(testDashboard).subscribe((dashboard) => {
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
   });
 
   it("should post dashboard without id", (done: DoneFn) => {
-    dashboardsService.updateDashboard(testDashboard).subscribe((dashboard) => {
+    dashboardService.updateDashboard(testDashboard).subscribe((dashboard) => {
       expect(dashboard.id).toEqual(testDashboard.id);
       done();
     });
   });
 
   it("should delete dashboard", (done: DoneFn) => {
-    dashboardsService.deleteDashboard(1).subscribe((response) => {
+    dashboardService.deleteDashboard(1).subscribe((response) => {
       expect(response).toBeTruthy();
       done();
     });

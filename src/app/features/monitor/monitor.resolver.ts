@@ -12,7 +12,7 @@ import { MonitorService } from "./services/monitor.service";
 })
 export class MonitorResolver implements Resolve<Observable<any>> {
   constructor(
-    private monitorsService: MonitorService,
+    private monitorService: MonitorService,
     private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
@@ -23,7 +23,7 @@ export class MonitorResolver implements Resolve<Observable<any>> {
     const id = +route.paramMap.get("monitorId");
     if (id) {
       this.loadingService.setStatus("Loading monitor");
-      return this.monitorsService.getMonitor(id).pipe(
+      return this.monitorService.getMonitor(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitor.");
           return this.handleError(error);
@@ -31,7 +31,7 @@ export class MonitorResolver implements Resolve<Observable<any>> {
       );
     } else {
       this.loadingService.setStatus("Loading monitors");
-      return this.monitorsService.getMonitors().pipe(
+      return this.monitorService.getMonitors().pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitors.");
           return this.handleError(error);

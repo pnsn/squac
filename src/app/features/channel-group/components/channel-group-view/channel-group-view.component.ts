@@ -20,7 +20,7 @@ import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 export class ChannelGroupViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  channelGroups: ChannelGroup[];
+  channelGroups: ChannelGroup[] = [];
   selected: ChannelGroup[];
   subscription: Subscription = new Subscription();
   selectedChannelGroupId: number;
@@ -43,7 +43,7 @@ export class ChannelGroupViewComponent
     private route: ActivatedRoute,
     private userService: UserService,
     private orgService: OrganizationService,
-    private channelGroupsService: ChannelGroupService
+    private channelGroupService: ChannelGroupService
   ) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
@@ -124,7 +124,7 @@ export class ChannelGroupViewComponent
   }
 
   refresh() {
-    this.channelGroupsService.getChannelGroups().subscribe((channelGroups) => {
+    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
       this.channelGroups = channelGroups;
       this.rows = [...this.channelGroups];
     });
