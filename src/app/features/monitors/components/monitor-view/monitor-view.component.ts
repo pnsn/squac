@@ -10,7 +10,7 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { tap, mergeMap, filter, Subscription } from "rxjs";
 
 @Component({
-  selector: "app-monitor-view",
+  selector: "monitor-view",
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
 })

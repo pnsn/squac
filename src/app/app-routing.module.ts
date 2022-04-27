@@ -95,7 +95,7 @@ const appRoutes: Routes = [
         path: "monitors",
         loadChildren: () =>
           import("@features/monitors/monitors.module").then(
-            (m) => m.MonitorsModule
+            (m) => m.MonitorModule
           ),
       },
       { path: "not-found", component: NotFoundComponent, pathMatch: "full" },

@@ -1,23 +1,23 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { MonitorsComponent } from "./components/monitors/monitors.component";
+import { MonitorComponent } from "./components/monitor/monitor.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
-import { MonitorsResolver } from "./monitors.resolver";
+import { MonitorResolver } from "./monitor.resolver";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
 import { MetricsResolver } from "@features/metrics/metrics.resolver";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
-import { AlertsResolver } from "./alerts.resolver";
+import { AlertsResolver } from "./alert.resolver";
 
 export const routes: Routes = [
   {
     path: "",
-    component: MonitorsComponent,
+    component: MonitorComponent,
     canActivate: [AuthGuard],
     // data: {subject: 'Monitor', action: 'read'}
     resolve: {
-      monitors: MonitorsResolver,
+      monitors: MonitorResolver,
       alerts: AlertsResolver,
     },
     runGuardsAndResolvers: "always",
@@ -47,7 +47,7 @@ export const routes: Routes = [
             // canActivate: [PermissionGuard],
             // data: {subject: 'Monitor', action: 'create'},
             resolve: {
-              monitor: MonitorsResolver,
+              monitor: MonitorResolver,
             },
             children: [
               {
@@ -72,4 +72,4 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MonitorsRoutingModule {}
+export class MonitorRoutingModule {}

@@ -8,7 +8,7 @@ import { MonitorsService } from "@features/monitors/services/monitors.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: "app-monitor-detail",
+  selector: "monitor-detail",
   templateUrl: "./monitor-detail.component.html",
   styleUrls: ["./monitor-detail.component.scss"],
 })

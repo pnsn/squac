@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MonitorsComponent } from "./components/monitors/monitors.component";
+import { MonitorComponent } from "./components/monitor/monitor.component";
 import { MonitorDetailComponent } from "./components/monitor-detail/monitor-detail.component";
 import { MonitorEditComponent } from "./components/monitor-edit/monitor-edit.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
-import { MonitorsRoutingModule } from "./monitors-routing.module";
+import { MonitorRoutingModule } from "./monitor-routing.module";
 import { SharedModule } from "@shared/shared.module";
 import { MonitorChartComponent } from "./components/monitor-chart/monitor-chart.component";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
@@ -14,7 +14,7 @@ import { AbilityModule } from "@casl/angular";
 
 @NgModule({
   declarations: [
-    MonitorsComponent,
+    MonitorComponent,
     MonitorDetailComponent,
     MonitorEditComponent,
     MonitorViewComponent,
@@ -24,10 +24,10 @@ import { AbilityModule } from "@casl/angular";
   ],
   imports: [
     CommonModule,
-    MonitorsRoutingModule,
+    MonitorRoutingModule,
     SharedModule,
     AbilityModule,
     NgxChartsModule,
   ],
 })
-export class MonitorsModule {}
+export class MonitorModule {}

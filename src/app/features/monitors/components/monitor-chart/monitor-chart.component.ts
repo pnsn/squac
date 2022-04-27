@@ -8,7 +8,7 @@ import { forkJoin, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Component({
-  selector: "app-monitor-chart",
+  selector: "monitor-chart",
   templateUrl: "./monitor-chart.component.html",
   styleUrls: ["./monitor-chart.component.scss"],
 })

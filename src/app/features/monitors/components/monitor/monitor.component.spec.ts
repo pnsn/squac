@@ -3,15 +3,15 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MaterialModule } from "@shared/material.module";
 
-import { MonitorsComponent } from "./monitors.component";
+import { MonitorComponent } from "./monitor.component";
 
-describe("MonitorsComponent", () => {
-  let component: MonitorsComponent;
-  let fixture: ComponentFixture<MonitorsComponent>;
+describe("MonitorComponent", () => {
+  let component: MonitorComponent;
+  let fixture: ComponentFixture<MonitorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MonitorsComponent],
+      declarations: [MonitorComponent],
       imports: [
         BrowserAnimationsModule,
         MaterialModule,
@@ -21,7 +21,7 @@ describe("MonitorsComponent", () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MonitorsComponent);
+    fixture = TestBed.createComponent(MonitorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,7 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { mergeMap, Subscription, tap } from "rxjs";
 
 @Component({
-  selector: "app-alert-view",
+  selector: "monitor-alert-view",
   templateUrl: "./alert-view.component.html",
   styleUrls: ["./alert-view.component.scss"],
 })
@@ -44,7 +44,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
       } else {
         this.error = false;
         this.monitors = data.monitors;
-        this.findMonitorsForAlerts(data.alerts);
+        this.findMonitorForAlerts(data.alerts);
       }
     });
   }
@@ -63,7 +63,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
             return this.alertsService.getAlerts({ starttime: lastHour });
           }),
           tap((alerts) => {
-            this.findMonitorsForAlerts(alerts);
+            this.findMonitorForAlerts(alerts);
             this.refreshInProgress = false;
           })
         )
@@ -74,7 +74,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   }
 
   // match alerts and monitors
-  findMonitorsForAlerts(alerts: Alert[]) {
+  findMonitorForAlerts(alerts: Alert[]) {
     this.alerts = [];
     if (this.monitors.length > 0 && alerts.length > 0) {
       this.alerts = alerts.map((alert) => {

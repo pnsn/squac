@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 import { MonitorsService } from "@features/monitors/services/monitors.service";
 
 @Component({
-  selector: "app-monitor-edit-entry",
+  selector: "monitor-edit-entry",
   template: "",
 })
 export class MonitorEditEntryComponent implements OnInit, OnDestroy {

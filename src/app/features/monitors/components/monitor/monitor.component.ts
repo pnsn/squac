@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-monitors",
+  selector: "monitor-main",
   template: "<router-outlet></router-outlet>",
 })
-export class MonitorsComponent {}
+export class MonitorComponent {}

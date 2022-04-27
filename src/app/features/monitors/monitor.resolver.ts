@@ -10,7 +10,7 @@ import { MonitorsService } from "./services/monitors.service";
 @Injectable({
   providedIn: "root",
 })
-export class MonitorsResolver implements Resolve<Observable<any>> {
+export class MonitorResolver implements Resolve<Observable<any>> {
   constructor(
     private monitorsService: MonitorsService,
     private loadingService: LoadingService,

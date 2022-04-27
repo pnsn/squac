@@ -13,7 +13,7 @@ import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
 @Component({
-  selector: "app-monitor-edit",
+  selector: "monitor-edit",
   templateUrl: "./monitor-edit.component.html",
   styleUrls: ["./monitor-edit.component.scss"],
   providers: [
