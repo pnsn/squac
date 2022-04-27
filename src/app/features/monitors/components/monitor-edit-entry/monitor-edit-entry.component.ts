@@ -6,8 +6,7 @@ import { MonitorsService } from "@features/monitors/services/monitors.service";
 
 @Component({
   selector: "app-monitor-edit-entry",
-  templateUrl: "./monitor-edit-entry.component.html",
-  styleUrls: ["./monitor-edit-entry.component.scss"],
+  template: "",
 })
 export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;

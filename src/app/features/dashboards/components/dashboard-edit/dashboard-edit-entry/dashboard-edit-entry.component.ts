@@ -6,8 +6,7 @@ import { DashboardEditComponent } from "../dashboard-edit.component";
 
 @Component({
   selector: "app-dashboard-edit-entry",
-  templateUrl: "./dashboard-edit-entry.component.html",
-  styleUrls: ["./dashboard-edit-entry.component.scss"],
+  template: "",
 })
 export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;

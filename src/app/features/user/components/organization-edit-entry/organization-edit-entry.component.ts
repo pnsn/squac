@@ -7,8 +7,7 @@ import { OrganizationEditComponent } from "../organization-edit/organization-edi
 
 @Component({
   selector: "app-organization-edit-entry",
-  templateUrl: "./organization-edit-entry.component.html",
-  styleUrls: ["./organization-edit-entry.component.scss"],
+  template: "",
 })
 export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;
