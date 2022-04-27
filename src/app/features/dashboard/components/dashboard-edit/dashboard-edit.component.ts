@@ -15,7 +15,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   editMode: boolean;
   orgId: number;
-  dashboardForm: FormGroup;
   subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -26,13 +25,14 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  dashboardForm: FormGroup = this.formBuilder.group({
+    name: ["", Validators.required],
+    description: ["", Validators.required],
+    share: ["private", Validators.required],
+  });
+
   ngOnInit() {
     this.dashboard = this.data.dashboard;
-    this.dashboardForm = this.formBuilder.group({
-      name: ["", Validators.required],
-      description: ["", Validators.required],
-      share: ["private", Validators.required],
-    });
 
     this.editMode = !!this.dashboard;
     this.orgId = this.userService.userOrg;

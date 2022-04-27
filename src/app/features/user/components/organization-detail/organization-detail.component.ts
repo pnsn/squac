@@ -68,8 +68,11 @@ export class OrganizationDetailComponent
   ngOnInit(): void {
     const orgSub = this.route.data.subscribe((data) => {
       this.user = this.route.parent.snapshot.data.user;
-      this.organization = data.organization;
-      this.rows = [...this.organization.users];
+      if (this.organization && this.organization.users) {
+        this.organization = data.organization;
+        this.rows = [...this.organization.users];
+      }
+
       this.isAdmin =
         this.user.isStaff ||
         (this.user.orgAdmin && this.user.orgId === this.organization.id);

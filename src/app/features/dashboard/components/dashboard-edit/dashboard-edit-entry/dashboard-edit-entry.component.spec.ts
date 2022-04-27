@@ -3,6 +3,7 @@ import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { RouterTestingModule } from "@angular/router/testing";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
 import { MockBuilder } from "ng-mocks";
+import { of } from "rxjs";
 
 import { DashboardEditEntryComponent } from "./dashboard-edit-entry.component";
 
@@ -15,7 +16,24 @@ describe("DashboardEditEntryComponent", () => {
       .keep(RouterTestingModule)
       .mock(DashboardService)
       .mock(MatDialogModule)
-      .mock(MatDialog)
+      .provide({
+        provide: MatDialog,
+        useValue: {
+          open: (_ref, _options) => {
+            return {
+              close: (_value) => {
+                return;
+              },
+              afterClosed: () => {
+                return of(true);
+              },
+            };
+          },
+          closeAll: () => {
+            return;
+          },
+        },
+      })
   );
 
   beforeEach(() => {
