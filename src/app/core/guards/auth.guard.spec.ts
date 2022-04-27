@@ -12,7 +12,7 @@ import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
 import { UserResolver } from "@features/user/user.resolver";
 import { MetricsResolver } from "@features/metrics/metrics.resolver";
-import { StatTypeResolver } from "@features/widgets/stat-type.resolver";
+import { StatTypeResolver } from "@features/widget/stat-type.resolver";
 import { OrganizationResolver } from "@features/user/organization.resolver";
 
 describe("AuthGuard", () => {

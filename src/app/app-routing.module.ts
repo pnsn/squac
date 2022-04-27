@@ -13,7 +13,7 @@ import { NotFoundComponent } from "@core/components/not-found/not-found.componen
 import { HomeComponent } from "@core/components/home/home.component";
 import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
-import { StatTypeResolver } from "@features/widgets/stat-type.resolver";
+import { StatTypeResolver } from "@features/widget/stat-type.resolver";
 
 const appRoutes: Routes = [
   {

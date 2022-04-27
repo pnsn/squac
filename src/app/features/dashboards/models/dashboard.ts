@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
-import { Widget } from "@features/widgets/models/widget";
+import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
   public widgets: Widget[];

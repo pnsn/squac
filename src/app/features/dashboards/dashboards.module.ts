@@ -7,7 +7,7 @@ import { DashboardViewComponent } from "./components/dashboard-view/dashboard-vi
 import { DashboardsRoutingModule } from "./dashboards-routing.module";
 import { AbilityModule } from "@casl/angular";
 import { SharedModule } from "@shared/shared.module";
-import { WidgetsModule } from "@features/widgets/widgets.module";
+import { WidgetModule } from "@features/widget/widget.module";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 
@@ -20,7 +20,7 @@ import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboa
     DashboardEditEntryComponent,
   ],
   imports: [
-    WidgetsModule,
+    WidgetModule,
     DashboardsRoutingModule,
     SharedModule,
     AbilityModule,

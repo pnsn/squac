@@ -4,13 +4,13 @@ import {
   AbilityClass,
   InferSubjects,
 } from "@casl/ability";
-import { Widget } from "@features/widgets/models/widget";
+import { Widget } from "@features/widget/models/widget";
 import { ChannelGroup } from "../models/channel-group";
 import { Metric } from "../models/metric";
 import { User } from "@features/user/models/user";
 import { Dashboard } from "@features/dashboards/models/dashboard";
-import { Threshold } from "@features/widgets/models/threshold";
-import { Measurement } from "@features/widgets/models/measurement";
+import { Threshold } from "@features/widget/models/threshold";
+import { Measurement } from "@features/widget/models/measurement";
 import { Monitor } from "@features/monitors/models/monitor";
 
 type Actions = "create" | "read" | "update" | "delete" | "manage";

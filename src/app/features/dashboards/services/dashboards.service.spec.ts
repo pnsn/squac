@@ -6,10 +6,10 @@ import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { Dashboard } from "../models/dashboard";
 
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
-import { WidgetsService } from "@features/widgets/services/widgets.service";
+import { WidgetsService } from "@features/widget/services/widgets.service";
 import { DashboardsService } from "./dashboards.service";
 import { MockChannelGroupsService } from "@features/channel-groups/services/channel-groups.service.mock";
-import { MockWidgetsService } from "@features/widgets/services/widgets.service.mock";
+import { MockWidgetsService } from "@features/widget/services/widgets.service.mock";
 
 describe("DashboardsService", () => {
   let dashboardsService: DashboardsService;

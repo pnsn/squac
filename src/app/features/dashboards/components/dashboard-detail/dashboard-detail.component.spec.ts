@@ -10,7 +10,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AppAbility } from "@core/utils/ability";
 import { Ability, PureAbility } from "@casl/ability";
 import { AbilityModule } from "@casl/angular";
-import { WidgetsModule } from "@features/widgets/widgets.module";
+import { WidgetModule } from "@features/widget/widget.module";
 import { ViewService } from "@core/services/view.service";
 import { MockViewService } from "@core/services/view.service.mock";
 import { Dashboard } from "@features/dashboards/models/dashboard";
@@ -37,7 +37,7 @@ describe("DashboardDetailComponent", () => {
         HttpClientTestingModule,
         FormsModule,
         NgxDatatableModule,
-        WidgetsModule,
+        WidgetModule,
         AbilityModule,
         MatMenuModule,
         MatToolbarModule,
