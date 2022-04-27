@@ -226,14 +226,15 @@ export class OrganizationDetailComponent
   }
 
   sendInvite() {
-    this.inviteService.sendInviteToUser(this.selectedId).subscribe(
-      () => {
+    this.inviteService.sendInviteToUser(this.selectedId).subscribe({
+      next: () => {
         this.messageService.message("Invitation email sent.");
         this.refreshOrgUsers();
       },
-      (error) => {
+      error: (error) => {
+        console.log(error);
         this.messageService.error(error);
-      }
-    );
+      },
+    });
   }
 }

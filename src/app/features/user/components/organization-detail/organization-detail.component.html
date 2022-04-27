@@ -5,12 +5,12 @@
         >View All Organizations</a
       >
       <button
-        mat-flat-button
+        mat-raised-button
         color="accent"
         *ngIf="isAdmin"
         (click)="addUser()"
       >
-        Add User
+        <mat-icon>add</mat-icon> Add User
       </button>
     </ng-container>
     <ng-container tableHeadFilters>
@@ -18,21 +18,22 @@
         You are {{ user.orgId === organization.id ? "" : "not " }}part of this
         organization.
       </p>
-      <button
+      <a
+        mat-stroked-button
+        [routerLink]="['user', selectedId, 'edit']"
         [disabled]="!selectedId"
         *ngIf="isAdmin"
-        mat-button
-        [matMenuTriggerFor]="actionsMenu"
-        aria-label="Button that opens actions"
       >
-        Actions <mat-icon>expand_more</mat-icon>
+        Edit User
+      </a>
+      <button
+        mat-button
+        [disabled]="!selectedId"
+        *ngIf="isAdmin"
+        (click)="sendInvite()"
+      >
+        Resend Invite
       </button>
-      <mat-menu #actionsMenu="matMenu">
-        <a [routerLink]="['user', selectedId, 'edit']" mat-menu-item>
-          Edit User
-        </a>
-        <a mat-menu-item (click)="sendInvite()">Resend Invite</a>
-      </mat-menu>
     </ng-container>
     <ng-container tableBody options="options">
       <ngx-datatable

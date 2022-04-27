@@ -18,6 +18,7 @@ export class OrganizationEditComponent implements OnInit {
   orgId: number;
   userForm: FormGroup;
   subscriptions: Subscription = new Subscription();
+  userIsActive = true;
   groupTypes = [
     {
       id: 1,
@@ -76,12 +77,26 @@ export class OrganizationEditComponent implements OnInit {
         isAdmin: this.user.isAdmin,
         groups: this.user.groups,
       });
+      this.userIsActive = this.user.isActive;
     }
+  }
+
+  deactivate() {
+    this.userIsActive = false;
   }
 
   save() {
     const values = this.userForm.value;
-    console.log(values);
+    const user = new User(
+      this.user ? this.user.id : null,
+      values.email ? values.email : this.user.email,
+      values.firstName,
+      values.lastName,
+      this.orgId,
+      values.isAdmin,
+      values.groups
+    );
+    user.isActive = this.userIsActive;
     this.orgService
       .updateUser(
         new User(
@@ -94,29 +109,27 @@ export class OrganizationEditComponent implements OnInit {
           values.groups
         )
       )
-      .subscribe(
-        (user) => {
+      .subscribe({
+        next: (user) => {
           // this.sendInvite(user.id, user.email);
-          // this.organization.users.push(newUser);
           this.messageService.message(`Updated user ${user.email}.`);
           this.cancel(user.id);
-          // this.organization.users.push(newUser);
         },
-        (error) => {
+        error: (error) => {
           this.messageService.error(`Could not add user.`);
-        }
-      );
+        },
+      });
   }
 
   sendInvite(id, email) {
-    this.inviteService.sendInviteToUser(id).subscribe(
-      () => {
+    this.inviteService.sendInviteToUser(id).subscribe({
+      next: () => {
         this.messageService.message(`Invitation email sent to ${email}.`);
       },
-      (error) => {
+      error: (error) => {
         this.messageService.error(error);
-      }
-    );
+      },
+    });
   }
   // Cancel and don't save changes
   cancel(userId?) {
