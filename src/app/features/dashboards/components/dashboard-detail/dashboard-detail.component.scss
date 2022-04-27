@@ -1,13 +1,5 @@
 @import "variables";
 
-#dashboard-container {
-  margin: 0 -5.5%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
 :host ::ng-deep .mat-button-toggle-label-content {
   padding: 3px !important;
   line-height: unset !important;

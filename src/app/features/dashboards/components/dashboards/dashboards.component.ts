@@ -4,8 +4,7 @@ import { ViewService } from "@core/services/view.service";
 
 @Component({
   selector: "app-dashboards",
-  templateUrl: "./dashboards.component.html",
-  styleUrls: ["./dashboards.component.scss"],
+  template: "<router-outlet></router-outlet>",
 })
 export class DashboardsComponent {
   opened = true;

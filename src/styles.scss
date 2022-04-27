@@ -27,6 +27,20 @@ body {
   margin: 0;
   background-color: darken($sq-lt-gray, 5);
 }
+#body-content-container {
+  width: 90%;
+  height: 100%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+#dashboard-container {
+  margin: 0 -5.5%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 /* Background color */
 

@@ -4,8 +4,7 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-metrics",
-  templateUrl: "./metrics.component.html",
-  styleUrls: ["./metrics.component.scss"],
+  template: "<router-outlet></router-outlet>",
 })
 export class MetricsComponent {
   subscription: Subscription = new Subscription();

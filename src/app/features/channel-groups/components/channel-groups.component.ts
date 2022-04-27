@@ -4,8 +4,7 @@ import { NetworksService } from "../services/networks.service";
 
 @Component({
   selector: "app-channel-groups",
-  templateUrl: "./channel-groups.component.html",
-  styleUrls: ["./channel-groups.component.scss"],
+  template: "<router-outlet></router-outlet>",
 })
 export class ChannelGroupsComponent implements OnInit, OnDestroy {
   // channelGroups: ChannelGroup[];
