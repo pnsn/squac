@@ -9,7 +9,7 @@ import { AuthGuard } from "./auth.guard";
 import { AppModule } from "app/app.module";
 import { DashboardModule } from "@features/dashboard/dashboard.module";
 import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
-import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 import { UserResolver } from "@features/user/user.resolver";
 import { MetricResolver } from "@features/metric/metric.resolver";
 import { StatTypeResolver } from "@features/widget/stat-type.resolver";
@@ -23,7 +23,7 @@ describe("AuthGuard", () => {
       .exclude(NG_MOCKS_GUARDS)
       .mock(DashboardModule)
       .mock(DashboardResolver)
-      .mock(ChannelGroupsResolver)
+      .mock(ChannelGroupResolver)
       .mock(UserResolver)
       .mock(MetricResolver)
       .mock(StatTypeResolver)

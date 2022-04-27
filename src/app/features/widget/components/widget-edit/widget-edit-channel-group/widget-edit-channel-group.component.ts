@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { ChannelGroupService } from "@features/channel-groups/services/channel-group.service";
 import { WidgetEditService } from "@features/widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
@@ -43,7 +43,7 @@ export class WidgetEditChannelGroupComponent
   orgPipe: OrganizationPipe;
 
   constructor(
-    private channelGroupsService: ChannelGroupsService,
+    private channelGroupsService: ChannelGroupService,
     private widgetEditService: WidgetEditService,
     private userService: UserService,
     private orgService: OrganizationService

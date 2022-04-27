@@ -4,7 +4,7 @@ import { WidgetMainComponent } from "./components/widget-main/widget-main.compon
 import { WidgetResolver } from "@features/widget/widget.resolver";
 import { WidgetEditEntryComponent } from "@features/widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricResolver } from "@features/metric/metric.resolver";
-import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 import { StatTypeResolver } from "./stat-type.resolver";
 
 export const widgetRoutes: Routes = [
@@ -27,7 +27,7 @@ export const widgetRoutes: Routes = [
         canActivate: [PermissionGuard],
         resolve: {
           metrics: MetricResolver,
-          channelGroups: ChannelGroupsResolver,
+          channelGroups: ChannelGroupResolver,
           statTypes: StatTypeResolver,
         },
         data: { subject: "Widget", action: "create" },
@@ -40,7 +40,7 @@ export const widgetRoutes: Routes = [
         path: ":widgetId/edit",
         resolve: {
           metrics: MetricResolver,
-          channelGroups: ChannelGroupsResolver,
+          channelGroups: ChannelGroupResolver,
           statTypes: StatTypeResolver,
         },
         component: WidgetEditEntryComponent,

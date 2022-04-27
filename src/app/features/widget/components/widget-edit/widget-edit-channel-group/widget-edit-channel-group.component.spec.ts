@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { WidgetEditService } from "@features/widget/services/widget-edit.service";
-import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { ChannelGroupService } from "@features/channel-groups/services/channel-group.service";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationService } from "@features/user/services/organization.service";
@@ -40,7 +40,7 @@ describe("WidgetEditChannelGroupComponent", () => {
           },
         },
       })
-      .mock(ChannelGroupsService)
+      .mock(ChannelGroupService)
       .mock(UserService);
   });
 

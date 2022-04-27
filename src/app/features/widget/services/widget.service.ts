@@ -7,7 +7,7 @@ import {
 } from "@features/widget/models/widget";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
+import { ChannelGroupService } from "@features/channel-groups/services/channel-group.service";
 import { ChannelGroup } from "@core/models/channel-group";
 
 @Injectable({
@@ -19,7 +19,7 @@ export class WidgetService {
 
   constructor(
     private squacApi: SquacApiService,
-    private channelGroupsService: ChannelGroupsService,
+    private channelGroupsService: ChannelGroupService,
     private widgetAdapter: WidgetAdapter
   ) {}
 

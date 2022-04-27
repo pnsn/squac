@@ -12,7 +12,7 @@ import { MetricResolver } from "@features/metric/metric.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
 import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
-import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 import { StatTypeResolver } from "@features/widget/stat-type.resolver";
 
 const appRoutes: Routes = [
@@ -53,7 +53,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       dashboards: DashboardResolver,
-      channelGroups: ChannelGroupsResolver,
+      channelGroups: ChannelGroupResolver,
       metrics: MetricResolver,
       user: UserResolver,
       statType: StatTypeResolver,
@@ -75,8 +75,8 @@ const appRoutes: Routes = [
       {
         path: "channel-groups",
         loadChildren: () =>
-          import("@features/channel-groups/channel-groups.module").then(
-            (m) => m.ChannelGroupsModule
+          import("@features/channel-group/channel-group.module").then(
+            (m) => m.ChannelGroupModule
           ),
       },
       {

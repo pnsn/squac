@@ -5,8 +5,8 @@ import { WidgetService } from "./widget.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Widget } from "@features/widget/models/widget";
-import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
-import { MockChannelGroupsService } from "@features/channel-groups/services/channel-groups.service.mock";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { MockChannelGroupService } from "@features/channel-group/services/channel-group.service.mock";
 
 describe("WidgetService", () => {
   const testData = {
@@ -38,7 +38,7 @@ describe("WidgetService", () => {
           provide: SquacApiService,
           useValue: new MockSquacApiService(testData),
         },
-        { provide: ChannelGroupsService, useClass: MockChannelGroupsService },
+        { provide: ChannelGroupService, useClass: MockChannelGroupService },
       ],
     });
 

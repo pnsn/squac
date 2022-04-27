@@ -1,0 +1,358 @@
+<div id="title">
+  <h1>
+    {{ editMode ? "Edit Channel Group" : "Create Channel Group" }}
+  </h1>
+</div>
+<div id="edit-container">
+  <div id="select-channels-container" class="box">
+    <div id="selection-filter">
+      <h2>Search for Channels</h2>
+      <div id="filter-container">
+        <p class="help-text">
+          Use the filters to the below to search for channels or use the map to
+          search within a region.
+        </p>
+        <channel-group-filter
+          (filtersChanged)="getChannelsWithFilters($event)"
+        >
+        </channel-group-filter>
+      </div>
+    </div>
+    <h3>Search Results</h3>
+    <mat-slide-toggle [(ngModel)]="showOnlyCurrent" (change)="filterCurrent()">
+      <span class="help-text">Only Show Current Channels</span>
+    </mat-slide-toggle>
+    <div id="select-channels-controls">
+      <ng-container *ngIf="availableChannels.length === 0; else hasChannels">
+        <span class="help-text"
+          >Search above to find channels to add to your channel group.</span
+        >
+      </ng-container>
+      <ng-template #hasChannels>
+        <span class="help-text"
+          >{{ availableChannels.length }} channels matching search
+          criteria.</span
+        >
+      </ng-template>
+
+      <div>
+        <button
+          mat-flat-button
+          color="accent"
+          (click)="addChannelsToSelected()"
+          [disabled]="!availableChannels || availableChannels.length === 0"
+        >
+          Add Channels
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="undoSelectRemove()"
+          [disabled]="!changeMade"
+        >
+          Undo Last
+        </button>
+      </div>
+    </div>
+
+    <div id="preview-container">
+      <div id="preview-list" class="table-container">
+        <ngx-datatable
+          *ngIf="!loading; else isLoading"
+          #availableTable
+          id="channel-selector"
+          class="material channel-table"
+          [rows]="availableChannels"
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="30"
+          [footerHeight]="0"
+          [rowHeight]="23"
+          [scrollbarV]="true"
+          [sortType]="SortType.multi"
+        >
+          <ngx-datatable-column
+            name="Network"
+            prop="networkCode"
+            [draggable]="false"
+            [sortable]="true"
+            [resizeable]="false"
+            [flexGrow]="1"
+          >
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              {{ value | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Station"
+            prop="stationCode"
+            [draggable]="false"
+            [sortable]="true"
+            [resizeable]="false"
+            [flexGrow]="1"
+          >
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              {{ value | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Location"
+            prop="loc"
+            [draggable]="false"
+            [sortable]="true"
+            [resizeable]="false"
+            [flexGrow]="1"
+          >
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Channel"
+            prop="code"
+            [draggable]="false"
+            [sortable]="true"
+            [resizeable]="false"
+            [flexGrow]="1"
+          >
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              {{ value | uppercase }}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+        <ng-template #isLoading>
+          <mat-spinner></mat-spinner>
+        </ng-template>
+      </div>
+
+      <div id="map-box">
+        <channel-group-map
+          [originalSelectedChannels]="originalSelectedChannels"
+          [selectedChannels]="selectedChannels"
+          [searchChannels]="searchChannels"
+          [removeChannels]="filteredChannels"
+          [isRemoving]="isSelectedFiltered"
+          [editPage]="true"
+          (boundsChange)="updateBounds($event)"
+        ></channel-group-map>
+      </div>
+    </div>
+  </div>
+  <div id="create-group-container" class="box">
+    <h2>Create Channel Group</h2>
+    <form class="" [formGroup]="channelGroupForm" id="cg-form">
+      <div id="cg-form-input">
+        <mat-form-field class="channel-group-input">
+          <input matInput placeholder="Name" formControlName="name" required />
+        </mat-form-field>
+
+        <mat-form-field id="description">
+          <textarea
+            matInput
+            placeholder="Description"
+            formControlName="description"
+            required
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+    <h3>{{ selectedChannels.length }} Channels Selected</h3>
+
+    <ngx-datatable
+      #selectedTable
+      id="group-channels"
+      class="material channel-table"
+      [rows]="filteredChannels"
+      [columnMode]="ColumnMode.flex"
+      [headerHeight]="30"
+      [footerHeight]="0"
+      [rowHeight]="23"
+      [scrollbarV]="true"
+    >
+      <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+      >
+        <ng-template ngx-datatable-header-template let-value="value">
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-row="row"
+        >
+          <button
+            color="warn"
+            class="remove-channel"
+            mat-icon-button
+            (click)="removeChannel(row)"
+          >
+            <mat-icon> clear </mat-icon>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Network"
+        prop="networkCode"
+        [draggable]="false"
+        [sortable]="false"
+        [resizeable]="false"
+        [flexGrow]="1"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ value | uppercase }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Station"
+        prop="stationCode"
+        [draggable]="false"
+        [sortable]="false"
+        [resizeable]="false"
+        [flexGrow]="1"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ value | uppercase }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Location"
+        prop="loc"
+        [draggable]="false"
+        [sortable]="false"
+        [resizeable]="false"
+        [flexGrow]="1"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Channel"
+        prop="code"
+        [draggable]="false"
+        [sortable]="false"
+        [resizeable]="false"
+        [flexGrow]="1"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ value | uppercase }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+    <div id="remove-filter-box">
+      <h4>Remove Channels Matching Filters</h4>
+      <ng-container *ngIf="!isSelectedFiltered; else hasRemovableChannels">
+        <span class="help-text"
+          >Search below to find channels to remove from your channel
+          group.</span
+        >
+      </ng-container>
+      <ng-template #hasRemovableChannels>
+        <span class="help-text"
+          >{{ filteredChannels.length }} channels matching search
+          criteria.</span
+        >
+      </ng-template>
+      <channel-group-filter
+        #selectedFilter
+        (filtersChanged)="onSelectedFilter($event)"
+      >
+      </channel-group-filter>
+
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="removeChannels()"
+        [disabled]="!isSelectedFiltered"
+      >
+        Remove Channels
+      </button>
+    </div>
+    <div id="cg-edit-footer">
+      <mat-divider></mat-divider>
+      <div id="save-cancel-cg">
+        <button
+          mat-icon-button
+          *ngIf="editMode"
+          color="warn"
+          class="add-btn"
+          (click)="onDelete()"
+          matTooltip="Delete channel group"
+          aria-label="Button that deletes the channel group"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button color="primary" (click)="formUnsaved()">
+          Cancel
+        </button>
+        <ng-container *ngIf="editMode; else notEditMode">
+          <button
+            *ngIf="'update' | able: channelGroup"
+            mat-icon-button
+            color="accent"
+            class="add-btn"
+            (click)="save()"
+            [disabled]="
+              !channelGroupForm.valid || selectedChannels?.length === 0
+            "
+            matTooltip="Save channel group"
+            aria-label="Button that saves the changes to the channel group"
+          >
+            Save
+          </button>
+        </ng-container>
+        <ng-template #notEditMode>
+          <button
+            *ngIf="'create' | able: 'ChannelGroup'"
+            mat-flat-button
+            color="accent"
+            class="add-btn"
+            (click)="save()"
+            [disabled]="
+              !channelGroupForm.valid || selectedChannels?.length === 0
+            "
+            matTooltip="Create channel group"
+            aria-label="Button that creates the channel group"
+          >
+            Create
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

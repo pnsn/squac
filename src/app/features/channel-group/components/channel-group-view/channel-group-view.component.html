@@ -1,0 +1,68 @@
+<shared-table-view title="Channel Groups">
+  <ng-container tableHeadControls>
+    <button
+      *ngIf="'update' | able: 'ChannelGroup'"
+      mat-flat-button
+      color="accent"
+      class="add-btn"
+      (click)="addChannelGroup()"
+    >
+      Create Channel Group
+    </button>
+  </ng-container>
+  <ng-container tableHeadFilters>
+    <mat-form-field style="min-width: 250px">
+      <span matPrefix><mat-icon>search</mat-icon></span>
+      <input
+        type="text"
+        matInput
+        placeholder="Type to filter..."
+        (keyup)="updateFilter($event)"
+        [(ngModel)]="searchString"
+      />
+      <button
+        *ngIf="searchString"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="removeFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showOnlyUserOrg"
+      (change)="filterOrg()"
+    >
+      Only Show {{ orgId | organization }} Groups
+    </mat-slide-toggle>
+  </ng-container>
+  <ng-container tableBody options="options">
+    <ngx-datatable
+      class="shared-view-table"
+      [rows]="rows"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="30"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [selectionType]="SelectionType.single"
+      (select)="onSelect($event)"
+      [columns]="columns"
+      [scrollbarH]="false"
+      [class]="selectedChannelGroupId ? 'has-selected' : 'no-selected'"
+    >
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+          <div style="padding: 5px 10px">
+            <div>Select a channel group to view details.</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </ng-container>
+</shared-table-view>
+
+<router-outlet></router-outlet>
+
+<!-- <channel-group-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></channel-group-detail> -->

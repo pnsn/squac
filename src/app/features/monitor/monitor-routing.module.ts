@@ -4,7 +4,7 @@ import { MonitorComponent } from "./components/monitor/monitor.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
 import { MonitorResolver } from "./monitor.resolver";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 import { MetricResolver } from "@features/metric/metric.resolver";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
@@ -38,7 +38,7 @@ export const routes: Routes = [
             // data: {subject: 'Monitor', action: 'create'},
             component: MonitorEditEntryComponent,
             resolve: {
-              channelGroups: ChannelGroupsResolver,
+              channelGroups: ChannelGroupResolver,
               metrics: MetricResolver,
             },
           },
@@ -54,7 +54,7 @@ export const routes: Routes = [
                 path: "edit",
                 component: MonitorEditEntryComponent,
                 resolve: {
-                  channelGroups: ChannelGroupsResolver,
+                  channelGroups: ChannelGroupResolver,
                   metrics: MetricResolver,
                 },
                 // canActivate: [PermissionGuard],
