@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Threshold } from "@features/widget/models/threshold";
+import { Threshold } from "@widget/models/threshold";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 @Component({
   selector: "widget-edit-thresholds",

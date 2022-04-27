@@ -1,4 +1,4 @@
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { Subject } from "rxjs";
 import { Measurement } from "../models/measurement";
 

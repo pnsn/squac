@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
-import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
+import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
 import { Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widget/models/threshold";
+import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
 import { checkThresholds } from "@core/utils/utils";
 

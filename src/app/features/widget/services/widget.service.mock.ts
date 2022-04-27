@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 
 export class MockWidgetService {
   widgetUpdated = new EventEmitter<number>();

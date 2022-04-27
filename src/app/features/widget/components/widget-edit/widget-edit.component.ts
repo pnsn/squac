@@ -6,7 +6,7 @@ import {
   AfterContentInit,
 } from "@angular/core";
 import { Subscription } from "rxjs";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { WidgetEditService } from "../../services/widget-edit.service";
 import { Metric } from "@core/models/metric";

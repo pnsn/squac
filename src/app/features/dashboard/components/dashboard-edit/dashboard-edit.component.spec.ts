@@ -8,11 +8,11 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MaterialModule } from "@shared/material.module";
-import { MockDashboardService } from "@features/dashboard/services/dashboard.service.mock";
-import { MockUserService } from "@features/user/services/user.service.mock";
-import { UserService } from "@features/user/services/user.service";
+import { MockDashboardService } from "@dashboard/services/dashboard.service.mock";
+import { MockUserService } from "@user/services/user.service.mock";
+import { UserService } from "@user/services/user.service";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Dashboard } from "@dashboard/models/dashboard";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;

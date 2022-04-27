@@ -2,9 +2,9 @@ import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { Alert } from "@features/monitor/models/alert";
-import { Monitor } from "@features/monitor/models/monitor";
-import { MonitorService } from "@features/monitor/services/monitor.service";
+import { Alert } from "@monitor/models/alert";
+import { Monitor } from "@monitor/models/monitor";
+import { MonitorService } from "@monitor/services/monitor.service";
 import { Subscription } from "rxjs";
 
 @Component({

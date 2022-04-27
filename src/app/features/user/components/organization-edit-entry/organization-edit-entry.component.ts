@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Organization } from "@features/user/models/organization";
-import { User } from "@features/user/models/user";
+import { Organization } from "@user/models/organization";
+import { User } from "@user/models/user";
 import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
 
 @Component({

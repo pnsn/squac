@@ -5,7 +5,7 @@ import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 
 @Component({
   selector: "channel-group-detail",

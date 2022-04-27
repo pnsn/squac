@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "../models/threshold";

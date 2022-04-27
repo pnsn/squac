@@ -3,11 +3,11 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupEditComponent } from "./channel-group-edit.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { ActivatedRoute } from "@angular/router";
-import { ChannelService } from "@features/channel-group/services/channel.service";
+import { ChannelService } from "@channelGroup/services/channel.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NetworkService } from "@features/channel-group/services/network.service";
+import { NetworkService } from "@channelGroup/services/network.service";
 import { of } from "rxjs";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
@@ -19,9 +19,9 @@ import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { ChannelGroupFilterComponent } from "./channel-group-filter/channel-group-filter.component";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { UserService } from "@features/user/services/user.service";
-import { MockUserService } from "@features/user/services/user.service.mock";
-import { ChannelGroupMapComponent } from "@features/channel-group/components/channel-group-map/channel-group-map.component";
+import { UserService } from "@user/services/user.service";
+import { MockUserService } from "@user/services/user.service.mock";
+import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe("ChannelGroupEditComponent", () => {

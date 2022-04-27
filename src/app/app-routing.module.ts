@@ -3,17 +3,17 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthComponent } from "./core/components/auth/auth.component";
 import { AuthGuard } from "./core/guards/auth.guard";
 import { LoggedInGuard } from "./core/guards/logged-in.guard";
-import { PasswordResetComponent } from "@features/user/components/password-reset/password-reset.component";
-import { LoginComponent } from "@features/user/components/login/login.component";
-import { UserEditComponent } from "@features/user/components/user-edit/user-edit.component";
-import { UserResolver } from "@features/user/user.resolver";
-import { OrganizationResolver } from "@features/user/organization.resolver";
-import { MetricResolver } from "@features/metric/metric.resolver";
+import { PasswordResetComponent } from "@user/components/password-reset/password-reset.component";
+import { LoginComponent } from "@user/components/login/login.component";
+import { UserEditComponent } from "@user/components/user-edit/user-edit.component";
+import { UserResolver } from "@user/user.resolver";
+import { OrganizationResolver } from "@user/organization.resolver";
+import { MetricResolver } from "@metric/metric.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
-import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
-import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
-import { StatTypeResolver } from "@features/widget/stat-type.resolver";
+import { DashboardResolver } from "@dashboard/dashboard.resolver";
+import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
+import { StatTypeResolver } from "@widget/stat-type.resolver";
 
 const appRoutes: Routes = [
   {
@@ -68,33 +68,29 @@ const appRoutes: Routes = [
       {
         path: "dashboards",
         loadChildren: () =>
-          import("@features/dashboard/dashboard.module").then(
-            (m) => m.DashboardModule
-          ),
+          import("@dashboard/dashboard.module").then((m) => m.DashboardModule),
       },
       {
         path: "channel-groups",
         loadChildren: () =>
-          import("@features/channel-group/channel-group.module").then(
+          import("@channelGroup/channel-group.module").then(
             (m) => m.ChannelGroupModule
           ),
       },
       {
         path: "metrics",
         loadChildren: () =>
-          import("@features/metric/metric.module").then((m) => m.MetricModule),
+          import("@metric/metric.module").then((m) => m.MetricModule),
       },
       {
         path: "user",
         loadChildren: () =>
-          import("@features/user/user.module").then((m) => m.UserModule),
+          import("@user/user.module").then((m) => m.UserModule),
       },
       {
         path: "monitors",
         loadChildren: () =>
-          import("@features/monitor/monitor.module").then(
-            (m) => m.MonitorModule
-          ),
+          import("@monitor/monitor.module").then((m) => m.MonitorModule),
       },
       { path: "not-found", component: NotFoundComponent, pathMatch: "full" },
       { path: "**", redirectTo: "not-found" },

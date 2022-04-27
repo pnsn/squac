@@ -11,9 +11,9 @@ import { Metric } from "@core/models/metric";
 import { Channel } from "@core/models/channel";
 import { ViewService } from "@core/services/view.service";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Widget } from "@features/widget/models/widget";
-import { Threshold } from "@features/widget/models/threshold";
-import { Measurement } from "@features/widget/models/measurement";
+import { Widget } from "@widget/models/widget";
+import { Threshold } from "@widget/models/threshold";
+import { Measurement } from "@widget/models/measurement";
 import * as dayjs from "dayjs";
 import { DateService } from "@core/services/date.service";
 

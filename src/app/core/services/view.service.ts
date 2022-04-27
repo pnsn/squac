@@ -2,10 +2,10 @@
 
 import { Injectable } from "@angular/core";
 import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
-import { Dashboard } from "@features/dashboard/models/dashboard";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { Widget } from "@features/widget/models/widget";
-import { WidgetService } from "@features/widget/services/widget.service";
+import { Dashboard } from "@dashboard/models/dashboard";
+import { DashboardService } from "@dashboard/services/dashboard.service";
+import { Widget } from "@widget/models/widget";
+import { WidgetService } from "@widget/services/widget.service";
 import * as dayjs from "dayjs";
 import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";

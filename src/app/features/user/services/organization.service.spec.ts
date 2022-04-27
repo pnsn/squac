@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { OrganizationService } from "./organization.service";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
-import { User } from "@features/user/models/user";
+import { User } from "@user/models/user";
 import { of } from "rxjs";
 import { take } from "rxjs/operators";
 

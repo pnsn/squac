@@ -3,7 +3,7 @@ import { WidgetEditComponent } from "../widget-edit.component";
 import { ViewService } from "@core/services/view.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { WidgetService } from "@features/widget/services/widget.service";
+import { WidgetService } from "@widget/services/widget.service";
 
 @Component({
   selector: "widget-edit-entry",

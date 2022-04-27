@@ -1,9 +1,9 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MetricViewComponent } from "./metric-view.component";
-import { MetricService } from "@features/metric/services/metric.service";
+import { MetricService } from "@metric/services/metric.service";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MockMetricService } from "@features/metric/services/metric.service.mock";
+import { MockMetricService } from "@metric/services/metric.service.mock";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";

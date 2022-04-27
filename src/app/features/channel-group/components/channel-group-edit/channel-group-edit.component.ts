@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
 } from "@angular/forms";
-import { ChannelService } from "@features/channel-group/services/channel.service";
+import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 

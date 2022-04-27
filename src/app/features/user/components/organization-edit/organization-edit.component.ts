@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { User } from "@features/user/models/user";
+import { User } from "@user/models/user";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { OrganizationService } from "@user/services/organization.service";
 import { MessageService } from "@core/services/message.service";
-import { InviteService } from "@features/user/services/invite.service";
+import { InviteService } from "@user/services/invite.service";
 
 @Component({
   selector: "app-organization-edit",

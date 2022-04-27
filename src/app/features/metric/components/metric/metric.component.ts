@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MetricService } from "@features/metric/services/metric.service";
+import { MetricService } from "@metric/services/metric.service";
 import { Subscription } from "rxjs";
 
 @Component({

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { Trigger, TriggerAdapter } from "@features/monitor/models/trigger";
+import { Trigger, TriggerAdapter } from "@monitor/models/trigger";
 
 @Injectable({
   providedIn: "root",

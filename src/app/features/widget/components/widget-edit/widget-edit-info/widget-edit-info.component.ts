@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Widget } from "@features/widget/models/widget";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { Widget } from "@widget/models/widget";
+import { WidgetEditService } from "@widget/services/widget-edit.service";
 
 @Component({
   selector: "widget-edit-info",

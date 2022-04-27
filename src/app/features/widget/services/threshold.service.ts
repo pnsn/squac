@@ -6,7 +6,7 @@ import {
   ApiPostThreshold,
   Threshold,
   ThresholdAdapter,
-} from "@features/widget/models/threshold";
+} from "@widget/models/threshold";
 
 @Injectable({
   providedIn: "root",

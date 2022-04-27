@@ -6,12 +6,12 @@ import {
   TemplateRef,
   AfterViewInit,
 } from "@angular/core";
-import { OrganizationService } from "@features/user/services/organization.service";
-import { User } from "@features/user/models/user";
-import { Organization } from "@features/user/models/organization";
+import { OrganizationService } from "@user/services/organization.service";
+import { User } from "@user/models/user";
+import { Organization } from "@user/models/organization";
 import { Subscription, tap } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { InviteService } from "@features/user/services/invite.service";
+import { InviteService } from "@user/services/invite.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { filter } from "rxjs";

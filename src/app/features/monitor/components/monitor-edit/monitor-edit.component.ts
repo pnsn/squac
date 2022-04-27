@@ -5,10 +5,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { MessageService } from "@core/services/message.service";
-import { Monitor } from "@features/monitor/models/monitor";
-import { Trigger } from "@features/monitor/models/trigger";
-import { MonitorService } from "@features/monitor/services/monitor.service";
-import { TriggerService } from "@features/monitor/services/trigger.service";
+import { Monitor } from "@monitor/models/monitor";
+import { Trigger } from "@monitor/models/trigger";
+import { MonitorService } from "@monitor/services/monitor.service";
+import { TriggerService } from "@monitor/services/trigger.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 

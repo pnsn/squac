@@ -1,4 +1,4 @@
-import { Threshold } from "@features/widget/models/threshold";
+import { Threshold } from "@widget/models/threshold";
 import { defer } from "rxjs";
 
 // App wide helper functions

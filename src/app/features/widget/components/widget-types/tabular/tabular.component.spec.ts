@@ -1,10 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TabularComponent } from "./tabular.component";
-import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
+import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { MockViewService } from "@core/services/view.service.mock";
 import { ViewService } from "@core/services/view.service";
 

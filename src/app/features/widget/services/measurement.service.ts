@@ -1,18 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { SquacApiService } from "@core/services/squacapi.service";
-import {
-  Measurement,
-  MeasurementAdapter,
-} from "@features/widget/models/measurement";
+import { Measurement, MeasurementAdapter } from "@widget/models/measurement";
 import { map } from "rxjs/operators";
-import { Archive, ArchiveAdapter } from "@features/widget/models/archive";
+import { Archive, ArchiveAdapter } from "@widget/models/archive";
 import {
   Aggregate,
   AggregateAdapter,
   ApiGetAggregate,
-} from "@features/widget/models/aggregate";
+} from "@widget/models/aggregate";
 
 export class MeasurementHttpData {
   metric: string;

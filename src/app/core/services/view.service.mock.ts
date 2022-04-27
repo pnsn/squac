@@ -1,6 +1,6 @@
 import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
-import { Dashboard } from "@features/dashboard/models/dashboard";
-import { Widget } from "@features/widget/models/widget";
+import { Dashboard } from "@dashboard/models/dashboard";
+import { Widget } from "@widget/models/widget";
 
 export class MockViewService {
   currentWidgets = new Subject<Widget[]>();

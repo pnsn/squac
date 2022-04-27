@@ -7,14 +7,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupService } from "@features/channel-groups/services/channel-group.service";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { ChannelGroupService } from "@channelGroups/services/channel-group.service";
+import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { Organization } from "@features/user/models/organization";
+import { Organization } from "@user/models/organization";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
-import { OrganizationService } from "@features/user/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
+import { OrganizationService } from "@user/services/organization.service";
+import { UserService } from "@user/services/user.service";
 import { UserPipe } from "@shared/pipes/user.pipe";
 
 @Component({

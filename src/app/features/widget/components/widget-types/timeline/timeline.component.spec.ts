@@ -4,8 +4,8 @@ import { TimelineComponent } from "./timeline.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
-import { Widget } from "@features/widget/models/widget";
+import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
+import { Widget } from "@widget/models/widget";
 import { MockViewService } from "@core/services/view.service.mock";
 import { ViewService } from "@core/services/view.service";
 

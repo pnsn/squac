@@ -4,8 +4,8 @@ import { WidgetEditMetricsComponent } from "./widget-edit-metrics.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { MetricService } from "@features/metric/services/metric.service";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { MetricService } from "@metric/services/metric.service";
+import { WidgetEditService } from "@widget/services/widget-edit.service";
 
 describe("WidgetEditMetricsComponent", () => {
   let component: WidgetEditMetricsComponent;

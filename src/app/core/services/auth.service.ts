@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { LoadingService } from "./loading.service";
 import { ConfigurationService } from "./configuration.service";
 

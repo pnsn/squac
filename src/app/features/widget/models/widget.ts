@@ -2,7 +2,7 @@ import {
   ApiGetThreshold,
   Threshold,
   ThresholdAdapter,
-} from "@features/widget/models/threshold";
+} from "@widget/models/threshold";
 import { ApiGetMetric, Metric, MetricAdapter } from "@core/models/metric";
 import { Adapter } from "@core/models/adapter";
 import { ChannelGroup } from "@core/models/channel-group";

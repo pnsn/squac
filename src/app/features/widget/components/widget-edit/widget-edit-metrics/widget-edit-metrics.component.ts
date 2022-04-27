@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 
 @Component({

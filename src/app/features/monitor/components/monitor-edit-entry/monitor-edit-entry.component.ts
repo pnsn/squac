@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { MonitorService } from "@features/monitor/services/monitor.service";
+import { MonitorService } from "@monitor/services/monitor.service";
 
 @Component({
   selector: "monitor-edit-entry",

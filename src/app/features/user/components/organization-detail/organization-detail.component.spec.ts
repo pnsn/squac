@@ -4,12 +4,12 @@ import { OrganizationDetailComponent } from "./organization-detail.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { InviteService } from "@features/user/services/invite.service";
-import { OrganizationService } from "@features/user/services/organization.service";
-import { MockUserService } from "@features/user/services/user.service.mock";
+import { InviteService } from "@user/services/invite.service";
+import { OrganizationService } from "@user/services/organization.service";
+import { MockUserService } from "@user/services/user.service.mock";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { RouterTestingModule } from "@angular/router/testing";
 

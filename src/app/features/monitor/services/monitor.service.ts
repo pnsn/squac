@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Monitor, MonitorAdapter } from "@features/monitor/models/monitor";
+import { Monitor, MonitorAdapter } from "@monitor/models/monitor";
 
 @Injectable({
   providedIn: "root",

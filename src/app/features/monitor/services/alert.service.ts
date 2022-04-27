@@ -3,7 +3,7 @@ import { Params } from "@angular/router";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
-import { Alert, AlertAdapter } from "@features/monitor/models/alert";
+import { Alert, AlertAdapter } from "@monitor/models/alert";
 
 @Injectable({
   providedIn: "root",

@@ -7,10 +7,10 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "@core/services/date.service";
-import { Alert } from "@features/monitor/models/alert";
-import { Monitor } from "@features/monitor/models/monitor";
-import { AlertService } from "@features/monitor/services/alert.service";
-import { MonitorService } from "@features/monitor/services/monitor.service";
+import { Alert } from "@monitor/models/alert";
+import { Monitor } from "@monitor/models/monitor";
+import { AlertService } from "@monitor/services/alert.service";
+import { MonitorService } from "@monitor/services/monitor.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { mergeMap, Subscription, tap } from "rxjs";
 

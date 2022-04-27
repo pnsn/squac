@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
-import { Alert } from "@features/monitor/models/alert";
-import { Monitor } from "@features/monitor/models/monitor";
-import { AlertService } from "@features/monitor/services/alert.service";
-import { MonitorService } from "@features/monitor/services/monitor.service";
+import { Alert } from "@monitor/models/alert";
+import { Monitor } from "@monitor/models/monitor";
+import { AlertService } from "@monitor/services/alert.service";
+import { MonitorService } from "@monitor/services/monitor.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { tap, mergeMap, filter, Subscription } from "rxjs";
 

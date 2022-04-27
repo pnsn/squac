@@ -6,7 +6,7 @@ import {
   FormControl,
   Validators,
 } from "@angular/forms";
-import { MetricService } from "@features/metric/services/metric.service";
+import { MetricService } from "@metric/services/metric.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";

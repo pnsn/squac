@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 
 import { MapComponent } from "./map.component";
 

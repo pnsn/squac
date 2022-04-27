@@ -1,8 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  Dashboard,
-  DashboardAdapter,
-} from "@features/dashboard/models/dashboard";
+import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
 import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";

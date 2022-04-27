@@ -9,11 +9,11 @@ import {
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { OrganizationService } from "@user/services/organization.service";
 
 @Component({
   selector: "dashboard-view",

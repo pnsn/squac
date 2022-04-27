@@ -4,9 +4,9 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { WidgetService } from "./widget.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { Widget } from "@features/widget/models/widget";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { MockChannelGroupService } from "@features/channel-group/services/channel-group.service.mock";
+import { Widget } from "@widget/models/widget";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { MockChannelGroupService } from "@channelGroup/services/channel-group.service.mock";
 
 describe("WidgetService", () => {
   const testData = {

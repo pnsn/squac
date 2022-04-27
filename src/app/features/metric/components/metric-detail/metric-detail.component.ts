@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { MetricService } from "@features/metric/services/metric.service";
+import { MetricService } from "@metric/services/metric.service";
 import { Metric } from "@core/models/metric";
 import { Subscription } from "rxjs";
 

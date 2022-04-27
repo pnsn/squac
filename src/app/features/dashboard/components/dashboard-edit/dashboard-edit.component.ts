@@ -3,7 +3,7 @@ import { Dashboard } from "../../models/dashboard";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { DashboardService } from "../../services/dashboards.service";
 import { Subscription } from "rxjs";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({

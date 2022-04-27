@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
-import { Trigger } from "@features/monitor/models/trigger";
-import { ApiGetAggregate } from "@features/widget/models/aggregate";
-import { MeasurementService } from "@features/widget/services/measurement.service";
+import { Trigger } from "@monitor/models/trigger";
+import { ApiGetAggregate } from "@widget/models/aggregate";
+import { MeasurementService } from "@widget/services/measurement.service";
 import { forkJoin, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 

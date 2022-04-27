@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { DashboardService } from "@dashboard/services/dashboard.service";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 
 @Component({

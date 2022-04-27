@@ -3,11 +3,11 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Subscription } from "rxjs";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { OrganizationService } from "@features/user/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
-import { Organization } from "@features/user/models/organization";
+import { OrganizationService } from "@user/services/organization.service";
+import { UserService } from "@user/services/user.service";
+import { Organization } from "@user/models/organization";
 import { filter, tap } from "rxjs/operators";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 

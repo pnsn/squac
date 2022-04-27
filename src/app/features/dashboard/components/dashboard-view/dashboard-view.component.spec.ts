@@ -11,9 +11,9 @@ import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { DashboardService } from "../../services/dashboard.service";
-import { Dashboard } from "@features/dashboard/models/dashboard";
-import { UserService } from "@features/user/services/user.service";
-import { MockUserService } from "@features/user/services/user.service.mock";
+import { Dashboard } from "@dashboard/models/dashboard";
+import { UserService } from "@user/services/user.service";
+import { MockUserService } from "@user/services/user.service.mock";
 
 describe("DashboardViewComponent", () => {
   let component: DashboardViewComponent;

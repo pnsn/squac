@@ -7,13 +7,13 @@ import { MockBuilder, MockRender, ngMocks, NG_MOCKS_GUARDS } from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
 import { AppModule } from "app/app.module";
-import { DashboardModule } from "@features/dashboard/dashboard.module";
-import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
-import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
-import { UserResolver } from "@features/user/user.resolver";
-import { MetricResolver } from "@features/metric/metric.resolver";
-import { StatTypeResolver } from "@features/widget/stat-type.resolver";
-import { OrganizationResolver } from "@features/user/organization.resolver";
+import { DashboardModule } from "@dashboard/dashboard.module";
+import { DashboardResolver } from "@dashboard/dashboard.resolver";
+import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
+import { UserResolver } from "@user/user.resolver";
+import { MetricResolver } from "@metric/metric.resolver";
+import { StatTypeResolver } from "@widget/stat-type.resolver";
+import { OrganizationResolver } from "@user/organization.resolver";
 
 describe("AuthGuard", () => {
   ngMocks.faster();

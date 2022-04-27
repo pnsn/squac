@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widget/models/threshold";
-import { Widget } from "@features/widget/models/widget";
-import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
+import { Threshold } from "@widget/models/threshold";
+import { Widget } from "@widget/models/widget";
+import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
 import * as L from "leaflet";
 import { checkThresholds } from "@core/utils/utils";
 

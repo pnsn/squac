@@ -9,7 +9,7 @@ import {
 import { Router, ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { MetricService } from "@features/metric/services/metric.service";
+import { MetricService } from "@metric/services/metric.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 @Component({

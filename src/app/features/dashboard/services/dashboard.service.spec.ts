@@ -3,13 +3,13 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
-import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Dashboard } from "@dashboard/models/dashboard";
 
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { WidgetService } from "@features/widget/services/widget.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { WidgetService } from "@widget/services/widget.service";
 import { DashboardService } from "./dashboard.service";
-import { MockChannelGroupService } from "@features/channel-group/services/channel-group.service.mock";
-import { MockWidgetService } from "@features/widget/services/widget.service.mock";
+import { MockChannelGroupService } from "@channelGroup/services/channel-group.service.mock";
+import { MockWidgetService } from "@widget/services/widget.service.mock";
 
 describe("DashboardService", () => {
   let dashboardsService: DashboardService;

@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
-import { Widget } from "@features/widget/models/widget";
+import { Widget } from "@widget/models/widget";
 import { Subject, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { Dashboard } from "@features/dashboard/models/dashboard";
-import { WidgetDataService } from "@features/widget/services/widget-data.service";
+import { DashboardService } from "@dashboard/services/dashboard.service";
+import { Dashboard } from "@dashboard/models/dashboard";
+import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 
 @Component({
