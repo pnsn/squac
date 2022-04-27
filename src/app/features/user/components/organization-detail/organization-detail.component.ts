@@ -17,7 +17,7 @@ import { MessageService } from "@core/services/message.service";
 import { filter } from "rxjs";
 
 @Component({
-  selector: "user-organization",
+  selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })
@@ -68,7 +68,7 @@ export class OrganizationDetailComponent
   ngOnInit(): void {
     const orgSub = this.route.data.subscribe((data) => {
       this.user = this.route.parent.snapshot.data.user;
-      if (this.organization && this.organization.users) {
+      if (data.organization && data.organization.users) {
         this.organization = data.organization;
         this.rows = [...this.organization.users];
       }
@@ -176,7 +176,9 @@ export class OrganizationDetailComponent
     }
   }
   ngAfterViewInit() {
-    setTimeout(this.buildColumns, 0);
+    setTimeout(() => {
+      this.buildColumns();
+    }, 0);
   }
 
   datePipe(value: string) {
