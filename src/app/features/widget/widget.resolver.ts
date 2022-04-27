@@ -4,14 +4,14 @@ import { LoadingService } from "@core/services/loading.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Widget } from "./models/widget";
-import { WidgetsService } from "./services/widgets.service";
+import { WidgetService } from "./services/widget.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class WidgetResolver implements Resolve<Observable<any>> {
   constructor(
-    private widgetsService: WidgetsService,
+    private widgetService: WidgetService,
     private loadingService: LoadingService
   ) {}
 
@@ -24,13 +24,13 @@ export class WidgetResolver implements Resolve<Observable<any>> {
 
     if (widgetId) {
       console.log("resolver", widgetId);
-      return this.widgetsService.getWidget(widgetId).pipe(
+      return this.widgetService.getWidget(widgetId).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
       );
     } else if (dashboardId) {
-      return this.widgetsService.getWidgets(dashboardId).pipe(
+      return this.widgetService.getWidgets(dashboardId).pipe(
         catchError((error) => {
           console.log(error);
           return this.handleError(error);

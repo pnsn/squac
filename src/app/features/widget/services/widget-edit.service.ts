@@ -4,8 +4,8 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "../models/threshold";
 import { BehaviorSubject, Subject, Observable, merge, of } from "rxjs";
-import { WidgetsService } from "./widgets.service";
-import { ThresholdsService } from "./thresholds.service";
+import { WidgetService } from "./widget.service";
+import { ThresholdService } from "./threshold.service";
 import { ViewService } from "@core/services/view.service";
 import { switchMap, tap } from "rxjs/operators";
 
@@ -31,8 +31,8 @@ export class WidgetEditService {
   y = 0;
 
   constructor(
-    private widgetsService: WidgetsService,
-    private thresholdService: ThresholdsService,
+    private widgetService: WidgetService,
+    private thresholdService: ThresholdService,
     private viewService: ViewService
   ) {}
 
@@ -162,7 +162,7 @@ export class WidgetEditService {
   // save widget and thresholds to squac
   saveWidget(): Observable<Widget> {
     let newWidget;
-    return this.widgetsService.updateWidget(this.widget).pipe(
+    return this.widgetService.updateWidget(this.widget).pipe(
       switchMap((response) => {
         newWidget = response;
         // returns observables for saving each thresholds

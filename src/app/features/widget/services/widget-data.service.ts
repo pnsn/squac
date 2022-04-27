@@ -3,7 +3,7 @@ import { ConfigurationService } from "@core/services/configuration.service";
 import { ViewService } from "@core/services/view.service";
 import { Subject, Subscription } from "rxjs";
 import { Widget } from "../models/widget";
-import { MeasurementsService } from "./measurements.service";
+import { MeasurementService } from "./measurement.service";
 import { DateService } from "@core/services/date.service";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
@@ -16,7 +16,7 @@ export class WidgetDataService implements OnDestroy {
 
   constructor(
     private viewService: ViewService,
-    private measurementsService: MeasurementsService,
+    private measurementService: MeasurementService,
     configService: ConfigurationService,
     private dateService: DateService
   ) {
@@ -65,7 +65,7 @@ export class WidgetDataService implements OnDestroy {
       this.widget.channelGroup
     ) {
       this.viewService.widgetStartedLoading();
-      const measurementSub = this.measurementsService
+      const measurementSub = this.measurementService
         .getData(start, end, this.widget, archiveType, archiveStat)
         .subscribe(
           (success) => {

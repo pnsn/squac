@@ -3,7 +3,7 @@ import { WidgetDetailComponent } from "./widget-detail.component";
 import { WidgetModule } from "../../widget.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Widget } from "@features/widget/models/widget";
-import { MeasurementsService } from "@features/widget/services/measurements.service";
+import { MeasurementService } from "@features/widget/services/measurement.service";
 import { AppAbility } from "@core/utils/ability";
 import { PureAbility, Ability } from "@casl/ability";
 import { AbilityModule } from "@casl/angular";
@@ -25,7 +25,7 @@ describe("WidgetDetailComponent", () => {
         HttpClientTestingModule,
       ],
       providers: [
-        MockProvider(MeasurementsService),
+        MockProvider(MeasurementService),
         { provide: ViewService, useValue: new MockViewService() },
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility, useExisting: Ability },

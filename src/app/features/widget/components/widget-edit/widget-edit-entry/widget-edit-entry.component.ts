@@ -3,7 +3,7 @@ import { WidgetEditComponent } from "../widget-edit.component";
 import { ViewService } from "@core/services/view.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { WidgetsService } from "@features/widget/services/widgets.service";
+import { WidgetService } from "@features/widget/services/widget.service";
 
 @Component({
   selector: "widget-edit-entry",
@@ -25,7 +25,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private widgetsService: WidgetsService
+    private widgetService: WidgetService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       }
 
       if (this.widgetId) {
-        this.widgetsService.getWidget(this.widgetId).subscribe((widget) => {
+        this.widgetService.getWidget(this.widgetId).subscribe((widget) => {
           this.widget = widget;
           this.openWidget();
         });

@@ -4,8 +4,8 @@ import { ViewService } from "./view.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { MockDashboardsService } from "@features/dashboards/services/dashboards.service.mock";
-import { MockWidgetsService } from "@features/widget/services/widgets.service.mock";
-import { WidgetsService } from "@features/widget/services/widgets.service";
+import { MockWidgetService } from "@features/widget/services/widget.service.mock";
+import { WidgetService } from "@features/widget/services/widget.service";
 import { AbilityModule } from "@casl/angular";
 import { Ability } from "@casl/ability";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -20,7 +20,7 @@ import { MockDateService } from "./date.service.mock";
 
 describe("ViewService", () => {
   let service: ViewService;
-  let widgetsService;
+  let widgetService;
   let dashboardsService;
   const abilityMock = {
     can: (_permission, resource) => {
@@ -53,8 +53,8 @@ describe("ViewService", () => {
           useClass: MockDashboardsService,
         },
         {
-          provide: WidgetsService,
-          useClass: MockWidgetsService,
+          provide: WidgetService,
+          useClass: MockWidgetService,
         },
         { provide: Ability, useValue: abilityMock },
         {
@@ -75,7 +75,7 @@ describe("ViewService", () => {
       ],
     });
     service = TestBed.inject(ViewService);
-    widgetsService = TestBed.inject(WidgetsService);
+    widgetService = TestBed.inject(WidgetService);
     dashboardsService = TestBed.inject(DashboardsService);
     testDashboard = new Dashboard(
       1,
@@ -168,7 +168,7 @@ describe("ViewService", () => {
   });
 
   it("should update given widget", () => {
-    const widgetSpy = spyOn(widgetsService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -179,7 +179,7 @@ describe("ViewService", () => {
   });
 
   it("should add new widget", () => {
-    const widgetSpy = spyOn(widgetsService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -190,7 +190,7 @@ describe("ViewService", () => {
   });
 
   it("should delete given widget", () => {
-    const widgetSpy = spyOn(widgetsService, "deleteWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "deleteWidget").and.returnValue(
       of(true)
     );
     service.setDashboard(testDashboard);

@@ -6,10 +6,10 @@ import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { Dashboard } from "../models/dashboard";
 
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
-import { WidgetsService } from "@features/widget/services/widgets.service";
+import { WidgetService } from "@features/widget/services/widget.service";
 import { DashboardsService } from "./dashboards.service";
 import { MockChannelGroupsService } from "@features/channel-groups/services/channel-groups.service.mock";
-import { MockWidgetsService } from "@features/widget/services/widgets.service.mock";
+import { MockWidgetService } from "@features/widget/services/widget.service.mock";
 
 describe("DashboardsService", () => {
   let dashboardsService: DashboardsService;
@@ -33,7 +33,7 @@ describe("DashboardsService", () => {
       providers: [
         { provide: SquacApiService, useValue: mockSquacApiService },
         { provide: ChannelGroupsService, useClass: MockChannelGroupsService },
-        { provide: WidgetsService, useClass: MockWidgetsService },
+        { provide: WidgetService, useClass: MockWidgetService },
       ],
     });
 

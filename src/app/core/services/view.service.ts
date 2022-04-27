@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
 import { Dashboard } from "@features/dashboards/models/dashboard";
 import { DashboardsService } from "@features/dashboards/services/dashboards.service";
 import { Widget } from "@features/widget/models/widget";
-import { WidgetsService } from "@features/widget/services/widgets.service";
+import { WidgetService } from "@features/widget/services/widget.service";
 import * as dayjs from "dayjs";
 import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
@@ -32,7 +32,7 @@ export class ViewService {
 
   constructor(
     private dashboardService: DashboardsService,
-    private widgetService: WidgetsService,
+    private widgetService: WidgetService,
     private ability: Ability,
     private dateService: DateService,
     private messageService: MessageService

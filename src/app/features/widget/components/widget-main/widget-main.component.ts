@@ -3,7 +3,7 @@ import { ViewService } from "@core/services/view.service";
 import { Widget } from "@features/widget/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
-import { WidgetsService } from "@features/widget/services/widgets.service";
+import { WidgetService } from "@features/widget/services/widget.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -21,7 +21,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   error: string;
   canUpdate: boolean;
   constructor(
-    private widgetService: WidgetsService,
+    private widgetService: WidgetService,
     private viewService: ViewService,
     private route: ActivatedRoute,
     private router: Router

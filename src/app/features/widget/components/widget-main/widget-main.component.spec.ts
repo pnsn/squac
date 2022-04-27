@@ -4,7 +4,7 @@ import { WidgetMainComponent } from "./widget-main.component";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MeasurementsService } from "@features/widget/services/measurements.service";
+import { MeasurementService } from "@features/widget/services/measurement.service";
 import { WidgetModule } from "@features/widget/widget.module";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
@@ -35,7 +35,7 @@ describe("WidgetMainComponent", () => {
             data: of({ widgets: [] }),
           },
         },
-        MockProvider(MeasurementsService),
+        MockProvider(MeasurementService),
         { provide: AppAbility, useValue: new AppAbility() },
         { provide: PureAbility, useExisting: Ability },
       ],

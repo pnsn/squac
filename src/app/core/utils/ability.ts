@@ -11,7 +11,7 @@ import { User } from "@features/user/models/user";
 import { Dashboard } from "@features/dashboards/models/dashboard";
 import { Threshold } from "@features/widget/models/threshold";
 import { Measurement } from "@features/widget/models/measurement";
-import { Monitor } from "@features/monitors/models/monitor";
+import { Monitor } from "@features/monitor/models/monitor";
 
 type Actions = "create" | "read" | "update" | "delete" | "manage";
 type Subjects =

@@ -8,7 +8,7 @@ import { LoginComponent } from "@features/user/components/login/login.component"
 import { UserEditComponent } from "@features/user/components/user-edit/user-edit.component";
 import { UserResolver } from "@features/user/user.resolver";
 import { OrganizationResolver } from "@features/user/organization.resolver";
-import { MetricsResolver } from "@features/metrics/metrics.resolver";
+import { MetricResolver } from "@features/metric/metric.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
 import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
@@ -54,7 +54,7 @@ const appRoutes: Routes = [
     resolve: {
       dashboards: DashboardsResolver,
       channelGroups: ChannelGroupsResolver,
-      metrics: MetricsResolver,
+      metrics: MetricResolver,
       user: UserResolver,
       statType: StatTypeResolver,
       organizations: OrganizationResolver,
@@ -82,9 +82,7 @@ const appRoutes: Routes = [
       {
         path: "metrics",
         loadChildren: () =>
-          import("@features/metrics/metrics.module").then(
-            (m) => m.MetricsModule
-          ),
+          import("@features/metric/metric.module").then((m) => m.MetricModule),
       },
       {
         path: "user",
@@ -94,7 +92,7 @@ const appRoutes: Routes = [
       {
         path: "monitors",
         loadChildren: () =>
-          import("@features/monitors/monitors.module").then(
+          import("@features/monitor/monitor.module").then(
             (m) => m.MonitorModule
           ),
       },
