@@ -1,11 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { WidgetsComponent } from "./widgets.component";
+import { WidgetMainComponent } from "./widget-main.component";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MeasurementsService } from "../../services/measurements.service";
-import { WidgetsModule } from "../../widgets.module";
+import { MeasurementsService } from "@features/widgets/services/measurements.service";
+import { WidgetsModule } from "@features/widgets/widgets.module";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
@@ -14,9 +14,9 @@ import { ViewService } from "@core/services/view.service";
 import { MockViewService } from "@core/services/view.service.mock";
 import { MockProvider } from "ng-mocks";
 
-describe("WidgetsComponent", () => {
-  let component: WidgetsComponent;
-  let fixture: ComponentFixture<WidgetsComponent>;
+describe("WidgetMainComponent", () => {
+  let component: WidgetMainComponent;
+  let fixture: ComponentFixture<WidgetMainComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -43,7 +43,7 @@ describe("WidgetsComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetsComponent);
+    fixture = TestBed.createComponent(WidgetMainComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();

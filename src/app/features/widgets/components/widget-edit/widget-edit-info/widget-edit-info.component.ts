@@ -4,11 +4,11 @@ import { Widget } from "@features/widgets/models/widget";
 import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 
 @Component({
-  selector: "app-widget-info-edit",
-  templateUrl: "./widget-info-edit.component.html",
-  styleUrls: ["./widget-info-edit.component.scss"],
+  selector: "widget-edit-info",
+  templateUrl: "./widget-edit-info.component.html",
+  styleUrls: ["./widget-edit-info.component.scss"],
 })
-export class WidgetInfoEditComponent implements OnInit, AfterViewInit {
+export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   @Input() widget: Widget;
   @Input() statTypes;
   editMode: boolean;

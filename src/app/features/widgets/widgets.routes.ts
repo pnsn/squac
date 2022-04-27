@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { PermissionGuard } from "@core/guards/permission.guard";
-import { WidgetsComponent } from "@features/widgets/components/widgets/widgets.component";
+import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetsResolver } from "@features/widgets/widgets.resolver";
 import { WidgetEditEntryComponent } from "@features/widgets/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricsResolver } from "@features/metrics/metrics.resolver";
@@ -15,7 +15,7 @@ export const widgetRoutes: Routes = [
   },
   {
     path: "widgets",
-    component: WidgetsComponent,
+    component: WidgetMainComponent,
     resolve: {
       widgets: WidgetsResolver,
     },

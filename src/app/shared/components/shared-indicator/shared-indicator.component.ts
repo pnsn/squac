@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-shared-indicator",
+  selector: "shared-sharing-indicator",
   templateUrl: "./shared-indicator.component.html",
   styleUrls: ["./shared-indicator.component.scss"],
 })

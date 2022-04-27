@@ -4,21 +4,21 @@ import { WidgetEditService } from "@features/widgets/services/widget-edit.servic
 import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
-import { WidgetInfoEditComponent } from "./widget-info-edit.component";
+import { WidgetEditInfoComponent } from "./widget-edit-info.component";
 
-describe("WidgetInfoEditComponent", () => {
-  let component: WidgetInfoEditComponent;
-  let fixture: ComponentFixture<WidgetInfoEditComponent>;
+describe("WidgetEditInfoComponent", () => {
+  let component: WidgetEditInfoComponent;
+  let fixture: ComponentFixture<WidgetEditInfoComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetInfoEditComponent)
+    return MockBuilder(WidgetEditInfoComponent)
       .mock(MaterialModule)
       .mock(ReactiveFormsModule)
       .mock(WidgetEditService);
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetInfoEditComponent);
+    fixture = TestBed.createComponent(WidgetEditInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

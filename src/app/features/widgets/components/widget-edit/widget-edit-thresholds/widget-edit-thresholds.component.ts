@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Threshold } from "../../../models/threshold";
+import { Threshold } from "@features/widgets/models/threshold";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "../../../services/widget-edit.service";
+import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 import { Subscription } from "rxjs";
 @Component({
-  selector: "app-threshold-edit",
-  templateUrl: "./threshold-edit.component.html",
-  styleUrls: ["./threshold-edit.component.scss"],
+  selector: 'widget-edit-thresholdss',
+  templateUrl: './widget-edit-thresholdss.component.html',
+  styleUrls: ['./widget-edit-thresholdss.component.scss'],
 })
-export class ThresholdEditComponent implements OnInit, OnDestroy {
+export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
   constructor(private widgetEditService: WidgetEditService) {}
   thresholds: { [metricId: number]: Threshold };
   metrics: Metric[];

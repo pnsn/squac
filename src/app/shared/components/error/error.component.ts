@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-error",
+  selector: "shared-error",
   template: '<div id="error-container">{{errorMsg}}<div>',
   styleUrls: ["./error.component.scss"],
 })

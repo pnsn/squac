@@ -3,15 +3,15 @@ import { ViewService } from "@core/services/view.service";
 import { Widget } from "@features/widgets/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
-import { WidgetsService } from "../../services/widgets.service";
+import { WidgetsService } from "@features/widgets/services/widgets.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: "app-widgets",
-  templateUrl: "./widgets.component.html",
-  styleUrls: ["./widgets.component.scss"],
+  selector: "widget-main",
+  templateUrl: "./widget-main.component.html",
+  styleUrls: ["./widget-main.component.scss"],
 })
-export class WidgetsComponent implements OnInit, OnDestroy {
+export class WidgetMainComponent implements OnInit, OnDestroy {
   // @Input() canUpdate: boolean;
   // @Input() dashboardId: number;
 

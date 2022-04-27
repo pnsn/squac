@@ -9,7 +9,7 @@ import * as L from "leaflet";
 import { checkThresholds } from "@core/utils/utils";
 
 @Component({
-  selector: "app-map",
+  selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
   providers: [MeasurementPipe],

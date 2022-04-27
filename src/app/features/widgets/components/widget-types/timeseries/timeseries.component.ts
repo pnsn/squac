@@ -18,7 +18,7 @@ import * as dayjs from "dayjs";
 import { DateService } from "@core/services/date.service";
 
 @Component({
-  selector: "app-timeseries",
+  selector: "widget-timeseries",
   templateUrl: "./timeseries.component.html",
   styleUrls: ["./timeseries.component.scss"],
 })

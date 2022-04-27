@@ -9,11 +9,11 @@
           by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
         </span>
 
-        <app-shared-indicator
+        <shared-sharing-indicator
           [shareAll]="dashboard.shareAll"
           [shareOrg]="dashboard.shareOrg"
           resource="dashboard"
-        ></app-shared-indicator>
+        ></shared-sharing-indicator>
       </div>
       <div id="header-controls">
         <button
@@ -180,4 +180,4 @@
   </div>
 </div>
 <app-error *ngIf="error" [errorMsg]="error"></app-error>
-<app-loading *ngIf="!dashboard && !error"></app-loading>
+<shared-loading *ngIf="!dashboard && !error"></shared-loading>

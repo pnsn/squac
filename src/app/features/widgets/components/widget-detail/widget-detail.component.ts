@@ -10,7 +10,7 @@ import { WidgetDataService } from "@features/widgets/services/widget-data.servic
 import { Ability } from "@casl/ability";
 
 @Component({
-  selector: "app-widget-detail",
+  selector: "widget-detail",
   templateUrl: "./widget-detail.component.html",
   styleUrls: ["./widget-detail.component.scss"],
   providers: [WidgetDataService],

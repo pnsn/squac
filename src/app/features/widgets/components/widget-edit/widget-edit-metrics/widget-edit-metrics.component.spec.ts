@@ -1,15 +1,15 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MetricsEditComponent } from "./metrics-edit.component";
+import { WidgetEditMetricsComponent } from "./widget-edit-metrics.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MetricsService } from "@features/metrics/services/metrics.service";
-import { WidgetEditService } from "../../../services/widget-edit.service";
+import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 
-describe("MetricsEditComponent", () => {
-  let component: MetricsEditComponent;
-  let fixture: ComponentFixture<MetricsEditComponent>;
+describe("WidgetEditMetricsComponent", () => {
+  let component: WidgetEditMetricsComponent;
+  let fixture: ComponentFixture<WidgetEditMetricsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -23,12 +23,12 @@ describe("MetricsEditComponent", () => {
           },
         },
       ],
-      declarations: [MetricsEditComponent, LoadingComponent],
+      declarations: [WidgetEditMetricsComponent, LoadingComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MetricsEditComponent);
+    fixture = TestBed.createComponent(WidgetEditMetricsComponent);
     component = fixture.componentInstance;
     component.metrics = [];
     component.availableMetrics = [];

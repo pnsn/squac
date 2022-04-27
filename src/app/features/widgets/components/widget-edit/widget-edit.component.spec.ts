@@ -14,16 +14,16 @@ import { WidgetEditService } from "@features/widgets/services/widget-edit.servic
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { ChannelGroupsEditComponent } from "./channel-groups-edit/channel-groups-edit.component";
-import { ThresholdEditComponent } from "./threshold-edit/threshold-edit.component";
-import { MetricsEditComponent } from "./metrics-edit/metrics-edit.component";
+import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group/widget-edit-channel-group.component";
+import { WidgetEditThresholdsComponent } from "./widget-edit-thresholdss/widget-edit-thresholdss.component";
+import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
 import {
   MockComponents,
   MockProvider,
   MockProviders,
   MockService,
 } from "ng-mocks";
-import { WidgetInfoEditComponent } from "./widget-info-edit/widget-info-edit.component";
+import { WidgetEditInfoComponent } from "./widget-edit-info/widget-edit-info.component";
 import { Subject } from "rxjs";
 
 describe("WidgetEditComponent", () => {
@@ -57,10 +57,10 @@ describe("WidgetEditComponent", () => {
       declarations: [
         WidgetEditComponent,
         MockComponents(
-          ChannelGroupsEditComponent,
-          ThresholdEditComponent,
-          MetricsEditComponent,
-          WidgetInfoEditComponent
+          WidgetEditChannelGroupComponent,
+          WidgetEditThresholdsComponent,
+          WidgetEditMetricsComponent,
+          WidgetEditInfoComponent
         ),
       ],
     }).compileComponents();

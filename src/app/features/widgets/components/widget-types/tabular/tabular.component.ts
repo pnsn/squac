@@ -11,7 +11,7 @@ import { Channel } from "@core/models/channel";
 import { checkThresholds } from "@core/utils/utils";
 
 @Component({
-  selector: "app-tabular",
+  selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
   providers: [MeasurementPipe],

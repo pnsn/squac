@@ -5,7 +5,7 @@ import {
 } from "@angular/material/snack-bar";
 
 @Component({
-  selector: "app-snackbar",
+  selector: "shared-snackbar",
   templateUrl: "./snackbar.component.html",
   styleUrls: ["./snackbar.component.scss"],
 })

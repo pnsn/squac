@@ -23,7 +23,7 @@ import { Measurement } from "@features/widgets/models/measurement";
 import { Archive } from "@features/widgets/models/archive";
 
 @Component({
-  selector: "app-timeline",
+  selector: "widget-timeline",
   templateUrl: "./timeline.component.html",
   styleUrls: ["./timeline.component.scss"],
   providers: [MeasurementPipe],

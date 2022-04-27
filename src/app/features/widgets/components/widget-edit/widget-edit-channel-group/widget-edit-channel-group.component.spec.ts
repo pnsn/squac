@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChannelGroupsEditComponent } from "./channel-groups-edit.component";
+import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
@@ -13,12 +13,12 @@ import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { EMPTY } from "rxjs";
 
-describe("ChannelGroupsEditComponent", () => {
-  let component: ChannelGroupsEditComponent;
-  let fixture: ComponentFixture<ChannelGroupsEditComponent>;
+describe("WidgetEditChannelGroupComponent", () => {
+  let component: WidgetEditChannelGroupComponent;
+  let fixture: ComponentFixture<WidgetEditChannelGroupComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ChannelGroupsEditComponent)
+    return MockBuilder(WidgetEditChannelGroupComponent)
       .mock(LoadingComponent)
       .mock(FormsModule)
       .mock(MatSlideToggleModule)
@@ -45,7 +45,7 @@ describe("ChannelGroupsEditComponent", () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChannelGroupsEditComponent);
+    fixture = TestBed.createComponent(WidgetEditChannelGroupComponent);
     component = fixture.componentInstance;
     component.channelGroups = [];
     fixture.detectChanges();

@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
-import { WidgetEditService } from "../../../services/widget-edit.service";
+import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { Organization } from "@features/user/models/organization";
@@ -18,11 +18,11 @@ import { UserService } from "@features/user/services/user.service";
 import { UserPipe } from "@shared/pipes/user.pipe";
 
 @Component({
-  selector: "app-channel-groups-edit",
-  templateUrl: "./channel-groups-edit.component.html",
-  styleUrls: ["./channel-groups-edit.component.scss"],
+  selector: "widget-edit-channel-group",
+  templateUrl: "./widget-edit-channel-group.component.html",
+  styleUrls: ["./widget-edit-channel-group.component.scss"],
 })
-export class ChannelGroupsEditComponent
+export class WidgetEditChannelGroupComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() channelGroups: ChannelGroup[];

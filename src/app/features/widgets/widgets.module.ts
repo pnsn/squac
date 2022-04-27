@@ -7,31 +7,31 @@ import { TimelineComponent } from "./components/widget-types/timeline/timeline.c
 import { TimeseriesComponent } from "./components/widget-types/timeseries/timeseries.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { GridsterModule } from "angular-gridster2";
-import { ThresholdEditComponent } from "./components/widget-edit/threshold-edit/threshold-edit.component";
-import { MetricsEditComponent } from "./components/widget-edit/metrics-edit/metrics-edit.component";
-import { ChannelGroupsEditComponent } from "./components/widget-edit/channel-groups-edit/channel-groups-edit.component";
+import { WidgetEditThresholdsComponent } from "./components/widget-edit/widget-edit-thresholds/widget-edit-thresholds.component";
+import { WidgetEditMetricsComponent } from "./components/widget-edit/widget-edit-metrics/widget-edit-metrics.component";
+import { WidgetEditChannelGroupComponent } from "./components/widget-edit/widget-edit-channel-group/widget-edit-channel-group.component";
 import { SharedModule } from "@shared/shared.module";
-import { WidgetsComponent } from "./components/widgets/widgets.component";
+import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MapComponent } from "./components/widget-types/map/map.component";
-import { WidgetInfoEditComponent } from "./components/widget-edit/widget-info-edit/widget-info-edit.component";
+import { WidgetEditInfoComponent } from "./components/widget-edit/widget-edit-info/widget-edit-info.component";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 
 @NgModule({
   declarations: [
-    WidgetsComponent,
+    WidgetMainComponent,
     WidgetDetailComponent,
     WidgetEditComponent,
     TabularComponent,
     TimelineComponent,
     TimeseriesComponent,
-    ThresholdEditComponent,
+    WidgetEditThresholdsComponent,
     MeasurementPipe,
-    MetricsEditComponent,
-    ChannelGroupsEditComponent,
+    WidgetEditMetricsComponent,
+    WidgetEditChannelGroupComponent,
     WidgetEditEntryComponent,
     MapComponent,
-    WidgetInfoEditComponent,
+    WidgetEditInfoComponent,
   ],
   imports: [SharedModule, NgxChartsModule, GridsterModule],
   providers: [

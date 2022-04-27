@@ -56,7 +56,7 @@
     </ng-template>
   </mat-menu>
 
-  <app-loading *ngIf="loading"> </app-loading>
+  <shared-loading *ngIf="loading"> </shared-loading>
   <app-error *ngIf="error" [errorMsg]="error"></app-error>
   <div
     class="widget-message"
@@ -71,36 +71,35 @@
     <p>No Data</p>
   </div>
   <div class="widget-content" *ngIf="!loading && !error && !noData">
-    <!-- <app-loading></app-loading> -->
     <ng-container [ngSwitch]="widget?.type">
-      <app-timeline
+      <widget-timeline
         *ngSwitchCase="'timeline'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </app-timeline>
-      <app-tabular
+      </widget-timeline>
+      <widget-tabular
         *ngSwitchCase="'tabular'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </app-tabular>
-      <app-timeseries
+      </widget-tabular>
+      <widget-timeseries
         *ngSwitchCase="'timeseries'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </app-timeseries>
-      <app-map
+      </widget-timeseries>
+      <widget-map
         *ngSwitchCase="'map'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </app-map>
+      </widget-map>
       <div *ngSwitchDefault class="widget-message">
         <p>
           Error: could not load widget...

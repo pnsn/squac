@@ -8,15 +8,17 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "../../../services/widget-edit.service";
+import { WidgetEditService } from "@features/widgets/services/widget-edit.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: "app-metrics-edit",
-  templateUrl: "./metrics-edit.component.html",
-  styleUrls: ["./metrics-edit.component.scss"],
+  selector: "widget-edit-metrics",
+  templateUrl: "./widget-edit-metrics.component.html",
+  styleUrls: ["./widget-edit-metrics.component.scss"],
 })
-export class MetricsEditComponent implements OnInit, OnDestroy, AfterViewInit {
+export class WidgetEditMetricsComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() metrics: Metric[];
   @ViewChild("metricTable") metricTable;
   SelectionType = SelectionType;

@@ -14,7 +14,7 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { MessageService } from "@core/services/message.service";
 
 @Component({
-  selector: "app-widget-edit",
+  selector: "widget-edit",
   templateUrl: "./widget-edit.component.html",
   styleUrls: ["./widget-edit.component.scss"],
 })

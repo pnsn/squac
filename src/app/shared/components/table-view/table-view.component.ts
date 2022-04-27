@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 @Component({
-  selector: "app-table-view",
+  selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
   styleUrls: ["./table-view.component.scss"],
 })

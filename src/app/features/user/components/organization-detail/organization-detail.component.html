@@ -1,5 +1,5 @@
 <div id="column" *ngIf="user && organization">
-  <app-table-view title="{{ organization.name }} Organization">
+  <shared-table-view title="{{ organization.name }} Organization">
     <ng-container tableHeadControls>
       <a mat-button color="primary" [routerLink]="['../']"
         >View All Organizations</a
@@ -52,7 +52,7 @@
       >
       </ngx-datatable>
     </ng-container>
-  </app-table-view>
+  </shared-table-view>
   <div id="roles-container">
     <h2>Squac User Roles (additive):</h2>
     <mat-list dense>

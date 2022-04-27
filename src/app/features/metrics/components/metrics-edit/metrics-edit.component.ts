@@ -12,7 +12,7 @@ import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 
 @Component({
-  selector: "app-metrics-edit",
+  selector: "widget-edit-metrics",
   templateUrl: "./metrics-edit.component.html",
   styleUrls: ["./metrics-edit.component.scss"],
 })

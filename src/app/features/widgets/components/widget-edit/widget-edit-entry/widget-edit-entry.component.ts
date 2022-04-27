@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 import { WidgetsService } from "@features/widgets/services/widgets.service";
 
 @Component({
-  selector: "app-widget-edit-entry",
+  selector: "widget-edit-entry",
   templateUrl: "./widget-edit-entry.component.html",
   styleUrls: ["./widget-edit-entry.component.scss"],
 })

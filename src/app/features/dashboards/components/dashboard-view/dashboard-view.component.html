@@ -1,4 +1,4 @@
-<app-table-view title="Dashboards">
+<shared-table-view title="Dashboards">
   <ng-container tableHeadControls>
     <button
       mat-flat-button
@@ -81,5 +81,5 @@
       <ng-template #private> {{ !row.shareOrg ? "private" : "" }} </ng-template>
     </ng-template>
   </ng-container>
-</app-table-view>
+</shared-table-view>
 <router-outlet></router-outlet>
