@@ -11,7 +11,7 @@ import { OrganizationResolver } from "@features/user/organization.resolver";
 import { MetricResolver } from "@features/metric/metric.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
-import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
+import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
 import { StatTypeResolver } from "@features/widget/stat-type.resolver";
 
@@ -52,7 +52,7 @@ const appRoutes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     resolve: {
-      dashboards: DashboardsResolver,
+      dashboards: DashboardResolver,
       channelGroups: ChannelGroupsResolver,
       metrics: MetricResolver,
       user: UserResolver,
@@ -68,8 +68,8 @@ const appRoutes: Routes = [
       {
         path: "dashboards",
         loadChildren: () =>
-          import("@features/dashboards/dashboards.module").then(
-            (m) => m.DashboardsModule
+          import("@features/dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
           ),
       },
       {

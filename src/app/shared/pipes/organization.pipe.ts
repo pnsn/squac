@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 
 @Pipe({
   name: "organization",
 })
 export class OrganizationPipe implements PipeTransform {
-  constructor(private orgService: OrganizationsService) {}
+  constructor(private orgService: OrganizationService) {}
 
   transform(value: number): string {
     return this.orgService.getOrgName(value);

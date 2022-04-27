@@ -4,7 +4,7 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { Alert } from "@features/monitor/models/alert";
 import { Monitor } from "@features/monitor/models/monitor";
-import { MonitorsService } from "@features/monitor/services/monitors.service";
+import { MonitorService } from "@features/monitor/services/monitor.service";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -22,7 +22,7 @@ export class MonitorDetailComponent {
     private route: ActivatedRoute,
     private router: Router,
     private confirmDialog: ConfirmDialogService,
-    private monitorService: MonitorsService,
+    private monitorService: MonitorService,
     private messageService: MessageService
   ) {}
 

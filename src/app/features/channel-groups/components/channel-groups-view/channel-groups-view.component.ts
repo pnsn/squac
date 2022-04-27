@@ -3,7 +3,7 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Subscription } from "rxjs";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { Organization } from "@features/user/models/organization";
 import { filter, tap } from "rxjs/operators";
@@ -42,7 +42,7 @@ export class ChannelGroupsViewComponent
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private orgService: OrganizationsService,
+    private orgService: OrganizationService,
     private channelGroupsService: ChannelGroupsService
   ) {
     this.userPipe = new UserPipe(orgService);

@@ -9,8 +9,8 @@ import { ActivatedRoute } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitor/models/alert";
 import { Monitor } from "@features/monitor/models/monitor";
-import { AlertsService } from "@features/monitor/services/alerts.service";
-import { MonitorsService } from "@features/monitor/services/monitors.service";
+import { AlertService } from "@features/monitor/services/alert.service";
+import { MonitorService } from "@features/monitor/services/monitor.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { mergeMap, Subscription, tap } from "rxjs";
 
@@ -31,9 +31,9 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
   constructor(
-    private alertsService: AlertsService,
+    private alertsService: AlertService,
     private route: ActivatedRoute,
-    private monitorsService: MonitorsService,
+    private monitorsService: MonitorService,
     private dateService: DateService
   ) {}
 

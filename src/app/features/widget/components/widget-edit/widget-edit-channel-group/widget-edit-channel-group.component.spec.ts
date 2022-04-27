@@ -6,7 +6,7 @@ import { WidgetEditService } from "@features/widget/services/widget-edit.service
 import { ChannelGroupsService } from "@features/channel-groups/services/channel-groups.service";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UserService } from "@features/user/services/user.service";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { FormsModule } from "@angular/forms";
 import { MockBuilder } from "ng-mocks";
@@ -33,7 +33,7 @@ describe("WidgetEditChannelGroupComponent", () => {
         },
       })
       .provide({
-        provide: OrganizationsService,
+        provide: OrganizationService,
         useValue: {
           getOrganization: () => {
             return EMPTY;

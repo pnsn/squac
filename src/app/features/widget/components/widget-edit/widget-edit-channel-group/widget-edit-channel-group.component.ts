@@ -13,7 +13,7 @@ import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { Organization } from "@features/user/models/organization";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { UserPipe } from "@shared/pipes/user.pipe";
 
@@ -46,7 +46,7 @@ export class WidgetEditChannelGroupComponent
     private channelGroupsService: ChannelGroupsService,
     private widgetEditService: WidgetEditService,
     private userService: UserService,
-    private orgService: OrganizationsService
+    private orgService: OrganizationService
   ) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);

@@ -7,8 +7,8 @@ import { Metric } from "@core/models/metric";
 import { MessageService } from "@core/services/message.service";
 import { Monitor } from "@features/monitor/models/monitor";
 import { Trigger } from "@features/monitor/models/trigger";
-import { MonitorsService } from "@features/monitor/services/monitors.service";
-import { TriggersService } from "@features/monitor/services/triggers.service";
+import { MonitorService } from "@features/monitor/services/monitor.service";
+import { TriggerService } from "@features/monitor/services/trigger.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
@@ -40,9 +40,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   removeTriggerIDs = [];
   constructor(
     private formBuilder: FormBuilder,
-    private monitorsService: MonitorsService,
+    private monitorsService: MonitorService,
     public dialogRef: MatDialogRef<MonitorEditComponent>,
-    private triggersService: TriggersService,
+    private triggersService: TriggerService,
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}

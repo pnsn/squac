@@ -8,7 +8,7 @@ import { UserService } from "@features/user/services/user.service";
 import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { InviteService } from "@features/user/services/invite.service";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -49,7 +49,7 @@ describe("OrganizationDetailComponent", () => {
           },
         },
         InviteService,
-        OrganizationsService,
+        OrganizationService,
         {
           provide: UserService,
           useClass: MockUserService,

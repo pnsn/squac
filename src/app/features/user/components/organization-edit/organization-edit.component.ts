@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { User } from "@features/user/models/user";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { MessageService } from "@core/services/message.service";
 import { InviteService } from "@features/user/services/invite.service";
 
@@ -39,7 +39,7 @@ export class OrganizationEditComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<OrganizationEditComponent>,
-    private orgService: OrganizationsService,
+    private orgService: OrganizationService,
     private messageService: MessageService,
     private inviteService: InviteService,
     @Inject(MAT_DIALOG_DATA) public data: any

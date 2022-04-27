@@ -6,7 +6,7 @@ import {
   TemplateRef,
   AfterViewInit,
 } from "@angular/core";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { User } from "@features/user/models/user";
 import { Organization } from "@features/user/models/organization";
 import { Subscription, tap } from "rxjs";
@@ -58,7 +58,7 @@ export class OrganizationDetailComponent
     },
   ];
   constructor(
-    private orgService: OrganizationsService,
+    private orgService: OrganizationService,
     private inviteService: InviteService,
     private route: ActivatedRoute,
     private messageService: MessageService,

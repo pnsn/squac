@@ -4,8 +4,8 @@ import { Subject, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { DashboardsService } from "@features/dashboards/services/dashboards.service";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { Dashboard } from "@features/dashboard/models/dashboard";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 
@@ -33,7 +33,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardsService: DashboardsService,
+    private dashboardsService: DashboardService,
     private viewService: ViewService,
     private ability: Ability
   ) {}

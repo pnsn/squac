@@ -2,8 +2,8 @@
 
 import { Injectable } from "@angular/core";
 import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
-import { Dashboard } from "@features/dashboards/models/dashboard";
-import { DashboardsService } from "@features/dashboards/services/dashboards.service";
+import { Dashboard } from "@features/dashboard/models/dashboard";
+import { DashboardService } from "@features/dashboard/services/dashboard.service";
 import { Widget } from "@features/widget/models/widget";
 import { WidgetService } from "@features/widget/services/widget.service";
 import * as dayjs from "dayjs";
@@ -31,7 +31,7 @@ export class ViewService {
   defaultTimeRange;
 
   constructor(
-    private dashboardService: DashboardsService,
+    private dashboardService: DashboardService,
     private widgetService: WidgetService,
     private ability: Ability,
     private dateService: DateService,

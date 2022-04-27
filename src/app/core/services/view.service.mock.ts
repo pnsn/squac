@@ -1,5 +1,5 @@
 import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { Dashboard } from "@features/dashboard/models/dashboard";
 import { Widget } from "@features/widget/models/widget";
 
 export class MockViewService {

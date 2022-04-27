@@ -4,8 +4,8 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@features/monitor/models/alert";
 import { Monitor } from "@features/monitor/models/monitor";
-import { AlertsService } from "@features/monitor/services/alerts.service";
-import { MonitorsService } from "@features/monitor/services/monitors.service";
+import { AlertService } from "@features/monitor/services/alert.service";
+import { MonitorService } from "@features/monitor/services/monitor.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { tap, mergeMap, filter, Subscription } from "rxjs";
 
@@ -27,8 +27,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alertsService: AlertsService,
-    private monitorsService: MonitorsService,
+    private alertsService: AlertService,
+    private monitorsService: MonitorService,
     private confirmDialog: ConfirmDialogService,
     private dateService: DateService
   ) {}

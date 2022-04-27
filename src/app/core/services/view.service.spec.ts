@@ -2,15 +2,15 @@ import { TestBed } from "@angular/core/testing";
 
 import { ViewService } from "./view.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { DashboardsService } from "@features/dashboards/services/dashboards.service";
-import { MockDashboardsService } from "@features/dashboards/services/dashboards.service.mock";
+import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { MockDashboardService } from "@features/dashboard/services/dashboard.service.mock";
 import { MockWidgetService } from "@features/widget/services/widget.service.mock";
 import { WidgetService } from "@features/widget/services/widget.service";
 import { AbilityModule } from "@casl/angular";
 import { Ability } from "@casl/ability";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { Widget } from "@features/widget/models/widget";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { Dashboard } from "@features/dashboard/models/dashboard";
 import { take } from "rxjs/operators";
 import * as dayjs from "dayjs";
 import { MessageService } from "./message.service";
@@ -49,8 +49,8 @@ describe("ViewService", () => {
       imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
       providers: [
         {
-          provide: DashboardsService,
-          useClass: MockDashboardsService,
+          provide: DashboardService,
+          useClass: MockDashboardService,
         },
         {
           provide: WidgetService,
@@ -76,7 +76,7 @@ describe("ViewService", () => {
     });
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
-    dashboardsService = TestBed.inject(DashboardsService);
+    dashboardsService = TestBed.inject(DashboardService);
     testDashboard = new Dashboard(
       1,
       1,

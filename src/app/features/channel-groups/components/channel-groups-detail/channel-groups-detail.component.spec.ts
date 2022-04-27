@@ -9,7 +9,7 @@ import { ChannelGroupMapComponent } from "../channel-group-map/channel-group-map
 import { RouterTestingModule } from "@angular/router/testing";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@features/user/services/organization.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserService } from "@features/user/services/user.service";
 import { MockUserService } from "@features/user/services/user.service.mock";
@@ -47,7 +47,7 @@ describe("ChannelGroupsDetailComponent", () => {
         MatSnackBarModule,
       ],
       providers: [
-        MockProvider(OrganizationsService),
+        MockProvider(OrganizationService),
         {
           provide: UserService,
           useValue: new MockUserService(),

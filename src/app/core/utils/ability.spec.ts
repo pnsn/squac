@@ -3,7 +3,7 @@ import { AbilityModule } from "@casl/angular";
 import { defineAbilitiesFor, AppAbility } from "./ability";
 import { Ability, PureAbility } from "@casl/ability";
 import { User } from "@features/user/models/user";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { Dashboard } from "@features/dashboard/models/dashboard";
 
 describe("Ability", () => {
   let testAbility: Ability;

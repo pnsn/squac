@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { MonitorsService } from "@features/monitor/services/monitors.service";
+import { MonitorService } from "@features/monitor/services/monitor.service";
 
 @Component({
   selector: "monitor-edit-entry",
@@ -20,7 +20,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private monitorsService: MonitorsService
+    private monitorsService: MonitorService
   ) {}
 
   ngOnInit(): void {

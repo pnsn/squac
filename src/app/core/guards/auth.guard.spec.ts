@@ -7,8 +7,8 @@ import { MockBuilder, MockRender, ngMocks, NG_MOCKS_GUARDS } from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
 import { AppModule } from "app/app.module";
-import { DashboardsModule } from "@features/dashboards/dashboards.module";
-import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
+import { DashboardModule } from "@features/dashboard/dashboard.module";
+import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
 import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
 import { UserResolver } from "@features/user/user.resolver";
 import { MetricResolver } from "@features/metric/metric.resolver";
@@ -21,8 +21,8 @@ describe("AuthGuard", () => {
   beforeAll(() => {
     return MockBuilder(AuthGuard, AppModule)
       .exclude(NG_MOCKS_GUARDS)
-      .mock(DashboardsModule)
-      .mock(DashboardsResolver)
+      .mock(DashboardModule)
+      .mock(DashboardResolver)
       .mock(ChannelGroupsResolver)
       .mock(UserResolver)
       .mock(MetricResolver)

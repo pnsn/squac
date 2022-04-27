@@ -4,14 +4,14 @@ import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { OrganizationsService } from "./services/organizations.service";
+import { OrganizationService } from "./services/organization.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(
-    private orgService: OrganizationsService,
+    private orgService: OrganizationService,
     private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
