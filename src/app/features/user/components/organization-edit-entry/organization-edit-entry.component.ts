@@ -43,7 +43,7 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
       },
     });
     this.dialogRef.afterClosed().subscribe(
-      (id?: number) => {
+      () => {
         if (this.userId) {
           this.router.navigate(["../../../"], { relativeTo: this.route });
         } else {

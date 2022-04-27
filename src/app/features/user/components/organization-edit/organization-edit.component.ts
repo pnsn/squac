@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { User } from "@user/models/user";
 import { Subscription } from "rxjs";
@@ -12,7 +12,7 @@ import { InviteService } from "@user/services/invite.service";
   templateUrl: "./organization-edit.component.html",
   styleUrls: ["./organization-edit.component.scss"],
 })
-export class OrganizationEditComponent implements OnInit {
+export class OrganizationEditComponent implements OnInit, OnDestroy {
   user: User;
   editMode: boolean;
   orgId: number;
@@ -115,7 +115,7 @@ export class OrganizationEditComponent implements OnInit {
           this.messageService.message(`Updated user ${user.email}.`);
           this.cancel(user.id);
         },
-        error: (error) => {
+        error: () => {
           this.messageService.error(`Could not add user.`);
         },
       });

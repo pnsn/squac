@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OrganizationEditEntryComponent } from './organization-edit-entry.component';
+import { OrganizationEditEntryComponent } from "./organization-edit-entry.component";
 
-describe('OrganizationEditEntryComponent', () => {
+describe("OrganizationEditEntryComponent", () => {
   let component: OrganizationEditEntryComponent;
   let fixture: ComponentFixture<OrganizationEditEntryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrganizationEditEntryComponent ]
-    })
-    .compileComponents();
+      declarations: [OrganizationEditEntryComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('OrganizationEditEntryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
