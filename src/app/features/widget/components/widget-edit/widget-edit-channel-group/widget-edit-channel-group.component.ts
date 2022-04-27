@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupService } from "@channelGroups/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";

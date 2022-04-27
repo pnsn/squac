@@ -6,8 +6,8 @@ import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 @Component({
   selector: "widget-edit-thresholds",
-  templateUrl: "./widget-edit-thresholdss.component.html",
-  styleUrls: ["./widget-edit-thresholdss.component.scss"],
+  templateUrl: "./widget-edit-thresholds.component.html",
+  styleUrls: ["./widget-edit-thresholds.component.scss"],
 })
 export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
   constructor(private widgetEditService: WidgetEditService) {}

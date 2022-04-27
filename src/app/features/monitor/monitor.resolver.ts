@@ -5,14 +5,14 @@ import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Monitor } from "./models/monitor";
-import { MonitorsService } from "./services/monitors.service";
+import { MonitorService } from "./services/monitor.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class MonitorResolver implements Resolve<Observable<any>> {
   constructor(
-    private monitorsService: MonitorsService,
+    private monitorsService: MonitorService,
     private loadingService: LoadingService,
     private messageService: MessageService
   ) {}

@@ -8,7 +8,7 @@ import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
 import { MetricResolver } from "@metric/metric.resolver";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
-import { AlertsResolver } from "./alert.resolver";
+import { AlertResolver } from "./alert.resolver";
 
 export const routes: Routes = [
   {
@@ -18,7 +18,7 @@ export const routes: Routes = [
     // data: {subject: 'Monitor', action: 'read'}
     resolve: {
       monitors: MonitorResolver,
-      alerts: AlertsResolver,
+      alerts: AlertResolver,
     },
     runGuardsAndResolvers: "always",
     children: [

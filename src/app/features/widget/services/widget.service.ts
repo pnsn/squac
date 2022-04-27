@@ -3,7 +3,7 @@ import { Observable, forkJoin, of } from "rxjs";
 import { ApiPostWidget, Widget, WidgetAdapter } from "@widget/models/widget";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { ChannelGroupService } from "@channelGroups/services/channel-group.service";
+import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { ChannelGroup } from "@core/models/channel-group";
 
 @Injectable({

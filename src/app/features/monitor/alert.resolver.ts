@@ -6,14 +6,14 @@ import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Alert } from "./models/alert";
-import { AlertsService } from "./services/alerts.service";
+import { AlertService } from "./services/alert.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class AlertsResolver implements Resolve<Observable<any>> {
+export class AlertResolver implements Resolve<Observable<any>> {
   constructor(
-    private alertsService: AlertsService,
+    private alertsService: AlertService,
     private loadingService: LoadingService,
     private messageService: MessageService,
     private dateService: DateService
