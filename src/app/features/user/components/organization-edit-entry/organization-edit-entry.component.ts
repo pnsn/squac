@@ -6,7 +6,7 @@ import { User } from "@user/models/user";
 import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
 
 @Component({
-  selector: "app-organization-edit-entry",
+  selector: "user-organization-edit-entry",
   template: "",
 })
 export class OrganizationEditEntryComponent implements OnInit, OnDestroy {

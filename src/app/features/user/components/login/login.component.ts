@@ -4,7 +4,7 @@ import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: "app-login",
+  selector: "user-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })

@@ -9,7 +9,7 @@ import {
 import { InviteService } from "@user/services/invite.service";
 
 @Component({
-  selector: "app-user-edit",
+  selector: "user-edit",
   templateUrl: "./user-edit.component.html",
   styleUrls: ["./user-edit.component.scss"],
 })

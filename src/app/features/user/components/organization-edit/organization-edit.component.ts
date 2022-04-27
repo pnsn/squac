@@ -8,7 +8,7 @@ import { MessageService } from "@core/services/message.service";
 import { InviteService } from "@user/services/invite.service";
 
 @Component({
-  selector: "app-organization-edit",
+  selector: "user-organization-edit",
   templateUrl: "./organization-edit.component.html",
   styleUrls: ["./organization-edit.component.scss"],
 })

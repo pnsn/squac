@@ -17,7 +17,7 @@ import { MessageService } from "@core/services/message.service";
 import { filter } from "rxjs";
 
 @Component({
-  selector: "app-organization",
+  selector: "user-organization",
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })

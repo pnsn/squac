@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
 @Component({
-  selector: "app-user",
+  selector: "user-settings",
   templateUrl: "./user-settings.component.html",
   styleUrls: ["./user-settings.component.scss"],
 })
