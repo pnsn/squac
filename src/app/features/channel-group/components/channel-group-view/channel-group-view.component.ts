@@ -148,7 +148,10 @@ export class ChannelGroupViewComponent
     this.selectedChannelGroupId = null;
     this.selected = [];
   }
-
+  removeFilter() {
+    this.rows = [...this.channelGroups];
+    this.searchString = "";
+  }
   // Getting a selected channel group and setting variables
   selectChannelGroup(selectedChannelGroupId: number) {
     this.selected = this.channelGroups.filter((cg) => {

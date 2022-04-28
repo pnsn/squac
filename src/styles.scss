@@ -28,13 +28,13 @@ body {
   background-color: darken($sq-lt-gray, 5);
 }
 #body-content-container {
-  width: 90%;
+  width: 80%;
   height: 100%;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 #dashboard-container {
-  margin: 0 -5.5%;
+  margin: 0 -12.5%;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;

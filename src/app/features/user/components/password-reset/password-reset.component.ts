@@ -67,6 +67,7 @@ export class PasswordResetComponent implements OnInit {
       (response) => {
         // go to next step
         this.tokenValidated = !!response;
+        this.error = "";
       },
       (error) => {
         this.error = error;
@@ -84,6 +85,7 @@ export class PasswordResetComponent implements OnInit {
     this.passwordResetService.confirmPassword(password1).subscribe(
       () => {
         this.router.navigate(["/login"]);
+        this.error = "";
       },
       (error) => {
         this.error = error;

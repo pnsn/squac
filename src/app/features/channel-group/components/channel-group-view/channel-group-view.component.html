@@ -40,6 +40,7 @@
   </ng-container>
   <ng-container tableBody options="options">
     <ngx-datatable
+      #channelTable
       class="shared-view-table"
       [rows]="rows"
       [columnMode]="ColumnMode.force"
@@ -63,6 +64,6 @@
   </ng-container>
 </shared-table-view>
 
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
 
 <!-- <channel-group-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></channel-group-detail> -->
