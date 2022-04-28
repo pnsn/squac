@@ -28,7 +28,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
-  @ViewChild("linkTemplate") linkTemplate: TemplateRef<any>;
+  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
 
   constructor(
     private router: Router,
@@ -52,6 +52,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
           sortable: true,
           width: 300,
           canAutoResize: false,
+          cellTemplate: this.nameTemplate,
         },
         {
           name: "Default Min",
@@ -88,15 +89,6 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
           name: "Description",
           draggable: false,
           sortable: true,
-        },
-        {
-          name: "Info",
-          prop: "refUrl",
-          draggable: false,
-          canAutoResize: false,
-          sortable: true,
-          width: 70,
-          cellTemplate: this.linkTemplate,
         },
       ];
     }, 0);

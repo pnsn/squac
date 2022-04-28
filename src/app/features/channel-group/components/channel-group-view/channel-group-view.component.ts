@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Subscription } from "rxjs";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
@@ -38,6 +45,7 @@ export class ChannelGroupViewComponent
   searchString;
   userId;
   orgId;
+  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -91,36 +99,6 @@ export class ChannelGroupViewComponent
 
     this.subscription.add(userService);
     this.subscription.add(routerEvents);
-
-    this.columns = [
-      { name: "Name", draggable: false, sortable: true },
-      { name: "Description", draggable: false, sortable: true },
-      {
-        name: "# Channels",
-        prop: "channelIds.length",
-        draggable: false,
-        sortable: true,
-        width: 20,
-      },
-      {
-        name: "Owner",
-        prop: "owner",
-        draggable: false,
-        sortable: true,
-        width: 50,
-        pipe: this.userPipe,
-        comparator: this.userComparator.bind(this),
-      },
-      {
-        name: "Org",
-        prop: "orgId",
-        draggable: false,
-        sortable: true,
-        width: 20,
-        pipe: this.orgPipe,
-        comparator: this.orgComparator.bind(this),
-      },
-    ];
   }
 
   refresh() {
@@ -131,6 +109,42 @@ export class ChannelGroupViewComponent
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.columns = [
+        {
+          name: "Name",
+          draggable: false,
+          sortable: true,
+          cellTemplate: this.nameTemplate,
+        },
+        { name: "Description", draggable: false, sortable: true },
+        {
+          name: "# Channels",
+          prop: "channelIds.length",
+          draggable: false,
+          sortable: true,
+          width: 20,
+        },
+        {
+          name: "Owner",
+          prop: "owner",
+          draggable: false,
+          sortable: true,
+          width: 50,
+          pipe: this.userPipe,
+          comparator: this.userComparator.bind(this),
+        },
+        {
+          name: "Org",
+          prop: "orgId",
+          draggable: false,
+          sortable: true,
+          width: 20,
+          pipe: this.orgPipe,
+          comparator: this.orgComparator.bind(this),
+        },
+      ];
+    }, 0);
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
     this.selected = [...this.selected];
@@ -165,7 +179,7 @@ export class ChannelGroupViewComponent
     // When a row is selected, route the page and select that channel group
     const selectedId = $event.selected[0].id;
     if (selectedId) {
-      this.router.navigate([selectedId], { relativeTo: this.route });
+      // this.router.navigate([selectedId], { relativeTo: this.route });
       this.selectedChannelGroupId = selectedId;
       this.selectChannelGroup(selectedId);
       this.rows = [...this.rows];

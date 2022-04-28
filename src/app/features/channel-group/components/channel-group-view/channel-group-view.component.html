@@ -61,6 +61,9 @@
         </ng-template>
       </ngx-datatable-footer>
     </ngx-datatable>
+    <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+      <a [routerLink]="[row.id]">{{ row.name }}</a>
+    </ng-template>
   </ng-container>
 </shared-table-view>
 

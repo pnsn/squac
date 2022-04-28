@@ -34,7 +34,7 @@
       [selectionType]="SelectionType.single"
       (select)="onSelect($event)"
       [columns]="columns"
-      [scrollbarH]="false"
+      scrollbarH="false"
     >
       <ngx-datatable-footer>
         <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
@@ -44,14 +44,8 @@
         </ng-template>
       </ngx-datatable-footer>
     </ngx-datatable>
-    <ng-template let-value="value" ngx-datatable-cell-template #linkTemplate>
-      <a
-        href="{{ value }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        matTooltip="{{ value }}"
-        ><mat-icon>open_in_new</mat-icon></a
-      >
+    <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+      <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
     </ng-template>
   </ng-container>
 </shared-table-view>
