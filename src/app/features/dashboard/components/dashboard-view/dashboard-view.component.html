@@ -1,4 +1,10 @@
-<shared-table-view title="Dashboards">
+<shared-table-view
+  title="Dashboards"
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  (itemSelected)="onSelect($event)"
+>
   <ng-container tableHeadControls>
     <button
       mat-flat-button
@@ -9,77 +15,19 @@
       Create Dashboard
     </button>
   </ng-container>
-  <ng-container tableHeadFilters>
-    <mat-form-field style="min-width: 250px">
-      <span matPrefix><mat-icon>search</mat-icon></span>
-      <input
-        type="text"
-        matInput
-        placeholder="Type to filter..."
-        (keyup)="updateFilter($event)"
-        [(ngModel)]="searchString"
-      />
-      <button
-        *ngIf="searchString"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="removeFilter()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-slide-toggle
-      color="primary"
-      [checked]="hideShared"
-      (change)="toggleSharing($event)"
-    >
-      Hide Shared
-    </mat-slide-toggle>
+  <ng-container tableHeadFilters> </ng-container>
+  <ng-container tableFooter>
+    <div>Footer content</div>
   </ng-container>
-  <ng-container tableBody options="options">
-    <ngx-datatable
-      class="shared-view-table"
-      id="dashboards-table"
-      [rows]="rows"
-      [columns]="columns"
-      [columnMode]="ColumnMode.force"
-      [scrollbarH]="false"
-      rowHeight="auto"
-      (select)="onSelect($event)"
-      [selected]="selected"
-      [selectionType]="SelectionType.single"
-      [footerHeight]="50"
-      [messages]="messages"
-    >
-      <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-selectedCount="selectedCount"
-          let-curPage="curPage"
-          let-offset="offset"
-        >
-          <div style="padding: 5px 10px">
-            <div>
-              Showing: {{ rowCount }} of {{ this.dashboards.length }} available
-              dashboards.
-            </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-footer>
-    </ngx-datatable>
-    <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
-      <a [routerLink]="[row.id]">{{ row.name }}</a>
-    </ng-template>
-    <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
-      {{ row.shareOrg && row.shareAll ? "public" : "" }}
-      <ng-container *ngIf="row.shareOrg && !row.shareAll; else private">
-        shared with {{ row.orgId | organization }}
-      </ng-container>
-      <ng-template #private> {{ !row.shareOrg ? "private" : "" }} </ng-template>
-    </ng-template>
-  </ng-container>
+  <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+    <a [routerLink]="[row.id]">{{ row.name }}</a>
+  </ng-template>
+  <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
+    {{ row.shareOrg && row.shareAll ? "public" : "" }}
+    <ng-container *ngIf="row.shareOrg && !row.shareAll; else private">
+      shared with {{ row.orgId | organization }}
+    </ng-container>
+    <ng-template #private> {{ !row.shareOrg ? "private" : "" }} </ng-template>
+  </ng-template>
 </shared-table-view>
 <router-outlet></router-outlet>

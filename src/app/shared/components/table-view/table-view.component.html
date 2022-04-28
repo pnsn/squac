@@ -10,32 +10,87 @@
     </div>
     <div id="head-bottom-row">
       <div id="filters">
+        <mat-form-field style="min-width: 250px">
+          <span matPrefix><mat-icon>search</mat-icon></span>
+          <input
+            type="text"
+            matInput
+            placeholder="Type to filter..."
+            (keyup)="updateFilter($event)"
+            [(ngModel)]="searchString"
+          />
+          <button
+            *ngIf="searchString"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="removeFilter()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-slide-toggle
+          color="primary"
+          [checked]="hideShared"
+          (change)="toggleSharing($event)"
+        >
+          Hide Shared
+        </mat-slide-toggle>
         <ng-content select="[tableHeadFilters]"> </ng-content>
       </div>
     </div>
   </div>
   <div id="table-body">
-    <!-- <ngx-datatable
+    <ngx-datatable
+      #table
       id="shared-data-table"
       class="shared-view-table"
-      [rows]="rows"
-      [columns]="columns"
-      [columnMode]="options.columnMode"
-      [selectionType]="options.selectionType"
-      [headerHeight]="options.headerHeight"
-      [footerHeight]="options.footerHeight"
-      [rowHeight]="options.rowHeight"
-      [limit]="options.limit"
-      [reorderable]="options.reorderable"
-      [scrollbarH]="options.scrollbarH"
-      [scrollbarV]="options.scrollbarV"
-      [sortType]="options.sortType"
-      [sorts]="options.sorts"
-      [messages]="options.messages"
-      [selectionType]="options.selectionType"
+      [rows]="tableRows"
+      [columns]="tableColumns"
+      [columnMode]="tableOptions.columnMode"
+      [selectionType]="tableOptions.selectionType"
+      [headerHeight]="tableOptions.headerHeight"
+      [footerHeight]="tableOptions.footerHeight"
+      [rowHeight]="tableOptions.rowHeight"
+      [limit]="tableOptions.limit"
+      [reorderable]="tableOptions.reorderable"
+      [scrollbarH]="tableOptions.scrollbarH"
+      [scrollbarV]="tableOptions.scrollbarV"
+      [sortType]="tableOptions.sortType"
+      [sorts]="tableOptions.sorts"
+      [messages]="tableOptions.messages"
+      (select)="onSelect($event)"
+      (detailToggle)="onDetailToggle($event)"
+      [selected]="selectedRows"
     >
-    </ngx-datatable> -->
-    <ng-content select="[tableBody]"></ng-content>
+      <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+      <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+        <div style="padding-left:5px;">
+          <a
+            href="#"
+            [class.datatable-icon-right]="!expanded"
+            [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Group"
+            (click)="toggleExpandGroup(group)"
+          >
+            <b>Age: {{ group.value[0].age }}</b>
+          </a>
+        </div>
+      </ng-template>
+    </ngx-datatable-group-header> -->
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-selectedCount="selectedCount"
+          let-curPage="curPage"
+          let-offset="offset"
+        >
+          <ng-content select="[tableFooter]"></ng-content>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
   </div>
 </div>
 

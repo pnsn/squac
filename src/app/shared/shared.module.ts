@@ -36,6 +36,7 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     LeafletDrawModule,
     AbilityModule,
     NgxDatatableModule,
+    FormsModule,
   ],
   exports: [
     MaterialModule,

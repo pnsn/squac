@@ -40,10 +40,13 @@ export class DashboardViewComponent
   hideShared = true;
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
-
-  messages = {
-    emptyMessage: "You have no dashboards.",
+  options = {
+    messages: {
+      emptyMessage: "You have no dashboards.",
+    },
+    selectionType: "single",
   };
+
   constructor(
     private userService: UserService,
     private router: Router,
@@ -86,13 +89,14 @@ export class DashboardViewComponent
 
   // onSelect function for data table selection
   onSelect($event) {
+    console.log($event);
     // When a row is selected, route the page and select that channel group
-    const selectedId = $event.selected[0].id;
-    if (selectedId) {
-      this.router.navigate([selectedId], { relativeTo: this.route });
-      this.selectedId = selectedId;
-      this.selectDashboard(selectedId);
-    }
+    // const selectedId = $event.selected[0].id;
+    // if (selectedId) {
+    //   this.router.navigate([selectedId], { relativeTo: this.route });
+    //   this.selectedId = selectedId;
+    //   this.selectDashboard(selectedId);
+    // }
   }
 
   ngAfterViewInit(): void {
@@ -111,8 +115,6 @@ export class DashboardViewComponent
           draggable: false,
           sortable: true,
           width: 50,
-          pipe: this.userPipe,
-          comparator: this.userComparator.bind(this),
         },
         {
           name: "Organization",
@@ -121,8 +123,6 @@ export class DashboardViewComponent
           sortable: true,
           canAutoResize: false,
           width: 120,
-          pipe: this.orgPipe,
-          comparator: this.orgComparator.bind(this),
         },
         {
           name: "Sharing",
@@ -187,29 +187,5 @@ export class DashboardViewComponent
       this.rows = [...this.dashboards];
     }
     this.hideShared = checked;
-  }
-
-  userComparator(userIdA, userIdB) {
-    const userNameA = this.userPipe.transform(userIdA).toLowerCase();
-    const userNameB = this.userPipe.transform(userIdB).toLowerCase();
-
-    if (userNameA < userNameB) {
-      return -1;
-    }
-    if (userNameA > userNameB) {
-      return 1;
-    }
-  }
-
-  orgComparator(orgIdA, orgIdB) {
-    const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
-    const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
-
-    if (orgNameA < orgNameB) {
-      return -1;
-    }
-    if (orgNameA > orgNameB) {
-      return 1;
-    }
   }
 }
