@@ -6,14 +6,9 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
-import { UserService } from "@user/services/user.service";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { UserPipe } from "@shared/pipes/user.pipe";
-import { OrganizationPipe } from "@shared/pipes/organization.pipe";
-import { OrganizationService } from "@user/services/organization.service";
 
 @Component({
   selector: "dashboard-view",
@@ -27,17 +22,7 @@ export class DashboardViewComponent
   rows: Dashboard[];
   subscription: Subscription = new Subscription();
   activeDashboardId: number;
-  userId: number;
-  orgId: number;
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
-  userPipe;
-  orgPipe;
-  selected = [];
-  selectedId: number;
   columns;
-  searchString = "";
-  hideShared = true;
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   options = {
@@ -46,16 +31,20 @@ export class DashboardViewComponent
     },
     selectionType: "single",
   };
+  controls = {
+    resource: "Dashboard",
+    add: {
+      text: "Add Dashboard",
+    },
+    editMenu: {},
+    edit: {
+      text: "Edit",
+    },
+  };
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private orgService: OrganizationService
-  ) {
-    this.userPipe = new UserPipe(orgService);
-    this.orgPipe = new OrganizationPipe(orgService);
-  }
+  filters = {};
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     const activeDashboardSub = this.route.params.subscribe({
@@ -72,17 +61,10 @@ export class DashboardViewComponent
         console.log("error in dashboard");
       } else if (data.dashboards) {
         this.dashboards = [...data.dashboards];
+        this.rows = [...this.dashboards];
       }
     });
 
-    const userService = this.userService.user.subscribe((user) => {
-      this.userId = user ? user.id : null;
-      this.orgId = user ? user.orgId : null;
-      this.toggleSharing({ checked: this.hideShared });
-    });
-
-    // this.subscription.add(dashboardService);
-    this.subscription.add(userService);
     this.subscription.add(dashboardsSub);
     this.subscription.add(activeDashboardSub);
   }
@@ -90,13 +72,10 @@ export class DashboardViewComponent
   // onSelect function for data table selection
   onSelect($event) {
     console.log($event);
-    // When a row is selected, route the page and select that channel group
-    // const selectedId = $event.selected[0].id;
-    // if (selectedId) {
-    //   this.router.navigate([selectedId], { relativeTo: this.route });
-    //   this.selectedId = selectedId;
-    //   this.selectDashboard(selectedId);
-    // }
+  }
+
+  onClick(event) {
+    console.log(event);
   }
 
   ngAfterViewInit(): void {
@@ -136,56 +115,11 @@ export class DashboardViewComponent
     }, 0);
   }
 
-  // Getting a selected channel group and setting variables
-  selectDashboard(selectedId: number) {
-    this.selected = this.dashboards.filter((d) => {
-      // Select row with channel group
-      return d.id === selectedId;
-    });
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  newDashboard() {
-    this.router.navigate(["new"], { relativeTo: this.route });
-  }
-
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-    if (val) {
-      this.hideShared = false;
-    }
-    // filter our data
-    const temp = this.dashboards.filter((d) => {
-      return (
-        !val ||
-        d.name.toLowerCase().indexOf(val) !== -1 ||
-        d.description.toLowerCase().indexOf(val) !== -1
-      );
-    });
-
-    // update the rows
-    this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    // this.table.offset = 0;
-  }
-
-  removeFilter() {
-    this.rows = [...this.dashboards];
-    this.searchString = "";
-  }
-
-  toggleSharing({ checked }) {
-    if (checked) {
-      const temp = this.dashboards.filter((d) => {
-        return this.userId === d.owner;
-      });
-      this.rows = temp;
-    } else {
-      this.rows = [...this.dashboards];
-    }
-    this.hideShared = checked;
+  refresh() {
+    console.log("refresh");
   }
 }

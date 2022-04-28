@@ -2,22 +2,27 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { Subscription } from "rxjs";
 @Component({
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
   styleUrls: ["./table-view.component.scss"],
 })
-export class TableViewComponent implements OnInit {
+export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   rowCount = 3;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -27,7 +32,12 @@ export class TableViewComponent implements OnInit {
   @Input() options;
   @Input() rows;
   @Input() columns;
-  @Output() itemSelected = new EventEmitter<string>();
+  @Input() controls;
+  @Input() filters;
+  @Input() selectedRowId;
+  @Output() itemSelected = new EventEmitter<any>();
+  @Output() controlClicked = new EventEmitter<any>();
+  @Output() refresh = new EventEmitter<any>();
   @ViewChild("table") table;
   selectedRows = [];
   userPipe;
@@ -36,9 +46,15 @@ export class TableViewComponent implements OnInit {
   tableColumns;
   searchString;
   hideShared;
+  subscription = new Subscription();
+  selected = [];
+  selectedRow;
+  user: User;
   constructor(
     private userService: UserService,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
@@ -68,6 +84,14 @@ export class TableViewComponent implements OnInit {
         this.tableOptions[key] = this.options[key];
       }
     });
+    const userServ = this.userService.user.subscribe({
+      next: (user) => {
+        this.user = user;
+        console.log(this.user);
+      },
+    });
+
+    this.subscription.add(userServ);
   }
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -80,8 +104,14 @@ export class TableViewComponent implements OnInit {
       console.log("row changes");
       this.tableRows = [...this.rows];
     }
+    if (changes.selectedRowId && changes.selectedRowId) {
+      this.selectResource(this.selectedRowId);
+    }
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   processColumns() {
     this.columns.forEach((col, i) => {
       if (col.prop === "owner" || col.name === "Owner") {
@@ -97,12 +127,43 @@ export class TableViewComponent implements OnInit {
   }
 
   onSelect(event) {
-    console.log(event);
-    this.itemSelected.next("selected");
+    if (event.selected) {
+      this.selectResource(event.selected[0].id);
+    }
+  }
+
+  selectResource(id) {
+    this.selected = this.tableRows.filter((d) => {
+      // Select row with channel group
+      return d.id === id;
+    });
+
+    this.selectedRow = this.selected[0];
+    this.itemSelected.next(this.selectedRow);
+  }
+
+  editResource() {
+    this.controlClicked.emit("edit");
+    this.router.navigate([this.selectedRow.id, "edit"], {
+      relativeTo: this.route,
+    });
+  }
+
+  addResource() {
+    this.controlClicked.emit("add");
+    this.router.navigate(["new"], { relativeTo: this.route });
+  }
+
+  refreshResource() {
+    this.controlClicked.emit("refresh");
   }
 
   onDetailToggle(event) {
     console.log(event);
+  }
+
+  controlClick(type) {
+    this.controlClicked.emit(type);
   }
 
   updateFilter(event) {
@@ -127,20 +188,26 @@ export class TableViewComponent implements OnInit {
   }
 
   removeFilter() {
-    // this.rows = [...this.dashboards];
-    // this.searchString = "";
+    this.tableRows = [...this.rows];
+    this.searchString = "";
   }
 
-  toggleSharing({ checked }) {
-    // if (checked) {
-    //   const temp = this.dashboards.filter((d) => {
-    //     return this.userId === d.owner;
-    //   });
-    //   this.rows = temp;
-    // } else {
-    //   this.rows = [...this.dashboards];
-    // }
-    // this.hideShared = checked;
+  toggleSharing(event) {
+    let temp;
+    console.log(event);
+    if (event.value === "user") {
+      temp = this.rows.filter((row) => {
+        return this.user.id === row.owner;
+      });
+    } else if (event.value === "org") {
+      temp = this.rows.filter((row) => {
+        return this.user.orgId === row.orgId;
+      });
+    } else {
+      //value === 'all'
+      temp = [...this.rows];
+    }
+    this.tableRows = temp;
   }
 
   userComparator(userIdA, userIdB) {

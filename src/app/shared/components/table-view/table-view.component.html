@@ -5,6 +5,30 @@
         {{ title }}
       </h2>
       <div id="controls">
+        <button
+          mat-icon-button
+          aria-label="button that refreshes data"
+          (click)="refreshResource()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          mat-button
+          (click)="editResource()"
+          *ngIf="controls.edit && ('edit' | able: selectedRow)"
+          [disabled]="!selectedRow"
+        >
+          {{ controls.edit.text }}
+        </button>
+        <button
+          mat-flat-button
+          color="accent"
+          (click)="addResource()"
+          *ngIf="controls.add && ('create' | able: controls.resource)"
+        >
+          {{ controls.add.text }}
+        </button>
+
         <ng-content select="[tableHeadControls]"> </ng-content>
       </div>
     </div>
@@ -29,13 +53,17 @@
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
-        <mat-slide-toggle
-          color="primary"
-          [checked]="hideShared"
+
+        <mat-button-toggle-group
+          name="sharing"
+          aria-label=""
           (change)="toggleSharing($event)"
         >
-          Hide Shared
-        </mat-slide-toggle>
+          <mat-button-toggle value="user">User</mat-button-toggle>
+          <mat-button-toggle value="org">PNSN</mat-button-toggle>
+          <mat-button-toggle checked value="all">All</mat-button-toggle>
+        </mat-button-toggle-group>
+
         <ng-content select="[tableHeadFilters]"> </ng-content>
       </div>
     </div>
