@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
@@ -14,11 +20,17 @@ import { tap, mergeMap, filter, Subscription } from "rxjs";
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
 })
-export class MonitorViewComponent implements OnInit, OnDestroy {
+export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   monitors: Monitor[] = [];
-  selected: Monitor[];
-  rows = [];
   @ViewChild("monitorTable") table: any;
+  @ViewChild("stateTemplate") stateTemplate: any;
+  @ViewChild("updateTemplate") updateTemplate: any;
+  @ViewChild("conditionsTemplate") conditionsTemplate: any;
+  @ViewChild("notificationTemplate") notificationTemplate: any;
+  @ViewChild("emailListTemplate") emailListTemplate: any;
+  @ViewChild("channelsTemplate") channelsTemplate: any;
+  @ViewChild("groupHeaderTemplate") groupHeaderTemplate: any;
+  @ViewChild("groupHeaderTemplate") rowDetailTemplate: any;
   subscription = new Subscription();
   selectedMonitorId: number;
   error: boolean;
@@ -33,16 +45,41 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
     private dateService: DateService
   ) {}
 
-  // Table stuff
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
+  rows;
+  columns;
 
-  messages = {
-    emptyMessage: "No monitors found.",
-    totalMessage: "monitors",
+  controls = {
+    resource: "Monitor",
+    add: {
+      text: "Create Monitor",
+    },
+    actionMenu: {},
+    edit: {
+      text: "Edit",
+    },
+    refresh: true,
+    links: [{ text: "View All Alerts", path: "alerts" }],
   };
+
+  filters = {
+    toggleShared: {
+      default: "user",
+    },
+    searchField: {
+      text: "Type to filter...",
+    },
+  };
+
+  options = {
+    groupRowsBy: "monitorId",
+    groupExpansionDefault: true,
+    messages: {
+      emptyMessage: "No monitors found.",
+      totalMessage: "monitors",
+    },
+  };
+
   ngOnInit(): void {
-    this.selected = [];
     this.route.parent.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
         this.error = true;
@@ -55,8 +92,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
 
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
-      this.selectMonitor(this.selectedMonitorId);
+      // this.selectMonitor(this.selectedMonitorId);
     }
+
     const routerEvents = this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
@@ -72,8 +110,58 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
     this.subscription.add(routerEvents);
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.columns = [
+        {
+          name: "State",
+          draggable: false,
+          sortable: false,
+          width: 60,
+          minWidth: 60,
+          canAutoResize: false,
+          cellTemplate: this.stateTemplate,
+        },
+        {
+          name: "Last state update",
+          draggable: false,
+          canAutoResize: false,
+          sortable: false,
+          width: 160,
+          minWidth: 160,
+          cellTemplate: this.updateTemplate,
+        },
+        {
+          name: "Breaching channels",
+          canAutoResize: false,
+          width: 100,
+          cellTemplate: this.channelsTemplate,
+        },
+        {
+          name: "'In Alarm' conditions",
+          sortable: false,
+          width: 200,
+          cellTemplate: this.conditionsTemplate,
+        },
+        {
+          name: "Actions",
+          draggable: false,
+          sortable: false,
+          width: 50,
+          cellTemplate: this.notificationTemplate,
+        },
+        {
+          name: "Recipients",
+          sortable: false,
+          width: 200,
+          cellTemplate: this.emailListTemplate,
+        },
+      ];
+    }, 0);
+  }
+
   makeRows() {
-    this.rows = [];
+    const temp = [];
     this.monitors.forEach((monitor) => {
       monitor.alerts = this.getAlerts(monitor.id);
       monitor.inAlarm = false;
@@ -84,11 +172,15 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
         if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
           monitor.inAlarm = true;
         }
-        trigger.monitor = monitor;
-        this.rows.push(trigger);
+        // trigger.monitor = monitor;
+        temp.push(trigger);
       });
     });
-    this.rows = [...this.rows];
+    this.rows = [...temp];
+  }
+
+  onSelect($event) {
+    console.log($event);
   }
 
   refresh() {
@@ -129,21 +221,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
   }
 
   getMonitor(id: number) {
-    return this.monitors.filter((a) => a.id === id);
-  }
-
-  // Getting a selected channel group and setting variables
-  selectMonitor(selectedMonitorId: number) {
-    this.selected = this.monitors.filter((cg) => {
-      // Select row with channel group
-      return cg.id === selectedMonitorId;
-    });
-  }
-
-  toggleExpandGroup(group) {
-    console.log("toggle");
-    this.table.groupHeader.toggleExpandGroup(group);
-    return false;
+    return this.monitors.find((a) => a.id === id);
   }
 
   rowIdentity(row) {
@@ -179,7 +257,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy {
     if (id) {
       this.router.navigate([id], { relativeTo: this.route });
       this.selectedMonitorId = id;
-      this.selectMonitor(id);
+      // this.selectMonitor(id);
     }
   }
 

@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -35,11 +36,14 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() controls;
   @Input() filters;
   @Input() selectedRowId;
+  @Input() groupHeaderTemplate: TemplateRef<any>;
+  @Input() tableFooterTemplate: TemplateRef<any>;
+  @Input() rowDetailTemplate: TemplateRef<any>;
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
   @ViewChild("table") table;
-  selectedRows = [];
+  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   userPipe;
   orgPipe;
   tableRows;
@@ -72,6 +76,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     scrollbarV: false,
     sortType: "single",
     sorts: [],
+    groupRowsBy: undefined,
+    groupExpansionDefault: false,
     messages: {
       emptyMessage: "No data",
       totalMessage: "total",
@@ -93,6 +99,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscription.add(userServ);
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -122,6 +129,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.pipe = this.orgPipe;
         col.comparator = this.orgComparator.bind(this);
       }
+      if (col.prop === "name" || col.name === "Name") {
+        col.cellTemplate = this.nameTemplate;
+      }
     });
     this.tableColumns = [...this.columns];
   }
@@ -133,13 +143,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   selectResource(id) {
-    this.selected = this.tableRows.filter((d) => {
-      // Select row with channel group
-      return d.id === id;
+    this.selected = this.tableRows.filter((row) => {
+      return row.id === id;
     });
 
     this.selectedRow = this.selected[0];
     this.itemSelected.next(this.selectedRow);
+    console.log(this.selected);
   }
 
   editResource() {
@@ -166,16 +176,22 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.controlClicked.emit(type);
   }
 
+  toggleExpandGroup(group) {
+    this.table.groupHeader.toggleExpandGroup(group);
+    return false;
+  }
+
   updateFilter(event) {
-    const val = event.target.value.toLowerCase();
+    let val = event.target.value;
 
     if (val) {
       this.hideShared = false;
+      val = val.toLowerCase();
       // filter our data
       const temp = this.rows.filter((row) => {
         const test =
-          row.name.toLowerCase().indexOf(val) !== -1 ||
-          row.description.toLowerCase().indexOf(val) !== -1 ||
+          row.name?.toLowerCase().indexOf(val) !== -1 ||
+          row.description?.toLowerCase().indexOf(val) !== -1 ||
           this.userPipe.transform(row.owner).toLowerCase().indexOf(val) !==
             -1 ||
           this.userPipe.transform(row.orgId).toLowerCase().indexOf(val) !== -1;

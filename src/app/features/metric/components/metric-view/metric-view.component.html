@@ -1,51 +1,13 @@
-<shared-table-view title="Metrics">
-  <ng-container tableHeadControls>
-    <button
-      mat-flat-button
-      *ngIf="'update' | able: 'Metric'"
-      color="primary"
-      id="edit-metric-btn"
-      (click)="editMetric()"
-      class="add-btn"
-      [disabled]="!selected"
-    >
-      Edit Metric
-    </button>
-    <button
-      mat-flat-button
-      color="accent"
-      *ngIf="'create' | able: 'Metric'"
-      id="add-metric-btn"
-      (click)="addMetric()"
-      class="add-btn"
-    >
-      Add Metric
-    </button>
-  </ng-container>
-  <ng-container tableHeadFilters> </ng-container>
-  <ng-container tableBody options="options">
-    <ngx-datatable
-      class="shared-view-table"
-      [rows]="rows"
-      [columnMode]="ColumnMode.force"
-      [headerHeight]="30"
-      [footerHeight]="50"
-      rowHeight="auto"
-      [selectionType]="SelectionType.single"
-      (select)="onSelect($event)"
-      [columns]="columns"
-      scrollbarH="false"
-    >
-      <ngx-datatable-footer>
-        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
-          <div style="padding: 5px 10px">
-            <div>Showing: all available metrics.</div>
-          </div>
-        </ng-template>
-      </ngx-datatable-footer>
-    </ngx-datatable>
-    <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
-      <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
-    </ng-template>
-  </ng-container>
+<shared-table-view
+  title="Metrics"
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  (itemSelected)="onSelect($event)"
+  [controls]="controls"
+  [filters]="filters"
+>
+  <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+    <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
+  </ng-template>
 </shared-table-view>

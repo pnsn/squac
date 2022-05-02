@@ -309,6 +309,7 @@ ngx-datatable.shared-view-table {
     }
   }
   datatable-row-wrapper {
+    width: 100% !important;
     .datatable-group-header {
       text-align: center;
       background-color: rgba(255, 255, 255, 0.589) !important;
@@ -319,7 +320,7 @@ ngx-datatable.shared-view-table {
     .datatable-body-cell,
     .datatable-body-row {
       font-weight: lighter;
-      padding: 2px 8px !important;
+      padding: 2px 0px !important;
       white-space: normal !important;
       line-height: 1.25 !important;
     }

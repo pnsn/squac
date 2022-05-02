@@ -6,10 +6,9 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { MetricService } from "@metric/services/metric.service";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 @Component({
@@ -22,20 +21,37 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription = new Subscription();
   selectedMetric: Metric;
   selected = false;
-  options = {};
   columns = [];
   rows = [];
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
-  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private metricService: MetricService
-  ) {}
-
+  constructor(private route: ActivatedRoute) {}
+  options = {
+    messages: {
+      emptyMessage: "No metrics found.",
+      totalMessage: "metrics",
+    },
+    selectionType: "single",
+  };
+  controls = {
+    resource: "Metric",
+    add: {
+      text: "Add Metric",
+    },
+    actionMenu: {},
+    edit: {
+      text: "Edit Metric",
+    },
+    refresh: false,
+  };
+  filters = {
+    toggleShared: true,
+    searchField: {
+      text: "Type to filter...",
+    },
+  };
   ngOnInit() {
     if (this.route.parent) {
       this.metrics = this.route.parent.snapshot.data.metrics;
@@ -52,7 +68,6 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
           sortable: true,
           width: 300,
           canAutoResize: false,
-          cellTemplate: this.nameTemplate,
         },
         {
           name: "Default Min",
@@ -98,25 +113,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  addMetric() {
-    this.router.navigate(["new"], { relativeTo: this.route });
-  }
-
-  editMetric() {
-    this.router.navigate([`${this.selectedMetric.id}/edit`], {
-      relativeTo: this.route,
-    });
-  }
-
   onSelect($event) {
-    this.selected = true;
-    this.metricService.getMetric($event.selected[0].id).subscribe(
-      (metric) => {
-        this.selectedMetric = metric;
-      },
-      (error) => {
-        console.log("error in metrics view: " + error);
-      }
-    );
+    console.log($event);
   }
 }

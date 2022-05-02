@@ -34,15 +34,21 @@ export class DashboardViewComponent
   controls = {
     resource: "Dashboard",
     add: {
-      text: "Add Dashboard",
+      text: "Create Dashboard",
     },
-    editMenu: {},
+    actionMenu: {},
     edit: {
       text: "Edit",
     },
+    refresh: true,
   };
 
-  filters = {};
+  filters = {
+    toggleShared: true,
+    searchField: {
+      text: "Type to filter...",
+    },
+  };
 
   constructor(private route: ActivatedRoute) {}
 
@@ -83,9 +89,9 @@ export class DashboardViewComponent
       this.columns = [
         {
           name: "Dashboard Name",
+          prop: "name",
           draggable: false,
           sortable: true,
-          cellTemplate: this.nameTemplate,
         },
         { name: "Description", draggable: false, sortable: true },
         {

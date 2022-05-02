@@ -6,16 +6,26 @@
       </h2>
       <div id="controls">
         <button
+          *ngIf="controls.refresh"
           mat-icon-button
           aria-label="button that refreshes data"
           (click)="refreshResource()"
         >
           <mat-icon>refresh</mat-icon>
         </button>
+        <ng-container *ngIf="controls.links">
+          <button
+            *ngFor="let link of controls.links"
+            mat-button
+            [routerLink]="[link.path]"
+          >
+            {{ link.text }}
+          </button>
+        </ng-container>
         <button
           mat-button
           (click)="editResource()"
-          *ngIf="controls.edit && ('edit' | able: selectedRow)"
+          *ngIf="controls.edit && ('update' | able: selectedRow)"
           [disabled]="!selectedRow"
         >
           {{ controls.edit.text }}
@@ -34,12 +44,16 @@
     </div>
     <div id="head-bottom-row">
       <div id="filters">
-        <mat-form-field style="min-width: 250px">
+        <mat-form-field
+          style="min-width: 250px"
+          *ngIf="filters.searchField"
+          appearance="outline"
+        >
           <span matPrefix><mat-icon>search</mat-icon></span>
           <input
             type="text"
             matInput
-            placeholder="Type to filter..."
+            [placeholder]="filters.searchField.text"
             (keyup)="updateFilter($event)"
             [(ngModel)]="searchString"
           />
@@ -55,6 +69,7 @@
         </mat-form-field>
 
         <mat-button-toggle-group
+          *ngIf="filters.toggleShared"
           name="sharing"
           aria-label=""
           (change)="toggleSharing($event)"
@@ -75,8 +90,8 @@
       class="shared-view-table"
       [rows]="tableRows"
       [columns]="tableColumns"
-      [columnMode]="tableOptions.columnMode"
-      [selectionType]="tableOptions.selectionType"
+      [columnMode]="ColumnMode[tableOptions.columnMode]"
+      [selectionType]="SelectionType[tableOptions.selectionType]"
       [headerHeight]="tableOptions.headerHeight"
       [footerHeight]="tableOptions.footerHeight"
       [rowHeight]="tableOptions.rowHeight"
@@ -89,23 +104,34 @@
       [messages]="tableOptions.messages"
       (select)="onSelect($event)"
       (detailToggle)="onDetailToggle($event)"
-      [selected]="selectedRows"
+      [selected]="selected"
+      [groupRowsBy]="tableOptions.groupRowsBy"
+      [groupExpansionDefault]="tableOptions.groupExpansionDefault"
     >
-      <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
-      <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-        <div style="padding-left:5px;">
-          <a
-            href="#"
-            [class.datatable-icon-right]="!expanded"
-            [class.datatable-icon-down]="expanded"
-            title="Expand/Collapse Group"
-            (click)="toggleExpandGroup(group)"
-          >
-            <b>Age: {{ group.value[0].age }}</b>
-          </a>
-        </div>
-      </ng-template>
-    </ngx-datatable-group-header> -->
+      <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">
+        <ng-template
+          let-group1="group"
+          let-expanded1="expanded"
+          ngx-datatable-group-header-template
+        >
+          <ng-container
+            [ngTemplateOutlet]="groupHeaderTemplate"
+            [ngTemplateOutletContext]="{ group: group1, expanded: expanded1 }"
+          ></ng-container>
+        </ng-template>
+      </ngx-datatable-group-header>
+      <ngx-datatable-row-detail
+        #rowDetail
+        [rowHeight]="50"
+        *ngIf="rowDetailTemplate"
+      >
+        <ng-template let-row="row" ngx-datatable-row-detail-template>
+          <ng-container
+            [ngTemplateOutlet]="rowDetailTemplate"
+            [ngTemplateOutletContext]="{ row: row }"
+          ></ng-container>
+        </ng-template>
+      </ngx-datatable-row-detail>
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
@@ -118,6 +144,9 @@
           <ng-content select="[tableFooter]"></ng-content>
         </ng-template>
       </ngx-datatable-footer>
+      <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+        <a [routerLink]="[row.id]">{{ row.name }}</a>
+      </ng-template>
     </ngx-datatable>
   </div>
 </div>

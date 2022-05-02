@@ -15,9 +15,6 @@
   <ng-container tableFooter>
     <div>Footer content</div>
   </ng-container>
-  <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
-    <a [routerLink]="[row.id]">{{ row.name }}</a>
-  </ng-template>
   <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
     <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
     <ng-template #private>
