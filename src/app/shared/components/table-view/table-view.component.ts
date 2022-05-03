@@ -164,7 +164,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   addResource() {
     this.controlClicked.emit("add");
-    this.router.navigate(["new"], { relativeTo: this.route });
+    if (this.controls.add.path) {
+      this.router.navigate([this.controls.add.path, "new"], {
+        relativeTo: this.route,
+      });
+    } else {
+      this.router.navigate(["new"], { relativeTo: this.route });
+    }
   }
 
   refreshResource() {

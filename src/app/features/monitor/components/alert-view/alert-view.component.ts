@@ -47,6 +47,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
     resource: "Monitor",
     add: {
       text: "Create Monitor",
+      path: "/monitors",
     },
     refresh: true,
     links: [{ text: "View All Monitors", path: "/monitors" }],
