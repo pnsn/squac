@@ -10,14 +10,14 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { Subscription } from "rxjs";
+import { Subscription, tap, filter } from "rxjs";
 @Component({
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
@@ -98,6 +98,20 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.subscription.add(userServ);
+
+    if (this.controls.listenToRouter) {
+      console.log("refresh turned on");
+      const routerEvents = this.router.events
+        .pipe(
+          filter((e) => e instanceof NavigationEnd),
+          tap(() => {
+            console.log("refresh from router");
+            this.refreshResource();
+          })
+        )
+        .subscribe();
+      this.subscription.add(routerEvents);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -154,9 +168,62 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.itemSelected.next(this.selectedRow);
   }
 
+  menuOption(action) {
+    if (action === "edit") {
+      this.editResource();
+    } else if (action === "add") {
+      this.addResource();
+    } else if (action === "view") {
+      this.viewResource();
+    } else {
+      this.controlClicked.emit(action);
+    }
+  }
+
+  viewResource() {
+    this.controlClicked.emit("view");
+    let path;
+    if (this.controls.menu && this.controls.menu.path) {
+      path = this.controls.menu.path;
+    }
+    this.routeTo(this.selectedRow.id, null, path);
+  }
+
   editResource() {
     this.controlClicked.emit("edit");
-    this.router.navigate([this.selectedRow.id, "edit"], {
+    let path;
+    if (this.controls.edit && this.controls.edit.path) {
+      path = this.controls.edit.path;
+    } else if (this.controls.menu && this.controls.menu.path) {
+      path = this.controls.menu.path;
+    }
+    this.routeTo(this.selectedRow.id, "edit", path);
+  }
+
+  addResource() {
+    this.controlClicked.emit("add");
+    let path;
+    if (this.controls.add && this.controls.add.path) {
+      path = this.controls.add.path;
+    } else if (this.controls.menu && this.controls.menu.path) {
+      path = this.controls.menu.path;
+    }
+    this.routeTo(this.selectedRow.id, "new", path);
+  }
+
+  routeTo(resource, action?, path?) {
+    const route = [];
+    if (path) {
+      route.push(path);
+    }
+    if (resource) {
+      route.push(resource);
+    }
+    if (action) {
+      route.push(action);
+    }
+    console.log(route);
+    this.router.navigate(route, {
       relativeTo: this.route,
     });
   }
@@ -166,19 +233,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.tableRows = [...rows];
   }
 
-  addResource() {
-    this.controlClicked.emit("add");
-    if (this.controls.add.path) {
-      this.router.navigate([this.controls.add.path, "new"], {
-        relativeTo: this.route,
-      });
-    } else {
-      this.router.navigate(["new"], { relativeTo: this.route });
-    }
-  }
-
   refreshResource() {
-    this.controlClicked.emit("refresh");
+    this.refresh.emit(true);
   }
 
   onDetailToggle(event) {

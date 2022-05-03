@@ -5,6 +5,7 @@
   [columns]="columns"
   [controls]="controls"
   [filters]="filters"
+  (refresh)="refresh()"
 >
   <ng-container tableBody>
     <ng-template let-row="row" #stateTemplate>

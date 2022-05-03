@@ -45,6 +45,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   columns;
 
   controls = {
+    listenToRouter: true,
     resource: "Monitor",
     add: {
       text: "Create Monitor",
@@ -128,6 +129,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
           name: "Trigger",
           width: 200,
           cellTemplate: this.triggerTemplate,
+          sortable: false,
         },
         {
           name: "Breaching Channels",

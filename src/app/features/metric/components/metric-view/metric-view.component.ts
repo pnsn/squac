@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { MetricService } from "@features/metric/services/metric.service";
 
 @Component({
   selector: "metric-view",
@@ -20,7 +21,10 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private metricService: MetricService
+  ) {}
   options = {
     messages: {
       emptyMessage: "No metrics found.",
@@ -47,6 +51,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
       props: ["owner", "orgId", "name", "description"],
     },
   };
+
   ngOnInit() {
     if (this.route.parent) {
       this.metrics = this.route.parent.snapshot.data.metrics;
@@ -108,7 +113,24 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  onSelect($event) {
-    console.log($event);
+  refresh() {
+    this.metricService.getMetrics().subscribe((metrics) => {
+      this.metrics = metrics;
+      this.rows = [...this.rows];
+    });
   }
+  // onSelect function for data table selection
+  // onSelect(selectedRow) {
+  //   this.selectedRowId = selectedRow.id;
+  // }
+
+  // onClick(event) {
+  //   if (event === "delete" && this.selectedRowId) {
+  //     this.metricsService
+  //       .deleteDashboard(this.selectedRowId)
+  //       .subscribe(() => {
+  //         this.refresh();
+  //       });
+  //   }
+  // }
 }

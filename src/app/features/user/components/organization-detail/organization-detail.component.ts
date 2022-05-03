@@ -30,17 +30,15 @@ export class OrganizationDetailComponent
   rows;
   columns;
   selectedId;
-  selected = [];
+  selected: User;
 
   controls = {
     resource: "Organization",
     add: {
       text: "Add User", //      *ngIf="isAdmin"
+      path: "user",
     },
-    actionMenu: {},
-    edit: {
-      text: "Edit User",
-    },
+    menu: {},
     refresh: true,
     links: [{ text: "View All Organizations", path: "../" }],
   };
@@ -94,20 +92,29 @@ export class OrganizationDetailComponent
         (this.user.orgAdmin && this.user.orgId === this.organization.id);
     });
 
-    const routerEvents = this.router.events
-      .pipe(
-        filter((e) => e instanceof NavigationEnd),
-        tap((e: NavigationEnd) => {
-          if (
-            e.urlAfterRedirects.toString() ===
-            `/user/organizations/${this.organization.id}`
-          ) {
-            this.refreshOrgUsers();
-          }
-        })
-      )
-      .subscribe();
-    this.subscription.add(routerEvents);
+    if (this.isAdmin) {
+      this.controls.menu = {
+        text: "Actions",
+        path: "user",
+        options: [
+          {
+            text: "Edit",
+            permission: "update",
+            action: "edit",
+          },
+          {
+            text: "Send Invite",
+            action: "invite",
+          },
+          {
+            text: "Deactivate",
+            permission: "delete",
+            action: "deactivate",
+          },
+        ],
+      };
+    }
+
     this.subscription.add(orgSub);
   }
   buildColumns() {
@@ -210,15 +217,36 @@ export class OrganizationDetailComponent
     this.subscription.unsubscribe();
   }
 
-  addUser(id: number) {
-    if (id) {
-      this.router.navigate(["user", id, "edit"], { relativeTo: this.route });
-    } else {
-      this.router.navigate(["user", "new"], { relativeTo: this.route });
+  onClick(event) {
+    if (event === "deactivate" && this.selectedId) {
+      this.deactivateUser();
+    } else if (event === "invite" && this.selectedId) {
+      this.sendInvite();
     }
   }
 
-  refreshOrgUsers() {
+  onSelect(row: User) {
+    this.selectedId = row.id;
+    this.selected = row;
+  }
+
+  deactivateUser() {
+    if (this.selected) {
+      this.selected.isActive = false;
+      this.orgService.updateUser(this.selected).subscribe({
+        next: () => {
+          this.messageService.message("User deactivated.");
+          this.refresh();
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.error(error);
+        },
+      });
+    }
+  }
+
+  refresh() {
     this.orgService
       .getOrganizationUsers(this.organization.id)
       .subscribe((users) => {
@@ -226,34 +254,11 @@ export class OrganizationDetailComponent
         this.rows = [...this.organization.users];
       });
   }
-
-  // onSelect function for data table selection
-  onSelect($event) {
-    const selectedId = $event.selected[0].id;
-    if (selectedId) {
-      // this.router.navigate([selectedId, "edit"], { relativeTo: this.route });
-      this.selectedId = selectedId;
-      this.selectUser(selectedId);
-    }
-  }
-
-  selectUser(selectedId) {
-    this.selected = this.rows.filter((d) => {
-      // Select row with channel group
-      return d.id === selectedId;
-    });
-  }
-  //deactivateUser
-
-  activate() {
-    console.log("activate user");
-  }
-
   sendInvite() {
     this.inviteService.sendInviteToUser(this.selectedId).subscribe({
       next: () => {
         this.messageService.message("Invitation email sent.");
-        this.refreshOrgUsers();
+        this.refresh();
       },
       error: (error) => {
         console.log(error);

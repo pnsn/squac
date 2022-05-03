@@ -3,9 +3,9 @@
   [options]="options"
   [rows]="rows"
   [columns]="columns"
-  (itemSelected)="onSelect($event)"
   [controls]="controls"
   [filters]="filters"
+  (refresh)="refresh()"
 >
   <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
     <a [routerLink]="[row.refUrl]">{{ row.name }}</a>

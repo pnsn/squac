@@ -30,6 +30,26 @@
         >
           {{ controls.edit.text }}
         </button>
+        <mat-menu #menu>
+          <ng-container *ngFor="let item of controls.menu?.options">
+            <button
+              mat-menu-item
+              (click)="menuOption(item.action)"
+              *ngIf="item.permission | able: selectedRow"
+            >
+              {{ item.text }}
+            </button>
+          </ng-container>
+        </mat-menu>
+        <button
+          mat-flat-button
+          *ngIf="controls.menu"
+          [matMenuTriggerFor]="menu"
+          [disabled]="!selectedRow"
+        >
+          {{ controls.menu.text }}
+        </button>
+
         <button
           mat-flat-button
           color="accent"

@@ -48,6 +48,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   columns;
 
   controls = {
+    listenToRouter: true,
     resource: "Monitor",
     add: {
       text: "Create Monitor",
@@ -144,8 +145,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
           cellTemplate: this.updateTemplate,
         },
         {
-          name: "Breaching channels",
+          name: "# channels",
           canAutoResize: false,
+          sortable: false,
           width: 100,
           cellTemplate: this.channelsTemplate,
         },
