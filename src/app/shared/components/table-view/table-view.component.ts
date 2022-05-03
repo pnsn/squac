@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -121,7 +120,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   processColumns() {
-    this.columns.forEach((col, i) => {
+    this.columns.forEach((col) => {
       if (col.prop === "owner" || col.name === "Owner") {
         col.pipe = this.userPipe;
         col.comparator = this.userComparator.bind(this);
@@ -259,3 +258,29 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 }
+
+// options = {
+//  **any of table options**
+//   autoRouteToDetail: false,
+//   footerLabel: "Metrics",
+// };
+// controls = {
+//   resource: "Metric",
+//   add: {
+//     text: "Add Metric",
+//     path?: "/metric"
+//   },
+//   actionMenu: {},
+//   edit: {
+//     text: "Edit Metric",
+//   },
+//   refresh: false,
+// };
+// filters = {
+//   toggleShared: true,
+//   searchField: {
+//     text: "Type to filter...",
+//   },
+//   dateFilter: {}
+//
+// };

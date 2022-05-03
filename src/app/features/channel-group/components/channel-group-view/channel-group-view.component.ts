@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Subscription } from "rxjs";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";

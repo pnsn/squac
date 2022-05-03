@@ -34,8 +34,7 @@ export class AlertResolver implements Resolve<Observable<any>> {
     } else {
       this.loadingService.setStatus("Loading alerts for last day");
       const lastday = this.dateService.subtractFromNow(1, "day").format();
-      return this.alertService.getAlerts().pipe(
-        // return this.alertService.getAlerts({ starttime: lastday }).pipe(
+      return this.alertService.getAlerts({ starttime: lastday }).pipe(
         catchError((error) => {
           this.messageService.error("Could not load alerts.");
           return this.handleError(error);

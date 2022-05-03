@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -19,7 +20,7 @@ import { mergeMap, Subscription, tap } from "rxjs";
   templateUrl: "./alert-view.component.html",
   styleUrls: ["./alert-view.component.scss"],
 })
-export class AlertViewComponent implements OnInit, OnDestroy {
+export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   alerts: Alert[];
   interval;
   // Table stuff

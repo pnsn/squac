@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  TemplateRef,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { OrganizationService } from "@user/services/organization.service";
 import { User } from "@user/models/user";
 import { Organization } from "@user/models/organization";

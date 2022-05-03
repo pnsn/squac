@@ -6,7 +6,6 @@ import { MetricComponent } from "./components/metric/metric.component";
 import { MetricResolver } from "./metric.resolver";
 import { MetricViewComponent } from "./components/metric-view/metric-view.component";
 import { MetricEditComponent } from "./components/metric-edit/metric-edit.component";
-import { MetricDetailComponent } from "./components/metric-detail/metric-detail.component";
 
 // TODO: fix this weird routing set up
 export const routes: Routes = [
