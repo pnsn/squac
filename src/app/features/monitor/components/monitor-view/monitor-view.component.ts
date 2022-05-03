@@ -108,19 +108,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.selectMonitor(this.selectedMonitorId);
     }
 
-    const routerEvents = this.router.events
-      .pipe(
-        filter((e) => e instanceof NavigationEnd),
-        tap((e: NavigationEnd) => {
-          if (e.urlAfterRedirects.toString() === "/monitors") {
-            this.refresh();
-          }
-        })
-      )
-      .subscribe();
-
     this.makeRows();
-    this.subscription.add(routerEvents);
   }
 
   ngAfterViewInit(): void {

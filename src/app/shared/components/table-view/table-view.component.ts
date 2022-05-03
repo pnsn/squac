@@ -54,6 +54,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   selected = [];
   selectedRow;
   user: User;
+  clickCount = 0;
   constructor(
     private userService: UserService,
     private orgService: OrganizationService,
@@ -100,17 +101,20 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.add(userServ);
 
     if (this.controls.listenToRouter) {
-      // console.log("refresh turned on");
-      // const routerEvents = this.router.events
-      //   .pipe(
-      //     filter((e) => e instanceof NavigationEnd),
-      //     tap(() => {
-      //       console.log("refresh from router");
-      //       this.refreshResource();
-      //     })
-      //   )
-      //   .subscribe();
-      // this.subscription.add(routerEvents);
+      const currentPath = this.router.routerState.snapshot.url;
+      const routerEvents = this.router.events
+        .pipe(
+          filter((e) => e instanceof NavigationEnd),
+          tap((e: NavigationEnd) => {
+            console.log(currentPath, e.urlAfterRedirects);
+            if (e.urlAfterRedirects.toString() === currentPath) {
+              this.refreshResource();
+            }
+          })
+        )
+        .subscribe();
+
+      this.subscription.add(routerEvents);
     }
   }
 
@@ -121,7 +125,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.processColumns();
     }
     if (changes.rows && changes.rows.currentValue) {
-      console.log("row changes");
       this.tableRows = [...this.rows];
     }
     if (changes.selectedRowId && changes.selectedRowId) {
@@ -153,9 +156,20 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.tableColumns = [...this.columns];
   }
 
+  // selected id, view resource if doubleclicked
   onSelect(event) {
     if (event.selected) {
+      if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
+        this.clickCount++;
+      } else {
+        this.clickCount = 0;
+      }
       this.selectResource(event.selected[0].id);
+      //view resource if doubleclicked
+      if (this.clickCount === 2) {
+        this.clickCount = 0;
+        this.viewResource();
+      }
     }
   }
 
@@ -222,7 +236,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (action) {
       route.push(action);
     }
-    console.log(route);
     this.router.navigate(route, {
       relativeTo: this.route,
     });
@@ -252,7 +265,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleSharing(event) {
     let temp;
-    console.log(event);
     if (event.value === "user") {
       temp = this.rows.filter((row) => {
         return this.user.id === row.owner;

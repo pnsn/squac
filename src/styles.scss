@@ -277,7 +277,12 @@ ngx-datatable {
         .mat-form-field-outline-end {
           border-radius: 0;
         }
-        .mat-form-field-appearance-outline {
+        &.mat-form-field-outline-thick {
+          color: $sq-blue;
+          .mat-form-field-outline-start,
+          .mat-form-field-outline-end {
+            border-width: 1px;
+          }
         }
       }
       .mat-form-field-infix {
