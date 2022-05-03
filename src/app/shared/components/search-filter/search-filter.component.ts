@@ -9,7 +9,7 @@ import { UserPipe } from "@shared/pipes/user.pipe";
   templateUrl: "./search-filter.component.html",
   styleUrls: ["./search-filter.component.scss"],
 })
-export class SearchFilterComponent implements OnInit {
+export class SearchFilterComponent {
   userPipe;
   orgPipe;
   searchString;
@@ -25,8 +25,6 @@ export class SearchFilterComponent implements OnInit {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
   }
-
-  ngOnInit(): void {}
 
   // search for value in the table rows
   update(event) {

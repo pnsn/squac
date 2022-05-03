@@ -100,17 +100,17 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.add(userServ);
 
     if (this.controls.listenToRouter) {
-      console.log("refresh turned on");
-      const routerEvents = this.router.events
-        .pipe(
-          filter((e) => e instanceof NavigationEnd),
-          tap(() => {
-            console.log("refresh from router");
-            this.refreshResource();
-          })
-        )
-        .subscribe();
-      this.subscription.add(routerEvents);
+      // console.log("refresh turned on");
+      // const routerEvents = this.router.events
+      //   .pipe(
+      //     filter((e) => e instanceof NavigationEnd),
+      //     tap(() => {
+      //       console.log("refresh from router");
+      //       this.refreshResource();
+      //     })
+      //   )
+      //   .subscribe();
+      // this.subscription.add(routerEvents);
     }
   }
 
@@ -208,7 +208,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     } else if (this.controls.menu && this.controls.menu.path) {
       path = this.controls.menu.path;
     }
-    this.routeTo(this.selectedRow.id, "new", path);
+    this.routeTo(null, "new", path);
   }
 
   routeTo(resource, action?, path?) {
