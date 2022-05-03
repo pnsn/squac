@@ -30,12 +30,41 @@ export class AlertViewComponent implements OnInit, OnDestroy {
   refreshInProgress = false;
   subscription = new Subscription();
   @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
+  @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
+  @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
+  @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
   constructor(
     private alertService: AlertService,
     private route: ActivatedRoute,
     private monitorService: MonitorService,
     private dateService: DateService
   ) {}
+
+  rows;
+  columns;
+
+  controls = {
+    resource: "Monitor",
+    add: {
+      text: "Create Monitor",
+    },
+    refresh: true,
+    links: [{ text: "View All Monitors", path: "/monitors" }],
+  };
+
+  filters = {
+    dateFilter: {},
+    searchField: {
+      text: "Type to filter...",
+    },
+  };
+
+  options = {
+    messages: {
+      emptyMessage: "No alerts found.",
+    },
+    footerLabel: "Alerts",
+  };
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((data) => {
@@ -47,6 +76,52 @@ export class AlertViewComponent implements OnInit, OnDestroy {
         this.findMonitorForAlerts(data.alerts);
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    setTimeout(() => {
+      this.columns = [
+        {
+          name: "State",
+          sortable: false,
+          width: 60,
+          minWidth: 60,
+          canAutoResize: false,
+          cellTemplate: this.stateTemplate,
+        },
+        {
+          name: "Time",
+          prop: "",
+
+          canAutoResize: false,
+          cellTemplate: this.updateTemplate,
+        },
+        {
+          name: "Monitor",
+          canAutoResize: false,
+          width: 150,
+          pipe: {
+            transform: (monitor) => {
+              return monitor.name;
+            },
+          },
+        },
+        {
+          name: "Trigger",
+          width: 200,
+          cellTemplate: this.triggerTemplate,
+        },
+        {
+          name: "Breaching Channels",
+          prop: "breaching_channels",
+          sortable: false,
+          width: 50,
+          cellTemplate: this.channelsTemplate,
+        },
+      ];
+    }, 0);
   }
 
   refresh() {
@@ -84,6 +159,7 @@ export class AlertViewComponent implements OnInit, OnDestroy {
         return alert;
       });
     }
+    this.rows = [...this.alerts];
   }
 
   ngOnDestroy(): void {

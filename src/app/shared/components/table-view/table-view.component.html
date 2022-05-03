@@ -68,7 +68,7 @@
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
-
+        <div *ngIf="filters.dateFilter">date filter!</div>
         <mat-button-toggle-group
           id="toggle-shared-filter"
           *ngIf="filters.toggleShared"
@@ -146,7 +146,7 @@
           <ng-container *ngIf="!tableFooterTemplate">
             <div></div>
             <div>
-              Showing {{ tableRows.length }} of {{ rows.length }}
+              Showing {{ tableRows?.length }} of {{ rows?.length }}
               {{
                 tableOptions.footerLabel
                   ? tableOptions.footerLabel
