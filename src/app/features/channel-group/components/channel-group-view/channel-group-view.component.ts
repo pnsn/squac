@@ -40,12 +40,11 @@ export class ChannelGroupViewComponent
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
   columns;
-  options;
   rows;
   searchString;
   userId;
   orgId;
-  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
+  activeChannelId;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -56,6 +55,32 @@ export class ChannelGroupViewComponent
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
   }
+
+  options = {
+    messages: {
+      emptyMessage: "No channel groups found.",
+    },
+    footerLabel: "Channel Groups",
+    selectionType: "single",
+  };
+  controls = {
+    resource: "ChannelGroup",
+    add: {
+      text: "Create ChannelGroup",
+    },
+    actionMenu: {},
+    edit: {
+      text: "Edit",
+    },
+    refresh: true,
+  };
+
+  filters = {
+    toggleShared: true,
+    searchField: {
+      text: "Type to filter...",
+    },
+  };
 
   ngOnInit() {
     this.selected = [];
@@ -115,7 +140,6 @@ export class ChannelGroupViewComponent
           name: "Name",
           draggable: false,
           sortable: true,
-          cellTemplate: this.nameTemplate,
         },
         { name: "Description", draggable: false, sortable: true },
         {

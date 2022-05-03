@@ -10,9 +10,6 @@
 >
   <!-- [rowDetailTemplate]="rowDetailTemplate" -->
 </shared-table-view>
-<ng-template #rowDetailTemplate let-row="row">
-  <div>{{ row.id }}</div>
-</ng-template>
 <ng-template #groupHeaderTemplate let-group="group" let-expanded="expanded">
   <div
     class="monitor-container"
@@ -65,7 +62,6 @@
       mat-icon-button
       color="accent"
       aria-label="monitor in alarm"
-      matTooltip="View alert"
     >
       <mat-icon>error_outline</mat-icon>
     </a>
@@ -76,7 +72,6 @@
       aria-label="
             monitor not in alarm
           "
-      matTooltip="View alert"
     >
       <mat-icon>check_circle_outline</mat-icon>
     </a>

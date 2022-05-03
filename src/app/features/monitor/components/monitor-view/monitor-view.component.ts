@@ -75,8 +75,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     groupExpansionDefault: true,
     messages: {
       emptyMessage: "No monitors found.",
-      totalMessage: "monitors",
     },
+    footerLabel: "Monitors",
   };
 
   ngOnInit(): void {

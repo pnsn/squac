@@ -45,6 +45,7 @@
     <div id="head-bottom-row">
       <div id="filters">
         <mat-form-field
+          id="search-filter"
           style="min-width: 250px"
           *ngIf="filters.searchField"
           appearance="outline"
@@ -69,6 +70,7 @@
         </mat-form-field>
 
         <mat-button-toggle-group
+          id="toggle-shared-filter"
           *ngIf="filters.toggleShared"
           name="sharing"
           aria-label=""
@@ -90,8 +92,8 @@
       class="shared-view-table"
       [rows]="tableRows"
       [columns]="tableColumns"
-      [columnMode]="ColumnMode[tableOptions.columnMode]"
-      [selectionType]="SelectionType[tableOptions.selectionType]"
+      [columnMode]="tableOptions.columnMode"
+      [selectionType]="tableOptions.selectionType"
       [headerHeight]="tableOptions.headerHeight"
       [footerHeight]="tableOptions.footerHeight"
       [rowHeight]="tableOptions.rowHeight"
@@ -135,13 +137,30 @@
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
+          let-selectedCount="selectedCount"
           let-rowCount="rowCount"
           let-pageSize="pageSize"
-          let-selectedCount="selectedCount"
           let-curPage="curPage"
           let-offset="offset"
         >
-          <ng-content select="[tableFooter]"></ng-content>
+          <ng-container *ngIf="!tableFooterTemplate">
+            <div></div>
+            <div>
+              Showing {{ tableRows.length }} of {{ rows.length }}
+              {{
+                tableOptions.footerLabel
+                  ? tableOptions.footerLabel
+                  : controls.resource + "s"
+              }}
+            </div>
+          </ng-container>
+          <ng-container
+            [ngTemplateOutlet]="tableFooterTemplate"
+            [ngTemplateOutletContext]="{
+              rowCount: rowCount,
+              selectedCount: selectedCount
+            }"
+          ></ng-container>
         </ng-template>
       </ngx-datatable-footer>
       <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>

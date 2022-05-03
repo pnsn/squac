@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -78,12 +79,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     sorts: [],
     groupRowsBy: undefined,
     groupExpansionDefault: false,
+    autoRouteToDetail: true,
     messages: {
       emptyMessage: "No data",
       totalMessage: "total",
     },
   };
-
+  //doubleclick on row to view detail?
   ngOnInit() {
     Object.keys(this.options).forEach((key) => {
       if (this.options[key]) {
@@ -103,7 +105,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(changes);
     if (changes.columns && changes.columns.currentValue) {
       this.processColumns();
     }
@@ -119,6 +120,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   processColumns() {
     this.columns.forEach((col, i) => {
       if (col.prop === "owner" || col.name === "Owner") {
@@ -129,7 +131,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.pipe = this.orgPipe;
         col.comparator = this.orgComparator.bind(this);
       }
-      if (col.prop === "name" || col.name === "Name") {
+      if (
+        this.tableOptions.autoRouteToDetail &&
+        (col.prop === "name" || col.name === "Name")
+      ) {
         col.cellTemplate = this.nameTemplate;
       }
     });
@@ -149,7 +154,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
     this.selectedRow = this.selected[0];
     this.itemSelected.next(this.selectedRow);
-    console.log(this.selected);
   }
 
   editResource() {

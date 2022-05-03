@@ -257,7 +257,53 @@ ngx-datatable {
     line-height: 1.25 !important;
   }
 }
-
+#table-view-container {
+  #filters,
+  #controls {
+    #search-filter {
+      .mat-form-field-flex {
+        align-items: center;
+        height: 38px;
+        padding: 0 0 0 5px;
+      }
+      .mat-form-field-wrapper {
+        margin: 0;
+        padding-bottom: 0;
+      }
+      .mat-form-field-outline {
+        .mat-form-field-outline-start,
+        .mat-form-field-outline-end {
+          border-radius: 0;
+        }
+        .mat-form-field-appearance-outline {
+        }
+      }
+      .mat-form-field-infix {
+        padding: 3px 0 0 0;
+        border-top: none;
+        .mat-form-field-label-wrapper {
+          padding-top: 0;
+        }
+      }
+      .mat-form-field-prefix,
+      .mat-form-field-suffix {
+        top: 0.15em;
+      }
+    }
+    #toggle-shared-filter {
+      &.mat-button-toggle-group-appearance-standard {
+        border-radius: 0px;
+      }
+      .mat-button-toggle-button {
+        span {
+          width: 52px;
+          padding: 3px 6px !important;
+          line-height: 2 !important;
+        }
+      }
+    }
+  }
+}
 ngx-datatable.shared-view-table {
   .datatable-body {
     max-height: 80vh;
@@ -302,10 +348,7 @@ ngx-datatable.shared-view-table {
   datatable-footer {
     border-top: $default-border;
     .datatable-footer-inner {
-      .page-count {
-        display: inline-block;
-        padding: 0px 10px;
-      }
+      padding: 0px 10px;
     }
   }
   datatable-row-wrapper {
@@ -320,9 +363,15 @@ ngx-datatable.shared-view-table {
     .datatable-body-cell,
     .datatable-body-row {
       font-weight: lighter;
-      padding: 2px 0px !important;
+
       white-space: normal !important;
       line-height: 1.25 !important;
+    }
+    .datatable-body-row {
+      padding: 2px 0px !important;
+    }
+    .datatable-body-cell {
+      padding: 1px 8px !important;
     }
     .datatable-body-row {
       border-bottom: $light-border;
@@ -352,7 +401,7 @@ ngx-datatable.shared-view-table {
 }
 .datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group {
-  background-color: $sq-lt-blue !important;
+  background-color: lighten($sq-lt-blue, 20%) !important;
 }
 .datatable-body-row:hover,
 .datatable-body-row:hover .datatable-row-group {

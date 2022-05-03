@@ -27,8 +27,9 @@ export class DashboardViewComponent
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   options = {
     messages: {
-      emptyMessage: "You have no dashboards.",
+      emptyMessage: "No dashboards found.",
     },
+    footerLabel: "Dashboards",
     selectionType: "single",
   };
   controls = {

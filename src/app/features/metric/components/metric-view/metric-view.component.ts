@@ -31,9 +31,10 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   options = {
     messages: {
       emptyMessage: "No metrics found.",
-      totalMessage: "metrics",
     },
     selectionType: "single",
+    autoRouteToDetail: false,
+    footerLabel: "Metrics",
   };
   controls = {
     resource: "Metric",
