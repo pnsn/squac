@@ -1,6 +1,13 @@
-<shared-table-view title="{{ organization.name }} Organization">
+<shared-table-view
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  [controls]="controls"
+  [filters]="filters"
+  title="{{ organization.name }} Organization"
+>
   <ng-container tableHeadControls>
-    <a mat-button color="primary" [routerLink]="['../']"
+    <!-- <a mat-button color="primary" [routerLink]="['../']"
       >View All Organizations</a
     >
     <button
@@ -10,21 +17,7 @@
       (click)="addUser()"
     >
       <mat-icon>add</mat-icon> Add User
-    </button>
-  </ng-container>
-  <ng-container tableHeadFilters>
-    <p>
-      You are {{ user.orgId === organization.id ? "" : "not " }}part of this
-      organization.
-    </p>
-    <a
-      mat-stroked-button
-      [routerLink]="['user', selectedId, 'edit']"
-      [disabled]="!selectedId"
-      *ngIf="isAdmin"
-    >
-      Edit User
-    </a>
+    </button> -->
     <button
       mat-button
       [disabled]="!selectedId"
@@ -34,22 +27,11 @@
       Resend Invite
     </button>
   </ng-container>
-  <ng-container tableBody options="options">
-    <ngx-datatable
-      #userTable
-      class="shared-view-table"
-      [rows]="rows"
-      [columnMode]="ColumnMode.force"
-      [headerHeight]="30"
-      [footerHeight]="50"
-      [columns]="columns"
-      [scrollbarH]="false"
-      [reorderable]="false"
-      [selectionType]="SelectionType.single"
-      [selected]="selected"
-      (select)="onSelect($event)"
-    >
-    </ngx-datatable>
+  <ng-container tableHeadFilters>
+    <p>
+      You are {{ user.orgId === organization.id ? "" : "not " }}part of this
+      organization.
+    </p>
   </ng-container>
 </shared-table-view>
 <div id="roles-container">

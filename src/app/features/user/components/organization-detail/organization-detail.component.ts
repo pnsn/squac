@@ -31,8 +31,6 @@ export class OrganizationDetailComponent
   inviteSent: boolean;
   subscription: Subscription = new Subscription();
   error: string;
-  @ViewChild("userTable") table: any;
-  @ViewChild("editTemplate") editTemplate: TemplateRef<any>;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   expanded: any = {};
@@ -40,6 +38,31 @@ export class OrganizationDetailComponent
   columns;
   selectedId;
   selected = [];
+
+  controls = {
+    resource: "Organization",
+    add: {
+      text: "Add User", //      *ngIf="isAdmin"
+    },
+    actionMenu: {},
+    edit: {
+      text: "Edit User",
+    },
+    refresh: true,
+    links: [{ text: "View All Organizations", path: "../" }],
+  };
+
+  filters = {};
+
+  options = {
+    autoRouteToDetail: false,
+    messages: {
+      emptyMessage: "No users found.",
+    },
+    footerLabel: "Users",
+    selectionType: "single",
+  };
+
   groups = [
     {
       id: 1,
@@ -103,7 +126,9 @@ export class OrganizationDetailComponent
           // canAutoResize: false,
           // width: 70,
           pipe: {
-            transform: this.namePipe,
+            transform: (row) => {
+              return row ? row.firstName + " " + row.lastName : "";
+            },
           },
         },
         {
@@ -123,7 +148,11 @@ export class OrganizationDetailComponent
           name: "Last Login",
           prop: "lastLogin",
           pipe: {
-            transform: this.datePipe,
+            transform: (value) => {
+              return value
+                ? new Date(value).toLocaleString("en-US").split(",")[0]
+                : "";
+            },
           },
           canAutoResize: false,
           width: 100,
@@ -149,7 +178,10 @@ export class OrganizationDetailComponent
           // canAutoResize: false,
           // width: 70,
           pipe: {
-            transform: this.namePipe,
+            transform: (row) => {
+              console.log(row);
+              return row ? row.firstName + " " + row.lastName : "";
+            },
           },
         },
         {
@@ -179,14 +211,6 @@ export class OrganizationDetailComponent
     setTimeout(() => {
       this.buildColumns();
     }, 0);
-  }
-
-  datePipe(value: string) {
-    return value ? new Date(value).toLocaleString("en-US").split(",")[0] : "";
-  }
-
-  namePipe(row: any) {
-    return row ? row.firstName + " " + row.lastName : "";
   }
 
   ngOnDestroy() {

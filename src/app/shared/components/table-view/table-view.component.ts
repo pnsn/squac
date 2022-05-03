@@ -95,7 +95,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
-        console.log(this.user);
       },
     });
 
@@ -132,7 +131,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.comparator = this.orgComparator.bind(this);
       }
       if (
-        this.tableOptions.autoRouteToDetail &&
+        this.options.autoRouteToDetail &&
         (col.prop === "name" || col.name === "Name")
       ) {
         col.cellTemplate = this.nameTemplate;
