@@ -42,36 +42,22 @@ export class SearchFilterComponent implements OnInit {
           props = this.config.props.filter((prop) => {
             // prop has no children and row has prop
             if (typeof prop === "string" && row[prop]) {
-              console.log("prop is string", prop);
               switch (prop) {
                 // special case to turn owner id to name string
                 case "owner":
-                  return (
-                    this.userPipe
-                      .transform(row.owner)
-                      .toLowerCase()
-                      .indexOf(val) !== -1
-                  );
+                  return this.hasValue(this.userPipe.transform(row.owner), val);
+
                 // special case to turn org id to name string
                 case "orgId":
-                  return (
-                    this.orgPipe
-                      .transform(row.orgId)
-                      .toLowerCase()
-                      .indexOf(val) !== -1
-                  );
+                  return this.hasValue(this.orgPipe.transform(row.orgId), val);
 
                 default:
-                  return row[prop].toLowerCase().indexOf(val) !== -1;
+                  return this.hasValue(row[prop], val);
               }
               // prop has child props and row has child prop value
             } else if (prop.prop && row[prop.prop]) {
-              console.log(prop.prop);
-              const tem2 = this.iterateProps(val, prop, row[prop.prop]);
-              console.log("iterate results", tem2);
-              return tem2;
+              return this.iterateProps(val, prop, row[prop.prop]);
             }
-            console.log("no result", prop, row);
             return false;
           });
           return props.length > 0;
@@ -95,32 +81,20 @@ export class SearchFilterComponent implements OnInit {
   //   ]
   // ]
   iterateProps(val, prop, row): boolean {
-    console.log(prop, row);
-    //prop: {prop: "", props:[]}
-
     // row has prop
     if (row[prop]) {
-      console.log("has prop", prop, row);
-      const r = this.hasValue(row[prop], val);
-      console.log(r);
-      return r;
+      return this.hasValue(row[prop], val);
     }
 
     //prop has props
     const temp = prop.props.filter((childProp) => {
       // childprop has children, search deeper
       if (childProp.prop) {
-        console.log("iterate child  prop", childProp, row);
-        const r = this.iterateProps(val, childProp, row[childProp.prop]);
-        console.log(r);
-        return r;
+        return this.iterateProps(val, childProp, row[childProp.prop]);
       }
       // row has childprop
       if (row[childProp] && typeof row[childProp] === "string") {
-        console.log("child prop has value", childProp, row);
-        const r = this.hasValue(row[childProp], val);
-        console.log(r);
-        return r;
+        return this.hasValue(row[childProp], val);
       }
       //handle array row
       //[{channel:"", value:""}]
@@ -128,14 +102,11 @@ export class SearchFilterComponent implements OnInit {
         console.log("row is array", childProp, row);
         //iterate row values and check
         const childTemp = row.filter((rowValue) => {
-          const r = this.iterateProps(val, childProp, rowValue);
-          console.log(r);
-          return r;
+          return this.iterateProps(val, childProp, rowValue);
         });
 
         return childTemp.length > 0;
       }
-      console.log("now results", childProp, row);
       return false;
     });
 
