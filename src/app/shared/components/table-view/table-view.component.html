@@ -44,31 +44,15 @@
     </div>
     <div id="head-bottom-row">
       <div id="filters">
-        <mat-form-field
-          id="search-filter"
-          style="min-width: 250px"
+        <shared-search-filter
           *ngIf="filters.searchField"
-          appearance="outline"
+          [config]="filters.searchField"
+          [rows]="rows"
+          (filterChanged)="searchFieldChanged($event)"
         >
-          <span matPrefix><mat-icon>search</mat-icon></span>
-          <input
-            type="text"
-            matInput
-            [placeholder]="filters.searchField.text"
-            (keyup)="updateFilter($event)"
-            [(ngModel)]="searchString"
-          />
-          <button
-            *ngIf="searchString"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="removeFilter()"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <div *ngIf="filters.dateFilter">date filter!</div>
+        </shared-search-filter>
+
+        <div *ngIf="filters.dateFilter"></div>
         <mat-button-toggle-group
           id="toggle-shared-filter"
           *ngIf="filters.toggleShared"

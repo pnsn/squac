@@ -16,9 +16,11 @@ import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
+import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
 
 @NgModule({
   declarations: [
+    SearchFilterComponent,
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
@@ -58,6 +60,7 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     SharedIndicatorComponent,
     UserPipe,
     TableViewComponent,
+    SearchFilterComponent,
   ],
 })
 export class SharedModule {}

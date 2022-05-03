@@ -58,6 +58,20 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     dateFilter: {},
     searchField: {
       text: "Type to filter...",
+      props: [
+        "owner",
+        { prop: "breaching_channels", props: ["channel"] },
+        {
+          prop: "monitor",
+          props: [
+            "name",
+            "stat",
+
+            { prop: "channelGroup", props: ["name"] },
+            { prop: "metric", props: ["name"] },
+          ],
+        },
+      ],
     },
   };
 

@@ -48,6 +48,7 @@ export class DashboardViewComponent
     toggleShared: true,
     searchField: {
       text: "Type to filter...",
+      props: ["owner", "orgId", "name", "description"],
     },
   };
 

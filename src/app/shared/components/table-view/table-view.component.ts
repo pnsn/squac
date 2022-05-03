@@ -161,6 +161,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  searchFieldChanged(rows) {
+    this.hideShared = false;
+    this.tableRows = [...rows];
+  }
+
   addResource() {
     this.controlClicked.emit("add");
     if (this.controls.add.path) {
@@ -187,33 +192,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
-  }
-
-  updateFilter(event) {
-    let val = event.target.value;
-
-    if (val) {
-      this.hideShared = false;
-      val = val.toLowerCase();
-      // filter our data
-      const temp = this.rows.filter((row) => {
-        const test =
-          row.name?.toLowerCase().indexOf(val) !== -1 ||
-          row.description?.toLowerCase().indexOf(val) !== -1 ||
-          this.userPipe.transform(row.owner).toLowerCase().indexOf(val) !==
-            -1 ||
-          this.userPipe.transform(row.orgId).toLowerCase().indexOf(val) !== -1;
-
-        return test;
-      });
-      this.tableRows = temp;
-    }
-    // this.table.offset = 0;
-  }
-
-  removeFilter() {
-    this.tableRows = [...this.rows];
-    this.searchString = "";
   }
 
   toggleSharing(event) {
@@ -280,7 +258,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 //   toggleShared: true,
 //   searchField: {
 //     text: "Type to filter...",
+//     props: [""]
 //   },
 //   dateFilter: {}
+//   propToggle: {
+//
+//   }
 //
 // };

@@ -66,6 +66,19 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     searchField: {
       text: "Type to filter...",
+      props: [
+        "owner",
+
+        {
+          prop: "monitor",
+          props: [
+            { prop: "channelGroup", props: ["name"] },
+            { prop: "metric", props: ["name"] },
+            "stat",
+            "name",
+          ],
+        },
+      ],
     },
   };
 
@@ -171,7 +184,10 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
         if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
           monitor.inAlarm = true;
         }
-        // trigger.monitor = monitor;
+        // add copy to avoid monitor having triggers that have monitor
+        const monitorCopy = Object.assign({}, monitor);
+        monitorCopy.triggers = [];
+        trigger.monitor = monitorCopy;
         temp.push(trigger);
       });
     });

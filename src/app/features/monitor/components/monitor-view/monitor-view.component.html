@@ -13,7 +13,7 @@
 <ng-template #groupHeaderTemplate let-group="group" let-expanded="expanded">
   <div
     class="monitor-container"
-    *ngIf="group.value && getMonitor(group.value[0].monitorId) as monitor"
+    *ngIf="group.value && group.value[0].monitor as monitor"
   >
     <div class="monitor-status">
       <div class="alarm-status">
@@ -104,8 +104,7 @@
   <span *ngIf="row.num_channels_operator !== '=='">
     {{ row.num_channels_operator }}
   </span>
-  {{ row.num_channels }} channel(s) in
-  {{ getMonitor(row.monitorId).channelGroup.name }} are
+  {{ row.num_channels }} channel(s) in {{ row.monitor?.channelGroup.name }} are
   {{ row.value_operator }}
   {{ row.val1 }}
   <span *ngIf="row.val2"> and {{ row.val2 }} </span>
