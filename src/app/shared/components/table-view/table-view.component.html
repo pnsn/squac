@@ -116,14 +116,18 @@
     >
       <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">
         <ng-template
-          let-group1="group"
-          let-expanded1="expanded"
+          let-group="group"
+          let-expanded="expanded"
           ngx-datatable-group-header-template
         >
-          <div (click)="selectGroupHeader()" class="group-header-container">
+          <div
+            (click)="selectGroupHeader(group)"
+            class="group-header-container"
+            [ngClass]="selectedGroupKey === group.key ? 'active' : ''"
+          >
             <ng-container
               [ngTemplateOutlet]="groupHeaderTemplate"
-              [ngTemplateOutletContext]="{ group: group1, expanded: expanded1 }"
+              [ngTemplateOutletContext]="{ group: group, expanded: expanded }"
             ></ng-container>
           </div>
         </ng-template>

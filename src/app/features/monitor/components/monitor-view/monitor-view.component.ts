@@ -53,9 +53,20 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     add: {
       text: "Create Monitor",
     },
-    actionMenu: {},
-    edit: {
-      text: "Edit",
+    menu: {
+      text: "Actions",
+      options: [
+        {
+          text: "Edit",
+          permission: "update",
+          action: "edit",
+        },
+        {
+          text: "Delete",
+          permission: "delete",
+          action: "delete",
+        },
+      ],
     },
     refresh: true,
     links: [{ text: "View All Alerts", path: "alerts" }],
@@ -85,6 +96,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options = {
     groupRowsBy: "monitorId",
+    groupParentType: "monitor",
     groupExpansionDefault: true,
     messages: {
       emptyMessage: "No monitors found.",

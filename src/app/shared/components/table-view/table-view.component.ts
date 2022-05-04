@@ -55,6 +55,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   selectedRow;
   user: User;
   clickCount = 0;
+  selectedGroupKey;
   constructor(
     private userService: UserService,
     private orgService: OrganizationService,
@@ -79,6 +80,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     sorts: [],
     groupRowsBy: undefined,
     groupExpansionDefault: false,
+    groupParentType: undefined,
     autoRouteToDetail: true,
     messages: {
       emptyMessage: "No data",
@@ -88,9 +90,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   //doubleclick on row to view detail?
   ngOnInit() {
     Object.keys(this.options).forEach((key) => {
-      if (this.options[key]) {
-        this.tableOptions[key] = this.options[key];
-      }
+      this.tableOptions[key] = this.options[key];
     });
     const userServ = this.userService.user.subscribe({
       next: (user) => {
@@ -147,7 +147,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.comparator = this.orgComparator.bind(this);
       }
       if (
-        this.options.autoRouteToDetail &&
+        this.tableOptions.autoRouteToDetail &&
         (col.prop === "name" || col.name === "Name")
       ) {
         col.cellTemplate = this.nameTemplate;
@@ -166,15 +166,25 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.selectResource(event.selected[0].id);
       //view resource if doubleclicked
-      if (this.clickCount === 2) {
+      if (this.clickCount === 2 && this.tableOptions.autoRouteToDetail) {
         this.clickCount = 0;
         this.viewResource();
       }
     }
   }
-  selectGroupHeader() {
-    console.log("group header selected");
+  selectGroupHeader(group) {
+    if (this.tableOptions.groupParentType) {
+      this.selectedGroupKey = group.key;
+      const groupParent = group.value[0][this.tableOptions.groupParentType];
+
+      this.selectedRow = groupParent;
+      this.itemSelected.next(this.selectedRow);
+    } else {
+      this.selectedGroupKey = null;
+      this.selectedRow = null;
+    }
   }
+
   selectResource(id) {
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
