@@ -2,12 +2,11 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { OrganizationService } from "@user/services/organization.service";
 import { User } from "@user/models/user";
 import { Organization } from "@user/models/organization";
-import { Subscription, tap } from "rxjs";
+import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { InviteService } from "@user/services/invite.service";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
-import { filter } from "rxjs";
 
 @Component({
   selector: "user-organization-detail",

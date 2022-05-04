@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MetricEditEntryComponent } from './metric-edit-entry.component';
+import { MetricEditEntryComponent } from "./metric-edit-entry.component";
 
-describe('MetricEditEntryComponent', () => {
+describe("MetricEditEntryComponent", () => {
   let component: MetricEditEntryComponent;
   let fixture: ComponentFixture<MetricEditEntryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MetricEditEntryComponent ]
-    })
-    .compileComponents();
+      declarations: [MetricEditEntryComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('MetricEditEntryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

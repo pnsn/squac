@@ -5,7 +5,6 @@ import { PermissionGuard } from "@core/guards/permission.guard";
 import { MetricComponent } from "./components/metric/metric.component";
 import { MetricResolver } from "./metric.resolver";
 import { MetricViewComponent } from "./components/metric-view/metric-view.component";
-import { MetricEditComponent } from "./components/metric-edit/metric-edit.component";
 import { MetricEditEntryComponent } from "./metric-edit-entry/metric-edit-entry.component";
 
 // TODO: fix this weird routing set up

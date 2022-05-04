@@ -24,12 +24,10 @@ import { Subscription, tap, filter } from "rxjs";
   styleUrls: ["./table-view.component.scss"],
 })
 export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
-  rowCount = 3;
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
 
   @Input() title: string;
-  // @Output() refresh = new EventEmitter<boolean>();
   @Input() options;
   @Input() rows;
   @Input() columns;
@@ -44,6 +42,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Output() refresh = new EventEmitter<any>();
   @ViewChild("table") table;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
+  @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
   userPipe;
   orgPipe;
   tableRows;
@@ -82,6 +81,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     groupExpansionDefault: false,
     groupParentType: undefined,
     autoRouteToDetail: true,
+    selectAllRowsOnPage: false,
+    displayCheck: false,
     messages: {
       emptyMessage: "No data",
       totalMessage: "total",
@@ -153,12 +154,27 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.cellTemplate = this.nameTemplate;
       }
     });
+    // if (this.tableOptions.displayCheck) {
+    //   this.columns.unshift({
+    //     name: "",
+    //     prop: "",
+    //     width: 30,
+    //     sortable: false,
+    //     canAutoResize: false,
+    //     draggable: false,
+    //     resizeable: false,
+    //     cellTemplate: this.checkboxTemplate,
+    //   });
+    //   console.log(this.columns);
+    // }
     this.tableColumns = [...this.columns];
   }
 
   // selected id, view resource if doubleclicked
   onSelect(event) {
-    if (event.selected) {
+    console.log("selected");
+    if (event.selected && event.selected[0]) {
+      console.log(event.selected);
       if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
         this.clickCount++;
       } else {
@@ -171,7 +187,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         this.viewResource();
       }
     }
+    if (!event.selected[0]) {
+      //unselect
+      this.selectResource(null);
+      this.clickCount = 0;
+    }
   }
+
   selectGroupHeader(group) {
     if (this.tableOptions.groupParentType) {
       this.selectedGroupKey = group.key;
@@ -186,6 +208,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   selectResource(id) {
+    this.selected = [];
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
     });

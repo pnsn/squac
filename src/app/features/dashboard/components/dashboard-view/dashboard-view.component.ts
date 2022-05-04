@@ -6,9 +6,8 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { Edit } from "leaflet";
 import { Subscription } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
 

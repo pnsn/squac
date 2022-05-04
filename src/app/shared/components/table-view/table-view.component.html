@@ -113,6 +113,7 @@
       [selected]="selected"
       [groupRowsBy]="tableOptions.groupRowsBy"
       [groupExpansionDefault]="tableOptions.groupExpansionDefault"
+      [selectAllRowsOnPage]="tableOptions.selectAllRowsOnPage"
     >
       <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">
         <ng-template
@@ -176,6 +177,9 @@
       <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
         <a [routerLink]="[row.id]">{{ row.name }}</a>
       </ng-template>
+      <!-- <ng-template ngx-datatable-cell-template let-row="row" #checkboxTemplate>
+        <mat-checkbox (click)="checkboxChecked(row)"></mat-checkbox>
+      </ng-template> -->
     </ngx-datatable>
   </div>
 </div>

@@ -7,9 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MetricService } from "@metric/services/metric.service";
-import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({

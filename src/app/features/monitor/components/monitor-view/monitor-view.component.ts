@@ -5,14 +5,14 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { Alert } from "@monitor/models/alert";
 import { Monitor } from "@monitor/models/monitor";
 import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
-import { tap, mergeMap, filter, Subscription } from "rxjs";
+import { tap, mergeMap, Subscription } from "rxjs";
 
 @Component({
   selector: "monitor-view",
