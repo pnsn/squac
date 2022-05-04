@@ -30,31 +30,14 @@
               : archiveType + " data"
           }}
         </button>
-        <mat-form-field id="date-range" class="dashboard-input">
-          <!-- <mat-icon matPrefix>calendar_month</mat-icon> -->
-          <input
-            #datePicker
-            ngxDaterangepickerMd
-            matInput
-            class="datepicker-calendar-icon"
-            type="text"
-            class="form-control"
-            [locale]="locale"
-            [showCancel]="true"
-            [maxDate]="maxDate"
-            [(ngModel)]="selected"
-            [timePicker]="true"
-            [timePicker24Hour]="true"
-            [ranges]="ranges"
-            [showCustomRangeLabel]="true"
-            [alwaysShowCalendars]="true"
-            [showRangeLabelOnInput]="true"
-            (change)="datesSelected($event)"
-            [opens]="right"
-            startKey="startDate"
-            endKey="endDate"
-          />
-        </mat-form-field>
+        <shared-date-select
+          [secondsAgoFromNow]="this.viewService?.range"
+          [initialStartDate]="this.viewService?.startdate"
+          [initialEndDate]="this.viewService?.enddate"
+          [timeRanges]="this.datePickerTimeRanges"
+          (datesChanged)="datesChanged($event)"
+        ></shared-date-select>
+
         <button
           mat-icon-button
           (click)="refreshData()"
@@ -82,7 +65,7 @@
 
         <button
           mat-flat-button
-          color="accent"
+          [color]="!unsaved ? 'accent' : ''"
           (click)="addWidget()"
           *ngIf="'update' | able: dashboard"
           matTooltip="Add widget"
@@ -98,7 +81,6 @@
           yPosition="below"
           xPosition="before"
         >
-          <button mat-menu-item (click)="addWidget()">Add Widget</button>
           <button mat-menu-item (click)="editDashboard()">
             Edit Dashboard Information
           </button>

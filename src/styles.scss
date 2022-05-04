@@ -130,7 +130,8 @@ a[disabled] {
 
 .mat-button,
 .mat-flat-button,
-.mat-stroked-button {
+.mat-stroked-button,
+.mat-raised-button {
   border-radius: 0 !important;
 }
 
@@ -258,6 +259,23 @@ ngx-datatable {
     line-height: 1.25 !important;
   }
 }
+.mat-form-field-appearance-outline {
+  .mat-form-field-outline {
+    background-color: white;
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-end {
+      border-radius: 0;
+    }
+    &.mat-form-field-outline-thick {
+      color: $sq-blue;
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-width: 1px;
+      }
+    }
+  }
+}
+
 #table-view-container {
   #filters,
   #controls {
@@ -270,20 +288,6 @@ ngx-datatable {
       .mat-form-field-wrapper {
         margin: 0;
         padding-bottom: 0;
-      }
-      .mat-form-field-outline {
-        background-color: white;
-        .mat-form-field-outline-start,
-        .mat-form-field-outline-end {
-          border-radius: 0;
-        }
-        &.mat-form-field-outline-thick {
-          color: $sq-blue;
-          .mat-form-field-outline-start,
-          .mat-form-field-outline-end {
-            border-width: 1px;
-          }
-        }
       }
       .mat-form-field-infix {
         padding: 3px 0 0 0;
@@ -298,16 +302,24 @@ ngx-datatable {
       }
     }
     #toggle-shared-filter {
-      &.mat-button-toggle-group-appearance-standard {
-        border-radius: 0px;
-      }
+      @extend .dense-button-toggle;
       .mat-button-toggle-button {
         span {
           width: 52px;
-          padding: 3px 6px !important;
-          line-height: 2 !important;
         }
       }
+    }
+  }
+}
+.dense-button-toggle {
+  &.mat-button-toggle-group-appearance-standard {
+    border-radius: 0px;
+  }
+  .mat-button-toggle-button {
+    span {
+      min-width: 36px;
+      padding: 0px 6px !important;
+      line-height: 2 !important;
     }
   }
 }

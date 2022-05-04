@@ -78,6 +78,9 @@ export class DateService {
   get dateRanges() {
     return this.configService.getValue("dateRanges");
   }
+  get datePickerTimeRanges() {
+    return this.configService.getValue("datePickerTimeRanges");
+  }
 
   get defaultTimeRange() {
     return this.configService.getValue("defaultTimeRange", 3);

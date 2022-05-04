@@ -8,8 +8,8 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { AbilityModule } from "@casl/angular";
 import { SharedModule } from "@shared/shared.module";
 import { WidgetModule } from "@widget/widget.module";
-import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
+import { DataTypeSelectorComponent } from "./components/dashboard-detail/data-type-selector/data-type-selector.component";
 
 @NgModule({
   declarations: [
@@ -18,13 +18,8 @@ import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboa
     DashboardEditComponent,
     DashboardViewComponent,
     DashboardEditEntryComponent,
+    DataTypeSelectorComponent,
   ],
-  imports: [
-    WidgetModule,
-    DashboardRoutingModule,
-    SharedModule,
-    AbilityModule,
-    NgxDaterangepickerMd.forRoot(),
-  ],
+  imports: [WidgetModule, DashboardRoutingModule, SharedModule, AbilityModule],
 })
 export class DashboardModule {}

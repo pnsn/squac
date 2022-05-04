@@ -17,6 +17,8 @@ import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
+import { DateSelectComponent } from "./components/date-select/date-select.component";
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { SearchFilterComponent } from "./components/search-filter/search-filter.
     UserPipe,
     SharedIndicatorComponent,
     TableViewComponent,
+    DateSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { SearchFilterComponent } from "./components/search-filter/search-filter.
     NgxDatatableModule,
     FormsModule,
     RouterModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
   exports: [
     MaterialModule,
@@ -61,6 +65,7 @@ import { SearchFilterComponent } from "./components/search-filter/search-filter.
     UserPipe,
     TableViewComponent,
     SearchFilterComponent,
+    DateSelectComponent,
   ],
 })
 export class SharedModule {}

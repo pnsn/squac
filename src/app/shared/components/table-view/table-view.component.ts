@@ -172,9 +172,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   // selected id, view resource if doubleclicked
   onSelect(event) {
-    console.log("selected");
     if (event.selected && event.selected[0]) {
-      console.log(event.selected);
       if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
         this.clickCount++;
       } else {

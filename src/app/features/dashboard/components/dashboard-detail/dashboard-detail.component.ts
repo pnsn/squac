@@ -1,15 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
-import * as dayjs from "dayjs";
-import * as utc from "dayjs/plugin/utc";
-import * as timezone from "dayjs/plugin/timezone";
 import { AppAbility } from "@core/utils/ability";
-import { DaterangepickerDirective } from "ngx-daterangepicker-material";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { DateService } from "@core/services/date.service";
 
 //
 @Component({
@@ -18,13 +13,10 @@ import { DateService } from "@core/services/date.service";
   styleUrls: ["./dashboard-detail.component.scss"],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
-  @ViewChild(DaterangepickerDirective, { static: false })
-  datePicker: DaterangepickerDirective;
   dashboard: Dashboard;
   subscription: Subscription = new Subscription();
   status;
-  startDate: dayjs.Dayjs;
-  maxDate: dayjs.Dayjs;
+
   error: string = null;
   unsaved = false;
   archiveType: string;
@@ -43,69 +35,58 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     "minabs",
     "maxabs",
   ];
-  // TODO: make this a separate component, its making this too busy
-  selected: {
-    startDate;
-    endDate;
-  };
-  selectedRange: string;
-  liveMode: boolean;
 
-  // settings for date select
-  locale;
-  ranges = {};
-  // annoying way to get date ranges and match squacapi
-  // time duration (s) : label
-  // TODO: this should be meaningful, not just seconds (i.e. 1 month != 30 days)
-  // Get from squac?
-  rangeLookUp;
+  datePickerTimeRanges = [
+    {
+      amount: "15",
+      unit: "minutes",
+    },
+    {
+      amount: "30",
+      unit: "minutes",
+    },
+    {
+      amount: "1",
+      unit: "hour",
+    },
+    {
+      amount: "12",
+      unit: "hours",
+    },
+    {
+      amount: "1",
+      unit: "day",
+    },
+    {
+      amount: "1",
+      unit: "week",
+    },
+    {
+      amount: "4",
+      unit: "week",
+    },
+  ];
+
+  liveMode;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private viewService: ViewService,
     private ability: AppAbility,
-    private confirmDialog: ConfirmDialogService,
-    private dateService: DateService
-  ) {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault("Etc/UTC");
-  }
+    private confirmDialog: ConfirmDialogService
+  ) {}
 
   ngOnInit() {
-    this.rangeLookUp = this.dateService.dateRanges;
-    this.maxDate = this.dateService.now();
-    this.startDate = this.dateService.now();
-    this.makeTimeRanges();
-    this.locale = this.dateService.locale;
     const dashboardSub = this.route.data.subscribe((data) => {
       this.status = "loading";
       this.dashboard = data.dashboard;
       if (data.dashboard.error) {
         this.viewService.status.next("error");
       } else {
-        this.viewService.setDashboard(this.dashboard);
-        const range = this.viewService.range;
-        const start = this.viewService.startdate;
-        const end = this.viewService.enddate;
         this.archiveStat = this.dashboard.archiveStat;
         this.archiveType = this.dashboard.archiveType;
-        if (range && this.rangeLookUp) {
-          this.selectedRange = this.rangeLookUp[range];
-
-          this.selected = {
-            startDate: this.dateService.subtractFromNow(range, "seconds"),
-            endDate: this.dateService.now(),
-          };
-        } else {
-          this.selected = {
-            startDate: this.dateService.parseUtc(start),
-            endDate: this.dateService.parseUtc(end),
-          };
-          this.selectedRange = start + " - " + end;
-        }
-
+        this.viewService.setDashboard(this.dashboard);
         this.error = null;
       }
     });
@@ -128,15 +109,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(errorSub);
   }
 
-  makeTimeRanges() {
-    for (const range in this.rangeLookUp) {
-      if (this.rangeLookUp[range]) {
-        this.ranges[this.rangeLookUp[range]] = [
-          this.dateService.subtractFromNow(+range, "seconds"),
-          this.startDate,
-        ];
-      }
-    }
+  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
+    this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
+    this.unsaved = true;
+    //mark unsaved
   }
 
   selectArchiveType(type, stat) {
@@ -145,52 +121,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.unsaved = true;
     this.viewService.setArchive(this.archiveType, this.archiveStat);
   }
-  // FIXME: milliseconds of difference are causing it to not recognize
-  lookupRange(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): number | void {
-    const diff = this.dateService.diff(endDate, startDate);
-    // check if end of range close to now
-    if (Math.abs(diff) < 1) {
-      this.liveMode = true;
-      const roundDiff = Math.round(diff / 100) * 100; // account for ms of weirdness
-      this.selectedRange = this.rangeLookUp[roundDiff];
-      return roundDiff;
-    } else {
-      this.liveMode = false;
-      this.selectedRange =
-        this.dateService.displayFormat(startDate) +
-        " - " +
-        this.dateService.displayFormat(startDate);
-    }
-  }
-
-  datesSelected(chosenDate: {
-    startDate: dayjs.Dayjs;
-    endDate: dayjs.Dayjs;
-  }): void {
-    let start = chosenDate.startDate;
-    let end = chosenDate.endDate;
-
-    if (start && end) {
-      start = this.dateService.correctForLocal(start);
-      end = this.dateService.correctForLocal(end);
-    }
-
-    this.unsaved = true;
-    if (start && end) {
-      const range = this.lookupRange(start, end);
-      this.viewService.datesChanged(
-        start,
-        end,
-        this.liveMode,
-        range ? range : null
-      );
-    }
-  }
-
-  openDatePicker(): void {
-    console.log("open");
-    this.datePicker.open();
-  }
 
   editDashboard() {
     this.router.navigate(["edit"], { relativeTo: this.route });
@@ -198,16 +128,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   addWidget() {
     this.router.navigate(["widgets", "new"], { relativeTo: this.route });
-  }
-
-  // currently saves any time dates are changed, may want to move to a save button
-  selectDateRange(
-    startDate: dayjs.Dayjs,
-    endDate: dayjs.Dayjs,
-    _range?: number
-  ) {
-    this.selected.startDate = this.dateService.toUtc(startDate);
-    this.selected.endDate = this.dateService.toUtc(endDate);
   }
 
   deleteDashboard() {

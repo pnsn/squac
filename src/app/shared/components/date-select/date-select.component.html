@@ -1,0 +1,54 @@
+<mat-form-field
+  id="date-range"
+  class="dashboard-input"
+  [ngClass]="selectedRange === 'custom' ? 'visible' : 'hidden'"
+>
+  <input
+    #datePicker
+    matInput
+    ngxDaterangepickerMd
+    type="text"
+    [locale]="locale"
+    [showCancel]="true"
+    [maxDate]="maxDate"
+    [(ngModel)]="selected"
+    [timePicker]="true"
+    [timePicker24Hour]="true"
+    [alwaysShowCalendars]="true"
+    [showRangeLabelOnInput]="true"
+    opens="left"
+    startKey="startDate"
+    endKey="endDate"
+    (datesUpdated)="datePickerChange($event)"
+  />
+</mat-form-field>
+<mat-button-toggle-group
+  name="rangeToggle"
+  #group="matButtonToggleGroup"
+  [(ngModel)]="selectedRange"
+  (change)="toggleRange($event)"
+  class="dense-button-toggle"
+>
+  <mat-button-toggle
+    *ngFor="let range of timeRanges"
+    [value]="range"
+    [ngClass]="selectedRange === 'custom' ? 'hidden' : 'visible'"
+    >{{ range.amount }}{{ range.unit[0] }}</mat-button-toggle
+  >
+  <mat-button-toggle
+    value="custom"
+    [ngClass]="selectedRange === 'custom' ? 'hidden' : 'visible'"
+    >Custom <mat-icon matPrefix>calendar_month</mat-icon></mat-button-toggle
+  >
+  <mat-button-toggle
+    value="relative"
+    [ngClass]="selectedRange !== 'custom' ? 'hidden' : 'visible'"
+    >Relative</mat-button-toggle
+  >
+</mat-button-toggle-group>
+
+<!--
+<button class="ngx-daterangepicker-action" (click)="openDatePicker($event)">
+  open
+</button> -->
+<div class="date-select-popup"></div>

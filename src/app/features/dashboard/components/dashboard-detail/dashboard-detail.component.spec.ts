@@ -26,6 +26,7 @@ import { MatInputModule } from "@angular/material/input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedIndicatorComponent } from "@shared/components/shared-indicator/shared-indicator.component";
 import { ErrorComponent } from "@shared/components/error/error.component";
+import { MaterialModule } from "@shared/material.module";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
@@ -38,16 +39,11 @@ describe("DashboardDetailComponent", () => {
         HttpClientTestingModule,
         FormsModule,
         NgxDatatableModule,
+        MaterialModule,
         WidgetModule,
         AbilityModule,
-        MatMenuModule,
-        MatToolbarModule,
-        MatIconModule,
         NgxDaterangepickerMd.forRoot(),
-        MatProgressBarModule,
         BrowserAnimationsModule,
-        MatInputModule,
-        MatFormFieldModule,
       ],
       providers: [
         DashboardService,

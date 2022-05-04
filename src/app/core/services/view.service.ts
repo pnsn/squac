@@ -58,12 +58,28 @@ export class ViewService {
 
   // returns the dashboard starttime
   get startdate(): string {
-    return this.dashboard?.starttime;
+    let startdate;
+    if (this.range) {
+      startdate = this.dateService.subtractFromNow(this.range, "seconds");
+      startdate = this.dateService.format(startdate);
+    } else {
+      startdate = this.dashboard?.starttime;
+    }
+
+    return startdate;
   }
 
   // returns the dashboard end date
   get enddate(): string {
-    return this.dashboard?.endtime;
+    let enddate;
+    if (this.range) {
+      enddate = this.dateService.now();
+      enddate = this.dateService.format(enddate);
+    } else {
+      enddate = this.dashboard?.endtime;
+    }
+
+    return enddate;
   }
 
   // returns the dashboard archive type
@@ -91,26 +107,48 @@ export class ViewService {
     // return dates
   }
 
+  // Sets up dates for dashboard
+  private setIntialDates() {
+    let startDate;
+    let endDate;
+    let liveMode;
+    let range;
+
+    // make date range selector
+    if (this.dashboard.timeRange) {
+      liveMode = true;
+      range = this.dashboard.timeRange;
+      // set default dates
+    } else if (this.dashboard.starttime && this.dashboard.endtime) {
+      liveMode = false;
+      startDate = this.dateService.parseUtc(this.dashboard.starttime);
+      endDate = this.dateService.parseUtc(this.dashboard.endtime);
+    } else {
+      // default dates
+      liveMode = true;
+      range = this.defaultTimeRange;
+    }
+    this.datesChanged(startDate, endDate, liveMode, range);
+  }
+
   // takes given date config and saves it, emits changed dates
   datesChanged(
     startDate: dayjs.Dayjs,
     endDate: dayjs.Dayjs,
     live: boolean,
-    range?: number
+    rangeInSeconds: number
   ): void {
+    this.live = live;
+    this.dashboard.timeRange = rangeInSeconds;
+    let start;
+    let end;
     if (startDate && endDate) {
-      const start = this.dateService.format(startDate);
-      const end = this.dateService.format(endDate);
-      this.live = live;
-
-      this.dashboard.timeRange = range ? range : null;
-
-      this.dashboard.starttime = start;
-      this.dashboard.endtime = end;
-
-      this.updateData();
+      start = this.dateService.format(startDate);
+      end = this.dateService.format(endDate);
     }
-    // this.status.next('loading');
+    this.dashboard.starttime = start;
+    this.dashboard.endtime = end;
+    this.updateData();
   }
 
   // returns the wdiget index
@@ -130,6 +168,7 @@ export class ViewService {
 
   // tell widgets to get new data
   updateData() {
+    console.log("update data");
     this.dates.next(this.dashboard.id);
   }
 
@@ -147,38 +186,6 @@ export class ViewService {
     this.dashboard.archiveType = archiveType;
 
     this.updateData();
-  }
-
-  // Sets up dates for dashboard
-  private setIntialDates() {
-    const current = this.dateService.now();
-    let startDate;
-    let endDate;
-    let liveMode;
-    let range;
-
-    // make date range selector
-    if (this.dashboard.timeRange) {
-      liveMode = true;
-      startDate = this.dateService.subtractFromNow(
-        this.dashboard.timeRange,
-        "seconds"
-      );
-      endDate = current;
-      range = this.dashboard.timeRange;
-      // set default dates
-    } else if (this.dashboard.starttime && this.dashboard.endtime) {
-      liveMode = false;
-      startDate = this.dateService.parseUtc(this.dashboard.starttime);
-      endDate = this.dateService.parseUtc(this.dashboard.endtime);
-    } else {
-      // default dates
-      liveMode = true;
-      range = this.defaultTimeRange;
-      startDate = this.dateService.subtractFromNow(range, "seconds");
-      endDate = current;
-    }
-    this.datesChanged(startDate, endDate, liveMode, range);
   }
 
   // decrements count of widgets still loading

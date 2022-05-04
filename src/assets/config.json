@@ -1,15 +1,6 @@
 {
   "appTitle": "SQUAC",
   "dataRefreshIntervalMinutes": 5,
-  "dateRanges": {
-    "900": "15 minutes",
-    "1800": "30 minutes",
-    "3600": "1 hour",
-    "43200": "12 hour",
-    "86400": "1 day",
-    "604800": "7 day",
-    "2592000": "30 day"
-  },
 
   "locale": {
     "format": "YYYY-MM-DDTHH:mm:ss[Z]",

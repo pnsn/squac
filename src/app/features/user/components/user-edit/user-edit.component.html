@@ -54,7 +54,9 @@
     >
   </ng-container>
 
-  <button mat-raised-button [disabled]="!userForm.valid">Create Account</button>
+  <button mat-flat-button color="accent" [disabled]="!userForm.valid">
+    Create Account
+  </button>
 </form>
 
 <ng-template #noToken>
