@@ -118,13 +118,13 @@
           xPosition="after"
         >
           <button mat-menu-item (click)="selectArchiveType('raw', '')">
-            Use raw data
+            <span> raw data </span>
           </button>
           <button mat-menu-item [matMenuTriggerFor]="dayArchiveStat">
-            Use day archives
+            <span>day archives</span>
           </button>
           <button mat-menu-item [matMenuTriggerFor]="monthArchiveStat">
-            Use month archives
+            <span> month archives </span>
           </button>
         </mat-menu>
         <mat-menu

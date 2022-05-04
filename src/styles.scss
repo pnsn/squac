@@ -362,7 +362,7 @@ ngx-datatable.shared-view-table {
     width: 100% !important;
     .datatable-group-header {
       text-align: center;
-      background-color: rgba(255, 255, 255, 0.589) !important;
+      background-color: rgba(255, 255, 255, 0.589);
       padding: 5px 10px !important;
       border-top: $default-border;
       border-bottom: $default-border;
@@ -403,15 +403,18 @@ ngx-datatable.shared-view-table {
 }
 
 .datatable-body-row.active,
-.datatable-body-row.active .datatable-row-group {
+.datatable-body-row.active .datatable-row-group,
+.datatable-group-header.active {
   background-color: lighten($sq-lt-blue, 30%) !important;
 }
 .datatable-body-row.active:hover,
-.datatable-body-row.active:hover .datatable-row-group {
+.datatable-body-row.active:hover .datatable-row-group,
+.datatable-group-header.active:hover {
   background-color: lighten($sq-lt-blue, 20%) !important;
 }
 .datatable-body-row:hover,
-.datatable-body-row:hover .datatable-row-group {
+.datatable-body-row:hover .datatable-row-group,
+.datatable-group-header:hover {
   background-color: $sq-lt-gray !important;
 }
 
@@ -422,9 +425,20 @@ ngx-datatable.shared-view-table {
 }
 
 .mat-menu-dense {
+  &.mat-menu-panel {
+    min-width: 150px;
+    min-height: 46px;
+  }
+  .mat-menu-submenu-icon {
+    // right: 8px;
+  }
   button.mat-menu-item {
     height: 30px !important;
     line-height: 10px;
+  }
+  a.mat-menu-item {
+    height: 30px !important;
+    line-height: 30px;
   }
 }
 .mat-nav-list-dense {

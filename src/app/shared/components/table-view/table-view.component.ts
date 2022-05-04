@@ -172,7 +172,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
-
+  selectGroupHeader() {
+    console.log("group header selected");
+  }
   selectResource(id) {
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;

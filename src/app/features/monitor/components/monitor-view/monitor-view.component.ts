@@ -62,9 +62,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   filters = {
-    toggleShared: {
-      default: "user",
-    },
+    // toggleShared: {
+    //   default: "user",
+    // },
     searchField: {
       text: "Type to filter...",
       props: [

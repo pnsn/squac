@@ -37,6 +37,11 @@ button {
     height: 40px;
     width: 40px;
   }
+  mat-menu-item {
+    span {
+      margin: 0px 5px;
+    }
+  }
 
   #dashboard-info {
     h2 {

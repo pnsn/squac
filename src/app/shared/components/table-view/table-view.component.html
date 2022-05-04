@@ -30,7 +30,7 @@
         >
           {{ controls.edit.text }}
         </button>
-        <mat-menu #menu>
+        <mat-menu #menu class="mat-menu-dense">
           <ng-container *ngFor="let item of controls.menu?.options">
             <button
               mat-menu-item
@@ -47,7 +47,7 @@
           [matMenuTriggerFor]="menu"
           [disabled]="!selectedRow"
         >
-          {{ controls.menu.text }}
+          {{ controls.menu.text }} <mat-icon>expand_more</mat-icon>
         </button>
 
         <button
@@ -120,10 +120,12 @@
           let-expanded1="expanded"
           ngx-datatable-group-header-template
         >
-          <ng-container
-            [ngTemplateOutlet]="groupHeaderTemplate"
-            [ngTemplateOutletContext]="{ group: group1, expanded: expanded1 }"
-          ></ng-container>
+          <div (click)="selectGroupHeader()" class="group-header-container">
+            <ng-container
+              [ngTemplateOutlet]="groupHeaderTemplate"
+              [ngTemplateOutletContext]="{ group: group1, expanded: expanded1 }"
+            ></ng-container>
+          </div>
         </ng-template>
       </ngx-datatable-group-header>
       <ngx-datatable-row-detail

@@ -53,8 +53,8 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   ngOnInit() {
-    if (this.route.parent) {
-      this.metrics = this.route.parent.snapshot.data.metrics;
+    if (this.route) {
+      this.metrics = this.route.snapshot.data.metrics;
       this.rows = [...this.metrics];
     }
   }

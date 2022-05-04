@@ -1,85 +1,101 @@
-<div class="box" id="new-metric">
-  <h1>
-    {{ editMode ? "Edit Metric" : "New Metric" }}
-  </h1>
-  <form class="form" action="" [formGroup]="metricForm" (ngSubmit)="save()">
-    <div class="form-group">
-      <label for="name">Display Name</label>
+<div mat-dialog-title id="edit-title">
+  <h3>{{ editMode ? "Edit Metric" : "New Metric" }}</h3>
+  <button mat-icon-button (click)="cancel()" type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content id="edit-container">
+  <form class="form" action="" [formGroup]="metricForm">
+    <mat-form-field class="large">
       <input
+        matInput
         type="text"
         id="name"
         formControlName="name"
-        class="form-control"
+        placeholder="Display Name"
       />
-    </div>
-    <div class="form-group">
-      <label for="code">Code (must be unique, no spaces)</label>
+    </mat-form-field>
+    <mat-form-field class="large">
       <input
+        matInput
         type="text"
         id="code"
         formControlName="code"
-        class="form-control"
+        placeholder="Code (must be unique, no spaces)"
       />
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
+    </mat-form-field>
+    <mat-form-field class="large">
       <textarea
+        matInput
         id="description"
+        placeholder="Description"
         formControlName="description"
         class="form-control"
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <label for="url">Reference Url</label>
+      >
+      </textarea>
+      <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field>
       <input
+        matInput
         type="text"
         id="refUrl"
         formControlName="refUrl"
-        class="form-control"
+        placeholder="Reference URL"
       />
-    </div>
-    <div class="form-group">
-      <label for="unit">Unit</label>
+    </mat-form-field>
+    <mat-form-field class="medium">
       <input
+        matInput
         type="text"
         id="unit"
         formControlName="unit"
-        class="form-control"
+        placeholder="Unit"
       />
-    </div>
-    <div class="form-group">
-      <label for="sampleRate">Sample Rate</label>
+    </mat-form-field>
+
+    <mat-form-field class="medium">
       <input
+        matInput
         type="number"
         id="sampleRate"
         formControlName="sampleRate"
-        class="form-control"
+        placeholder="Sample Rate"
       />
-    </div>
+    </mat-form-field>
+
     <div id="value-container">
-      <div class="form-group" id="min-val">
-        <label for="minVal">Default Min Value</label>
-        <input type="number" formControlName="minVal" class="form-control" />
-      </div>
-      <div class="form-group" id="max-val">
-        <label for="maxVal">Default Max Value</label>
-        <input type="number" formControlName="maxVal" class="form-control" />
-      </div>
-    </div>
-    <div class="btn-container">
-      <button mat-flat-button color="primary" (click)="formUnsaved($event)">
-        Cancel
-      </button>
-      <button
-        mat-flat-button
-        color="accent"
-        disabled
-        type="submit"
-        [disabled]="!metricForm.valid"
-        *ngIf="'update' | able: 'Metric'"
-      >
-        Save
-      </button>
+      <!-- defaultmin and max -->
+      <mat-form-field class="small">
+        <input
+          matInput
+          type="number"
+          formControlName="minVal"
+          placeholder="Default Min Value"
+        />
+      </mat-form-field>
+      <mat-form-field class="small">
+        <input
+          matInput
+          type="number"
+          formControlName="maxVal"
+          placeholder="Default Max Value"
+        />
+      </mat-form-field>
     </div>
   </form>
+</div>
+
+<div mat-dialog-actions id="dialog-options">
+  <div>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="save()"
+      [disabled]="!metricForm.valid"
+    >
+      Save
+    </button>
+  </div>
 </div>

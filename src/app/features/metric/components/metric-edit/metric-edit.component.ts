@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import {
   FormGroup,
@@ -10,6 +10,7 @@ import { MetricService } from "@metric/services/metric.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
   selector: "widget-edit-metrics",
@@ -20,34 +21,28 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   id: number;
   metric: Metric;
   editMode: boolean;
-  metricForm: FormGroup;
+  metricForm: FormGroup = this.formBuilder.group({
+    name: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),
+    code: new FormControl("", Validators.required),
+    refUrl: new FormControl("", Validators.required),
+    unit: new FormControl("", Validators.required),
+    sampleRate: new FormControl("", Validators.required),
+    minVal: new FormControl(""),
+    maxVal: new FormControl(""),
+  });
   subscriptions: Subscription = new Subscription();
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private metricService: MetricService,
     private formBuilder: FormBuilder,
-    private confirmDialog: ConfirmDialogService
+    public dialogRef: MatDialogRef<MetricEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
-    const sub = this.route.params.subscribe(
-      (params: Params) => {
-        this.editMode = !!params.metricId;
-
-        if (this.editMode) {
-          this.id = +params.metricId;
-          this.metric = this.route.snapshot.data.metric;
-        }
-
-        this.initForm();
-      },
-      (error) => {
-        console.log("error in metrics edit: " + error);
-      }
-    );
-
-    this.subscriptions.add(sub);
+    this.metric = this.data.metric;
+    this.editMode = !!this.metric;
+    this.initForm();
   }
 
   ngOnDestroy() {
@@ -55,17 +50,6 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.metricForm = this.formBuilder.group({
-      name: new FormControl("", Validators.required),
-      description: new FormControl("", Validators.required),
-      code: new FormControl("", Validators.required),
-      refUrl: new FormControl("", Validators.required),
-      unit: new FormControl("", Validators.required),
-      sampleRate: new FormControl(""),
-      minVal: new FormControl(""),
-      maxVal: new FormControl(""),
-    });
-
     if (this.editMode) {
       this.metricForm.patchValue({
         name: this.metric.name,
@@ -97,43 +81,39 @@ export class MetricEditComponent implements OnInit, OnDestroy {
           values.maxVal
         )
       )
-      .subscribe(
-        () => {
-          this.cancel();
+      .subscribe({
+        next: (result) => {
+          console.log("done");
+          this.cancel(result.id);
         },
-        (error) => {
-          console.log("error in metrics edit updat: " + error);
-        }
-      );
+        error: (error) => {
+          console.log("error in save metric: " + error);
+        },
+      });
   }
 
-  // Exit page
-  // TODO: warn if unsaved
-  cancel() {
-    if (this.id) {
-      this.router.navigate(["../../"], { relativeTo: this.route });
-    } else {
-      this.router.navigate(["../"], { relativeTo: this.route });
-    }
+  cancel(metricId?: number) {
+    this.dialogRef.close(metricId);
+    // route out of edit
   }
 
   // Check if form has unsaved fields
   formUnsaved(e: Event) {
     e.preventDefault();
-    if (this.metricForm.dirty) {
-      this.confirmDialog.open({
-        title: "Cancel editing",
-        message: "You have unsaved changes, if you cancel they will be lost.",
-        cancelText: "Keep editing",
-        confirmText: "Cancel",
-      });
-      this.confirmDialog.confirmed().subscribe((confirm) => {
-        if (confirm) {
-          this.cancel();
-        }
-      });
-    } else {
-      this.cancel();
-    }
+    // if (this.metricForm.dirty) {
+    //   this.confirmDialog.open({
+    //     title: "Cancel editing",
+    //     message: "You have unsaved changes, if you cancel they will be lost.",
+    //     cancelText: "Keep editing",
+    //     confirmText: "Cancel",
+    //   });
+    //   this.confirmDialog.confirmed().subscribe((confirm) => {
+    //     if (confirm) {
+    //       this.cancel();
+    //     }
+    //   });
+    // } else {
+    //   this.cancel();
+    // }
   }
 }
