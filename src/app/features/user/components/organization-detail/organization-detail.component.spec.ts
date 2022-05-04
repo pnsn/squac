@@ -7,10 +7,10 @@ import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { InviteService } from "@user/services/invite.service";
 import { OrganizationService } from "@user/services/organization.service";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { RouterTestingModule } from "@angular/router/testing";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
+import { MaterialModule } from "@shared/material.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("OrganizationDetailComponent", () => {
   let component: OrganizationDetailComponent;
@@ -19,10 +19,10 @@ describe("OrganizationDetailComponent", () => {
   beforeEach(() => {
     return MockBuilder(OrganizationDetailComponent)
       .mock(TableViewComponent)
+      .mock(RouterTestingModule.withRoutes([]))
       .keep(ReactiveFormsModule)
-      .mock(NgxDatatableModule)
-      .keep(RouterTestingModule.withRoutes([]))
       .mock(OrganizationService)
+      .mock(MaterialModule)
       .mock(UserService)
       .mock(InviteService)
       .provide({

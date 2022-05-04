@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MetricEditComponent } from "../components/metric-edit/metric-edit.component";
-import { MetricService } from "../services/metric.service";
+import { MetricEditComponent } from "../metric-edit/metric-edit.component";
+import { MetricService } from "../../services/metric.service";
 
 @Component({
   selector: "metric-edit-entry",
@@ -45,7 +45,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
       },
     });
     this.dialogRef.afterClosed().subscribe(
-      (id?: number) => {
+      () => {
         // go to newly created metric
         if (this.metricId) {
           this.router.navigate(["../../"], { relativeTo: this.route });

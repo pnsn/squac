@@ -7,7 +7,7 @@
   <input
     type="text"
     matInput
-    [placeholder]="config.text"
+    [placeholder]="config?.text"
     (keyup)="update($event)"
     [(ngModel)]="searchString"
   />

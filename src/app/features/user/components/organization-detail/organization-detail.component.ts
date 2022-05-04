@@ -5,7 +5,7 @@ import { Organization } from "@user/models/organization";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { InviteService } from "@user/services/invite.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
 @Component({
@@ -74,8 +74,7 @@ export class OrganizationDetailComponent
     private orgService: OrganizationService,
     private inviteService: InviteService,
     private route: ActivatedRoute,
-    private messageService: MessageService,
-    private router: Router
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {

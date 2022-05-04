@@ -1,47 +1,32 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MetricEditComponent } from "./metric-edit.component";
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MetricService } from "@metric/services/metric.service";
-import { MockMetricService } from "@metric/services/metric.service.mock";
-import { AbilityModule } from "@casl/angular";
-import { Ability, PureAbility } from "@casl/ability";
-import { AppAbility } from "@core/utils/ability";
-import { MatDialogModule } from "@angular/material/dialog";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MaterialModule } from "@shared/material.module";
+import { MockBuilder } from "ng-mocks";
 
 describe("MetricEditComponent", () => {
   let component: MetricEditComponent;
   let fixture: ComponentFixture<MetricEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        AbilityModule,
-        MatDialogModule,
-      ],
-      declarations: [MetricEditComponent],
-      providers: [
-        ConfirmDialogService,
-        { provide: MetricService, useClass: MockMetricService },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-      ],
-    }).compileComponents();
-  }));
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(MetricEditComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    return MockBuilder(MetricEditComponent)
+      .mock(MaterialModule)
+      .mock(MatDialogRef)
+      .mock(MAT_DIALOG_DATA, {
+        data: {},
+      })
+      .keep(ReactiveFormsModule)
+      .keep(FormsModule)
+      .mock(MetricService);
   });
 
   it("should create", () => {
+    fixture = TestBed.createComponent(MetricEditComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

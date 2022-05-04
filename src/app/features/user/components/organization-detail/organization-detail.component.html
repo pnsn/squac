@@ -7,11 +7,11 @@
   (itemSelected)="onSelect($event)"
   (controlClicked)="onClick($event)"
   (refresh)="refresh()"
-  title="{{ organization.name }} Organization"
+  title="{{ organization?.name }} Organization"
 >
   <ng-container tableHeadFilters>
     <p>
-      You are {{ user.orgId === organization.id ? "" : "not " }}part of this
+      You are {{ user?.orgId === organization?.id ? "" : "not " }}part of this
       organization.
     </p>
   </ng-container>

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MetricViewComponent } from "./metric-view.component";
 import { MetricService } from "@metric/services/metric.service";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
@@ -16,7 +15,6 @@ describe("MetricViewComponent", () => {
     return MockBuilder(MetricViewComponent)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(TableViewComponent)
-      .mock(NgxDatatableModule)
       .mock(MaterialModule)
       .mock(MetricService)
       .mock(AbilityModule);
