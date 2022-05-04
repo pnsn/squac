@@ -4,6 +4,4 @@ import { Component } from "@angular/core";
   selector: "metric-main",
   template: "<router-outlet></router-outlet>",
 })
-export class MetricComponent {
-  constructor() {}
-}
+export class MetricComponent {}
