@@ -1,1 +1,27 @@
-<p>data-type-selector works!</p>
+<mat-form-field class="dense-form-field-select xsmall" appearance="outline">
+  <mat-label>Data Type</mat-label>
+  <mat-select
+    [(ngModel)]="type"
+    (valueChange)="selectDataType($event)"
+    placeholder="data type"
+  >
+    <mat-option value="raw"> raw data </mat-option>
+    <mat-option value="day"> daily archive </mat-option>
+    <mat-option value="month"> month archive </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field class="dense-form-field-select xsmall" appearance="outline">
+  <mat-label>Stat Type</mat-label>
+  <mat-select
+    [(ngModel)]="stat"
+    [disabled]="type === 'raw'"
+    (valueChange)="selectDataType($event)"
+    placeholder="stat type"
+  >
+    <mat-option value="" disabled> raw </mat-option>
+    <mat-option *ngFor="let stat of statTypes" [value]="stat">
+      {{ stat }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

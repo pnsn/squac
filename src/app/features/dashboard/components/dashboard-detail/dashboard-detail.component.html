@@ -15,21 +15,13 @@
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
-      <div id="header-controls">
-        <button
-          mat-stroked-button
-          [matMenuTriggerFor]="dataType"
-          matTooltip="Dashboard configuration"
-          matTooltip="Select data type"
-          aria-label="Button that opens menu to select data type"
+      <div id="header-controls" class="dashboard-controls">
+        <dashboard-data-type-selector
+          [type]="archiveType"
+          [stat]="archiveStat"
+          (dataTypeSelected)="selectArchiveType($event)"
         >
-          {{ archiveType !== "raw" ? archiveStat + " of " : ""
-          }}{{
-            archiveType !== "raw"
-              ? archiveType + " archive"
-              : archiveType + " data"
-          }}
-        </button>
+        </dashboard-data-type-selector>
         <shared-date-select
           [secondsAgoFromNow]="this.viewService?.range"
           [initialStartDate]="this.viewService?.startdate"
@@ -50,7 +42,8 @@
       </div>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <div>
+      <div>channel filter componenent goes here</div>
+      <div id="header-bottom" class="dashboard-controls">
         <button
           mat-flat-button
           color="accent"
@@ -93,50 +86,7 @@
             Delete Dashboard
           </button>
         </mat-menu>
-        <mat-menu
-          #dataType="matMenu"
-          class="mat-menu-dense"
-          yPosition="below"
-          xPosition="after"
-        >
-          <button mat-menu-item (click)="selectArchiveType('raw', '')">
-            <span> raw data </span>
-          </button>
-          <button mat-menu-item [matMenuTriggerFor]="dayArchiveStat">
-            <span>day archives</span>
-          </button>
-          <button mat-menu-item [matMenuTriggerFor]="monthArchiveStat">
-            <span> month archives </span>
-          </button>
-        </mat-menu>
-        <mat-menu
-          #dayArchiveStat="matMenu"
-          class="mat-menu-dense"
-          yPosition="below"
-          xPosition="after"
-        >
-          <button
-            mat-menu-item
-            *ngFor="let item of archiveStatTypes"
-            (click)="selectArchiveType('day', item)"
-          >
-            {{ item }}
-          </button>
-        </mat-menu>
-        <mat-menu
-          #monthArchiveStat="matMenu"
-          class="mat-menu-dense"
-          yPosition="below"
-          xPosition="after"
-        >
-          <button
-            mat-menu-item
-            *ngFor="let item of archiveStatTypes"
-            (click)="selectArchiveType('month', item)"
-          >
-            {{ item }}
-          </button>
-        </mat-menu>
+
         <button
           mat-icon-button
           [matMenuTriggerFor]="appMenu"

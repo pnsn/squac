@@ -6,8 +6,8 @@
 }
 
 button {
-  height: 30px;
-  line-height: 1.1;
+  height: 33px;
+  line-height: 2;
   padding: 0px 10px;
   margin: 0px 5px;
 }
@@ -54,8 +54,11 @@ button {
       font-weight: 200;
     }
   }
+  #header-bottom {
+    // width: 100%;
+  }
 
-  #header-controls {
+  .dashboard-controls {
     // height: 20px;
     display: flex;
     flex-direction: row;

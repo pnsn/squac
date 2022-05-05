@@ -276,31 +276,56 @@ ngx-datatable {
   }
 }
 
+.dense-form-field {
+  .mat-form-field-flex {
+    align-items: center;
+    height: 38px;
+    padding: 0 0 0 5px;
+  }
+  .mat-form-field-wrapper {
+    margin: 0;
+    padding-bottom: 0;
+  }
+  .mat-form-field-infix {
+    padding: 3px 0 0 0;
+    border-top: none;
+    .mat-form-field-label-wrapper {
+      padding-top: 0;
+    }
+  }
+  .mat-form-field-prefix,
+  .mat-form-field-suffix {
+    top: 0.15em;
+  }
+}
+
+.dense-form-field-select {
+  .mat-select-trigger {
+    .mat-select-arrow-wrapper {
+      transform: unset;
+    }
+  }
+
+  @extend .dense-form-field;
+}
+
+mat-form-field {
+  &.xsmall {
+    width: 100px;
+  }
+  &.small {
+    width: 150px;
+  }
+  &.medium {
+    width: 250px;
+  }
+  &.large {
+    width: 400px;
+  }
+}
 #table-view-container {
   #filters,
   #controls {
-    #search-filter {
-      .mat-form-field-flex {
-        align-items: center;
-        height: 38px;
-        padding: 0 0 0 5px;
-      }
-      .mat-form-field-wrapper {
-        margin: 0;
-        padding-bottom: 0;
-      }
-      .mat-form-field-infix {
-        padding: 3px 0 0 0;
-        border-top: none;
-        .mat-form-field-label-wrapper {
-          padding-top: 0;
-        }
-      }
-      .mat-form-field-prefix,
-      .mat-form-field-suffix {
-        top: 0.15em;
-      }
-    }
     #toggle-shared-filter {
       @extend .dense-button-toggle;
       .mat-button-toggle-button {

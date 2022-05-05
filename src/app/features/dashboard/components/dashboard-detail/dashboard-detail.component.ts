@@ -21,20 +21,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   unsaved = false;
   archiveType: string;
   archiveStat: string;
-  archiveStatTypes: string[] = [
-    "min",
-    "max",
-    "mean",
-    "median",
-    "stdev",
-    "num_samps",
-    "p05",
-    "p10",
-    "p90",
-    "p95",
-    "minabs",
-    "maxabs",
-  ];
 
   datePickerTimeRanges = [
     {
@@ -115,11 +101,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     //mark unsaved
   }
 
-  selectArchiveType(type, stat) {
-    this.archiveType = type;
-    this.archiveStat = stat;
+  selectArchiveType(event) {
+    console.log(event);
     this.unsaved = true;
-    this.viewService.setArchive(this.archiveType, this.archiveStat);
+    this.viewService.setArchive(event.type, event.stat);
   }
 
   editDashboard() {
