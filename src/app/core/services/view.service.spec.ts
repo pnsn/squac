@@ -158,15 +158,6 @@ describe("ViewService", () => {
     });
   });
 
-  it("should send out new dates", () => {
-    service.setDashboard(testDashboard);
-    const datesSpy = spyOn(service.dates, "next");
-
-    service.datesChanged(dayjs.utc(), dayjs.utc(), true);
-
-    expect(datesSpy).toHaveBeenCalled();
-  });
-
   it("should update given widget", () => {
     const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)
@@ -199,14 +190,6 @@ describe("ViewService", () => {
     service.deleteWidget(testWidget.id);
 
     expect(widgetSpy).toHaveBeenCalled();
-  });
-
-  it("should refresh widgets", () => {
-    service.refresh.subscribe((value) => {
-      expect(value).toEqual("refresh");
-    });
-
-    service.refreshWidgets();
   });
 
   it("should delete dashboard", () => {

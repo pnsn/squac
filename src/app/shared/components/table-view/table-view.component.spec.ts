@@ -35,6 +35,7 @@ describe("TableViewComponent", () => {
     component.options = {};
     component.controls = {};
     component.filters = {};
+    component.rows = [];
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

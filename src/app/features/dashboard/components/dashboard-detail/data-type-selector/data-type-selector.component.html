@@ -1,34 +1,3 @@
-<!-- <mat-form-field class="dense-form-field-select small" appearance="outline">
-  <mat-label>Data Type</mat-label>
-  <mat-select
-    [(ngModel)]="type"
-    (valueChange)="selectDataType($event)"
-    placeholder="data type"
-  >
-    <mat-option value="raw"> raw data </mat-option>
-    <mat-option value="day"> daily archive </mat-option>
-    <mat-option value="month"> month archive </mat-option>
-  </mat-select>
-</mat-form-field>
-
-<mat-form-field
-  class="dense-form-field-select small"
-  appearance="outline"
-  floatLabel="always"
->
-  <mat-label>Stat Type</mat-label>
-  <mat-select
-    [(ngModel)]="stat"
-    [disabled]="type === 'raw'"
-    (valueChange)="selectDataType($event)"
-    placeholder="archive stat"
-  >
-    <mat-option *ngFor="let stat of statTypes" [value]="stat">
-      {{ stat }}
-    </mat-option>
-  </mat-select>
-</mat-form-field> -->
-
 <mat-form-field class="dense-form-field-select" appearance="outline">
   <mat-label>Data Type</mat-label>
   <input

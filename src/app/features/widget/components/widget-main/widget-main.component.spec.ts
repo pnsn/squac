@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetMainComponent } from "./widget-main.component";
 import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs";
+import { of, Subject } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MeasurementService } from "@widget/services/measurement.service";
 import { WidgetModule } from "@widget/widget.module";
@@ -29,12 +29,19 @@ describe("WidgetMainComponent", () => {
       ],
       declarations: [WidgetMainComponent, MockComponent(WidgetDetailComponent)],
       providers: [
-        { provide: ViewService, useClass: MockViewService },
+        MockProvider(ViewService, {
+          widgetUpdated: new Subject(),
+          resize: new Subject(),
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: 123 }),
-            data: of({ widgets: [] }),
+            snapshot: {
+              data: {
+                widgets: [],
+              },
+            },
           },
         },
         MockProvider(MeasurementService),

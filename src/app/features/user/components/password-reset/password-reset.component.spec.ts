@@ -17,7 +17,7 @@ describe("PasswordResetComponent", () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         NoopAnimationsModule,
         MaterialModule,
         ReactiveFormsModule,

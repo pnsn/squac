@@ -21,65 +21,63 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedIndicatorComponent } from "@shared/components/shared-indicator/shared-indicator.component";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { MaterialModule } from "@shared/material.module";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { MockBuilder } from "ng-mocks";
+import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
+import { DataTypeSelectorComponent } from "./data-type-selector/data-type-selector.component";
+import { SharedModule } from "@shared/shared.module";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
   let fixture: ComponentFixture<DashboardDetailComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule,
-        FormsModule,
-        NgxDatatableModule,
-        MaterialModule,
-        WidgetModule,
-        AbilityModule,
-        NgxDaterangepickerMd.forRoot(),
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        DashboardService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 123 }),
-            data: of({
-              dashboard: new Dashboard(
-                1,
-                1,
-                "name",
-                "description",
-                false,
-                false,
-                1,
-                []
-              ),
-            }),
-          },
+  beforeEach(() =>
+    MockBuilder(DashboardDetailComponent)
+      .keep(RouterTestingModule.withRoutes([]))
+      .mock(ConfirmDialogService)
+      .mock(MaterialModule)
+      .mock(SharedModule)
+      .provide({
+        provide: ViewService,
+        useValue: {
+          status: of(),
+          error: of(),
+          setDashboard: () => {},
         },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-        { provide: ViewService, useValue: new MockViewService() },
-      ],
-      declarations: [
-        DashboardDetailComponent,
+      })
+      .mock(Ability)
+      .mock(DataTypeSelectorComponent)
+      .mock([
+        DateSelectComponent,
+        DataTypeSelectorComponent,
         UserPipe,
         OrganizationPipe,
         SharedIndicatorComponent,
         ErrorComponent,
-      ],
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
+      ])
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({ id: 123 }),
+          data: of({
+            dashboard: new Dashboard(
+              1,
+              1,
+              "name",
+              "description",
+              false,
+              false,
+              1,
+              []
+            ),
+          }),
+        },
+      })
+  );
+  it("should create", () => {
     fixture = TestBed.createComponent(DashboardDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -12,6 +12,8 @@ import {
 } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { MessageService } from "@core/services/message.service";
+import { AppModule } from "app/app.module";
+import { ActivatedRoute } from "@angular/router";
 
 describe("HomeComponent", () => {
   ngMocks.faster();
@@ -19,9 +21,23 @@ describe("HomeComponent", () => {
 
   beforeAll(async () => {
     return TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MockModule(MaterialModule)],
+      imports: [
+        RouterTestingModule,
+        MockModule(MaterialModule),
+        MockModule(AppModule),
+      ],
       declarations: [HomeComponent, MockComponent(HeaderComponent)],
-      providers: [MockProvider(MessageService)],
+      providers: [
+        MockProvider(MessageService),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {},
+            },
+          },
+        },
+      ],
     }).compileComponents();
   });
 

@@ -13,7 +13,7 @@ describe("OrganizationEditEntryComponent", () => {
 
   beforeEach(() =>
     MockBuilder(OrganizationEditEntryComponent)
-      .keep(RouterTestingModule)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(DashboardService)
       .mock(MatDialogModule)
       .provide({

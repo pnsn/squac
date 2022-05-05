@@ -128,7 +128,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.processColumns();
     }
     if (changes.rows && changes.rows.currentValue) {
-      console.log(this.rows.length);
       this.processRows();
     }
     if (changes.selectedRowId && changes.selectedRowId) {
