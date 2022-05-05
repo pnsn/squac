@@ -24,12 +24,6 @@ export class WidgetDataService implements OnDestroy {
       "dataRefreshIntervalMinutes",
       4
     );
-    // this.refreshInterval = 0.5;
-    const refreshSub = this.viewService.refresh.subscribe(() => {
-      this.fetchMeasurements();
-    });
-
-    this.subscription.add(refreshSub);
   }
 
   ngOnDestroy() {

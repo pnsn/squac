@@ -17,7 +17,7 @@ import { DateService } from "./date.service";
 export class ViewService {
   // handle refreshing
   currentWidgets = new Subject<Widget[]>();
-  dates = new ReplaySubject<number>(1);
+  updateData = new ReplaySubject<number>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
   status = new BehaviorSubject<string>("loading"); // loading, error, finished
@@ -129,6 +129,7 @@ export class ViewService {
       range = this.defaultTimeRange;
     }
     this.datesChanged(startDate, endDate, liveMode, range);
+    this.updateData.next(this.dashboard.id);
   }
 
   // takes given date config and saves it, emits changed dates
@@ -148,7 +149,6 @@ export class ViewService {
     }
     this.dashboard.starttime = start;
     this.dashboard.endtime = end;
-    this.updateData();
   }
 
   // returns the wdiget index
@@ -166,12 +166,6 @@ export class ViewService {
     this.resize.next(null);
   }
 
-  // tell widgets to get new data
-  updateData() {
-    console.log("update data");
-    this.dates.next(this.dashboard.id);
-  }
-
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
@@ -184,8 +178,6 @@ export class ViewService {
   setArchive(archiveType, archiveStat) {
     this.dashboard.archiveStat = archiveStat;
     this.dashboard.archiveType = archiveType;
-
-    this.updateData();
   }
 
   // decrements count of widgets still loading
@@ -247,13 +239,6 @@ export class ViewService {
         this.messageService.error("Could not delete widget.");
       }
     );
-  }
-
-  // TODO: this should refresh widget info if its going to be lvie
-  // Will rerender widgets, but not get new widget information
-  refreshWidgets(): void {
-    this.refresh.next("refresh");
-    // this.getWidgets(this.dashboard.id);
   }
 
   // deletes the dashboard

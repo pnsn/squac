@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { EventManager } from "@angular/platform-browser";
 
 @Component({
   selector: "dashboard-data-type-selector",
@@ -29,16 +30,16 @@ export class DataTypeSelectorComponent implements OnInit {
     if (this.type === "raw") {
       this.stat = "";
     }
-    console.log(this.type, this.stat);
   }
 
-  selectDataType(event) {
+  selectDataType(type, stat) {
+    console.log(type, stat);
     if (this.type === "raw") {
       this.stat = "";
     } else if (!this.stat) {
       this.stat = "min";
     }
 
-    console.log(this.type, this.stat);
+    // this.dataTypeSelected.emit({ stat: this.stat, type: this.type });
   }
 }

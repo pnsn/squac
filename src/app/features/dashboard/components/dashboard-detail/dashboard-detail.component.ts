@@ -22,6 +22,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   archiveType: string;
   archiveStat: string;
 
+  dataParamsChanged = false;
+
   datePickerTimeRanges = [
     {
       amount: "15",
@@ -98,13 +100,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
     this.unsaved = true;
-    //mark unsaved
+    this.dataParamsChanged = true;
   }
 
   selectArchiveType(event) {
-    console.log(event);
-    this.unsaved = true;
     this.viewService.setArchive(event.type, event.stat);
+    this.unsaved = true;
+    this.dataParamsChanged = true;
   }
 
   editDashboard() {
@@ -131,7 +133,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    this.viewService.refreshWidgets();
+    this.viewService.updateData.next(this.dashboard.id);
+    this.dataParamsChanged = false;
   }
 
   save() {

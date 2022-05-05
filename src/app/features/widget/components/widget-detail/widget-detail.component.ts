@@ -50,8 +50,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     });
     this.widgetDataService.setWidget(this.widget);
 
-    const datesSub = this.viewService.dates.subscribe(
-      (dashboardId) => {
+    const datesSub = this.viewService.updateData.subscribe({
+      next: (dashboardId) => {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
           this.loading = true;
@@ -59,10 +59,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
           this.getData();
         }
       },
-      (error) => {
+      error: (error) => {
         console.log("error in widget detail dates: " + error);
-      }
-    );
+      },
+    });
 
     this.dashboardService
       .getDashboards()
