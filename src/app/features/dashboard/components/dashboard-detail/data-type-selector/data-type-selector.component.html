@@ -29,41 +29,52 @@
   </mat-select>
 </mat-form-field> -->
 
-<mat-form-field class="dense-form-field-select small" appearance="outline">
+<mat-form-field class="dense-form-field-select" appearance="outline">
   <mat-label>Data Type</mat-label>
-  <mat-select placeholder="data type">
-    <mat-option value="raw"> raw data </mat-option>
-    <mat-option value="day"> daily archive </mat-option>
-    <mat-option value="month"> month archive </mat-option>
-  </mat-select>
+  <input
+    matInput
+    placeholder="data type"
+    [matMenuTriggerFor]="dataTypeMenu"
+    readonly
+    [value]="displayString"
+  />
 </mat-form-field>
+<mat-menu
+  class="mat-menu-dense"
+  #dataTypeMenu="matMenu"
+  panelClass="stat-type-menu"
+>
+  <ng-container *ngFor="let type of dataTypes">
+    <button
+      [ngClass]="type.value === dataType ? 'active' : ''"
+      *ngIf="type.value === 'raw'"
+      mat-menu-item
+      (click)="selectDataType(type, '')"
+    >
+      raw data
+    </button>
 
-<button mat-button [matMenuTriggerFor]="dataType">
-  {{ this.type }} {{ this.stat }}
-</button>
-<mat-menu class="mat-menu-dense" #dataType="matMenu">
-  <button mat-menu-item (click)="selectDataType('raw', '')">Raw Data</button>
-  <button
-    mat-menu-item
-    [matMenuTriggerFor]="statType"
-    [matMenuTriggerData]="{ type: 'day' }"
-  >
-    Daily Archive
-  </button>
-  <button
-    mat-menu-item
-    [matMenuTriggerFor]="statType"
-    [matMenuTriggerData]="{ type: 'month' }"
-  >
-    Monthly Archive
-  </button>
+    <button
+      mat-menu-item
+      [ngClass]="type.value === dataType ? 'active' : ''"
+      *ngIf="type.value !== 'raw'"
+      [matMenuTriggerFor]="statType"
+      [matMenuTriggerData]="{ type }"
+    >
+      {{ type.full }}
+    </button>
+  </ng-container>
 </mat-menu>
 
-<mat-menu class="mat-menu-dense" #statType="matMenu">
+<mat-menu class="mat-menu-dense" #statType="matMenu" overlapTrigger="false">
   <ng-template matMenuContent let-type="type">
+    <button mat-menu-item disabled readonly>
+      {{ type.full }}
+    </button>
     <button
       mat-menu-item
       *ngFor="let stat of statTypes"
+      [ngClass]="type.value === dataType && stat === statType ? 'active' : ''"
       (click)="selectDataType(type, stat)"
     >
       {{ stat }}

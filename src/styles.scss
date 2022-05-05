@@ -473,9 +473,23 @@ ngx-datatable.shared-view-table {
     // right: 8px;
   }
   button.mat-menu-item {
+    &.active {
+      background-color: lighten($sq-lt-blue, 30%) !important;
+    }
+    &.active:hover {
+      background-color: lighten($sq-lt-blue, 20%) !important;
+    }
+    &[disabled]:hover {
+      background-color: transparent !important;
+    }
+    &:hover {
+      background-color: $sq-lt-gray !important;
+    }
+
     height: 30px !important;
     line-height: 10px;
   }
+
   a.mat-menu-item {
     height: 30px !important;
     line-height: 30px;

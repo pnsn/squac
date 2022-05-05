@@ -100,13 +100,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
     this.unsaved = true;
-    this.dataParamsChanged = true;
+    this.refreshData();
   }
 
   selectArchiveType(event) {
-    this.viewService.setArchive(event.type, event.stat);
+    this.viewService.setArchive(event.dataType, event.statType);
     this.unsaved = true;
-    this.dataParamsChanged = true;
+    this.refreshData();
   }
 
   editDashboard() {

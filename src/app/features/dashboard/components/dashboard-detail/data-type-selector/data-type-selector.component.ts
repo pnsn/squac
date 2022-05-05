@@ -7,8 +7,8 @@ import { EventManager } from "@angular/platform-browser";
   styleUrls: ["./data-type-selector.component.scss"],
 })
 export class DataTypeSelectorComponent implements OnInit {
-  @Input() type: string;
-  @Input() stat: string;
+  @Input() dataType: string;
+  @Input() statType: string;
   @Output() dataTypeSelected = new EventEmitter<any>();
   statTypes: string[] = [
     "min",
@@ -24,22 +24,37 @@ export class DataTypeSelectorComponent implements OnInit {
     "minabs",
     "maxabs",
   ];
+  dataTypes: any = [
+    { value: "raw", short: "raw", full: "raw data" },
+    { value: "day", short: "daily", full: "day archive" },
+    { value: "month", short: "monthly", full: "month archive" },
+  ];
+
+  fullType: any; //used for keeping track of name
+
   constructor() {}
 
   ngOnInit(): void {
-    if (this.type === "raw") {
-      this.stat = "";
+    if (this.dataType === "raw") {
+      this.statType = "";
     }
+    this.fullType = this.dataTypes.find((dataType) => {
+      return dataType.value === this.dataType;
+    });
   }
 
   selectDataType(type, stat) {
-    console.log(type, stat);
-    if (this.type === "raw") {
-      this.stat = "";
-    } else if (!this.stat) {
-      this.stat = "min";
-    }
+    this.dataType = type;
+    this.statType = stat;
+    this.fullType = type;
+    this.dataType = type.value;
+    this.dataTypeSelected.emit({
+      statType: this.statType,
+      dataType: this.dataType,
+    });
+  }
 
-    // this.dataTypeSelected.emit({ stat: this.stat, type: this.type });
+  get displayString() {
+    return this.fullType.full + " " + this.statType;
   }
 }

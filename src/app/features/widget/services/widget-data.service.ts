@@ -107,4 +107,6 @@ export class WidgetDataService implements OnDestroy {
       }, this.refreshInterval * 60 * 1000);
     }
   }
+
+  //cache some measurement requests
 }

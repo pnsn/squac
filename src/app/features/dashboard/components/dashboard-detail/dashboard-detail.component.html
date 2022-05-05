@@ -74,8 +74,8 @@
       <div>channel filter componenent goes here</div>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
-          [type]="archiveType"
-          [stat]="archiveStat"
+          [dataType]="archiveType"
+          [statType]="archiveStat"
           (dataTypeSelected)="selectArchiveType($event)"
         >
         </dashboard-data-type-selector>
@@ -88,33 +88,12 @@
         ></shared-date-select>
 
         <button
-          [color]="!dataParamsChanged ? 'primary' : 'accent'"
           mat-icon-button
           (click)="refreshData()"
           matTooltip="Refresh data"
           aria-label="Button that requests new data from the database"
         >
           <mat-icon>refresh</mat-icon>
-        </button>
-        <button
-          mat-flat-button
-          *ngIf="!dataParamsChanged"
-          color="primary"
-          (click)="refreshData()"
-          matTooltip="Refresh data"
-          aria-label="Button that requests new data from the database"
-        >
-          Refresh Data
-        </button>
-        <button
-          mat-raised-button
-          *ngIf="dataParamsChanged"
-          color="accent"
-          (click)="refreshData()"
-          matTooltip="Refresh data"
-          aria-label="Button that requests new data from the database"
-        >
-          Refresh Data
         </button>
       </div>
     </mat-toolbar-row>

@@ -9,7 +9,6 @@ button {
   height: 33px;
   line-height: 2;
   padding: 0px 10px;
-  margin: 0px 5px;
 }
 
 #dashboard-header {
@@ -64,6 +63,7 @@ button {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 5px;
   }
 }
 
