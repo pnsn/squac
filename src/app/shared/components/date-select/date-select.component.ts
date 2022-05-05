@@ -11,7 +11,6 @@ import * as dayjs from "dayjs";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
 import { DaterangepickerDirective } from "ngx-daterangepicker-material";
-import { range } from "d3";
 
 @Component({
   selector: "shared-date-select",

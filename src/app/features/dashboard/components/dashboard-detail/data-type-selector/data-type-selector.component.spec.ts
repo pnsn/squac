@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DataTypeSelectorComponent } from './data-type-selector.component';
+import { DataTypeSelectorComponent } from "./data-type-selector.component";
 
-describe('DataTypeSelectorComponent', () => {
+describe("DataTypeSelectorComponent", () => {
   let component: DataTypeSelectorComponent;
   let fixture: ComponentFixture<DataTypeSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataTypeSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [DataTypeSelectorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('DataTypeSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

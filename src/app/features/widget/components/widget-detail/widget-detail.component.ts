@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   SimpleChanges,
+  OnChanges,
 } from "@angular/core";
 import { Widget } from "@widget/models/widget";
 import { Subject, Subscription, tap } from "rxjs";
@@ -21,7 +22,7 @@ import { Ability } from "@casl/ability";
   styleUrls: ["./widget-detail.component.scss"],
   providers: [WidgetDataService],
 })
-export class WidgetDetailComponent implements OnInit, OnDestroy {
+export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   @Input() widget: Widget;
   data: any;
   subscription = new Subscription();
@@ -47,13 +48,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(changes.widget);
     if (changes.widget) {
       this.initWidget();
     }
   }
   ngOnInit() {
-    console.log("widget created");
     this.loading = true;
     const dataSub = this.widgetDataService.data.subscribe((data) => {
       this.noData = data && Object.keys(data).length === 0;

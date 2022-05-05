@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { EventManager } from "@angular/platform-browser";
 
 @Component({
   selector: "dashboard-data-type-selector",
@@ -31,8 +30,6 @@ export class DataTypeSelectorComponent implements OnInit {
   ];
 
   fullType: any; //used for keeping track of name
-
-  constructor() {}
 
   ngOnInit(): void {
     if (this.dataType === "raw") {

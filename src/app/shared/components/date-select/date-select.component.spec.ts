@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DateSelectComponent } from './date-select.component';
+import { DateSelectComponent } from "./date-select.component";
 
-describe('DateSelectComponent', () => {
+describe("DateSelectComponent", () => {
   let component: DateSelectComponent;
   let fixture: ComponentFixture<DateSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DateSelectComponent ]
-    })
-    .compileComponents();
+      declarations: [DateSelectComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('DateSelectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
