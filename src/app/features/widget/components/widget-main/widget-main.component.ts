@@ -116,10 +116,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     this.widgets.push(item);
   }
 
-  updateWidgetInGrid(widget) {
-    this.widgets[0].widget = widget;
-  }
-
   private updateWidget(widgetId: number, widget?: Widget) {
     const index = this.widgets.findIndex((item) => {
       return widgetId === item.widget.id;
@@ -131,7 +127,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       //add new
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
-      this.updateWidgetInGrid(widget);
+      this.widgets[index].widget = widget;
     }
   }
 

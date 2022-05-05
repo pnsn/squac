@@ -17,7 +17,7 @@ import { DateService } from "./date.service";
 export class ViewService {
   // handle refreshing
   currentWidgets = new Subject<Widget[]>();
-  updateData = new ReplaySubject<number>(1);
+  updateData = new Subject<number>();
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();
@@ -201,10 +201,8 @@ export class ViewService {
     }
   }
 
-  // FIXME: this currently will cause all widgets to reload;
-  // Tells widgets to get new data
+  // broadcast id of changed widget
   private widgetChanged(widgetId: number): void {
-    console.log("widget updated");
     this.widgetUpdated.next(widgetId);
     this.status.next("finished");
     this.error.next(null);

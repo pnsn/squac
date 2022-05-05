@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  SimpleChanges,
+} from "@angular/core";
 import { Widget } from "@widget/models/widget";
 import { Subject, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
@@ -38,17 +44,22 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
     private ability: Ability
   ) {}
 
-  ngOnInit() {
-    if (!this.widget.metrics || !this.widget.channelGroup) {
-      this.error = "Widget failed to load.";
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    console.log(changes.widget);
+    if (changes.widget) {
+      this.initWidget();
     }
+  }
+  ngOnInit() {
+    console.log("widget created");
     this.loading = true;
     const dataSub = this.widgetDataService.data.subscribe((data) => {
       this.noData = data && Object.keys(data).length === 0;
       this.data = data;
       this.loading = false;
     });
-    this.widgetDataService.setWidget(this.widget);
 
     const datesSub = this.viewService.updateData.subscribe({
       next: (dashboardId) => {
@@ -81,6 +92,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy {
 
     this.subscription.add(dataSub);
     // widget data errors here
+  }
+
+  initWidget() {
+    this.loading = true;
+    if (!this.widget.metrics || !this.widget.channelGroup) {
+      this.error = "Widget failed to load.";
+    }
+    this.widgetDataService.setWidget(this.widget);
+    this.getData();
   }
 
   ngOnDestroy(): void {
