@@ -78,11 +78,12 @@
           *ngIf="filters.toggleShared"
           name="sharing"
           aria-label=""
-          (change)="toggleSharing($event)"
+          (change)="toggleSharing()"
+          [(ngModel)]="shareFilter"
         >
           <mat-button-toggle value="user">User</mat-button-toggle>
           <mat-button-toggle value="org">PNSN</mat-button-toggle>
-          <mat-button-toggle checked value="all">All</mat-button-toggle>
+          <mat-button-toggle value="all">All</mat-button-toggle>
         </mat-button-toggle-group>
 
         <ng-content select="[tableHeadFilters]"> </ng-content>

@@ -48,12 +48,10 @@ export class DateSelectComponent implements OnInit {
 
   ngOnInit(): void {
     //config datepicker
-
     this.maxDate = this.dateService.now();
     this.startDate = this.dateService.now();
     this.makeTimeRanges();
     this.locale = this.dateService.locale;
-
     this.setUpInitialValues();
   }
 

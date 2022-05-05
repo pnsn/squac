@@ -5,9 +5,12 @@
   appearance="outline"
   class="dense-form-field large"
 >
+  <mat-label>Custom Date Range</mat-label>
   <input
     #datePicker
     matInput
+    placeholder="Set Date Range"
+    floatLabel="always"
     ngxDaterangepickerMd
     type="text"
     [locale]="locale"
@@ -23,7 +26,6 @@
     endKey="endDate"
     (datesUpdated)="datePickerChange($event)"
   />
-  <mat-icon matSuffix>calendar_month</mat-icon>
 </mat-form-field>
 <mat-button-toggle-group
   name="rangeToggle"

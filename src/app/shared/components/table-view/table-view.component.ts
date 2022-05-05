@@ -55,6 +55,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   user: User;
   clickCount = 0;
   selectedGroupKey;
+  shareFilter = "org";
   constructor(
     private userService: UserService,
     private orgService: OrganizationService,
@@ -96,6 +97,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
+        this.processRows();
       },
     });
 
@@ -126,7 +128,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.processColumns();
     }
     if (changes.rows && changes.rows.currentValue) {
-      this.tableRows = [...this.rows];
+      console.log(this.rows.length);
+      this.processRows();
     }
     if (changes.selectedRowId && changes.selectedRowId) {
       this.selectResource(this.selectedRowId);
@@ -168,6 +171,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     //   console.log(this.columns);
     // }
     this.tableColumns = [...this.columns];
+  }
+
+  processRows() {
+    this.toggleSharing();
   }
 
   // selected id, view resource if doubleclicked
@@ -296,13 +303,14 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  toggleSharing(event) {
+  toggleSharing() {
     let temp;
-    if (event.value === "user") {
+    if (this.shareFilter === "user" && this.user) {
       temp = this.rows.filter((row) => {
         return this.user.id === row.owner;
       });
-    } else if (event.value === "org") {
+    } else if (this.shareFilter === "org" && this.user) {
+      console.log("inorg sort", this.user.orgId);
       temp = this.rows.filter((row) => {
         return this.user.orgId === row.orgId;
       });

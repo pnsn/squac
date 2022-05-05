@@ -36,6 +36,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       dragHandleClass: "drag-handler",
       dropOverItems: false,
     },
+    scrollToNewItems: true,
     gridType: "verticalFixed",
     fixedRowHeight: 100,
     minCols: 20,
@@ -82,15 +83,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.x = item.x;
     item.widget.y = item.y;
     if (this.widgets && this.inited === this.widgets.length) {
-      this.widgetService.updateWidget(item.widget).subscribe(
-        () => {
-          console.log("widgets saved");
-        },
-        (error) => {
-          console.log("error in widget update: ", error);
-        }
-      );
-      this.viewService.resizeWidget(item.widget.id);
+      this.viewService.saveWidgetResize(item.widget);
     }
   }
 
@@ -98,42 +91,79 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 
+  trackBy(_index, item) {
+    return item.id;
+  }
+
   private addWidgetsToView(widgets: Widget[]) {
-    this.widgets.splice(0, this.widgets.length);
+    this.widgets = [];
     if (widgets && widgets.length > 0) {
       widgets.forEach((widget) => {
-        this.widgets.push({
-          cols: widget.columns ? widget.columns : 1,
-          rows: widget.rows ? widget.rows : 1,
-          y: widget.y ? widget.y : 0,
-          x: widget.x ? widget.x : 0,
-          widget,
-        });
+        this.addWidgetToGrid(widget);
       });
     }
     this.loading = false;
   }
-  ngOnInit(): void {
-    const widgetSub = this.viewService.currentWidgets.subscribe((widgets) => {
-      this.addWidgetsToView(widgets);
+
+  addWidgetToGrid(widget: Widget, rePosition?: boolean) {
+    const item = {
+      cols: widget.columns ? widget.columns : 1,
+      rows: widget.rows ? widget.rows : 1,
+      y: rePosition ? null : widget.y,
+      x: rePosition ? null : widget.x,
+      widget,
+    };
+    this.widgets.push(item);
+  }
+
+  updateWidgetInGrid(widget) {
+    this.widgets[0].widget = widget;
+  }
+
+  private updateWidget(widgetId: number, widget?: Widget) {
+    const index = this.widgets.findIndex((item) => {
+      return widgetId === item.widget.id;
     });
+    // delete existing widget
+    if (index !== -1 && !widget) {
+      this.widgets.splice(index, 1);
+    } else if (index === -1 && widget) {
+      //add new
+      this.addWidgetToGrid(widget, true); //do the find position here
+    } else {
+      this.updateWidgetInGrid(widget);
+    }
+  }
+
+  ngOnInit(): void {
+    const widgetSub = this.viewService.widgetUpdated.subscribe(
+      (widgetId: number) => {
+        const widget = this.viewService.getWidgetById(widgetId);
+        this.updateWidget(widgetId, widget);
+      }
+    );
     this.canUpdate = this.viewService.canUpdate;
 
-    const dataSub = this.route.data.subscribe((data) => {
-      if (data.widgets.error) {
-        this.error = "Could not load dashboard or widgets";
-      } else {
-        this.addWidgetsToView(data.widgets);
-        // this.options.api.res
-        this.viewService.setWidgets(data.widgets);
-        // allow dragable and resizable if they have permission to edit dashboard
-        this.options.draggable.enabled = this.canUpdate;
-        this.options.resizable.enabled = this.canUpdate;
-        if (this.options.api) {
-          this.options.api.optionsChanged();
-        }
+    const data = this.route.snapshot.data;
+    if (data.widgets.error) {
+      this.error = "Could not load dashboard or widgets";
+    } else {
+      this.addWidgetsToView(data.widgets);
+      // this.options.api.res
+      this.viewService.setWidgets(data.widgets);
+      // allow dragable and resizable if they have permission to edit dashboard
+      this.options.draggable.enabled = this.canUpdate;
+      this.options.resizable.enabled = this.canUpdate;
+      if (this.options.api) {
+        this.options.api.optionsChanged();
       }
-    });
+    }
+
+    // const dataSub = this.route.data.subscribe((data) => {
+    //   console.log("widgets from route");
+    //   console.log(data === lastData);
+
+    // });
 
     const resizeSub = this.viewService.resize.subscribe((widgetId) => {
       if (!widgetId) {
@@ -141,7 +171,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
     this.subscription.add(widgetSub);
-    this.subscription.add(dataSub);
+    // this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }
 

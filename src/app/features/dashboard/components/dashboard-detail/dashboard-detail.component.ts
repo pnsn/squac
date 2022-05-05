@@ -21,6 +21,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   unsaved = false;
   archiveType: string;
   archiveStat: string;
+  startdate: string;
+  enddate: string;
 
   dataParamsChanged = false;
 
@@ -75,6 +77,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.archiveStat = this.dashboard.archiveStat;
         this.archiveType = this.dashboard.archiveType;
         this.viewService.setDashboard(this.dashboard);
+        this.startdate = this.viewService.startdate;
+        this.enddate = this.viewService.enddate;
         this.error = null;
       }
     });
@@ -133,6 +137,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
+    console.log("refresh data");
     this.viewService.updateData.next(this.dashboard.id);
     this.dataParamsChanged = false;
   }

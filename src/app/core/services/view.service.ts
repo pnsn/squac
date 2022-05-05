@@ -20,6 +20,7 @@ export class ViewService {
   updateData = new ReplaySubject<number>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
+  widgetUpdated = new Subject<number>();
   status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   private live: boolean;
@@ -156,6 +157,10 @@ export class ViewService {
     return this.dashboard.widgets.findIndex((w) => w.id === id);
   }
 
+  getWidgetById(id: number) {
+    return this.dashboard.widgets.find((w) => w.id === id);
+  }
+
   // send id to resize subscribers
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
@@ -198,7 +203,9 @@ export class ViewService {
 
   // FIXME: this currently will cause all widgets to reload;
   // Tells widgets to get new data
-  private widgetChanged(_widgetId: number): void {
+  private widgetChanged(widgetId: number): void {
+    console.log("widget updated");
+    this.widgetUpdated.next(widgetId);
     this.status.next("finished");
     this.error.next(null);
   }
@@ -215,17 +222,30 @@ export class ViewService {
         (newWidget) => {
           if (index > -1) {
             this.dashboard.widgets[index] = newWidget;
+            this.messageService.message("Widget updated.");
           } else {
             this.dashboard.widgets.push(newWidget);
+            this.messageService.message("Widget added.");
           }
-          this.widgetChanged(widgetId);
-          this.messageService.message("Widget updated.");
+          this.widgetChanged(newWidget.id);
         },
         () => {
           this.messageService.error("Could not updated widget.");
         }
       );
     }
+  }
+
+  saveWidgetResize(widget: Widget) {
+    this.widgetService.updateWidget(widget).subscribe(
+      (widget) => {
+        this.resizeWidget(widget.id);
+        console.log("widgets saved");
+      },
+      (error) => {
+        console.log("error in widget update: ", error);
+      }
+    );
   }
 
   // deletes given widget
