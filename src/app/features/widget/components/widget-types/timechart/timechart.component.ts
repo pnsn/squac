@@ -10,6 +10,7 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
+import { NetworkAdapter } from "@features/channel-group/models/network";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
@@ -64,18 +65,18 @@ export class TimechartComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit(): void {
-    this.xScaleMax = this.viewService.enddate;
-    this.yScaleMax = 0;
-    this.yScaleMin = 0;
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
+
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
     this.referenceLines = [];
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
+    const pieces = this.addThresholds();
 
+    const legendOffset = pieces.length;
     this.buildChartData(this.data);
     this.options = {
       title: {
@@ -88,6 +89,7 @@ export class TimechartComponent implements OnInit, OnChanges {
         orient: "vertical",
         align: "left",
         left: "right",
+        top: legendOffset * 15,
       },
       grid: {
         containLabel: true,
@@ -105,6 +107,12 @@ export class TimechartComponent implements OnInit, OnChanges {
         },
         axisPointer: {
           show: "true",
+          label: {
+            formatter: (value) => {
+              console.log(value);
+              return this.xAxisTooltipLabelFormatting(value.value);
+            },
+          },
         },
         axisLabel: {
           formatter: this.xAxisTickFormatting,
@@ -121,40 +129,15 @@ export class TimechartComponent implements OnInit, OnChanges {
       },
       tooltip: {
         trigger: "item",
-        // position: function (pt) {
-        //   return [pt[0], '10%'];
-        // }
+        position: function (pt) {
+          return [pt[0], "10%"];
+        },
       },
       visualMap: {
         top: 0,
         right: 0,
-        pieces: [
-          {
-            gt: 0,
-            lte: 10,
-            color: "#93CE07",
-          },
-          {
-            gt: 10,
-            lte: 20,
-            color: "#FBDB0F",
-          },
-          {
-            gt: 20,
-            lte: 30,
-            color: "#FC7D02",
-          },
-          {
-            gt: 30,
-            lte: 40,
-            color: "#FD0100",
-          },
-          {
-            gt: 40,
-            lte: 50,
-            color: "#AA069F",
-          },
-        ],
+        type: "piecewise",
+        pieces: pieces,
         outOfRange: {
           color: "#999",
         },
@@ -164,31 +147,23 @@ export class TimechartComponent implements OnInit, OnChanges {
     };
   }
 
-  xAxisTickFormatting(val, index) {
-    const value = new Date(val);
-    let formatOptions;
-    if (value.getSeconds() !== 0) {
-      formatOptions = { second: "2-digit" };
-    } else if (value.getMinutes() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getHours() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getDate() !== 1) {
-      formatOptions =
-        value.getDay() === 0
-          ? { month: "short", day: "2-digit" }
-          : { month: "short", day: "2-digit" };
-    } else if (value.getMonth() !== 0) {
-      formatOptions = { month: "long" };
-    } else {
-      formatOptions = { year: "numeric" };
+  addThresholds(): Array<any> {
+    const pieces = [];
+    if (this.thresholds[this.currentMetric.id]) {
+      const piece = {};
+      // thresholds.forEach((threshold)=>{  }) //allow multople
+      const threshold = this.thresholds[this.currentMetric.id];
+      if (threshold.min || threshold.min === 0) {
+        piece["min"] = threshold.min;
+      }
+      if (threshold.max || threshold.max === 0) {
+        piece["max"] = threshold.max;
+      }
+      piece["color"] = "#AA069F";
+      pieces.push(piece);
     }
-    formatOptions.hour12 = false;
-    formatOptions.timeZone = "UTC";
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
-    return string;
+
+    return pieces;
   }
 
   buildChartData(data) {
@@ -206,22 +181,6 @@ export class TimechartComponent implements OnInit, OnChanges {
         type: "line",
         data: [],
         large: true,
-        markArea: {
-          itemStyle: {
-            color: "rgba(255, 173, 177, 0.4)",
-          },
-          data: [
-            [
-              {
-                name: "Morning Peak",
-                yaxis: 10,
-              },
-              {
-                yAxis: 1000,
-              },
-            ],
-          ],
-        },
       };
 
       if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
@@ -280,11 +239,6 @@ export class TimechartComponent implements OnInit, OnChanges {
       }
     });
 
-    //yaxis label placement
-
-    console.log(Math.round(max), max.toString().length);
-    console.log(Math.round(min), min.toString().length);
-
     this.yScaleMax = Math.round(max) + 25;
     this.yScaleMin = Math.round(min) - 25;
 
@@ -311,38 +265,51 @@ export class TimechartComponent implements OnInit, OnChanges {
 
     return Math.max(minLen, maxLen) * 10 + 10;
   }
-}
 
-// series: [
-//   {
-//     name: 'Electricity',
-//     type: 'line',
-//     smooth: true,
-//     // prettier-ignore
-//     data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400],
-//     markArea: {
-//       itemStyle: {
-//         color: 'rgba(255, 173, 177, 0.4)'
-//       },
-//       data: [
-//         [
-//           {
-//             name: 'Morning Peak',
-//             xAxis: '07:30'
-//           },
-//           {
-//             xAxis: '10:00'
-//           }
-//         ],
-//         [
-//           {
-//             name: 'Evening Peak',
-//             xAxis: '17:30'
-//           },
-//           {
-//             xAxis: '21:15'
-//           }
-//         ]
-//       ]
-//     }
-//   }
+  xAxisTooltipLabelFormatting(val) {
+    const value = new Date(val);
+    let formatOptions = {};
+    formatOptions = {
+      //have to reassign it this way or linter won't allow it
+      second: "2-digit",
+      minute: "2-digit",
+      hour: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour12: false,
+      timeZone: "UTC",
+    };
+    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
+      value
+    );
+    return string;
+  }
+
+  xAxisTickFormatting(val, index?) {
+    const value = new Date(val);
+    let formatOptions;
+    if (value.getSeconds() !== 0) {
+      formatOptions = { second: "2-digit" };
+    } else if (value.getMinutes() !== 0) {
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
+    } else if (value.getHours() !== 0) {
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
+    } else if (value.getDate() !== 1) {
+      formatOptions =
+        value.getDay() === 0
+          ? { month: "short", day: "2-digit" }
+          : { month: "short", day: "2-digit" };
+    } else if (value.getMonth() !== 0) {
+      formatOptions = { month: "long" };
+    } else {
+      formatOptions = { year: "numeric" };
+    }
+    formatOptions.hour12 = false;
+    formatOptions.timeZone = "UTC";
+    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
+      value
+    );
+    return string;
+  }
+}
