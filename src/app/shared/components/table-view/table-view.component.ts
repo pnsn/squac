@@ -304,11 +304,15 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleSharing() {
     let temp;
-    if (this.shareFilter === "user" && this.user) {
+    if (this.filters.toggleShared && this.shareFilter === "user" && this.user) {
       temp = this.rows.filter((row) => {
         return this.user.id === row.owner;
       });
-    } else if (this.shareFilter === "org" && this.user) {
+    } else if (
+      this.filters.toggleShared &&
+      this.shareFilter === "org" &&
+      this.user
+    ) {
       console.log("inorg sort", this.user.orgId);
       temp = this.rows.filter((row) => {
         return this.user.orgId === row.orgId;

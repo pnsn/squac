@@ -55,6 +55,7 @@ export class MeasurementService {
     }
     return this.squacApi.get(this.url + path, null, params).pipe(
       map((response) => {
+        console.log(response.length);
         response.forEach((m) => {
           let value: Measurement | Aggregate | Archive;
           switch (path) {

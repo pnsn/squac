@@ -19,7 +19,7 @@ import { TableViewComponent } from "./components/table-view/table-view.component
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
 import { DateSelectComponent } from "./components/date-select/date-select.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
-
+import { NgxEchartsModule } from "ngx-echarts";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -39,11 +39,15 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     MaterialModule,
     LeafletModule,
     LeafletDrawModule,
+    NgxEchartsModule,
     AbilityModule,
     NgxDatatableModule,
     FormsModule,
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
+    NgxEchartsModule.forRoot({
+      echarts: () => import("echarts"),
+    }),
   ],
   exports: [
     MaterialModule,
@@ -66,6 +70,7 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     TableViewComponent,
     SearchFilterComponent,
     DateSelectComponent,
+    NgxEchartsModule,
   ],
 })
 export class SharedModule {}

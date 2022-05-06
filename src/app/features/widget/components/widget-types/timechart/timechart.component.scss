@@ -1,0 +1,11 @@
+.time-chart {
+  //FIXME: this should just be size of the widget
+  width: calc(100% - 22px);
+  height: calc(100% - 52.5px);
+  // position: absolute;
+  // left: 0;
+  // top: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  visibility: visible;
+}

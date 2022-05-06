@@ -95,14 +95,9 @@ export class WidgetDataService implements OnDestroy {
   private updateMeasurement() {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        const start = this.dateService.subtractFromNow(
-          this.viewService.range,
-          "seconds"
-        );
-        const end = this.dateService.now();
         this.fetchMeasurements(
-          this.dateService.format(start),
-          this.dateService.format(end)
+          this.viewService.startdate,
+          this.viewService.enddate
         );
       }, this.refreshInterval * 60 * 1000);
     }

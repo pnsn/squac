@@ -30,6 +30,10 @@ export class DateService {
     return localDate.utc();
   }
 
+  utcStringToMilliseconds(dateString: string): number {
+    return this.parseUtc(dateString).valueOf() / 1000;
+  }
+
   // get now
   now(): dayjs.Dayjs {
     return dayjs.utc().clone();
