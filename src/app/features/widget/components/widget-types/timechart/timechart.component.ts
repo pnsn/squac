@@ -67,7 +67,7 @@ export class TimechartComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
-
+    console.log(this.thresholds);
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
     this.referenceLines = [];
@@ -75,7 +75,7 @@ export class TimechartComponent implements OnInit, OnChanges {
       this.channels = this.channelGroup.channels;
     }
     const pieces = this.addThresholds();
-
+    console.log(pieces);
     const legendOffset = pieces.length;
     this.buildChartData(this.data);
     this.options = {
@@ -109,6 +109,7 @@ export class TimechartComponent implements OnInit, OnChanges {
           show: "true",
           label: {
             formatter: (value) => {
+              console.log(value);
               return this.xAxisTooltipLabelFormatting(value.value);
             },
           },
@@ -238,6 +239,11 @@ export class TimechartComponent implements OnInit, OnChanges {
       }
     });
 
+    //yaxis label placement
+
+    console.log(Math.round(max), max.toString().length);
+    console.log(Math.round(min), min.toString().length);
+
     this.yScaleMax = Math.round(max) + 25;
     this.yScaleMin = Math.round(min) - 25;
 
@@ -269,7 +275,7 @@ export class TimechartComponent implements OnInit, OnChanges {
     const value = new Date(val);
     let formatOptions = {};
     formatOptions = {
-      //have to reassign it this way or linter won't allow it
+      //have to reassign it this way or linter won't allow it set
       second: "2-digit",
       minute: "2-digit",
       hour: "2-digit",
@@ -282,6 +288,7 @@ export class TimechartComponent implements OnInit, OnChanges {
     const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
       value
     );
+    console.log(value, string);
     return string;
   }
 
@@ -309,6 +316,7 @@ export class TimechartComponent implements OnInit, OnChanges {
     const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
       value
     );
+    console.log(value, string);
     return string;
   }
 }

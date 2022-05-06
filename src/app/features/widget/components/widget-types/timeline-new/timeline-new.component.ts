@@ -126,11 +126,22 @@ export class TimelineNewComponent implements OnInit, OnChanges {
         },
         nameGap: 40, //max characters
       },
+      visualMap: {
+        top: 0,
+        right: 0,
+        type: "piecewise",
+        dimension: 3,
+        pieces: pieces,
+        outOfRange: {
+          color: "#999",
+        },
+      },
       tooltip: {
         trigger: "item",
         position: function (pt) {
           return [pt[0], "10%"];
         },
+        formatter: this.formatToolTip,
       },
       dataZoom: [
         {
@@ -146,21 +157,43 @@ export class TimelineNewComponent implements OnInit, OnChanges {
     };
   }
 
-  addThresholds(): Array<any> {
-    const pieces = [];
-    if (this.thresholds[this.currentMetric.id]) {
-      const piece = {};
-      // thresholds.forEach((threshold)=>{  }) //allow multople
-      const threshold = this.thresholds[this.currentMetric.id];
-      if (threshold.min || threshold.min === 0) {
-        piece["min"] = threshold.min;
-      }
-      if (threshold.max || threshold.max === 0) {
-        piece["max"] = threshold.max;
-      }
-      piece["color"] = "#AA069F";
-      pieces.push(piece);
+  formatToolTip(params) {
+    let data;
+    if (params.length === 0) {
+      data = [params];
+    } else {
+      data = params;
     }
+    let str = "";
+    str += data[0].axisValueLabel + "<br />";
+    data.forEach((param) => {
+      str += param.marker + " " + param.name + " " + param.value[3] + "<br />";
+    });
+
+    return str;
+  }
+
+  addThresholds(): Array<any> {
+    const pieces = [
+      {
+        min: 10,
+        max: 50,
+        color: "#AA069F",
+      },
+    ];
+    // if (this.thresholds[this.currentMetric.id]) {
+    //   const piece = {};
+    //   // thresholds.forEach((threshold)=>{  }) //allow multople
+    //   const threshold = this.thresholds[this.currentMetric.id];
+    //   if (threshold.min || threshold.min === 0) {
+    //     piece["min"] = threshold.min;
+    //   }
+    //   if (threshold.max || threshold.max === 0) {
+    //     piece["max"] = threshold.max;
+    //   }
+    //   piece["color"] = "#AA069F";
+    //   pieces.push(piece);
+    // }
 
     return pieces;
   }
@@ -204,12 +237,6 @@ export class TimelineNewComponent implements OnInit, OnChanges {
             height: params.coordSys.height,
           }
         );
-        console.log({
-          x: params.coordSys.x,
-          y: params.coordSys.y,
-          width: params.coordSys.width,
-          height: params.coordSys.height,
-        });
         return (
           rectShape && {
             type: "rect",
@@ -226,6 +253,9 @@ export class TimelineNewComponent implements OnInit, OnChanges {
       },
     };
 
+    this.channels.sort((a, b) => {
+      return b.nslc.localeCompare(a.nslc);
+    });
     this.channels.forEach((channel) => {
       if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
         const index = yAxisLabels.length;
@@ -249,13 +279,8 @@ export class TimelineNewComponent implements OnInit, OnChanges {
             const end = this.dateService.parseUtc(measurement.endtime).toDate();
             // let start = measurement.starttime;
             series.data.push({
-              name: measurement.value > 100 ? "In Spec" : "Out of Spec",
+              name: channel.nslc,
               value: [index, start, end, measurement.value],
-              itemStyle: {
-                normal: {
-                  color: measurement.value > 100 ? "#7b9ce1" : "#e0bc78",
-                },
-              },
             });
           }
         );
@@ -269,8 +294,6 @@ export class TimelineNewComponent implements OnInit, OnChanges {
       //   this.results.push(channelObj);
       // }
     });
-
-    console.log(yAxisLabels);
     this.yScaleMax = Math.round(max) + 25;
     this.yScaleMin = Math.round(min) - 25;
 
