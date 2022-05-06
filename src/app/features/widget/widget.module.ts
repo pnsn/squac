@@ -17,6 +17,7 @@ import { MapComponent } from "./components/widget-types/map/map.component";
 import { WidgetEditInfoComponent } from "./components/widget-edit/widget-edit-info/widget-edit-info.component";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { TimechartComponent } from "./components/widget-types/timechart/timechart.component";
+import { TimelineNewComponent } from './components/widget-types/timeline-new/timeline-new.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TimechartComponent } from "./components/widget-types/timechart/timechar
     MapComponent,
     WidgetEditInfoComponent,
     TimechartComponent,
+    TimelineNewComponent,
   ],
   imports: [SharedModule, NgxChartsModule, GridsterModule],
   providers: [

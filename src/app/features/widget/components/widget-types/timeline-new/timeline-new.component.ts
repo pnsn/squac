@@ -10,19 +10,19 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
-import { NetworkAdapter } from "@features/channel-group/models/network";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
+import { graphic } from "echarts";
 
 @Component({
-  selector: "widget-timechart",
-  templateUrl: "./timechart.component.html",
-  styleUrls: ["./timechart.component.scss"],
+  selector: "widget-timeline-new",
+  templateUrl: "./timeline-new.component.html",
+  styleUrls: ["./timeline-new.component.scss"],
 })
-export class TimechartComponent implements OnInit, OnChanges {
+export class TimelineNewComponent implements OnInit, OnChanges {
   constructor(
     private viewService: ViewService,
     private dateService: DateService
@@ -94,7 +94,7 @@ export class TimechartComponent implements OnInit, OnChanges {
       grid: {
         containLabel: true,
         left: "30",
-        right: "15%",
+        right: "30",
         bottom: "30",
       },
       useUtc: true,
@@ -118,7 +118,7 @@ export class TimechartComponent implements OnInit, OnChanges {
         },
       },
       yAxis: {
-        type: "value",
+        type: "category",
         nameLocation: "center",
         nameTextStyle: {
           verticalAlign: "bottom",
@@ -132,16 +132,16 @@ export class TimechartComponent implements OnInit, OnChanges {
           return [pt[0], "10%"];
         },
       },
-      visualMap: {
-        top: 0,
-        right: 0,
-        type: "piecewise",
-        pieces: pieces,
-        outOfRange: {
-          color: "#999",
+      dataZoom: [
+        {
+          type: "inside",
+          filterMode: "weakFilter",
+          orient: "vertical",
         },
-      },
-      dataZoom: [],
+        {
+          type: "slider",
+        },
+      ],
       series: [],
     };
   }
@@ -170,19 +170,67 @@ export class TimechartComponent implements OnInit, OnChanges {
     let min;
 
     this.results = [];
-
     // this.addThresholds();
     this.xAxisLabel = "Measurement Time";
     this.yAxisLabel = this.currentMetric ? this.currentMetric.unit : "Unknown";
-    this.channels.forEach((channel) => {
-      const channelObj = {
-        name: channel.nslc,
-        type: "line",
-        data: [],
-        large: true,
-      };
+    const yAxisLabels = [];
+    const series = {
+      type: "custom",
+      data: [],
+      large: true,
+      itemStyle: {
+        opacity: 0.8,
+      },
+      encode: {
+        x: [1, 2],
+        y: 0,
+      },
+      renderItem: (params, api) => {
+        const categoryIndex = api.value(0);
+        const start = api.coord([api.value(1), categoryIndex]);
+        const end = api.coord([api.value(2), categoryIndex]);
+        const height = api.size([0, 1])[1] * 0.6;
+        const rectShape = graphic.clipRectByRect(
+          {
+            x: start[0],
+            y: start[1] - height / 2,
+            width: end[0] - start[0],
+            height: height,
+          },
+          {
+            x: params.coordSys.x,
+            y: params.coordSys.y,
+            width: params.coordSys.width,
+            height: params.coordSys.height,
+          }
+        );
+        console.log({
+          x: params.coordSys.x,
+          y: params.coordSys.y,
+          width: params.coordSys.width,
+          height: params.coordSys.height,
+        });
+        return (
+          rectShape && {
+            type: "rect",
+            transition: ["shape"],
+            shape: {
+              x: start[0],
+              y: start[1] - height / 2,
+              width: end[0] - start[0],
+              height: height,
+            },
+            style: api.style(),
+          }
+        );
+      },
+    };
 
+    this.channels.forEach((channel) => {
       if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        const index = yAxisLabels.length;
+        yAxisLabels.push(channel.nslc);
+
         let lastEnd: dayjs.Dayjs;
         data[channel.id][this.currentMetric.id].forEach(
           (measurement: Measurement) => {
@@ -195,36 +243,20 @@ export class TimechartComponent implements OnInit, OnChanges {
               min = measurement.value;
             }
 
-            // // If time between measurements is greater than gap, don't connect
-            if (channelObj.data.length > 0 && lastEnd) {
-              // time since last measurement
-              const start = this.dateService.parseUtc(measurement.starttime);
-
-              const diff = this.dateService.diff(start, lastEnd);
-
-              if (
-                diff >=
-                this.currentMetric.sampleRate * this.maxMeasurementGap
-              ) {
-                this.results.push({
-                  name: channelObj.name,
-                  type: "line",
-                  data: channelObj.data,
-                  large: true,
-                });
-                channelObj.data = [];
-              }
-            }
-            let start = this.dateService
+            const start = this.dateService
               .parseUtc(measurement.starttime)
               .toDate();
+            const end = this.dateService.parseUtc(measurement.endtime).toDate();
             // let start = measurement.starttime;
-            channelObj.data.push([start, measurement.value]);
-
-            // meas end
-            // channelObj.data.push([measurement.endtime, measurement.value]);
-
-            lastEnd = this.dateService.parseUtc(measurement.endtime);
+            series.data.push({
+              name: measurement.value > 100 ? "In Spec" : "Out of Spec",
+              value: [index, start, end, measurement.value],
+              itemStyle: {
+                normal: {
+                  color: measurement.value > 100 ? "#7b9ce1" : "#e0bc78",
+                },
+              },
+            });
           }
         );
         // console.log(channelObj);
@@ -233,18 +265,19 @@ export class TimechartComponent implements OnInit, OnChanges {
           : this.hasData;
       }
 
-      if (channelObj.data.length > 0) {
-        this.results.push(channelObj);
-      }
+      // if (channelObj.data.length > 0) {
+      //   this.results.push(channelObj);
+      // }
     });
 
+    console.log(yAxisLabels);
     this.yScaleMax = Math.round(max) + 25;
     this.yScaleMin = Math.round(min) - 25;
 
     this.viewService.startdate;
     this.viewService.enddate;
     this.updateOptions = {
-      series: this.results,
+      series: series,
       useUtc: true,
       xAxis: {
         name: this.xAxisLabel,
@@ -252,8 +285,7 @@ export class TimechartComponent implements OnInit, OnChanges {
         max: this.viewService.enddate,
       },
       yAxis: {
-        name: this.yAxisLabel,
-        nameGap: this.yAxisLabelPosition(min, max),
+        data: yAxisLabels,
       },
     };
   }

@@ -72,13 +72,20 @@
   </div>
   <div class="widget-content" *ngIf="!loading && !error && !noData">
     <ng-container [ngSwitch]="widget?.type">
-      <widget-timeline
+      <!-- <widget-timeline
         *ngSwitchCase="'timeline'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </widget-timeline>
+      </widget-timeline> -->
+      <widget-timeline-new
+        *ngSwitchCase="'timeline'"
+        class="widget"
+        [widget]="widget"
+        [data]="data"
+      >
+      </widget-timeline-new>
       <widget-tabular
         *ngSwitchCase="'tabular'"
         class="widget"
