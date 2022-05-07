@@ -86,13 +86,20 @@
         [data]="data"
       >
       </widget-timeline-new>
-      <widget-tabular
+      <!-- <widget-tabular
         *ngSwitchCase="'tabular'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </widget-tabular>
+      </widget-tabular> -->
+      <widget-parallel-plot
+        *ngSwitchCase="'tabular'"
+        class="widget"
+        [widget]="widget"
+        [data]="data"
+      >
+      </widget-parallel-plot>
       <widget-timechart
         *ngSwitchCase="'timeseries'"
         class="widget"

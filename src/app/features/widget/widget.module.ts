@@ -18,6 +18,9 @@ import { WidgetEditInfoComponent } from "./components/widget-edit/widget-edit-in
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { TimechartComponent } from "./components/widget-types/timechart/timechart.component";
 import { TimelineNewComponent } from './components/widget-types/timeline-new/timeline-new.component';
+import { ScatterPlotComponent } from './components/widget-types/scatter-plot/scatter-plot.component';
+import { BoxPlotComponent } from './components/widget-types/box-plot/box-plot.component';
+import { ParallelPlotComponent } from './components/widget-types/parallel-plot/parallel-plot.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { TimelineNewComponent } from './components/widget-types/timeline-new/tim
     WidgetEditInfoComponent,
     TimechartComponent,
     TimelineNewComponent,
+    ScatterPlotComponent,
+    BoxPlotComponent,
+    ParallelPlotComponent,
   ],
   imports: [SharedModule, NgxChartsModule, GridsterModule],
   providers: [
