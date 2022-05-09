@@ -15,6 +15,7 @@ import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
 import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
+import { axisBottom } from "d3";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 
@@ -76,9 +77,10 @@ export class ParallelPlotComponent implements OnInit {
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
+    this.buildRows(this.data);
 
     console.log("init");
-    this.buildRows(this.data);
+    // this.buildRows(this.data);
     // const pieces = this.addThresholds();
     // console.log(pieces);
     // const legendOffset = //pieces.length;
@@ -91,10 +93,27 @@ export class ParallelPlotComponent implements OnInit {
         bottom: "30",
       },
       useUtc: true,
+      tooltip: {
+        padding: 10,
+        borderColor: "#777",
+        borderWidth: 1,
+        formatter: (params) => {
+          let str = params.seriesName + "<br />";
+          str += "StatType: " + this.widget.stattype.type + "";
+          str += "<table><th>Metric</th> <th>Value</th>";
+          params.data.forEach((data, i) => {
+            str +=
+              "<tr><td>" +
+              this.schema[i].name +
+              "</td><td>" +
+              data +
+              "</td></tr>";
+          });
+          str = str += "</br>";
+          return str;
+        },
+      },
       parallel: {
-        left: "5%",
-        right: "18%",
-        bottom: 100,
         parallelAxisDefault: {
           type: "value",
           nameLocation: "end",
@@ -147,8 +166,8 @@ export class ParallelPlotComponent implements OnInit {
 
   private buildRows(data) {
     const series = [];
-    this.schema = [];
-    this.channels.forEach((channel) => {
+    const parallelAxis = [];
+    this.channels.forEach((channel, chanIndex) => {
       const channelSeries = {
         name: channel.nslc,
         type: "parallel",
@@ -159,12 +178,17 @@ export class ParallelPlotComponent implements OnInit {
         data: [],
         large: true,
       };
+      const channelData = [];
       this.metrics.forEach((metric, i) => {
-        this.schema.push({
-          name: metric.name,
-          text: metric.name,
-          index: i,
-        });
+        if (chanIndex === 0) {
+          parallelAxis.push({
+            name: metric.name,
+            dim: i,
+            data: [metric.name],
+            min: null,
+            max: null,
+          });
+        }
 
         const statType = this.widget.stattype.type;
 
@@ -187,172 +211,30 @@ export class ParallelPlotComponent implements OnInit {
             val = rowData[0][statType];
           }
         }
-        channelSeries.data.push(val);
-      });
+        if (val !== null && parallelAxis[i].min === null) {
+          parallelAxis[i].min = val; //1.01 to add a buffer
+          parallelAxis[i].max = val;
+        } else if (val !== null && val < parallelAxis[i].min) {
+          parallelAxis[i].min = val;
+        } else if (val !== null && val > parallelAxis[i].max) {
+          parallelAxis[i].max = val;
+        }
 
+        channelData.push(val);
+      });
+      channelSeries.data.push(channelData);
       series.push(channelSeries);
     });
-    const parallelAxis = this.schema.map((val) => {
-      return {
-        dim: val.index,
-        name: val.name,
-      };
+
+    parallelAxis.forEach((p, i) => {
+      p.min = Math.round(p.min * 10) / 10;
+      p.max = Math.round(p.max * 10) / 10;
     });
+
     this.updateOptions = {
       series: series,
       parallelAxis: parallelAxis,
     };
-    console.log(series);
-  }
-
-  // buildChartData(data) {
-  //   let max;
-  //   let min;
-
-  //   this.results = [];
-
-  //   // this.addThresholds();
-  //   this.xAxisLabel = "Measurement Time";
-  //   this.yAxisLabel = this.currentMetric ? this.currentMetric.unit : "Unknown";
-  //   this.channels.forEach((channel) => {
-  //     const channelObj = {
-  //       name: channel.nslc,
-  //       type: "line",
-  //       data: [],
-  //       large: true,
-  //     };
-
-  //     if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
-  //       let lastEnd: dayjs.Dayjs;
-  //       data[channel.id][this.currentMetric.id].forEach(
-  //         (measurement: Measurement) => {
-  //           if (!min || !max) {
-  //             min = measurement.value;
-  //             max = measurement.value;
-  //           } else if (measurement.value > max) {
-  //             max = measurement.value;
-  //           } else if (measurement.value < min) {
-  //             min = measurement.value;
-  //           }
-
-  //           // // If time between measurements is greater than gap, don't connect
-  //           if (channelObj.data.length > 0 && lastEnd) {
-  //             // time since last measurement
-  //             const start = this.dateService.parseUtc(measurement.starttime);
-
-  //             const diff = this.dateService.diff(start, lastEnd);
-
-  //             if (
-  //               diff >=
-  //               this.currentMetric.sampleRate * this.maxMeasurementGap
-  //             ) {
-  //               this.results.push({
-  //                 name: channelObj.name,
-  //                 type: "line",
-  //                 data: channelObj.data,
-  //                 large: true,
-  //               });
-  //               channelObj.data = [];
-  //             }
-  //           }
-  //           let start = this.dateService
-  //             .parseUtc(measurement.starttime)
-  //             .toDate();
-  //           // let start = measurement.starttime;
-  //           channelObj.data.push([start, measurement.value]);
-
-  //           // meas end
-  //           // channelObj.data.push([measurement.endtime, measurement.value]);
-
-  //           lastEnd = this.dateService.parseUtc(measurement.endtime);
-  //         }
-  //       );
-  //       // console.log(channelObj);
-  //       this.hasData = !this.hasData
-  //         ? data[channel.id][this.currentMetric.id].length > 0
-  //         : this.hasData;
-  //     }
-
-  //     if (channelObj.data.length > 0) {
-  //       this.results.push(channelObj);
-  //     }
-  //   });
-
-  //   //yaxis label placement
-
-  //   this.yScaleMax = Math.round(max) + 25;
-  //   this.yScaleMin = Math.round(min) - 25;
-
-  //   this.viewService.startdate;
-  //   this.viewService.enddate;
-  //   this.updateOptions = {
-  //     series: this.results,
-  //     useUtc: true,
-  //     xAxis: {
-  //       name: this.xAxisLabel,
-  //       min: this.viewService.startdate,
-  //       max: this.viewService.enddate,
-  //     },
-  //     yAxis: {
-  //       name: this.yAxisLabel,
-  //       nameGap: this.yAxisLabelPosition(min, max),
-  //     },
-  //   };
-  // }
-  //calculate y axis position to prevent overlap
-  yAxisLabelPosition(min, max): number {
-    const minLen = Math.round(min).toString().length;
-    const maxLen = Math.round(max).toString().length;
-
-    return Math.max(minLen, maxLen) * 10 + 10;
-  }
-
-  xAxisTooltipLabelFormatting(val) {
-    const value = new Date(val);
-    let formatOptions = {};
-    formatOptions = {
-      //have to reassign it this way or linter won't allow it set
-      second: "2-digit",
-      minute: "2-digit",
-      hour: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour12: false,
-      timeZone: "UTC",
-    };
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
-    console.log(value, string);
-    return string;
-  }
-
-  xAxisTickFormatting(val, index?) {
-    const value = new Date(val);
-    let formatOptions;
-    if (value.getSeconds() !== 0) {
-      formatOptions = { second: "2-digit" };
-    } else if (value.getMinutes() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getHours() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getDate() !== 1) {
-      formatOptions =
-        value.getDay() === 0
-          ? { month: "short", day: "2-digit" }
-          : { month: "short", day: "2-digit" };
-    } else if (value.getMonth() !== 0) {
-      formatOptions = { month: "long" };
-    } else {
-      formatOptions = { year: "numeric" };
-    }
-    formatOptions.hour12 = false;
-    formatOptions.timeZone = "UTC";
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
-    console.log(value, string);
-    return string;
+    this.schema = [...parallelAxis];
   }
 }
