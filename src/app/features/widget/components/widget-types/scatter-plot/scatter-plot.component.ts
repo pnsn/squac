@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-scatter-plot',
-  templateUrl: './scatter-plot.component.html',
-  styleUrls: ['./scatter-plot.component.scss']
+  selector: "widget-scatter-plot",
+  templateUrl: "../e-chart.component.html",
+  styleUrls: ["../e-chart.component.html"],
 })
 export class ScatterPlotComponent implements OnInit {
+  initOptions: any;
+  options: any;
+  autoResize: any;
+  updateOptions: any;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

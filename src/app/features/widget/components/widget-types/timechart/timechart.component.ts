@@ -19,8 +19,8 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "widget-timechart",
-  templateUrl: "./timechart.component.html",
-  styleUrls: ["./timechart.component.scss"],
+  templateUrl: "../e-chart.component.html",
+  styleUrls: ["../e-chart.component.scss"],
 })
 export class TimechartComponent implements OnInit, OnChanges {
   constructor(
@@ -73,8 +73,15 @@ export class TimechartComponent implements OnInit, OnChanges {
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-    const pieces = this.addThresholds();
+    // const pieces = this.addThresholds();
+    const pieces = [
+      {
+        min: 0,
+        max: 40,
+      },
+    ];
     const legendOffset = pieces.length;
+    console.log(pieces);
     this.buildChartData(this.data);
     this.options = {
       title: {
@@ -87,7 +94,8 @@ export class TimechartComponent implements OnInit, OnChanges {
         orient: "vertical",
         align: "left",
         left: "right",
-        top: legendOffset * 15,
+        top: legendOffset * 15 + 5,
+        selector: ["all", "inverse"],
       },
       grid: {
         containLabel: true,
@@ -213,14 +221,15 @@ export class TimechartComponent implements OnInit, OnChanges {
                 channelObj.data = [];
               }
             }
-            let start = this.dateService
+            const start = this.dateService
               .parseUtc(measurement.starttime)
               .toDate();
             // let start = measurement.starttime;
             channelObj.data.push([start, measurement.value]);
 
+            const end = this.dateService.parseUtc(measurement.endtime).toDate();
             // meas end
-            // channelObj.data.push([measurement.endtime, measurement.value]);
+            channelObj.data.push([end, measurement.value]);
 
             lastEnd = this.dateService.parseUtc(measurement.endtime);
           }
@@ -234,11 +243,6 @@ export class TimechartComponent implements OnInit, OnChanges {
         this.results.push(channelObj);
       }
     });
-
-    //yaxis label placement
-
-    this.yScaleMax = Math.round(max) + 25;
-    this.yScaleMin = Math.round(min) - 25;
 
     this.viewService.startdate;
     this.viewService.enddate;

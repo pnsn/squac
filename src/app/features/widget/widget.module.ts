@@ -4,7 +4,6 @@ import { WidgetEditComponent } from "./components/widget-edit/widget-edit.compon
 import { MeasurementPipe } from "./pipes/measurement.pipe";
 import { TabularComponent } from "./components/widget-types/tabular/tabular.component";
 import { TimelineComponent } from "./components/widget-types/timeline/timeline.component";
-import { TimeseriesComponent } from "./components/widget-types/timeseries/timeseries.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { GridsterModule } from "angular-gridster2";
 import { WidgetEditThresholdsComponent } from "./components/widget-edit/widget-edit-thresholds/widget-edit-thresholds.component";
@@ -17,10 +16,9 @@ import { MapComponent } from "./components/widget-types/map/map.component";
 import { WidgetEditInfoComponent } from "./components/widget-edit/widget-edit-info/widget-edit-info.component";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { TimechartComponent } from "./components/widget-types/timechart/timechart.component";
-import { TimelineNewComponent } from './components/widget-types/timeline-new/timeline-new.component';
-import { ScatterPlotComponent } from './components/widget-types/scatter-plot/scatter-plot.component';
-import { BoxPlotComponent } from './components/widget-types/box-plot/box-plot.component';
-import { ParallelPlotComponent } from './components/widget-types/parallel-plot/parallel-plot.component';
+import { ScatterPlotComponent } from "./components/widget-types/scatter-plot/scatter-plot.component";
+import { BoxPlotComponent } from "./components/widget-types/box-plot/box-plot.component";
+import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/parallel-plot.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +27,6 @@ import { ParallelPlotComponent } from './components/widget-types/parallel-plot/p
     WidgetEditComponent,
     TabularComponent,
     TimelineComponent,
-    TimeseriesComponent,
     WidgetEditThresholdsComponent,
     MeasurementPipe,
     WidgetEditMetricsComponent,
@@ -38,7 +35,7 @@ import { ParallelPlotComponent } from './components/widget-types/parallel-plot/p
     MapComponent,
     WidgetEditInfoComponent,
     TimechartComponent,
-    TimelineNewComponent,
+    TimelineComponent,
     ScatterPlotComponent,
     BoxPlotComponent,
     ParallelPlotComponent,

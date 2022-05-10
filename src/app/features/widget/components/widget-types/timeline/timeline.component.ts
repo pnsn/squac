@@ -1,267 +1,364 @@
 import {
   Component,
-  OnInit,
   Input,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-  AfterViewInit,
   OnChanges,
+  OnInit,
+  SimpleChanges,
 } from "@angular/core";
-import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
-import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
-import { Subscription } from "rxjs";
-import { ViewService } from "@core/services/view.service";
-import { ChannelGroup } from "@core/models/channel-group";
-import TimelinesChart, { Val } from "timelines-chart";
-import * as d3 from "d3";
-import { Widget } from "@widget/models/widget";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
-import { Measurement } from "@widget/models/measurement";
-import { Archive } from "@widget/models/archive";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Metric } from "@core/models/metric";
+import { DateService } from "@core/services/date.service";
+import { ViewService } from "@core/services/view.service";
+import { Measurement } from "@features/widget/models/measurement";
+import { Threshold } from "@features/widget/models/threshold";
+import { Widget } from "@features/widget/models/widget";
+import * as dayjs from "dayjs";
+import { Subscription } from "rxjs";
+import { graphic } from "echarts";
 
 @Component({
   selector: "widget-timeline",
-  templateUrl: "./timeline.component.html",
-  styleUrls: ["./timeline.component.scss"],
-  providers: [MeasurementPipe],
+  templateUrl: "../e-chart.component.html",
+  styleUrls: ["../e-chart.component.scss"],
 })
-export class TimelineComponent
-  implements OnInit, OnDestroy, AfterViewInit, OnChanges
-{
+export class TimelineComponent implements OnInit, OnChanges {
+  constructor(
+    private viewService: ViewService,
+    private dateService: DateService
+  ) {}
   @Input() widget: Widget;
   @Input() data;
-
   metrics: Metric[];
   thresholds: { [metricId: number]: Threshold };
   channelGroup: ChannelGroup;
 
-  channels: Channel[];
-  @ViewChild("timeline", { read: ElementRef }) timelineDiv: ElementRef;
-  chart;
+  channels: Channel[] = [];
   subscription = new Subscription();
-  ColumnMode = ColumnMode;
-  SortType = SortType;
-  rows = [];
-  columns = [];
+  results: Array<any>;
+  hasData: boolean;
+  referenceLines;
+  xAxisLabel = "Measurement Start Date";
+  yAxisLabel: string;
   currentMetric: Metric;
-  // enddate: Date;
-  // startdate: Date;
-  loading = true;
-  domainMin: number;
-  domainMax: number;
-  inThresholdColor = "#4488A9";
-  outOfThresholdColor = "#ffb758";
+  colorScheme = {
+    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
+  };
+  options = {};
+  updateOptions = {};
+  xScaleMin;
+  xScaleMax;
+  yScaleMin;
+  yScaleMax;
+  initOptions = {};
 
-  // rows = [];
-  constructor(private viewService: ViewService) {
-    this.chart = TimelinesChart();
+  // Max allowable time between measurements to connect
+  maxMeasurementGap: number = 1 * 1000;
+  test = 0;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.data && this.channels.length > 0) {
+      this.buildChartData(this.data);
+      console.log("data changed");
+    }
   }
-
-  ngOnChanges(): void {
-    // this.chart = TimelinesChart();
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  ngOnInit(): void {
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
+
     this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
+    this.referenceLines = [];
     if (this.channelGroup) {
       this.channels = this.channelGroup.channels;
     }
-    if (this.data) {
-      this.buildRows(this.data);
-    }
-  }
+    const pieces = this.addThresholds();
 
-  ngOnInit() {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    if (this.chart) {
-      this.chart.leftMargin(75);
-      this.chart.rightMargin(55);
-      this.chart.useUtc(true);
-    }
-
-    const resizeSub = this.viewService.resize.subscribe(
-      (widgetId) => {
-        if (!widgetId || widgetId === this.widget.id) {
-          setTimeout(() => {
-            this.resize();
-          }, 500);
-        }
+    const legendOffset = pieces.length;
+    this.buildChartData(this.data);
+    this.options = {
+      title: {
+        text: this.currentMetric.name,
+        subtext: "sub text",
       },
-      (error) => {
-        console.log("error in timeline resize: " + error);
-      }
-    );
-
-    this.subscription.add(resizeSub);
+      legend: {
+        show: true,
+        type: "scroll",
+        orient: "vertical",
+        align: "left",
+        left: "right",
+        top: legendOffset * 15,
+      },
+      grid: {
+        containLabel: true,
+        left: "30",
+        right: "30",
+        bottom: "30",
+      },
+      useUtc: true,
+      xAxis: {
+        type: "time",
+        nameLocation: "center",
+        name: "Measurement Start Date",
+        min: this.viewService.startdate,
+        max: this.viewService.enddate,
+        nameGap: 30,
+        axisTick: {
+          interval: 0,
+        },
+        axisPointer: {
+          show: "true",
+          label: {
+            formatter: (value) => {
+              return this.xAxisTooltipLabelFormatting(value.value);
+            },
+          },
+        },
+        axisLabel: {
+          formatter: this.xAxisTickFormatting,
+        },
+      },
+      yAxis: {
+        type: "category",
+        nameLocation: "center",
+        nameTextStyle: {
+          verticalAlign: "bottom",
+          align: "middle",
+        },
+        nameGap: 40, //max characters
+      },
+      visualMap: {
+        top: 0,
+        right: 0,
+        type: "piecewise",
+        dimension: 3,
+        pieces: pieces,
+        outOfRange: {
+          color: "#999",
+        },
+      },
+      tooltip: {
+        trigger: "item",
+        position: function (pt) {
+          return [pt[0], "10%"];
+        },
+        formatter: this.formatToolTip,
+      },
+      dataZoom: [
+        {
+          type: "inside",
+          filterMode: "weakFilter",
+          orient: "vertical",
+        },
+        {
+          type: "slider",
+        },
+      ],
+      series: [],
+    };
   }
 
-  private resize(rows?: number) {
-    if (this.timelineDiv && this.timelineDiv.nativeElement) {
-      const width = this.timelineDiv.nativeElement.offsetWidth;
-      const height = this.timelineDiv.nativeElement.offsetHeight;
-      // const offset = 55;
-      if (width > 0 && height > 0) {
-        this.chart.width(width);
-        // this.chart.maxHeight(height-offset);
-        let lineCount;
-        if (rows) {
-          lineCount = rows;
-        } else {
-          lineCount = this.chart.getNLines();
-        }
-        if (lineCount) {
-          this.chart.maxHeight(lineCount * 12);
-        }
-      }
-      this.chart.refresh();
+  formatToolTip(params) {
+    let data;
+    if (params.length === 0) {
+      data = [params];
+    } else {
+      data = params;
     }
+    let str = "";
+    str += data[0].axisValueLabel + "<br />";
+    data.forEach((param) => {
+      str += param.marker + " " + param.name + " " + param.value[3] + "<br />";
+    });
+
+    return str;
   }
 
-  private buildRows(measurements) {
-    const data = [];
-    let dataMax: number;
-    let dataMin: number;
-    let lines = 0;
+  addThresholds(): Array<any> {
+    const pieces = [
+      {
+        min: 99,
+        max: 100,
+        color: "#AA069F",
+      },
+    ];
+    // if (this.thresholds[this.currentMetric.id]) {
+    //   const piece = {};
+    //   // thresholds.forEach((threshold)=>{  }) //allow multople
+    //   const threshold = this.thresholds[this.currentMetric.id];
+    //   if (threshold.min || threshold.min === 0) {
+    //     piece["min"] = threshold.min;
+    //   }
+    //   if (threshold.max || threshold.max === 0) {
+    //     piece["max"] = threshold.max;
+    //   }
+    //   piece["color"] = "#AA069F";
+    //   pieces.push(piece);
+    // }
 
-    this.channels.forEach((channel) => {
-      const stationGroup = channel.networkCode + "." + channel.stationCode;
-      const channelData = [];
+    return pieces;
+  }
 
-      if (
-        measurements[channel.id] &&
-        measurements[channel.id][this.currentMetric.id]
-      ) {
-        // go through the measurements
-        measurements[channel.id][this.currentMetric.id].forEach(
-          (measurement: Measurement | Archive) => {
-            if ((!dataMin && dataMin !== 0) || measurement.value < dataMin) {
-              dataMin = measurement.value;
-            }
-            if ((!dataMax && dataMax !== 0) || measurement.value > dataMax) {
-              dataMax = measurement.value;
-            }
-            // make a data point
-            const dataPoint = {
-              val: measurement.value,
-              timeRange: [
-                new Date(measurement.starttime),
-                new Date(measurement.endtime),
-              ],
-            };
+  buildChartData(data) {
+    let max;
+    let min;
 
-            channelData.push(dataPoint);
+    this.results = [];
+    // this.addThresholds();
+    this.yAxisLabel = this.currentMetric ? this.currentMetric.unit : "Unknown";
+    const yAxisLabels = [];
+    const series = {
+      type: "custom",
+      data: [],
+      large: true,
+      itemStyle: {
+        opacity: 0.8,
+      },
+      encode: {
+        x: [1, 2],
+        y: 0,
+      },
+      renderItem: (params, api) => {
+        const categoryIndex = api.value(0);
+        const start = api.coord([api.value(1), categoryIndex]);
+        const end = api.coord([api.value(2), categoryIndex]);
+        const height = api.size([0, 1])[1] * 0.6;
+        const rectShape = graphic.clipRectByRect(
+          {
+            x: start[0],
+            y: start[1] - height / 2,
+            width: end[0] - start[0],
+            height: height,
+          },
+          {
+            x: params.coordSys.x,
+            y: params.coordSys.y,
+            width: params.coordSys.width,
+            height: params.coordSys.height,
           }
         );
-      }
-      lines++;
-      const channelRow = {
-        label: channel.loc + "." + channel.code,
-        data: channelData,
-      };
+        return (
+          rectShape && {
+            type: "rect",
+            transition: ["shape"],
+            shape: {
+              x: start[0],
+              y: start[1] - height / 2,
+              width: end[0] - start[0],
+              height: height,
+            },
+            style: api.style(),
+          }
+        );
+      },
+    };
 
-      // grab the correct station
-      let stationRow = data.find((row) => row.group === stationGroup);
-
-      // if it doesn't exist, create it
-      if (!stationRow) {
-        data.push({
-          group: stationGroup,
-          data: [],
-        });
-        stationRow = data.find((row) => row.group === stationGroup);
-      }
-      // add channel to the station
-      stationRow.data.push(channelRow);
+    this.channels.sort((a, b) => {
+      return b.nslc.localeCompare(a.nslc);
     });
+    this.channels.forEach((channel) => {
+      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+        const index = yAxisLabels.length;
+        yAxisLabels.push(channel.nslc);
 
-    const threshold = this.widget.thresholds[this.currentMetric.id];
-    const defaultMax = this.currentMetric.maxVal;
-    const defaultMin = this.currentMetric.minVal;
-    const colorScale = this.handleThresholds(
-      threshold,
-      defaultMax,
-      defaultMin,
-      dataMax,
-      dataMin
+        let lastEnd: dayjs.Dayjs;
+        data[channel.id][this.currentMetric.id].forEach(
+          (measurement: Measurement) => {
+            if (!min || !max) {
+              min = measurement.value;
+              max = measurement.value;
+            } else if (measurement.value > max) {
+              max = measurement.value;
+            } else if (measurement.value < min) {
+              min = measurement.value;
+            }
+
+            const start = this.dateService
+              .parseUtc(measurement.starttime)
+              .toDate();
+            const end = this.dateService.parseUtc(measurement.endtime).toDate();
+            // let start = measurement.starttime;
+            series.data.push({
+              name: channel.nslc,
+              value: [index, start, end, measurement.value],
+            });
+          }
+        );
+        // console.log(channelObj);
+        this.hasData = !this.hasData
+          ? data[channel.id][this.currentMetric.id].length > 0
+          : this.hasData;
+      }
+
+      // if (channelObj.data.length > 0) {
+      //   this.results.push(channelObj);
+      // }
+    });
+    this.yScaleMax = Math.round(max) + 25;
+    this.yScaleMin = Math.round(min) - 25;
+
+    this.updateOptions = {
+      series: series,
+      useUtc: true,
+      yAxis: {
+        data: yAxisLabels,
+      },
+    };
+  }
+  //calculate y axis position to prevent overlap
+  yAxisLabelPosition(min, max): number {
+    const minLen = Math.round(min).toString().length;
+    const maxLen = Math.round(max).toString().length;
+
+    return Math.max(minLen, maxLen) * 10 + 10;
+  }
+
+  xAxisTooltipLabelFormatting(val) {
+    const value = new Date(val);
+    let formatOptions = {};
+    formatOptions = {
+      //have to reassign it this way or linter won't allow it
+      second: "2-digit",
+      minute: "2-digit",
+      hour: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour12: false,
+      timeZone: "UTC",
+    };
+    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
+      value
     );
-
-    this.chart
-      .zDataLabel(this.currentMetric.unit)
-      .zColorScale(colorScale)
-      .zScaleLabel(this.currentMetric.unit);
-
-    const formatTime = d3.timeFormat("%Y-%m-%d %-I:%M:%S %p");
-    this.chart.segmentTooltipContent((d) => {
-      const row1 =
-        "<div> value: <span>" +
-        d.val +
-        " (" +
-        this.currentMetric.unit +
-        ")</span></div>";
-      const row2 =
-        "<div> start: <span>" + formatTime(d.timeRange[0]) + "</span></div>";
-      const row3 =
-        "<div> end: <span>" + formatTime(d.timeRange[1]) + "</span></div>";
-      return row1 + row2 + row3;
-    });
-
-    this.chart.data(data);
-    this.chart.maxHeight(lines * 12);
-    this.resize();
+    return string;
   }
 
-  handleThresholds(threshold, defaultMax, defaultMin, dataMax, dataMin) {
-    if (threshold) {
-      this.domainMin = threshold.min;
-      this.domainMax = threshold.max;
-    } else if (
-      defaultMin ||
-      defaultMin === 0 ||
-      defaultMax ||
-      defaultMax === 0
-    ) {
-      this.domainMin = this.currentMetric.minVal;
-      this.domainMax = this.currentMetric.maxVal;
+  xAxisTickFormatting(val, index?) {
+    const value = new Date(val);
+    let formatOptions;
+    if (value.getSeconds() !== 0) {
+      formatOptions = { second: "2-digit" };
+    } else if (value.getMinutes() !== 0) {
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
+    } else if (value.getHours() !== 0) {
+      formatOptions = { hour: "2-digit", minute: "2-digit" };
+    } else if (value.getDate() !== 1) {
+      formatOptions =
+        value.getDay() === 0
+          ? { month: "short", day: "2-digit" }
+          : { month: "short", day: "2-digit" };
+    } else if (value.getMonth() !== 0) {
+      formatOptions = { month: "long" };
+    } else {
+      formatOptions = { year: "numeric" };
     }
-    if (!this.domainMin && this.domainMin !== 0) {
-      this.domainMin = dataMin;
-    }
-    if (!this.domainMax && this.domainMax !== 0) {
-      this.domainMax = dataMax;
-    }
-
-    this.loading = false;
-    // FIXME: domain in exclusive on upper end
-    const colorScale = d3
-      .scaleThreshold<Val, string>()
-      .domain([this.domainMin, this.domainMax + 0.0000001])
-      .range([
-        this.outOfThresholdColor,
-        this.inThresholdColor,
-        this.outOfThresholdColor,
-      ]);
-
-    return colorScale;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngAfterViewInit(): void {
-    // d3.selectAll("rect").attr('height', '20px');
-    this.chart(this.timelineDiv.nativeElement);
-
-    // this.chart.onZoom(([startDate, endDate], [startY, endY]) => {
-    //   const visibleLines = endY - startY;
-    //   this.chart.maxHeight(visibleLines*12);
-    //   this.resize(visibleLines);
-    // });
-    this.resize();
+    formatOptions.hour12 = false;
+    formatOptions.timeZone = "UTC";
+    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
+      value
+    );
+    return string;
   }
 }

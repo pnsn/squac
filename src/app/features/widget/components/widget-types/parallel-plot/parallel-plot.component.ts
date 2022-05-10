@@ -21,8 +21,8 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "widget-parallel-plot",
-  templateUrl: "./parallel-plot.component.html",
-  styleUrls: ["./parallel-plot.component.scss"],
+  templateUrl: "../e-chart.component.html",
+  styleUrls: ["../e-chart.component.scss"],
   providers: [MeasurementPipe],
 })
 export class ParallelPlotComponent implements OnInit {
