@@ -15,24 +15,26 @@ import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
+import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-timechart",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
 })
-export class TimechartComponent implements OnInit, OnChanges {
+export class TimechartComponent
+  implements OnInit, OnChanges, WidgetTypeComponent
+{
   constructor(
     private viewService: ViewService,
     private dateService: DateService
   ) {}
-  @Input() widget: Widget;
   @Input() data;
-  metrics: Metric[];
-  thresholds: { [metricId: number]: Threshold };
-  channelGroup: ChannelGroup;
-
-  channels: Channel[] = [];
+  @Input() metrics: Metric[];
+  @Input() channelGroup: ChannelGroup;
+  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() channels: Channel[];
+  @Input() currentMetricId: number;
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
@@ -64,14 +66,10 @@ export class TimechartComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit(): void {
-    this.metrics = this.widget.metrics;
-    this.thresholds = this.widget.thresholds;
-    this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
+
     this.referenceLines = [];
-    if (this.channelGroup) {
-      this.channels = this.channelGroup.channels;
-    }
+
     // const pieces = this.addThresholds();
     const pieces = [
       {
@@ -80,7 +78,6 @@ export class TimechartComponent implements OnInit, OnChanges {
       },
     ];
     const legendOffset = pieces.length;
-    console.log(pieces);
     this.buildChartData(this.data);
     this.options = {
       title: {

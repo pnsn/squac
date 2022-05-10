@@ -75,38 +75,77 @@
       <widget-timeline
         *ngSwitchCase="'timeline'"
         class="widget"
-        [widget]="widget"
         [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
+        [currentMetric]="widget.metrics[0]"
       >
       </widget-timeline>
       <widget-tabular
         *ngSwitchCase="'tabular'"
         class="widget"
-        [widget]="widget"
         [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
       >
       </widget-tabular>
       <widget-parallel-plot
         *ngSwitchCase="'parallel-plot'"
         class="widget"
-        [widget]="widget"
         [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
       >
       </widget-parallel-plot>
       <widget-timechart
         *ngSwitchCase="'timeseries'"
         class="widget"
-        [widget]="widget"
         [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
+        [currentMetric]="widget.metrics[0]"
       >
       </widget-timechart>
       <widget-map
         *ngSwitchCase="'map'"
         class="widget"
-        [widget]="widget"
         [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
+        [currentMetric]="widget.metrics[0]"
       >
       </widget-map>
+      <widget-box-plot
+        *ngSwitchCase="'box-plot'"
+        class="widget"
+        [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
+        [currentMetric]="widget.metrics[0]"
+      >
+      </widget-box-plot>
+      <widget-scatter-plot
+        *ngSwitchCase="'scatter-plot'"
+        class="widget"
+        [data]="data"
+        [metrics]="widget.metrics"
+        [channelGroup]="widget.channelGroup"
+        [thresholds]="widget.thresholds"
+        [channels]="widget.channelGroup.channels"
+      >
+      </widget-scatter-plot>
       <div *ngSwitchDefault class="widget-message">
         <p>
           Error: could not load widget...

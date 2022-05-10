@@ -3,33 +3,30 @@ import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@features/widget/models/threshold";
-import { Widget } from "@features/widget/models/widget";
-import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
 import { Subscription } from "rxjs";
+import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-parallel-plot",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [MeasurementPipe],
 })
-export class ParallelPlotComponent implements OnInit {
-  constructor(private measurementPipe: MeasurementPipe) {}
-  @Input() widget: Widget;
+export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
+  constructor() {}
   @Input() data;
-  metrics: Metric[];
+  @Input() metrics: Metric[];
+  @Input() channelGroup: ChannelGroup;
+  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() channels: Channel[];
+
   rows = [];
-  thresholds: { [metricId: number]: Threshold };
-  channelGroup: ChannelGroup;
   schema = [];
-  channels: Channel[] = [];
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
   referenceLines;
   xAxisLabel = "Measurement Start Date";
   yAxisLabel: string;
-  currentMetric: Metric;
   colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
   };
@@ -49,21 +46,12 @@ export class ParallelPlotComponent implements OnInit {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.data && this.channels.length > 0) {
-      // this.buildChartData(this.data);
-      console.log("data changed");
+      this.buildRows(this.data);
     }
   }
   ngOnInit(): void {
-    this.metrics = this.widget.metrics;
-
-    this.thresholds = this.widget.thresholds;
-    this.channelGroup = this.widget.channelGroup;
-    if (this.channelGroup) {
-      this.channels = this.channelGroup.channels;
-    }
     this.buildRows(this.data);
 
-    console.log("init");
     // this.buildRows(this.data);
     // const pieces = this.addThresholds();
     // console.log(pieces);
@@ -83,7 +71,6 @@ export class ParallelPlotComponent implements OnInit {
         borderWidth: 1,
         formatter: (params) => {
           let str = params.seriesName + "<br />";
-          str += "StatType: " + this.widget.stattype.type + "";
           str += "<table><th>Metric</th> <th>Value</th>";
           params.data.forEach((data, i) => {
             str +=
@@ -173,8 +160,6 @@ export class ParallelPlotComponent implements OnInit {
             max: null,
           });
         }
-
-        const statType = this.widget.stattype.type;
 
         let val: number = null;
 

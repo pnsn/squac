@@ -1,31 +1,34 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+} from "@angular/core";
 import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
-import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
 import { Subscription } from "rxjs";
-import { ViewService } from "@core/services/view.service";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Widget } from "@widget/models/widget";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
 import { checkThresholds } from "@core/utils/utils";
+import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
-  providers: [MeasurementPipe],
 })
-export class TabularComponent implements OnInit, OnDestroy {
-  @Input() widget: Widget;
+export class TabularComponent
+  implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
+{
   @Input() data;
-
-  metrics: Metric[];
-  thresholds: { [metricId: number]: Threshold };
-  channelGroup: ChannelGroup;
-
-  channels: Channel[];
-
+  @Input() metrics: Metric[];
+  @Input() channelGroup: ChannelGroup;
+  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() channels: Channel[];
   subscription = new Subscription();
 
   @ViewChild("dataTable") table: any;
@@ -46,48 +49,54 @@ export class TabularComponent implements OnInit, OnDestroy {
   };
 
   // rows = [];
-  constructor(
-    private viewService: ViewService,
-    private measurementPipe: MeasurementPipe
-  ) {}
+  constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.data && this.channels.length > 0) {
+      this.buildRows(this.data);
+      console.log("data changed");
+    }
+  }
 
   ngOnInit() {
-    this.metrics = this.widget.metrics;
-    this.metrics.forEach((metric) => {
-      metric.comparator = this.metricComparator.bind(this);
-    });
-
-    this.thresholds = this.widget.thresholds;
-    this.channelGroup = this.widget.channelGroup;
-    if (this.channelGroup) {
-      this.channels = this.channelGroup.channels;
-    }
-
-    this.buildRows(this.data);
-
-    const resizeSub = this.viewService.resize.subscribe(
-      (widgetId) => {
-        if (!widgetId || widgetId === this.widget.id) {
-          this.resize();
-        }
+    this.columns = [
+      {
+        name: "Channel",
+        prop: "title",
+        isTreeColumn: true,
+        width: 150,
+        canAutoResize: false,
+        frozenLeft: true,
+        resizeable: false,
       },
-      (error) => {
-        console.log("error in tabular resize: " + error);
-      }
-    );
+      {
+        name: "agg",
+        width: 50,
+        canAutoResize: false,
+        frozenLeft: true,
+        resizeable: false,
+      },
+    ];
 
-    this.subscription.add(resizeSub);
+    this.metrics.forEach((metric) => {
+      this.columns.push({
+        name: metric.name,
+        prop: metric.id,
+        comparator: this.metricComparator.bind(this),
+        minWidth: 100,
+        cellClass: this.getCellClass,
+        canAutoResize: true,
+        sortable: true,
+      });
+    });
+    this.buildRows(this.data);
   }
 
   private metricComparator(propA, propB) {
     const result = propA.value - propB.value;
     return result;
-  }
-
-  private resize() {
-    setTimeout(() => {
-      this.table.recalculate();
-    }, 500);
   }
 
   private findWorstChannel(channel, station) {
@@ -112,8 +121,6 @@ export class TabularComponent implements OnInit, OnDestroy {
       const rowMetrics = {};
 
       this.metrics.forEach((metric) => {
-        const statType = this.widget.stattype.type;
-
         let val: number = null;
 
         if (data[channel.id] && data[channel.id][metric.id]) {

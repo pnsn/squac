@@ -12,29 +12,31 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
-import { Widget } from "@features/widget/models/widget";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 import { graphic } from "echarts";
+import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-timeline",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
 })
-export class TimelineComponent implements OnInit, OnChanges {
+export class TimelineComponent
+  implements OnInit, OnChanges, WidgetTypeComponent
+{
   constructor(
     private viewService: ViewService,
     private dateService: DateService
   ) {}
-  @Input() widget: Widget;
   @Input() data;
-  metrics: Metric[];
-  thresholds: { [metricId: number]: Threshold };
-  channelGroup: ChannelGroup;
+  @Input() metrics: Metric[];
+  @Input() channelGroup: ChannelGroup;
+  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() channels: Channel[];
 
-  channels: Channel[] = [];
   subscription = new Subscription();
+
   results: Array<any>;
   hasData: boolean;
   referenceLines;
@@ -65,16 +67,8 @@ export class TimelineComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit(): void {
-    console.log(this.widget);
-    this.metrics = this.widget.metrics;
-    this.thresholds = this.widget.thresholds;
-
-    this.channelGroup = this.widget.channelGroup;
     this.currentMetric = this.metrics[0];
     this.referenceLines = [];
-    if (this.channelGroup) {
-      this.channels = this.channelGroup.channels;
-    }
     const pieces = this.addThresholds();
 
     const legendOffset = pieces.length;

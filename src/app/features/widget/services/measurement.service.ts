@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Widget } from "@widget/models/widget";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ApiGetAggregate } from "@widget/models/aggregate";
@@ -15,7 +15,6 @@ export class MeasurementHttpData {
 })
 export class MeasurementService {
   private url = "measurement/";
-
   constructor(private squacApi: SquacApiService) {}
 
   // gets data from squac, returns measurements or archives
@@ -39,7 +38,8 @@ export class MeasurementService {
     } else {
       path = "measurements/";
     }
-    return this.squacApi.get(this.url + path, null, params);
+
+    return this.squacApi.get(this.url + path, null, params).pipe();
   }
 
   // Get measurement aggregate from squac

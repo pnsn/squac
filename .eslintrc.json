@@ -40,7 +40,7 @@
         "@angular-eslint/directive-selector": [
           "error",
           {
-            "prefix": "app",
+            "prefix": ["app", "shared", "widget"],
             "style": "camelCase",
             "type": "attribute"
           }

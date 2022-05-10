@@ -1,31 +1,26 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
-import { Widget } from "@widget/models/widget";
-import { MeasurementPipe } from "@widget/pipes/measurement.pipe";
 import * as L from "leaflet";
 import { checkThresholds } from "@core/utils/utils";
+import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
-  providers: [MeasurementPipe],
 })
-export class MapComponent implements OnInit {
-  @Input() widget: Widget;
+export class MapComponent implements OnInit, WidgetTypeComponent {
   @Input() data;
-
+  @Input() metrics: Metric[];
+  @Input() channelGroup: ChannelGroup;
+  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() currentMetricId: number;
+  @Input() channels: Channel[];
   stations;
   stationLayer: L.LayerGroup;
-
-  metrics: Metric[];
-  thresholds: { [metricId: number]: Threshold };
-  channelGroup: ChannelGroup;
-
-  channels: Channel[];
 
   options: {
     center: L.LatLng;
@@ -37,12 +32,10 @@ export class MapComponent implements OnInit {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
-  constructor(private measurementPipe: MeasurementPipe) {}
 
   ngOnInit() {
-    if (this.widget) {
-      this.initMap();
-    }
+    this.initMap();
+    this.buildRows(this.data);
   }
 
   // ngOnChanges() {
@@ -60,21 +53,21 @@ export class MapComponent implements OnInit {
       }),
     ];
 
-    this.metrics = this.widget.metrics;
-    this.thresholds = this.widget.thresholds;
-    this.channelGroup = this.widget.channelGroup;
-    if (this.channelGroup) {
-      this.channels = this.channelGroup.channels;
-    }
-
-    this.buildRows(this.data);
-
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
       center: L.latLng(45.0, -120.0),
       zoom: 5,
       layers: this.layers,
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.data && this.channels.length > 0) {
+      console.log("build rows");
+      this.buildRows(this.data);
+    }
   }
 
   onMapReady(map: L.Map) {
@@ -124,7 +117,6 @@ export class MapComponent implements OnInit {
     const metric = this.metrics[0];
     this.channels.forEach((channel) => {
       const identifier = channel.networkCode + "." + channel.stationCode;
-      const statType = this.widget.stattype.type;
       let agg = 0;
 
       let val: number = null;

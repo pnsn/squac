@@ -69,7 +69,6 @@ export class WidgetDataService implements OnDestroy {
         .getData(start, end, this.widget, archiveType)
         .pipe(
           map((response) => {
-            console.log(response.length);
             response.forEach((m) => {
               let value: Measurement | Aggregate | Archive;
               if (archiveType && archiveType !== "raw") {
