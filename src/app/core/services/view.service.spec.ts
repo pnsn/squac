@@ -12,7 +12,6 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { Widget } from "@widget/models/widget";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { take } from "rxjs/operators";
-import * as dayjs from "dayjs";
 import { MessageService } from "./message.service";
 import { of } from "rxjs";
 import { DateService } from "./date.service";

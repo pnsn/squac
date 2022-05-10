@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { BoxPlotComponent } from './box-plot.component';
+import { BoxPlotComponent } from "./box-plot.component";
 
-describe('BoxPlotComponent', () => {
+describe("BoxPlotComponent", () => {
   let component: BoxPlotComponent;
   let fixture: ComponentFixture<BoxPlotComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoxPlotComponent ]
-    })
-    .compileComponents();
+      declarations: [BoxPlotComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('BoxPlotComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

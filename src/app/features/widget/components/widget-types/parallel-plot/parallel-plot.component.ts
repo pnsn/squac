@@ -1,22 +1,12 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
-import { NetworkAdapter } from "@features/channel-group/models/network";
-import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
 import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
-import { axisBottom } from "d3";
-import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 
 @Component({

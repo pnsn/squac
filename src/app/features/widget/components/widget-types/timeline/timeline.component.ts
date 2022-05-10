@@ -65,6 +65,7 @@ export class TimelineComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit(): void {
+    console.log(this.widget);
     this.metrics = this.widget.metrics;
     this.thresholds = this.widget.thresholds;
 
@@ -91,11 +92,19 @@ export class TimelineComponent implements OnInit, OnChanges {
         left: "right",
         top: legendOffset * 15,
       },
+      toolbox: {
+        show: true,
+        feature: {
+          dataZoom: {
+            show: true,
+          },
+        },
+      },
       grid: {
         containLabel: true,
-        left: "30",
-        right: "30",
-        bottom: "30",
+        left: "40",
+        // right: "80",
+        // bottom: "80",
       },
       useUtc: true,
       xAxis: {
@@ -144,16 +153,22 @@ export class TimelineComponent implements OnInit, OnChanges {
         position: function (pt) {
           return [pt[0], "10%"];
         },
-        formatter: this.formatToolTip,
+        formatter: (params) => {
+          return this.formatToolTip(params);
+        },
       },
       dataZoom: [
         {
-          type: "inside",
-          filterMode: "weakFilter",
-          orient: "vertical",
+          type: "slider",
+          realtime: true,
+          orient: "horizontal",
         },
         {
           type: "slider",
+          realtime: true,
+          orient: "vertical",
+          left: "left",
+          showDetail: false,
         },
       ],
       series: [],
@@ -161,14 +176,21 @@ export class TimelineComponent implements OnInit, OnChanges {
   }
 
   formatToolTip(params) {
-    let data;
-    if (params.length === 0) {
-      data = [params];
+    let data = [];
+    if (Array.isArray(params)) {
+      data = [...params];
     } else {
-      data = params;
+      data.push(params);
     }
     let str = "";
-    str += data[0].axisValueLabel + "<br />";
+
+    if (data[0].axisValueLabel) {
+      str += data[0].axisValueLabel;
+    } else {
+      str += this.xAxisTooltipLabelFormatting(data[0].value[1]);
+    }
+
+    str += "<br />";
     data.forEach((param) => {
       str += param.marker + " " + param.name + " " + param.value[3] + "<br />";
     });
