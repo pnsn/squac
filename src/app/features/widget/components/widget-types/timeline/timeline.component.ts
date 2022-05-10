@@ -117,6 +117,9 @@ export class TimelineComponent implements OnInit, OnChanges {
         axisTick: {
           interval: 0,
         },
+        axisLabel: {
+          formatter: this.xAxisTickFormatting,
+        },
         axisPointer: {
           show: "true",
           label: {
@@ -124,9 +127,6 @@ export class TimelineComponent implements OnInit, OnChanges {
               return this.xAxisTooltipLabelFormatting(value.value);
             },
           },
-        },
-        axisLabel: {
-          formatter: this.xAxisTickFormatting,
         },
       },
       yAxis: {
@@ -155,6 +155,9 @@ export class TimelineComponent implements OnInit, OnChanges {
         },
         formatter: (params) => {
           return this.formatToolTip(params);
+        },
+        axisPointer: {
+          type: "cross",
         },
       },
       dataZoom: [
