@@ -72,13 +72,6 @@
   </div>
   <div class="widget-content" *ngIf="!loading && !error && !noData">
     <ng-container [ngSwitch]="widget?.type">
-      <!-- <widget-timeline
-        *ngSwitchCase="'timeline'"
-        class="widget"
-        [widget]="widget"
-        [data]="data"
-      >
-      </widget-timeline> -->
       <widget-timeline
         *ngSwitchCase="'timeline'"
         class="widget"
@@ -86,15 +79,15 @@
         [data]="data"
       >
       </widget-timeline>
-      <!-- <widget-tabular
+      <widget-tabular
         *ngSwitchCase="'tabular'"
         class="widget"
         [widget]="widget"
         [data]="data"
       >
-      </widget-tabular> -->
+      </widget-tabular>
       <widget-parallel-plot
-        *ngSwitchCase="'tabular'"
+        *ngSwitchCase="'parallel-plot'"
         class="widget"
         [widget]="widget"
         [data]="data"
@@ -107,13 +100,6 @@
         [data]="data"
       >
       </widget-timechart>
-      <!-- <widget-timeseries
-        *ngSwitchCase="'timeseries'"
-        class="widget"
-        [widget]="widget"
-        [data]="data"
-      >
-      </widget-timeseries> -->
       <widget-map
         *ngSwitchCase="'map'"
         class="widget"

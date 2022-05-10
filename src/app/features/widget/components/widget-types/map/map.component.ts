@@ -131,18 +131,7 @@ export class MapComponent implements OnInit {
 
       if (data[channel.id] && data[channel.id][metric.id]) {
         const rowData = data[channel.id][metric.id];
-
-        // if it has value, show value else find the staType to show
-        if (rowData[0] && rowData[0].value) {
-          if (rowData.length > 0) {
-            val = this.measurementPipe.transform(rowData, statType);
-          } else {
-            val = rowData[0].value;
-          }
-          // still need to calculate
-        } else if (rowData[0][statType]) {
-          val = rowData[0][statType];
-        }
+        val = rowData[0].value;
       }
 
       const threshold = this.thresholds[metric.id];

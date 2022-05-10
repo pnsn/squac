@@ -2,8 +2,6 @@ import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { DateService } from "@core/services/date.service";
-import { ViewService } from "@core/services/view.service";
 import { Threshold } from "@features/widget/models/threshold";
 import { Widget } from "@features/widget/models/widget";
 import { MeasurementPipe } from "@features/widget/pipes/measurement.pipe";
@@ -16,11 +14,7 @@ import { Subscription } from "rxjs";
   providers: [MeasurementPipe],
 })
 export class ParallelPlotComponent implements OnInit {
-  constructor(
-    private viewService: ViewService,
-    private dateService: DateService,
-    private measurementPipe: MeasurementPipe
-  ) {}
+  constructor(private measurementPipe: MeasurementPipe) {}
   @Input() widget: Widget;
   @Input() data;
   metrics: Metric[];
@@ -186,20 +180,7 @@ export class ParallelPlotComponent implements OnInit {
 
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
-          // if it has value, show value else find the staType to show
-          if (rowData[0] && rowData[0].value) {
-            if (rowData.length > 0) {
-              val = this.measurementPipe.transform(rowData, statType);
-            } else {
-              val = rowData[0].value;
-            }
-            // still need to calculate
-          } else if (
-            rowData[0][statType] !== undefined &&
-            rowData[0][statType] !== null
-          ) {
-            val = rowData[0][statType];
-          }
+          val = rowData[0].value;
         }
         if (val !== null && parallelAxis[i].min === null) {
           parallelAxis[i].min = val; //1.01 to add a buffer

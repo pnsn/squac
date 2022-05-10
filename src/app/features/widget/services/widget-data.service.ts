@@ -1,10 +1,12 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { ViewService } from "@core/services/view.service";
-import { Subject, Subscription } from "rxjs";
+import { Subject, Subscription, map } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementService } from "./measurement.service";
-import { DateService } from "@core/services/date.service";
+import { Measurement, MeasurementAdapter } from "../models/measurement";
+import { Archive, ArchiveAdapter } from "../models/archive";
+import { Aggregate, AggregateAdapter } from "../models/aggregate";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
@@ -18,7 +20,9 @@ export class WidgetDataService implements OnDestroy {
     private viewService: ViewService,
     private measurementService: MeasurementService,
     configService: ConfigurationService,
-    private dateService: DateService
+    private measurementAdapter: MeasurementAdapter,
+    private archiveAdapter: ArchiveAdapter,
+    private aggregateAdapter: AggregateAdapter
   ) {
     this.refreshInterval = configService.getValue(
       "dataRefreshIntervalMinutes",
@@ -39,6 +43,7 @@ export class WidgetDataService implements OnDestroy {
     this.clearTimeout();
     let start;
     let end;
+    const data = {};
     if (!startString || !endString) {
       start = this.viewService.startdate;
       end = this.viewService.enddate;
@@ -51,6 +56,7 @@ export class WidgetDataService implements OnDestroy {
 
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
+    const widgetStat = this.widget.stattype.type;
 
     if (
       this.widget &&
@@ -60,21 +66,52 @@ export class WidgetDataService implements OnDestroy {
     ) {
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
-        .getData(start, end, this.widget, archiveType, archiveStat)
-        .subscribe(
-          (success) => {
-            this.data.next(success);
+        .getData(start, end, this.widget, archiveType)
+        .pipe(
+          map((response) => {
+            console.log(response.length);
+            response.forEach((m) => {
+              let value: Measurement | Aggregate | Archive;
+              if (archiveType && archiveType !== "raw") {
+                value = this.archiveAdapter.adaptFromApi(m);
+                if (archiveStat) {
+                  value.value = value[archiveStat];
+                }
+              } else if (this.widget.useAggregate) {
+                value = this.aggregateAdapter.adaptFromApi(m);
+                if (widgetStat) {
+                  value.value = value[widgetStat];
+                }
+              } else {
+                value = this.measurementAdapter.adaptFromApi(m);
+              }
+
+              if (!data[m.channel]) {
+                data[m.channel] = {};
+              }
+              if (!data[m.channel][m.metric]) {
+                data[m.channel][m.metric] = [];
+              }
+
+              data[m.channel][m.metric].push(value);
+            });
+            return data;
+          })
+        )
+        .subscribe({
+          next: (data) => {
+            this.data.next(data);
           },
-          () => {
+          error: () => {
             console.log("error in fetch measurements");
             this.viewService.widgetFinishedLoading();
             this.data.next({});
           },
-          () => {
+          complete: () => {
             this.viewService.widgetFinishedLoading();
             this.updateMeasurement();
-          }
-        );
+          },
+        });
 
       this.subscription.add(measurementSub);
     } else {

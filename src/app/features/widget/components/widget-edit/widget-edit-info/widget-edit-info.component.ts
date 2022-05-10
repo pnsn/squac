@@ -45,11 +45,29 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
     },
     {
       id: 4,
-      name: "Map",
+      name: "map",
       type: "map",
       useAggregate: true,
       description:
         "A map of channels represented by values for measurements calculated with stattype.",
+    },
+    {
+      id: 5,
+      name: "box plot",
+      type: "box-plot",
+      use_aggregate: true,
+    },
+    {
+      id: 6,
+      name: "parallel plot",
+      type: "parallel-plot",
+      use_aggregate: true,
+    },
+    {
+      id: 7,
+      name: "scatter plot",
+      type: "scatter-plot",
+      use_aggregate: true,
     },
   ];
 
