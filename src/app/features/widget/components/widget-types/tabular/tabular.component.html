@@ -17,40 +17,4 @@
   (treeAction)="onTreeAction($event)"
   [sorts]="[{ prop: 'agg', dir: 'desc' }]"
 >
-  <ngx-datatable-column
-    name="Channel"
-    prop="title"
-    [isTreeColumn]="true"
-    [width]="150"
-    [canAutoResize]="false"
-    [frozenLeft]="true"
-    [resizeable]="false"
-  >
-  </ngx-datatable-column>
-  <ngx-datatable-column
-    name="agg"
-    [width]="50"
-    [frozenLeft]="true"
-    [canAutoResize]="false"
-    [resizeable]="false"
-  >
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      {{ value }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column
-    *ngFor="let metric of metrics"
-    name="{{ metric.name | replace: '_':' ' | titlecase }}"
-    prop="{{ metric.id }}"
-    [comparator]="metric.comparator"
-    [minWidth]="100"
-    [cellClass]="getCellClass"
-    [canAutoResize]="true"
-    [sortable]="true"
-  >
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      {{ value.value !== null ? (value.value | number: "1.0-2") : "-" }}
-    </ng-template>
-  </ngx-datatable-column>
 </ngx-datatable>

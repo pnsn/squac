@@ -17,8 +17,9 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
-  @Input() currentMetricId: number;
   @Input() channels: Channel[];
+  @Input() selectedMetric: Metric;
+
   stations;
   stationLayer: L.LayerGroup;
 
@@ -43,8 +44,6 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   // }
 
   initMap(): void {
-    // Setup the groups for map markers and the drawn square
-
     // Add all the layers to the array that will be fed to options
     this.layers = [
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -71,12 +70,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   }
 
   onMapReady(map: L.Map) {
-    let metric: Metric;
     let threshold: Threshold;
-    if (this.metrics) {
-      metric = this.metrics[0];
-      threshold = this.thresholds[metric.id];
-    }
     this.map = map;
 
     const legend = new L.Control({ position: "bottomright" });

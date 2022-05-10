@@ -80,7 +80,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [currentMetric]="widget.metrics[0]"
+        [selectedMetric]="widget.metrics[0]"
       >
       </widget-timeline>
       <widget-tabular
@@ -111,7 +111,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [currentMetric]="widget.metrics[0]"
+        [selectedMetric]="widget.metrics[0]"
       >
       </widget-timechart>
       <widget-map
@@ -122,10 +122,10 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [currentMetric]="widget.metrics[0]"
+        [selectedMetric]="widget.metrics[0]"
       >
       </widget-map>
-      <widget-box-plot
+      <widget-box-plotselectedMetric
         *ngSwitchCase="'box-plot'"
         class="widget"
         [data]="data"
@@ -133,9 +133,9 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [currentMetric]="widget.metrics[0]"
+        [selectedMetric]="widget.metrics[0]"
       >
-      </widget-box-plot>
+      </widget-box-plotselectedMetric>
       <widget-scatter-plot
         *ngSwitchCase="'scatter-plot'"
         class="widget"

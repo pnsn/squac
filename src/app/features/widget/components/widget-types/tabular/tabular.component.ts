@@ -89,6 +89,12 @@ export class TabularComponent
         cellClass: this.getCellClass,
         canAutoResize: true,
         sortable: true,
+        pipe: {
+          transform: (row) => {
+            return row.value !== null ? Math.round(row.value * 100) / 100 : "-";
+            // {{ value.value !== null ? (value.value | number: "1.0-2") : "-" }}
+          },
+        },
       });
     });
     this.buildRows(this.data);
@@ -130,8 +136,9 @@ export class TabularComponent
 
         // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
         const threshold = this.thresholds[metric.id];
-        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
+        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
+        console.log(threshold, inThreshold);
         if (threshold && val != null && !inThreshold) {
           agg++;
         }

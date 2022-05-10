@@ -34,6 +34,7 @@ export class TimelineComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
+  @Input() selectedMetric: Metric;
 
   subscription = new Subscription();
 
@@ -42,7 +43,6 @@ export class TimelineComponent
   referenceLines;
   xAxisLabel = "Measurement Start Date";
   yAxisLabel: string;
-  currentMetric: Metric;
   colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
   };
@@ -67,7 +67,6 @@ export class TimelineComponent
     }
   }
   ngOnInit(): void {
-    this.currentMetric = this.metrics[0];
     this.referenceLines = [];
     const pieces = this.addThresholds();
 
@@ -75,7 +74,7 @@ export class TimelineComponent
     this.buildChartData(this.data);
     this.options = {
       title: {
-        text: this.currentMetric.name,
+        text: this.selectedMetric.name,
         subtext: "sub text",
       },
       legend: {
@@ -203,10 +202,10 @@ export class TimelineComponent
         color: "#AA069F",
       },
     ];
-    // if (this.thresholds[this.currentMetric.id]) {
+    // if (this.thresholds[this.selectedMetric.id]) {
     //   const piece = {};
     //   // thresholds.forEach((threshold)=>{  }) //allow multople
-    //   const threshold = this.thresholds[this.currentMetric.id];
+    //   const threshold = this.thresholds[this.selectedMetric.id];
     //   if (threshold.min || threshold.min === 0) {
     //     piece["min"] = threshold.min;
     //   }
@@ -226,7 +225,9 @@ export class TimelineComponent
 
     this.results = [];
     // this.addThresholds();
-    this.yAxisLabel = this.currentMetric ? this.currentMetric.unit : "Unknown";
+    this.yAxisLabel = this.selectedMetric
+      ? this.selectedMetric.unit
+      : "Unknown";
     const yAxisLabels = [];
     const series = {
       type: "custom",
@@ -278,12 +279,12 @@ export class TimelineComponent
       return b.nslc.localeCompare(a.nslc);
     });
     this.channels.forEach((channel) => {
-      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+      if (data[channel.id] && data[channel.id][this.selectedMetric.id]) {
         const index = yAxisLabels.length;
         yAxisLabels.push(channel.nslc);
 
         let lastEnd: dayjs.Dayjs;
-        data[channel.id][this.currentMetric.id].forEach(
+        data[channel.id][this.selectedMetric.id].forEach(
           (measurement: Measurement) => {
             if (!min || !max) {
               min = measurement.value;
@@ -307,7 +308,7 @@ export class TimelineComponent
         );
         // console.log(channelObj);
         this.hasData = !this.hasData
-          ? data[channel.id][this.currentMetric.id].length > 0
+          ? data[channel.id][this.selectedMetric.id].length > 0
           : this.hasData;
       }
 

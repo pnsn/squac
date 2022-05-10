@@ -12,7 +12,6 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
-import { Widget } from "@features/widget/models/widget";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
@@ -34,14 +33,13 @@ export class TimechartComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
-  @Input() currentMetricId: number;
+  @Input() selectedMetric: Metric;
   subscription = new Subscription();
   results: Array<any>;
   hasData: boolean;
   referenceLines;
   xAxisLabel = "Measurement Start Date";
   yAxisLabel: string;
-  currentMetric: Metric;
   colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
   };
@@ -66,7 +64,7 @@ export class TimechartComponent
     }
   }
   ngOnInit(): void {
-    this.currentMetric = this.metrics[0];
+    this.selectedMetric = this.metrics[0];
 
     this.referenceLines = [];
 
@@ -81,7 +79,7 @@ export class TimechartComponent
     this.buildChartData(this.data);
     this.options = {
       title: {
-        text: this.currentMetric.name,
+        text: this.selectedMetric.name,
         subtext: "sub text",
       },
       legend: {
@@ -150,10 +148,10 @@ export class TimechartComponent
 
   addThresholds(): Array<any> {
     const pieces = [];
-    if (this.thresholds[this.currentMetric.id]) {
+    if (this.thresholds[this.selectedMetric.id]) {
       const piece = {};
       // thresholds.forEach((threshold)=>{  }) //allow multople
-      const threshold = this.thresholds[this.currentMetric.id];
+      const threshold = this.thresholds[this.selectedMetric.id];
       if (threshold.min || threshold.min === 0) {
         piece["min"] = threshold.min;
       }
@@ -175,7 +173,9 @@ export class TimechartComponent
 
     // this.addThresholds();
     this.xAxisLabel = "Measurement Time";
-    this.yAxisLabel = this.currentMetric ? this.currentMetric.unit : "Unknown";
+    this.yAxisLabel = this.selectedMetric
+      ? this.selectedMetric.unit
+      : "Unknown";
     this.channels.forEach((channel) => {
       const channelObj = {
         name: channel.nslc,
@@ -184,9 +184,9 @@ export class TimechartComponent
         large: true,
       };
 
-      if (data[channel.id] && data[channel.id][this.currentMetric.id]) {
+      if (data[channel.id] && data[channel.id][this.selectedMetric.id]) {
         let lastEnd: dayjs.Dayjs;
-        data[channel.id][this.currentMetric.id].forEach(
+        data[channel.id][this.selectedMetric.id].forEach(
           (measurement: Measurement) => {
             if (!min || !max) {
               min = measurement.value;
@@ -206,7 +206,7 @@ export class TimechartComponent
 
               if (
                 diff >=
-                this.currentMetric.sampleRate * this.maxMeasurementGap
+                this.selectedMetric.sampleRate * this.maxMeasurementGap
               ) {
                 this.results.push({
                   name: channelObj.name,
@@ -231,7 +231,7 @@ export class TimechartComponent
           }
         );
         this.hasData = !this.hasData
-          ? data[channel.id][this.currentMetric.id].length > 0
+          ? data[channel.id][this.selectedMetric.id].length > 0
           : this.hasData;
       }
 
