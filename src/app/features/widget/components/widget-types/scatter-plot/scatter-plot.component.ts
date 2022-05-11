@@ -16,6 +16,7 @@ export class ScatterPlotComponent implements OnInit, WidgetTypeComponent {
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
+  @Input() dataRange: any;
   initOptions: any;
   options: any;
   autoResize: any;
@@ -23,4 +24,7 @@ export class ScatterPlotComponent implements OnInit, WidgetTypeComponent {
   constructor() {}
 
   ngOnInit(): void {}
+  onChartEvent(event, type) {
+    console.log(event.seriesName, type);
+  }
 }

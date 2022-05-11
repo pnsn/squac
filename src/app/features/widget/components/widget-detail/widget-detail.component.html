@@ -81,6 +81,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [selectedMetric]="widget.metrics[0]"
+        [dataRange]="dataRange"
       >
       </widget-timeline>
       <widget-tabular
@@ -91,6 +92,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
+        [dataRange]="dataRange"
       >
       </widget-tabular>
       <widget-parallel-plot
@@ -101,6 +103,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
+        [dataRange]="dataRange"
       >
       </widget-parallel-plot>
       <widget-timechart
@@ -112,6 +115,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [selectedMetric]="widget.metrics[0]"
+        [dataRange]="dataRange"
       >
       </widget-timechart>
       <widget-map
@@ -123,6 +127,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [selectedMetric]="widget.metrics[0]"
+        [dataRange]="dataRange"
       >
       </widget-map>
       <widget-box-plotselectedMetric
@@ -134,6 +139,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [selectedMetric]="widget.metrics[0]"
+        [dataRange]="dataRange"
       >
       </widget-box-plotselectedMetric>
       <widget-scatter-plot
@@ -144,6 +150,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
+        [dataRange]="dataRange"
       >
       </widget-scatter-plot>
       <div *ngSwitchDefault class="widget-message">

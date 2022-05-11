@@ -18,29 +18,13 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
-
-  rows = [];
+  @Input() dataRange: any;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
-  hasData: boolean;
-  referenceLines;
-  xAxisLabel = "Measurement Start Date";
-  yAxisLabel: string;
-  colorScheme = {
-    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
-  };
   options = {};
   updateOptions = {};
-  xScaleMin;
-  xScaleMax;
-  yScaleMin;
-  yScaleMax;
   initOptions = {};
-
-  // Max allowable time between measurements to connect
-  maxMeasurementGap: number = 1 * 1000;
-  test = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -58,19 +42,33 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
     // const legendOffset = //pieces.length;
 
     this.options = {
+      parallel: {
+        left: "30",
+        right: "200", //changes with legend or mapping
+      },
       grid: {
         containLabel: true,
-        left: "30",
-        right: "15%",
-        bottom: "30",
+        left: "40",
+        // right: "80",
+        // bottom: "80",
       },
       useUtc: true,
+      legend: {
+        show: false,
+        type: "scroll",
+        orient: "vertical",
+        align: "left",
+        left: "right",
+        selector: ["all", "inverse"],
+      },
+      animation: false,
       tooltip: {
-        padding: 10,
-        borderColor: "#777",
-        borderWidth: 1,
+        position: function (pt) {
+          return [pt[0], "10%"];
+        },
+        confine: true,
         formatter: (params) => {
-          let str = params.seriesName + "<br />";
+          let str = params.seriesName;
           str += "<table><th>Metric</th> <th>Value</th>";
           params.data.forEach((data, i) => {
             str +=
@@ -84,98 +82,61 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
           return str;
         },
       },
-      parallel: {
-        parallelAxisDefault: {
-          type: "value",
-          nameLocation: "end",
-          nameGap: 20,
-          nameTextStyle: {
-            color: "#fff",
-            fontSize: 12,
+      dataZoom: [],
+      series: [],
+      toolbox: {
+        show: true,
+        showTitle: true,
+        feature: {
+          dataView: {
+            show: true,
           },
-          axisLine: {
-            lineStyle: {
-              color: "#aaa",
+          myChannelToggle: {
+            show: true,
+            title: "Toggle Channel List",
+            icon: "path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891",
+            onclick: () => {
+              this.updateOptions["legend"] = {
+                show: false,
+              };
+              alert("myToolHandler1");
             },
-          },
-          axisTick: {
-            lineStyle: {
-              color: "#777",
-            },
-          },
-          splitLine: {
-            show: false,
-          },
-          axisLabel: {
-            color: "#fff",
           },
         },
       },
-      dataZoom: [],
-      series: [],
     };
   }
+  toggleLegend() {}
 
-  // addThresholds(): Array<any> {
-  //   const pieces = [];
-  //   if (this.thresholds[this.currentMetric.id]) {
-  //     const piece = {};
-  //     // thresholds.forEach((threshold)=>{  }) //allow multople
-  //     const threshold = this.thresholds[this.currentMetric.id];
-  //     if (threshold.min || threshold.min === 0) {
-  //       piece["min"] = threshold.min;
-  //     }
-  //     if (threshold.max || threshold.max === 0) {
-  //       piece["max"] = threshold.max;
-  //     }
-  //     piece["color"] = "#AA069F";
-  //     pieces.push(piece);
-  //   }
-
-  //   return pieces;
-  // }
+  onChartEvent(event, type) {
+    console.log(event.seriesName, type);
+  }
 
   private buildRows(data) {
     const series = [];
     const parallelAxis = [];
-    this.channels.forEach((channel, chanIndex) => {
+    this.metrics.forEach((metric, i) => {
+      parallelAxis.push({
+        name: metric.name, //metric.name.replace(/_/g, " "),
+        dim: i,
+        min: this.dataRange[metric.id] ? this.dataRange[metric.id].min : null,
+        max: this.dataRange[metric.id] ? this.dataRange[metric.id].max : null,
+      });
+    });
+    this.channels.forEach((channel) => {
       const channelSeries = {
         name: channel.nslc,
         type: "parallel",
-        lineStyle: {
-          width: 1,
-          opacity: 0.5,
-        },
         data: [],
         large: true,
       };
       const channelData = [];
       this.metrics.forEach((metric, i) => {
-        if (chanIndex === 0) {
-          parallelAxis.push({
-            name: metric.name,
-            dim: i,
-            data: [metric.name],
-            min: null,
-            max: null,
-          });
-        }
-
         let val: number = null;
-
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
           val = rowData[0].value;
         }
-        if (val !== null && parallelAxis[i].min === null) {
-          parallelAxis[i].min = val; //1.01 to add a buffer
-          parallelAxis[i].max = val;
-        } else if (val !== null && val < parallelAxis[i].min) {
-          parallelAxis[i].min = val;
-        } else if (val !== null && val > parallelAxis[i].max) {
-          parallelAxis[i].max = val;
-        }
-
         channelData.push(val);
       });
       channelSeries.data.push(channelData);
@@ -190,6 +151,14 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
     this.updateOptions = {
       series: series,
       parallelAxis: parallelAxis,
+      parallel: {
+        parallelAxisDefault: {
+          nameTextStyle: {
+            width: 15,
+            overflow: "break",
+          },
+        },
+      },
     };
     this.schema = [...parallelAxis];
   }

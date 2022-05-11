@@ -17,6 +17,7 @@ export class BoxPlotComponent implements OnInit, WidgetTypeComponent {
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
   @Input() currentMetricId: number;
+  @Input() dataRange: any;
   initOptions: any;
   options: any;
   autoResize: any;
@@ -24,4 +25,7 @@ export class BoxPlotComponent implements OnInit, WidgetTypeComponent {
   constructor() {}
 
   ngOnInit(): void {}
+  onChartEvent(event, type) {
+    console.log(event, type);
+  }
 }

@@ -19,6 +19,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
   @Input() selectedMetric: Metric;
+  @Input() dataRange: any;
 
   stations;
   stationLayer: L.LayerGroup;
@@ -36,7 +37,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
 
   ngOnInit() {
     this.initMap();
-    this.buildRows(this.data);
+    this.buildLayers(this.data);
   }
 
   // ngOnChanges() {
@@ -65,7 +66,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
     //Add '${implements OnChanges}' to the class.
     if (changes.data && this.channels.length > 0) {
       console.log("build rows");
-      this.buildRows(this.data);
+      this.buildLayers(this.data);
     }
   }
 
@@ -101,128 +102,123 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
     }, 0);
   }
 
-  // modified from tabular, needs a another look
-  private buildRows(data) {
-    const rows = [];
-    const stations = [];
-    const stationRows = [];
-    const stationChannels = {};
+  private buildLayers(data) {
+    const metricLayers = {};
 
-    const metric = this.metrics[0];
-    this.channels.forEach((channel) => {
-      const identifier = channel.networkCode + "." + channel.stationCode;
-      let agg = 0;
+    this.metrics.forEach((metric) => {
+      const channelRows = [];
+      const stations = [];
+      const stationRows = [];
+      const stationChannels = {};
+      this.channels.forEach((channel) => {
+        const identifier = channel.networkCode + "." + channel.stationCode;
+        let agg = 0;
+        let val: number = null;
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          const rowData = data[channel.id][metric.id];
+          val = rowData[0].value;
+        }
 
-      let val: number = null;
+        const threshold = this.thresholds[metric.id];
+        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
 
-      if (data[channel.id] && data[channel.id][metric.id]) {
-        const rowData = data[channel.id][metric.id];
-        val = rowData[0].value;
-      }
+        if (threshold && val != null && !inThreshold) {
+          agg++;
+        }
 
-      const threshold = this.thresholds[metric.id];
-      const inThreshold = threshold ? checkThresholds(threshold, val) : false;
+        const iconClass = this.getIconClass(val, threshold, inThreshold);
 
-      if (threshold && val != null && !inThreshold) {
-        agg++;
-      }
+        if (!stationChannels[channel.stationCode]) {
+          stationChannels[channel.stationCode] = "";
+        }
+        stationChannels[channel.stationCode] =
+          stationChannels[channel.stationCode] +
+          `<p> <div class="${iconClass}"> </div>${channel.loc}.${
+            channel.code
+          }: ${val ? val : "no data"}</p>`;
 
-      let iconClass: string;
+        let channelRow = {
+          title: channel.nslc,
+          id: channel.id,
+          parentId: identifier,
+          staCode: channel.stationCode,
+          netCode: channel.networkCode,
+          lat: channel.lat,
+          lon: channel.lon,
+          class: iconClass,
+          agg,
+        };
+        channelRow = { ...channelRow };
+        channelRows.push(channelRow);
 
-      if (!threshold) {
-        iconClass = "no-threshold";
-      } else if (val !== null && !inThreshold && !!threshold) {
-        iconClass = "out-of-spec";
-      } else if (val !== null && inThreshold && !!threshold) {
-        iconClass = "in-spec";
-      } else {
-        iconClass = "unknown";
-      }
-
-      if (!stationChannels[channel.stationCode]) {
-        stationChannels[channel.stationCode] = "";
-      }
-
-      stationChannels[channel.stationCode] =
-        stationChannels[channel.stationCode] +
-        `<p> <div class="${iconClass}"> </div>${channel.loc}.${channel.code}: ${
-          val ? val : "no data"
-        }</p>`;
-
-      const title =
-        channel.networkCode +
-        "." +
-        channel.stationCode +
-        "." +
-        channel.loc +
-        "." +
-        channel.code;
-      let row = {
-        title,
-        id: channel.id,
-        parentId: identifier,
-        staCode: channel.stationCode,
-        netCode: channel.networkCode,
-        lat: channel.lat,
-        lon: channel.lon,
-        class: iconClass,
-        agg,
-      };
-      row = { ...row };
-      rows.push(row);
-
-      const staIndex = stations.indexOf(identifier);
-      if (staIndex < 0) {
-        stations.push(identifier);
-        stationRows.push({
-          ...{
-            title,
-            id: identifier,
-            staCode: channel.stationCode,
-            netCode: channel.networkCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            class: iconClass,
-            agg,
-          },
-        });
-      } else {
-        stationRows[staIndex] = this.findWorstChannel(
-          row,
-          stationRows[staIndex]
-        );
-        // check if agg if worse than current agg
-      }
-    });
-
-    this.stations = [];
-    stationRows.forEach((station) => {
-      if (!station.staCode) {
-        console.log(station);
-      }
-
-      const marker = L.marker([station.lat, station.lon], {
-        icon: L.divIcon({ className: station.class }),
-      })
-        .bindPopup(
-          `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4>
-        ${stationChannels[station.staCode]}`
-        )
-        .bindTooltip(
-          `${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()}`
-        );
-
-      marker.on("click", (ev) => {
-        ev.target.openPopup();
+        const staIndex = stations.indexOf(identifier);
+        if (staIndex < 0) {
+          stations.push(identifier);
+          stationRows.push({
+            ...{
+              title: channel.nslc,
+              id: identifier,
+              staCode: channel.stationCode,
+              netCode: channel.networkCode,
+              lat: channel.lat,
+              lon: channel.lon,
+              class: iconClass,
+              agg,
+            },
+          });
+        } else {
+          stationRows[staIndex] = this.findWorstChannel(
+            channelRow,
+            stationRows[staIndex]
+          );
+          // check if agg if worse than current agg
+        }
       });
-
-      this.stations.push(marker);
+      this.stations = [];
+      stationRows.forEach((station) => {
+        this.stations.push(this.makeMarker(station, stationChannels));
+      });
+      metricLayers[metric.id] = L.layerGroup(this.stations);
     });
-    this.stationLayer = L.layerGroup(this.stations);
 
-    this.layers.push(this.stationLayer);
+    this.layers.push(metricLayers[this.selectedMetric.id]);
   }
 
+  private getIconClass(val, threshold, inThreshold) {
+    let iconClass: string;
+    if (!threshold) {
+      iconClass = "no-threshold";
+    } else if (val !== null && !inThreshold && !!threshold) {
+      iconClass = "out-of-spec";
+    } else if (val !== null && inThreshold && !!threshold) {
+      iconClass = "in-spec";
+    } else {
+      iconClass = "unknown";
+    }
+    return iconClass;
+  }
+
+  private makeMarker(station, stationChannels) {
+    if (!station.staCode) {
+      console.log(station);
+    }
+
+    const marker = L.marker([station.lat, station.lon], {
+      icon: L.divIcon({ className: station.class }),
+    })
+      .bindPopup(
+        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4>
+      ${stationChannels[station.staCode]}`
+      )
+      .bindTooltip(
+        `${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()}`
+      );
+
+    marker.on("click", (ev) => {
+      ev.target.openPopup();
+    });
+    return marker;
+  }
   private findWorstChannel(channel, station) {
     if (channel.agg > station.agg) {
       const newStation = { ...channel };

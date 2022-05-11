@@ -12,21 +12,25 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
+import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { graphic } from "echarts";
 
 @Component({
   selector: "widget-timechart",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
+  providers: [WidgetTypeService],
 })
 export class TimechartComponent
   implements OnInit, OnChanges, WidgetTypeComponent
 {
   constructor(
     private viewService: ViewService,
-    private dateService: DateService
+    private dateService: DateService,
+    private widgetTypeService: WidgetTypeService
   ) {}
   @Input() data;
   @Input() metrics: Metric[];
@@ -34,26 +38,15 @@ export class TimechartComponent
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
   @Input() selectedMetric: Metric;
+  @Input() dataRange: any;
+
   subscription = new Subscription();
-  results: Array<any>;
-  hasData: boolean;
-  referenceLines;
-  xAxisLabel = "Measurement Start Date";
-  yAxisLabel: string;
-  colorScheme = {
-    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
-  };
   options = {};
   updateOptions = {};
-  xScaleMin;
-  xScaleMax;
-  yScaleMin;
-  yScaleMax;
   initOptions = {};
 
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
-  test = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -65,10 +58,6 @@ export class TimechartComponent
   }
   ngOnInit(): void {
     this.selectedMetric = this.metrics[0];
-
-    this.referenceLines = [];
-
-    // const pieces = this.addThresholds();
     const pieces = [
       {
         min: 0,
@@ -82,8 +71,9 @@ export class TimechartComponent
         text: this.selectedMetric.name,
         subtext: "sub text",
       },
+      animation: false,
       legend: {
-        show: true,
+        show: false,
         type: "scroll",
         orient: "vertical",
         align: "left",
@@ -93,13 +83,14 @@ export class TimechartComponent
       },
       grid: {
         containLabel: true,
-        left: "30",
-        right: "15%",
-        bottom: "30",
+        left: "40",
+        // right: "80",
+        // bottom: "80",
       },
       useUtc: true,
       xAxis: {
         type: "time",
+        name: "Measurement Start Date",
         nameLocation: "center",
         nameGap: 30,
         axisTick: {
@@ -108,13 +99,11 @@ export class TimechartComponent
         axisPointer: {
           show: "true",
           label: {
-            formatter: (value) => {
-              return this.xAxisTooltipLabelFormatting(value.value);
-            },
+            formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
           },
         },
         axisLabel: {
-          formatter: this.xAxisTickFormatting,
+          formatter: this.widgetTypeService.timeAxisTickFormatting,
         },
       },
       yAxis: {
@@ -126,10 +115,31 @@ export class TimechartComponent
         },
         nameGap: 40, //max characters
       },
+      dataZoom: [
+        {
+          type: "slider",
+          realtime: true,
+          orient: "horizontal",
+        },
+        {
+          type: "slider",
+          realtime: true,
+          orient: "vertical",
+          left: "left",
+          showDetail: false,
+        },
+      ],
       tooltip: {
+        confine: true,
         trigger: "item",
+        axisPointer: {
+          type: "cross",
+        },
         position: function (pt) {
           return [pt[0], "10%"];
+        },
+        formatter: (params) => {
+          return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
       visualMap: {
@@ -141,9 +151,12 @@ export class TimechartComponent
           color: "#999",
         },
       },
-      dataZoom: [],
       series: [],
     };
+  }
+
+  onChartEvent(event, type) {
+    console.log(event, type);
   }
 
   addThresholds(): Array<any> {
@@ -166,148 +179,86 @@ export class TimechartComponent
   }
 
   buildChartData(data) {
-    let max;
-    let min;
-
-    this.results = [];
-
+    const metricSeries = {};
     // this.addThresholds();
-    this.xAxisLabel = "Measurement Time";
-    this.yAxisLabel = this.selectedMetric
-      ? this.selectedMetric.unit
-      : "Unknown";
+
     this.channels.forEach((channel) => {
-      const channelObj = {
-        name: channel.nslc,
-        type: "line",
-        data: [],
-        large: true,
-      };
-
-      if (data[channel.id] && data[channel.id][this.selectedMetric.id]) {
+      this.metrics.forEach((metric, i) => {
+        if (!metricSeries[metric.id]) {
+          metricSeries[metric.id] = {
+            series: [],
+          };
+        }
+        const channelObj = {
+          name: channel.nslc,
+          type: "line",
+          data: [],
+          large: true,
+          step: "start",
+          symbol: "circle",
+          sampling: "lttb",
+          encode: {
+            x: [1, 2],
+            y: 3,
+          },
+        };
         let lastEnd: dayjs.Dayjs;
-        data[channel.id][this.selectedMetric.id].forEach(
-          (measurement: Measurement) => {
-            if (!min || !max) {
-              min = measurement.value;
-              max = measurement.value;
-            } else if (measurement.value > max) {
-              max = measurement.value;
-            } else if (measurement.value < min) {
-              min = measurement.value;
-            }
-
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          data[channel.id][metric.id].forEach((measurement: Measurement) => {
             // // If time between measurements is greater than gap, don't connect
-            if (channelObj.data.length > 0 && lastEnd) {
-              // time since last measurement
-              const start = this.dateService.parseUtc(measurement.starttime);
+            const start = this.dateService.parseUtc(measurement.starttime);
+            const end = this.dateService.parseUtc(measurement.endtime);
 
-              const diff = this.dateService.diff(start, lastEnd);
-
-              if (
-                diff >=
+            if (
+              channelObj.data.length > 0 &&
+              lastEnd &&
+              this.dateService.diff(start, lastEnd) >=
                 this.selectedMetric.sampleRate * this.maxMeasurementGap
-              ) {
-                this.results.push({
-                  name: channelObj.name,
-                  type: "line",
-                  data: channelObj.data,
-                  large: true,
-                });
-                channelObj.data = [];
-              }
+            ) {
+              // time since last measurement
+              channelObj.data.push([
+                channelObj.name,
+                lastEnd.toDate(),
+                "start.toDate()",
+                "-",
+              ]);
             }
-            const start = this.dateService
-              .parseUtc(measurement.starttime)
-              .toDate();
+
             // let start = measurement.starttime;
-            channelObj.data.push([start, measurement.value]);
+            channelObj.data.push([
+              channelObj.name,
+              start.toDate(),
+              end.toDate(),
+              measurement.value,
+            ]);
+            // let start = measurement.starttime;
+            channelObj.data.push([
+              channelObj.name,
+              end.toDate(),
+              "-",
+              measurement.value,
+            ]);
 
-            const end = this.dateService.parseUtc(measurement.endtime).toDate();
-            // meas end
-            channelObj.data.push([end, measurement.value]);
-
-            lastEnd = this.dateService.parseUtc(measurement.endtime);
-          }
-        );
-        this.hasData = !this.hasData
-          ? data[channel.id][this.selectedMetric.id].length > 0
-          : this.hasData;
-      }
-
-      if (channelObj.data.length > 0) {
-        this.results.push(channelObj);
-      }
+            lastEnd = end;
+          });
+        }
+        metricSeries[metric.id].series.push(channelObj);
+      });
     });
 
-    this.viewService.startdate;
-    this.viewService.enddate;
     this.updateOptions = {
-      series: this.results,
-      useUtc: true,
+      series: metricSeries[this.selectedMetric.id].series,
       xAxis: {
-        name: this.xAxisLabel,
         min: this.viewService.startdate,
         max: this.viewService.enddate,
       },
       yAxis: {
-        name: this.yAxisLabel,
-        nameGap: this.yAxisLabelPosition(min, max),
+        name: this.selectedMetric ? this.selectedMetric.unit : "Unknown",
+        nameGap: this.widgetTypeService.yAxisLabelPosition(
+          this.dataRange[this.selectedMetric.id].min,
+          this.dataRange[this.selectedMetric.id].max
+        ),
       },
     };
-  }
-  //calculate y axis position to prevent overlap
-  yAxisLabelPosition(min, max): number {
-    const minLen = Math.round(min).toString().length;
-    const maxLen = Math.round(max).toString().length;
-
-    return Math.max(minLen, maxLen) * 10 + 10;
-  }
-
-  xAxisTooltipLabelFormatting(val) {
-    const value = new Date(val);
-    let formatOptions = {};
-    formatOptions = {
-      //have to reassign it this way or linter won't allow it set
-      second: "2-digit",
-      minute: "2-digit",
-      hour: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour12: false,
-      timeZone: "UTC",
-    };
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
-    return string;
-  }
-
-  xAxisTickFormatting(val, index?) {
-    const value = new Date(val);
-    let formatOptions;
-    if (value.getSeconds() !== 0) {
-      formatOptions = { second: "2-digit" };
-    } else if (value.getMinutes() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getHours() !== 0) {
-      formatOptions = { hour: "2-digit", minute: "2-digit" };
-    } else if (value.getDate() !== 1) {
-      formatOptions =
-        value.getDay() === 0
-          ? { month: "short", day: "2-digit" }
-          : { month: "short", day: "2-digit" };
-    } else if (value.getMonth() !== 0) {
-      formatOptions = { month: "long" };
-    } else {
-      formatOptions = { year: "numeric" };
-    }
-    formatOptions.hour12 = false;
-    formatOptions.timeZone = "UTC";
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
-    return string;
   }
 }

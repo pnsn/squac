@@ -14,6 +14,7 @@ export class WidgetDataService implements OnDestroy {
   private refreshInterval;
   updateTimeout;
   locale;
+  private ranges = {};
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -38,6 +39,10 @@ export class WidgetDataService implements OnDestroy {
   setWidget(widget: Widget) {
     this.widget = widget;
   }
+
+  get dataRange() {
+    return this.ranges;
+  }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
     this.clearTimeout();
@@ -57,6 +62,7 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
     const widgetStat = this.widget.stattype.type;
+    this.ranges = {};
 
     if (
       this.widget &&
@@ -91,7 +97,7 @@ export class WidgetDataService implements OnDestroy {
               if (!data[m.channel][m.metric]) {
                 data[m.channel][m.metric] = [];
               }
-
+              this.calculateDataRange(m.metric, value.value);
               data[m.channel][m.metric].push(value);
             });
             return data;
@@ -117,6 +123,26 @@ export class WidgetDataService implements OnDestroy {
       this.data.next({});
       this.viewService.widgetFinishedLoading();
     }
+  }
+
+  private calculateDataRange(metricId, value) {
+    if (!this.ranges[metricId]) {
+      this.ranges[metricId] = {
+        min: null,
+        max: null,
+        count: 0,
+      };
+    }
+
+    const metricRange = this.ranges[metricId];
+    if (metricRange.min === null || value < metricRange.min) {
+      metricRange.min = value;
+    }
+    if (metricRange.max === null || value > metricRange.max) {
+      metricRange.max = value;
+    }
+
+    metricRange.count++;
   }
 
   // Clears any active timeout

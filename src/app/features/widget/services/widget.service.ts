@@ -46,6 +46,7 @@ export class WidgetService {
           return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
         }),
         map((channelGroups: any) => {
+          //FIXME ??? widgets get same channel group object
           widgets.forEach((w) => {
             w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
               return cg.id === w.channelGroupId;

@@ -29,6 +29,7 @@ export class TabularComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
+  @Input() dataRange: any;
   subscription = new Subscription();
 
   @ViewChild("dataTable") table: any;
@@ -138,7 +139,6 @@ export class TabularComponent
         const threshold = this.thresholds[metric.id];
 
         const inThreshold = threshold ? checkThresholds(threshold, val) : false;
-        console.log(threshold, inThreshold);
         if (threshold && val != null && !inThreshold) {
           agg++;
         }

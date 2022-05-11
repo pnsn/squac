@@ -12,7 +12,6 @@
   height: 10px !important;
   width: 10px !important;
   border-radius: 50%;
-  border: 1px solid black;
 }
 
 :host ::ng-deep .legend,
@@ -48,20 +47,24 @@
 
 :host ::ng-deep .in-spec {
   @extend .map-icon;
+  border: 1px solid darken(#4488a9, 10);
   background-color: #4488a9 !important;
 }
 
 :host ::ng-deep .out-of-spec {
   @extend .map-icon;
+  border: 1px solid darken(#ffb758, 10);
   background-color: #ffb758 !important;
 }
 
 :host ::ng-deep .unknown {
   @extend .map-icon;
-  background-color: gray;
+  border: 1px solid darken(gray, 10);
+  background-color: white;
 }
 
 :host ::ng-deep .no-threshold {
   @extend .map-icon;
+  border: 1px solid darken(gray, 10);
   background-color: gray;
 }

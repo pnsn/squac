@@ -25,6 +25,7 @@ import { Ability } from "@casl/ability";
 export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   @Input() widget: Widget;
   data: any;
+  dataRange: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   loading = true;
@@ -56,6 +57,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.loading = true;
     const dataSub = this.widgetDataService.data.subscribe((data) => {
       this.noData = data && Object.keys(data).length === 0;
+      this.dataRange = this.widgetDataService.dataRange;
       this.data = data;
       this.loading = false;
     });
