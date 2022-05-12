@@ -6,6 +6,7 @@ import { Metric } from "@core/models/metric";
 export class WidgetTypeService {
   constructor() {}
 
+  //can use thresholds or another metric to color?
   getVisualMapFromThresholds(
     metrics: Metric[],
     thresholds,
