@@ -12,9 +12,8 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
-import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
-import { graphic } from "echarts";
+import { EChartsOption, graphic } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 
@@ -37,15 +36,16 @@ export class TimelineComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
-  @Input() selectedMetric: Metric;
+  @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
 
   subscription = new Subscription();
   results: Array<any>;
   options = {};
   updateOptions = {};
-  initOptions = {};
-
+  initOptions: EChartsOption = {};
+  metricSeries = {};
+  visualMaps = {};
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   test = 0;
@@ -53,50 +53,28 @@ export class TimelineComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.data && this.channels.length > 0) {
+    if (
+      (changes.data || changes.selectedMetrics) &&
+      this.channels.length > 0 &&
+      this.selectedMetrics.length > 0
+    ) {
       this.buildChartData(this.data);
-      console.log("data changed");
+      this.changeMetrics();
     }
-    //selectedMetric change
-    //
-    //channels Change
   }
   ngOnInit(): void {
-    this.options = {
-      title: {
-        text: this.selectedMetric.name,
-        subtext: "sub text",
-      },
-      animation: false,
-      legend: {
-        show: false,
-        type: "scroll",
-        orient: "vertical",
-        align: "left",
-        left: "right",
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          dataZoom: {
-            show: true, //not resetting correctlys
-          },
+    //override defaults
+    const chartOptions = {
+      tooltip: {
+        formatter: (params) => {
+          return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      grid: {
-        containLabel: true,
-        left: "40",
-        // right: "80",
-        // bottom: "80",
-      },
-      useUtc: true,
       xAxis: {
         type: "time",
-        nameLocation: "center",
-        name: "Measurement Start Date",
+        name: "Measurement Start",
         min: this.viewService.startdate,
         max: this.viewService.enddate,
-        nameGap: 30,
         axisTick: {
           interval: 0,
         },
@@ -113,48 +91,12 @@ export class TimelineComponent
       yAxis: {
         inverse: "true",
         type: "category",
-        nameLocation: "center",
-        nameTextStyle: {
-          verticalAlign: "bottom",
-          align: "middle",
-        },
         nameGap: 40, //max characters
       },
-      tooltip: {
-        confine: true,
-        trigger: "item",
-        position: function (pt) {
-          return [pt[0], "10%"];
-        },
-        formatter: (params) => {
-          return this.widgetTypeService.timeAxisFormatToolTip(params);
-        },
-        axisPointer: {
-          type: "cross",
-        },
-      },
-      dataZoom: [
-        {
-          type: "inside",
-          moveOnMouseWheel: true,
-          zoomOnMouseWheel: false,
-          orient: "vertical",
-        },
-        {
-          type: "slider",
-          realtime: true,
-          orient: "horizontal",
-        },
-        {
-          type: "slider",
-          realtime: true,
-          orient: "vertical",
-          left: "left",
-          showDetail: false,
-        },
-      ],
       series: [],
     };
+
+    this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
   onChartEvent(event, type) {
@@ -162,8 +104,8 @@ export class TimelineComponent
   }
 
   buildChartData(data) {
-    const metricSeries = {};
-    const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+    this.metricSeries = {};
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.metrics,
       this.thresholds,
       this.dataRange,
@@ -182,39 +124,38 @@ export class TimelineComponent
           },
           renderItem: this.renderItem,
         };
-        if (data[channel.id] && data[channel.id][this.selectedMetric.id]) {
-          data[channel.id][this.selectedMetric.id].forEach(
-            (measurement: Measurement) => {
-              const start = this.dateService
-                .parseUtc(measurement.starttime)
-                .toDate();
-              const end = this.dateService
-                .parseUtc(measurement.endtime)
-                .toDate();
-              channelObj.data.push({
-                name: channel.nslc,
-                value: [index, start, end, measurement.value],
-              });
-            }
-          );
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          data[channel.id][metric.id].forEach((measurement: Measurement) => {
+            const start = this.dateService
+              .parseUtc(measurement.starttime)
+              .toDate();
+            const end = this.dateService.parseUtc(measurement.endtime).toDate();
+            channelObj.data.push({
+              name: channel.nslc,
+              value: [index, start, end, measurement.value],
+            });
+          });
         }
 
-        if (!metricSeries[metric.id]) {
-          metricSeries[metric.id] = {
+        if (!this.metricSeries[metric.id]) {
+          this.metricSeries[metric.id] = {
             series: [],
             yAxisLabels: [],
           };
         }
-        metricSeries[metric.id].series.push(channelObj);
-        metricSeries[metric.id].yAxisLabels.push(channel.nslc);
+        this.metricSeries[metric.id].series.push(channelObj);
+        this.metricSeries[metric.id].yAxisLabels.push(channel.nslc);
       });
     });
+  }
 
+  changeMetrics() {
+    const selectedMetric = this.selectedMetrics[0];
     this.updateOptions = {
-      series: metricSeries[this.selectedMetric.id].series,
-      visualMap: visualMaps[this.selectedMetric.id],
+      series: this.metricSeries[selectedMetric.id].series,
+      visualMap: this.visualMaps[selectedMetric.id],
       yAxis: {
-        data: metricSeries[this.selectedMetric.id].yAxisLabels,
+        data: this.metricSeries[selectedMetric.id].yAxisLabels,
       },
     };
   }

@@ -36,13 +36,15 @@ export class TimechartComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
-  @Input() selectedMetric: Metric;
-  @Input() dataRange: any;
 
+  @Input() dataRange: any;
+  @Input() selectedMetrics: Metric[];
   subscription = new Subscription();
   options = {};
   updateOptions = {};
   initOptions = {};
+  metricSeries = {};
+  visualMaps = {};
 
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
@@ -50,48 +52,23 @@ export class TimechartComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.data && this.channels.length > 0) {
+    if (
+      (changes.data || changes.selectedMetrics) &&
+      this.channels.length > 0 &&
+      this.selectedMetrics.length > 0
+    ) {
       this.buildChartData(this.data);
-      console.log("data changed");
+      this.changeMetrics();
     }
   }
   ngOnInit(): void {
-    this.selectedMetric = this.metrics[0];
-    const pieces = [
-      {
-        min: 0,
-        max: 40,
-      },
-    ];
-    const legendOffset = pieces.length;
-    // this.buildChartData(this.data);
-    this.options = {
-      title: {
-        text: this.selectedMetric.name,
-        subtext: "sub text",
-      },
-      animation: false,
-      legend: {
-        show: false,
-        type: "scroll",
-        orient: "vertical",
-        align: "left",
-        left: "right",
-        top: legendOffset * 15 + 5,
-        selector: ["all", "inverse"],
-      },
+    const chartOptions = {
       grid: {
-        containLabel: true,
-        left: "40",
-        // right: "80",
-        // bottom: "80",
+        left: 55,
       },
-      useUtc: true,
       xAxis: {
         type: "time",
-        name: "Measurement Start Date",
-        nameLocation: "center",
-        nameGap: 30,
+        name: "Measurement Start",
         axisTick: {
           interval: 0,
         },
@@ -105,44 +82,14 @@ export class TimechartComponent
           formatter: this.widgetTypeService.timeAxisTickFormatting,
         },
       },
-      yAxis: {
-        type: "value",
-        nameLocation: "center",
-        nameTextStyle: {
-          verticalAlign: "bottom",
-          align: "middle",
-        },
-        nameGap: 40, //max characters
-      },
-      dataZoom: [
-        {
-          type: "slider",
-          realtime: true,
-          orient: "horizontal",
-        },
-        {
-          type: "slider",
-          realtime: true,
-          orient: "vertical",
-          left: "left",
-          showDetail: false,
-        },
-      ],
       tooltip: {
-        confine: true,
-        trigger: "item",
-        axisPointer: {
-          type: "cross",
-        },
-        position: function (pt) {
-          return [pt[0], "10%"];
-        },
         formatter: (params) => {
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      series: [],
     };
+
+    this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
   onChartEvent(event, type) {
@@ -150,9 +97,9 @@ export class TimechartComponent
   }
 
   buildChartData(data) {
-    const metricSeries = {};
+    this.metricSeries = {};
     // this.addThresholds();
-    const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.metrics,
       this.thresholds,
       this.dataRange,
@@ -161,8 +108,8 @@ export class TimechartComponent
 
     this.channels.forEach((channel) => {
       this.metrics.forEach((metric, i) => {
-        if (!metricSeries[metric.id]) {
-          metricSeries[metric.id] = {
+        if (!this.metricSeries[metric.id]) {
+          this.metricSeries[metric.id] = {
             series: [],
           };
         }
@@ -190,7 +137,7 @@ export class TimechartComponent
               channelObj.data.length > 0 &&
               lastEnd &&
               this.dateService.diff(start, lastEnd) >=
-                this.selectedMetric.sampleRate * this.maxMeasurementGap
+                metric.sampleRate * this.maxMeasurementGap
             ) {
               // time since last measurement
               channelObj.data.push([
@@ -219,22 +166,25 @@ export class TimechartComponent
             lastEnd = end;
           });
         }
-        metricSeries[metric.id].series.push(channelObj);
+        this.metricSeries[metric.id].series.push(channelObj);
       });
     });
+  }
 
+  changeMetrics() {
+    const selectedMetric = this.selectedMetrics[0];
     this.updateOptions = {
-      series: metricSeries[this.selectedMetric.id].series,
-      visualMap: visualMaps[this.selectedMetric.id],
+      series: this.metricSeries[selectedMetric.id].series,
+      visualMap: this.visualMaps[selectedMetric.id],
       xAxis: {
         min: this.viewService.startdate,
         max: this.viewService.enddate,
       },
       yAxis: {
-        name: this.selectedMetric ? this.selectedMetric.unit : "Unknown",
+        name: selectedMetric ? selectedMetric.unit : "Unknown",
         nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[this.selectedMetric.id].min,
-          this.dataRange[this.selectedMetric.id].max
+          this.dataRange[selectedMetric.id].min,
+          this.dataRange[selectedMetric.id].max
         ),
       },
     };

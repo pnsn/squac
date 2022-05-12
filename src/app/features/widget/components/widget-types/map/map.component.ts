@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -18,9 +25,8 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
-  @Input() selectedMetric: Metric;
   @Input() dataRange: any;
-
+  @Input() selectedMetrics: Metric[];
   stations;
   stationLayer: L.LayerGroup;
 
@@ -34,15 +40,13 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
-
+  metricLayers: { [metricId: number]: L.FeatureGroup<L.Marker> };
+  baseLayers;
+  constructor(private changeDetector: ChangeDetectorRef) {}
   ngOnInit() {
     this.initMap();
-    this.buildLayers(this.data);
+    this.buildLayers();
   }
-
-  // ngOnChanges() {
-  //   this.updateMap();
-  // }
 
   initMap(): void {
     // Add all the layers to the array that will be fed to options
@@ -53,26 +57,35 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
       }),
     ];
 
-    // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
-      center: L.latLng(45.0, -120.0),
+      center: L.latLng(0, 0),
       zoom: 5,
       layers: this.layers,
     };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes.data && this.channels.length > 0) {
-      console.log("build rows");
-      this.buildLayers(this.data);
+    if (
+      (changes.data || changes.selectedMetrics) &&
+      this.channels.length > 0 &&
+      this.selectedMetrics.length > 0 &&
+      this.map
+    ) {
+      this.buildLayers();
+      this.changeMetric();
     }
   }
 
   onMapReady(map: L.Map) {
-    let threshold: Threshold;
+    console.log("map ready");
     this.map = map;
+    // Do stuff with map
+    this.initLegend();
+    this.changeMetric();
+  }
+
+  private initLegend() {
+    let threshold: Threshold;
 
     const legend = new L.Control({ position: "bottomright" });
     legend.onAdd = () => {
@@ -95,17 +108,13 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
       return div;
     };
     legend.addTo(this.map);
-
-    setTimeout(() => {
-      this.map.invalidateSize();
-      // this.updateMap();
-    }, 0);
   }
 
-  private buildLayers(data) {
-    const metricLayers = {};
+  private buildLayers() {
+    const data = this.data;
+    this.metricLayers = {};
 
-    this.metrics.forEach((metric) => {
+    this.selectedMetrics.forEach((metric) => {
       const channelRows = [];
       const stations = [];
       const stationRows = [];
@@ -178,10 +187,15 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
       stationRows.forEach((station) => {
         this.stations.push(this.makeMarker(station, stationChannels));
       });
-      metricLayers[metric.id] = L.layerGroup(this.stations);
+      this.metricLayers[metric.id] = L.featureGroup(this.stations);
     });
+  }
 
-    this.layers.push(metricLayers[this.selectedMetric.id]);
+  changeMetric() {
+    const layer = this.metricLayers[this.selectedMetrics[0].id];
+    this.layers.pop();
+    this.layers.push(layer);
+    this.fitBounds = layer.getBounds();
   }
 
   private getIconClass(val, threshold, inThreshold) {

@@ -30,6 +30,7 @@ export class TabularComponent
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
   @Input() dataRange: any;
+  @Input() selectedMetrics: Metric[];
   subscription = new Subscription();
 
   @ViewChild("dataTable") table: any;
@@ -55,6 +56,9 @@ export class TabularComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
+    // (changes.data || changes.selectedMetrics) &&
+    // this.channels.length > 0 &&
+    // this.selectedMetrics.length > 0
     if (changes.data && this.channels.length > 0) {
       this.buildRows(this.data);
       console.log("data changed");

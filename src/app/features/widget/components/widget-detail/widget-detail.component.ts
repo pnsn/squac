@@ -15,6 +15,7 @@ import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
+import { Metric } from "@core/models/metric";
 
 @Component({
   selector: "widget-detail",
@@ -32,6 +33,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   error: string;
   noData: boolean;
   dashboards: Dashboard[];
+  selectedMetrics: Metric[] = [];
+  selected: Metric[] = [];
+  expectedMetrics: number;
   // temp
 
   styles: any;
@@ -102,6 +106,46 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.widgetDataService.setWidget(this.widget);
     this.getData();
+    this.selectMetrics();
+  }
+
+  //todo this should be in child component, avoid type specific in detail
+  selectMetrics() {
+    if (this.widget.type === "scatter-plot") {
+      this.expectedMetrics = 3;
+      this.selected = this.widget.metrics.slice(0, this.expectedMetrics);
+    } else if (
+      this.widget.type === "parallel-plot" ||
+      this.widget.type === "tabular"
+    ) {
+      this.selected = [...this.widget.metrics];
+    } else {
+      this.expectedMetrics = 1;
+      this.selected = [this.widget.metrics[0]];
+    }
+    this.metricsSelected();
+  }
+
+  metricsSelected() {
+    this.selectedMetrics = [...this.selected];
+  }
+  selectMetric($event, metric) {
+    $event.stopPropagation();
+    const index = this.getIndex(metric);
+    if (index > -1) {
+      this.selected.splice(index, 1);
+    } else {
+      if (this.selected.length === this.expectedMetrics) {
+        this.selected.pop();
+      }
+      this.selected.push(metric);
+    }
+  }
+
+  getIndex(metric): number {
+    return this.selected.findIndex((m) => {
+      return metric.id === m.id;
+    });
   }
 
   ngOnDestroy(): void {

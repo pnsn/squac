@@ -1,14 +1,17 @@
 <div class="widget-container" *ngIf="widget">
   <div class="widget-header">
     <h4>{{ widget.name }}</h4>
+
+    <button mat-icon-button [matMenuTriggerFor]="metricMenu" color="primary">
+      <mat-icon>edit</mat-icon>
+    </button>
+
     <mat-menu
       #widgetMenu="matMenu"
       class="mat-menu-dense"
       yPosition="below"
       xPosition="before"
     >
-      <!--copy widget button -->
-      <button mat-menu-item (click)="refreshWidget()">Refresh Widget</button>
       <button
         mat-menu-item
         (click)="editWidget()"
@@ -55,7 +58,34 @@
       </ng-container>
     </ng-template>
   </mat-menu>
-
+  <ng-template #blank>
+    <mat-icon>check_box_outline_blank</mat-icon>
+  </ng-template>
+  <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
+    <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
+    <button mat-menu-item (click)="metricsSelected()">Update</button>
+    <ng-container *ngFor="let metric of widget.metrics">
+      <button mat-menu-item (click)="selectMetric($event, metric)">
+        <ng-container [ngSwitch]="expectedMetrics">
+          <ng-container *ngSwitchCase="3">
+            <ng-container [ngSwitch]="getIndex(metric)">
+              <span *ngSwitchCase="0">x axis</span>
+              <span *ngSwitchCase="1">y axis</span>
+              <span *ngSwitchCase="2">z axis</span>
+              <mat-icon *ngSwitchDefault>check_box_outline_blank</mat-icon>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="1">
+            <span *ngIf="getIndex(metric) === 0; else blank">x axis</span>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <mat-icon *ngIf="getIndex(metric) > -1; else blank">check</mat-icon>
+          </ng-container>
+        </ng-container>
+        {{ expectedMetrics }} {{ metric.name }}
+      </button>
+    </ng-container>
+  </mat-menu>
   <shared-loading *ngIf="loading"> </shared-loading>
   <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
   <div
@@ -80,7 +110,7 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [selectedMetric]="widget.metrics[0]"
+        [selectedMetrics]="selectedMetrics"
         [dataRange]="dataRange"
       >
       </widget-timeline>
@@ -93,6 +123,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-tabular>
       <widget-parallel-plot
@@ -104,6 +135,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-parallel-plot>
       <widget-timechart
@@ -114,8 +146,8 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [selectedMetric]="widget.metrics[0]"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-timechart>
       <widget-map
@@ -126,8 +158,8 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [selectedMetric]="widget.metrics[0]"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-map>
       <widget-box-plotselectedMetric
@@ -138,8 +170,8 @@
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
-        [selectedMetric]="widget.metrics[0]"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-box-plotselectedMetric>
       <widget-scatter-plot
@@ -151,6 +183,7 @@
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
+        [selectedMetrics]="selectedMetrics"
       >
       </widget-scatter-plot>
       <div *ngSwitchDefault class="widget-message">

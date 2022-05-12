@@ -485,7 +485,9 @@ ngx-datatable.shared-view-table {
     &:hover {
       background-color: $sq-lt-gray !important;
     }
-
+    .mat-icon {
+      margin-right: 8px;
+    }
     height: 30px !important;
     line-height: 10px;
   }

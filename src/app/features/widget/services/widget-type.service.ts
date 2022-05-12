@@ -5,6 +5,123 @@ import { Metric } from "@core/models/metric";
 @Injectable()
 export class WidgetTypeService {
   constructor() {}
+  visualMapDefaults = {
+    type: "piecewise", //TODO get type from threshold
+    inRange: {
+      //TODO get color from threshold
+      color: ["white", "#AA069F"],
+    },
+    outOfRange: {
+      color: "#999",
+    },
+    top: 20,
+    right: 0,
+    itemWidth: 14,
+    itemHeight: 14,
+    itemSymbol: "rect",
+    orient: "vertical",
+    textStyle: {
+      fontSize: 10,
+    },
+    formatter: (value1, value2) => {
+      return (
+        Math.round(value1 * 10) / 10 + " - " + Math.round(value2 * 10) / 10
+      );
+    },
+  };
+
+  chartDefaults = {
+    animation: false,
+    legend: {
+      show: false,
+      type: "scroll",
+      orient: "vertical",
+      align: "left",
+      left: "right",
+    },
+    // toolbox: {
+    //   show: true,
+    //   feature: {
+    //     dataZoom: {
+    //       show: true, //not resetting correctlys
+    //     },
+    //   },
+    // },
+    grid: {
+      containLabel: true,
+      left: 40,
+      top: 20,
+    },
+    useUtc: true,
+    xAxis: {
+      nameLocation: "center",
+      name: "Measurement Start Date",
+      nameGap: 30,
+    },
+    yAxis: {
+      nameLocation: "center",
+      nameTextStyle: {
+        verticalAlign: "bottom",
+        align: "middle",
+      },
+    },
+    tooltip: {
+      confine: true,
+      trigger: "item",
+      axisPointer: {
+        type: "cross",
+      },
+      position: function (pt) {
+        return [pt[0], "10%"];
+      },
+    },
+    dataZoom: [
+      {
+        type: "inside",
+        moveOnMouseWheel: true,
+        zoomOnMouseWheel: false,
+        orient: "vertical",
+      },
+      {
+        type: "slider",
+        realtime: true,
+        orient: "horizontal",
+        moveHandleSize: 10,
+        height: 20,
+      },
+      {
+        type: "slider",
+        realtime: true,
+        orient: "vertical",
+        left: "left",
+        showDetail: false,
+        moveHandleSize: 10,
+        width: 20,
+      },
+    ],
+  };
+
+  // add new options onto defaults
+  // shallow copy
+  chartOptions(options) {
+    const newOptions = { ...this.chartDefaults };
+
+    Object.keys(options).forEach((key) => {
+      if (!(key in newOptions)) {
+        newOptions[key] = {};
+      }
+      const keyOptions = options[key];
+      if (Object.keys(keyOptions).length > 0) {
+        Object.keys(keyOptions).forEach((childKey) => {
+          newOptions[key][childKey] = keyOptions[childKey];
+        });
+      } else {
+        newOptions[key] = options[key];
+      }
+    });
+
+    return newOptions;
+  }
 
   //can use thresholds or another metric to color?
   getVisualMapFromThresholds(
@@ -37,19 +154,10 @@ export class WidgetTypeService {
 
       if (min !== null || max !== null) {
         visualMaps[metric.id] = {
-          type: "piecewise", //TODO get type from threshold
+          ...this.visualMapDefaults,
           min,
           max,
           dimension,
-          top: 0,
-          right: 0,
-          inRange: {
-            //TODO get color from threshold
-            color: ["white", "#AA069F"],
-          },
-          outOfRange: {
-            color: "#999",
-          },
         };
       }
     });
@@ -187,6 +295,6 @@ export class WidgetTypeService {
   yAxisLabelPosition(min, max): number {
     const minLen = (Math.round(min * 10) / 10).toString().length;
     const maxLen = (Math.round(max * 10) / 10).toString().length;
-    return Math.max(minLen, maxLen) * 10 + 5;
+    return Math.max(minLen, maxLen) * 10;
   }
 }

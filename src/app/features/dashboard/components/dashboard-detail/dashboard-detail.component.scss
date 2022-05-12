@@ -13,7 +13,7 @@ button {
 
 #dashboard-header {
   mat-toolbar-row {
-    height: 50px;
+    height: 46px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -45,6 +45,7 @@ button {
   #dashboard-info {
     h2 {
       display: inline;
+      font-size: 12pt;
     }
     mat-icon {
       vertical-align: text-bottom;

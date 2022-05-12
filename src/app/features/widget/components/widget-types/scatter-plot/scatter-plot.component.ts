@@ -29,54 +29,40 @@ export class ScatterPlotComponent
   @Input() thresholds: { [metricId: number]: Threshold };
   @Input() channels: Channel[];
   @Input() dataRange: any;
+  @Input() selectedMetrics: Metric[];
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
   options = {};
   updateOptions = {};
   initOptions = {};
+  visualMaps = {};
+  processedData: any;
   constructor(private widgetTypeService: WidgetTypeService) {}
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.data && this.channels.length > 0) {
-      this.buildRows(this.data);
+    if (
+      (changes.data || changes.selectedMetrics) &&
+      this.channels.length > 0 &&
+      this.selectedMetrics.length > 0
+    ) {
+      this.buildChartData(this.data);
+      this.changeMetrics();
     }
   }
   ngOnInit(): void {
-    this.options = {
-      grid: {
-        containLabel: true,
-        left: "40",
-      },
-      useUtc: true,
-
-      animation: false,
-      xAxis: {
-        nameLocation: "center",
-        nameGap: 30,
-      },
-      yAxis: {
-        nameLocation: "center",
-        nameTextStyle: {
-          verticalAlign: "bottom",
-          align: "middle",
-        },
-      },
-      dataZoom: [],
+    const chartOptions = {
       series: [],
+      grid: {
+        left: 65,
+      },
       tooltip: {
-        trigger: "item",
-        axisPointer: {
-          type: "cross",
-        },
-        position: function (pt) {
-          return [pt[0], "10%"];
-        },
-        confine: true,
         formatter: this.widgetTypeService.multiMetricTooltipFormatting,
       },
     };
+
+    this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
   toggleLegend() {}
 
@@ -84,7 +70,7 @@ export class ScatterPlotComponent
     console.log(event.seriesName, type);
   }
 
-  private buildRows(data) {
+  private buildChartData(data) {
     //if 3 metrics, visualMap
     const metricSeries = {
       type: "scatter",
@@ -94,32 +80,36 @@ export class ScatterPlotComponent
       dimensions: [],
     };
 
-    const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.metrics,
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.selectedMetrics,
       this.thresholds,
       this.dataRange,
       2
     );
 
-    const processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
-      this.metrics,
+    this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
+      this.selectedMetrics,
       this.channels,
       data,
       metricSeries
     );
-    const visualMap = visualMaps[this.metrics[2].id];
+  }
+
+  changeMetrics() {
+    console.log("Change metrics");
+    const visualMap = this.visualMaps[this.selectedMetrics[2].id];
 
     this.updateOptions = {
-      series: processedData.series,
+      series: this.processedData.series,
       xAxis: {
-        name: this.metrics[0].name,
+        name: this.selectedMetrics[0].name,
       },
       visualMap,
       yAxis: {
-        name: this.metrics[1].name,
+        name: this.selectedMetrics[1].name,
         nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[this.metrics[0].id].min,
-          this.dataRange[this.metrics[0].id].max
+          this.dataRange[this.selectedMetrics[0].id].min,
+          this.dataRange[this.selectedMetrics[0].id].max
         ),
       },
     };
