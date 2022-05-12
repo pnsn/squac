@@ -65,7 +65,7 @@ export class TimechartComponent
       },
     ];
     const legendOffset = pieces.length;
-    this.buildChartData(this.data);
+    // this.buildChartData(this.data);
     this.options = {
       title: {
         text: this.selectedMetric.name,
@@ -142,15 +142,6 @@ export class TimechartComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      visualMap: {
-        top: 0,
-        right: 0,
-        type: "piecewise",
-        pieces: pieces,
-        outOfRange: {
-          color: "#999",
-        },
-      },
       series: [],
     };
   }
@@ -159,28 +150,15 @@ export class TimechartComponent
     console.log(event, type);
   }
 
-  addThresholds(): Array<any> {
-    const pieces = [];
-    if (this.thresholds[this.selectedMetric.id]) {
-      const piece = {};
-      // thresholds.forEach((threshold)=>{  }) //allow multople
-      const threshold = this.thresholds[this.selectedMetric.id];
-      if (threshold.min || threshold.min === 0) {
-        piece["min"] = threshold.min;
-      }
-      if (threshold.max || threshold.max === 0) {
-        piece["max"] = threshold.max;
-      }
-      piece["color"] = "#AA069F";
-      pieces.push(piece);
-    }
-
-    return pieces;
-  }
-
   buildChartData(data) {
     const metricSeries = {};
     // this.addThresholds();
+    const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.metrics,
+      this.thresholds,
+      this.dataRange,
+      3
+    );
 
     this.channels.forEach((channel) => {
       this.metrics.forEach((metric, i) => {
@@ -248,6 +226,7 @@ export class TimechartComponent
 
     this.updateOptions = {
       series: metricSeries[this.selectedMetric.id].series,
+      visualMap: visualMaps[this.selectedMetric.id],
       xAxis: {
         min: this.viewService.startdate,
         max: this.viewService.enddate,

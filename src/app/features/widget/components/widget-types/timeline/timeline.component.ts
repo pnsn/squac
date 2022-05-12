@@ -62,9 +62,6 @@ export class TimelineComponent
     //channels Change
   }
   ngOnInit(): void {
-    const pieces = this.addThresholds();
-    const legendOffset = pieces.length;
-    this.buildChartData(this.data);
     this.options = {
       title: {
         text: this.selectedMetric.name,
@@ -77,7 +74,6 @@ export class TimelineComponent
         orient: "vertical",
         align: "left",
         left: "right",
-        top: legendOffset * 15,
       },
       toolbox: {
         show: true,
@@ -124,15 +120,6 @@ export class TimelineComponent
         },
         nameGap: 40, //max characters
       },
-      visualMap: {
-        //changes with metric
-        type: "piecewise",
-        dimension: 3,
-        pieces: pieces,
-        outOfRange: {
-          color: "#999",
-        },
-      },
       tooltip: {
         confine: true,
         trigger: "item",
@@ -147,6 +134,12 @@ export class TimelineComponent
         },
       },
       dataZoom: [
+        {
+          type: "inside",
+          moveOnMouseWheel: true,
+          zoomOnMouseWheel: false,
+          orient: "vertical",
+        },
         {
           type: "slider",
           realtime: true,
@@ -168,33 +161,14 @@ export class TimelineComponent
     console.log(event, type);
   }
 
-  addThresholds(): Array<any> {
-    const pieces = [
-      {
-        min: 0,
-        max: 0.25,
-        color: "#AA069F",
-      },
-    ];
-    // if (this.thresholds[this.selectedMetric.id]) {
-    //   const piece = {};
-    //   // thresholds.forEach((threshold)=>{  }) //allow multople
-    //   const threshold = this.thresholds[this.selectedMetric.id];
-    //   if (threshold.min || threshold.min === 0) {
-    //     piece["min"] = threshold.min;
-    //   }
-    //   if (threshold.max || threshold.max === 0) {
-    //     piece["max"] = threshold.max;
-    //   }
-    //   piece["color"] = "#AA069F";
-    //   pieces.push(piece);
-    // }
-
-    return pieces;
-  }
-
   buildChartData(data) {
     const metricSeries = {};
+    const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.metrics,
+      this.thresholds,
+      this.dataRange,
+      3
+    );
     this.channels.forEach((channel, index) => {
       this.metrics.forEach((metric, i) => {
         const channelObj = {
@@ -238,6 +212,7 @@ export class TimelineComponent
 
     this.updateOptions = {
       series: metricSeries[this.selectedMetric.id].series,
+      visualMap: visualMaps[this.selectedMetric.id],
       yAxis: {
         data: metricSeries[this.selectedMetric.id].yAxisLabels,
       },

@@ -10,6 +10,8 @@ import { WidgetTypeComponent } from "../widget-type.component";
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
 })
+
+// https://echarts.apache.org/examples/en/editor.html?c=data-transform-aggregate
 export class BoxPlotComponent implements OnInit, WidgetTypeComponent {
   @Input() data;
   @Input() metrics: Metric[];

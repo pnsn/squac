@@ -1,9 +1,113 @@
 import { Injectable } from "@angular/core";
+import { Metric } from "@core/models/metric";
 
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
   constructor() {}
+
+  getVisualMapFromThresholds(
+    metrics: Metric[],
+    thresholds,
+    dataRange,
+    dimension
+  ) {
+    const visualMaps = {};
+    metrics.forEach((metric, i) => {
+      let min = null;
+      let max = null;
+      if (thresholds[metric.id]) {
+        //use threshold if set
+        min = thresholds[metric.id].min;
+        max = thresholds[metric.id].max;
+      }
+      // else if (metric.minVal && metric.maxVal) {
+      //   //use metric default if exists
+      //   min = metric.minVal;
+      //   max = metric.maxVal;
+      //   console.log(metric);
+      //   console.log(min, max);
+      // }
+      if (dataRange[metric.id]) {
+        //use data range
+        min = min === null ? dataRange[metric.id].min : min;
+        max = max === null ? dataRange[metric.id].max : max;
+      }
+
+      if (min !== null || max !== null) {
+        visualMaps[metric.id] = {
+          type: "piecewise", //TODO get type from threshold
+          min,
+          max,
+          dimension,
+          top: 0,
+          right: 0,
+          inRange: {
+            //TODO get color from threshold
+            color: ["white", "#AA069F"],
+          },
+          outOfRange: {
+            color: "#999",
+          },
+        };
+      }
+    });
+
+    return visualMaps;
+  }
+
+  getVisualMapFromMetrics() {}
+
+  //series for data with no time and multiple metrics
+  // parallel and scatter
+  getSeriesForMultipleMetrics(metrics, channels, data, series) {
+    const axis = [];
+    metrics.forEach((metric, i) => {
+      if (series.type === "parallel") {
+        axis.push({
+          name: metric.name, //metric.name.replace(/_/g, " "),
+          dim: i,
+        });
+      }
+      series.dimensions.push(metric.name);
+    });
+    series.dimensions.push("nslc");
+
+    channels.forEach((channel) => {
+      const channelData = [];
+      metrics.forEach((metric, i) => {
+        let val: number = null;
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          const rowData = data[channel.id][metric.id];
+          val = rowData[0].value;
+        }
+        channelData.push(val);
+      });
+      channelData.push(channel.nslc);
+      series.data.push(channelData);
+    });
+    return { series, axis };
+  }
+
+  // channel & list of metric values
+  // used for scatter, parallel etc
+  multiMetricTooltipFormatting(params) {
+    let str = params.value[params.value.length - 1];
+    str += "<table><th>Metric</th> <th>Value</th>";
+    params.data.forEach((data, i) => {
+      if (i < params.data.length - 1) {
+        str +=
+          "<tr><td>" +
+          params.dimensionNames[i] +
+          "</td><td>" +
+          data +
+          "</td></tr>";
+      }
+    });
+    str = str += "</br>";
+    return str;
+  }
+  // series with time as x
 
   timeAxisFormatToolTip(params) {
     let data = [];

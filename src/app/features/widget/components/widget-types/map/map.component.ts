@@ -30,7 +30,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
     layers: L.Layer[];
   };
   drawOptions: Record<string, never>;
-  layers: L.Layer[];
+  layers: L.Layer[] = [];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;

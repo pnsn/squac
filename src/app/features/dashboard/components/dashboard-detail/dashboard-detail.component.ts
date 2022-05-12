@@ -28,16 +28,16 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   datePickerTimeRanges = [
     {
-      amount: "15",
-      unit: "minutes",
-    },
-    {
       amount: "30",
       unit: "minutes",
     },
     {
       amount: "1",
       unit: "hour",
+    },
+    {
+      amount: "6",
+      unit: "hours",
     },
     {
       amount: "12",
