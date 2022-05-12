@@ -16,7 +16,6 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
-import { graphic } from "echarts";
 
 @Component({
   selector: "widget-timechart",
