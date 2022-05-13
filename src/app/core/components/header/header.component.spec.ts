@@ -8,7 +8,7 @@ describe("HeaderComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
-  beforeAll(async () => {
+  beforeAll(() => {
     return MockBuilder(HeaderComponent, AppModule)
       .mock(AuthService)
       .mock(AbilityModule);
