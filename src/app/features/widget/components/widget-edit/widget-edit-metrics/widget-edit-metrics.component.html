@@ -1,12 +1,12 @@
 <h3>Available Metrics</h3>
 <input
   type="text"
-  style="padding: 8px; margin: 15px auto; width: 30%"
+  class="metric-filter"
   placeholder="Filter by metric name..."
   (keyup)="updateFilter($event)"
 />
 <div class="help-text">
-  Some widgets will only display the first metric selected.
+  Metrics can be reordered or hidden when viewing the widget.
 </div>
 <shared-loading *ngIf="loading"></shared-loading>
 <div class="table-container" *ngIf="!loading">

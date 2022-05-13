@@ -22,11 +22,11 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   widgetTypes = [
     {
       id: 1,
-      name: "tabular",
+      name: "table",
       type: "tabular",
       useAggregate: true,
       description:
-        "Table of measurement values displayed with a single value calculated with the stat type.",
+        "Table showing channels (grouped as stations) and aggregated measurement values.",
     },
     {
       id: 2,
@@ -34,14 +34,15 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       type: "timeline",
       useAggregate: false,
       description:
-        "Timeline of measurement data for a single metric displayed with values 'in' or 'out' of set threshold values.",
+        "Measurements during time range for one metric, displayed as rows of channels",
     },
     {
       id: 3,
       name: "time series",
       type: "timeseries",
       useAggregate: false,
-      description: "Time chart of measurement values for a single metric.",
+      description:
+        "Measurements during time range for one metric, displayed as lines of channels",
     },
     {
       id: 4,
@@ -49,25 +50,28 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       type: "map",
       useAggregate: true,
       description:
-        "A map of channels represented by values for measurements calculated with stattype.",
+        "Map of channels (grouped as stations) represented by the measurement value or thresholds.",
     },
-    {
-      id: 5,
-      name: "box plot",
-      type: "box-plot",
-      use_aggregate: true,
-    },
+    // {
+    //   id: 5,
+    //   name: "box plot",
+    //   type: "box-plot",
+    //   use_aggregate: true,
+    // },
     {
       id: 6,
       name: "parallel plot",
       type: "parallel-plot",
-      use_aggregate: true,
+      useAggregate: true,
+      description:
+        "Aggregated measurements for multiple metrics, displayed as lines of channels on multiple axes.",
     },
     {
       id: 7,
       name: "scatter plot",
       type: "scatter-plot",
-      use_aggregate: true,
+      useAggregate: true,
+      description: "Measurements for 3 metrics displayed as a scatter plot.",
     },
   ];
 
