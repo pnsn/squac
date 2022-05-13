@@ -29,7 +29,7 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
   updateOptions = {};
   initOptions = {};
   processedData;
-
+  echartsInstance;
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -45,8 +45,12 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
   ngOnInit(): void {
     const chartOptions = {
       parallel: {
-        // left: "30",
-        // right: "30", //changes with legend or mapping
+        parallelAxisDefault: {
+          nameTextStyle: {
+            width: 15,
+            overflow: "break",
+          },
+        },
       },
       xAxis: false,
       yAxis: false,
@@ -61,6 +65,10 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);
+  }
+
+  onChartInit(ec) {
+    this.echartsInstance = ec;
   }
 
   private buildChartData(data) {
@@ -88,14 +96,10 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
     this.updateOptions = {
       series: this.processedData.series,
       parallelAxis: this.processedData.axis,
-      parallel: {
-        parallelAxisDefault: {
-          nameTextStyle: {
-            width: 15,
-            overflow: "break",
-          },
-        },
-      },
     };
+    if (this.echartsInstance) {
+      this.echartsInstance.resize();
+    }
+    console.log(this.updateOptions);
   }
 }

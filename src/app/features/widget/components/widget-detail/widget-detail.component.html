@@ -1,10 +1,24 @@
 <div class="widget-container" *ngIf="widget">
   <div class="widget-header">
     <h4>{{ widget.name }}</h4>
-
-    <button mat-icon-button [matMenuTriggerFor]="metricMenu" color="primary">
-      <mat-icon>edit</mat-icon>
-    </button>
+    <div id="controls">
+      <button
+        class="text-button"
+        mat-button
+        [matMenuTriggerFor]="metricMenu"
+        color="primary"
+      >
+        metrics
+      </button>
+      <button
+        class="icon-button"
+        mat-icon-button
+        [matMenuTriggerFor]="widgetMenu"
+        color="primary"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
 
     <mat-menu
       #widgetMenu="matMenu"
@@ -38,10 +52,6 @@
         Delete Widget
       </button>
     </mat-menu>
-
-    <button mat-icon-button [matMenuTriggerFor]="widgetMenu" color="primary">
-      <mat-icon>more_vert</mat-icon>
-    </button>
   </div>
 
   <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
@@ -63,7 +73,9 @@
   </ng-template>
   <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
     <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
-    <button mat-menu-item (click)="metricsSelected()">Update</button>
+    <button class="accent" mat-menu-item (click)="metricsSelected()">
+      Update
+    </button>
     <ng-container *ngFor="let metric of widget.metrics">
       <button mat-menu-item (click)="selectMetric($event, metric)">
         <ng-container [ngSwitch]="expectedMetrics">

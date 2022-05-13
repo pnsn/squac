@@ -473,6 +473,9 @@ ngx-datatable.shared-view-table {
     // right: 8px;
   }
   button.mat-menu-item {
+    &.accent {
+      color: $sq-dk-yellow;
+    }
     &.active {
       background-color: lighten($sq-lt-blue, 30%) !important;
     }

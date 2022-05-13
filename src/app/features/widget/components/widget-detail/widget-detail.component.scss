@@ -9,16 +9,24 @@
 .widget-header {
   width: 100%;
   padding: 5px 5px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   h4 {
     display: inline-block;
     font-size: 1rem;
     font-weight: 500;
   }
-  button {
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    float: right;
+  #controls {
+    .text-button {
+      height: 20px;
+      line-height: 20px;
+    }
+    .icon-button {
+      height: 20px;
+      width: 20px;
+      line-height: 20px;
+    }
   }
 }
 
