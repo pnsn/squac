@@ -3,7 +3,7 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetModule } from "@features/widget/widget.module";
-import { MockBuilder, MockComponent } from "ng-mocks";
+import { MockBuilder } from "ng-mocks";
 import { NgxEchartsModule } from "ngx-echarts";
 
 import { TimelineComponent } from "./timeline.component";

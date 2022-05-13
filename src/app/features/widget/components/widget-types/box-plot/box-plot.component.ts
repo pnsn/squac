@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -12,7 +12,7 @@ import { WidgetTypeComponent } from "../widget-type.component";
 })
 
 // https://echarts.apache.org/examples/en/editor.html?c=data-transform-aggregate
-export class BoxPlotComponent implements OnInit, WidgetTypeComponent {
+export class BoxPlotComponent implements WidgetTypeComponent {
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
@@ -24,9 +24,7 @@ export class BoxPlotComponent implements OnInit, WidgetTypeComponent {
   options: any;
   autoResize: any;
   updateOptions: any;
-  constructor() {}
 
-  ngOnInit(): void {}
   onChartEvent(event, type) {
     console.log(event, type);
   }

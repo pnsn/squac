@@ -6,7 +6,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 
 import { BoxPlotComponent } from "./box-plot.component";
 
-fdescribe("BoxPlotComponent", () => {
+describe("BoxPlotComponent", () => {
   let component: BoxPlotComponent;
   let fixture: ComponentFixture<BoxPlotComponent>;
 

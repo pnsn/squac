@@ -107,7 +107,7 @@ export class TimechartComponent
     );
 
     this.channels.forEach((channel) => {
-      this.metrics.forEach((metric, i) => {
+      this.metrics.forEach((metric) => {
         if (!this.metricSeries[metric.id]) {
           this.metricSeries[metric.id] = {
             series: [],

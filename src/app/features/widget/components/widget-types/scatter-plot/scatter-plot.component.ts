@@ -10,7 +10,6 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@features/widget/models/threshold";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { DimensionsHelper } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
 
@@ -64,7 +63,7 @@ export class ScatterPlotComponent
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
-  toggleLegend() {}
+  // toggleLegend() {}
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);

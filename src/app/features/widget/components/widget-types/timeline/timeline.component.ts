@@ -112,7 +112,7 @@ export class TimelineComponent
       3
     );
     this.channels.forEach((channel, index) => {
-      this.metrics.forEach((metric, i) => {
+      this.metrics.forEach((metric) => {
         const channelObj = {
           type: "custom",
           name: channel.nslc,

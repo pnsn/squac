@@ -6,7 +6,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 
 import { ParallelPlotComponent } from "./parallel-plot.component";
 
-fdescribe("ParallelPlotComponent", () => {
+describe("ParallelPlotComponent", () => {
   let component: ParallelPlotComponent;
   let fixture: ComponentFixture<ParallelPlotComponent>;
 

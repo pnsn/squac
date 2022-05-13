@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -13,7 +19,9 @@ import { WidgetTypeComponent } from "../widget-type.component";
   styleUrls: ["../e-chart.component.scss"],
   providers: [WidgetTypeService],
 })
-export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
+export class ParallelPlotComponent
+  implements OnInit, OnChanges, WidgetTypeComponent
+{
   constructor(private widgetTypeService: WidgetTypeService) {}
   @Input() data;
   @Input() metrics: Metric[];
@@ -61,7 +69,7 @@ export class ParallelPlotComponent implements OnInit, WidgetTypeComponent {
     };
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
-  toggleLegend() {}
+  // toggleLegend() {}
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);

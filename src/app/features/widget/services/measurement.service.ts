@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { Widget } from "@widget/models/widget";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ApiGetAggregate } from "@widget/models/aggregate";

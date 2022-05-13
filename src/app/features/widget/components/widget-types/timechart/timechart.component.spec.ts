@@ -7,7 +7,7 @@ import { MockBuilder } from "ng-mocks";
 
 import { TimechartComponent } from "./timechart.component";
 
-fdescribe("TimechartComponent", () => {
+describe("TimechartComponent", () => {
   let component: TimechartComponent;
   let fixture: ComponentFixture<TimechartComponent>;
 

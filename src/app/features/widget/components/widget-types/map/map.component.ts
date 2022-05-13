@@ -1,8 +1,7 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnInit,
   SimpleChanges,
 } from "@angular/core";
@@ -19,7 +18,7 @@ import { WidgetTypeComponent } from "../widget-type.component";
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
 })
-export class MapComponent implements OnInit, WidgetTypeComponent {
+export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
@@ -42,7 +41,7 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   map: L.Map;
   metricLayers: { [metricId: number]: L.FeatureGroup<L.Marker> };
   baseLayers;
-  constructor() {}
+
   ngOnInit() {
     this.initMap();
   }

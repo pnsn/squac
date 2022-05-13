@@ -4,7 +4,6 @@ import { Metric } from "@core/models/metric";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
-  constructor() {}
   visualMapDefaults = {
     type: "piecewise", //TODO get type from threshold
     inRange: {
@@ -131,7 +130,7 @@ export class WidgetTypeService {
     dimension
   ) {
     const visualMaps = {};
-    metrics.forEach((metric, i) => {
+    metrics.forEach((metric) => {
       let min = null;
       let max = null;
       if (thresholds[metric.id]) {
@@ -165,7 +164,7 @@ export class WidgetTypeService {
     return visualMaps;
   }
 
-  getVisualMapFromMetrics() {}
+  // getVisualMapFromMetrics() {}
 
   //series for data with no time and multiple metrics
   // parallel and scatter
@@ -184,7 +183,7 @@ export class WidgetTypeService {
 
     channels.forEach((channel) => {
       const channelData = [];
-      metrics.forEach((metric, i) => {
+      metrics.forEach((metric) => {
         let val: number = null;
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
