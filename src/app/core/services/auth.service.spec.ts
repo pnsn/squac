@@ -8,7 +8,8 @@ import { AuthComponent } from "../components/auth/auth.component";
 import { AbilityModule } from "@casl/angular";
 import { Ability } from "@casl/ability";
 import { UserService } from "@user/services/user.service";
-import { MockUserService } from "@user/services/user.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { AppModule } from "app/app.module";
 
 describe("AuthService", () => {
   let authService: AuthService;
@@ -19,26 +20,19 @@ describe("AuthService", () => {
   };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AbilityModule,
-        HttpClientTestingModule,
+    return MockBuilder(AuthService, AppModule)
+      .mock(AbilityModule)
+      .keep(
         RouterTestingModule.withRoutes([
           { path: "login", component: AuthComponent },
           { path: "", redirectTo: "dashboards", pathMatch: "full" },
           { path: "dashboards", component: AuthComponent },
-        ]),
-      ],
-      providers: [
-        {
-          provide: SquacApiService,
-          useValue: new MockSquacApiService(testUserData),
-        },
-        { provide: Ability, useValue: new Ability() },
-        { provide: UserService, useValue: new MockUserService() },
-      ],
-    });
+        ])
+      )
+      .mock(UserService);
+  });
 
+  beforeEach(() => {
     authService = TestBed.inject(AuthService);
 
     let store = {};

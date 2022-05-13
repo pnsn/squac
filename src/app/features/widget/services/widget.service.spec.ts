@@ -6,7 +6,8 @@ import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Widget } from "@widget/models/widget";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
-import { MockChannelGroupService } from "@channelGroup/services/channel-group.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { WidgetModule } from "../widget.module";
 
 describe("WidgetService", () => {
   const testData = {
@@ -31,17 +32,11 @@ describe("WidgetService", () => {
   let widgetService: WidgetService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        {
-          provide: SquacApiService,
-          useValue: new MockSquacApiService(testData),
-        },
-        { provide: ChannelGroupService, useClass: MockChannelGroupService },
-      ],
-    });
-
+    return MockBuilder(WidgetService, WidgetModule)
+      .mock(SquacApiService)
+      .mock(ChannelGroupService);
+  });
+  beforeEach(() => {
     widgetService = TestBed.inject(WidgetService);
     squacApiService = TestBed.inject(SquacApiService);
   });

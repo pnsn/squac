@@ -3,8 +3,6 @@ import { TestBed } from "@angular/core/testing";
 import { ViewService } from "./view.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DashboardService } from "@dashboard/services/dashboard.service";
-import { MockDashboardService } from "@dashboard/services/dashboard.service.mock";
-import { MockWidgetService } from "@widget/services/widget.service.mock";
 import { WidgetService } from "@widget/services/widget.service";
 import { AbilityModule } from "@casl/angular";
 import { Ability } from "@casl/ability";
@@ -15,7 +13,9 @@ import { take } from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { of } from "rxjs";
 import { DateService } from "./date.service";
-import { MockDateService } from "./date.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { AppModule } from "app/app.module";
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
 
 describe("ViewService", () => {
   let service: ViewService;
@@ -44,35 +44,14 @@ describe("ViewService", () => {
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
-      providers: [
-        {
-          provide: DashboardService,
-          useClass: MockDashboardService,
-        },
-        {
-          provide: WidgetService,
-          useClass: MockWidgetService,
-        },
-        { provide: Ability, useValue: abilityMock },
-        {
-          provide: MessageService,
-          useValue: {
-            message: (_text) => {
-              return;
-            },
-            error: (_text) => {
-              return;
-            },
-          },
-        },
-        {
-          provide: DateService,
-          useValue: new MockDateService(),
-        },
-      ],
-    });
+    return MockBuilder(ViewService, AppModule)
+      .mock(WidgetService)
+      .mock(DashboardService)
+      .mock(MessageService)
+      .mock(DateService);
+  });
+
+  beforeEach(() => {
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
     dashboardService = TestBed.inject(DashboardService);

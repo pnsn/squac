@@ -7,12 +7,13 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute } from "@angular/router";
 import { AbilityModule } from "@casl/angular";
 import { UserService } from "@user/services/user.service";
-import { MockUserService } from "@user/services/user.service.mock";
 import { SharedModule } from "@shared/shared.module";
 import { of } from "rxjs";
 import { MonitorChartComponent } from "../monitor-chart/monitor-chart.component";
 
 import { MonitorEditComponent } from "./monitor-edit.component";
+import { MockBuilder } from "ng-mocks";
+import { MonitorModule } from "@features/monitor/monitor.module";
 
 describe("MonitorEditComponent", () => {
   let component: MonitorEditComponent;
@@ -20,45 +21,32 @@ describe("MonitorEditComponent", () => {
   const mockDialogRef = {
     close: jasmine.createSpy("close"),
   };
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [MonitorEditComponent, MonitorChartComponent],
-      imports: [
-        NoopAnimationsModule,
-        AbilityModule,
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        SharedModule,
-        MatSlideToggleModule,
-      ],
-      providers: [
-        {
-          provide: MatDialogRef,
-          useValue: mockDialogRef,
+
+  beforeEach(() => {
+    return MockBuilder(MonitorEditComponent, MonitorModule)
+      .mock(ReactiveFormsModule)
+      .mock(UserService)
+      .provide({
+        provide: MatDialogRef,
+        useValue: mockDialogRef,
+      })
+      .provide({
+        provide: MAT_DIALOG_DATA,
+        useValue: {
+          data: {},
         },
-        {
-          provide: UserService,
-          useValue: new MockUserService(),
-        },
-        {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            data: {},
-          },
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 1 }),
-            snapshot: {
-              data: {
-                monitor: {},
-              },
+      })
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({ id: 1 }),
+          snapshot: {
+            data: {
+              monitor: {},
             },
           },
         },
-      ],
-    }).compileComponents();
+      });
   });
 
   beforeEach(() => {

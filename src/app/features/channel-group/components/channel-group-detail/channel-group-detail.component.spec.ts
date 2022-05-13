@@ -12,7 +12,6 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { OrganizationService } from "@user/services/organization.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserService } from "@user/services/user.service";
-import { MockUserService } from "@user/services/user.service.mock";
 import { AppAbility } from "@core/utils/ability";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
@@ -20,59 +19,33 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MockProvider } from "ng-mocks";
+import { MockBuilder, MockProvider } from "ng-mocks";
+import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
+import { MessageService } from "@core/services/message.service";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 
 describe("ChannelGroupDetailComponent", () => {
   let component: ChannelGroupDetailComponent;
   let fixture: ComponentFixture<ChannelGroupDetailComponent>;
   let router;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ChannelGroupDetailComponent,
-        ChannelGroupMapComponent,
-        UserPipe,
-        OrganizationPipe,
-      ],
-      imports: [
-        NgxDatatableModule,
-        RouterTestingModule.withRoutes([
-          { path: "edit", component: ChannelGroupDetailComponent },
-        ]),
-        HttpClientTestingModule,
-        AbilityModule,
-        LeafletModule,
-        LeafletDrawModule,
-        MatDialogModule,
-        MatSnackBarModule,
-      ],
-      providers: [
-        MockProvider(OrganizationService),
-        {
-          provide: UserService,
-          useValue: new MockUserService(),
+
+  beforeEach(() => {
+    return MockBuilder(ChannelGroupDetailComponent, ChannelGroupModule)
+      .mock(MessageService)
+      .mock(ConfirmDialogService)
+      .mock(RouterTestingModule.withRoutes([]))
+      .mock(OrganizationService)
+      .mock(UserService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {},
+          data: of({
+            channelGroup: new ChannelGroup(1, 1, "name", "description", 1, []),
+          }),
         },
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {},
-            data: of({
-              channelGroup: new ChannelGroup(
-                1,
-                1,
-                "name",
-                "description",
-                1,
-                []
-              ),
-            }),
-          },
-        },
-      ],
-    }).compileComponents();
-  }));
+      });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChannelGroupDetailComponent);

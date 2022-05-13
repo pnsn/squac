@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { WidgetEditComponent } from "../widget-edit.component";
-import { ViewService } from "@core/services/view.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { WidgetService } from "@widget/services/widget.service";
@@ -21,7 +20,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   widget;
 
   constructor(
-    private viewService: ViewService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,

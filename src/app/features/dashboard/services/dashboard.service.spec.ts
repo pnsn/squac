@@ -8,8 +8,8 @@ import { Dashboard } from "@dashboard/models/dashboard";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { WidgetService } from "@widget/services/widget.service";
 import { DashboardService } from "./dashboard.service";
-import { MockChannelGroupService } from "@channelGroup/services/channel-group.service.mock";
-import { MockWidgetService } from "@widget/services/widget.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { DashboardModule } from "../dashboard.module";
 
 describe("DashboardService", () => {
   let dashboardService: DashboardService;
@@ -25,19 +25,11 @@ describe("DashboardService", () => {
     []
   );
 
-  const mockSquacApiService = new MockSquacApiService(testDashboard);
-
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        { provide: SquacApiService, useValue: mockSquacApiService },
-        { provide: ChannelGroupService, useClass: MockChannelGroupService },
-        { provide: WidgetService, useClass: MockWidgetService },
-      ],
-    });
-
-    dashboardService = TestBed.inject(DashboardService);
+    return MockBuilder(DashboardService, DashboardModule)
+      .mock(SquacApiService)
+      .mock(ChannelGroupService)
+      .mock(WidgetService);
   });
 
   it("should be created", () => {

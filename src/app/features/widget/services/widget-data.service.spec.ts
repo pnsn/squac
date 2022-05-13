@@ -6,22 +6,15 @@ import { Metric } from "@core/models/metric";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { ViewService } from "@core/services/view.service";
-import { MockViewService } from "@core/services/view.service.mock";
+import { MockBuilder } from "ng-mocks";
 import { Widget } from "../models/widget";
+import { WidgetModule } from "../widget.module";
 import { MeasurementService } from "./measurement.service";
 
 import { WidgetDataService } from "./widget-data.service";
 
 describe("WidgetDataService", () => {
   let service: WidgetDataService;
-  const testData = {
-    id: 1,
-    metric: 1,
-    channel: 1,
-    value: 1,
-    starttime: "start",
-    endtime: "end",
-  };
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
   const testChannel = new Channel(1, "", "", 1, 1, 1, 1, "", "", "", "", "");
   const testWidget = new Widget(1, 1, "", "", 1, 1, 1, 1, 1, 1, 1, [
@@ -30,20 +23,15 @@ describe("WidgetDataService", () => {
   testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, [1, 2]);
   testWidget.channelGroup.channels = [testChannel];
   testWidget.stattype = { type: "tabular" };
-  const mockSquacApiService = new MockSquacApiService(testData);
   let viewService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        MeasurementService,
-        WidgetDataService,
-        { provide: SquacApiService, useValue: mockSquacApiService },
-        { provide: ViewService, useValue: new MockViewService() },
-      ],
-    });
+    return MockBuilder(WidgetDataService, WidgetModule)
+      .mock(MeasurementService)
+      .mock(ViewService);
+  });
 
+  beforeEach(() => {
     service = TestBed.inject(WidgetDataService);
     viewService = TestBed.inject(ViewService);
   });
