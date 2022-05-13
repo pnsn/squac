@@ -13,7 +13,7 @@ describe("DashboardEditEntryComponent", () => {
 
   beforeEach(() =>
     MockBuilder(DashboardEditEntryComponent)
-      .keep(RouterTestingModule)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(DashboardService)
       .mock(MatDialogModule)
       .provide({

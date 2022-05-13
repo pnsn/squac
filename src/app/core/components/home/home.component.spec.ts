@@ -22,7 +22,7 @@ describe("HomeComponent", () => {
   beforeAll(async () => {
     return TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         MockModule(MaterialModule),
         MockModule(AppModule),
       ],

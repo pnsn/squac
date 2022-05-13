@@ -5,7 +5,9 @@ import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
 describe("AuthComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
-  beforeEach(() => MockBuilder(AuthComponent).keep(RouterTestingModule));
+  beforeEach(() =>
+    MockBuilder(AuthComponent).keep(RouterTestingModule.withRoutes([]))
+  );
 
   it("should create", () => {
     const fixture = MockRender(AuthComponent);
