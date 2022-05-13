@@ -3,7 +3,13 @@ import { Location } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
-import { MockBuilder, MockRender, ngMocks, NG_MOCKS_GUARDS } from "ng-mocks";
+import {
+  MockBuilder,
+  MockComponent,
+  MockRender,
+  ngMocks,
+  NG_MOCKS_GUARDS,
+} from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
 import { AppModule } from "app/app.module";
@@ -14,6 +20,8 @@ import { UserResolver } from "@user/user.resolver";
 import { MetricResolver } from "@metric/metric.resolver";
 import { StatTypeResolver } from "@widget/stat-type.resolver";
 import { OrganizationResolver } from "@user/organization.resolver";
+import { LoginComponent } from "@features/user/components/login/login.component";
+import { DashboardComponent } from "@features/dashboard/components/dashboard/dashboard.component";
 
 describe("AuthGuard", () => {
   ngMocks.faster();
@@ -33,7 +41,15 @@ describe("AuthGuard", () => {
         loggedIn: false,
       })
       .keep(RouterModule)
-      .keep(RouterTestingModule.withRoutes([]));
+      .keep(
+        RouterTestingModule.withRoutes([
+          {
+            path: "login",
+            component: MockComponent(LoginComponent),
+          },
+          { path: "dashboards", component: MockComponent(DashboardComponent) },
+        ])
+      );
   });
 
   it("should not allow routing if not authorized", fakeAsync(() => {
