@@ -36,6 +36,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   selectedMetrics: Metric[] = [];
   selected: Metric[] = [];
   expectedMetrics: number;
+  metricsChanged = false;
   // temp
 
   styles: any;
@@ -128,8 +129,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   metricsSelected() {
     this.selectedMetrics = [...this.selected];
+    this.metricsChanged = false;
   }
   selectMetric($event, metric) {
+    this.metricsChanged = true;
     $event.stopPropagation();
     const index = this.getIndex(metric);
     if (index > -1) {

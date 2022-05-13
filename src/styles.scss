@@ -476,6 +476,9 @@ ngx-datatable.shared-view-table {
     &.accent {
       color: $sq-dk-yellow;
     }
+    &.warn {
+      color: $sq-warn;
+    }
     &.active {
       background-color: lighten($sq-lt-blue, 30%) !important;
     }

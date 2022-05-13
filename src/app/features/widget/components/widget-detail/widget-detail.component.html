@@ -44,7 +44,7 @@
       </button>
       <button
         mat-menu-item
-        id="delete-widget"
+        class="warn"
         (click)="deleteWidget()"
         color="warn"
         *ngIf="'delete' | able: widget"
@@ -72,8 +72,12 @@
     <mat-icon>check_box_outline_blank</mat-icon>
   </ng-template>
   <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
-    <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
-    <button class="accent" mat-menu-item (click)="metricsSelected()">
+    <!-- <[button] mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
+    <button
+      [ngClass]="{ accent: metricsChanged }"
+      mat-menu-item
+      (click)="metricsSelected()"
+    >
       Update
     </button>
     <ng-container *ngFor="let metric of widget.metrics">
@@ -81,20 +85,25 @@
         <ng-container [ngSwitch]="expectedMetrics">
           <ng-container *ngSwitchCase="3">
             <ng-container [ngSwitch]="getIndex(metric)">
-              <span *ngSwitchCase="0">x axis</span>
-              <span *ngSwitchCase="1">y axis</span>
-              <span *ngSwitchCase="2">z axis</span>
+              <div class="axis-indicator" *ngSwitchCase="0">x</div>
+              <div class="axis-indicator" *ngSwitchCase="1">y</div>
+              <div class="axis-indicator" *ngSwitchCase="2">z</div>
               <mat-icon *ngSwitchDefault>check_box_outline_blank</mat-icon>
             </ng-container>
           </ng-container>
           <ng-container *ngSwitchCase="1">
-            <span *ngIf="getIndex(metric) === 0; else blank">x axis</span>
+            <div
+              class="axis-indicator"
+              *ngIf="getIndex(metric) === 0; else blank"
+            >
+              x
+            </div>
           </ng-container>
           <ng-container *ngSwitchDefault>
             <mat-icon *ngIf="getIndex(metric) > -1; else blank">check</mat-icon>
           </ng-container>
         </ng-container>
-        {{ expectedMetrics }} {{ metric.name }}
+        {{ metric.name }}
       </button>
     </ng-container>
   </mat-menu>
