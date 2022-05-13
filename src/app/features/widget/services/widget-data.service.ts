@@ -61,7 +61,7 @@ export class WidgetDataService implements OnDestroy {
 
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
-    const widgetStat = this.widget.stattype.type;
+
     this.ranges = {};
 
     if (
@@ -70,6 +70,7 @@ export class WidgetDataService implements OnDestroy {
       this.widget.metrics.length > 0 &&
       this.widget.channelGroup
     ) {
+      const widgetStat = this.widget.stattype.type;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
         .getData(start, end, this.widget, archiveType)

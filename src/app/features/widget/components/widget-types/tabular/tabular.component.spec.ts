@@ -7,40 +7,30 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { Widget } from "@widget/models/widget";
 import { MockViewService } from "@core/services/view.service.mock";
 import { ViewService } from "@core/services/view.service";
+import { NgxEchartsModule } from "ngx-echarts";
+import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetModule } from "@features/widget/widget.module";
+import { MockBuilder } from "ng-mocks";
 
-describe("TabularComponent", () => {
+fdescribe("TabularComponent", () => {
   let component: TabularComponent;
   let fixture: ComponentFixture<TabularComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TabularComponent, MeasurementPipe],
-      imports: [NgxDatatableModule, HttpClientTestingModule],
-      providers: [{ provide: ViewService, useClass: MockViewService }],
-    }).compileComponents();
-  }));
+  beforeEach(() => {
+    return MockBuilder(TabularComponent, WidgetModule)
+      .mock(NgxEchartsModule)
+      .mock(ViewService)
+      .mock(WidgetTypeService);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabularComponent);
     component = fixture.componentInstance;
-    component.columns = [];
-    component.rows = [];
     component.data = {};
+    component.metrics = [];
+    component.selectedMetrics = [];
     component.channels = [];
-    component.widget = new Widget(
-      1,
-      1,
-      "name",
-      "description",
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      []
-    );
+
     fixture.detectChanges();
   });
 

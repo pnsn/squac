@@ -29,6 +29,7 @@ describe("WidgetDataService", () => {
   ]);
   testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, [1, 2]);
   testWidget.channelGroup.channels = [testChannel];
+  testWidget.stattype = { type: "tabular" };
   const mockSquacApiService = new MockSquacApiService(testData);
   let viewService;
 

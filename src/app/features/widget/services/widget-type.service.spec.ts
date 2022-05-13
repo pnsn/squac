@@ -1,16 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
+import { MockBuilder } from "ng-mocks";
 
-import { WidgetTypeService } from './widget-type.service';
+import { WidgetTypeService } from "./widget-type.service";
 
-describe('WidgetTypeService', () => {
+describe("WidgetTypeService", () => {
   let service: WidgetTypeService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    return MockBuilder(WidgetTypeService);
+  });
+
+  beforeEach(() => {
     service = TestBed.inject(WidgetTypeService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

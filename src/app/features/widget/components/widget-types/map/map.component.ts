@@ -42,10 +42,9 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   map: L.Map;
   metricLayers: { [metricId: number]: L.FeatureGroup<L.Marker> };
   baseLayers;
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor() {}
   ngOnInit() {
     this.initMap();
-    this.buildLayers();
   }
 
   initMap(): void {
@@ -77,11 +76,12 @@ export class MapComponent implements OnInit, WidgetTypeComponent {
   }
 
   onMapReady(map: L.Map) {
-    console.log("map ready");
     this.map = map;
     // Do stuff with map
     this.initLegend();
-    this.changeMetric();
+    if (this.selectedMetrics.length > 0) {
+      this.changeMetric();
+    }
   }
 
   private initLegend() {

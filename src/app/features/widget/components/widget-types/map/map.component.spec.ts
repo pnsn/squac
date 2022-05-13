@@ -1,40 +1,30 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
+import { WidgetModule } from "@features/widget/widget.module";
 import { Widget } from "@widget/models/widget";
+import { MockBuilder } from "ng-mocks";
 
 import { MapComponent } from "./map.component";
 
-describe("MapComponent", () => {
+fdescribe("MapComponent", () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [LeafletModule, LeafletDrawModule],
-      declarations: [MapComponent],
-    }).compileComponents();
-  }));
+  beforeEach(() => {
+    return MockBuilder(MapComponent, WidgetModule)
+      .mock(LeafletModule)
+      .mock(LeafletDrawModule);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
+    component.data = {};
+    component.metrics = [];
+    component.selectedMetrics = [];
+    component.channels = [];
     fixture.detectChanges();
-
-    component.widget = new Widget(
-      1,
-      1,
-      "name",
-      "description",
-      1,
-      1,
-      1,
-      0,
-      0,
-      1,
-      1,
-      []
-    );
   });
 
   it("should create", () => {
