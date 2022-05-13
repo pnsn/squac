@@ -1,12 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 
 import { ViewService } from "./view.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { WidgetService } from "@widget/services/widget.service";
-import { AbilityModule } from "@casl/angular";
 import { Ability } from "@casl/ability";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { Widget } from "@widget/models/widget";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { take } from "rxjs/operators";
@@ -15,17 +12,11 @@ import { of } from "rxjs";
 import { DateService } from "./date.service";
 import { MockBuilder } from "ng-mocks";
 import { AppModule } from "app/app.module";
-import { Message } from "@angular/compiler/src/i18n/i18n_ast";
 
 describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const abilityMock = {
-    can: (_permission, resource) => {
-      return resource && resource.owner && resource.owner === 1;
-    },
-  };
   const testWidget = new Widget(
     1,
     1,
@@ -48,7 +39,15 @@ describe("ViewService", () => {
       .mock(WidgetService)
       .mock(DashboardService)
       .mock(MessageService)
-      .mock(DateService);
+      .mock(DateService)
+      .provide({
+        provide: Ability,
+        useValue: {
+          can: (_type, _resource) => {
+            return _resource ? true : undefined;
+          },
+        },
+      });
   });
 
   beforeEach(() => {
@@ -90,17 +89,16 @@ describe("ViewService", () => {
 
   it("should return range", () => {
     expect(service.range).toBeUndefined();
+    testDashboard.timeRange = 3;
     service.setDashboard(testDashboard);
     expect(service.range).toEqual(3);
   });
 
-  it("should return start date", () => {
+  it("should return start and end dates", () => {
     service.setDashboard(testDashboard);
+    testDashboard.starttime = "2022-03-01T00:00:00Z";
+    testDashboard.endtime = "2022-03-01T01:00:00Z";
     expect(service.startdate).toBeDefined();
-  });
-
-  it("should return enddate", () => {
-    service.setDashboard(testDashboard);
     expect(service.enddate).toBeDefined();
   });
 

@@ -66,7 +66,6 @@ export class ViewService {
     } else {
       startdate = this.dashboard?.starttime;
     }
-
     return startdate;
   }
 

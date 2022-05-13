@@ -1,12 +1,10 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
+import { of } from "rxjs";
 import { Widget } from "../models/widget";
 import { WidgetModule } from "../widget.module";
 import { MeasurementService } from "./measurement.service";
@@ -27,7 +25,14 @@ describe("WidgetDataService", () => {
 
   beforeEach(() => {
     return MockBuilder(WidgetDataService, WidgetModule)
-      .mock(MeasurementService)
+      .provide({
+        provide: MeasurementService,
+        useValue: {
+          getData: () => {
+            return of();
+          },
+        },
+      })
       .mock(ViewService);
   });
 

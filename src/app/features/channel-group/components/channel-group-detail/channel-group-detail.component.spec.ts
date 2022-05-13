@@ -1,25 +1,13 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ChannelGroupDetailComponent } from "./channel-group-detail.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
 import { ChannelGroup } from "@core/models/channel-group";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { UserPipe } from "@shared/pipes/user.pipe";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { OrganizationService } from "@user/services/organization.service";
-import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserService } from "@user/services/user.service";
-import { AppAbility } from "@core/utils/ability";
-import { AbilityModule } from "@casl/angular";
-import { Ability, PureAbility } from "@casl/ability";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MockBuilder, MockProvider } from "ng-mocks";
+import { MockBuilder } from "ng-mocks";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";

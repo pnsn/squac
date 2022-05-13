@@ -1,13 +1,13 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { WidgetService } from "./widget.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { Widget } from "@widget/models/widget";
+import { Widget, WidgetAdapter } from "@widget/models/widget";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { MockBuilder } from "ng-mocks";
 import { WidgetModule } from "../widget.module";
+import { of } from "rxjs";
 
 describe("WidgetService", () => {
   const testData = {
@@ -33,8 +33,19 @@ describe("WidgetService", () => {
 
   beforeEach(() => {
     return MockBuilder(WidgetService, WidgetModule)
-      .mock(SquacApiService)
-      .mock(ChannelGroupService);
+      .provide({
+        provide: SquacApiService,
+        useValue: new MockSquacApiService(testData),
+      })
+      .keep(WidgetAdapter)
+      .provide({
+        provide: ChannelGroupService,
+        useValue: {
+          getChannelGroup: (_id) => {
+            return of([]);
+          },
+        },
+      });
   });
   beforeEach(() => {
     widgetService = TestBed.inject(WidgetService);

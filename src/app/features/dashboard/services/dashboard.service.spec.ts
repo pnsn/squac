@@ -1,9 +1,8 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
-import { Dashboard } from "@dashboard/models/dashboard";
+import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
 
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { WidgetService } from "@widget/services/widget.service";
@@ -27,15 +26,21 @@ describe("DashboardService", () => {
 
   beforeEach(() => {
     return MockBuilder(DashboardService, DashboardModule)
-      .mock(SquacApiService)
+      .provide({
+        provide: SquacApiService,
+        useValue: new MockSquacApiService(testDashboard),
+      })
+      .keep(DashboardAdapter)
       .mock(ChannelGroupService)
       .mock(WidgetService);
   });
 
-  it("should be created", () => {
-    const service: DashboardService = TestBed.inject(DashboardService);
+  beforeEach(() => {
+    dashboardService = TestBed.inject(DashboardService);
+  });
 
-    expect(service).toBeTruthy();
+  it("should be created", () => {
+    expect(dashboardService).toBeTruthy();
   });
 
   it("should return dashboards", (done: DoneFn) => {

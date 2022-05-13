@@ -3,13 +3,14 @@ import { SquacApiService } from "@core/services/squacapi.service";
 import { MeasurementService } from "./measurement.service";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
+import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 
 describe("MeasurementService", () => {
   let measurementService: MeasurementService;
 
   beforeEach(() => {
     return MockBuilder(MeasurementService)
-      .mock(SquacApiService)
+      .provide({ provide: SquacApiService, useValue: MockSquacApiService })
       .mock(ViewService);
   });
 

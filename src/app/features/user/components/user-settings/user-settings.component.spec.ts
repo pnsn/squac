@@ -1,10 +1,6 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
 import { UserService } from "@user/services/user.service";
-import { MaterialModule } from "@shared/material.module";
-import { SharedModule } from "@shared/shared.module";
 
 import { UserSettingsComponent } from "./user-settings.component";
 import { MockBuilder } from "ng-mocks";

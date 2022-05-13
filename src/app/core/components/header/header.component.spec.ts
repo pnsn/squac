@@ -1,27 +1,17 @@
-import { TestBed } from "@angular/core/testing";
 import { HeaderComponent } from "./header.component";
 import { AuthService } from "@core/services/auth.service";
-import {
-  MockInstance,
-  MockModule,
-  MockProviders,
-  MockRender,
-  ngMocks,
-} from "ng-mocks";
-import { SharedModule } from "@shared/shared.module";
-import { AppAbility } from "@core/utils/ability";
-import { PureAbility } from "@casl/ability";
+import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
+import { AppModule } from "app/app.module";
+import { AbilityModule } from "@casl/angular";
 
 describe("HeaderComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
   beforeAll(async () => {
-    return TestBed.configureTestingModule({
-      imports: [MockModule(SharedModule)],
-      declarations: [HeaderComponent],
-      providers: [MockProviders(AuthService, AppAbility, PureAbility)],
-    }).compileComponents();
+    return MockBuilder(HeaderComponent, AppModule)
+      .mock(AuthService)
+      .mock(AbilityModule);
   });
 
   it("should create", () => {
