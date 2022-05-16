@@ -95,8 +95,10 @@ export class ScatterPlotComponent
   }
 
   changeMetrics() {
-    console.log("Change metrics");
-    const visualMap = this.visualMaps[this.selectedMetrics[2].id];
+    let visualMap = {};
+    if (this.selectedMetrics[2]) {
+      visualMap = this.visualMaps[this.selectedMetrics[2].id];
+    }
 
     this.updateOptions = {
       series: this.processedData.series,

@@ -87,7 +87,7 @@ export class TabularComponent
         name: metric.name,
         prop: metric.id,
         comparator: this.metricComparator.bind(this),
-        minWidth: 100,
+        minWidth: 30,
         cellClass: this.getCellClass,
         canAutoResize: true,
         sortable: true,

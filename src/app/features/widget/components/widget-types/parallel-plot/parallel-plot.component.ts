@@ -108,6 +108,5 @@ export class ParallelPlotComponent
     if (this.echartsInstance) {
       this.echartsInstance.resize();
     }
-    console.log(this.updateOptions);
   }
 }

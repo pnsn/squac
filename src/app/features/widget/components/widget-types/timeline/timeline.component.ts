@@ -73,8 +73,6 @@ export class TimelineComponent
       xAxis: {
         type: "time",
         name: "Measurement Start",
-        min: this.viewService.startdate,
-        max: this.viewService.enddate,
         axisTick: {
           interval: 0,
         },
@@ -154,6 +152,10 @@ export class TimelineComponent
     this.updateOptions = {
       series: this.metricSeries[selectedMetric.id].series,
       visualMap: this.visualMaps[selectedMetric.id],
+      xAxis: {
+        min: this.viewService.startdate,
+        max: this.viewService.enddate,
+      },
       yAxis: {
         data: this.metricSeries[selectedMetric.id].yAxisLabels,
       },

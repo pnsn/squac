@@ -79,6 +79,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     // Do stuff with map
     this.initLegend();
     if (this.selectedMetrics.length > 0) {
+      this.buildLayers();
       this.changeMetric();
     }
   }
