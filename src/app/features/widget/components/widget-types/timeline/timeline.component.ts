@@ -153,8 +153,8 @@ export class TimelineComponent
       series: this.metricSeries[selectedMetric.id].series,
       visualMap: this.visualMaps[selectedMetric.id],
       xAxis: {
-        min: this.viewService.startdate,
-        max: this.viewService.enddate,
+        min: this.viewService.startTime,
+        max: this.viewService.endTime,
       },
       yAxis: {
         data: this.metricSeries[selectedMetric.id].yAxisLabels,

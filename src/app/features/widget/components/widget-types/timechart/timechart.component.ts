@@ -177,8 +177,8 @@ export class TimechartComponent
       series: this.metricSeries[selectedMetric.id].series,
       visualMap: this.visualMaps[selectedMetric.id],
       xAxis: {
-        min: this.viewService.startdate,
-        max: this.viewService.enddate,
+        min: this.viewService.startTime,
+        max: this.viewService.endTime,
       },
       yAxis: {
         name: selectedMetric ? selectedMetric.unit : "Unknown",

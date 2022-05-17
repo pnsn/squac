@@ -73,10 +73,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
           values.description,
           shareOrg,
           shareAll,
-          this.orgId,
-          this.dashboard && this.dashboard.widgets
-            ? this.dashboard.widgetIds
-            : []
+          this.orgId
         )
       )
       .subscribe({

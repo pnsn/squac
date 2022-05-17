@@ -23,7 +23,7 @@ export class ViewService {
   widgetUpdated = new Subject<number>();
   status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
-  private live: boolean;
+  private autoRefresh: boolean;
   // refresh = new Subject<number>();
   private dashboard: Dashboard;
   dateRanges;
@@ -49,57 +49,57 @@ export class ViewService {
 
   // returns if dashboard is live
   get isLive(): boolean {
-    return this.live;
+    return this.autoRefresh;
   }
 
   // returns the dashboard time range
   get range(): number {
-    return this.dashboard?.timeRange;
+    return this.dashboard?.properties.timeRange;
   }
 
   // returns the dashboard starttime
-  get startdate(): string {
-    let startdate;
+  get startTime(): string {
+    let startTime;
     if (this.range) {
-      startdate = this.dateService.subtractFromNow(this.range, "seconds");
-      startdate = this.dateService.format(startdate);
+      startTime = this.dateService.subtractFromNow(this.range, "seconds");
+      startTime = this.dateService.format(startTime);
     } else {
-      startdate = this.dashboard?.starttime;
+      startTime = this.dashboard?.properties.startTime;
     }
-    return startdate;
+    return startTime;
   }
 
   // returns the dashboard end date
-  get enddate(): string {
-    let enddate;
+  get endTime(): string {
+    let endTime;
     if (this.range) {
-      enddate = this.dateService.now();
-      enddate = this.dateService.format(enddate);
+      endTime = this.dateService.now();
+      endTime = this.dateService.format(endTime);
     } else {
-      enddate = this.dashboard?.endtime;
+      endTime = this.dashboard?.properties.endTime;
     }
 
-    return enddate;
+    return endTime;
   }
 
   // returns the dashboard archive type
   get archiveType(): string {
-    return this.dashboard?.archiveType;
+    return this.dashboard?.properties.archiveType;
   }
 
   // returns the dashboard archive stat
   get archiveStat(): string {
-    return this.dashboard?.archiveStat;
+    return this.dashboard?.properties.archiveStat;
   }
 
   // sets the given dashboard and sets up dates
-  setDashboard(dashboard: Dashboard): void {
+  setDashboard(dashboard): void {
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
 
-    if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
+    if (!dashboard.widgets || dashboard.widgets.length === 0) {
       this.status.next("finished");
     }
 
@@ -111,24 +111,29 @@ export class ViewService {
   private setIntialDates() {
     let startDate;
     let endDate;
-    let liveMode;
+    let autoRefresh;
     let range;
 
     // make date range selector
-    if (this.dashboard.timeRange) {
-      liveMode = true;
-      range = this.dashboard.timeRange;
+    if (this.dashboard.properties.timeRange) {
+      autoRefresh = this.dashboard.properties.autoRefresh;
+      range = this.dashboard.properties.timeRange;
       // set default dates
-    } else if (this.dashboard.starttime && this.dashboard.endtime) {
-      liveMode = false;
-      startDate = this.dateService.parseUtc(this.dashboard.starttime);
-      endDate = this.dateService.parseUtc(this.dashboard.endtime);
+    } else if (
+      this.dashboard.properties.startTime &&
+      this.dashboard.properties.endTime
+    ) {
+      autoRefresh = false;
+      startDate = this.dateService.parseUtc(
+        this.dashboard.properties.startTime
+      );
+      endDate = this.dateService.parseUtc(this.dashboard.properties.endTime);
     } else {
       // default dates
-      liveMode = true;
+      autoRefresh = true;
       range = this.defaultTimeRange;
     }
-    this.datesChanged(startDate, endDate, liveMode, range);
+    this.datesChanged(startDate, endDate, autoRefresh, range);
     this.updateData.next(this.dashboard.id);
   }
 
@@ -136,19 +141,19 @@ export class ViewService {
   datesChanged(
     startDate: dayjs.Dayjs,
     endDate: dayjs.Dayjs,
-    live: boolean,
+    autoRefresh: boolean,
     rangeInSeconds: number
   ): void {
-    this.live = live;
-    this.dashboard.timeRange = rangeInSeconds;
-    let start;
-    let end;
+    this.autoRefresh = autoRefresh;
+    this.dashboard.properties.timeRange = rangeInSeconds;
+    let startTime;
+    let endTime;
     if (startDate && endDate) {
-      start = this.dateService.format(startDate);
-      end = this.dateService.format(endDate);
+      startTime = this.dateService.format(startDate);
+      endTime = this.dateService.format(endDate);
     }
-    this.dashboard.starttime = start;
-    this.dashboard.endtime = end;
+    this.dashboard.properties.startTime = startTime;
+    this.dashboard.properties.endTime = endTime;
   }
 
   // returns the wdiget index
@@ -180,8 +185,8 @@ export class ViewService {
   }
 
   setArchive(archiveType, archiveStat) {
-    this.dashboard.archiveStat = archiveStat;
-    this.dashboard.archiveType = archiveType;
+    this.dashboard.properties.archiveStat = archiveStat;
+    this.dashboard.properties.archiveType = archiveType;
   }
 
   // decrements count of widgets still loading

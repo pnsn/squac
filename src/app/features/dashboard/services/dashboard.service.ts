@@ -24,6 +24,7 @@ export class DashboardService {
 
   // Get all dashboards viewable by user from squac
   getDashboards(): Observable<Dashboard[]> {
+    console.log("get dashboards");
     // Fetch new dashboards if > 5 minutes since refresh
     if (
       this.lastRefresh &&

@@ -81,8 +81,8 @@
         </dashboard-data-type-selector>
         <shared-date-select
           [secondsAgoFromNow]="this.viewService?.range"
-          [initialStartDate]="startdate"
-          [initialEndDate]="enddate"
+          [initialStartDate]="startTime"
+          [initialEndDate]="endTime"
           [timeRanges]="this.datePickerTimeRanges"
           (datesChanged)="datesChanged($event)"
         ></shared-date-select>

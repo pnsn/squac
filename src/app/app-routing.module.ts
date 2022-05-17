@@ -13,7 +13,6 @@ import { NotFoundComponent } from "@core/components/not-found/not-found.componen
 import { HomeComponent } from "@core/components/home/home.component";
 import { DashboardResolver } from "@dashboard/dashboard.resolver";
 import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
-import { StatTypeResolver } from "@widget/stat-type.resolver";
 
 const appRoutes: Routes = [
   {
@@ -56,7 +55,6 @@ const appRoutes: Routes = [
       channelGroups: ChannelGroupResolver,
       metrics: MetricResolver,
       user: UserResolver,
-      statType: StatTypeResolver,
       organizations: OrganizationResolver,
     },
     children: [

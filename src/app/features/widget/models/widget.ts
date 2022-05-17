@@ -9,26 +9,28 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Injectable } from "@angular/core";
 
 export class Widget {
-  public type: string;
   public channelGroup: ChannelGroup;
-  public useAggregate: boolean;
+  public thresholds: { [metricId: number]: Threshold };
   constructor(
     public id: number,
     public owner: number,
     public name: string,
-    public description: string,
-    public typeId: number,
     public dashboardId: number,
     public channelGroupId: number,
-    public columns: number,
-    public rows: number,
-    public x: number,
-    public y: number,
-    public metrics: Metric[]
-  ) {}
-  public stattype;
-  public thresholds: { [metricId: number]: Threshold };
-  // get ids from the channels
+    public metrics: Metric[],
+    public type: string,
+    public layout?: WidgetLayout,
+    public properties?: WidgetProperties
+  ) {
+    if (!this.layout) {
+      this.layout = defaultLayout;
+    }
+    if (!this.properties) {
+      this.properties = defaultProperties;
+    }
+  }
+
+  // get ids from the metrics
   get metricsIds(): number[] {
     const array = [];
     if (this.metrics) {
@@ -36,7 +38,6 @@ export class Widget {
         array.push(metric.id);
       });
     }
-
     return array;
   }
 
@@ -49,39 +50,54 @@ export class Widget {
   }
 }
 
+const defaultProperties: WidgetProperties = {};
+
+const defaultLayout: WidgetLayout = {
+  rows: 3,
+  columns: 6,
+};
+
+export interface WidgetLayout {
+  rows: number;
+  columns: number;
+  x?: number;
+  y?: number;
+}
+
+export interface WidgetProperties {
+  //depends on which widgetType
+  theme?: string;
+  useAggregate?: boolean;
+  stat?: string; //if use aggregate
+  displayChannel?: string; //worst, first, or aggregate
+  displayMetrics?: Array<number>; //order of display
+  // show_legend: boolean; TODO: add these
+  // show_tooltips: boolean;
+  // zoom: boolean;
+  // sampling: string;
+}
+
 export interface ApiGetWidget {
   id: number;
   name: string;
   dashboard: number;
-  description: string;
-  widgettype: any;
   metrics: ApiGetMetric[];
-  created_at: string;
-  updated_at: string;
   thresholds: ApiGetThreshold[];
-  columns: number;
-  rows: number;
-  x_position: number;
-  y_position: number;
-  stattype: any;
   channel_group: number;
   user_id: string;
-  color_pallet: string;
+  properties: string;
+  type: string;
+  layout: string;
 }
 
 export interface ApiPostWidget {
   name: string;
   dashboard: number;
-  widgettype: number;
-  description: string;
   metrics: number[];
-  stattype: number;
-  columns: number;
-  rows: number;
-  x_position: number;
-  y_position: number;
   channel_group: number;
-  color_pallet: string;
+  properties: string;
+  layout: string;
+  type: string;
 }
 
 @Injectable({
@@ -111,37 +127,24 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.id,
       +item.user_id,
       item.name,
-      item.description,
-      item.widgettype.id,
       item.dashboard,
       item.channel_group,
-      item.columns,
-      item.rows,
-      item.x_position,
-      item.y_position,
-      metrics
+      metrics,
+      item.type,
+      item.layout,
+      item.properties
     );
-    widget.useAggregate = item.widgettype.use_aggregate;
-    widget.thresholds = thresholds;
-    widget.stattype = item.stattype;
-    widget.type = item.widgettype.type;
     return widget;
   }
 
   adaptToApi(item: Widget): ApiPostWidget {
     return {
       name: item.name,
-      description: item.description,
       metrics: item.metricsIds,
-      widgettype: item.typeId,
       dashboard: item.dashboardId,
-      columns: item.columns,
-      rows: item.rows,
-      x_position: item.x,
-      y_position: item.y,
       channel_group: item.channelGroupId,
-      stattype: item.stattype ? item.stattype.id : 1,
-      color_pallet: "squac",
+      layout: JSON.stringify(item.layout),
+      properties: JSON.stringify(item.properties),
     };
   }
 }

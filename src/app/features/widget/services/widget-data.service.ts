@@ -50,8 +50,8 @@ export class WidgetDataService implements OnDestroy {
     let end;
     const data = {};
     if (!startString || !endString) {
-      start = this.viewService.startdate;
-      end = this.viewService.enddate;
+      start = this.viewService.startTime;
+      end = this.viewService.endTime;
 
       // clear data
     } else {
@@ -159,8 +159,8 @@ export class WidgetDataService implements OnDestroy {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
         this.fetchMeasurements(
-          this.viewService.startdate,
-          this.viewService.enddate
+          this.viewService.startTime,
+          this.viewService.endTime
         );
       }, this.refreshInterval * 60 * 1000);
     }

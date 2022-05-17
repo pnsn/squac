@@ -48,7 +48,7 @@ export const routes: Routes = [
             canActivate: [PermissionGuard],
             data: { subject: "Dashboard", action: "update" },
           },
-          ...widgetRoutes,
+          // ...widgetRoutes,
         ],
       },
     ],

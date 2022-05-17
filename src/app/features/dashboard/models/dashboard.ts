@@ -1,16 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
-import { Widget } from "@widget/models/widget";
+import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
-  public widgets: Widget[];
-  public starttime: string;
-  public endtime: string;
-  public timeRange: number;
-  public archiveType: string;
-  public home: boolean;
-  public archiveStat: string;
-
+  private _widgets: Array<Widget>;
   constructor(
     public id: number,
     public owner: number,
@@ -19,38 +12,41 @@ export class Dashboard {
     public shareOrg: boolean,
     public shareAll: boolean,
     public orgId: number,
-    public widgetIds?: number[]
-  ) {}
+    public properties?: DashboardProperties
+  ) {
+    if (!properties) {
+      this.properties = { ...defaultProperties };
+    }
+  }
+
+  public get widgets(): Array<Widget> {
+    return this._widgets;
+  }
+
+  public set widgets(widgets: Array<Widget>) {
+    this._widgets = widgets;
+  }
 
   static get modelName() {
     return "Dashboard";
   }
-
-  updateWidgets(widgets: Widget[]) {
-    this.widgets = widgets;
-    this.widgetIds = [];
-    this.widgets.forEach((widget) => {
-      this.widgetIds.push(widget.id);
-    });
-  }
 }
+
+const defaultProperties: DashboardProperties = {
+  timeRange: 3600,
+  archiveType: "raw",
+  autoRefresh: true,
+};
 
 export interface ApiGetDashboard {
   id: number;
   name: string;
   description: string;
-  created_at: string;
-  updated_at: string;
   user_id: string;
   share_all: boolean;
   share_org: boolean;
-  window_seconds: number;
-  starttime: string;
-  endtime: string;
   organization: number;
-  home: boolean;
-  archive_type: string;
-  archive_stat: string;
+  properties: string;
   widgets?: number[];
 }
 
@@ -59,13 +55,17 @@ export interface ApiPostDashboard {
   description: string;
   share_all: boolean;
   share_org: boolean;
-  window_seconds: number;
-  starttime: string;
-  endtime: string;
   organization: number;
-  home: boolean;
-  archive_type: string;
-  archive_stat: string;
+  properties: string;
+}
+
+export interface DashboardProperties {
+  timeRange?: number;
+  startTime?: string;
+  endTime?: string;
+  archiveStat?: string;
+  archiveType: string;
+  autoRefresh: boolean;
 }
 
 @Injectable({
@@ -73,6 +73,7 @@ export interface ApiPostDashboard {
 })
 export class DashboardAdapter implements Adapter<Dashboard> {
   adaptFromApi(item: ApiGetDashboard): Dashboard {
+    const properties = JSON.parse(item.properties);
     const dashboard = new Dashboard(
       item.id,
       +item.user_id,
@@ -81,20 +82,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.share_org,
       item.share_all,
       item.organization,
-      item.widgets ? item.widgets : []
+      properties
     );
-    if (item.window_seconds) {
-      dashboard.timeRange = item.window_seconds;
-    } else {
-      dashboard.starttime = item.starttime;
-      dashboard.endtime = item.endtime;
-    }
-
-    dashboard.archiveStat = item.archive_stat ? item.archive_stat : "min";
-    dashboard.archiveType = item.archive_type ? item.archive_type : "raw";
-
-    dashboard.home = item.home;
-
     return dashboard;
   }
 
@@ -104,13 +93,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       description: item.description,
       share_all: item.shareAll,
       share_org: item.shareOrg,
-      window_seconds: item.timeRange,
-      starttime: item.starttime,
-      endtime: item.endtime,
       organization: item.orgId,
-      home: item.home,
-      archive_type: item.archiveType,
-      archive_stat: item.archiveStat,
+      properties: JSON.stringify(item.properties),
     };
   }
 }

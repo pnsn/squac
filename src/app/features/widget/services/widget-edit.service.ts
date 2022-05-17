@@ -27,8 +27,6 @@ export class WidgetEditService {
   // default widget dimensions
   rows = 3;
   columns = 6;
-  x = 0;
-  y = 0;
 
   constructor(
     private widgetService: WidgetService,
@@ -69,20 +67,7 @@ export class WidgetEditService {
         this.widget.dashboardId = this.dashboardId;
       }
     } else {
-      this.widget = new Widget(
-        null,
-        null,
-        null,
-        null,
-        null,
-        dashboardId,
-        null,
-        this.columns,
-        this.rows,
-        this.x,
-        this.y,
-        null
-      );
+      this.widget = new Widget(null, null, null, dashboardId, null, [], "");
       this.widget.thresholds = {};
       this.channelGroup = null;
     }
@@ -144,9 +129,8 @@ export class WidgetEditService {
   }
 
   // Update the widgets info
-  updateWidgetInfo(name: string, description: string, statType): void {
+  updateWidgetInfo(name: string, statType): void {
     this.widget.name = name;
-    this.widget.description = description;
     this.widget.stattype = statType;
     this.updateValidity();
   }
