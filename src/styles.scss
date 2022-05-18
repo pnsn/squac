@@ -585,6 +585,16 @@ ngx-daterangepicker-material {
   width: 100px;
 }
 
+.mat-horizontal-stepper-header-container,
+.mat-horizontal-stepper-header,
+.mat-step-header,
+mat-step-header {
+  height: 40px !important;
+}
+.mat-horizontal-content-container {
+  margin-bottom: 0px;
+}
+
 .dashboard-input {
   height: 30px;
   width: 240px;

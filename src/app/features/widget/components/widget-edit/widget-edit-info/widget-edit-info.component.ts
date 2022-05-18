@@ -14,6 +14,12 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   widgetForm: FormGroup;
   statTypes = [
     {
+      id: 13,
+      type: "latest",
+      name: "Most recent",
+      description: "",
+    },
+    {
       id: 2,
       type: "med",
       name: "Median",
@@ -29,12 +35,6 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       id: 4,
       type: "max",
       name: "Maximum",
-      description: "",
-    },
-    {
-      id: 13,
-      type: "latest",
-      name: "Most recent",
       description: "",
     },
     {
@@ -86,9 +86,9 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       description: "",
     },
   ];
-  id;
+  id: number;
   selectedType;
-  error = "Missing widget name";
+  error: string;
   done = false;
   // TODO: Get this from SQUAC
   widgetTypes = [
@@ -150,12 +150,11 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   constructor(private widgetEditService: WidgetEditService) {}
 
   ngOnInit(): void {
-    console.log("init me");
     this.editMode = !!this.widget;
 
     this.widgetForm = new FormGroup({
       name: new FormControl("", Validators.required),
-      statType: new FormControl(13, Validators.required), // default is raw data
+      stat: new FormControl(this.statTypes[0], Validators.required), // default is raw data
     });
     this.initForm();
   }
@@ -166,31 +165,35 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
     this.checkValid();
   }
 
-  getWidgetTypeById(id) {
-    return this.widgetTypes.find((type) => type.id === id);
+  getWidgetType(wType) {
+    return this.widgetTypes.find((type) => type.type === wType);
   }
   private initForm() {
     if (this.editMode) {
       this.id = this.widget.id;
       this.widgetForm.patchValue({
         name: this.widget.name,
-        statType: this.widget.properties.stat,
+        stat: this.widget.properties.stat || this.statTypes[0],
       });
-      this.selectedType = this.widget.type;
+      this.selectedType = this.getWidgetType(this.widget.type);
     }
   }
 
   selectType(type) {
     this.selectedType = type;
-    this.widgetEditService.updateType(type);
-    this.checkValid();
+    if (!this.selectedType.useAggregate) {
+      this.widgetForm.patchValue({
+        stat: this.statTypes[0],
+      });
+    }
+    this.updateInfo();
   }
 
   checkValid() {
-    this.done =
-      !!this.widgetForm && this.widgetForm.valid && !!this.selectedType;
+    const values = this.widgetForm.value;
+    this.done = values.name && this.selectedType && values.stat;
     if (!this.done) {
-      if (this.widgetForm && !this.widgetForm.valid) {
+      if (this.widgetForm && !values.name) {
         this.error = "Missing widget name";
       } else if (!this.selectedType) {
         this.error = "Missing widget type";
@@ -201,11 +204,12 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   }
 
   updateInfo() {
+    this.checkValid();
     const values = this.widgetForm.value;
     this.widgetEditService.updateWidgetInfo(
       values.name,
-      values.type,
-      values.statType
+      this.selectedType.type,
+      values.stat
     );
   }
 }

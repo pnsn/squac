@@ -15,7 +15,7 @@ import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group/widget-edit-channel-group.component";
-import { WidgetEditThresholdsComponent } from "./widget-edit-thresholds/widget-edit-thresholds.component";
+import { WidgetEditOptionsComponent } from "./widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
 import {
   MockComponents,
@@ -58,7 +58,7 @@ describe("WidgetEditComponent", () => {
         WidgetEditComponent,
         MockComponents(
           WidgetEditChannelGroupComponent,
-          WidgetEditThresholdsComponent,
+          WidgetEditOptionsComponent,
           WidgetEditMetricsComponent,
           WidgetEditInfoComponent
         ),

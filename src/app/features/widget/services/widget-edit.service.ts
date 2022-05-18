@@ -5,7 +5,6 @@ import { Metric } from "@core/models/metric";
 import { Threshold } from "../models/threshold";
 import { BehaviorSubject, Subject, Observable, merge, of } from "rxjs";
 import { WidgetService } from "./widget.service";
-import { ThresholdService } from "./threshold.service";
 import { ViewService } from "@core/services/view.service";
 import { switchMap, tap } from "rxjs/operators";
 
@@ -21,7 +20,6 @@ export class WidgetEditService {
 
   constructor(
     private widgetService: WidgetService,
-    private thresholdService: ThresholdService,
     private viewService: ViewService
   ) {}
 
@@ -112,33 +110,13 @@ export class WidgetEditService {
   }
 
   // save widget and thresholds to squac
-  saveWidget() {
+  saveWidget(): Observable<Widget> {
     console.log(this.widget);
-    let newWidget;
-    // return this.widgetService.updateWidget(this.widget).pipe(
-    //   switchMap((response) => {
-    //     newWidget = response;
-    //     // returns observables for saving each thresholds
-    //     const thresholdObs = this.thresholdService.updateThresholds(
-    //       this.widget.thresholds,
-    //       newWidget.id
-    //     );
-    //     let count = 0;
-    //     // Wait to update view until all are saved
-    //     if (thresholdObs && thresholdObs.length > 0) {
-    //       return merge(...thresholdObs).pipe(
-    //         tap(() => {
-    //           count++;
-    //           if (newWidget && count === thresholdObs.length) {
-    //             this.viewService.updateWidget(newWidget.id, newWidget);
-    //           }
-    //         })
-    //       );
-    //     } else {
-    //       this.viewService.updateWidget(newWidget.id, newWidget);
-    //       return of(newWidget);
-    //     }
-    //   })
-    //);
+    return this.widgetService.updateWidget(this.widget).pipe(
+      tap((widget) => {
+        this.viewService.updateWidget(widget.id, widget);
+        return of(widget);
+      })
+    );
   }
 }

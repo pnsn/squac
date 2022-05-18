@@ -1,0 +1,39 @@
+<h3>Set Thresholds</h3>
+<p class="help-text">
+  Thresholds are used to color the widget. By default, values will be shown with
+  a gradient from the data min to max.
+</p>
+<form #thresholdEditForm [formGroup]="thresholdsForm">
+  <ng-container formArrayName="thresholds">
+    <button (click)="addThreshold()">add</button>
+    <table id="thresholds-table">
+      <tr>
+        <th>Metric</th>
+        <th colspan="1">min</th>
+        <th colspan="1">max</th>
+      </tr>
+      <ng-container
+        *ngFor="let thresholds of thresholds.controls; let i = index"
+      >
+        <tr [formGroupName]="i" class="threshold">
+          <td>
+            <mat-select> </mat-select>
+          </td>
+          <td>
+            <mat-form-field class="xmall">
+              <mat-label for="min">min</mat-label>
+              <input matInput type="number" name="min" formControlName="min" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="xmall">
+              <mat-label for="max">max</mat-label>
+              <input matInput type="number" name="max" formControlName="max" />
+            </mat-form-field>
+          </td>
+          <ng-template #default> default </ng-template>
+        </tr>
+      </ng-container>
+    </table>
+  </ng-container>
+</form>

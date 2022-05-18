@@ -1,8 +1,4 @@
-import {
-  ApiGetThreshold,
-  Threshold,
-  ThresholdAdapter,
-} from "@widget/models/threshold";
+import { Threshold } from "@widget/models/threshold";
 import { ApiGetMetric, Metric, MetricAdapter } from "@core/models/metric";
 import { Adapter } from "@core/models/adapter";
 import { ChannelGroup } from "@core/models/channel-group";
@@ -128,7 +124,7 @@ export interface ApiGetWidget {
   name: string;
   dashboard: number;
   metrics: ApiGetMetric[];
-  thresholds: ApiGetThreshold[];
+  thresholds: string;
   channel_group: number;
   user_id: string;
   properties: string;
@@ -150,10 +146,7 @@ export interface ApiPostWidget {
   providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget> {
-  constructor(
-    public metricAdapter: MetricAdapter,
-    public thresholdsAdapter: ThresholdAdapter
-  ) {}
+  constructor(public metricAdapter: MetricAdapter) {}
   adaptFromApi(item: ApiGetWidget): Widget {
     const metrics = [];
     const thresholds = {};
@@ -165,9 +158,6 @@ export class WidgetAdapter implements Adapter<Widget> {
     }
 
     if (item.thresholds) {
-      item.thresholds.forEach((t) => {
-        thresholds[t.metric] = this.thresholdsAdapter.adaptFromApi(t);
-      });
     }
 
     const widget = new Widget(
@@ -179,6 +169,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       metrics,
       item.type
     );
+
     widget.layout = item.layout;
     widget.properties = item.properties;
     console.log(widget);

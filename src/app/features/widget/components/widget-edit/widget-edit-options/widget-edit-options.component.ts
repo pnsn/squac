@@ -1,24 +1,22 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Threshold } from "@widget/models/threshold";
+import { Threshold } from "@features/widget/models/threshold";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "@widget/services/widget-edit.service";
+import { WidgetEditService } from "@features/widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
-  selector: "widget-edit-thresholds",
-  templateUrl: "./widget-edit-thresholds.component.html",
-  styleUrls: ["./widget-edit-thresholds.component.scss"],
+  selector: "widget-edit-options",
+  templateUrl: "./widget-edit-options.component.html",
+  styleUrls: ["./widget-edit-options.component.scss"],
 })
-export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
+export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
   constructor(
     private widgetEditService: WidgetEditService,
     private formBuilder: FormBuilder
   ) {}
   metrics: Metric[];
   editing = {};
-
-  removeThresholdIds = [];
 
   subscriptions: Subscription = new Subscription();
 
@@ -43,7 +41,6 @@ export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
-      id: [threshold ? threshold.id : null],
       metric: [threshold ? threshold.metricId : null],
     });
   }
@@ -67,10 +64,6 @@ export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
 
   // Remove given threshold
   removeThreshold(index) {
-    const threshold = this.thresholds.at(index).value;
-    if (threshold.id) {
-      this.removeThresholdIds.push(+threshold.id);
-    }
     this.thresholds.removeAt(index);
   }
 

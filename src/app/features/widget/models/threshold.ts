@@ -1,60 +1,40 @@
-import { Injectable } from "@angular/core";
-import { Adapter } from "@core/models/adapter";
-
 export class Threshold {
-  constructor(
-    public id: number,
-    public owner: number,
-    public widgetId: number,
-    public metricId: number,
-    public min: number,
-    public max: number
-  ) {}
+  type: string; //continuous, piecewise, markLine, markArea
+  min: number;
+  max: number;
+  inRange: {
+    color: string[];
+  };
+  outOfRange: {
+    color: string[];
+  };
+  data: [];
+  constructor(public metricId?: number) {}
   static get modelName() {
     return "Threshold";
   }
 }
 
-export interface ApiGetThreshold {
-  id: number;
-  url: string;
-  metric: number;
-  widget: number;
-  minval: number;
-  maxval: number;
-  created_at: string;
-  updated_at: string;
-  user_id: string;
-}
+//can only have one if not metric
+// {
+//   type: string //continuous, piecewise, markLine, markArea
+//   dataZoom: []
+//   metric?: number //if no metric, show for all and limit to one threshold
 
-export interface ApiPostThreshold {
-  metric: number;
-  widget: number;
-  minval: number;
-  maxval: number;
-}
+//   //continuous & piecewise
+//   min:
+//   max:
+//   inRange: {color:[]}
+//   outOfRange: {color:[]}
 
-@Injectable({
-  providedIn: "root",
-})
-export class ThresholdAdapter implements Adapter<Threshold> {
-  adaptFromApi(item: ApiGetThreshold): Threshold {
-    return new Threshold(
-      item.id,
-      +item.user_id,
-      item.widget,
-      item.metric,
-      item.minval,
-      item.maxval
-    );
-  }
-
-  adaptToApi(item: Threshold): ApiPostThreshold {
-    return {
-      metric: item.metricId,
-      widget: item.widgetId,
-      minval: item.min,
-      maxval: item.max,
-    };
-  }
-}
+//   //markLine and markArea
+//   data: [ // markLine or markArea
+//     { //starting point
+//       name: string //will display as label
+//       yAxis: //value for line
+//     },
+//     { //endint point for markArea
+//       yAxis: //value for line
+//     }
+//   ]:
+// }

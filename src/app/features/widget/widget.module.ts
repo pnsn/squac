@@ -6,7 +6,7 @@ import { TabularComponent } from "./components/widget-types/tabular/tabular.comp
 import { TimelineComponent } from "./components/widget-types/timeline/timeline.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { GridsterModule } from "angular-gridster2";
-import { WidgetEditThresholdsComponent } from "./components/widget-edit/widget-edit-thresholds/widget-edit-thresholds.component";
+import { WidgetEditOptionsComponent } from "./components/widget-edit/widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./components/widget-edit/widget-edit-metrics/widget-edit-metrics.component";
 import { WidgetEditChannelGroupComponent } from "./components/widget-edit/widget-edit-channel-group/widget-edit-channel-group.component";
 import { SharedModule } from "@shared/shared.module";
@@ -27,7 +27,7 @@ import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/p
     WidgetEditComponent,
     TabularComponent,
     TimelineComponent,
-    WidgetEditThresholdsComponent,
+    WidgetEditOptionsComponent,
     MeasurementPipe,
     WidgetEditMetricsComponent,
     WidgetEditChannelGroupComponent,
