@@ -70,7 +70,7 @@ export class WidgetDataService implements OnDestroy {
       this.widget.metrics.length > 0 &&
       this.widget.channelGroup
     ) {
-      const widgetStat = this.widget.stattype.type;
+      const widgetStat = this.widget.properties.stat;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
         .getData(start, end, this.widget, archiveType)
@@ -83,7 +83,7 @@ export class WidgetDataService implements OnDestroy {
                 if (archiveStat) {
                   value.value = value[archiveStat];
                 }
-              } else if (this.widget.useAggregate) {
+              } else if (this.widget.properties.useAggregate) {
                 value = this.aggregateAdapter.adaptFromApi(m);
                 if (widgetStat) {
                   value.value = value[widgetStat];

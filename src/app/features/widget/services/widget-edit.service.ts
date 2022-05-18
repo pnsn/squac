@@ -9,24 +9,15 @@ import { ThresholdService } from "./threshold.service";
 import { ViewService } from "@core/services/view.service";
 import { switchMap, tap } from "rxjs/operators";
 
-interface Thresholds {
-  [metricId: number]: Threshold;
-}
-
 // TODO: this whole thing just needs a fixin'
 @Injectable({
   providedIn: "root",
 })
 export class WidgetEditService {
-  private widget: Widget;
-  private channelGroup: ChannelGroup;
-  private thresholds: Thresholds = {};
+  private _widget: Widget;
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
   public isValid = new Subject<boolean>();
   dashboardId: number;
-  // default widget dimensions
-  rows = 3;
-  columns = 6;
 
   constructor(
     private widgetService: WidgetService,
@@ -34,11 +25,18 @@ export class WidgetEditService {
     private viewService: ViewService
   ) {}
 
+  get thresholds(): Threshold[] {
+    return this.widget?.thresholds;
+  }
+  get channelGroup(): ChannelGroup {
+    return this.widget?.channelGroup;
+  }
+
   // Keeps track of widget having all required properties
   updateValidity(): void {
     if (this.widget) {
       const hasName = this.widget.name && this.widget.name.length > 0;
-      const hasTypes = this.widget.stattype && this.widget.typeId;
+      const hasTypes = !!this.widget.type;
       const hasCg = this.widget.channelGroupId;
       const hasMetrics = this.widget.metrics && this.widget.metrics.length > 0;
 
@@ -48,18 +46,11 @@ export class WidgetEditService {
     }
   }
 
-  // Returns the current thresholds
-  getThresholds(): Thresholds {
-    return this.thresholds;
-  }
-
   // FIXME: don't init a widget like this, return the final widget when needed
   setWidget(widget: Widget, dashboardId: number): void {
     this.dashboardId = dashboardId;
     if (widget) {
       this.widget = widget;
-      this.thresholds = widget.thresholds ? widget.thresholds : {};
-      this.channelGroup = widget.channelGroup;
       this.selectedMetrics.next(this.widget.metrics);
       // in case of copying widget from other dashboard, must set to new dash
       if (widget.dashboardId !== this.dashboardId) {
@@ -68,78 +59,62 @@ export class WidgetEditService {
       }
     } else {
       this.widget = new Widget(null, null, null, dashboardId, null, [], "");
-      this.widget.thresholds = {};
-      this.channelGroup = null;
     }
     this.updateValidity();
   }
 
-  // Returns the selected channel group
-  getChannelGroup(): ChannelGroup {
-    return this.channelGroup;
+  // Returns the current widet
+  get widget(): Widget {
+    return this._widget;
   }
 
-  // Returns the current widet
-  getWidget(): Widget {
-    return this.widget;
+  public set widget(widget: Widget) {
+    this._widget = widget;
   }
 
   // Selected metrics ids
-  getMetricIds(): void | number[] {
-    if (this.widget) {
-      return this.widget.metricsIds;
-    }
+  get metricIds(): void | number[] {
+    return this.widget?.metricsIds;
   }
 
   // Saves new selected group
-  updateChannelGroup(channelGroup): void {
-    this.channelGroup = channelGroup;
+  updateChannelGroup(channelGroup: ChannelGroup): void {
     this.widget.channelGroupId = channelGroup.id;
     this.updateValidity();
   }
 
   // Update selected metrics
-  updateMetrics(metrics): void {
+  updateMetrics(metrics: Metric[]): void {
     this.widget.metrics = metrics;
     this.selectedMetrics.next(this.widget.metrics);
     this.updateValidity();
   }
 
   // Update selected widget type
-  updateType(id): void {
-    this.widget.typeId = id;
+  updateType(type: string): void {
+    this.widget.type = type;
     this.updateValidity();
   }
 
   // Save the new selected thresholds
   updateThresholds(thresholds: any[]): void {
-    thresholds.forEach((threshold) => {
-      this.thresholds[threshold.metric.id] = new Threshold(
-        this.widget.id ? threshold.id : null,
-        threshold.owner,
-        this.widget.id,
-        threshold.metric.id,
-        threshold.min || threshold.min === 0 ? +threshold.min : null,
-        threshold.max || threshold.max === 0 ? +threshold.max : null
-      );
-    });
-
-    this.widget.thresholds = this.thresholds;
+    this.widget.thresholds = thresholds;
     this.updateValidity();
   }
 
   // Update the widgets info
-  updateWidgetInfo(name: string, statType): void {
+  updateWidgetInfo(name: string, type: string, stat: string): void {
     this.widget.name = name;
-    this.widget.stattype = statType;
+    this.widget.type = type;
+    this.widget.properties.stat = stat;
     this.updateValidity();
   }
 
-  // cancel without sacving
+  updateWidgetProperties() {}
+
+  // cancel without saving
   clearWidget(): void {
     this.widget = null;
-    this.thresholds = {};
-    this.channelGroup = null;
     this.selectedMetrics.next([]);
   }
 
@@ -151,7 +126,6 @@ export class WidgetEditService {
         newWidget = response;
         // returns observables for saving each thresholds
         const thresholdObs = this.thresholdService.updateThresholds(
-          this.widget.metrics,
           this.widget.thresholds,
           newWidget.id
         );

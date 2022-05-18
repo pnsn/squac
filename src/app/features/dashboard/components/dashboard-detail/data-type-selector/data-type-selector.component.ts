@@ -38,6 +38,12 @@ export class DataTypeSelectorComponent implements OnInit {
     this.fullType = this.dataTypes.find((dataType) => {
       return dataType.value === this.dataType;
     });
+
+    if (!this.fullType) {
+      this.dataType === "raw";
+      this.statType = "";
+      this.fullType = { value: "raw", short: "raw", full: "raw data" };
+    }
   }
 
   selectDataType(type, stat) {

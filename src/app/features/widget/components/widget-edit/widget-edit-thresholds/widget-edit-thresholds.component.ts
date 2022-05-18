@@ -4,111 +4,74 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
+import { FormArray, FormBuilder, Validators } from "@angular/forms";
 @Component({
   selector: "widget-edit-thresholds",
   templateUrl: "./widget-edit-thresholds.component.html",
   styleUrls: ["./widget-edit-thresholds.component.scss"],
 })
 export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
-  constructor(private widgetEditService: WidgetEditService) {}
-  thresholds: { [metricId: number]: Threshold };
+  constructor(
+    private widgetEditService: WidgetEditService,
+    private formBuilder: FormBuilder
+  ) {}
   metrics: Metric[];
   editing = {};
-  rows = [];
 
-  ColumnMode = ColumnMode;
+  removeThresholdIds = [];
+
   subscriptions: Subscription = new Subscription();
-  messages = {
-    // Message to show when array is presented
-    // but contains no values
-    emptyMessage: "Please select metrics.",
-  };
 
-  lastEditedCell;
+  thresholdsForm = this.formBuilder.group({
+    thresholds: this.formBuilder.array([]),
+  });
 
   ngOnInit() {
-    const sub = this.widgetEditService.selectedMetrics.subscribe(
-      (metrics) => {
+    const sub = this.widgetEditService.selectedMetrics.subscribe({
+      next: (metrics) => {
         this.metrics = metrics;
-        this.thresholds = this.widgetEditService.getThresholds();
-        // console.log(this.thresholds);
-        if (!this.thresholds) {
-          this.thresholds = {};
-        }
-
-        this.rows = [];
-
-        if (this.metrics && this.metrics.length > 0) {
-          const newRows = [];
-          this.metrics.forEach((metric) => {
-            const minVal =
-              metric.minVal || metric.minVal === 0 ? +metric.minVal : null;
-            const maxVal =
-              metric.maxVal || metric.maxVal === 0 ? +metric.maxVal : null;
-
-            if (this.thresholds[metric.id]) {
-              const setMin = this.thresholds[metric.id].min;
-              const setMax = this.thresholds[metric.id].max;
-              newRows.push({
-                id: +this.thresholds[metric.id].id,
-                metric,
-                min: setMin || setMin === 0 ? +setMin : null,
-                max: setMax || setMax === 0 ? +setMax : null,
-                defaultMin: minVal,
-                defaultMax: maxVal,
-              });
-            } else {
-              newRows.push({
-                id: null,
-                metric,
-                min: null,
-                max: null,
-                defaultMin: minVal,
-                defaultMax: maxVal,
-              });
-            }
-          });
-          this.rows = [...newRows];
-        }
       },
-      (error) => {
+      error: (error) => {
         console.log("error in threshold edit: " + error);
-      }
-    );
+      },
+    });
     this.subscriptions.add(sub);
+  }
+
+  // Add threshold info to form
+  makeThresholdForm(threshold?: Threshold) {
+    return this.formBuilder.group({
+      min: [threshold ? threshold.min : null],
+      max: [threshold ? threshold.max : null],
+      id: [threshold ? threshold.id : null],
+      metric: [threshold ? threshold.metricId : null],
+    });
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
-  showEdit(rowIndex, cell) {
-    if (this.lastEditedCell) {
-      this.editing[this.lastEditedCell] = false;
-    }
-    this.lastEditedCell = rowIndex + "-" + cell;
-    this.editing[this.lastEditedCell] = true;
+
+  get thresholds(): FormArray {
+    return this.thresholdsForm.get("thresholds") as FormArray;
   }
 
-  clearThreshold(rowIndex) {
-    if (this.rows[rowIndex].min !== null || this.rows[rowIndex].max !== null) {
-      this.rows[rowIndex].min = null;
-      this.rows[rowIndex].max = null;
-      this.updateThresholds();
-    }
+  // Add a new threshold
+  addThreshold(threshold?: Threshold) {
+    const thresholdFormGroup = this.makeThresholdForm(threshold);
+    // thresholdFormGroup.valueChanges.subscribe((value) =>
+    //   this.validateThreshold(value, thresholdFormGroup)
+    // );
+    this.thresholds.push(thresholdFormGroup);
   }
 
-  updateValue(event, cell, rowIndex) {
-    this.editing[rowIndex + "-" + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
-    if (cell === "metricId") {
-      this.rows[rowIndex].name = this.getMetric(event.target.value);
+  // Remove given threshold
+  removeThreshold(index) {
+    const threshold = this.thresholds.at(index).value;
+    if (threshold.id) {
+      this.removeThresholdIds.push(+threshold.id);
     }
-    this.updateThresholds();
-  }
-
-  updateThresholds() {
-    this.rows = [...this.rows];
-    this.widgetEditService.updateThresholds(this.rows);
+    this.thresholds.removeAt(index);
   }
 
   getMetric(metricId: number) {

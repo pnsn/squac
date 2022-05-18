@@ -58,10 +58,12 @@ export class DashboardService {
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
     const postData = this.dashboardAdapter.adaptToApi(dashboard);
 
+    console.log(postData);
     if (dashboard.id) {
-      return this.squacApi
-        .put(this.url, dashboard.id, postData)
-        .pipe(map((response) => this.dashboardAdapter.adaptFromApi(response)));
+      return this.squacApi.put(this.url, dashboard.id, postData).pipe(
+        map((response) => this.dashboardAdapter.adaptFromApi(response)),
+        tap((dashboard) => console.log(dashboard))
+      );
     } else {
       return this.squacApi
         .post(this.url, postData)

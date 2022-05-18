@@ -101,9 +101,9 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       this.id = this.widget.id;
       this.widgetForm.patchValue({
         name: this.widget.name,
-        statType: this.widget.stattype.id,
+        statType: this.widget.properties.stat,
       });
-      this.selectedType = this.widget.typeId;
+      this.selectedType = this.widget.type;
     }
   }
 
@@ -129,9 +129,10 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
 
   updateInfo() {
     const values = this.widgetForm.value;
-    const statType = this.statTypes.find((st) => {
-      return st.id === values.statType;
-    });
-    this.widgetEditService.updateWidgetInfo(values.name, "", statType);
+    this.widgetEditService.updateWidgetInfo(
+      values.name,
+      values.type,
+      values.statType
+    );
   }
 }

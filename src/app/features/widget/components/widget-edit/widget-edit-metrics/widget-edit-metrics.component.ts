@@ -46,7 +46,7 @@ export class WidgetEditMetricsComponent
   ngOnInit() {
     this.availableMetrics = this.metrics;
     this.tableRows = this.availableMetrics;
-    const metricIds = this.widgetEditService.getMetricIds();
+    const metricIds = this.widgetEditService.metricIds;
     if (metricIds && metricIds.length > 0) {
       this.done = true;
       this.selectedMetrics = this.availableMetrics.filter((metric) => {

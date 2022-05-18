@@ -278,6 +278,7 @@ export class ViewService {
 
   // saves the dashboard to squac
   saveDashboard(): void {
+    console.log(this.dashboard);
     this.dashboardService.updateDashboard(this.dashboard).subscribe(
       () => {
         this.messageService.message("Dashboard saved.");

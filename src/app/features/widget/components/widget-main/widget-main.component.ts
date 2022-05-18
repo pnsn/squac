@@ -107,10 +107,10 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
   addWidgetToGrid(widget: Widget, rePosition?: boolean) {
     const item = {
-      cols: widget.columns ? widget.columns : 1,
-      rows: widget.rows ? widget.rows : 1,
-      y: rePosition ? null : widget.y,
-      x: rePosition ? null : widget.x,
+      cols: widget.layout.columns ? widget.layout.columns : 1,
+      rows: widget.layout.rows ? widget.layout.rows : 1,
+      y: rePosition ? null : widget.layout.y,
+      x: rePosition ? null : widget.layout.x,
       widget,
     };
     this.widgets.push(item);

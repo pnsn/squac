@@ -10,7 +10,9 @@ import { Injectable } from "@angular/core";
 
 export class Widget {
   public channelGroup: ChannelGroup;
-  public thresholds: { [metricId: number]: Threshold };
+  public thresholds: Threshold[];
+  public _layout: WidgetLayout;
+  public _properties: WidgetProperties;
   constructor(
     public id: number,
     public owner: number,
@@ -18,16 +20,45 @@ export class Widget {
     public dashboardId: number,
     public channelGroupId: number,
     public metrics: Metric[],
-    public type: string,
-    public layout?: WidgetLayout,
-    public properties?: WidgetProperties
+    public type: string
   ) {
-    if (!this.layout) {
-      this.layout = defaultLayout;
+    //this will override settings when created
+  }
+
+  //can be entered as string or properties
+  public set properties(properties: string | Partial<WidgetProperties>) {
+    let props: Partial<WidgetProperties>;
+    if (!properties) {
+      props = defaultProperties;
+    } else if (properties && typeof properties === "string") {
+      props = { ...JSON.parse(properties) };
+    } else if (typeof properties !== "string") {
+      props = { ...properties };
     }
-    if (!this.properties) {
-      this.properties = defaultProperties;
+
+    this._properties = { ...props };
+  }
+
+  public get properties(): WidgetProperties {
+    return this._properties;
+  }
+
+  //can be entered as string or properties
+  public set layout(layout: string | Partial<WidgetLayout>) {
+    let props: Partial<WidgetLayout>;
+    if (!layout) {
+      props = defaultLayout;
+    } else if (layout && typeof layout === "string") {
+      props = { ...JSON.parse(layout) };
+    } else if (typeof layout !== "string") {
+      props = { ...layout };
     }
+
+    this._layout = { ...this._layout, ...props };
+  }
+
+  public get layout(): WidgetLayout {
+    return this._layout;
   }
 
   // get ids from the metrics
@@ -50,7 +81,9 @@ export class Widget {
   }
 }
 
-const defaultProperties: WidgetProperties = {};
+const defaultProperties: WidgetProperties = {
+  theme: "red",
+};
 
 const defaultLayout: WidgetLayout = {
   rows: 3,
@@ -123,6 +156,7 @@ export class WidgetAdapter implements Adapter<Widget> {
         thresholds[t.metric] = this.thresholdsAdapter.adaptFromApi(t);
       });
     }
+
     const widget = new Widget(
       item.id,
       +item.user_id,
@@ -130,10 +164,11 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.dashboard,
       item.channel_group,
       metrics,
-      item.type,
-      item.layout,
-      item.properties
+      item.type
     );
+    widget.layout = item.layout;
+    widget.properties = item.properties;
+    console.log(widget);
     return widget;
   }
 
@@ -143,6 +178,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       metrics: item.metricsIds,
       dashboard: item.dashboardId,
       channel_group: item.channelGroupId,
+      type: item.type,
       layout: JSON.stringify(item.layout),
       properties: JSON.stringify(item.properties),
     };

@@ -4,6 +4,7 @@ import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
   private _widgets: Array<Widget>;
+  public _properties: DashboardProperties;
   constructor(
     public id: number,
     public owner: number,
@@ -11,12 +12,24 @@ export class Dashboard {
     public description: string,
     public shareOrg: boolean,
     public shareAll: boolean,
-    public orgId: number,
-    public properties?: DashboardProperties
-  ) {
+    public orgId: number
+  ) {}
+
+  //can be entered as string or properties
+  public set properties(properties: string | Partial<DashboardProperties>) {
+    let props: Partial<DashboardProperties>;
     if (!properties) {
-      this.properties = { ...defaultProperties };
+      props = defaultProperties;
+    } else if (properties && typeof properties === "string") {
+      props = { ...JSON.parse(properties) };
+    } else if (typeof properties !== "string") {
+      props = { ...properties };
     }
+    this._properties = { ...this._properties, ...props };
+  }
+
+  public get properties(): DashboardProperties {
+    return this._properties;
   }
 
   public get widgets(): Array<Widget> {
@@ -73,7 +86,6 @@ export interface DashboardProperties {
 })
 export class DashboardAdapter implements Adapter<Dashboard> {
   adaptFromApi(item: ApiGetDashboard): Dashboard {
-    const properties = JSON.parse(item.properties);
     const dashboard = new Dashboard(
       item.id,
       +item.user_id,
@@ -81,9 +93,10 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.description,
       item.share_org,
       item.share_all,
-      item.organization,
-      properties
+      item.organization
     );
+    dashboard.properties = item.properties;
+    console.log(dashboard);
     return dashboard;
   }
 

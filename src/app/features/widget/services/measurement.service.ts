@@ -33,7 +33,7 @@ export class MeasurementService {
     let path;
     if (archiveType && archiveType !== "raw") {
       path = archiveType + "-archives/";
-    } else if (widget.useAggregate) {
+    } else if (widget.properties.useAggregate) {
       path = "aggregated/";
     } else {
       path = "measurements/";

@@ -18,7 +18,6 @@
       [completed]="infoTab.done"
       [hasError]="infoStep.interacted && !infoTab.done"
     >
-      <ng-template matStepLabel>Widget Information</ng-template>
       <widget-edit-info
         class="edit-tab-body"
         [widget]="widget"
@@ -32,7 +31,6 @@
       [completed]="metricsTab.done"
       [hasError]="metricsStep.interacted && !metricsTab.done"
     >
-      <ng-template matStepLabel>Select Metrics</ng-template>
       <widget-edit-metrics
         class="edit-tab-body"
         [metrics]="metrics"
@@ -45,10 +43,10 @@
       [completed]="channelGroupsTab.done"
       [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
     >
-      <ng-template matStepLabel>Select Channel Group</ng-template>
       <widget-edit-channel-group
         class="edit-tab-body"
         [channelGroups]="channelGroups"
+        formGroup=""
         #channelGroupsTab
       ></widget-edit-channel-group>
     </mat-step>
@@ -62,6 +60,7 @@
   <div>
     <button
       mat-stroked-button
+      type="button"
       color="primary"
       (click)="stepper.previous()"
       [disabled]="stepper.selectedIndex === 0"
@@ -70,6 +69,7 @@
     </button>
     <button
       mat-stroked-button
+      type="button"
       color="primary"
       (click)="stepper.next()"
       [disabled]="stepper.selectedIndex === 3"
@@ -79,6 +79,7 @@
     <button
       id="save"
       mat-flat-button
+      type="button"
       color="accent"
       (click)="save()"
       [disabled]="!isValid"

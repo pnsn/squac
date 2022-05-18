@@ -54,7 +54,7 @@ export class WidgetEditChannelGroupComponent
 
   ngOnInit() {
     this.availableChannelGroups = this.channelGroups;
-    const group = this.widgetEditService.getChannelGroup();
+    const group = this.widgetEditService.channelGroup;
     if (group) {
       this.selectedChannelGroup[0] = group;
     }
@@ -145,7 +145,7 @@ export class WidgetEditChannelGroupComponent
     this.selectedChannelGroup = group;
 
     if (this.selectedChannelGroup[0].id) {
-      this.widgetEditService.updateChannelGroup(this.selectedChannelGroup);
+      this.widgetEditService.updateChannelGroup(this.selectedChannelGroup[0]);
       const channelGroupsSub = this.channelGroupService
         .getChannelGroup(this.selectedChannelGroup[0].id)
         .subscribe(

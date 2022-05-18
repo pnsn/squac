@@ -21,19 +21,15 @@ export class ThresholdService {
   ) {}
 
   updateThresholds(
-    metrics: Metric[],
-    thresholds: any,
+    thresholds: Threshold[],
     widgetId: number
   ): Observable<Threshold>[] {
     const thresholdSubs = [];
-    for (const metric of metrics) {
-      if (thresholds[metric.id]) {
-        const threshold = thresholds[metric.id];
-        if (threshold.id && threshold.max === null && threshold.min === null) {
-          thresholdSubs.push(this.deleteThreshold(threshold.id));
-        } else if (threshold.max !== null || threshold.min !== null) {
-          thresholdSubs.push(this.updateThreshold(threshold, widgetId));
-        }
+    for (const threshold of thresholds) {
+      if (threshold.id && threshold.max === null && threshold.min === null) {
+        thresholdSubs.push(this.deleteThreshold(threshold.id));
+      } else if (threshold.max !== null || threshold.min !== null) {
+        thresholdSubs.push(this.updateThreshold(threshold, widgetId));
       }
     }
     return thresholdSubs;
