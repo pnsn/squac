@@ -28,7 +28,6 @@ export class WidgetEditComponent
 
   metrics: Metric[];
   channelGroups: ChannelGroup[];
-  statTypes;
   editMode: boolean;
 
   isValid: boolean;
@@ -40,7 +39,6 @@ export class WidgetEditComponent
   ) {}
   ngOnInit() {
     this.widget = this.data.widget ? this.data.widget : null;
-    this.statTypes = this.data.statTypes;
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
 
@@ -72,14 +70,15 @@ export class WidgetEditComponent
   }
 
   save() {
-    this.widgetEditService.saveWidget().subscribe(
-      () => {
-        this.cancel();
-      },
-      () => {
-        this.messageService.error("Could not save widget.");
-      }
-    );
+    this.widgetEditService.saveWidget();
+    ///.subscribe(
+    //   () => {
+    //     this.cancel();
+    //   },
+    //   () => {
+    //     this.messageService.error("Could not save widget.");
+    //   }
+    // );
   }
 
   cancel(widget?: Widget) {

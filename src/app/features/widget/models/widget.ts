@@ -11,8 +11,8 @@ import { Injectable } from "@angular/core";
 export class Widget {
   public channelGroup: ChannelGroup;
   public thresholds: Threshold[];
-  public _layout: WidgetLayout;
-  public _properties: WidgetProperties;
+  public _layout: WidgetLayout = defaultLayout;
+  public _properties: WidgetProperties = defaultProperties;
   constructor(
     public id: number,
     public owner: number,
@@ -59,6 +59,19 @@ export class Widget {
 
   public get layout(): WidgetLayout {
     return this._layout;
+  }
+
+  public get isValid(): boolean {
+    return (
+      this.name &&
+      this.name.length > 0 &&
+      this.type &&
+      this.properties.stat &&
+      this.type &&
+      this.properties.stat &&
+      this.metrics &&
+      this.metrics.length > 0
+    );
   }
 
   // get ids from the metrics

@@ -10,10 +10,82 @@ import { WidgetEditService } from "@widget/services/widget-edit.service";
 })
 export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   @Input() widget: Widget;
-  @Input() statTypes;
   editMode: boolean;
   widgetForm: FormGroup;
-
+  statTypes = [
+    {
+      id: 2,
+      type: "med",
+      name: "Median",
+      description: "",
+    },
+    {
+      id: 3,
+      type: "min",
+      name: "Minimum",
+      description: "",
+    },
+    {
+      id: 4,
+      type: "max",
+      name: "Maximum",
+      description: "",
+    },
+    {
+      id: 13,
+      type: "latest",
+      name: "Most recent",
+      description: "",
+    },
+    {
+      id: 7,
+      type: "p95",
+      name: "95th percentile",
+      description: "",
+    },
+    {
+      id: 8,
+      type: "p90",
+      name: "90th percentile",
+      description: "",
+    },
+    {
+      id: 10,
+      type: "p10",
+      name: "10th percentile",
+      description: "",
+    },
+    {
+      id: 16,
+      type: "p05",
+      name: "5th percentile",
+      description: "",
+    },
+    {
+      id: 1,
+      type: "mean",
+      name: "Average",
+      description: "",
+    },
+    {
+      id: 5,
+      type: "numSamps",
+      name: "Sample Count",
+      description: "",
+    },
+    {
+      id: 17,
+      type: "minabs",
+      name: "Min of abs(min, max)",
+      description: "",
+    },
+    {
+      id: 18,
+      type: "maxabs",
+      name: "Max of abs(min, max)",
+      description: "",
+    },
+  ];
   id;
   selectedType;
   error = "Missing widget name";
@@ -78,6 +150,7 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
   constructor(private widgetEditService: WidgetEditService) {}
 
   ngOnInit(): void {
+    console.log("init me");
     this.editMode = !!this.widget;
 
     this.widgetForm = new FormGroup({

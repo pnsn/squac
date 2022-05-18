@@ -6,15 +6,13 @@ import { WidgetService } from "@widget/services/widget.service";
 
 @Component({
   selector: "widget-edit-entry",
-  templateUrl: "./widget-edit-entry.component.html",
-  styleUrls: ["./widget-edit-entry.component.scss"],
+  template: "",
 })
 export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   dialogRef;
   widgetId;
   paramsSub;
   dashboardId;
-  statTypes;
   metrics;
   channelGroups;
   widget;
@@ -27,6 +25,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log("Init");
     this.paramsSub = this.route.params.subscribe((params: Params) => {
       this.widgetId = +params.widgetId;
 
@@ -35,7 +34,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           this.route.parent.parent.snapshot.paramMap.get("dashboardId");
       }
       if (this.route.snapshot && this.route.snapshot.data) {
-        this.statTypes = this.route.snapshot.data.statTypes;
         this.metrics = this.route.snapshot.data.metrics;
         this.channelGroups = this.route.snapshot.data.channelGroups;
       }
@@ -52,12 +50,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   }
 
   openWidget() {
-    if (
-      this.dashboardId &&
-      this.statTypes &&
-      this.metrics &&
-      this.channelGroups
-    ) {
+    if (this.dashboardId && this.metrics && this.channelGroups) {
       // get dashboard && widget from url
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         width: "70vw",
@@ -65,7 +58,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         data: {
           widget: this.widget,
           dashboardId: this.dashboardId,
-          statTypes: this.statTypes,
           metrics: this.metrics,
           channelGroups: this.channelGroups,
         },

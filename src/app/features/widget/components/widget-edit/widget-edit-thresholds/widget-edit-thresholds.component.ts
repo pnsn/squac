@@ -4,7 +4,7 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
-import { FormArray, FormBuilder, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
   selector: "widget-edit-thresholds",
   templateUrl: "./widget-edit-thresholds.component.html",
@@ -22,7 +22,7 @@ export class WidgetEditThresholdsComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
 
-  thresholdsForm = this.formBuilder.group({
+  thresholdsForm: FormGroup = this.formBuilder.group({
     thresholds: this.formBuilder.array([]),
   });
 

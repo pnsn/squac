@@ -18,10 +18,10 @@
       [completed]="infoTab.done"
       [hasError]="infoStep.interacted && !infoTab.done"
     >
+      <ng-template matStepLabel>Widget Information</ng-template>
       <widget-edit-info
         class="edit-tab-body"
         [widget]="widget"
-        [statTypes]="statTypes"
         #infoTab
       ></widget-edit-info>
     </mat-step>
@@ -31,6 +31,7 @@
       [completed]="metricsTab.done"
       [hasError]="metricsStep.interacted && !metricsTab.done"
     >
+      <ng-template matStepLabel>Select Metrics</ng-template>
       <widget-edit-metrics
         class="edit-tab-body"
         [metrics]="metrics"
@@ -43,10 +44,10 @@
       [completed]="channelGroupsTab.done"
       [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
     >
+      <ng-template matStepLabel>Select Channel Group</ng-template>
       <widget-edit-channel-group
         class="edit-tab-body"
         [channelGroups]="channelGroups"
-        formGroup=""
         #channelGroupsTab
       ></widget-edit-channel-group>
     </mat-step>

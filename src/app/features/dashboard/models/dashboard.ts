@@ -4,7 +4,7 @@ import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
   private _widgets: Array<Widget>;
-  public _properties: DashboardProperties;
+  public _properties: DashboardProperties = defaultProperties;
   constructor(
     public id: number,
     public owner: number,

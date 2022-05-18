@@ -5,7 +5,6 @@ import { WidgetResolver } from "@widget/widget.resolver";
 import { WidgetEditEntryComponent } from "@widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricResolver } from "@metric/metric.resolver";
 import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
-import { StatTypeResolver } from "./stat-type.resolver";
 
 export const widgetRoutes: Routes = [
   {
@@ -28,7 +27,6 @@ export const widgetRoutes: Routes = [
         resolve: {
           metrics: MetricResolver,
           channelGroups: ChannelGroupResolver,
-          statTypes: StatTypeResolver,
         },
         data: { subject: "Widget", action: "create" },
       },
@@ -41,7 +39,6 @@ export const widgetRoutes: Routes = [
         resolve: {
           metrics: MetricResolver,
           channelGroups: ChannelGroupResolver,
-          statTypes: StatTypeResolver,
         },
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],
