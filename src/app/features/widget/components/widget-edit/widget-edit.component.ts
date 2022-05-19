@@ -70,15 +70,14 @@ export class WidgetEditComponent
   }
 
   save() {
-    this.widgetEditService.saveWidget();
-    ///.subscribe(
-    //   () => {
-    //     this.cancel();
-    //   },
-    //   () => {
-    //     this.messageService.error("Could not save widget.");
-    //   }
-    // );
+    this.widgetEditService.saveWidget().subscribe(
+      () => {
+        this.cancel();
+      },
+      () => {
+        this.messageService.error("Could not save widget.");
+      }
+    );
   }
 
   cancel(widget?: Widget) {

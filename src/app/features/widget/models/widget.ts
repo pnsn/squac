@@ -130,6 +130,12 @@ export interface ApiGetWidget {
   properties: string;
   type: string;
   layout: string;
+  columns?: number;
+  rows?: number;
+  x_position: number;
+  y_position: number;
+  stattype: any;
+  widgettype: any;
 }
 
 export interface ApiPostWidget {
@@ -141,7 +147,24 @@ export interface ApiPostWidget {
   layout: string;
   type: string;
 }
+function populateLayout(item: ApiGetWidget): string {
+  const layout: WidgetLayout = {
+    rows: item.rows,
+    columns: item.columns,
+    x: item.x_position,
+    y: item.y_position,
+  };
 
+  return JSON.stringify(layout);
+}
+function populateProperties(item: ApiGetWidget): string {
+  const properties: WidgetProperties = {
+    stat: item.stattype?.type,
+    useAggregate: item.widgettype?.use_aggregate,
+  };
+
+  return JSON.stringify(properties);
+}
 @Injectable({
   providedIn: "root",
 })
@@ -157,8 +180,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       });
     }
 
-    if (item.thresholds) {
-    }
+    const type = item.type || item.widgettype.type;
 
     const widget = new Widget(
       item.id,
@@ -167,12 +189,13 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.dashboard,
       item.channel_group,
       metrics,
-      item.type
+      type
     );
 
-    widget.layout = item.layout;
-    widget.properties = item.properties;
-    console.log(widget);
+    widget.thresholds = [];
+
+    widget.layout = item.layout || populateLayout(item);
+    widget.properties = item.properties || populateProperties(item);
     return widget;
   }
 

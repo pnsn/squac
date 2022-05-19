@@ -61,6 +61,10 @@ export interface ApiGetDashboard {
   organization: number;
   properties: string;
   widgets?: number[];
+  starttime?: string;
+  endtime?: string;
+  archive_type?: string;
+  window_seconds?: number;
 }
 
 export interface ApiPostDashboard {
@@ -81,6 +85,19 @@ export interface DashboardProperties {
   autoRefresh: boolean;
 }
 
+export function populateProperties(item: ApiGetDashboard): string {
+  const properties: DashboardProperties = {
+    timeRange: item.window_seconds,
+    startTime: item.starttime,
+    endTime: item.endtime,
+    archiveType: item.archive_type,
+    archiveStat: item.archive_type ? "raw" : null,
+    autoRefresh: !!item.window_seconds,
+  };
+
+  return JSON.stringify(properties);
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -95,7 +112,12 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.share_all,
       item.organization
     );
-    dashboard.properties = item.properties;
+
+    if (!item.properties) {
+      dashboard.properties = populateProperties(item);
+    } else {
+      dashboard.properties = item.properties;
+    }
     console.log(dashboard);
     return dashboard;
   }

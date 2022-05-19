@@ -38,6 +38,7 @@ export class WidgetDataService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
+    console.log(widget);
   }
 
   get dataRange() {

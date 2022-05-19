@@ -133,7 +133,7 @@ export class WidgetTypeService {
     metrics.forEach((metric) => {
       let min = null;
       let max = null;
-      if (thresholds[metric.id]) {
+      if (thresholds && thresholds[metric.id]) {
         //use threshold if set
         min = thresholds[metric.id].min;
         max = thresholds[metric.id].max;

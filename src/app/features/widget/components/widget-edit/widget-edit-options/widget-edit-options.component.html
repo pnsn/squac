@@ -1,8 +1,21 @@
-<h3>Set Thresholds</h3>
+<div>
+  <span>Display Options</span>
+</div>
 <p class="help-text">
   Thresholds are used to color the widget. By default, values will be shown with
   a gradient from the data min to max.
 </p>
+<!-- coloring
+  - continuous or piecewise
+  - min & max (if not specified, will use data min & max)
+  - in & out colors
+  - reverse
+  - #splits
+  - which metric to apply
+  -
+
+
+-->
 <form #thresholdEditForm [formGroup]="thresholdsForm">
   <ng-container formArrayName="thresholds">
     <button (click)="addThreshold()">add</button>

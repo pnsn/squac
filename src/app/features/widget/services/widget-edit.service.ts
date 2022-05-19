@@ -111,7 +111,6 @@ export class WidgetEditService {
 
   // save widget and thresholds to squac
   saveWidget(): Observable<Widget> {
-    console.log(this.widget);
     return this.widgetService.updateWidget(this.widget).pipe(
       tap((widget) => {
         this.viewService.updateWidget(widget.id, widget);
