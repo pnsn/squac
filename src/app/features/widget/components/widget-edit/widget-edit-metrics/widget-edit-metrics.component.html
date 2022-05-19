@@ -1,56 +1,28 @@
-<h3>Available Metrics</h3>
-<input
-  type="text"
-  class="metric-filter"
-  placeholder="Filter by metric name..."
-  (keyup)="updateFilter($event)"
-/>
-<div class="help-text">
-  Metrics can be reordered or hidden when viewing the widget.
+<div id="metric-header">
+  <input
+    type="text"
+    class="metric-filter"
+    placeholder="Filter by metric name..."
+    (keyup)="updateFilter($event)"
+  />
+  <div class="help-text">
+    Metrics can be reordered or hidden when viewing the widget.
+  </div>
 </div>
-<shared-loading *ngIf="loading"></shared-loading>
-<div class="table-container" *ngIf="!loading">
-  <ngx-datatable
-    id="metric-select-table"
-    #metricTable
-    class="material"
-    [rows]="tableRows"
-    [headerHeight]="30"
-    [columnMode]="ColumnMode.flex"
-    [footerHeight]="30"
-    [rowHeight]="23"
-    [scrollbarV]="true"
-    [selected]="selectedMetrics"
-    [selectionType]="SelectionType.multiClick"
-    [selectAllRowsOnPage]="false"
-    (select)="metricsSelected($event)"
-    [messages]="messages"
-  >
-    <ngx-datatable-column
-      [width]="30"
-      [sortable]="false"
-      [canAutoResize]="false"
-      [draggable]="false"
-      [resizeable]="false"
-      [headerCheckboxable]="true"
-      [checkboxable]="true"
-    >
-    </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Name"
-      [flexGrow]="2"
-      [resizeable]="false"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Unit"
-      prop="unit"
-      [flexGrow]="1"
-      [resizeable]="false"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Description"
-      [flexGrow]="4"
-      [resizeable]="false"
-    ></ngx-datatable-column>
-  </ngx-datatable>
-</div>
+<ngx-datatable
+  id="metric-select-table"
+  #metricTable
+  class="material"
+  [rows]="tableRows"
+  [columns]="columns"
+  [headerHeight]="30"
+  [columnMode]="ColumnMode.flex"
+  [footerHeight]="0"
+  rowHeight="auto"
+  [selected]="selectedMetrics"
+  [selectionType]="SelectionType.multiClick"
+  [selectAllRowsOnPage]="false"
+  (select)="metricsSelected($event)"
+  [messages]="messages"
+>
+</ngx-datatable>

@@ -1,10 +1,3 @@
-@import "variables";
-
-.table-container {
-  height: 423px;
-  width: 100%;
-}
-
 .metric-filter {
   width: 30%;
   padding: 4px;
@@ -12,8 +5,13 @@
   border: 1px solid #336178;
   border-radius: 0;
 }
+#metric-header {
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
 #metric-select-table {
-  height: 100%;
+  height: calc(100% - 40px);
   width: 100% !important;
 
   .ngx-datatable.material
@@ -22,6 +20,11 @@
     .datatable-body-cell {
     padding: unset;
   }
+}
+
+.ngx-datatable {
+  width: 100% !important;
+  height: 100%;
 }
 
 div.help-text {

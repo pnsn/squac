@@ -27,11 +27,11 @@
     </mat-step>
     <mat-step
       #metricsStep
-      errorMessage="Metric is required."
+      errorMessage="Missing metric."
       [completed]="metricsTab.done"
       [hasError]="metricsStep.interacted && !metricsTab.done"
     >
-      <ng-template matStepLabel>Select Metrics</ng-template>
+      <ng-template matStepLabel>Metrics</ng-template>
       <widget-edit-metrics
         class="edit-tab-body"
         [metrics]="metrics"
@@ -44,7 +44,7 @@
       [completed]="channelGroupsTab.done"
       [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
     >
-      <ng-template matStepLabel>Select Channel Group</ng-template>
+      <ng-template matStepLabel>Channel Group</ng-template>
       <widget-edit-channel-group
         class="edit-tab-body"
         [channelGroups]="channelGroups"

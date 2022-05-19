@@ -1,3 +1,15 @@
+#channel-group-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 7px;
+  margin-bottom: 5px;
+  .label {
+    display: inline-block;
+    font-weight: 600;
+    margin-right: 7px;
+  }
+}
 #channel-group-selector-container {
   display: flex;
   width: 100%;
@@ -8,10 +20,6 @@
   .selected {
     // background-color: $sq-blue;
     color: white;
-  }
-
-  #channel-group-table {
-    height: 485px;
   }
 }
 

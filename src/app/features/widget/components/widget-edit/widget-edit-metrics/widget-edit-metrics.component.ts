@@ -28,6 +28,7 @@ export class WidgetEditMetricsComponent
   availableMetrics: Metric[] = [];
   selectedMetrics: Metric[] = [];
   tableRows: Metric[];
+  columns = [];
   done = false;
   messages = {
     // Message to show when array is presented
@@ -53,11 +54,36 @@ export class WidgetEditMetricsComponent
         return metricIds.indexOf(metric.id) >= 0;
       });
     }
+    this.columns = [
+      {
+        width: 30,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false,
+        resizeable: false,
+        headerCheckboxable: true,
+        checkboxable: true,
+      },
+      {
+        name: "Name",
+        flexGrow: 2,
+      },
+      {
+        name: "Unit",
+        width: 50,
+        canAutoResize: false,
+        resizeable: true,
+      },
+      {
+        name: "Description",
+        flexGrow: 4,
+      },
+    ];
   }
 
   ngAfterViewInit(): void {
     if (this.availableMetrics) {
-      this.availableMetrics = [...this.availableMetrics];
+      this.tableRows = [...this.availableMetrics];
       this.metricTable.recalculate();
     }
     this.checkValid();

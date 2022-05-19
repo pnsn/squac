@@ -1,14 +1,18 @@
-<h3>Channel Groups</h3>
-<div>
-  <span *ngIf="selectedChannelGroup[0]; else noGroup">
-    Selected Group: {{ selectedChannelGroup[0].name }}
-  </span>
-  <ng-template #noGroup>
-    <span>Select a channel group</span>
-  </ng-template>
-  <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
-    Only Show {{ userOrg?.name }} Groups
-  </mat-slide-toggle>
+<div id="channel-group-header">
+  <div>
+    <span *ngIf="selectedChannelGroup[0]; else noGroup">
+      <span class="label"> Selected Group: </span
+      >{{ selectedChannelGroup[0].name }}
+    </span>
+    <ng-template #noGroup>
+      <span>Select a channel group</span>
+    </ng-template>
+  </div>
+  <div>
+    <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
+      Only Show {{ userOrg?.name }} Groups
+    </mat-slide-toggle>
+  </div>
 </div>
 
 <div id="channel-group-selector-container">
@@ -18,9 +22,7 @@
     class="material"
     [rows]="availableChannelGroups"
     [columnMode]="ColumnMode.force"
-    [footerHeight]="50"
-    [rowHeight]="23"
-    [scrollbarV]="true"
+    rowHeight="auto"
     [headerHeight]="30"
     [selectionType]="SelectionType.single"
     [selected]="selectedChannelGroup"
