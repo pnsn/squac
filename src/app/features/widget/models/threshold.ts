@@ -8,8 +8,11 @@ export class Threshold {
   outOfRange: {
     color: string[];
   };
+  metrics: [];
   data: [];
-  constructor(public metricId?: number) {}
+  reverseColors: boolean;
+  numSplits: number;
+  constructor() {}
   static get modelName() {
     return "Threshold";
   }

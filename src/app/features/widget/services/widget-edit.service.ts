@@ -15,6 +15,7 @@ import { switchMap, tap } from "rxjs/operators";
 export class WidgetEditService {
   private _widget: Widget;
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
+  public selectedType = new Subject<string>();
   public isValid = new Subject<boolean>();
   dashboardId: number;
 
@@ -28,6 +29,10 @@ export class WidgetEditService {
   }
   get channelGroup(): ChannelGroup {
     return this.widget?.channelGroup;
+  }
+
+  get type(): string {
+    return this.widget?.type;
   }
 
   // Keeps track of widget having all required properties
@@ -81,12 +86,6 @@ export class WidgetEditService {
     this.updateValidity();
   }
 
-  // Update selected widget type
-  updateType(type: string): void {
-    this.widget.type = type;
-    this.updateValidity();
-  }
-
   // Save the new selected thresholds
   updateThresholds(thresholds: any[]): void {
     this.widget.thresholds = thresholds;
@@ -97,11 +96,17 @@ export class WidgetEditService {
   updateWidgetInfo(name: string, type: string, stat: string): void {
     this.widget.name = name;
     this.widget.type = type;
+    this.selectedType.next(type);
     this.widget.properties.stat = stat;
     this.updateValidity();
   }
 
-  updateWidgetProperties() {}
+  updateWidgetProperties(props) {
+    for (const key in props) {
+      this.widget.properties[key] = props[key];
+    }
+    console.log(this.widget.properties);
+  }
 
   // cancel without saving
   clearWidget(): void {

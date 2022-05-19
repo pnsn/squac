@@ -1,7 +1,10 @@
 @import "variables";
 
-#threshold-table {
+#thresholds-table {
   width: 100%;
+  th {
+    text-align: left;
+  }
 }
 .default {
   cursor: default;
@@ -12,6 +15,51 @@
   width: 100%;
   border: solid 1px lightgray;
   padding-left: 5px;
+}
+
+#thresholds-table {
+  .xsmall {
+    width: 50px;
+  }
+  .small {
+    width: 75px;
+  }
+}
+
+mat-select-trigger {
+  .gradient-indicator {
+    height: 10px;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .color-indicator {
+    height: 10px;
+    width: 100%;
+    display: inline-block;
+  }
+}
+mat-option {
+  .gradient-indicator {
+    height: 10px;
+    width: 50%;
+    display: inline-block;
+  }
+
+  .color-indicator {
+    height: 10px;
+    width: 10px;
+    margin-right: 5px;
+    display: inline-block;
+    border: solid 1px black;
+  }
+}
+
+.label {
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-right: 7px;
 }
 
 .clear-button {

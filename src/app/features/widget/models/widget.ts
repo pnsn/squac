@@ -180,7 +180,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       });
     }
 
-    const type = item.type || item.widgettype.type;
+    const type = item.type || item.widgettype?.type;
 
     const widget = new Widget(
       item.id,

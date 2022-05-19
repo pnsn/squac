@@ -173,7 +173,7 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
       this.id = this.widget.id;
       this.widgetForm.patchValue({
         name: this.widget.name,
-        stat: this.widget.properties.stat || this.statTypes[0],
+        stat: this.widget.properties.stat || this.statTypes[0].type,
       });
       this.selectedType = this.getWidgetType(this.widget.type);
     }
@@ -183,7 +183,7 @@ export class WidgetEditInfoComponent implements OnInit, AfterViewInit {
     this.selectedType = type;
     if (!this.selectedType.useAggregate) {
       this.widgetForm.patchValue({
-        stat: this.statTypes[0],
+        stat: this.statTypes[0].type,
       });
     }
     this.updateInfo();

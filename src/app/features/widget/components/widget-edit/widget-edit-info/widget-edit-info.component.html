@@ -36,7 +36,10 @@
           (selectionChange)="updateInfo()"
           required
         >
-          <mat-option *ngFor="let statType of statTypes" [value]="statType">
+          <mat-option
+            *ngFor="let statType of statTypes"
+            [value]="statType.type"
+          >
             {{ statType.name }}
           </mat-option>
         </mat-select>

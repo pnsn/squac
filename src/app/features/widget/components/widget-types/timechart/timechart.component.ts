@@ -118,6 +118,16 @@ export class TimechartComponent
           type: "line",
           data: [],
           large: true,
+
+          emphasis: {
+            label: {
+              show: true,
+            },
+            focus: "series",
+            lineStyle: {
+              color: "#000",
+            },
+          },
           step: "start",
           symbol: "circle",
           sampling: "lttb",
