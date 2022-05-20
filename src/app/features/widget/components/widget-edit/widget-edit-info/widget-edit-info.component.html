@@ -7,7 +7,7 @@
       id="name"
       formControlName="name"
       placeholder="Widget name"
-      (change)="updateInfo()"
+      (change)="updateName()"
       required
     />
   </mat-form-field>
@@ -15,12 +15,11 @@
   <div id="widget-type-container">
     <div class="label">Widget type:</div>
     <mat-button-toggle-group
-      #group="matButtonToggleGroup"
-      (change)="selectType(group.value)"
-      [value]="selectedType"
+      formControlName="type"
+      (change)="updateType()"
       vertical="false"
     >
-      <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type">
+      <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type.type">
         <div class="type-label">{{ type.name | titlecase }}</div>
       </mat-button-toggle>
     </mat-button-toggle-group>
@@ -33,7 +32,7 @@
         <mat-select
           formControlName="stat"
           *ngIf="statTypes"
-          (selectionChange)="updateInfo()"
+          (selectionChange)="updateStat()"
           required
         >
           <mat-option

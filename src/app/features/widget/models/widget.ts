@@ -16,7 +16,8 @@ export class Widget {
     public dashboardId: number,
     public channelGroupId: number,
     public metrics: Metric[],
-    public type: string
+    public type: string,
+    public stat: string //if use aggregate
   ) {
     //this will override settings when created
   }
@@ -62,11 +63,10 @@ export class Widget {
       this.name &&
       this.name.length > 0 &&
       this.type &&
-      this.properties.stat &&
-      this.type &&
-      this.properties.stat &&
+      this.stat &&
       this.metrics &&
-      this.metrics.length > 0
+      this.metrics.length > 0 &&
+      !!this.channelGroup
     );
   }
 
@@ -109,8 +109,6 @@ export interface WidgetLayout {
 export interface WidgetProperties {
   //depends on which widgetType
   theme?: string;
-  useAggregate?: boolean;
-  stat?: string; //if use aggregate
   displayChannel?: string; //worst, first, or aggregate
   displayMetrics?: Array<number>; //order of display
   // show_legend: boolean; TODO: add these
@@ -129,6 +127,7 @@ export interface ApiGetWidget {
   user_id: string;
   properties: string;
   type: string;
+  stat: string;
   layout: string;
   columns?: number;
   rows?: number;
@@ -146,6 +145,7 @@ export interface ApiPostWidget {
   properties: string;
   layout: string;
   type: string;
+  stat: string;
 }
 function populateLayout(item: ApiGetWidget): string {
   const layout: WidgetLayout = {
@@ -158,10 +158,7 @@ function populateLayout(item: ApiGetWidget): string {
   return JSON.stringify(layout);
 }
 function populateProperties(item: ApiGetWidget): string {
-  const properties: WidgetProperties = {
-    stat: item.stattype?.type,
-    useAggregate: item.widgettype?.use_aggregate,
-  };
+  const properties: WidgetProperties = {};
 
   return JSON.stringify(properties);
 }
@@ -181,7 +178,7 @@ export class WidgetAdapter implements Adapter<Widget> {
     }
 
     const type = item.type || item.widgettype?.type;
-
+    const stat = item.stat || item.stattype?.type;
     const widget = new Widget(
       item.id,
       +item.user_id,
@@ -189,7 +186,8 @@ export class WidgetAdapter implements Adapter<Widget> {
       item.dashboard,
       item.channel_group,
       metrics,
-      type
+      type,
+      stat
     );
 
     widget.thresholds = [];
@@ -206,6 +204,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       dashboard: item.dashboardId,
       channel_group: item.channelGroupId,
       type: item.type,
+      stat: item.stat,
       layout: JSON.stringify(item.layout),
       properties: JSON.stringify(item.properties),
     };

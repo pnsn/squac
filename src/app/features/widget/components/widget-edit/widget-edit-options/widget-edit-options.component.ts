@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from "@angular/core";
 import { Threshold } from "@features/widget/models/threshold";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
@@ -15,15 +23,17 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     private widgetEditService: WidgetEditService,
     private formBuilder: FormBuilder
   ) {}
-  selectedMetrics: Metric[];
-  editing = {};
+  @Input() selectedMetrics: Metric[];
+  @Input() widgetType: string;
+  @Input() startingThresholds: Threshold[];
+  @Input() properties: any;
+  @Output() optionsChanged = new EventEmitter<string>();
+
   subscriptions: Subscription = new Subscription();
 
   thresholdsForm: FormGroup = this.formBuilder.group({
     thresholds: this.formBuilder.array([]),
   });
-
-  widgetType: string;
 
   inRangeOptions: any[] = [
     {
@@ -110,20 +120,6 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     },
   ];
   ngOnInit() {
-    const sub = this.widgetEditService.selectedMetrics.subscribe({
-      next: (metrics) => {
-        this.selectedMetrics = metrics;
-      },
-      error: (error) => {
-        console.log("error in threshold edit: " + error);
-      },
-    });
-    const typeSub = this.widgetEditService.selectedType.subscribe({
-      next: (type) => {
-        this.widgetType = type;
-        this.expectedMetrics();
-      },
-    });
     const thresholds = this.widgetEditService.thresholds;
 
     thresholds.forEach((threshold) => {
@@ -132,8 +128,26 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     if (thresholds.length === 0) {
       this.addThreshold();
     }
-    this.subscriptions.add(sub);
-    this.subscriptions.add(typeSub);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.selectedMetrics) {
+    }
+
+    if (changes.widgetType) {
+    }
+
+    if (changes.startingThresholds) {
+      console.log(changes.startingThresholds);
+      // thresholds.forEach((threshold) => {
+      //   this.addThreshold(threshold);
+      // });
+      // if (thresholds.length === 0) {
+      //   this.addThreshold();
+      // }
+    }
   }
 
   gradient(color: Array<string>) {
@@ -207,7 +221,7 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
   }
 
   getMetric(metricId: number) {
-    const metric = this.selectedMetrics.find((metric) => {
+    const metric = this.selectedMetrics?.find((metric) => {
       return metric.id === +metricId;
     });
     return metric?.name;

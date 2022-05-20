@@ -15,7 +15,7 @@ import { switchMap, tap } from "rxjs/operators";
 export class WidgetEditService {
   private _widget: Widget;
   public selectedMetrics = new BehaviorSubject<Metric[]>([]);
-  public selectedType = new Subject<string>();
+  public selectedType = new BehaviorSubject<string>("");
   public isValid = new Subject<boolean>();
   dashboardId: number;
 
@@ -45,7 +45,7 @@ export class WidgetEditService {
     this.dashboardId = dashboardId;
     if (widget) {
       this.widget = widget;
-
+      this.selectedType.next(this.widget.type);
       this.selectedMetrics.next(this.widget.metrics);
       // in case of copying widget from other dashboard, must set to new dash
       if (widget.dashboardId !== this.dashboardId) {
@@ -53,7 +53,7 @@ export class WidgetEditService {
         this.widget.dashboardId = this.dashboardId;
       }
     } else {
-      this.widget = new Widget(null, null, null, dashboardId, null, [], "");
+      this.widget = new Widget(null, null, null, dashboardId, null, [], "", "");
       this.widget.properties;
     }
     this.updateValidity();
@@ -97,7 +97,7 @@ export class WidgetEditService {
     this.widget.name = name;
     this.widget.type = type;
     this.selectedType.next(type);
-    this.widget.properties.stat = stat;
+    this.widget.stat = stat;
     this.updateValidity();
   }
 

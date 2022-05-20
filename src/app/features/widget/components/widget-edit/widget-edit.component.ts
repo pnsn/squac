@@ -23,9 +23,9 @@ export class WidgetEditComponent
 {
   id: number;
   widget: Widget;
-
+  widgetType: string;
   subscriptions: Subscription = new Subscription();
-
+  selectedMetrics: [];
   metrics: Metric[];
   channelGroups: ChannelGroup[];
   editMode: boolean;
@@ -41,7 +41,7 @@ export class WidgetEditComponent
     this.widget = this.data.widget ? this.data.widget : null;
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
-
+    console.log(this.widget.channelGroup);
     this.editMode = !!this.widget;
     this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
   }
@@ -49,15 +49,32 @@ export class WidgetEditComponent
   ngAfterContentInit(): void {
     // Called after ngOnInit when the component's or directive's content has been initialized.
     // Add 'implements AfterContentInit' to the class.
-    const sub = this.widgetEditService.isValid.subscribe(
-      (valid) => {
-        this.isValid = valid;
-      },
-      (error) => {
-        console.log("error in widget edit valid: " + error);
-      }
-    );
-    this.subscriptions.add(sub);
+    this.isValid = true;
+    // const sub = this.widgetEditService.isValid.subscribe(
+    //   (valid) => {
+    //     this.isValid = valid;
+    //   },
+    //   (error) => {
+    //     console.log("error in widget edit valid: " + error);
+    //   }
+    // );
+    // this.subscriptions.add(sub);
+  }
+
+  metricsChanged(event) {
+    console.log("metrics", event);
+  }
+
+  channelGroupChanged(event) {
+    console.log("channelGroups", event);
+  }
+
+  optionsChanged(event) {
+    console.log("options", event);
+  }
+
+  infoChanged(event) {
+    console.log("info", event);
   }
 
   ngOnDestroy(): void {
@@ -70,14 +87,15 @@ export class WidgetEditComponent
   }
 
   save() {
-    this.widgetEditService.saveWidget().subscribe(
-      () => {
-        this.cancel();
-      },
-      () => {
-        this.messageService.error("Could not save widget.");
-      }
-    );
+    console.log(this.widget);
+    // this.widgetEditService.saveWidget().subscribe(
+    //   () => {
+    //     this.cancel();
+    //   },
+    //   () => {
+    //     this.messageService.error("Could not save widget.");
+    //   }
+    // );
   }
 
   cancel(widget?: Widget) {

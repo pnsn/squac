@@ -20,9 +20,11 @@
     >
       <ng-template matStepLabel>Widget Information</ng-template>
       <widget-edit-info
-        class="edit-tab-body"
-        [widget]="widget"
         #infoTab
+        class="edit-tab-body"
+        [(name)]="widget.name"
+        [(type)]="widget.type"
+        [(stat)]="widget.stat"
       ></widget-edit-info>
     </mat-step>
     <mat-step
@@ -33,9 +35,10 @@
     >
       <ng-template matStepLabel>Metrics</ng-template>
       <widget-edit-metrics
+        #metricsTab
         class="edit-tab-body"
         [metrics]="metrics"
-        #metricsTab
+        [(selectedMetrics)]="widget.metrics"
       ></widget-edit-metrics>
     </mat-step>
     <mat-step
@@ -46,14 +49,23 @@
     >
       <ng-template matStepLabel>Channel Group</ng-template>
       <widget-edit-channel-group
+        #channelGroupsTab
         class="edit-tab-body"
         [channelGroups]="channelGroups"
-        #channelGroupsTab
+        [(channelGroup)]="widget.channelGroup"
       ></widget-edit-channel-group>
     </mat-step>
     <mat-step [optional]="true">
       <ng-template matStepLabel>Options</ng-template>
-      <widget-edit-options class="edit-tab-body"></widget-edit-options>
+      <widget-edit-options
+        #optionsTab
+        class="edit-tab-body"
+        [selectedMetrics]="widget.metrics"
+        [startingThresholds]="widget.thresholds"
+        [properties]="widget.properties"
+        [widgetType]="widgetType"
+        (optionsChanged)="optionsChanged($event)"
+      ></widget-edit-options>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

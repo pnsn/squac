@@ -11,6 +11,7 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
   private widget: Widget;
+  private type: any;
   private refreshInterval;
   updateTimeout;
   locale;
@@ -41,6 +42,11 @@ export class WidgetDataService implements OnDestroy {
     console.log(widget);
   }
 
+  setType(type: any) {
+    this.type = type;
+    console.log(type);
+  }
+
   get dataRange() {
     return this.ranges;
   }
@@ -62,7 +68,7 @@ export class WidgetDataService implements OnDestroy {
 
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
-
+    const useAggregate = this.type.useAggregate;
     this.ranges = {};
 
     if (
@@ -71,10 +77,10 @@ export class WidgetDataService implements OnDestroy {
       this.widget.metrics.length > 0 &&
       this.widget.channelGroup
     ) {
-      const widgetStat = this.widget.properties.stat;
+      const widgetStat = this.widget.stat;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
-        .getData(start, end, this.widget, archiveType)
+        .getData(start, end, this.widget, useAggregate, archiveType)
         .pipe(
           map((response) => {
             response.forEach((m) => {
@@ -84,7 +90,7 @@ export class WidgetDataService implements OnDestroy {
                 if (archiveStat) {
                   value.value = value[archiveStat];
                 }
-              } else if (this.widget.properties.useAggregate) {
+              } else if (useAggregate) {
                 value = this.aggregateAdapter.adaptFromApi(m);
                 if (widgetStat) {
                   value.value = value[widgetStat];

@@ -22,6 +22,7 @@ export class MeasurementService {
     starttime: string,
     endtime: string,
     widget: Widget,
+    useAggregate: boolean,
     archiveType?: string
   ) {
     const params = {
@@ -33,7 +34,7 @@ export class MeasurementService {
     let path;
     if (archiveType && archiveType !== "raw") {
       path = archiveType + "-archives/";
-    } else if (widget.properties.useAggregate) {
+    } else if (useAggregate) {
       path = "aggregated/";
     } else {
       path = "measurements/";

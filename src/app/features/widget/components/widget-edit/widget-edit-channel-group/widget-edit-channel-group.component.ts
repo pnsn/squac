@@ -3,12 +3,13 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  AfterViewInit,
   ViewChild,
+  EventEmitter,
+  Output,
+  SimpleChanges,
+  OnChanges,
 } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
-import { WidgetEditService } from "@widget/services/widget-edit.service";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { Organization } from "@user/models/organization";
@@ -23,28 +24,32 @@ import { UserPipe } from "@shared/pipes/user.pipe";
   styleUrls: ["./widget-edit-channel-group.component.scss"],
 })
 export class WidgetEditChannelGroupComponent
-  implements OnInit, OnDestroy, AfterViewInit
+  implements OnInit, OnDestroy, OnChanges
 {
+  //inputs
   @Input() channelGroups: ChannelGroup[];
-  @ViewChild("channelTable") channelTable;
-  availableChannelGroups: ChannelGroup[];
-  selectedChannelGroup: ChannelGroup[] = [];
+  @Input() channelGroup: ChannelGroup;
+  @Output() channelGroupChange = new EventEmitter<ChannelGroup>();
+
   subscriptions: Subscription = new Subscription();
-  selectedChannelGroupId;
-  loading = true;
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
+
   done = false;
+
+  // permissions
   showOnlyUserOrg = true;
   userOrg: Organization;
-  temp;
-  columns;
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
 
+  //datatable
+  @ViewChild("channelTable") channelTable;
+  ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
+  selected: ChannelGroup[] = [];
+  rows = [];
+  columns = [];
+
   constructor(
-    private channelGroupService: ChannelGroupService,
-    private widgetEditService: WidgetEditService,
     private userService: UserService,
     private orgService: OrganizationService
   ) {
@@ -53,14 +58,6 @@ export class WidgetEditChannelGroupComponent
   }
 
   ngOnInit() {
-    this.availableChannelGroups = this.channelGroups;
-    const group = this.widgetEditService.channelGroup;
-    if (group) {
-      this.selectedChannelGroup[0] = group;
-    }
-
-    this.loading = false;
-
     const orgSub = this.orgService
       .getOrganization(this.userService.userOrg)
       .subscribe((org) => {
@@ -101,77 +98,46 @@ export class WidgetEditChannelGroupComponent
     ];
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    //update channel groups
+    if (changes.channelGroups && changes.channelGroups.currentValue) {
+      this.rows = [...this.channelGroups];
+    }
+
+    //update selected channel
+    if (changes.channelGroup && changes.channelGroup.currentValue) {
+      this.selected[0] = this.rows.find((cG) => {
+        return cG.id === this.channelGroup.id;
+      });
+      this.checkValid();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    if (this.availableChannelGroups) {
-      this.availableChannelGroups = [...this.availableChannelGroups]; // This is input into <ngx-datatable>
-      this.channelTable.recalculate(); // ngx-datatable reference
-    }
-    // store copy of channel groups
-    this.checkValid();
-  }
   // onSelect function for data table selection
-  onSelect($event) {
-    // When a row is selected, route the page and select that channel group
-    const selectedId = $event.selected[0].id;
-    if (selectedId) {
-      this.selectedChannelGroupId = selectedId;
-      this.selectChannelGroup(selectedId);
-    }
+  onSelect({ selected }) {
+    this.channelGroupChange.emit(selected[0]);
   }
 
-  // Getting a selected channel group and setting variables
-  selectChannelGroup(selectedChannelGroupId: number) {
-    this.selectedChannelGroup = this.channelGroups.filter((cg) => {
-      // Select row with channel group
-      return cg.id === selectedChannelGroupId;
-    });
-    this.checkValid();
-    this.widgetEditService.updateChannelGroup(this.selectedChannelGroup[0]);
-  }
-
-  viewChannels(id) {
-    console.log(id);
-  }
   checkValid() {
-    this.done = this.selectedChannelGroup.length > 0;
+    this.done = this.selected.length > 0;
   }
 
-  getChannelsForChannelGroup(group) {
-    this.loading = true;
-    this.selectedChannelGroup = group;
-
-    if (this.selectedChannelGroup[0].id) {
-      this.widgetEditService.updateChannelGroup(this.selectedChannelGroup[0]);
-      const channelGroupsSub = this.channelGroupService
-        .getChannelGroup(this.selectedChannelGroup[0].id)
-        .subscribe(
-          (channelGroup) => {
-            this.selectedChannelGroup[0] = channelGroup;
-            this.loading = false;
-          },
-          (error) => {
-            console.log("error in channel grouups edit update: " + error);
-          }
-        );
-
-      this.subscriptions.add(channelGroupsSub);
-    }
-  }
-
+  //filter out other orgs data
   filterOrg() {
-    // filter our data
     if (
       this.channelGroups &&
       this.channelGroups.length > 0 &&
       this.userOrg.id
     ) {
-      this.availableChannelGroups = this.channelGroups.filter((cg) => {
+      const temp = this.channelGroups.filter((cg) => {
         return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
       });
+
+      this.rows = [...temp];
     }
   }
 

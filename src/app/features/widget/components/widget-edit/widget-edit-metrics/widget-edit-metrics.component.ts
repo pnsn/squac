@@ -5,55 +5,37 @@ import {
   Input,
   ViewChild,
   AfterViewInit,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+  OnChanges,
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "@widget/services/widget-edit.service";
-import { Subscription } from "rxjs";
-
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
   styleUrls: ["./widget-edit-metrics.component.scss"],
 })
-export class WidgetEditMetricsComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
+  @Input() selectedMetrics: Metric[];
+
+  @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
+
+  done = false;
+
+  //table
   @ViewChild("metricTable") metricTable;
+  selected: Metric[];
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
-  subscriptions: Subscription = new Subscription();
-  loading = false;
-  availableMetrics: Metric[] = [];
-  selectedMetrics: Metric[] = [];
-  tableRows: Metric[];
+  rows: Metric[];
   columns = [];
-  done = false;
-  messages = {
-    // Message to show when array is presented
-    // but contains no values
-    emptyMessage: "Loading data.",
 
-    // Footer total message
-    totalMessage: "total",
-
-    // Footer selected message
-    selectedMessage: "selected",
-  };
-
-  constructor(private widgetEditService: WidgetEditService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.availableMetrics = this.metrics;
-    this.tableRows = this.availableMetrics;
-    const metricIds = this.widgetEditService.metricIds;
-    if (metricIds && metricIds.length > 0) {
-      this.done = true;
-      this.selectedMetrics = this.availableMetrics.filter((metric) => {
-        return metricIds.indexOf(metric.id) >= 0;
-      });
-    }
     this.columns = [
       {
         width: 30,
@@ -81,24 +63,24 @@ export class WidgetEditMetricsComponent
     ];
   }
 
-  ngAfterViewInit(): void {
-    if (this.availableMetrics) {
-      this.tableRows = [...this.availableMetrics];
-      this.metricTable.recalculate();
+  ngOnChanges(changes: SimpleChanges): void {
+    //update metrics
+    if (changes.metrics && changes.metrics.currentValue) {
+      this.rows = [...this.metrics];
     }
-    this.checkValid();
-  }
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+
+    //update selected metrics
+    if (changes.selectedMetrics && changes.selectedMetrics.currentValue) {
+      const temp = this.metrics.filter((metric) => {
+        return this.selectedMetrics.findIndex((m) => m.id === metric.id) > -1;
+      });
+      this.selected = [...temp];
+      this.checkValid();
+    }
   }
 
   metricsSelected({ selected }) {
-    this.selectedMetrics.splice(0, this.selectedMetrics.length);
-    this.selectedMetrics.push(...selected);
-    this.checkValid();
-
-    this.widgetEditService.updateMetrics(this.selectedMetrics);
-    // this.selectedMetrics = event;
+    this.selectedMetricsChange.emit(selected);
   }
 
   checkValid() {
@@ -109,13 +91,11 @@ export class WidgetEditMetricsComponent
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.availableMetrics.filter((d) => {
+    const temp = this.metrics.filter((d) => {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
-    this.tableRows = temp;
-    // Whenever the filter changes, always go back to the first page
-    // this.table.offset = 0;
+    this.rows = [...temp];
   }
 }

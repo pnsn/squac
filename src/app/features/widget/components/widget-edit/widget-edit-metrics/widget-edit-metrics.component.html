@@ -13,16 +13,15 @@
   id="metric-select-table"
   #metricTable
   class="material"
-  [rows]="tableRows"
+  [rows]="rows"
   [columns]="columns"
   [headerHeight]="30"
   [columnMode]="ColumnMode.flex"
   [footerHeight]="0"
   rowHeight="auto"
-  [selected]="selectedMetrics"
+  [selected]="selected"
   [selectionType]="SelectionType.multiClick"
   [selectAllRowsOnPage]="false"
   (select)="metricsSelected($event)"
-  [messages]="messages"
 >
 </ngx-datatable>

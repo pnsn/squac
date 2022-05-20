@@ -1,8 +1,7 @@
 <div id="channel-group-header">
   <div>
-    <span *ngIf="selectedChannelGroup[0]; else noGroup">
-      <span class="label"> Selected Group: </span
-      >{{ selectedChannelGroup[0].name }}
+    <span *ngIf="selected[0]; else noGroup">
+      <span class="label"> Selected Group: </span>{{ selected[0].name }}
     </span>
     <ng-template #noGroup>
       <span>Select a channel group</span>
@@ -20,12 +19,12 @@
     #channelTable
     id="channel-group-table"
     class="material"
-    [rows]="availableChannelGroups"
+    [rows]="rows"
     [columnMode]="ColumnMode.force"
     rowHeight="auto"
     [headerHeight]="30"
     [selectionType]="SelectionType.single"
-    [selected]="selectedChannelGroup"
+    [selected]="selected"
     (select)="onSelect($event)"
     [columns]="columns"
   ></ngx-datatable>

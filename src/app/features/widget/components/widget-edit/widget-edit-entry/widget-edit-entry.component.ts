@@ -25,7 +25,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log("Init");
     this.paramsSub = this.route.params.subscribe((params: Params) => {
       this.widgetId = +params.widgetId;
 
@@ -53,7 +52,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     if (this.dashboardId && this.metrics && this.channelGroups) {
       // get dashboard && widget from url
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
-        width: "70vw",
         closeOnNavigation: true,
         data: {
           widget: this.widget,

@@ -24,7 +24,6 @@ export class DashboardService {
 
   // Get all dashboards viewable by user from squac
   getDashboards(): Observable<Dashboard[]> {
-    console.log("get dashboards");
     // Fetch new dashboards if > 5 minutes since refresh
     if (
       this.lastRefresh &&
@@ -57,8 +56,6 @@ export class DashboardService {
   // Post/Put dashboard to squac
   updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
     const postData = this.dashboardAdapter.adaptToApi(dashboard);
-
-    console.log(postData);
     if (dashboard.id) {
       return this.squacApi.put(this.url, dashboard.id, postData).pipe(
         map((response) => this.dashboardAdapter.adaptFromApi(response)),

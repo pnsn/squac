@@ -118,7 +118,6 @@ export class DashboardAdapter implements Adapter<Dashboard> {
     } else {
       dashboard.properties = item.properties;
     }
-    console.log(dashboard);
     return dashboard;
   }
 
