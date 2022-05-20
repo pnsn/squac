@@ -1,9 +1,9 @@
-import { WidgetEditService } from "./widget-edit.service";
+import { WidgetEditService } from "./widget-config.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@core/services/view.service";
 import { WidgetService } from "./widget.service";
 import { ThresholdService } from "./threshold.service";
-import { Widget } from "../models/widget";
+import { Widget } from "@features/widget/models/widget";
 import { Metric } from "@core/models/metric";
 import { ChannelGroup } from "@core/models/channel-group";
 import { MockBuilder, MockRender, MockReset } from "ng-mocks";

@@ -10,7 +10,7 @@ import { AbilityModule } from "@casl/angular";
 import { PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { WidgetEditService } from "@widget/services/widget-edit.service";
+import { WidgetEditService } from "@features/widget/services/widget-config.service";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";

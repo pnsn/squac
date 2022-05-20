@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditOptionsComponent } from "./widget-edit-options.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { WidgetEditService } from "@features/widget/services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 

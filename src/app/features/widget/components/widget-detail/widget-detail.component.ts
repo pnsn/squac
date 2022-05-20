@@ -16,6 +16,7 @@ import { Dashboard } from "@dashboard/models/dashboard";
 import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 
 @Component({
   selector: "widget-detail",
@@ -98,13 +99,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private widgetDataService: WidgetDataService,
+    private widgetConfigService: WidgetConfigService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private dashboardService: DashboardService,
     private viewService: ViewService,
     private ability: Ability
-  ) {}
+  ) {
+    this.widgetTypes = this.widgetConfigService.widgetTypes;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.

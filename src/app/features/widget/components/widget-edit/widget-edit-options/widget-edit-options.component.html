@@ -15,12 +15,7 @@
   </span>
   <mat-form-field>
     <mat-label>Metric</mat-label>
-    <mat-select
-      #metric
-      formControlName="metrics"
-      multiple
-      (selectionChange)="updateDisplayOptions()"
-    >
+    <mat-select #metric multiple (selectionChange)="updateDisplayOptions()">
       <mat-select-trigger>
         {{ metric.value ? getMetric(metric.value[0]) : "" }}
         <span *ngIf="metric.value?.length > 1">
@@ -56,8 +51,9 @@
 
 
 -->
+
 <form #thresholdEditForm [formGroup]="thresholdsForm">
-  <ng-container formArrayName="thresholds">
+  <ng-container formArrayName="thresholdArray">
     <button (click)="addThreshold()">add</button>
     <table id="thresholds-table">
       <tr>
@@ -73,7 +69,7 @@
         <!-- //placeholder datamax -->
       </tr>
       <ng-container
-        *ngFor="let threshold of thresholds.controls; let i = index"
+        *ngFor="let threshold of thresholdArray.controls; let i = index"
       >
         <tr [formGroupName]="i" class="threshold">
           <td>

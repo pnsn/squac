@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
-import { WidgetEditService } from "@widget/services/widget-edit.service";
+import { WidgetEditService } from "@features/widget/services/widget-config.service";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";

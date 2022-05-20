@@ -8,7 +8,6 @@ import {
 import { Subscription } from "rxjs";
 import { Widget } from "@widget/models/widget";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { WidgetEditService } from "../../services/widget-edit.service";
 import { Metric } from "@core/models/metric";
 import { ChannelGroup } from "@core/models/channel-group";
 import { MessageService } from "@core/services/message.service";
@@ -34,7 +33,6 @@ export class WidgetEditComponent
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private widgetEditService: WidgetEditService,
     private messageService: MessageService
   ) {}
   ngOnInit() {
@@ -43,7 +41,6 @@ export class WidgetEditComponent
     this.channelGroups = this.data.channelGroups;
     console.log(this.widget.channelGroup);
     this.editMode = !!this.widget;
-    this.widgetEditService.setWidget(this.widget, +this.data.dashboardId);
   }
 
   ngAfterContentInit(): void {
@@ -98,8 +95,9 @@ export class WidgetEditComponent
     // );
   }
 
+  //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
-    this.widgetEditService.clearWidget();
+    // this.widgetEditService.clearWidget();
     this.dialogRef.close(widget);
   }
 }

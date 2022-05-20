@@ -6,11 +6,12 @@ import {
   Output,
   EventEmitter,
   SimpleChanges,
+  OnChanges,
 } from "@angular/core";
 import { Threshold } from "@features/widget/models/threshold";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetEditService } from "@features/widget/services/widget-edit.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
@@ -18,117 +19,28 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
   templateUrl: "./widget-edit-options.component.html",
   styleUrls: ["./widget-edit-options.component.scss"],
 })
-export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
+export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   constructor(
-    private widgetEditService: WidgetEditService,
+    private widgetConfigService: WidgetConfigService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.inRangeOptions = this.widgetConfigService.inRangeOptions;
+    this.outOfRangeOptions = this.widgetConfigService.outOfRangeOptions;
+  }
   @Input() selectedMetrics: Metric[];
   @Input() widgetType: string;
-  @Input() startingThresholds: Threshold[];
+  @Input() thresholds: Threshold[];
+  @Output() thresholdsChange = new EventEmitter<Threshold[]>();
   @Input() properties: any;
-  @Output() optionsChanged = new EventEmitter<string>();
+  @Output() propertiesChange = new EventEmitter<any>();
 
+  inRangeOptions;
+  outOfRangeOptions;
   subscriptions: Subscription = new Subscription();
 
   thresholdsForm: FormGroup = this.formBuilder.group({
-    thresholds: this.formBuilder.array([]),
+    thresholdArray: this.formBuilder.array([]),
   });
-
-  inRangeOptions: any[] = [
-    {
-      color: ["#336178"],
-      label: "solid blue",
-    },
-    {
-      color: ["#ff950a"],
-      label: "solid yellow",
-    },
-    {
-      color: ["white"],
-      label: "solid white",
-    },
-    {
-      color: ["black"],
-      label: "solid black",
-    },
-    {
-      color: ["gray"],
-      label: "solid gray",
-    },
-    {
-      label: "Rainbow",
-      color: ["purple", "blue", "cyan", "green", "yellow", "orange", "red"],
-    },
-    {
-      label: "Jet",
-      color: ["blue", "cyan", "white", "yellow", "red"],
-    },
-    {
-      label: "Polar",
-      color: ["blue", "white", "red"],
-    },
-    {
-      label: "Hot",
-      color: ["black", "red", "orange", "yellow", "white"],
-    },
-    {
-      label: "Red to Green",
-      color: ["red", "white", "green"],
-    },
-    {
-      label: "Ocean",
-      color: ["black", "blue", "cyan", "white"],
-    },
-    {
-      label: "Cool",
-      color: ["cyan", "blue", "purple"],
-    },
-    {
-      label: "Split",
-      color: ["blue", "black", "red"],
-    },
-    {
-      label: "Gray",
-      color: ["black", "gray", "white"],
-    },
-    {
-      label: "Seis",
-      color: ["red", "orange", "yellow", "green", "blue"],
-    },
-  ];
-  outOfRangeOptions = [
-    {
-      color: ["#336178"],
-      label: "blue",
-    },
-    {
-      color: ["#ff950a"],
-      label: "yellow",
-    },
-    {
-      color: ["white"],
-      label: "white",
-    },
-    {
-      color: ["black"],
-      label: "black",
-    },
-    {
-      color: ["gray"],
-      label: "gray",
-    },
-  ];
-  ngOnInit() {
-    const thresholds = this.widgetEditService.thresholds;
-
-    thresholds.forEach((threshold) => {
-      this.addThreshold(threshold);
-    });
-    if (thresholds.length === 0) {
-      this.addThreshold();
-    }
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -139,14 +51,16 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     if (changes.widgetType) {
     }
 
-    if (changes.startingThresholds) {
-      console.log(changes.startingThresholds);
-      // thresholds.forEach((threshold) => {
-      //   this.addThreshold(threshold);
-      // });
-      // if (thresholds.length === 0) {
-      //   this.addThreshold();
-      // }
+    if (changes.thresholds && changes.thresholds.currentValue) {
+      this.thresholds.forEach((threshold) => {
+        this.addThreshold(threshold);
+      });
+      if (this.thresholds.length === 0) {
+        this.addThreshold();
+      }
+    }
+
+    if (changes.properties && changes.properties.currentValue) {
     }
   }
 
@@ -198,8 +112,8 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  get thresholds(): FormArray {
-    return this.thresholdsForm.get("thresholds") as FormArray;
+  get thresholdArray(): FormArray {
+    return this.thresholdsForm.get("thresholdArray") as FormArray;
   }
 
   // Add a new threshold
@@ -208,16 +122,16 @@ export class WidgetEditOptionsComponent implements OnInit, OnDestroy {
     // thresholdFormGroup.valueChanges.subscribe((value) =>
     //   this.validateThreshold(value, thresholdFormGroup)
     // );
-    this.thresholds.push(thresholdFormGroup);
+    this.thresholdArray.push(thresholdFormGroup);
   }
 
   updateDisplayOptions() {
-    this.widgetEditService.updateWidgetProperties(this.thresholdsForm.value);
+    // this.widgetEditService.updateWidgetProperties(this.thresholdsForm.value);
   }
 
   // Remove given threshold
   removeThreshold(index) {
-    this.thresholds.removeAt(index);
+    this.thresholdArray.removeAt(index);
   }
 
   getMetric(metricId: number) {

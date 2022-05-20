@@ -61,10 +61,9 @@
         #optionsTab
         class="edit-tab-body"
         [selectedMetrics]="widget.metrics"
-        [startingThresholds]="widget.thresholds"
-        [properties]="widget.properties"
         [widgetType]="widgetType"
-        (optionsChanged)="optionsChanged($event)"
+        [(thresholds)]="widget.thresholds"
+        [(properties)]="widget.properties"
       ></widget-edit-options>
     </mat-step>
   </mat-horizontal-stepper>
