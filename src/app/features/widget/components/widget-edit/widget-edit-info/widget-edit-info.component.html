@@ -46,7 +46,7 @@
     </div>
     <div id="description">
       <div class="label">Description:</div>
-      <p *ngIf="selectedType; else selectWidget">
+      <p *ngIf="selectedType; else selectWidget" class="help-text">
         {{ selectedType?.description }}
       </p>
       <ng-template #selectWidget>

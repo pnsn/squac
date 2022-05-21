@@ -41,61 +41,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   // temp
 
   styles: any;
-  widgetTypes = [
-    {
-      id: 1,
-      name: "table",
-      type: "tabular",
-      useAggregate: true,
-      description:
-        "Table showing channels (grouped as stations) and aggregated measurement values.",
-    },
-    {
-      id: 2,
-      name: "timeline",
-      type: "timeline",
-      useAggregate: false,
-      description:
-        "Measurements during time range for one metric, displayed as rows of channels",
-    },
-    {
-      id: 3,
-      name: "time series",
-      type: "timeseries",
-      useAggregate: false,
-      description:
-        "Measurements during time range for one metric, displayed as lines of channels",
-    },
-    {
-      id: 4,
-      name: "map",
-      type: "map",
-      useAggregate: true,
-      description:
-        "Map of channels (grouped as stations) represented by the measurement value or thresholds.",
-    },
-    // {
-    //   id: 5,
-    //   name: "box plot",
-    //   type: "box-plot",
-    //   use_aggregate: true,
-    // },
-    {
-      id: 6,
-      name: "parallel plot",
-      type: "parallel-plot",
-      useAggregate: true,
-      description:
-        "Aggregated measurements for multiple metrics, displayed as lines of channels on multiple axes.",
-    },
-    {
-      id: 7,
-      name: "scatter plot",
-      type: "scatter-plot",
-      useAggregate: true,
-      description: "Measurements for 3 metrics displayed as a scatter plot.",
-    },
-  ];
+  widgetTypes;
 
   constructor(
     private widgetDataService: WidgetDataService,

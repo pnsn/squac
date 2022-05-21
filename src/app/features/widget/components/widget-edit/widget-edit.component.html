@@ -61,7 +61,7 @@
         #optionsTab
         class="edit-tab-body"
         [selectedMetrics]="widget.metrics"
-        [widgetType]="widgetType"
+        [type]="widget.type"
         [(thresholds)]="widget.thresholds"
         [(properties)]="widget.properties"
       ></widget-edit-options>
@@ -94,12 +94,12 @@
       type="button"
       color="accent"
       (click)="save()"
-      [disabled]="!isValid"
+      [disabled]="!widget.isValid"
     >
       Save
     </button>
   </div>
-  <p *ngIf="!isValid; else valid">
+  <p *ngIf="!widget.isValid; else valid">
     Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
   </p>
   <ng-template #valid>

@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 
 export class Widget {
   public channelGroup: ChannelGroup;
-  public thresholds: Threshold[];
+  public _thresholds: Threshold[];
   public _layout: WidgetLayout = defaultLayout;
   public _properties: WidgetProperties = defaultProperties;
   constructor(
@@ -21,7 +21,23 @@ export class Widget {
   ) {
     //this will override settings when created
   }
+  public set thresholds(thresholds: string | Array<Threshold>) {
+    let props: Threshold[];
+    if (!thresholds) {
+      props = new Array<Threshold>();
+    } else if (thresholds && typeof thresholds === "string") {
+      props = JSON.parse(thresholds);
+    } else if (typeof thresholds !== "string") {
+      props = thresholds;
+    }
 
+    this._thresholds = props;
+    console.log(this._thresholds);
+  }
+
+  public get thresholds(): Threshold[] {
+    return this._thresholds;
+  }
   //can be entered as string or properties
   public set properties(properties: string | Partial<WidgetProperties>) {
     let props: Partial<WidgetProperties>;
@@ -60,13 +76,11 @@ export class Widget {
 
   public get isValid(): boolean {
     return (
-      this.name &&
-      this.name.length > 0 &&
-      this.type &&
-      this.stat &&
-      this.metrics &&
-      this.metrics.length > 0 &&
-      !!this.channelGroup
+      !!this.name &&
+      !!this.metrics &&
+      !!this.channelGroup &&
+      !!this.type &&
+      !!this.stat
     );
   }
 
@@ -110,7 +124,7 @@ export interface WidgetProperties {
   //depends on which widgetType
   theme?: string;
   displayChannel?: string; //worst, first, or aggregate
-  displayMetrics?: Array<number>; //order of display
+  dimensions?: any; //order of display
   // show_legend: boolean; TODO: add these
   // show_tooltips: boolean;
   // zoom: boolean;
@@ -146,6 +160,7 @@ export interface ApiPostWidget {
   layout: string;
   type: string;
   stat: string;
+  thresholds: string;
 }
 function populateLayout(item: ApiGetWidget): string {
   const layout: WidgetLayout = {
@@ -169,7 +184,6 @@ export class WidgetAdapter implements Adapter<Widget> {
   constructor(public metricAdapter: MetricAdapter) {}
   adaptFromApi(item: ApiGetWidget): Widget {
     const metrics = [];
-    const thresholds = {};
 
     if (item.metrics) {
       item.metrics.forEach((m) => {
@@ -190,14 +204,17 @@ export class WidgetAdapter implements Adapter<Widget> {
       stat
     );
 
-    widget.thresholds = [];
+    widget.thresholds = item.thresholds || [];
 
     widget.layout = item.layout || populateLayout(item);
     widget.properties = item.properties || populateProperties(item);
+    console.log(widget);
     return widget;
   }
 
   adaptToApi(item: Widget): ApiPostWidget {
+    console.log(item.thresholds);
+    console.log(JSON.stringify(item.thresholds));
     return {
       name: item.name,
       metrics: item.metricsIds,
@@ -207,6 +224,7 @@ export class WidgetAdapter implements Adapter<Widget> {
       stat: item.stat,
       layout: JSON.stringify(item.layout),
       properties: JSON.stringify(item.properties),
+      thresholds: JSON.stringify(item.thresholds),
     };
   }
 }

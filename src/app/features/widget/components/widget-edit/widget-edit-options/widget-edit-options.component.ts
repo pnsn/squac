@@ -13,7 +13,13 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -24,34 +30,66 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
     private widgetConfigService: WidgetConfigService,
     private formBuilder: FormBuilder
   ) {
-    this.inRangeOptions = this.widgetConfigService.inRangeOptions;
-    this.outOfRangeOptions = this.widgetConfigService.outOfRangeOptions;
+    this.gradientOptions = this.widgetConfigService.gradientOptions;
+    this.solidOptions = this.widgetConfigService.solidOptions;
+    this.widgetTypes = this.widgetConfigService.widgetTypes;
   }
   @Input() selectedMetrics: Metric[];
-  @Input() widgetType: string;
+  @Input() type: string;
   @Input() thresholds: Threshold[];
   @Output() thresholdsChange = new EventEmitter<Threshold[]>();
   @Input() properties: any;
   @Output() propertiesChange = new EventEmitter<any>();
 
-  inRangeOptions;
-  outOfRangeOptions;
+  widgetTypes;
+  widgetType;
+  gradientOptions;
+  solidOptions;
   subscriptions: Subscription = new Subscription();
 
-  thresholdsForm: FormGroup = this.formBuilder.group({
+  optionsForm: FormGroup = this.formBuilder.group({
     thresholdArray: this.formBuilder.array([]),
+    dimensions: this.formBuilder.array([]),
   });
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.dimensions.valueChanges.subscribe((values) => {
+      this.propertiesChange.emit(values);
+    });
+    this.thresholdArray.valueChanges.subscribe((values) => {
+      if (this.thresholdArray.valid) {
+        console.log("emit thresholds");
+        this.thresholdsChange.emit(values);
+      }
+    });
+  }
+
+  //what happens if you change widget type but don't change this
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.selectedMetrics) {
+      //cleanup old settings
     }
 
-    if (changes.widgetType) {
+    if (changes.properties && changes.properties.currentValue) {
+      if (!this.properties.dimensions) {
+        this.properties.dimensions = [];
+      }
     }
 
-    if (changes.thresholds && changes.thresholds.currentValue) {
+    if (changes.type) {
+      this.widgetType = this.widgetTypes.find((type) => {
+        return this.type === type.type;
+      });
+      this.makeDimensionsForm();
+      //update which display options available
+    }
+
+    console.log(changes.thresholds);
+    if (changes.thresholds && !changes.thresholds.previousValue) {
       this.thresholds.forEach((threshold) => {
         this.addThreshold(threshold);
       });
@@ -59,53 +97,75 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
         this.addThreshold();
       }
     }
-
-    if (changes.properties && changes.properties.currentValue) {
-    }
   }
 
   gradient(color: Array<string>) {
     return "linear-gradient(" + color.toString + ")";
   }
 
-  //todo this should be in child component, avoid type specific in detail
-  expectedMetrics(): number {
-    let numMetrics;
-    if (this.widgetType === "scatter-plot") {
-      numMetrics = 3;
-    } else if (
-      this.widgetType === "parallel-plot" ||
-      this.widgetType === "tabular"
-    ) {
-      numMetrics = this.selectedMetrics.length;
-    } else {
-      numMetrics = 1;
+  makeDimensionsForm() {
+    const selected = this.properties.dimensions;
+    this.dimensions.clear();
+    if (this.widgetType && this.widgetType.dimensions) {
+      this.widgetType.dimensions.forEach((dimension, i) => {
+        const dim = selected.find((m) => {
+          return (dimension = m.type);
+        });
+        this.dimensions.push(
+          this.formBuilder.group({
+            type: [dimension], //default to piecewise
+            metricId: [dim ? dim.metricId : this.selectedMetrics[i].id],
+          }),
+          { emitEvent: false }
+        );
+      });
     }
-    return numMetrics;
   }
 
-  // type: string; //continuous, piecewise, markLine, markArea
-  // min: number;
-  // max: number;
-  // inRange: {
-  //   color: string[];
-  // };
-  // outOfRange: {
-  //   color: string[];
-  // };
-  // data: [];
-  // Add threshold info to form
   makeThresholdForm(threshold?: Threshold) {
     return this.formBuilder.group({
-      type: [threshold ? threshold.type : "piecewise"], //default to piecewise
+      type: [threshold ? threshold.type : "piecewise", Validators.required], //default to piecewise
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
-      inRange: [threshold ? threshold.inRange : null],
-      outOfRange: [threshold ? threshold.outOfRange : null],
-      metrics: [threshold ? threshold.metrics : []],
+      inRange: [
+        threshold ? this.findColor(threshold.inRange.type) : null,
+        Validators.required,
+      ],
+      outOfRange: [
+        threshold ? this.findColor(threshold.outOfRange.type) : null,
+        Validators.required,
+      ],
+      metrics: [threshold ? threshold.metrics : [], Validators.required],
       numSplits: [threshold ? threshold.numSplits : 5],
       reverseColors: [threshold ? threshold.reverseColors : false],
     });
+  }
+
+  //find colors in options using the type
+  findColor(type) {
+    const t = [...this.gradientOptions, ...this.solidOptions].find((option) => {
+      return option.type === type;
+    });
+    return t;
+  }
+
+  //check if thresholds valid
+  validateThreshold(values, thresholdFormGroup) {
+    const type = values.type;
+    const numSplits = thresholdFormGroup.get("numSplits");
+    const reverseColors = thresholdFormGroup.get("reverseColors");
+
+    if (type === "piecewise") {
+      numSplits.addValidators(Validators.required, { emitEvent: false });
+      reverseColors.addValidators(Validators.required, { emitEvent: false });
+      numSplits.enable({ emitEvent: false });
+      reverseColors.enable({ emitEvent: false });
+    } else if (type === "binary") {
+      numSplits.removeValidators(Validators.required, { emitEvent: false });
+      reverseColors.removeValidators(Validators.required, { emitEvent: false });
+      numSplits.disable({ emitEvent: false });
+      reverseColors.disable({ emitEvent: false });
+    }
   }
 
   ngOnDestroy(): void {
@@ -113,20 +173,20 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   }
 
   get thresholdArray(): FormArray {
-    return this.thresholdsForm.get("thresholdArray") as FormArray;
+    return this.optionsForm.get("thresholdArray") as FormArray;
+  }
+
+  get dimensions(): FormArray {
+    return this.optionsForm.get("dimensions") as FormArray;
   }
 
   // Add a new threshold
   addThreshold(threshold?: Threshold) {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
-    // thresholdFormGroup.valueChanges.subscribe((value) =>
-    //   this.validateThreshold(value, thresholdFormGroup)
-    // );
-    this.thresholdArray.push(thresholdFormGroup);
-  }
-
-  updateDisplayOptions() {
-    // this.widgetEditService.updateWidgetProperties(this.thresholdsForm.value);
+    thresholdFormGroup.valueChanges.subscribe((value) => {
+      this.validateThreshold(value, thresholdFormGroup);
+    });
+    this.thresholdArray.push(thresholdFormGroup, { emitEvent: false });
   }
 
   // Remove given threshold

@@ -14,36 +14,55 @@ export class WidgetConfigService {
         name: "table",
         type: "tabular",
         useAggregate: true,
-        expectedMetrics: null,
+        dimensions: null,
         description:
-          "Table showing channels (grouped as stations) and aggregated measurement values.",
+          "Table with stations as rows and metrics as columns. Values shown are aggregates of measurements over the time range.",
+        dimensionInfo:
+          "Selected metrics will be displayed as columns. Station rows will show the channel with the most values 'out of range'.",
+        colorInfo: "Each metric can be colored separately.",
+        colorTypes: ["binary", "piecewise"],
       },
       {
         id: 2,
         name: "timeline",
         type: "timeline",
         useAggregate: false,
-        expectedMetrics: 1,
+        dimensions: ["display", "color"],
         description:
-          "Measurements during time range for one metric, displayed as rows of channels",
+          "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
+        dimensionInfo:
+          "The values for the 'display' metric will be plotted on the widget. The 'color' metric will be used to color those values.",
+        colorInfo:
+          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
+        colorTypes: ["binary", "piecewise"],
       },
       {
         id: 3,
         name: "time series",
         type: "timeseries",
         useAggregate: false,
-        expectedMetrics: 1,
+        dimensions: ["y-axis", "color"],
         description:
-          "Measurements during time range for one metric, displayed as lines of channels",
+          "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
+        dimensionInfo:
+          "The values for the 'y-axis' metric will be plotted on the widget. The 'color' metric will be used to color those values.",
+        colorInfo:
+          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
+        colorTypes: ["binary", "piecewise"],
       },
       {
         id: 4,
         name: "map",
         type: "map",
         useAggregate: true,
-        expectedMetrics: 1,
         description:
-          "Map of channels (grouped as stations) represented by the measurement value or thresholds.",
+          "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
+        dimensions: ["display", "color"],
+        dimensionInfo:
+          "Station icons will show the value of the channel for the 'display' metric with the most values 'out of range'. The 'color' metric will be used to color those values.",
+        colorInfo:
+          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
+        colorTypes: ["binary", "piecewise"],
       },
       // {
       //   id: 5,
@@ -56,17 +75,24 @@ export class WidgetConfigService {
         name: "parallel plot",
         type: "parallel-plot",
         useAggregate: true,
-        expectedMetrics: null,
+        dimensions: null,
         description:
-          "Aggregated measurements for multiple metrics, displayed as lines of channels on multiple axes.",
+          "Chart with multiple metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
+        dimensionInfo:
+          "Each metric will be a separate axis. Channels are colored separately.",
+        colorInfo: "This widget currently doesn't support custom colors.",
       },
       {
         id: 7,
         name: "scatter plot",
         type: "scatter-plot",
         useAggregate: true,
-        expectedMetrics: 3,
-        description: "Measurements for 3 metrics displayed as a scatter plot.",
+        dimensions: ["x-axis", "y-axis", "color"],
+        description:
+          "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
+        dimensionInfo: "",
+        colorTypes: ["binary", "piecewise"],
+        colorInfo: "Values on the chart will be colored according to the ",
       },
     ];
   }
@@ -148,91 +174,87 @@ export class WidgetConfigService {
     ];
   }
 
-  get inRangeOptions() {
+  get solidOptions() {
     return [
       {
         color: ["#336178"],
         label: "solid blue",
+        type: "solid-blue",
       },
       {
         color: ["#ff950a"],
         label: "solid yellow",
+        type: "solid-yellow",
       },
       {
         color: ["white"],
         label: "solid white",
+        type: "solid-white",
       },
       {
         color: ["black"],
         label: "solid black",
+        type: "solid-black",
       },
       {
         color: ["gray"],
         label: "solid gray",
+        type: "solid-gray",
       },
+    ];
+  }
+
+  get gradientOptions() {
+    return [
       {
         label: "Rainbow",
         color: ["purple", "blue", "cyan", "green", "yellow", "orange", "red"],
+        type: "rainbow",
       },
       {
         label: "Jet",
         color: ["blue", "cyan", "white", "yellow", "red"],
+        type: "jet",
       },
       {
         label: "Polar",
         color: ["blue", "white", "red"],
+        type: "polar",
       },
       {
         label: "Hot",
         color: ["black", "red", "orange", "yellow", "white"],
+        type: "hot",
       },
       {
         label: "Red to Green",
         color: ["red", "white", "green"],
+        type: "red-to-green",
       },
       {
         label: "Ocean",
         color: ["black", "blue", "cyan", "white"],
+        type: "ocean",
       },
       {
         label: "Cool",
         color: ["cyan", "blue", "purple"],
+        type: "cool",
       },
       {
         label: "Split",
         color: ["blue", "black", "red"],
+        type: "split",
       },
       {
         label: "Gray",
         color: ["black", "gray", "white"],
+        type: "gray",
       },
       {
         label: "Seis",
         color: ["red", "orange", "yellow", "green", "blue"],
-      },
-    ];
-  }
-  get outOfRangeOptions() {
-    return [
-      {
-        color: ["#336178"],
-        label: "blue",
-      },
-      {
-        color: ["#ff950a"],
-        label: "yellow",
-      },
-      {
-        color: ["white"],
-        label: "white",
-      },
-      {
-        color: ["black"],
-        label: "black",
-      },
-      {
-        color: ["gray"],
-        label: "gray",
+        type: "seis",
       },
     ];
   }

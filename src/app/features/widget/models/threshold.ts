@@ -4,9 +4,11 @@ export class Threshold {
   max: number;
   inRange: {
     color: string[];
+    type: string;
   };
   outOfRange: {
     color: string[];
+    type: string;
   };
   metrics: [];
   data: [];
