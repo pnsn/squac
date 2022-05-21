@@ -68,9 +68,7 @@
       </ng-container>
     </ng-template>
   </mat-menu>
-  <ng-template #blank>
-    <mat-icon>check_box_outline_blank</mat-icon>
-  </ng-template>
+
   <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
     <!-- <[button] mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
     <button
@@ -82,7 +80,24 @@
     </button>
     <ng-container *ngFor="let metric of widget.metrics">
       <button mat-menu-item (click)="selectMetric($event, metric)">
-        <ng-container [ngSwitch]="expectedMetrics">
+        <ng-template #notSelected>
+          <mat-icon>check_box_outline_blank</mat-icon></ng-template
+        >
+        <ng-container *ngIf="!widgetType.dimensions">
+          <mat-icon *ngIf="getIndex(metric) > -1; else notSelected"
+            >check</mat-icon
+          >
+        </ng-container>
+
+        <ng-container *ngIf="widgetType.dimensions">
+          <span *ngIf="inDimensions(metric) as dim">
+            {{ dim }}
+          </span>
+
+          <!-- && getIndex(metric) > -1 -->
+        </ng-container>
+
+        <!-- <ng-container [ngSwitch]="expectedMetrics">
           <ng-container *ngSwitchCase="3">
             <ng-container [ngSwitch]="getIndex(metric)">
               <div class="axis-indicator" *ngSwitchCase="0">x</div>
@@ -102,7 +117,7 @@
           <ng-container *ngSwitchDefault>
             <mat-icon *ngIf="getIndex(metric) > -1; else blank">check</mat-icon>
           </ng-container>
-        </ng-container>
+        </ng-container> -->
         {{ metric.name }}
       </button>
     </ng-container>

@@ -55,9 +55,7 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.dimensions.valueChanges.subscribe((values) => {
-      this.propertiesChange.emit(values);
-    });
+
     this.thresholdArray.valueChanges.subscribe((values) => {
       if (this.thresholdArray.valid) {
         console.log("emit thresholds");
@@ -88,7 +86,6 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
       //update which display options available
     }
 
-    console.log(changes.thresholds);
     if (changes.thresholds && !changes.thresholds.previousValue) {
       this.thresholds.forEach((threshold) => {
         this.addThreshold(threshold);
@@ -106,6 +103,10 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   makeDimensionsForm() {
     const selected = this.properties.dimensions;
     this.dimensions.clear();
+    this.dimensions.valueChanges.subscribe((values) => {
+      this.properties.dimensions = values;
+      this.propertiesChange.emit(this.properties);
+    });
     if (this.widgetType && this.widgetType.dimensions) {
       this.widgetType.dimensions.forEach((dimension, i) => {
         const dim = selected.find((m) => {
@@ -115,8 +116,7 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
           this.formBuilder.group({
             type: [dimension], //default to piecewise
             metricId: [dim ? dim.metricId : this.selectedMetrics[i].id],
-          }),
-          { emitEvent: false }
+          })
         );
       });
     }

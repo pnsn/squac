@@ -17,6 +17,8 @@ import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { id } from "@swimlane/ngx-datatable";
+import { DrawMap } from "leaflet";
 
 @Component({
   selector: "widget-detail",
@@ -42,6 +44,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   styles: any;
   widgetTypes;
+  widgetType;
 
   constructor(
     private widgetDataService: WidgetDataService,
@@ -107,34 +110,49 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   initWidget() {
     this.loading = true;
-    if (!this.widget.metrics || !this.widget.channelGroup) {
-      this.error = "Widget failed to load.";
+    if (!this.widget.isValid) {
+      this.error = "Widget failed to load, try checking configuration.";
+    } else {
+      this.widgetDataService.setWidget(this.widget);
+      /// set type;
+      this.widgetType = this.widgetTypes.find(
+        (type) => type.type === this.widget.type
+      );
+      this.widgetDataService.setType(this.widgetType);
+      console.log(this.widgetType, this.widget.properties.dimensions);
+      this.getData();
+      this.selectMetrics();
     }
-    this.widgetDataService.setWidget(this.widget);
-    /// set type;
-    const type = this.widgetTypes.find(
-      (type) => type.type === this.widget.type
-    );
-    console.log(type, this.widget.type);
-    this.widgetDataService.setType(type);
-    this.getData();
-    this.selectMetrics();
   }
 
+  inDimensions(metric): string {
+    const dims = this.widget.properties?.dimensions;
+
+    if (dims) {
+      const dim = dims.find((d) => {
+        return d.metricId === metric.id;
+      });
+      return dim ? dim.type : "";
+    }
+    return "";
+  }
   //todo this should be in child component, avoid type specific in detail
   selectMetrics() {
-    if (this.widget.type === "scatter-plot") {
-      this.expectedMetrics = 3;
-      this.selected = this.widget.metrics.slice(0, this.expectedMetrics);
-    } else if (
-      this.widget.type === "parallel-plot" ||
-      this.widget.type === "tabular"
-    ) {
+    this.selected = [];
+
+    if (!this.widgetType.dimensions) {
       this.selected = [...this.widget.metrics];
-    } else {
-      this.expectedMetrics = 1;
-      this.selected = [this.widget.metrics[0]];
+    } else if (this.widget.properties?.dimensions) {
+      this.widget.metrics.forEach((m) => {
+        const metric = this.widget.properties.dimensions.find((d) => {
+          return d.metricId === m.id;
+        });
+        if (metric) {
+          this.selected.push(metric);
+        }
+      });
     }
+
     this.metricsSelected();
   }
 
@@ -142,6 +160,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedMetrics = [...this.selected];
     this.metricsChanged = false;
   }
+
   selectMetric($event, metric) {
     this.metricsChanged = true;
     $event.stopPropagation();

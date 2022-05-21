@@ -32,7 +32,6 @@ export class Widget {
     }
 
     this._thresholds = props;
-    console.log(this._thresholds);
   }
 
   public get thresholds(): Threshold[] {
@@ -208,13 +207,10 @@ export class WidgetAdapter implements Adapter<Widget> {
 
     widget.layout = item.layout || populateLayout(item);
     widget.properties = item.properties || populateProperties(item);
-    console.log(widget);
     return widget;
   }
 
   adaptToApi(item: Widget): ApiPostWidget {
-    console.log(item.thresholds);
-    console.log(JSON.stringify(item.thresholds));
     return {
       name: item.name,
       metrics: item.metricsIds,
