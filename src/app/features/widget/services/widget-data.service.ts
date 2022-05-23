@@ -50,6 +50,7 @@ export class WidgetDataService implements OnDestroy {
   }
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
+    console.log("fetch measurements");
     this.clearTimeout();
     let start;
     let end;

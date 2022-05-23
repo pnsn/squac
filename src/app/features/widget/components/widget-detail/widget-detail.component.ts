@@ -62,7 +62,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.widget) {
-      this.initWidget();
+      // this.initWidget();
     }
   }
   ngOnInit() {
@@ -104,6 +104,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.add(datesSub);
 
     this.subscription.add(dataSub);
+
+    this.initWidget();
     // widget data errors here
   }
 
@@ -118,11 +120,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         (type) => type.type === this.widget.type
       );
       this.widgetDataService.setType(this.widgetType);
-
       this.checkDimensions();
-      console.log(this.widget, this.widget.properties.dimensions);
-      this.getData();
       this.selectMetrics();
+
+      this.getData();
     }
   }
 
@@ -132,15 +133,17 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (!dims || dims.length === 0) {
       this.widget.properties.dimensions = [];
       this.widgetType.dimensions.forEach((dim, i) => {
-        console.log(dim);
         this.widget.properties.dimensions.push({
-          metricID: this.widget.metrics[i].id,
+          metricId: this.widget.metrics[i].id,
           type: dim,
         });
       });
-      console.log(this.widget.properties.dimensions);
       // this.widget.properties.dimensions
     }
+  }
+
+  getMetricDim(i) {
+    return this.widget.metrics[i].name;
   }
 
   inDimensions(metric): string {
@@ -150,31 +153,28 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       const dim = dims.find((d) => {
         return d.metricId === metric.id;
       });
-      console.log(this.widget.id, metric.id, dim);
       return dim ? dim.type : "";
     }
     return "";
   }
-  //todo this should be in child component, avoid type specific in detail
+
   selectMetrics() {
     this.selected = [];
-
+    console.log(this.widgetType.dimensions);
     if (!this.widgetType.dimensions) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
-      this.widget.metrics.forEach((metric) => {
-        const m = this.widget.properties.dimensions.find((d) => {
-          return d.metricId === metric.id;
-        });
+      this.widget.properties.dimensions.forEach((dim) => {
+        const metric = this.widget.metrics.find((m) => m.id === dim.metricId);
         if (metric) {
           this.selected.push(metric);
         } else {
-          this.notSelected.push(metric);
+          this.selected.push(this.widget.metrics[0]);
         }
       });
     }
-    console.log(this.selected);
     this.metricsSelected();
+    console.log(this.selectedMetrics);
   }
 
   metricsSelected() {

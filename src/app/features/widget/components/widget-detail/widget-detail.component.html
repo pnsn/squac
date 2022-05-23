@@ -2,14 +2,14 @@
   <div class="widget-header">
     <h4>{{ widget.name }}</h4>
     <div id="controls">
-      <button
+      <!-- <button
         class="text-button"
         mat-button
         [matMenuTriggerFor]="metricMenu"
         color="primary"
       >
-        metrics
-      </button>
+        metrics -->
+      <!-- </button> -->
       <button
         class="icon-button"
         mat-icon-button
@@ -69,48 +69,6 @@
     </ng-template>
   </mat-menu>
 
-  <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
-    <!-- <[button] mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
-    <button
-      [ngClass]="{ accent: metricsChanged }"
-      mat-menu-item
-      (click)="metricsSelected()"
-    >
-      Update
-    </button>
-    <ng-container *ngFor="let metric of selected; let i = index">
-      <button mat-menu-item (click)="changeMetric($event, metric, i)">
-        <ng-container *ngIf="this.widgetType.dimensions"> </ng-container>
-        <ng-container *ngIf="widget.properties?.dimensions; else noDimensions">
-          <span *ngIf="inDimensions(metric) as dim; else noDimensions">
-            {{ dim }}
-          </span>
-        </ng-container>
-        <ng-template #noDimensions>
-          <mat-icon>check</mat-icon>
-        </ng-template>
-        {{ metric.name }}
-      </button>
-    </ng-container>
-    <ng-container *ngFor="let metric of notSelected">
-      <mat-icon>check_box_outline_blank</mat-icon>
-      <!-- <button mat-menu-item (click)="selectMetric($event, metric)">
-        <ng-container *ngIf="widget.properties?.dimensions; else noDimensions">
-          <ng-container *ngIf="inDimensions(metric) as dim">
-            <span>
-              {{ dim }}
-            </span>
-
-             && getIndex(metric) > -1 -->
-      <!-- </ng-container>
-        </ng-container>
-        <mat-icon *ngIf="getIndex(metric) > -1; else notSelected"
-          >check</mat-icon
-        >
-        {{ metric.name }}
-      </button> -->
-    </ng-container>
-  </mat-menu>
   <shared-loading *ngIf="loading"> </shared-loading>
   <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
   <div
@@ -137,6 +95,7 @@
         [channels]="widget.channelGroup.channels"
         [selectedMetrics]="selectedMetrics"
         [dataRange]="dataRange"
+        [dimensions]="widget.properties.dimensions"
       >
       </widget-timeline>
       <widget-tabular

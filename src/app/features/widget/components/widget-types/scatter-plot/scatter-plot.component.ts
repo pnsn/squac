@@ -25,7 +25,7 @@ export class ScatterPlotComponent
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
-  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() thresholds: [];
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];

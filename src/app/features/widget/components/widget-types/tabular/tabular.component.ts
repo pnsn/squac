@@ -27,7 +27,7 @@ export class TabularComponent
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
-  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];

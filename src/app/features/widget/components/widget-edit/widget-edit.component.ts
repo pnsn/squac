@@ -12,6 +12,7 @@ import { Metric } from "@core/models/metric";
 import { ChannelGroup } from "@core/models/channel-group";
 import { MessageService } from "@core/services/message.service";
 import { WidgetService } from "@features/widget/services/widget.service";
+import { ViewService } from "@core/services/view.service";
 
 @Component({
   selector: "widget-edit",
@@ -31,7 +32,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetService: WidgetService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private viewService: ViewService
   ) {}
 
   ngOnInit() {
@@ -66,6 +68,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
     // this.widgetEditService.clearWidget();
+    this.viewService.updateWidget(this.widget.id, this.widget);
     this.dialogRef.close(widget);
   }
 }

@@ -27,11 +27,11 @@ export class WidgetConfigService {
         name: "timeline",
         type: "timeline",
         useAggregate: false,
-        dimensions: ["display", "color"],
+        dimensions: ["display"],
         description:
           "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
         dimensionInfo:
-          "The values for the 'display' metric will be plotted on the widget. The 'color' metric will be used to color those values.",
+          "The values for the 'display' metric will be plotted on the widget.",
         colorInfo:
           "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
         colorTypes: ["binary", "piecewise"],
@@ -41,11 +41,11 @@ export class WidgetConfigService {
         name: "time series",
         type: "timeseries",
         useAggregate: false,
-        dimensions: ["y-axis", "color"],
+        dimensions: ["y-axis"],
         description:
           "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
         dimensionInfo:
-          "The values for the 'y-axis' metric will be plotted on the widget. The 'color' metric will be used to color those values.",
+          "The values for the 'y-axis' metric will be plotted on the widget.",
         colorInfo:
           "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
         colorTypes: ["binary", "piecewise"],
@@ -57,9 +57,9 @@ export class WidgetConfigService {
         useAggregate: true,
         description:
           "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
-        dimensions: ["display", "color"],
+        dimensions: ["display"],
         dimensionInfo:
-          "Station icons will show the value of the channel for the 'display' metric with the most values 'out of range'. The 'color' metric will be used to color those values.",
+          "Station icons will show the value of the channel for the 'display' metric with the most values 'out of range'.",
         colorInfo:
           "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
         colorTypes: ["binary", "piecewise"],

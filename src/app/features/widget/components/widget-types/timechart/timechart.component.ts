@@ -34,7 +34,7 @@ export class TimechartComponent
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
-  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
 
   @Input() dataRange: any;
@@ -100,14 +100,14 @@ export class TimechartComponent
     this.metricSeries = {};
     // this.addThresholds();
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.metrics,
+      this.selectedMetrics,
       this.thresholds,
       this.dataRange,
       3
     );
 
     this.channels.forEach((channel) => {
-      this.metrics.forEach((metric) => {
+      this.selectedMetrics.forEach((metric) => {
         if (!this.metricSeries[metric.id]) {
           this.metricSeries[metric.id] = {
             series: [],
@@ -182,19 +182,29 @@ export class TimechartComponent
   }
 
   changeMetrics() {
-    const selectedMetric = this.selectedMetrics[0];
+    const displayMetric = this.selectedMetrics[0];
+    const colorMetric = this.selectedMetrics[0];
+    let visualMap = this.visualMaps[colorMetric.id];
+    if (!visualMap) {
+      visualMap = this.widgetTypeService.getVisualMapFromMetric(
+        colorMetric,
+        this.dataRange,
+        3
+      );
+    }
+    console.log(visualMap);
     this.updateOptions = {
-      series: this.metricSeries[selectedMetric.id].series,
-      visualMap: this.visualMaps[selectedMetric.id],
+      series: this.metricSeries[displayMetric.id].series,
+      visualMap: this.visualMaps[colorMetric.id],
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,
       },
       yAxis: {
-        name: selectedMetric ? selectedMetric.unit : "Unknown",
+        name: displayMetric ? displayMetric.unit : "Unknown",
         nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[selectedMetric.id].min,
-          this.dataRange[selectedMetric.id].max
+          this.dataRange[displayMetric.id].min,
+          this.dataRange[displayMetric.id].max
         ),
       },
     };

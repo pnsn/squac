@@ -138,7 +138,6 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   }
 
   makeThresholdForm(threshold?: Threshold) {
-    console.log(threshold);
     return this.formBuilder.group({
       type: [threshold ? threshold.type : "piecewise", Validators.required], //default to piecewise
       min: [threshold ? threshold.min : null],
@@ -172,11 +171,13 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
     const reverseColors = thresholdFormGroup.get("reverseColors");
 
     if (type === "piecewise") {
+      numSplits.setValue(3, { emitEvent: false });
       numSplits.addValidators(Validators.required, { emitEvent: false });
       reverseColors.addValidators(Validators.required, { emitEvent: false });
       numSplits.enable({ emitEvent: false });
       reverseColors.enable({ emitEvent: false });
     } else if (type === "binary") {
+      numSplits.setValue(1, { emitEvent: false });
       numSplits.removeValidators(Validators.required, { emitEvent: false });
       reverseColors.removeValidators(Validators.required, { emitEvent: false });
       numSplits.disable({ emitEvent: false });

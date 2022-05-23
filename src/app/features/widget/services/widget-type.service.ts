@@ -13,8 +13,6 @@ export class WidgetTypeService {
     outOfRange: {
       color: "#999",
     },
-    top: 20,
-    right: 0,
     itemWidth: 14,
     itemHeight: 14,
     itemSymbol: "rect",
@@ -122,6 +120,15 @@ export class WidgetTypeService {
     return newOptions;
   }
 
+  getVisualMapFromMetric(metric, dataRange, dimension) {
+    return {
+      ...this.visualMapDefaults,
+      min: metric.minVal || dataRange[metric.id].min,
+      max: metric.maxVal || dataRange[metric.id].max,
+      dimension,
+    };
+  }
+
   //can use thresholds or another metric to color?
   getVisualMapFromThresholds(
     metrics: Metric[],
@@ -130,35 +137,32 @@ export class WidgetTypeService {
     dimension
   ) {
     const visualMaps = {};
-    metrics.forEach((metric) => {
+    thresholds.forEach((threshold) => {
       let min = null;
       let max = null;
-      if (thresholds && thresholds[metric.id]) {
-        //use threshold if set
-        min = thresholds[metric.id].min;
-        max = thresholds[metric.id].max;
-      }
-      // else if (metric.minVal && metric.maxVal) {
-      //   //use metric default if exists
-      //   min = metric.minVal;
-      //   max = metric.maxVal;
-      //   console.log(metric);
-      //   console.log(min, max);
-      // }
-      if (dataRange[metric.id]) {
-        //use data range
-        min = min === null ? dataRange[metric.id].min : min;
-        max = max === null ? dataRange[metric.id].max : max;
-      }
+      min = threshold.min;
+      max = threshold.max;
 
-      if (min !== null || max !== null) {
-        visualMaps[metric.id] = {
-          ...this.visualMapDefaults,
-          min,
-          max,
-          dimension,
-        };
-      }
+      threshold.metrics.forEach((metricId) => {
+        if (!min || min === 0) {
+          min = dataRange[metricId].min;
+        }
+        if (!max || max === 0) {
+          max = dataRange[metricId].max;
+        }
+        if (min !== null || max !== null) {
+          visualMaps[metricId] = {
+            ...this.visualMapDefaults,
+            min,
+            max,
+            dimension,
+            inRange: threshold.inRange,
+            outOfRange: threshold.outOfRange,
+            inverse: threshold.reverseColors || false,
+            splitNumber: threshold.numSplits || 1,
+          };
+        }
+      });
     });
 
     return visualMaps;

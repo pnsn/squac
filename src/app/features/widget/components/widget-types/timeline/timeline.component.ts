@@ -34,11 +34,11 @@ export class TimelineComponent
   @Input() data;
   @Input() metrics: Metric[];
   @Input() channelGroup: ChannelGroup;
-  @Input() thresholds: { [metricId: number]: Threshold };
+  @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
-
+  @Input() dimensions: any[];
   subscription = new Subscription();
   results: Array<any>;
   options = {};
@@ -63,6 +63,7 @@ export class TimelineComponent
     }
   }
   ngOnInit(): void {
+    console.log(this.data);
     //override defaults
     const chartOptions = {
       tooltip: {
@@ -104,13 +105,13 @@ export class TimelineComponent
   buildChartData(data) {
     this.metricSeries = {};
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.metrics,
+      this.selectedMetrics,
       this.thresholds,
       this.dataRange,
       3
     );
     this.channels.forEach((channel, index) => {
-      this.metrics.forEach((metric) => {
+      this.selectedMetrics.forEach((metric) => {
         const channelObj = {
           type: "custom",
           name: channel.nslc,
@@ -148,16 +149,25 @@ export class TimelineComponent
   }
 
   changeMetrics() {
-    const selectedMetric = this.selectedMetrics[0];
+    const displayMetric = this.selectedMetrics[0];
+    const colorMetric = this.selectedMetrics[0];
+    let visualMap = this.visualMaps[colorMetric.id];
+    if (!visualMap) {
+      visualMap = this.widgetTypeService.getVisualMapFromMetric(
+        colorMetric,
+        this.dataRange,
+        3
+      );
+    }
     this.updateOptions = {
-      series: this.metricSeries[selectedMetric.id].series,
-      visualMap: this.visualMaps[selectedMetric.id],
+      series: this.metricSeries[displayMetric.id].series,
+      visualMap: visualMap,
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,
       },
       yAxis: {
-        data: this.metricSeries[selectedMetric.id].yAxisLabels,
+        data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
     };
   }
