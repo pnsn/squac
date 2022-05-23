@@ -53,7 +53,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   save() {
     this.widget.channelGroupId = this.widget.channelGroup.id;
-    console.log(this.widget);
     this.widgetService.updateWidget(this.widget).subscribe({
       next: () => {
         this.cancel();

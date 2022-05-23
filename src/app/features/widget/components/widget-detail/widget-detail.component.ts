@@ -17,8 +17,6 @@ import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
-import { id } from "@swimlane/ngx-datatable";
-import { DrawMap } from "leaflet";
 
 @Component({
   selector: "widget-detail",
@@ -36,7 +34,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   error: string;
   noData: boolean;
   dashboards: Dashboard[];
-  selectedMetrics: Metric[] = [];
+  selectedMetrics: Metric[] = []; //gets send to child
+  notSelected: Metric[] = [];
   selected: Metric[] = [];
   expectedMetrics: number;
   metricsChanged = false;
@@ -119,9 +118,28 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         (type) => type.type === this.widget.type
       );
       this.widgetDataService.setType(this.widgetType);
-      console.log(this.widgetType, this.widget.properties.dimensions);
+
+      this.checkDimensions();
+      console.log(this.widget, this.widget.properties.dimensions);
       this.getData();
       this.selectMetrics();
+    }
+  }
+
+  //if widget doesn't have dimensions set yet, populate them
+  checkDimensions() {
+    const dims = this.widget.properties.dimensions;
+    if (!dims || dims.length === 0) {
+      this.widget.properties.dimensions = [];
+      this.widgetType.dimensions.forEach((dim, i) => {
+        console.log(dim);
+        this.widget.properties.dimensions.push({
+          metricID: this.widget.metrics[i].id,
+          type: dim,
+        });
+      });
+      console.log(this.widget.properties.dimensions);
+      // this.widget.properties.dimensions
     }
   }
 
@@ -132,6 +150,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       const dim = dims.find((d) => {
         return d.metricId === metric.id;
       });
+      console.log(this.widget.id, metric.id, dim);
       return dim ? dim.type : "";
     }
     return "";
@@ -143,16 +162,18 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.widgetType.dimensions) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
-      this.widget.metrics.forEach((m) => {
-        const metric = this.widget.properties.dimensions.find((d) => {
-          return d.metricId === m.id;
+      this.widget.metrics.forEach((metric) => {
+        const m = this.widget.properties.dimensions.find((d) => {
+          return d.metricId === metric.id;
         });
         if (metric) {
           this.selected.push(metric);
+        } else {
+          this.notSelected.push(metric);
         }
       });
     }
-
+    console.log(this.selected);
     this.metricsSelected();
   }
 
@@ -161,18 +182,23 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.metricsChanged = false;
   }
 
-  selectMetric($event, metric) {
+  changeMetric($event, metric, i) {
     this.metricsChanged = true;
     $event.stopPropagation();
-    const index = this.getIndex(metric);
-    if (index > -1) {
-      this.selected.splice(index, 1);
-    } else {
-      if (this.selected.length === this.expectedMetrics) {
-        this.selected.pop();
-      }
-      this.selected.push(metric);
+    if (i > -1) {
+      this.selected.splice(i, 1);
+      this.notSelected.push(metric);
     }
+  }
+
+  addMetric($event, metric, i) {
+    this.metricsChanged = true;
+    $event.stopPropagation();
+    if (this.selected.length === this.expectedMetrics) {
+      this.selected.pop();
+    }
+    this.selected.push(metric);
+    this.notSelected.splice(i, 1);
   }
 
   getIndex(metric): number {

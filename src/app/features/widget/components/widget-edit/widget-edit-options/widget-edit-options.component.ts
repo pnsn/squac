@@ -107,15 +107,30 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
       this.properties.dimensions = values;
       this.propertiesChange.emit(this.properties);
     });
-    if (this.widgetType && this.widgetType.dimensions) {
+    if (
+      this.widgetType &&
+      this.widgetType.dimensions &&
+      this.selectedMetrics.length > 0
+    ) {
       this.widgetType.dimensions.forEach((dimension, i) => {
+        console.log(this.widgetType.dimensions);
         const dim = selected.find((m) => {
-          return (dimension = m.type);
+          return dimension === m.type;
         });
+
+        let metricId;
+        if (dim) {
+          metricId = dim.metricId;
+        } else if (this.selectedMetrics[i]) {
+          metricId = this.selectedMetrics[i].id;
+        } else {
+          metricId = this.selectedMetrics[0].id;
+        }
+
         this.dimensions.push(
           this.formBuilder.group({
             type: [dimension], //default to piecewise
-            metricId: [dim ? dim.metricId : this.selectedMetrics[i].id],
+            metricId: [metricId],
           })
         );
       });
@@ -123,6 +138,7 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   }
 
   makeThresholdForm(threshold?: Threshold) {
+    console.log(threshold);
     return this.formBuilder.group({
       type: [threshold ? threshold.type : "piecewise", Validators.required], //default to piecewise
       min: [threshold ? threshold.min : null],

@@ -9,7 +9,6 @@
       <div [formGroupName]="i">
         {{ dimensions.controls[i].value.type }}:
         <mat-form-field>
-          <mat-label>Metric</mat-label>
           <mat-select #metric formControlName="metricId">
             <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
               {{ m.name }}
@@ -97,7 +96,6 @@
           </td>
           <td>
             <mat-form-field class="xsmall">
-              <span *ngIf="!inRange.value"> </span>
               <input matInput type="number" name="max" formControlName="max" />
             </mat-form-field>
           </td>
