@@ -38,7 +38,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     },
     scrollToNewItems: true,
     gridType: "verticalFixed",
-    fixedRowHeight: 100,
+    fixedRowHeight: 50,
     minCols: 20,
     maxCols: 20,
     minRows: 20,

@@ -192,7 +192,6 @@ export class TimechartComponent
         3
       );
     }
-    console.log(visualMap);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: this.visualMaps[colorMetric.id],
