@@ -69,7 +69,10 @@
     </ng-template>
   </mat-menu>
 
-  <shared-loading *ngIf="loading"> </shared-loading>
+  <div class="loading">
+    <shared-loading *ngIf="loading"> </shared-loading>
+  </div>
+
   <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
   <div
     class="widget-message"

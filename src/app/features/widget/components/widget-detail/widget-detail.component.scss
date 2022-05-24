@@ -48,7 +48,9 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-
+.loading {
+  width: 100%;
+}
 .axis-indicator {
   display: inline-block;
   color: #747474;
