@@ -8,7 +8,7 @@
     <ng-container *ngFor="let metric of dimensions.controls; let i = index">
       <div [formGroupName]="i">
         {{ dimensions.controls[i].value.type }}:
-        <mat-form-field>
+        <mat-form-field class="dense-form-select">
           <mat-select #metric formControlName="metricId">
             <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
               {{ m.name }}

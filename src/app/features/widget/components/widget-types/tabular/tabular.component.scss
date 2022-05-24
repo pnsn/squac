@@ -14,7 +14,6 @@
 // }
 
 :host ::ng-deep #tabular-table.ngx-datatable {
-  font-size: smaller;
   width: 100% !important;
   height: 100%;
 
@@ -32,6 +31,7 @@
   }
   .datatable-header-cell-label {
     text-overflow: ellipsis;
+    font-size: 10pt !important;
   }
 
   .datatable-row-wrapper {
@@ -41,6 +41,7 @@
   }
   .datatable-body-cell-label {
     line-height: 100%;
+
     padding: 2px;
     .cell-icon {
       display: inline-block;
@@ -49,6 +50,7 @@
       border-radius: 50%;
     }
     .cell-text {
+      font-size: 10pt !important;
     }
     margin-left: 5px;
   }

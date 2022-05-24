@@ -171,18 +171,20 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
 
   //check if thresholds valid
   validateThreshold(values, thresholdFormGroup) {
-    const type = values.type;
     const numSplits = thresholdFormGroup.get("numSplits");
     const reverseColors = thresholdFormGroup.get("reverseColors");
+    if (values) {
+      const type = values.type;
 
-    if (type === "piecewise") {
-      numSplits.enable({ emitEvent: false });
-      reverseColors.enable({ emitEvent: false });
-    } else if (type === "binary") {
-      numSplits.setValue(1, { emitEvent: false });
-      reverseColors.setValue(false, { emitEvent: false });
-      numSplits.disable({ emitEvent: false });
-      reverseColors.disable({ emitEvent: false });
+      if (type === "piecewise") {
+        numSplits.enable({ emitEvent: false });
+        reverseColors.enable({ emitEvent: false });
+      } else if (type === "binary") {
+        numSplits.setValue(1, { emitEvent: false });
+        reverseColors.setValue(false, { emitEvent: false });
+        numSplits.disable({ emitEvent: false });
+        reverseColors.disable({ emitEvent: false });
+      }
     }
   }
 

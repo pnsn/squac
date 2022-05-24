@@ -309,6 +309,14 @@ ngx-datatable {
   @extend .dense-form-field;
 }
 
+mat-option {
+  height: 25pt !important;
+  line-height: 25pt !important;
+  span {
+    line-height: 25pt;
+  }
+}
+
 mat-form-field {
   &.xsmall {
     width: 100px;
