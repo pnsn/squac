@@ -56,10 +56,11 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   save() {
     this.widget.channelGroupId = this.widget.channelGroup.id;
     this.widgetService.updateWidget(this.widget).subscribe({
-      next: () => {
+      next: (response) => {
+        this.widget.id = response.id;
         this.cancel();
       },
-      error: () => {
+      error: (resp) => {
         this.messageService.error("Could not save widget.");
       },
     });
@@ -68,7 +69,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
     // this.widgetEditService.clearWidget();
-    this.viewService.updateWidget(this.widget.id, this.widget);
+    this.viewService.updateWidget(this.widget.id, widget);
     this.dialogRef.close(widget);
   }
 }

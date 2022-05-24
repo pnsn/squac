@@ -38,7 +38,7 @@ export class WidgetEditInfoComponent implements OnChanges {
     this.widgetForm = new FormGroup({
       name: new FormControl("", Validators.required),
       type: new FormControl("", Validators.required),
-      stat: new FormControl(this.statTypes[0], Validators.required), // default is raw data
+      stat: new FormControl("latest", Validators.required), // default is raw data
     });
   }
 
@@ -50,6 +50,10 @@ export class WidgetEditInfoComponent implements OnChanges {
       this.selectedType = this.widgetTypes.find((type) => {
         return type.type === this.type;
       });
+      if (!this.stat) {
+        this.stat = "latest";
+        this.updateStat();
+      }
       this.patchForm({ type: this.type });
     }
     if (changes.stat && changes.stat.currentValue) {

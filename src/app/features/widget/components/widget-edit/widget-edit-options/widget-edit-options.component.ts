@@ -85,7 +85,11 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
       //update which display options available
     }
 
-    if (changes.thresholds && !changes.thresholds.previousValue) {
+    if (
+      changes.thresholds &&
+      !changes.thresholds.previousValue &&
+      this.thresholds
+    ) {
       this.thresholds.forEach((threshold) => {
         this.addThreshold(threshold);
       });
