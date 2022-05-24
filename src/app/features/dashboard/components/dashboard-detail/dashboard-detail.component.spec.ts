@@ -59,8 +59,7 @@ describe("DashboardDetailComponent", () => {
               "description",
               false,
               false,
-              1,
-              []
+              1
             ),
           }),
         },

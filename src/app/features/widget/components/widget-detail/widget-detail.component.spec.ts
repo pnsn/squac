@@ -49,20 +49,7 @@ describe("WidgetDetailComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetDetailComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(
-      1,
-      1,
-      "name",
-      "description",
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      []
-    );
+    component.widget = new Widget(1, 1, "name", 1, 1, [], "", "");
     fixture.detectChanges();
   });
 

@@ -75,8 +75,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 
@@ -92,8 +91,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 
@@ -109,8 +107,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 

@@ -5,7 +5,7 @@ import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MetricService } from "@metric/services/metric.service";
-import { WidgetEditService } from "@features/widget/services/widget-config.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 
 describe("WidgetEditMetricsComponent", () => {
   let component: WidgetEditMetricsComponent;
@@ -17,7 +17,7 @@ describe("WidgetEditMetricsComponent", () => {
       providers: [
         MetricService,
         {
-          provide: WidgetEditService,
+          provide: WidgetConfigService,
           useValue: {
             getMetricIds: () => [],
           },
@@ -31,7 +31,6 @@ describe("WidgetEditMetricsComponent", () => {
     fixture = TestBed.createComponent(WidgetEditMetricsComponent);
     component = fixture.componentInstance;
     component.metrics = [];
-    component.availableMetrics = [];
     fixture.detectChanges();
   });
 

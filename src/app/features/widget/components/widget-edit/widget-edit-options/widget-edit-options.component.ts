@@ -6,6 +6,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  OnInit,
 } from "@angular/core";
 import { Threshold } from "@features/widget/models/threshold";
 import { Metric } from "@core/models/metric";
@@ -49,7 +50,6 @@ export class WidgetEditOptionsComponent
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
     this.thresholdArray.valueChanges.subscribe((values) => {
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);

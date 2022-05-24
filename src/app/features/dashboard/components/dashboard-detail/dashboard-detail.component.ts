@@ -137,7 +137,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    console.log("refresh data");
     this.viewService.updateData.next(this.dashboard.id);
     this.dataParamsChanged = false;
   }

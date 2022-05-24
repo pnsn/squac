@@ -10,7 +10,7 @@ import { AbilityModule } from "@casl/angular";
 import { PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { WidgetEditService } from "@features/widget/services/widget-config.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -42,10 +42,13 @@ describe("WidgetEditComponent", () => {
         AbilityModule,
       ],
       providers: [
-        MockProviders(MatDialogRef, AppAbility, PureAbility, MessageService),
-        MockProvider(WidgetEditService, {
-          isValid: new Subject(),
-        }),
+        MockProviders(
+          MatDialogRef,
+          AppAbility,
+          PureAbility,
+          MessageService,
+          WidgetConfigService
+        ),
         {
           provide: MAT_DIALOG_DATA,
           useValue: {

@@ -20,8 +20,7 @@ describe("DashboardService", () => {
     "description",
     true,
     true,
-    1,
-    []
+    1
   );
 
   beforeEach(() => {

@@ -15,12 +15,10 @@ describe("WidgetDataService", () => {
   let service: WidgetDataService;
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
   const testChannel = new Channel(1, "", "", 1, 1, 1, 1, "", "", "", "", "");
-  const testWidget = new Widget(1, 1, "", "", 1, 1, 1, 1, 1, 1, 1, [
-    testMetric,
-  ]);
+  const testWidget = new Widget(1, 1, "", 1, 1, [testMetric], "", "");
   testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, [1, 2]);
   testWidget.channelGroup.channels = [testChannel];
-  testWidget.stattype = { type: "tabular" };
+  testWidget.type = "tabular";
   let viewService;
 
   beforeEach(() => {
@@ -47,7 +45,9 @@ describe("WidgetDataService", () => {
 
   it("should set widget", () => {
     const widgetSpy = spyOn(service, "setWidget");
-
+    service.setType({
+      useAggregate: false,
+    });
     service.setWidget(testWidget);
 
     expect(widgetSpy).toHaveBeenCalled();
@@ -55,6 +55,9 @@ describe("WidgetDataService", () => {
 
   it("should not try to fetch measurements if no widget", () => {
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
+    service.setType({
+      useAggregate: false,
+    });
     service.fetchMeasurements("start", "end");
     expect(viewSpy).not.toHaveBeenCalled();
   });
@@ -63,6 +66,9 @@ describe("WidgetDataService", () => {
     service.setWidget(testWidget);
 
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
+    service.setType({
+      useAggregate: false,
+    });
     service.fetchMeasurements("start", "end");
     expect(viewSpy).toHaveBeenCalled();
   });

@@ -78,7 +78,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
     this.dashboardService.updateDashboard(dashboard).subscribe({
       next: (result) => {
-        console.log("done");
         this.cancel(result.id);
       },
       error: (error) => {

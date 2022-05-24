@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 
 export class Widget {
   public channelGroup: ChannelGroup;
-  public _thresholds: Threshold[];
+  public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = defaultLayout;
   public _properties: WidgetProperties = defaultProperties;
   constructor(

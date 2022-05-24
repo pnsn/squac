@@ -18,7 +18,6 @@ import { DashboardResolver } from "@dashboard/dashboard.resolver";
 import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
 import { UserResolver } from "@user/user.resolver";
 import { MetricResolver } from "@metric/metric.resolver";
-import { StatTypeResolver } from "@widget/stat-type.resolver";
 import { OrganizationResolver } from "@user/organization.resolver";
 import { LoginComponent } from "@features/user/components/login/login.component";
 import { DashboardComponent } from "@features/dashboard/components/dashboard/dashboard.component";
@@ -34,7 +33,6 @@ describe("AuthGuard", () => {
       .mock(ChannelGroupResolver)
       .mock(UserResolver)
       .mock(MetricResolver)
-      .mock(StatTypeResolver)
       .mock(OrganizationResolver)
       .mock(AuthService, {
         login: () => EMPTY,

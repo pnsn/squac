@@ -12,25 +12,13 @@ import { of } from "rxjs";
 import { DateService } from "./date.service";
 import { MockBuilder } from "ng-mocks";
 import { AppModule } from "app/app.module";
+import * as dayjs from "dayjs";
 
 describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const testWidget = new Widget(
-    1,
-    1,
-    "name",
-    "description",
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    []
-  );
+  const testWidget = new Widget(1, 1, "name", 1, 1, [], "", "");
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
@@ -39,7 +27,24 @@ describe("ViewService", () => {
       .mock(WidgetService)
       .mock(DashboardService)
       .mock(MessageService)
-      .mock(DateService)
+      .provide({
+        provide: DateService,
+        useValue: {
+          parseUtc: (date) => {
+            return dayjs.utc(date).clone();
+          },
+          subtractFromNow: (amount: number, unit: string) => {
+            return dayjs().subtract(amount, unit);
+          },
+          // format date
+          format: (date: dayjs.Dayjs) => {
+            return date.format();
+          },
+          now: () => {
+            return dayjs();
+          },
+        },
+      })
       .provide({
         provide: Ability,
         useValue: {
@@ -54,16 +59,7 @@ describe("ViewService", () => {
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
     dashboardService = TestBed.inject(DashboardService);
-    testDashboard = new Dashboard(
-      1,
-      1,
-      "name",
-      "description",
-      false,
-      false,
-      1,
-      [1]
-    );
+    testDashboard = new Dashboard(1, 1, "name", "description", false, false, 1);
   });
   it("should be created", () => {
     expect(service).toBeTruthy();
@@ -89,17 +85,22 @@ describe("ViewService", () => {
 
   it("should return range", () => {
     expect(service.range).toBeUndefined();
-    testDashboard.timeRange = 3;
+    testDashboard.properties = {
+      timeRange: 3,
+    };
     service.setDashboard(testDashboard);
     expect(service.range).toEqual(3);
   });
 
   it("should return start and end dates", () => {
+    testDashboard.properties = {
+      startTime: "2022-03-01T00:00:00Z",
+      endTime: "2022-03-01T01:00:00Z",
+    };
     service.setDashboard(testDashboard);
-    testDashboard.starttime = "2022-03-01T00:00:00Z";
-    testDashboard.endtime = "2022-03-01T01:00:00Z";
-    expect(service.startdate).toBeDefined();
-    expect(service.enddate).toBeDefined();
+
+    expect(service.startTime).toBeDefined();
+    expect(service.endTime).toBeDefined();
   });
 
   it("should send out widget id to resize", () => {
