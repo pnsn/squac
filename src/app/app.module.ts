@@ -17,7 +17,6 @@ import { AppAbility } from "@core/utils/ability";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { LoadingScreenComponent } from "@core/components/loading-screen/loading-screen.component";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
-import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";

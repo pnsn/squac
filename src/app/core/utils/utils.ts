@@ -1,13 +1,5 @@
-import { ApiGetAggregate } from "@features/widget/models/aggregate";
-import { ApiGetArchive } from "@features/widget/models/archive";
-import {
-  ApiGetMeasurement,
-  Measurement,
-} from "@features/widget/models/measurement";
 import { Threshold } from "@widget/models/threshold";
-import * as dayjs from "dayjs";
-import { Dayjs } from "dayjs";
-import { defer, Observable, of } from "rxjs";
+import { defer } from "rxjs";
 
 // App wide helper functions
 

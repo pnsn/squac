@@ -14,7 +14,6 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
-import { checkThresholds } from "@core/utils/utils";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 
@@ -116,8 +115,6 @@ export class TabularComponent
   }
 
   private channelComparator(propA, propB) {
-    const aProps = propA.split(".");
-    const bProps = propB.split(".");
     return propA.localeCompare(propB);
   }
 

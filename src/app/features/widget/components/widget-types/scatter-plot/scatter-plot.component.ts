@@ -8,7 +8,6 @@ import {
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widget/models/threshold";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";

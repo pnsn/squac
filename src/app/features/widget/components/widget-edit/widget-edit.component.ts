@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Inject,
-  AfterContentInit,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Widget } from "@widget/models/widget";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -60,7 +54,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
         this.widget.id = response.id;
         this.cancel();
       },
-      error: (resp) => {
+      error: () => {
         this.messageService.error("Could not save widget.");
       },
     });

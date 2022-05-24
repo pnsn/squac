@@ -1,10 +1,8 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   ViewChild,
-  AfterViewInit,
   Output,
   EventEmitter,
   SimpleChanges,
@@ -32,8 +30,6 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   ColumnMode = ColumnMode;
   rows: Metric[];
   columns = [];
-
-  constructor() {}
 
   ngOnInit() {
     this.columns = [

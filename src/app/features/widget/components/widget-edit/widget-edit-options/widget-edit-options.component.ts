@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   Input,
   Output,
@@ -9,23 +8,18 @@ import {
   OnChanges,
 } from "@angular/core";
 import { Threshold } from "@features/widget/models/threshold";
-import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
   styleUrls: ["./widget-edit-options.component.scss"],
 })
-export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
+export class WidgetEditOptionsComponent
+  implements OnChanges, OnDestroy, OnInit
+{
   constructor(
     private widgetConfigService: WidgetConfigService,
     private formBuilder: FormBuilder

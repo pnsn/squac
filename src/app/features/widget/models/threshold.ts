@@ -14,7 +14,6 @@ export class Threshold {
   data: [];
   reverseColors: boolean;
   numSplits: number;
-  constructor() {}
   static get modelName() {
     return "Threshold";
   }

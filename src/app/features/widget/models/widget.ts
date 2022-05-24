@@ -171,7 +171,7 @@ function populateLayout(item: ApiGetWidget): string {
 
   return JSON.stringify(layout);
 }
-function populateProperties(item: ApiGetWidget): string {
+function populateProperties(_item: ApiGetWidget): string {
   const properties: WidgetProperties = {};
 
   return JSON.stringify(properties);
