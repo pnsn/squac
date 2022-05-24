@@ -132,7 +132,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     const dims = this.widget.properties.dimensions;
     if (!dims || (dims.length === 0 && this.widgetType.dimensions)) {
       this.widget.properties.dimensions = [];
-      this.widgetType.dimensions.forEach((dim, i) => {
+      this.widgetType.dimensions?.forEach((dim, i) => {
         this.widget.properties.dimensions.push({
           metricId: this.widget.metrics[i].id,
           type: dim,

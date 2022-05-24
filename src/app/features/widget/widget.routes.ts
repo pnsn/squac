@@ -18,7 +18,7 @@ export const widgetRoutes: Routes = [
     resolve: {
       widgets: WidgetResolver,
     },
-    runGuardsAndResolvers: "always",
+    runGuardsAndResolvers: "paramsOrQueryParamsChange",
     children: [
       {
         path: "new",

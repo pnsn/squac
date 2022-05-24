@@ -147,7 +147,7 @@ export class WidgetTypeService {
       min = threshold.min;
       max = threshold.max;
 
-      threshold.metrics.forEach((metricId) => {
+      threshold.metrics?.forEach((metricId) => {
         if (!min || min === 0) {
           min = dataRange[metricId].min;
         }

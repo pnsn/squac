@@ -63,11 +63,6 @@ export function initApp(configurationService: ConfigurationService) {
       useClass: HttpErrorInterceptor,
       multi: true,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true,
-    },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility, useExisting: Ability },
   ],

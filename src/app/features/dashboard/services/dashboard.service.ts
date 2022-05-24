@@ -48,6 +48,8 @@ export class DashboardService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
+    // Fetch new dashboards if > 5 minutes since refresh
+    console.log("get dashboard");
     return this.squacApi
       .get(this.url, id)
       .pipe(map((response) => this.dashboardAdapter.adaptFromApi(response)));
