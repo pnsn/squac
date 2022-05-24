@@ -151,12 +151,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
 
         const visualMap = this.visualMaps[metric.id];
-
-        const threshold = this.thresholds[metric.id];
         const inRange =
           visualMap && val <= visualMap.max && val >= visualMap.min;
 
-        if (threshold && val != null && !inRange) {
+        if (visualMap && val != null && !inRange) {
           agg++;
         }
 

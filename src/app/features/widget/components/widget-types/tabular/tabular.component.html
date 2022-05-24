@@ -1,6 +1,7 @@
 <!-- *ngIF causes chaos avoid in ngx-datatable -->
 <ngx-datatable
   #dataTable
+  id="tabular-table"
   class="material expandable"
   [rows]="rows"
   [columns]="columns"
@@ -15,6 +16,16 @@
   [treeFromRelation]="'parentId'"
   [treeToRelation]="'id'"
   (treeAction)="onTreeAction($event)"
-  [sorts]="[{ prop: 'agg', dir: 'desc' }]"
+  [sorts]="sorts"
 >
 </ngx-datatable>
+
+<ng-template #cellTemplate let-value="value">
+  <span
+    class="cell-icon"
+    [ngStyle]="{ 'background-color': value.color }"
+  ></span>
+  <span class="cell-text">
+    {{ value.value !== null ? (value.value | number: "1.0-2") : "-" }}
+  </span>
+</ng-template>

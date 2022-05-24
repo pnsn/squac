@@ -6,6 +6,7 @@ import {
   OnDestroy,
   SimpleChanges,
   OnChanges,
+  TemplateRef,
 } from "@angular/core";
 import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
@@ -15,11 +16,13 @@ import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
 import { checkThresholds } from "@core/utils/utils";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 
 @Component({
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
+  providers: [WidgetTypeService],
 })
 export class TabularComponent
   implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
@@ -32,8 +35,10 @@ export class TabularComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   subscription = new Subscription();
+  visualMaps;
 
   @ViewChild("dataTable") table: any;
+  @ViewChild("cellTemplate") cellTemplate: TemplateRef<any>;
   ColumnMode = ColumnMode;
   SortType = SortType;
   rows = [];
@@ -49,6 +54,9 @@ export class TabularComponent
     // Footer selected message
     selectedMessage: "selected",
   };
+  sorts;
+  groupByStation = true;
+  constructor(private widgetTypeService: WidgetTypeService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -67,44 +75,51 @@ export class TabularComponent
       {
         name: "Channel",
         prop: "title",
-        isTreeColumn: true,
+        isTreeColumn: this.groupByStation,
         width: 150,
         canAutoResize: false,
         frozenLeft: true,
         resizeable: false,
-      },
-      {
-        name: "agg",
-        width: 50,
-        canAutoResize: false,
-        frozenLeft: true,
-        resizeable: false,
+        comparator: this.channelComparator.bind(this),
       },
     ];
 
-    this.metrics.forEach((metric) => {
-      this.columns.push({
-        name: metric.name,
-        prop: metric.id,
-        comparator: this.metricComparator.bind(this),
-        minWidth: 30,
-        cellClass: this.getCellClass,
-        canAutoResize: true,
-        sortable: true,
-        pipe: {
-          transform: (row) => {
-            return row.value !== null ? Math.round(row.value * 100) / 100 : "-";
-            // {{ value.value !== null ? (value.value | number: "1.0-2") : "-" }}
-          },
-        },
-      });
+    this.columns.push({
+      name: "# out",
+      prop: "agg",
+      width: 70,
+      canAutoResize: false,
+      frozenLeft: true,
+      resizeable: false,
     });
+    this.sorts = [{ prop: "agg", dir: "desc" }];
+    setTimeout(() => {
+      this.selectedMetrics.forEach((metric) => {
+        this.columns.push({
+          name: metric.name,
+          prop: metric.id,
+          comparator: this.metricComparator.bind(this),
+          width: 100,
+          canAutoResize: false,
+          sortable: true,
+          cellTemplate: this.cellTemplate,
+        });
+      });
+      this.columns = [...this.columns];
+    }, 0);
+
     this.buildRows(this.data);
   }
 
   private metricComparator(propA, propB) {
     const result = propA.value - propB.value;
     return result;
+  }
+
+  private channelComparator(propA, propB) {
+    const aProps = propA.split(".");
+    const bProps = propB.split(".");
+    return propA.localeCompare(propB);
   }
 
   private findWorstChannel(channel, station) {
@@ -122,13 +137,21 @@ export class TabularComponent
     const rows = [];
     const stations = [];
     const stationRows = [];
+
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.selectedMetrics,
+      this.thresholds,
+      this.dataRange,
+      3
+    );
+
     this.channels.forEach((channel) => {
       const identifier = channel.networkCode + "." + channel.stationCode;
 
       let agg = 0;
       const rowMetrics = {};
 
-      this.metrics.forEach((metric) => {
+      this.selectedMetrics.forEach((metric) => {
         let val: number = null;
 
         if (data[channel.id] && data[channel.id][metric.id]) {
@@ -136,20 +159,18 @@ export class TabularComponent
           val = rowData[0].value;
         }
 
-        // const val = this.measurement.transform(data[channel.id][metric.id], this.widget.stattype.id);
-        const threshold = this.thresholds[metric.id];
+        const visualMap = this.visualMaps[metric.id];
 
-        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
-        if (threshold && val != null && !inThreshold) {
+        const inRange =
+          visualMap && val <= visualMap.max && val >= visualMap.min;
+
+        if (visualMap && val != null && !inRange) {
           agg++;
         }
+
         rowMetrics[metric.id] = {
           value: val,
-          classes: {
-            "out-of-spec": val !== null && !inThreshold && !!threshold,
-            "in-spec": val !== null && inThreshold && !!threshold,
-            "has-threshold": !!threshold,
-          },
+          color: this.getStyle(val, visualMap, inRange),
         };
       });
       const title =
@@ -171,26 +192,28 @@ export class TabularComponent
       row = { ...row, ...rowMetrics };
       rows.push(row);
 
-      const staIndex = stations.indexOf(identifier);
-      if (staIndex < 0) {
-        stations.push(identifier);
-        stationRows.push({
-          ...{
-            title,
-            id: identifier,
-            treeStatus: "collapsed",
-            staCode: channel.stationCode,
-            netCode: channel.networkCode,
-            agg,
-          },
-          ...rowMetrics,
-        });
-      } else {
-        stationRows[staIndex] = this.findWorstChannel(
-          row,
-          stationRows[staIndex]
-        );
-        // check if agg if worse than current agg
+      if (this.groupByStation) {
+        const staIndex = stations.indexOf(identifier);
+        if (staIndex < 0) {
+          stations.push(identifier);
+          stationRows.push({
+            ...{
+              title,
+              id: identifier,
+              treeStatus: "collapsed",
+              staCode: channel.stationCode,
+              netCode: channel.networkCode,
+              agg,
+            },
+            ...rowMetrics,
+          });
+        } else {
+          stationRows[staIndex] = this.findWorstChannel(
+            row,
+            stationRows[staIndex]
+          );
+          // check if agg if worse than current agg
+        }
       }
     });
     this.rows = [...stationRows, ...rows];
@@ -213,7 +236,18 @@ export class TabularComponent
     this.subscription.unsubscribe();
   }
 
-  getCellClass({ row, column, _value }): any {
-    return row[column.prop].classes;
+  private getStyle(val, visualMap, inRange): string {
+    let color;
+
+    if (!visualMap) {
+      color = "transparent";
+    } else if (val !== null && !inRange) {
+      color = visualMap.outOfRange.color[0];
+    } else if (val !== null && inRange) {
+      color = visualMap.inRange.color[0];
+    } else {
+      color = "gray";
+    }
+    return color;
   }
 }
