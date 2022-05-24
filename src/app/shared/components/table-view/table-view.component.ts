@@ -109,7 +109,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         .pipe(
           filter((e) => e instanceof NavigationEnd),
           tap((e: NavigationEnd) => {
-            console.log(currentPath, e.urlAfterRedirects);
             if (e.urlAfterRedirects.toString() === currentPath) {
               this.refreshResource();
             }
@@ -313,7 +312,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.shareFilter === "org" &&
       this.user
     ) {
-      console.log("inorg sort", this.user.orgId);
       temp = this.rows.filter((row) => {
         return this.user.orgId === row.orgId;
       });

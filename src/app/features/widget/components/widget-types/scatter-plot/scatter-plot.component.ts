@@ -107,16 +107,15 @@ export class ScatterPlotComponent
         3
       );
     }
-    console.log(this.dataRange[xMetric.id].min, this.dataRange[xMetric.id].max);
 
     this.updateOptions = {
       series: this.processedData.series,
       xAxis: {
-        name: this.selectedMetrics[0].name,
+        name: xMetric.name,
       },
       visualMap,
       yAxis: {
-        name: this.selectedMetrics[1].name,
+        name: yMetric.name,
         nameGap: this.widgetTypeService.yAxisLabelPosition(
           this.dataRange[xMetric.id].min,
           this.dataRange[xMetric.id].max

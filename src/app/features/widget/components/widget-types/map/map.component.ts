@@ -125,7 +125,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private buildLayers() {
-    console.log("build layers");
     const data = this.data;
     this.metricLayers = {};
 

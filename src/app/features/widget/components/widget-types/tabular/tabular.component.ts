@@ -66,7 +66,6 @@ export class TabularComponent
     // this.selectedMetrics.length > 0
     if (changes.data && this.channels.length > 0) {
       this.buildRows(this.data);
-      console.log("data changed");
     }
   }
 

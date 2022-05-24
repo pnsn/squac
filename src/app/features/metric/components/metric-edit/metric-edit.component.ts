@@ -81,7 +81,6 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (result) => {
-          console.log("done");
           this.cancel(result.id);
         },
         error: (error) => {

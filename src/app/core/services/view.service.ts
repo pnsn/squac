@@ -242,7 +242,6 @@ export class ViewService {
     this.widgetService.updateWidget(widget).subscribe(
       (widget) => {
         this.resizeWidget(widget.id);
-        console.log("widgets saved");
       },
       (error) => {
         console.log("error in widget update: ", error);

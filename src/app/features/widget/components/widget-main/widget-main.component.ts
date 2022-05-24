@@ -70,9 +70,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     itemInitCallback: () => {
       this.inited++;
     },
-    gridSizeChanged: () => {
-      console.log("grid size changed");
-    },
   };
 
   widgets: Array<GridsterItem> = [];
@@ -155,12 +152,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.options.api.optionsChanged();
       }
     }
-
-    // const dataSub = this.route.data.subscribe((data) => {
-    //   console.log("widgets from route");
-    //   console.log(data === lastData);
-
-    // });
 
     const resizeSub = this.viewService.resize.subscribe((widgetId) => {
       if (!widgetId) {

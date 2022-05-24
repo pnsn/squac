@@ -78,15 +78,6 @@ export class DashboardViewComponent
   ) {}
 
   ngOnInit() {
-    // const activeDashboardSub = this.route.params.subscribe({
-    //   next: (params: Params) => {
-    //     this.activeDashboardId = +params.dashboardId;
-    //   },
-    //   error: (error) => {
-    //     console.log("error in dashboard view " + error);
-    //   },
-    // });
-
     const dashboardsSub = this.route.data.subscribe((data) => {
       if (data.dashboards && data.dashboards.error) {
         console.log("error in dashboard");

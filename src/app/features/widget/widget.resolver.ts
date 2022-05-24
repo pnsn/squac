@@ -32,7 +32,6 @@ export class WidgetResolver implements Resolve<Observable<any>> {
     } else if (dashboardId) {
       return this.widgetService.getWidgets(dashboardId).pipe(
         catchError((error) => {
-          console.log(error);
           return this.handleError(error);
         })
       );

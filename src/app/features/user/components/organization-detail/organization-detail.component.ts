@@ -177,7 +177,6 @@ export class OrganizationDetailComponent
           // width: 70,
           pipe: {
             transform: (row) => {
-              console.log(row);
               return row ? row.firstName + " " + row.lastName : "";
             },
           },
@@ -237,7 +236,6 @@ export class OrganizationDetailComponent
           this.refresh();
         },
         error: (error) => {
-          console.log(error);
           this.messageService.error(error);
         },
       });
@@ -259,7 +257,6 @@ export class OrganizationDetailComponent
         this.refresh();
       },
       error: (error) => {
-        console.log(error);
         this.messageService.error(error);
       },
     });

@@ -111,7 +111,6 @@ export class MonitorChartComponent implements OnChanges {
     return new Intl.DateTimeFormat("en-US", formatOptions).format(value);
   }
   recalculateStat() {
-    console.log("update stat");
     if (this.responseCache) {
       const data = this.mapResponse(this.responseCache, {});
       this.toChartData(data);
@@ -129,7 +128,6 @@ export class MonitorChartComponent implements OnChanges {
   }
   // ToDo: put in service so locale and squac aren't in here
   getData() {
-    console.log("getting data");
     const data = {};
     this.indexes = [];
     this.hasData = false;
