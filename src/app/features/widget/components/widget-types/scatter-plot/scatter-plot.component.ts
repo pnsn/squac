@@ -107,6 +107,7 @@ export class ScatterPlotComponent
         3
       );
     }
+    console.log(this.dataRange[xMetric.id].min, this.dataRange[xMetric.id].max);
 
     this.updateOptions = {
       series: this.processedData.series,

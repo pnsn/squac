@@ -1,6 +1,6 @@
 {
   "appTitle": "SQUAC",
-  "dataRefreshIntervalMinutes": 5,
+  "dataRefreshIntervalMinutes": 10,
 
   "locale": {
     "format": "YYYY-MM-DDTHH:mm:ss[Z]",

@@ -125,6 +125,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private buildLayers() {
+    console.log("build layers");
     const data = this.data;
     this.metricLayers = {};
 
@@ -134,7 +135,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.dataRange,
       3
     );
-    console.log(this.selectedMetrics);
 
     this.selectedMetrics.forEach((metric) => {
       const channelRows = [];
@@ -219,11 +219,13 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     const layer = this.metricLayers[displayMetric.id];
     this.layers.pop();
     this.layers.push(layer);
-    setTimeout(() => {
+    this.initLegend(displayMetric, this.visualMaps[displayMetric.id]);
+    const resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
       this.fitBounds = layer.getBounds();
-    }, 0);
-    this.initLegend(displayMetric, this.visualMaps[displayMetric.id]);
+    });
+
+    resizeObserver.observe(document.getElementById("map"));
   }
 
   private getIconHtml(val, visualMap, inRange) {

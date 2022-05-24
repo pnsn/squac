@@ -58,14 +58,13 @@ export class TimelineComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      console.log("build");
       this.buildChartData(this.data);
       this.changeMetrics();
     }
   }
   ngOnInit(): void {
-    console.log(this.data);
     //override defaults
+
     const chartOptions = {
       tooltip: {
         formatter: (params) => {
@@ -177,7 +176,7 @@ export class TimelineComponent
     const categoryIndex = api.value(0);
     const start = api.coord([api.value(1), categoryIndex]); //converts to xy coords
     const end = api.coord([api.value(2), categoryIndex]); //converts to xy coords
-    const height = api.size([0, 1])[1] * 0.6;
+    const height = api.size([0, 1])[1] * 0.9;
     const rectShape = graphic.clipRectByRect(
       {
         x: start[0],
