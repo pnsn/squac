@@ -58,7 +58,6 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
 
     this.thresholdArray.valueChanges.subscribe((values) => {
       if (this.thresholdArray.valid) {
-        console.log("emit thresholds");
         this.thresholdsChange.emit(values);
       }
     });
@@ -113,7 +112,6 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
       this.selectedMetrics.length > 0
     ) {
       this.widgetType.dimensions.forEach((dimension, i) => {
-        console.log(this.widgetType.dimensions);
         const dim = selected.find((m) => {
           return dimension === m.type;
         });
@@ -151,8 +149,11 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
         Validators.required,
       ],
       metrics: [threshold ? threshold.metrics : [], Validators.required],
-      numSplits: [threshold ? threshold.numSplits : 5],
-      reverseColors: [threshold ? threshold.reverseColors : false],
+      numSplits: [threshold ? threshold.numSplits : 5, Validators.required],
+      reverseColors: [
+        threshold ? threshold.reverseColors : false,
+        Validators.required,
+      ],
     });
   }
 
@@ -171,15 +172,11 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
     const reverseColors = thresholdFormGroup.get("reverseColors");
 
     if (type === "piecewise") {
-      numSplits.setValue(3, { emitEvent: false });
-      numSplits.addValidators(Validators.required, { emitEvent: false });
-      reverseColors.addValidators(Validators.required, { emitEvent: false });
       numSplits.enable({ emitEvent: false });
       reverseColors.enable({ emitEvent: false });
     } else if (type === "binary") {
       numSplits.setValue(1, { emitEvent: false });
-      numSplits.removeValidators(Validators.required, { emitEvent: false });
-      reverseColors.removeValidators(Validators.required, { emitEvent: false });
+      reverseColors.setValue(false, { emitEvent: false });
       numSplits.disable({ emitEvent: false });
       reverseColors.disable({ emitEvent: false });
     }
@@ -200,6 +197,7 @@ export class WidgetEditOptionsComponent implements OnChanges, OnDestroy {
   // Add a new threshold
   addThreshold(threshold?: Threshold) {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
+    this.validateThreshold(threshold, thresholdFormGroup);
     thresholdFormGroup.valueChanges.subscribe((value) => {
       this.validateThreshold(value, thresholdFormGroup);
     });

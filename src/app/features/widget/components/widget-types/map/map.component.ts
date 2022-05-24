@@ -12,11 +12,13 @@ import { Threshold } from "@widget/models/threshold";
 import * as L from "leaflet";
 import { checkThresholds } from "@core/utils/utils";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 
 @Component({
   selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
+  providers: [WidgetTypeService],
 })
 export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() data;
@@ -41,6 +43,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   map: L.Map;
   metricLayers: { [metricId: number]: L.FeatureGroup<L.Marker> };
   baseLayers;
+  visualMaps;
+  legend;
+
+  constructor(private widgetTypeService: WidgetTypeService) {}
 
   ngOnInit() {
     this.initMap();
@@ -77,42 +83,58 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   onMapReady(map: L.Map) {
     this.map = map;
     // Do stuff with map
-    this.initLegend();
     if (this.selectedMetrics.length > 0) {
+      this.legend = new L.Control({ position: "bottomright" });
       this.buildLayers();
       this.changeMetric();
     }
   }
 
-  private initLegend() {
-    let threshold: Threshold;
-
-    const legend = new L.Control({ position: "bottomright" });
-    legend.onAdd = () => {
+  private initLegend(metric, visualMap) {
+    this.legend.onAdd = () => {
       const div = L.DomUtil.create("div", "legend");
 
-      if (threshold) {
-        div.innerHTML +=
-          "<h4>" +
-          threshold.min +
-          " ≤ in threshold ≤ " +
-          threshold.max +
-          "</h4>";
+      if (visualMap) {
+        div.innerHTML += `<h4>${metric.name}</h4>`;
+        div.innerHTML += `<p> ${this.getIconHtml(
+          true,
+          visualMap,
+          true
+        )} In Range</p>`;
+        div.innerHTML += `<p> ${this.getIconHtml(
+          true,
+          visualMap,
+          false
+        )} Out of Range</p>`;
+        div.innerHTML += `<p>${this.getIconHtml(
+          null,
+          visualMap,
+          false
+        )}No Value</p> `;
+      } else {
+        div.innerHTML += `<p>${this.getIconHtml(
+          true,
+          false,
+          false
+        )}No Range</p> `;
       }
-      div.innerHTML +=
-        '<p><div class="in-spec "></div>' + "Within Threshold</p>";
-      div.innerHTML +=
-        '<p><div class="out-of-spec "></div>' + "Outside Threshold</p>";
-      div.innerHTML += '<p><div class="unknown"></div>' + "No Threshold</p>";
 
       return div;
     };
-    legend.addTo(this.map);
+    this.legend.addTo(this.map);
   }
 
   private buildLayers() {
     const data = this.data;
     this.metricLayers = {};
+
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.selectedMetrics,
+      this.thresholds,
+      this.dataRange,
+      3
+    );
+    console.log(this.selectedMetrics);
 
     this.selectedMetrics.forEach((metric) => {
       const channelRows = [];
@@ -128,23 +150,26 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           val = rowData[0].value;
         }
 
-        const threshold = this.thresholds[metric.id];
-        const inThreshold = threshold ? checkThresholds(threshold, val) : false;
+        const visualMap = this.visualMaps[metric.id];
 
-        if (threshold && val != null && !inThreshold) {
+        const threshold = this.thresholds[metric.id];
+        const inRange =
+          visualMap && val <= visualMap.max && val >= visualMap.min;
+
+        if (threshold && val != null && !inRange) {
           agg++;
         }
 
-        const iconClass = this.getIconClass(val, threshold, inThreshold);
+        const iconHtml = this.getIconHtml(val, visualMap, inRange);
 
         if (!stationChannels[channel.stationCode]) {
           stationChannels[channel.stationCode] = "";
         }
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
-          `<p> <div class="${iconClass}"> </div>${channel.loc}.${
-            channel.code
-          }: ${val ? val : "no data"}</p>`;
+          `<p> ${iconHtml} ${channel.loc}.${channel.code}: ${
+            val ? val : "no data"
+          }</p>`;
 
         let channelRow = {
           title: channel.nslc,
@@ -154,7 +179,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           netCode: channel.networkCode,
           lat: channel.lat,
           lon: channel.lon,
-          class: iconClass,
+          html: iconHtml,
           agg,
         };
         channelRow = { ...channelRow };
@@ -171,7 +196,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
               netCode: channel.networkCode,
               lat: channel.lat,
               lon: channel.lon,
-              class: iconClass,
+              html: iconHtml,
               agg,
             },
           });
@@ -192,24 +217,31 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   changeMetric() {
-    const layer = this.metricLayers[this.selectedMetrics[0].id];
+    const displayMetric = this.selectedMetrics[0];
+    const layer = this.metricLayers[displayMetric.id];
     this.layers.pop();
     this.layers.push(layer);
-    this.fitBounds = layer.getBounds();
+    setTimeout(() => {
+      this.map.invalidateSize();
+      this.fitBounds = layer.getBounds();
+    }, 0);
+    this.initLegend(displayMetric, this.visualMaps[displayMetric.id]);
   }
 
-  private getIconClass(val, threshold, inThreshold) {
-    let iconClass: string;
-    if (!threshold) {
-      iconClass = "no-threshold";
-    } else if (val !== null && !inThreshold && !!threshold) {
-      iconClass = "out-of-spec";
-    } else if (val !== null && inThreshold && !!threshold) {
-      iconClass = "in-spec";
+  private getIconHtml(val, visualMap, inRange) {
+    let color;
+
+    if (!visualMap) {
+      color = "white";
+    } else if (val !== null && !inRange) {
+      color = visualMap.outOfRange.color[0];
+    } else if (val !== null && inRange) {
+      color = visualMap.inRange.color[0];
     } else {
-      iconClass = "unknown";
+      color = "gray";
     }
-    return iconClass;
+    const htmlString = `<div style='background-color: ${color}' class='map-icon'></div>`;
+    return htmlString;
   }
 
   private makeMarker(station, stationChannels) {
@@ -218,7 +250,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     }
 
     const marker = L.marker([station.lat, station.lon], {
-      icon: L.divIcon({ className: station.class }),
+      icon: L.divIcon({ html: station.html, className: "icon-parent" }),
     })
       .bindPopup(
         `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4>

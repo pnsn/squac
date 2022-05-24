@@ -8,10 +8,18 @@
   }
 }
 
-.map-icon {
+:host ::ng-deep .map-icon {
   height: 10px !important;
   width: 10px !important;
   border-radius: 50%;
+  border: 1px solid black;
+  background-color: transparent;
+}
+:host ::ng-deep .icon-parent {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  border: none;
 }
 
 :host ::ng-deep .legend,
@@ -20,6 +28,9 @@
   margin: 0px;
   line-height: 18px;
   color: #555;
+  .map-icon {
+    @extend .map-icon;
+  }
   div {
     display: inline-block;
     margin-right: 5px;
@@ -43,28 +54,4 @@
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
-}
-
-:host ::ng-deep .in-spec {
-  @extend .map-icon;
-  border: 1px solid darken(#4488a9, 10);
-  background-color: #4488a9 !important;
-}
-
-:host ::ng-deep .out-of-spec {
-  @extend .map-icon;
-  border: 1px solid darken(#ffb758, 10);
-  background-color: #ffb758 !important;
-}
-
-:host ::ng-deep .unknown {
-  @extend .map-icon;
-  border: 1px solid darken(gray, 10);
-  background-color: white;
-}
-
-:host ::ng-deep .no-threshold {
-  @extend .map-icon;
-  border: 1px solid darken(gray, 10);
-  background-color: gray;
 }

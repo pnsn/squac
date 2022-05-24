@@ -41,6 +41,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   metricsChanged = false;
   // temp
 
+  dataSub: Subscription;
   styles: any;
   widgetTypes;
   widgetType;
@@ -62,19 +63,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.widget) {
-      // this.initWidget();
+      this.initWidget();
     }
   }
   ngOnInit() {
-    this.loading = true;
-    const dataSub = this.widgetDataService.data.subscribe((data) => {
-      this.noData = data && Object.keys(data).length === 0;
-      this.dataRange = this.widgetDataService.dataRange;
-      this.data = data;
-      this.loading = false;
-    });
-
-    const datesSub = this.viewService.updateData.subscribe({
+    const updateSub = this.viewService.updateData.subscribe({
       next: (dashboardId) => {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
@@ -101,16 +94,23 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.dashboards = dashboards;
       });
 
-    this.subscription.add(datesSub);
+    this.subscription.add(updateSub);
 
-    this.subscription.add(dataSub);
-
-    this.initWidget();
-    // widget data errors here
+    this.subscription.add(this.dataSub);
   }
 
   initWidget() {
     this.loading = true;
+
+    if (!this.dataSub) {
+      this.dataSub = this.widgetDataService.data.subscribe((data) => {
+        this.noData = data && Object.keys(data).length === 0;
+        this.dataRange = this.widgetDataService.dataRange;
+        this.data = data;
+        this.loading = false;
+      });
+    }
+
     if (!this.widget.isValid) {
       this.error = "Widget failed to load, try checking configuration.";
     } else {
@@ -130,7 +130,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   //if widget doesn't have dimensions set yet, populate them
   checkDimensions() {
     const dims = this.widget.properties.dimensions;
-    if (!dims || dims.length === 0) {
+    if (!dims || (dims.length === 0 && this.widgetType.dimensions)) {
       this.widget.properties.dimensions = [];
       this.widgetType.dimensions.forEach((dim, i) => {
         this.widget.properties.dimensions.push({
@@ -160,7 +160,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   selectMetrics() {
     this.selected = [];
-    console.log(this.widgetType.dimensions);
     if (!this.widgetType.dimensions) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
@@ -174,7 +173,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
     this.metricsSelected();
-    console.log(this.selectedMetrics);
   }
 
   metricsSelected() {

@@ -20,7 +20,7 @@ export class WidgetConfigService {
         dimensionInfo:
           "Selected metrics will be displayed as columns. Station rows will show the channel with the most values 'out of range'.",
         colorInfo: "Each metric can be colored separately.",
-        colorTypes: ["binary", "piecewise"],
+        colorTypes: ["binary"],
       },
       {
         id: 2,
@@ -62,7 +62,7 @@ export class WidgetConfigService {
           "Station icons will show the value of the channel for the 'display' metric with the most values 'out of range'.",
         colorInfo:
           "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
-        colorTypes: ["binary", "piecewise"],
+        colorTypes: ["binary"],
       },
       // {
       //   id: 5,

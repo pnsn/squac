@@ -84,7 +84,7 @@ export class MeasurementService {
             p10: 20,
             p90: 80,
             p95: 99,
-            latest: 1,
+            latest: this.getRandom(20),
             starttime: start,
             endtime: end,
           };

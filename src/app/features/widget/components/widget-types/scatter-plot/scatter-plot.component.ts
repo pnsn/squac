@@ -95,9 +95,17 @@ export class ScatterPlotComponent
   }
 
   changeMetrics() {
-    let visualMap = {};
-    if (this.selectedMetrics[2]) {
-      visualMap = this.visualMaps[this.selectedMetrics[2].id];
+    const xMetric = this.selectedMetrics[0];
+    const yMetric = this.selectedMetrics[1];
+    const colorMetric = this.selectedMetrics[2];
+
+    let visualMap = this.visualMaps[colorMetric.id];
+    if (!visualMap) {
+      visualMap = this.widgetTypeService.getVisualMapFromMetric(
+        xMetric,
+        this.dataRange,
+        3
+      );
     }
 
     this.updateOptions = {
@@ -109,8 +117,8 @@ export class ScatterPlotComponent
       yAxis: {
         name: this.selectedMetrics[1].name,
         nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[this.selectedMetrics[0].id].min,
-          this.dataRange[this.selectedMetrics[0].id].max
+          this.dataRange[xMetric.id].min,
+          this.dataRange[xMetric.id].max
         ),
       },
     };
