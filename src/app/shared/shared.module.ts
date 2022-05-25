@@ -20,6 +20,7 @@ import { SearchFilterComponent } from "./components/search-filter/search-filter.
 import { DateSelectComponent } from "./components/date-select/date-select.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { NgxEchartsModule } from "ngx-echarts";
+import { PrecisionPipe } from "./pipes/precision.pipe";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -33,6 +34,7 @@ import { NgxEchartsModule } from "ngx-echarts";
     SharedIndicatorComponent,
     TableViewComponent,
     DateSelectComponent,
+    PrecisionPipe,
   ],
   imports: [
     CommonModule,
@@ -71,6 +73,7 @@ import { NgxEchartsModule } from "ngx-echarts";
     SearchFilterComponent,
     DateSelectComponent,
     NgxEchartsModule,
+    PrecisionPipe,
   ],
 })
 export class SharedModule {}
