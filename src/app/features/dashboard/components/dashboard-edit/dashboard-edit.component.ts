@@ -74,7 +74,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       shareAll,
       this.orgId
     );
-    dashboard.properties = this.dashboard.properties || dashboard.properties;
+    if (id) {
+      dashboard.properties = this.dashboard.properties;
+    }
 
     this.dashboardService.updateDashboard(dashboard).subscribe({
       next: (result) => {
