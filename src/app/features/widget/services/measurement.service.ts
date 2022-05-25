@@ -94,11 +94,11 @@ export class MeasurementService {
           const endDate = this.dateService.parseUtc(end);
           for (let s: dayjs.Dayjs = startDate; s < endDate; ) {
             let e: dayjs.Dayjs;
-            if (archiveType === "hourly") {
+            if (archiveType === "hour") {
               e = s.add(1, "hour");
-            } else if (archiveType === "monthly") {
+            } else if (archiveType === "month") {
               e = s.add(1, "month");
-            } else if (archiveType === "daily") {
+            } else if (archiveType === "day") {
               e = s.add(1, "day");
             }
             const item: ApiGetArchive = {

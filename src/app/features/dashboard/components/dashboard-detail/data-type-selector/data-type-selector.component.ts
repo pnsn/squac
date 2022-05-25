@@ -1,11 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 
 @Component({
   selector: "dashboard-data-type-selector",
   templateUrl: "./data-type-selector.component.html",
   styleUrls: ["./data-type-selector.component.scss"],
 })
-export class DataTypeSelectorComponent implements OnInit {
+export class DataTypeSelectorComponent implements OnChanges {
   @Input() dataType: string;
   @Input() statType: string;
   @Output() dataTypeSelected = new EventEmitter<any>();
@@ -31,10 +39,18 @@ export class DataTypeSelectorComponent implements OnInit {
 
   fullType: any; //used for keeping track of name
 
-  ngOnInit(): void {
-    if (this.dataType === "raw") {
-      this.statType = "";
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.dataType && this.dataType) {
+      if (this.dataType === "raw") {
+        this.statType = "";
+      }
+      this.updateTypes();
     }
+  }
+
+  updateTypes() {
     this.fullType = this.dataTypes.find((dataType) => {
       return dataType.value === this.dataType;
     });

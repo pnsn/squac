@@ -52,7 +52,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.widgetService.updateWidget(this.widget).subscribe({
       next: (response) => {
         this.widget.id = response.id;
-        this.cancel();
+        this.viewService.updateWidget(this.widget.id, this.widget);
+        this.cancel(response);
       },
       error: () => {
         this.messageService.error("Could not save widget.");
@@ -63,7 +64,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
     // this.widgetEditService.clearWidget();
-    this.viewService.updateWidget(this.widget.id, this.widget);
     this.dialogRef.close(widget);
   }
 }

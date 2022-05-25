@@ -85,7 +85,7 @@ export class TabularComponent
     this.columns.push({
       name: "# out",
       prop: "agg",
-      width: 70,
+      width: 60,
       canAutoResize: false,
       frozenLeft: true,
       resizeable: false,

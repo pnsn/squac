@@ -52,8 +52,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       unit: "week",
     },
     {
-      amount: "4",
-      unit: "week",
+      amount: "1",
+      unit: "month",
     },
   ];
 
@@ -103,13 +103,31 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
-    this.unsaved = true;
-    this.refreshData();
+    this.checkDates();
   }
 
   selectArchiveType(event) {
     this.viewService.setArchive(event.dataType, event.statType);
     this.unsaved = true;
+    this.refreshData();
+  }
+
+  //if dates larger than 3 days, default to daily, larger than 1 month, monthly
+  checkDates() {
+    if (this.viewService.archiveType === "raw") {
+      if (this.viewService.getTimeSpan("months") >= 1) {
+        this.archiveType = "month";
+        this.archiveStat = "mean";
+      } else if (this.viewService.getTimeSpan("days") >= 7) {
+        this.archiveType = "day";
+        this.archiveStat = "mean";
+      } else if (this.viewService.getTimeSpan("days") <= 1) {
+        this.archiveType = "raw";
+        this.archiveStat = "";
+      }
+    }
+    this.unsaved = true;
+    this.viewService.setArchive(this.archiveType, this.archiveStat);
     this.refreshData();
   }
 

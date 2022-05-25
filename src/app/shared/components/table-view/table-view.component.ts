@@ -70,7 +70,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     columnMode: ColumnMode.force,
     selectionType: undefined,
     headerHeight: "30",
-    footerHeight: "50",
+    footerHeight: "30",
     rowHeight: "auto",
     limit: undefined,
     reorderable: false,

@@ -82,6 +82,13 @@ export class ViewService {
     return endTime;
   }
 
+  //get amount of time between start and end
+  getTimeSpan(unit: any): number {
+    const start = this.dateService.parseUtc(this.startTime);
+    const end = this.dateService.parseUtc(this.endTime);
+    return this.dateService.diff(end, start, unit);
+  }
+
   // returns the dashboard archive type
   get archiveType(): string {
     return this.dashboard?.properties.archiveType;
