@@ -2,7 +2,6 @@ import { WidgetConfigService } from "./widget-config.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@core/services/view.service";
 import { WidgetService } from "./widget.service";
-import { Widget } from "@features/widget/models/widget";
 import { Metric } from "@core/models/metric";
 import { MockBuilder, MockRender, MockReset } from "ng-mocks";
 import { EMPTY } from "rxjs";

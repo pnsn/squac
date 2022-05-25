@@ -17,14 +17,8 @@ import { Metric } from "@core/models/metric";
 import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group/widget-edit-channel-group.component";
 import { WidgetEditOptionsComponent } from "./widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
-import {
-  MockComponents,
-  MockProvider,
-  MockProviders,
-  MockService,
-} from "ng-mocks";
+import { MockComponents, MockProviders, MockService } from "ng-mocks";
 import { WidgetEditInfoComponent } from "./widget-edit-info/widget-edit-info.component";
-import { Subject } from "rxjs";
 
 describe("WidgetEditComponent", () => {
   let component: WidgetEditComponent;
