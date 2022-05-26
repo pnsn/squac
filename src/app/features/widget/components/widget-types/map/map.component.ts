@@ -110,25 +110,17 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           child.innerHTML += `<div style='background-color: ${color}' class="map-icon"></div>${piece.label}`;
           div.append(child);
         });
-        div.innerHTML += `<p>${this.getIconHtml(
-          null,
-          visualMap,
-          false
-        )}No Value</p> `;
+        div.innerHTML += `<p>${this.getIconHtml(null, visualMap)}No Value</p> `;
       } else if (visualMap && visualMap.type === "continuous") {
         let inner = `<div>${metric.name}</div>`;
         inner += `<div class="legend-container">`;
         inner += `<div style="background-image: linear-gradient(to top, ${visualMap.inRange.color})" class="gradient-icon"></div>`;
         inner += `<div class="values"><span>${visualMap.range[1]}</span><span>${visualMap.range[0]}</span></div></div>`;
         inner += `<p><div style='background-color: ${visualMap.outOfRange.color[0]}' class="map-icon"></div>Out of Range</p> `;
-        inner += `<p>${this.getIconHtml(null, visualMap, false)}No Value</p> `;
+        inner += `<p>${this.getIconHtml(null, visualMap)}No Value</p> `;
         div.innerHTML = inner;
       } else {
-        div.innerHTML += `<p>${this.getIconHtml(
-          true,
-          false,
-          false
-        )}No Range</p> `;
+        div.innerHTML += `<p>${this.getIconHtml(true, false)}No Range</p> `;
       }
 
       return div;
@@ -252,7 +244,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     resizeObserver.observe(document.getElementById("map"));
   }
 
-  private getIconHtml(value, visualMap, inRange) {
+  private getIconHtml(value, visualMap) {
     let color = "white";
     if (!visualMap) {
       color = "white";

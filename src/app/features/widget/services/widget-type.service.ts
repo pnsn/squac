@@ -288,8 +288,6 @@ export class WidgetTypeService {
     return pieces;
   }
 
-  private getRange() {}
-
   getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
     let color = "";
     if (visualMap.type === "piecewise") {
