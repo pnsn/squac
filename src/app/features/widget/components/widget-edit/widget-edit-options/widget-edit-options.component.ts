@@ -13,6 +13,7 @@ import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import * as colormap from "colormap";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -51,7 +52,9 @@ export class WidgetEditOptionsComponent
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.thresholdArray.valueChanges.subscribe((values) => {
-      this.thresholdsChange.emit(values);
+      if (this.thresholdArray.valid) {
+        this.thresholdsChange.emit(values);
+      }
     });
   }
 
@@ -90,10 +93,6 @@ export class WidgetEditOptionsComponent
         this.addThreshold();
       }
     }
-  }
-
-  gradient(color: Array<string>) {
-    return "linear-gradient(" + color.toString + ")";
   }
 
   makeDimensionsForm() {
@@ -156,6 +155,12 @@ export class WidgetEditOptionsComponent
       return option.type === type;
     });
     return t;
+  }
+
+  colors(type) {
+    return colormap({
+      colormap: type,
+    });
   }
 
   ngOnDestroy(): void {

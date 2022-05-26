@@ -88,7 +88,7 @@
               <mat-select #inRange formControlName="inRange">
                 <mat-select-trigger *ngIf="inRange && inRange.value" r>
                   <span
-                    *ngIf="inRange.value.color.length === 1"
+                    *ngIf="inRange.value.color"
                     class="color-indicator"
                     [ngStyle]="{
                       'background-color': inRange.value.color[0]
@@ -96,11 +96,13 @@
                   ></span>
 
                   <span
-                    *ngIf="inRange.value.color.length > 1"
+                    *ngIf="!inRange.value.color"
                     class="gradient-indicator"
                     [ngStyle]="{
                       'background-image':
-                        'linear-gradient(to right, ' + inRange.value.color + ')'
+                        'linear-gradient(to right, ' +
+                        colors(inRange.value.type) +
+                        ')'
                     }"
                   ></span>
                 </mat-select-trigger>
@@ -124,7 +126,7 @@
                     class="gradient-indicator"
                     [ngStyle]="{
                       'background-image':
-                        'linear-gradient(to right, ' + range.color + ')'
+                        'linear-gradient(to right, ' + colors(range.type) + ')'
                     }"
                   ></span>
                   <span>

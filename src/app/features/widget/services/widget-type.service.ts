@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
-
+import * as colormap from "colormap";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
@@ -142,47 +142,64 @@ export class WidgetTypeService {
     const visualMaps = {};
 
     thresholds.forEach((threshold) => {
-      console.log(threshold.inRange);
       let min = null;
       let max = null;
       min = threshold.min;
       max = threshold.max;
       threshold.numSplits =
-        min === null || max === null ? 0 : threshold.numSplits;
+        min === null || max === null || !threshold.numSplits
+          ? 0
+          : threshold.numSplits;
+
+      const outColor = threshold.outOfRange
+        ? threshold.outOfRange.color[0]
+        : "black";
+      let inColors;
+      if (threshold.inRange.color) {
+        inColors = threshold.inRange.color;
+      } else if (threshold.inRange.type) {
+        inColors = colormap({
+          colormap: threshold.inRange.type,
+          format: "hex",
+        });
+      }
+
       threshold.metrics?.forEach((metricId) => {
-        const inColors = threshold.inRange.color;
-        const outColor = threshold.outOfRange.color[0];
         const pieces = [];
 
         // piece for -Infinity to min
         if (min !== null) {
-          pieces.push({ max: min, color: outColor });
-          inColors.unshift(outColor);
+          pieces.push({ max: min, min: null, color: outColor });
+        }
+        // piece for max to Infinity
+        if (max !== null) {
+          pieces.push({ min: max, max: null, color: outColor });
         }
 
         // piece for when there's no splits
-        if (!threshold.numSplits) {
-          pieces.push({ min, max });
+        if (!threshold.numSplits || threshold.numSplits < 1) {
+          pieces.push({ min, max, color: inColors[0] });
         }
 
         // In between pieces
-        if (threshold.numSplits && min !== null && max !== null) {
+        if (threshold.numSplits > 1 && min !== null && max !== null) {
           const diff = (max - min) / threshold.numSplits;
+          const numColors = inColors.length - 1;
           let pieceMin = min;
-          for (let n = 1; n <= threshold.numSplits; n++) {
+          for (let n = 0; n < threshold.numSplits; n++) {
+            //scale to color range
+            const colorIndex = Math.floor(
+              (n / (threshold.numSplits - 1)) * numColors
+            );
             const pieceMax = pieceMin + diff;
-            pieces.push({ min: pieceMin, max: pieceMax });
+            pieces.push({
+              min: pieceMin,
+              max: pieceMax,
+              color: inColors[colorIndex],
+            });
             pieceMin = pieceMax;
           }
         }
-
-        // piece for max to Infinity
-        if (max !== null) {
-          pieces.push({ min: max, color: outColor });
-          inColors.push(outColor);
-        }
-
-        console.log(pieces);
         //
         threshold.outOfRange.opacity = 0;
         if (pieces.length > 0) {
@@ -190,14 +207,31 @@ export class WidgetTypeService {
             ...this.visualMapDefaults,
             pieces,
             dimension,
+            min,
+            max,
             outOfRange: threshold.outOfRange,
-            inRange: threshold.inRange,
           };
         }
       });
     });
 
     return visualMaps;
+  }
+
+  getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
+    let color = "";
+    visualMap.pieces?.forEach((piece) => {
+      const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+      const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+      console.log(value, piece.min, piece.max, hasMin && hasMax);
+      color = hasMin && hasMax ? piece.color : color;
+    });
+
+    if (!color) {
+      color = visualMap.outOfRange.color[0];
+    }
+
+    return color;
   }
 
   // getVisualMapFromMetrics() {}

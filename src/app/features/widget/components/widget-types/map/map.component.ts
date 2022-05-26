@@ -141,6 +141,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       const stations = [];
       const stationRows = [];
       const stationChannels = {};
+
       this.channels.forEach((channel) => {
         const identifier = channel.networkCode + "." + channel.stationCode;
         let agg = 0;
@@ -151,9 +152,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
 
         const visualMap = this.visualMaps[metric.id];
-        const inRange =
-          visualMap && val <= visualMap.max && val >= visualMap.min;
-
+        const inRange = visualMap ? this.checkValue(val, visualMap) : false;
         if (visualMap && val != null && !inRange) {
           agg++;
         }
@@ -216,6 +215,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     });
   }
 
+  checkValue(value, visualMap): boolean {
+    const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+    const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+    return hasMin && hasMax;
+  }
+
   changeMetric() {
     const displayMetric = this.selectedMetrics[0];
     const layer = this.metricLayers[displayMetric.id];
@@ -230,17 +235,13 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     resizeObserver.observe(document.getElementById("map"));
   }
 
-  private getIconHtml(val, visualMap, inRange) {
-    let color;
+  private getIconHtml(value, visualMap, inRange) {
+    let color = "transparent";
 
     if (!visualMap) {
-      color = "white";
-    } else if (val !== null && !inRange) {
-      color = visualMap.outOfRange.color[0];
-    } else if (val !== null && inRange) {
-      color = visualMap.inRange.color[0];
-    } else {
       color = "gray";
+    } else if (value !== null) {
+      color = this.widgetTypeService.getColorFromValue(value, visualMap);
     }
     const htmlString = `<div style='background-color: ${color}' class='map-icon'></div>`;
     return htmlString;

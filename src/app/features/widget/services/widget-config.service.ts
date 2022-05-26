@@ -185,9 +185,14 @@ export class WidgetConfigService {
         type: "solid-yellow",
       },
       {
-        color: ["white"],
-        label: "solid white",
-        type: "solid-white",
+        color: ["red"],
+        label: "solid red",
+        type: "solid-red",
+      },
+      {
+        color: ["green"],
+        label: "solid green",
+        type: "solid-green",
       },
       {
         color: ["black"],
@@ -206,53 +211,31 @@ export class WidgetConfigService {
     return [
       {
         label: "Rainbow",
-        color: ["purple", "blue", "cyan", "green", "yellow", "orange", "red"],
         type: "rainbow",
       },
       {
         label: "Jet",
-        color: ["blue", "cyan", "white", "yellow", "red"],
         type: "jet",
       },
       {
-        label: "Polar",
-        color: ["blue", "white", "red"],
-        type: "polar",
-      },
-      {
         label: "Hot",
-        color: ["black", "red", "orange", "yellow", "white"],
         type: "hot",
       },
       {
-        label: "Red to Green",
-        color: ["red", "white", "green"],
-        type: "red-to-green",
+        label: "Blue to Red",
+        type: "bluered",
       },
       {
-        label: "Ocean",
-        color: ["black", "blue", "cyan", "white"],
-        type: "ocean",
+        label: "Viridis",
+        type: "viridis",
       },
       {
         label: "Cool",
-        color: ["cyan", "blue", "purple"],
         type: "cool",
       },
       {
-        label: "Split",
-        color: ["blue", "black", "red"],
-        type: "split",
-      },
-      {
-        label: "Gray",
-        color: ["black", "gray", "white"],
-        type: "gray",
-      },
-      {
-        label: "Seis",
-        color: ["red", "orange", "yellow", "green", "blue"],
-        type: "seis",
+        label: "Greys",
+        type: "greys",
       },
     ];
   }
