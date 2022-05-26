@@ -53,12 +53,19 @@ export class ParallelPlotComponent
   ngOnInit(): void {
     const chartOptions = {
       parallel: {
+        left: 30,
+        right: 30,
+        bottom: 20,
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,
             overflow: "break",
           },
         },
+      },
+      grid: {
+        left: 10,
+        right: 10,
       },
       xAxis: false,
       yAxis: false,

@@ -114,13 +114,12 @@ export class ScatterPlotComponent
       xAxis: {
         name: xMetric.name,
       },
+      title: {
+        text: colorMetric.name,
+      },
       visualMap,
       yAxis: {
         name: yMetric.name,
-        nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[xMetric.id].min,
-          this.dataRange[xMetric.id].max
-        ),
       },
     };
   }

@@ -64,6 +64,7 @@ export class TimechartComponent
   ngOnInit(): void {
     const chartOptions = {
       grid: {
+        containLabel: true,
         left: 55,
       },
       xAxis: {
@@ -195,6 +196,9 @@ export class TimechartComponent
     }
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
+      title: {
+        text: displayMetric.name,
+      },
       visualMap: this.visualMaps[colorMetric.id],
       xAxis: {
         min: this.viewService.startTime,
@@ -202,10 +206,6 @@ export class TimechartComponent
       },
       yAxis: {
         name: displayMetric ? displayMetric.unit : "Unknown",
-        nameGap: this.widgetTypeService.yAxisLabelPosition(
-          this.dataRange[displayMetric.id].min,
-          this.dataRange[displayMetric.id].max
-        ),
       },
     };
   }

@@ -116,7 +116,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           false
         )}No Value</p> `;
       } else if (visualMap && visualMap.type === "continuous") {
-        let inner = `<h4>${metric.name}</h4>`;
+        let inner = `<div>${metric.name}</div>`;
         inner += `<div class="legend-container">`;
         inner += `<div style="background-image: linear-gradient(to top, ${visualMap.inRange.color})" class="gradient-icon"></div>`;
         inner += `<div class="values"><span>${visualMap.range[1]}</span><span>${visualMap.range[0]}</span></div></div>`;

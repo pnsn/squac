@@ -71,6 +71,9 @@ export class TimelineComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
+      grid: {
+        left: 40,
+      },
       xAxis: {
         type: "time",
         name: "Measurement Start",
@@ -162,6 +165,7 @@ export class TimelineComponent
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,
+      title: { text: displayMetric.name },
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,

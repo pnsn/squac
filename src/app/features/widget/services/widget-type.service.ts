@@ -12,6 +12,7 @@ export class WidgetTypeService {
     outOfRange: {
       color: "#999",
     },
+    itemGap: 2,
     itemWidth: 14,
     itemHeight: 14,
     itemSymbol: "rect",
@@ -56,9 +57,19 @@ export class WidgetTypeService {
     // },
     grid: {
       containLabel: true,
-      left: 40,
+      left: 0,
       top: 20,
       right: 20,
+    },
+    title: {
+      textStyle: {
+        fontSize: 12,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        color: "#333",
+      },
+      textAlign: "auto",
+      left: "50%",
     },
     useUtc: true,
     xAxis: {
@@ -72,6 +83,7 @@ export class WidgetTypeService {
         verticalAlign: "bottom",
         align: "middle",
       },
+      nameGap: 30,
     },
     tooltip: {
       confine: true,
