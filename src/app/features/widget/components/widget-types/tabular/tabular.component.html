@@ -25,7 +25,7 @@
     class="cell-icon"
     [ngStyle]="{ 'background-color': value.color }"
   ></span>
-  <span class="cell-text" *ngIf="value.value !== null; else noValue">
+  <span class="cell-text" *ngIf="+value.value; else noValue">
     {{ value.value | precision }}
   </span>
   <ng-template #noValue>

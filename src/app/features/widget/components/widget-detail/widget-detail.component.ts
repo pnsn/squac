@@ -175,6 +175,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
     }
+    console.log(this.notSelected);
     this.metricsSelected();
   }
 
@@ -194,21 +195,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     $event.stopPropagation();
     if (action === "add") {
       const metric = this.notSelected.splice(i, 1);
-      this.selected.unshift(metric[0]);
+      const newLength = this.selected.unshift(metric[0]);
+      if (newLength > this.widgetType.dimensions?.length) {
+        const extraMetric = this.selected.pop();
+        this.notSelected.unshift(extraMetric);
+      }
     } else if (action === "remove") {
       const metric = this.selected.splice(i, 1);
       this.notSelected.unshift(metric[0]);
     }
-  }
-
-  addMetric($event, metric, i) {
-    this.metricsChanged = true;
-    $event.stopPropagation();
-    if (this.selected.length === this.expectedMetrics) {
-      this.selected.pop();
-    }
-    this.selected.push(metric);
-    this.notSelected.splice(i, 1);
   }
 
   getIndex(metric): number {

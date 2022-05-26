@@ -24,7 +24,7 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
   providers: [WidgetTypeService],
 })
 export class TabularComponent
-  implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
+  implements OnDestroy, OnChanges, WidgetTypeComponent
 {
   @Input() data;
   @Input() metrics: Metric[];
@@ -63,12 +63,17 @@ export class TabularComponent
     // (changes.data || changes.selectedMetrics) &&
     // this.channels.length > 0 &&
     // this.selectedMetrics.length > 0
-    if (changes.data && this.channels.length > 0) {
+    if (
+      (changes.data || changes.selectedMetrics) &&
+      this.channels.length > 0 &&
+      this.selectedMetrics.length > 0
+    ) {
+      this.buildColumns();
       this.buildRows(this.data);
     }
   }
 
-  ngOnInit() {
+  buildColumns() {
     this.columns = [
       {
         name: "Channel",
@@ -105,8 +110,6 @@ export class TabularComponent
       });
       this.columns = [...this.columns];
     }, 0);
-
-    this.buildRows(this.data);
   }
 
   private metricComparator(propA, propB) {
