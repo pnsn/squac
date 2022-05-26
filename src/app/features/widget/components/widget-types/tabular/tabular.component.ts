@@ -156,7 +156,6 @@ export class TabularComponent
         }
 
         const visualMap = this.visualMaps[metric.id];
-
         const inRange =
           visualMap && val <= visualMap.max && val >= visualMap.min;
 
@@ -166,7 +165,7 @@ export class TabularComponent
 
         rowMetrics[metric.id] = {
           value: val,
-          color: this.getStyle(val, visualMap, inRange),
+          color: this.getStyle(val, visualMap),
         };
       });
       const title =
@@ -232,15 +231,13 @@ export class TabularComponent
     this.subscription.unsubscribe();
   }
 
-  private getStyle(val, visualMap, inRange): string {
+  private getStyle(value, visualMap): string {
     let color;
 
     if (!visualMap) {
       color = "transparent";
-    } else if (val !== null && !inRange) {
-      color = visualMap.outOfRange.color[0];
-    } else if (val !== null && inRange) {
-      color = visualMap.inRange.color[0];
+    } else if (value !== null) {
+      color = this.widgetTypeService.getColorFromValue(value, visualMap);
     } else {
       color = "gray";
     }

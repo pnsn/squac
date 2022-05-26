@@ -76,7 +76,6 @@ export class WidgetEditOptionsComponent
       this.widgetType = this.widgetTypes.find((type) => {
         return this.type === type.type;
       });
-      console.log(this.type);
       this.makeDimensionsForm();
       //update which display options available
     }

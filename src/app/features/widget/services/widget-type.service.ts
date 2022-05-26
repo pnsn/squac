@@ -8,11 +8,6 @@ export class WidgetTypeService {
   precisionPipe = new PrecisionPipe();
   visualMapDefaults = {
     type: "piecewise", //TODO get type from threshold
-    inRange: {
-      //TODO get color from threshold
-      color: ["white", "#AA069F"],
-      opacity: 1,
-    },
     precision: 1,
     outOfRange: {
       color: "#999",
@@ -231,18 +226,16 @@ export class WidgetTypeService {
         }
       });
     });
-
     return visualMaps;
   }
 
   getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
     let color = "";
     visualMap.pieces?.forEach((piece) => {
-      const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
-      const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+      const hasMin = piece.min !== null ? value >= piece.min : true;
+      const hasMax = piece.max !== null ? value <= piece.max : true;
       color = hasMin && hasMax ? piece.color : color;
     });
-
     if (!color) {
       color = visualMap.outOfRange.color[0];
     }
