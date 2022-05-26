@@ -63,7 +63,9 @@ export class ParallelPlotComponent
       xAxis: false,
       yAxis: false,
       tooltip: {
-        formatter: this.widgetTypeService.multiMetricTooltipFormatting,
+        formatter: (params) => {
+          return this.widgetTypeService.multiMetricTooltipFormatting(params);
+        },
       },
       dataZoom: [],
     };

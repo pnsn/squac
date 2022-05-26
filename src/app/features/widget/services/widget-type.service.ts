@@ -1,15 +1,19 @@
 import { Injectable } from "@angular/core";
 import { Metric } from "@core/models/metric";
+import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
+  precisionPipe = new PrecisionPipe();
   visualMapDefaults = {
     type: "piecewise", //TODO get type from threshold
     inRange: {
       //TODO get color from threshold
       color: ["white", "#AA069F"],
+      opacity: 1,
     },
+    precision: 1,
     outOfRange: {
       color: "#999",
     },
@@ -19,11 +23,6 @@ export class WidgetTypeService {
     orient: "vertical",
     textStyle: {
       fontSize: 10,
-    },
-    formatter: (value1, value2) => {
-      return (
-        Math.round(value1 * 10) / 10 + " - " + Math.round(value2 * 10) / 10
-      );
     },
   };
 
@@ -141,29 +140,58 @@ export class WidgetTypeService {
     dimension
   ) {
     const visualMaps = {};
+
     thresholds.forEach((threshold) => {
+      console.log(threshold.inRange);
       let min = null;
       let max = null;
       min = threshold.min;
       max = threshold.max;
-
+      threshold.numSplits =
+        min === null || max === null ? 0 : threshold.numSplits;
       threshold.metrics?.forEach((metricId) => {
-        if (!min || min === 0) {
-          min = dataRange[metricId].min;
+        const inColors = threshold.inRange.color;
+        const outColor = threshold.outOfRange.color[0];
+        const pieces = [];
+
+        // piece for -Infinity to min
+        if (min !== null) {
+          pieces.push({ max: min, color: outColor });
+          inColors.unshift(outColor);
         }
-        if (!max || max === 0) {
-          max = dataRange[metricId].max;
+
+        // piece for when there's no splits
+        if (!threshold.numSplits) {
+          pieces.push({ min, max });
         }
-        if (min !== null || max !== null) {
+
+        // In between pieces
+        if (threshold.numSplits && min !== null && max !== null) {
+          const diff = (max - min) / threshold.numSplits;
+          let pieceMin = min;
+          for (let n = 1; n <= threshold.numSplits; n++) {
+            const pieceMax = pieceMin + diff;
+            pieces.push({ min: pieceMin, max: pieceMax });
+            pieceMin = pieceMax;
+          }
+        }
+
+        // piece for max to Infinity
+        if (max !== null) {
+          pieces.push({ min: max, color: outColor });
+          inColors.push(outColor);
+        }
+
+        console.log(pieces);
+        //
+        threshold.outOfRange.opacity = 0;
+        if (pieces.length > 0) {
           visualMaps[metricId] = {
             ...this.visualMapDefaults,
-            min,
-            max,
+            pieces,
             dimension,
-            inRange: threshold.inRange,
             outOfRange: threshold.outOfRange,
-            inverse: threshold.reverseColors || false,
-            splitNumber: threshold.numSplits || 1,
+            inRange: threshold.inRange,
           };
         }
       });
@@ -208,7 +236,7 @@ export class WidgetTypeService {
   // channel & list of metric values
   // used for scatter, parallel etc
   multiMetricTooltipFormatting(params) {
-    let str = params.value[params.value.length - 1];
+    let str = `${params.value[params.value.length - 1]}`;
     str += "<table><th>Metric</th> <th>Value</th>";
     params.data.forEach((data, i) => {
       if (i < params.data.length - 1) {
@@ -216,7 +244,7 @@ export class WidgetTypeService {
           "<tr><td>" +
           params.dimensionNames[i] +
           "</td><td>" +
-          data +
+          this.precisionPipe.transform(data) +
           "</td></tr>";
       }
     });
@@ -232,18 +260,25 @@ export class WidgetTypeService {
     } else {
       data.push(params);
     }
-    let str = "";
 
+    let str = "";
     if (data[0].axisValueLabel) {
-      str += data[0].axisValueLabel;
+      str += `<h4> ${data[0].axisValueLabel} </h4>`;
     } else {
       str += this.timeAxisPointerLabelFormatting({ value: data[0].value[1] });
     }
+    str += "<table><thead><th colspan='2'>Channel</th> <th>Value</th><thead>";
 
-    str += "<br />";
     data.forEach((param) => {
       const name = param.name ? param.name : param.seriesName;
-      str += param.marker + " " + name + " " + param.value[3] + "<br />";
+      str +=
+        "<tr><td>" +
+        param.marker +
+        "</td><td>" +
+        name +
+        "</td><td>" +
+        this.precisionPipe.transform(param.value[3]) +
+        "</td></tr>";
     });
 
     return str;

@@ -51,9 +51,7 @@ export class WidgetEditOptionsComponent
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.thresholdArray.valueChanges.subscribe((values) => {
-      if (this.thresholdArray.valid) {
-        this.thresholdsChange.emit(values);
-      }
+      this.thresholdsChange.emit(values);
     });
   }
 
@@ -75,6 +73,7 @@ export class WidgetEditOptionsComponent
       this.widgetType = this.widgetTypes.find((type) => {
         return this.type === type.type;
       });
+      console.log(this.type);
       this.makeDimensionsForm();
       //update which display options available
     }
@@ -134,8 +133,8 @@ export class WidgetEditOptionsComponent
   }
 
   makeThresholdForm(threshold?: Threshold) {
+    console.log(threshold);
     return this.formBuilder.group({
-      type: [threshold ? threshold.type : "piecewise", Validators.required], //default to piecewise
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
       inRange: [
@@ -147,11 +146,7 @@ export class WidgetEditOptionsComponent
         Validators.required,
       ],
       metrics: [threshold ? threshold.metrics : [], Validators.required],
-      numSplits: [threshold ? threshold.numSplits : 5, Validators.required],
-      reverseColors: [
-        threshold ? threshold.reverseColors : false,
-        Validators.required,
-      ],
+      numSplits: [threshold ? threshold.numSplits : 3, Validators.required],
     });
   }
 
@@ -161,25 +156,6 @@ export class WidgetEditOptionsComponent
       return option.type === type;
     });
     return t;
-  }
-
-  //check if thresholds valid
-  validateThreshold(values, thresholdFormGroup) {
-    const numSplits = thresholdFormGroup.get("numSplits");
-    const reverseColors = thresholdFormGroup.get("reverseColors");
-    if (values) {
-      const type = values.type;
-
-      if (type === "piecewise") {
-        numSplits.enable({ emitEvent: false });
-        reverseColors.enable({ emitEvent: false });
-      } else if (type === "binary") {
-        numSplits.setValue(1, { emitEvent: false });
-        reverseColors.setValue(false, { emitEvent: false });
-        numSplits.disable({ emitEvent: false });
-        reverseColors.disable({ emitEvent: false });
-      }
-    }
   }
 
   ngOnDestroy(): void {
@@ -197,10 +173,6 @@ export class WidgetEditOptionsComponent
   // Add a new threshold
   addThreshold(threshold?: Threshold) {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
-    this.validateThreshold(threshold, thresholdFormGroup);
-    thresholdFormGroup.valueChanges.subscribe((value) => {
-      this.validateThreshold(value, thresholdFormGroup);
-    });
     this.thresholdArray.push(thresholdFormGroup, { emitEvent: false });
   }
 

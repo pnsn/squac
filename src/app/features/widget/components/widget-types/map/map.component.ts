@@ -12,6 +12,7 @@ import { Threshold } from "@widget/models/threshold";
 import * as L from "leaflet";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 
 @Component({
   selector: "widget-map",
@@ -27,6 +28,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  precisionPipe = new PrecisionPipe();
   stations;
   stationLayer: L.LayerGroup;
 
@@ -163,9 +165,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
-          `<p> ${iconHtml} ${channel.loc}.${channel.code}: ${
-            val ? val : "no data"
-          }</p>`;
+          `<tr> <td> ${iconHtml} </td> <td> ${channel.loc}.${
+            channel.code
+          } </td><td> ${
+            val ? this.precisionPipe.transform(val) : "no data"
+          }</td></tr>`;
 
         let channelRow = {
           title: channel.nslc,
@@ -251,8 +255,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       icon: L.divIcon({ html: station.html, className: "icon-parent" }),
     })
       .bindPopup(
-        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4>
-      ${stationChannels[station.staCode]}`
+        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
+        <thead><th colspan='2'>channel</th><th>value</th></thead>
+      ${stationChannels[station.staCode]} </table>`
       )
       .bindTooltip(
         `${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()}`

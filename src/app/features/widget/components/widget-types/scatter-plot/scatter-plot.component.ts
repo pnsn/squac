@@ -56,7 +56,9 @@ export class ScatterPlotComponent
         left: 65,
       },
       tooltip: {
-        formatter: this.widgetTypeService.multiMetricTooltipFormatting,
+        formatter: (params) => {
+          return this.widgetTypeService.multiMetricTooltipFormatting(params);
+        },
       },
     };
 
