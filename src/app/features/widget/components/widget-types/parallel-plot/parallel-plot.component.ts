@@ -56,6 +56,7 @@ export class ParallelPlotComponent
         left: 30,
         right: 30,
         bottom: 20,
+        top: 40,
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,

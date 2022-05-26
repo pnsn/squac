@@ -119,14 +119,17 @@ export class TimechartComponent
           type: "line",
           data: [],
           large: true,
-
+          label: {
+            show: false,
+          },
           emphasis: {
             label: {
-              show: true,
+              show: false,
+              formatter: "{a}",
             },
             focus: "series",
             lineStyle: {
-              width: 3,
+              width: 2,
             },
           },
           step: "start",
