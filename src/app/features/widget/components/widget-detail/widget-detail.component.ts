@@ -163,12 +163,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.widgetType.dimensions) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
-      this.widget.properties.dimensions.forEach((dim) => {
-        const metric = this.widget.metrics.find((m) => m.id === dim.metricId);
-        if (metric) {
-          this.selected.push(metric);
+      this.selected = Array(this.widget.properties.dimensions.length);
+      this.widget.metrics.forEach((metric) => {
+        const dimIndex = this.widget.properties.dimensions.findIndex(
+          (dim) => dim.metricId === metric.id
+        );
+        if (dimIndex === -1) {
+          this.notSelected.push(metric);
         } else {
-          this.selected.push(this.widget.metrics[0]);
+          this.selected[dimIndex] = metric;
         }
       });
     }
@@ -176,16 +179,25 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   metricsSelected() {
-    this.selectedMetrics = [...this.selected];
-    this.metricsChanged = false;
+    if (
+      (this.widgetType.dimensions &&
+        this.selected.length >= this.widgetType.dimensions.length) ||
+      (!this.widgetType.dimensions && this.selected.length > 0)
+    ) {
+      this.selectedMetrics = [...this.selected];
+      this.metricsChanged = false;
+    }
   }
 
-  changeMetric($event, metric, i) {
+  changeMetric($event, action, i) {
     this.metricsChanged = true;
     $event.stopPropagation();
-    if (i > -1) {
-      this.selected.splice(i, 1);
-      this.notSelected.push(metric);
+    if (action === "add") {
+      const metric = this.notSelected.splice(i, 1);
+      this.selected.unshift(metric[0]);
+    } else if (action === "remove") {
+      const metric = this.selected.splice(i, 1);
+      this.notSelected.unshift(metric[0]);
     }
   }
 

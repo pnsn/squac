@@ -2,14 +2,14 @@
   <div class="widget-header">
     <span>{{ widget.name }}</span>
     <div id="controls">
-      <!-- <button
+      <button
         class="text-button"
         mat-button
         [matMenuTriggerFor]="metricMenu"
         color="primary"
       >
-        metrics -->
-      <!-- </button> -->
+        metrics
+      </button>
       <button
         class="icon-button"
         mat-icon-button
@@ -66,6 +66,47 @@
           {{ dashboard.name }}
         </button>
       </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
+    <ng-template matMenuContent>
+      <button
+        mat-menu-item
+        (click)="metricsSelected()"
+        [disabled]="!metricsChanged"
+      >
+        Update
+      </button>
+      <ng-container *ngIf="widgetType.dimensions">
+        <button
+          *ngFor="let metric of selected; let i = index"
+          mat-menu-item
+          (click)="changeMetric($event, 'remove', i)"
+        >
+          <span>{{ widgetType.dimensions[i] }}:</span>
+          {{ metric.name }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!widgetType.dimensions">
+        <button
+          mat-menu-item
+          *ngFor="let metric of selected; let i = index"
+          (click)="changeMetric($event, 'remove', i)"
+        >
+          <mat-icon>check_box</mat-icon> {{ metric.name }}
+        </button>
+      </ng-container>
+
+      <button
+        mat-menu-item
+        *ngFor="let metric of notSelected; let i = index"
+        (click)="changeMetric($event, 'add', i)"
+      >
+        <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
+      </button>
+
+      <ng-container *ngFor="let metric of metrics"> </ng-container>
     </ng-template>
   </mat-menu>
 

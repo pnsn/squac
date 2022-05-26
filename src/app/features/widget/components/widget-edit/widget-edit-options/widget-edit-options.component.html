@@ -186,6 +186,16 @@
               />
             </mat-form-field>
           </td>
+          <td>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removeThreshold(i)"
+              aria-label="button that removes the threshold"
+            >
+              <mat-icon> delete </mat-icon>
+            </button>
+          </td>
           <ng-template #default> default </ng-template>
         </tr>
       </ng-container>

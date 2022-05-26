@@ -220,8 +220,8 @@ export class WidgetTypeService {
             inRange: {
               color: inColors,
             },
-            min: dataRange[metricId].min,
-            max: dataRange[metricId].max,
+            min: Math.min(dataRange[metricId].min, min),
+            max: Math.max(dataRange[metricId].max, max),
             range: [min, max],
             outOfRange: threshold.outOfRange,
           };

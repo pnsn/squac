@@ -62,7 +62,7 @@ export class TimechartComponent
     }
   }
   ngOnInit(): void {
-    const chartOptions = {
+    const chartOptions: any = {
       grid: {
         containLabel: true,
         left: 55,
@@ -88,7 +88,22 @@ export class TimechartComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
+      legend: {},
     };
+
+    const showLegend = true;
+    if (showLegend) {
+      chartOptions.legend = {
+        type: "scroll",
+        show: true,
+        icon: "none",
+      };
+      chartOptions.grid = {
+        containLabel: true,
+        left: 55,
+        right: 80,
+      };
+    }
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
