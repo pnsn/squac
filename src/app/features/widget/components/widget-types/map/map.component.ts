@@ -175,9 +175,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
-          `<tr> <td> ${iconHtml} </td> <td> ${channel.loc}.${
-            channel.code
-          } </td><td> ${
+          `<tr> <td> ${iconHtml} </td> <td> ${channel.nslc} </td><td> ${
             val ? this.precisionPipe.transform(val) : "no data"
           }</td></tr>`;
 
@@ -279,7 +277,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       ${stationChannels[station.staCode]} </table>`
       )
       .bindTooltip(
-        `${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()}`
+        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
+        <thead><th colspan='2'>channel</th><th>value</th></thead>
+      ${stationChannels[station.staCode]} </table>`
       );
 
     marker.on("click", (ev) => {

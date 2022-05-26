@@ -26,8 +26,10 @@
     </button>
   </div>
   <p class="help-text" *ngIf="widgetType.colorTypes">
-    If min or max is not set, number of splits will be ignored. Values between
-    or equal to the min and max will be 'in range'.
+    For piecewise coloring, if min or max is not set, number of splits will be
+    ignored. Values between or equal to the min and max will be 'in range'. For
+    continuous coloring, if min or max is not set, it will default to the data
+    min or max.
   </p>
   <p class="help-text">
     {{ widgetType?.colorInfo }}
