@@ -26,7 +26,7 @@
   .map-icon {
     @extend .map-icon;
   }
-  div {
+  div.map-icon {
     display: inline-block;
     margin-right: 5px;
   }

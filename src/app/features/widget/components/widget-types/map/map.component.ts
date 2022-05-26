@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   SimpleChanges,
@@ -47,7 +48,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   visualMaps;
   legend;
 
-  constructor(private widgetTypeService: WidgetTypeService) {}
+  constructor(
+    private widgetTypeService: WidgetTypeService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit() {
     this.initMap();
@@ -91,22 +95,22 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     }
   }
 
+  private toggleLayer(event) {
+    console.log(event);
+  }
+
   private initLegend(metric, visualMap) {
     this.legend.onAdd = () => {
       const div = L.DomUtil.create("div", "legend");
 
       if (visualMap) {
         div.innerHTML += `<h4>${metric.name}</h4>`;
-        div.innerHTML += `<p> ${this.getIconHtml(
-          true,
-          visualMap,
-          true
-        )} In Range</p>`;
-        div.innerHTML += `<p> ${this.getIconHtml(
-          true,
-          visualMap,
-          false
-        )} Out of Range</p>`;
+        visualMap.pieces.forEach((piece, i) => {
+          const child = L.DomUtil.create("div", "legend-item");
+          const color = piece.color;
+          child.innerHTML += `<div style='background-color: ${color}' class="map-icon"></div>${piece.label}`;
+          div.append(child);
+        });
         div.innerHTML += `<p>${this.getIconHtml(
           null,
           visualMap,
@@ -236,10 +240,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private getIconHtml(value, visualMap, inRange) {
-    let color = "transparent";
+    let color = "white";
 
     if (!visualMap) {
-      color = "gray";
+      color = "white";
     } else if (value !== null) {
       color = this.widgetTypeService.getColorFromValue(value, visualMap);
     }
