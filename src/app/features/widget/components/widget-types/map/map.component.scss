@@ -26,6 +26,23 @@
   .map-icon {
     @extend .map-icon;
   }
+  .legend-container {
+    display: flex;
+    flex-direction: row;
+    div {
+      display: inline-block;
+    }
+    div.values {
+      margin-left: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+  .gradient-icon {
+    height: 70px;
+    width: 14px;
+  }
   div.map-icon {
     display: inline-block;
     margin-right: 5px;

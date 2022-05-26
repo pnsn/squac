@@ -30,7 +30,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   precisionPipe = new PrecisionPipe();
-  stations;
   stationLayer: L.LayerGroup;
 
   options: {
@@ -103,7 +102,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     this.legend.onAdd = () => {
       const div = L.DomUtil.create("div", "legend");
 
-      if (visualMap) {
+      if (visualMap && visualMap.type === "piecewise") {
         div.innerHTML += `<h4>${metric.name}</h4>`;
         visualMap.pieces.forEach((piece, i) => {
           const child = L.DomUtil.create("div", "legend-item");
@@ -116,6 +115,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           visualMap,
           false
         )}No Value</p> `;
+      } else if (visualMap && visualMap.type === "continuous") {
+        let inner = `<h4>${metric.name}</h4>`;
+        inner += `<div class="legend-container">`;
+        inner += `<div style="background-image: linear-gradient(to top, ${visualMap.inRange.color})" class="gradient-icon"></div>`;
+        inner += `<div class="values"><span>${visualMap.range[1]}</span><span>${visualMap.range[0]}</span></div></div>`;
+        inner += `<p><div style='background-color: ${visualMap.outOfRange.color[0]}' class="map-icon"></div>Out of Range</p> `;
+        inner += `<p>${this.getIconHtml(null, visualMap, false)}No Value</p> `;
+        div.innerHTML = inner;
       } else {
         div.innerHTML += `<p>${this.getIconHtml(
           true,
@@ -156,7 +163,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
 
         const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap ? this.checkValue(val, visualMap) : false;
+        const inRange = visualMap ? this.checkValue(val, visualMap) : true;
         if (visualMap && val != null && !inRange) {
           agg++;
         }
@@ -211,21 +218,29 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           // check if agg if worse than current agg
         }
       });
-      this.stations = [];
+      const stationMarkers = [];
       stationRows.forEach((station) => {
-        this.stations.push(this.makeMarker(station, stationChannels));
+        stationMarkers.push(this.makeMarker(station, stationChannels));
       });
-      this.metricLayers[metric.id] = L.featureGroup(this.stations);
+      this.metricLayers[metric.id] = L.featureGroup(stationMarkers);
     });
   }
 
   checkValue(value, visualMap): boolean {
-    const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
-    const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+    let hasMin;
+    let hasMax;
+    if (visualMap.range) {
+      hasMin = value >= visualMap.range[0];
+      hasMax = value <= visualMap.range[1];
+    } else {
+      hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+      hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+    }
     return hasMin && hasMax;
   }
 
   changeMetric() {
+    this.visualMaps;
     const displayMetric = this.selectedMetrics[0];
     const layer = this.metricLayers[displayMetric.id];
     this.layers.pop();
@@ -241,7 +256,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   private getIconHtml(value, visualMap, inRange) {
     let color = "white";
-
     if (!visualMap) {
       color = "white";
     } else if (value !== null) {

@@ -21,11 +21,11 @@
 
   <div>
     <span class="label">Color Options</span>
-    <button mat-button (click)="addThreshold()">
+    <button mat-button (click)="addThreshold()" *ngIf="widgetType.colorTypes">
       <mat-icon> add </mat-icon>add
     </button>
   </div>
-  <p class="help-text">
+  <p class="help-text" *ngIf="widgetType.colorTypes">
     If min or max is not set, number of splits will be ignored. Values between
     or equal to the min and max will be 'in range'.
   </p>
@@ -33,16 +33,18 @@
     {{ widgetType?.colorInfo }}
   </p>
 
-  <ng-container formArrayName="thresholdArray">
+  <ng-container formArrayName="thresholdArray" *ngIf="widgetType.colorTypes">
     <table id="thresholds-table">
       <tr>
+        <th colspan="1"></th>
         <th colspan="1"></th>
         <th colspan="2">Range</th>
         <th colspan="2">Colors</th>
         <th colspan="1"></th>
       </tr>
       <tr>
-        <th>Metric (s)</th>
+        <th>type</th>
+        <th>metric(s)</th>
         <th>min</th>
         <!-- //placeholder datamin -->
         <th>max</th>
@@ -57,6 +59,18 @@
         *ngFor="let threshold of thresholdArray.controls; let i = index"
       >
         <tr [formGroupName]="i" class="threshold">
+          <td>
+            <mat-form-field>
+              <mat-select #type formControlName="type">
+                <mat-option
+                  *ngFor="let type of widgetType?.colorTypes"
+                  [value]="type"
+                >
+                  {{ type }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
           <td>
             <mat-form-field>
               <mat-select #metric formControlName="metrics" multiple>

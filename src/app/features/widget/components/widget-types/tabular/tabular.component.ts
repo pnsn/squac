@@ -156,8 +156,7 @@ export class TabularComponent
         }
 
         const visualMap = this.visualMaps[metric.id];
-        const inRange =
-          visualMap && val <= visualMap.max && val >= visualMap.min;
+        const inRange = visualMap ? this.checkValue(val, visualMap) : true;
 
         if (visualMap && val != null && !inRange) {
           agg++;
@@ -225,6 +224,19 @@ export class TabularComponent
       row.treeStatus = "collapsed";
       this.rows = [...this.rows];
     }
+  }
+
+  checkValue(value, visualMap): boolean {
+    let hasMin;
+    let hasMax;
+    if (visualMap.range) {
+      hasMin = value >= visualMap.range[0];
+      hasMax = value <= visualMap.range[1];
+    } else {
+      hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+      hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+    }
+    return hasMin && hasMax;
   }
 
   ngOnDestroy(): void {

@@ -77,6 +77,10 @@ export class WidgetEditOptionsComponent
         return this.type === type.type;
       });
       this.makeDimensionsForm();
+      if (!this.widgetType.colorTypes) {
+        this.thresholds = [];
+        this.thresholdArray.clear();
+      }
       //update which display options available
     }
 
@@ -133,6 +137,7 @@ export class WidgetEditOptionsComponent
   makeThresholdForm(threshold?: Threshold) {
     console.log(threshold);
     return this.formBuilder.group({
+      type: [threshold ? threshold.type : null, Validators.required],
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
       inRange: [

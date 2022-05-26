@@ -6,7 +6,7 @@ import * as colormap from "colormap";
 @Injectable()
 export class WidgetTypeService {
   precisionPipe = new PrecisionPipe();
-  visualMapDefaults = {
+  piecewiseDefaults = {
     type: "piecewise", //TODO get type from threshold
     precision: 1,
     outOfRange: {
@@ -14,6 +14,22 @@ export class WidgetTypeService {
     },
     itemWidth: 14,
     itemHeight: 14,
+    itemSymbol: "rect",
+    orient: "vertical",
+    textStyle: {
+      fontSize: 10,
+    },
+  };
+
+  continuousDefaults = {
+    type: "continuous", //TODO get type from threshold
+    precision: 1,
+    outOfRange: {
+      color: "#999",
+    },
+    itemWidth: 14,
+    itemHeight: 60,
+    hoverLink: false, //disable until formatting figured out
     itemSymbol: "rect",
     orient: "vertical",
     textStyle: {
@@ -120,7 +136,7 @@ export class WidgetTypeService {
 
   getVisualMapFromMetric(metric, dataRange, dimension) {
     return {
-      ...this.visualMapDefaults,
+      ...this.piecewiseDefaults,
       min: metric.minVal || dataRange[metric.id].min,
       max: metric.maxVal || dataRange[metric.id].max,
       dimension,
@@ -160,67 +176,41 @@ export class WidgetTypeService {
       }
 
       threshold.metrics?.forEach((metricId) => {
-        const pieces = [];
-        // piece for -Infinity to min
-        if (min !== null) {
-          pieces.push({
-            max: min,
-            min: null,
-            color: outColor,
-            label: `< ${this.precisionPipe.transform(min, 2)}`,
-          });
-        }
-
-        // In between pieces
-        const diff =
-          max !== null && min !== null ? (max - min) / threshold.numSplits : 0;
-        const numColors = inColors.length - 1;
-        let pieceMin = min;
-        for (let n = 0; n < threshold.numSplits; n++) {
-          //scale to color range
-          const colorIndex =
-            threshold.numSplits > 1
-              ? Math.floor((n / (threshold.numSplits - 1)) * numColors)
-              : 0;
-          const pieceMax = diff ? pieceMin + diff : null;
-          let label = "";
-          if (pieceMin !== null && pieceMax !== null) {
-            label = `${this.precisionPipe.transform(
-              pieceMin,
-              2
-            )} - ${this.precisionPipe.transform(pieceMax, 2)}`;
-          } else if (pieceMax !== null) {
-            label = `< ${this.precisionPipe.transform(pieceMax, 2)}`;
-          } else if (pieceMin !== null) {
-            label = `≥ ${this.precisionPipe.transform(pieceMin, 2)}`;
-          }
-          pieces.push({
-            min: pieceMin,
-            max: pieceMax,
-            color: inColors[colorIndex],
-            label,
-          });
-          pieceMin = pieceMax;
-        }
-
-        // piece for max to Infinity
-        if (max !== null) {
-          pieces.push({
-            min: max,
-            max: null,
-            color: outColor,
-            label: `≥ ${this.precisionPipe.transform(max, 2)}`,
-          });
-        }
-
-        threshold.outOfRange.opacity = 0;
-        if (pieces.length > 0) {
-          visualMaps[metricId] = {
-            ...this.visualMapDefaults,
-            pieces: pieces.reverse(), // reverse for non-echarts legends
-            dimension,
+        if (threshold.type === "piecewise") {
+          const pieces = this.getPieces(
             min,
             max,
+            threshold,
+            inColors,
+            outColor
+          );
+          threshold.outOfRange.opacity = 0;
+          if (pieces.length > 0) {
+            visualMaps[metricId] = {
+              ...this.piecewiseDefaults,
+              pieces: pieces.reverse(), // reverse for non-echarts legends
+              dimension,
+              min,
+              max,
+              outOfRange: threshold.outOfRange,
+            };
+          }
+        } else if (threshold.type === "continuous") {
+          threshold.outOfRange.opacity = 1;
+          min = min !== null ? min : dataRange[metricId].min;
+          max = max !== null ? max : dataRange[metricId].max;
+          min = this.precisionPipe.transform(+min, 2);
+          max = this.precisionPipe.transform(+max, 2);
+          visualMaps[metricId] = {
+            ...this.continuousDefaults,
+            dimension,
+            calculable: true,
+            inRange: {
+              color: inColors,
+            },
+            min: dataRange[metricId].min,
+            max: dataRange[metricId].max,
+            range: [min, max],
             outOfRange: threshold.outOfRange,
           };
         }
@@ -229,13 +219,83 @@ export class WidgetTypeService {
     return visualMaps;
   }
 
+  private getPieces(min, max, threshold, inColors, outColor) {
+    const pieces = [];
+    // piece for -Infinity to min
+    if (min !== null) {
+      pieces.push({
+        max: min,
+        min: null,
+        color: outColor,
+        label: `< ${this.precisionPipe.transform(min, 2)}`,
+      });
+    }
+
+    // In between pieces
+    const diff =
+      max !== null && min !== null ? (max - min) / threshold.numSplits : 0;
+    const numColors = inColors.length - 1;
+    let pieceMin = min;
+    for (let n = 0; n < threshold.numSplits; n++) {
+      //scale to color range
+      const colorIndex =
+        threshold.numSplits > 1
+          ? Math.floor((n / (threshold.numSplits - 1)) * numColors)
+          : 0;
+      const pieceMax = diff ? pieceMin + diff : null;
+      let label = "";
+      if (pieceMin !== null && pieceMax !== null) {
+        label = `${this.precisionPipe.transform(
+          pieceMin,
+          2
+        )} - ${this.precisionPipe.transform(pieceMax, 2)}`;
+      } else if (pieceMax !== null) {
+        label = `< ${this.precisionPipe.transform(pieceMax, 2)}`;
+      } else if (pieceMin !== null) {
+        label = `≥ ${this.precisionPipe.transform(pieceMin, 2)}`;
+      }
+      pieces.push({
+        min: pieceMin,
+        max: pieceMax,
+        color: inColors[colorIndex],
+        label,
+      });
+      pieceMin = pieceMax;
+    }
+
+    // piece for max to Infinity
+    if (max !== null) {
+      pieces.push({
+        min: max,
+        max: null,
+        color: outColor,
+        label: `≥ ${this.precisionPipe.transform(max, 2)}`,
+      });
+    }
+
+    return pieces;
+  }
+
+  private getRange() {}
+
   getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
     let color = "";
-    visualMap.pieces?.forEach((piece) => {
-      const hasMin = piece.min !== null ? value >= piece.min : true;
-      const hasMax = piece.max !== null ? value <= piece.max : true;
-      color = hasMin && hasMax ? piece.color : color;
-    });
+    if (visualMap.type === "piecewise") {
+      visualMap.pieces?.forEach((piece) => {
+        const hasMin = piece.min !== null ? value >= piece.min : true;
+        const hasMax = piece.max !== null ? value <= piece.max : true;
+        color = hasMin && hasMax ? piece.color : color;
+      });
+    } else if (visualMap.type === "continuous") {
+      const colors = visualMap.inRange.color;
+      const i =
+        (value - visualMap.range[0]) /
+        (visualMap.range[1] - visualMap.range[0]);
+
+      const colorIndex = colors.length > 1 ? Math.floor(i * colors.length) : 0;
+      color = colors[colorIndex];
+    }
+
     if (!color) {
       color = visualMap.outOfRange.color[0];
     }

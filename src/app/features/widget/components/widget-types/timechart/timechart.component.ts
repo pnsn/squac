@@ -125,11 +125,12 @@ export class TimechartComponent
             },
             focus: "series",
             lineStyle: {
-              color: "#000",
+              width: 3,
             },
           },
           step: "start",
           symbol: "circle",
+          symbolSize: 2,
           sampling: "lttb",
           encode: {
             x: [1, 2],
