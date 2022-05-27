@@ -76,26 +76,28 @@ export class ScatterPlotComponent
   }
 
   toggleLegend() {
-    const temp = { ...this.updateOptions };
+    let temp: any = {};
     if (this.showLegend) {
-      temp.legend = {
-        show: true,
-        data: {
-          name: "name",
+      temp = {
+        legend: {
+          show: true,
+          right: 5,
+        },
+        grid: {
+          right: 65,
         },
       };
-      temp.grid = {
-        right: 85,
-      };
     } else {
-      temp.legend = {
-        show: false,
-      };
-      temp.grid = {
-        right: 20,
+      temp = {
+        legend: {
+          show: false,
+        },
+        grid: {
+          right: 20,
+        },
       };
     }
-    this.updateOptions = temp;
+    this.updateOptions = { ...this.updateOptions, ...temp };
   }
 
   private buildChartData(data) {
@@ -125,7 +127,8 @@ export class ScatterPlotComponent
       this.selectedMetrics,
       this.channels,
       data,
-      metricSeries
+      metricSeries,
+      this.dataRange
     );
     console.log(this.processedData);
   }

@@ -318,19 +318,39 @@ export class WidgetTypeService {
 
   //series for data with no time and multiple metrics
   // parallel and scatter
-  getSeriesForMultipleMetrics(metrics, channels, data, series) {
+  getSeriesForMultipleMetrics(metrics, channels, data, series, dataRange) {
+    const stationLookup: any = {};
+    const stations = [];
     const axis = [];
     metrics.forEach((metric, i) => {
       if (series.type === "parallel") {
         axis.push({
           name: metric.name, //metric.name.replace(/_/g, " "),
           dim: i,
+          min: dataRange[metric.id].min,
+          max: dataRange[metric.id].max,
+          scale: true,
+          axisLabel: {
+            formatter: (value) => this.precisionPipe.transform(value, 2),
+          },
         });
       }
       series.dimensions.push(metric.name);
     });
 
     channels.forEach((channel) => {
+      const staCode = channel.networkCode + "." + channel.stationCode;
+      if (!stationLookup[staCode]) {
+        stationLookup[staCode] = stations.length;
+        stations.push({
+          ...series,
+          name: staCode,
+          data: [],
+        });
+      }
+      const index = stationLookup[staCode];
+      const station = stations[index];
+
       const channelData = {
         name: channel.nslc,
         value: [],
@@ -344,10 +364,10 @@ export class WidgetTypeService {
         }
         channelData.value.push(val);
       });
-
-      series.data.push(channelData);
+      station.data.push(channelData);
     });
-    return { series, axis };
+    console.log(stations);
+    return { series: stations, axis };
   }
 
   // channel & list of metric values

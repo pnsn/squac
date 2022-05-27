@@ -10,7 +10,7 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@features/widget/models/threshold";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { Subscription } from "rxjs";
+import { endWith, Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
@@ -30,12 +30,13 @@ export class ParallelPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  @Input() showLegend: boolean;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
-  options = {};
-  updateOptions = {};
-  initOptions = {};
+  options: any = {};
+  updateOptions: any = {};
+  initOptions: any = {};
   processedData;
   echartsInstance;
   ngOnChanges(changes: SimpleChanges): void {
@@ -49,12 +50,16 @@ export class ParallelPlotComponent
       this.buildChartData(this.data);
       this.changeMetrics();
     }
+
+    if (changes.showLegend) {
+      this.toggleLegend();
+    }
   }
   ngOnInit(): void {
     const chartOptions = {
       parallel: {
         left: 30,
-        right: 30,
+        right: 40,
         bottom: 20,
         top: 40,
         parallelAxisDefault: {
@@ -88,12 +93,43 @@ export class ParallelPlotComponent
   onChartInit(ec) {
     this.echartsInstance = ec;
   }
+  toggleLegend() {
+    let temp: any = {};
+    if (this.showLegend) {
+      temp = {
+        legend: {
+          show: true,
+          right: 5,
+        },
+        grid: {
+          right: 85,
+        },
+        parallel: {
+          right: 100,
+        },
+      };
+    } else {
+      temp = {
+        legend: {
+          show: false,
+        },
+        grid: {
+          right: 20,
+        },
+        parallel: {
+          right: 40,
+        },
+      };
+    }
+
+    this.updateOptions = { ...this.updateOptions, ...temp };
+    console.log(this.updateOptions);
+  }
 
   private buildChartData(data) {
     const metricSeries = {
       type: "parallel",
-      colorBy: "data",
-      data: [],
+      colorBy: "series",
       large: true,
       dimensions: [],
     };
@@ -106,8 +142,10 @@ export class ParallelPlotComponent
       this.selectedMetrics,
       this.channels,
       data,
-      metricSeries
+      metricSeries,
+      this.dataRange
     );
+    console.log(this.processedData.series);
   }
 
   changeMetrics() {
