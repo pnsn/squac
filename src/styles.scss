@@ -474,6 +474,21 @@ ngx-datatable.shared-view-table {
   background-color: $sq-lt-gray;
 }
 
+button[mat-menu-item] {
+  &[color="accent"] {
+    color: $sq-yellow !important;
+  }
+  &[color="warn"] {
+    color: $sq-warn !important;
+  }
+  &[color="primary"] {
+    color: $sq-blue !important;
+  }
+  &[color="gray"] {
+    color: $sq-lt-gray !important;
+  }
+}
+
 .mat-menu-dense {
   &.mat-menu-panel {
     min-width: 150px;

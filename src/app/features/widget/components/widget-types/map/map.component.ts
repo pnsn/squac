@@ -160,7 +160,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           agg++;
         }
 
-        const iconHtml = this.getIconHtml(val, visualMap, inRange);
+        const iconHtml = this.getIconHtml(val, visualMap);
 
         if (!stationChannels[channel.stationCode]) {
           stationChannels[channel.stationCode] = "";

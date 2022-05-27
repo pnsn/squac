@@ -3,18 +3,29 @@
     <span>{{ widget.name }}</span>
     <div id="controls">
       <button
-        class="text-button"
-        mat-button
+        class="icon-button"
+        mat-icon-button
+        [color]="toggleLegend ? 'primary' : 'gray'"
+        aria-label="toggle channel list"
+        (click)="toggleLegend = !toggleLegend"
+      >
+        <mat-icon>legend_toggle</mat-icon>
+      </button>
+      <button
+        class="icon-button"
+        mat-icon-button
         [matMenuTriggerFor]="metricMenu"
         color="primary"
+        aria-label="change metrics"
       >
-        metrics
+        <mat-icon>auto_graph</mat-icon>
       </button>
       <button
         class="icon-button"
         mat-icon-button
         [matMenuTriggerFor]="widgetMenu"
         color="primary"
+        aria-label="change widget settings"
       >
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -75,8 +86,9 @@
         mat-menu-item
         (click)="metricsSelected()"
         [disabled]="!metricsChanged"
+        color="accent"
       >
-        Update
+        Change Metrics
       </button>
       <ng-container *ngIf="widgetType.dimensions">
         <button
@@ -133,7 +145,6 @@
         *ngSwitchCase="'timeline'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -146,7 +157,6 @@
         *ngSwitchCase="'tabular'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -158,7 +168,6 @@
         *ngSwitchCase="'parallel-plot'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -170,7 +179,6 @@
         *ngSwitchCase="'timeseries'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -182,7 +190,6 @@
         *ngSwitchCase="'map'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -194,7 +201,6 @@
         *ngSwitchCase="'box-plot'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"
@@ -206,7 +212,6 @@
         *ngSwitchCase="'scatter-plot'"
         class="widget"
         [data]="data"
-        [metrics]="widget.metrics"
         [channelGroup]="widget.channelGroup"
         [thresholds]="widget.thresholds"
         [channels]="widget.channelGroup.channels"

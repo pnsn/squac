@@ -45,6 +45,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   styles: any;
   widgetTypes;
   widgetType;
+  toggleLegend = false;
 
   constructor(
     private widgetDataService: WidgetDataService,
