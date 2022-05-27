@@ -46,6 +46,7 @@ export class WidgetTypeService {
       orient: "vertical",
       align: "left",
       left: "right",
+      icon: "none",
     },
     // toolbox: {
     //   show: true,
@@ -328,19 +329,22 @@ export class WidgetTypeService {
       }
       series.dimensions.push(metric.name);
     });
-    series.dimensions.push("nslc");
 
     channels.forEach((channel) => {
-      const channelData = [];
+      const channelData = {
+        name: channel.nslc,
+        value: [],
+      };
+
       metrics.forEach((metric) => {
         let val: number = null;
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
           val = rowData[0].value;
         }
-        channelData.push(val);
+        channelData.value.push(val);
       });
-      channelData.push(channel.nslc);
+
       series.data.push(channelData);
     });
     return { series, axis };
@@ -349,17 +353,15 @@ export class WidgetTypeService {
   // channel & list of metric values
   // used for scatter, parallel etc
   multiMetricTooltipFormatting(params) {
-    let str = `${params.value[params.value.length - 1]}`;
+    let str = `${params.name}`;
     str += "<table><th>Metric</th> <th>Value</th>";
-    params.data.forEach((data, i) => {
-      if (i < params.data.length - 1) {
-        str +=
-          "<tr><td>" +
-          params.dimensionNames[i] +
-          "</td><td>" +
-          this.precisionPipe.transform(data) +
-          "</td></tr>";
-      }
+    params.value.forEach((data, i) => {
+      str +=
+        "<tr><td>" +
+        params.dimensionNames[i] +
+        "</td><td>" +
+        this.precisionPipe.transform(data) +
+        "</td></tr>";
     });
     str = str += "</br>";
     return str;

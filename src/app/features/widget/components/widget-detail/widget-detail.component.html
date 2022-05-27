@@ -3,11 +3,12 @@
     <span>{{ widget.name }}</span>
     <div id="controls">
       <button
+        *ngIf="widgetType && widgetType.showChannelList"
         class="icon-button"
         mat-icon-button
-        [color]="toggleLegend ? 'primary' : 'gray'"
+        [color]="showLegend ? 'primary' : 'gray'"
         aria-label="toggle channel list"
-        (click)="toggleLegend = !toggleLegend"
+        (click)="showLegend = !showLegend"
       >
         <mat-icon>legend_toggle</mat-icon>
       </button>
@@ -151,6 +152,7 @@
         [selectedMetrics]="selectedMetrics"
         [dataRange]="dataRange"
         [dimensions]="widget.properties.dimensions"
+        [showLegend]="showLegend"
       >
       </widget-timeline>
       <widget-tabular
@@ -184,6 +186,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
+        [showLegend]="showLegend"
       >
       </widget-timechart>
       <widget-map
@@ -195,6 +198,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
+        [showLegend]="showLegend"
       >
       </widget-map>
       <widget-box-plotselectedMetric
@@ -217,6 +221,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
+        [showLegend]="showLegend"
       >
       </widget-scatter-plot>
       <div *ngSwitchDefault class="widget-message">

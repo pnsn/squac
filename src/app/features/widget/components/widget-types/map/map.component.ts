@@ -29,6 +29,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  @Input() showLegend: boolean;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
 
@@ -81,6 +82,19 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     ) {
       this.buildLayers();
       this.changeMetric();
+    }
+
+    if (changes.showLegend) {
+      this.legendToggle();
+    }
+  }
+
+  legendToggle() {
+    //show
+    if (this.showLegend) {
+      this.legend.addTo(this.map);
+    } else {
+      this.legend.remove();
     }
   }
 

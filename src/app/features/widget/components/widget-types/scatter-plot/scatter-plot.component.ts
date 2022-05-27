@@ -28,13 +28,14 @@ export class ScatterPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  @Input() showLegend: boolean;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
-  options = {};
-  updateOptions = {};
-  initOptions = {};
-  visualMaps = {};
+  options: any = {};
+  updateOptions: any = {};
+  initOptions: any = {};
+  visualMaps: any = {};
   processedData: any;
   constructor(private widgetTypeService: WidgetTypeService) {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,6 +48,10 @@ export class ScatterPlotComponent
     ) {
       this.buildChartData(this.data);
       this.changeMetrics();
+    }
+
+    if (changes.showLegend) {
+      this.toggleLegend();
     }
   }
   ngOnInit(): void {
@@ -70,6 +75,29 @@ export class ScatterPlotComponent
     console.log(event.seriesName, type);
   }
 
+  toggleLegend() {
+    const temp = { ...this.updateOptions };
+    if (this.showLegend) {
+      temp.legend = {
+        show: true,
+        data: {
+          name: "name",
+        },
+      };
+      temp.grid = {
+        right: 85,
+      };
+    } else {
+      temp.legend = {
+        show: false,
+      };
+      temp.grid = {
+        right: 20,
+      };
+    }
+    this.updateOptions = temp;
+  }
+
   private buildChartData(data) {
     //if 3 metrics, visualMap
     const metricSeries = {
@@ -78,6 +106,12 @@ export class ScatterPlotComponent
       data: [],
       large: true,
       dimensions: [],
+      name: "name",
+      encode: {
+        x: 0,
+        y: 1,
+        tooltip: [0, 1, 2],
+      },
     };
 
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
@@ -93,6 +127,7 @@ export class ScatterPlotComponent
       data,
       metricSeries
     );
+    console.log(this.processedData);
   }
 
   changeMetrics() {
@@ -100,14 +135,7 @@ export class ScatterPlotComponent
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
 
-    let visualMap = this.visualMaps[colorMetric.id];
-    if (!visualMap) {
-      visualMap = this.widgetTypeService.getVisualMapFromMetric(
-        xMetric,
-        this.dataRange,
-        3
-      );
-    }
+    const visualMap = this.visualMaps[colorMetric.id] || null;
 
     this.updateOptions = {
       series: this.processedData.series,

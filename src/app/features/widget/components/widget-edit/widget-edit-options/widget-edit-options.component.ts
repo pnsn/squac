@@ -77,7 +77,7 @@ export class WidgetEditOptionsComponent
         return this.type === type.type;
       });
       this.makeDimensionsForm();
-      if (!this.widgetType.colorTypes) {
+      if (!this.widgetType?.colorTypes) {
         this.thresholds = [];
         this.thresholdArray.clear();
       }

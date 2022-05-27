@@ -13,6 +13,7 @@ export class WidgetConfigService {
         type: "tabular",
         useAggregate: true,
         dimensions: null,
+        showChannelList: false,
         description:
           "Table with stations as rows and metrics as columns. Values shown are aggregates of measurements over the time range.",
         dimensionInfo:
@@ -26,6 +27,7 @@ export class WidgetConfigService {
         type: "timeline",
         useAggregate: false,
         dimensions: ["display"],
+        showChannelList: false,
         description:
           "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
         dimensionInfo:
@@ -40,6 +42,7 @@ export class WidgetConfigService {
         type: "timeseries",
         useAggregate: false,
         dimensions: ["y-axis"],
+        showChannelList: true,
         description:
           "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
         dimensionInfo:
@@ -53,6 +56,7 @@ export class WidgetConfigService {
         name: "map",
         type: "map",
         useAggregate: true,
+        showChannelList: true,
         description:
           "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
         dimensions: ["display"],
@@ -73,6 +77,7 @@ export class WidgetConfigService {
         name: "parallel plot",
         type: "parallel-plot",
         useAggregate: true,
+        showChannelList: true,
         dimensions: null,
         description:
           "Chart with multiple metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
@@ -84,6 +89,7 @@ export class WidgetConfigService {
         id: 7,
         name: "scatter plot",
         type: "scatter-plot",
+        showChannelList: true,
         useAggregate: true,
         dimensions: ["x-axis", "y-axis", "color"],
         description:

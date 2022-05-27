@@ -39,10 +39,11 @@ export class TimechartComponent
 
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  @Input() showLegend: boolean;
   subscription = new Subscription();
-  options = {};
-  updateOptions = {};
-  initOptions = {};
+  options: any = {};
+  updateOptions: any = {};
+  initOptions: any = {};
   metricSeries = {};
   visualMaps = {};
 
@@ -59,6 +60,9 @@ export class TimechartComponent
     ) {
       this.buildChartData(this.data);
       this.changeMetrics();
+    }
+    if (changes.showLegend) {
+      this.toggleLegend();
     }
   }
   ngOnInit(): void {
@@ -88,24 +92,29 @@ export class TimechartComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      legend: {},
     };
 
-    const showLegend = true;
-    if (showLegend) {
-      chartOptions.legend = {
-        type: "scroll",
+    this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  toggleLegend() {
+    const temp = { ...this.updateOptions };
+    if (this.showLegend) {
+      temp.legend = {
         show: true,
-        icon: "none",
       };
-      chartOptions.grid = {
-        containLabel: true,
-        left: 55,
-        right: 80,
+      temp.grid = {
+        right: 85,
+      };
+    } else {
+      temp.legend = {
+        show: false,
+      };
+      temp.grid = {
+        right: 20,
       };
     }
-
-    this.options = this.widgetTypeService.chartOptions(chartOptions);
+    this.updateOptions = temp;
   }
 
   onChartEvent(event, type) {

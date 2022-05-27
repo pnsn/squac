@@ -21,11 +21,11 @@
 
   <div>
     <span class="label">Color Options</span>
-    <button mat-button (click)="addThreshold()" *ngIf="widgetType.colorTypes">
+    <button mat-button (click)="addThreshold()" *ngIf="widgetType?.colorTypes">
       <mat-icon> add </mat-icon>add
     </button>
   </div>
-  <p class="help-text" *ngIf="widgetType.colorTypes">
+  <p class="help-text" *ngIf="widgetType?.colorTypes">
     For piecewise coloring, if min or max is not set, number of splits will be
     ignored. Values between or equal to the min and max will be 'in range'. For
     continuous coloring, if min or max is not set, it will default to the data
@@ -35,7 +35,7 @@
     {{ widgetType?.colorInfo }}
   </p>
 
-  <ng-container formArrayName="thresholdArray" *ngIf="widgetType.colorTypes">
+  <ng-container formArrayName="thresholdArray" *ngIf="widgetType?.colorTypes">
     <table id="thresholds-table">
       <tr>
         <th colspan="1"></th>
