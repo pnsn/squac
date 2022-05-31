@@ -102,10 +102,10 @@ export class ParallelPlotComponent
           right: 5,
         },
         grid: {
-          right: 85,
+          right: 65,
         },
         parallel: {
-          right: 100,
+          right: 90,
         },
       };
     } else {

@@ -374,7 +374,7 @@ export class WidgetTypeService {
   // used for scatter, parallel etc
   multiMetricTooltipFormatting(params) {
     let str = `${params.name}`;
-    str += "<table><th>Metric</th> <th>Value</th>";
+    str += "<table><tr><th>Metric</th> <th>Value</th></tr>";
     params.value.forEach((data, i) => {
       str +=
         "<tr><td>" +
@@ -397,12 +397,13 @@ export class WidgetTypeService {
     }
 
     let str = "";
-    if (data[0].axisValueLabel) {
-      str += `<h4> ${data[0].axisValueLabel} </h4>`;
+    if (data[0]) {
+      str += `<h4> ${data[0].name} </h4>`;
     } else {
       str += this.timeAxisPointerLabelFormatting({ value: data[0].value[1] });
     }
-    str += "<table><thead><th colspan='2'>Channel</th> <th>Value</th><thead>";
+    str +=
+      "<table style='border-collapse: separate;border-spacing: 3px 0;'><tr><th colspan='2'>Channel</th> <th>Value</th></tr>";
 
     data.forEach((param) => {
       const name = param.name ? param.name : param.seriesName;
@@ -412,7 +413,7 @@ export class WidgetTypeService {
         "</td><td>" +
         name +
         "</td><td>" +
-        this.precisionPipe.transform(param.value[3]) +
+        this.precisionPipe.transform(param.value[2]) +
         "</td></tr>";
     });
 

@@ -111,7 +111,7 @@ export class TimelineComponent
       this.selectedMetrics,
       this.thresholds,
       this.dataRange,
-      3
+      2
     );
     this.channels.forEach((channel, index) => {
       this.selectedMetrics.forEach((metric) => {
@@ -121,8 +121,8 @@ export class TimelineComponent
           data: [],
           large: true,
           encode: {
-            x: [1, 2],
-            y: 0,
+            x: [0, 1],
+            y: 3,
           },
           renderItem: this.renderItem,
         };
@@ -134,7 +134,7 @@ export class TimelineComponent
             const end = this.dateService.parseUtc(measurement.endtime).toDate();
             channelObj.data.push({
               name: channel.nslc,
-              value: [index, start, end, measurement.value],
+              value: [start, end, measurement.value, index],
             });
           });
         }
@@ -177,9 +177,9 @@ export class TimelineComponent
   }
 
   renderItem(params, api) {
-    const categoryIndex = api.value(0);
-    const start = api.coord([api.value(1), categoryIndex]); //converts to xy coords
-    const end = api.coord([api.value(2), categoryIndex]); //converts to xy coords
+    const categoryIndex = api.value(3);
+    const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
+    const end = api.coord([api.value(1), categoryIndex]); //converts to xy coords
     const height = api.size([0, 1])[1] * 0.9;
     const rectShape = graphic.clipRectByRect(
       {

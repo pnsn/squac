@@ -44,7 +44,7 @@ export class TimechartComponent
   options: any = {};
   updateOptions: any = {};
   initOptions: any = {};
-  metricSeries = {};
+  metricSeries: any = {};
   visualMaps = {};
 
   // Max allowable time between measurements to connect
@@ -98,23 +98,28 @@ export class TimechartComponent
   }
 
   toggleLegend() {
-    const temp = { ...this.updateOptions };
+    let temp: any = {};
     if (this.showLegend) {
-      temp.legend = {
-        show: true,
-      };
-      temp.grid = {
-        right: 85,
+      temp = {
+        legend: {
+          show: true,
+          right: 5,
+        },
+        grid: {
+          right: 65,
+        },
       };
     } else {
-      temp.legend = {
-        show: false,
-      };
-      temp.grid = {
-        right: 20,
+      temp = {
+        legend: {
+          show: false,
+        },
+        grid: {
+          right: 20,
+        },
       };
     }
-    this.updateOptions = temp;
+    this.updateOptions = { ...this.updateOptions, ...temp };
   }
 
   onChartEvent(event, type) {
@@ -122,92 +127,97 @@ export class TimechartComponent
   }
 
   buildChartData(data) {
+    const stationLookup: any = {};
+    const stations = [];
     this.metricSeries = {};
+    const series = {
+      type: "line",
+      large: true,
+      label: {
+        show: false,
+      },
+      emphasis: {
+        label: {
+          show: false,
+        },
+        focus: "series",
+        lineStyle: {
+          width: 2,
+        },
+      },
+      symbol: "circle",
+      symbolSize: 3,
+      sampling: "lttb",
+    };
     // this.addThresholds();
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
       this.dataRange,
-      3
+      2
     );
+    const metric = this.selectedMetrics[0];
 
     this.channels.forEach((channel) => {
-      this.selectedMetrics.forEach((metric) => {
-        if (!this.metricSeries[metric.id]) {
-          this.metricSeries[metric.id] = {
-            series: [],
-          };
-        }
-        const channelObj = {
-          name: channel.nslc,
-          type: "line",
+      const staCode = channel.networkCode + "." + channel.stationCode;
+      if (!stationLookup[staCode]) {
+        stationLookup[staCode] = stations.length;
+        stations.push({
+          ...series,
+          name: staCode,
           data: [],
-          large: true,
-          label: {
-            show: false,
-          },
-          emphasis: {
-            label: {
-              show: false,
-              formatter: "{a}",
-            },
-            focus: "series",
-            lineStyle: {
-              width: 2,
-            },
-          },
-          step: "start",
-          symbol: "circle",
-          symbolSize: 2,
-          sampling: "lttb",
           encode: {
-            x: [1, 2],
-            y: 3,
+            x: [0, 1],
+            y: 2,
           },
-        };
-        let lastEnd: dayjs.Dayjs;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          data[channel.id][metric.id].forEach((measurement: Measurement) => {
-            // // If time between measurements is greater than gap, don't connect
-            const start = this.dateService.parseUtc(measurement.starttime);
-            const end = this.dateService.parseUtc(measurement.endtime);
+        });
+      }
+      const index = stationLookup[staCode];
+      const station = stations[index];
 
-            if (
-              channelObj.data.length > 0 &&
-              lastEnd &&
-              this.dateService.diff(start, lastEnd) >=
-                metric.sampleRate * this.maxMeasurementGap
-            ) {
-              // time since last measurement
-              channelObj.data.push([
-                channelObj.name,
-                lastEnd.toDate(),
-                "start.toDate()",
-                "-",
-              ]);
-            }
+      const chanData = {
+        name: channel.nslc,
+        groupId: channel.id,
+        value: [],
+      };
 
-            // let start = measurement.starttime;
-            channelObj.data.push([
-              channelObj.name,
-              start.toDate(),
-              end.toDate(),
-              measurement.value,
-            ]);
-            // let start = measurement.starttime;
-            channelObj.data.push([
-              channelObj.name,
-              end.toDate(),
-              "-",
-              measurement.value,
-            ]);
+      let lastEnd: dayjs.Dayjs;
+      if (data[channel.id] && data[channel.id][metric.id]) {
+        data[channel.id][metric.id].forEach((measurement: Measurement) => {
+          // // If time between measurements is greater than gap, don't connect
+          const start = this.dateService.parseUtc(measurement.starttime);
+          const end = this.dateService.parseUtc(measurement.endtime);
 
-            lastEnd = end;
+          if (
+            station.data.length > 0 &&
+            lastEnd &&
+            this.dateService.diff(start, lastEnd) >=
+              metric.sampleRate * this.maxMeasurementGap
+          ) {
+            // time since last measurement
+            station.data.push({
+              name: channel.nslc,
+              value: [lastEnd.toDate(), start.toDate(), null],
+            });
+          }
+
+          station.data.push({
+            name: channel.nslc,
+            value: [start.toDate(), end.toDate(), measurement.value],
           });
-        }
-        this.metricSeries[metric.id].series.push(channelObj);
-      });
+
+          lastEnd = end;
+        });
+
+        // add datapoint at end to prevent different channel lines from connecting
+        station.data.push({
+          name: channel.nslc,
+          value: [lastEnd.toDate(), "-", "-"],
+        });
+      }
     });
+    this.metricSeries.series = stations;
+    console.log(this.metricSeries.series);
   }
 
   changeMetrics() {
@@ -222,7 +232,7 @@ export class TimechartComponent
       );
     }
     this.updateOptions = {
-      series: this.metricSeries[displayMetric.id].series,
+      series: this.metricSeries.series,
       title: {
         text: displayMetric.name,
       },
