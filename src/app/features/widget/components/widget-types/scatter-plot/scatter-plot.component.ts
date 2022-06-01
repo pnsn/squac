@@ -28,7 +28,7 @@ export class ScatterPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showLegend: boolean;
+  @Input() showStationList: boolean;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -50,8 +50,8 @@ export class ScatterPlotComponent
       this.changeMetrics();
     }
 
-    if (changes.showLegend) {
-      this.toggleLegend();
+    if (changes.showStationList) {
+      this.toggleStationList();
     }
   }
   ngOnInit(): void {
@@ -69,15 +69,15 @@ export class ScatterPlotComponent
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
-  // toggleLegend() {}
+  // toggleStationList() {}
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);
   }
 
-  toggleLegend() {
+  toggleStationList() {
     let temp: any = {};
-    if (this.showLegend) {
+    if (this.showStationList) {
       temp = {
         legend: {
           show: true,

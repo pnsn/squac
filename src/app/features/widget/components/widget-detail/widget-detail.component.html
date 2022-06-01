@@ -6,9 +6,9 @@
         *ngIf="widgetType && widgetType.showChannelList"
         class="icon-button"
         mat-icon-button
-        [color]="showLegend ? 'primary' : 'gray'"
+        [color]="showStationList ? 'primary' : 'gray'"
         aria-label="toggle channel list"
-        (click)="showLegend = !showLegend"
+        (click)="showStationList = !showStationList"
       >
         <mat-icon>legend_toggle</mat-icon>
       </button>
@@ -152,7 +152,7 @@
         [selectedMetrics]="selectedMetrics"
         [dataRange]="dataRange"
         [dimensions]="widget.properties.dimensions"
-        [showLegend]="showLegend"
+        [showStationList]="showStationList"
       >
       </widget-timeline>
       <widget-tabular
@@ -175,7 +175,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
-        [showLegend]="showLegend"
+        [showStationList]="showStationList"
       >
       </widget-parallel-plot>
       <widget-timechart
@@ -187,7 +187,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
-        [showLegend]="showLegend"
+        [showStationList]="showStationList"
       >
       </widget-timechart>
       <widget-map
@@ -199,10 +199,10 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
-        [showLegend]="showLegend"
+        [showStationList]="showStationList"
       >
       </widget-map>
-      <widget-box-plotselectedMetric
+      <widget-box-plot
         *ngSwitchCase="'box-plot'"
         class="widget"
         [data]="data"
@@ -212,7 +212,7 @@
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
       >
-      </widget-box-plotselectedMetric>
+      </widget-box-plot>
       <widget-scatter-plot
         *ngSwitchCase="'scatter-plot'"
         class="widget"
@@ -222,7 +222,7 @@
         [channels]="widget.channelGroup.channels"
         [dataRange]="dataRange"
         [selectedMetrics]="selectedMetrics"
-        [showLegend]="showLegend"
+        [showStationList]="showStationList"
       >
       </widget-scatter-plot>
       <div *ngSwitchDefault class="widget-message">

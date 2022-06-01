@@ -45,7 +45,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   styles: any;
   widgetTypes;
   widgetType;
-  showLegend = false;
+  showStationList = false;
 
   constructor(
     private widgetDataService: WidgetDataService,

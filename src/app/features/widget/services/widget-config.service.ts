@@ -56,7 +56,7 @@ export class WidgetConfigService {
         name: "map",
         type: "map",
         useAggregate: true,
-        showChannelList: false,
+        showChannelList: true,
         description:
           "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
         dimensions: ["display"],

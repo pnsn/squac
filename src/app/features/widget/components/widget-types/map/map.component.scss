@@ -16,13 +16,19 @@
   border: none;
 }
 
-:host ::ng-deep .legend,
+.legend,
+.station-list,
 :host ::ng-deep .leaflet-popup-content {
-  font-size: 12px;
+  font-size: 13px !important;
   padding: 5px;
   margin: 0px;
   line-height: 18px;
-  color: #555;
+  div {
+    font-size: inherit;
+    span {
+      font-size: inherit;
+    }
+  }
   .map-icon {
     @extend .map-icon;
   }
@@ -30,7 +36,6 @@
     display: flex;
     flex-direction: row;
     div {
-      font-size: 12px;
       display: inline-block;
     }
     div.values {
@@ -39,6 +44,9 @@
       flex-direction: column;
       justify-content: space-between;
     }
+  }
+  .offMap {
+    color: rgb(170, 170, 170);
   }
   .gradient-icon {
     height: 70px;
@@ -55,16 +63,28 @@
 
   h4 {
     margin: 0 0 3px;
-    color: #777;
+    color: "#333";
   }
 }
 :host ::ng-deep .leaflet-popup-content-wrapper {
   border-radius: 2px;
 }
 
-:host ::ng-deep .legend {
+.legend,
+.station-list {
   background: white;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
+}
+
+.station-list {
+  max-height: 50%;
+  .station {
+    &:hover {
+      cursor: pointer;
+    }
+    margin: 2px;
+  }
+  overflow-y: scroll;
 }

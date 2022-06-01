@@ -39,7 +39,7 @@ export class TimechartComponent
 
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showLegend: boolean;
+  @Input() showStationList: boolean;
   subscription = new Subscription();
   options: any = {};
   updateOptions: any = {};
@@ -61,8 +61,8 @@ export class TimechartComponent
       this.buildChartData(this.data);
       this.changeMetrics();
     }
-    if (changes.showLegend) {
-      this.toggleLegend();
+    if (changes.showStationList) {
+      this.toggleStationList();
     }
   }
   ngOnInit(): void {
@@ -97,9 +97,9 @@ export class TimechartComponent
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
-  toggleLegend() {
+  toggleStationList() {
     let temp: any = {};
-    if (this.showLegend) {
+    if (this.showStationList) {
       temp = {
         legend: {
           show: true,

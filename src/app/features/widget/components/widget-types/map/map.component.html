@@ -6,3 +6,64 @@
   (leafletMapReady)="onMapReady($event)"
   [leafletFitBounds]="fitBounds"
 ></div>
+
+<div class="legend" id="legend">
+  <h4>{{ displayMetric?.name }}</h4>
+  <ng-container *ngIf="visualMaps[displayMetric.id]?.type === 'piecewise'">
+    <div
+      *ngFor="let piece of visualMaps[displayMetric.id].pieces"
+      (click)="toggleColor(piece)"
+    >
+      <div class="map-icon" [style.background-color]="piece.color"></div>
+      <span>{{ piece.label }}</span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="visualMaps[displayMetric.id]?.type === 'continuous'">
+    <div class="legend-container">
+      <div
+        [style.background-image]="
+          'linear-gradient(to top, ${visualMaps[displayMetric.id].inRange.color})'
+        "
+        class="gradient-icon"
+      ></div>
+      <div class="values">
+        <span>
+          {{ visualMaps[displayMetric.id].range[1] }}
+        </span>
+        <span>
+          {{ visualMaps[displayMetric.id].range[0] }}
+        </span>
+      </div>
+      <div>
+        <div
+          class="map-icon"
+          [style.background-color]="
+            visualMaps[displayMetric.id].outOfRange.color[0]
+          "
+        ></div>
+        Out of Range
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!visualMaps[displayMetric.id]">
+    <div>
+      <div class="map-icon" style.background-color="white"></div>
+      no range
+    </div>
+  </ng-container>
+</div>
+
+<div id="station-list" class="station-list">
+  <div id="content">
+    <div
+      class="station {{ i }}"
+      *ngFor="let station of stations; let i = index"
+      (click)="toggleStation(i, $event)"
+      (mouseenter)="hoverStation(i, 'open')"
+      (mouseleave)="hoverStation(i, 'close')"
+    >
+      {{ station.id }}
+    </div>
+  </div>
+</div>

@@ -29,28 +29,29 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showLegend: boolean;
+  @Input() showStationList: boolean;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
-
+  displayMetric;
   options: {
     center: L.LatLng;
     zoom: number;
     layers: L.Layer[];
   };
   drawOptions: Record<string, never>;
-  layers: L.Layer[] = [];
+  layers: L.FeatureGroup[];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
-  metricLayers: { [metricId: number]: L.FeatureGroup<L.Marker> };
-  baseLayers;
+  metricLayers: { [metricId: number]: L.Marker[] };
   visualMaps;
   legend;
+  stationList;
+  stations;
 
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private ngZone: NgZone
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   initMap(): void {
     // Add all the layers to the array that will be fed to options
-    this.layers = [
+    const baseLayers = [
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -69,7 +70,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     this.options = {
       center: L.latLng(0, 0),
       zoom: 5,
-      layers: this.layers,
+      layers: baseLayers,
     };
   }
 
@@ -84,62 +85,84 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.changeMetric();
     }
 
-    if (changes.showLegend) {
+    if (changes.showStationList) {
       this.legendToggle();
     }
   }
 
   legendToggle() {
     //show
-    if (this.showLegend) {
-      this.legend.addTo(this.map);
-    } else {
-      this.legend.remove();
+    if (this.showStationList) {
+      this.stationList.addTo(this.map);
+    } else if (this.stationList) {
+      this.stationList.remove();
     }
   }
-
   onMapReady(map: L.Map) {
     this.map = map;
     // Do stuff with map
     if (this.selectedMetrics.length > 0) {
-      this.legend = new L.Control({ position: "bottomright" });
+      this.legend = new L.Control({
+        position: "bottomleft",
+      });
+      this.stationList = new L.Control({ position: "topright" });
       this.buildLayers();
       this.changeMetric();
     }
+  }
+
+  private initLegend(metric, visualMap) {
+    this.legend.onAdd = () => {
+      const legend = L.DomUtil.get("legend");
+      return legend;
+    };
+
+    this.legend.addTo(this.map);
+  }
+
+  private initStationList() {
+    this.stationList.onAdd = () => {
+      return L.DomUtil.get("station-list");
+    };
   }
 
   private toggleLayer(event) {
     console.log(event);
   }
 
-  private initLegend(metric, visualMap) {
-    this.legend.onAdd = () => {
-      const div = L.DomUtil.create("div", "legend");
+  toggleColor(piece) {
+    console.log(piece);
+  }
 
-      if (visualMap && visualMap.type === "piecewise") {
-        div.innerHTML += `<h4>${metric.name}</h4>`;
-        visualMap.pieces.forEach((piece, i) => {
-          const child = L.DomUtil.create("div", "legend-item");
-          const color = piece.color;
-          child.innerHTML += `<div style='background-color: ${color}' class="map-icon"></div>${piece.label}`;
-          div.append(child);
-        });
-        div.innerHTML += `<p>${this.getIconHtml(null, visualMap)}No Value</p> `;
-      } else if (visualMap && visualMap.type === "continuous") {
-        let inner = `<div>${metric.name}</div>`;
-        inner += `<div class="legend-container">`;
-        inner += `<div style="background-image: linear-gradient(to top, ${visualMap.inRange.color})" class="gradient-icon"></div>`;
-        inner += `<div class="values"><span>${visualMap.range[1]}</span><span>${visualMap.range[0]}</span></div></div>`;
-        inner += `<p><div style='background-color: ${visualMap.outOfRange.color[0]}' class="map-icon"></div>Out of Range</p> `;
-        inner += `<p>${this.getIconHtml(null, visualMap)}No Value</p> `;
-        div.innerHTML = inner;
+  toggleStation(i, $event) {
+    const el = document.getElementsByClassName(i)[0];
+    const layer = this.metricLayers[this.displayMetric.id];
+    const station = layer[i];
+    if (this.layers[0].hasLayer(station)) {
+      this.layers[0].removeLayer(station);
+      el.classList.add("offMap");
+    } else {
+      this.layers[0].addLayer(station);
+
+      el.classList.remove("offMap");
+    }
+
+    $event.stopPropagation();
+    // ;
+  }
+
+  hoverStation(i, status) {
+    const layer = this.metricLayers[this.displayMetric.id];
+    const station = layer[i];
+
+    if (this.layers[0].hasLayer(station)) {
+      if (status === "open") {
+        station.openTooltip();
       } else {
-        div.innerHTML += `<p>${this.getIconHtml(true, false)}No Range</p> `;
+        station.closeTooltip();
       }
-
-      return div;
-    };
-    this.legend.addTo(this.map);
+    }
+    // ;
   }
 
   private buildLayers() {
@@ -226,7 +249,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       stationRows.forEach((station) => {
         stationMarkers.push(this.makeMarker(station, stationChannels));
       });
-      this.metricLayers[metric.id] = L.featureGroup(stationMarkers);
+      this.metricLayers[metric.id] = stationMarkers;
+      this.stations = stationRows;
     });
   }
 
@@ -245,14 +269,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   changeMetric() {
     this.visualMaps;
-    const displayMetric = this.selectedMetrics[0];
-    const layer = this.metricLayers[displayMetric.id];
-    this.layers.pop();
-    this.layers.push(layer);
-    this.initLegend(displayMetric, this.visualMaps[displayMetric.id]);
+    this.displayMetric = this.selectedMetrics[0];
+
+    this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
+    this.initLegend(this.displayMetric, this.visualMaps[this.displayMetric.id]);
+    this.initStationList();
     const resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
-      this.fitBounds = layer.getBounds();
+      this.fitBounds = this.layers[0].getBounds();
     });
 
     resizeObserver.observe(document.getElementById("map"));
@@ -275,13 +299,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     }
 
     const marker = L.marker([station.lat, station.lon], {
+      autoPan: true,
       icon: L.divIcon({ html: station.html, className: "icon-parent" }),
     })
-      .bindPopup(
-        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
-        <thead><th colspan='2'>channel</th><th>value</th></thead>
-      ${stationChannels[station.staCode]} </table>`
-      )
+      // .bindPopup(
+      //   `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
+      //   <thead><th colspan='2'>channel</th><th>value</th></thead>
+      // ${stationChannels[station.staCode]} </table>`
+      // )
       .bindTooltip(
         `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
         <thead><th colspan='2'>channel</th><th>value</th></thead>

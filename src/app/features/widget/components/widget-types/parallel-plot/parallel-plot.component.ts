@@ -30,7 +30,7 @@ export class ParallelPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showLegend: boolean;
+  @Input() showStationList: boolean;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -51,8 +51,8 @@ export class ParallelPlotComponent
       this.changeMetrics();
     }
 
-    if (changes.showLegend) {
-      this.toggleLegend();
+    if (changes.showStationList) {
+      this.toggleStationList();
     }
   }
   ngOnInit(): void {
@@ -84,7 +84,7 @@ export class ParallelPlotComponent
     };
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
-  // toggleLegend() {}
+  // toggleStationList() {}
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);
@@ -93,9 +93,9 @@ export class ParallelPlotComponent
   onChartInit(ec) {
     this.echartsInstance = ec;
   }
-  toggleLegend() {
+  toggleStationList() {
     let temp: any = {};
-    if (this.showLegend) {
+    if (this.showStationList) {
       temp = {
         legend: {
           show: true,
