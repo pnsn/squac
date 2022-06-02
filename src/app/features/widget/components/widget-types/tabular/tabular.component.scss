@@ -25,7 +25,7 @@
   }
   .datatable-header-cell-template-wrap {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
     justify-content: flex-end;
   }
@@ -39,15 +39,27 @@
       font-weight: bold;
     }
   }
+  .header-cell {
+    width: 100%;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    max-height: 50px;
+  }
   .datatable-body-cell-label {
     line-height: 100%;
 
     padding: 2px;
+
     .cell-icon {
       display: inline-block;
       height: 14px;
       width: 14px;
       border-radius: 50%;
+    }
+    .cell-full {
+      display: inline-block;
+      height: 14px;
+      width: 100%;
     }
     .cell-text {
       font-size: 10pt !important;

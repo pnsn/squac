@@ -205,7 +205,6 @@ export class WidgetTypeService {
             min,
             max,
           };
-          console.log(visualMaps[metricId]);
         } else if (numSplits > 0) {
           const pieces = this.getPieces(
             min,

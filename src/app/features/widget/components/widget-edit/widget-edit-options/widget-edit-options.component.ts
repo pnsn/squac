@@ -136,7 +136,7 @@ export class WidgetEditOptionsComponent
       this.dimensions.clear();
 
       displayType = displayType || this.widgetType.displayOptions[0];
-      displayType.dimensions.forEach((dimension, i) => {
+      displayType.dimensions?.forEach((dimension, i) => {
         const dim = selected.find((m) => {
           return dimension === m.type;
         });
