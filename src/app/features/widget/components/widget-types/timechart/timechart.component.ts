@@ -36,7 +36,7 @@ export class TimechartComponent
   @Input() channelGroup: ChannelGroup;
   @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
-
+  @Input() properties: any[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
@@ -153,6 +153,7 @@ export class TimechartComponent
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
+      this.properties,
       this.dataRange,
       2
     );

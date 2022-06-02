@@ -12,44 +12,78 @@ export class WidgetConfigService {
         name: "table",
         type: "tabular",
         useAggregate: true,
-        dimensions: null,
         showChannelList: false,
         description:
           "Table with stations as rows and metrics as columns. Values shown are aggregates of measurements over the time range.",
-        dimensionInfo:
-          "Selected metrics will be displayed as columns. Station rows will show the channel with the most values 'out of range'.",
-        colorInfo: "Each metric can be colored separately.",
-        colorTypes: ["piecewise", "continuous"],
+        displayInfo: "channel values, station stoplight, worst channel",
+        displayOptions: [
+          {
+            description:
+              "each row is a station, station shows values for channel with most metrics out of range",
+            grouping: "station",
+            dimensions: null,
+            displayType: "worst",
+          },
+          {
+            description:
+              "each row is a station, station shows number of channels in/out of range",
+            grouping: "station",
+            dimensions: null,
+            displayType: "stoplight",
+          },
+          {
+            description:
+              "each row is a channel, channels show aggregate values",
+            grouping: "channel",
+            dimensions: null,
+            displayType: "value",
+          },
+        ],
       },
       {
         id: 2,
         name: "timeline",
         type: "timeline",
         useAggregate: false,
-        dimensions: ["display"],
         showChannelList: false,
         description:
           "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
-        dimensionInfo:
-          "The values for the 'display' metric will be plotted on the widget.",
-        colorInfo:
-          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
-        colorTypes: ["piecewise", "continuous"],
+        displayInfo: "channel values, station stoplight",
+        displayOptions: [
+          // {
+          //   description:
+          //     "each row is a station, station shows number of channels in/out of range",
+          //   grouping: "station",
+          //   dimensions: ["display"],
+          //   displayType: "stoplight",
+          // },
+          {
+            description:
+              "each row is a channel, channels show measurement values",
+            grouping: "channel",
+            dimensions: ["display"],
+            displayType: "value",
+          },
+        ],
       },
       {
         id: 3,
         name: "time series",
         type: "timeseries",
         useAggregate: false,
-        dimensions: ["y-axis"],
         showChannelList: true,
         description:
           "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
-        dimensionInfo:
-          "The values for the 'y-axis' metric will be plotted on the widget.",
-        colorInfo:
-          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
-        colorTypes: ["piecewise", "continuous"],
+        displayInfo: "channel values",
+        displayOptions: [
+          {
+            description:
+              "each line is a channel, channels show measurement values",
+            grouping: "channel",
+            dimensions: ["y-axis"],
+            displayType: "value",
+          },
+        ],
       },
       {
         id: 4,
@@ -59,12 +93,23 @@ export class WidgetConfigService {
         showChannelList: true,
         description:
           "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
-        dimensions: ["display"],
-        dimensionInfo:
-          "Station icons will show the value of the channel for the 'display' metric with the most values 'out of range'.",
-        colorInfo:
-          "Only the 'color' metric will be used by default, but others can be toggled on the widget. ",
-        colorTypes: ["piecewise", "continuous"],
+        displayInfo: "station stoplight, station worst",
+        displayOptions: [
+          {
+            description:
+              "each map icon is a station, station shows number of channels in/out of range",
+            grouping: "station",
+            dimensions: ["display"],
+            displayType: "stoplight",
+          },
+          {
+            description:
+              "each map icon is a station, stations show measurement values",
+            grouping: "station",
+            dimensions: ["display"],
+            displayType: "worst",
+          },
+        ],
       },
       // {
       //   id: 5,
@@ -78,12 +123,10 @@ export class WidgetConfigService {
         type: "parallel-plot",
         useAggregate: true,
         showChannelList: true,
-        dimensions: null,
+        displayInfo: "no color options, channels are lines",
         description:
           "Chart with multiple metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
-        dimensionInfo:
-          "Each metric will be a separate axis. Channels are colored separately.",
-        colorInfo: "This widget currently doesn't support custom colors.",
+        displayOptions: [],
       },
       {
         id: 7,
@@ -91,12 +134,17 @@ export class WidgetConfigService {
         type: "scatter-plot",
         showChannelList: true,
         useAggregate: true,
-        dimensions: ["x-axis", "y-axis", "color"],
         description:
           "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
-        dimensionInfo: "",
-        colorTypes: ["piecewise", "continuous"],
-        colorInfo: "Values on the chart will be colored according to the ",
+        displayInfo: "channels as dots",
+        displayOptions: [
+          {
+            description: "each dot represents a channel",
+            grouping: "channel",
+            dimensions: ["x-axis", "y-axis", "color"],
+            displayType: "value",
+          },
+        ],
       },
     ];
   }

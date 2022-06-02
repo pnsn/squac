@@ -9,13 +9,37 @@
 
 <div class="legend" id="legend">
   <h4>{{ displayMetric?.name }}</h4>
-  <ng-container *ngIf="visualMaps[displayMetric.id]?.type === 'piecewise'">
+  <ng-container *ngIf="visualMaps[displayMetric?.id]?.type === 'piecewise'">
     <div
       *ngFor="let piece of visualMaps[displayMetric.id].pieces"
       (click)="toggleColor(piece)"
     >
       <div class="map-icon" [style.background-color]="piece.color"></div>
       <span>{{ piece.label }}</span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="visualMaps[displayMetric?.id]?.type === 'stoplight'">
+    <div (click)="toggleColor(piece)">
+      <div
+        class="map-icon"
+        [style.background-color]="visualMaps[displayMetric?.id]?.colors.in"
+      ></div>
+      <span>all in</span>
+    </div>
+    <div (click)="toggleColor(piece)">
+      <div
+        class="map-icon"
+        [style.background-color]="visualMaps[displayMetric?.id]?.colors.middle"
+      ></div>
+      <span>some in</span>
+    </div>
+    <div (click)="toggleColor(piece)">
+      <div
+        class="map-icon"
+        [style.background-color]="visualMaps[displayMetric?.id]?.colors.out"
+      ></div>
+      <span>none in</span>
     </div>
   </ng-container>
 
@@ -57,8 +81,8 @@
 <div id="station-list" class="station-list">
   <div id="content">
     <div
-      class="station {{ i }}"
       *ngFor="let station of stations; let i = index"
+      class="station {{ i }}"
       (click)="toggleStation(i, $event)"
       (mouseenter)="hoverStation(i, 'open')"
       (mouseleave)="hoverStation(i, 'close')"

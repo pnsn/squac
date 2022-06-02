@@ -31,6 +31,7 @@ export class ParallelPlotComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
+  @Input() properties: any[];
   schema = [];
   subscription = new Subscription();
   results: Array<any>;

@@ -38,7 +38,7 @@ export class TimelineComponent
   @Input() channels: Channel[];
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
-  @Input() dimensions: any[];
+  @Input() properties: any[];
   subscription = new Subscription();
   results: Array<any>;
   options = {};
@@ -110,6 +110,7 @@ export class TimelineComponent
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
+      this.properties,
       this.dataRange,
       2
     );

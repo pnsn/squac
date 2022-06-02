@@ -29,6 +29,7 @@ export class ScatterPlotComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
+  @Input() properties: any[];
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -119,6 +120,7 @@ export class ScatterPlotComponent
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
+      this.properties,
       this.dataRange,
       2
     );

@@ -160,44 +160,61 @@ export class WidgetTypeService {
   getVisualMapFromThresholds(
     metrics: Metric[],
     thresholds,
+    properties,
     dataRange,
     dimension
   ) {
     const visualMaps = {};
 
+    let numSplits = properties.numSplits;
+
+    const outColor = properties.outOfRange
+      ? properties.outOfRange.color[0]
+      : "black";
+    let inColors;
+    if (properties.inRange.color) {
+      inColors = properties.inRange.color;
+    } else if (properties.inRange.type) {
+      inColors = colormap({
+        colormap: properties.inRange.type,
+        format: "hex",
+      });
+    }
     thresholds.forEach((threshold) => {
       let min = null;
       let max = null;
       min = threshold.min;
       max = threshold.max;
-      threshold.numSplits =
-        min === null || max === null || !threshold.numSplits
-          ? 1
-          : threshold.numSplits;
 
-      const outColor = threshold.outOfRange
-        ? threshold.outOfRange.color[0]
-        : "black";
-      let inColors;
-      if (threshold.inRange.color) {
-        inColors = threshold.inRange.color;
-      } else if (threshold.inRange.type) {
-        inColors = colormap({
-          colormap: threshold.inRange.type,
-          format: "hex",
-        });
+      if (min === null || max === null) {
+        numSplits = 1;
       }
 
       threshold.metrics?.forEach((metricId) => {
-        if (threshold.type === "piecewise") {
+        if (properties.displayType === "stoplight") {
+          if (inColors.length < 3) {
+            inColors = ["green", "yellow", "red"];
+          }
+          visualMaps[metricId] = {
+            type: "stoplight",
+            colors: {
+              in: inColors[0],
+              middle: inColors[Math.floor(inColors.length / 2)],
+              out: inColors[inColors.length - 1],
+            },
+            min,
+            max,
+          };
+          console.log(visualMaps[metricId]);
+        } else if (numSplits > 0) {
           const pieces = this.getPieces(
             min,
             max,
-            threshold,
+            numSplits,
             inColors,
             outColor
           );
-          threshold.outOfRange.opacity = 0;
+          properties.outOfRange.opacity = 0;
           if (pieces.length > 0) {
             visualMaps[metricId] = {
               ...this.piecewiseDefaults,
@@ -205,11 +222,11 @@ export class WidgetTypeService {
               dimension,
               min,
               max,
-              outOfRange: threshold.outOfRange,
+              outOfRange: properties.outOfRange,
             };
           }
-        } else if (threshold.type === "continuous") {
-          threshold.outOfRange.opacity = 1;
+        } else if (numSplits === 0) {
+          properties.outOfRange.opacity = 1;
           min = min !== null ? min : dataRange[metricId].min;
           max = max !== null ? max : dataRange[metricId].max;
           min = this.precisionPipe.transform(+min, 2);
@@ -224,7 +241,7 @@ export class WidgetTypeService {
             min: Math.min(dataRange[metricId].min, min),
             max: Math.max(dataRange[metricId].max, max),
             range: [min, max],
-            outOfRange: threshold.outOfRange,
+            outOfRange: properties.outOfRange,
           };
         }
       });
@@ -232,7 +249,7 @@ export class WidgetTypeService {
     return visualMaps;
   }
 
-  private getPieces(min, max, threshold, inColors, outColor) {
+  private getPieces(min, max, numSplits, inColors, outColor) {
     const pieces = [];
     // piece for -Infinity to min
     if (min !== null) {
@@ -245,17 +262,14 @@ export class WidgetTypeService {
     }
 
     // In between pieces
-    const diff =
-      max !== null && min !== null ? (max - min) / threshold.numSplits : 0;
+    const diff = max !== null && min !== null ? (max - min) / numSplits : 0;
     const numColors = inColors.length - 1;
     let pieceMin = min;
-    for (let n = 0; n < threshold.numSplits; n++) {
+    for (let n = 0; n < numSplits; n++) {
       //scale to color range
       const colorIndex =
-        threshold.numSplits > 1
-          ? Math.floor((n / (threshold.numSplits - 1)) * numColors)
-          : 0;
-      const pieceMax = diff ? pieceMin + diff : null;
+        numSplits > 1 ? Math.floor((n / (numSplits - 1)) * numColors) : 0;
+      const pieceMax = diff ? pieceMin + diff : max;
       let label = "";
       if (pieceMin !== null && pieceMax !== null) {
         label = `${this.precisionPipe.transform(
@@ -285,7 +299,6 @@ export class WidgetTypeService {
         label: `≥ ${this.precisionPipe.transform(max, 2)}`,
       });
     }
-
     return pieces;
   }
 
@@ -305,6 +318,10 @@ export class WidgetTypeService {
 
       const colorIndex = colors.length > 1 ? Math.floor(i * colors.length) : 0;
       color = colors[colorIndex];
+    } else if (visualMap.type === "stoplight") {
+      const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+      const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+      color = hasMin && hasMax ? visualMap.colors.in : visualMap.colors.out;
     }
 
     if (!color) {
@@ -366,7 +383,6 @@ export class WidgetTypeService {
       });
       station.data.push(channelData);
     });
-    console.log(stations);
     return { series: stations, axis };
   }
 

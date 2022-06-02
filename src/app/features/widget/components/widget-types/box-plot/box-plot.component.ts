@@ -20,6 +20,7 @@ export class BoxPlotComponent implements WidgetTypeComponent {
   @Input() channels: Channel[];
   @Input() currentMetricId: number;
   @Input() dataRange: any;
+  @Input() properties: any[];
   initOptions: any;
   options: any;
   autoResize: any;

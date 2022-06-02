@@ -46,6 +46,12 @@ export class WidgetEditOptionsComponent
   optionsForm: FormGroup = this.formBuilder.group({
     thresholdArray: this.formBuilder.array([]),
     dimensions: this.formBuilder.array([]),
+    options: this.formBuilder.group({
+      displayType: [""],
+      inRange: [null],
+      outOfRange: [null],
+      numSplits: [null], //>0 not continuous
+    }),
   });
 
   ngOnInit(): void {
@@ -55,6 +61,21 @@ export class WidgetEditOptionsComponent
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
       }
+    });
+    this.optionsForm.get("options").valueChanges.subscribe((value) => {
+      this.properties.displayType = value.displayType;
+      this.updateDimensions();
+      this.properties.inRange = value.inRange;
+      this.properties.outOfRange = value.outOfRange;
+      this.properties.numSplits = value.numSplits;
+      console.log("props changed", this.properties);
+      this.propertiesChange.emit(this.properties);
+    });
+
+    this.dimensions.valueChanges.subscribe((value) => {
+      console.log("dimensions changed", value);
+      this.properties.dimensions = value;
+      this.propertiesChange.emit(this.properties);
     });
   }
 
@@ -67,6 +88,7 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.properties && changes.properties.currentValue) {
+      console.log(this.properties);
       if (!this.properties.dimensions) {
         this.properties.dimensions = [];
       }
@@ -76,8 +98,9 @@ export class WidgetEditOptionsComponent
       this.widgetType = this.widgetTypes.find((type) => {
         return this.type === type.type;
       });
-      this.makeDimensionsForm();
-      if (!this.widgetType?.colorTypes) {
+      this.initForm();
+      if (!this.widgetType || !this.widgetType.displayOptions) {
+        console.log("no thresholds allowed");
         this.thresholds = [];
         this.thresholdArray.clear();
       }
@@ -98,19 +121,22 @@ export class WidgetEditOptionsComponent
     }
   }
 
-  makeDimensionsForm() {
-    const selected = this.properties.dimensions;
-    this.dimensions.clear();
-    this.dimensions.valueChanges.subscribe((values) => {
-      this.properties.dimensions = values;
-      this.propertiesChange.emit(this.properties);
-    });
-    if (
-      this.widgetType &&
-      this.widgetType.dimensions &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.widgetType.dimensions.forEach((dimension, i) => {
+  //      threshold ? this.findColor(threshold.outOfRange.type) : null,
+  //Validators.required,
+
+  updateDimensions() {
+    console.log("updateDimensions");
+    let displayType;
+    if (this.widgetType?.displayOptions) {
+      const type = this.properties.displayType;
+      displayType = this.widgetType.displayOptions.find(
+        (option) => option.type === type
+      );
+      const selected = this.properties.dimensions;
+      this.dimensions.clear();
+
+      displayType = displayType || this.widgetType.displayOptions[0];
+      displayType.dimensions.forEach((dimension, i) => {
         const dim = selected.find((m) => {
           return dimension === m.type;
         });
@@ -133,23 +159,31 @@ export class WidgetEditOptionsComponent
       });
     }
   }
+  initForm() {
+    if (this.widgetType && this.widgetType.displayOptions) {
+      this.updateDimensions();
+    }
+    this.optionsForm.get("options").patchValue(
+      {
+        inRange: this.properties.inRange
+          ? this.findColor(this.properties.inRange.type)
+          : null,
+        outOfRange: this.properties.outOfRange
+          ? this.findColor(this.properties.outOfRange.type)
+          : null,
+        displayType: this.properties.displayType,
+        numSplits: this.properties.numSplits,
+      },
+      { emitEvent: false }
+    );
+  }
 
   makeThresholdForm(threshold?: Threshold) {
     console.log(threshold);
     return this.formBuilder.group({
-      type: [threshold ? threshold.type : null, Validators.required],
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
-      inRange: [
-        threshold ? this.findColor(threshold.inRange.type) : null,
-        Validators.required,
-      ],
-      outOfRange: [
-        threshold ? this.findColor(threshold.outOfRange.type) : null,
-        Validators.required,
-      ],
       metrics: [threshold ? threshold.metrics : [], Validators.required],
-      numSplits: [threshold ? threshold.numSplits : 3, Validators.required],
     });
   }
 
@@ -197,3 +231,33 @@ export class WidgetEditOptionsComponent
     return metric?.name;
   }
 }
+
+// if (
+//   this.widgetType &&
+//   this.widgetType.dimensions &&
+//   this.selectedMetrics.length > 0
+// ) {
+//   this.widgetType.dimensions.forEach((dimension, i) => {
+//     const dim = selected.find((m) => {
+//       return dimension === m.type;
+//     });
+
+//     let metricId;
+//     if (dim) {
+//       metricId = dim.metricId;
+//     } else if (this.selectedMetrics[i]) {
+//       metricId = this.selectedMetrics[i].id;
+//     } else {
+//       metricId = this.selectedMetrics[0].id;
+//     }
+
+//     this.dimensions.push(
+//       this.formBuilder.group({
+//         type: [dimension], //default to piecewise
+//         metricId: [metricId],
+//       })
+//     );
+//   });
+// }
+
+//  d

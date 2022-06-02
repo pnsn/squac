@@ -32,6 +32,7 @@ export class TabularComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
+  @Input() properties: any[];
   subscription = new Subscription();
   visualMaps;
 
@@ -139,6 +140,7 @@ export class TabularComponent
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
+      this.properties,
       this.dataRange,
       3
     );

@@ -2,18 +2,8 @@ export class Threshold {
   type: string; //continuous, piecewise, markLine, markArea
   min: number;
   max: number;
-  inRange: {
-    color: string[];
-    type: string;
-  };
-  outOfRange: {
-    color: string[];
-    type: string;
-  };
   metrics: [];
   data: [];
-  reverseColors: boolean;
-  numSplits: number;
   static get modelName() {
     return "Threshold";
   }

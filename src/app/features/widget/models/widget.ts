@@ -103,9 +103,7 @@ export class Widget {
   }
 }
 
-const defaultProperties: WidgetProperties = {
-  theme: "red",
-};
+const defaultProperties: WidgetProperties = {};
 
 const defaultLayout: WidgetLayout = {
   rows: 3,
@@ -121,9 +119,18 @@ export interface WidgetLayout {
 
 export interface WidgetProperties {
   //depends on which widgetType
-  theme?: string;
-  displayChannel?: string; //worst, first, or aggregate
+  grouping?: string; //station or channel?
   dimensions?: any; //order of display
+  inRange?: {
+    color: string[];
+    type: string;
+  };
+  outOfRange?: {
+    color: string[];
+    type: string;
+  };
+  value?: string; //worst, channel, stoplight
+  numSplits?: number;
   // show_legend: boolean; TODO: add these
   // show_tooltips: boolean;
   // zoom: boolean;

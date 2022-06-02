@@ -30,6 +30,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
+  @Input() properties: any;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
   displayMetric;
@@ -112,8 +113,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private initLegend(metric, visualMap) {
+    const legend = L.DomUtil.get("legend");
     this.legend.onAdd = () => {
-      const legend = L.DomUtil.get("legend");
       return legend;
     };
 
@@ -121,8 +122,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private initStationList() {
+    const stationList = L.DomUtil.get("station-list");
     this.stationList.onAdd = () => {
-      return L.DomUtil.get("station-list");
+      console.log(stationList);
+      return stationList;
     };
   }
 
@@ -169,13 +172,15 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     const data = this.data;
     this.metricLayers = {};
 
+    //this.properties.displayType
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
       this.thresholds,
+      this.properties,
       this.dataRange,
       3
     );
-
+    //properties.stationView === 'stoplight' || 'worst'
     this.selectedMetrics.forEach((metric) => {
       const channelRows = [];
       const stations = [];
@@ -205,7 +210,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
           `<tr> <td> ${iconHtml} </td> <td> ${channel.nslc} </td><td> ${
-            val ? this.precisionPipe.transform(val) : "no data"
+            val !== null ? this.precisionPipe.transform(val) : "no data"
           }</td></tr>`;
 
         let channelRow = {
@@ -213,11 +218,10 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           id: channel.id,
           parentId: identifier,
           staCode: channel.stationCode,
-          netCode: channel.networkCode,
           lat: channel.lat,
           lon: channel.lon,
           html: iconHtml,
-          agg,
+          metricAgg: agg,
         };
         channelRow = { ...channelRow };
         channelRows.push(channelRow);
@@ -227,28 +231,45 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           stations.push(identifier);
           stationRows.push({
             ...{
-              title: channel.nslc,
               id: identifier,
               staCode: channel.stationCode,
-              netCode: channel.networkCode,
               lat: channel.lat,
               lon: channel.lon,
               html: iconHtml,
               agg,
+              channelAgg: agg > 0 ? 1 : 0, //number of channels out of spec
+              metricAgg: agg, // number of metrics&channels out
+              count: 1,
             },
           });
         } else {
-          stationRows[staIndex] = this.findWorstChannel(
+          const station = this.findWorstChannel(
             channelRow,
             stationRows[staIndex]
           );
+          if (visualMap.type === "stoplight") {
+            let color;
+            if (station.channelAgg === 0) {
+              color = visualMap.colors.in;
+            } else if (station.channelAgg === station.count) {
+              color = visualMap.colors.out;
+            } else {
+              color = visualMap.colors.middle;
+            }
+            station.color = color;
+          }
+
+          stationRows[staIndex] = station;
+
           // check if agg if worse than current agg
         }
       });
       const stationMarkers = [];
+
       stationRows.forEach((station) => {
-        stationMarkers.push(this.makeMarker(station, stationChannels));
+        stationMarkers.push(this.makeStationMarker(station, stationChannels));
       });
+
       this.metricLayers[metric.id] = stationMarkers;
       this.stations = stationRows;
     });
@@ -293,14 +314,22 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     return htmlString;
   }
 
-  private makeMarker(station, stationChannels) {
-    if (!station.staCode) {
+  private makeStationMarker(station, stationChannels) {
+    const channels = stationChannels[station.staCode];
+    if (!station.id) {
       console.log(station);
+    }
+
+    let html;
+    if (station.color) {
+      html = `<div style='background-color: ${station.color}' class='map-icon'></div>`;
+    } else {
+      html = station.html;
     }
 
     const marker = L.marker([station.lat, station.lon], {
       autoPan: true,
-      icon: L.divIcon({ html: station.html, className: "icon-parent" }),
+      icon: L.divIcon({ html, className: "icon-parent" }),
     })
       // .bindPopup(
       //   `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
@@ -308,7 +337,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       // ${stationChannels[station.staCode]} </table>`
       // )
       .bindTooltip(
-        `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
+        `<h4> ${station.id} </h4> <table>
         <thead><th colspan='2'>channel</th><th>value</th></thead>
       ${stationChannels[station.staCode]} </table>`
       );
@@ -319,12 +348,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     return marker;
   }
   private findWorstChannel(channel, station) {
+    station.count++;
     if (channel.agg > station.agg) {
-      const newStation = { ...channel };
-      newStation.id = station.id;
-      newStation.parentId = null; // It is the parent now
-      return newStation;
+      station.html = channel.html;
+      station.agg = channel.agg;
     }
+    station.channelAgg += channel.metricAgg > 0 ? 1 : 0;
+    station.metricAgg += channel.metricAgg;
+
     return station;
   }
 }
