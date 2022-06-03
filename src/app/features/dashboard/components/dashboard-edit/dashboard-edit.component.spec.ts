@@ -6,9 +6,6 @@ import { MaterialModule } from "@shared/material.module";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of } from "rxjs";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
@@ -16,8 +13,6 @@ describe("DashboardEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(DashboardEditComponent)
-      .keep(ActivatedRoute)
-      .keep(RouterTestingModule.withRoutes([]))
       .mock(MaterialModule)
       .mock(MatDialogRef)
       .mock(MAT_DIALOG_DATA, {
