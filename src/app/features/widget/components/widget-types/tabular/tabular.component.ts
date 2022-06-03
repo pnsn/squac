@@ -76,7 +76,6 @@ export class TabularComponent
   buildColumns() {
     let name;
     let isTreeColumn;
-    let aggName;
     switch (this.properties.displayType) {
       case "channel":
         name = "Channel";

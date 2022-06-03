@@ -183,12 +183,6 @@ export class TimechartComponent
       const index = stationLookup[staCode];
       const station = stations[index];
 
-      const chanData = {
-        name: channel.nslc,
-        groupId: channel.id,
-        value: [],
-      };
-
       let lastEnd: dayjs.Dayjs;
       if (data[channel.id] && data[channel.id][metric.id]) {
         data[channel.id][metric.id].forEach((measurement: Measurement) => {

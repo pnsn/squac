@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   SimpleChanges,
@@ -50,10 +49,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   stationList;
   stations;
 
-  constructor(
-    private widgetTypeService: WidgetTypeService,
-    private zone: NgZone
-  ) {}
+  constructor(private widgetTypeService: WidgetTypeService) {}
 
   ngOnInit() {
     this.initMap();
@@ -112,7 +108,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     }
   }
 
-  private initLegend(metric, visualMap) {
+  private initLegend() {
     const legend = L.DomUtil.get("legend");
     this.legend.onAdd = () => {
       return legend;
@@ -281,7 +277,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     this.displayMetric = this.selectedMetrics[0];
 
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
-    this.initLegend(this.displayMetric, this.visualMaps[this.displayMetric.id]);
+    this.initLegend();
     this.initStationList();
     const resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
@@ -303,7 +299,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private makeStationMarker(station, stationChannels) {
-    const channels = stationChannels[station.staCode];
     if (!station.id) {
       console.log(station);
     }
