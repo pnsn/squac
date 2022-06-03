@@ -52,6 +52,8 @@
     <div id="map-container">
       <channel-group-map
         [selectedChannels]="channelGroup.channels"
+        (showChannelChange)="selectChannel($event)"
+        [showChannel]="showChannel"
         [editPage]="false"
       ></channel-group-map>
     </div>
@@ -61,10 +63,13 @@
         class="material"
         [rows]="channelGroup.channels"
         [columnMode]="ColumnMode.force"
+        [selectionType]="SelectionType.single"
         [headerHeight]="30"
         [footerHeight]="50"
         [rowHeight]="23"
         [scrollbarV]="50"
+        (select)="onSelect($event)"
+        [selected]="selected"
       >
         <ngx-datatable-column
           name="Network"

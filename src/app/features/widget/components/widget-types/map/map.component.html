@@ -7,7 +7,7 @@
   [leafletFitBounds]="fitBounds"
 ></div>
 
-<div class="legend" id="legend" *ngIf="displayMetric">
+<div class="legend" id="legend">
   <h4>{{ displayMetric?.name }}</h4>
   <ng-container *ngIf="visualMaps[displayMetric?.id]?.type === 'piecewise'">
     <div

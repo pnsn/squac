@@ -273,7 +273,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   changeMetric() {
-    this.visualMaps;
     this.displayMetric = this.selectedMetrics[0];
 
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];

@@ -61,7 +61,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     outerMarginRight: 10,
     outerMarginLeft: 10,
     mobileBreakpoint: 640,
-    compactType: "none",
+    compactType: "compactUp&Left",
     displayGrid: "onDrag&Resize",
     // scrollToNewItems: true,
     itemChangeCallback: (item) => {

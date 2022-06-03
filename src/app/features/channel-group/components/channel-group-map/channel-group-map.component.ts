@@ -5,6 +5,9 @@ import {
   Output,
   EventEmitter,
   OnInit,
+  SimpleChange,
+  SimpleChanges,
+  NgZone,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import * as L from "leaflet";
@@ -21,6 +24,8 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   @Input() removeChannels: Channel[];
   @Input() isRemoving: boolean;
   @Input() editPage: boolean;
+  @Input() showChannel: Channel;
+  @Output() showChannelChange = new EventEmitter<any>();
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
   channelLayer: L.LayerGroup;
   drawnItems: L.FeatureGroup;
@@ -34,13 +39,19 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
+  constructor(private zone: NgZone) {}
 
   ngOnInit() {
     this.initMap();
   }
 
-  ngOnChanges() {
-    this.updateMap();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.showChannel && this.showChannel) {
+      this.selectChannels(this.showChannel);
+    }
+    if (changes.selectedChannels) {
+      this.updateMap();
+    }
   }
 
   initMap(): void {
@@ -90,6 +101,20 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }, 0);
   }
 
+  selectChannels(channel) {
+    let channelMarker;
+    this.channelLayer.eachLayer((layer: any) => {
+      if (layer.options.title === channel.nslc) {
+        channelMarker = layer;
+      }
+      // layer.title === channel.nslc;
+    });
+
+    if (channelMarker) {
+      console.log(channelMarker);
+      channelMarker.openPopup();
+    }
+  }
   updateMap() {
     if (this.channelLayer && this.selectedChannels !== undefined) {
       this.layers.pop();
@@ -128,11 +153,22 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           sumLat += channel.lat;
           sumLon += channel.lon;
           chanLatLng.push([channel.lat, channel.lon]);
-          chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {
-              icon: L.divIcon({ className: "new-channels" }),
-            }).bindPopup(channel.stationCode.toUpperCase())
+          const marker = L.marker([channel.lat, channel.lon], {
+            icon: L.divIcon({ className: "new-channels" }),
+            title: channel.nslc,
+          }).bindPopup(
+            channel.networkCode.toUpperCase() +
+              "." +
+              channel.stationCode.toUpperCase()
           );
+          marker.on("click", (ev) => {
+            ev.target.openPopup();
+            this.zone.run(() => {
+              console.log("event clicked");
+              this.showChannelChange.emit(channel);
+            });
+          });
+          chanMarkers.push(marker);
         });
       }
       // Add channels being search for

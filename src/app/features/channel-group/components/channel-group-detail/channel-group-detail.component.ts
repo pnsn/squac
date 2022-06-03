@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { Channel } from "@core/models/channel";
 
 @Component({
   selector: "channel-group-detail",
@@ -19,7 +20,8 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   error: boolean;
-
+  showChannel: Channel;
+  selected = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,6 +49,16 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
     this.channelGroupSub.unsubscribe();
+  }
+
+  onSelect(event) {
+    this.showChannel = this.selected[0];
+    console.log(this.showChannel);
+  }
+
+  selectChannel(event) {
+    console.log(event);
+    this.selected = [event];
   }
 
   closeChannelGroup() {
