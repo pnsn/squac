@@ -7,11 +7,11 @@
   [leafletFitBounds]="fitBounds"
 ></div>
 
-<div class="legend" id="legend">
+<div class="legend" id="legend" *ngIf="displayMetric">
   <h4>{{ displayMetric?.name }}</h4>
   <ng-container *ngIf="visualMaps[displayMetric?.id]?.type === 'piecewise'">
     <div
-      *ngFor="let piece of visualMaps[displayMetric.id].pieces"
+      *ngFor="let piece of visualMaps[displayMetric?.id]?.pieces"
       (click)="toggleColor(piece)"
     >
       <div class="map-icon" [style.background-color]="piece.color"></div>
@@ -43,12 +43,12 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="visualMaps[displayMetric.id]?.type === 'continuous'">
+  <ng-container *ngIf="visualMaps[displayMetric?.id]?.type === 'continuous'">
     <div class="legend-container">
       <div
         [style.background-image]="
           'linear-gradient(to top, ' +
-          visualMaps[displayMetric?.id].inRange.color +
+          visualMaps[displayMetric?.id]?.inRange.color +
           ')'
         "
         class="gradient-icon"
@@ -65,14 +65,14 @@
         <div
           class="map-icon"
           [style.background-color]="
-            visualMaps[displayMetric.id].outOfRange.color[0]
+            visualMaps[displayMetric?.id]?.outOfRange.color[0]
           "
         ></div>
         Out of Range
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="!visualMaps[displayMetric.id]">
+  <ng-container *ngIf="!visualMaps[displayMetric?.id]">
     <div>
       <div class="map-icon" style.background-color="white"></div>
       no range
