@@ -119,7 +119,6 @@ export interface WidgetLayout {
 
 export interface WidgetProperties {
   //depends on which widgetType
-  grouping?: string; //station or channel?
   dimensions?: any; //order of display
   inRange?: {
     color: string[];
@@ -129,7 +128,7 @@ export interface WidgetProperties {
     color: string[];
     type: string;
   };
-  value?: string; //worst, channel, stoplight
+  displayType?: string; //worst, channel, stoplight
   numSplits?: number;
   // show_legend: boolean; TODO: add these
   // show_tooltips: boolean;

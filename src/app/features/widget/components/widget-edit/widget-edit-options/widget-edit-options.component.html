@@ -1,120 +1,145 @@
 <form #optionsEditForm [formGroup]="optionsForm">
-  <span class="label"> {{ widgetType?.name | titlecase }} Options</span>
-  <p class="help-text">{{ widgetType?.displayInfo }}</p>
-  <ng-container formGroupName="options">
-    <mat-form-field>
-      <mat-label>Type</mat-label>
-      <mat-select #displayType formControlName="displayType">
-        <mat-option
-          *ngFor="let type of widgetType?.displayOptions"
-          [value]="type.displayType"
-        >
-          {{ type.displayType }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="small">
-      <mat-label>In Range</mat-label>
-      <mat-select #inRange formControlName="inRange">
-        <mat-select-trigger *ngIf="inRange && inRange.value">
-          <span
-            *ngIf="inRange.value.color"
-            class="color-indicator"
-            [ngStyle]="{
-              'background-color': inRange.value.color[0]
-            }"
-          ></span>
+  <div class="head-row">
+    <span class="label">{{ widgetType?.name | titlecase }} Options</span>
+  </div>
 
-          <span
-            *ngIf="!inRange.value.color"
-            class="gradient-indicator"
-            [ngStyle]="{
-              'background-image':
-                'linear-gradient(to right, ' + colors(inRange.value.type) + ')'
-            }"
-          ></span>
-        </mat-select-trigger>
-        <mat-option *ngFor="let range of solidOptions" [value]="range">
-          <span
-            *ngIf="range.color.length === 1"
-            class="color-indicator"
-            [ngStyle]="{
-              'background-color': range.color[0]
-            }"
-          ></span>
-          <span>
-            {{ range.label }}
-          </span>
-        </mat-option>
-        <mat-option *ngFor="let range of gradientOptions" [value]="range">
-          <span
-            class="gradient-indicator"
-            [ngStyle]="{
-              'background-image':
-                'linear-gradient(to right, ' + colors(range.type) + ')'
-            }"
-          ></span>
-          <span>
-            {{ range.label }}
-          </span>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="small">
-      <mat-label>Out of Range</mat-label>
-      <mat-select #outOfRange formControlName="outOfRange">
-        <mat-select-trigger>
-          <span
-            *ngIf="outOfRange.value"
-            class="color-indicator"
-            [ngStyle]="{
-              'background-color': outOfRange.value.color[0]
-            }"
-          ></span>
-        </mat-select-trigger>
-        <mat-option *ngFor="let range of solidOptions" [value]="range">
-          <span
-            class="color-indicator"
-            [ngStyle]="{
-              'background-color': range.color[0]
-            }"
-          ></span>
-          {{ range.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="xsmall">
-      <mat-label># of splits</mat-label>
-      <input
-        matInput
-        type="number"
-        name="numSplits"
-        formControlName="numSplits"
-      />
-    </mat-form-field>
+  <p class="help-text">{{ widgetType?.displayInfo }}</p>
+
+  <ng-container formGroupName="options" *ngIf="widgetType?.displayOptions">
+    <div class="">
+      <div class="body-row">
+        <mat-radio-group
+          formControlName="displayType"
+          class="radio-button-group"
+        >
+          <mat-radio-button
+            *ngFor="let type of widgetType?.displayOptions"
+            [value]="type.displayType"
+          >
+            <span>
+              {{ type.description }}
+            </span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div class="head-row">
+      <span class="label">Colors</span>
+    </div>
     <p class="help-text">
       If # of splits is 0 the colors will be continuous. If # of splits > 0, the
       colors will be evenly split.
     </p>
+    <div class="body-row">
+      <mat-form-field class="small">
+        <mat-label>In Range</mat-label>
+        <mat-select #inRange formControlName="inRange">
+          <mat-select-trigger *ngIf="inRange && inRange.value">
+            <span
+              *ngIf="
+                inRange.value.color && inRange.value.color.length === 1;
+                else gradient
+              "
+              class="color-indicator"
+              [ngStyle]="{
+                'background-color': inRange.value.color[0]
+              }"
+            ></span>
+
+            <ng-template #gradient>
+              <span
+                class="gradient-indicator"
+                [ngStyle]="{
+                  'background-image':
+                    'linear-gradient(to right, ' + colors(inRange.value) + ')'
+                }"
+              ></span>
+            </ng-template>
+          </mat-select-trigger>
+
+          <mat-option *ngFor="let opt of gradientOptions" [value]="opt">
+            <span
+              class="gradient-indicator"
+              [ngStyle]="{
+                'background-image':
+                  'linear-gradient(to right, ' + colors(opt) + ')'
+              }"
+            ></span>
+            <span>
+              {{ opt.label }}
+            </span>
+          </mat-option>
+          <mat-option *ngFor="let opt of solidOptions" [value]="opt">
+            <span
+              *ngIf="opt.color.length === 1"
+              class="color-indicator"
+              [ngStyle]="{
+                'background-color': opt.color[0]
+              }"
+            ></span>
+            <span>
+              {{ opt.label }}
+            </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="small">
+        <mat-label>Out of Range</mat-label>
+        <mat-select #outOfRange formControlName="outOfRange">
+          <mat-select-trigger>
+            <span
+              *ngIf="outOfRange.value"
+              class="color-indicator"
+              [ngStyle]="{
+                'background-color': outOfRange.value.color[0]
+              }"
+            ></span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let range of solidOptions" [value]="range">
+            <span
+              class="color-indicator"
+              [ngStyle]="{
+                'background-color': range.color[0]
+              }"
+            ></span>
+            {{ range.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="xsmall">
+        <mat-label># of splits</mat-label>
+        <input
+          matInput
+          type="number"
+          name="numSplits"
+          max="5"
+          min="0"
+          formControlName="numSplits"
+        />
+      </mat-form-field>
+    </div>
   </ng-container>
 
-  <ng-container formArrayName="dimensions">
-    <ng-container *ngFor="let metric of dimensions.controls; let i = index">
-      <div [formGroupName]="i">
-        {{ dimensions.controls[i].value.type }} metric:
-        <mat-form-field class="dense-form-select">
-          <mat-select #metric formControlName="metricId">
-            <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
-              {{ m.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </ng-container>
-  </ng-container>
   <ng-container *ngIf="widgetType?.displayOptions">
-    <div>
-      <span class="label">Color Options</span>
+    <p class="help-text">Select which metrics to show on the widget.</p>
+    <ng-container formArrayName="dimensions">
+      <ng-container *ngFor="let metric of dimensions?.controls; let i = index">
+        <div [formGroupName]="i" class="body-row">
+          {{ dimensions.controls[i].value.type }} metric:
+          <mat-form-field class="dense-form-select">
+            <mat-select #metric formControlName="metricId">
+              <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
+                {{ m.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="head-row">
+      <span class="label">Thresholds</span>
       <button mat-button (click)="addThreshold()">
         <mat-icon> add </mat-icon>add
       </button>
@@ -126,20 +151,19 @@
       to -Infinity or +Infinity.
     </p>
     <ng-container formArrayName="thresholdArray">
-      <table id="thresholds-table">
-        <tr>
-          <th>metric(s)</th>
-          <th>min</th>
-          <!-- //placeholder datamin -->
-          <th>max</th>
+      <div id="thresholds-table">
+        <div class="body-row">
+          <div class="large">metric(s)</div>
 
-          <!-- //placeholder datamax -->
-        </tr>
+          <div class="xsmall">min</div>
+          <div class="xsmall">max</div>
+          <div class="xsmall"></div>
+        </div>
         <ng-container
           *ngFor="let threshold of thresholdArray.controls; let i = index"
         >
-          <tr [formGroupName]="i" class="threshold">
-            <td>
+          <div [formGroupName]="i" class="body-row">
+            <div class="large">
               <mat-form-field>
                 <mat-select #metric formControlName="metrics" multiple>
                   <mat-select-trigger>
@@ -154,9 +178,9 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field class="xsmall">
+            </div>
+            <div class="xsmall">
+              <mat-form-field>
                 <input
                   matInput
                   type="number"
@@ -164,9 +188,10 @@
                   formControlName="min"
                 />
               </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field class="xsmall">
+            </div>
+
+            <div class="xsmall">
+              <mat-form-field>
                 <input
                   matInput
                   type="number"
@@ -174,8 +199,8 @@
                   formControlName="max"
                 />
               </mat-form-field>
-            </td>
-            <td>
+            </div>
+            <div class="xsmall">
               <button
                 mat-icon-button
                 color="warn"
@@ -184,11 +209,12 @@
               >
                 <mat-icon> delete </mat-icon>
               </button>
-            </td>
+            </div>
+
             <ng-template #default> default </ng-template>
-          </tr>
+          </div>
         </ng-container>
-      </table>
+      </div>
     </ng-container>
   </ng-container>
 </form>

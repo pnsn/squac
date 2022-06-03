@@ -47,7 +47,9 @@
     <div class="legend-container">
       <div
         [style.background-image]="
-          'linear-gradient(to top, ${visualMaps[displayMetric.id].inRange.color})'
+          'linear-gradient(to top, ' +
+          visualMaps[displayMetric?.id].inRange.color +
+          ')'
         "
         class="gradient-icon"
       ></div>

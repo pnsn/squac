@@ -176,7 +176,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
     }
-    console.log(this.notSelected);
     this.metricsSelected();
   }
 

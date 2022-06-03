@@ -64,19 +64,30 @@ export class WidgetEditOptionsComponent
     });
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
       this.properties.displayType = value.displayType;
+      this.properties.numSplits = value.numSplits;
+      this.validateOptions();
       this.updateDimensions();
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
-      this.properties.numSplits = value.numSplits;
-      console.log("props changed", this.properties);
+
       this.propertiesChange.emit(this.properties);
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
-      console.log("dimensions changed", value);
       this.properties.dimensions = value;
       this.propertiesChange.emit(this.properties);
     });
+  }
+
+  validateOptions() {
+    const numSplits = this.optionsForm.get("options").get("numSplits");
+    if (this.properties.displayType === "stoplight") {
+      this.properties.numSplits = 0;
+      numSplits.patchValue(0, { emitEvent: false });
+      numSplits.disable({ emitEvent: false });
+    } else {
+      numSplits.enable({ emitEvent: false });
+    }
   }
 
   //what happens if you change widget type but don't change this
@@ -88,7 +99,6 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.properties && changes.properties.currentValue) {
-      console.log(this.properties);
       if (!this.properties.dimensions) {
         this.properties.dimensions = [];
       }
@@ -125,38 +135,42 @@ export class WidgetEditOptionsComponent
   //Validators.required,
 
   updateDimensions() {
-    console.log("updateDimensions");
     let displayType;
     if (this.widgetType?.displayOptions) {
       const type = this.properties.displayType;
       displayType = this.widgetType.displayOptions.find(
-        (option) => option.type === type
+        (option) => option.displayType === type
       );
+
+      displayType = displayType || this.widgetType.displayOptions[0];
+
       const selected = this.properties.dimensions;
       this.dimensions.clear();
 
-      displayType = displayType || this.widgetType.displayOptions[0];
-      displayType.dimensions?.forEach((dimension, i) => {
-        const dim = selected.find((m) => {
-          return dimension === m.type;
+      if (displayType) {
+        this.properties.displayType = displayType.displayType;
+        displayType.dimensions?.forEach((dimension, i) => {
+          const dim = selected.find((m) => {
+            return dimension === m.type;
+          });
+
+          let metricId;
+          if (dim) {
+            metricId = dim.metricId;
+          } else if (this.selectedMetrics[i]) {
+            metricId = this.selectedMetrics[i]?.id;
+          } else {
+            metricId = this.selectedMetrics[0]?.id;
+          }
+
+          this.dimensions.push(
+            this.formBuilder.group({
+              type: [dimension], //default to piecewise
+              metricId: [metricId],
+            })
+          );
         });
-
-        let metricId;
-        if (dim) {
-          metricId = dim.metricId;
-        } else if (this.selectedMetrics[i]) {
-          metricId = this.selectedMetrics[i].id;
-        } else {
-          metricId = this.selectedMetrics[0].id;
-        }
-
-        this.dimensions.push(
-          this.formBuilder.group({
-            type: [dimension], //default to piecewise
-            metricId: [metricId],
-          })
-        );
-      });
+      }
     }
   }
   initForm() {
@@ -179,7 +193,6 @@ export class WidgetEditOptionsComponent
   }
 
   makeThresholdForm(threshold?: Threshold) {
-    console.log(threshold);
     return this.formBuilder.group({
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
@@ -195,10 +208,15 @@ export class WidgetEditOptionsComponent
     return t;
   }
 
-  colors(type) {
-    return colormap({
-      colormap: type,
-    });
+  colors(option) {
+    if (option.color) {
+      return option.color;
+    }
+    if (option.type) {
+      return colormap({
+        colormap: option.type,
+      });
+    }
   }
 
   ngOnDestroy(): void {

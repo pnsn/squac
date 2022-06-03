@@ -68,6 +68,15 @@ export class WidgetEditChannelGroupComponent
     this.subscriptions.add(orgSub);
 
     this.columns = [
+      {
+        width: 30,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false,
+        resizeable: false,
+        headerCheckboxable: true,
+        checkboxable: true,
+      },
       { name: "Name", draggable: false, sortable: true },
       { name: "Description", draggable: false, sortable: true },
       {

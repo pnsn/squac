@@ -168,7 +168,9 @@ export class TabularComponent
         }
 
         const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap ? this.checkValue(val, visualMap) : true;
+        const inRange = visualMap
+          ? this.widgetTypeService.checkValue(val, visualMap)
+          : true;
 
         if (visualMap && val != null && !inRange) {
           agg++;
@@ -203,30 +205,32 @@ export class TabularComponent
       row = { ...row, ...rowMetrics };
       rows.push(row);
 
-      const staIndex = stations.indexOf(identifier);
-      if (staIndex < 0) {
-        stations.push(identifier);
-        const station = {
-          ...{
-            title: identifier,
-            id: identifier,
-            treeStatus: "collapsed",
-            staCode: channel.stationCode,
-            netCode: channel.networkCode,
-            count: 1,
-            agg,
-            type: this.properties.displayType,
-          },
-          ...stationRowMetrics,
-        };
-        stationRows.push(station);
-      } else {
-        stationRows[staIndex] = this.findWorstChannel(
-          row,
-          stationRows[staIndex],
-          stationRowMetrics
-        );
-        // check if agg if worse than current agg
+      if (this.properties.displayType !== "channel") {
+        const staIndex = stations.indexOf(identifier);
+        if (staIndex < 0) {
+          stations.push(identifier);
+          const station = {
+            ...{
+              title: identifier,
+              id: identifier,
+              treeStatus: "collapsed",
+              staCode: channel.stationCode,
+              netCode: channel.networkCode,
+              count: 1,
+              agg,
+              type: this.properties.displayType,
+            },
+            ...stationRowMetrics,
+          };
+          stationRows.push(station);
+        } else {
+          stationRows[staIndex] = this.findWorstChannel(
+            row,
+            stationRows[staIndex],
+            stationRowMetrics
+          );
+          // check if agg if worse than current agg
+        }
       }
     });
     this.rows = [...stationRows, ...rows];
@@ -273,19 +277,6 @@ export class TabularComponent
       row.treeStatus = "collapsed";
       this.rows = [...this.rows];
     }
-  }
-
-  checkValue(value, visualMap): boolean {
-    let hasMin;
-    let hasMax;
-    if (visualMap.range) {
-      hasMin = value >= visualMap.range[0];
-      hasMax = value <= visualMap.range[1];
-    } else {
-      hasMin = visualMap.min !== null ? value >= visualMap.min : true;
-      hasMax = visualMap.max !== null ? value <= visualMap.max : true;
-    }
-    return hasMin && hasMax;
   }
 
   ngOnDestroy(): void {

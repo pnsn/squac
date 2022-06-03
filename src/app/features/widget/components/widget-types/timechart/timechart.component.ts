@@ -53,6 +53,9 @@ export class TimechartComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
+    if (changes.properties) {
+      this.getVisualMaps();
+    }
     if (
       (changes.data || changes.selectedMetrics) &&
       this.channels.length > 0 &&
@@ -126,6 +129,16 @@ export class TimechartComponent
     console.log(event, type);
   }
 
+  getVisualMaps() {
+    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      this.selectedMetrics,
+      this.thresholds,
+      this.properties,
+      this.dataRange,
+      2
+    );
+  }
+
   buildChartData(data) {
     const stationLookup: any = {};
     const stations = [];
@@ -150,13 +163,7 @@ export class TimechartComponent
       sampling: "lttb",
     };
     // this.addThresholds();
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.thresholds,
-      this.properties,
-      this.dataRange,
-      2
-    );
+
     const metric = this.selectedMetrics[0];
 
     this.channels.forEach((channel) => {
@@ -218,7 +225,6 @@ export class TimechartComponent
       }
     });
     this.metricSeries.series = stations;
-    console.log(this.metricSeries.series);
   }
 
   changeMetrics() {
@@ -237,7 +243,7 @@ export class TimechartComponent
       title: {
         text: displayMetric.name,
       },
-      visualMap: this.visualMaps[colorMetric.id],
+      visualMap,
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,

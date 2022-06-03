@@ -124,7 +124,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   private initStationList() {
     const stationList = L.DomUtil.get("station-list");
     this.stationList.onAdd = () => {
-      console.log(stationList);
       return stationList;
     };
   }
@@ -197,7 +196,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
 
         const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap ? this.checkValue(val, visualMap) : true;
+        const inRange = visualMap
+          ? this.widgetTypeService.checkValue(val, visualMap)
+          : true;
         if (visualMap && val != null && !inRange) {
           agg++;
         }
@@ -247,7 +248,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
             channelRow,
             stationRows[staIndex]
           );
-          if (visualMap.type === "stoplight") {
+          if (visualMap?.type === "stoplight") {
             let color;
             if (station.channelAgg === 0) {
               color = visualMap.colors.in;
@@ -273,19 +274,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.metricLayers[metric.id] = stationMarkers;
       this.stations = stationRows;
     });
-  }
-
-  checkValue(value, visualMap): boolean {
-    let hasMin;
-    let hasMax;
-    if (visualMap.range) {
-      hasMin = value >= visualMap.range[0];
-      hasMax = value <= visualMap.range[1];
-    } else {
-      hasMin = visualMap.min !== null ? value >= visualMap.min : true;
-      hasMax = visualMap.max !== null ? value <= visualMap.max : true;
-    }
-    return hasMin && hasMax;
   }
 
   changeMetric() {

@@ -53,6 +53,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       // get dashboard && widget from url
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         closeOnNavigation: true,
+        maxWidth: 800,
         data: {
           widget: this.widget,
           dashboardId: this.dashboardId,

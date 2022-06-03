@@ -19,24 +19,21 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "each row is a station, station shows values for channel with most metrics out of range",
-            grouping: "station",
+              "Each row is a station, station shows values for channel with most metrics out of range",
             dimensions: null,
             displayType: "worst",
           },
           {
             description:
               "each row is a station, station shows number of channels in/out of range",
-            grouping: "station",
             dimensions: null,
             displayType: "stoplight",
           },
           {
             description:
               "each row is a channel, channels show aggregate values",
-            grouping: "channel",
             dimensions: null,
-            displayType: "value",
+            displayType: "channel",
           },
         ],
       },
@@ -60,9 +57,8 @@ export class WidgetConfigService {
           {
             description:
               "each row is a channel, channels show measurement values",
-            grouping: "channel",
             dimensions: ["display"],
-            displayType: "value",
+            displayType: "channel",
           },
         ],
       },
@@ -79,9 +75,8 @@ export class WidgetConfigService {
           {
             description:
               "each line is a channel, channels show measurement values",
-            grouping: "channel",
             dimensions: ["y-axis"],
-            displayType: "value",
+            displayType: "channel",
           },
         ],
       },
@@ -97,17 +92,15 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "each map icon is a station, station shows number of channels in/out of range",
-            grouping: "station",
+              "each map icon is a station, stations show measurement values",
             dimensions: ["display"],
-            displayType: "stoplight",
+            displayType: "worst",
           },
           {
             description:
-              "each map icon is a station, stations show measurement values",
-            grouping: "station",
+              "each map icon is a station, station shows number of channels in/out of range",
             dimensions: ["display"],
-            displayType: "worst",
+            displayType: "stoplight",
           },
         ],
       },
@@ -140,9 +133,8 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description: "each dot represents a channel",
-            grouping: "channel",
             dimensions: ["x-axis", "y-axis", "color"],
-            displayType: "value",
+            displayType: "channel",
           },
         ],
       },
@@ -263,6 +255,11 @@ export class WidgetConfigService {
 
   get gradientOptions() {
     return [
+      {
+        label: "Red to Green",
+        type: "redgreen",
+        color: ["green", "yellow", "red"],
+      },
       {
         label: "Rainbow",
         type: "rainbow",
