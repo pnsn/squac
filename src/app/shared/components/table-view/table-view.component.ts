@@ -136,9 +136,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (changes.resize) {
-      console.log("resize");
       if (this.table) {
-        console.log("recalculate");
         this.table.recalculate();
       }
     }
