@@ -37,15 +37,17 @@ export const routes: Routes = [
         component: ChannelGroupViewComponent,
         canActivate: [PermissionGuard],
         data: { subject: "ChannelGroup", action: "read" },
-      },
-      {
-        path: ":channelGroupId",
-        component: ChannelGroupDetailComponent,
-        canActivate: [PermissionGuard],
-        data: { subject: "ChannelGroup", action: "update" },
-        resolve: {
-          channelGroup: ChannelGroupResolver,
-        },
+        children: [
+          {
+            path: ":channelGroupId",
+            component: ChannelGroupDetailComponent,
+            canActivate: [PermissionGuard],
+            data: { subject: "ChannelGroup", action: "update" },
+            resolve: {
+              channelGroup: ChannelGroupResolver,
+            },
+          },
+        ],
       },
     ],
   },

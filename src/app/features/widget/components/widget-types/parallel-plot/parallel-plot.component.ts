@@ -25,7 +25,6 @@ export class ParallelPlotComponent
   constructor(private widgetTypeService: WidgetTypeService) {}
   @Input() data;
   @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
   @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
   @Input() dataRange: any;

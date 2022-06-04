@@ -1,5 +1,6 @@
 import {
   Component,
+  ComponentFactoryResolver,
   EventEmitter,
   Input,
   OnChanges,
@@ -34,6 +35,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() controls;
   @Input() filters;
   @Input() selectedRowId;
+  @Input() resize;
   @Input() groupHeaderTemplate: TemplateRef<any>;
   @Input() tableFooterTemplate: TemplateRef<any>;
   @Input() rowDetailTemplate: TemplateRef<any>;
@@ -58,7 +60,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   shareFilter = "org";
   constructor(
     private userService: UserService,
-    private orgService: OrganizationService,
+    orgService: OrganizationService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -131,6 +133,14 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (changes.selectedRowId && changes.selectedRowId) {
       this.selectResource(this.selectedRowId);
+    }
+
+    if (changes.resize) {
+      console.log("resize");
+      if (this.table) {
+        console.log("recalculate");
+        this.table.recalculate();
+      }
     }
   }
 

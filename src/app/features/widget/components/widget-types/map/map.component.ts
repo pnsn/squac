@@ -23,7 +23,6 @@ import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() data;
   @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
   @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
   @Input() dataRange: any;

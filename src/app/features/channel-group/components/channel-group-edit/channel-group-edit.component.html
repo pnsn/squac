@@ -12,9 +12,7 @@
           Use the filters to the below to search for channels or use the map to
           search within a region.
         </p>
-        <channel-group-filter
-          (filtersChanged)="getChannelsWithFilters($event)"
-        >
+        <channel-group-filter (filtersChanged)="getChannelsWithFilters($event)">
         </channel-group-filter>
       </div>
     </div>
@@ -315,7 +313,7 @@
           matTooltip="Delete channel group"
           aria-label="Button that deletes the channel group"
         >
-          <mat-icon>delete</mat-icon>
+          Delete
         </button>
         <button mat-button color="primary" (click)="formUnsaved()">
           Cancel

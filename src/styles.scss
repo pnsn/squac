@@ -361,8 +361,18 @@ mat-form-field {
 }
 ngx-datatable.shared-view-table {
   .datatable-body {
-    max-height: 80vh;
+    // max-height: 80vh;
     overflow-y: scroll;
+  }
+  &.full {
+    .datatable-body {
+      max-height: calc(90vh);
+    }
+  }
+  &.half {
+    .datatable-body {
+      max-height: calc(30vh);
+    }
   }
 
   a {

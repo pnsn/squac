@@ -95,6 +95,7 @@
       #table
       id="shared-data-table"
       class="shared-view-table"
+      [ngClass]="resize ? 'half' : 'full'"
       [rows]="tableRows"
       [columns]="tableColumns"
       [columnMode]="tableOptions.columnMode"

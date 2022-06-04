@@ -33,7 +33,6 @@ export class TimechartComponent
   ) {}
   @Input() data;
   @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
   @Input() thresholds: Threshold[];
   @Input() channels: Channel[];
   @Input() properties: any[];

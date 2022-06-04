@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Subscription } from "rxjs";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription, filter } from "rxjs";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 
 // TODO: trackbyprop to use channelID
@@ -20,6 +20,7 @@ export class ChannelGroupViewComponent
   rows;
   userId;
   orgId;
+  resize;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -72,17 +73,31 @@ export class ChannelGroupViewComponent
   };
 
   ngOnInit() {
-    if (this.route.parent && this.route.parent.data) {
-      const routeSub = this.route.parent.data.subscribe((data) => {
+    if (this.route && this.route.data) {
+      const routeSub = this.route.data.subscribe((data) => {
         if (data.channelGroups.error) {
           console.log("error in channels");
         } else {
           this.channelGroups = data.channelGroups;
           this.rows = [...this.channelGroups];
         }
+        this.selectedChannelGroupId =
+          this.route.children.length > 0
+            ? this.route.snapshot.firstChild.params.channelGroupId
+            : null;
       });
       this.subscription.add(routeSub);
     }
+    const routerEvents = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.selectedChannelGroupId =
+          this.route.children.length > 0
+            ? this.route.snapshot.firstChild.params.channelGroupId
+            : null;
+      });
+
+    this.subscription.add(routerEvents);
   }
 
   refresh() {
