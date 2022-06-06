@@ -3,7 +3,9 @@
     <h2>
       {{ editMode ? "Edit Channel Group" : "Create Channel Group" }}
     </h2>
-    <button mat-button color="primary" (click)="formUnsaved()">Cancel</button>
+    <button mat-icon-button (click)="formUnsaved()">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="edit-body">
     <div id="select-channels-container">
@@ -316,17 +318,6 @@
       <div id="cg-edit-footer">
         <mat-divider></mat-divider>
         <div id="save-cancel-cg">
-          <button
-            mat-icon-button
-            *ngIf="editMode"
-            color="warn"
-            class="add-btn"
-            (click)="onDelete()"
-            matTooltip="Delete channel group"
-            aria-label="Button that deletes the channel group"
-          >
-            Delete
-          </button>
           <ng-container *ngIf="editMode; else notEditMode">
             <button
               *ngIf="'update' | able: channelGroup"
@@ -359,6 +350,17 @@
               Create
             </button>
           </ng-template>
+          <button
+            mat-icon-button
+            *ngIf="editMode"
+            color="warn"
+            class="add-btn"
+            (click)="onDelete()"
+            matTooltip="Delete channel group"
+            aria-label="Button that deletes the channel group"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
