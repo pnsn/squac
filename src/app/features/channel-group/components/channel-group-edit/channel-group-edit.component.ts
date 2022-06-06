@@ -48,15 +48,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   availableChannels: Channel[] = []; // Search channels filtered by bounds
   originalSelectedChannels: Channel[] = []; // Original channels on channel group
   selectedChannels: Channel[] = []; // Channels currently in selected list
-  selectedChannelIds: number[] = []; // Channel ids in selected list
-  isFilterOpen: boolean; // For setting class of form and table for resizing
+
   isSelectedFiltered = false; // For remove channels button
   filteredChannels: Channel[] = []; // For filtering selected channels to remove
-  previous: {
-    // Last state of selected channels for undo
-    selectedChannels: Channel[];
-    selectedChannelIds: number[];
-  };
+  previousChannels: Channel[];
   showOnlyCurrent = true;
   filtersChanged: boolean;
   searchFilters: any;
@@ -67,6 +62,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   SortType = SortType;
+  columns = [];
+
+  channelsInGroup: Channel[] = [];
+  rows: Channel[] = [];
 
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
@@ -81,8 +80,72 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     // fixme: this shouldn't nee to be in here
     this.orgId = this.userService.userOrg;
-    this.isFilterOpen = false;
     this.subscriptions.add(paramsSub);
+
+    this.columns = [
+      {
+        width: 30,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false,
+        resizeable: false,
+        headerCheckboxable: true,
+        checkboxable: true,
+      },
+
+      {
+        name: "Network",
+        prop: "networkCode",
+        draggable: false,
+        sortable: true,
+        resizeable: false,
+        pipe: {
+          transform: (value) => {
+            return value.toUpperCase();
+          },
+        },
+        flexGrow: 1,
+      },
+      {
+        name: "Station",
+        prop: "stationCode",
+        draggable: false,
+        sortable: true,
+        resizeable: false,
+        flexGrow: 1,
+        pipe: {
+          transform: (value) => {
+            return value.toUpperCase();
+          },
+        },
+      },
+      {
+        name: "Location",
+        prop: "loc",
+        draggable: false,
+        sortable: true,
+        resizeable: false,
+        flexGrow: 1,
+        pipe: {
+          transform: (value) => {
+            return value.toUpperCase();
+          },
+        },
+      },
+      {
+        name: "Channel",
+        prop: "code",
+        draggable: false,
+        sortable: true,
+        resizeable: false,
+        flexGrow: 1,
+        pipe: {
+          transform: (value) => {
+            return value.toUpperCase();
+          },
+        },
+      },
+    ];
   }
 
   // Inits group edit form
@@ -95,24 +158,20 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     // if editing existing group, populate with the info
     // TODO: redudant - fix for observable
     if (this.editMode) {
-      this.channelGroupService.getChannelGroup(this.id).subscribe(
-        (channelGroup) => {
+      this.channelGroupService.getChannelGroup(this.id).subscribe({
+        next: (channelGroup) => {
           this.channelGroupForm.patchValue({
             name: channelGroup.name,
             description: channelGroup.description,
           });
           this.channelGroup = channelGroup;
-          this.selectedChannels = channelGroup.channels
-            ? [...channelGroup.channels]
-            : [];
-          this.originalSelectedChannels = [...this.selectedChannels];
-          this.filteredChannels = [...this.selectedChannels];
-          this.getIdsFromChannels();
+          this.channelsInGroup = [...channelGroup.channels];
+          this.updateRows();
         },
-        () => {
+        error: () => {
           this.messageService.error("Could not load channel group.");
-        }
-      );
+        },
+      });
     }
   }
 
@@ -120,67 +179,81 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  removeChannel(channel: Channel) {
-    this.previous = {
-      selectedChannels: [...this.selectedChannels],
-      selectedChannelIds: [...this.selectedChannelIds],
-    };
-    const index = this.selectedChannelIds.indexOf(channel.id);
-    if (index !== -1) {
-      this.selectedChannels.splice(index, 1);
-      this.selectedChannelIds.splice(index, 1);
-      this.filteredChannels = [...this.selectedChannels];
-      this.changeMade = true;
-    }
+  addChannels() {
+    //combine selected and saved();
+    this.previousChannels = [...this.channelsInGroup];
+    //TODO: previous
+    this.changeMade = true;
+    const addChannels = this.findChannelsInGroup();
+    this.channelsInGroup = [...this.channelsInGroup, ...addChannels];
+
+    this.updateRows();
   }
 
-  addChannelsToSelected() {
-    this.previous = {
-      selectedChannels: [...this.selectedChannels],
-      selectedChannelIds: [...this.selectedChannelIds],
-    };
-    const newChannels = this.availableChannels.filter((channel) => {
-      if (this.selectedChannelIds.indexOf(channel.id) === -1) {
-        this.selectedChannelIds.push(channel.id);
-        return true;
-      }
-      return false;
+  // returns channels that are not already in groupChannels
+  private findChannelsInGroup(): Channel[] {
+    return this.selectedChannels.filter((channel) => {
+      const index = this.channelsInGroup.findIndex((c) => c.id === channel.id);
+      return index === -1;
     });
-    this.selectedChannels = [...this.selectedChannels, ...newChannels];
-    this.filteredChannels = [...this.selectedChannels];
-    // add available channels to selected channels
+  }
+
+  // returns channels that are in not selectedChannels
+  private findChannelsInSelected(): Channel[] {
+    return this.channelsInGroup.filter((channel) => {
+      const index = this.selectedChannels.findIndex((c) => c.id === channel.id);
+      return index === -1;
+    });
+  }
+
+  //TODO: previous
+  removeChannels() {
+    this.previousChannels = [...this.channelsInGroup];
+    const afterRemove = this.findChannelsInSelected();
+    this.channelsInGroup = [...afterRemove];
     this.changeMade = true;
+    this.updateRows();
   }
 
   // Remove stations with offdates before today
   filterCurrent() {
     const current = new Date().getTime();
-    this.availableChannels = this.searchChannels.filter((channel) => {
+    const temp = this.rows.filter((channel) => {
       const offDate = new Date(channel.endttime).getTime();
       return this.showOnlyCurrent ? current < offDate : true;
     });
+    this.rows = [...temp];
   }
 
   undoSelectRemove() {
-    const newPrevious = {
-      selectedChannels: [...this.selectedChannels],
-      selectedChannelIds: [...this.selectedChannelIds],
-    };
-    this.selectedChannels = this.previous.selectedChannels;
-    this.filteredChannels = [...this.selectedChannels];
-    this.selectedChannelIds = this.previous.selectedChannelIds;
-    this.previous = newPrevious;
+    const newPrevious = [...this.channelsInGroup];
+    this.channelsInGroup = [...this.previousChannels];
+    this.previousChannels = newPrevious;
   }
 
+  updateRows() {
+    this.rows = [...this.channelsInGroup];
+    this.selectedChannels = [];
+  }
+
+  selectRow($event) {
+    this.selectedChannels = [...$event.selected];
+  }
   getChannelsWithFilters(searchFilters: object) {
+    let searchResults = [];
     if (this.searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
         .subscribe((response) => {
-          this.availableChannels = response;
-          this.searchChannels = [...this.availableChannels];
+          searchResults = [...response];
           this.loading = false;
+
+          this.selectedChannels = [...searchResults];
+
+          const existing = this.findChannelsInSelected();
+          this.rows = [...this.selectedChannels, ...existing];
+          //select retunred rows that are in group
           if (this.bounds !== undefined) {
             this.filterBounds();
           }
@@ -190,71 +263,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         });
       this.subscriptions.add(channelsSub);
     } else {
-      this.availableChannels = [];
-      this.searchChannels = [];
+      searchResults = [];
     }
-
-    this.availableChannels = [...this.availableChannels];
-  }
-
-  onFilteringOpen() {
-    this.isFilterOpen = true;
-
-    this.filteredChannels = [...this.selectedChannels];
-  }
-
-  onFilteringClose() {
-    this.isFilterOpen = false;
-    this.filteredChannels = [...this.selectedChannels];
-  }
-
-  onSelectedFilter(searchFilters: object) {
-    this.isSelectedFiltered = true; // enable remove button
-    if (searchFilters !== {}) {
-      this.filteredChannels = this.selectedChannels; // reset filtered channels (list to display)
-      for (const filter in searchFilters) {
-        if (searchFilters[filter]) {
-          const regex = RegExp(searchFilters[filter]);
-          this.filteredChannels = this.filteredChannels.filter((chan) => {
-            return regex.test(chan.code);
-          });
-        }
-      }
-    }
-  }
-
-  removeChannels() {
-    this.previous = {
-      // set previous for undo
-      selectedChannels: [...this.selectedChannels],
-      selectedChannelIds: [...this.selectedChannelIds],
-    };
-    const chanIdsToRemove = this.filteredChannels.map((c) => {
-      return c.id; // get ids from filtered channels
-    });
-    this.filteredChannels = [];
-    this.isSelectedFiltered = false;
-    this.selectedChannels = this.selectedChannels.filter((channel) => {
-      return !chanIdsToRemove.some((id) => {
-        // remove channels from selected if in filtered
-        return channel.id === id;
-      });
-    });
-    this.getIdsFromChannels();
-    this.onFilteringClose();
-    this.changeMade = true;
-  }
-
-  private getIdsFromChannels() {
-    this.selectedChannelIds = [];
-    this.selectedChannels.forEach((channel) => {
-      this.selectedChannelIds.push(channel.id);
-    });
   }
 
   // Save channel information
   save() {
     const values = this.channelGroupForm.value;
+    const selectedChannelIds = this.channelsInGroup.map(
+      (channel) => channel.id
+    );
 
     const cg = new ChannelGroup(
       this.id,
@@ -262,11 +280,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       values.name,
       values.description,
       this.orgId,
-      this.selectedChannelIds
+      selectedChannelIds
     );
 
     this.channelGroupService.updateChannelGroup(cg).subscribe(
       (result) => {
+        this.changeMade = false;
         this.cancel(result.id);
         this.messageService.message("Channel group saved.");
       },
@@ -350,8 +369,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Update bounds for filtering channels with map
   updateBounds(newBounds: string) {
-    if (newBounds === "") {
-      this.availableChannels = [...this.searchChannels];
+    console.log(newBounds);
+    if (!newBounds) {
+      this.rows = [...this.channelsInGroup];
     } else {
       const boundsArr = newBounds.split(" ").map((bound) => {
         // format: 'N_lat W_lon S_lat E_lon'

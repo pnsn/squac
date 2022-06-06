@@ -1,17 +1,11 @@
 @import "variables";
 #title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   background-color: #eeeeee;
   padding: 5px 10px;
 }
 
 #edit-container {
   margin-top: 10px;
-  display: flex;
-  flex-direction: column;
   height: auto;
   background-color: white;
   border: 1px solid lighten($sq-gray, 15);
@@ -19,9 +13,8 @@
     margin-top: 0px;
   }
 }
+
 .edit-body {
-  display: flex;
-  flex-direction: row;
   padding: 10px;
   gap: 10px;
   border-top: 1px solid lighten($sq-gray, 15);
@@ -33,7 +26,7 @@
 
 #select-channels-container,
 #create-group-container {
-  height: 80vh;
+  height: 60vh;
   text-align: start;
   align-items: start;
 }
@@ -51,61 +44,31 @@
     }
   }
 }
-#filter-container {
-  display: flex;
-  flex-direction: column;
+.filter-container {
   justify-content: space-between;
 }
 #select-channels-container {
-  display: flex;
-  flex-direction: column;
   width: 60%;
-  #filter-button-container {
-    display: flex;
-    flex-direction: row;
-    align-content: flex-end;
-    justify-content: space-around;
-    padding-right: 20px;
-  }
   mat-spinner {
     margin: 25% auto;
   }
-
-  #preview-container {
-    display: flex;
-    flex-direction: row;
+}
+#preview-container {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  #preview-list {
     width: 100%;
-    height: 100%;
-    flex-grow: 1;
-    #preview-list {
-      padding-right: 10px;
-    }
-    #preview-list,
-    #map-box,
-    #channel-selector {
-      height: 100%;
-    }
-    @media (max-width: 1000px) {
-      #preview-list {
-        width: 100%;
-      }
-      #map-box {
-        display: none;
-      }
-    }
-    @media (min-width: 1000px) {
-      #preview-list {
-        width: 50%;
-      }
-      #map-box {
-        width: 50%;
-        channel-group-map {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
   }
+
+  #preview-list,
+  #map-box,
+  #channel-selector {
+    height: 100%;
+  }
+}
+#map-box {
+  width: 40%;
 }
 
 #create-group-container {
@@ -113,8 +76,6 @@
     align-self: start;
   }
   width: calc(40% - 20px);
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   mat-radio-button {
     display: block;
@@ -131,15 +92,6 @@
     display: block;
     line-height: 15px;
   }
-  #cg-form {
-    width: 100%;
-  }
-  #cg-form-input {
-    #description {
-      width: 100%;
-    }
-  }
-
   #group-channels {
     flex-grow: 1;
     flex-shrink: 1;
@@ -149,21 +101,9 @@
 }
 
 #remove-filter-box,
-#cg-edit-footer {
-  width: 100%;
-  margin-top: 10px;
-}
-
 #save-cancel-cg {
-  margin-top: 5px;
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
   width: 100%;
-}
-
-.help-text {
-  font-size: 0.9rem;
-  font-weight: 300;
-  margin-top: 5px;
 }

@@ -18,22 +18,20 @@ import * as L from "leaflet";
   styleUrls: ["./channel-group-map.component.scss"],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() originalSelectedChannels: Channel[];
+  @Input() channelsInGroup: Channel[];
   @Input() selectedChannels: Channel[];
-  @Input() searchChannels: Channel[];
-  @Input() removeChannels: Channel[];
-  @Input() isRemoving: boolean;
   @Input() editPage: boolean;
   @Input() showChannel: Channel;
   @Output() showChannelChange = new EventEmitter<any>();
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
-  channelLayer: L.LayerGroup;
+  channelLayer: L.FeatureGroup;
   drawnItems: L.FeatureGroup;
   options: {
     center: L.LatLng;
     zoom: number;
     layers: L.Layer[];
   };
+  legend: L.Control;
   drawOptions: Record<string, unknown>;
   layers: L.Layer[];
   fitBounds: L.LatLngBounds;
@@ -49,15 +47,20 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     if (changes.showChannel && this.showChannel) {
       this.selectChannels(this.showChannel);
     }
-    if (changes.selectedChannels) {
+    if (changes.selectedChannels || changes.channelsInGroup) {
+      console.log(changes);
       this.updateMap();
     }
   }
 
   initMap(): void {
     // Setup the groups for map markers and the drawn square
-    this.channelLayer = L.layerGroup([]);
+    this.channelLayer = new L.FeatureGroup();
     this.drawnItems = new L.FeatureGroup();
+
+    this.legend = new L.Control({
+      position: "bottomleft",
+    });
 
     // Add all the layers to the array that will be fed to options
     this.layers = [
@@ -68,6 +71,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.drawnItems,
       this.channelLayer,
     ];
+
+    const legend = L.DomUtil.get("legend");
+    this.legend.onAdd = () => {
+      return legend;
+    };
+
+    console.log("init", this.legend);
 
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
@@ -94,7 +104,10 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   onMapReady(map: L.Map) {
+    console.log("ready");
+    console.log("init", this.legend);
     this.map = map;
+    this.legend.addTo(this.map);
     setTimeout(() => {
       this.map.invalidateSize();
       this.updateMap();
@@ -115,8 +128,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       channelMarker.openPopup();
     }
   }
+
+  addSelectedChannels() {}
+
+  addChannelsInGroup() {}
+
   updateMap() {
-    if (this.channelLayer && this.selectedChannels !== undefined) {
+    if (this.channelLayer && this.selectedChannels) {
       this.layers.pop();
       let sumLat = 0; // Sums used for recentering
       let sumLon = 0;
@@ -124,82 +142,42 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       const chanLatLng = []; // Channel location array
 
       // Add in the original channels, overwriting
-      if (this.originalSelectedChannels !== undefined) {
-        // Original channels on cg
-        this.originalSelectedChannels.forEach((channel) => {
-          // Add selected
-          sumLat += channel.lat;
-          sumLon += channel.lon;
-          chanLatLng.push([channel.lat, channel.lon]);
-          chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {
-              icon: L.divIcon({ className: "original-channels" }),
-            }).bindPopup(channel.stationCode.toUpperCase())
-          );
-        });
-      }
-      // Current channels on channel group
-      if (this.selectedChannels !== undefined) {
-        let selectedChannels = this.selectedChannels;
-        if (this.editPage) {
-          selectedChannels = this.selectedChannels.filter((channel) => {
-            return !this.originalSelectedChannels.some((c) => {
-              return c.id === channel.id; // Check whether this channel is selected already
-            });
-          });
-        }
-        selectedChannels.forEach((channel) => {
-          // Add selected
-          sumLat += channel.lat;
-          sumLon += channel.lon;
-          chanLatLng.push([channel.lat, channel.lon]);
-          const marker = L.marker([channel.lat, channel.lon], {
-            icon: L.divIcon({ className: "new-channels" }),
-            title: channel.nslc,
-          }).bindPopup(
-            channel.networkCode.toUpperCase() +
-              "." +
-              channel.stationCode.toUpperCase()
-          );
-          marker.on("click", (ev) => {
-            ev.target.openPopup();
-            this.zone.run(() => {
-              console.log("event clicked");
-              this.showChannelChange.emit(channel);
-            });
-          });
-          chanMarkers.push(marker);
-        });
-      }
-      // Add channels being search for
-      if (this.searchChannels !== undefined) {
-        const filteredSearchChannels = this.searchChannels.filter((channel) => {
-          return !this.selectedChannels.some((c) => {
-            return c.id === channel.id; // Check whether this channel is selected already
+      this.channelsInGroup?.forEach((channel) => {
+        // Add selected
+        sumLat += channel.lat;
+        sumLon += channel.lon;
+        chanLatLng.push([channel.lat, channel.lon]);
+        chanMarkers.push(
+          L.marker([channel.lat, channel.lon], {
+            icon: L.divIcon({ className: "original-channels" }),
+          }).bindPopup(channel.stationCode.toUpperCase())
+        );
+      });
+
+      this.selectedChannels?.forEach((channel) => {
+        // Add selected
+        sumLat += channel.lat;
+        sumLon += channel.lon;
+        chanLatLng.push([channel.lat, channel.lon]);
+        const marker = L.marker([channel.lat, channel.lon], {
+          icon: L.divIcon({ className: "new-channels" }),
+          title: channel.nslc,
+        }).bindPopup(
+          channel.networkCode.toUpperCase() +
+            "." +
+            channel.stationCode.toUpperCase()
+        );
+        marker.on("click", (ev) => {
+          ev.target.openPopup();
+          this.zone.run(() => {
+            console.log("event clicked");
+            this.showChannelChange.emit(channel);
           });
         });
-        filteredSearchChannels.forEach((channel) => {
-          sumLat += channel.lat;
-          sumLon += channel.lon;
-          chanLatLng.push([channel.lat, channel.lon]);
-          chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {
-              icon: L.divIcon({ className: "filtered-channels" }),
-            }).bindPopup(channel.stationCode.toUpperCase())
-          ); // Push search channel markers onto array
-        });
-      }
-      // Add channels to be removed
-      if (this.isRemoving) {
-        this.removeChannels.forEach((channel) => {
-          chanMarkers.push(
-            L.marker([channel.lat, channel.lon], {
-              icon: L.divIcon({ className: "remove-channels" }),
-            }).bindPopup(channel.stationCode.toUpperCase())
-          ); // Push search channel markers onto array
-        });
-      }
-      this.channelLayer = L.layerGroup(chanMarkers);
+        chanMarkers.push(marker);
+      });
+
+      this.channelLayer = L.featureGroup(chanMarkers);
       this.layers.push(this.channelLayer);
       if (chanMarkers.length > 0) {
         // Recenter and rezoom to fit
@@ -207,7 +185,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           sumLat / chanMarkers.length,
           sumLon / chanMarkers.length
         );
-        this.map.fitBounds(L.latLngBounds(chanLatLng));
+        this.fitBounds = this.channelLayer.getBounds();
       }
     }
   }

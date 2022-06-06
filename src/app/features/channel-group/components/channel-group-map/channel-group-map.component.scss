@@ -16,8 +16,8 @@
 }
 
 .map-icon {
-  height: 7px !important;
-  width: 7px !important;
+  height: 9px !important;
+  width: 9px !important;
   border-radius: 50%;
   border: 1px solid black;
 }
@@ -44,31 +44,13 @@
 
 #legend {
   padding: 5px;
-  #legend-top,
-  #legend-bottom {
-    width: 100%;
-    div.legend-item {
+  .legend-item {
+    div {
       display: inline-block;
-      width: 50%;
-      div {
-        display: inline-block;
-      }
-    }
-    span {
-      padding-left: 5px;
     }
   }
-  ul {
-    list-style: none;
-    width: fit-content;
-    margin: 0 auto;
-    text-align: left;
-    li {
-      img {
-        object-fit: fill;
-        height: 20px;
-        width: 20px;
-      }
-    }
+
+  span {
+    padding-left: 5px;
   }
 }

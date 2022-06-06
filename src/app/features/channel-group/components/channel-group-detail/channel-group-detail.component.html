@@ -52,7 +52,7 @@
     <div id="channel-group-container">
       <div id="map-container">
         <channel-group-map
-          [selectedChannels]="channelGroup.channels"
+          [channelsInGroup]="channelGroup.channels"
           (showChannelChange)="(selectChannel)"
           [showChannel]="showChannel"
           [editPage]="false"
