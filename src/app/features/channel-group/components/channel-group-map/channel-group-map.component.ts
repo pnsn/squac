@@ -48,7 +48,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.selectChannels(this.showChannel);
     }
     if (changes.selectedChannels || changes.channelsInGroup) {
-      console.log(changes);
+      console.log("changes");
       this.updateMap();
     }
   }
@@ -81,7 +81,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
-      center: L.latLng(45.0, -120.0),
+      center: L.latLng(0, 0),
       zoom: 5,
       layers: this.layers,
     };
@@ -104,8 +104,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   onMapReady(map: L.Map) {
-    console.log("ready");
-    console.log("init", this.legend);
     this.map = map;
     this.legend.addTo(this.map);
     setTimeout(() => {
@@ -114,15 +112,18 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  selectChannels(channel) {
+  selectChannels(channel: Channel) {
+    console.log(channel);
     let channelMarker;
     this.channelLayer.eachLayer((layer: any) => {
-      if (layer.options.title === channel.nslc) {
+      if (
+        layer.options.title ===
+        channel.networkCode + "." + channel.stationCode
+      ) {
         channelMarker = layer;
       }
       // layer.title === channel.nslc;
     });
-
     if (channelMarker) {
       console.log(channelMarker);
       channelMarker.openPopup();
@@ -133,61 +134,122 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
   addChannelsInGroup() {}
 
-  updateMap() {
-    if (this.channelLayer && this.selectedChannels) {
-      this.layers.pop();
-      let sumLat = 0; // Sums used for recentering
-      let sumLon = 0;
-      const chanMarkers = []; // Marker array
-      const chanLatLng = []; // Channel location array
+  // findStationByChannel(channel) {
 
-      // Add in the original channels, overwriting
+  // }
+
+  updateMap() {
+    const stations = [];
+    //station
+    // {
+    //   code:
+    //   selectedChannels:
+    //   notSelectedChannels:
+    // }
+
+    // stations.filter(s =>{
+    //   s.code = channel.networkCode + "." + channel.staCode;
+    // })
+    if (this.channelLayer) {
+      this.layers.pop();
+      const stationMarkers = []; // Marker array
+
+      console.log(this.channelsInGroup, this.selectedChannels);
+      //fixme - needs to be done by station??
       this.channelsInGroup?.forEach((channel) => {
-        // Add selected
-        sumLat += channel.lat;
-        sumLon += channel.lon;
-        chanLatLng.push([channel.lat, channel.lon]);
-        chanMarkers.push(
-          L.marker([channel.lat, channel.lon], {
-            icon: L.divIcon({ className: "original-channels" }),
-          }).bindPopup(channel.stationCode.toUpperCase())
-        );
+        let station = stations.find((s) => {
+          return s.code === channel.networkCode + "." + channel.stationCode;
+        });
+
+        if (!station) {
+          station = {
+            code: channel.networkCode + "." + channel.stationCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            inGroupChannels: [],
+            selectedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.inGroupChannels.push(channel);
+        // const marker = this.makeMarker(channel, "original-channels");
+        // chanMarkers.push(marker);
       });
 
       this.selectedChannels?.forEach((channel) => {
-        // Add selected
-        sumLat += channel.lat;
-        sumLon += channel.lon;
-        chanLatLng.push([channel.lat, channel.lon]);
-        const marker = L.marker([channel.lat, channel.lon], {
-          icon: L.divIcon({ className: "new-channels" }),
-          title: channel.nslc,
-        }).bindPopup(
-          channel.networkCode.toUpperCase() +
-            "." +
-            channel.stationCode.toUpperCase()
-        );
-        marker.on("click", (ev) => {
-          ev.target.openPopup();
-          this.zone.run(() => {
-            console.log("event clicked");
-            this.showChannelChange.emit(channel);
-          });
+        let station = stations.find((s) => {
+          return s.code === channel.networkCode + "." + channel.stationCode;
         });
-        chanMarkers.push(marker);
+
+        if (!station) {
+          station = {
+            code: channel.networkCode + "." + channel.stationCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            inGroupChannels: [],
+            selectedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.selectedChannels.push(channel);
+        // const marker = this.makeMarker(channel, "new-channels");
+        // chanMarkers.push(marker);
+      });
+      console.log(stations);
+      stations.forEach((station) => {
+        const marker = this.makeMarker(station);
+        stationMarkers.push(marker);
       });
 
-      this.channelLayer = L.featureGroup(chanMarkers);
+      this.channelLayer = L.featureGroup(stationMarkers);
       this.layers.push(this.channelLayer);
-      if (chanMarkers.length > 0) {
-        // Recenter and rezoom to fit
-        this.options.center = L.latLng(
-          sumLat / chanMarkers.length,
-          sumLon / chanMarkers.length
-        );
-        this.fitBounds = this.channelLayer.getBounds();
-      }
+
+      this.fitBounds = this.channelLayer.getBounds();
     }
+  }
+
+  makeMarker(station) {
+    let selectedChannelString = "";
+    let inGroupChannelString = "";
+
+    station.inGroupChannels.forEach((channel) => {
+      inGroupChannelString +=
+        "<div> <div class='original-channels map-icon'></div>" +
+        channel.nslc +
+        "</div>";
+    });
+    station.selectedChannels.forEach((channel) => {
+      selectedChannelString +=
+        "<div> <div class='new-channels map-icon'></div>" +
+        channel.nslc +
+        "</div>";
+    });
+
+    let className = "";
+
+    if (station.inGroupChannels.length !== 0) {
+      className = "original-channels";
+    }
+    if (station.selectedChannels.length !== 0) {
+      className = "new-channels";
+    }
+
+    const popup = `<h4> ${station.code} </h4> <div class='channel-list'>${selectedChannelString}</div> <div class='channel-list'>${inGroupChannelString} </div>`;
+    const marker = L.marker([station.lat, station.lon], {
+      icon: L.divIcon({ className: className }),
+      title: station.code,
+    }).bindPopup(popup);
+    marker.on("click", (ev) => {
+      ev.target.openPopup();
+      this.zone.run(() => {
+        //FIXME: need to actually select channels
+        this.showChannelChange.emit(station);
+      });
+    });
+
+    return marker;
   }
 
   // Clear out old stuff and remove bounds
@@ -199,6 +261,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   // Send out newly drawn bounds
   onRectangleCreated(e: any) {
     this.rectLayer = e.layer;
+    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
     this.boundsChange.emit(""); // Clear old bounds
     const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
     const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng

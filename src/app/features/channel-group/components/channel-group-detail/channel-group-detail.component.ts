@@ -58,7 +58,8 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
 
   selectChannel(event) {
     console.log(event);
-    this.selected = [event];
+    this.selected = event.selectedChannels;
+    //selected is [] because map isn't making any of them selected
   }
 
   closeChannelGroup() {

@@ -132,39 +132,37 @@
             Add Channels
           </button>
           <button
-            mat-flat-button
-            color="warn"
+            mat-icon-button
+            color="accent"
             (click)="undoSelectRemove()"
             [disabled]="!this.changeMade"
           >
-            Undo Last
+            <mat-icon>undo</mat-icon>
           </button>
         </div>
       </div>
 
       <div id="preview-container" class="row">
-        <div id="preview-list" class="table-container">
-          <ngx-datatable
-            *ngIf="!loading; else isLoading"
-            #availableTable
-            id="channel-selector"
-            class="material channel-table"
-            [rows]="rows"
-            [columns]="columns"
-            [columnMode]="ColumnMode.flex"
-            [headerHeight]="30"
-            [footerHeight]="0"
-            [rowHeight]="23"
-            [selectionType]="SelectionType.multiClick"
-            [selected]="selectedChannels"
-            [scrollbarV]="true"
-            [sortType]="SortType.multi"
-            (select)="selectRow($event)"
-          ></ngx-datatable>
-          <ng-template #isLoading>
-            <mat-spinner></mat-spinner>
-          </ng-template>
-        </div>
+        <ngx-datatable
+          *ngIf="!loading; else isLoading"
+          #availableTable
+          id="channel-selector"
+          class="material channel-table"
+          [rows]="rows"
+          [columns]="columns"
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="30"
+          [footerHeight]="0"
+          [rowHeight]="23"
+          [selectionType]="SelectionType.multiClick"
+          [selected]="selectedChannels"
+          [scrollbarV]="true"
+          [sortType]="SortType.multi"
+          (select)="selectRow($event)"
+        ></ngx-datatable>
+        <ng-template #isLoading>
+          <mat-spinner></mat-spinner>
+        </ng-template>
       </div>
     </div>
   </div>

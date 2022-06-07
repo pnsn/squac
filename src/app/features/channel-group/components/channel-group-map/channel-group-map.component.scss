@@ -42,6 +42,13 @@
   background-color: #e60808 !important;
 }
 
+:host ::ng-deep {
+  div.channel-list {
+    div.map-icon {
+      display: inline-block;
+    }
+  }
+}
 #legend {
   padding: 5px;
   .legend-item {

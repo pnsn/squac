@@ -53,7 +53,8 @@
       <div id="map-container">
         <channel-group-map
           [channelsInGroup]="channelGroup.channels"
-          (showChannelChange)="(selectChannel)"
+          [selectedChannels]="selected"
+          (showChannelChange)="selectChannel($event)"
           [showChannel]="showChannel"
           [editPage]="false"
         ></channel-group-map>
