@@ -1,8 +1,3 @@
-<p class="help-text">
-  Regular expression allowed. Use ? or . for single character wildcard and [ , ]
-  for sets. For example, [B,H]?Z would return all channels starting with B or H
-  and ending with Z.
-</p>
 <div id="filter-box">
   <mat-form-field class="filter-chip-input">
     <input
@@ -46,7 +41,11 @@
     Search
   </button>
 </div>
-
+<p class="help-text">
+  Regular expression allowed. Use ? or . for single character wildcard and [ , ]
+  for sets. For example, [B,H]?Z would return all channels starting with B or H
+  and ending with Z.
+</p>
 <!-- <mat-chip-list #chipList aria-label="Channel group filters">
   <div *ngFor="let filterGroup of filters | keyvalue">
     <mat-chip

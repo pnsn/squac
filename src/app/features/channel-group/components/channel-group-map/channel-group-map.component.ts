@@ -5,7 +5,6 @@ import {
   Output,
   EventEmitter,
   OnInit,
-  SimpleChange,
   SimpleChanges,
   NgZone,
 } from "@angular/core";
@@ -18,13 +17,13 @@ import * as L from "leaflet";
   styleUrls: ["./channel-group-map.component.scss"],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() channelsInGroup: Channel[];
+  @Input() inGroupChannels: Channel[];
   @Input() selectedChannels: Channel[];
   @Input() editPage: boolean;
   @Input() showChannel: Channel;
   @Output() showChannelChange = new EventEmitter<any>();
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
-  channelLayer: L.FeatureGroup;
+  stationLayer: L.FeatureGroup;
   drawnItems: L.FeatureGroup;
   options: {
     center: L.LatLng;
@@ -44,18 +43,17 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.showChannel && this.showChannel) {
-      this.selectChannels(this.showChannel);
+    if (changes.selectedChannels || changes.inGroupChannels) {
+      this.updateMap(!!changes.showChannel);
     }
-    if (changes.selectedChannels || changes.channelsInGroup) {
-      console.log("changes");
-      this.updateMap();
+    if (!changes.selectedChannels && changes.showChannel) {
+      this.selectChannels(this.showChannel);
     }
   }
 
   initMap(): void {
     // Setup the groups for map markers and the drawn square
-    this.channelLayer = new L.FeatureGroup();
+    this.stationLayer = new L.FeatureGroup();
     this.drawnItems = new L.FeatureGroup();
 
     this.legend = new L.Control({
@@ -69,15 +67,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
       this.drawnItems,
-      this.channelLayer,
+      this.stationLayer,
     ];
 
     const legend = L.DomUtil.get("legend");
     this.legend.onAdd = () => {
       return legend;
     };
-
-    console.log("init", this.legend);
 
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
@@ -108,55 +104,44 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.legend.addTo(this.map);
     setTimeout(() => {
       this.map.invalidateSize();
-      this.updateMap();
+      this.updateMap(false);
     }, 0);
   }
 
   selectChannels(channel: Channel) {
-    console.log(channel);
-    let channelMarker;
-    this.channelLayer.eachLayer((layer: any) => {
-      if (
-        layer.options.title ===
-        channel.networkCode + "." + channel.stationCode
-      ) {
-        channelMarker = layer;
+    if (channel) {
+      let stationMarker;
+      this.stationLayer.eachLayer((layer: any) => {
+        if (
+          layer.options.title ===
+          channel.networkCode + "." + channel.stationCode
+        ) {
+          stationMarker = layer;
+        }
+        // layer.title === channel.nslc;
+      });
+
+      if (stationMarker) {
+        stationMarker.openPopup();
       }
-      // layer.title === channel.nslc;
-    });
-    if (channelMarker) {
-      console.log(channelMarker);
-      channelMarker.openPopup();
     }
+  }
+
+  startDrawing(event) {
+    console.log(event);
   }
 
   addSelectedChannels() {}
 
-  addChannelsInGroup() {}
+  addinGroupChannels() {}
 
-  // findStationByChannel(channel) {
-
-  // }
-
-  updateMap() {
+  updateMap(showChannel: boolean) {
     const stations = [];
-    //station
-    // {
-    //   code:
-    //   selectedChannels:
-    //   notSelectedChannels:
-    // }
-
-    // stations.filter(s =>{
-    //   s.code = channel.networkCode + "." + channel.staCode;
-    // })
-    if (this.channelLayer) {
+    if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array
-
-      console.log(this.channelsInGroup, this.selectedChannels);
       //fixme - needs to be done by station??
-      this.channelsInGroup?.forEach((channel) => {
+      this.inGroupChannels?.forEach((channel) => {
         let station = stations.find((s) => {
           return s.code === channel.networkCode + "." + channel.stationCode;
         });
@@ -173,6 +158,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
         }
 
         station.inGroupChannels.push(channel);
+
         // const marker = this.makeMarker(channel, "original-channels");
         // chanMarkers.push(marker);
       });
@@ -193,20 +179,35 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           stations.push(station);
         }
 
+        const index = station.inGroupChannels.findIndex(
+          (c) => c.id === channel.id
+        );
+
+        if (index > -1) {
+          //remove channel from ingroups to stop duplicates
+          station.inGroupChannels.splice(index, 1);
+        }
         station.selectedChannels.push(channel);
+
         // const marker = this.makeMarker(channel, "new-channels");
         // chanMarkers.push(marker);
       });
-      console.log(stations);
       stations.forEach((station) => {
         const marker = this.makeMarker(station);
         stationMarkers.push(marker);
       });
 
-      this.channelLayer = L.featureGroup(stationMarkers);
-      this.layers.push(this.channelLayer);
+      this.stationLayer = L.featureGroup(stationMarkers);
+      this.layers.push(this.stationLayer);
 
-      this.fitBounds = this.channelLayer.getBounds();
+      if (stationMarkers.length > 0) {
+        this.map.fitBounds(this.stationLayer.getBounds(), {
+          padding: [11, 11],
+        });
+      }
+      if (showChannel) {
+        this.selectChannels(this.showChannel);
+      }
     }
   }
 

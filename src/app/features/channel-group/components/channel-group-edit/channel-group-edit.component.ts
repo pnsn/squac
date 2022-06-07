@@ -55,6 +55,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   showOnlyCurrent = true;
   filtersChanged: boolean;
   searchFilters: any;
+  showChannel: Channel;
   // Map stuff
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
@@ -236,20 +237,23 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = [];
   }
 
+  channelsSelectedOnMap($event) {
+    console.log($event);
+  }
+
   selectRow($event) {
+    this.showChannel = this.selectedChannels[this.selectedChannels.length - 1];
     this.selectedChannels = [...$event.selected];
   }
   getChannelsWithFilters(searchFilters: object) {
-    let searchResults = [];
     if (this.searchFilters !== {}) {
       this.loading = true;
       const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
         .subscribe((response) => {
-          searchResults = [...response];
           this.loading = false;
 
-          this.selectedChannels = [...searchResults];
+          this.selectedChannels = [...response];
 
           const existing = this.findChannelsInSelected();
           this.rows = [...this.selectedChannels, ...existing];
@@ -262,8 +266,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           // add channels to selected Channels
         });
       this.subscriptions.add(channelsSub);
-    } else {
-      searchResults = [];
     }
   }
 

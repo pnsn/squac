@@ -21,7 +21,8 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
   error: boolean;
   showChannel: Channel;
-  selected = [];
+  selectedRows = [];
+  selectedChannels = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,15 +52,14 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     this.channelGroupSub.unsubscribe();
   }
 
+  //channel selected on table
   onSelect(event) {
-    this.showChannel = this.selected[0];
-    console.log(this.showChannel);
+    this.showChannel = this.selectedRows[0];
   }
 
+  //channel selected on map
   selectChannel(event) {
-    console.log(event);
-    this.selected = event.selectedChannels;
-    //selected is [] because map isn't making any of them selected
+    this.selectedRows = event.inGroupChannels;
   }
 
   closeChannelGroup() {

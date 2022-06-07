@@ -6,7 +6,6 @@
     [leafletOptions]="options"
     [leafletLayers]="layers"
     (leafletMapReady)="onMapReady($event)"
-    [leafletFitBounds]="fitBounds"
   >
     <div
       *ngIf="editPage"
@@ -17,16 +16,15 @@
       (leafletDrawEdited)="onRectangleEdited()"
       (leafletDrawDeleted)="onRectangleDeleted()"
     ></div>
-  </div>
-
-  <div id="legend" class="square-box">
-    <div class="legend-item">
-      <div class="original-channels"></div>
-      <span>In Group</span>
-    </div>
-    <div class="legend-item">
-      <div class="new-channels"></div>
-      <span>Selected</span>
+    <div id="legend" class="square-box">
+      <div class="legend-item">
+        <div class="original-channels"></div>
+        <span>In Group</span>
+      </div>
+      <div class="legend-item" *ngIf="editPage">
+        <div class="new-channels"></div>
+        <span>Selected</span>
+      </div>
     </div>
   </div>
 </div>

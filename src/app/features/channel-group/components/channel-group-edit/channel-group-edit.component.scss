@@ -13,31 +13,23 @@
     margin-top: 0px;
   }
 }
+.channels-row {
+  height: 60vh;
+}
 
 .edit-body {
   padding: 10px;
   gap: 10px;
-  border-top: 1px solid lighten($sq-gray, 15);
+  .row {
+    gap: 10px;
+  }
 }
 
 #selection-filter {
-  width: 100%;
-}
-
-#select-channels-container,
-#create-group-container {
-  height: 60vh;
-  text-align: start;
-  align-items: start;
+  width: 50%;
 }
 
 #select-channels-controls {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 10px;
   div {
     button {
       margin-left: 5px;
@@ -47,17 +39,13 @@
 .filter-container {
   justify-content: space-between;
 }
-#select-channels-container {
-  width: 60%;
-  mat-spinner {
-    margin: 25% auto;
-  }
-}
+
 #preview-container {
-  width: 100%;
+  width: 50%;
   height: 100%;
   flex-grow: 1;
   overflow: hidden;
+  border: 1px solid lighten($sq-gray, 15);
   .channel-table {
     .datatable-body {
       width: 100%;
@@ -65,36 +53,7 @@
   }
 }
 #map-box {
-  width: 40%;
-}
-
-#create-group-container {
-  h2 {
-    align-self: start;
-  }
-  width: calc(40% - 20px);
-  align-items: flex-start;
-  mat-radio-button {
-    display: block;
-  }
-  .remove-channel {
-    mat-icon {
-      font-size: 15px;
-      height: 15px;
-      width: 15px;
-      line-height: 15px;
-    }
-    height: 15px;
-    width: 15px;
-    display: block;
-    line-height: 15px;
-  }
-  #group-channels {
-    flex-grow: 1;
-    flex-shrink: 1;
-
-    height: 100%;
-  }
+  width: 50%;
 }
 
 #remove-filter-box,

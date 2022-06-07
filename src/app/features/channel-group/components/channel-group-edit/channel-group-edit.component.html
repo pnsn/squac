@@ -7,23 +7,22 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
+  <div class="edit-body">
+    <div class="row">
+      <form class="" [formGroup]="channelGroupForm" id="cg-form" class="column">
+        <mat-form-field class="channel-group-input" class="medium">
+          <input matInput placeholder="Name" formControlName="name" required />
+        </mat-form-field>
 
-  <div class="row edit-body">
-    <form class="" [formGroup]="channelGroupForm" id="cg-form" class="column">
-      <mat-form-field class="channel-group-input" class="medium">
-        <input matInput placeholder="Name" formControlName="name" required />
-      </mat-form-field>
-
-      <mat-form-field id="description" class="large">
-        <textarea
-          matInput
-          placeholder="Description"
-          formControlName="description"
-          required
-        ></textarea>
-      </mat-form-field>
-    </form>
-    <div id="cg-edit-footer">
+        <mat-form-field id="description" class="large">
+          <textarea
+            matInput
+            placeholder="Description"
+            formControlName="description"
+            required
+          ></textarea>
+        </mat-form-field>
+      </form>
       <div id="save-cancel-cg">
         <ng-container *ngIf="editMode; else notEditMode">
           <button
@@ -33,7 +32,7 @@
             class="add-btn"
             (click)="save()"
             [disabled]="
-              !channelGroupForm.valid || selectedChannels?.length === 0
+              !channelGroupForm.valid || channelsInGroup?.length === 0
             "
             matTooltip="Save channel group"
             aria-label="Button that saves the changes to the channel group"
@@ -68,20 +67,9 @@
         </button>
       </div>
     </div>
-  </div>
 
-  <div class="row edit-body">
-    <div id="map-box">
-      <channel-group-map
-        [channelsInGroup]="channelsInGroup"
-        [selectedChannels]="selectedChannels"
-        [editPage]="true"
-        (boundsChange)="updateBounds($event)"
-      ></channel-group-map>
-    </div>
-    <div id="select-channels-container" class="column">
+    <div class="row">
       <div id="selection-filter">
-        <h3>Search for Channels</h3>
         <div class="filter-container column">
           <p class="help-text">
             Use the filters to the below to search for channels or use the map
@@ -93,55 +81,60 @@
           </channel-group-filter>
         </div>
       </div>
-      <h3>Search Results</h3>
-      <mat-slide-toggle
-        [(ngModel)]="showOnlyCurrent"
-        (change)="filterCurrent()"
-      >
-        <span class="help-text">Only Show Current Channels</span>
-      </mat-slide-toggle>
-      <div id="select-channels-controls">
-        <ng-container *ngIf="availableChannels.length === 0; else hasChannels">
-          <span class="help-text"
-            >Search above to find channels to add to your channel group.</span
-          >
-        </ng-container>
-        <ng-template #hasChannels>
-          <span class="help-text"
-            >{{ availableChannels.length }} channels matching search
-            criteria.</span
-          >
-        </ng-template>
+      <div id="search-controls" class="column">
+        <mat-slide-toggle
+          [(ngModel)]="showOnlyCurrent"
+          (change)="filterCurrent()"
+        >
+          <span class="help-text">Only Show Current Channels</span>
+        </mat-slide-toggle>
+        <div id="select-channels-controls">
+          <div>
+            <button
+              mat-flat-button
+              color="warn"
+              (click)="removeChannels()"
+              [disabled]="!selectedChannels || selectedChannels.length === 0"
+            >
+              remove selected
+            </button>
 
-        <div>
-          <button
-            mat-flat-button
-            color="warn"
-            (click)="removeChannels()"
-            [disabled]="!selectedChannels || selectedChannels.length === 0"
+            <button
+              mat-flat-button
+              color="accent"
+              (click)="addChannels()"
+              [disabled]="!selectedChannels || selectedChannels.length === 0"
+            >
+              Add selected
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="undoSelectRemove()"
+              [disabled]="!this.changeMade"
+              matTooltip="undo last change"
+            >
+              <mat-icon>undo</mat-icon>
+            </button>
+          </div>
+          <span class="help-text"
+            >{{ selectedChannels.length }} channels selected</span
           >
-            remove channels
-          </button>
-
-          <button
-            mat-flat-button
-            color="accent"
-            (click)="addChannels()"
-            [disabled]="!selectedChannels || selectedChannels.length === 0"
-          >
-            Add Channels
-          </button>
-          <button
-            mat-icon-button
-            color="accent"
-            (click)="undoSelectRemove()"
-            [disabled]="!this.changeMade"
-          >
-            <mat-icon>undo</mat-icon>
-          </button>
         </div>
       </div>
+    </div>
 
+    <div class="row channels-row">
+      <div id="map-box">
+        <channel-group-map
+          [inGroupChannels]="channelsInGroup"
+          [selectedChannels]="selectedChannels"
+          [showChannel]="showChannel"
+          (showChannelChange)="channelsSelectedOnMap($event)"
+          [editPage]="true"
+          (boundsChange)="updateBounds($event)"
+        ></channel-group-map>
+      </div>
       <div id="preview-container" class="row">
         <ngx-datatable
           *ngIf="!loading; else isLoading"

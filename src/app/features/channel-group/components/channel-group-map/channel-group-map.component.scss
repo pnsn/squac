@@ -1,3 +1,4 @@
+@import "variables";
 #map-container {
   height: 100%;
   width: 100%;
@@ -24,12 +25,12 @@
 
 :host ::ng-deep .original-channels {
   @extend .map-icon;
-  background-color: #00db5b !important;
+  background-color: $sq-blue !important;
 }
 
 :host ::ng-deep .new-channels {
   @extend .map-icon;
-  background-color: #00baeb !important;
+  background-color: $sq-yellow !important;
 }
 
 :host ::ng-deep .filtered-channels {
@@ -46,6 +47,7 @@
   div.channel-list {
     div.map-icon {
       display: inline-block;
+      margin-right: 3px;
     }
   }
 }
@@ -54,6 +56,7 @@
   .legend-item {
     div {
       display: inline-block;
+      margin-right: 3px;
     }
   }
 
