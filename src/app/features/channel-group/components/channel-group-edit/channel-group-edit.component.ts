@@ -228,7 +228,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   undoSelectRemove() {
     const newPrevious = [...this.channelsInGroup];
-    this.rows = [...this.previousChannels];
+    this.channelsInGroup = [...this.previousChannels];
+    this.updateRows();
     this.previousChannels = newPrevious;
   }
 

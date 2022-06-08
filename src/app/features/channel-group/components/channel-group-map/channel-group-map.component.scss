@@ -25,12 +25,12 @@
 
 :host ::ng-deep .original-channels {
   @extend .map-icon;
-  background-color: $sq-blue !important;
+  background-color: $sq-yellow !important;
 }
 
 :host ::ng-deep .new-channels {
   @extend .map-icon;
-  background-color: $sq-yellow !important;
+  background-color: $sq-blue !important;
 }
 
 :host ::ng-deep .filtered-channels {
