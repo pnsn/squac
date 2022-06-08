@@ -13,10 +13,10 @@
 </shared-table-view>
 <ng-template #groupHeaderTemplate let-group="group" let-expanded="expanded">
   <div
-    class="monitor-container"
+    class="monitor-container row space-between"
     *ngIf="group.value && group.value[0].monitor as monitor"
   >
-    <div class="monitor-status">
+    <div class="monitor-status row">
       <div class="alarm-status">
         <mat-icon *ngIf="monitor.inAlarm" color="accent"
           >error_outline</mat-icon

@@ -1,9 +1,9 @@
-<mat-toolbar color="primary">
-  <a [routerLink]="['/']" routerLinkActive="active">
+<mat-toolbar color="primary" class="row space-between">
+  <a [routerLink]="['/']" routerLinkActive="active" id="logo">
     <img src="/assets/text_logo.svg" alt="SQUAC logo" />
   </a>
 
-  <div id="header-right" *ngIf="user">
+  <div id="header-right" *ngIf="user" class="row">
     <a
       mat-button
       [routerLink]="['/dashboards']"
@@ -43,13 +43,8 @@
         >Organization Settings</a
       >
       <button mat-menu-item (click)="logout()">Log Out</button>
-      <!-- <button mat-menu-item>Help</button> -->
     </mat-menu>
 
     <a mat-button [matMenuTriggerFor]="appMenu">Settings</a>
-    <!-- TODO: profile pic or first name -->
-    <!-- <button mat-mini-fab [matMenuTriggerFor]="appMenu">
-        <div id="user-icon">{{user?.firstName.charAt(0)}}</div>
-      </button> -->
   </div>
 </mat-toolbar>

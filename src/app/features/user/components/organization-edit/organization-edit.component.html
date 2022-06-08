@@ -53,24 +53,23 @@
   </form>
 </div>
 
-<div mat-dialog-actions>
-  <div id="dialog-options">
-    <button
-      mat-flat-button
-      color="accent"
-      (click)="save()"
-      [disabled]="!userForm.valid"
-    >
-      {{ editMode ? "Save User" : "Add User" }}
-    </button>
-    <button
-      *ngIf="editMode"
-      mat-button
-      color="warn"
-      (click)="deactivate()"
-      [disabled]="!userIsActive"
-    >
-      Deactivate
-    </button>
-  </div>
+<div mat-dialog-actions class="dialog-options">
+  <button
+    class="save"
+    mat-flat-button
+    color="accent"
+    (click)="save()"
+    [disabled]="!userForm.valid"
+  >
+    {{ editMode ? "Save User" : "Add User" }}
+  </button>
+  <button
+    *ngIf="editMode"
+    mat-button
+    color="warn"
+    (click)="deactivate()"
+    [disabled]="!userIsActive"
+  >
+    Deactivate
+  </button>
 </div>

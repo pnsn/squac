@@ -21,16 +21,3 @@ h3 {
 :host ::ng-deep .datatable-body-cell {
   padding: 0px !important;
 }
-
-#dialog-options {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  #save {
-    margin-left: 20px;
-  }
-  p {
-    font-weight: 300;
-    margin-top: 0px;
-  }
-}

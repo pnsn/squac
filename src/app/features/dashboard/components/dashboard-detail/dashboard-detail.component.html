@@ -1,5 +1,5 @@
-<div *ngIf="dashboard" id="dashboard-container">
-  <mat-toolbar id="dashboard-header">
+<div *ngIf="dashboard" id="dashboard-container" class="column">
+  <mat-toolbar id="dashboard-header" class="lt-gray-background">
     <mat-toolbar-row>
       <div id="dashboard-info">
         <h2>
@@ -51,6 +51,7 @@
           </button>
           <button
             mat-menu-item
+            color="warn"
             id="delete-dashboard"
             (click)="deleteDashboard()"
             *ngIf="'delete' | able: dashboard"

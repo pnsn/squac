@@ -68,7 +68,7 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-<div mat-dialog-actions id="dialog-options">
+<div mat-dialog-actions class="dialog-options">
   <div>
     <button
       mat-stroked-button
@@ -89,7 +89,7 @@
       Next
     </button>
     <button
-      id="save"
+      class="save"
       mat-flat-button
       type="button"
       color="accent"
@@ -99,11 +99,11 @@
       Save
     </button>
   </div>
-  <p *ngIf="!widget.isValid; else valid">
+  <p class="help-text" *ngIf="!widget.isValid; else valid">
     Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
   </p>
   <ng-template #valid>
-    <p>
+    <p class="help-text">
       {{ editMode ? "Editing" : "Creating" }} widget on dashboard
       {{ dashboardId }}
     </p>

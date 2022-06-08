@@ -1,4 +1,4 @@
-<div id="column" class="box" *ngIf="user; else noUser">
+<div class="column box" *ngIf="user; else noUser">
   <div id="title">
     <h2>User Settings</h2>
   </div>
@@ -43,7 +43,7 @@
       </button>
     </div>
 
-    <form [formGroup]="userForm">
+    <form [formGroup]="userForm" class="form">
       <div class="form-group">
         <div id="label">First Name:</div>
         <mat-form-field>

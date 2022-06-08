@@ -1,25 +1,14 @@
 mat-toolbar {
-  display: flex;
   height: 50px;
-  align-items: center;
-  justify-content: space-between;
-  img {
-    padding-top: 5px;
+  #logo {
     height: 40px;
     width: auto;
+    img {
+      height: 100%;
+      width: auto;
+    }
   }
-  h1,
-  a {
-    color: white;
-    display: inline-block;
-    margin: 5px;
+  #header-right {
+    gap: 5px;
   }
-
-  a.active {
-    font-weight: bold;
-  }
-}
-
-#user-icon {
-  font-size: 25px;
 }

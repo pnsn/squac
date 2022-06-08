@@ -5,8 +5,8 @@
   </button>
 </div>
 <div mat-dialog-content id="edit-container">
-  <form #monitorEditForm [formGroup]="monitorForm">
-    <mat-stepper #stepper orientation="horizontal" color="primary">
+  <form #monitorEditForm [formGroup]="monitorForm" class="form">
+    <mat-horizontal-stepper #stepper color="primary">
       <mat-step
         label="Monitor Configuration"
         #infoStep
@@ -328,7 +328,7 @@
       <ng-template matStepperIcon="trigger">
         <mat-icon>edit_notifications</mat-icon>
       </ng-template>
-    </mat-stepper>
+    </mat-horizontal-stepper>
   </form>
 
   <!-- <div id="chart-container">
@@ -346,7 +346,7 @@
   </div> -->
 </div>
 
-<div mat-dialog-actions id="dialog-options">
+<div mat-dialog-actions class="dialog-options">
   <div>
     <button
       mat-stroked-button
@@ -367,7 +367,7 @@
       Back
     </button>
     <button
-      id="save"
+      class="save"
       mat-flat-button
       color="accent"
       (click)="save()"
@@ -376,5 +376,5 @@
       Save
     </button>
   </div>
-  <p class="help-text danger">* required field</p>
+  <p class="warn-text">* required field</p>
 </div>

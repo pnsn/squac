@@ -1,0 +1,155 @@
+// Ngx Datatable overrides
+@import "variables";
+
+/* Data Table*/
+datatable-scroller {
+  width: 100% !important;
+  border-bottom: 0px !important;
+}
+ngx-datatable {
+  width: 100% !important;
+  button.datatable-tree-button.ng-star-inserted {
+    border: 1px solid $sq-lt-gray;
+    background-color: transparent;
+    margin-right: 5px;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    &:hover {
+      color: $sq-blue;
+    }
+  }
+  &.ngx-datatable.material {
+    box-shadow: unset;
+  }
+  .datatable-header-cell {
+    padding: 5px !important;
+    white-space: normal !important;
+  }
+
+  .datatable-body-cell,
+  .datatable-body-row {
+    padding: 1px 3px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+}
+
+.datatable-row-detail {
+  width: 100%;
+}
+
+.ngx-datatable.material {
+  .datatable-header {
+    .datatable-header-cell {
+      color: black;
+    }
+  }
+}
+
+.datatable-body-row.active,
+.datatable-body-row.active .datatable-row-group,
+.group-header-container.active {
+  background-color: lighten($sq-lt-blue, 30%) !important;
+}
+.datatable-body-row.active:hover,
+.datatable-body-row.active:hover .datatable-row-group,
+.group-header-container.active:hover {
+  background-color: lighten($sq-lt-blue, 20%) !important;
+}
+.datatable-body-row:hover,
+.datatable-body-row:hover .datatable-row-group,
+.group-header-container:hover {
+  background-color: $sq-lt-gray !important;
+}
+
+ngx-datatable.shared-view-table {
+  .datatable-body {
+    // max-height: 80vh;
+    overflow-y: scroll;
+  }
+  &.full {
+    .datatable-body {
+      max-height: calc(90vh);
+    }
+  }
+  &.half {
+    .datatable-body {
+      max-height: calc(30vh);
+    }
+  }
+
+  a {
+    color: $sq-blue;
+    font-weight: 400;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  $default-border: 1px solid darken($sq-lt-gray, 10);
+  $light-border: 1px solid $sq-lt-gray;
+  background-color: white;
+  datatable-header {
+    background-color: $sq-lt-gray;
+    border-top: $default-border;
+    border-bottom: $default-border;
+    .datatable-row-center {
+      datatable-header-cell {
+        border-left: $default-border;
+        border-collapse: collapse;
+        line-height: unset !important;
+        .datatable-header-cell-wrapper {
+          padding: 0px 5px;
+          .datatable-header-cell-label {
+            font-weight: bold;
+          }
+        }
+        .sort-btn {
+          float: right;
+        }
+      }
+      datatable-header-cell:nth-child(1) {
+        border-left: none;
+      }
+    }
+  }
+  datatable-footer {
+    border-top: $default-border;
+    .datatable-footer-inner {
+      padding: 0px 10px;
+    }
+  }
+  datatable-row-wrapper {
+    width: 100% !important;
+    .datatable-group-header {
+      .group-header-container {
+        padding: 5px 10px !important;
+      }
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.589);
+
+      border-top: $default-border;
+      border-bottom: $default-border;
+    }
+    .datatable-body-cell,
+    .datatable-body-row {
+      font-weight: lighter;
+
+      white-space: normal !important;
+      line-height: 1.25 !important;
+    }
+    .datatable-body-row {
+      padding: 2px 0px !important;
+    }
+    .datatable-body-cell {
+      padding: 1px 8px !important;
+    }
+    .datatable-body-row {
+      border-bottom: $light-border;
+    }
+  }
+  .empty-row {
+    padding: 5px 10px;
+  }
+}
