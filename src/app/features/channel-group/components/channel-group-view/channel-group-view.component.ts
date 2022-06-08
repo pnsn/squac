@@ -83,7 +83,7 @@ export class ChannelGroupViewComponent
         }
         this.selectedChannelGroupId =
           this.route.children.length > 0
-            ? this.route.snapshot.firstChild.params.channelGroupId
+            ? +this.route.snapshot.firstChild.params.channelGroupId
             : null;
       });
       this.subscription.add(routeSub);
@@ -93,7 +93,7 @@ export class ChannelGroupViewComponent
       .subscribe((event) => {
         this.selectedChannelGroupId =
           this.route.children.length > 0
-            ? this.route.snapshot.firstChild.params.channelGroupId
+            ? +this.route.snapshot.firstChild.params.channelGroupId
             : null;
       });
 
@@ -109,7 +109,7 @@ export class ChannelGroupViewComponent
 
   // onSelect function for data table selection
   onSelect(channelGroup) {
-    this.selectedChannelGroupId = channelGroup.id;
+    this.selectedChannelGroupId = channelGroup ? channelGroup.id : null;
   }
 
   onClick(event) {

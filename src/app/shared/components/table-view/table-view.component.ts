@@ -225,6 +225,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.selectedRow = this.selected[0];
+
     this.itemSelected.next(this.selectedRow);
   }
 
