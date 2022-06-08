@@ -46,15 +46,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   channelGroupForm: FormGroup;
   searchChannels: Channel[] = []; // Channels returned from filter request
   availableChannels: Channel[] = []; // Search channels filtered by bounds
-  originalSelectedChannels: Channel[] = []; // Original channels on channel group
   selectedChannels: Channel[] = []; // Channels currently in selected list
 
-  isSelectedFiltered = false; // For remove channels button
-  filteredChannels: Channel[] = []; // For filtering selected channels to remove
   previousChannels: Channel[];
   showOnlyCurrent = true;
-  filtersChanged: boolean;
-  searchFilters: any;
   showChannel: Channel;
   // Map stuff
   bounds: any; // Latlng bounds to either filter by or make a new request with
@@ -64,6 +59,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SortType = SortType;
   columns = [];
+  searchFilters: any;
 
   channelsInGroup: Channel[] = [];
   rows: Channel[] = [];
@@ -246,8 +242,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.showChannel = this.selectedChannels[this.selectedChannels.length - 1];
     this.selectedChannels = [...$event.selected];
   }
-  getChannelsWithFilters(searchFilters: object) {
-    if (this.searchFilters !== {}) {
+
+  filtersChanged(searchFilters: any) {
+    this.searchFilters = searchFilters;
+
+    this.getChannelsWithFilters();
+  }
+  getChannelsWithFilters() {
+    const searchFilters = { ...this.bounds, ...this.searchFilters };
+    console.log(searchFilters);
+    if (Object.keys(searchFilters).length !== 0) {
       this.loading = true;
       const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
@@ -255,13 +259,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           this.loading = false;
 
           this.selectedChannels = [...response];
-
-          const existing = this.findChannelsInSelected();
-          this.rows = [...this.selectedChannels, ...existing];
-          //select retunred rows that are in group
           if (this.bounds !== undefined) {
             this.filterBounds();
           }
+          const existing = this.findChannelsInSelected();
+          this.rows = [...this.selectedChannels, ...existing];
+          //select retunred rows that are in group
 
           this.filterCurrent();
           // add channels to selected Channels
@@ -359,7 +362,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Filter searched channels using the map bounds
   filterBounds() {
-    this.availableChannels = this.searchChannels.filter((channel) => {
+    const temp = this.selectedChannels.filter((channel) => {
       const latCheck =
         channel.lat <= this.bounds.lat_max &&
         channel.lat >= this.bounds.lat_min;
@@ -368,12 +371,14 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         channel.lon <= this.bounds.lon_max;
       return latCheck && lonCheck;
     });
+
+    this.selectedChannels = temp;
   }
 
   // Update bounds for filtering channels with map
   updateBounds(newBounds: string) {
-    console.log(newBounds);
     if (!newBounds) {
+      this.bounds = {};
       this.rows = [...this.channelsInGroup];
     } else {
       const boundsArr = newBounds.split(" ").map((bound) => {
@@ -386,11 +391,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         lon_min: boundsArr[1], // west bound
         lon_max: boundsArr[3], // east bound
       };
-      if (this.availableChannels.length === 0) {
-        this.getChannelsWithFilters(this.bounds); // Uncomment to make api request for channels in lat lon
-      } else {
-        this.filterBounds();
-      }
+      this.getChannelsWithFilters();
     }
   }
 }

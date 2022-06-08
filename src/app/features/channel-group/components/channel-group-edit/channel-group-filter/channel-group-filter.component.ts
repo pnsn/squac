@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from "@angular/core";
-
 @Component({
   selector: "channel-group-filter",
   templateUrl: "./channel-group-filter.component.html",
@@ -7,25 +6,40 @@ import { Component, EventEmitter, Output } from "@angular/core";
 })
 export class ChannelGroupFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
-  filters = {
+  filters: any = {
     net_search: "",
     chan_search: "",
     sta_search: "",
     loc_search: "",
   };
 
-  addFilter(event: any, type: string): void {
-    const value: string = event.target.value.toLowerCase();
+  net: string;
+  chan: string;
+  sta: string;
+  loc: string;
+
+  formatFilter(value: string): string {
+    let filter;
     if (value) {
-      const filterStr = value.trim().replace(/\?/g, "."); //turn back to allowed character
-      this.filters[type] = `^${filterStr}$`;
+      const filterStr = value.toLowerCase().trim().replace(/\?/g, "."); //turn back to allowed character
+      filter = `^${filterStr}$`;
     } else {
-      this.filters[type] = "";
+      filter = "";
     }
+    return filter;
   }
 
   // send filters to parent on submit
   updateFilters() {
+    this.filters = {
+      net_search: this.formatFilter(this.net),
+      chan_search: this.formatFilter(this.chan),
+      sta_search: this.formatFilter(this.sta),
+      loc_search: this.formatFilter(this.loc),
+    };
+    if (!this.net && !this.chan && !this.sta && !this.loc) {
+      this.filters = {};
+    }
     this.filtersChanged.next(this.filters);
   }
 }

@@ -134,7 +134,8 @@
       </div>
     </div>
     <div class="column">
-      <div id="save-cancel-cg">
+      <div id="add-channel-header" class="row">
+        <h3>Add Channels to Group</h3>
         <mat-slide-toggle
           [(ngModel)]="showOnlyCurrent"
           (change)="filterCurrent()"
@@ -148,9 +149,7 @@
             Use the filters to the below to search for channels or use the map
             to search within a region.
           </p>
-          <channel-group-filter
-            (filtersChanged)="getChannelsWithFilters($event)"
-          >
+          <channel-group-filter (filtersChanged)="filtersChanged($event)">
           </channel-group-filter>
         </div>
       </div>

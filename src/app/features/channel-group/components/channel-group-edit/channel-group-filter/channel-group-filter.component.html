@@ -1,51 +1,33 @@
-<div id="filter-box">
-  <mat-form-field class="filter-chip-input">
-    <input
-      matInput
-      placeholder="Network"
-      (change)="addFilter($event, 'net_search')"
-      (keydown.enter)="addFilter($event, 'net_search')"
-    />
-  </mat-form-field>
-  <mat-form-field class="filter-chip-input">
-    <input
-      matInput
-      placeholder="Station"
-      (change)="addFilter($event, 'sta_search')"
-      (keydown.enter)="addFilter($event, 'sta_search')"
-    />
-  </mat-form-field>
-  <mat-form-field class="filter-chip-input">
-    <input
-      matInput
-      placeholder="Location"
-      (change)="addFilter($event, 'loc_search')"
-      (keydown.enter)="addFilter($event, 'loc_search')"
-    />
-  </mat-form-field>
-  <mat-form-field class="filter-chip-input">
-    <input
-      matInput
-      placeholder="Channel"
-      (change)="addFilter($event, 'chan_search')"
-      (keydown.enter)="addFilter($event, 'chan_search')"
-    />
-  </mat-form-field>
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="updateFilters()"
-    matTooltip="Search for channels"
-    aria-label="Button that searches for channels matching filters"
-  >
-    Search
-  </button>
-</div>
 <p class="help-text">
   Regular expression allowed. Use ? or . for single character wildcard and [ , ]
   for sets. For example, [B,H]?Z would return all channels starting with B or H
   and ending with Z.
 </p>
+<div id="filter-box" class="row">
+  <mat-form-field class="filter-chip-input">
+    <input matInput [(ngModel)]="net" placeholder="Network" />
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input matInput [(ngModel)]="sta" placeholder="Station" />
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input matInput [(ngModel)]="loc" placeholder="Location" />
+  </mat-form-field>
+  <mat-form-field class="filter-chip-input">
+    <input matInput [(ngModel)]="chan" placeholder="Channel" />
+  </mat-form-field>
+  <div class="filter-chip-input">
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="updateFilters()"
+      matTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
 <!-- <mat-chip-list #chipList aria-label="Channel group filters">
   <div *ngFor="let filterGroup of filters | keyvalue">
     <mat-chip
