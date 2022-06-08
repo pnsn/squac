@@ -43,14 +43,10 @@ describe("MonitorDetailComponent", () => {
       ],
     }).compileComponents();
   });
-
-  beforeEach(() => {
+  it("should create", () => {
     fixture = TestBed.createComponent(MonitorDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
   afterEach(() => {

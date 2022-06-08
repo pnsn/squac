@@ -23,6 +23,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   showChannel: Channel;
   selectedRows = [];
   selectedChannels = [];
+  subscription = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -32,7 +33,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.channelGroupSub = this.route.data.subscribe((data) => {
+    const chanSub = this.route.data.subscribe((data) => {
       if (data.channelGroup.error) {
         this.error = true;
       } else {
@@ -40,6 +41,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
         this.channelGroup = data.channelGroup;
       }
     });
+    this.subscription.add(chanSub);
   }
 
   editChannelGroup() {
@@ -49,7 +51,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.channelGroupSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   //channel selected on table

@@ -43,14 +43,10 @@ describe("ChannelGroupEditComponent", () => {
         },
       });
   });
-
-  beforeEach(() => {
+  it("should create", () => {
     fixture = TestBed.createComponent(ChannelGroupEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

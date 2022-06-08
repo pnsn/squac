@@ -14,7 +14,7 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        random: false,
+        random: true,
       },
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
@@ -31,6 +31,6 @@ module.exports = function (config) {
     browsers: ["Chrome"],
     singleRun: false,
     restartOnFileChange: true,
-    failOnFailingTestSuite: true,
+    failOnFailingTestSuite: false,
   });
 };

@@ -43,13 +43,10 @@ describe("MonitorEditComponent", () => {
       });
   });
 
-  beforeEach(() => {
+  it("should create", () => {
     fixture = TestBed.createComponent(MonitorEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

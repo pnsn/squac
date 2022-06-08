@@ -34,7 +34,6 @@ describe("ChannelGroupDetailComponent", () => {
         },
       });
   });
-
   beforeEach(() => {
     fixture = TestBed.createComponent(ChannelGroupDetailComponent);
     component = fixture.componentInstance;
