@@ -4,6 +4,7 @@ import { ChannelGroupFilterComponent } from "./channel-group-filter.component";
 import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule } from "@angular/forms";
 
 describe("ChannelGroupFilterComponent", () => {
   let component: ChannelGroupFilterComponent;
@@ -11,7 +12,12 @@ describe("ChannelGroupFilterComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule, NoopAnimationsModule, MatFormFieldModule],
+      imports: [
+        MaterialModule,
+        NoopAnimationsModule,
+        MatFormFieldModule,
+        FormsModule,
+      ],
       declarations: [ChannelGroupFilterComponent],
     }).compileComponents();
   }));

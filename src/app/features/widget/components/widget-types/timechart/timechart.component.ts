@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";

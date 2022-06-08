@@ -7,12 +7,14 @@ import { TableViewComponent } from "@shared/components/table-view/table-view.com
 import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";
 import { MaterialModule } from "@shared/material.module";
+import { ActivatedRoute } from "@angular/router";
 describe("ChannelGroupViewComponent", () => {
   let component: ChannelGroupViewComponent;
   let fixture: ComponentFixture<ChannelGroupViewComponent>;
   beforeEach(() => {
     return MockBuilder(ChannelGroupViewComponent)
       .keep(RouterTestingModule.withRoutes([]))
+      .mock(ActivatedRoute)
       .mock(MaterialModule)
       .mock(TableViewComponent)
       .mock(AbilityModule)

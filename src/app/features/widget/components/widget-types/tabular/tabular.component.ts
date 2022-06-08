@@ -9,7 +9,6 @@ import {
 } from "@angular/core";
 import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";

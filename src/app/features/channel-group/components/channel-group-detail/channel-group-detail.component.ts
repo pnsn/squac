@@ -53,7 +53,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   //channel selected on table
-  onSelect(event) {
+  onSelect(_event) {
     this.showChannel = this.selectedRows[0];
   }
 

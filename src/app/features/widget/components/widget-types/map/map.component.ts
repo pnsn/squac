@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import * as L from "leaflet";

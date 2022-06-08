@@ -131,10 +131,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     console.log(event);
   }
 
-  addSelectedChannels() {}
-
-  addinGroupChannels() {}
-
   updateMap(showChannel: boolean) {
     const stations = [];
     if (this.stationLayer) {
