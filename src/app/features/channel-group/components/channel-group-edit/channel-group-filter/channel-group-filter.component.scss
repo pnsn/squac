@@ -1,0 +1,12 @@
+#filter-container {
+  width: 100%;
+}
+#filter-box {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.filter-chip-input {
+  max-width: 20%;
+}

@@ -1,11 +1,11 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject, ReplaySubject } from "rxjs";
-import { Dashboard } from "@features/dashboards/models/dashboard";
-import { DashboardsService } from "@features/dashboards/services/dashboards.service";
-import { Widget } from "@features/widgets/models/widget";
-import { WidgetsService } from "@features/widgets/services/widgets.service";
+import { Subject, BehaviorSubject } from "rxjs";
+import { Dashboard } from "@dashboard/models/dashboard";
+import { DashboardService } from "@dashboard/services/dashboard.service";
+import { Widget } from "@widget/models/widget";
+import { WidgetService } from "@widget/services/widget.service";
 import * as dayjs from "dayjs";
 import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
@@ -17,12 +17,13 @@ import { DateService } from "./date.service";
 export class ViewService {
   // handle refreshing
   currentWidgets = new Subject<Widget[]>();
-  dates = new ReplaySubject<number>(1);
+  updateData = new Subject<number>();
   resize = new Subject<number>();
   refresh = new Subject<string>();
+  widgetUpdated = new Subject<number>();
   status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
-  private live: boolean;
+  private autoRefresh: boolean;
   // refresh = new Subject<number>();
   private dashboard: Dashboard;
   dateRanges;
@@ -31,8 +32,8 @@ export class ViewService {
   defaultTimeRange;
 
   constructor(
-    private dashboardService: DashboardsService,
-    private widgetService: WidgetsService,
+    private dashboardService: DashboardService,
+    private widgetService: WidgetService,
     private ability: Ability,
     private dateService: DateService,
     private messageService: MessageService
@@ -48,42 +49,64 @@ export class ViewService {
 
   // returns if dashboard is live
   get isLive(): boolean {
-    return this.live;
+    return this.autoRefresh;
   }
 
   // returns the dashboard time range
   get range(): number {
-    return this.dashboard?.timeRange;
+    return this.dashboard?.properties.timeRange;
   }
 
   // returns the dashboard starttime
-  get startdate(): string {
-    return this.dashboard?.starttime;
+  get startTime(): string {
+    let startTime;
+    if (this.range) {
+      startTime = this.dateService.subtractFromNow(this.range, "seconds");
+      startTime = this.dateService.format(startTime);
+    } else {
+      startTime = this.dashboard?.properties.startTime;
+    }
+    return startTime;
   }
 
   // returns the dashboard end date
-  get enddate(): string {
-    return this.dashboard?.endtime;
+  get endTime(): string {
+    let endTime;
+    if (this.range) {
+      endTime = this.dateService.now();
+      endTime = this.dateService.format(endTime);
+    } else {
+      endTime = this.dashboard?.properties.endTime;
+    }
+
+    return endTime;
+  }
+
+  //get amount of time between start and end
+  getTimeSpan(unit: any): number {
+    const start = this.dateService.parseUtc(this.startTime);
+    const end = this.dateService.parseUtc(this.endTime);
+    return this.dateService.diff(end, start, unit);
   }
 
   // returns the dashboard archive type
   get archiveType(): string {
-    return this.dashboard?.archiveType;
+    return this.dashboard?.properties.archiveType;
   }
 
   // returns the dashboard archive stat
   get archiveStat(): string {
-    return this.dashboard?.archiveStat;
+    return this.dashboard?.properties.archiveStat;
   }
 
   // sets the given dashboard and sets up dates
-  setDashboard(dashboard: Dashboard): void {
+  setDashboard(dashboard): void {
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
 
-    if (dashboard.widgetIds && dashboard.widgetIds.length === 0) {
+    if (!dashboard.widgets || dashboard.widgets.length === 0) {
       this.status.next("finished");
     }
 
@@ -91,31 +114,62 @@ export class ViewService {
     // return dates
   }
 
+  // Sets up dates for dashboard
+  private setIntialDates() {
+    let startDate;
+    let endDate;
+    let autoRefresh;
+    let range;
+
+    // make date range selector
+    if (this.dashboard.properties.timeRange) {
+      autoRefresh = this.dashboard.properties.autoRefresh;
+      range = this.dashboard.properties.timeRange;
+      // set default dates
+    } else if (
+      this.dashboard.properties.startTime &&
+      this.dashboard.properties.endTime
+    ) {
+      autoRefresh = false;
+      startDate = this.dateService.parseUtc(
+        this.dashboard.properties.startTime
+      );
+      endDate = this.dateService.parseUtc(this.dashboard.properties.endTime);
+    } else {
+      // default dates
+      autoRefresh = true;
+      range = this.defaultTimeRange;
+    }
+    this.datesChanged(startDate, endDate, autoRefresh, range);
+    this.updateData.next(this.dashboard.id);
+  }
+
   // takes given date config and saves it, emits changed dates
   datesChanged(
     startDate: dayjs.Dayjs,
     endDate: dayjs.Dayjs,
-    live: boolean,
-    range?: number
+    autoRefresh: boolean,
+    rangeInSeconds: number
   ): void {
+    this.autoRefresh = autoRefresh;
+    this.dashboard.properties.timeRange = rangeInSeconds;
+    let startTime;
+    let endTime;
     if (startDate && endDate) {
-      const start = this.dateService.format(startDate);
-      const end = this.dateService.format(endDate);
-      this.live = live;
-
-      this.dashboard.timeRange = range ? range : null;
-
-      this.dashboard.starttime = start;
-      this.dashboard.endtime = end;
-
-      this.updateData();
+      startTime = this.dateService.format(startDate);
+      endTime = this.dateService.format(endDate);
     }
-    // this.status.next('loading');
+    this.dashboard.properties.startTime = startTime;
+    this.dashboard.properties.endTime = endTime;
   }
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
     return this.dashboard.widgets.findIndex((w) => w.id === id);
+  }
+
+  getWidgetById(id: number) {
+    return this.dashboard.widgets.find((w) => w.id === id);
   }
 
   // send id to resize subscribers
@@ -128,11 +182,6 @@ export class ViewService {
     this.resize.next(null);
   }
 
-  // tell widgets to get new data
-  updateData() {
-    this.dates.next(this.dashboard.id);
-  }
-
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
@@ -143,42 +192,8 @@ export class ViewService {
   }
 
   setArchive(archiveType, archiveStat) {
-    this.dashboard.archiveStat = archiveStat;
-    this.dashboard.archiveType = archiveType;
-
-    this.updateData();
-  }
-
-  // Sets up dates for dashboard
-  private setIntialDates() {
-    const current = this.dateService.now();
-    let startDate;
-    let endDate;
-    let liveMode;
-    let range;
-
-    // make date range selector
-    if (this.dashboard.timeRange) {
-      liveMode = true;
-      startDate = this.dateService.subtractFromNow(
-        this.dashboard.timeRange,
-        "seconds"
-      );
-      endDate = current;
-      range = this.dashboard.timeRange;
-      // set default dates
-    } else if (this.dashboard.starttime && this.dashboard.endtime) {
-      liveMode = false;
-      startDate = this.dateService.parseUtc(this.dashboard.starttime);
-      endDate = this.dateService.parseUtc(this.dashboard.endtime);
-    } else {
-      // default dates
-      liveMode = true;
-      range = this.defaultTimeRange;
-      startDate = this.dateService.subtractFromNow(range, "seconds");
-      endDate = current;
-    }
-    this.datesChanged(startDate, endDate, liveMode, range);
+    this.dashboard.properties.archiveStat = archiveStat;
+    this.dashboard.properties.archiveType = archiveType;
   }
 
   // decrements count of widgets still loading
@@ -197,9 +212,9 @@ export class ViewService {
     }
   }
 
-  // FIXME: this currently will cause all widgets to reload;
-  // Tells widgets to get new data
-  private widgetChanged(_widgetId: number): void {
+  // broadcast id of changed widget
+  private widgetChanged(widgetId: number): void {
+    this.widgetUpdated.next(widgetId);
     this.status.next("finished");
     this.error.next(null);
   }
@@ -216,17 +231,29 @@ export class ViewService {
         (newWidget) => {
           if (index > -1) {
             this.dashboard.widgets[index] = newWidget;
+            this.messageService.message("Widget updated.");
           } else {
             this.dashboard.widgets.push(newWidget);
+            this.messageService.message("Widget added.");
           }
-          this.widgetChanged(widgetId);
-          this.messageService.message("Widget updated.");
+          this.widgetChanged(newWidget.id);
         },
         () => {
           this.messageService.error("Could not updated widget.");
         }
       );
     }
+  }
+
+  saveWidgetResize(widget: Widget) {
+    this.widgetService.updateWidget(widget).subscribe(
+      (widget) => {
+        this.resizeWidget(widget.id);
+      },
+      (error) => {
+        console.log("error in widget update: ", error);
+      }
+    );
   }
 
   // deletes given widget
@@ -240,13 +267,6 @@ export class ViewService {
         this.messageService.error("Could not delete widget.");
       }
     );
-  }
-
-  // TODO: this should refresh widget info if its going to be lvie
-  // Will rerender widgets, but not get new widget information
-  refreshWidgets(): void {
-    this.refresh.next("refresh");
-    // this.getWidgets(this.dashboard.id);
   }
 
   // deletes the dashboard

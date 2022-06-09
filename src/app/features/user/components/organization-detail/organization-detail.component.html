@@ -1,220 +1,33 @@
-<div id="column" *ngIf="user && organization; else noUser">
-  <div id="header-info">
-    <h1>{{ organization.name }} Organization</h1>
-    <a mat-button color="primary" [routerLink]="['../']"
-      >View All Organizations</a
-    >
-  </div>
-  <p>
-    You are {{ user.orgId === organization.id ? "" : "not " }}part of this
-    organization.
-  </p>
-  <div class="box" id="org-users-container">
-    <ngx-datatable
-      id="user-table"
-      #userTable
-      class="material"
-      [rows]="organization.users"
-      [columnMode]="ColumnMode.flex"
-      [headerHeight]="30"
-      [footerHeight]="50"
-      [rowHeight]="23"
-      [scrollbarV]="true"
-      [scrollbarH]="true"
-    >
-      <ngx-datatable-column
-        name=""
-        prop="id"
-        *ngIf="isAdmin"
-        [width]="50"
-        [sortable]="false"
-        [flexGrow]="0.5"
-      >
-        <ng-template
-          let-row="row"
-          let-expanded="expanded"
-          ngx-datatable-cell-template
-        >
-          <button
-            mat-icon-button
-            class="user-table-button"
-            color="primary"
-            *ngIf="!expanded"
-            (click)="expandRow(row)"
-            matTooltip="Edit user"
-            aria-label="Button that enables user editing"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            class="user-table-button"
-            color="accent"
-            *ngIf="expanded"
-            (click)="cancelUserEdit(row)"
-            matTooltip="Cancel edits"
-            aria-label="Button that cancels user editing"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-          <!-- toggle edit and cancel button -->
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="firstName" [flexGrow]="1.5">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.firstName }} {{ row.lastName }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Email"
-        prop="email"
-        [flexGrow]="2"
-        *ngIf="isAdmin"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Groups" prop="groups" [flexGrow]="2">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value.join(", ") }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Last Login"
-        prop="lastLogin"
-        [flexGrow]="1"
-        *ngIf="isAdmin"
-      >
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value | date: "shortDate" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Org. Admin" prop="isAdmin" [flexGrow]="0.75">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value ? "Admin" : "" }}
-        </ng-template>
-      </ngx-datatable-column>
+<shared-table-view
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  [controls]="controls"
+  [filters]="filters"
+  (itemSelected)="onSelect($event)"
+  (controlClicked)="onClick($event)"
+  (refresh)="refresh()"
+  title="{{ organization?.name }} Organization"
+>
+  <ng-container tableHeadFilters>
+    <p>
+      You are {{ user?.orgId === organization?.id ? "" : "not " }}part of this
+      organization.
+    </p>
+  </ng-container>
+</shared-table-view>
+<div id="roles-container">
+  <h2>Squac User Roles (additive):</h2>
+  <mat-list dense>
+    <mat-list-item *ngFor="let group of groups">
+      <strong>{{ group.role | titlecase }}</strong> -
+      {{ group.description }}
+    </mat-list-item>
 
-      <ngx-datatable-column
-        name="Active"
-        prop="isActive"
-        [flexGrow]="0.75"
-        *ngIf="isAdmin"
-      >
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{ value ? "Active" : "" }}
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-row-detail [rowHeight]="125" #detailRow>
-        <ng-template
-          let-row="row"
-          let-expanded="expanded"
-          ngx-datatable-row-detail-template
-        >
-          <div id="user-edit-title">
-            <span
-              ><strong>Edit User: </strong> {{ row.firstName }}
-              {{ row.lastName }}
-            </span>
-            <button
-              mat-button
-              id="activate"
-              color="primary"
-              (click)="sendInvite(row.id)"
-              *ngIf="!row.isActive"
-            >
-              Send Invite
-            </button>
-          </div>
-          <mat-divider></mat-divider>
-          <form
-            [formGroup]="editUserForm"
-            (ngSubmit)="saveUser(row)"
-            class="user-form"
-            id="user-edit"
-          >
-            <mat-form-field class="select-groups">
-              <mat-label>Role</mat-label>
-              <mat-select formControlName="editGroups" multiple>
-                <mat-option *ngFor="let group of groups" [value]="group.role">{{
-                  group.role
-                }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-checkbox formControlName="editIsAdmin">Admin</mat-checkbox>
-
-            <mat-checkbox formControlName="editIsActive">Active</mat-checkbox>
-            <button
-              mat-icon-button
-              color="accent"
-              type="submit"
-              [disabled]="!editUserForm.valid"
-              matTooltip="Save user"
-              aria-label="Button that svaes the user"
-            >
-              <mat-icon>save</mat-icon>
-            </button>
-          </form>
-        </ng-template>
-      </ngx-datatable-row-detail>
-    </ngx-datatable>
-  </div>
-  <div *ngIf="isAdmin">
-    <h2>Add User</h2>
-    <form
-      class="form"
-      [formGroup]="addUserForm"
-      (ngSubmit)="addNewUser()"
-      class="box user-form"
-    >
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="email" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Role</mat-label>
-        <mat-select formControlName="groups" multiple>
-          <mat-option *ngFor="let group of groups" [value]="group.role">{{
-            group.role
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-checkbox formControlName="isAdmin">Organization Admin</mat-checkbox>
-
-      <button
-        mat-button
-        color="accent"
-        type="submit"
-        [disabled]="!addUserForm.valid"
-        matTooltip="Add user"
-        aria-label="Button that adds the new user"
-      >
-        Add User
-      </button>
-    </form>
-    <div *ngIf="error">
-      {{ error }}
-    </div>
-    <div *ngIf="!!userAdded" id="invite-sent">
-      Invitation email sent to {{ userAdded.email }}
-    </div>
-  </div>
-  <div id="roles-container">
-    <h2>Squac User Roles (additive):</h2>
-    <mat-list dense>
-      <ng-container>
-        <mat-list-item *ngFor="let group of groups">
-          <strong>{{ group.role | titlecase }}</strong> -
-          {{ group.description }}
-        </mat-list-item>
-      </ng-container>
-
-      <mat-list-item>
-        <strong>Organization Admin</strong> - Can add users and assign roles.
-      </mat-list-item>
-    </mat-list>
-  </div>
+    <mat-list-item>
+      <strong>Organization Admin</strong> - Can add users and assign roles.
+    </mat-list-item>
+  </mat-list>
 </div>
 
-<ng-template #noUser>
-  <p>Loading Organization information, please wait.</p>
-</ng-template>
+<router-outlet></router-outlet>

@@ -1,0 +1,32 @@
+<div id="filter-container">
+  <p class="help-text">
+    Regular expression allowed. Use ? or . for single character wildcard and [ ,
+    ] for sets. For example, [B,H]?Z would return all channels starting with B
+    or H and ending with Z.
+  </p>
+  <div id="filter-box" class="row">
+    <mat-form-field class="filter-chip-input">
+      <input matInput [(ngModel)]="net" placeholder="Network" />
+    </mat-form-field>
+    <mat-form-field class="filter-chip-input">
+      <input matInput [(ngModel)]="sta" placeholder="Station" />
+    </mat-form-field>
+    <mat-form-field class="filter-chip-input">
+      <input matInput [(ngModel)]="loc" placeholder="Location" />
+    </mat-form-field>
+    <mat-form-field class="filter-chip-input">
+      <input matInput [(ngModel)]="chan" placeholder="Channel" />
+    </mat-form-field>
+    <div class="filter-chip-input">
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="updateFilters()"
+        matTooltip="Search for channels"
+        aria-label="Button that searches for channels matching filters"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

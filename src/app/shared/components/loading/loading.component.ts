@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-loading",
-  template: '<div id="loading-container"><span>loading...<span><div>',
+  selector: "shared-loading",
+  templateUrl: "./loading.component.html",
   styleUrls: ["./loading.component.scss"],
 })
 export class LoadingComponent {}

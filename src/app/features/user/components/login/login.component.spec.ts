@@ -5,7 +5,7 @@ import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { of } from "rxjs";
-import { UserModule } from "@features/user/user.module";
+import { UserModule } from "@user/user.module";
 import { ReactiveFormsModule } from "@angular/forms";
 
 describe("LoginComponent", () => {

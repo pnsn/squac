@@ -1,0 +1,9 @@
+<div
+  echarts
+  [initOpts]="initOptions"
+  [options]="options"
+  [autoResize]="true"
+  [merge]="updateOptions"
+  class="chart"
+  (chartClick)="onChartEvent($event, 'chartClick')"
+></div>

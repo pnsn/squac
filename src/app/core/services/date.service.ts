@@ -30,6 +30,10 @@ export class DateService {
     return localDate.utc();
   }
 
+  utcStringToMilliseconds(dateString: string): number {
+    return this.parseUtc(dateString).valueOf() / 1000;
+  }
+
   // get now
   now(): dayjs.Dayjs {
     return dayjs.utc().clone();
@@ -65,9 +69,9 @@ export class DateService {
     return date.utc().format(this.locale.displayFormat);
   }
 
-  // return differnece in seconds between two dates
-  diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
-    return date1.diff(date2, "seconds");
+  // return difference in 'unit' between two dates
+  diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs, unit?: any): number {
+    return date1.diff(date2, unit || "seconds");
   }
 
   // return duration
@@ -77,6 +81,9 @@ export class DateService {
 
   get dateRanges() {
     return this.configService.getValue("dateRanges");
+  }
+  get datePickerTimeRanges() {
+    return this.configService.getValue("datePickerTimeRanges");
   }
 
   get defaultTimeRange() {

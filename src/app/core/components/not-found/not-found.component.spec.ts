@@ -1,6 +1,5 @@
-import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MockInstance, MockRender, ngMocks } from "ng-mocks";
+import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
 
 import { NotFoundComponent } from "./not-found.component";
 
@@ -8,11 +7,10 @@ describe("NotFoundComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
-  beforeAll(async () => {
-    return TestBed.configureTestingModule({
-      declarations: [NotFoundComponent],
-      imports: [RouterTestingModule.withRoutes([])],
-    }).compileComponents();
+  beforeAll(() => {
+    return MockBuilder(NotFoundComponent).keep(
+      RouterTestingModule.withRoutes([])
+    );
   });
 
   it("should create", () => {

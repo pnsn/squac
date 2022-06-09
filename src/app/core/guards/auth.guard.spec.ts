@@ -3,17 +3,24 @@ import { Location } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
-import { MockBuilder, MockRender, ngMocks, NG_MOCKS_GUARDS } from "ng-mocks";
+import {
+  MockBuilder,
+  MockComponent,
+  MockRender,
+  ngMocks,
+  NG_MOCKS_GUARDS,
+} from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
 import { AppModule } from "app/app.module";
-import { DashboardsModule } from "@features/dashboards/dashboards.module";
-import { DashboardsResolver } from "@features/dashboards/dashboards.resolver";
-import { ChannelGroupsResolver } from "@features/channel-groups/channel-groups.resolver";
-import { UserResolver } from "@features/user/user.resolver";
-import { MetricsResolver } from "@features/metrics/metrics.resolver";
-import { StatTypeResolver } from "@features/widgets/stat-type.resolver";
-import { OrganizationResolver } from "@features/user/organization.resolver";
+import { DashboardModule } from "@dashboard/dashboard.module";
+import { DashboardResolver } from "@dashboard/dashboard.resolver";
+import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
+import { UserResolver } from "@user/user.resolver";
+import { MetricResolver } from "@metric/metric.resolver";
+import { OrganizationResolver } from "@user/organization.resolver";
+import { LoginComponent } from "@features/user/components/login/login.component";
+import { DashboardComponent } from "@features/dashboard/components/dashboard/dashboard.component";
 
 describe("AuthGuard", () => {
   ngMocks.faster();
@@ -21,19 +28,26 @@ describe("AuthGuard", () => {
   beforeAll(() => {
     return MockBuilder(AuthGuard, AppModule)
       .exclude(NG_MOCKS_GUARDS)
-      .mock(DashboardsModule)
-      .mock(DashboardsResolver)
-      .mock(ChannelGroupsResolver)
+      .mock(DashboardModule)
+      .mock(DashboardResolver)
+      .mock(ChannelGroupResolver)
       .mock(UserResolver)
-      .mock(MetricsResolver)
-      .mock(StatTypeResolver)
+      .mock(MetricResolver)
       .mock(OrganizationResolver)
       .mock(AuthService, {
         login: () => EMPTY,
         loggedIn: false,
       })
       .keep(RouterModule)
-      .keep(RouterTestingModule.withRoutes([]));
+      .keep(
+        RouterTestingModule.withRoutes([
+          {
+            path: "login",
+            component: MockComponent(LoginComponent),
+          },
+          { path: "dashboards", component: MockComponent(DashboardComponent) },
+        ])
+      );
   });
 
   it("should not allow routing if not authorized", fakeAsync(() => {

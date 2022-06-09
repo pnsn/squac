@@ -1,0 +1,79 @@
+// table {
+//   height: auto;
+//   width: auto;
+//   overflow: scroll;
+//   border-collapse: collapse;
+//   &, th, td {
+//     border: 1px solid black;
+//   }
+
+//   th, td {
+//     padding: 2px;
+//     overflow-wrap: break-word;
+//   }
+// }
+
+:host ::ng-deep #tabular-table.ngx-datatable {
+  width: 100% !important;
+  height: calc(100% - 4px);
+
+  .datatable-header {
+    height: auto !important;
+  }
+  .datatable-tree-button:disabled {
+    display: none;
+  }
+  .datatable-header-cell-template-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .datatable-header-cell-label {
+    text-overflow: ellipsis;
+    font-size: 10pt !important;
+  }
+
+  .datatable-row-wrapper {
+    &:hover {
+      font-weight: bold;
+    }
+  }
+  .header-cell {
+    width: 100%;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    max-height: 50px;
+  }
+  .datatable-body-cell-label {
+    line-height: 100%;
+
+    padding: 2px;
+
+    .cell-icon {
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+    }
+    .cell-full {
+      display: inline-block;
+      height: 14px;
+      width: 100%;
+    }
+    .cell-text {
+      font-size: 10pt !important;
+    }
+    margin-left: 5px;
+  }
+  .datatable-body-cell {
+    white-space: normal;
+  }
+  .datatable-row-left {
+    background-color: white;
+  }
+}
+
+// :host ::ng-deep datatable-header-cell-template-wrap {
+//   white-space: normal;
+// }

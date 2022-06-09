@@ -1,9 +1,13 @@
-<div id="loading-container" *ngIf="loading">
+<div
+  id="loading-container"
+  *ngIf="loading"
+  class="column centered blue-background"
+>
   <div id="loading-gif">
     <img src="assets/loading.gif" alt="" />
   </div>
   <ul id="loading-text">
-    <li *ngFor="let status of statuses">
+    <li *ngFor="let status of statuses" class="lt-gray">
       {{ status }}
     </li>
   </ul>

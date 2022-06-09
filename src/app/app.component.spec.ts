@@ -11,7 +11,7 @@ describe("AppComponent", () => {
 
   beforeEach(() =>
     MockBuilder(AppComponent)
-      .keep(RouterTestingModule)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(LoadingScreenComponent)
       .mock(MaterialModule)
       .mock(AuthService)

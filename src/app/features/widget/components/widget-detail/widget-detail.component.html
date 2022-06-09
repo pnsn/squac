@@ -1,0 +1,239 @@
+<div class="widget-container box" *ngIf="widget">
+  <div class="widget-header row space-between">
+    <span>{{ widget.name }}</span>
+    <div id="controls">
+      <button
+        *ngIf="widgetType && widgetType.showChannelList"
+        class="icon-button"
+        mat-icon-button
+        [color]="showStationList ? 'primary' : 'gray'"
+        matTooltip="toggle channel list"
+        aria-label="toggle channel list"
+        (click)="showStationList = !showStationList"
+      >
+        <mat-icon>legend_toggle</mat-icon>
+      </button>
+      <button
+        class="icon-button"
+        mat-icon-button
+        [matMenuTriggerFor]="metricMenu"
+        color="primary"
+        matTooltip="change metrics"
+        aria-label="change metrics"
+      >
+        <mat-icon>auto_graph</mat-icon>
+      </button>
+      <button
+        class="icon-button"
+        mat-icon-button
+        [matMenuTriggerFor]="widgetMenu"
+        color="primary"
+        aria-label="change widget settings"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu
+      #widgetMenu="matMenu"
+      class="mat-menu-dense"
+      yPosition="below"
+      xPosition="before"
+    >
+      <button
+        mat-menu-item
+        (click)="editWidget()"
+        *ngIf="'update' | able: widget"
+      >
+        Edit Widget
+      </button>
+      <!-- TODO: add option for no dashboards -->
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="dashboardMenu"
+        [matMenuTriggerData]="{ dashboards: dashboards }"
+        *ngIf="dashboards && dashboards.length > 0"
+      >
+        Add Widget to Dashboard
+      </button>
+      <button
+        mat-menu-item
+        class="warn"
+        (click)="deleteWidget()"
+        color="warn"
+        *ngIf="'delete' | able: widget"
+      >
+        Delete Widget
+      </button>
+    </mat-menu>
+  </div>
+
+  <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
+    <ng-template matMenuContent let-dashboards="dashboards">
+      <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
+      <ng-container *ngFor="let dashboard of dashboards">
+        <button
+          mat-menu-item
+          (click)="addWidgetToDashboard(dashboard.id)"
+          *ngIf="'update' | able: dashboard"
+        >
+          {{ dashboard.name }}
+        </button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
+    <ng-template matMenuContent>
+      <button
+        mat-menu-item
+        (click)="metricsSelected()"
+        [disabled]="!metricsChanged"
+        color="accent"
+      >
+        Change Metrics
+      </button>
+      <ng-container *ngIf="widgetType.dimensions">
+        <button
+          *ngFor="let metric of selected; let i = index"
+          mat-menu-item
+          (click)="changeMetric($event, 'remove', i)"
+        >
+          <span>{{ widgetType.dimensions[i] }}:</span>
+          {{ metric.name }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!widgetType.dimensions">
+        <button
+          mat-menu-item
+          *ngFor="let metric of selected; let i = index"
+          (click)="changeMetric($event, 'remove', i)"
+        >
+          <mat-icon>check_box</mat-icon> {{ metric.name }}
+        </button>
+      </ng-container>
+
+      <button
+        mat-menu-item
+        *ngFor="let metric of notSelected; let i = index"
+        (click)="changeMetric($event, 'add', i)"
+      >
+        <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
+      </button>
+
+      <ng-container *ngFor="let metric of metrics"> </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <div class="widget-content">
+    <shared-loading *ngIf="loading"> </shared-loading>
+    <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
+    <shared-error
+      *ngIf="!widget.metrics || widget.metrics?.length === 0"
+      [errorMsg]="'Could not load metric. Resource may have been deleted.'"
+    ></shared-error>
+    <shared-error
+      *ngIf="!widget.channelGroup"
+      [errorMsg]="
+        'Could not load channel group. Resource may have been deleted.'
+      "
+    ></shared-error>
+    <shared-error
+      *ngIf="!error && !loading && noData"
+      [errorMsg]="'No data'"
+    ></shared-error>
+
+    <ng-container *ngIf="!loading && !error && !noData">
+      <ng-container [ngSwitch]="widget?.type">
+        <widget-timeline
+          *ngSwitchCase="'timeline'"
+          class="widget"
+          [data]="data"
+          [dataRange]="dataRange"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+          [showStationList]="showStationList"
+        >
+        </widget-timeline>
+        <widget-tabular
+          *ngSwitchCase="'tabular'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [properties]="widget.properties"
+          [selectedMetrics]="selectedMetrics"
+        >
+        </widget-tabular>
+        <widget-parallel-plot
+          *ngSwitchCase="'parallel-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+          [showStationList]="showStationList"
+        >
+        </widget-parallel-plot>
+        <widget-timechart
+          *ngSwitchCase="'timeseries'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-timechart>
+        <widget-map
+          *ngSwitchCase="'map'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-map>
+        <widget-box-plot
+          *ngSwitchCase="'box-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+        >
+        </widget-box-plot>
+        <widget-scatter-plot
+          *ngSwitchCase="'scatter-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-scatter-plot>
+        <div *ngSwitchDefault class="widget-message">
+          <p>
+            Error: could not load widget...
+            {{ widget?.type }}
+          </p>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

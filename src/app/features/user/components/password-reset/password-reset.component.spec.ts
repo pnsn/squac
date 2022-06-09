@@ -1,33 +1,22 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { PasswordResetComponent } from "./password-reset.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { PasswordResetService } from "../../services/password-reset.service";
-import { MockPasswordResetService } from "../../services/password-reset.service.mock";
-import { MaterialModule } from "@shared/material.module";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ReactiveFormsModule } from "@angular/forms";
+import { MockBuilder } from "ng-mocks";
+import { UserModule } from "@features/user/user.module";
 
 describe("PasswordResetComponent", () => {
   let component: PasswordResetComponent;
   let fixture: ComponentFixture<PasswordResetComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NoopAnimationsModule,
-        MaterialModule,
-        ReactiveFormsModule,
-      ],
-      declarations: [PasswordResetComponent],
-      providers: [
-        { provide: PasswordResetService, useClass: MockPasswordResetService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(() => {
+    return MockBuilder(PasswordResetComponent, UserModule)
+      .keep(RouterTestingModule.withRoutes([]))
+      .mock(ReactiveFormsModule)
+      .mock(PasswordResetService);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordResetComponent);

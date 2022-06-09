@@ -1,32 +1,57 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { OrganizationsService } from "@features/user/services/organizations.service";
-import { User } from "@features/user/models/user";
-import { Organization } from "@features/user/models/organization";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { OrganizationService } from "@user/services/organization.service";
+import { User } from "@user/models/user";
+import { Organization } from "@user/models/organization";
 import { Subscription } from "rxjs";
-import { ColumnMode } from "@swimlane/ngx-datatable";
-import { InviteService } from "@features/user/services/invite.service";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { InviteService } from "@user/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
 @Component({
-  selector: "app-organization",
+  selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })
-export class OrganizationDetailComponent implements OnInit, OnDestroy {
+export class OrganizationDetailComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   user: User;
   isAdmin: boolean;
   organization: Organization;
-  addUserForm: FormGroup;
-  editUserForm: FormGroup;
   userAdded: User;
   inviteSent: boolean;
   subscription: Subscription = new Subscription();
   error: string;
-  @ViewChild("userTable") table: any;
   ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
   expanded: any = {};
+  rows;
+  columns;
+  selectedId;
+  selected: User;
+
+  controls = {
+    resource: "Organization",
+    add: {
+      text: "Add User", //      *ngIf="isAdmin"
+      path: "user",
+    },
+    menu: {},
+    refresh: true,
+    links: [{ text: "View All Organizations", path: "../" }],
+  };
+
+  filters = {};
+
+  options = {
+    autoRouteToDetail: false,
+    messages: {
+      emptyMessage: "No users found.",
+    },
+    footerLabel: "Users",
+    selectionType: "single",
+  };
 
   groups = [
     {
@@ -46,8 +71,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     },
   ];
   constructor(
-    private orgService: OrganizationsService,
-    private formBuilder: FormBuilder,
+    private orgService: OrganizationService,
     private inviteService: InviteService,
     private route: ActivatedRoute,
     private messageService: MessageService
@@ -56,120 +80,185 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const orgSub = this.route.data.subscribe((data) => {
       this.user = this.route.parent.snapshot.data.user;
-      this.organization = data.organization;
+      if (data.organization && data.organization.users) {
+        this.organization = data.organization;
+        this.rows = [...this.organization.users];
+      }
+
       this.isAdmin =
         this.user.isStaff ||
         (this.user.orgAdmin && this.user.orgId === this.organization.id);
     });
 
-    this.addUserForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      isAdmin: [false, Validators.required],
-      groups: ["", Validators.required],
-    });
-
-    this.editUserForm = this.formBuilder.group({
-      editGroups: [[], Validators.required],
-      editIsAdmin: [false, Validators.required],
-      editIsActive: [true, Validators.required],
-    });
+    if (this.isAdmin) {
+      this.controls.menu = {
+        text: "Actions",
+        path: "user",
+        options: [
+          {
+            text: "Edit",
+            permission: "update",
+            action: "edit",
+          },
+          {
+            text: "Send Invite",
+            action: "invite",
+          },
+          {
+            text: "Deactivate",
+            permission: "delete",
+            action: "deactivate",
+          },
+        ],
+      };
+    }
 
     this.subscription.add(orgSub);
+  }
+  buildColumns() {
+    if (this.isAdmin) {
+      this.columns = [
+        {
+          name: "Name",
+          prop: "",
+          // canAutoResize: false,
+          // width: 70,
+          pipe: {
+            transform: (row) => {
+              return row ? row.firstName + " " + row.lastName : "";
+            },
+          },
+        },
+        {
+          name: "Email", //FIXME: admin only
+          draggable: false,
+        },
+        {
+          name: "Groups",
+          pipe: {
+            transform: (groups) => {
+              return groups ? groups.join(", ") : "";
+            },
+          },
+        },
+        {
+          //FIXME: admin only
+          name: "Last Login",
+          prop: "lastLogin",
+          pipe: {
+            transform: (value) => {
+              return value
+                ? new Date(value).toLocaleString("en-US").split(",")[0]
+                : "";
+            },
+          },
+          canAutoResize: false,
+          width: 100,
+        },
+        {
+          name: "Is Admin",
+          prop: "isAdmin",
+          canAutoResize: false,
+          width: 100,
+        },
+        {
+          name: "Is Active", //Admin only
+          prop: "isActive",
+          canAutoResize: false,
+          width: 100,
+        },
+      ];
+    } else {
+      this.columns = [
+        {
+          name: "Name",
+          prop: "",
+          // canAutoResize: false,
+          // width: 70,
+          pipe: {
+            transform: (row) => {
+              return row ? row.firstName + " " + row.lastName : "";
+            },
+          },
+        },
+        {
+          name: "Groups",
+          pipe: {
+            transform: (groups) => {
+              return groups ? groups.join(", ") : "";
+            },
+          },
+        },
+        {
+          name: "Is Admin",
+          prop: "isAdmin",
+          canAutoResize: false,
+          width: 100,
+        },
+        {
+          name: "Is Active", //Admin only
+          prop: "isActive",
+          canAutoResize: false,
+          width: 100,
+        },
+      ];
+    }
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.buildColumns();
+    }, 0);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  saveUser(row) {
-    const values = this.editUserForm.value;
-    const user = new User(
-      row.id,
-      row.email,
-      row.firstName,
-      row.lastName,
-      this.organization.id,
-      values.editIsAdmin,
-      values.editGroups
-    );
-    user.isActive = values.editIsActive;
-    this.orgService.updateUser(user).subscribe(
-      () => {
-        // this.userAdded = newUser;
-        this.editUserForm.reset();
-        this.table.rowDetail.toggleExpandRow(row);
-        this.messageService.message(`Saved user ${row.email}`);
-        // this.organization.users.push(newUser);
-      },
-      (error) => {
-        this.messageService.error(`Could not save user ${row.email}`);
-        this.error = error;
-      }
-    );
+
+  onClick(event) {
+    if (event === "deactivate" && this.selectedId) {
+      this.deactivateUser();
+    } else if (event === "invite" && this.selectedId) {
+      this.sendInvite();
+    }
   }
 
-  cancelUserEdit(row) {
-    this.editUserForm.reset();
-    this.table.rowDetail.toggleExpandRow(row);
+  onSelect(row: User) {
+    this.selectedId = row.id;
+    this.selected = row;
   }
 
-  expandRow(row: User) {
-    this.editUserForm.reset();
-    this.table.rowDetail.collapseAllRows();
-
-    this.table.rowDetail.toggleExpandRow(row);
-    this.editUserForm.patchValue({
-      editGroups: row.groups,
-      editIsAdmin: row.isAdmin,
-      editIsActive: row.isActive,
-    });
+  deactivateUser() {
+    if (this.selected) {
+      this.selected.isActive = false;
+      this.orgService.updateUser(this.selected).subscribe({
+        next: () => {
+          this.messageService.message("User deactivated.");
+          this.refresh();
+        },
+        error: (error) => {
+          this.messageService.error(error);
+        },
+      });
+    }
   }
 
-  refreshOrgUsers() {
+  refresh() {
     this.orgService
       .getOrganizationUsers(this.organization.id)
       .subscribe((users) => {
         this.organization.users = users;
+        this.rows = [...this.organization.users];
       });
   }
-
-  sendInvite(id) {
-    this.inviteService.sendInviteToUser(id).subscribe(
-      () => {
-        this.refreshOrgUsers();
+  sendInvite() {
+    this.inviteService.sendInviteToUser(this.selectedId).subscribe({
+      next: () => {
+        this.messageService.message("Invitation email sent.");
+        this.refresh();
       },
-      (error) => {
-        this.error = error;
-      }
-    );
-  }
-
-  addNewUser() {
-    const values = this.addUserForm.value;
-    this.orgService
-      .updateUser(
-        new User(
-          null,
-          values.email,
-          null,
-          null,
-          this.organization.id,
-          values.isAdmin,
-          values.groups
-        )
-      )
-      .subscribe(
-        (newUser) => {
-          this.userAdded = newUser;
-          this.sendInvite(newUser.id);
-          this.addUserForm.reset();
-          // this.organization.users.push(newUser);
-          this.messageService.message(`Added user ${values.email}`);
-          // this.organization.users.push(newUser);
-        },
-        (error) => {
-          this.messageService.error(`Could not add user ${values.email}`);
-          this.error = error;
-        }
-      );
+      error: (error) => {
+        this.messageService.error(error);
+      },
+    });
   }
 }

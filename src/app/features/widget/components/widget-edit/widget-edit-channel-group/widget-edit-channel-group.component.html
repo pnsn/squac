@@ -1,0 +1,29 @@
+<div class="edit-body">
+  <div id="channel-group-header" class="row">
+    <div>
+      <span *ngIf="selected[0]; else noGroup">
+        <span class="label"> Selected Group: </span>{{ selected[0].name }}
+      </span>
+      <ng-template #noGroup>
+        <span>Select a channel group</span>
+      </ng-template>
+    </div>
+    <mat-slide-toggle [(ngModel)]="showOnlyUserOrg" (change)="filterOrg()">
+      Only Show {{ userOrg?.name }} Groups
+    </mat-slide-toggle>
+  </div>
+  <ngx-datatable
+    id="channel-group-table"
+    #channelTable
+    [rows]="rows"
+    class="material"
+    [columnMode]="ColumnMode.force"
+    rowHeight="auto"
+    [headerHeight]="30"
+    [footerHeight]="20"
+    [selectionType]="SelectionType.single"
+    [selected]="selected"
+    (select)="onSelect($event)"
+    [columns]="columns"
+  ></ngx-datatable>
+</div>

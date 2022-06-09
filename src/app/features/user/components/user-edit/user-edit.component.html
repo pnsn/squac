@@ -4,6 +4,7 @@
   autocomplete="off"
   (ngSubmit)="sendPassword()"
   [formGroup]="userForm"
+  class="form"
 >
   <mat-form-field>
     <mat-label> First Name</mat-label>
@@ -54,11 +55,13 @@
     >
   </ng-container>
 
-  <button mat-raised-button [disabled]="!userForm.valid">Create Account</button>
+  <button mat-flat-button color="accent" [disabled]="!userForm.valid">
+    Create Account
+  </button>
 </form>
 
 <ng-template #noToken>
   <p>No token, please try again.</p>
 </ng-template>
 
-<app-error *ngIf="error" [errorMsg]="error"></app-error>
+<shared-error *ngIf="error" [errorMsg]="error"></shared-error>

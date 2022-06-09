@@ -4,7 +4,7 @@ import { PasswordResetService } from "../../services/password-reset.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "app-password-reset",
+  selector: "user-password-reset",
   templateUrl: "./password-reset.component.html",
   styleUrls: ["./password-reset.component.scss"],
 })
@@ -67,6 +67,7 @@ export class PasswordResetComponent implements OnInit {
       (response) => {
         // go to next step
         this.tokenValidated = !!response;
+        this.error = "";
       },
       (error) => {
         this.error = error;
@@ -84,6 +85,7 @@ export class PasswordResetComponent implements OnInit {
     this.passwordResetService.confirmPassword(password1).subscribe(
       () => {
         this.router.navigate(["/login"]);
+        this.error = "";
       },
       (error) => {
         this.error = error;

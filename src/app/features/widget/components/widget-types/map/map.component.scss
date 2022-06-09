@@ -1,0 +1,90 @@
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+:host ::ng-deep .map-icon {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  background-color: transparent;
+}
+:host ::ng-deep .icon-parent {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  border: none;
+}
+
+.legend,
+.station-list,
+:host ::ng-deep .leaflet-popup-content {
+  font-size: 13px !important;
+  padding: 5px;
+  margin: 0px;
+  line-height: 18px;
+  div {
+    font-size: inherit;
+    span {
+      font-size: inherit;
+    }
+  }
+  .map-icon {
+    @extend .map-icon;
+  }
+  .legend-container {
+    display: flex;
+    flex-direction: row;
+    div {
+      display: inline-block;
+    }
+    div.values {
+      margin: 0px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+  .offMap {
+    color: rgb(170, 170, 170);
+  }
+  .gradient-icon {
+    height: 70px;
+    width: 14px;
+  }
+  div.map-icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  p {
+    margin-top: 2px;
+    margin-bottom: 0px;
+  }
+
+  h4 {
+    margin: 0 0 3px;
+    color: "#333";
+  }
+}
+:host ::ng-deep .leaflet-popup-content-wrapper {
+  border-radius: 2px;
+}
+
+.legend,
+.station-list {
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.station-list {
+  max-height: 50%;
+  .station {
+    &:hover {
+      cursor: pointer;
+    }
+    margin: 2px;
+  }
+  overflow-y: scroll;
+}

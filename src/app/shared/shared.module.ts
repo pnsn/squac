@@ -16,9 +16,14 @@ import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
-
+import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
+import { DateSelectComponent } from "./components/date-select/date-select.component";
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+import { NgxEchartsModule } from "ngx-echarts";
+import { PrecisionPipe } from "./pipes/precision.pipe";
 @NgModule({
   declarations: [
+    SearchFilterComponent,
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
@@ -28,14 +33,23 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     UserPipe,
     SharedIndicatorComponent,
     TableViewComponent,
+    DateSelectComponent,
+    PrecisionPipe,
   ],
   imports: [
     CommonModule,
     MaterialModule,
     LeafletModule,
     LeafletDrawModule,
+    NgxEchartsModule,
     AbilityModule,
     NgxDatatableModule,
+    FormsModule,
+    RouterModule,
+    NgxDaterangepickerMd.forRoot(),
+    NgxEchartsModule.forRoot({
+      echarts: () => import("echarts"),
+    }),
   ],
   exports: [
     MaterialModule,
@@ -56,6 +70,10 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     SharedIndicatorComponent,
     UserPipe,
     TableViewComponent,
+    SearchFilterComponent,
+    DateSelectComponent,
+    NgxEchartsModule,
+    PrecisionPipe,
   ],
 })
 export class SharedModule {}

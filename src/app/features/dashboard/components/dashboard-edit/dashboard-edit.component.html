@@ -1,0 +1,62 @@
+<div mat-dialog-title class="title">
+  <h3>{{ editMode ? "Edit Dashboard" : "New Dashboard" }}</h3>
+  <button mat-icon-button (click)="cancel()" type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content id="edit-container">
+  <form class="form" action="" [formGroup]="dashboardForm">
+    <mat-form-field class="medium">
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Name"
+        type="text"
+        id="name"
+      />
+      <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
+    </mat-form-field>
+    <mat-form-field class="large">
+      <textarea
+        matInput
+        id="description"
+        placeholder="Description"
+        formControlName="description"
+        class="form-control"
+      >
+      </textarea>
+      <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
+    </mat-form-field>
+
+    <div class="help-text">Sharing settings:</div>
+    <mat-radio-group
+      aria-label="change view permissions"
+      formControlName="share"
+      id="sharing-radio-group"
+      class="column"
+    >
+      <mat-radio-button value="private">Private</mat-radio-button>
+      <mat-radio-button value="shareOrg"
+        >Share with organization</mat-radio-button
+      >
+      <mat-radio-button value="shareAll"
+        >Share with all SQUAC users</mat-radio-button
+      >
+    </mat-radio-group>
+  </form>
+</div>
+
+<div mat-dialog-actions class="dialog-options">
+  <div>
+    <button
+      class="save"
+      mat-flat-button
+      color="accent"
+      (click)="save()"
+      [disabled]="!dashboardForm.valid"
+    >
+      Save
+    </button>
+  </div>
+</div>

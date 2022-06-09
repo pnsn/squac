@@ -1,0 +1,56 @@
+<!-- *ngIF causes chaos avoid in ngx-datatable -->
+<ngx-datatable
+  #dataTable
+  id="tabular-table"
+  class="material expandable"
+  [rows]="rows"
+  [columns]="columns"
+  [headerHeight]="50"
+  [sortType]="SortType.multi"
+  [columnMode]="ColumnMode.force"
+  [footerHeight]="0"
+  [rowHeight]="23"
+  [scrollbarH]="true"
+  [scrollbarV]="true"
+  [messages]="messages"
+  [treeFromRelation]="'parentId'"
+  [treeToRelation]="'id'"
+  (treeAction)="onTreeAction($event)"
+  [sorts]="sorts"
+>
+</ngx-datatable>
+<ng-template #headerTemplate let-column="column" ngx-datatable-header-template>
+  <div
+    matTooltip="{{ column.name }}"
+    matTooltipPosition="above"
+    class="header-cell"
+  >
+    {{ column.name }}
+  </div>
+</ng-template>
+
+<ng-template #cellTemplate let-value="value" let-row="row">
+  <ng-container *ngIf="row.type === 'stoplight'; else notStoplight">
+    <span
+      class="cell-full"
+      [ngStyle]="{ 'background-color': value.color }"
+    ></span>
+    <!-- <span class="cell-text" *ngIf="+value.count; else noValue">
+      {{ value.count | precision }}
+    </span> -->
+  </ng-container>
+
+  <ng-template #notStoplight>
+    <span
+      class="cell-icon"
+      [ngStyle]="{ 'background-color': value.color }"
+    ></span>
+    <span class="cell-text" *ngIf="+value.value; else noValue">
+      {{ value.value | precision }}
+    </span>
+  </ng-template>
+
+  <ng-template #noValue>
+    <span>-</span>
+  </ng-template>
+</ng-template>

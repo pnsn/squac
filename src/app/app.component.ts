@@ -5,8 +5,8 @@ import { AuthService } from "./core/services/auth.service";
 
 @Component({
   selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  template:
+    "<app-loading-screen></app-loading-screen><router-outlet></router-outlet>",
 })
 
 // App parent component

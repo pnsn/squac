@@ -1,0 +1,19 @@
+.edit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 60vh;
+}
+#channel-group-header {
+  justify-content: space-between;
+  margin-top: 7px;
+  flex: 0;
+}
+
+#channel-group-table {
+  flex-grow: 1;
+  overflow: scroll;
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}

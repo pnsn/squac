@@ -8,7 +8,7 @@ import { LoadingInterceptor } from "./loading.interceptor";
 describe("LoadingInterceptor", () => {
   let loadingService;
   let httpClient: HttpClient;
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -30,13 +30,11 @@ describe("LoadingInterceptor", () => {
           multi: true,
         },
       ],
-    })
-  );
-
-  beforeEach(() => {
+    });
     loadingService = TestBed.inject(LoadingService);
     httpClient = TestBed.inject(HttpClient);
   });
+
   it("should be created", () => {
     const interceptor: LoadingInterceptor = TestBed.inject(LoadingInterceptor);
 

@@ -1,10 +1,20 @@
 #column {
-  flex-direction: column;
-  display: flex;
   min-width: 200px;
   width: 30vw;
+  margin-top: 10px;
 }
-
+#title {
+  h2 {
+    margin-top: 0px;
+  }
+  width: 100%;
+  text-align: start;
+  background-color: #eeeeee;
+  padding: 5px 10px;
+}
+#body {
+  width: 100%;
+}
 .form-group {
   #label {
     width: 24%;
@@ -23,16 +33,5 @@
   }
   button {
     float: right;
-  }
-}
-
-#user-info-bottom {
-  mat-form-field {
-    width: 75%;
-  }
-  #button-container {
-    display: inline-block;
-    margin-left: 4%;
-    width: 20%;
   }
 }

@@ -53,4 +53,7 @@ describe("ConfirmDialogComponent", () => {
     expect(dialog).toBeTruthy();
     expect(component).toBeTruthy();
   });
+  afterEach(() => {
+    fixture.destroy();
+  });
 });
