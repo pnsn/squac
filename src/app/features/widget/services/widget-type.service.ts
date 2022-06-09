@@ -313,7 +313,6 @@ export class WidgetTypeService {
         label: `> ${this.precisionPipe.transform(max, 2)}`,
       });
     }
-    console.log(pieces);
     return pieces;
   }
 
