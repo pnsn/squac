@@ -90,8 +90,7 @@ ngx-datatable.shared-view-table {
       text-decoration: underline;
     }
   }
-  $default-border: 1px solid darken($sq-lt-gray, 10);
-  $light-border: 1px solid $sq-lt-gray;
+
   background-color: white;
   datatable-header {
     background-color: $sq-lt-gray;

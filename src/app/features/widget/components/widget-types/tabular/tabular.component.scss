@@ -19,6 +19,7 @@
 
   .datatable-header {
     height: auto !important;
+    font-size: 10pt !important;
   }
   .datatable-tree-button:disabled {
     display: none;
@@ -44,17 +45,22 @@
     overflow: hidden;
     overflow-wrap: anywhere;
     max-height: 50px;
+    font-size: 10pt !important;
   }
   .datatable-body-cell-label {
+    font-size: 10pt !important;
     line-height: 100%;
 
     padding: 2px;
-
+    margin-left: 23px !important;
     .cell-icon {
       display: inline-block;
       height: 14px;
       width: 14px;
       border-radius: 50%;
+    }
+    .datatable-tree-button {
+      margin-left: -23px !important;
     }
     .cell-full {
       display: inline-block;
@@ -64,13 +70,16 @@
     .cell-text {
       font-size: 10pt !important;
     }
-    margin-left: 5px;
+    span {
+      font-size: 10pt !important;
+    }
   }
   .datatable-body-cell {
     white-space: normal;
   }
   .datatable-row-left {
     background-color: white;
+    font-size: 10pt !important;
   }
 }
 

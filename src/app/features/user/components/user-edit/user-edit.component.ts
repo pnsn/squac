@@ -38,8 +38,8 @@ export class UserEditComponent implements OnInit {
       passwords: new FormGroup(
         {
           password: new FormControl("", [
+            Validators.minLength(8),
             Validators.required,
-            Validators.minLength(6),
           ]),
           confirm: new FormControl("", [Validators.required]),
         },
@@ -49,6 +49,7 @@ export class UserEditComponent implements OnInit {
   }
 
   passwordValidator(group: FormGroup) {
+    console.log(group);
     if (
       group.value.password &&
       group.value.confirm &&

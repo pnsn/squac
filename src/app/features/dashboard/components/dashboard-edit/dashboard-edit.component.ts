@@ -5,6 +5,7 @@ import { DashboardService } from "../../services/dashboard.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MessageService } from "@core/services/message.service";
 
 @Component({
   selector: "dashboard-edit",
@@ -22,6 +23,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<DashboardEditComponent>,
     private dashboardService: DashboardService,
     private userService: UserService,
+    private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -80,9 +82,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
     this.dashboardService.updateDashboard(dashboard).subscribe({
       next: (result) => {
+        this.messageService.message("Dashboard saved.");
         this.cancel(result.id);
       },
       error: (error) => {
+        this.messageService.error("Could not save dashboard.");
         console.log("error in save dashboard: " + error);
       },
     });

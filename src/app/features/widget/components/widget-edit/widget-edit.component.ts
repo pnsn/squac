@@ -53,6 +53,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
       next: (response) => {
         this.widget.id = response.id;
         this.viewService.updateWidget(this.widget.id, this.widget);
+        this.messageService.message("Widget saved.");
         this.cancel(response);
       },
       error: () => {

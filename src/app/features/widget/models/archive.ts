@@ -66,7 +66,6 @@ export class ArchiveAdapter implements Adapter<Archive> {
     if (stat) {
       archive.value = item[stat];
     }
-
     return archive;
   }
 }

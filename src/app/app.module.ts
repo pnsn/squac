@@ -4,7 +4,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthComponent } from "./core/components/auth/auth.component";
 import { HeaderComponent } from "./core/components/header/header.component";
-import { AuthInterceptorService } from "./core/interceptors/auth-interceptor.service";
+import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 import { SharedModule } from "@shared/shared.module";
 import {
   BrowserAnimationsModule,
@@ -20,6 +20,7 @@ import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
+import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -54,7 +55,12 @@ export function initApp(configurationService: ConfigurationService) {
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
     {

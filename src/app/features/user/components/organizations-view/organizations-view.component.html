@@ -1,6 +1,12 @@
-<h1>Organizations</h1>
-<ul>
-  <li *ngFor="let org of organizations">
-    <a [routerLink]="[org.id]">{{ org.name }}</a>
-  </li>
-</ul>
+<div class="box">
+  <div class="header-title">
+    <h2>Organizations</h2>
+  </div>
+  <div class="box">
+    <ul>
+      <li *ngFor="let org of organizations">
+        <a [routerLink]="[org.id]">{{ org.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>

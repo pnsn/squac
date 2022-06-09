@@ -67,6 +67,7 @@ export class AuthService {
       .pipe(
         tap((resData) => {
           // TODO: Get expiration time from Jon
+          this.loadingService.startLoading();
           this.handleAuth(resData.token, this.expirationTime);
 
           if (this.redirectUrl) {

@@ -12,6 +12,7 @@ import { Subscription } from "rxjs";
 // This component handles the login page
 export class LoginComponent implements OnDestroy {
   error: string = null; // Has there been an error?
+  message: string = null;
   hide = true;
   subscription = new Subscription();
   loginForm: FormGroup = this.formBuilder.group({
@@ -36,9 +37,11 @@ export class LoginComponent implements OnDestroy {
     // Send data and log user in
     const loginSub = this.loginService.login(email, password).subscribe(
       () => {
-        this.error = "Login successful.";
+        this.error = "";
+        this.message = "Login successful.";
       },
       () => {
+        this.message = "";
         this.error = "Failed to log in - please try again";
       }
     );

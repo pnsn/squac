@@ -33,3 +33,7 @@ $sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral, darker);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
 $sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, lighter);
 $sq-warn: mat.get-color-from-palette($squac-ui-warn);
+
+$default-border: 1px solid darken($sq-lt-gray, 10);
+$light-border: 1px solid $sq-lt-gray;
+$default-shadow: 2px 2px 4px $sq-gray;

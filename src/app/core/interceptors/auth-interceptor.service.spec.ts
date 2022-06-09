@@ -2,7 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
-import { AuthInterceptorService } from "./auth-interceptor.service";
+import { AuthInterceptor } from "./auth-interceptor.service";
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -19,7 +19,7 @@ import { AppModule } from "app/app.module";
 
 describe(`AuthInterceptor`, () => {
   beforeEach(() => {
-    return MockBuilder(AuthInterceptorService, AppModule)
+    return MockBuilder(AuthInterceptor, AppModule)
       .replace(HttpClientModule, HttpClientTestingModule)
       .exclude(NG_MOCKS_INTERCEPTORS)
       .keep(HTTP_INTERCEPTORS)
