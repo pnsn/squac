@@ -47,7 +47,7 @@ export interface ApiGetArchive {
   providedIn: "root",
 })
 export class ArchiveAdapter implements Adapter<Archive> {
-  adaptFromApi(item: ApiGetArchive): Archive {
+  adaptFromApi(item: ApiGetArchive, stat: string): Archive {
     const archive = new Archive(
       +item.id,
       item.metric,
@@ -63,6 +63,10 @@ export class ArchiveAdapter implements Adapter<Archive> {
       item.starttime,
       item.endtime
     );
+    if (stat) {
+      archive.value = item[stat];
+    }
+
     return archive;
   }
 }

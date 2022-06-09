@@ -53,7 +53,7 @@ export interface ApiGetAggregate {
   providedIn: "root",
 })
 export class AggregateAdapter implements Adapter<Aggregate> {
-  adaptFromApi(item: ApiGetAggregate): Aggregate {
+  adaptFromApi(item: ApiGetAggregate, stat: string): Aggregate {
     const aggregate = new Aggregate(
       item.metric,
       item.channel,
@@ -73,6 +73,10 @@ export class AggregateAdapter implements Adapter<Aggregate> {
       item.starttime,
       item.endtime
     );
+    if (stat) {
+      aggregate.value = item[stat];
+    }
+
     return aggregate;
   }
 }
