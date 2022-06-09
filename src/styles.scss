@@ -31,15 +31,25 @@ body {
   background-color: darken($sq-lt-gray, 5);
 }
 #body-content-container {
-  width: 80%;
+  width: 98%;
   height: 100%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 1%;
+  margin-right: 1%;
   margin-top: 10px;
+  @include md {
+    width: 80%;
+    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px;
+  }
 }
 
 #dashboard-container {
-  margin: -10px -12.5% 0;
+  margin: -10px -1% 0;
+  @include md {
+    margin: -10px -12.5% 0;
+  }
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;

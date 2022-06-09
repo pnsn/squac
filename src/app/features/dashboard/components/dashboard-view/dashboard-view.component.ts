@@ -98,12 +98,16 @@ export class DashboardViewComponent
 
   onClick(event) {
     if (event === "delete" && this.selectedDashboardId) {
-      this.dashboardService
-        .deleteDashboard(this.selectedDashboardId)
-        .subscribe(() => {
-          this.refresh();
-        });
+      this.onDelete();
     }
+  }
+
+  onDelete() {
+    this.dashboardService
+      .deleteDashboard(this.selectedDashboardId)
+      .subscribe(() => {
+        this.refresh();
+      });
   }
 
   ngAfterViewInit(): void {

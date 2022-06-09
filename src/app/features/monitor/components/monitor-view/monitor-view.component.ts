@@ -174,6 +174,18 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  onClick(event) {
+    if (event === "delete" && this.selectedMonitorId) {
+      this.onDelete();
+    }
+  }
+
+  onDelete() {
+    this.monitorService.deleteMonitor(this.selectedMonitorId).subscribe(() => {
+      this.refresh();
+    });
+  }
+
   makeRows() {
     const temp = [];
     this.monitors.forEach((monitor) => {
@@ -196,8 +208,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rows = [...temp];
   }
 
-  onSelect($event) {
-    console.log($event);
+  onSelect(monitor) {
+    this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
   refresh() {
@@ -243,20 +255,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   rowIdentity(row) {
     return row.id;
-  }
-
-  onDelete(monitor) {
-    this.confirmDialog.open({
-      title: `Delete ${monitor.name}`,
-      message: "Are you sure? This action is permanent.",
-      cancelText: "Cancel",
-      confirmText: "Delete",
-    });
-    this.confirmDialog.confirmed().subscribe((confirm) => {
-      if (confirm) {
-        this.deleteMonitor(monitor.id);
-      }
-    });
   }
 
   deleteMonitor(id) {

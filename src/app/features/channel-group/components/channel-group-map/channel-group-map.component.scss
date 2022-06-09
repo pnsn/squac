@@ -24,15 +24,13 @@
   background-color: $sq-blue !important;
 }
 
-#legend {
-  .legend-item {
-    div {
-      display: inline-block;
-      margin-right: 3px;
-    }
+.channel-list {
+  div.map-icon {
+    display: inline-block;
+    margin-right: 3px;
   }
+}
 
-  span {
-    padding-left: 5px;
-  }
+span {
+  padding-left: 5px;
 }

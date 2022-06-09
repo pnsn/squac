@@ -76,6 +76,7 @@ export class AggregateAdapter implements Adapter<Aggregate> {
     if (stat) {
       aggregate.value = item[stat];
     }
+    console.log(stat, item);
 
     return aggregate;
   }

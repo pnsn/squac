@@ -114,12 +114,17 @@ export class ChannelGroupViewComponent
 
   onClick(event) {
     if (event === "delete" && this.selectedChannelGroupId) {
-      this.channelGroupService
-        .deleteChannelGroup(this.selectedChannelGroupId)
-        .subscribe(() => {
-          this.refresh();
-        });
+      this.onDelete();
     }
+  }
+
+  onDelete() {
+    this.channelGroupService
+      .deleteChannelGroup(this.selectedChannelGroupId)
+      .subscribe(() => {
+        this.router.navigate(["./"], { relativeTo: this.route });
+        this.refresh();
+      });
   }
 
   ngAfterViewInit(): void {

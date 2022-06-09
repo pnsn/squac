@@ -11,11 +11,7 @@
           color="accent"
           class="add-btn"
           (click)="save()"
-          [disabled]="
-            !channelGroupForm.valid ||
-            channelsInGroup?.length === 0 ||
-            !changeMade
-          "
+          [disabled]="!channelGroupForm.valid || channelsInGroup?.length === 0"
           matTooltip="Save channel group"
           aria-label="Button that saves the changes to the channel group"
         >

@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
@@ -61,7 +62,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     private userService: UserService,
     orgService: OrganizationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmDialog: ConfirmDialogService
   ) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
@@ -235,9 +237,25 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.addResource();
     } else if (action === "view") {
       this.viewResource();
+    } else if (action === "delete") {
+      this.deleteResource();
     } else {
       this.controlClicked.emit(action);
     }
+  }
+
+  deleteResource() {
+    this.confirmDialog.open({
+      title: `Delete ${this.selectedRow.name}`,
+      message: "Are you sure? This action is permanent.",
+      cancelText: "Cancel",
+      confirmText: "Delete",
+    });
+    this.confirmDialog.confirmed().subscribe((confirm) => {
+      if (confirm) {
+        this.controlClicked.emit("delete");
+      }
+    });
   }
 
   viewResource() {

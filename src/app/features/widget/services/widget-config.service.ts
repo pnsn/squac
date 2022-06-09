@@ -151,7 +151,7 @@ export class WidgetConfigService {
       },
       {
         id: 2,
-        type: "med",
+        type: "median",
         name: "Median",
         description: "",
       },

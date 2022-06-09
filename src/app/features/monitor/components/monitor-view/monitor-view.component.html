@@ -4,6 +4,7 @@
   [rows]="rows"
   [columns]="columns"
   (itemSelected)="onSelect($event)"
+  (controlClicked)="onClick($event)"
   [controls]="controls"
   [filters]="filters"
   (refresh)="refresh()"
@@ -33,16 +34,6 @@
       </div>
     </div>
     <div>
-      <button
-        mat-icon-button
-        color="warn"
-        class="add-btn"
-        (click)="onDelete(monitor)"
-        matTooltip="Delete monitor"
-        aria-label="Button that deletes the channel group"
-      >
-        <mat-icon>delete_outline</mat-icon>
-      </button>
       <button
         mat-icon-button
         color="primary"
