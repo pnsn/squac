@@ -25,10 +25,10 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
 
   //table
   @ViewChild("metricTable") metricTable;
-  selected: Metric[];
+  selected: Metric[] = [];
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
-  rows: Metric[];
+  rows: Metric[] = [];
   columns = [];
 
   ngOnInit() {
