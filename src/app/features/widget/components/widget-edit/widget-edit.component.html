@@ -1,73 +1,67 @@
-<div mat-dialog-title id="edit-title">
+<div mat-dialog-title class="title">
   <h3>{{ editMode ? "Edit Widget" : "New Widget" }}</h3>
   <button mat-icon-button type="button" (click)="cancel()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<div mat-dialog-content id="edit-container">
-  <mat-horizontal-stepper
-    #stepper
-    [linear]="!editMode"
-    color="primary"
-    (selectionChange)="stepSelected()"
+<mat-horizontal-stepper
+  #stepper
+  [linear]="!editMode"
+  color="primary"
+  (selectionChange)="stepSelected()"
+>
+  <mat-step
+    #infoStep
+    [errorMessage]="infoTab.error"
+    [completed]="infoTab.done"
+    [hasError]="infoStep.interacted && !infoTab.done"
   >
-    <mat-step
-      #infoStep
-      [errorMessage]="infoTab.error"
-      [completed]="infoTab.done"
-      [hasError]="infoStep.interacted && !infoTab.done"
-    >
-      <ng-template matStepLabel>Widget Information</ng-template>
-      <widget-edit-info
-        #infoTab
-        class="edit-tab-body"
-        [(name)]="widget.name"
-        [(type)]="widget.type"
-        [(stat)]="widget.stat"
-      ></widget-edit-info>
-    </mat-step>
-    <mat-step
-      #metricsStep
-      errorMessage="Missing metric."
-      [completed]="metricsTab.done"
-      [hasError]="metricsStep.interacted && !metricsTab.done"
-    >
-      <ng-template matStepLabel>Metrics</ng-template>
-      <widget-edit-metrics
-        #metricsTab
-        class="edit-tab-body"
-        [metrics]="metrics"
-        [(selectedMetrics)]="widget.metrics"
-      ></widget-edit-metrics>
-    </mat-step>
-    <mat-step
-      #channelGroupStep
-      errorMessage="Channel Group is required."
-      [completed]="channelGroupsTab.done"
-      [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
-    >
-      <ng-template matStepLabel>Channel Group</ng-template>
-      <widget-edit-channel-group
-        #channelGroupsTab
-        class="edit-tab-body"
-        [channelGroups]="channelGroups"
-        [(channelGroup)]="widget.channelGroup"
-      ></widget-edit-channel-group>
-    </mat-step>
-    <mat-step [optional]="true">
-      <ng-template matStepLabel>Options</ng-template>
-      <widget-edit-options
-        #optionsTab
-        class="edit-tab-body"
-        [selectedMetrics]="widget.metrics"
-        [type]="widget.type"
-        [(thresholds)]="widget.thresholds"
-        [(properties)]="widget.properties"
-      ></widget-edit-options>
-    </mat-step>
-  </mat-horizontal-stepper>
-</div>
+    <ng-template matStepLabel>Widget Information</ng-template>
+    <widget-edit-info
+      #infoTab
+      [(name)]="widget.name"
+      [(type)]="widget.type"
+      [(stat)]="widget.stat"
+    ></widget-edit-info>
+  </mat-step>
+  <mat-step
+    #metricsStep
+    errorMessage="Missing metric."
+    [completed]="metricsTab.done"
+    [hasError]="metricsStep.interacted && !metricsTab.done"
+  >
+    <ng-template matStepLabel>Metrics</ng-template>
+    <widget-edit-metrics
+      #metricsTab
+      [metrics]="metrics"
+      [(selectedMetrics)]="widget.metrics"
+    ></widget-edit-metrics>
+  </mat-step>
+  <mat-step
+    #channelGroupStep
+    errorMessage="Channel Group is required."
+    [completed]="channelGroupsTab.done"
+    [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
+  >
+    <ng-template matStepLabel>Channel Group</ng-template>
+    <widget-edit-channel-group
+      #channelGroupsTab
+      [channelGroups]="channelGroups"
+      [(channelGroup)]="widget.channelGroup"
+    ></widget-edit-channel-group>
+  </mat-step>
+  <mat-step [optional]="true">
+    <ng-template matStepLabel>Options</ng-template>
+    <widget-edit-options
+      #optionsTab
+      [selectedMetrics]="widget.metrics"
+      [type]="widget.type"
+      [(thresholds)]="widget.thresholds"
+      [(properties)]="widget.properties"
+    ></widget-edit-options>
+  </mat-step>
+</mat-horizontal-stepper>
 <div mat-dialog-actions class="dialog-options">
   <div>
     <button
@@ -103,9 +97,6 @@
     Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
   </p>
   <ng-template #valid>
-    <p class="help-text">
-      {{ editMode ? "Editing" : "Creating" }} widget on dashboard
-      {{ dashboardId }}
-    </p>
+    <p class="help-text"></p>
   </ng-template>
 </div>

@@ -1,5 +1,5 @@
-<div class="widget-container" *ngIf="widget">
-  <div class="widget-header">
+<div class="widget-container box" *ngIf="widget">
+  <div class="widget-header row space-between">
     <span>{{ widget.name }}</span>
     <div id="controls">
       <button
@@ -125,113 +125,115 @@
     </ng-template>
   </mat-menu>
 
-  <div class="loading">
+  <div class="widget-content">
     <shared-loading *ngIf="loading"> </shared-loading>
-  </div>
+    <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
+    <shared-error
+      *ngIf="!widget.metrics || widget.metrics?.length === 0"
+      [errorMsg]="'Could not load metric. Resource may have been deleted.'"
+    ></shared-error>
+    <shared-error
+      *ngIf="!widget.channelGroup"
+      [errorMsg]="
+        'Could not load channel group. Resource may have been deleted.'
+      "
+    ></shared-error>
+    <shared-error
+      *ngIf="!error && !loading && noData"
+      [errorMsg]="'No data'"
+    ></shared-error>
 
-  <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
-  <div
-    class="widget-message"
-    *ngIf="widget.metrics && widget.metrics.length === 0"
-  >
-    <p>Could not load metric. Resource may have been deleted.</p>
-  </div>
-  <div class="widget-message" *ngIf="!widget.channelGroup">
-    <p>Could not load channel group. Resource may have been deleted.</p>
-  </div>
-  <div *ngIf="!error && !loading && noData" class="widget-message">
-    <p>No Data</p>
-  </div>
-  <div class="widget-content" *ngIf="!loading && !error && !noData">
-    <ng-container [ngSwitch]="widget?.type">
-      <widget-timeline
-        *ngSwitchCase="'timeline'"
-        class="widget"
-        [data]="data"
-        [dataRange]="dataRange"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [selectedMetrics]="selectedMetrics"
-        [properties]="widget.properties"
-        [showStationList]="showStationList"
-      >
-      </widget-timeline>
-      <widget-tabular
-        *ngSwitchCase="'tabular'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [properties]="widget.properties"
-        [selectedMetrics]="selectedMetrics"
-      >
-      </widget-tabular>
-      <widget-parallel-plot
-        *ngSwitchCase="'parallel-plot'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [selectedMetrics]="selectedMetrics"
-        [properties]="widget.properties"
-        [showStationList]="showStationList"
-      >
-      </widget-parallel-plot>
-      <widget-timechart
-        *ngSwitchCase="'timeseries'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [selectedMetrics]="selectedMetrics"
-        [showStationList]="showStationList"
-        [properties]="widget.properties"
-      >
-      </widget-timechart>
-      <widget-map
-        *ngSwitchCase="'map'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [selectedMetrics]="selectedMetrics"
-        [showStationList]="showStationList"
-        [properties]="widget.properties"
-      >
-      </widget-map>
-      <widget-box-plot
-        *ngSwitchCase="'box-plot'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [selectedMetrics]="selectedMetrics"
-        [properties]="widget.properties"
-      >
-      </widget-box-plot>
-      <widget-scatter-plot
-        *ngSwitchCase="'scatter-plot'"
-        class="widget"
-        [data]="data"
-        [thresholds]="widget.thresholds"
-        [channels]="widget.channelGroup.channels"
-        [dataRange]="dataRange"
-        [selectedMetrics]="selectedMetrics"
-        [showStationList]="showStationList"
-        [properties]="widget.properties"
-      >
-      </widget-scatter-plot>
-      <div *ngSwitchDefault class="widget-message">
-        <p>
-          Error: could not load widget...
-          {{ widget?.type }}
-        </p>
-      </div>
+    <ng-container *ngIf="!loading && !error && !noData">
+      <ng-container [ngSwitch]="widget?.type">
+        <widget-timeline
+          *ngSwitchCase="'timeline'"
+          class="widget"
+          [data]="data"
+          [dataRange]="dataRange"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+          [showStationList]="showStationList"
+        >
+        </widget-timeline>
+        <widget-tabular
+          *ngSwitchCase="'tabular'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [properties]="widget.properties"
+          [selectedMetrics]="selectedMetrics"
+        >
+        </widget-tabular>
+        <widget-parallel-plot
+          *ngSwitchCase="'parallel-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+          [showStationList]="showStationList"
+        >
+        </widget-parallel-plot>
+        <widget-timechart
+          *ngSwitchCase="'timeseries'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-timechart>
+        <widget-map
+          *ngSwitchCase="'map'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-map>
+        <widget-box-plot
+          *ngSwitchCase="'box-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+        >
+        </widget-box-plot>
+        <widget-scatter-plot
+          *ngSwitchCase="'scatter-plot'"
+          class="widget"
+          [data]="data"
+          [thresholds]="widget.thresholds"
+          [channels]="widget.channelGroup.channels"
+          [dataRange]="dataRange"
+          [selectedMetrics]="selectedMetrics"
+          [showStationList]="showStationList"
+          [properties]="widget.properties"
+        >
+        </widget-scatter-plot>
+        <div *ngSwitchDefault class="widget-message">
+          <p>
+            Error: could not load widget...
+            {{ widget?.type }}
+          </p>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </div>

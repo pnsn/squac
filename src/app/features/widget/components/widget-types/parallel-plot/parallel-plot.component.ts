@@ -122,7 +122,6 @@ export class ParallelPlotComponent
     }
 
     this.updateOptions = { ...this.updateOptions, ...temp };
-    console.log(this.updateOptions);
   }
 
   private buildChartData(data) {
@@ -144,7 +143,6 @@ export class ParallelPlotComponent
       metricSeries,
       this.dataRange
     );
-    console.log(this.processedData.series);
   }
 
   changeMetrics() {

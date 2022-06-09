@@ -202,6 +202,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         if (!stationChannels[channel.stationCode]) {
           stationChannels[channel.stationCode] = "";
         }
+
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
           `<tr> <td> ${iconHtml} </td> <td> ${channel.nslc} </td><td> ${

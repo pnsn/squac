@@ -1,7 +1,6 @@
 @import "variables";
 #channel-group-container {
   border-top: 1px solid lighten($sq-gray, 15);
-  gap: 10px;
   height: 50vh;
   overflow: hidden;
   padding: 10px;
@@ -9,7 +8,6 @@
     width: 65%;
     height: 100%;
     #channel-table {
-      border: 1px solid lighten($sq-gray, 15);
       width: 100%;
       height: 100%;
     }
@@ -18,41 +16,11 @@
   #map-container {
     width: 35%;
     height: 100%;
-    channel-group-map {
-      width: 100%;
-      height: 100%;
-    }
   }
 }
 
-.group-view-container {
+#group-view-container {
+  gap: 0px;
   margin-top: 10px;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  background-color: white;
-  border: 1px solid lighten($sq-gray, 15);
   overflow: hidden;
-}
-
-#title {
-  display: flex;
-  background-color: #eeeeee;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 10px;
-  #channel-group-info {
-    h2 {
-      display: inline;
-    }
-    span {
-      font-weight: 200;
-    }
-  }
-  #button-container {
-    button {
-      margin-left: 10px;
-    }
-  }
 }

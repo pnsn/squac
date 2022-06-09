@@ -18,7 +18,6 @@ import { mergeMap, Subscription, tap } from "rxjs";
 @Component({
   selector: "monitor-alert-view",
   templateUrl: "./alert-view.component.html",
-  styleUrls: ["./alert-view.component.scss"],
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   alerts: Alert[];

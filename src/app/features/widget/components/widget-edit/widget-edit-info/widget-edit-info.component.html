@@ -12,7 +12,7 @@
     />
   </mat-form-field>
   <br />
-  <div id="widget-type-container">
+  <div id="widget-type-container" class="column">
     <div class="label">Widget type:</div>
     <mat-button-toggle-group
       formControlName="type"
@@ -24,7 +24,7 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <div id="type-container">
+  <div id="type-container" class="row">
     <div id="stat-type-container" *ngIf="selectedType?.useAggregate">
       <div class="label">Select aggregation type:</div>
       <mat-form-field>

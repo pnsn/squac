@@ -1,4 +1,4 @@
-<div id="map-container">
+<div id="map-container" class="column">
   <div
     id="map"
     [ngClass]="{ 'edit-map': editPage, 'view-map': !editPage }"
@@ -16,7 +16,7 @@
       (leafletDrawEdited)="onRectangleEdited()"
       (leafletDrawDeleted)="onRectangleDeleted()"
     ></div>
-    <div id="legend">
+    <div id="legend" class="leaflet-custom-control">
       <div class="legend-item">
         <div class="original-channels"></div>
         <span>In Group</span>

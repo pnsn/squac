@@ -42,7 +42,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     minCols: 20,
     maxCols: 20,
     minRows: 20,
-    margin: 5,
+    margin: 10,
     pushItems: true,
     resizable: {
       enabled: true,

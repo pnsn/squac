@@ -19,7 +19,7 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "Each row is a station, station shows values for channel with most metrics out of range",
+              "each row is a station, station shows values for channel with most metrics out of range",
             dimensions: null,
             displayType: "worst",
           },

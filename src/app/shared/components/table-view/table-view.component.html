@@ -1,10 +1,10 @@
-<div id="table-view-container" class="lt-gray-border">
-  <div id="table-head" class="gray-background">
-    <div id="head-top-row">
+<div id="table-view-container" class="gray-border">
+  <div id="table-head" class="lt-gray-background">
+    <div class="row space-between">
       <h2 id="title">
         {{ title }}
       </h2>
-      <div id="controls">
+      <div class="row space-between">
         <button
           *ngIf="controls.refresh"
           mat-icon-button
@@ -62,20 +62,20 @@
         <ng-content select="[tableHeadControls]"> </ng-content>
       </div>
     </div>
-    <div id="head-bottom-row">
-      <div id="filters">
-        <shared-search-filter
-          *ngIf="filters.searchField"
-          [config]="filters.searchField"
-          [rows]="rows"
-          (filterChanged)="searchFieldChanged($event)"
-        >
-        </shared-search-filter>
 
-        <div *ngIf="filters.dateFilter"></div>
+    <div class="row space-between">
+      <shared-search-filter
+        *ngIf="filters.searchField"
+        [config]="filters.searchField"
+        [rows]="rows"
+        (filterChanged)="searchFieldChanged($event)"
+      >
+      </shared-search-filter>
+
+      <div *ngIf="filters.dateFilter"></div>
+      <div *ngIf="filters.toggleShared">
         <mat-button-toggle-group
-          id="toggle-shared-filter"
-          *ngIf="filters.toggleShared"
+          class="dense-button-toggle"
           name="sharing"
           aria-label=""
           (change)="toggleSharing()"
@@ -85,9 +85,9 @@
           <mat-button-toggle value="org">PNSN</mat-button-toggle>
           <mat-button-toggle value="all">All</mat-button-toggle>
         </mat-button-toggle-group>
-
-        <ng-content select="[tableHeadFilters]"> </ng-content>
       </div>
+
+      <ng-content select="[tableHeadFilters]"> </ng-content>
     </div>
   </div>
   <div id="table-body">

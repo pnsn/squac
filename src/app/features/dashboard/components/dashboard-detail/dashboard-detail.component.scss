@@ -12,26 +12,11 @@ button {
 }
 
 #dashboard-header {
-  mat-toolbar-row {
-    height: 46px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
   z-index: 100;
-  // h2 {
-  //   margin-top: 10px;
-  // }
-  padding-left: 10px;
-  // width: 100%;
-
   box-shadow: 0px 0px 1px $sq-dk-gray;
-
   mat-button-toggle {
     height: 40px;
     width: 40px;
@@ -40,6 +25,9 @@ button {
     span {
       margin: 0px 5px;
     }
+  }
+  mat-toolbar-row {
+    height: 43px;
   }
 
   #dashboard-info {

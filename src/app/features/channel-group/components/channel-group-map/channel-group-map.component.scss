@@ -2,18 +2,9 @@
 #map-container {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   #map {
     flex-grow: 1;
   }
-}
-.view-map {
-  height: 100%;
-}
-
-.edit-map {
-  height: 85%;
 }
 
 .map-icon {
@@ -33,30 +24,7 @@
   background-color: $sq-blue !important;
 }
 
-:host ::ng-deep .filtered-channels {
-  @extend .map-icon;
-  background-color: #ff8e16 !important;
-}
-
-:host ::ng-deep .remove-channels {
-  @extend .map-icon;
-  background-color: #e60808 !important;
-}
-
-:host ::ng-deep {
-  div.channel-list {
-    div.map-icon {
-      display: inline-block;
-      margin-right: 3px;
-    }
-  }
-}
 #legend {
-  padding: 5px;
-  background: white;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
   .legend-item {
     div {
       display: inline-block;

@@ -1,6 +1,6 @@
 <div class="column box" *ngIf="user; else noUser">
-  <div id="title">
-    <h2>User Settings</h2>
+  <div class="table-title">
+    <h3>User Settings</h3>
   </div>
 
   <div id="body">
@@ -19,7 +19,7 @@
     <p>Email: {{ user.email }}</p>
 
     <div id="user-info-top">
-      <h2>User Information</h2>
+      <h3>User Information</h3>
       <button
         mat-icon-button
         color="accent"

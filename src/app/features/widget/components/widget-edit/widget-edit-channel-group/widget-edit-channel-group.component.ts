@@ -106,6 +106,14 @@ export class WidgetEditChannelGroupComponent
       },
     ];
   }
+  ngAfterViewInit(): void {
+    //Called after every check of the component's view. Applies to components only.
+    //Add 'implements AfterViewChecked' to the class.
+    setTimeout(() => {
+      this.channelTable.recalculate();
+    }, 0);
+    this.rows = [...this.rows];
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //update channel groups

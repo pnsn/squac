@@ -104,6 +104,7 @@ export class TimelineComponent
   }
 
   buildChartData(data) {
+    console.log(data);
     this.metricSeries = {};
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,

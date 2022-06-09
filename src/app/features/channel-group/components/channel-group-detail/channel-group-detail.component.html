@@ -2,18 +2,18 @@
   <p>Could not load channel group.</p>
 </ng-container>
 <ng-template #hasChannelGroup>
-  <div class="group-view-container">
-    <div id="title">
+  <div id="group-view-container" class="column white-background gray-border">
+    <div class="table-title">
       <div id="channel-group-info">
-        <h2>{{ channelGroup.name }}</h2>
-        <span>
+        <h3>{{ channelGroup.name }}</h3>
+        <span class="help-text">
           by {{ channelGroup.owner | user }} ({{
             channelGroup.orgId | organization
           }})
         </span>
       </div>
 
-      <div id="button-container">
+      <div id="button-container row space-between">
         <button
           *ngIf="'delete' | able: channelGroup"
           mat-icon-button
@@ -62,7 +62,7 @@
       <div id="channels-container">
         <ngx-datatable
           id="channel-table"
-          class="material"
+          class="material lt-gray-border"
           [rows]="channelGroup.channels"
           [columnMode]="ColumnMode.force"
           [selectionType]="SelectionType.single"

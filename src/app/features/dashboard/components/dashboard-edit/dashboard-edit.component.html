@@ -1,4 +1,4 @@
-<div mat-dialog-title id="edit-title">
+<div mat-dialog-title class="title">
   <h3>{{ editMode ? "Edit Dashboard" : "New Dashboard" }}</h3>
   <button mat-icon-button (click)="cancel()" type="button">
     <mat-icon>close</mat-icon>
@@ -33,7 +33,8 @@
     <mat-radio-group
       aria-label="change view permissions"
       formControlName="share"
-      class="sharing-radio-group"
+      id="sharing-radio-group"
+      class="column"
     >
       <mat-radio-button value="private">Private</mat-radio-button>
       <mat-radio-button value="shareOrg"

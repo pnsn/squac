@@ -35,10 +35,11 @@ body {
   height: 100%;
   margin-left: 10%;
   margin-right: 10%;
+  margin-top: 10px;
 }
 
 #dashboard-container {
-  margin: 0 -12.5%;
+  margin: -10px -12.5% 0;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
@@ -55,14 +56,16 @@ body {
 }
 
 .gray-background {
-  background-color: $sq-lt-gray;
+  background-color: $sq-gray;
 }
 
 .white-background {
   background-color: white;
 }
 
-.blue {
+.blue,
+.primary,
+.default {
   color: $sq-blue;
 }
 .lt-gray {
@@ -74,12 +77,21 @@ body {
 .dk-blue {
   color: $sq-dk-blue;
 }
-.warn {
+.warn,
+.error {
   color: $sq-warn;
+}
+.accent,
+.alert {
+  color: $sq-yellow;
+}
+
+.gray-border {
+  border: 1px solid lighten($sq-gray, 15);
 }
 
 .lt-gray-border {
-  border: 1px solid lighten($sq-gray, 15);
+  border: 1px solid $sq-lt-gray;
 }
 
 /* Text styles */
@@ -91,7 +103,7 @@ h1 {
 }
 
 h2 {
-  margin-top: 25px;
+  margin-top: 0px;
   font-size: 1.4rem;
   font-weight: 600;
 }
@@ -118,6 +130,7 @@ p {
 .row-reverse {
   display: flex;
   flex-direction: row-reverse;
+  gap: 10px;
 }
 
 .column {
@@ -135,12 +148,6 @@ p {
 .row {
   display: flex;
   flex-direction: row;
-}
-
-.row-centered {
-  @extend .row;
-  align-items: center;
-  justify-content: space-between;
 }
 
 //text styling
@@ -172,9 +179,8 @@ a {
 /* Box containers for widgets */
 
 .box {
-  @extend .column;
-  @extend .centered;
   @extend .lt-gray-border;
+  @extend .white-background;
   background-color: white;
   overflow: hidden;
 }
@@ -184,9 +190,8 @@ a {
 }
 
 .form {
+  @extend .column;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   span {
     white-space: pre;
@@ -194,24 +199,22 @@ a {
 }
 
 .title {
-}
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-#table-view-container {
-  #filters,
-  #controls {
-    #toggle-shared-filter {
-      @extend .dense-button-toggle;
-      .mat-button-toggle-button {
-        span {
-          width: 52px;
-        }
-      }
-    }
+  h3 {
+    display: inline-block;
+  }
+  &.mat-dialog-title {
+    margin: 0 0 10px !important;
   }
 }
-
-.widget-container {
-  @extend .box;
+.table-title {
+  @extend .title;
+  @extend .lt-gray-background;
+  padding: 5px 10px;
 }
 
 .chart-tooltip {
@@ -224,4 +227,17 @@ a {
   .save {
     margin-left: 20px;
   }
+}
+.leaflet-custom-control {
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  border-radius: 4px;
+}
+
+.label {
+  display: inline-block;
+  font-weight: 600;
+  margin-right: 7px;
 }

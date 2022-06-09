@@ -1,28 +1,25 @@
+.edit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 60vh;
+}
+
 .metric-filter {
   width: 30%;
   padding: 4px;
-  margin: 5px auto;
   border: 1px solid #336178;
   border-radius: 0;
 }
 #metric-header {
   margin-top: 7px;
-  margin-bottom: 5px;
+  justify-content: space-between;
 }
 
 #metric-select-table {
-  height: calc(100% - 40px);
-  width: 100% !important;
-
-  .ngx-datatable.material
-    .datatable-body
-    .datatable-body-row
-    .datatable-body-cell {
-    padding: unset;
-  }
-}
-
-.ngx-datatable {
-  width: 100% !important;
-  height: 100%;
+  flex-grow: 1;
+  overflow: scroll;
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
 }

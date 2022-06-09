@@ -6,6 +6,10 @@ datatable-scroller {
   width: 100% !important;
   border-bottom: 0px !important;
 }
+
+.mat-horizontal-content-container {
+  padding-bottom: 10px !important;
+}
 ngx-datatable {
   width: 100% !important;
   button.datatable-tree-button.ng-star-inserted {
@@ -62,7 +66,6 @@ ngx-datatable {
 .group-header-container:hover {
   background-color: $sq-lt-gray !important;
 }
-
 ngx-datatable.shared-view-table {
   .datatable-body {
     // max-height: 80vh;

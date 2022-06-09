@@ -1,31 +1,9 @@
 #table-view-container {
   width: 100%;
-
-  // box-shadow: 0 1px 1px 0;
-  margin-top: 10px;
   #table-head {
-    padding: 5px 10px 5px 10px;
-    #head-top-row {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-    h2 {
-      margin-top: 0px;
-      span {
-        font-weight: 400;
-        font-size: inherit;
-      }
-    }
+    padding: 5px 10px;
     #controls,
     #filters {
-      gap: 10px;
-      padding: 0px 0px;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
     }
@@ -33,7 +11,6 @@
   #table-body {
     height: 100%;
   }
-
   ngx-datatable {
     width: 100%;
     height: 100%;

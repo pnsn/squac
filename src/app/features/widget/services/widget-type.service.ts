@@ -165,88 +165,89 @@ export class WidgetTypeService {
     dimension
   ) {
     const visualMaps = {};
+    if (properties) {
+      let numSplits = properties.numSplits;
 
-    let numSplits = properties.numSplits;
-
-    const outColor = properties.outOfRange
-      ? properties.outOfRange.color[0]
-      : "black";
-    let inColors;
-    if (properties.inRange.color) {
-      inColors = properties.inRange.color;
-    } else if (properties.inRange.type) {
-      inColors = colormap({
-        colormap: properties.inRange.type,
-        format: "hex",
-      });
-    }
-    thresholds.forEach((threshold) => {
-      let min = null;
-      let max = null;
-      min = threshold.min;
-      max = threshold.max;
-
-      if (min === null || max === null) {
-        numSplits = 1;
+      const outColor = properties.outOfRange
+        ? properties.outOfRange.color[0]
+        : "black";
+      let inColors;
+      if (properties.inRange?.color) {
+        inColors = properties.inRange.color;
+      } else if (properties.inRange?.type) {
+        inColors = colormap({
+          colormap: properties.inRange.type,
+          format: "hex",
+        });
       }
+      thresholds.forEach((threshold) => {
+        let min = null;
+        let max = null;
+        min = threshold.min;
+        max = threshold.max;
 
-      threshold.metrics?.forEach((metricId) => {
-        if (properties.displayType === "stoplight") {
-          if (inColors.length < 3) {
-            inColors = ["green", "yellow", "red"];
-          }
-          visualMaps[metricId] = {
-            type: "stoplight",
-            colors: {
-              in: inColors[0],
-              middle: inColors[Math.floor(inColors.length / 2)],
-              out: inColors[inColors.length - 1],
-            },
-            min,
-            max,
-          };
-        } else if (numSplits > 0) {
-          const pieces = this.getPieces(
-            min,
-            max,
-            numSplits,
-            inColors,
-            outColor,
-            dataRange[metricId]
-          );
-          properties.outOfRange.opacity = 0;
-          if (pieces.length > 0) {
+        if (min === null || max === null) {
+          numSplits = 1;
+        }
+
+        threshold.metrics?.forEach((metricId) => {
+          if (properties.displayType === "stoplight") {
+            if (inColors.length < 3) {
+              inColors = ["green", "yellow", "red"];
+            }
             visualMaps[metricId] = {
-              ...this.piecewiseDefaults,
-              pieces: pieces.reverse(), // reverse for non-echarts legends
+              type: "stoplight",
+              colors: {
+                in: inColors[0],
+                middle: inColors[Math.floor(inColors.length / 2)],
+                out: inColors[inColors.length - 1],
+              },
+              min,
+              max,
+            };
+          } else if (numSplits > 0) {
+            const pieces = this.getPieces(
+              min,
+              max,
+              numSplits,
+              inColors,
+              outColor,
+              dataRange[metricId]
+            );
+            properties.outOfRange.opacity = 0;
+            if (pieces.length > 0) {
+              visualMaps[metricId] = {
+                ...this.piecewiseDefaults,
+                pieces: pieces.reverse(), // reverse for non-echarts legends
+                dimension,
+                min: min,
+                max: max,
+                calculable: true,
+                outOfRange: properties.outOfRange,
+              };
+            }
+          } else if (numSplits === 0) {
+            properties.outOfRange.opacity = 1;
+            min = min !== null ? min : dataRange[metricId].min;
+            max = max !== null ? max : dataRange[metricId].max;
+            min = this.precisionPipe.transform(+min, 2);
+            max = this.precisionPipe.transform(+max, 2);
+            visualMaps[metricId] = {
+              ...this.continuousDefaults,
               dimension,
-              min: min,
-              max: max,
               calculable: true,
+              inRange: {
+                color: inColors,
+              },
+              min: Math.min(dataRange[metricId].min, min),
+              max: Math.max(dataRange[metricId].max, max),
+              range: [min, max],
               outOfRange: properties.outOfRange,
             };
           }
-        } else if (numSplits === 0) {
-          properties.outOfRange.opacity = 1;
-          min = min !== null ? min : dataRange[metricId].min;
-          max = max !== null ? max : dataRange[metricId].max;
-          min = this.precisionPipe.transform(+min, 2);
-          max = this.precisionPipe.transform(+max, 2);
-          visualMaps[metricId] = {
-            ...this.continuousDefaults,
-            dimension,
-            calculable: true,
-            inRange: {
-              color: inColors,
-            },
-            min: Math.min(dataRange[metricId].min, min),
-            max: Math.max(dataRange[metricId].max, max),
-            range: [min, max],
-            outOfRange: properties.outOfRange,
-          };
-        }
+        });
       });
-    });
+    }
     return visualMaps;
   }
 

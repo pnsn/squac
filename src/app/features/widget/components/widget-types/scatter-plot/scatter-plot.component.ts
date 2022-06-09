@@ -130,7 +130,6 @@ export class ScatterPlotComponent
       metricSeries,
       this.dataRange
     );
-    console.log(this.processedData);
   }
 
   changeMetrics() {

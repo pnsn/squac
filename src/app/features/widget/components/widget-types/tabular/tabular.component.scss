@@ -15,7 +15,7 @@
 
 :host ::ng-deep #tabular-table.ngx-datatable {
   width: 100% !important;
-  height: 100%;
+  height: calc(100% - 4px);
 
   .datatable-header {
     height: auto !important;

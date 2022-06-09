@@ -7,7 +7,6 @@ import {
 @Component({
   selector: "shared-snackbar",
   templateUrl: "./snackbar.component.html",
-  styleUrls: ["./snackbar.component.scss"],
 })
 export class SnackbarComponent implements OnInit {
   message: string;

@@ -86,13 +86,14 @@ export class WidgetDataService implements OnDestroy {
               if (archiveType && archiveType !== "raw") {
                 value = this.archiveAdapter.adaptFromApi(m);
                 if (archiveStat) {
-                  value.value = value[archiveStat];
+                  value.value = m[archiveStat];
                 }
               } else if (useAggregate) {
                 value = this.aggregateAdapter.adaptFromApi(m);
                 if (widgetStat) {
-                  value.value = value[widgetStat];
+                  value.value = m[widgetStat];
                 }
+                console.log(value, widgetStat);
               } else {
                 value = this.measurementAdapter.adaptFromApi(m);
               }

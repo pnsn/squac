@@ -1,6 +1,6 @@
 <div *ngIf="dashboard" id="dashboard-container" class="column">
   <mat-toolbar id="dashboard-header" class="lt-gray-background">
-    <mat-toolbar-row>
+    <mat-toolbar-row class="row space-between">
       <div id="dashboard-info">
         <h2>
           {{ dashboard.name }}
@@ -71,8 +71,8 @@
         </button>
       </div>
     </mat-toolbar-row>
-    <mat-toolbar-row>
-      <div>channel filter componenent goes here</div>
+    <mat-toolbar-row class="row space-between">
+      <div></div>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
           [dataType]="archiveType"
