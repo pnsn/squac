@@ -250,7 +250,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
   getChannelsWithFilters() {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
-    console.log(searchFilters);
     if (Object.keys(searchFilters).length !== 0) {
       this.loading = true;
       const channelsSub = this.channelService

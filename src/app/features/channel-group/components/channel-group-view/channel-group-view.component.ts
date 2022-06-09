@@ -91,7 +91,6 @@ export class ChannelGroupViewComponent
     const routerEvents = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
-        console.log(event);
         this.selectedChannelGroupId =
           this.route.children.length > 0
             ? +this.route.snapshot.firstChild.params.channelGroupId
