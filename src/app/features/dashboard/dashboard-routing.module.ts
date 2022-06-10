@@ -20,9 +20,6 @@ export const routes: Routes = [
         path: "",
         component: DashboardViewComponent,
         canActivate: [PermissionGuard],
-        resolve: {
-          dashboards: DashboardResolver,
-        },
         children: [
           {
             path: "new",

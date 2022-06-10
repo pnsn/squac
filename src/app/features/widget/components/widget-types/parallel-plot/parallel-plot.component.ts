@@ -125,7 +125,6 @@ export class ParallelPlotComponent
   }
 
   private buildChartData(data) {
-    console.log(data);
     const metricSeries = {
       type: "parallel",
       colorBy: "series",

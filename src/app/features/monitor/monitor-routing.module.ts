@@ -37,10 +37,6 @@ export const routes: Routes = [
             // canActivate: [PermissionGuard],
             // data: {subject: 'Monitor', action: 'create'},
             component: MonitorEditEntryComponent,
-            resolve: {
-              channelGroups: ChannelGroupResolver,
-              metrics: MetricResolver,
-            },
           },
           {
             path: ":monitorId",
@@ -53,10 +49,6 @@ export const routes: Routes = [
               {
                 path: "edit",
                 component: MonitorEditEntryComponent,
-                resolve: {
-                  channelGroups: ChannelGroupResolver,
-                  metrics: MetricResolver,
-                },
                 // canActivate: [PermissionGuard],
                 // data: {subject: 'Monitor', action: 'create'},
               },

@@ -79,7 +79,7 @@ export class OrganizationDetailComponent
 
   ngOnInit(): void {
     const orgSub = this.route.data.subscribe((data) => {
-      this.user = this.route.parent.snapshot.data.user;
+      this.user = this.route.snapshot.data.user;
       if (data.organization && data.organization.users) {
         this.organization = data.organization;
         this.rows = [...this.organization.users];

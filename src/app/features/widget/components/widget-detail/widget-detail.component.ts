@@ -226,6 +226,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   addWidgetToDashboard(dashboardId) {
     // select dashboard
     // navigate to dashboard
+    console.log(dashboardId);
     this.router.navigate([
       "dashboards",
       dashboardId,

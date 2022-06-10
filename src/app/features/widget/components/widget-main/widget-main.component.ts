@@ -138,20 +138,22 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     );
     this.canUpdate = this.viewService.canUpdate;
 
-    const data = this.route.snapshot.data;
-    if (data.widgets.error) {
-      this.error = "Could not load dashboard or widgets";
-    } else {
-      this.addWidgetsToView(data.widgets);
-      // this.options.api.res
-      this.viewService.setWidgets(data.widgets);
-      // allow dragable and resizable if they have permission to edit dashboard
-      this.options.draggable.enabled = this.canUpdate;
-      this.options.resizable.enabled = this.canUpdate;
-      if (this.options.api) {
-        this.options.api.optionsChanged();
+    //subscribe to router changes for when dashboards change
+    const dataSub = this.route.data.subscribe((data) => {
+      if (data.widgets.error) {
+        this.error = "Could not load dashboard or widgets";
+      } else {
+        this.addWidgetsToView(data.widgets);
+        // this.options.api.res
+        this.viewService.setWidgets(data.widgets);
+        // allow dragable and resizable if they have permission to edit dashboard
+        this.options.draggable.enabled = this.canUpdate;
+        this.options.resizable.enabled = this.canUpdate;
+        if (this.options.api) {
+          this.options.api.optionsChanged();
+        }
       }
-    }
+    });
 
     const resizeSub = this.viewService.resize.subscribe((widgetId) => {
       if (!widgetId) {
@@ -159,7 +161,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
     this.subscription.add(widgetSub);
-    // this.subscription.add(dataSub);
+    this.subscription.add(dataSub);
     this.subscription.add(resizeSub);
   }
 

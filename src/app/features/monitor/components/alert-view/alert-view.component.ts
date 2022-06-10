@@ -83,7 +83,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   ngOnInit(): void {
-    this.route.parent.data.subscribe((data) => {
+    this.route.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
         this.error = true;
       } else {

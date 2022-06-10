@@ -15,9 +15,6 @@ export const routes: Routes = [
     component: ChannelGroupComponent,
     canActivate: [AuthGuard],
     data: { subject: "ChannelGroup", action: "read" },
-    resolve: {
-      channelGroups: ChannelGroupResolver,
-    },
     runGuardsAndResolvers: "always",
     children: [
       {

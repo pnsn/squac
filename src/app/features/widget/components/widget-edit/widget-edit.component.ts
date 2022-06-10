@@ -22,6 +22,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   metrics: Metric[];
   channelGroups: ChannelGroup[];
   editMode: boolean;
+  copyWidget: boolean;
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,6 +36,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.widget =
       this.data.widget ||
       new Widget(null, null, "", this.data.dashboardId, null, [], "", "");
+    this.copyWidget = this.widget.id !== this.data.dashboardId;
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
   }

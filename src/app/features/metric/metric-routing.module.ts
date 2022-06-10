@@ -22,9 +22,6 @@ export const routes: Routes = [
       {
         path: "",
         component: MetricViewComponent,
-        resolve: {
-          metrics: MetricResolver,
-        },
         children: [
           {
             path: "new",

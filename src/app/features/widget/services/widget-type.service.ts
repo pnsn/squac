@@ -412,8 +412,6 @@ export class WidgetTypeService {
       });
       station.data.push(channelData);
     });
-
-    console.log(stations);
     return { series: stations, axis };
   }
 

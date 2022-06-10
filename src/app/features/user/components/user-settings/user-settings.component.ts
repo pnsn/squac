@@ -25,10 +25,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (this.route.parent) {
-      this.user = this.route.parent.snapshot.data.user;
-      this.initForm(this.user);
-    }
+    this.user = this.route.snapshot.data.user;
+    this.initForm(this.user);
   }
 
   initForm(user) {
