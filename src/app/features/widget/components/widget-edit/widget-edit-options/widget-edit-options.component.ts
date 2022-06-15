@@ -69,7 +69,6 @@ export class WidgetEditOptionsComponent
       this.updateDimensions();
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
-      console.log(this.properties);
       this.propertiesChange.emit(this.properties);
     });
 
