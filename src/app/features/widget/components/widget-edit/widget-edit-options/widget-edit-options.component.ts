@@ -64,12 +64,12 @@ export class WidgetEditOptionsComponent
     });
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
       this.properties.displayType = value.displayType;
-      this.properties.numSplits = value.numSplits;
+      this.properties.numSplits = value.numSplits || 0;
       this.validateOptions();
       this.updateDimensions();
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
-
+      console.log(this.properties);
       this.propertiesChange.emit(this.properties);
     });
 

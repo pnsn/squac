@@ -126,8 +126,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     console.log(event);
   }
 
-  toggleColor(piece) {
-    console.log(piece);
+  toggleColor(pane) {
+    const pane1 = this.map.getPane(pane);
+    pane1.classList.toggle("hidden");
+    const el = document.getElementsByClassName(pane)[0];
+    el.classList.toggle("layer-hidden");
   }
 
   toggleStation(i, $event) {
@@ -136,11 +139,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     const station = layer[i];
     if (this.layers[0].hasLayer(station)) {
       this.layers[0].removeLayer(station);
-      el.classList.add("offMap");
+      el.classList.add("layer-hidden");
     } else {
       this.layers[0].addLayer(station);
 
-      el.classList.remove("offMap");
+      el.classList.remove("layer-hidden");
     }
 
     $event.stopPropagation();
@@ -196,8 +199,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         if (visualMap && val != null && !inRange) {
           agg++;
         }
-
-        const iconHtml = this.getIconHtml(val, visualMap);
+        const color = this.getColor(val, visualMap);
+        const iconHtml = this.getIconHtml(color);
 
         if (!stationChannels[channel.stationCode]) {
           stationChannels[channel.stationCode] = "";
@@ -216,6 +219,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           staCode: channel.stationCode,
           lat: channel.lat,
           lon: channel.lon,
+          color,
           html: iconHtml,
           metricAgg: agg,
         };
@@ -232,6 +236,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
               lat: channel.lat,
               lon: channel.lon,
               html: iconHtml,
+              color,
               agg,
               channelAgg: agg > 0 ? 1 : 0, //number of channels out of spec
               metricAgg: agg, // number of metrics&channels out
@@ -265,16 +270,46 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       stationRows.forEach((station) => {
         stationMarkers.push(this.makeStationMarker(station, stationChannels));
       });
-
+      //each layer is own feature group
       this.metricLayers[metric.id] = stationMarkers;
       this.stations = stationRows;
     });
   }
 
+  addPanes(visualMap) {
+    switch (visualMap.type) {
+      case "stoplight":
+        this.map.createPane(visualMap.colors.in);
+        this.map.createPane(visualMap.colors.out);
+        this.map.createPane(visualMap.colors.middle);
+        break;
+      case "continuous":
+        visualMap.inRange.color.forEach((color) => {
+          this.map.createPane(color);
+        });
+        this.map.createPane(visualMap.outOfRange.color[0]);
+        break;
+      case "piecewise":
+        visualMap.pieces.forEach((piece) => {
+          this.map.createPane(piece.color);
+        });
+        this.map.createPane(visualMap.outOfRange.color[0]);
+
+        break;
+      default:
+        break;
+    }
+  }
+
   changeMetric() {
     this.displayMetric = this.selectedMetrics[0];
+    const visualMap = this.visualMaps[this.displayMetric.id];
+    if (visualMap) {
+      this.addPanes(visualMap);
+    }
 
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
+
     this.initLegend();
     this.initStationList();
     const resizeObserver = new ResizeObserver(() => {
@@ -285,33 +320,36 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     resizeObserver.observe(document.getElementById("map"));
   }
 
-  private getIconHtml(value, visualMap) {
-    let color = "white";
-    if (!visualMap) {
-      color = "white";
-    } else if (value !== null) {
-      color = this.widgetTypeService.getColorFromValue(value, visualMap);
-    }
+  private getIconHtml(color?: string) {
     const htmlString = `<div style='background-color: ${color}' class='map-icon'></div>`;
     return htmlString;
   }
 
-  private makeStationMarker(station, stationChannels) {
-    if (!station.id) {
-      console.log(station);
+  private getColor(value, visualMap) {
+    let color;
+    if (!visualMap) {
+      color = "gray";
+    } else if (value !== null) {
+      color = this.widgetTypeService.getColorFromValue(value, visualMap);
+    } else {
+      color = "white";
     }
+    return color;
+  }
 
+  private makeStationMarker(station, stationChannels) {
+    const options: any = {
+      autoPan: true,
+    };
     let html;
     if (station.color) {
       html = `<div style='background-color: ${station.color}' class='map-icon'></div>`;
+      options.pane = station.color;
     } else {
       html = station.html;
     }
-
-    const marker = L.marker([station.lat, station.lon], {
-      autoPan: true,
-      icon: L.divIcon({ html, className: "icon-parent" }),
-    })
+    options.icon = L.divIcon({ html, className: "icon-parent" });
+    const marker = L.marker([station.lat, station.lon], options)
       // .bindPopup(
       //   `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
       //   <thead><th colspan='2'>channel</th><th>value</th></thead>
@@ -333,6 +371,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     if (channel.agg > station.agg) {
       station.html = channel.html;
       station.agg = channel.agg;
+      station.color = channel.color;
     }
     station.channelAgg += channel.metricAgg > 0 ? 1 : 0;
     station.metricAgg += channel.metricAgg;

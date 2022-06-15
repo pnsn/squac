@@ -333,10 +333,10 @@ export class WidgetTypeService {
     let color = "";
     if (visualMap.type === "piecewise") {
       visualMap.pieces?.forEach((piece) => {
-        const gtMin = piece.gt !== null ? value > piece.gt : true;
-        const gteMin = piece.gte !== null ? value >= piece.gte : true;
-        const ltMax = piece.lt !== null ? value < piece.lt : true;
-        const lteMax = piece.lte !== null ? value <= piece.lte : true;
+        const gtMin = piece.gt || piece.gt === 0 ? value > piece.gt : true;
+        const gteMin = piece.gte || piece.gte === 0 ? value >= piece.gte : true;
+        const ltMax = piece.lt || piece.lt === 0 ? value < piece.lt : true;
+        const lteMax = piece.lte || piece.lte === 0 ? value <= piece.lte : true;
         color = gtMin && gteMin && ltMax && lteMax ? piece.color : color;
       });
     } else if (visualMap.type === "continuous") {

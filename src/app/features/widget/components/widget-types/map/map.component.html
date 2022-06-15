@@ -14,7 +14,8 @@
   >
     <div
       *ngFor="let piece of visualMaps[displayMetric.id]?.pieces"
-      (click)="toggleColor(piece)"
+      (click)="toggleColor(piece.color)"
+      [class]="piece.color"
     >
       <div class="map-icon" [style.background-color]="piece.color"></div>
       <span>{{ piece.label }}</span>
@@ -24,21 +25,21 @@
   <ng-container
     *ngIf="displayMetric && visualMaps[displayMetric.id]?.type === 'stoplight'"
   >
-    <div (click)="toggleColor(piece)">
+    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.in)">
       <div
         class="map-icon"
         [style.background-color]="visualMaps[displayMetric.id]?.colors.in"
       ></div>
       <span>all in</span>
     </div>
-    <div (click)="toggleColor(piece)">
+    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.middle)">
       <div
         class="map-icon"
         [style.background-color]="visualMaps[displayMetric.id]?.colors.middle"
       ></div>
       <span>some in</span>
     </div>
-    <div (click)="toggleColor(piece)">
+    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.out)">
       <div
         class="map-icon"
         [style.background-color]="visualMaps[displayMetric.id]?.colors.out"

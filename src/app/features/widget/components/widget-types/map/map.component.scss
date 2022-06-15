@@ -23,6 +23,9 @@
   padding: 5px;
   margin: 0px;
   line-height: 18px;
+  .layer-hidden {
+    opacity: 50%;
+  }
   div {
     font-size: inherit;
     span {
@@ -44,9 +47,6 @@
       flex-direction: column;
       justify-content: space-between;
     }
-  }
-  .offMap {
-    color: rgb(170, 170, 170);
   }
   .gradient-icon {
     height: 70px;
