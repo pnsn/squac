@@ -130,7 +130,7 @@
         >
           <div [formGroupName]="i" class="body-row">
             {{ dimensions.controls[i].value.type }} metric:
-            <mat-form-field class="dense-form-select">
+            <mat-form-field class="dense-form-field-select">
               <mat-select #metric formControlName="metricId">
                 <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
                   {{ m.name }}
@@ -167,7 +167,7 @@
           >
             <div [formGroupName]="i" class="body-row">
               <div class="large">
-                <mat-form-field>
+                <mat-form-field class="dense-form-field-select">
                   <mat-select #metric formControlName="metrics" multiple>
                     <mat-select-trigger>
                       {{ metric.value ? getMetric(metric.value[0]) : "" }}

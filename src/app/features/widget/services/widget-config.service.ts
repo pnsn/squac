@@ -116,10 +116,9 @@ export class WidgetConfigService {
         type: "parallel-plot",
         useAggregate: true,
         showChannelList: true,
-        displayInfo: "no color options, channels are lines",
+        displayInfo: "Color options not available for parallel plot.",
         description:
           "Chart with multiple metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
-        displayOptions: [],
       },
       {
         id: 7,
