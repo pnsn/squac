@@ -315,10 +315,13 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     const resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
       this.fitBounds = this.layers[0].getBounds();
+      console.log("resize");
     });
 
     resizeObserver.observe(document.getElementById("map"));
   }
+
+  resize() {}
 
   private getIconHtml(color?: string) {
     const htmlString = `<div style='background-color: ${color}' class='map-icon'></div>`;

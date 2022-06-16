@@ -108,7 +108,7 @@ export class WidgetTypeService {
         realtime: true,
         orient: "horizontal",
         moveHandleSize: 10,
-        height: 20,
+        height: 15,
         showDetail: false,
         showDataShadow: false,
       },
@@ -120,7 +120,7 @@ export class WidgetTypeService {
         showDataShadow: false,
         moveHandleSize: 10,
         showDetail: false,
-        width: 20,
+        width: 15,
       },
     ],
   };

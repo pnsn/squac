@@ -5,9 +5,10 @@ import {
   OnDestroy,
   SimpleChanges,
   OnChanges,
+  ViewChild,
 } from "@angular/core";
 import { Widget } from "@widget/models/widget";
-import { Subject, Subscription, tap } from "rxjs";
+import { filter, Subject, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -26,6 +27,7 @@ import { WidgetConfigService } from "@features/widget/services/widget-config.ser
 })
 export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   @Input() widget: Widget;
+  @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
   subscription = new Subscription();
@@ -68,6 +70,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   ngOnInit() {
+    const resizeSub = this.viewService.resize
+      .pipe(filter((id) => this.widget.id === id))
+      .subscribe((widgetId) => {
+        if (this.widgetChild) {
+          this.widgetChild.resize();
+        }
+      });
+
     const updateSub = this.viewService.updateData.subscribe({
       next: (dashboardId) => {
         this.data = {};
@@ -94,9 +104,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((dashboards) => {
         this.dashboards = dashboards;
       });
-
+    this.subscription.add(resizeSub);
     this.subscription.add(updateSub);
-
     this.subscription.add(this.dataSub);
   }
 

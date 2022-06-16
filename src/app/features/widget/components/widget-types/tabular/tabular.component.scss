@@ -13,7 +13,7 @@
 //   }
 // }
 
-:host ::ng-deep #tabular-table.ngx-datatable {
+:host ::ng-deep .tabular-table.ngx-datatable {
   width: 100% !important;
   height: calc(100% - 4px);
 
@@ -23,6 +23,22 @@
   }
   .datatable-tree-button:disabled {
     display: none;
+  }
+  .datatable-header-cell {
+    padding: 1px !important;
+    white-space: normal !important;
+  }
+
+  .datatable-body-cell,
+  .datatable-body-row {
+    padding: 0px 0px !important;
+    line-height: 1.25 !important;
+  }
+
+  .datatable-tree-button {
+    border: none;
+    background-color: transparent;
+    margin-right: 2px;
   }
   .datatable-header-cell-template-wrap {
     display: flex;
@@ -43,32 +59,29 @@
   .header-cell {
     width: 100%;
     overflow: hidden;
-    overflow-wrap: anywhere;
     max-height: 50px;
     font-size: 10pt !important;
   }
   .datatable-body-cell-label {
     font-size: 10pt !important;
-    line-height: 100%;
-
-    padding: 2px;
-    margin-left: 23px !important;
-    .cell-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1px;
+    .cell-icon,
+    .cell-full {
+      height: 19px;
       display: inline-block;
-      height: 14px;
-      width: 14px;
-      border-radius: 50%;
     }
-    .datatable-tree-button {
-      margin-left: -23px !important;
+    .cell-icon {
+      width: 20px;
     }
     .cell-full {
-      display: inline-block;
-      height: 14px;
       width: 100%;
     }
     .cell-text {
       font-size: 10pt !important;
+      display: inline-block;
     }
     span {
       font-size: 10pt !important;

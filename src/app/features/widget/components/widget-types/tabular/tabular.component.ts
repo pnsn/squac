@@ -6,9 +6,10 @@ import {
   SimpleChanges,
   OnChanges,
   TemplateRef,
+  OnInit,
 } from "@angular/core";
-import { ColumnMode, SortType } from "@swimlane/ngx-datatable";
-import { Subscription } from "rxjs";
+import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import { iif, Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
@@ -39,6 +40,7 @@ export class TabularComponent
   @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
   ColumnMode = ColumnMode;
   SortType = SortType;
+  SelectionType = SelectionType;
   rows = [];
   columns = [];
   messages = {
@@ -54,7 +56,6 @@ export class TabularComponent
   };
   sorts;
   constructor(private widgetTypeService: WidgetTypeService) {}
-
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -94,7 +95,7 @@ export class TabularComponent
         name,
         prop: "title",
         isTreeColumn,
-        width: 120,
+        width: 100,
         canAutoResize: false,
         frozenLeft: true,
         resizeable: true,
@@ -105,7 +106,7 @@ export class TabularComponent
     this.columns.push({
       name: "# out",
       prop: "agg",
-      width: 60,
+      width: 45,
       canAutoResize: false,
       frozenLeft: true,
       resizeable: false,
@@ -117,7 +118,7 @@ export class TabularComponent
           name: metric.name,
           prop: metric.id,
           comparator: this.metricComparator.bind(this),
-          width: 100,
+          width: 65,
           canAutoResize: true,
           sortable: true,
           cellTemplate: this.cellTemplate,
@@ -126,6 +127,13 @@ export class TabularComponent
       });
       this.columns = [...this.columns];
     }, 0);
+  }
+
+  resize() {
+    console.log("resize");
+    if (this.table) {
+      this.table.recalculate();
+    }
   }
 
   private metricComparator(propA, propB) {
@@ -183,14 +191,7 @@ export class TabularComponent
           count: +inRange,
         };
       });
-      const title =
-        channel.networkCode +
-        "." +
-        channel.stationCode +
-        "." +
-        channel.loc +
-        "." +
-        channel.code;
+      const title = channel.loc + "." + channel.code;
       let row = {
         title,
         id: channel.id,
@@ -274,6 +275,10 @@ export class TabularComponent
       row.treeStatus = "collapsed";
       this.rows = [...this.rows];
     }
+  }
+
+  onSelect(event) {
+    this.onTreeAction({ row: event.selected[0] });
   }
 
   ngOnDestroy(): void {

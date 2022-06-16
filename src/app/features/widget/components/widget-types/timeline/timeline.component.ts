@@ -103,6 +103,8 @@ export class TimelineComponent
     console.log(event, type);
   }
 
+  resize() {}
+
   buildChartData(data) {
     this.metricSeries = {};
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
@@ -154,7 +156,6 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     let visualMap = this.visualMaps[colorMetric.id];
-    console.log(visualMap);
     if (!visualMap) {
       visualMap = this.widgetTypeService.getVisualMapFromMetric(
         colorMetric,

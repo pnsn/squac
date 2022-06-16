@@ -74,6 +74,8 @@ export class ScatterPlotComponent
     console.log(event.seriesName, type);
   }
 
+  resize() {}
+
   toggleStationList() {
     let temp: any = {};
     if (this.showStationList) {

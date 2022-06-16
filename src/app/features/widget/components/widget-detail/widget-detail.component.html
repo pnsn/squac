@@ -146,6 +146,7 @@
     <ng-container *ngIf="!loading && !error && !noData">
       <ng-container [ngSwitch]="widget?.type">
         <widget-timeline
+          #widgetChild
           *ngSwitchCase="'timeline'"
           class="widget"
           [data]="data"
@@ -158,6 +159,7 @@
         >
         </widget-timeline>
         <widget-tabular
+          #widgetChild
           *ngSwitchCase="'tabular'"
           class="widget"
           [data]="data"

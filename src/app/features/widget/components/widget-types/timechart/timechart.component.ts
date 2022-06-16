@@ -127,6 +127,8 @@ export class TimechartComponent
     console.log(event, type);
   }
 
+  resize() {}
+
   getVisualMaps() {
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,

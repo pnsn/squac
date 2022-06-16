@@ -1,15 +1,14 @@
 <!-- *ngIF causes chaos avoid in ngx-datatable -->
 <ngx-datatable
   #dataTable
-  id="tabular-table"
-  class="material expandable"
+  class="material expandable tabular-table"
   [rows]="rows"
   [columns]="columns"
   [headerHeight]="50"
   [sortType]="SortType.multi"
   [columnMode]="ColumnMode.force"
   [footerHeight]="0"
-  [rowHeight]="23"
+  [rowHeight]="20"
   [scrollbarH]="true"
   [scrollbarV]="true"
   [messages]="messages"

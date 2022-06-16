@@ -29,4 +29,5 @@ export class BoxPlotComponent implements WidgetTypeComponent {
   onChartEvent(event, type) {
     console.log(event, type);
   }
+  resize() {}
 }
