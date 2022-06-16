@@ -256,7 +256,7 @@ export class WidgetTypeService {
     // piece for -Infinity to min
     if (min !== null) {
       pieces.push({
-        gt: Math.min(dataRange.min, min - 1),
+        gt: Math.min(dataRange.min - 1, min - 1),
         lt: min,
         color: outColor,
         label: `< ${this.precisionPipe.transform(min, 2)}`,
@@ -308,7 +308,7 @@ export class WidgetTypeService {
       }
       pieces.push({
         gt: max,
-        lte: Math.max(dataRange.max, max + 1),
+        lte: Math.max(dataRange.max + 1, max + 1),
         color: outColor,
         label: `> ${this.precisionPipe.transform(max, 2)}`,
       });

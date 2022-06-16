@@ -154,6 +154,7 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     let visualMap = this.visualMaps[colorMetric.id];
+    console.log(visualMap);
     if (!visualMap) {
       visualMap = this.widgetTypeService.getVisualMapFromMetric(
         colorMetric,
@@ -179,7 +180,7 @@ export class TimelineComponent
     const categoryIndex = api.value(3);
     const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
     const end = api.coord([api.value(1), categoryIndex]); //converts to xy coords
-    const height = api.size([0, 1])[1] * 0.9;
+    const height = api.size([0, 1])[1] * 1;
     const rectShape = graphic.clipRectByRect(
       {
         x: start[0],
