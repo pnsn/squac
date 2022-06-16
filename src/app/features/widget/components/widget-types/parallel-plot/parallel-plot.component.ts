@@ -130,6 +130,18 @@ export class ParallelPlotComponent
       type: "parallel",
       colorBy: "series",
       large: true,
+      legendHoverLink: true,
+      lineStyle: {
+        opacity: 1,
+      },
+      emphasis: {
+        focus: "series",
+        blurScope: "coordinateSystem",
+        disabled: false,
+        lineStyle: {
+          width: 2,
+        },
+      },
       dimensions: [],
     };
     // const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(

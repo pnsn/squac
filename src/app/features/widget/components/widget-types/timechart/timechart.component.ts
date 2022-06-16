@@ -149,11 +149,14 @@ export class TimechartComponent
       label: {
         show: false,
       },
+      lineStyle: {
+        width: 1,
+      },
       emphasis: {
         label: {
           show: false,
         },
-        focus: "series",
+        focus: "self",
         lineStyle: {
           width: 2,
         },

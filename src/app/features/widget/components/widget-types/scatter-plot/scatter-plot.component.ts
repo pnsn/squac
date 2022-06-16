@@ -110,6 +110,13 @@ export class ScatterPlotComponent
       large: true,
       dimensions: [],
       name: "name",
+      emphasis: {
+        focus: "series",
+        label: {
+          show: false,
+          color: "black",
+        },
+      },
       encode: {
         x: 0,
         y: 1,

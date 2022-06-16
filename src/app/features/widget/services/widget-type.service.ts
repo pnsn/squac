@@ -47,6 +47,11 @@ export class WidgetTypeService {
       align: "left",
       left: "right",
       icon: "none",
+      emphasis: {
+        selectorLabel: {
+          show: true,
+        },
+      },
     },
     // toolbox: {
     //   show: true,
@@ -431,7 +436,6 @@ export class WidgetTypeService {
     str = str += "</br>";
     return str;
   }
-  // series with time as x
 
   timeAxisFormatToolTip(params) {
     let data = [];
