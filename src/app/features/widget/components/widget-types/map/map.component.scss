@@ -37,9 +37,13 @@
   }
   .legend-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     div {
       display: inline-block;
+    }
+    #gradient {
+      display: flex;
+      flex-direction: row;
     }
     div.values {
       margin: 0px 5px;

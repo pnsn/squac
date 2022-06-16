@@ -52,22 +52,25 @@
     *ngIf="displayMetric && visualMaps[displayMetric.id]?.type === 'continuous'"
   >
     <div class="legend-container">
-      <div
-        [style.background-image]="
-          'linear-gradient(to top, ' +
-          visualMaps[displayMetric.id]?.inRange.color +
-          ')'
-        "
-        class="gradient-icon"
-      ></div>
-      <div class="values">
-        <span>
-          {{ visualMaps[displayMetric.id].range[1] }}
-        </span>
-        <span>
-          {{ visualMaps[displayMetric.id].range[0] }}
-        </span>
+      <div id="gradient">
+        <div
+          [style.background-image]="
+            'linear-gradient(to top, ' +
+            visualMaps[displayMetric.id]?.inRange.color +
+            ')'
+          "
+          class="gradient-icon"
+        ></div>
+        <div class="values">
+          <span>
+            {{ visualMaps[displayMetric.id].range[1] }}
+          </span>
+          <span>
+            {{ visualMaps[displayMetric.id].range[0] }}
+          </span>
+        </div>
       </div>
+
       <div>
         <div
           class="map-icon"
