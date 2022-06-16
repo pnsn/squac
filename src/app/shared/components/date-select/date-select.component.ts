@@ -111,6 +111,7 @@ export class DateSelectComponent implements OnInit {
   }
 
   datePickerChange(dates: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs }) {
+    console.log("dates");
     if (dates.startDate && dates.endDate) {
       const startDate = this.dateService.correctForLocal(dates.startDate);
       const endDate = this.dateService.correctForLocal(dates.endDate);

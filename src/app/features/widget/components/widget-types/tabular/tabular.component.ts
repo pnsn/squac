@@ -111,6 +111,7 @@ export class TabularComponent
       frozenLeft: true,
       resizeable: false,
     });
+    console.log("test");
     this.sorts = [{ prop: "agg", dir: "desc" }];
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
@@ -130,7 +131,6 @@ export class TabularComponent
   }
 
   resize() {
-    console.log("resize");
     if (this.table) {
       this.table.recalculate();
     }
@@ -191,7 +191,13 @@ export class TabularComponent
           count: +inRange,
         };
       });
-      const title = channel.loc + "." + channel.code;
+      let title;
+      if (this.properties.displayType === "channel") {
+        title = channel.nslc;
+      } else {
+        title = channel.loc + "." + channel.code;
+      }
+
       let row = {
         title,
         id: channel.id,

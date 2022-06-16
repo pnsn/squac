@@ -8,10 +8,9 @@
 @import "~leaflet-draw/dist/leaflet.draw.css";
 @import "./styles/datatables.scss";
 @import "./styles/material.scss";
+@import "./styles/date-range-picker.scss";
 /* You can add global styles to this file, and also import other style files */
-
 // @include date-range-picker-theme($squac-ui-theme);
-
 * {
   margin: 0;
   padding: 0;

@@ -38,14 +38,15 @@ mat-icon.mat-icon {
   .mat-form-field-flex {
     align-items: center;
     height: 38px;
-    padding: 0 0 0 5px;
+    padding: 0 0 0 5px !important;
+    margin-top: 0;
   }
   .mat-form-field-wrapper {
     margin: 0;
     padding-bottom: 0;
   }
   .mat-form-field-infix {
-    padding: 3px 0 0 0;
+    padding: 3px 0 0 0 !important;
     border-top: none;
     .mat-form-field-label-wrapper {
       padding-top: 0;

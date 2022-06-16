@@ -68,6 +68,7 @@
     flex-direction: row;
     align-items: center;
     gap: 1px;
+    padding-left: 1px;
     .cell-icon,
     .cell-full {
       height: 19px;
@@ -93,6 +94,9 @@
   .datatable-row-left {
     background-color: white;
     font-size: 10pt !important;
+    .datatable-body-cell-label {
+      padding-left: 4px;
+    }
   }
 }
 
