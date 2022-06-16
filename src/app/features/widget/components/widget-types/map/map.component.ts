@@ -31,11 +31,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
   displayMetric;
-  options: {
-    center: L.LatLng;
-    zoom: number;
-    layers: L.Layer[];
-  };
+  options: any;
   drawOptions: Record<string, never>;
   layers: L.FeatureGroup[];
   fitBounds: L.LatLngBounds;
@@ -43,6 +39,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   map: L.Map;
   metricLayers: { [metricId: number]: L.Marker[] };
   visualMaps;
+  displayMap;
   legend;
   stationList;
   stations;
@@ -66,6 +63,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       center: L.latLng(0, 0),
       zoom: 5,
       layers: baseLayers,
+      doubleClickZoom: false,
     };
   }
 
@@ -133,7 +131,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     el.classList.toggle("layer-hidden");
   }
 
-  toggleStation(i, $event) {
+  toggleStation(i, event) {
+    event.preventDefault();
     const el = document.getElementsByClassName(i)[0];
     const layer = this.metricLayers[this.displayMetric.id];
     const station = layer[i];
@@ -146,7 +145,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       el.classList.remove("layer-hidden");
     }
 
-    $event.stopPropagation();
+    event.stopPropagation();
     // ;
   }
 
@@ -303,9 +302,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   changeMetric() {
     this.displayMetric = this.selectedMetrics[0];
-    const visualMap = this.visualMaps[this.displayMetric.id];
-    if (visualMap) {
-      this.addPanes(visualMap);
+    this.displayMap = this.visualMaps[this.displayMetric.id];
+    if (this.displayMap) {
+      this.addPanes(this.displayMap);
     }
 
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];

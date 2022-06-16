@@ -9,11 +9,9 @@
 
 <div class="legend" id="legend">
   <h4>{{ displayMetric?.name }}</h4>
-  <ng-container
-    *ngIf="displayMetric && visualMaps[displayMetric.id]?.type === 'piecewise'"
-  >
+  <ng-container *ngIf="displayMetric && displayMap?.type === 'piecewise'">
     <div
-      *ngFor="let piece of visualMaps[displayMetric.id]?.pieces"
+      *ngFor="let piece of displayMap?.pieces"
       (click)="toggleColor(piece.color)"
       [class]="piece.color"
     >
@@ -22,51 +20,45 @@
     </div>
   </ng-container>
 
-  <ng-container
-    *ngIf="displayMetric && visualMaps[displayMetric.id]?.type === 'stoplight'"
-  >
-    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.in)">
+  <ng-container *ngIf="displayMetric && displayMap?.type === 'stoplight'">
+    <div (click)="toggleColor(displayMap?.colors.in)">
       <div
         class="map-icon"
-        [style.background-color]="visualMaps[displayMetric.id]?.colors.in"
+        [style.background-color]="displayMap?.colors.in"
       ></div>
       <span>all in</span>
     </div>
-    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.middle)">
+    <div (click)="toggleColor(displayMap?.colors.middle)">
       <div
         class="map-icon"
-        [style.background-color]="visualMaps[displayMetric.id]?.colors.middle"
+        [style.background-color]="displayMap?.colors.middle"
       ></div>
       <span>some in</span>
     </div>
-    <div (click)="toggleColor(visualMaps[displayMetric.id]?.colors.out)">
+    <div (click)="toggleColor(displayMap?.colors.out)">
       <div
         class="map-icon"
-        [style.background-color]="visualMaps[displayMetric.id]?.colors.out"
+        [style.background-color]="displayMap?.colors.out"
       ></div>
       <span>none in</span>
     </div>
   </ng-container>
 
-  <ng-container
-    *ngIf="displayMetric && visualMaps[displayMetric.id]?.type === 'continuous'"
-  >
+  <ng-container *ngIf="displayMetric && displayMap?.type === 'continuous'">
     <div class="legend-container">
       <div id="gradient">
         <div
           [style.background-image]="
-            'linear-gradient(to top, ' +
-            visualMaps[displayMetric.id]?.inRange.color +
-            ')'
+            'linear-gradient(to top, ' + displayMap?.inRange.color + ')'
           "
           class="gradient-icon"
         ></div>
         <div class="values">
           <span>
-            {{ visualMaps[displayMetric.id].range[1] }}
+            {{ displayMap.range[1] }}
           </span>
           <span>
-            {{ visualMaps[displayMetric.id].range[0] }}
+            {{ displayMap.range[0] }}
           </span>
         </div>
       </div>
@@ -74,15 +66,13 @@
       <div>
         <div
           class="map-icon"
-          [style.background-color]="
-            visualMaps[displayMetric.id]?.outOfRange.color[0]
-          "
+          [style.background-color]="displayMap?.outOfRange.color[0]"
         ></div>
         Out of Range
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="displayMetric && !visualMaps[displayMetric.id]">
+  <ng-container *ngIf="displayMetric && !displayMap">
     <div>
       <div class="map-icon" style.background-color="white"></div>
       no range
