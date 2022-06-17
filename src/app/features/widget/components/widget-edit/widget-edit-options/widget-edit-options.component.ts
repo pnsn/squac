@@ -109,8 +109,7 @@ export class WidgetEditOptionsComponent
         return this.type === type.type;
       });
       this.initForm();
-      if (!this.widgetType || !this.widgetType.displayOptions) {
-        console.log("no thresholds allowed");
+      if (!this.widgetType) {
         this.thresholds = [];
         this.thresholdArray.clear();
       }
@@ -125,9 +124,6 @@ export class WidgetEditOptionsComponent
       this.thresholds.forEach((threshold) => {
         this.addThreshold(threshold);
       });
-      if (this.thresholds.length === 0) {
-        this.addThreshold();
-      }
     }
   }
 
@@ -138,10 +134,10 @@ export class WidgetEditOptionsComponent
     let displayType;
     if (this.widgetType?.displayOptions) {
       const type = this.properties.displayType;
+      console.log(type);
       displayType = this.widgetType.displayOptions.find(
         (option) => option.displayType === type
       );
-
       displayType = displayType || this.widgetType.displayOptions[0];
 
       const selected = this.properties.dimensions;
@@ -171,12 +167,13 @@ export class WidgetEditOptionsComponent
           );
         });
       }
+    } else {
+      this.properties.dimensions = [];
+      this.properties.displayType = null;
     }
   }
   initForm() {
-    this.properties.dimensions = [];
-    this.properties.displayType = null;
-    if (this.widgetType && this.widgetType.displayOptions) {
+    if (this.widgetType) {
       this.updateDimensions();
     }
     this.optionsForm.get("options").patchValue(
@@ -192,6 +189,9 @@ export class WidgetEditOptionsComponent
       },
       { emitEvent: false }
     );
+    if (this.thresholds.length === 0) {
+      this.addThreshold();
+    }
   }
 
   makeThresholdForm(threshold?: Threshold) {

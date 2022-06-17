@@ -123,12 +123,12 @@
     </ng-container>
 
     <ng-container *ngIf="widgetType?.displayOptions">
-      <p class="help-text">Select which metrics to show on the widget.</p>
+      <p class="help-text">Select which metric(s) to show on the widget.</p>
       <ng-container formArrayName="dimensions">
         <ng-container
           *ngFor="let metric of dimensions?.controls; let i = index"
         >
-          <div [formGroupName]="i" class="body-row">
+          <div [formGroupName]="i" class="body-row metric-select-container">
             {{ dimensions.controls[i].value.type }} metric:
             <mat-form-field class="dense-form-field-select">
               <mat-select #metric formControlName="metricId">

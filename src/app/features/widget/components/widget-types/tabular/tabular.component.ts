@@ -243,9 +243,8 @@ export class TabularComponent
   //FIXME: this needs to be cleaned up
   private findWorstChannel(channel, station, stationRowMetrics) {
     station.count++;
-
     if (station.type === "worst") {
-      if (channel.agg > station.agg) {
+      if (channel.agg >= station.agg) {
         const newStation = { ...station, ...stationRowMetrics };
         newStation.treeStatus = station.treeStatus;
         newStation.id = station.id;
