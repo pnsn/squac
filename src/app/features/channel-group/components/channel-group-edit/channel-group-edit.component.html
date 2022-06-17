@@ -7,12 +7,14 @@
       <ng-container *ngIf="editMode; else notEditMode">
         <button
           mat-icon-button
-          color="accent"
-          (click)="undoSelectRemove()"
-          [disabled]="!this.changeMade"
-          matTooltip="undo last change"
+          *ngIf="editMode"
+          color="warn"
+          class="add-btn"
+          (click)="onDelete()"
+          matTooltip="Delete channel group"
+          aria-label="Button that deletes the channel group"
         >
-          <mat-icon>undo</mat-icon>
+          <mat-icon>delete</mat-icon>
         </button>
         <button
           *ngIf="'update' | able: channelGroup"
@@ -25,17 +27,6 @@
           aria-label="Button that saves the changes to the channel group"
         >
           Save
-        </button>
-        <button
-          mat-icon-button
-          *ngIf="editMode"
-          color="warn"
-          class="add-btn"
-          (click)="onDelete()"
-          matTooltip="Delete channel group"
-          aria-label="Button that deletes the channel group"
-        >
-          <mat-icon>delete</mat-icon>
         </button>
       </ng-container>
       <ng-template #notEditMode>
@@ -93,6 +84,15 @@
               [disabled]="!selectedChannels || selectedChannels.length === 0"
             >
               add selected
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="undoSelectRemove()"
+              [disabled]="!this.changeMade"
+              matTooltip="undo last change"
+            >
+              <mat-icon>undo</mat-icon>
             </button>
           </div>
           <div class="table-container lt-gray-border">

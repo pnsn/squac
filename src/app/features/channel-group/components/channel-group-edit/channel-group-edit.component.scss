@@ -29,7 +29,7 @@
   width: 100%;
 }
 #left-column {
-  width: 60%;
+  width: 66%;
 }
 .channels-row {
   height: 60vh;
@@ -37,8 +37,12 @@
   .column {
     flex-grow: 1;
   }
-  #map-container.column {
-    width: 50%;
+}
+#left-column {
+  .channels-row {
+    & > div {
+      width: 50%;
+    }
   }
 }
 .table-container {
