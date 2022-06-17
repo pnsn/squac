@@ -30,21 +30,26 @@ export class ChannelGroupFilterComponent {
   }
 
   removeFilters() {
-    this.filters = {};
-    this.filtersChanged.next(this.filters);
+    this.net = "";
+    this.chan = "";
+    this.sta = "";
+    this.loc = "";
+    this.updateFilters();
   }
 
   // send filters to parent on submit
   updateFilters() {
-    this.filters = {
-      net_search: this.formatFilter(this.net),
-      chan_search: this.formatFilter(this.chan),
-      sta_search: this.formatFilter(this.sta),
-      loc_search: this.formatFilter(this.loc),
-    };
     if (!this.net && !this.chan && !this.sta && !this.loc) {
       this.filters = {};
+    } else {
+      this.filters = {
+        net_search: this.formatFilter(this.net),
+        chan_search: this.formatFilter(this.chan),
+        sta_search: this.formatFilter(this.sta),
+        loc_search: this.formatFilter(this.loc),
+      };
     }
+
     this.filtersChanged.next(this.filters);
   }
 }

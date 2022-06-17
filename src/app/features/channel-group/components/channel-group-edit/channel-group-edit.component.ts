@@ -207,7 +207,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const afterRemove = this.findChannelsInSelected();
     this.channelsInGroup = [...afterRemove];
     this.changeMade = true;
-    this.updateRows();
   }
 
   // Remove stations with offdates before today
@@ -223,13 +222,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   undoSelectRemove() {
     const newPrevious = [...this.channelsInGroup];
     this.channelsInGroup = [...this.previousChannels];
-    this.updateRows();
     this.previousChannels = newPrevious;
-  }
-
-  updateRows() {
-    this.rows = [...this.channelsInGroup];
-    this.selectedChannels = [];
   }
 
   channelsSelectedOnMap($event) {}
