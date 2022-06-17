@@ -6,10 +6,9 @@ import {
   SimpleChanges,
   OnChanges,
   TemplateRef,
-  OnInit,
 } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
-import { iif, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
@@ -166,7 +165,7 @@ export class TabularComponent
       const stationRowMetrics = {};
       this.selectedMetrics.forEach((metric) => {
         let val: number = null;
-
+        let count;
         if (data[channel.id] && data[channel.id][metric.id]) {
           const rowData = data[channel.id][metric.id];
           val = rowData[0].value;
@@ -176,19 +175,22 @@ export class TabularComponent
         const inRange = visualMap
           ? this.widgetTypeService.checkValue(val, visualMap)
           : true;
-
-        if (visualMap && val != null && !inRange) {
+        if (val === null || (visualMap && !inRange)) {
           agg++;
+          count = 0;
+        } else {
+          count = 1;
         }
 
         rowMetrics[metric.id] = {
           value: val,
           color: this.getStyle(val, visualMap),
+          count: 0,
         };
         stationRowMetrics[metric.id] = {
           value: val,
           color: this.getStyle(val, visualMap),
-          count: +inRange,
+          count, //channel in range for this metric
         };
       });
       let title;
@@ -210,8 +212,9 @@ export class TabularComponent
       rows.push(row);
 
       if (this.properties.displayType !== "channel") {
-        const staIndex = stations.indexOf(identifier);
+        let staIndex = stations.indexOf(identifier);
         if (staIndex < 0) {
+          staIndex = stations.length;
           stations.push(identifier);
           const station = {
             ...{
@@ -220,21 +223,20 @@ export class TabularComponent
               treeStatus: "collapsed",
               staCode: channel.stationCode,
               netCode: channel.networkCode,
-              count: 1,
-              agg,
+              count: 0, //number of channels the station has
+              agg, //number of channels/metrics out of spec
               type: this.properties.displayType,
             },
-            ...stationRowMetrics,
           };
+
           stationRows.push(station);
-        } else {
-          stationRows[staIndex] = this.findWorstChannel(
-            row,
-            stationRows[staIndex],
-            stationRowMetrics
-          );
-          // check if agg if worse than current agg
         }
+        stationRows[staIndex] = this.findWorstChannel(
+          row,
+          stationRows[staIndex],
+          stationRowMetrics
+        );
+        // check if agg if worse than current agg
       }
     });
     this.rows = [...stationRows, ...rows];
@@ -243,6 +245,7 @@ export class TabularComponent
   //FIXME: this needs to be cleaned up
   private findWorstChannel(channel, station, stationRowMetrics) {
     station.count++;
+
     if (station.type === "worst") {
       if (channel.agg > station.agg) {
         const newStation = { ...station, ...stationRowMetrics };
@@ -253,7 +256,11 @@ export class TabularComponent
       }
     } else if (station.type === "stoplight") {
       Object.keys(stationRowMetrics).forEach((key) => {
-        station[key].count += stationRowMetrics[key].count;
+        if (!station[key]) {
+          station[key] = { ...stationRowMetrics[key] };
+        } else {
+          station[key].count += stationRowMetrics[key].count;
+        }
 
         if (station[key].count === station.count) {
           //all in
@@ -264,6 +271,10 @@ export class TabularComponent
         } else if (station[key].count === 0) {
           // all out
           station[key].color = this.visualMaps[key]?.colors.out;
+        }
+
+        if (!station[key].color) {
+          station[key].color = "gray";
         }
       });
     }
@@ -292,15 +303,6 @@ export class TabularComponent
   }
 
   private getStyle(value, visualMap): string {
-    let color;
-
-    if (!visualMap) {
-      color = "transparent";
-    } else if (value !== null) {
-      color = this.widgetTypeService.getColorFromValue(value, visualMap);
-    } else {
-      color = "gray";
-    }
-    return color;
+    return this.widgetTypeService.getColorFromValue(value, visualMap);
   }
 }

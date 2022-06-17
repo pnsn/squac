@@ -32,6 +32,7 @@
   <ng-container *ngIf="row.type === 'stoplight'; else notStoplight">
     <span
       class="cell-full"
+      [ngClass]="{ border: value.color === 'white' }"
       [ngStyle]="{ 'background-color': value.color }"
     ></span>
     <!-- <span class="cell-text" *ngIf="+value.count; else noValue">
@@ -42,6 +43,7 @@
   <ng-template #notStoplight>
     <span
       class="cell-icon"
+      [ngClass]="{ border: value.color === 'white' }"
       [ngStyle]="{ 'background-color': value.color }"
     ></span>
     <span class="cell-text" *ngIf="+value.value; else noValue">
@@ -50,6 +52,6 @@
   </ng-template>
 
   <ng-template #noValue>
-    <span>-</span>
+    <span>no data</span>
   </ng-template>
 </ng-template>

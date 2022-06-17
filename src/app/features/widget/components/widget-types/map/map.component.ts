@@ -198,10 +198,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         const inRange = visualMap
           ? this.widgetTypeService.checkValue(val, visualMap)
           : true;
-        if (visualMap && val != null && !inRange) {
+
+        if (visualMap && !inRange) {
           agg++;
         }
-        const color = this.getColor(val, visualMap);
+        const color = this.getStyle(val, visualMap);
         const iconHtml = this.getIconHtml(color);
 
         if (!stationChannels[channel.stationCode]) {
@@ -222,14 +223,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           lat: channel.lat,
           lon: channel.lon,
           color,
-          html: iconHtml,
           metricAgg: agg,
         };
         channelRow = { ...channelRow };
         channelRows.push(channelRow);
 
-        const staIndex = stations.indexOf(identifier);
+        let staIndex = stations.indexOf(identifier);
         if (staIndex < 0) {
+          staIndex = stations.length;
           stations.push(identifier);
           stationRows.push({
             ...{
@@ -237,35 +238,33 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
               staCode: channel.stationCode,
               lat: channel.lat,
               lon: channel.lon,
-              html: iconHtml,
               color,
               agg,
               channelAgg: agg > 0 ? 1 : 0, //number of channels out of spec
               metricAgg: agg, // number of metrics&channels out
-              count: 1,
+              count: 0,
             },
           });
-        } else {
-          const station = this.findWorstChannel(
-            channelRow,
-            stationRows[staIndex]
-          );
-          if (visualMap?.type === "stoplight") {
-            let color;
-            if (station.channelAgg === 0) {
-              color = visualMap.colors.in;
-            } else if (station.channelAgg === station.count) {
-              color = visualMap.colors.out;
-            } else {
-              color = visualMap.colors.middle;
-            }
-            station.color = color;
-          }
-
-          stationRows[staIndex] = station;
-
-          // check if agg if worse than current agg
         }
+        const station = this.findWorstChannel(
+          channelRow,
+          stationRows[staIndex]
+        );
+        if (visualMap?.type === "stoplight") {
+          let color;
+          if (station.channelAgg === 0) {
+            color = visualMap.colors.in;
+          } else if (station.channelAgg === station.count) {
+            color = visualMap.colors.out;
+          } else {
+            color = visualMap.colors.middle;
+          }
+          station.color = color;
+        }
+
+        stationRows[staIndex] = station;
+
+        // check if agg if worse than current agg
       });
       const stationMarkers = [];
 
@@ -335,16 +334,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     return htmlString;
   }
 
-  private getColor(value, visualMap) {
-    let color;
-    if (!visualMap) {
-      color = "gray";
-    } else if (value !== null) {
-      color = this.widgetTypeService.getColorFromValue(value, visualMap);
-    } else {
-      color = "white";
-    }
-    return color;
+  private getStyle(value, visualMap): string {
+    return this.widgetTypeService.getColorFromValue(value, visualMap);
   }
 
   private makeStationMarker(station, stationChannels) {
@@ -356,8 +347,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       html = this.getIconHtml(station.color);
       options.pane = station.color;
     } else {
-      console.log("does this ever get used");
-      html = station.html;
+      html = this.getIconHtml("white");
     }
 
     options.icon = L.divIcon({ html, className: "icon-parent" });
@@ -380,7 +370,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   private findWorstChannel(channel, station) {
     station.count++;
     if (channel.agg > station.agg) {
-      station.html = channel.html;
       station.agg = channel.agg;
       station.color = channel.color;
     }

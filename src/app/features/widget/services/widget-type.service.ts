@@ -336,6 +336,12 @@ export class WidgetTypeService {
 
   getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
     let color = "";
+    if (value === null || value === undefined) {
+      return "white";
+    }
+    if (!visualMap) {
+      return "gray";
+    }
     if (visualMap.type === "piecewise") {
       visualMap.pieces?.forEach((piece) => {
         const gtMin = piece.gt || piece.gt === 0 ? value > piece.gt : true;
@@ -346,12 +352,15 @@ export class WidgetTypeService {
       });
     } else if (visualMap.type === "continuous") {
       const colors = visualMap.inRange.color;
-      const i =
-        (value - visualMap.range[0]) /
-        (visualMap.range[1] - visualMap.range[0]);
+      if (value <= visualMap.range[1] && value >= visualMap.range[0]) {
+        const i =
+          (value - visualMap.range[0]) /
+          (visualMap.range[1] - visualMap.range[0]);
 
-      const colorIndex = colors.length > 1 ? Math.floor(i * colors.length) : 0;
-      color = colors[colorIndex];
+        const colorIndex =
+          colors.length > 1 ? Math.floor(i * colors.length) : 0;
+        color = colors[colorIndex];
+      }
     } else if (visualMap.type === "stoplight") {
       const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
       const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
@@ -425,12 +434,13 @@ export class WidgetTypeService {
   multiMetricTooltipFormatting(params) {
     let str = `${params.name}`;
     str += "<table><tr><th>Metric</th> <th>Value</th></tr>";
+
     params.value.forEach((data, i) => {
       str +=
         "<tr><td>" +
         params.dimensionNames[i] +
         "</td><td>" +
-        this.precisionPipe.transform(data) +
+        (data !== null ? this.precisionPipe.transform(data) : "no data") +
         "</td></tr>";
     });
     str = str += "</br>";
