@@ -125,6 +125,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.widgetDataService.setWidget(this.widget);
       /// set type;
+      console.log(this.widget.name, this.widget.properties.dimensions);
       this.widgetType = this.widgetTypes.find(
         (type) => type.type === this.widget.type
       );
@@ -169,7 +170,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   selectMetrics() {
     this.selected = [];
-    if (!this.widgetType.dimensions) {
+    if (this.widget.properties.dimensions.length === 0) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
       this.selected = Array(this.widget.properties.dimensions.length);
@@ -184,6 +185,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
     }
+    console.log(this.selected);
     this.metricsSelected();
   }
 
@@ -198,19 +200,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  changeMetric($event, action, i) {
+  changeMetric($event, metricIndex, selectedIndex) {
     this.metricsChanged = true;
     $event.stopPropagation();
-    if (action === "add") {
-      const metric = this.notSelected.splice(i, 1);
-      const newLength = this.selected.unshift(metric[0]);
-      if (newLength > this.widgetType.dimensions?.length) {
+    if (selectedIndex === -1) {
+      const newLength = this.selected.unshift(this.widget.metrics[metricIndex]);
+      if (newLength > this.widget.properties?.dimensions.length) {
         const extraMetric = this.selected.pop();
-        this.notSelected.unshift(extraMetric);
       }
-    } else if (action === "remove") {
-      const metric = this.selected.splice(i, 1);
-      this.notSelected.unshift(metric[0]);
+    } else {
+      const metric = this.selected.splice(selectedIndex, 1);
     }
   }
 

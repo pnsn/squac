@@ -173,6 +173,8 @@ export class WidgetEditOptionsComponent
     }
   }
   initForm() {
+    this.properties.dimensions = [];
+    this.properties.displayType = null;
     if (this.widgetType && this.widgetType.displayOptions) {
       this.updateDimensions();
     }

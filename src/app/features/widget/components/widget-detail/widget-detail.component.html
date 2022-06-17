@@ -88,22 +88,70 @@
       <button
         mat-menu-item
         (click)="metricsSelected()"
-        [disabled]="!metricsChanged"
+        [disabled]="
+          !metricsChanged ||
+          this.selected.length === 0 ||
+          this.selected.length < this.widget.properties.dimensions.length
+        "
         color="accent"
       >
         Change Metrics
       </button>
-      <ng-container *ngIf="widgetType.dimensions">
+
+      <ng-container
+        *ngFor="let metric of widget.metrics; let metricIndex = index"
+      >
+        <ng-template
+          #metricTemplate
+          [ngTemplateOutlet]="metricTemplate"
+          let-index="index"
+          let-metric="metric"
+          let-metricIndex="metricIndex"
+          [ngTemplateOutletContext]="{
+            index: getIndex(metric),
+            metric: metric,
+            metricIndex: metricIndex
+          }"
+        >
+          <button
+            mat-menu-item
+            (click)="changeMetric($event, metricIndex, index)"
+          >
+            <ng-container *ngIf="index > -1; else notSelected">
+              <ng-container
+                *ngIf="
+                  widget.properties.dimensions.length > 0;
+                  else noDimensions
+                "
+              >
+                <span>{{ widget.properties?.dimensions[index]?.type }}:</span>
+                {{ metric.name }}
+              </ng-container>
+              <ng-template #noDimensions>
+                <mat-icon>check_box</mat-icon> {{ metric.name }}
+              </ng-template>
+            </ng-container>
+
+            <ng-template #notSelected>
+              <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
+            </ng-template>
+          </button>
+        </ng-template>
+      </ng-container>
+
+      <!-- <ng-container
+        *ngIf="widget.properties?.dimensions.length > 0; else noDim"
+      >
         <button
           *ngFor="let metric of selected; let i = index"
           mat-menu-item
           (click)="changeMetric($event, 'remove', i)"
         >
-          <span>{{ widgetType.dimensions[i] }}:</span>
+          <span>{{ widget.properties?.dimensions[i]?.type }}:</span>
           {{ metric.name }}
         </button>
       </ng-container>
-      <ng-container *ngIf="!widgetType.dimensions">
+      <ng-template #noDim>
         <button
           mat-menu-item
           *ngFor="let metric of selected; let i = index"
@@ -111,7 +159,7 @@
         >
           <mat-icon>check_box</mat-icon> {{ metric.name }}
         </button>
-      </ng-container>
+      </ng-template>
 
       <button
         mat-menu-item
@@ -119,7 +167,7 @@
         (click)="changeMetric($event, 'add', i)"
       >
         <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
-      </button>
+      </button> -->
 
       <ng-container *ngFor="let metric of metrics"> </ng-container>
     </ng-template>

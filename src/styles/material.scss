@@ -102,16 +102,16 @@ mat-form-field {
 
 button[mat-menu-item] {
   &[color="accent"] {
-    color: $sq-yellow !important;
+    color: $sq-yellow;
   }
   &[color="warn"] {
-    color: $sq-warn !important;
+    color: $sq-warn;
   }
   &[color="primary"] {
-    color: $sq-blue !important;
+    color: $sq-blue;
   }
   &[color="gray"] {
-    color: $sq-lt-gray !important;
+    color: $sq-lt-gray;
   }
   &.active {
     background-color: lighten($sq-lt-blue, 30%) !important;
