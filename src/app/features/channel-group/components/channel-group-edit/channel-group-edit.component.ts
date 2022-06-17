@@ -44,10 +44,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   // form stuff
   channelGroupForm: FormGroup;
-  searchChannels: Channel[] = []; // Channels returned from filter request
-  availableChannels: Channel[] = []; // Search channels filtered by bounds
   selectedChannels: Channel[] = []; // Channels currently in selected list
-
+  selectedInGroupChannels: Channel[] = [];
   previousChannels: Channel[];
   showOnlyCurrent = true;
   showChannel: Channel;
@@ -163,7 +161,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           });
           this.channelGroup = channelGroup;
           this.channelsInGroup = [...channelGroup.channels];
-          this.updateRows();
         },
         error: () => {
           this.messageService.error("Could not load channel group.");
@@ -183,8 +180,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.changeMade = true;
     const addChannels = this.findChannelsInGroup();
     this.channelsInGroup = [...this.channelsInGroup, ...addChannels];
-
-    this.updateRows();
+    this.selectedChannels = [];
   }
 
   // returns channels that are not already in groupChannels
@@ -198,7 +194,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // returns channels that are in not selectedChannels
   private findChannelsInSelected(): Channel[] {
     return this.channelsInGroup.filter((channel) => {
-      const index = this.selectedChannels.findIndex((c) => c.id === channel.id);
+      const index = this.selectedInGroupChannels.findIndex(
+        (c) => c.id === channel.id
+      );
       return index === -1;
     });
   }
@@ -234,9 +232,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = [];
   }
 
-  channelsSelectedOnMap($event) {
-    console.log($event);
-  }
+  channelsSelectedOnMap($event) {}
 
   selectRow($event) {
     this.showChannel = this.selectedChannels[this.selectedChannels.length - 1];
@@ -248,6 +244,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     this.getChannelsWithFilters();
   }
+
   getChannelsWithFilters() {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
     if (Object.keys(searchFilters).length !== 0) {
@@ -258,17 +255,19 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           this.loading = false;
 
           this.selectedChannels = [...response];
-          if (this.bounds !== undefined) {
-            this.filterBounds();
-          }
-          const existing = this.findChannelsInSelected();
-          this.rows = [...this.selectedChannels, ...existing];
+          // if (this.bounds !== undefined) {
+          //   this.filterBounds();
+          // }
+          this.rows = [...this.selectedChannels];
           //select retunred rows that are in group
 
           this.filterCurrent();
           // add channels to selected Channels
         });
       this.subscriptions.add(channelsSub);
+    } else {
+      this.selectedChannels = [];
+      this.rows = [...this.selectedChannels];
     }
   }
 
@@ -378,7 +377,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   updateBounds(newBounds: string) {
     if (!newBounds) {
       this.bounds = {};
-      this.rows = [...this.channelsInGroup];
+      this.rows = [...this.selectedChannels];
     } else {
       const boundsArr = newBounds.split(" ").map((bound) => {
         // format: 'N_lat W_lon S_lat E_lon'

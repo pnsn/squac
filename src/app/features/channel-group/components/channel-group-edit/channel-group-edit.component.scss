@@ -1,15 +1,17 @@
 @import "variables";
-.channels-row {
-  height: 60vh;
-}
 
 .edit-body {
   padding: 0px 10px 10px;
+  width: 100%;
   & > .column {
-    width: 50%;
+    flex-grow: 1;
+    justify-content: space-between;
   }
 }
-#select-channels-controls {
+#button-container {
+  gap: 10px;
+}
+.select-channels-controls {
   gap: 3px;
   align-items: center;
   div {
@@ -23,15 +25,28 @@
   gap: 10px;
 }
 #filter-container,
-#select-channels-controls,
-#preview-container {
+.select-channels-controls {
   width: 100%;
 }
-
-#preview-container {
+#left-column {
+  width: 60%;
+}
+.channels-row {
   height: 60vh;
-  overflow: hidden;
+  gap: 10px;
+  .column {
+    flex-grow: 1;
+  }
+  #map-container.column {
+    width: 50%;
+  }
+}
+.table-container {
+  flex-grow: 1;
+  height: 100%;
+  min-width: 310px;
   .channel-table {
+    height: 100%;
     .datatable-body {
       width: 100%;
     }

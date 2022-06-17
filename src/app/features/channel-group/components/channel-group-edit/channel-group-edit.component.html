@@ -6,6 +6,15 @@
     <div id="button-container" class="row space-between">
       <ng-container *ngIf="editMode; else notEditMode">
         <button
+          mat-icon-button
+          color="accent"
+          (click)="undoSelectRemove()"
+          [disabled]="!this.changeMade"
+          matTooltip="undo last change"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button
           *ngIf="'update' | able: channelGroup"
           mat-flat-button
           color="accent"
@@ -54,6 +63,72 @@
     </div>
   </div>
   <div class="edit-body row">
+    <div class="column" id="left-column">
+      <div id="add-channel-header" class="row space-between">
+        <h3>Add Channels to Group</h3>
+        <mat-slide-toggle
+          [(ngModel)]="showOnlyCurrent"
+          (change)="filterCurrent()"
+        >
+          <span class="help-text">Only Show Current Channels</span>
+        </mat-slide-toggle>
+      </div>
+      <p class="help-text">
+        Use the filters to the below to search for channels or use the map to
+        search within a region.
+      </p>
+      <div id="filter-container">
+        <channel-group-filter (filtersChanged)="filtersChanged($event)">
+        </channel-group-filter>
+      </div>
+      <div class="row channels-row">
+        <div class="column">
+          <div class="row space-between select-channels-controls">
+            <span>{{ selectedChannels.length }} channels selected</span>
+
+            <button
+              mat-button
+              color="primary"
+              (click)="addChannels()"
+              [disabled]="!selectedChannels || selectedChannels.length === 0"
+            >
+              add selected
+            </button>
+          </div>
+          <div class="table-container lt-gray-border">
+            <ngx-datatable
+              *ngIf="!loading; else isLoading"
+              #availableTable
+              class="material channel-table"
+              [rows]="rows"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="30"
+              [footerHeight]="0"
+              [rowHeight]="23"
+              [selectionType]="SelectionType.multiClick"
+              [selected]="selectedChannels"
+              [scrollbarV]="true"
+              [sortType]="SortType.multi"
+              (select)="selectRow($event)"
+            ></ngx-datatable>
+            <ng-template #isLoading>
+              <mat-spinner></mat-spinner>
+            </ng-template>
+          </div>
+        </div>
+        <div id="map-box">
+          <channel-group-map
+            [inGroupChannels]="channelsInGroup"
+            [selectedChannels]="selectedChannels"
+            [showChannel]="showChannel"
+            (showChannelChange)="channelsSelectedOnMap($event)"
+            [editPage]="true"
+            (boundsChange)="updateBounds($event)"
+          ></channel-group-map>
+        </div>
+      </div>
+    </div>
     <div class="column">
       <form [formGroup]="channelGroupForm" class="column">
         <mat-form-field class="channel-group-input" class="medium">
@@ -69,97 +144,42 @@
           ></textarea>
         </mat-form-field>
       </form>
-      <div class="column space-between">
-        <div id="select-channels-controls" class="row space-between">
-          <span *ngIf="selectedChannels.length !== 0; else notSelected"
-            >{{ selectedChannels.length }} channels selected</span
-          >
-          <ng-template #notSelected>
+      <div class="row channels-row">
+        <div class="column">
+          <div class="row space-between select-channels-controls">
             <span>{{ channelsInGroup.length }} channels in group</span>
-          </ng-template>
 
-          <div class="row">
             <button
               mat-button
               color="warn"
               (click)="removeChannels()"
-              [disabled]="!selectedChannels || selectedChannels.length === 0"
+              [disabled]="
+                !selectedInGroupChannels || selectedInGroupChannels.length === 0
+              "
             >
-              remove
-            </button>
-
-            <button
-              mat-button
-              color="primary"
-              (click)="addChannels()"
-              [disabled]="!selectedChannels || selectedChannels.length === 0"
-            >
-              add
-            </button>
-            <button
-              mat-icon-button
-              color="accent"
-              (click)="undoSelectRemove()"
-              [disabled]="!this.changeMade"
-              matTooltip="undo last change"
-            >
-              <mat-icon>undo</mat-icon>
+              remove selected
             </button>
           </div>
+          <div class="table-container lt-gray-border">
+            <ngx-datatable
+              #groupTable
+              class="material channel-table"
+              [rows]="channelsInGroup"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="30"
+              [footerHeight]="0"
+              [rowHeight]="23"
+              [selectionType]="SelectionType.multiClick"
+              [selected]="selectedInGroupChannels"
+              [scrollbarV]="true"
+              [sortType]="SortType.multi"
+            ></ngx-datatable>
+            <ng-template #isLoading>
+              <mat-spinner></mat-spinner>
+            </ng-template>
+          </div>
         </div>
-      </div>
-      <div id="preview-container" class="row lt-gray-border">
-        <ngx-datatable
-          *ngIf="!loading; else isLoading"
-          #availableTable
-          id="channel-selector"
-          class="material channel-table"
-          [rows]="rows"
-          [columns]="columns"
-          [columnMode]="ColumnMode.flex"
-          [headerHeight]="30"
-          [footerHeight]="0"
-          [rowHeight]="23"
-          [selectionType]="SelectionType.multiClick"
-          [selected]="selectedChannels"
-          [scrollbarV]="true"
-          [sortType]="SortType.multi"
-          (select)="selectRow($event)"
-        ></ngx-datatable>
-        <ng-template #isLoading>
-          <mat-spinner></mat-spinner>
-        </ng-template>
-      </div>
-    </div>
-    <div class="column">
-      <div id="add-channel-header" class="row space-between">
-        <h3>Add Channels to Group</h3>
-        <mat-slide-toggle
-          [(ngModel)]="showOnlyCurrent"
-          (change)="filterCurrent()"
-        >
-          <span class="help-text">Only Show Current Channels</span>
-        </mat-slide-toggle>
-      </div>
-      <div class="column">
-        <p class="help-text">
-          Use the filters to the below to search for channels or use the map to
-          search within a region.
-        </p>
-        <div id="filter-container">
-          <channel-group-filter (filtersChanged)="filtersChanged($event)">
-          </channel-group-filter>
-        </div>
-      </div>
-      <div id="map-box">
-        <channel-group-map
-          [inGroupChannels]="channelsInGroup"
-          [selectedChannels]="selectedChannels"
-          [showChannel]="showChannel"
-          (showChannelChange)="channelsSelectedOnMap($event)"
-          [editPage]="true"
-          (boundsChange)="updateBounds($event)"
-        ></channel-group-map>
       </div>
     </div>
   </div>

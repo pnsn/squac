@@ -5,28 +5,39 @@
     or H and ending with Z.
   </p>
   <div id="filter-box" class="row">
-    <mat-form-field class="filter-chip-input">
-      <input matInput [(ngModel)]="net" placeholder="Network" />
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input matInput [(ngModel)]="sta" placeholder="Station" />
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input matInput [(ngModel)]="loc" placeholder="Location" />
-    </mat-form-field>
-    <mat-form-field class="filter-chip-input">
-      <input matInput [(ngModel)]="chan" placeholder="Channel" />
-    </mat-form-field>
-    <div class="filter-chip-input">
-      <button
-        mat-icon-button
-        color="primary"
-        (click)="updateFilters()"
-        matTooltip="Search for channels"
-        aria-label="Button that searches for channels matching filters"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
+    <div class="filters row">
+      <mat-form-field>
+        <input matInput [(ngModel)]="net" placeholder="Network" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="sta" placeholder="Station" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="loc" placeholder="Location" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="chan" placeholder="Channel" />
+      </mat-form-field>
     </div>
+    <button
+      mat-button
+      color="primary"
+      (click)="updateFilters()"
+      matTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      <mat-icon>search</mat-icon>
+      search
+    </button>
+    <button
+      mat-button
+      color="warn"
+      (click)="removeFilters()"
+      matTooltip="remove filters"
+      aria-label="Button that removes filters"
+    >
+      <mat-icon>clear</mat-icon>
+      clear
+    </button>
   </div>
 </div>

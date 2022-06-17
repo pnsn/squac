@@ -29,6 +29,11 @@ export class ChannelGroupFilterComponent {
     return filter;
   }
 
+  removeFilters() {
+    this.filters = {};
+    this.filtersChanged.next(this.filters);
+  }
+
   // send filters to parent on submit
   updateFilters() {
     this.filters = {
