@@ -124,8 +124,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.error = "Widget failed to load, try checking configuration.";
     } else {
       this.widgetDataService.setWidget(this.widget);
-      /// set type;
-      console.log(this.widget.name, this.widget.properties.dimensions);
       this.widgetType = this.widgetTypes.find(
         (type) => type.type === this.widget.type
       );
@@ -178,14 +176,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         const dimIndex = this.widget.properties.dimensions.findIndex(
           (dim) => dim.metricId === metric.id
         );
-        if (dimIndex === -1) {
-          this.notSelected.push(metric);
-        } else {
+        if (dimIndex > -1) {
           this.selected[dimIndex] = metric;
         }
       });
     }
-    console.log(this.selected);
     this.metricsSelected();
   }
 
@@ -234,7 +229,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   addWidgetToDashboard(dashboardId) {
     // select dashboard
     // navigate to dashboard
-    console.log(dashboardId);
     this.router.navigate([
       "dashboards",
       dashboardId,

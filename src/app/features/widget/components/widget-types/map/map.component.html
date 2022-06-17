@@ -21,21 +21,30 @@
   </ng-container>
 
   <ng-container *ngIf="displayMetric && displayMap?.type === 'stoplight'">
-    <div (click)="toggleColor(displayMap?.colors.in)">
+    <div
+      (click)="toggleColor(displayMap?.colors.in)"
+      [class]="displayMap?.colors.in"
+    >
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.in"
       ></div>
       <span>all in</span>
     </div>
-    <div (click)="toggleColor(displayMap?.colors.middle)">
+    <div
+      (click)="toggleColor(displayMap?.colors.middle)"
+      [class]="displayMap?.colors.middle"
+    >
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.middle"
       ></div>
       <span>some in</span>
     </div>
-    <div (click)="toggleColor(displayMap?.colors.out)">
+    <div
+      (click)="toggleColor(displayMap?.colors.out)"
+      [class]="displayMap?.colors.out"
+    >
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.out"
@@ -74,10 +83,14 @@
   </ng-container>
   <ng-container *ngIf="displayMetric && !displayMap">
     <div>
-      <div class="map-icon" style.background-color="white"></div>
+      <div class="map-icon" [style.background-color]="'gray'"></div>
       no range
     </div>
   </ng-container>
+  <div (click)="toggleColor('white')" [class]="'white'">
+    <div class="map-icon border" [style.background-color]="'white'"></div>
+    no data
+  </div>
 </div>
 
 <div id="station-list" class="station-list">

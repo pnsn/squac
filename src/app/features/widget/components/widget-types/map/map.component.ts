@@ -109,7 +109,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     this.legend.onAdd = () => {
       return legend;
     };
-
     this.legend.addTo(this.map);
   }
 
@@ -127,8 +126,13 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   toggleColor(pane) {
     const pane1 = this.map.getPane(pane);
     pane1.classList.toggle("hidden");
-    const el = document.getElementsByClassName(pane)[0];
-    el.classList.toggle("layer-hidden");
+    const el = document.getElementsByClassName(pane);
+    if (el[0]) {
+      el[0].classList.toggle("layer-hidden");
+    }
+    if (el[1]) {
+      el[1].classList.toggle("layer-hidden");
+    }
   }
 
   toggleStation(i, event) {
@@ -160,7 +164,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         station.closeTooltip();
       }
     }
-    // ;
   }
 
   private buildLayers() {
@@ -276,39 +279,41 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   addPanes(visualMap) {
-    switch (visualMap.type) {
-      case "stoplight":
-        this.map.createPane(visualMap.colors.in);
-        this.map.createPane(visualMap.colors.out);
-        this.map.createPane(visualMap.colors.middle);
-        break;
-      case "continuous":
-        visualMap.inRange.color.forEach((color) => {
-          this.map.createPane(color);
-        });
-        this.map.createPane(visualMap.outOfRange.color[0]);
-        break;
-      case "piecewise":
-        visualMap.pieces.forEach((piece) => {
-          this.map.createPane(piece.color);
-        });
-        this.map.createPane(visualMap.outOfRange.color[0]);
+    if (visualMap) {
+      switch (visualMap.type) {
+        case "stoplight":
+          this.map.createPane(visualMap.colors.in);
+          this.map.createPane(visualMap.colors.out);
+          this.map.createPane(visualMap.colors.middle);
+          break;
+        case "continuous":
+          visualMap.inRange.color.forEach((color) => {
+            this.map.createPane(color);
+          });
+          this.map.createPane(visualMap.outOfRange.color[0]);
+          break;
+        case "piecewise":
+          visualMap.pieces.forEach((piece) => {
+            this.map.createPane(piece.color);
+          });
+          this.map.createPane(visualMap.outOfRange.color[0]);
 
-        break;
-      default:
-        break;
+          break;
+        default: //no visualMap pane
+          break;
+      }
+    } else {
+      this.map.createPane("gray");
     }
+
+    this.map.createPane("white"); //no data pane
   }
 
   changeMetric() {
     this.displayMetric = this.selectedMetrics[0];
     this.displayMap = this.visualMaps[this.displayMetric.id];
-    if (this.displayMap) {
-      this.addPanes(this.displayMap);
-    }
-
+    this.addPanes(this.displayMap);
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
-
     this.initLegend();
     this.initStationList();
     const resizeObserver = new ResizeObserver(() => {
@@ -322,7 +327,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   resize() {}
 
   private getIconHtml(color?: string) {
-    const htmlString = `<div style='background-color: ${color}' class='map-icon'></div>`;
+    let htmlString = `<div style='background-color: ${color}' class='map-icon `;
+    if (color === "white") {
+      htmlString += "border";
+    }
+    htmlString += `'></div>`;
     return htmlString;
   }
 
@@ -344,11 +353,13 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     };
     let html;
     if (station.color) {
-      html = `<div style='background-color: ${station.color}' class='map-icon'></div>`;
+      html = this.getIconHtml(station.color);
       options.pane = station.color;
     } else {
+      console.log("does this ever get used");
       html = station.html;
     }
+
     options.icon = L.divIcon({ html, className: "icon-parent" });
     const marker = L.marker([station.lat, station.lon], options)
       // .bindPopup(
@@ -361,7 +372,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         <thead><th colspan='2'>channel</th><th>value</th></thead>
       ${stationChannels[station.staCode]} </table>`
       );
-
     marker.on("click", (ev) => {
       ev.target.openPopup();
     });
@@ -380,3 +390,5 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     return station;
   }
 }
+//no data, empty (?) white circle
+//skip no data and show channel with data

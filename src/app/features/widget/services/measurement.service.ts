@@ -68,6 +68,11 @@ export class MeasurementService {
 
     widget.metrics.forEach((metric) => {
       widget.channelGroup.channels.forEach((channel) => {
+        const skip = this.getRandom(100);
+        if (Math.round(skip) % 7 === 0) {
+          return;
+        }
+
         if (useAggregate) {
           const item: ApiGetAggregate = {
             channel: channel.id,
@@ -88,6 +93,7 @@ export class MeasurementService {
             starttime: start,
             endtime: end,
           };
+
           data.push(item);
         } else if (archiveType && archiveType !== "raw") {
           const startDate = this.dateService.parseUtc(start);
@@ -119,16 +125,18 @@ export class MeasurementService {
               updated_at: end,
             };
 
-            data.push(item);
+            if (Math.round(this.getRandom(100)) % 5 !== 0) {
+              data.push(item);
+            }
 
             s = e;
           }
         } else {
           const startDate = this.dateService.parseUtc(start);
           const endDate = this.dateService.parseUtc(end);
-
+          const sampleRate = metric.sampleRate || 3000;
           for (let s: dayjs.Dayjs = startDate; s < endDate; ) {
-            const e: dayjs.Dayjs = s.add(10, "minutes");
+            const e: dayjs.Dayjs = s.add(sampleRate, "seconds");
             const item: ApiGetMeasurement = {
               user_id: "1",
               id: 1,
@@ -140,7 +148,9 @@ export class MeasurementService {
               created_at: this.dateService.format(s),
             };
 
-            data.push(item);
+            if (Math.round(this.getRandom(100)) % 5 !== 0) {
+              data.push(item);
+            }
 
             s = e;
           }

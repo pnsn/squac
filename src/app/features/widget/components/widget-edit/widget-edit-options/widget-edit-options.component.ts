@@ -73,6 +73,7 @@ export class WidgetEditOptionsComponent
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
+      console.log(value);
       this.properties.dimensions = value;
       this.propertiesChange.emit(this.properties);
     });

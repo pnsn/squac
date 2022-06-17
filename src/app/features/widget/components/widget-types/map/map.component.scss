@@ -8,6 +8,9 @@
   width: 10px !important;
   border-radius: 50%;
   background-color: transparent;
+  &.border {
+    border: solid 1px black;
+  }
 }
 :host ::ng-deep .icon-parent {
   height: 10px !important;
