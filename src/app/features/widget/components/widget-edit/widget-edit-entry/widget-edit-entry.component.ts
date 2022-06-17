@@ -28,7 +28,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe((params: Params) => {
       this.widgetId = +params.widgetId;
       this.dashboardId = +params.dashboardId;
-      console.log(this.dashboardId);
       if (this.route.snapshot && this.route.snapshot.data) {
         this.metrics = this.route.snapshot.data.metrics;
         this.channelGroups = this.route.snapshot.data.channelGroups;

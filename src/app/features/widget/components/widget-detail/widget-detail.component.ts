@@ -206,10 +206,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (selectedIndex === -1) {
       const newLength = this.selected.unshift(this.widget.metrics[metricIndex]);
       if (newLength > this.widget.properties?.dimensions.length) {
-        const extraMetric = this.selected.pop();
+        this.selected.pop();
       }
     } else {
-      const metric = this.selected.splice(selectedIndex, 1);
+      this.selected.splice(selectedIndex, 1);
     }
   }
 
