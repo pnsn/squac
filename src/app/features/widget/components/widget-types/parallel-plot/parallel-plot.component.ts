@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
@@ -30,6 +32,8 @@ export class ParallelPlotComponent
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
   @Input() properties: any[];
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -126,6 +130,7 @@ export class ParallelPlotComponent
   }
 
   private buildChartData(data) {
+    this.loadingChange.emit("Building chart...");
     const metricSeries = {
       type: "parallel",
       colorBy: "series",
@@ -166,5 +171,6 @@ export class ParallelPlotComponent
     if (this.echartsInstance) {
       this.echartsInstance.resize();
     }
+    this.loadingChange.emit(false);
   }
 }

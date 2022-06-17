@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
@@ -28,6 +30,8 @@ export class ScatterPlotComponent
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
   @Input() properties: any[];
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -102,6 +106,7 @@ export class ScatterPlotComponent
   }
 
   private buildChartData(data) {
+    this.loadingChange.emit("Building chart...");
     //if 3 metrics, visualMap
     const metricSeries = {
       type: "scatter",

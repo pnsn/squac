@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
@@ -28,6 +30,8 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
   @Input() properties: any;
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
   displayMetric;
@@ -167,6 +171,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private buildLayers() {
+    this.loadingChange.emit("Building chart...");
     const data = this.data;
     this.metricLayers = {};
 
@@ -324,6 +329,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   changeMetric() {
     this.displayMetric = this.selectedMetrics[0];
     this.displayMap = this.visualMaps[this.displayMetric.id];
+    this.loadingChange.emit(false);
     this.addPanes(this.displayMap);
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
     this.initLegend();

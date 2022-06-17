@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
@@ -38,6 +40,8 @@ export class TimechartComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showStationList: boolean;
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   subscription = new Subscription();
   options: any = {};
   updateOptions: any = {};
@@ -140,6 +144,7 @@ export class TimechartComponent
   }
 
   buildChartData(data) {
+    this.loadingChange.emit("Building chart...");
     const stationLookup: any = {};
     const stations = [];
     this.metricSeries = {};
@@ -228,6 +233,7 @@ export class TimechartComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
+    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries.series,
       title: {

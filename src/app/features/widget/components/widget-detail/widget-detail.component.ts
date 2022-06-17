@@ -32,7 +32,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   dataRange: any;
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
-  loading = true;
+  loading: boolean | string;
   error: string;
   noData: boolean;
   dashboards: Dashboard[];
@@ -41,6 +41,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   selected: Metric[] = [];
   expectedMetrics: number;
   metricsChanged = false;
+  loadingMsg = "Fetching data ...";
   // temp
 
   dataSub: Subscription;
@@ -82,7 +83,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       next: (dashboardId) => {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
-          this.loading = true;
+          this.loading = "Fetching Data...";
           // get new data and start timers over
           this.getData();
         }
@@ -110,14 +111,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   initWidget() {
-    this.loading = true;
+    this.loading = "Fetching Data...";
 
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data) => {
         this.noData = data && Object.keys(data).length === 0;
         this.dataRange = this.widgetDataService.dataRange;
         this.data = data;
-        this.loading = false;
+        // this.loading = false;
       });
     }
     if (!this.widget.isValid) {

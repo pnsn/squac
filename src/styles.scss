@@ -31,21 +31,23 @@ body {
 #body-content-container {
   width: 98%;
   height: 100%;
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-top: 10px;
+  margin: 10px 1% 0;
   @include md {
+    margin: 10px 5% 0;
+    width: 90%;
+  }
+  @include lg {
+    margin: 10px 10% 0;
     width: 80%;
-    height: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10px;
   }
 }
 
 #dashboard-container {
   margin: -10px -1% 0;
   @include md {
+    margin: -10px -6% 0;
+  }
+  @include lg {
     margin: -10px -12.5% 0;
   }
   overflow-y: scroll;
@@ -203,7 +205,7 @@ a {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .form {

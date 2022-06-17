@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
@@ -37,6 +39,8 @@ export class TimelineComponent
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
   @Input() properties: any[];
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   subscription = new Subscription();
   results: Array<any>;
   options = {};
@@ -106,6 +110,7 @@ export class TimelineComponent
   resize() {}
 
   buildChartData(data) {
+    this.loadingChange.emit("Building chart...");
     this.metricSeries = {};
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
@@ -163,6 +168,7 @@ export class TimelineComponent
         3
       );
     }
+    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,

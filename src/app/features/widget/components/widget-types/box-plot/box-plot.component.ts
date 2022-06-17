@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -21,6 +21,8 @@ export class BoxPlotComponent implements WidgetTypeComponent {
   @Input() currentMetricId: number;
   @Input() dataRange: any;
   @Input() properties: any[];
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter();
   initOptions: any;
   options: any;
   autoResize: any;

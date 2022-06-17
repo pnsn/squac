@@ -174,7 +174,7 @@
   </mat-menu>
 
   <div class="widget-content">
-    <shared-loading *ngIf="loading"> </shared-loading>
+    <shared-loading *ngIf="loading" [loadingMsg]="loading"> </shared-loading>
     <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
     <shared-error
       *ngIf="!widget.metrics || widget.metrics?.length === 0"
@@ -191,12 +191,13 @@
       [errorMsg]="'No data'"
     ></shared-error>
 
-    <ng-container *ngIf="!loading && !error && !noData">
+    <ng-container *ngIf="!error && !noData">
       <ng-container [ngSwitch]="widget?.type">
         <widget-timeline
           #widgetChild
           *ngSwitchCase="'timeline'"
           class="widget"
+          [(loading)]="loading"
           [data]="data"
           [dataRange]="dataRange"
           [thresholds]="widget.thresholds"
@@ -210,6 +211,7 @@
           #widgetChild
           *ngSwitchCase="'tabular'"
           class="widget"
+          [(loading)]="loading"
           [data]="data"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
@@ -222,6 +224,7 @@
           *ngSwitchCase="'parallel-plot'"
           class="widget"
           [data]="data"
+          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
           [dataRange]="dataRange"
@@ -234,6 +237,7 @@
           *ngSwitchCase="'timeseries'"
           class="widget"
           [data]="data"
+          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
           [dataRange]="dataRange"
@@ -246,6 +250,7 @@
           *ngSwitchCase="'map'"
           class="widget"
           [data]="data"
+          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
           [dataRange]="dataRange"
@@ -258,6 +263,7 @@
           *ngSwitchCase="'box-plot'"
           class="widget"
           [data]="data"
+          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
           [dataRange]="dataRange"
@@ -269,6 +275,7 @@
           *ngSwitchCase="'scatter-plot'"
           class="widget"
           [data]="data"
+          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="widget.channelGroup.channels"
           [dataRange]="dataRange"
