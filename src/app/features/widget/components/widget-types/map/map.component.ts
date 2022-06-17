@@ -199,7 +199,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           ? this.widgetTypeService.checkValue(val, visualMap)
           : true;
 
-        if (visualMap && !inRange) {
+        if (val === null || (visualMap && !inRange)) {
           agg++;
         }
         const color = this.getStyle(val, visualMap);
@@ -238,11 +238,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
               staCode: channel.stationCode,
               lat: channel.lat,
               lon: channel.lon,
-              color,
-              agg,
-              channelAgg: agg > 0 ? 1 : 0, //number of channels out of spec
-              metricAgg: agg, // number of metrics&channels out
               count: 0,
+              agg,
+              color,
+              channelAgg: 0,
+              metricAgg: 0,
             },
           });
         }
@@ -250,6 +250,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           channelRow,
           stationRows[staIndex]
         );
+
         if (visualMap?.type === "stoplight") {
           let color;
           if (station.channelAgg === 0) {
@@ -275,6 +276,18 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.metricLayers[metric.id] = stationMarkers;
       this.stations = stationRows;
     });
+  }
+
+  private findWorstChannel(channel, station) {
+    station.count++;
+    if (channel.agg > station.agg) {
+      station.agg = channel.agg;
+      station.color = channel.color;
+    }
+    station.channelAgg += channel.metricAgg > 0 ? 1 : 0;
+    station.metricAgg += channel.metricAgg;
+
+    return station;
   }
 
   addPanes(visualMap) {
@@ -366,17 +379,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       ev.target.openPopup();
     });
     return marker;
-  }
-  private findWorstChannel(channel, station) {
-    station.count++;
-    if (channel.agg > station.agg) {
-      station.agg = channel.agg;
-      station.color = channel.color;
-    }
-    station.channelAgg += channel.metricAgg > 0 ? 1 : 0;
-    station.metricAgg += channel.metricAgg;
-
-    return station;
   }
 }
 //no data, empty (?) white circle

@@ -221,8 +221,6 @@ export class TabularComponent
               title: identifier,
               id: identifier,
               treeStatus: "collapsed",
-              staCode: channel.stationCode,
-              netCode: channel.networkCode,
               count: 0, //number of channels the station has
               agg, //number of channels/metrics out of spec
               type: this.properties.displayType,
