@@ -7,10 +7,12 @@ import { MeasurementService } from "./measurement.service";
 import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
+import { Metric } from "@core/models/metric";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   data = new Subject();
   private widget: Widget;
+  private metrics: string;
   private type: any;
   private refreshInterval;
   updateTimeout;
@@ -39,6 +41,18 @@ export class WidgetDataService implements OnDestroy {
 
   setWidget(widget: Widget) {
     this.widget = widget;
+  }
+
+  setMetrics(metrics: Metric[]) {
+    if (metrics.length > 0) {
+      const temp = [];
+      metrics.forEach((metric) => {
+        temp.push(metric.id);
+      });
+      this.metrics = temp.toString();
+    } else {
+      this.metrics = this.widget.metricsString;
+    }
   }
 
   setType(type: any) {
@@ -71,14 +85,21 @@ export class WidgetDataService implements OnDestroy {
 
     if (
       this.widget &&
-      this.widget.metrics &&
-      this.widget.metrics.length > 0 &&
+      this.metrics &&
+      this.metrics.length > 0 &&
       this.widget.channelGroup
     ) {
       const widgetStat = this.widget.stat;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
-        .getData(start, end, this.widget, useAggregate, archiveType)
+        .getData(
+          start,
+          end,
+          this.metrics,
+          this.widget.channelGroup.id,
+          useAggregate,
+          archiveType
+        )
         .pipe(
           map((response) => {
             response.forEach((m) => {

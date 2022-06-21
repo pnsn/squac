@@ -33,8 +33,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   subscription = new Subscription();
   dataUpdate = new Subject<any>();
   loading: boolean | string;
-  error: string;
-  noData: boolean;
   dashboards: Dashboard[];
   selectedMetrics: Metric[] = []; //gets send to child
   notSelected: Metric[] = [];
@@ -42,6 +40,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   expectedMetrics: number;
   metricsChanged = false;
   loadingMsg = "Fetching data ...";
+  error: boolean | string;
   // temp
 
   dataSub: Subscription;
@@ -67,6 +66,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.widget) {
+      console.log("changes ");
       this.initWidget();
     }
   }
@@ -115,10 +115,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data) => {
-        this.noData = data && Object.keys(data).length === 0;
-        this.dataRange = this.widgetDataService.dataRange;
-        this.data = data;
-        // this.loading = false;
+        if (data && Object.keys(data).length === 0) {
+          this.error = "No data";
+          this.loading = false;
+        } else {
+          this.dataRange = this.widgetDataService.dataRange;
+          this.data = data;
+          this.error = false;
+        }
       });
     }
     if (!this.widget.isValid) {
@@ -194,6 +198,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.selectedMetrics = [...this.selected];
       this.metricsChanged = false;
     }
+    this.widgetDataService.setMetrics(this.selectedMetrics);
   }
 
   changeMetric($event, metricIndex, selectedIndex) {

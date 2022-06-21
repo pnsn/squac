@@ -186,12 +186,7 @@
         'Could not load channel group. Resource may have been deleted.'
       "
     ></shared-error>
-    <shared-error
-      *ngIf="!error && !loading && noData"
-      [errorMsg]="'No data'"
-    ></shared-error>
-
-    <ng-container *ngIf="!error && !noData">
+    <ng-container *ngIf="!error && data">
       <ng-container [ngSwitch]="widget?.type">
         <widget-timeline
           #widgetChild

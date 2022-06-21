@@ -173,7 +173,6 @@ export class TimechartComponent
     // this.addThresholds();
 
     const metric = this.selectedMetrics[0];
-
     this.channels.forEach((channel) => {
       const staCode = channel.networkCode + "." + channel.stationCode;
       if (!stationLookup[staCode]) {
@@ -190,7 +189,6 @@ export class TimechartComponent
       }
       const index = stationLookup[staCode];
       const station = stations[index];
-
       let lastEnd: dayjs.Dayjs;
       if (data[channel.id] && data[channel.id][metric.id]) {
         data[channel.id][metric.id].forEach((measurement: Measurement) => {

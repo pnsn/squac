@@ -73,7 +73,6 @@ export class WidgetEditOptionsComponent
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
-      console.log(value);
       this.properties.dimensions = value;
       this.propertiesChange.emit(this.properties);
     });
@@ -94,8 +93,8 @@ export class WidgetEditOptionsComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.selectedMetrics) {
-      //cleanup old settings
+    if (changes.selectedMetrics && changes.selectedMetrics.previousValue) {
+      this.changeMetrics();
     }
 
     if (changes.properties && changes.properties.currentValue) {
@@ -127,6 +126,28 @@ export class WidgetEditOptionsComponent
     }
   }
 
+  initForm() {
+    if (this.widgetType) {
+      this.updateDimensions();
+    }
+    this.optionsForm.get("options").patchValue(
+      {
+        inRange: this.properties.inRange
+          ? this.findColor(this.properties.inRange.type)
+          : null,
+        outOfRange: this.properties.outOfRange
+          ? this.findColor(this.properties.outOfRange.type)
+          : null,
+        displayType: this.properties.displayType,
+        numSplits: this.properties.numSplits,
+      },
+      { emitEvent: false }
+    );
+    if (this.thresholds.length === 0 && this.thresholdArray.length === 0) {
+      this.addThreshold();
+    }
+  }
+
   //      threshold ? this.findColor(threshold.outOfRange.type) : null,
   //Validators.required,
 
@@ -134,7 +155,6 @@ export class WidgetEditOptionsComponent
     let displayType;
     if (this.widgetType?.displayOptions) {
       const type = this.properties.displayType;
-      console.log(type);
       displayType = this.widgetType.displayOptions.find(
         (option) => option.displayType === type
       );
@@ -166,32 +186,26 @@ export class WidgetEditOptionsComponent
             })
           );
         });
+        this.properties.dimensions = this.dimensions.value;
       }
     } else {
       this.properties.dimensions = [];
       this.properties.displayType = null;
     }
   }
-  initForm() {
-    if (this.widgetType) {
-      this.updateDimensions();
-    }
-    this.optionsForm.get("options").patchValue(
-      {
-        inRange: this.properties.inRange
-          ? this.findColor(this.properties.inRange.type)
-          : null,
-        outOfRange: this.properties.outOfRange
-          ? this.findColor(this.properties.outOfRange.type)
-          : null,
-        displayType: this.properties.displayType,
-        numSplits: this.properties.numSplits,
-      },
-      { emitEvent: false }
-    );
-    if (this.thresholds.length === 0) {
-      this.addThreshold();
-    }
+
+  //check if metrics removed
+  changeMetrics() {
+    const temp = this.properties.dimensions;
+
+    //remove dimensions that don't have metrics
+    this.properties.dimensions = temp.filter((dim) => {
+      const index = this.selectedMetrics.findIndex(
+        (m) => m.id === dim.metricId
+      );
+      return index >= 0;
+    });
+    this.updateDimensions();
   }
 
   makeThresholdForm(threshold?: Threshold) {
