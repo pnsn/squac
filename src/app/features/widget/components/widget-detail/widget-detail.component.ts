@@ -171,13 +171,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (this.widget.properties.dimensions.length === 0) {
       this.selected = [...this.widget.metrics];
     } else if (this.widget.properties?.dimensions) {
-      this.selected = Array(this.widget.properties.dimensions.length);
-      this.widget.metrics.forEach((metric) => {
-        const dimIndex = this.widget.properties.dimensions.findIndex(
-          (dim) => dim.metricId === metric.id
-        );
-        if (dimIndex > -1) {
-          this.selected[dimIndex] = metric;
+      this.selected = [];
+      this.widget.properties.dimensions.forEach((dim) => {
+        const metric = this.widget.metrics.find((m) => m.id === dim.metricId);
+        if (metric) {
+          this.selected.push(metric);
+        } else {
+          this.selected.push(this.widget.metrics[0]);
         }
       });
     }

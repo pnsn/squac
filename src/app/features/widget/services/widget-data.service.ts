@@ -46,6 +46,7 @@ export class WidgetDataService implements OnDestroy {
   setMetrics(metrics: Metric[]) {
     if (metrics.length > 0) {
       const temp = [];
+      console.log(metrics);
       metrics.forEach((metric) => {
         temp.push(metric.id);
       });

@@ -110,7 +110,7 @@ export class ScatterPlotComponent
     //if 3 metrics, visualMap
     const metricSeries = {
       type: "scatter",
-      colorBy: "data", //unless visualMap
+      colorBy: "series", //unless visualMap
       data: [],
       large: true,
       dimensions: [],
@@ -150,10 +150,6 @@ export class ScatterPlotComponent
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
-    const axisGap = this.widgetTypeService.yAxisLabelPosition(
-      this.dataRange[yMetric.id].min,
-      this.dataRange[yMetric.id].max
-    );
     const visualMap = this.visualMaps[colorMetric.id] || null;
     this.loadingChange.emit(false);
     this.updateOptions = {
@@ -167,7 +163,7 @@ export class ScatterPlotComponent
       visualMap,
       yAxis: {
         name: `${yMetric.name} (${yMetric.unit})`,
-        nameGap: axisGap,
+        nameGap: 48,
       },
     };
   }

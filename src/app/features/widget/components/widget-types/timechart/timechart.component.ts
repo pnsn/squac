@@ -144,7 +144,6 @@ export class TimechartComponent
 
   buildChartData(data) {
     this.loadingChange.emit("Building chart...");
-    const stationLookup: any = {};
     const stations = [];
     this.metricSeries = {};
     const series = {
@@ -174,20 +173,17 @@ export class TimechartComponent
     const metric = this.selectedMetrics[0];
     this.channels.forEach((channel) => {
       const staCode = channel.networkCode + "." + channel.stationCode;
-      if (!stationLookup[staCode]) {
-        stationLookup[staCode] = stations.length;
-        stations.push({
-          ...series,
-          name: staCode,
-          data: [],
-          encode: {
-            x: [0, 1],
-            y: 2,
-          },
-        });
-      }
-      const index = stationLookup[staCode];
-      const station = stations[index];
+      const station = {
+        ...series,
+        name: staCode,
+        data: [],
+        count: 0,
+        encode: {
+          x: [0, 1],
+          y: 2,
+        },
+      };
+      stations.push(station);
       let lastEnd: dayjs.Dayjs;
       if (data[channel.id] && data[channel.id][metric.id]) {
         data[channel.id][metric.id].forEach((measurement: Measurement) => {
@@ -204,7 +200,7 @@ export class TimechartComponent
             // time since last measurement
             station.data.push({
               name: channel.nslc,
-              value: [lastEnd.toDate(), start.toDate(), null],
+              value: [lastEnd.toDate(), start.toDate(), "-"],
             });
           }
 
@@ -214,12 +210,6 @@ export class TimechartComponent
           });
 
           lastEnd = end;
-        });
-
-        // add datapoint at end to prevent different channel lines from connecting
-        station.data.push({
-          name: channel.nslc,
-          value: [lastEnd.toDate(), null, null],
         });
       }
     });
@@ -231,10 +221,6 @@ export class TimechartComponent
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
-    const axisGap = this.widgetTypeService.yAxisLabelPosition(
-      this.dataRange[displayMetric.id].min,
-      this.dataRange[displayMetric.id].max
-    );
     this.updateOptions = {
       series: this.metricSeries.series,
       title: {
@@ -248,7 +234,7 @@ export class TimechartComponent
       },
       yAxis: {
         name: displayMetric ? displayMetric.unit : "Unknown",
-        nameGap: axisGap,
+        nameGap: 48,
       },
     };
   }

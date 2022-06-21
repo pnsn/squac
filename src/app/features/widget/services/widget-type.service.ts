@@ -378,7 +378,6 @@ export class WidgetTypeService {
   //series for data with no time and multiple metrics
   // parallel and scatter
   getSeriesForMultipleMetrics(metrics, channels, data, series, dataRange) {
-    const stationLookup: any = {};
     const stations = [];
     const axis = [];
     metrics.forEach((metric, i) => {
@@ -399,16 +398,13 @@ export class WidgetTypeService {
 
     channels.forEach((channel) => {
       const staCode = channel.networkCode + "." + channel.stationCode;
-      if (!stationLookup[staCode]) {
-        stationLookup[staCode] = stations.length;
-        stations.push({
-          ...series,
-          name: staCode,
-          data: [],
-        });
-      }
-      const index = stationLookup[staCode];
-      const station = stations[index];
+
+      const station = {
+        ...series,
+        name: staCode,
+        data: [],
+      };
+      stations.push(station);
 
       const channelData = {
         name: channel.nslc,
@@ -529,6 +525,7 @@ export class WidgetTypeService {
 
   //calculate y axis position to prevent overlap
   yAxisLabelPosition(min, max): number {
+    console.log(this.precisionPipe.transform(min));
     const minLen = (Math.round(min * 10) / 10).toString().length;
     const maxLen = (Math.round(max * 10) / 10).toString().length;
     return Math.min(Math.max(minLen, maxLen) * 9, 50);
