@@ -97,7 +97,7 @@ export class WidgetDataService implements OnDestroy {
         )
         .pipe(
           map((response) => {
-            console.log(response.length);
+            console.log("Loaded measurements: ", response.length);
             response.forEach((m) => {
               let value: Measurement | Aggregate | Archive;
               if (archiveType && archiveType !== "raw") {

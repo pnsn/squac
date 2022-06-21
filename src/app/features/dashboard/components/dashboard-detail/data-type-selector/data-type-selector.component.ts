@@ -45,6 +45,7 @@ export class DataTypeSelectorComponent implements OnChanges {
       if (this.dataType === "raw") {
         this.statType = "";
       }
+      console.log("data type change", this.dataType, this.statType);
       this.updateTypes();
     }
   }
@@ -66,6 +67,7 @@ export class DataTypeSelectorComponent implements OnChanges {
     this.statType = stat;
     this.fullType = type;
     this.dataType = type.value;
+
     this.dataTypeSelected.emit({
       statType: this.statType,
       dataType: this.dataType,

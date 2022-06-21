@@ -63,7 +63,6 @@ export class TimechartComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      console.log("changes");
       this.buildChartData(this.data);
       this.changeMetrics();
     }
@@ -220,7 +219,7 @@ export class TimechartComponent
         // add datapoint at end to prevent different channel lines from connecting
         station.data.push({
           name: channel.nslc,
-          value: [lastEnd.toDate(), "-", "-"],
+          value: [lastEnd.toDate(), null, null],
         });
       }
     });

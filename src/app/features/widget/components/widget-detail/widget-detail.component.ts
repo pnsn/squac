@@ -83,6 +83,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
+          console.log("update data");
           this.getData();
         }
       },
@@ -226,6 +227,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   private getData() {
     this.loading = "Fetching Data...";
+    this.data = null;
     this.widgetDataService.fetchMeasurements();
   }
 
