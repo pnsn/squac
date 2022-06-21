@@ -59,10 +59,11 @@ export class TimechartComponent
       this.getVisualMaps();
     }
     if (
-      (changes.data || changes.selectedMetrics) &&
+      changes.data &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
+      console.log("changes");
       this.buildChartData(this.data);
       this.changeMetrics();
     }
@@ -73,8 +74,7 @@ export class TimechartComponent
   ngOnInit(): void {
     const chartOptions: any = {
       grid: {
-        containLabel: true,
-        left: 55,
+        left: 45,
       },
       xAxis: {
         type: "time",
@@ -232,18 +232,24 @@ export class TimechartComponent
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
+    const axisGap = this.widgetTypeService.yAxisLabelPosition(
+      this.dataRange[displayMetric.id].min,
+      this.dataRange[displayMetric.id].max
+    );
     this.updateOptions = {
       series: this.metricSeries.series,
       title: {
-        text: displayMetric.name,
+        text: `${displayMetric.name} (${displayMetric.unit})`,
       },
       visualMap,
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,
+        axisLabel: {},
       },
       yAxis: {
         name: displayMetric ? displayMetric.unit : "Unknown",
+        nameGap: axisGap,
       },
     };
   }

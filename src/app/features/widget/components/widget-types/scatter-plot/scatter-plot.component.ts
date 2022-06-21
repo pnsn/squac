@@ -45,7 +45,7 @@ export class ScatterPlotComponent
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (
-      (changes.data || changes.selectedMetrics) &&
+      changes.data &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
@@ -61,7 +61,7 @@ export class ScatterPlotComponent
     const chartOptions = {
       series: [],
       grid: {
-        left: 65,
+        left: 45,
       },
       tooltip: {
         formatter: (params) => {
@@ -150,20 +150,24 @@ export class ScatterPlotComponent
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
-
+    const axisGap = this.widgetTypeService.yAxisLabelPosition(
+      this.dataRange[yMetric.id].min,
+      this.dataRange[yMetric.id].max
+    );
     const visualMap = this.visualMaps[colorMetric.id] || null;
-
+    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.processedData.series,
       xAxis: {
-        name: xMetric.name,
+        name: `${xMetric.name} (${xMetric.unit})`,
       },
       title: {
-        text: colorMetric.name,
+        text: `${colorMetric.name} (${colorMetric.unit})`,
       },
       visualMap,
       yAxis: {
-        name: yMetric.name,
+        name: `${yMetric.name} (${yMetric.unit})`,
+        nameGap: axisGap,
       },
     };
   }

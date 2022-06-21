@@ -83,12 +83,7 @@ export class WidgetDataService implements OnDestroy {
     const useAggregate = this.type.useAggregate;
     this.ranges = {};
 
-    if (
-      this.widget &&
-      this.metrics &&
-      this.metrics.length > 0 &&
-      this.widget.channelGroup
-    ) {
+    if (this.widget && this.metrics && this.widget.channelGroup) {
       const widgetStat = this.widget.stat;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
@@ -102,6 +97,7 @@ export class WidgetDataService implements OnDestroy {
         )
         .pipe(
           map((response) => {
+            console.log(response.length);
             response.forEach((m) => {
               let value: Measurement | Aggregate | Archive;
               if (archiveType && archiveType !== "raw") {

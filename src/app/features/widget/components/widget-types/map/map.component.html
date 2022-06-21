@@ -9,6 +9,7 @@
 
 <div class="legend" id="legend">
   <h4>{{ displayMetric?.name }}</h4>
+  <h5>({{ displayMetric?.unit }})</h5>
   <ng-container *ngIf="displayMetric && displayMap?.type === 'piecewise'">
     <div
       *ngFor="let piece of displayMap?.pieces"

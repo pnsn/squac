@@ -56,10 +56,11 @@ export class TimelineComponent
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (
-      (changes.data || changes.selectedMetrics) &&
+      changes.data &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
+      console.log("build chart");
       this.buildChartData(this.data);
       this.changeMetrics();
     }
@@ -172,7 +173,7 @@ export class TimelineComponent
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,
-      title: { text: displayMetric.name },
+      title: { text: `${displayMetric.name} (${displayMetric.unit})` },
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,

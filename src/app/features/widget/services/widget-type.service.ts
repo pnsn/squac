@@ -63,9 +63,10 @@ export class WidgetTypeService {
     // },
     grid: {
       containLabel: true,
-      left: 0,
       top: 20,
       right: 20,
+      bottom: 55,
+      left: 0,
     },
     title: {
       textStyle: {
@@ -74,22 +75,19 @@ export class WidgetTypeService {
         fontStyle: "normal",
         color: "#333",
       },
-      textAlign: "auto",
-      left: "50%",
+      left: "center",
     },
     useUtc: true,
     xAxis: {
       nameLocation: "center",
       name: "Measurement Start Date",
       nameGap: 30,
+      nameTextStyle: {
+        align: "center",
+      },
     },
     yAxis: {
       nameLocation: "center",
-      nameTextStyle: {
-        verticalAlign: "bottom",
-        align: "middle",
-      },
-      nameGap: 30,
     },
     tooltip: {
       confine: true,
@@ -116,6 +114,7 @@ export class WidgetTypeService {
         height: 15,
         showDetail: false,
         showDataShadow: false,
+        bottom: 10,
       },
       {
         type: "slider",
@@ -532,6 +531,6 @@ export class WidgetTypeService {
   yAxisLabelPosition(min, max): number {
     const minLen = (Math.round(min * 10) / 10).toString().length;
     const maxLen = (Math.round(max * 10) / 10).toString().length;
-    return Math.max(minLen, maxLen) * 10;
+    return Math.min(Math.max(minLen, maxLen) * 9, 50);
   }
 }

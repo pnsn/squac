@@ -66,7 +66,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.widget) {
-      console.log("changes ");
       this.initWidget();
     }
   }
@@ -83,7 +82,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       next: (dashboardId) => {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
-          this.loading = "Fetching Data...";
           // get new data and start timers over
           this.getData();
         }
@@ -111,8 +109,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   initWidget() {
-    this.loading = "Fetching Data...";
-
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data) => {
         if (data && Object.keys(data).length === 0) {
@@ -135,8 +131,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.widgetDataService.setType(this.widgetType);
       this.checkDimensions();
       this.selectMetrics();
-
-      this.getData();
     }
   }
 
@@ -199,6 +193,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.metricsChanged = false;
     }
     this.widgetDataService.setMetrics(this.selectedMetrics);
+
+    this.getData();
   }
 
   changeMetric($event, metricIndex, selectedIndex) {
@@ -229,6 +225,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getData() {
+    this.loading = "Fetching Data...";
     this.widgetDataService.fetchMeasurements();
   }
 
