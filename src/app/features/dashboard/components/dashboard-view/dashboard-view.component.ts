@@ -37,6 +37,7 @@ export class DashboardViewComponent
   };
   controls = {
     listenToRouter: true,
+    basePath: "/dashboards",
     resource: "Dashboard",
     add: {
       text: "Create Dashboard",
@@ -152,6 +153,7 @@ export class DashboardViewComponent
   }
 
   refresh() {
+    console.log("refresh dashboards");
     this.dashboardService.getDashboards().subscribe({
       next: (dashboards) => {
         this.dashboards = dashboards;

@@ -14,14 +14,14 @@ export const routes: Routes = [
     component: MetricComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: { subject: "Metric", action: "read" },
-    resolve: {
-      metrics: MetricResolver,
-    },
     runGuardsAndResolvers: "always",
     children: [
       {
         path: "",
         component: MetricViewComponent,
+        resolve: {
+          metrics: MetricResolver,
+        },
         children: [
           {
             path: "new",

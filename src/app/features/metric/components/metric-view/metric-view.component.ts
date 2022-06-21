@@ -34,6 +34,8 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Metrics",
   };
   controls = {
+    listenToRouterEvents: true,
+    basePath: "/metrics",
     resource: "Metric",
     add: {
       text: "Add Metric",

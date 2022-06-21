@@ -107,7 +107,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.add(userServ);
 
     if (this.controls.listenToRouter) {
-      const currentPath = this.router.routerState.snapshot.url;
+      const currentPath =
+        this.controls.basePath || this.router.routerState.snapshot.url;
       const routerEvents = this.router.events
         .pipe(
           filter((e) => e instanceof NavigationEnd),

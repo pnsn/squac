@@ -49,6 +49,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   controls = {
     listenToRouter: true,
+    basePath: "/monitors",
     resource: "Monitor",
     add: {
       text: "Create Monitor",

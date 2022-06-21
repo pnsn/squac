@@ -31,6 +31,10 @@ export const routes: Routes = [
         // canActivate: [PermissionGuard],
         // data: {subject: 'Monitor', action: 'read'},
         component: MonitorViewComponent,
+        resolve: {
+          monitors: MonitorResolver,
+          alerts: AlertResolver,
+        },
         children: [
           {
             path: "new",

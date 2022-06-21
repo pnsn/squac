@@ -30,6 +30,7 @@ export class MonitorResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
+      console.log("get monitors");
       this.loadingService.setStatus("Loading monitors");
       return this.monitorService.getMonitors().pipe(
         catchError((error) => {

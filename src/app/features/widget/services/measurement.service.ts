@@ -7,6 +7,7 @@ import * as dayjs from "dayjs";
 import { ApiGetArchive } from "../models/archive";
 import { ApiGetMeasurement } from "../models/measurement";
 import { DateService } from "@core/services/date.service";
+import { tick } from "@angular/core/testing";
 
 export class MeasurementHttpData {
   metric: string;

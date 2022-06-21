@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Subscription, filter } from "rxjs";
+import { Subscription, filter, tap } from "rxjs";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 
@@ -37,6 +37,7 @@ export class ChannelGroupViewComponent
   };
   controls = {
     listenToRouter: true,
+    basePath: "/channel-groups",
     resource: "ChannelGroup",
     add: {
       text: "Create ChannelGroup",
@@ -88,16 +89,6 @@ export class ChannelGroupViewComponent
       });
       this.subscription.add(routeSub);
     }
-    const routerEvents = this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((_event) => {
-        this.selectedChannelGroupId =
-          this.route.children.length > 0
-            ? +this.route.snapshot.firstChild.params.channelGroupId
-            : null;
-      });
-
-    this.subscription.add(routerEvents);
   }
 
   refresh() {
