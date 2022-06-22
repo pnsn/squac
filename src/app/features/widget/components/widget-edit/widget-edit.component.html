@@ -24,6 +24,8 @@
       [(name)]="widget.name"
       [(type)]="widget.type"
       [(stat)]="widget.stat"
+      [(displayType)]="displayType"
+      [(properties)]="widget.properties"
     ></widget-edit-info>
   </mat-step>
   <mat-step
@@ -58,6 +60,7 @@
       #optionsTab
       [selectedMetrics]="widget.metrics"
       [type]="widget.type"
+      [displayType]="displayType"
       [(thresholds)]="widget.thresholds"
       [(properties)]="widget.properties"
     ></widget-edit-options>

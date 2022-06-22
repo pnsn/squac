@@ -23,6 +23,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   channelGroups: ChannelGroup[];
   editMode: boolean;
   copyWidget: boolean;
+  displayType;
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
