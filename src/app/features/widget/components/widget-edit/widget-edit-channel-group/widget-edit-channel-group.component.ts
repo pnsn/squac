@@ -37,7 +37,8 @@ export class WidgetEditChannelGroupComponent
 
   // permissions
   showOnlyUserOrg = true;
-  userOrg: Organization;
+  userOrgName: string;
+  orgId: number;
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
 
@@ -58,14 +59,11 @@ export class WidgetEditChannelGroupComponent
   }
 
   ngOnInit() {
-    const orgSub = this.orgService
-      .getOrganization(this.userService.userOrg)
-      .subscribe((org) => {
-        this.userOrg = org;
-        this.filterOrg();
-      });
+    this.orgId = this.userService.userOrg;
 
-    this.subscriptions.add(orgSub);
+    this.userOrgName = this.orgService.getOrgName(this.userService.userOrg);
+
+    this.filterOrg();
 
     this.columns = [
       {
@@ -137,13 +135,9 @@ export class WidgetEditChannelGroupComponent
 
   //filter out other orgs data
   filterOrg() {
-    if (
-      this.channelGroups &&
-      this.channelGroups.length > 0 &&
-      this.userOrg.id
-    ) {
+    if (this.channelGroups && this.channelGroups.length > 0 && this.orgId) {
       const temp = this.channelGroups.filter((cg) => {
-        return this.showOnlyUserOrg ? cg.orgId === this.userOrg.id : true;
+        return this.showOnlyUserOrg ? cg.orgId === this.orgId : true;
       });
 
       this.rows = [...temp];

@@ -37,6 +37,7 @@ export const widgetRoutes: Routes = [
       {
         path: ":widgetId/edit",
         resolve: {
+          widget: WidgetResolver,
           metrics: MetricResolver,
           channelGroups: ChannelGroupResolver,
         },

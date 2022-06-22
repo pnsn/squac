@@ -36,7 +36,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.widget =
       this.data.widget ||
       new Widget(null, null, "", this.data.dashboardId, null, [], "", "");
-    this.copyWidget = this.widget.id !== this.data.dashboardId;
+    this.copyWidget = this.widget.dashboardId !== this.data.dashboardId;
+    console.log(this.copyWidget);
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
   }
@@ -51,6 +52,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   save() {
     this.widget.channelGroupId = this.widget.channelGroup.id;
+    this.widget.dashboardId = this.data.dashboardId;
     this.widgetService.updateWidget(this.widget).subscribe({
       next: (response) => {
         this.widget.id = response.id;

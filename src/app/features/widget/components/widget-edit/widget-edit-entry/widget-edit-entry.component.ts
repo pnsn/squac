@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { WidgetEditComponent } from "../widget-edit.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { WidgetService } from "@widget/services/widget.service";
 
 @Component({
   selector: "widget-edit-entry",
@@ -20,27 +19,21 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private widgetService: WidgetService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe((params: Params) => {
       this.widgetId = +params.widgetId;
       this.dashboardId = +params.dashboardId;
-      if (this.route.snapshot && this.route.snapshot.data) {
-        this.metrics = this.route.snapshot.data.metrics;
-        this.channelGroups = this.route.snapshot.data.channelGroups;
+      const snapshot = this.route.snapshot;
+      if (snapshot.data) {
+        this.metrics = snapshot.data.metrics;
+        this.channelGroups = snapshot.data.channelGroups;
+        this.widget = snapshot.data.widget;
       }
 
-      if (this.widgetId) {
-        this.widgetService.getWidget(this.widgetId).subscribe((widget) => {
-          this.widget = widget;
-          this.openWidget();
-        });
-      } else {
-        this.openWidget();
-      }
+      this.openWidget();
     });
   }
 
