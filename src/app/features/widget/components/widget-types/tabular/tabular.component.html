@@ -46,7 +46,7 @@
       [ngClass]="{ border: value.color === 'white' }"
       [ngStyle]="{ 'background-color': value.color }"
     ></span>
-    <span class="cell-text" *ngIf="+value.value; else noValue">
+    <span class="cell-text" *ngIf="value.value !== null; else noValue">
       {{ value.value | precision }}
     </span>
   </ng-template>
