@@ -65,7 +65,7 @@ export class WidgetTypeService {
       containLabel: true,
       top: 20,
       right: 20,
-      bottom: 55,
+      bottom: 60,
       left: 0,
     },
     title: {
@@ -95,9 +95,9 @@ export class WidgetTypeService {
       axisPointer: {
         type: "cross",
       },
-      position: function (pt) {
-        return [pt[0], "10%"];
-      },
+      // position: function (pt) {
+      //   return [pt[0], "10%"];
+      // },
     },
     dataZoom: [
       {

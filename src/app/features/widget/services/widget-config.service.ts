@@ -220,6 +220,11 @@ export class WidgetConfigService {
   get solidOptions() {
     return [
       {
+        color: ["white"],
+        label: "no color",
+        type: "white",
+      },
+      {
         color: ["#336178"],
         label: "solid blue",
         type: "solid-blue",

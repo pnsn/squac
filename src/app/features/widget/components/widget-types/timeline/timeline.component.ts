@@ -161,14 +161,7 @@ export class TimelineComponent
   changeMetrics() {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
-    let visualMap = this.visualMaps[colorMetric.id];
-    if (!visualMap) {
-      visualMap = this.widgetTypeService.getVisualMapFromMetric(
-        colorMetric,
-        this.dataRange,
-        3
-      );
-    }
+    const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
