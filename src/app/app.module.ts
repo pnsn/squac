@@ -6,10 +6,7 @@ import { AuthComponent } from "./core/components/auth/auth.component";
 import { HeaderComponent } from "./core/components/header/header.component";
 import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 import { SharedModule } from "@shared/shared.module";
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule,
-} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { Ability, PureAbility } from "@casl/ability";
@@ -21,6 +18,7 @@ import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
+import { MAT_RIPPLE_GLOBAL_OPTIONS } from "@angular/material/core";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -38,7 +36,6 @@ export function initApp(configurationService: ConfigurationService) {
   imports: [
     HttpClientModule,
     SharedModule,
-    NoopAnimationsModule,
     BrowserAnimationsModule,
     BrowserModule,
     LeafletModule,
@@ -70,6 +67,17 @@ export function initApp(configurationService: ConfigurationService) {
     },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility, useExisting: Ability },
+    {
+      provide: MAT_RIPPLE_GLOBAL_OPTIONS,
+      useValue: {
+        terminateOnPointerUp: true,
+        disabled: true,
+        animation: {
+          enterDuration: 0,
+          exitDuration: 0,
+        },
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })

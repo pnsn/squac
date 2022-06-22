@@ -22,7 +22,7 @@
   <div id="type-container" class="row">
     <div id="stat-type-container" *ngIf="selectedType?.useAggregate">
       <div class="label">Select aggregation type:</div>
-      <mat-form-field>
+      <mat-form-field class="dense-form-field-select">
         <mat-label>Stat type</mat-label>
         <mat-select formControlName="stat" *ngIf="statTypes" required>
           <mat-option
@@ -52,7 +52,10 @@
     "
   >
     <div class="label">Select display type:</div>
-    <mat-radio-group formControlName="displayType" class="radio-button-group">
+    <mat-radio-group
+      formControlName="displayType"
+      class="dense-radio-button-group"
+    >
       <mat-radio-button
         *ngFor="let type of selectedType?.displayOptions"
         [value]="type"

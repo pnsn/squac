@@ -9,7 +9,7 @@
         the colors will be evenly split.
       </p>
       <div class="body-row">
-        <mat-form-field class="small">
+        <mat-form-field class="small dense-form-field-select">
           <mat-label>In Range</mat-label>
           <mat-select #inRange formControlName="inRange">
             <mat-select-trigger *ngIf="inRange && inRange.value">
@@ -61,7 +61,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="small">
+        <mat-form-field class="small dense-form-field-select">
           <mat-label>Out of Range</mat-label>
           <mat-select #outOfRange formControlName="outOfRange">
             <mat-select-trigger>
@@ -84,7 +84,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="xsmall">
+        <mat-form-field class="xsmall dense-form-field">
           <mat-label># of splits</mat-label>
           <input
             matInput
@@ -169,7 +169,7 @@
                 </mat-form-field>
               </div>
               <div class="xsmall">
-                <mat-form-field>
+                <mat-form-field class="dense-form-field">
                   <input
                     matInput
                     type="number"
@@ -180,7 +180,7 @@
               </div>
 
               <div class="xsmall">
-                <mat-form-field>
+                <mat-form-field class="dense-form-field">
                   <input
                     matInput
                     type="number"
