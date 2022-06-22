@@ -71,6 +71,12 @@ mat-icon.mat-icon {
 }
 
 .dense-radio-button-group {
+  .mat-radio-container,
+  .mat-radio-inner-circle,
+  .mat-radio-outer-circle {
+    height: 15px !important;
+    width: 15px !important;
+  }
 }
 
 mat-option {

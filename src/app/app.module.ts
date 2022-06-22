@@ -18,7 +18,6 @@ import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
-import { MAT_RIPPLE_GLOBAL_OPTIONS } from "@angular/material/core";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -67,17 +66,6 @@ export function initApp(configurationService: ConfigurationService) {
     },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility, useExisting: Ability },
-    {
-      provide: MAT_RIPPLE_GLOBAL_OPTIONS,
-      useValue: {
-        terminateOnPointerUp: true,
-        disabled: true,
-        animation: {
-          enterDuration: 0,
-          exitDuration: 0,
-        },
-      },
-    },
   ],
   bootstrap: [AppComponent],
 })
