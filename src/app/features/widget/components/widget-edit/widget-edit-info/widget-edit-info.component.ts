@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from "@angular/core";
@@ -14,11 +15,14 @@ import { WidgetConfigService } from "@features/widget/services/widget-config.ser
   templateUrl: "./widget-edit-info.component.html",
   styleUrls: ["./widget-edit-info.component.scss"],
 })
-export class WidgetEditInfoComponent implements OnChanges {
+export class WidgetEditInfoComponent implements OnInit {
   @Input() name: string;
   @Input() type: string;
   @Input() stat: string;
-
+  @Input() properties: any;
+  @Input() displayType: any;
+  @Output() displayTypeChange = new EventEmitter<any>();
+  @Output() propertiesChange = new EventEmitter<any>();
   @Output() nameChange = new EventEmitter<string>();
   @Output() typeChange = new EventEmitter<string>();
   @Output() statChange = new EventEmitter<string>();
@@ -39,46 +43,69 @@ export class WidgetEditInfoComponent implements OnChanges {
       name: new FormControl("", Validators.required),
       type: new FormControl("", Validators.required),
       stat: new FormControl("latest", Validators.required), // default is raw data
+      displayType: new FormControl("", Validators.required),
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.name && changes.name.currentValue) {
-      this.patchForm({ name: this.name });
+  ngOnInit(): void {
+    this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
+      this.displayType = displayType;
+      this.properties.displayType = this.displayType.displayType;
+      this.displayTypeChange.emit(this.displayType);
+      this.propertiesChange.emit(this.properties);
+    });
+
+    this.widgetForm.get("name").valueChanges.subscribe((name) => {
+      this.name = name;
+      this.nameChange.emit(this.name);
+    });
+    this.widgetForm.get("stat").valueChanges.subscribe((stat) => {
+      this.stat = stat;
+      this.statChange.emit(this.stat);
+    });
+    this.widgetForm.get("type").valueChanges.subscribe((type) => {
+      this.type = type;
+      this.changeTypes();
+      this.typeChange.emit(this.type);
+    });
+    this.initForm();
+  }
+
+  initForm() {
+    this.widgetForm.patchValue(
+      {
+        name: this.name,
+        type: this.type,
+      },
+      { emitEvent: true }
+    );
+  }
+
+  changeTypes() {
+    this.selectedType = this.widgetTypes.find((type) => {
+      return type.type === this.type;
+    });
+    if (!this.stat) {
+      this.stat = "latest";
     }
-    if (changes.type && changes.type.currentValue) {
-      this.selectedType = this.widgetTypes.find((type) => {
-        return type.type === this.type;
-      });
-      if (!this.stat) {
-        this.stat = "latest";
-        this.updateStat();
-      }
-      this.patchForm({ type: this.type });
+    if (this.selectedType.displayOptions) {
+      this.displayType = this.selectedType.displayOptions?.find(
+        (option) => option.displayType === this.properties.displayType
+      );
+      this.displayType =
+        this.displayType || this.selectedType.displayOptions[0];
+      this.properties.displayType = this.displayType.displayType;
+    } else {
+      this.displayType = null;
+      this.properties.displayType = null;
     }
-    if (changes.stat && changes.stat.currentValue) {
-      this.patchForm({ stat: this.stat });
-    }
-  }
-
-  patchForm(value) {
-    this.widgetForm.patchValue(value);
-    this.checkValid();
-  }
-
-  updateName() {
-    this.name = this.widgetForm.value.name;
-    this.nameChange.emit(this.name);
-  }
-
-  updateStat() {
-    this.stat = this.widgetForm.value.stat;
-    this.statChange.emit(this.stat);
-  }
-
-  updateType() {
-    this.type = this.widgetForm.value.type;
-    this.typeChange.emit(this.type);
+    this.widgetForm.patchValue(
+      {
+        stat: this.stat,
+        displayType: this.displayType,
+      },
+      { emitEvent: true }
+    );
   }
 
   checkValid() {

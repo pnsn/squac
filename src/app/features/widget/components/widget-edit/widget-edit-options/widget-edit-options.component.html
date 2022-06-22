@@ -1,39 +1,15 @@
 <div class="edit-body">
   <form #optionsEditForm [formGroup]="optionsForm">
-    <div class="head-row">
-      <span class="label">{{ widgetType?.name | titlecase }} Options</span>
-    </div>
-
-    <p class="help-text">{{ widgetType?.displayInfo }}</p>
-
-    <ng-container formGroupName="options" *ngIf="widgetType?.displayOptions">
-      <div class="">
-        <div class="body-row">
-          <mat-radio-group
-            formControlName="displayType"
-            class="radio-button-group"
-          >
-            <mat-radio-button
-              *ngFor="let type of widgetType?.displayOptions"
-              [value]="type.displayType"
-            >
-              <span>
-                {{ type.description }}
-              </span>
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </div>
-
+    <ng-container formGroupName="options" *ngIf="displayType">
       <div class="head-row">
         <span class="label">Colors</span>
       </div>
       <p class="help-text">
-        If # of splits is 0 the colors will be continuous. If # of splits > 0,
+        If # of splits is 0 the coloring will be continuous. If # of splits > 0,
         the colors will be evenly split.
       </p>
       <div class="body-row">
-        <mat-form-field class="small">
+        <mat-form-field class="small dense-form-field-select">
           <mat-label>In Range</mat-label>
           <mat-select #inRange formControlName="inRange">
             <mat-select-trigger *ngIf="inRange && inRange.value">
@@ -85,7 +61,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="small">
+        <mat-form-field class="small dense-form-field-select">
           <mat-label>Out of Range</mat-label>
           <mat-select #outOfRange formControlName="outOfRange">
             <mat-select-trigger>
@@ -108,7 +84,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="xsmall">
+        <mat-form-field class="xsmall dense-form-field">
           <mat-label># of splits</mat-label>
           <input
             matInput
@@ -122,8 +98,14 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="widgetType?.displayOptions">
-      <p class="help-text">Select which metric(s) to show on the widget.</p>
+    <ng-container *ngIf="displayType?.dimensions">
+      <div class="head-row">
+        <span class="label">Metrics</span>
+      </div>
+      <p class="help-text">
+        Select which metric(s) to show on the widget. These can also be changed
+        while viewing widget.
+      </p>
       <ng-container formArrayName="dimensions">
         <ng-container
           *ngFor="let metric of dimensions?.controls; let i = index"
@@ -140,7 +122,8 @@
           </div>
         </ng-container>
       </ng-container>
-
+    </ng-container>
+    <ng-container>
       <div class="head-row">
         <span class="label">Thresholds</span>
         <button mat-button (click)="addThreshold()">
@@ -186,7 +169,7 @@
                 </mat-form-field>
               </div>
               <div class="xsmall">
-                <mat-form-field>
+                <mat-form-field class="dense-form-field">
                   <input
                     matInput
                     type="number"
@@ -197,7 +180,7 @@
               </div>
 
               <div class="xsmall">
-                <mat-form-field>
+                <mat-form-field class="dense-form-field">
                   <input
                     matInput
                     type="number"

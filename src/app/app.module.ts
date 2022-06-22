@@ -6,10 +6,7 @@ import { AuthComponent } from "./core/components/auth/auth.component";
 import { HeaderComponent } from "./core/components/header/header.component";
 import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 import { SharedModule } from "@shared/shared.module";
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule,
-} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { Ability, PureAbility } from "@casl/ability";
@@ -38,7 +35,6 @@ export function initApp(configurationService: ConfigurationService) {
   imports: [
     HttpClientModule,
     SharedModule,
-    NoopAnimationsModule,
     BrowserAnimationsModule,
     BrowserModule,
     LeafletModule,

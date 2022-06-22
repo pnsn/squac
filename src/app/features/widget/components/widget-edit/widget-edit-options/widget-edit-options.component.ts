@@ -32,6 +32,7 @@ export class WidgetEditOptionsComponent
   }
   @Input() selectedMetrics: Metric[];
   @Input() type: string;
+  @Input() displayType: any;
   @Input() thresholds: Threshold[];
   @Output() thresholdsChange = new EventEmitter<Threshold[]>();
   @Input() properties: any;
@@ -63,10 +64,8 @@ export class WidgetEditOptionsComponent
       }
     });
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
-      this.properties.displayType = value.displayType;
       this.properties.numSplits = value.numSplits || 0;
       this.validateOptions();
-      this.updateDimensions();
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
       this.propertiesChange.emit(this.properties);
@@ -103,6 +102,10 @@ export class WidgetEditOptionsComponent
       }
     }
 
+    if (changes.displayType) {
+      this.updateDimensions();
+    }
+
     if (changes.type) {
       this.widgetType = this.widgetTypes.find((type) => {
         return this.type === type.type;
@@ -127,9 +130,6 @@ export class WidgetEditOptionsComponent
   }
 
   initForm() {
-    if (this.widgetType) {
-      this.updateDimensions();
-    }
     this.optionsForm.get("options").patchValue(
       {
         inRange: this.properties.inRange
@@ -138,7 +138,6 @@ export class WidgetEditOptionsComponent
         outOfRange: this.properties.outOfRange
           ? this.findColor(this.properties.outOfRange.type)
           : null,
-        displayType: this.properties.displayType,
         numSplits: this.properties.numSplits,
       },
       { emitEvent: false }
@@ -152,46 +151,30 @@ export class WidgetEditOptionsComponent
   //Validators.required,
 
   updateDimensions() {
-    let displayType;
-    if (this.widgetType?.displayOptions) {
-      const type = this.properties.displayType;
-      displayType = this.widgetType.displayOptions.find(
-        (option) => option.displayType === type
-      );
-      displayType = displayType || this.widgetType.displayOptions[0];
-
-      const selected = this.properties.dimensions;
-      this.dimensions.clear();
-
-      if (displayType) {
-        this.properties.displayType = displayType.displayType;
-        displayType.dimensions?.forEach((dimension, i) => {
-          const dim = selected.find((m) => {
-            return dimension === m.type;
-          });
-
-          let metricId;
-          if (dim) {
-            metricId = dim.metricId;
-          } else if (this.selectedMetrics[i]) {
-            metricId = this.selectedMetrics[i]?.id;
-          } else {
-            metricId = this.selectedMetrics[0]?.id;
-          }
-
-          this.dimensions.push(
-            this.formBuilder.group({
-              type: [dimension], //default to piecewise
-              metricId: [metricId],
-            })
-          );
-        });
-        this.properties.dimensions = this.dimensions.value;
+    const selected = this.properties.dimensions;
+    this.dimensions.clear();
+    this.displayType?.dimensions?.forEach((dimension, i) => {
+      const dim = selected.find((m) => {
+        return dimension === m.type;
+      });
+      console.log("update dimensions");
+      let metricId;
+      if (dim) {
+        metricId = dim.metricId;
+      } else if (this.selectedMetrics[i]) {
+        metricId = this.selectedMetrics[i]?.id;
+      } else {
+        metricId = this.selectedMetrics[0]?.id;
       }
-    } else {
-      this.properties.dimensions = [];
-      this.properties.displayType = null;
-    }
+
+      this.dimensions.push(
+        this.formBuilder.group({
+          type: [dimension], //default to piecewise
+          metricId: [metricId],
+        })
+      );
+    });
+    this.properties.dimensions = this.dimensions.value;
   }
 
   //check if metrics removed
