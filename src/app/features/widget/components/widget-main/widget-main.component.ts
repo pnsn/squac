@@ -79,9 +79,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.rows = item.rows;
     item.widget.layout.x = item.x;
     item.widget.layout.y = item.y;
-    if (this.widgets && this.inited === this.widgets.length) {
-      this.viewService.saveWidgetResize(item.widget);
-    }
+    this.viewService.saveWidgetResize(item.widget);
+    console.log(item.widget);
   }
 
   addWidget() {

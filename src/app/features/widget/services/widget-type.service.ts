@@ -232,8 +232,8 @@ export class WidgetTypeService {
             }
           } else if (numSplits === 0) {
             properties.outOfRange.opacity = 1;
-            min = min !== null ? min : dataRange[metricId].min;
-            max = max !== null ? max : dataRange[metricId].max;
+            min = min !== null ? min : dataRange[metricId]?.min;
+            max = max !== null ? max : dataRange[metricId]?.max;
             min = this.precisionPipe.transform(+min, 2);
             max = this.precisionPipe.transform(+max, 2);
             visualMaps[metricId] = {
@@ -243,8 +243,8 @@ export class WidgetTypeService {
               inRange: {
                 color: inColors,
               },
-              min: Math.min(dataRange[metricId].min, min),
-              max: Math.max(dataRange[metricId].max, max),
+              min: Math.min(dataRange[metricId]?.min, min),
+              max: Math.max(dataRange[metricId]?.max, max),
               range: [min, max],
               outOfRange: properties.outOfRange,
             };
