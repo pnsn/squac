@@ -130,10 +130,14 @@ export class TimelineComponent
       return chanA.nslc.localeCompare(chanB.nslc);
     });
     this.channels.forEach((channel, index) => {
+      const nslc = channel.nslc.toUpperCase();
       this.selectedMetrics.forEach((metric) => {
         const channelObj = {
           type: "custom",
-          name: channel.nslc,
+          name:
+            channel.networkCode.toUpperCase() +
+            "." +
+            channel.stationCode.toUpperCase(),
           data: [],
           large: true,
           encode: {
@@ -149,7 +153,7 @@ export class TimelineComponent
               .toDate();
             const end = this.dateService.parseUtc(measurement.endtime).toDate();
             channelObj.data.push({
-              name: channel.nslc,
+              name: nslc,
               value: [start, end, measurement.value, index],
             });
           });
@@ -162,7 +166,7 @@ export class TimelineComponent
           };
         }
         this.metricSeries[metric.id].series.push(channelObj);
-        this.metricSeries[metric.id].yAxisLabels.push(channel.nslc);
+        this.metricSeries[metric.id].yAxisLabels.push(nslc);
       });
     });
   }

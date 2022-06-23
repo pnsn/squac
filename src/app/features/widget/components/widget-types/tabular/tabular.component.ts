@@ -162,8 +162,11 @@ export class TabularComponent
     );
 
     this.channels.forEach((channel) => {
-      const identifier = channel.networkCode + "." + channel.stationCode;
-
+      const identifier =
+        channel.networkCode.toUpperCase() +
+        "." +
+        channel.stationCode.toUpperCase();
+      const nslc = channel.nslc.toUpperCase();
       let agg = 0;
       const rowMetrics = {};
       const stationRowMetrics = {};
@@ -199,15 +202,15 @@ export class TabularComponent
       });
       let title;
       if (this.properties.displayType === "channel") {
-        title = channel.nslc;
+        title = nslc;
       } else {
-        title = channel.loc + "." + channel.code;
+        title = channel.loc.toUpperCase() + "." + channel.code.toUpperCase();
       }
 
       let row = {
         title,
         id: channel.id,
-        nslc: channel.nslc,
+        nslc: nslc,
         parentId: identifier,
         treeStatus: "disabled",
         agg,

@@ -174,9 +174,10 @@ export class TimechartComponent
     const metric = this.selectedMetrics[0];
     this.channels.forEach((channel) => {
       const staCode = channel.networkCode + "." + channel.stationCode;
+      const nslc = channel.nslc.toUpperCase();
       const station = {
         ...series,
-        name: staCode,
+        name: staCode.toUpperCase(),
         data: [],
         count: 0,
         encode: {
@@ -200,13 +201,13 @@ export class TimechartComponent
           ) {
             // time since last measurement
             station.data.push({
-              name: channel.nslc,
+              name: nslc,
               value: [lastEnd.toDate(), start.toDate(), "-"],
             });
           }
 
           station.data.push({
-            name: channel.nslc,
+            name: nslc,
             value: [start.toDate(), end.toDate(), measurement.value],
           });
 

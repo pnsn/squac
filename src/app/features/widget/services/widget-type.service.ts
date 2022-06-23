@@ -420,13 +420,13 @@ export class WidgetTypeService {
 
       const station = {
         ...series,
-        name: staCode,
+        name: staCode.toUpperCase(),
         data: [],
       };
       stations.push(station);
 
       const channelData = {
-        name: channel.nslc,
+        name: channel.nslc.toUpperCase(),
         value: [],
       };
 

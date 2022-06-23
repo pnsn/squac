@@ -191,7 +191,11 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       const stationChannels = {};
 
       this.channels.forEach((channel) => {
-        const identifier = channel.networkCode + "." + channel.stationCode;
+        const identifier =
+          channel.networkCode.toUpperCase() +
+          "." +
+          channel.stationCode.toUpperCase();
+        const nslc = channel.nslc.toUpperCase();
         let agg = 0;
         let val: number = null;
         if (data[channel.id] && data[channel.id][metric.id]) {
@@ -216,12 +220,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
         stationChannels[channel.stationCode] =
           stationChannels[channel.stationCode] +
-          `<tr> <td> ${iconHtml} </td> <td> ${channel.nslc} </td><td> ${
+          `<tr> <td> ${iconHtml} </td> <td> ${nslc} </td><td> ${
             val !== null ? this.precisionPipe.transform(val) : "no data"
           }</td></tr>`;
 
         let channelRow = {
-          title: channel.nslc,
+          title: nslc,
           id: channel.id,
           parentId: identifier,
           staCode: channel.stationCode,
