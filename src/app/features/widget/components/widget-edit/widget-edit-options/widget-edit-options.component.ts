@@ -134,11 +134,11 @@ export class WidgetEditOptionsComponent
       {
         inRange: this.properties.inRange
           ? this.findColor(this.properties.inRange.type)
-          : null,
+          : this.findColor("redgreen"),
         outOfRange: this.properties.outOfRange
           ? this.findColor(this.properties.outOfRange.type)
-          : null,
-        numSplits: this.properties.numSplits,
+          : this.findColor("white"),
+        numSplits: this.properties.numSplits || 0,
       },
       { emitEvent: false }
     );

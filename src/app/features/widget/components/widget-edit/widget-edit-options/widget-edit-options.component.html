@@ -6,7 +6,7 @@
       </div>
       <p class="help-text">
         If # of splits is 0 the coloring will be continuous. If # of splits > 0,
-        the colors will be evenly split.
+        the color bar will be evenly split.
       </p>
       <div class="body-row">
         <mat-form-field class="small dense-form-field-select">
@@ -131,10 +131,8 @@
         </button>
       </div>
       <p class="help-text">
-        Values between or equal to the min and max will be 'in range'. If # of
-        splits = 0 and if min or max is not set, they will default to the data
-        min or max. If # of splits > 0 and if min or max is not set, they will
-        default to -Infinity or +Infinity.
+        Values between or equal to the min and max will be 'in range'. If min
+        and max are not set, the chart will use the data min and max by default.
       </p>
       <ng-container formArrayName="thresholdArray">
         <div id="thresholds-table">

@@ -2,8 +2,8 @@ export class Threshold {
   type: string; //continuous, piecewise, markLine, markArea
   min: number;
   max: number;
-  metrics: [];
-  data: [];
+  metrics: number[];
+  data: any;
   static get modelName() {
     return "Threshold";
   }
