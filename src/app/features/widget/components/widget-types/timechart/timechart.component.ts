@@ -75,12 +75,13 @@ export class TimechartComponent
       grid: {
         left: 45,
       },
+      yAxis: {
+        type: "value",
+      },
       xAxis: {
         type: "time",
         name: "Measurement Start",
-        axisTick: {
-          interval: 0,
-        },
+
         axisPointer: {
           show: "true",
           label: {
@@ -148,20 +149,24 @@ export class TimechartComponent
     const series = {
       type: "line",
       large: true,
-      label: {
-        show: false,
-      },
+      largeThreshold: 4000,
+      legendHoverLink: true,
+      triggerLineEvent: false,
       lineStyle: {
-        width: 2,
+        width: 1,
+        opacity: 1,
       },
       emphasis: {
-        endLabel: {
-          show: true,
-          formatter: "{b}",
-        },
         focus: "series",
+        blurScope: "global",
         lineStyle: {
-          width: 1,
+          width: 2,
+        },
+        symbolSize: 5,
+      },
+      blur: {
+        lineStyle: {
+          opacity: 1,
         },
       },
       symbol: "circle",
@@ -176,15 +181,16 @@ export class TimechartComponent
       const nslc = channel.nslc.toUpperCase();
       const station = {
         ...series,
-        name: staCode.toUpperCase(),
-        data: [],
-        count: 0,
-        encode: {
-          x: [0, 1],
-          y: 2,
+        ...{
+          name: staCode.toUpperCase(),
+          data: [],
+          count: 0,
+          encode: {
+            x: [0, 1],
+            y: 2,
+          },
         },
       };
-      stations.push(station);
       let lastEnd: dayjs.Dayjs;
       if (data[channel.id] && data[channel.id][metric.id]) {
         data[channel.id][metric.id].forEach((measurement: Measurement) => {
@@ -213,6 +219,7 @@ export class TimechartComponent
           lastEnd = end;
         });
       }
+      stations.push(station);
     });
     this.metricSeries.series = stations;
   }

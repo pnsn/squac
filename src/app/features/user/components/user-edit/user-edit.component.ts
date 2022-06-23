@@ -49,7 +49,6 @@ export class UserEditComponent implements OnInit {
   }
 
   passwordValidator(group: FormGroup) {
-    console.log(group);
     if (
       group.value.password &&
       group.value.confirm &&

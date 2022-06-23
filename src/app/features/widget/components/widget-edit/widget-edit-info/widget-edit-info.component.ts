@@ -50,7 +50,7 @@ export class WidgetEditInfoComponent implements OnInit {
   ngOnInit(): void {
     this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
       this.displayType = displayType;
-      this.properties.displayType = this.displayType.displayType;
+      this.properties.displayType = this.displayType?.displayType;
       this.displayTypeChange.emit(this.displayType);
       this.propertiesChange.emit(this.properties);
     });

@@ -121,6 +121,7 @@ export class ScatterPlotComponent
           color: "black",
         },
       },
+      clip: true,
       encode: {
         x: 0,
         y: 1,

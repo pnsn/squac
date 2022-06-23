@@ -80,7 +80,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.x = item.x;
     item.widget.layout.y = item.y;
     this.viewService.saveWidgetResize(item.widget);
-    console.log(item.widget);
   }
 
   addWidget() {
