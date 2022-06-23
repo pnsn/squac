@@ -110,7 +110,7 @@ export class TimechartComponent
           right: 5,
         },
         grid: {
-          right: 65,
+          right: 85,
         },
       };
     } else {

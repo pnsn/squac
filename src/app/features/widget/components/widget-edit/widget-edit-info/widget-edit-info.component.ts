@@ -89,7 +89,7 @@ export class WidgetEditInfoComponent implements OnInit {
       return type.type === this.type;
     });
     if (!this.stat) {
-      this.stat = "latest";
+      this.stat = "mean";
     }
     if (this.selectedType.displayOptions) {
       this.displayType = this.selectedType.displayOptions?.find(

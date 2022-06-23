@@ -64,7 +64,7 @@ export class ParallelPlotComponent
         left: 40,
         right: 40,
         bottom: 20,
-        top: 40,
+        top: 50,
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,
@@ -106,10 +106,10 @@ export class ParallelPlotComponent
           right: 5,
         },
         grid: {
-          right: 65,
+          right: 75,
         },
         parallel: {
-          right: 90,
+          right: 125,
         },
       };
     } else {

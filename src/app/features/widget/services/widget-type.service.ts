@@ -43,12 +43,16 @@ export class WidgetTypeService {
     legend: {
       show: false,
       top: 30,
-      bottom: 20,
+      bottom: 40,
+      right: 0,
       type: "scroll",
       orient: "vertical",
-      align: "left",
-      left: "right",
+      align: "right",
       icon: "none",
+      selector: true,
+      selectorButtonGap: 5,
+      selectorItemGap: 1,
+      pageButtonItemGap: 1,
       emphasis: {
         selectorLabel: {
           show: true,
@@ -65,7 +69,7 @@ export class WidgetTypeService {
     },
     grid: {
       containLabel: true,
-      top: 20,
+      top: 25,
       right: 20,
       bottom: 60,
       left: 0,
@@ -464,7 +468,6 @@ export class WidgetTypeService {
       data.push(params);
     }
 
-    console.log(data);
     let str = "";
     if (data[0]) {
       str += `<h4> ${data[0].seriesName} </h4>`;

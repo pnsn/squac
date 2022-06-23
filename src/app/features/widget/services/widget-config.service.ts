@@ -143,9 +143,21 @@ export class WidgetConfigService {
   get statTypes() {
     return [
       {
+        id: 1,
+        type: "mean",
+        name: "Average",
+        description: "",
+      },
+      {
         id: 13,
         type: "latest",
         name: "Most recent",
+        description: "",
+      },
+      {
+        id: 5,
+        type: "numSamps",
+        name: "Sample Count",
         description: "",
       },
       {
@@ -164,6 +176,18 @@ export class WidgetConfigService {
         id: 4,
         type: "max",
         name: "Maximum",
+        description: "",
+      },
+      {
+        id: 17,
+        type: "minabs",
+        name: "Min of abs(min, max)",
+        description: "",
+      },
+      {
+        id: 18,
+        type: "maxabs",
+        name: "Max of abs(min, max)",
         description: "",
       },
       {
@@ -188,30 +212,6 @@ export class WidgetConfigService {
         id: 16,
         type: "p05",
         name: "5th percentile",
-        description: "",
-      },
-      {
-        id: 1,
-        type: "mean",
-        name: "Average",
-        description: "",
-      },
-      {
-        id: 5,
-        type: "numSamps",
-        name: "Sample Count",
-        description: "",
-      },
-      {
-        id: 17,
-        type: "minabs",
-        name: "Min of abs(min, max)",
-        description: "",
-      },
-      {
-        id: 18,
-        type: "maxabs",
-        name: "Max of abs(min, max)",
         description: "",
       },
     ];
@@ -267,6 +267,10 @@ export class WidgetConfigService {
       {
         label: "Rainbow",
         type: "rainbow",
+      },
+      {
+        label: "Picnic",
+        type: "picnic",
       },
       {
         label: "Jet",
