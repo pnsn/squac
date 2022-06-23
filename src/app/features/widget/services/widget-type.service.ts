@@ -54,11 +54,6 @@ export class WidgetTypeService {
       selectorItemGap: 1,
       pageButtonItemGap: 1,
       pageIconSize: 10,
-      emphasis: {
-        selectorLabel: {
-          show: true,
-        },
-      },
     },
     toolbox: {
       show: true,

@@ -284,14 +284,11 @@ export class ViewService {
 
   // saves the dashboard to squac
   saveDashboard(): void {
-    this.dashboardService.updateDashboard(this.dashboard).subscribe(
-      () => {
-        this.messageService.message("Dashboard saved.");
-      },
-      () => {
+    this.dashboardService.updateDashboard(this.dashboard).subscribe({
+      error: () => {
         this.messageService.error("Could not save dashboard.");
-      }
-    );
+      },
+    });
   }
   // save and refresh in here
 }

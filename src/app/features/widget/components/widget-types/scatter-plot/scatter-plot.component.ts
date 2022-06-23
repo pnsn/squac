@@ -162,7 +162,7 @@ export class ScatterPlotComponent
       visualMap,
       yAxis: {
         name: `${yMetric.name} (${yMetric.unit})`,
-        nameGap: 48,
+        nameGap: 45,
       },
     };
   }

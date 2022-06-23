@@ -96,6 +96,7 @@ export class WidgetEditOptionsComponent
     //Add '${implements OnChanges}' to the class.
     if (changes.selectedMetrics && changes.selectedMetrics.previousValue) {
       this.changeMetrics();
+      this.updateDimensions();
     }
 
     if (changes.properties && changes.properties.currentValue) {

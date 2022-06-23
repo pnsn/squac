@@ -328,7 +328,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.map.createPane("gray");
     }
 
-    this.map.createPane("white"); //no data pane
+    this.map.createPane("nodata"); //no data pane
   }
 
   changeMetric() {
@@ -351,7 +351,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   private getIconHtml(color?: string) {
     let htmlString = `<div style='background-color: ${color}' class='map-icon `;
-    if (color === "white") {
+    if (color === "white" || color === "transparent") {
       htmlString += "border";
     }
     htmlString += `'></div>`;
@@ -359,6 +359,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   private getStyle(value, visualMap): string {
+    if (value === null || value === undefined) {
+      return "transparent";
+    }
     return this.widgetTypeService.getColorFromValue(value, visualMap);
   }
 
@@ -369,7 +372,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     let html;
     if (station.color) {
       html = this.getIconHtml(station.color);
-      options.pane = station.color;
+      if (station.color === "transparent") {
+        console.log(station.color);
+        options.pane = "nodata";
+      } else {
+        options.pane = station.color;
+      }
     } else {
       html = this.getIconHtml("white");
     }

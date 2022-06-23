@@ -91,7 +91,7 @@ export class WidgetEditInfoComponent implements OnInit {
     if (!this.stat) {
       this.stat = "mean";
     }
-    if (this.selectedType.displayOptions) {
+    if (this.selectedType?.displayOptions) {
       this.displayType = this.selectedType.displayOptions?.find(
         (option) => option.displayType === this.properties.displayType
       );
