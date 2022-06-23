@@ -278,13 +278,13 @@ export class WidgetTypeService {
       pieces.push({
         lt: min,
         color: outColor,
-        label: `< ${this.precisionPipe.transform(min, 2)}`,
+        label: `< ${this.precisionPipe.transform(min, 3)}`,
       });
       if (max === null) {
         pieces.push({
           gte: min,
           color: inColors[0],
-          label: `≥ ${this.precisionPipe.transform(min, 2)}`,
+          label: `≥ ${this.precisionPipe.transform(min, 3)}`,
         });
       }
     }
@@ -303,8 +303,8 @@ export class WidgetTypeService {
         if (pieceMin !== null && pieceMax !== null) {
           label = `${this.precisionPipe.transform(
             pieceMin,
-            2
-          )} ≤ - < ${this.precisionPipe.transform(pieceMax, 2)}`;
+            3
+          )} - ${this.precisionPipe.transform(pieceMax, 3)}`;
         }
         pieces.push({
           gte: pieceMin,
@@ -322,13 +322,13 @@ export class WidgetTypeService {
         pieces.push({
           lte: max,
           color: inColors[0],
-          label: `≤ ${this.precisionPipe.transform(max, 2)}`,
+          label: `≤ ${this.precisionPipe.transform(max, 3)}`,
         });
       }
       pieces.push({
         gt: max,
         color: outColor,
-        label: `> ${this.precisionPipe.transform(max, 2)}`,
+        label: `> ${this.precisionPipe.transform(max, 3)}`,
       });
     }
     return pieces;
@@ -403,7 +403,7 @@ export class WidgetTypeService {
           max: dataRange[metric.id]?.max,
           scale: true,
           axisLabel: {
-            formatter: (value) => this.precisionPipe.transform(value, 2),
+            formatter: (value) => this.precisionPipe.transform(value, 3),
           },
         });
       }
@@ -464,9 +464,10 @@ export class WidgetTypeService {
       data.push(params);
     }
 
+    console.log(data);
     let str = "";
     if (data[0]) {
-      str += `<h4> ${data[0].name} </h4>`;
+      str += `<h4> ${data[0].seriesName} </h4>`;
     } else {
       str += this.timeAxisPointerLabelFormatting({ value: data[0].value[1] });
     }
