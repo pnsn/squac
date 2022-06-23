@@ -324,6 +324,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           break;
       }
     } else {
+      //no visual map
       this.map.createPane("gray");
     }
 

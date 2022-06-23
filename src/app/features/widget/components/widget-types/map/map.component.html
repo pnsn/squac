@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <div>
+      <div (click)="toggleColor(displayMap?.outOfRange.color[0])">
         <div
           class="map-icon"
           [style.background-color]="displayMap?.outOfRange.color[0]"
@@ -83,7 +83,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="displayMetric && !displayMap">
-    <div>
+    <div (click)="toggleColor('gray')">
       <div class="map-icon" [style.background-color]="'gray'"></div>
       no range
     </div>
