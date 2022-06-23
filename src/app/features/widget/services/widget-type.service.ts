@@ -42,6 +42,8 @@ export class WidgetTypeService {
     animation: false,
     legend: {
       show: false,
+      top: 30,
+      bottom: 20,
       type: "scroll",
       orient: "vertical",
       align: "left",

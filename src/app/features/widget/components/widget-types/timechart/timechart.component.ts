@@ -163,9 +163,10 @@ export class TimechartComponent
         lineStyle: {
           width: 2,
         },
+        symbolSize: 3,
       },
       symbol: "circle",
-      symbolSize: 3,
+      symbolSize: 1,
       sampling: "lttb",
     };
     // this.addThresholds();
