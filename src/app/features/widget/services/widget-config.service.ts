@@ -19,21 +19,21 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "each row is a station, station shows values for channel with most metrics out of range",
+              "each row is a channel - value and symbol color show the aggregate value",
             dimensions: null,
-            displayType: "worst",
+            displayType: "channel",
           },
           {
             description:
-              "each row is a station, station shows number of channels in/out of range",
+              "each row is a station - symbol color shows if all, some, or no channels are in/out of range",
             dimensions: null,
             displayType: "stoplight",
           },
           {
             description:
-              "each row is a channel, channels show aggregate values",
+              "each row is a station - value and symbol color show the aggregate values for the 'worst' channel",
             dimensions: null,
-            displayType: "channel",
+            displayType: "worst",
           },
         ],
       },
@@ -56,7 +56,7 @@ export class WidgetConfigService {
           // },
           {
             description:
-              "each row is a channel, channels show measurement values",
+              "each row is a channel - values are raw measurement values",
             dimensions: ["display"],
             displayType: "channel",
           },
@@ -74,7 +74,7 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "each line is a channel, channels show measurement values",
+              "each line is a channel - lines are plot raw measurement values",
             dimensions: ["y-axis"],
             displayType: "channel",
           },
@@ -92,13 +92,13 @@ export class WidgetConfigService {
         displayOptions: [
           {
             description:
-              "each map icon is a station, stations show measurement values",
+              "each map icon is a station - color reflects the aggregate value for the 'worst' station",
             dimensions: ["display"],
             displayType: "worst",
           },
           {
             description:
-              "each map icon is a station, station shows number of channels in/out of range",
+              "each map icon is a station - symbol color shows if all, some, or no channels are in/out of range",
             dimensions: ["display"],
             displayType: "stoplight",
           },
@@ -131,7 +131,8 @@ export class WidgetConfigService {
         displayInfo: "channels as dots",
         displayOptions: [
           {
-            description: "each dot represents a channel",
+            description:
+              "each dot represents a channel - colors show aggregate value for a 3rd metric",
             dimensions: ["x-axis", "y-axis", "color"],
             displayType: "channel",
           },
