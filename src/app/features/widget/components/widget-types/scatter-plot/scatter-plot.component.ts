@@ -86,10 +86,9 @@ export class ScatterPlotComponent
       temp = {
         legend: {
           show: true,
-          right: 5,
         },
         grid: {
-          right: 80,
+          right: 75,
         },
       };
     } else {

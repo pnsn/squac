@@ -61,8 +61,7 @@ export class ParallelPlotComponent
   ngOnInit(): void {
     const chartOptions = {
       parallel: {
-        left: 40,
-        right: 40,
+        left: 10,
         bottom: 20,
         top: 50,
         parallelAxisDefault: {
@@ -74,7 +73,6 @@ export class ParallelPlotComponent
       },
       grid: {
         left: 10,
-        right: 10,
       },
       xAxis: false,
       yAxis: false,
@@ -103,13 +101,12 @@ export class ParallelPlotComponent
       temp = {
         legend: {
           show: true,
-          right: 5,
         },
         grid: {
-          right: 75,
+          right: 0,
         },
         parallel: {
-          right: 125,
+          right: 75,
         },
       };
     } else {
@@ -121,7 +118,7 @@ export class ParallelPlotComponent
           right: 20,
         },
         parallel: {
-          right: 40,
+          right: 10,
         },
       };
     }

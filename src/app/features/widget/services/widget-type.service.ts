@@ -42,7 +42,7 @@ export class WidgetTypeService {
     animation: false,
     legend: {
       show: false,
-      top: 30,
+      top: 25,
       bottom: 40,
       right: 0,
       type: "scroll",
@@ -70,7 +70,7 @@ export class WidgetTypeService {
     },
     grid: {
       containLabel: true,
-      top: 25,
+      top: 30,
       right: 20,
       bottom: 60,
       left: 0,
@@ -401,13 +401,39 @@ export class WidgetTypeService {
     const axis = [];
     metrics.forEach((metric, i) => {
       if (series.type === "parallel") {
+        let align;
+        let axisAlign;
+        let margin;
+        if (i === 0) {
+          align = "left";
+          axisAlign = "left";
+          margin = 8;
+        } else if (i === metrics.length - 1) {
+          align = "right";
+          axisAlign = "right";
+          margin = -6;
+        } else {
+          align = "center";
+          axisAlign = "left";
+          margin = 8;
+        }
+
         axis.push({
           name: metric.name, //metric.name.replace(/_/g, " "),
           dim: i,
           min: dataRange[metric.id]?.min,
           max: dataRange[metric.id]?.max,
           scale: true,
+          nameTextStyle: {
+            align,
+          },
+          axisTick: {
+            inside: true,
+          },
           axisLabel: {
+            align: axisAlign,
+            inside: true,
+            margin,
             formatter: (value) => this.precisionPipe.transform(value, 3),
           },
         });
