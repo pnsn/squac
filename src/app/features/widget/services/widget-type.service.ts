@@ -198,14 +198,12 @@ export class WidgetTypeService {
           max = threshold.max;
         }
 
-        if (min === null || max === null) {
-          numSplits = 1;
-        }
-
         if (dataRange[metricId]) {
           if (min === null && max === null) {
             min = dataRange[metricId].min;
             max = dataRange[metricId].max;
+          } else if (min === null || max === null) {
+            numSplits = 1;
           }
           if (properties.displayType === "stoplight") {
             if (inColors.length < 3) {
@@ -276,7 +274,6 @@ export class WidgetTypeService {
     // piece for -Infinity to min
     if (min !== null) {
       pieces.push({
-        gte: Math.min(dataRange.min, min),
         lt: min,
         color: outColor,
         label: `< ${this.precisionPipe.transform(min, 2)}`,
@@ -328,7 +325,6 @@ export class WidgetTypeService {
       }
       pieces.push({
         gt: max,
-        lte: Math.max(dataRange.max, max),
         color: outColor,
         label: `> ${this.precisionPipe.transform(max, 2)}`,
       });

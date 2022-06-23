@@ -131,11 +131,11 @@ export class WidgetEditOptionsComponent
   }
 
   initForm() {
+    const inColors = this.findColor(this.properties.inRange?.type);
+
     this.optionsForm.get("options").patchValue(
       {
-        inRange: this.properties.inRange
-          ? this.findColor(this.properties.inRange.type)
-          : this.findColor("redgreen"),
+        inRange: inColors || this.findColor("rainbow"),
         outOfRange: this.properties.outOfRange
           ? this.findColor(this.properties.outOfRange.type)
           : this.findColor("white"),

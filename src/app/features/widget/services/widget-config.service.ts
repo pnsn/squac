@@ -265,11 +265,6 @@ export class WidgetConfigService {
   get gradientOptions() {
     return [
       {
-        label: "Red to Green",
-        type: "redgreen",
-        color: ["green", "yellow", "red"],
-      },
-      {
         label: "Rainbow",
         type: "rainbow",
       },
