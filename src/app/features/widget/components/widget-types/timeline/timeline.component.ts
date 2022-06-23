@@ -94,7 +94,6 @@ export class TimelineComponent
         },
       },
       yAxis: {
-        inverse: "true",
         type: "category",
         nameGap: 40, //max characters
       },
@@ -120,6 +119,9 @@ export class TimelineComponent
       this.dataRange,
       2
     );
+    this.channels.sort((chanA, chanB) => {
+      return chanB.nslc.localeCompare(chanA.nslc);
+    });
     this.channels.forEach((channel, index) => {
       this.selectedMetrics.forEach((metric) => {
         const channelObj = {

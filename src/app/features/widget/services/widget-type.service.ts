@@ -174,7 +174,7 @@ export class WidgetTypeService {
 
       const outColor = properties.outOfRange
         ? properties.outOfRange.color[0]
-        : "black";
+        : "gray";
       let inColors;
       if (properties.inRange?.color) {
         inColors = properties.inRange.color;
@@ -195,59 +195,61 @@ export class WidgetTypeService {
         }
 
         threshold.metrics?.forEach((metricId) => {
-          if (properties.displayType === "stoplight") {
-            if (inColors.length < 3) {
-              inColors = ["green", "yellow", "red"];
-            }
-            visualMaps[metricId] = {
-              type: "stoplight",
-              colors: {
-                in: inColors[0],
-                middle: inColors[Math.floor(inColors.length / 2)],
-                out: inColors[inColors.length - 1],
-              },
-              min,
-              max,
-            };
-          } else if (numSplits > 0) {
-            const pieces = this.getPieces(
-              min,
-              max,
-              numSplits,
-              inColors,
-              outColor,
-              dataRange[metricId]
-            );
-            properties.outOfRange.opacity = 0;
-            if (pieces.length > 0) {
+          if (dataRange[metricId]) {
+            if (properties.displayType === "stoplight") {
+              if (inColors.length < 3) {
+                inColors = ["green", "yellow", "red"];
+              }
               visualMaps[metricId] = {
-                ...this.piecewiseDefaults,
-                pieces: pieces.reverse(), // reverse for non-echarts legends
+                type: "stoplight",
+                colors: {
+                  in: inColors[0],
+                  middle: inColors[Math.floor(inColors.length / 2)],
+                  out: inColors[inColors.length - 1],
+                },
+                min,
+                max,
+              };
+            } else if (numSplits > 0) {
+              const pieces = this.getPieces(
+                min,
+                max,
+                numSplits,
+                inColors,
+                outColor,
+                dataRange[metricId]
+              );
+              properties.outOfRange.opacity = 0;
+              if (pieces.length > 0) {
+                visualMaps[metricId] = {
+                  ...this.piecewiseDefaults,
+                  pieces: pieces.reverse(), // reverse for non-echarts legends
+                  dimension,
+                  min: min,
+                  max: max,
+                  calculable: true,
+                  outOfRange: properties.outOfRange,
+                };
+              }
+            } else if (numSplits === 0) {
+              properties.outOfRange.opacity = 1;
+              min = min !== null ? min : dataRange[metricId]?.min;
+              max = max !== null ? max : dataRange[metricId]?.max;
+              min = this.precisionPipe.transform(+min, 2);
+              max = this.precisionPipe.transform(+max, 2);
+              visualMaps[metricId] = {
+                ...this.continuousDefaults,
                 dimension,
-                min: min,
-                max: max,
                 calculable: true,
+                inRange: {
+                  color: inColors,
+                },
+                min: Math.min(dataRange[metricId]?.min, min),
+                max: Math.max(dataRange[metricId]?.max, max),
+                range: [min, max],
                 outOfRange: properties.outOfRange,
               };
             }
-          } else if (numSplits === 0) {
-            properties.outOfRange.opacity = 1;
-            min = min !== null ? min : dataRange[metricId]?.min;
-            max = max !== null ? max : dataRange[metricId]?.max;
-            min = this.precisionPipe.transform(+min, 2);
-            max = this.precisionPipe.transform(+max, 2);
-            visualMaps[metricId] = {
-              ...this.continuousDefaults,
-              dimension,
-              calculable: true,
-              inRange: {
-                color: inColors,
-              },
-              min: Math.min(dataRange[metricId]?.min, min),
-              max: Math.max(dataRange[metricId]?.max, max),
-              range: [min, max],
-              outOfRange: properties.outOfRange,
-            };
           }
         });
       });
@@ -443,6 +445,7 @@ export class WidgetTypeService {
   }
 
   timeAxisFormatToolTip(params) {
+    console.log(params);
     let data = [];
     if (Array.isArray(params)) {
       data = [...params];
@@ -525,7 +528,6 @@ export class WidgetTypeService {
 
   //calculate y axis position to prevent overlap
   yAxisLabelPosition(min, max): number {
-    console.log(this.precisionPipe.transform(min));
     const minLen = (Math.round(min * 10) / 10).toString().length;
     const maxLen = (Math.round(max * 10) / 10).toString().length;
     return Math.min(Math.max(minLen, maxLen) * 9, 50);
