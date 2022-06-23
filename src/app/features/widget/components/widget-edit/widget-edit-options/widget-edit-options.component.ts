@@ -69,12 +69,15 @@ export class WidgetEditOptionsComponent
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
       this.propertiesChange.emit(this.properties);
+      console.log(this.properties);
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
       this.properties.dimensions = value;
       this.propertiesChange.emit(this.properties);
     });
+
+    this.initForm();
   }
 
   validateOptions() {
@@ -110,7 +113,6 @@ export class WidgetEditOptionsComponent
       this.widgetType = this.widgetTypes.find((type) => {
         return this.type === type.type;
       });
-      this.initForm();
       if (!this.widgetType) {
         this.thresholds = [];
         this.thresholdArray.clear();
@@ -140,7 +142,7 @@ export class WidgetEditOptionsComponent
           : this.findColor("white"),
         numSplits: this.properties.numSplits || 0,
       },
-      { emitEvent: false }
+      { emitEvent: true }
     );
     if (this.thresholds.length === 0 && this.thresholdArray.length === 0) {
       this.addThreshold();
