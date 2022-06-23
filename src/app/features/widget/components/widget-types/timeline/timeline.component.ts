@@ -82,6 +82,10 @@ export class TimelineComponent
         name: "Measurement Start",
         axisTick: {
           interval: 0,
+          show: true,
+        },
+        axisLine: {
+          show: true,
         },
         axisLabel: {
           formatter: this.widgetTypeService.timeAxisTickFormatting,
@@ -94,6 +98,10 @@ export class TimelineComponent
         },
       },
       yAxis: {
+        inverse: true,
+        axisTick: {
+          interval: 0,
+        },
         type: "category",
         nameGap: 40, //max characters
       },
@@ -120,7 +128,7 @@ export class TimelineComponent
       2
     );
     this.channels.sort((chanA, chanB) => {
-      return chanB.nslc.localeCompare(chanA.nslc);
+      return chanA.nslc.localeCompare(chanB.nslc);
     });
     this.channels.forEach((channel, index) => {
       this.selectedMetrics.forEach((metric) => {

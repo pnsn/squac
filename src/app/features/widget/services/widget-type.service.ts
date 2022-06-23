@@ -445,7 +445,6 @@ export class WidgetTypeService {
   }
 
   timeAxisFormatToolTip(params) {
-    console.log(params);
     let data = [];
     if (Array.isArray(params)) {
       data = [...params];
