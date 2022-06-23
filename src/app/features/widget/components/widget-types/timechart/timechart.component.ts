@@ -153,20 +153,19 @@ export class TimechartComponent
         show: false,
       },
       lineStyle: {
-        width: 1,
+        width: 2,
       },
       emphasis: {
         label: {
           show: false,
         },
-        focus: "self",
+        focus: "series",
         lineStyle: {
-          width: 2,
+          width: 1,
         },
-        symbolSize: 3,
       },
       symbol: "circle",
-      symbolSize: 1,
+      symbolSize: 2,
       sampling: "lttb",
     };
     // this.addThresholds();
