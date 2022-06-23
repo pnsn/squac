@@ -110,7 +110,7 @@ export class TimechartComponent
           right: 5,
         },
         grid: {
-          right: 85,
+          right: 80,
         },
       };
     } else {
@@ -156,8 +156,9 @@ export class TimechartComponent
         width: 2,
       },
       emphasis: {
-        label: {
-          show: false,
+        endLabel: {
+          show: true,
+          formatter: "{b}",
         },
         focus: "series",
         lineStyle: {

@@ -53,6 +53,7 @@ export class WidgetTypeService {
       selectorButtonGap: 5,
       selectorItemGap: 1,
       pageButtonItemGap: 1,
+      pageIconSize: 10,
       emphasis: {
         selectorLabel: {
           show: true,

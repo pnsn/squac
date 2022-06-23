@@ -89,7 +89,7 @@ export class ScatterPlotComponent
           right: 5,
         },
         grid: {
-          right: 85,
+          right: 80,
         },
       };
     } else {
