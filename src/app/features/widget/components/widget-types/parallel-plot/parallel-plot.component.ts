@@ -61,7 +61,7 @@ export class ParallelPlotComponent
   ngOnInit(): void {
     const chartOptions = {
       parallel: {
-        left: 30,
+        left: 40,
         right: 40,
         bottom: 20,
         top: 40,

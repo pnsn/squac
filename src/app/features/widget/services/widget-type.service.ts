@@ -397,8 +397,8 @@ export class WidgetTypeService {
         axis.push({
           name: metric.name, //metric.name.replace(/_/g, " "),
           dim: i,
-          min: dataRange[metric.id].min,
-          max: dataRange[metric.id].max,
+          min: dataRange[metric.id]?.min,
+          max: dataRange[metric.id]?.max,
           scale: true,
           axisLabel: {
             formatter: (value) => this.precisionPipe.transform(value, 2),
