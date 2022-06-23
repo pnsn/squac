@@ -53,14 +53,14 @@ export class WidgetTypeService {
         },
       },
     },
-    // toolbox: {
-    //   show: true,
-    //   feature: {
-    //     dataZoom: {
-    //       show: true, //not resetting correctlys
-    //     },
-    //   },
-    // },
+    toolbox: {
+      show: true,
+      feature: {
+        dataZoom: {
+          show: true, //not resetting correctlys
+        },
+      },
+    },
     grid: {
       containLabel: true,
       top: 20,
@@ -462,15 +462,17 @@ export class WidgetTypeService {
       "<table style='border-collapse: separate;border-spacing: 3px 0;'><tr><th colspan='2'>Channel</th> <th>Value</th></tr>";
 
     data.forEach((param) => {
-      const name = param.name ? param.name : param.seriesName;
-      str +=
-        "<tr><td>" +
-        param.marker +
-        "</td><td>" +
-        name +
-        "</td><td>" +
-        this.precisionPipe.transform(param.value[2]) +
-        "</td></tr>";
+      if (param.value) {
+        const name = param.name ? param.name : param.seriesName;
+        str +=
+          "<tr><td>" +
+          param.marker +
+          "</td><td>" +
+          name +
+          "</td><td>" +
+          this.precisionPipe.transform(param.value[2]) +
+          "</td></tr>";
+      }
     });
 
     return str;
