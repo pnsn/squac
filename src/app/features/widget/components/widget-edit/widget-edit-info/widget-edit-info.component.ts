@@ -43,7 +43,7 @@ export class WidgetEditInfoComponent implements OnInit {
       name: new FormControl("", Validators.required),
       type: new FormControl("", Validators.required),
       stat: new FormControl("latest", Validators.required), // default is raw data
-      displayType: new FormControl("", Validators.required),
+      displayType: new FormControl(""),
     });
   }
 
@@ -58,15 +58,18 @@ export class WidgetEditInfoComponent implements OnInit {
     this.widgetForm.get("name").valueChanges.subscribe((name) => {
       this.name = name;
       this.nameChange.emit(this.name);
+      this.checkValid();
     });
     this.widgetForm.get("stat").valueChanges.subscribe((stat) => {
       this.stat = stat;
       this.statChange.emit(this.stat);
+      this.checkValid();
     });
     this.widgetForm.get("type").valueChanges.subscribe((type) => {
       this.type = type;
       this.changeTypes();
       this.typeChange.emit(this.type);
+      this.checkValid();
     });
     this.initForm();
   }

@@ -83,7 +83,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.data = {};
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
-          console.log("update data");
           this.getData();
         }
       },

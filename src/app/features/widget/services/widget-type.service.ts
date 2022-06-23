@@ -168,7 +168,6 @@ export class WidgetTypeService {
     dataRange,
     dimension
   ) {
-    console.log(properties);
     const visualMaps = {};
     if (properties) {
       let numSplits = properties.numSplits;
@@ -209,7 +208,6 @@ export class WidgetTypeService {
             max = dataRange[metricId].max;
           }
           if (properties.displayType === "stoplight") {
-            console.log("stoplight");
             if (inColors.length < 3) {
               inColors = ["green", "yellow", "red"];
             }
@@ -224,7 +222,6 @@ export class WidgetTypeService {
               max,
             };
           } else if (numSplits > 0) {
-            console.log("piecewise");
             const pieces = this.getPieces(
               min,
               max,
@@ -246,7 +243,6 @@ export class WidgetTypeService {
               };
             }
           } else if (numSplits === 0) {
-            console.log("continuous");
             properties.outOfRange.opacity = 1;
             min = min !== null ? min : dataRange[metricId]?.min;
             max = max !== null ? max : dataRange[metricId]?.max;
@@ -272,7 +268,6 @@ export class WidgetTypeService {
         }
       });
     }
-    console.log(visualMaps);
     return visualMaps;
   }
 

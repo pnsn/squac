@@ -220,6 +220,11 @@ export class WidgetConfigService {
   get solidOptions() {
     return [
       {
+        color: ["lightgray"],
+        label: "Light gray",
+        type: "light-gray",
+      },
+      {
         color: ["white"],
         label: "no color",
         type: "white",

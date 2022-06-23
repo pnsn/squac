@@ -69,7 +69,6 @@ export class WidgetEditOptionsComponent
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
       this.propertiesChange.emit(this.properties);
-      console.log(this.properties);
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
@@ -159,7 +158,6 @@ export class WidgetEditOptionsComponent
       const dim = selected.find((m) => {
         return dimension === m.type;
       });
-      console.log("update dimensions");
       let metricId;
       if (dim) {
         metricId = dim.metricId;
@@ -197,7 +195,7 @@ export class WidgetEditOptionsComponent
     return this.formBuilder.group({
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
-      metrics: [threshold ? threshold.metrics : [], Validators.required],
+      metricId: [threshold ? threshold.metricId : null, Validators.required],
     });
   }
 

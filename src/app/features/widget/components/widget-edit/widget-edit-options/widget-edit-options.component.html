@@ -131,13 +131,14 @@
         </button>
       </div>
       <p class="help-text">
-        Values between or equal to the min and max will be 'in range'. If min
-        and max are not set, the chart will use the data min and max by default.
+        Values between or equal to the min and max will be 'in range'. If
+        thresholds are not added for a metric, the chart will use the data min
+        and max for that metric.
       </p>
       <ng-container formArrayName="thresholdArray">
         <div id="thresholds-table">
           <div class="body-row">
-            <div class="large">metric(s)</div>
+            <div class="large">metric</div>
 
             <div class="xsmall">min</div>
             <div class="xsmall">max</div>
@@ -149,13 +150,9 @@
             <div [formGroupName]="i" class="body-row">
               <div class="large">
                 <mat-form-field class="dense-form-field-select">
-                  <mat-select #metric formControlName="metrics" multiple>
+                  <mat-select #metric formControlName="metricId">
                     <mat-select-trigger>
-                      {{ metric.value ? getMetric(metric.value[0]) : "" }}
-                      <span *ngIf="metric.value?.length > 1">
-                        (+{{ metric.value.length - 1 }}
-                        {{ metric.value?.length === 2 ? "other" : "others" }})
-                      </span>
+                      {{ metric.value ? getMetric(metric.value) : "" }}
                     </mat-select-trigger>
                     <mat-option
                       *ngFor="let m of selectedMetrics"

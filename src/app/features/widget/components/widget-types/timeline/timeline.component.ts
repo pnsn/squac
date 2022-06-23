@@ -60,7 +60,6 @@ export class TimelineComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      console.log("build chart");
       this.buildChartData(this.data);
       this.changeMetrics();
     }

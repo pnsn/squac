@@ -114,7 +114,6 @@ export class TabularComponent
       frozenLeft: true,
       resizeable: false,
     });
-    console.log("test");
     this.sorts = [{ prop: "agg", dir: "desc" }];
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
