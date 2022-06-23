@@ -19,18 +19,6 @@
         <button
           mat-flat-button
           color="accent"
-          (click)="save()"
-          [disabled]="!unsaved"
-          *ngIf="'update' | able: dashboard"
-          matTooltip="Save dashboard"
-          aria-label="Button that saves changes to the dashboard"
-        >
-          Save Dashboard
-        </button>
-
-        <button
-          mat-flat-button
-          [color]="!unsaved ? 'accent' : ''"
           (click)="addWidget()"
           *ngIf="'update' | able: dashboard"
           matTooltip="Add widget"

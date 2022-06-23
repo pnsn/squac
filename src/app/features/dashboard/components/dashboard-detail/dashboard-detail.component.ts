@@ -18,7 +18,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   status;
 
   error: string = null;
-  unsaved = false;
   archiveType: string;
   archiveStat: string;
   startTime: string;
@@ -108,7 +107,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   selectArchiveType(event) {
     this.viewService.setArchive(event.dataType, event.statType);
-    this.unsaved = true;
+    this.save();
     this.refreshData();
   }
 
@@ -126,7 +125,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.archiveStat = "";
       }
     }
-    this.unsaved = true;
+    this.save();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
     this.refreshData();
   }
@@ -161,7 +160,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   save() {
     if (this.ability.can("update", this.dashboard)) {
-      this.unsaved = false;
       this.viewService.saveDashboard();
     }
   }
