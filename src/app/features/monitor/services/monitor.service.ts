@@ -15,6 +15,7 @@ export class MonitorService {
     private monitorAdapter: MonitorAdapter
   ) {}
 
+  // get all monitors for user from squacapi
   getMonitors(): Observable<Monitor[]> {
     return this.squacApi
       .get(this.url)
@@ -25,13 +26,14 @@ export class MonitorService {
       );
   }
 
+  // get monitor with id
   getMonitor(id: number): Observable<Monitor> {
     return this.squacApi
       .get(this.url, id)
       .pipe(map((response) => this.monitorAdapter.adaptFromApi(response)));
   }
 
-  // Replaces channel group with new channel group
+  // Update or create monitor
   updateMonitor(monitor: Monitor): Observable<Monitor> {
     const postData = this.monitorAdapter.adaptToApi(monitor);
     if (monitor.id) {
@@ -44,7 +46,8 @@ export class MonitorService {
       .pipe(map((response) => this.monitorAdapter.adaptFromApi(response)));
   }
 
-  deleteMonitor(id: number) {
+  // delete monitor
+  deleteMonitor(id: number): Observable<any> {
     return this.squacApi.delete(this.url, id);
   }
 }

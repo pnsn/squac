@@ -114,8 +114,6 @@ export class TimelineComponent
     console.log(event, type);
   }
 
-  resize() {}
-
   buildChartData(data) {
     this.loadingChange.emit("Building chart...");
     this.metricSeries = {};

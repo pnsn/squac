@@ -1,51 +1,47 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MetricEditComponent } from "../metric-edit/metric-edit.component";
-import { MetricService } from "../../services/metric.service";
+import { MetricEditComponent } from "../metric-edit.component";
+import { Subscription } from "rxjs";
+import { Metric } from "@core/models/metric";
 
 @Component({
   selector: "metric-edit-entry",
   template: "",
 })
 export class MetricEditEntryComponent implements OnInit, OnDestroy {
-  dialogRef;
-  metricId;
-  paramsSub;
-  metric;
+  dialogRef: MatDialogRef<MetricEditComponent>;
+  metricId: number;
+  paramsSub: Subscription;
+  metric: Metric;
 
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private metricService: MetricService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.paramsSub = this.route.params.subscribe(() => {
-      this.metricId = +this.route.snapshot.params.metricId;
-      this.metric = this.route.snapshot.data.metric;
+    // get metric info
+    this.paramsSub = this.route.params.subscribe({
+      next: () => {
+        this.metricId = +this.route.snapshot.params.metricId;
+        this.metric = this.route.snapshot.data.metric;
 
-      if (this.metricId && !this.metric) {
-        this.metricService.getMetric(this.metricId).subscribe((metric) => {
-          this.metric = metric;
-          this.openDialog();
-        });
-      } else {
         this.openDialog();
-      }
+      },
     });
   }
 
-  openDialog() {
+  openDialog(): void {
     this.dialogRef = this.dialog.open(MetricEditComponent, {
       closeOnNavigation: true,
       data: {
         metric: this.metric,
       },
     });
-    this.dialogRef.afterClosed().subscribe(
-      () => {
+    this.dialogRef.afterClosed().subscribe({
+      next: () => {
         // go to newly created metric
         if (this.metricId) {
           this.router.navigate(["../../"], { relativeTo: this.route });
@@ -54,10 +50,10 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
         }
         // route to exit
       },
-      (error) => {
+      error: (error) => {
         console.log("error in monitor detail: " + error);
-      }
-    );
+      },
+    });
   }
 
   ngOnDestroy(): void {

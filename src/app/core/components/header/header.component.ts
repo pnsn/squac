@@ -12,6 +12,7 @@ export class HeaderComponent {
 
   constructor(private authService: AuthService) {}
 
+  // log user out
   logout() {
     this.authService.logout();
   }

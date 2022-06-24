@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DashboardService } from "@dashboard/services/dashboard.service";
+import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Subscription } from "rxjs";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 
 @Component({
@@ -9,10 +11,10 @@ import { DashboardEditComponent } from "../dashboard-edit.component";
   template: "",
 })
 export class DashboardEditEntryComponent implements OnInit, OnDestroy {
-  dialogRef;
-  dashboardId;
-  paramsSub;
-  dashboard;
+  dialogRef: MatDialogRef<DashboardEditComponent>;
+  dashboardId: number;
+  paramsSub: Subscription;
+  dashboard: Dashboard;
 
   constructor(
     private dialog: MatDialog,
@@ -22,46 +24,39 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // selected dashboard
     this.paramsSub = this.route.params.subscribe((params) => {
       this.dashboardId = +params.dashboardId;
       this.dashboard = this.route.snapshot.data.dashboard;
-
-      if (this.dashboardId && !this.dashboard) {
-        this.dashboardService
-          .getDashboard(this.dashboardId)
-          .subscribe((dashboard) => {
-            this.dashboard = dashboard;
-            this.openDashboard();
-          });
-      } else {
-        this.openDashboard();
-      }
+      this.openDashboard();
     });
   }
 
-  openDashboard() {
+  // open dashboard modal
+  openDashboard(): void {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
       closeOnNavigation: true,
       data: {
         dashboard: this.dashboard,
       },
     });
-    this.dialogRef.afterClosed().subscribe(
-      (id?: number) => {
+    this.dialogRef.afterClosed().subscribe({
+      next: (id?: number) => {
         // go to newly created dashboard
         if (!this.dashboardId && id) {
           this.router.navigate(["../", id], { relativeTo: this.route });
         } else {
+          // route to exit
           this.router.navigate(["../"], { relativeTo: this.route });
         }
-        // route to exit
       },
-      (error) => {
+      error: (error) => {
         console.log("error in monitor detail: " + error);
-      }
-    );
+      },
+    });
   }
 
+  //cleanup
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

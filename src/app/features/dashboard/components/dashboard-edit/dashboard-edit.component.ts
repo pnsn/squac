@@ -13,10 +13,16 @@ import { MessageService } from "@core/services/message.service";
   styleUrls: ["./dashboard-edit.component.scss"],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription = new Subscription();
   dashboard: Dashboard;
   editMode: boolean;
   orgId: number;
-  subscriptions: Subscription = new Subscription();
+
+  dashboardForm: FormGroup = this.formBuilder.group({
+    name: ["", Validators.required],
+    description: ["", Validators.required],
+    share: ["private", Validators.required],
+  });
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,13 +33,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  dashboardForm: FormGroup = this.formBuilder.group({
-    name: ["", Validators.required],
-    description: ["", Validators.required],
-    share: ["private", Validators.required],
-  });
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.dashboard = this.data.dashboard;
 
     this.editMode = !!this.dashboard;
@@ -45,7 +45,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private initForm() {
+  // set up form
+  private initForm(): void {
     if (this.editMode) {
       let share = "private";
       if (this.dashboard.shareAll) {
@@ -61,7 +62,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  save() {
+  // save dashboard
+  save(): void {
     const values = this.dashboardForm.value;
     const shareAll = values.share === "shareAll";
     const shareOrg = values.share === "shareOrg" || shareAll;
@@ -92,7 +94,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     });
   }
   // Cancel and don't save changes
-  cancel(dashboardId?: number) {
+  cancel(dashboardId?: number): void {
     this.dialogRef.close(dashboardId);
     // route out of edit
   }

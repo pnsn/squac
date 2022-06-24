@@ -12,7 +12,6 @@ import {
 import { ChannelGroup } from "@core/models/channel-group";
 import { Subscription } from "rxjs";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { Organization } from "@user/models/organization";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { OrganizationService } from "@user/services/organization.service";
 import { UserService } from "@user/services/user.service";

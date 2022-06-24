@@ -5,7 +5,6 @@ import * as duration from "dayjs/plugin/duration";
 import { ConfigurationService } from "./configuration.service";
 
 //service to help reduce imports of dayjs
-
 @Injectable({
   providedIn: "root",
 })
@@ -22,19 +21,22 @@ export class DateService {
     this.locale = configService.getValue("locale");
   }
 
+  // adjust date using utc offset
   correctForLocal(localDate: dayjs.Dayjs): dayjs.Dayjs {
     return localDate.add(localDate.utcOffset(), "minutes").utc();
   }
 
+  // change dayjs object to utc mode
   toUtc(localDate: dayjs.Dayjs): dayjs.Dayjs {
     return localDate.utc();
   }
 
+  // Get milliseconds of utc date
   utcStringToMilliseconds(dateString: string): number {
     return this.parseUtc(dateString).valueOf() / 1000;
   }
 
-  // get now
+  // get current time
   now(): dayjs.Dayjs {
     return dayjs.utc().clone();
   }
@@ -79,13 +81,17 @@ export class DateService {
     return dayjs.duration(count, type as duration.DurationUnitType);
   }
 
+  // get dateranges from config
   get dateRanges() {
     return this.configService.getValue("dateRanges");
   }
+
+  // get time ranges for date picker
   get datePickerTimeRanges() {
     return this.configService.getValue("datePickerTimeRanges");
   }
 
+  // get default dashboard time range
   get defaultTimeRange() {
     return this.configService.getValue("defaultTimeRange", 3);
   }

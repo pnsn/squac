@@ -4,5 +4,5 @@ import { Component } from "@angular/core";
   templateUrl: "./auth.component.html",
   styleUrls: ["./auth.component.scss"],
 })
-// This component handles the login page
+// Parent component for login pages
 export class AuthComponent {}

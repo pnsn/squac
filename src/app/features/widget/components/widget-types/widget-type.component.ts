@@ -8,5 +8,4 @@ export interface WidgetTypeComponent {
   channels: Channel[];
   thresholds?: { [metricId: number]: Threshold };
   selectedMetric?: Metric;
-  resize(): void;
 }

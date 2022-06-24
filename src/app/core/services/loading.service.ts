@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Subject, BehaviorSubject } from "rxjs";
+
+// Handles loading status for loading screen
 @Injectable({
   providedIn: "root",
 })

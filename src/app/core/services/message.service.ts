@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from "@angular/core";
 import { MatSnackBar, MatSnackBarRef } from "@angular/material/snack-bar";
 import { SnackbarComponent } from "@shared/components/snackbar/snackbar.component";
 
+// Handles snackbars for showing messages to user
+// Shows a popup at the top of the page that can have an action/button
 @Injectable({
   providedIn: "root",
 })
@@ -11,7 +13,7 @@ export class MessageService implements OnDestroy {
   constructor(private snackBar: MatSnackBar) {}
 
   // opens a snackbar and passes data to component
-  openSnackBar(type, message, action?) {
+  openSnackBar(type, message, action?): void {
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data: {
         message,
@@ -25,23 +27,24 @@ export class MessageService implements OnDestroy {
   }
 
   // Closes any open snackbar
-  close() {
+  close(): void {
     if (this.snackBarRef) {
       this.snackBarRef.dismiss();
     }
   }
 
-  // Component friendly, opens a snackbar
-  // type: 'error', 'alert', 'warn'
-  message(message: string) {
+  // open standard snack bar
+  message(message: string): void {
     this.openSnackBar("default", message, null);
   }
 
-  error(message: string) {
+  // opens snack bar with red text
+  error(message: string): void {
     this.openSnackBar("error", message, "close");
   }
 
-  alert(message: string) {
+  // opens snack bar with close option
+  alert(message: string): void {
     this.openSnackBar("alert", message, null);
   }
 
@@ -50,5 +53,3 @@ export class MessageService implements OnDestroy {
     this.close();
   }
 }
-
-// Shows a popup at the bottom of the page that can have an action

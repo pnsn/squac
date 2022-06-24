@@ -13,6 +13,7 @@ import { Threshold } from "@widget/models/threshold";
 import { Measurement } from "@widget/models/measurement";
 import { Monitor } from "@monitor/models/monitor";
 
+// class for handling permissions, see Angular CASL for more info
 type Actions = "create" | "read" | "update" | "delete" | "manage";
 type Subjects =
   | InferSubjects<
@@ -61,7 +62,6 @@ export function defineAbilitiesFor(user: User) {
 
   return rules;
 }
-// TODO: deal with organizations
 
 // Viewers
 // see all resources

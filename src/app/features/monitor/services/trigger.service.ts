@@ -15,6 +15,7 @@ export class TriggerService {
     private triggerAdapter: TriggerAdapter
   ) {}
 
+  // get all triggers
   getTriggers(): Observable<Trigger[]> {
     return this.squacApi
       .get(this.url)
@@ -25,6 +26,7 @@ export class TriggerService {
       );
   }
 
+  // combine observables for update or create triggers
   updateTriggers(
     triggers: Trigger[],
     deleteTriggers: number[],
@@ -40,6 +42,7 @@ export class TriggerService {
     return triggerSubs;
   }
 
+  // create observables to update or create triggers
   private updateTrigger(trigger: Trigger, monitorId) {
     trigger.monitorId = monitorId;
     const postData = this.triggerAdapter.adaptToApi(trigger);
@@ -51,6 +54,7 @@ export class TriggerService {
     }
   }
 
+  // delete trigger
   deleteTrigger(id): Observable<any> {
     return this.squacApi.delete(this.url, id);
   }

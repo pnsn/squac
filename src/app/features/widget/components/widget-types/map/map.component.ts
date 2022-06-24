@@ -347,8 +347,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     resizeObserver.observe(document.getElementById("map"));
   }
 
-  resize() {}
-
   private getIconHtml(color?: string) {
     let htmlString = `<div style='background-color: ${color}' class='map-icon `;
     if (color === "white" || color === "transparent") {

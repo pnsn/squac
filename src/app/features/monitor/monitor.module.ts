@@ -5,7 +5,6 @@ import { MonitorEditComponent } from "./components/monitor-edit/monitor-edit.com
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
 import { MonitorRoutingModule } from "./monitor-routing.module";
 import { SharedModule } from "@shared/shared.module";
-import { MonitorChartComponent } from "./components/monitor-chart/monitor-chart.component";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
@@ -16,7 +15,6 @@ import { AbilityModule } from "@casl/angular";
     MonitorComponent,
     MonitorEditComponent,
     MonitorViewComponent,
-    MonitorChartComponent,
     MonitorEditEntryComponent,
     AlertViewComponent,
   ],

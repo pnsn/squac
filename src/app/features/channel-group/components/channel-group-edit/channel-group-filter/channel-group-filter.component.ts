@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+
+// Search boxes for getting channels
 @Component({
   selector: "channel-group-filter",
   templateUrl: "./channel-group-filter.component.html",
@@ -6,6 +8,7 @@ import { Component, EventEmitter, Output } from "@angular/core";
 })
 export class ChannelGroupFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
+  // regex strings for each param
   filters: any = {
     net_search: "",
     chan_search: "",
@@ -13,23 +16,26 @@ export class ChannelGroupFilterComponent {
     loc_search: "",
   };
 
+  // strings for form
   net: string;
   chan: string;
   sta: string;
   loc: string;
 
+  // add formatting to match squacapi
   formatFilter(value: string): string {
     let filter;
     if (value) {
       const filterStr = value.toLowerCase().trim().replace(/\?/g, "."); //turn back to allowed character
-      filter = `^${filterStr}$`;
+      filter = `^${filterStr}`;
     } else {
       filter = "";
     }
     return filter;
   }
 
-  removeFilters() {
+  // clear filters
+  removeFilters(): void {
     this.net = "";
     this.chan = "";
     this.sta = "";
@@ -38,7 +44,7 @@ export class ChannelGroupFilterComponent {
   }
 
   // send filters to parent on submit
-  updateFilters() {
+  updateFilters(): void {
     if (!this.net && !this.chan && !this.sta && !this.loc) {
       this.filters = {};
     } else {

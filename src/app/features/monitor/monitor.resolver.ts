@@ -42,7 +42,6 @@ export class MonitorResolver implements Resolve<Observable<any>> {
   }
 
   handleError(error): Observable<any> {
-    // TODO: route to show error
     return of({ error });
   }
 }

@@ -4,17 +4,16 @@ import { Observable } from "rxjs";
 import { Params } from "@angular/router";
 import { Injectable } from "@angular/core";
 
+// Generic class for interacting with squac api
 @Injectable({
   providedIn: "root",
 })
-// Generic class for interacting with squac api
 export class SquacApiService {
   protected baseUrl: string;
 
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl + environment.version;
   }
-  // TODO test
 
   // http get with optional id & params
   get(path: string, id?: number, params?: Params): Observable<any | any[]> {

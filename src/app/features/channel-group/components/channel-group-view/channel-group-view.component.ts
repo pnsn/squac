@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Subscription, filter, tap } from "rxjs";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { Subscription } from "rxjs";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 
-// TODO: trackbyprop to use channelID
+// Table of channel groups
 @Component({
   selector: "channel-group-view",
   templateUrl: "./channel-group-view.component.html",
@@ -13,20 +13,16 @@ import { ChannelGroupService } from "@channelGroup/services/channel-group.servic
 export class ChannelGroupViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  channelGroups: ChannelGroup[] = [];
   subscription: Subscription = new Subscription();
-  selectedChannelGroupId: number;
-  columns;
-  rows;
-  userId;
-  orgId;
-  resize;
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private channelGroupService: ChannelGroupService
-  ) {}
+  userId: number;
+  orgId: number;
 
+  channelGroups: ChannelGroup[] = [];
+  selectedChannelGroupId: number;
+
+  // config for table
+  columns = [];
+  rows = [];
   options = {
     messages: {
       emptyMessage: "No channel groups found.",
@@ -35,6 +31,7 @@ export class ChannelGroupViewComponent
     selectionType: "single",
     displayCheck: true,
   };
+  // controls in table head
   controls = {
     listenToRouter: true,
     basePath: "/channel-groups",
@@ -65,6 +62,7 @@ export class ChannelGroupViewComponent
     refresh: true,
   };
 
+  // settings for which filters to show
   filters = {
     toggleShared: true,
     searchField: {
@@ -73,8 +71,15 @@ export class ChannelGroupViewComponent
     },
   };
 
-  ngOnInit() {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private channelGroupService: ChannelGroupService
+  ) {}
+
+  ngOnInit(): void {
     if (this.route && this.route.data) {
+      // get channel groups to show
       const routeSub = this.route.data.subscribe((data) => {
         if (data.channelGroups.error) {
           console.log("error in channels");
@@ -89,33 +94,6 @@ export class ChannelGroupViewComponent
       });
       this.subscription.add(routeSub);
     }
-  }
-
-  refresh() {
-    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
-      this.channelGroups = channelGroups;
-      this.rows = [...this.channelGroups];
-    });
-  }
-
-  // onSelect function for data table selection
-  onSelect(channelGroup) {
-    this.selectedChannelGroupId = channelGroup ? channelGroup.id : null;
-  }
-
-  onClick(event) {
-    if (event === "delete" && this.selectedChannelGroupId) {
-      this.onDelete();
-    }
-  }
-
-  onDelete() {
-    this.channelGroupService
-      .deleteChannelGroup(this.selectedChannelGroupId)
-      .subscribe(() => {
-        this.router.navigate(["./"], { relativeTo: this.route });
-        this.refresh();
-      });
   }
 
   ngAfterViewInit(): void {
@@ -150,19 +128,49 @@ export class ChannelGroupViewComponent
         },
       ];
     }, 0);
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
+  }
+
+  // get fresh groups
+  refresh(): void {
+    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
+      this.channelGroups = channelGroups;
+      this.rows = [...this.channelGroups];
+    });
+  }
+
+  // onSelect function for data table selection
+  onSelect(channelGroup): void {
+    this.selectedChannelGroupId = channelGroup ? channelGroup.id : null;
+  }
+
+  // event emitted from table
+  onClick(event): void {
+    if (event === "delete" && this.selectedChannelGroupId) {
+      this.onDelete();
+    }
+  }
+
+  // delete channel group
+  onDelete(): void {
+    this.channelGroupService
+      .deleteChannelGroup(this.selectedChannelGroupId)
+      .subscribe(() => {
+        this.router.navigate(["./"], { relativeTo: this.route });
+        this.refresh();
+      });
+  }
+
+  // route to create group
+  addChannelGroup(): void {
+    this.router.navigate(["new"], { relativeTo: this.route });
+  }
+
+  // deselect group
+  clearSelectedChannelGroup(): void {
+    this.selectedChannelGroupId = null;
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  addChannelGroup() {
-    this.router.navigate(["new"], { relativeTo: this.route });
-  }
-
-  clearSelectedChannelGroup() {
-    this.selectedChannelGroupId = null;
   }
 }

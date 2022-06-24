@@ -168,7 +168,8 @@ export class ViewService {
     return this.dashboard.widgets.findIndex((w) => w.id === id);
   }
 
-  getWidgetById(id: number) {
+  // return widget with given id
+  getWidgetById(id: number): Widget {
     return this.dashboard.widgets.find((w) => w.id === id);
   }
 
@@ -178,7 +179,7 @@ export class ViewService {
   }
 
   // sends resize with no id
-  resizeAll() {
+  resizeAll(): void {
     this.resize.next(null);
   }
 
@@ -187,10 +188,9 @@ export class ViewService {
     if (this.dashboard) {
       this.dashboard.widgets = widgets;
     }
-
-    // init dates
   }
 
+  // stores archive options
   setArchive(archiveType, archiveStat) {
     this.dashboard.properties.archiveStat = archiveStat;
     this.dashboard.properties.archiveType = archiveType;
@@ -227,8 +227,8 @@ export class ViewService {
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
-      this.widgetService.getWidget(widgetId).subscribe(
-        (newWidget) => {
+      this.widgetService.getWidget(widgetId).subscribe({
+        next: (newWidget) => {
           if (index > -1) {
             this.dashboard.widgets[index] = newWidget;
             this.messageService.message("Widget updated.");
@@ -238,48 +238,49 @@ export class ViewService {
           }
           this.widgetChanged(newWidget.id);
         },
-        () => {
+        error: () => {
           this.messageService.error("Could not updated widget.");
-        }
-      );
+        },
+      });
     }
   }
 
+  // Tell widgets to resize
   saveWidgetResize(widget: Widget) {
-    this.widgetService.updateWidget(widget).subscribe(
-      (widget) => {
+    this.widgetService.updateWidget(widget).subscribe({
+      next: (widget) => {
         this.resizeWidget(widget.id);
       },
-      (error) => {
+      error: (error) => {
         console.log("error in widget update: ", error);
-      }
-    );
+      },
+    });
   }
 
   // deletes given widget
   deleteWidget(widgetId): void {
-    this.widgetService.deleteWidget(widgetId).subscribe(
-      () => {
+    this.widgetService.deleteWidget(widgetId).subscribe({
+      next: () => {
         this.updateWidget(widgetId);
         this.messageService.message("Widget deleted.");
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not delete widget.");
-      }
-    );
+      },
+    });
   }
 
   // deletes the dashboard
   deleteDashboard(dashboardId): void {
-    this.dashboardService.deleteDashboard(dashboardId).subscribe(
-      () => {
+    this.dashboardService.deleteDashboard(dashboardId).subscribe({
+      next: () => {
         this.messageService.message("Dashboard deleted.");
         // redirect to dashboards
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not delete dashboard.");
-      }
-    );
+      },
+    });
   }
 
   // saves the dashboard to squac

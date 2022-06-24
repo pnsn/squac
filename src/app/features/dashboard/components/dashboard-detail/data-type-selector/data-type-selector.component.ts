@@ -49,7 +49,7 @@ export class DataTypeSelectorComponent implements OnChanges {
     }
   }
 
-  updateTypes() {
+  updateTypes(): void {
     this.fullType = this.dataTypes.find((dataType) => {
       return dataType.value === this.dataType;
     });
@@ -61,7 +61,7 @@ export class DataTypeSelectorComponent implements OnChanges {
     }
   }
 
-  selectDataType(type, stat) {
+  selectDataType(type, stat): void {
     this.dataType = type;
     this.statType = stat;
     this.fullType = type;

@@ -7,7 +7,7 @@ import * as colormap from "colormap";
 export class WidgetTypeService {
   precisionPipe = new PrecisionPipe();
   piecewiseDefaults = {
-    type: "piecewise", //TODO get type from threshold
+    type: "piecewise",
     precision: 1,
     outOfRange: {
       color: "#999",
@@ -23,7 +23,7 @@ export class WidgetTypeService {
   };
 
   continuousDefaults = {
-    type: "continuous", //TODO get type from threshold
+    type: "continuous",
     precision: 1,
     outOfRange: {
       color: "#999",

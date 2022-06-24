@@ -8,6 +8,7 @@ import { ChannelGroupFilterComponent } from "./components/channel-group-edit/cha
 import { ChannelGroupRoutingModule } from "./channel-group-routing.module";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
 import { ChannelGroupMapComponent } from "./components/channel-group-map/channel-group-map.component";
+
 @NgModule({
   declarations: [
     ChannelGroupMapComponent,

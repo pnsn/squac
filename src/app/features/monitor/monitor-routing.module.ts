@@ -4,8 +4,6 @@ import { MonitorComponent } from "./components/monitor/monitor.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
 import { MonitorResolver } from "./monitor.resolver";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
-import { MetricResolver } from "@metric/metric.resolver";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
 import { AlertResolver } from "./alert.resolver";
@@ -15,7 +13,6 @@ export const routes: Routes = [
     path: "",
     component: MonitorComponent,
     canActivate: [AuthGuard],
-    // data: {subject: 'Monitor', action: 'read'}
     resolve: {
       monitors: MonitorResolver,
       alerts: AlertResolver,
@@ -28,8 +25,6 @@ export const routes: Routes = [
       },
       {
         path: "",
-        // canActivate: [PermissionGuard],
-        // data: {subject: 'Monitor', action: 'read'},
         component: MonitorViewComponent,
         resolve: {
           monitors: MonitorResolver,
@@ -38,14 +33,10 @@ export const routes: Routes = [
         children: [
           {
             path: "new",
-            // canActivate: [PermissionGuard],
-            // data: {subject: 'Monitor', action: 'create'},
             component: MonitorEditEntryComponent,
           },
           {
             path: ":monitorId",
-            // canActivate: [PermissionGuard],
-            // data: {subject: 'Monitor', action: 'create'},
             resolve: {
               monitor: MonitorResolver,
             },
@@ -53,8 +44,6 @@ export const routes: Routes = [
               {
                 path: "edit",
                 component: MonitorEditEntryComponent,
-                // canActivate: [PermissionGuard],
-                // data: {subject: 'Monitor', action: 'create'},
               },
             ],
           },

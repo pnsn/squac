@@ -8,6 +8,7 @@ export function fakeAsyncResponse<T>(data: T) {
   return defer(() => Promise.resolve(data));
 }
 
+// get most recent value
 export function mostRecent(values): number {
   values.sort((a, b) => {
     return new Date(a.starttime).getTime() - new Date(b.starttime).getTime();

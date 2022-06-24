@@ -27,6 +27,7 @@ export class LoadingInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let displayLoadingScreen = true;
 
+    // If url contains a skipUrl, don't show
     for (const url of this.skipUrls) {
       if (new RegExp(url).test(request.url)) {
         displayLoadingScreen = false;
@@ -34,13 +35,14 @@ export class LoadingInterceptor implements HttpInterceptor {
       }
     }
 
+    // Only load for GET requests
     if (request.method !== "GET") {
       displayLoadingScreen = false;
     }
 
     if (displayLoadingScreen) {
       this.activeRequests++;
-
+      // keep showing loading screen until there are no requests left
       return next.handle(request).pipe(
         finalize(() => {
           this.activeRequests--;

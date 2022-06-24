@@ -11,18 +11,21 @@ import {
 import { Channel } from "@core/models/channel";
 import * as L from "leaflet";
 
+// shared map for channels
 @Component({
   selector: "channel-group-map",
   templateUrl: "./channel-group-map.component.html",
   styleUrls: ["./channel-group-map.component.scss"],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() inGroupChannels: Channel[];
-  @Input() selectedChannels: Channel[];
-  @Input() editPage: boolean;
-  @Input() showChannel: Channel;
-  @Output() showChannelChange = new EventEmitter<any>();
+  @Input() inGroupChannels: Channel[]; // channels already in group
+  @Input() selectedChannels: Channel[]; // channels selected
+  @Input() editPage: boolean; //is used on edit page or not
+  @Input() showChannel: Channel; // channel to show
+  @Output() showChannelChange = new EventEmitter<any>(); //channel to show changed
   @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
+
+  //leaflet stuff
   stationLayer: L.FeatureGroup;
   drawnItems: L.FeatureGroup;
   options: {
@@ -36,6 +39,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
+
   constructor(private zone: NgZone) {}
 
   ngOnInit() {
@@ -99,7 +103,9 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     };
   }
 
-  onMapReady(map: L.Map) {
+  // leaflet event for when map has loaded
+  // can save map and init things on map now
+  onMapReady(map: L.Map): void {
     this.map = map;
     this.legend.addTo(this.map);
     setTimeout(() => {
@@ -108,7 +114,8 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  selectChannels(channel: Channel) {
+  // find station to show when channel is selected
+  selectChannels(channel: Channel): void {
     if (channel) {
       let stationMarker;
       this.stationLayer.eachLayer((layer: any) => {
@@ -127,22 +134,20 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
-  startDrawing(event) {
-    console.log(event);
-  }
-
-  updateMap(showChannel: boolean) {
+  // Create markers for each station
+  updateMap(showChannel: boolean): void {
     const stations = [];
     if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array
-      //fixme - needs to be done by station??
+
       this.inGroupChannels?.forEach((channel) => {
         let station = stations.find((s) => {
           return s.code === channel.networkCode + "." + channel.stationCode;
         });
 
         if (!station) {
+          // make station if there isn't one yet
           station = {
             code: channel.networkCode + "." + channel.stationCode,
             lat: channel.lat,
@@ -154,9 +159,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
         }
 
         station.inGroupChannels.push(channel);
-
-        // const marker = this.makeMarker(channel, "original-channels");
-        // chanMarkers.push(marker);
       });
 
       this.selectedChannels?.forEach((channel) => {
@@ -175,6 +177,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           stations.push(station);
         }
 
+        // check if station is already in the group
         const index = station.inGroupChannels.findIndex(
           (c) => c.id === channel.id
         );
@@ -184,30 +187,33 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
           station.inGroupChannels.splice(index, 1);
         }
         station.selectedChannels.push(channel);
-
-        // const marker = this.makeMarker(channel, "new-channels");
-        // chanMarkers.push(marker);
       });
+
+      //make marker for each station
       stations.forEach((station) => {
         const marker = this.makeMarker(station);
         stationMarkers.push(marker);
       });
 
+      // create layer from markers
       this.stationLayer = L.featureGroup(stationMarkers);
       this.layers.push(this.stationLayer);
 
+      // adjust bounds to fit stations
       if (stationMarkers.length > 0) {
         this.map.fitBounds(this.stationLayer.getBounds(), {
           padding: [11, 11],
         });
       }
+      // show selected channel
       if (showChannel) {
         this.selectChannels(this.showChannel);
       }
     }
   }
 
-  makeMarker(station) {
+  // Make leaflet marker for station
+  makeMarker(station): L.Marker {
     let selectedChannelString = "";
     let inGroupChannelString = "";
 
@@ -241,7 +247,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     marker.on("click", (ev) => {
       ev.target.openPopup();
       this.zone.run(() => {
-        //FIXME: need to actually select channels
+        //ToDO: need to actually select channels
         this.showChannelChange.emit(station);
       });
     });
@@ -250,13 +256,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   // Clear out old stuff and remove bounds
-  onDrawStart() {
+  onDrawStart(): void {
     this.drawnItems.clearLayers();
     this.boundsChange.emit("");
   }
 
   // Send out newly drawn bounds
-  onRectangleCreated(e: any) {
+  onRectangleCreated(e: any): void {
     this.rectLayer = e.layer;
     this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
     this.boundsChange.emit(""); // Clear old bounds
@@ -267,7 +273,8 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.boundsChange.emit(latLngBounds);
   }
 
-  onRectangleEdited() {
+  // Listen to rectangle edit and change bounds
+  onRectangleEdited(): void {
     this.boundsChange.emit(""); // Clear old bounds
     const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
     const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
@@ -276,7 +283,8 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.boundsChange.emit(latLngBounds);
   }
 
-  onRectangleDeleted() {
+  // clear bounds when rectangle deleted
+  onRectangleDeleted(): void {
     this.boundsChange.emit(""); // Clear old bounds
   }
 }

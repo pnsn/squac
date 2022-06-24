@@ -5,9 +5,8 @@ import { PermissionGuard } from "@core/guards/permission.guard";
 import { MetricComponent } from "./components/metric/metric.component";
 import { MetricResolver } from "./metric.resolver";
 import { MetricViewComponent } from "./components/metric-view/metric-view.component";
-import { MetricEditEntryComponent } from "./components/metric-edit-entry/metric-edit-entry.component";
+import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
 
-// TODO: fix this weird routing set up
 export const routes: Routes = [
   {
     path: "",
@@ -40,12 +39,6 @@ export const routes: Routes = [
           },
         ],
       },
-
-      // {
-      //   path: ":metricId",
-      //   component: MetricDetailComponent,
-      //   data: { subject: "Metric", action: "read" },
-      // },
     ],
   },
 ];

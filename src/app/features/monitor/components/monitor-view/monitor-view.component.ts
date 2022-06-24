@@ -20,32 +20,16 @@ import { tap, mergeMap, Subscription } from "rxjs";
   styleUrls: ["./monitor-view.component.scss"],
 })
 export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
-  monitors: Monitor[] = [];
-  @ViewChild("monitorTable") table: any;
-  @ViewChild("stateTemplate") stateTemplate: any;
-  @ViewChild("updateTemplate") updateTemplate: any;
-  @ViewChild("conditionsTemplate") conditionsTemplate: any;
-  @ViewChild("notificationTemplate") notificationTemplate: any;
-  @ViewChild("emailListTemplate") emailListTemplate: any;
-  @ViewChild("channelsTemplate") channelsTemplate: any;
-  @ViewChild("groupHeaderTemplate") groupHeaderTemplate: any;
-  @ViewChild("groupHeaderTemplate") rowDetailTemplate: any;
   subscription = new Subscription();
+  monitors: Monitor[] = [];
   selectedMonitorId: number;
   error: boolean;
   alerts: Alert[] = [];
   refreshInProgress = false;
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private alertService: AlertService,
-    private monitorService: MonitorService,
-    private confirmDialog: ConfirmDialogService,
-    private dateService: DateService
-  ) {}
 
-  rows;
-  columns;
+  // table stuff
+  rows = [];
+  columns = [];
 
   controls = {
     listenToRouter: true,
@@ -74,9 +58,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   filters = {
-    // toggleShared: {
-    //   default: "user",
-    // },
     searchField: {
       text: "Type to filter...",
       props: [
@@ -105,6 +86,25 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Monitors",
   };
 
+  // table templates
+  @ViewChild("monitorTable") table: any;
+  @ViewChild("stateTemplate") stateTemplate: any;
+  @ViewChild("updateTemplate") updateTemplate: any;
+  @ViewChild("conditionsTemplate") conditionsTemplate: any;
+  @ViewChild("notificationTemplate") notificationTemplate: any;
+  @ViewChild("emailListTemplate") emailListTemplate: any;
+  @ViewChild("channelsTemplate") channelsTemplate: any;
+  @ViewChild("groupHeaderTemplate") groupHeaderTemplate: any;
+  @ViewChild("groupHeaderTemplate") rowDetailTemplate: any;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private alertService: AlertService,
+    private monitorService: MonitorService,
+    private dateService: DateService
+  ) {}
+
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
@@ -118,7 +118,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
-      // this.selectMonitor(this.selectedMonitorId);
     }
 
     this.makeRows();
@@ -175,19 +174,22 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  onClick(event) {
+  // click event from table
+  onClick(event): void {
     if (event === "delete" && this.selectedMonitorId) {
       this.onDelete();
     }
   }
 
-  onDelete() {
+  // delete selected monitor
+  onDelete(): void {
     this.monitorService.deleteMonitor(this.selectedMonitorId).subscribe(() => {
       this.refresh();
     });
   }
 
-  makeRows() {
+  //populate rows for table
+  makeRows(): void {
     const temp = [];
     this.monitors.forEach((monitor) => {
       monitor.alerts = this.getAlerts(monitor.id);
@@ -209,10 +211,12 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rows = [...temp];
   }
 
-  onSelect(monitor) {
+  // select event from table
+  onSelect(monitor): void {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
+  // get fresh alerts
   refresh() {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
@@ -238,27 +242,18 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  getAlerts(id: number) {
-    return this.alerts.filter((a) => a.trigger.monitorId === id);
+  // return alerts with monitorId
+  getAlerts(monitorId: number): Alert[] {
+    return this.alerts.filter((a) => a.trigger.monitorId === monitorId);
   }
 
-  addMonitor() {
-    this.router.navigate(["new"], { relativeTo: this.route });
-  }
-
-  editMonitor(id: number) {
+  // route to edit monitor page
+  editMonitor(id: number): void {
     this.router.navigate([id, "edit"], { relativeTo: this.route });
   }
 
-  getMonitor(id: number) {
-    return this.monitors.find((a) => a.id === id);
-  }
-
-  rowIdentity(row) {
-    return row.id;
-  }
-
-  deleteMonitor(id) {
+  // delete monitor
+  deleteMonitor(id): void {
     this.monitorService
       .deleteMonitor(id)
       .pipe(
@@ -269,17 +264,15 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
   }
 
-  viewMonitor(id) {
+  // route to monitor page
+  viewMonitor(id): void {
     if (id) {
       this.router.navigate([id], { relativeTo: this.route });
       this.selectedMonitorId = id;
-      // this.selectMonitor(id);
     }
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
   }
 }

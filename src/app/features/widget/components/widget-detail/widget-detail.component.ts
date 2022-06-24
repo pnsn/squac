@@ -72,10 +72,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget.id === id))
-      .subscribe((widgetId) => {
-        if (this.widgetChild) {
-          this.widgetChild.resize();
-        }
+      .subscribe({
+        next: () => {
+          if (
+            this.widgetChild &&
+            typeof this.widgetChild.resize === "function"
+          ) {
+            //check if widget has resize function then call it
+            this.widgetChild.resize();
+          }
+        },
       });
 
     const updateSub = this.viewService.updateData.subscribe({

@@ -11,6 +11,7 @@ import { DashboardService } from "@features/dashboard/services/dashboard.service
 import { Subscription } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
 
+// List of dashboards
 @Component({
   selector: "dashboard-view",
   templateUrl: "./dashboard-view.component.html",
@@ -19,15 +20,16 @@ import { Dashboard } from "../../models/dashboard";
 export class DashboardViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  subscription: Subscription = new Subscription();
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
-  subscription: Subscription = new Subscription();
 
   dashboards: Dashboard[] = [];
   rows: Dashboard[];
-  columns;
-  selectedDashboardId;
+  columns = [];
+  selectedDashboardId: number;
 
+  // table config
   options = {
     messages: {
       emptyMessage: "No dashboards found.",
@@ -35,6 +37,8 @@ export class DashboardViewComponent
     footerLabel: "Dashboards",
     selectionType: "single",
   };
+
+  // controls in table head
   controls = {
     listenToRouter: true,
     basePath: "/dashboards",
@@ -65,6 +69,7 @@ export class DashboardViewComponent
     refresh: true,
   };
 
+  // search filters
   filters = {
     toggleShared: true,
     searchField: {
@@ -78,7 +83,7 @@ export class DashboardViewComponent
     private dashboardService: DashboardService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const dashboardsSub = this.route.data.subscribe((data) => {
       if (data.dashboards && data.dashboards.error) {
         console.log("error in dashboard");
@@ -89,29 +94,10 @@ export class DashboardViewComponent
     });
 
     this.subscription.add(dashboardsSub);
-    // this.subscription.add(activeDashboardSub);
-  }
-
-  // onSelect function for data table selection
-  onSelect(dashboard) {
-    this.selectedDashboardId = dashboard.id;
-  }
-
-  onClick(event) {
-    if (event === "delete" && this.selectedDashboardId) {
-      this.onDelete();
-    }
-  }
-
-  onDelete() {
-    this.dashboardService
-      .deleteDashboard(this.selectedDashboardId)
-      .subscribe(() => {
-        this.refresh();
-      });
   }
 
   ngAfterViewInit(): void {
+    // set up columns
     setTimeout(() => {
       this.columns = [
         {
@@ -148,17 +134,38 @@ export class DashboardViewComponent
     }, 0);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  // onSelect function for data table selection
+  onSelect(dashboard): void {
+    this.selectedDashboardId = dashboard.id;
   }
 
-  refresh() {
-    console.log("refresh dashboards");
+  // click event from table
+  onClick(event): void {
+    if (event === "delete" && this.selectedDashboardId) {
+      this.onDelete();
+    }
+  }
+
+  // delete dashboard
+  onDelete(): void {
+    this.dashboardService
+      .deleteDashboard(this.selectedDashboardId)
+      .subscribe(() => {
+        this.refresh();
+      });
+  }
+
+  // get fresh dashboards
+  refresh(): void {
     this.dashboardService.getDashboards().subscribe({
       next: (dashboards) => {
         this.dashboards = dashboards;
         this.rows = [...this.dashboards];
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -90,7 +90,6 @@ export class ParallelPlotComponent
   onChartEvent(event, type) {
     console.log(event.seriesName, type);
   }
-  resize() {}
 
   onChartInit(ec) {
     this.echartsInstance = ec;

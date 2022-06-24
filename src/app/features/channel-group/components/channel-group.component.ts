@@ -7,7 +7,6 @@ import { NetworkService } from "@channelGroup/services/network.service";
   template: "<router-outlet></router-outlet>",
 })
 export class ChannelGroupComponent implements OnInit, OnDestroy {
-  // channelGroups: ChannelGroup[];
   subscription: Subscription = new Subscription();
 
   constructor(private networkService: NetworkService) {}

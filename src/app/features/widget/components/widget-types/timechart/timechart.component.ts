@@ -50,7 +50,7 @@ export class TimechartComponent
   visualMaps = {};
 
   // Max allowable time between measurements to connect
-  maxMeasurementGap: number = 1.5;
+  maxMeasurementGap = 1.5;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -129,8 +129,6 @@ export class TimechartComponent
   onChartEvent(event, type) {
     console.log(event, type);
   }
-
-  resize() {}
 
   getVisualMaps() {
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(

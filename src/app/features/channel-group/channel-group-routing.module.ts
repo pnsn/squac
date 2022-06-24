@@ -8,7 +8,6 @@ import { ChannelGroupEditComponent } from "./components/channel-group-edit/chann
 import { ChannelGroupResolver } from "./channel-group.resolver";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
 
-// TODO: fix this weird routing set up
 export const routes: Routes = [
   {
     path: "",

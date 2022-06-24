@@ -8,15 +8,17 @@ import { Subscription } from "rxjs";
   styleUrls: ["./loading-screen.component.scss"],
 })
 export class LoadingScreenComponent implements OnInit, OnDestroy {
-  loading: boolean;
-  statuses: string[] = [];
   subscription: Subscription = new Subscription();
+  loading: boolean;
+  statuses: string[] = []; //statuses to show
   constructor(private loadingService: LoadingService) {}
 
   ngOnInit(): void {
+    // listens for loading status
     const loadingSub = this.loadingService.loading.subscribe((loading) => {
       this.loading = loading;
     });
+    // listens for loading text
     const loadStatusSub = this.loadingService.loadingStatus.subscribe(
       (text) => {
         if (text) {
@@ -31,9 +33,6 @@ export class LoadingScreenComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(loadStatusSub);
     this.subscription.add(loadingSub);
-    // .pipe(
-    //   debounceTime(200)
-    // )
   }
 
   ngOnDestroy(): void {

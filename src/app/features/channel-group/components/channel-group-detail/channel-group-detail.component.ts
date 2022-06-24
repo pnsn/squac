@@ -14,16 +14,16 @@ import { Channel } from "@core/models/channel";
   styleUrls: ["./channel-group-detail.component.scss"],
 })
 export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
-  channelGroup: ChannelGroup;
-  channelGroupSub: Subscription;
+  subscription = new Subscription();
+  channelGroup: ChannelGroup; // selected channel group
+  showChannel: Channel; //channels to show on map
+  error: boolean;
+
   // Table stuff
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
-  error: boolean;
-  showChannel: Channel;
   selectedRows = [];
-  selectedChannels = [];
-  subscription = new Subscription();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -33,6 +33,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // get channel group info from route
     const chanSub = this.route.data.subscribe((data) => {
       if (data.channelGroup.error) {
         this.error = true;
@@ -44,7 +45,8 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(chanSub);
   }
 
-  editChannelGroup() {
+  // route to edit path
+  editChannelGroup(): void {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
 
@@ -55,7 +57,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   //channel selected on table
-  onSelect(_event) {
+  onSelect(_event): void {
     this.showChannel = this.selectedRows[0];
   }
 
@@ -64,12 +66,13 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     this.selectedRows = event.inGroupChannels;
   }
 
-  closeChannelGroup() {
+  // close container and route to parent
+  closeChannelGroup(): void {
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 
   // Give a warning to user that delete will also delete widgets
-  onDelete() {
+  onDelete(): void {
     this.confirmDialog.open({
       title: `Delete ${this.channelGroup.name}`,
       message: "Are you sure? This action is permanent.",
@@ -84,7 +87,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   // Delete channel group
-  delete() {
+  delete(): void {
     this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
       () => {
         this.closeChannelGroup();

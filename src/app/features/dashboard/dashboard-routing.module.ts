@@ -30,7 +30,6 @@ export const routes: Routes = [
             canActivate: [PermissionGuard],
             data: { subject: "Dashboard", action: "create" },
           },
-          // loadChildren: () => import('@widgets/widgets.module').then(m=>m.WidgetModule)
         ],
       },
       {

@@ -1,26 +1,28 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { MonitorService } from "@monitor/services/monitor.service";
+import { Subscription } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Monitor } from "@features/monitor/models/monitor";
 
 @Component({
   selector: "monitor-edit-entry",
   template: "",
 })
 export class MonitorEditEntryComponent implements OnInit, OnDestroy {
-  dialogRef;
-  monitorId;
-  paramsSub;
-  metrics;
-  channelGroups;
-  monitor;
+  dialogRef: MatDialogRef<MonitorEditComponent>;
+  monitorId: number;
+  paramsSub: Subscription;
+  metrics: Metric[];
+  channelGroups: ChannelGroup[];
+  monitor: Monitor;
 
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private monitorService: MonitorService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,18 +35,11 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         this.channelGroups = this.route.snapshot.data.channelGroups;
       }
 
-      if (this.monitorId && !this.monitor) {
-        this.monitorService.getMonitor(this.monitorId).subscribe((monitor) => {
-          this.monitor = monitor;
-          this.openMonitor();
-        });
-      } else {
-        this.openMonitor();
-      }
+      this.openMonitor();
     });
   }
 
-  openMonitor() {
+  openMonitor(): void {
     this.dialogRef = this.dialog.open(MonitorEditComponent, {
       closeOnNavigation: true,
       width: "70vw",

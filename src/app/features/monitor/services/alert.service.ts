@@ -20,6 +20,7 @@ export class AlertService {
     private alertAdapter: AlertAdapter
   ) {}
 
+  // get all alerts from squacapi
   getAlerts(params?: Params): Observable<Alert[]> {
     return this.squacApi
       .get(this.url, null, params)
@@ -28,6 +29,7 @@ export class AlertService {
       );
   }
 
+  // get alert with id from squacapi
   getAlert(id: number): Observable<Alert> {
     return this.squacApi
       .get(this.url, id)

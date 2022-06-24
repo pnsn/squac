@@ -21,9 +21,40 @@ import { MessageService } from "@core/services/message.service";
   templateUrl: "./channel-group-edit.component.html",
   styleUrls: ["./channel-group-edit.component.scss"],
 })
-
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupEditComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription = new Subscription();
+
+  id: number;
+  channelGroup: ChannelGroup;
+  editMode: boolean; //create group or edit group
+  loading = false;
+  changeMade = false;
+  orgId: number;
+  showOnlyCurrent = true; // Filter out not-current channels
+  searchFilters: any;
+
+  channelGroupForm: FormGroup; // form stuff
+
+  channelsInGroup: Channel[] = []; // channels currently saved in group
+  selectedChannels: Channel[] = []; // Channels currently in selected list
+  selectedInGroupChannels: Channel[] = []; // Channels selected from group table
+  previousChannels: Channel[]; // Store last version of channels for undo
+
+  // Map stuff
+  showChannel: Channel; // Channel to show on map
+  bounds: any; // Latlng bounds to either filter by or make a new request with
+
+  // table stuff
+  SelectionType = SelectionType;
+  ColumnMode = ColumnMode;
+  SortType = SortType;
+  columns: any = [];
+  rows: Channel[] = [];
+
+  @ViewChild("availableTable") availableTable: any;
+  @ViewChild("selectedTable") selectedTable: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -35,37 +66,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
 
-  id: number;
-  channelGroup: ChannelGroup;
-  editMode: boolean;
-  subscriptions: Subscription = new Subscription();
-  loading = false;
-  changeMade = false;
-  orgId: number;
-  // form stuff
-  channelGroupForm: FormGroup;
-  selectedChannels: Channel[] = []; // Channels currently in selected list
-  selectedInGroupChannels: Channel[] = [];
-  previousChannels: Channel[];
-  showOnlyCurrent = true;
-  showChannel: Channel;
-  // Map stuff
-  bounds: any; // Latlng bounds to either filter by or make a new request with
-
-  // table stuff
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
-  SortType = SortType;
-  columns = [];
-  searchFilters: any;
-
-  channelsInGroup: Channel[] = [];
-  rows: Channel[] = [];
-
-  @ViewChild("availableTable") availableTable: any;
-  @ViewChild("selectedTable") selectedTable: any;
-
-  ngOnInit() {
+  ngOnInit(): void {
+    // listen to route param
     const paramsSub = this.route.params.subscribe((params: Params) => {
       this.id = +params.channelGroupId;
       this.editMode = !!this.id;
@@ -73,10 +75,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       this.initForm();
     });
 
-    // fixme: this shouldn't nee to be in here
+    // get orgId
     this.orgId = this.userService.userOrg;
     this.subscriptions.add(paramsSub);
 
+    // table columns
     this.columns = [
       {
         width: 30,
@@ -144,14 +147,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Inits group edit form
-  private initForm() {
+  private initForm(): void {
     this.channelGroupForm = this.formBuilder.group({
       name: new FormControl("", Validators.required),
       description: new FormControl("", Validators.required),
     });
 
     // if editing existing group, populate with the info
-    // TODO: redudant - fix for observable
     if (this.editMode) {
       this.channelGroupService.getChannelGroup(this.id).subscribe({
         next: (channelGroup) => {
@@ -169,12 +171,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  addChannels() {
-    //combine selected and saved();
+  // add selected channels to the group channels
+  addChannels(): void {
     this.previousChannels = [...this.channelsInGroup];
     //TODO: previous
     this.changeMade = true;
@@ -201,8 +199,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  //TODO: previous
-  removeChannels() {
+  // remove all selected channels from the channels in group
+  removeChannels(): void {
     this.previousChannels = [...this.channelsInGroup];
     const afterRemove = this.findChannelsInSelected();
     this.channelsInGroup = [...afterRemove];
@@ -210,7 +208,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Remove stations with offdates before today
-  filterCurrent() {
+  filterCurrent(): void {
     const current = new Date().getTime();
     const temp = this.rows.filter((channel) => {
       const offDate = new Date(channel.endttime).getTime();
@@ -219,43 +217,45 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.rows = [...temp];
   }
 
-  undoSelectRemove() {
+  // restore channels to last version
+  undoSelectRemove(): void {
     const newPrevious = [...this.channelsInGroup];
     this.channelsInGroup = [...this.previousChannels];
     this.previousChannels = newPrevious;
   }
 
-  channelsSelectedOnMap($event) {}
-
-  selectRow($event) {
+  // row selected on table
+  selectRow($event): void {
     this.showChannel = this.selectedChannels[this.selectedChannels.length - 1];
     this.selectedChannels = [...$event.selected];
   }
 
-  filtersChanged(searchFilters: any) {
+  // filters changed in filter componenet
+  filtersChanged(searchFilters: any): void {
     this.searchFilters = searchFilters;
 
     this.getChannelsWithFilters();
   }
 
-  getChannelsWithFilters() {
+  // get channels with filters and/or bounds
+  getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
     if (Object.keys(searchFilters).length !== 0) {
       this.loading = true;
       const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
-        .subscribe((response) => {
-          this.loading = false;
+        .subscribe({
+          next: (response) => {
+            this.selectedChannels = [...response];
+            this.rows = [...this.selectedChannels];
+            //select retunred rows that are in group
 
-          this.selectedChannels = [...response];
-          // if (this.bounds !== undefined) {
-          //   this.filterBounds();
-          // }
-          this.rows = [...this.selectedChannels];
-          //select retunred rows that are in group
-
-          this.filterCurrent();
-          // add channels to selected Channels
+            this.filterCurrent();
+            // add channels to selected Channels
+          },
+          complete: () => {
+            this.loading = false;
+          },
         });
       this.subscriptions.add(channelsSub);
     } else {
@@ -265,7 +265,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Save channel information
-  save() {
+  save(): void {
     const values = this.channelGroupForm.value;
     const selectedChannelIds = this.channelsInGroup.map(
       (channel) => channel.id
@@ -280,34 +280,33 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       selectedChannelIds
     );
 
-    this.channelGroupService.updateChannelGroup(cg).subscribe(
-      (result) => {
+    this.channelGroupService.updateChannelGroup(cg).subscribe({
+      next: (result) => {
         this.changeMade = false;
         this.cancel(result.id);
         this.messageService.message("Channel group saved.");
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not save channel group.");
-      }
-    );
+      },
+    });
   }
 
   // Delete channel group
-  delete() {
-    this.channelGroupService.deleteChannelGroup(this.id).subscribe(
-      () => {
+  delete(): void {
+    this.channelGroupService.deleteChannelGroup(this.id).subscribe({
+      next: () => {
         this.cancel();
         this.messageService.message("Channel group deleted.");
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not delete channel group");
-      }
-    );
+      },
+    });
   }
 
   // Exit page
-  // TODO: warn if unsaved
-  cancel(id?: number) {
+  cancel(id?: number): void {
     if (id && !this.id) {
       this.router.navigate(["../", id], { relativeTo: this.route });
     } else {
@@ -316,7 +315,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Check if form has unsaved fields
-  formUnsaved() {
+  formUnsaved(): void {
     if (this.channelGroupForm.dirty || this.changeMade) {
       this.confirmDialog.open({
         title: "Cancel editing",
@@ -324,10 +323,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         cancelText: "Keep editing",
         confirmText: "Cancel",
       });
-      this.confirmDialog.confirmed().subscribe((confirm) => {
-        if (confirm) {
-          this.cancel();
-        }
+      this.confirmDialog.confirmed().subscribe({
+        next: (confirm) => {
+          if (confirm) {
+            this.cancel();
+          }
+        },
       });
     } else {
       this.cancel();
@@ -335,7 +336,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Give a warning to user that delete will also delete widgets
-  onDelete() {
+  onDelete(): void {
     this.confirmDialog.open({
       title: `Delete ${
         this.editMode ? this.channelGroup.name : "Channel Group"
@@ -344,15 +345,17 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       cancelText: "Cancel",
       confirmText: "Delete",
     });
-    this.confirmDialog.confirmed().subscribe((confirm) => {
-      if (confirm) {
-        this.delete();
-      }
+    this.confirmDialog.confirmed().subscribe({
+      next: (confirm) => {
+        if (confirm) {
+          this.delete();
+        }
+      },
     });
   }
 
   // Filter searched channels using the map bounds
-  filterBounds() {
+  filterBounds(): void {
     const temp = this.selectedChannels.filter((channel) => {
       const latCheck =
         channel.lat <= this.bounds.lat_max &&
@@ -367,7 +370,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Update bounds for filtering channels with map
-  updateBounds(newBounds: string) {
+  updateBounds(newBounds: string): void {
     if (!newBounds) {
       this.bounds = {};
       this.rows = [...this.selectedChannels];
@@ -384,5 +387,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       };
       this.getChannelsWithFilters();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

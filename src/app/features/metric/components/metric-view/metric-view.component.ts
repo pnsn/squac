@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { MetricService } from "@features/metric/services/metric.service";
 
 @Component({
@@ -11,20 +10,14 @@ import { MetricService } from "@features/metric/services/metric.service";
   styleUrls: ["./metric-view.component.scss"],
 })
 export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
-  metrics: Metric[];
   subscription: Subscription = new Subscription();
-  selectedMetric: Metric;
-  selected = false;
+  metrics: Metric[];
+
+  // table stuff
   columns = [];
   rows = [];
-  // Table stuff
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
 
-  constructor(
-    private route: ActivatedRoute,
-    private metricService: MetricService
-  ) {}
+  //table options
   options = {
     messages: {
       emptyMessage: "No metrics found.",
@@ -54,7 +47,12 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
-  ngOnInit() {
+  constructor(
+    private route: ActivatedRoute,
+    private metricService: MetricService
+  ) {}
+
+  ngOnInit(): void {
     if (this.route && this.route.snapshot) {
       this.metrics = this.route.snapshot.data.metrics;
       this.rows = [...this.metrics];
@@ -111,28 +109,17 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  // get fresh metrics
+  refresh(): void {
+    this.metricService.getMetrics().subscribe({
+      next: (metrics) => {
+        this.metrics = metrics;
+        this.rows = [...this.rows];
+      },
+    });
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-  refresh() {
-    this.metricService.getMetrics().subscribe((metrics) => {
-      this.metrics = metrics;
-      this.rows = [...this.rows];
-    });
-  }
-  // onSelect function for data table selection
-  // onSelect(selectedRow) {
-  //   this.selectedRowId = selectedRow.id;
-  // }
-
-  // onClick(event) {
-  //   if (event === "delete" && this.selectedRowId) {
-  //     this.metricsService
-  //       .deleteDashboard(this.selectedRowId)
-  //       .subscribe(() => {
-  //         this.refresh();
-  //       });
-  //   }
-  // }
 }

@@ -4,7 +4,6 @@ import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
 
-// should I use index or id
 @Injectable({
   providedIn: "root",
 })

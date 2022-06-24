@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -17,7 +17,6 @@ import { switchMap } from "rxjs/operators";
   templateUrl: "./monitor-edit.component.html",
   styleUrls: ["./monitor-edit.component.scss"],
   providers: [
-    // {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {hideRequiredMarker: true}},
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
@@ -38,15 +37,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   hideRequiredMarker = true;
   floatLabel = "always";
   removeTriggerIDs = [];
-  constructor(
-    private formBuilder: FormBuilder,
-    private monitorService: MonitorService,
-    public dialogRef: MatDialogRef<MonitorEditComponent>,
-    private triggerService: TriggerService,
-    private messageService: MessageService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
 
+  // form options
   intervalTypes: string[] = ["minute", "hour", "day"];
   stats: object[] = [
     { value: "count", name: "count" },
@@ -72,8 +64,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     { value: "<", name: "less than" },
   ];
 
-  // selectedType;
-  // selectedStat;
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
   monitorForm = this.formBuilder.group({
@@ -86,8 +76,16 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     triggers: this.formBuilder.array([]),
   });
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private monitorService: MonitorService,
+    public dialogRef: MatDialogRef<MonitorEditComponent>,
+    private triggerService: TriggerService,
+    private messageService: MessageService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
   // Set up form fields
-  ngOnInit() {
+  ngOnInit(): void {
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
@@ -111,7 +109,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   // Add trigger info to form
-  makeTriggerForm(trigger?: Trigger) {
+  makeTriggerForm(trigger?: Trigger): FormGroup {
     return this.formBuilder.group({
       val1: [trigger ? trigger.val1 : null, Validators.required],
       val2: [trigger ? trigger.val2 : null],
@@ -138,7 +136,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   // Add a new trigger
-  addTrigger(trigger?: Trigger) {
+  addTrigger(trigger?: Trigger): void {
     const triggerFormGroup = this.makeTriggerForm(trigger);
     triggerFormGroup.valueChanges.subscribe((value) =>
       this.validateTrigger(value, triggerFormGroup)
@@ -146,7 +144,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.push(triggerFormGroup);
   }
 
-  validateTrigger(values, triggerFormGroup) {
+  // enable and disable trigger form controls
+  validateTrigger(values, triggerFormGroup): void {
     const val2 = triggerFormGroup.get("val2");
     const num_channels = triggerFormGroup.get("num_channels");
     if (
@@ -173,7 +172,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     }
   }
   // Remove given trigger
-  removeTrigger(index) {
+  removeTrigger(index): void {
     const trigger = this.triggers.at(index).value;
     if (trigger.id) {
       this.removeTriggerIDs.push(+trigger.id);
@@ -181,13 +180,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.removeAt(index);
   }
 
-  // Kill any open subs
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
   // Save monitor to SQUACapi
-  save() {
+  save(): void {
     const values = this.monitorForm.value;
     const monitor = new Monitor(
       this.id,
@@ -225,7 +219,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  keyPressNumbersWithDecimal(event) {
+  // help fix weird decimal issue in form
+  keyPressNumbersWithDecimal(event): boolean {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
       event.preventDefault();
@@ -234,7 +229,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  keyPressNumbers(event) {
+  // help fix weird decimal issue in form
+  keyPressNumbers(event): boolean {
     const charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (charCode < 48 || charCode > 57) {
@@ -246,13 +242,13 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   // Cancel and don't save changes
-  cancel(monitor?: Monitor) {
+  cancel(monitor?: Monitor): void {
     this.dialogRef.close(monitor);
     // route out of edit
   }
 
   // Fill in metric info
-  private initForm() {
+  private initForm(): void {
     if (this.editMode) {
       this.monitor = this.data.monitor;
       this.id = this.monitor.id;
@@ -278,5 +274,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     } else {
       this.addTrigger(); //have default trigger ready
     }
+  }
+
+  // Kill any open subs
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

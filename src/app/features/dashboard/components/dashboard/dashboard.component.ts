@@ -1,18 +1,8 @@
-import { Component, ViewChild } from "@angular/core";
-import { MatSidenav } from "@angular/material/sidenav";
-import { ViewService } from "@core/services/view.service";
+import { Component } from "@angular/core";
 
+// container component for dashboards
 @Component({
   selector: "dashboard-main",
   template: "<router-outlet></router-outlet>",
 })
-export class DashboardComponent {
-  opened = true;
-  @ViewChild(MatSidenav) sidenav: MatSidenav;
-
-  constructor(private viewService: ViewService) {}
-  collapseSidebar() {
-    this.viewService.resizeAll();
-    this.sidenav.toggle();
-  }
-}
+export class DashboardComponent {}

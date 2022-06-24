@@ -16,9 +16,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
   styleUrls: ["./metric-edit.component.scss"],
 })
 export class MetricEditComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription = new Subscription();
   id: number;
   metric: Metric;
   editMode: boolean;
+
   metricForm: FormGroup = this.formBuilder.group({
     name: new FormControl("", Validators.required),
     description: new FormControl("", Validators.required),
@@ -29,7 +31,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
     minVal: new FormControl(""),
     maxVal: new FormControl(""),
   });
-  subscriptions: Subscription = new Subscription();
+
   constructor(
     private metricService: MetricService,
     private formBuilder: FormBuilder,
@@ -37,17 +39,14 @@ export class MetricEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.metric = this.data.metric;
     this.editMode = !!this.metric;
     this.initForm();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  initForm() {
+  // set up form
+  initForm(): void {
     if (this.editMode) {
       this.metricForm.patchValue({
         name: this.metric.name,
@@ -61,8 +60,8 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       });
     }
   }
-  // Save channel information
-  save() {
+  // Save metric information
+  save(): void {
     const values = this.metricForm.value;
     this.metricService
       .updateMetric(
@@ -89,28 +88,12 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  cancel(metricId?: number) {
+  // route out of edit
+  cancel(metricId?: number): void {
     this.dialogRef.close(metricId);
-    // route out of edit
   }
 
-  // Check if form has unsaved fields
-  formUnsaved(e: Event) {
-    e.preventDefault();
-    // if (this.metricForm.dirty) {
-    //   this.confirmDialog.open({
-    //     title: "Cancel editing",
-    //     message: "You have unsaved changes, if you cancel they will be lost.",
-    //     cancelText: "Keep editing",
-    //     confirmText: "Cancel",
-    //   });
-    //   this.confirmDialog.confirmed().subscribe((confirm) => {
-    //     if (confirm) {
-    //       this.cancel();
-    //     }
-    //   });
-    // } else {
-    //   this.cancel();
-    // }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

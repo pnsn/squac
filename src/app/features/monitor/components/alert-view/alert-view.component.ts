@@ -12,7 +12,6 @@ import { Alert } from "@monitor/models/alert";
 import { Monitor } from "@monitor/models/monitor";
 import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { mergeMap, Subscription, tap } from "rxjs";
 
 @Component({
@@ -20,28 +19,16 @@ import { mergeMap, Subscription, tap } from "rxjs";
   templateUrl: "./alert-view.component.html",
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
+  subscription = new Subscription();
   alerts: Alert[];
-  interval;
-  // Table stuff
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
-  error: boolean;
   monitors: Monitor[];
   refreshInProgress = false;
-  subscription = new Subscription();
-  @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
-  @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
-  @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
-  @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
-  constructor(
-    private alertService: AlertService,
-    private route: ActivatedRoute,
-    private monitorService: MonitorService,
-    private dateService: DateService
-  ) {}
+  interval;
+  error: boolean;
 
-  rows;
-  columns;
+  // Table config
+  rows = [];
+  columns = [];
 
   controls = {
     listenToRouter: true,
@@ -82,6 +69,18 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Alerts",
   };
 
+  @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
+  @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
+  @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
+  @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
+
+  constructor(
+    private alertService: AlertService,
+    private route: ActivatedRoute,
+    private monitorService: MonitorService,
+    private dateService: DateService
+  ) {}
+
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       if (data.monitors.error || data.alerts.error) {
@@ -95,8 +94,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     setTimeout(() => {
       this.columns = [
         {
@@ -141,7 +138,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  refresh() {
+  // get fresh data
+  refresh(): void {
     if (!this.refreshInProgress) {
       this.refreshInProgress = true;
       const lastHour = this.dateService.subtractFromNow(1, "day").format();
@@ -166,7 +164,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // match alerts and monitors
-  findMonitorForAlerts(alerts: Alert[]) {
+  findMonitorForAlerts(alerts: Alert[]): void {
     this.alerts = [];
     if (this.monitors.length > 0 && alerts.length > 0) {
       this.alerts = alerts.map((alert) => {
@@ -180,60 +178,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
     clearInterval(this.interval);
   }
 }
-
-//name, prop, minWidth, maxWidth, flexGrow, width, resizeable, comparator, sortable,
-//draggable, canAutoResize, cellTemplate: TemplateRef, checkboxable, headercheckboxable,
-//headerClass, cellCass, frozenLeft, frozenRight,
-//pipe
-
-//   columns = [];
-//   options = {
-//     columnMode: ColumnMode.force,
-//     headerHeight: "30",
-//     footerHeight: "50",
-//     rowHeight: "auto",
-//     messages: {
-//       emptyMessage: "No alerts found.",
-//       totalMessage: "alerts",
-//     },
-//   };
-// // this.columns = [
-//   {
-//     name: "State",
-//     prop: "inAlarm",
-//     width: "60",
-//     minWidth: "60",
-//     resizeable: false,
-//     sortable: false,
-//     canAutoResize: false,
-//     templateRef: this.stateTemplate,
-//   },
-//   {
-//     name: "Time",
-//     prop: "timestamp",
-//     width: "30",
-//     draggable: "false",
-//   },
-//   {
-//     name: "Monitor",
-//     prop: "monitor",
-//     draggable: false,
-//     width: "150",
-//   },
-//   {
-//     name: "Trigger",
-//     prop: "trigger",
-//     draggable: false,
-//   },
-//   {
-//     name: "Breaching channels",
-//     prop: "breaching_channels",
-//     draggable: false,
-//   },
-// ];

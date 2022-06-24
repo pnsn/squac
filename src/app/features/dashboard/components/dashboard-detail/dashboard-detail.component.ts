@@ -6,25 +6,24 @@ import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 
-//
+// Individual dashboard
 @Component({
   selector: "dashboard-detail",
   templateUrl: "./dashboard-detail.component.html",
   styleUrls: ["./dashboard-detail.component.scss"],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
-  dashboard: Dashboard;
   subscription: Subscription = new Subscription();
-  status;
-
+  dashboard: Dashboard;
+  status: string;
   error: string = null;
+
+  // dashboard params
   archiveType: string;
   archiveStat: string;
   startTime: string;
   endTime: string;
-
-  dataParamsChanged = false;
-
+  // time picker config
   datePickerTimeRanges = [
     {
       amount: "30",
@@ -56,8 +55,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     },
   ];
 
-  liveMode;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -66,33 +63,39 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService
   ) {}
 
-  ngOnInit() {
-    const dashboardSub = this.route.data.subscribe((data) => {
-      this.status = "loading";
-      this.dashboard = data.dashboard;
-      if (data.dashboard.error) {
-        this.viewService.status.next("error");
-      } else {
-        this.archiveStat = this.dashboard.properties.archiveStat;
-        this.archiveType = this.dashboard.properties.archiveType;
-        this.viewService.setDashboard(this.dashboard);
-        this.startTime = this.viewService.startTime;
-        this.endTime = this.viewService.endTime;
-        this.error = null;
-      }
+  ngOnInit(): void {
+    const dashboardSub = this.route.data.subscribe({
+      next: (data) => {
+        this.status = "loading";
+        this.dashboard = data.dashboard;
+        if (data.dashboard.error) {
+          this.viewService.status.next("error");
+        } else {
+          // set dashboard properties
+          this.archiveStat = this.dashboard.properties.archiveStat;
+          this.archiveType = this.dashboard.properties.archiveType;
+          this.viewService.setDashboard(this.dashboard);
+          this.startTime = this.viewService.startTime;
+          this.endTime = this.viewService.endTime;
+          this.error = null;
+        }
+      },
     });
 
-    const statusSub = this.viewService.status.subscribe(
-      (status) => {
+    const statusSub = this.viewService.status.subscribe({
+      next: (status) => {
         this.status = status;
       },
-      (error) => {
+      error: (error) => {
         console.log("error in dasbhboard detail status" + error);
-      }
-    );
+      },
+    });
 
-    const errorSub = this.viewService.error.subscribe((error) => {
-      this.error = error;
+    // get any errors to show from view service
+    const errorSub = this.viewService.error.subscribe({
+      next: (error) => {
+        this.error = error;
+      },
     });
 
     this.subscription.add(dashboardSub);
@@ -100,19 +103,21 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(errorSub);
   }
 
-  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
+  // send selected dates to view service
+  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
     this.checkDates();
   }
 
-  selectArchiveType(event) {
+  // send selected archive type to views ervice
+  selectArchiveType(event): void {
     this.viewService.setArchive(event.dataType, event.statType);
     this.save();
     this.refreshData();
   }
 
   //if dates larger than 3 days, default to daily, larger than 1 month, monthly
-  checkDates() {
+  checkDates(): void {
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 1) {
         this.archiveType = "month";
@@ -130,15 +135,18 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.refreshData();
   }
 
-  editDashboard() {
+  // route to edit dashboard
+  editDashboard(): void {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
 
-  addWidget() {
+  // route to edit widget
+  addWidget(): void {
     this.router.navigate(["widgets", "new"], { relativeTo: this.route });
   }
 
-  deleteDashboard() {
+  // confirm user wants to delete
+  deleteDashboard(): void {
     this.confirmDialog.open({
       title: `Delete: ${this.dashboard.name}`,
       message: "Are you sure? This action is permanent.",
@@ -153,12 +161,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  refreshData() {
+  // tell view service to get new data
+  refreshData(): void {
     this.viewService.updateData.next(this.dashboard.id);
-    this.dataParamsChanged = false;
   }
 
-  save() {
+  // save dashboard
+  save(): void {
     if (this.ability.can("update", this.dashboard)) {
       this.viewService.saveDashboard();
     }
