@@ -19,7 +19,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   showChannel: Channel; //channels to show on map
   error: boolean;
 
-  // Table stuff
+  // table config
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   selectedRows = [];

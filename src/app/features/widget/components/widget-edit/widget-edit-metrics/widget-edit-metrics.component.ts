@@ -18,20 +18,19 @@ import { Metric } from "@core/models/metric";
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
 
   done = false;
 
-  //table
   @ViewChild("metricTable") metricTable;
+  // table config
   selected: Metric[] = [];
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   rows: Metric[] = [];
-  columns = [];
+  columns: any[] = [];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.columns = [
       {
         width: 30,
@@ -75,15 +74,18 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
     }
   }
 
-  metricsSelected({ selected }) {
+  // emit metrics when changed
+  metricsSelected({ selected }): void {
     this.selectedMetricsChange.emit(selected);
   }
 
-  checkValid() {
+  // make sure there are metrics
+  checkValid(): void {
     this.done = this.selectedMetrics && this.selectedMetrics.length > 0;
   }
 
-  updateFilter(event) {
+  // search for metrics
+  updateFilter(event): void {
     const val = event.target.value.toLowerCase();
 
     // filter our data

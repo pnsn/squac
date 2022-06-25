@@ -45,7 +45,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   showChannel: Channel; // Channel to show on map
   bounds: any; // Latlng bounds to either filter by or make a new request with
 
-  // table stuff
+  // table config
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
   SortType = SortType;

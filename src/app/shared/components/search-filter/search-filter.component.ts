@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, Pipe } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";

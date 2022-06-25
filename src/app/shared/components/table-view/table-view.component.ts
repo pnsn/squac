@@ -17,7 +17,7 @@ import { OrganizationService } from "@features/user/services/organization.servic
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
 @Component({
   selector: "shared-table-view",

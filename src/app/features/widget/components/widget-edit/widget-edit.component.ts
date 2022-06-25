@@ -14,16 +14,19 @@ import { ViewService } from "@core/services/view.service";
   styleUrls: ["./widget-edit.component.scss"],
 })
 export class WidgetEditComponent implements OnDestroy, OnInit {
+  subscriptions: Subscription = new Subscription();
+
   id: number;
   widget: Widget;
   widgetType: string;
-  subscriptions: Subscription = new Subscription();
+
   selectedMetrics: [];
   metrics: Metric[];
   channelGroups: ChannelGroup[];
   editMode: boolean;
   copyWidget: boolean;
-  displayType;
+  displayType: any;
+
   constructor(
     public dialogRef: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,11 +35,13 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     private viewService: ViewService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // check if editing or creating
     this.editMode = !!this.data.widget;
     this.widget =
       this.data.widget ||
       new Widget(null, null, "", this.data.dashboardId, null, [], "", "");
+    //check if copying to new dashboard
     this.copyWidget = this.widget.dashboardId !== this.data.dashboardId;
     if (this.copyWidget) {
       this.widget.id = null;
@@ -45,16 +50,18 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.metrics = this.data.metrics;
     this.channelGroups = this.data.channelGroups;
   }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
   // Tables need to be resized when the tab appears
-  stepSelected() {
+  stepSelected(): void {
     window.dispatchEvent(new Event("resize"));
   }
 
-  save() {
+  // save widget
+  save(): void {
     this.widget.channelGroupId = this.widget.channelGroup.id;
     this.widgetService.updateWidget(this.widget).subscribe({
       next: (response) => {

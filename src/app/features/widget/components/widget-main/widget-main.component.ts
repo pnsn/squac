@@ -12,20 +12,12 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./widget-main.component.scss"],
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
-  // @Input() canUpdate: boolean;
-  // @Input() dashboardId: number;
-
+  subscription: Subscription = new Subscription();
   loading = true;
   inited = 0;
-  subscription: Subscription = new Subscription();
+
   error: string;
   canUpdate: boolean;
-  constructor(
-    private widgetService: WidgetService,
-    private viewService: ViewService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
 
   options: GridsterConfig = {
     draggable: {
@@ -72,59 +64,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     },
   };
 
-  widgets: Array<GridsterItem> = [];
+  widgetItems: Array<GridsterItem> = [];
 
-  itemChange(item) {
-    item.widget.layout.columns = item.cols;
-    item.widget.layout.rows = item.rows;
-    item.widget.layout.x = item.x;
-    item.widget.layout.y = item.y;
-    this.viewService.saveWidgetResize(item.widget);
-  }
-
-  addWidget() {
-    this.router.navigate(["new"], { relativeTo: this.route });
-  }
-
-  trackBy(_index, item) {
-    return item.id;
-  }
-
-  private addWidgetsToView(widgets: Widget[]) {
-    this.widgets = [];
-    if (widgets && widgets.length > 0) {
-      widgets.forEach((widget) => {
-        this.addWidgetToGrid(widget);
-      });
-    }
-    this.loading = false;
-  }
-
-  addWidgetToGrid(widget: Widget, rePosition?: boolean) {
-    const item = {
-      cols: widget.layout.columns ? widget.layout.columns : 1,
-      rows: widget.layout.rows ? widget.layout.rows : 1,
-      y: rePosition ? null : widget.layout.y,
-      x: rePosition ? null : widget.layout.x,
-      widget,
-    };
-    this.widgets.push(item);
-  }
-
-  private updateWidget(widgetId: number, widget?: Widget) {
-    const index = this.widgets.findIndex((item) => {
-      return widgetId === item.widget.id;
-    });
-    // delete existing widget
-    if (index !== -1 && !widget) {
-      this.widgets.splice(index, 1);
-    } else if (index === -1 && widget) {
-      //add new
-      this.addWidgetToGrid(widget, true); //do the find position here
-    } else {
-      this.widgets[index].widget = widget;
-    }
-  }
+  constructor(
+    private viewService: ViewService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const widgetSub = this.viewService.widgetUpdated.subscribe(
@@ -163,7 +109,62 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     this.subscription.add(resizeSub);
   }
 
-  ngOnDestroy() {
+  // save widgets after resize or move
+  itemChange(item): void {
+    item.widget.layout.columns = item.cols;
+    item.widget.layout.rows = item.rows;
+    item.widget.layout.x = item.x;
+    item.widget.layout.y = item.y;
+    this.viewService.saveWidgetResize(item.widget);
+  }
+
+  addWidget(): void {
+    this.router.navigate(["new"], { relativeTo: this.route });
+  }
+
+  trackBy(_index, item): number {
+    return item.id;
+  }
+
+  private addWidgetsToView(widgets: Widget[]): void {
+    this.widgetItems = [];
+    if (widgets && widgets.length > 0) {
+      widgets.forEach((widget) => {
+        this.addWidgetToGrid(widget);
+      });
+    }
+    this.loading = false;
+  }
+
+  // insert grid item into widget
+  addWidgetToGrid(widget: Widget, rePosition?: boolean): void {
+    const item = {
+      cols: widget.layout.columns ? widget.layout.columns : 1,
+      rows: widget.layout.rows ? widget.layout.rows : 1,
+      y: rePosition ? null : widget.layout.y,
+      x: rePosition ? null : widget.layout.x,
+      widget,
+    };
+    this.widgetItems.push(item);
+  }
+
+  // update widget or remove widget
+  private updateWidget(widgetId: number, widget?: Widget): void {
+    const index = this.widgetItems.findIndex((item) => {
+      return widgetId === item.widget.id;
+    });
+    // delete existing widget
+    if (index !== -1 && !widget) {
+      this.widgetItems.splice(index, 1);
+    } else if (index === -1 && widget) {
+      //add new
+      this.addWidgetToGrid(widget, true); //do the find position here
+    } else {
+      this.widgetItems[index].widget = widget;
+    }
+  }
+
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

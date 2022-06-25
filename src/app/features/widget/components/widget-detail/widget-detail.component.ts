@@ -26,34 +26,33 @@ import { WidgetConfigService } from "@features/widget/services/widget-config.ser
   providers: [WidgetDataService],
 })
 export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
+  subscription = new Subscription();
   @Input() widget: Widget;
   @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
-  subscription = new Subscription();
-  dataUpdate = new Subject<any>();
   loading: boolean | string;
+  loadingMsg = "Fetching data ...";
+  error: boolean | string;
   dashboards: Dashboard[];
+
+  //metric changing
   selectedMetrics: Metric[] = []; //gets send to child
   notSelected: Metric[] = [];
   selected: Metric[] = [];
   expectedMetrics: number;
   metricsChanged = false;
-  loadingMsg = "Fetching data ...";
-  error: boolean | string;
-  // temp
 
-  dataSub: Subscription;
+  dataSub: Subscription; //keep track of datasub to prevent duplicate
   styles: any;
-  widgetTypes;
-  widgetType;
+  widgetTypes: any;
+  widgetType: any;
   showStationList = false;
 
   constructor(
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
     private router: Router,
-    private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private dashboardService: DashboardService,
     private viewService: ViewService,
@@ -62,14 +61,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.widgetTypes = this.widgetConfigService.widgetTypes;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes.widget) {
-      this.initWidget();
-    }
-  }
-  ngOnInit() {
+  ngOnInit(): void {
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget.id === id))
       .subscribe({
@@ -114,7 +106,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.add(this.dataSub);
   }
 
-  initWidget() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.widget) {
+      this.initWidget();
+    }
+  }
+
+  // set up widget
+  initWidget(): void {
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data) => {
         if (data && Object.keys(data).length === 0) {
@@ -141,7 +140,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   //if widget doesn't have dimensions set yet, populate them
-  checkDimensions() {
+  checkDimensions(): void {
     const dims = this.widget.properties.dimensions;
     if (!dims || (dims.length === 0 && this.widgetType.dimensions)) {
       this.widget.properties.dimensions = [];
@@ -155,23 +154,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getMetricDim(i) {
-    return this.widget.metrics[i].name;
-  }
-
-  inDimensions(metric): string {
-    const dims = this.widget.properties?.dimensions;
-
-    if (dims) {
-      const dim = dims.find((d) => {
-        return d.metricId === metric.id;
-      });
-      return dim ? dim.type : "";
-    }
-    return "";
-  }
-
-  selectMetrics() {
+  // populate selected metrics
+  selectMetrics(): void {
     this.selected = [];
     if (this.widget.properties.dimensions.length === 0) {
       this.selected = [...this.widget.metrics];
@@ -189,7 +173,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.metricsSelected();
   }
 
-  metricsSelected() {
+  // get new data and save metrics when changed
+  metricsSelected(): void {
     if (
       (this.widgetType.dimensions &&
         this.selected.length >= this.widgetType.dimensions.length) ||
@@ -203,7 +188,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.getData();
   }
 
-  changeMetric($event, metricIndex, selectedIndex) {
+  // change dimension for metric
+  changeMetric($event, metricIndex, selectedIndex): void {
     this.metricsChanged = true;
     $event.stopPropagation();
     if (selectedIndex === -1) {
@@ -216,7 +202,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getIndex(metric): number {
+  getSelectedIndex(metric): number {
     return this.selected.findIndex((m) => {
       return metric.id === m.id;
     });
@@ -226,17 +212,18 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.subscription.unsubscribe();
   }
 
-  refreshWidget() {
+  refreshWidget(): void {
     this.getData();
   }
 
-  private getData() {
+  private getData(): void {
     this.loading = "Fetching Data...";
     this.data = null;
     this.widgetDataService.fetchMeasurements();
   }
 
-  addWidgetToDashboard(dashboardId) {
+  // Route to widget edit for given dashboard
+  addWidgetToDashboard(dashboardId: number): void {
     // select dashboard
     // navigate to dashboard
     this.router.navigate([
@@ -248,11 +235,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     ]);
   }
 
-  editWidget() {
+  // route to edit
+  editWidget(): void {
     this.router.navigate([this.widget.id, "edit"], { relativeTo: this.route });
   }
 
-  deleteWidget() {
+  // confirm & delete widget
+  deleteWidget(): void {
     this.confirmDialog.open({
       title: `Delete: ${this.widget.name}`,
       message: "Are you sure? This action is permanent.",

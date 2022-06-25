@@ -13,7 +13,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription = new Subscription();
   metrics: Metric[];
 
-  // table stuff
+  // table config
   columns = [];
   rows = [];
 

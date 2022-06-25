@@ -26,7 +26,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   alerts: Alert[] = [];
   refreshInProgress = false;
 
-  // table stuff
+  // table config
   rows = [];
   columns = [];
 

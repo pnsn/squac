@@ -10,15 +10,15 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
+  subscription: Subscription = new Subscription();
   data = new Subject();
+  updateTimeout;
   private widget: Widget;
   private metrics: string;
   private type: any;
-  private refreshInterval;
-  updateTimeout;
-  locale;
+  private refreshInterval: number;
+
   private ranges = {};
-  private subscription: Subscription = new Subscription();
 
   constructor(
     private viewService: ViewService,
@@ -34,16 +34,16 @@ export class WidgetDataService implements OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.clearTimeout();
     this.subscription.unsubscribe();
   }
 
-  setWidget(widget: Widget) {
+  setWidget(widget: Widget): void {
     this.widget = widget;
   }
 
-  setMetrics(metrics: Metric[]) {
+  setMetrics(metrics: Metric[]): void {
     if (metrics.length > 0) {
       const temp = [];
       metrics.forEach((metric) => {
@@ -55,7 +55,7 @@ export class WidgetDataService implements OnDestroy {
     }
   }
 
-  setType(type: any) {
+  setType(type: any): void {
     this.type = type;
   }
 
@@ -142,7 +142,7 @@ export class WidgetDataService implements OnDestroy {
     }
   }
 
-  private calculateDataRange(metricId, value) {
+  private calculateDataRange(metricId, value): void {
     if (!this.ranges[metricId]) {
       this.ranges[metricId] = {
         min: null,
@@ -163,15 +163,13 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // Clears any active timeout
-  private clearTimeout() {
+  private clearTimeout(): void {
     if (this.updateTimeout) {
       clearTimeout(this.updateTimeout);
     }
   }
 
-  // FIXME: needs to get new range
-  // some sort of timer that gets the data and
-  private updateMeasurement() {
+  private updateMeasurement(): void {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
         this.fetchMeasurements(
@@ -181,6 +179,4 @@ export class WidgetDataService implements OnDestroy {
       }, this.refreshInterval * 60 * 1000);
     }
   }
-
-  //cache some measurement requests
 }

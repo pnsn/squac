@@ -1,20 +1,24 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { WidgetEditComponent } from "../widget-edit.component";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { Subscription } from "rxjs";
+import { Metric } from "@core/models/metric";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Widget } from "@features/widget/models/widget";
 
 @Component({
   selector: "widget-edit-entry",
   template: "",
 })
 export class WidgetEditEntryComponent implements OnInit, OnDestroy {
-  dialogRef;
-  widgetId;
-  paramsSub;
-  dashboardId;
-  metrics;
-  channelGroups;
-  widget;
+  dialogRef: MatDialogRef<WidgetEditComponent>;
+  widgetId: number;
+  dashboardId: number;
+  paramsSub: Subscription;
+  metrics: Metric[];
+  channelGroups: ChannelGroup[];
+  widget: Widget;
 
   constructor(
     private dialog: MatDialog,
@@ -37,7 +41,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  openWidget() {
+  openWidget(): void {
     if (this.dashboardId && this.metrics && this.channelGroups) {
       // get dashboard && widget from url
       this.dialogRef = this.dialog.open(WidgetEditComponent, {

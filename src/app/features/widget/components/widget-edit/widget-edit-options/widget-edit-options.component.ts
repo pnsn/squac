@@ -22,14 +22,7 @@ import * as colormap from "colormap";
 export class WidgetEditOptionsComponent
   implements OnChanges, OnDestroy, OnInit
 {
-  constructor(
-    private widgetConfigService: WidgetConfigService,
-    private formBuilder: FormBuilder
-  ) {
-    this.gradientOptions = this.widgetConfigService.gradientOptions;
-    this.solidOptions = this.widgetConfigService.solidOptions;
-    this.widgetTypes = this.widgetConfigService.widgetTypes;
-  }
+  subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
   @Input() type: string;
   @Input() displayType: any;
@@ -38,11 +31,10 @@ export class WidgetEditOptionsComponent
   @Input() properties: any;
   @Output() propertiesChange = new EventEmitter<any>();
 
-  widgetTypes;
-  widgetType;
-  gradientOptions;
-  solidOptions;
-  subscriptions: Subscription = new Subscription();
+  widgetTypes: any;
+  widgetType: any;
+  gradientOptions: any[];
+  solidOptions: any[];
 
   optionsForm: FormGroup = this.formBuilder.group({
     thresholdArray: this.formBuilder.array([]),
@@ -55,9 +47,16 @@ export class WidgetEditOptionsComponent
     }),
   });
 
+  constructor(
+    widgetConfigService: WidgetConfigService,
+    private formBuilder: FormBuilder
+  ) {
+    this.gradientOptions = widgetConfigService.gradientOptions;
+    this.solidOptions = widgetConfigService.solidOptions;
+    this.widgetTypes = widgetConfigService.widgetTypes;
+  }
+
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.thresholdArray.valueChanges.subscribe((values) => {
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
@@ -79,21 +78,7 @@ export class WidgetEditOptionsComponent
     this.initForm();
   }
 
-  validateOptions() {
-    const numSplits = this.optionsForm.get("options").get("numSplits");
-    if (this.properties.displayType === "stoplight") {
-      this.properties.numSplits = 0;
-      numSplits.patchValue(0, { emitEvent: false });
-      numSplits.disable({ emitEvent: false });
-    } else {
-      numSplits.enable({ emitEvent: false });
-    }
-  }
-
-  //what happens if you change widget type but don't change this
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
     if (changes.selectedMetrics && changes.selectedMetrics.previousValue) {
       this.changeMetrics();
       this.updateDimensions();
@@ -131,7 +116,20 @@ export class WidgetEditOptionsComponent
     }
   }
 
-  initForm() {
+  // check form inputs
+  validateOptions(): void {
+    const numSplits = this.optionsForm.get("options").get("numSplits");
+    if (this.properties.displayType === "stoplight") {
+      this.properties.numSplits = 0;
+      numSplits.patchValue(0, { emitEvent: false });
+      numSplits.disable({ emitEvent: false });
+    } else {
+      numSplits.enable({ emitEvent: false });
+    }
+  }
+
+  // set up form
+  initForm(): void {
     const inColors = this.findColor(this.properties.inRange?.type);
 
     this.optionsForm.get("options").patchValue(
@@ -149,9 +147,7 @@ export class WidgetEditOptionsComponent
     }
   }
 
-  //      threshold ? this.findColor(threshold.outOfRange.type) : null,
-  //Validators.required,
-
+  // match dimensions on widget to selected metrics
   updateDimensions() {
     const selected = this.properties.dimensions;
     this.dimensions.clear();
@@ -192,6 +188,7 @@ export class WidgetEditOptionsComponent
     this.updateDimensions();
   }
 
+  // populate form
   makeThresholdForm(threshold?: Threshold) {
     return this.formBuilder.group({
       min: [threshold ? threshold.min : null],
@@ -201,14 +198,15 @@ export class WidgetEditOptionsComponent
   }
 
   //find colors in options using the type
-  findColor(type) {
+  findColor(type: any): any {
     const t = [...this.gradientOptions, ...this.solidOptions].find((option) => {
       return option.type === type;
     });
     return t;
   }
 
-  colors(option) {
+  // get color from color option
+  colors(option: any): string[] {
     if (option.color) {
       return option.color;
     }
@@ -241,41 +239,4 @@ export class WidgetEditOptionsComponent
   removeThreshold(index) {
     this.thresholdArray.removeAt(index);
   }
-
-  getMetric(metricId: number) {
-    const metric = this.selectedMetrics?.find((metric) => {
-      return metric.id === +metricId;
-    });
-    return metric?.name;
-  }
 }
-
-// if (
-//   this.widgetType &&
-//   this.widgetType.dimensions &&
-//   this.selectedMetrics.length > 0
-// ) {
-//   this.widgetType.dimensions.forEach((dimension, i) => {
-//     const dim = selected.find((m) => {
-//       return dimension === m.type;
-//     });
-
-//     let metricId;
-//     if (dim) {
-//       metricId = dim.metricId;
-//     } else if (this.selectedMetrics[i]) {
-//       metricId = this.selectedMetrics[i].id;
-//     } else {
-//       metricId = this.selectedMetrics[0].id;
-//     }
-
-//     this.dimensions.push(
-//       this.formBuilder.group({
-//         type: [dimension], //default to piecewise
-//         metricId: [metricId],
-//       })
-//     );
-//   });
-// }
-
-//  d

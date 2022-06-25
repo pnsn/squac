@@ -25,7 +25,6 @@ import { UserPipe } from "@shared/pipes/user.pipe";
 export class WidgetEditChannelGroupComponent
   implements OnInit, OnDestroy, OnChanges
 {
-  //inputs
   @Input() channelGroups: ChannelGroup[];
   @Input() channelGroup: ChannelGroup;
   @Output() channelGroupChange = new EventEmitter<ChannelGroup>();
@@ -57,7 +56,7 @@ export class WidgetEditChannelGroupComponent
     this.orgPipe = new OrganizationPipe(orgService);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.orgId = this.userService.userOrg;
 
     this.userOrgName = this.orgService.getOrgName(this.userService.userOrg);
@@ -124,16 +123,16 @@ export class WidgetEditChannelGroupComponent
   }
 
   // onSelect function for data table selection
-  onSelect({ selected }) {
+  onSelect({ selected }): void {
     this.channelGroupChange.emit(selected[0]);
   }
 
-  checkValid() {
+  checkValid(): void {
     this.done = this.selected.length > 0;
   }
 
   //filter out other orgs data
-  filterOrg() {
+  filterOrg(): void {
     if (this.channelGroups && this.channelGroups.length > 0 && this.orgId) {
       const temp = this.channelGroups.filter((cg) => {
         return this.showOnlyUserOrg ? cg.orgId === this.orgId : true;
@@ -143,7 +142,7 @@ export class WidgetEditChannelGroupComponent
     }
   }
 
-  userComparator(userIdA, userIdB) {
+  userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();
     const userNameB = this.userPipe.transform(userIdB).toLowerCase();
 
@@ -155,7 +154,7 @@ export class WidgetEditChannelGroupComponent
     }
   }
 
-  orgComparator(orgIdA, orgIdB) {
+  orgComparator(orgIdA, orgIdB): number {
     const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
     const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
 

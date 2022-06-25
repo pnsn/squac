@@ -19,6 +19,7 @@ export class WidgetService {
     private widgetAdapter: WidgetAdapter
   ) {}
 
+  // get all widgets for dashboard
   getWidgets(dashboardId: number): Observable<Widget[]> {
     const widgets: Widget[] = [];
     return this.squacApi
@@ -45,7 +46,7 @@ export class WidgetService {
           return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
         }),
         map((channelGroups: any) => {
-          //FIXME ??? widgets get same channel group object
+          //FIXME widgets get same channel group object
           widgets.forEach((w) => {
             w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
               return cg.id === w.channelGroupId;
@@ -56,6 +57,7 @@ export class WidgetService {
       );
   }
 
+  // get individual widget
   getWidget(id: number): Observable<Widget> {
     let widget: Widget;
     return this.squacApi.get(this.url, id).pipe(
@@ -80,6 +82,7 @@ export class WidgetService {
     }
   }
 
+  // delete widget
   deleteWidget(widgetId): Observable<any> {
     return this.squacApi.delete(this.url, widgetId);
   }

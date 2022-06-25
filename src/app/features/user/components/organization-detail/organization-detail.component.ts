@@ -24,7 +24,7 @@ export class OrganizationDetailComponent
   inviteSent: boolean;
   error: string;
 
-  // table stuff
+  // table config
   rows = [];
   columns = [];
   selectedId: number;

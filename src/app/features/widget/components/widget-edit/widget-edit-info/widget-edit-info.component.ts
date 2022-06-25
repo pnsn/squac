@@ -19,24 +19,24 @@ export class WidgetEditInfoComponent implements OnInit {
   @Output() typeChange = new EventEmitter<string>();
   @Output() statChange = new EventEmitter<string>();
 
-  selectedType;
+  selectedType: any;
   error: string;
   done = false;
   // TODO: Get this from SQUAC
 
-  widgetForm: FormGroup;
-  widgetTypes;
-  statTypes;
+  widgetTypes: any;
+  statTypes: any;
 
-  constructor(private widgetConfigService: WidgetConfigService) {
-    this.statTypes = this.widgetConfigService.statTypes;
-    this.widgetTypes = this.widgetConfigService.widgetTypes;
-    this.widgetForm = new FormGroup({
-      name: new FormControl("", Validators.required),
-      type: new FormControl("", Validators.required),
-      stat: new FormControl("latest", Validators.required), // default is raw data
-      displayType: new FormControl(""),
-    });
+  widgetForm = new FormGroup({
+    name: new FormControl("", Validators.required),
+    type: new FormControl("", Validators.required),
+    stat: new FormControl("latest", Validators.required), // default is raw data
+    displayType: new FormControl(""),
+  });
+
+  constructor(widgetConfigService: WidgetConfigService) {
+    this.statTypes = widgetConfigService.statTypes;
+    this.widgetTypes = widgetConfigService.widgetTypes;
   }
 
   ngOnInit(): void {
@@ -66,7 +66,8 @@ export class WidgetEditInfoComponent implements OnInit {
     this.initForm();
   }
 
-  initForm() {
+  // set up form
+  initForm(): void {
     this.widgetForm.patchValue(
       {
         name: this.name,
@@ -76,13 +77,16 @@ export class WidgetEditInfoComponent implements OnInit {
     );
   }
 
-  changeTypes() {
+  // when the type of widget changes, update related options
+  changeTypes(): void {
     this.selectedType = this.widgetTypes.find((type) => {
       return type.type === this.type;
     });
+    // default to 'mean'
     if (!this.stat) {
       this.stat = "mean";
     }
+    // change displayOptions
     if (this.selectedType?.displayOptions) {
       this.displayType = this.selectedType.displayOptions?.find(
         (option) => option.displayType === this.properties.displayType
@@ -103,7 +107,8 @@ export class WidgetEditInfoComponent implements OnInit {
     );
   }
 
-  checkValid() {
+  // check if has all properties
+  checkValid(): void {
     this.done = !!this.name && !!this.type && !!this.stat;
     if (!this.done) {
       if (!this.name) {

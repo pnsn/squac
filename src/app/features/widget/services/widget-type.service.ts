@@ -6,6 +6,8 @@ import * as colormap from "colormap";
 @Injectable()
 export class WidgetTypeService {
   precisionPipe = new PrecisionPipe();
+
+  // defaults for piecewise visualmap
   piecewiseDefaults = {
     type: "piecewise",
     precision: 1,
@@ -22,6 +24,7 @@ export class WidgetTypeService {
     },
   };
 
+  // defaults for continuous visualmap
   continuousDefaults = {
     type: "continuous",
     precision: 1,
@@ -38,6 +41,7 @@ export class WidgetTypeService {
     },
   };
 
+  // defaults for echarts charts
   chartDefaults = {
     animation: false,
     legend: {
@@ -133,7 +137,7 @@ export class WidgetTypeService {
 
   // add new options onto defaults
   // shallow copy
-  chartOptions(options) {
+  chartOptions(options): any {
     const newOptions = { ...this.chartDefaults };
 
     Object.keys(options).forEach((key) => {
@@ -153,15 +157,6 @@ export class WidgetTypeService {
     return newOptions;
   }
 
-  getVisualMapFromMetric(metric, dataRange, dimension) {
-    return {
-      ...this.piecewiseDefaults,
-      min: metric.minVal || dataRange[metric.id].min,
-      max: metric.maxVal || dataRange[metric.id].max,
-      dimension,
-    };
-  }
-
   //can use thresholds or another metric to color?
   getVisualMapFromThresholds(
     metrics: Metric[],
@@ -169,7 +164,7 @@ export class WidgetTypeService {
     properties,
     dataRange,
     dimension
-  ) {
+  ): any {
     const visualMaps = {};
     if (properties) {
       let numSplits = properties.numSplits;
@@ -227,8 +222,7 @@ export class WidgetTypeService {
               max,
               numSplits,
               inColors,
-              outColor,
-              dataRange[metricId]
+              outColor
             );
             properties.outOfRange.opacity = 0;
             if (pieces.length > 0) {
@@ -271,7 +265,7 @@ export class WidgetTypeService {
     return visualMaps;
   }
 
-  private getPieces(min, max, numSplits, inColors, outColor, dataRange) {
+  private getPieces(min, max, numSplits, inColors, outColor): any[] {
     const pieces = [];
     // piece for -Infinity to min
     if (min !== null) {
@@ -334,6 +328,7 @@ export class WidgetTypeService {
     return pieces;
   }
 
+  // return if value is inrange
   checkValue(value, visualMap): boolean {
     let hasMin;
     let hasMax;
@@ -347,6 +342,7 @@ export class WidgetTypeService {
     return hasMin && hasMax;
   }
 
+  // find color corresponding to value
   getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
     let color = "";
     if (value === null || value === undefined) {
@@ -387,11 +383,9 @@ export class WidgetTypeService {
     return color;
   }
 
-  // getVisualMapFromMetrics() {}
-
   //series for data with no time and multiple metrics
   // parallel and scatter
-  getSeriesForMultipleMetrics(metrics, channels, data, series, dataRange) {
+  getSeriesForMultipleMetrics(metrics, channels, data, series, dataRange): any {
     const stations = [];
     const axis = [];
     metrics.forEach((metric, i) => {
@@ -466,7 +460,7 @@ export class WidgetTypeService {
 
   // channel & list of metric values
   // used for scatter, parallel etc
-  multiMetricTooltipFormatting(params) {
+  multiMetricTooltipFormatting(params): string {
     let str = `${params.name}`;
     str += "<table><tr><th>Metric</th> <th>Value</th></tr>";
 
@@ -482,7 +476,8 @@ export class WidgetTypeService {
     return str;
   }
 
-  timeAxisFormatToolTip(params) {
+  // tooltips for time x axis
+  timeAxisFormatToolTip(params): string {
     let data = [];
     if (Array.isArray(params)) {
       data = [...params];
@@ -516,7 +511,8 @@ export class WidgetTypeService {
     return str;
   }
 
-  timeAxisTickFormatting(val) {
+  // label formatting for time axis ticks
+  timeAxisTickFormatting(val): string {
     const value = new Date(val);
     let formatOptions;
     if (value.getSeconds() !== 0) {
@@ -543,7 +539,8 @@ export class WidgetTypeService {
     return string;
   }
 
-  timeAxisPointerLabelFormatting(val) {
+  // label formatting for time axis pointer label
+  timeAxisPointerLabelFormatting(val): string {
     const value = new Date(val.value);
     let formatOptions = {};
     formatOptions = {
