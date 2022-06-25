@@ -28,17 +28,17 @@ export class DateSelectComponent implements OnInit {
   startDate: dayjs.Dayjs;
   maxDate: dayjs.Dayjs;
   // settings for date select
-  locale;
-  ranges = {};
+  locale: any;
+  ranges: any = {};
 
   selected: {
     startDate;
     endDate;
   };
-  selectedRange;
-  rangeSelected;
+  selectedRange: any;
   rangesForDatePicker = {};
   liveMode: boolean;
+
   constructor(private dateService: DateService) {
     dayjs.extend(utc);
     dayjs.extend(timezone);

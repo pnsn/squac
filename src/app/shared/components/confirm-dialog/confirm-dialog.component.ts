@@ -19,6 +19,7 @@ export class ConfirmDialogComponent implements OnInit {
     },
     private matDialogRef: MatDialogRef<ConfirmDialogComponent>
   ) {}
+
   ngOnInit(): void {
     if (this.data.confirmText.toLowerCase() === "delete") {
       this.confirmButtonColor = "warn";
@@ -27,18 +28,18 @@ export class ConfirmDialogComponent implements OnInit {
     }
   }
 
-  public cancel() {
+  public cancel(): void {
     this.close(false);
   }
-  public close(value) {
+  public close(value): void {
     this.matDialogRef.close(value);
   }
-  public confirm() {
+  public confirm(): void {
     this.close(true);
   }
 
   @HostListener("keydown.esc")
-  public onEsc() {
+  public onEsc(): void {
     this.close(false);
   }
 }

@@ -11,10 +11,11 @@ import { Subscription } from "rxjs";
 
 // This component handles the login page
 export class LoginComponent implements OnDestroy {
+  subscription = new Subscription();
   error: string = null; // Has there been an error?
   message: string = null;
   hide = true;
-  subscription = new Subscription();
+
   loginForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
@@ -26,7 +27,7 @@ export class LoginComponent implements OnDestroy {
   ) {}
 
   // Form submit
-  onSubmit() {
+  onSubmit(): void {
     if (!this.loginForm.valid) {
       return;
     }

@@ -8,10 +8,6 @@ import { Observable } from "rxjs";
 })
 export class InviteService {
   private url = "invite/";
-
-  // invite
-  // registration both post
-
   constructor(private squacApi: SquacApiService) {}
 
   // tells squac to send an invite to existing user

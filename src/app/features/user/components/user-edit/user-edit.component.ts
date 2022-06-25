@@ -17,8 +17,7 @@ export class UserEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private inviteService: InviteService,
-    private formBuilder: FormBuilder
+    private inviteService: InviteService
   ) {}
   tokenValidated = false; // has token been validated
   error: string; // error message
@@ -48,6 +47,7 @@ export class UserEditComponent implements OnInit {
     });
   }
 
+  // check passwords match
   passwordValidator(group: FormGroup) {
     if (
       group.value.password &&
@@ -60,7 +60,8 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  sendPassword() {
+  //  send password to squacapi
+  sendPassword(): void {
     const values = this.userForm.value;
     const password1 = values.passwords.password;
     const password2 = values.passwords.confirm;
@@ -70,15 +71,15 @@ export class UserEditComponent implements OnInit {
     }
     this.inviteService
       .registerUser(values.firstName, values.lastName, this.token, password1)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           // go to next step
           this.router.navigate(["/login"]);
           this.tokenValidated = !!response;
         },
-        (error) => {
+        error: (error) => {
           this.error = error;
-        }
-      );
+        },
+      });
   }
 }

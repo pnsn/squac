@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, Pipe } from "@angular/core";
 import { OrganizationService } from "@features/user/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
 
@@ -10,24 +9,21 @@ import { UserPipe } from "@shared/pipes/user.pipe";
   styleUrls: ["./search-filter.component.scss"],
 })
 export class SearchFilterComponent {
-  userPipe;
-  orgPipe;
-  searchString;
+  userPipe: UserPipe;
+  orgPipe: OrganizationPipe;
+  searchString: string;
   iterateCount = 0;
   @Output() filterChanged = new EventEmitter<any[]>();
   @Input() rows: any[];
   @Input() config;
 
-  constructor(
-    private userService: UserService,
-    private orgService: OrganizationService
-  ) {
+  constructor(orgService: OrganizationService) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
   }
 
   // search for value in the table rows
-  update(event) {
+  update(event): void {
     let val = event.target.value;
 
     if (val) {
@@ -112,7 +108,7 @@ export class SearchFilterComponent {
   }
 
   // remove filter and set rows to all
-  remove() {
+  remove(): void {
     this.filterChanged.emit([...this.rows]);
     this.searchString = "";
   }

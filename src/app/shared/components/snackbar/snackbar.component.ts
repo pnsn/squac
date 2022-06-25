@@ -23,7 +23,7 @@ export class SnackbarComponent implements OnInit {
     this.action = this.data.action;
   }
 
-  dismiss() {
+  dismiss(): void {
     this.matSnackBarRef.dismiss();
   }
 }

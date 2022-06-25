@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Organization } from "@user/models/organization";
 import { User } from "@user/models/user";
+import { Subscription } from "rxjs";
 import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
 
 @Component({
@@ -10,11 +11,12 @@ import { OrganizationEditComponent } from "../organization-edit/organization-edi
   template: "",
 })
 export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
-  dialogRef;
-  userId;
-  paramsSub;
+  dialogRef: MatDialogRef<OrganizationEditComponent>;
+  userId: number;
+  paramsSub: Subscription;
   user: User;
   organization: Organization;
+
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -35,7 +37,7 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  openUser() {
+  openUser(): void {
     this.dialogRef = this.dialog.open(OrganizationEditComponent, {
       closeOnNavigation: true,
       data: {

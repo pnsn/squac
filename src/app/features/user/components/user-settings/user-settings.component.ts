@@ -12,35 +12,39 @@ import { MessageService } from "@core/services/message.service";
   styleUrls: ["./user-settings.component.scss"],
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
-  user: User;
-  userForm: FormGroup;
   subscription: Subscription = new Subscription();
+  user: User;
+  id: number;
   editMode: boolean;
+  userForm: FormGroup;
   hide = true;
-  id;
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private messageService: MessageService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user = this.route.snapshot.data.user;
     this.initForm(this.user);
   }
 
-  initForm(user) {
+  // set up form
+  initForm(user): void {
     this.userForm = new FormGroup({
       firstName: new FormControl(user.firstName, Validators.required),
       lastName: new FormControl(user.lastName, Validators.required),
     });
   }
 
-  editForm() {
+  // enable edit
+  editForm(): void {
     this.editMode = true;
   }
 
-  save() {
+  // save changed user
+  save(): void {
     this.userService.updateUser(this.userForm.value).subscribe(
       () => {
         this.userService.fetchUser();

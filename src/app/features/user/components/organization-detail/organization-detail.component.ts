@@ -3,7 +3,6 @@ import { OrganizationService } from "@user/services/organization.service";
 import { User } from "@user/models/user";
 import { Organization } from "@user/models/organization";
 import { Subscription } from "rxjs";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { InviteService } from "@user/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
@@ -16,19 +15,19 @@ import { MessageService } from "@core/services/message.service";
 export class OrganizationDetailComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  subscription: Subscription = new Subscription();
+  organization: Organization;
   user: User;
   isAdmin: boolean;
-  organization: Organization;
+
   userAdded: User;
   inviteSent: boolean;
-  subscription: Subscription = new Subscription();
   error: string;
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
-  expanded: any = {};
-  rows;
-  columns;
-  selectedId;
+
+  // table stuff
+  rows = [];
+  columns = [];
+  selectedId: number;
   selected: User;
 
   controls = {
@@ -53,6 +52,7 @@ export class OrganizationDetailComponent
     selectionType: "single",
   };
 
+  // group options
   groups = [
     {
       id: 1,
@@ -115,7 +115,15 @@ export class OrganizationDetailComponent
 
     this.subscription.add(orgSub);
   }
-  buildColumns() {
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.buildColumns();
+    }, 0);
+  }
+
+  // make columns for table
+  buildColumns(): void {
     if (this.isAdmin) {
       this.columns = [
         {
@@ -142,7 +150,6 @@ export class OrganizationDetailComponent
           },
         },
         {
-          //FIXME: admin only
           name: "Last Login",
           prop: "lastLogin",
           pipe: {
@@ -204,17 +211,9 @@ export class OrganizationDetailComponent
       ];
     }
   }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.buildColumns();
-    }, 0);
-  }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  onClick(event) {
+  // click event from table
+  onClick(event): void {
     if (event === "deactivate" && this.selectedId) {
       this.deactivateUser();
     } else if (event === "invite" && this.selectedId) {
@@ -222,12 +221,14 @@ export class OrganizationDetailComponent
     }
   }
 
-  onSelect(row: User) {
+  // select event from table
+  onSelect(row: User): void {
     this.selectedId = row.id;
     this.selected = row;
   }
 
-  deactivateUser() {
+  // send deactivation for user
+  deactivateUser(): void {
     if (this.selected) {
       this.selected.isActive = false;
       this.orgService.updateUser(this.selected).subscribe({
@@ -242,7 +243,8 @@ export class OrganizationDetailComponent
     }
   }
 
-  refresh() {
+  // get fresh user info
+  refresh(): void {
     this.orgService
       .getOrganizationUsers(this.organization.id)
       .subscribe((users) => {
@@ -250,7 +252,9 @@ export class OrganizationDetailComponent
         this.rows = [...this.organization.users];
       });
   }
-  sendInvite() {
+
+  // send invitation to user
+  sendInvite(): void {
     this.inviteService.sendInviteToUser(this.selectedId).subscribe({
       next: () => {
         this.messageService.message("Invitation email sent.");
@@ -260,5 +264,9 @@ export class OrganizationDetailComponent
         this.messageService.error(error);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

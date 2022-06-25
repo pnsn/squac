@@ -13,11 +13,12 @@ import { InviteService } from "@user/services/invite.service";
   styleUrls: ["./organization-edit.component.scss"],
 })
 export class OrganizationEditComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription = new Subscription();
   user: User;
   editMode: boolean;
   orgId: number;
   userForm: FormGroup;
-  subscriptions: Subscription = new Subscription();
+
   userIsActive = true;
   groupTypes = [
     {
@@ -45,7 +46,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user = this.data.user;
     this.orgId = this.data.orgId;
 
@@ -68,7 +69,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private initForm() {
+  // setup form
+  private initForm(): void {
     if (this.editMode) {
       this.userForm.patchValue({
         email: this.user.email,
@@ -81,11 +83,13 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  deactivate() {
+  // set user status to deactivate
+  deactivate(): void {
     this.userIsActive = false;
   }
 
-  save() {
+  // save new user
+  save(): void {
     const values = this.userForm.value;
     const user = new User(
       this.user ? this.user.id : null,
@@ -121,7 +125,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  sendInvite(id, email) {
+  // send invite to user
+  sendInvite(id, email): void {
     this.inviteService.sendInviteToUser(id).subscribe({
       next: () => {
         this.messageService.message(`Invitation email sent to ${email}.`);
@@ -132,7 +137,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     });
   }
   // Cancel and don't save changes
-  cancel(userId?) {
+  cancel(userId?): void {
     this.dialogRef.close(userId);
     // route out of edit
   }

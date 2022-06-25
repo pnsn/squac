@@ -25,17 +25,15 @@ import { Subscription, tap, filter } from "rxjs";
   styleUrls: ["./table-view.component.scss"],
 })
 export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
-
+  subscription = new Subscription();
   @Input() title: string;
-  @Input() options;
-  @Input() rows;
-  @Input() columns;
-  @Input() controls;
-  @Input() filters;
-  @Input() selectedRowId;
-  @Input() resize;
+  @Input() options: any;
+  @Input() rows: any[];
+  @Input() columns: any[];
+  @Input() controls: any;
+  @Input() filters: any;
+  @Input() selectedRowId: number;
+  @Input() resize: boolean;
   @Input() groupHeaderTemplate: TemplateRef<any>;
   @Input() tableFooterTemplate: TemplateRef<any>;
   @Input() rowDetailTemplate: TemplateRef<any>;
@@ -45,29 +43,20 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("table") table;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
-  userPipe;
-  orgPipe;
-  tableRows;
-  tableColumns;
-  searchString;
-  hideShared;
-  subscription = new Subscription();
+  userPipe: UserPipe;
+  orgPipe: OrganizationPipe;
+  tableRows: any[];
+  tableColumns: any[];
+  searchString: string;
+  hideShared: boolean;
+
   selected = [];
   selectedRow;
   user: User;
   clickCount = 0;
   selectedGroupKey;
   shareFilter = "org";
-  constructor(
-    private userService: UserService,
-    orgService: OrganizationService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private confirmDialog: ConfirmDialogService
-  ) {
-    this.userPipe = new UserPipe(orgService);
-    this.orgPipe = new OrganizationPipe(orgService);
-  }
+
   //defaultOptions
   tableOptions = {
     columnMode: ColumnMode.force,
@@ -92,6 +81,17 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       totalMessage: "total",
     },
   };
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private confirmDialog: ConfirmDialogService,
+    orgService: OrganizationService
+  ) {
+    this.userPipe = new UserPipe(orgService);
+    this.orgPipe = new OrganizationPipe(orgService);
+  }
   //doubleclick on row to view detail?
   ngOnInit() {
     Object.keys(this.options).forEach((key) => {
@@ -144,11 +144,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  processColumns() {
+  // build columns
+  processColumns(): void {
     this.columns.forEach((col) => {
       if (col.prop === "owner" || col.name === "Owner") {
         col.pipe = this.userPipe;
@@ -165,28 +162,16 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         col.cellTemplate = this.nameTemplate;
       }
     });
-    // if (this.tableOptions.displayCheck) {
-    //   this.columns.unshift({
-    //     name: "",
-    //     prop: "",
-    //     width: 30,
-    //     sortable: false,
-    //     canAutoResize: false,
-    //     draggable: false,
-    //     resizeable: false,
-    //     cellTemplate: this.checkboxTemplate,
-    //   });
-    //   console.log(this.columns);
-    // }
     this.tableColumns = [...this.columns];
   }
 
-  processRows() {
+  // filter rows
+  processRows(): void {
     this.toggleSharing();
   }
 
   // selected id, view resource if doubleclicked
-  onSelect(event) {
+  onSelect(event): void {
     if (event.selected && event.selected[0]) {
       if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
         this.clickCount++;
@@ -207,7 +192,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  selectGroupHeader(group) {
+  // select the group header
+  selectGroupHeader(group): void {
     if (this.tableOptions.groupParentType) {
       this.selectedGroupKey = group.key;
       const groupParent = group.value[0][this.tableOptions.groupParentType];
@@ -220,7 +206,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  selectResource(id) {
+  // select resource in table
+  selectResource(id): void {
     this.selected = [];
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
@@ -231,7 +218,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.itemSelected.next(this.selectedRow);
   }
 
-  menuOption(action) {
+  // choose method based on action
+  menuOption(action: string): void {
     if (action === "edit") {
       this.editResource();
     } else if (action === "add") {
@@ -245,7 +233,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  deleteResource() {
+  // delete resource
+  deleteResource(): void {
     this.confirmDialog.open({
       title: `Delete ${this.selectedRow.name}`,
       message: "Are you sure? This action is permanent.",
@@ -259,7 +248,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  viewResource() {
+  // emit view resource and route to resource
+  viewResource(): void {
     this.controlClicked.emit("view");
     let path;
     if (this.controls.menu && this.controls.menu.path) {
@@ -268,7 +258,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(this.selectedRow.id, null, path);
   }
 
-  editResource() {
+  // emit edit resource and route to 'edit' path
+  editResource(): void {
     this.controlClicked.emit("edit");
     let path;
     if (this.controls.edit && this.controls.edit.path) {
@@ -279,7 +270,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(this.selectedRow.id, "edit", path);
   }
 
-  addResource() {
+  // emit add resource and route to 'new' path
+  addResource(): void {
     this.controlClicked.emit("add");
     let path;
     if (this.controls.add && this.controls.add.path) {
@@ -290,7 +282,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(null, "new", path);
   }
 
-  routeTo(resource, action?, path?) {
+  // set up route to resource
+  // path: monitors
+  // action: edit
+  // resource: monitor
+  routeTo(resource, action?, path?): void {
     const route = [];
     if (path) {
       route.push(path);
@@ -306,29 +302,30 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  searchFieldChanged(rows) {
+  // update rows after search
+  searchFieldChanged(rows): void {
     this.hideShared = false;
     this.tableRows = [...rows];
   }
 
-  refreshResource() {
+  // emit refresh
+  refreshResource(): void {
     this.refresh.emit(true);
   }
 
-  onDetailToggle(event) {
-    console.log(event);
-  }
-
-  controlClick(type) {
+  // emit control click event with type
+  controlClick(type): void {
     this.controlClicked.emit(type);
   }
 
-  toggleExpandGroup(group) {
+  // expand group
+  toggleExpandGroup(group): boolean {
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
   }
 
-  toggleSharing() {
+  // change sharing settings and filter table to match
+  toggleSharing(): void {
     let temp;
     if (this.filters.toggleShared && this.shareFilter === "user" && this.user) {
       temp = this.rows.filter((row) => {
@@ -349,7 +346,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.tableRows = temp;
   }
 
-  userComparator(userIdA, userIdB) {
+  //sort users by name
+  userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();
     const userNameB = this.userPipe.transform(userIdB).toLowerCase();
 
@@ -361,7 +359,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  orgComparator(orgIdA, orgIdB) {
+  //sort organizations by name
+  orgComparator(orgIdA, orgIdB): number {
     const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
     const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
 
@@ -371,6 +370,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (orgNameA > orgNameB) {
       return 1;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
 
