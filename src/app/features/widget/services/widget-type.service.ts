@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import * as colormap from "colormap";
+import { autoType } from "d3";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
@@ -10,16 +11,16 @@ export class WidgetTypeService {
   // defaults for piecewise visualmap
   piecewiseDefaults = {
     type: "piecewise",
-    precision: 1,
-    outOfRange: {
-      color: "#999",
-    },
     itemGap: 5,
     textGap: 3,
     itemWidth: 14,
     itemHeight: 14,
     itemSymbol: "rect",
-    orient: "vertical",
+    bottom: "auto",
+    top: 0,
+    right: 54,
+    left: "auto",
+    orient: "horizontal",
     textStyle: {
       fontSize: 10,
     },
@@ -28,15 +29,15 @@ export class WidgetTypeService {
   // defaults for continuous visualmap
   continuousDefaults = {
     type: "continuous",
-    precision: 1,
-    outOfRange: {
-      color: "#999",
-    },
     itemWidth: 14,
-    itemHeight: 60,
+    itemHeight: 100,
     hoverLink: false, //disable until formatting figured out
     itemSymbol: "rect",
-    orient: "vertical",
+    orient: "horizontal",
+    bottom: "auto",
+    top: 0,
+    right: 54,
+    left: "auto",
     textStyle: {
       fontSize: 10,
     },
@@ -62,6 +63,7 @@ export class WidgetTypeService {
     },
     toolbox: {
       show: true,
+      top: -5,
       feature: {
         dataZoom: {
           show: true, //not resetting correctlys
@@ -70,12 +72,13 @@ export class WidgetTypeService {
     },
     grid: {
       containLabel: true,
-      top: 30,
-      right: 20,
-      bottom: 60,
-      left: 0,
+      top: 40,
+      right: 5,
+      bottom: 17,
+      left: 5,
     },
     title: {
+      top: 17,
       textStyle: {
         fontSize: 12,
         fontWeight: "normal",
@@ -88,7 +91,7 @@ export class WidgetTypeService {
     xAxis: {
       nameLocation: "center",
       name: "Measurement Start Date",
-      nameGap: 30,
+      nameGap: 23,
       nameTextStyle: {
         align: "center",
       },

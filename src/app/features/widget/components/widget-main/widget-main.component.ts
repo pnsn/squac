@@ -27,7 +27,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       dragHandleClass: "drag-handler",
       dropOverItems: false,
     },
-    scrollToNewItems: true,
+    scrollToNewItems: false, //will scroll to bottom on page load and is annoying
     gridType: "verticalFixed",
     fixedRowHeight: 50,
     minCols: 20,

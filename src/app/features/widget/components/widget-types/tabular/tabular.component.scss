@@ -15,8 +15,13 @@
 
 :host ::ng-deep .tabular-table.ngx-datatable {
   width: 100% !important;
-  height: calc(100% - 4px);
-
+  height: 100%;
+  // position: absolute;
+  // top: 30px;
+  // left: 5px;
+  // right: 5px;
+  // bottom: -15px;
+  // height: auto;
   .datatable-header {
     height: auto !important;
     font-size: 10pt !important;

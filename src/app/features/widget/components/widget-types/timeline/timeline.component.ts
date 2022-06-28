@@ -73,9 +73,6 @@ export class TimelineComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      grid: {
-        left: 40,
-      },
       xAxis: {
         type: "time",
         name: "Measurement Start",

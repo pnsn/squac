@@ -72,9 +72,6 @@ export class TimechartComponent
   }
   ngOnInit(): void {
     const chartOptions: any = {
-      grid: {
-        left: 45,
-      },
       yAxis: {
         type: "value",
       },
@@ -119,7 +116,7 @@ export class TimechartComponent
           show: false,
         },
         grid: {
-          right: 20,
+          right: 5,
         },
       };
     }
@@ -237,10 +234,6 @@ export class TimechartComponent
         min: this.viewService.startTime,
         max: this.viewService.endTime,
         axisLabel: {},
-      },
-      yAxis: {
-        name: displayMetric ? displayMetric.unit : "Unknown",
-        nameGap: 48,
       },
     };
   }

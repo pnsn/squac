@@ -61,7 +61,13 @@ export class ScatterPlotComponent
     const chartOptions = {
       series: [],
       grid: {
-        left: 45,
+        left: 23,
+      },
+      yAxis: {
+        axisLabel: {
+          inside: true,
+        },
+        nameGap: 10,
       },
       tooltip: {
         formatter: (params) => {
@@ -95,7 +101,7 @@ export class ScatterPlotComponent
           show: false,
         },
         grid: {
-          right: 20,
+          right: 5,
         },
       };
     }
@@ -161,7 +167,6 @@ export class ScatterPlotComponent
       visualMap,
       yAxis: {
         name: `${yMetric.name} (${yMetric.unit})`,
-        nameGap: 45,
       },
     };
   }
