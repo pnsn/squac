@@ -42,6 +42,7 @@ export class TimechartComponent
   @Input() showStationList: boolean;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  echartsInstance;
   subscription = new Subscription();
   options: any = {};
   updateOptions: any = {};
@@ -125,6 +126,20 @@ export class TimechartComponent
 
   onChartEvent(event, type) {
     console.log(event, type);
+  }
+
+  onChartInit(event) {
+    this.echartsInstance = event;
+  }
+
+  startZoom() {
+    console.log("startzoom");
+    this.echartsInstance.dispatchAction({
+      type: "takeGlobalCursor",
+      key: "dataZoomSelect",
+      // Activate or inactivate.
+      dataZoomSelectActive: true,
+    });
   }
 
   getVisualMaps() {

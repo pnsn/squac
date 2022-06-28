@@ -27,8 +27,13 @@ export class BoxPlotComponent implements WidgetTypeComponent {
   options: any;
   autoResize: any;
   updateOptions: any;
+  echartsInstance;
 
   onChartEvent(event, type) {
     console.log(event, type);
+  }
+
+  onChartInit(event) {
+    this.echartsInstance = event;
   }
 }

@@ -189,6 +189,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.getData();
   }
 
+  startZoom() {
+    console.log("start zoom in detail");
+    this.widgetChild.startZoom();
+    try {
+      this.widgetChild.startZoom();
+    } catch {
+      console.log("resized");
+    }
+  }
+
   // change dimension for metric
   changeMetric($event, metricIndex, selectedIndex): void {
     this.metricsChanged = true;

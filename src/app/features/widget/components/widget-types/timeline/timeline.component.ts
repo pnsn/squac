@@ -51,6 +51,7 @@ export class TimelineComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   test = 0;
+  echartsInstance;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -109,6 +110,10 @@ export class TimelineComponent
 
   onChartEvent(event, type) {
     console.log(event, type);
+  }
+
+  onChartInit(event) {
+    this.echartsInstance = event;
   }
 
   buildChartData(data) {

@@ -32,6 +32,7 @@ export class ScatterPlotComponent
   @Input() properties: any[];
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  echartsInstance;
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -83,7 +84,9 @@ export class ScatterPlotComponent
   onChartEvent(event, type) {
     console.log(event.seriesName, type);
   }
-
+  onChartInit(event) {
+    this.echartsInstance = event;
+  }
   toggleStationList() {
     let temp: any = {};
     if (this.showStationList) {

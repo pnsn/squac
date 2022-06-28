@@ -23,6 +23,8 @@ export class WidgetTypeService {
     orient: "horizontal",
     textStyle: {
       fontSize: 10,
+      width: 30,
+      overflow: "truncate",
     },
   };
 

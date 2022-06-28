@@ -94,6 +94,7 @@ export class ParallelPlotComponent
   onChartInit(ec) {
     this.echartsInstance = ec;
   }
+
   toggleStationList() {
     let temp: any = {};
     if (this.showStationList) {
