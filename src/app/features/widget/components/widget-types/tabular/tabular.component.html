@@ -18,11 +18,17 @@
   [sorts]="sorts"
 >
 </ngx-datatable>
-<ng-template #headerTemplate let-column="column" ngx-datatable-header-template>
+<ng-template
+  #headerTemplate
+  let-column="column"
+  let-sort="sortFn"
+  ngx-datatable-header-template
+>
   <div
     matTooltip="{{ column.name }}"
     matTooltipPosition="above"
-    class="header-cell"
+    class="header-cell datatable-header-cell-wrapper"
+    (click)="sort()"
   >
     {{ column.name }}
   </div>

@@ -46,6 +46,10 @@
     align-items: center;
     justify-content: space-between;
   }
+  .resize-handle {
+    width: 2px !important;
+    padding: 0px 1px !important;
+  }
   .datatable-header-cell-label {
     text-overflow: ellipsis;
     font-size: 10pt !important;
