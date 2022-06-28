@@ -44,6 +44,7 @@ export class WidgetEditOptionsComponent
       inRange: [null],
       outOfRange: [null],
       numSplits: [null], //>0 not continuous
+      reverseColors: false,
     }),
   });
 
@@ -67,7 +68,9 @@ export class WidgetEditOptionsComponent
       this.validateOptions();
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
+      this.properties.reverseColors = value.reverseColors;
       this.propertiesChange.emit(this.properties);
+      console.log(this.properties);
     });
 
     this.dimensions.valueChanges.subscribe((value) => {
@@ -139,6 +142,7 @@ export class WidgetEditOptionsComponent
           ? this.findColor(this.properties.outOfRange.type)
           : this.findColor("white"),
         numSplits: this.properties.numSplits || 0,
+        reverseColors: this.properties.reverseColors,
       },
       { emitEvent: true }
     );
@@ -238,5 +242,13 @@ export class WidgetEditOptionsComponent
   // Remove given threshold
   removeThreshold(index) {
     this.thresholdArray.removeAt(index);
+  }
+
+  // return metric name
+  getMetricName(metricId: number) {
+    const metric = this.selectedMetrics?.find((metric) => {
+      return metric.id === +metricId;
+    });
+    return metric?.name;
   }
 }

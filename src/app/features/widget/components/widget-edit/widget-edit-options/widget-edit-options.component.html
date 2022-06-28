@@ -61,6 +61,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
         <mat-form-field class="small dense-form-field-select">
           <mat-label>Out of Range</mat-label>
           <mat-select #outOfRange formControlName="outOfRange">
@@ -95,6 +96,9 @@
             formControlName="numSplits"
           />
         </mat-form-field>
+        <mat-checkbox formControlName="reverseColors">
+          Reverse Colors
+        </mat-checkbox>
       </div>
     </ng-container>
 
@@ -152,7 +156,7 @@
                 <mat-form-field class="dense-form-field-select">
                   <mat-select #metric formControlName="metricId">
                     <mat-select-trigger>
-                      {{ metric.value ? getMetric(metric.value) : "" }}
+                      {{ metric.value ? getMetricName(metric.value) : "" }}
                     </mat-select-trigger>
                     <mat-option
                       *ngFor="let m of selectedMetrics"

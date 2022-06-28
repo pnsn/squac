@@ -183,6 +183,10 @@ export class WidgetTypeService {
         });
       }
 
+      if (properties.reverseColors) {
+        inColors.reverse();
+      }
+
       metrics.forEach((metric) => {
         const metricId = metric.id;
         const threshold = thresholds.find(
