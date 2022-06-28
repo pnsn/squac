@@ -1,6 +1,9 @@
-<ng-container *ngIf="widgets.length > 0; else noWidgets">
+<ng-container *ngIf="widgetItems.length > 0; else noWidgets">
   <gridster id="dashboard-content" [options]="options">
-    <gridster-item [item]="item" *ngFor="let item of widgets; trackBy: trackBy">
+    <gridster-item
+      [item]="item"
+      *ngFor="let item of widgetItems; trackBy: trackBy"
+    >
       <div class="drag-handler" *ngIf="'update' | able: item.widget"></div>
       <widget-detail
         class="widget-detail"

@@ -8,9 +8,9 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Widget } from "@widget/models/widget";
-import { filter, Subject, Subscription, tap } from "rxjs";
+import { filter, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@dashboard/models/dashboard";
@@ -53,6 +53,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
     private router: Router,
+    private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private dashboardService: DashboardService,
     private viewService: ViewService,

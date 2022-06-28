@@ -3,7 +3,6 @@ import { ViewService } from "@core/services/view.service";
 import { Widget } from "@widget/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
-import { WidgetService } from "@widget/services/widget.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
