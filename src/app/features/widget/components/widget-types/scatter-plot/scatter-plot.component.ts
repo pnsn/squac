@@ -62,7 +62,7 @@ export class ScatterPlotComponent
     const chartOptions = {
       series: [],
       grid: {
-        left: 23,
+        left: "50",
       },
       yAxis: {
         axisLabel: {

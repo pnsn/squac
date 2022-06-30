@@ -9,17 +9,6 @@
         [color]="showStationList ? 'primary' : 'gray'"
         matTooltip="toggle channel list"
         aria-label="toggle channel list"
-        (click)="startZoom()"
-      >
-        <mat-icon>legend_toggle</mat-icon>
-      </button>
-      <button
-        *ngIf="widgetType && widgetType.showChannelList"
-        class="icon-button"
-        mat-icon-button
-        [color]="showStationList ? 'primary' : 'gray'"
-        matTooltip="toggle channel list"
-        aria-label="toggle channel list"
         (click)="showStationList = !showStationList"
       >
         <mat-icon>legend_toggle</mat-icon>
