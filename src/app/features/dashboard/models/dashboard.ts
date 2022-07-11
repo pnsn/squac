@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ChannelGroup } from "@core/models/channel-group";
 import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
+  public channelGroup: ChannelGroup;
   private _widgets: Array<Widget>;
   public _properties: DashboardProperties = defaultProperties;
   constructor(
@@ -12,7 +14,8 @@ export class Dashboard {
     public description: string,
     public shareOrg: boolean,
     public shareAll: boolean,
-    public orgId: number
+    public orgId: number,
+    public channelGroupId?: number
   ) {}
 
   //can be entered as string or properties
@@ -65,6 +68,7 @@ export interface ApiGetDashboard {
   endtime?: string;
   archive_type?: string;
   window_seconds?: number;
+  channel_group?: number;
 }
 
 export interface ApiPostDashboard {
@@ -73,6 +77,7 @@ export interface ApiPostDashboard {
   share_all: boolean;
   share_org: boolean;
   organization: number;
+  channel_group: number;
   properties: string;
 }
 
@@ -110,7 +115,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.description,
       item.share_org,
       item.share_all,
-      item.organization
+      item.organization,
+      item.channel_group
     );
 
     if (!item.properties) {
@@ -128,6 +134,7 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       share_all: item.shareAll,
       share_org: item.shareOrg,
       organization: item.orgId,
+      channel_group: item.channelGroupId,
       properties: JSON.stringify(item.properties),
     };
   }

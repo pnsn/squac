@@ -5,7 +5,6 @@ import { ChannelGroup } from "@core/models/channel-group";
 import { Injectable } from "@angular/core";
 
 export class Widget {
-  public channelGroup: ChannelGroup;
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = defaultLayout;
   public _properties: WidgetProperties = defaultProperties;
@@ -14,7 +13,6 @@ export class Widget {
     public owner: number,
     public name: string,
     public dashboardId: number,
-    public channelGroupId: number,
     public metrics: Metric[],
     public type: string,
     public stat: string //if use aggregate
@@ -74,13 +72,8 @@ export class Widget {
   }
 
   public get isValid(): boolean {
-    return (
-      !!this.name &&
-      !!this.metrics &&
-      !!this.channelGroup &&
-      !!this.type &&
-      !!this.stat
-    );
+    console.log(this.name, this.metrics, this.type, this.stat);
+    return !!this.name && !!this.metrics && !!this.type && !!this.stat;
   }
 
   // get ids from the metrics
@@ -142,7 +135,6 @@ export interface ApiGetWidget {
   dashboard: number;
   metrics: ApiGetMetric[];
   thresholds: string;
-  channel_group: number;
   user_id: string;
   properties: string;
   type: string;
@@ -160,7 +152,7 @@ export interface ApiPostWidget {
   name: string;
   dashboard: number;
   metrics: number[];
-  channel_group: number;
+
   properties: string;
   layout: string;
   type: string;
@@ -203,7 +195,6 @@ export class WidgetAdapter implements Adapter<Widget> {
       +item.user_id,
       item.name,
       item.dashboard,
-      item.channel_group,
       metrics,
       type,
       stat
@@ -221,7 +212,6 @@ export class WidgetAdapter implements Adapter<Widget> {
       name: item.name,
       metrics: item.metricsIds,
       dashboard: item.dashboardId,
-      channel_group: item.channelGroupId,
       type: item.type,
       stat: item.stat,
       layout: JSON.stringify(item.layout),

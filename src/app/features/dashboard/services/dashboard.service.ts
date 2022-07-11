@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
-import { Observable, of } from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,8 @@ export class DashboardService {
 
   constructor(
     private squacApi: SquacApiService,
-    private dashboardAdapter: DashboardAdapter
+    private dashboardAdapter: DashboardAdapter,
+    private channelGroupService: ChannelGroupService
   ) {}
 
   // Get all dashboards viewable by user from squac
@@ -47,9 +49,23 @@ export class DashboardService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
+    let dashboard: Dashboard;
     // Fetch new dashboards if > 5 minutes since refresh
     return this.squacApi.get(this.url, id).pipe(
-      map((response) => this.dashboardAdapter.adaptFromApi(response)),
+      switchMap((response) => {
+        dashboard = this.dashboardAdapter.adaptFromApi(response);
+        if (dashboard.channelGroupId) {
+          return this.channelGroupService.getChannelGroup(
+            dashboard.channelGroupId
+          );
+        } else {
+          return of(null);
+        }
+      }),
+      map((channelGroup) => {
+        dashboard.channelGroup = channelGroup;
+        return dashboard;
+      }),
       tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
     );
   }

@@ -1,18 +1,33 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { ViewService } from "@core/services/view.service";
-import { Subject, Subscription, map } from "rxjs";
+import {
+  Subject,
+  Subscription,
+  map,
+  Observable,
+  switchMap,
+  of,
+  tap,
+  filter,
+} from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementService } from "./measurement.service";
 import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
+import { id } from "@swimlane/ngx-datatable";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
   data = new Subject();
+  measurementReq: Observable<any>;
+  params = new Subject<any>();
+  $params = this.params.asObservable();
+  test = new Observable<any>();
   updateTimeout;
+  measurementReqSub;
   private widget: Widget;
   private metrics: string;
   private type: any;
@@ -32,15 +47,36 @@ export class WidgetDataService implements OnDestroy {
       "dataRefreshIntervalMinutes",
       4
     );
+
+    this.measurementReq = this.$params.pipe(
+      tap(console.log),
+      filter((params) => {
+        return params === "test"; //filter to make sure there's the correct data
+      }),
+      switchMap(() => {
+        console.log("in siwtchmap");
+        return this.getMeasurements();
+      }),
+      tap((data) => {
+        console.log("got new data", data);
+      })
+    );
+    this.measurementReqSub = this.measurementReq.subscribe((results) => {
+      console.log("new results");
+      this.data.next(results);
+    });
   }
 
   ngOnDestroy(): void {
     this.clearTimeout();
+    this.measurementReqSub.unsubscribe();
     this.subscription.unsubscribe();
   }
 
   setWidget(widget: Widget): void {
     this.widget = widget;
+    console.log("set widget");
+    this.params.next("test");
   }
 
   setMetrics(metrics: Metric[]): void {
@@ -53,6 +89,7 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
+    this.params.next("metrics");
   }
 
   setType(type: any): void {
@@ -62,6 +99,11 @@ export class WidgetDataService implements OnDestroy {
   get dataRange() {
     return this.ranges;
   }
+
+  getMeasurements(): Observable<any> {
+    return of(["test"]);
+  }
+
   // TODO: needs to truncate old measurement
   fetchMeasurements(startString?: string, endString?: string): void {
     this.clearTimeout();
@@ -77,13 +119,13 @@ export class WidgetDataService implements OnDestroy {
       start = startString;
       end = endString;
     }
-
+    const channelString = this.viewService.channelsString;
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
     const useAggregate = this.type.useAggregate;
     this.ranges = {};
 
-    if (this.widget && this.metrics && this.widget.channelGroup) {
+    if (this.widget && this.metrics && channelString) {
       const widgetStat = this.widget.stat;
       this.viewService.widgetStartedLoading();
       const measurementSub = this.measurementService
@@ -91,7 +133,7 @@ export class WidgetDataService implements OnDestroy {
           start,
           end,
           this.metrics,
-          this.widget.channelGroup.id,
+          channelString,
           useAggregate,
           archiveType
         )

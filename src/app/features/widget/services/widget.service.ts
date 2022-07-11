@@ -3,8 +3,6 @@ import { Observable, forkJoin, of } from "rxjs";
 import { ApiPostWidget, Widget, WidgetAdapter } from "@widget/models/widget";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
-import { ChannelGroup } from "@core/models/channel-group";
 
 @Injectable({
   providedIn: "root",
@@ -15,42 +13,20 @@ export class WidgetService {
 
   constructor(
     private squacApi: SquacApiService,
-    private channelGroupService: ChannelGroupService,
     private widgetAdapter: WidgetAdapter
   ) {}
 
   // get all widgets for dashboard
   getWidgets(dashboardId: number): Observable<Widget[]> {
-    const widgets: Widget[] = [];
     return this.squacApi
       .get(this.url, null, {
         dashboard: dashboardId,
       })
       .pipe(
-        switchMap((response) => {
-          let cGRequests = [];
+        map((response: any) => {
+          const widgets = [];
           response.forEach((w) => {
             widgets.push(this.widgetAdapter.adaptFromApi(w));
-            if (cGRequests.indexOf(w.channel_group) < 0) {
-              cGRequests.push(w.channel_group);
-            }
-          });
-
-          cGRequests = cGRequests.map((id) => {
-            return this.channelGroupService.getChannelGroup(id).pipe(
-              catchError(() => {
-                return of(id);
-              })
-            );
-          });
-          return cGRequests.length > 0 ? forkJoin(cGRequests) : of([]);
-        }),
-        map((channelGroups: any) => {
-          //FIXME widgets get same channel group object
-          widgets.forEach((w) => {
-            w.channelGroup = channelGroups.find((cg: ChannelGroup) => {
-              return cg.id === w.channelGroupId;
-            });
           });
           return widgets;
         })
@@ -59,15 +35,9 @@ export class WidgetService {
 
   // get individual widget
   getWidget(id: number): Observable<Widget> {
-    let widget: Widget;
     return this.squacApi.get(this.url, id).pipe(
-      switchMap((response) => {
-        widget = this.widgetAdapter.adaptFromApi(response);
-        return this.channelGroupService.getChannelGroup(widget.channelGroupId);
-      }),
-      map((channelGroup) => {
-        widget.channelGroup = channelGroup;
-        return widget;
+      map((response) => {
+        return this.widgetAdapter.adaptFromApi(response);
       })
     );
   }

@@ -10,12 +10,16 @@ import * as dayjs from "dayjs";
 import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
 import { DateService } from "./date.service";
+import { ChannelGroup } from "@core/models/channel-group";
+import { Channel } from "@core/models/channel";
+import { stringify } from "@angular/compiler/src/util";
 
 @Injectable({
   providedIn: "root",
 })
 export class ViewService {
   // handle refreshing
+  channels = new BehaviorSubject<Channel[]>(null);
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
   resize = new Subject<number>();
@@ -55,6 +59,11 @@ export class ViewService {
   // returns the dashboard time range
   get range(): number {
     return this.dashboard?.properties.timeRange;
+  }
+
+  // get channels as commas separated string
+  get channelsString(): string {
+    return this.dashboard?.channelGroup?.channelsString;
   }
 
   // returns the dashboard starttime
@@ -106,6 +115,7 @@ export class ViewService {
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
 
+    this.channels.next(dashboard.channelGroup?.channels);
     if (!dashboard.widgets || dashboard.widgets.length === 0) {
       this.status.next("finished");
     }

@@ -18,6 +18,7 @@ import { WidgetDataService } from "@widget/services/widget-data.service";
 import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { Channel } from "@core/models/channel";
 
 @Component({
   selector: "widget-detail",
@@ -35,6 +36,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   loadingMsg = "Fetching data ...";
   error: boolean | string;
   dashboards: Dashboard[];
+
+  channels: Channel[];
 
   //metric changing
   selectedMetrics: Metric[] = []; //gets send to child
@@ -63,6 +66,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
+    const channelsSub = this.viewService.channels.subscribe({
+      next: (channels) => {
+        this.channels = channels;
+        console.log(this.channels.length);
+        //get data
+      },
+      error: () => {
+        console.log("error in channel load for widgets");
+      },
+    });
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget.id === id))
       .subscribe({

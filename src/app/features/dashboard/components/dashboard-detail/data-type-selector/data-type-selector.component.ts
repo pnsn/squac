@@ -74,6 +74,6 @@ export class DataTypeSelectorComponent implements OnChanges {
   }
 
   get displayString() {
-    return this.fullType.full + " " + this.statType;
+    return this.fullType?.full + " " + this.statType;
   }
 }

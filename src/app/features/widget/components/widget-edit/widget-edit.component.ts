@@ -3,7 +3,6 @@ import { Subscription } from "rxjs";
 import { Widget } from "@widget/models/widget";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Metric } from "@core/models/metric";
-import { ChannelGroup } from "@core/models/channel-group";
 import { MessageService } from "@core/services/message.service";
 import { WidgetService } from "@features/widget/services/widget.service";
 import { ViewService } from "@core/services/view.service";
@@ -22,7 +21,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   selectedMetrics: [];
   metrics: Metric[];
-  channelGroups: ChannelGroup[];
   editMode: boolean;
   copyWidget: boolean;
   displayType: any;
@@ -40,7 +38,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.editMode = !!this.data.widget;
     this.widget =
       this.data.widget ||
-      new Widget(null, null, "", this.data.dashboardId, null, [], "", "");
+      new Widget(null, null, "", this.data.dashboardId, null, "", "");
     //check if copying to new dashboard
     this.copyWidget = this.widget.dashboardId !== this.data.dashboardId;
     if (this.copyWidget) {
@@ -48,7 +46,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
       this.widget.dashboardId = this.data.dashboardId;
     }
     this.metrics = this.data.metrics;
-    this.channelGroups = this.data.channelGroups;
   }
 
   ngOnDestroy(): void {
@@ -62,7 +59,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   // save widget
   save(): void {
-    this.widget.channelGroupId = this.widget.channelGroup.id;
     this.widgetService.updateWidget(this.widget).subscribe({
       next: (response) => {
         this.widget.id = response.id;

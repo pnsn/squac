@@ -3,7 +3,7 @@ import { Dashboard } from "./dashboard";
 describe("Dashboard", () => {
   it("should create an instance", () => {
     expect(
-      new Dashboard(1, 1, "Test", "description", false, false, 1)
+      new Dashboard(1, 1, "Test", "description", false, false, 1, 1)
     ).toBeTruthy();
   });
 });

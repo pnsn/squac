@@ -1,3 +1,4 @@
+import { isDataSource } from "@angular/cdk/collections";
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
 import { Channel, ChannelAdapter } from "./channel";
@@ -11,7 +12,9 @@ export class ChannelGroup {
     public description: string,
     public orgId: number,
     public channelIds: number[]
-  ) {}
+  ) {
+    console.log(channelIds);
+  }
 
   channels: Channel[];
 
@@ -56,8 +59,11 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     if (item.channels[0] && typeof item.channels[0] === "number") {
       channelIds = item.channels;
     } else {
-      channelIds = item.channels;
-      channels = item.channels.map((c) => this.channelAdapter.adaptFromApi(c));
+      channelIds = [];
+      channels = item.channels.map((c) => {
+        channelIds.push(c.id);
+        this.channelAdapter.adaptFromApi(c);
+      });
     }
 
     const channelGroup = new ChannelGroup(

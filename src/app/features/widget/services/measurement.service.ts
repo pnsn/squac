@@ -23,13 +23,13 @@ export class MeasurementService {
     starttime: string,
     endtime: string,
     metricString: string,
-    channelGroupId: number,
+    channelString: string,
     useAggregate: boolean,
     archiveType?: string
   ): Observable<ApiGetAggregate[] | ApiGetMeasurement[] | ApiGetArchive[]> {
     const params = {
       metric: metricString,
-      group: channelGroupId,
+      channel: channelString,
       starttime,
       endtime,
     };

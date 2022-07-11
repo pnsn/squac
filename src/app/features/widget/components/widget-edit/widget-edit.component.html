@@ -41,19 +41,6 @@
       [(selectedMetrics)]="widget.metrics"
     ></widget-edit-metrics>
   </mat-step>
-  <mat-step
-    #channelGroupStep
-    errorMessage="Channel Group is required."
-    [completed]="channelGroupsTab.done"
-    [hasError]="channelGroupStep.interacted && !channelGroupsTab.done"
-  >
-    <ng-template matStepLabel>Channel Group</ng-template>
-    <widget-edit-channel-group
-      #channelGroupsTab
-      [channelGroups]="channelGroups"
-      [(channelGroup)]="widget.channelGroup"
-    ></widget-edit-channel-group>
-  </mat-step>
   <mat-step [optional]="true">
     <ng-template matStepLabel>Options</ng-template>
     <widget-edit-options
