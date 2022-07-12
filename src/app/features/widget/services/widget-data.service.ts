@@ -17,7 +17,6 @@ import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
-import { id } from "@swimlane/ngx-datatable";
 import { Channel } from "@core/models/channel";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
@@ -52,99 +51,102 @@ export class WidgetDataService implements OnDestroy {
     );
 
     this.measurementReq = this.$params.pipe(
-      filter((params) => {
-        console.log("Current request", params);
-        //widget has metrics, channels
-        return this.widget && this.metrics && this.channels.length > 0; //filter to make sure there's the correct
+      filter(() => {
+        //  only make request when widget is valid
+        return this.widget && this.metrics && this.channels.length > 0;
       }),
-      map((p) => {
-        let start;
-        let end;
-        if (!p.starttime || !p.endtime) {
-          start = this.viewService.startTime;
-          end = this.viewService.endTime;
-        }
-        const channelString = this.viewService.channelsString;
-        const params: MeasurementParams = {
-          starttime: start,
-          endtime: end,
-          metricString: this.metrics,
-          channelString: channelString,
-          useAggregate: this.type.useAggregate,
-          archiveType: this.viewService.archiveType,
-        };
-        return params;
-      }),
-      tap(() => {
-        this.data.next(null);
-        this.ranges = {};
-        this.viewService.widgetStartedLoading();
-        this.status.next("Fetching Data");
-      }),
+      map(this.checkParams.bind(this)),
+      tap(this.startedLoading.bind(this)),
       switchMap((params: MeasurementParams) => {
-        console.log(params);
-        this.clearTimeout();
         return this.measurementService.getData(params);
       })
     );
 
     this.measurementReqSub = this.measurementReq
-      .pipe(
-        map((response) => {
-          const widgetStat = this.widget.stat;
-          const archiveType = this.viewService.archiveType;
-          const archiveStat = this.viewService.archiveStat;
-          const useAggregate = this.type.useAggregate;
-
-          const data = {};
-          console.log("Loaded measurements: ", response.length);
-          response.forEach((m) => {
-            let value: Measurement | Aggregate | Archive;
-            if (archiveType && archiveType !== "raw") {
-              value = this.archiveAdapter.adaptFromApi(m, archiveStat);
-            } else if (useAggregate) {
-              value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
-            } else {
-              value = this.measurementAdapter.adaptFromApi(m);
-            }
-
-            if (!data[m.channel]) {
-              data[m.channel] = {};
-            }
-            if (!data[m.channel][m.metric]) {
-              data[m.channel][m.metric] = [];
-            }
-            this.calculateDataRange(m.metric, value.value);
-            data[m.channel][m.metric].push(value);
-          });
-          return data;
-        })
-      )
+      .pipe(map(this.mapData.bind(this)))
       .subscribe({
         next: (data) => {
-          this.data.next(data);
-          this.viewService.widgetFinishedLoading();
-          this.updateMeasurement();
-          this.status.next(null);
+          this.finishedLoading(data);
         },
         error: (error) => {
+          this.finishedLoading({});
           console.error("error in fetch measurements ", error);
-          this.viewService.widgetFinishedLoading();
-          this.data.next({});
-          this.updateMeasurement();
-          this.status.next(null);
         },
       });
 
     const channelsSub = this.viewService.channels.subscribe({
       next: (channels) => {
         this.channels = channels;
-        this.params.next("channels");
-      },
-      error: (error) => {
-        console.error("error in channel load for widgets ", error);
+        this.params.next({});
       },
     });
+    this.subscription.add(channelsSub);
+    this.subscription.add(this.measurementReqSub);
+  }
+
+  private checkParams(p): MeasurementParams {
+    let start;
+    let end;
+    if (!p.starttime || !p.endtime) {
+      start = this.viewService.startTime;
+      end = this.viewService.endTime;
+    }
+    const channelString = this.viewService.channelsString;
+    const params: MeasurementParams = {
+      starttime: start,
+      endtime: end,
+      metricString: this.metrics,
+      channelString: channelString,
+      useAggregate: this.type.useAggregate,
+      archiveType: this.viewService.archiveType,
+    };
+    return params;
+  }
+  // send data & clear the loading statuses
+  private finishedLoading(data) {
+    this.data.next(data);
+    this.viewService.widgetFinishedLoading();
+    this.updateMeasurement();
+    this.status.next(null);
+  }
+
+  private startedLoading(): void {
+    this.data.next(null);
+    this.ranges = {};
+    this.viewService.widgetStartedLoading();
+    this.status.next("Fetching Data");
+    this.clearTimeout();
+  }
+
+  // format raw squacapi data
+  private mapData(response) {
+    const widgetStat = this.widget.stat;
+    const archiveType = this.viewService.archiveType;
+    const archiveStat = this.viewService.archiveStat;
+    const useAggregate = this.type.useAggregate;
+
+    const data = {};
+    console.log("Loaded measurements: ", response.length);
+    response.forEach((m) => {
+      let value: Measurement | Aggregate | Archive;
+      if (archiveType && archiveType !== "raw") {
+        value = this.archiveAdapter.adaptFromApi(m, archiveStat);
+      } else if (useAggregate) {
+        value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
+      } else {
+        value = this.measurementAdapter.adaptFromApi(m);
+      }
+
+      if (!data[m.channel]) {
+        data[m.channel] = {};
+      }
+      if (!data[m.channel][m.metric]) {
+        data[m.channel][m.metric] = [];
+      }
+      this.calculateDataRange(m.metric, value.value);
+      data[m.channel][m.metric].push(value);
+    });
+    return data;
   }
 
   ngOnDestroy(): void {
@@ -153,12 +155,13 @@ export class WidgetDataService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  setWidget(widget: Widget): void {
+  updateWidget(widget: Widget, type: any): void {
     this.widget = widget;
-    this.params.next("widget");
+    this.type = type;
+    this.params.next({});
   }
 
-  setMetrics(metrics: Metric[]): void {
+  updateMetrics(metrics: Metric[]): void {
     if (metrics.length > 0) {
       const temp = [];
       metrics.forEach((metric) => {
@@ -168,21 +171,11 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
-    this.params.next("metrics");
+    this.params.next({});
   }
 
-  //channels change, metrics change, or widget info change
-
-  setType(type: any): void {
-    this.type = type;
-  }
-
-  get dataRange() {
+  get dataRange(): any {
     return this.ranges;
-  }
-
-  getMeasurements(): Observable<any> {
-    return of(["measurements"]);
   }
 
   private calculateDataRange(metricId, value): void {

@@ -142,13 +142,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.widget.isValid) {
       this.error = "Widget failed to load, try checking configuration.";
     } else {
-      this.widgetDataService.setWidget(this.widget);
       this.widgetType = this.widgetTypes.find(
         (type) => type.type === this.widget.type
       );
-      this.widgetDataService.setType(this.widgetType);
+
       this.checkDimensions();
       this.selectMetrics();
+      this.widgetDataService.updateWidget(this.widget, this.widgetType);
     }
   }
 
@@ -163,7 +163,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           type: dim,
         });
       });
-      // this.widget.properties.dimensions
     }
   }
 
@@ -196,7 +195,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.selectedMetrics = [...this.selected];
       this.metricsChanged = false;
     }
-    this.widgetDataService.setMetrics(this.selectedMetrics);
+    this.widgetDataService.updateMetrics(this.selectedMetrics);
   }
 
   startZoom() {

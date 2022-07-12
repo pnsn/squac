@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ApiGetAggregate } from "@widget/models/aggregate";
 import { ApiGetMeasurement } from "../models/measurement";
