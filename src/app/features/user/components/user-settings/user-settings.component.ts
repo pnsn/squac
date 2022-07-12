@@ -53,7 +53,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.messageService.error("Could not save user information.");
-        console.log("error in change user: ", error);
+        console.error("error in change user: ", error);
       }
     );
   }

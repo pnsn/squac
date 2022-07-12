@@ -1,11 +1,17 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+  NumberValueAccessor,
+} from "@angular/forms";
 import { DashboardService } from "../../services/dashboard.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
+import { ChannelGroup } from "@core/models/channel-group";
 
 @Component({
   selector: "dashboard-edit",
@@ -17,7 +23,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   editMode: boolean;
   orgId: number;
-
+  channelGroups: ChannelGroup[];
+  channelGroupId: number;
   dashboardForm: FormGroup = this.formBuilder.group({
     name: ["", Validators.required],
     description: ["", Validators.required],
@@ -35,7 +42,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dashboard = this.data.dashboard;
-
+    this.channelGroupId = this.dashboard.channelGroupId;
+    this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.dashboard;
     this.orgId = this.userService.userOrg;
     this.initForm();
@@ -76,7 +84,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       values.description,
       shareOrg,
       shareAll,
-      this.orgId
+      this.orgId,
+      this.channelGroupId
     );
     if (id) {
       dashboard.properties = this.dashboard.properties;
@@ -89,7 +98,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.messageService.error("Could not save dashboard.");
-        console.log("error in save dashboard: " + error);
+        console.error("error in save dashboard: ", error);
       },
     });
   }

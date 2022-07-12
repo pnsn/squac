@@ -180,12 +180,6 @@
       *ngIf="!widget.metrics || widget.metrics?.length === 0"
       [errorMsg]="'Could not load metric. Resource may have been deleted.'"
     ></shared-error>
-    <shared-error
-      *ngIf="!widget.channelGroup"
-      [errorMsg]="
-        'Could not load channel group. Resource may have been deleted.'
-      "
-    ></shared-error>
     <ng-container *ngIf="!error && data">
       <ng-container [ngSwitch]="widget?.type">
         <widget-timeline

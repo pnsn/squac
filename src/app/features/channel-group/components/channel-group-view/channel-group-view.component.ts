@@ -82,7 +82,7 @@ export class ChannelGroupViewComponent
       // get channel groups to show
       const routeSub = this.route.data.subscribe((data) => {
         if (data.channelGroups.error) {
-          console.log("error in channels");
+          console.error("error in channels", data.channelGroups.error);
         } else {
           this.channelGroups = data.channelGroups;
           this.rows = [...this.channelGroups];

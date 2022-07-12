@@ -371,7 +371,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     if (station.color) {
       html = this.getIconHtml(station.color);
       if (station.color === "transparent") {
-        console.log(station.color);
         options.pane = "nodata";
       } else {
         options.pane = station.color;

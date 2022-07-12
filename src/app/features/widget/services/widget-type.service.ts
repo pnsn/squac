@@ -265,10 +265,10 @@ export class WidgetTypeService {
               outOfRange: properties.outOfRange,
             };
           } else {
-            console.log("something went wrong");
+            console.error("something went wrong");
           }
         } else {
-          console.log("no data");
+          console.warn("no data");
         }
       });
     }

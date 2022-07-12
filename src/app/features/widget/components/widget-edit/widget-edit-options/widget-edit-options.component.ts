@@ -70,7 +70,6 @@ export class WidgetEditOptionsComponent
       this.properties.outOfRange = value.outOfRange;
       this.properties.reverseColors = value.reverseColors;
       this.propertiesChange.emit(this.properties);
-      console.log(this.properties);
     });
 
     this.dimensions.valueChanges.subscribe((value) => {

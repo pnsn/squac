@@ -133,7 +133,6 @@ export class TimechartComponent
   }
 
   startZoom() {
-    console.log("startzoom");
     this.echartsInstance.dispatchAction({
       type: "takeGlobalCursor",
       key: "dataZoomSelect",

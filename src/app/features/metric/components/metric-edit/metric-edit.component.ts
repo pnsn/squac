@@ -83,7 +83,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
           this.cancel(result.id);
         },
         error: (error) => {
-          console.log("error in save metric: " + error);
+          console.error("error in save metric: ", error);
         },
       });
   }

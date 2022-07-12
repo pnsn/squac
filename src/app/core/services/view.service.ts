@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Subject, BehaviorSubject, Observable, tap } from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Widget } from "@widget/models/widget";
@@ -114,7 +114,6 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
-
     this.channels.next(dashboard.channelGroup?.channels);
     if (!dashboard.widgets || dashboard.widgets.length === 0) {
       this.status.next("finished");
@@ -123,6 +122,22 @@ export class ViewService {
     this.setIntialDates();
     // return dates
   }
+
+  setDashboardById(id): Observable<Dashboard> {
+    this.status.next("loading");
+    return this.dashboardService.getDashboard(id).pipe(
+      tap({
+        next: (dashboard) => {
+          this.setDashboard(dashboard);
+        },
+        error: () => {
+          this.status.next("error");
+        },
+      })
+    );
+  }
+
+  //setChannelGroupById
 
   // Sets up dates for dashboard
   private setIntialDates() {
@@ -175,7 +190,7 @@ export class ViewService {
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
-    return this.dashboard.widgets.findIndex((w) => w.id === id);
+    return this.dashboard.widgets?.findIndex((w) => w.id === id);
   }
 
   // return widget with given id
@@ -262,7 +277,7 @@ export class ViewService {
         this.resizeWidget(widget.id);
       },
       error: (error) => {
-        console.log("error in widget update: ", error);
+        console.error("error in widget update: ", error);
       },
     });
   }

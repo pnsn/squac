@@ -65,7 +65,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           // route to exit
         },
         (error) => {
-          console.log("error in widget detail: " + error);
+          console.error("error in widget detail: ", error);
         }
       );
     }

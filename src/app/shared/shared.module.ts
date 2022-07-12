@@ -21,6 +21,7 @@ import { DateSelectComponent } from "./components/date-select/date-select.compon
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
+import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -35,6 +36,7 @@ import { PrecisionPipe } from "./pipes/precision.pipe";
     TableViewComponent,
     DateSelectComponent,
     PrecisionPipe,
+    ChannelGroupSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +76,7 @@ import { PrecisionPipe } from "./pipes/precision.pipe";
     DateSelectComponent,
     NgxEchartsModule,
     PrecisionPipe,
+    ChannelGroupSelectorComponent,
   ],
 })
 export class SharedModule {}

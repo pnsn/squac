@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ChannelGroup } from "@core/models/channel-group";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@features/dashboard/models/dashboard";
 import { Subscription } from "rxjs";
@@ -15,6 +16,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   dashboardId: number;
   paramsSub: Subscription;
   dashboard: Dashboard;
+  channelGroups: ChannelGroup[];
 
   constructor(
     private dialog: MatDialog,
@@ -28,6 +30,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe((params) => {
       this.dashboardId = +params.dashboardId;
       this.dashboard = this.route.snapshot.data.dashboard;
+      this.channelGroups = this.route.snapshot.data.channelGroups;
       this.openDashboard();
     });
   }
@@ -38,6 +41,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       data: {
         dashboard: this.dashboard,
+        channelGroups: this.channelGroups,
       },
     });
     this.dialogRef.afterClosed().subscribe({
@@ -51,7 +55,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.log("error in monitor detail: " + error);
+        console.error("error in monitor detail: ", error);
       },
     });
   }

@@ -66,16 +66,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    const channelsSub = this.viewService.channels.subscribe({
-      next: (channels) => {
-        this.channels = channels;
-        console.log(this.channels.length);
-        //get data
-      },
-      error: () => {
-        console.log("error in channel load for widgets");
-      },
+    const statusSub = this.widgetDataService.status.subscribe((status) => {
+      console.log("loading status: ", status);
     });
+
+    // listen to resize
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget.id === id))
       .subscribe({
@@ -90,19 +85,20 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         },
       });
 
+    // listen for update to widget & load new data
     const updateSub = this.viewService.updateData.subscribe({
       next: (dashboardId) => {
-        this.data = {};
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
-          this.getData();
+          this.widgetDataService.params.next("widget detail"); //this is the first load
         }
       },
       error: (error) => {
-        console.log("error in widget detail dates: " + error);
+        console.error("error in widget detail dates: ", error);
       },
     });
 
+    // get dashboards user is able to edit
     this.dashboardService
       .getDashboards()
       .pipe(
@@ -115,6 +111,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((dashboards) => {
         this.dashboards = dashboards;
       });
+
     this.subscription.add(resizeSub);
     this.subscription.add(updateSub);
     this.subscription.add(this.dataSub);
@@ -134,6 +131,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           this.error = "No data";
           this.loading = false;
         } else {
+          this.channels = this.widgetDataService.channels;
+
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
           this.error = false;
@@ -198,12 +197,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.metricsChanged = false;
     }
     this.widgetDataService.setMetrics(this.selectedMetrics);
-
-    this.getData();
   }
 
   startZoom() {
-    console.log("start zoom in detail");
     this.widgetChild.startZoom();
     try {
       this.widgetChild.startZoom();
@@ -234,16 +230,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  refreshWidget(): void {
-    this.getData();
-  }
-
-  private getData(): void {
-    this.loading = "Fetching Data...";
-    this.data = null;
-    this.widgetDataService.fetchMeasurements();
   }
 
   // Route to widget edit for given dashboard

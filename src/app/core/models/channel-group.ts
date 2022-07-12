@@ -12,10 +12,11 @@ export class ChannelGroup {
     public description: string,
     public orgId: number,
     public channelIds: number[]
-  ) {
-    console.log(channelIds);
-  }
+  ) {}
 
+  get length(): number {
+    return this.channelIds.length;
+  }
   channels: Channel[];
 
   get channelsString(): string {
@@ -58,11 +59,12 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
 
     if (item.channels[0] && typeof item.channels[0] === "number") {
       channelIds = item.channels;
+      channels = [];
     } else {
       channelIds = [];
       channels = item.channels.map((c) => {
         channelIds.push(c.id);
-        this.channelAdapter.adaptFromApi(c);
+        return this.channelAdapter.adaptFromApi(c);
       });
     }
 

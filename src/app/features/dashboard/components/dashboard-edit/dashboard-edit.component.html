@@ -45,6 +45,12 @@
       >
     </mat-radio-group>
   </form>
+
+  <shared-channel-group-selector
+    [(channelGroupId)]="channelGroupId"
+    [channelGroups]="channelGroups"
+  >
+  </shared-channel-group-selector>
 </div>
 
 <div mat-dialog-actions class="dialog-options">

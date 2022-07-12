@@ -93,7 +93,6 @@ export class SearchFilterComponent {
       //handle array row
       //[{channel:"", value:""}]
       if (!row[childProp] && row && row.length > 0) {
-        console.log("row is array", childProp, row);
         //iterate row values and check
         const childTemp = row.filter((rowValue) => {
           return this.iterateProps(val, childProp, rowValue);

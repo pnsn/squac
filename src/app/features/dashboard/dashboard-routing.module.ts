@@ -14,12 +14,13 @@ export const routes: Routes = [
     path: "",
     component: DashboardComponent,
     canActivate: [AuthGuard],
-    runGuardsAndResolvers: "always",
+
     children: [
       {
         path: "",
         component: DashboardViewComponent,
         canActivate: [PermissionGuard],
+        runGuardsAndResolvers: "always",
         resolve: {
           dashboards: DashboardResolver,
         },
@@ -36,6 +37,7 @@ export const routes: Routes = [
         path: ":dashboardId",
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
+        runGuardsAndResolvers: "always",
         data: { subject: "Dashboard", action: "read" },
         resolve: {
           dashboard: DashboardResolver,

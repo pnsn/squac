@@ -60,7 +60,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         // route to exit
       },
       (error) => {
-        console.log("error in monitor detail: " + error);
+        console.error("error in monitor detail: ", error);
       }
     );
   }

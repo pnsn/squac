@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, SimpleChanges } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -64,30 +64,32 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const dashboardSub = this.route.data.subscribe({
-      next: (data) => {
-        this.status = "loading";
-        this.dashboard = data.dashboard;
-        if (data.dashboard.error) {
-          this.viewService.status.next("error");
-        } else {
-          // set dashboard properties
+    const paramsSub = this.route.data
+      .pipe(
+        switchMap(() => {
+          const dashboardId = this.route.snapshot.params.dashboardId;
+          return this.viewService.setDashboardById(dashboardId);
+        }),
+        tap((dashboard) => {
+          this.dashboard = dashboard;
           this.archiveStat = this.dashboard.properties.archiveStat;
           this.archiveType = this.dashboard.properties.archiveType;
-          this.viewService.setDashboard(this.dashboard);
+        })
+      )
+      .subscribe({
+        next: () => {
           this.startTime = this.viewService.startTime;
           this.endTime = this.viewService.endTime;
           this.error = null;
-        }
-      },
-    });
+        },
+      });
 
     const statusSub = this.viewService.status.subscribe({
       next: (status) => {
         this.status = status;
       },
       error: (error) => {
-        console.log("error in dasbhboard detail status" + error);
+        console.error("error in dashboard detail status", error);
       },
     });
 
@@ -98,7 +100,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.subscription.add(dashboardSub);
+    this.subscription.add(paramsSub);
     this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }

@@ -86,7 +86,7 @@ export class DashboardViewComponent
   ngOnInit(): void {
     const dashboardsSub = this.route.data.subscribe((data) => {
       if (data.dashboards && data.dashboards.error) {
-        console.log("error in dashboard");
+        console.error("error in dashboard", data.dashboards.error);
       } else if (data.dashboards) {
         this.dashboards = [...data.dashboards];
         this.rows = [...this.dashboards];

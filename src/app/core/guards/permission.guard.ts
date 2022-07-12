@@ -19,7 +19,6 @@ export class PermissionGuard implements CanActivate {
     //   return this.userService.user.pipe(
     //     switchMap(
     //       user => {
-    //         console.log(subject, action, this.ability.can(action, subject));
     //         return of(this.ability.can(action, subject));
     //       }
     //     ),
