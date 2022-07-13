@@ -7,6 +7,7 @@ export class Dashboard {
   public channelGroup: ChannelGroup;
   private _widgets: Array<Widget>;
   public _properties: DashboardProperties = defaultProperties;
+  widgetIds: Array<number>;
   constructor(
     public id: number,
     public owner: number,
@@ -41,6 +42,9 @@ export class Dashboard {
 
   public set widgets(widgets: Array<Widget>) {
     this._widgets = widgets;
+    this.widgetIds = widgets.map((w) => {
+      return w.id;
+    });
   }
 
   static get modelName() {
@@ -118,6 +122,8 @@ export class DashboardAdapter implements Adapter<Dashboard> {
       item.organization,
       item.channel_group
     );
+
+    dashboard.widgetIds = item.widgets;
 
     if (!item.properties) {
       dashboard.properties = populateProperties(item);

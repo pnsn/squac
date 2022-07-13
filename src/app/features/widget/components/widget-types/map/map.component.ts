@@ -14,6 +14,7 @@ import * as L from "leaflet";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
+import { timeout } from "d3";
 
 @Component({
   selector: "widget-map",
@@ -78,8 +79,9 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.selectedMetrics.length > 0 &&
       this.map
     ) {
-      this.buildLayers();
-      this.changeMetric();
+      this.buildLayers().then(() => {
+        this.changeMetric();
+      });
     }
 
     if (changes.showStationList) {
@@ -95,17 +97,21 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
       this.stationList.remove();
     }
   }
+
   onMapReady(map: L.Map) {
-    this.map = map;
-    // Do stuff with map
-    if (this.selectedMetrics.length > 0) {
-      this.legend = new L.Control({
-        position: "bottomleft",
-      });
-      this.stationList = new L.Control({ position: "topright" });
-      this.buildLayers();
-      this.changeMetric();
-    }
+    timeout(() => {
+      this.map = map;
+      // Do stuff with map
+      if (this.selectedMetrics.length > 0) {
+        this.legend = new L.Control({
+          position: "bottomleft",
+        });
+        this.stationList = new L.Control({ position: "topright" });
+        this.buildLayers().then(() => {
+          this.changeMetric();
+        });
+      }
+    }, 0);
   }
 
   private initLegend() {
@@ -172,118 +178,123 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   private buildLayers() {
     this.loadingChange.emit("Building chart...");
-    const data = this.data;
-    this.metricLayers = {};
+    return new Promise<void>((resolve) => {
+      const data = this.data;
+      this.metricLayers = {};
 
-    //this.properties.displayType
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.thresholds,
-      this.properties,
-      this.dataRange,
-      3
-    );
-    //properties.stationView === 'stoplight' || 'worst'
-    this.selectedMetrics.forEach((metric) => {
-      const channelRows = [];
-      const stations = [];
-      const stationRows = [];
-      const stationChannels = {};
+      //this.properties.displayType
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.thresholds,
+        this.properties,
+        this.dataRange,
+        3
+      );
+      //properties.stationView === 'stoplight' || 'worst'
+      this.selectedMetrics.forEach((metric) => {
+        const channelRows = [];
+        const stations = [];
+        const stationRows = [];
+        const stationChannels = {};
 
-      this.channels.forEach((channel) => {
-        const identifier =
-          channel.networkCode.toUpperCase() +
-          "." +
-          channel.stationCode.toUpperCase();
-        const nslc = channel.nslc.toUpperCase();
-        let agg = 0;
-        let val: number = null;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          const rowData = data[channel.id][metric.id];
-          val = rowData[0].value;
-        }
-
-        const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap
-          ? this.widgetTypeService.checkValue(val, visualMap)
-          : true;
-
-        if (val === null || (visualMap && !inRange)) {
-          agg++;
-        }
-        const color = this.getStyle(val, visualMap);
-        const iconHtml = this.getIconHtml(color);
-
-        if (!stationChannels[channel.stationCode]) {
-          stationChannels[channel.stationCode] = "";
-        }
-
-        stationChannels[channel.stationCode] =
-          stationChannels[channel.stationCode] +
-          `<tr> <td> ${iconHtml} </td> <td> ${nslc} </td><td> ${
-            val !== null ? this.precisionPipe.transform(val) : "no data"
-          }</td></tr>`;
-
-        let channelRow = {
-          title: nslc,
-          id: channel.id,
-          parentId: identifier,
-          staCode: channel.stationCode,
-          lat: channel.lat,
-          lon: channel.lon,
-          color,
-          metricAgg: agg,
-        };
-        channelRow = { ...channelRow };
-        channelRows.push(channelRow);
-
-        let staIndex = stations.indexOf(identifier);
-        if (staIndex < 0) {
-          staIndex = stations.length;
-          stations.push(identifier);
-          stationRows.push({
-            ...{
-              id: identifier,
-              staCode: channel.stationCode,
-              lat: channel.lat,
-              lon: channel.lon,
-              count: 0,
-              agg,
-              color,
-              channelAgg: 0,
-              metricAgg: 0,
-            },
-          });
-        }
-        const station = this.findWorstChannel(
-          channelRow,
-          stationRows[staIndex]
-        );
-
-        if (visualMap?.type === "stoplight") {
-          let color;
-          if (station.channelAgg === 0) {
-            color = visualMap.colors.in;
-          } else if (station.channelAgg === station.count) {
-            color = visualMap.colors.out;
-          } else {
-            color = visualMap.colors.middle;
+        this.channels.forEach((channel) => {
+          const identifier =
+            channel.networkCode.toUpperCase() +
+            "." +
+            channel.stationCode.toUpperCase();
+          const nslc = channel.nslc.toUpperCase();
+          let agg = 0;
+          let val: number = null;
+          if (data[channel.id] && data[channel.id][metric.id]) {
+            const rowData = data[channel.id][metric.id];
+            val = rowData[0].value;
           }
-          station.color = color;
-        }
 
-        stationRows[staIndex] = station;
+          const visualMap = this.visualMaps[metric.id];
+          const inRange = visualMap
+            ? this.widgetTypeService.checkValue(val, visualMap)
+            : true;
 
-        // check if agg if worse than current agg
+          if (val === null || (visualMap && !inRange)) {
+            agg++;
+          }
+          const color = this.getStyle(val, visualMap);
+          const iconHtml = this.getIconHtml(color);
+
+          if (!stationChannels[channel.stationCode]) {
+            stationChannels[channel.stationCode] = "";
+          }
+
+          stationChannels[channel.stationCode] =
+            stationChannels[channel.stationCode] +
+            `<tr> <td> ${iconHtml} </td> <td> ${nslc} </td><td> ${
+              val !== null ? this.precisionPipe.transform(val) : "no data"
+            }</td></tr>`;
+
+          let channelRow = {
+            title: nslc,
+            id: channel.id,
+            parentId: identifier,
+            staCode: channel.stationCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            color,
+            metricAgg: agg,
+          };
+          channelRow = { ...channelRow };
+          channelRows.push(channelRow);
+
+          let staIndex = stations.indexOf(identifier);
+          if (staIndex < 0) {
+            staIndex = stations.length;
+            stations.push(identifier);
+            stationRows.push({
+              ...{
+                id: identifier,
+                staCode: channel.stationCode,
+                lat: channel.lat,
+                lon: channel.lon,
+                count: 0,
+                agg,
+                color,
+                channelAgg: 0,
+                metricAgg: 0,
+              },
+            });
+          }
+          const station = this.findWorstChannel(
+            channelRow,
+            stationRows[staIndex]
+          );
+
+          if (visualMap?.type === "stoplight") {
+            let color;
+            if (station.channelAgg === 0) {
+              color = visualMap.colors.in;
+            } else if (station.channelAgg === station.count) {
+              color = visualMap.colors.out;
+            } else {
+              color = visualMap.colors.middle;
+            }
+            station.color = color;
+          }
+
+          stationRows[staIndex] = station;
+
+          // check if agg if worse than current agg
+        });
+        const stationMarkers = [];
+
+        stationRows.forEach((station) => {
+          stationMarkers.push(this.makeStationMarker(station, stationChannels));
+        });
+        //each layer is own feature group
+        this.metricLayers[metric.id] = stationMarkers;
+        this.stations = stationRows;
       });
-      const stationMarkers = [];
-
-      stationRows.forEach((station) => {
-        stationMarkers.push(this.makeStationMarker(station, stationChannels));
-      });
-      //each layer is own feature group
-      this.metricLayers[metric.id] = stationMarkers;
-      this.stations = stationRows;
+      setTimeout(() => {
+        resolve();
+      }, 4000);
     });
   }
 
@@ -332,13 +343,14 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   }
 
   changeMetric() {
+    this.loadingChange.emit(false);
     this.displayMetric = this.selectedMetrics[0];
     this.displayMap = this.visualMaps[this.displayMetric.id];
-    this.loadingChange.emit(false);
     this.addPanes(this.displayMap);
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
     this.initLegend();
     this.initStationList();
+    this.fitBounds = this.layers[0].getBounds();
     const resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
       this.fitBounds = this.layers[0].getBounds();

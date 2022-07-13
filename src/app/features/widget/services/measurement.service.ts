@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, throwError } from "rxjs";
+import { delay, Observable, of, throwError } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ApiGetAggregate } from "@widget/models/aggregate";
 import { ApiGetMeasurement } from "../models/measurement";
 import { ApiGetArchive } from "../models/archive";
 import { DateService } from "@core/services/date.service";
 import * as dayjs from "dayjs";
+import { tick } from "@angular/core/testing";
 
 export class MeasurementParams {
   starttime: string;
@@ -61,7 +62,6 @@ export class MeasurementService {
   fakeData(params: MeasurementParams): Observable<any> {
     //if aggregate each measurement has one
     const data = [];
-
     params.metricString.split(",").forEach((metric) => {
       params.channelString.split(",").forEach((channel) => {
         const base = {
@@ -144,7 +144,7 @@ export class MeasurementService {
         }
       });
     });
-    return of(data);
+    return of(data).pipe(delay(5000));
   }
 
   getRandom(max) {

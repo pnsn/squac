@@ -32,8 +32,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
-  loading: boolean | string;
-  loadingMsg = "Fetching data ...";
+  loading: boolean | string = "Requesting Data";
   error: boolean | string;
   dashboards: Dashboard[];
 
@@ -66,10 +65,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    const statusSub = this.widgetDataService.status.subscribe((status) => {
-      console.log("loading status: ", status);
-    });
-
     // listen to resize
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget.id === id))
@@ -132,7 +127,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           this.loading = false;
         } else {
           this.channels = this.widgetDataService.channels;
-
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
           this.error = false;

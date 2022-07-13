@@ -7,9 +7,9 @@ import {
   map,
   Observable,
   switchMap,
-  of,
   tap,
   filter,
+  ReplaySubject,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";
@@ -28,7 +28,7 @@ export class WidgetDataService implements OnDestroy {
   test = new Observable<any>();
   updateTimeout;
   measurementReqSub;
-  status = new Subject();
+  status = new ReplaySubject<string>();
   channels: Channel[];
   private widget: Widget;
   private metrics: string;
@@ -107,14 +107,12 @@ export class WidgetDataService implements OnDestroy {
     this.data.next(data);
     this.viewService.widgetFinishedLoading();
     this.updateMeasurement();
-    this.status.next(null);
   }
 
   private startedLoading(): void {
     this.data.next(null);
     this.ranges = {};
     this.viewService.widgetStartedLoading();
-    this.status.next("Fetching Data");
     this.clearTimeout();
   }
 
