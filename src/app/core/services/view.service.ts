@@ -114,7 +114,6 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
-    const widgets = this.dashboard.widgets;
     this.channels.next(dashboard.channelGroup?.channels);
     if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
       this.status.next("finished");
@@ -226,7 +225,6 @@ export class ViewService {
   widgetFinishedLoading(): void {
     this.queuedWidgets--;
     if (this.queuedWidgets <= 0) {
-      console.log("widgets finished loading");
       this.status.next("finished");
     }
   }
@@ -242,7 +240,6 @@ export class ViewService {
   // broadcast id of changed widget
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
-    console.log("widgets changed");
     this.status.next("finished");
     this.error.next(null);
   }

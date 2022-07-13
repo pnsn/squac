@@ -64,8 +64,9 @@ export class TimechartComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      this.buildChartData(this.data);
-      this.changeMetrics();
+      this.buildChartData(this.data).then(() => {
+        this.changeMetrics();
+      });
     }
     if (changes.showStationList) {
       this.toggleStationList();
@@ -153,84 +154,87 @@ export class TimechartComponent
 
   buildChartData(data) {
     this.loadingChange.emit("Building chart...");
-    const stations = [];
-    this.metricSeries = {};
-    const series = {
-      type: "line",
-      large: true,
-      largeThreshold: 4000,
-      legendHoverLink: true,
-      triggerLineEvent: false,
-      lineStyle: {
-        width: 1,
-        opacity: 1,
-      },
-      emphasis: {
-        focus: "series",
-        blurScope: "global",
+    return new Promise<void>((resolve) => {
+      const stations = [];
+      this.metricSeries = {};
+      const series = {
+        type: "line",
+        large: true,
+        largeThreshold: 4000,
+        legendHoverLink: true,
+        triggerLineEvent: false,
         lineStyle: {
-          width: 2,
-        },
-        symbolSize: 5,
-      },
-      blur: {
-        lineStyle: {
+          width: 1,
           opacity: 1,
         },
-      },
-      symbol: "circle",
-      symbolSize: 2,
-      sampling: "lttb",
-    };
-    // this.addThresholds();
-
-    const metric = this.selectedMetrics[0];
-    this.channels.forEach((channel) => {
-      const staCode = channel.networkCode + "." + channel.stationCode;
-      const nslc = channel.nslc.toUpperCase();
-      const station = {
-        ...series,
-        ...{
-          name: staCode.toUpperCase(),
-          data: [],
-          count: 0,
-          encode: {
-            x: [0, 1],
-            y: 2,
+        emphasis: {
+          focus: "series",
+          blurScope: "global",
+          lineStyle: {
+            width: 2,
+          },
+          symbolSize: 5,
+        },
+        blur: {
+          lineStyle: {
+            opacity: 1,
           },
         },
+        symbol: "circle",
+        symbolSize: 2,
+        sampling: "lttb",
       };
-      let lastEnd: dayjs.Dayjs;
-      if (data[channel.id] && data[channel.id][metric.id]) {
-        data[channel.id][metric.id].forEach((measurement: Measurement) => {
-          // // If time between measurements is greater than gap, don't connect
-          const start = this.dateService.parseUtc(measurement.starttime);
-          const end = this.dateService.parseUtc(measurement.endtime);
+      // this.addThresholds();
 
-          if (
-            station.data.length > 0 &&
-            lastEnd &&
-            this.dateService.diff(start, lastEnd) >=
-              metric.sampleRate * this.maxMeasurementGap
-          ) {
-            // time since last measurement
+      const metric = this.selectedMetrics[0];
+      this.channels.forEach((channel) => {
+        const staCode = channel.networkCode + "." + channel.stationCode;
+        const nslc = channel.nslc.toUpperCase();
+        const station = {
+          ...series,
+          ...{
+            name: staCode.toUpperCase(),
+            data: [],
+            count: 0,
+            encode: {
+              x: [0, 1],
+              y: 2,
+            },
+          },
+        };
+        let lastEnd: dayjs.Dayjs;
+        if (data[channel.id] && data[channel.id][metric.id]) {
+          data[channel.id][metric.id].forEach((measurement: Measurement) => {
+            // // If time between measurements is greater than gap, don't connect
+            const start = this.dateService.parseUtc(measurement.starttime);
+            const end = this.dateService.parseUtc(measurement.endtime);
+
+            if (
+              station.data.length > 0 &&
+              lastEnd &&
+              this.dateService.diff(start, lastEnd) >=
+                metric.sampleRate * this.maxMeasurementGap
+            ) {
+              // time since last measurement
+              station.data.push({
+                name: nslc,
+                value: [lastEnd.toDate(), start.toDate(), "-"],
+              });
+            }
+
             station.data.push({
               name: nslc,
-              value: [lastEnd.toDate(), start.toDate(), "-"],
+              value: [start.toDate(), end.toDate(), measurement.value],
             });
-          }
 
-          station.data.push({
-            name: nslc,
-            value: [start.toDate(), end.toDate(), measurement.value],
+            lastEnd = end;
           });
-
-          lastEnd = end;
-        });
-      }
-      stations.push(station);
+        }
+        stations.push(station);
+      });
+      this.metricSeries.series = stations;
+      resolve();
     });
-    this.metricSeries.series = stations;
   }
 
   changeMetrics() {

@@ -50,8 +50,9 @@ export class ParallelPlotComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      this.buildChartData(this.data);
-      this.changeMetrics();
+      this.buildChartData(this.data).then(() => {
+        this.changeMetrics();
+      });
     }
 
     if (changes.showStationList) {
@@ -128,36 +129,39 @@ export class ParallelPlotComponent
 
   private buildChartData(data) {
     this.loadingChange.emit("Building chart...");
-    const metricSeries = {
-      type: "parallel",
-      colorBy: "series",
-      large: true,
-      legendHoverLink: true,
-      lineStyle: {
-        opacity: 1,
-      },
-      emphasis: {
-        focus: "series",
-        blurScope: "coordinateSystem",
-        disabled: false,
+    return new Promise<void>((resolve) => {
+      const metricSeries = {
+        type: "parallel",
+        colorBy: "series",
+        large: true,
+        legendHoverLink: true,
         lineStyle: {
-          width: 2,
+          opacity: 1,
         },
-      },
-      dimensions: [],
-    };
-    // const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-    //   this.metrics,
-    //   this.thresholds,
-    //   this.dataRange
-    // );
-    this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
-      this.selectedMetrics,
-      this.channels,
-      data,
-      metricSeries,
-      this.dataRange
-    );
+        emphasis: {
+          focus: "series",
+          blurScope: "coordinateSystem",
+          disabled: false,
+          lineStyle: {
+            width: 2,
+          },
+        },
+        dimensions: [],
+      };
+      // const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+      //   this.metrics,
+      //   this.thresholds,
+      //   this.dataRange
+      // );
+      this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
+        this.selectedMetrics,
+        this.channels,
+        data,
+        metricSeries,
+        this.dataRange
+      );
+      resolve();
+    });
   }
 
   changeMetrics() {

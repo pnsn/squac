@@ -30,6 +30,8 @@ export class WidgetDataService implements OnDestroy {
   measurementReqSub;
   status = new ReplaySubject<string>();
   channels: Channel[];
+
+  requestInProgress = false;
   private widget: Widget;
   private metrics: string;
   private type: any;
@@ -77,7 +79,7 @@ export class WidgetDataService implements OnDestroy {
     const channelsSub = this.viewService.channels.subscribe({
       next: (channels) => {
         this.channels = channels;
-        this.params.next({});
+        this.params.next("channels changed." + this.widget?.name);
       },
     });
     this.subscription.add(channelsSub);
@@ -85,6 +87,7 @@ export class WidgetDataService implements OnDestroy {
   }
 
   private checkParams(p): MeasurementParams {
+    console.log(p);
     let start;
     let end;
     if (!p.starttime || !p.endtime) {
@@ -107,9 +110,14 @@ export class WidgetDataService implements OnDestroy {
     this.data.next(data);
     this.viewService.widgetFinishedLoading();
     this.updateMeasurement();
+    this.requestInProgress = false;
   }
 
   private startedLoading(): void {
+    if (this.requestInProgress) {
+      this.viewService.widgetFinishedLoading();
+    }
+    this.requestInProgress = true;
     this.data.next(null);
     this.ranges = {};
     this.viewService.widgetStartedLoading();
@@ -148,15 +156,16 @@ export class WidgetDataService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log(this.widget.name);
+    this.viewService.widgetFinishedLoading();
     this.clearTimeout();
-    this.measurementReqSub.unsubscribe();
     this.subscription.unsubscribe();
   }
 
   updateWidget(widget: Widget, type: any): void {
     this.widget = widget;
     this.type = type;
-    this.params.next({});
+    this.params.next("widget changed." + this.widget?.name);
   }
 
   updateMetrics(metrics: Metric[]): void {
@@ -169,7 +178,7 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
-    this.params.next({});
+    this.params.next("metrics changed." + this.widget?.name);
   }
 
   get dataRange(): any {

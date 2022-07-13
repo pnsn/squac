@@ -37,7 +37,7 @@ export const routes: Routes = [
         path: ":dashboardId",
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
-        runGuardsAndResolvers: "always",
+        runGuardsAndResolvers: "paramsChange",
         data: { subject: "Dashboard", action: "read" },
         resolve: {
           dashboard: DashboardResolver,

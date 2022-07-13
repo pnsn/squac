@@ -33,6 +33,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  resizeObserver;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
   displayMetric;
@@ -161,6 +162,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
     event.stopPropagation();
     // ;
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.resizeObserver.unobserve(document.getElementById("map"));
   }
 
   hoverStation(i, status) {
@@ -292,9 +299,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         this.metricLayers[metric.id] = stationMarkers;
         this.stations = stationRows;
       });
-      setTimeout(() => {
-        resolve();
-      }, 4000);
+      resolve();
     });
   }
 
@@ -351,12 +356,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     this.initLegend();
     this.initStationList();
     this.fitBounds = this.layers[0].getBounds();
-    const resizeObserver = new ResizeObserver(() => {
+    this.resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
       this.fitBounds = this.layers[0].getBounds();
     });
 
-    resizeObserver.observe(document.getElementById("map"));
+    this.resizeObserver.observe(document.getElementById("map"));
   }
 
   private getIconHtml(color?: string) {

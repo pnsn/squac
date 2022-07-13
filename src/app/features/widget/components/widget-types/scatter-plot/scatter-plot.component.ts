@@ -50,8 +50,9 @@ export class ScatterPlotComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      this.buildChartData(this.data);
-      this.changeMetrics();
+      this.buildChartData(this.data).then(() => {
+        this.changeMetrics();
+      });
     }
 
     if (changes.showStationList) {
@@ -113,44 +114,47 @@ export class ScatterPlotComponent
 
   private buildChartData(data) {
     this.loadingChange.emit("Building chart...");
-    //if 3 metrics, visualMap
-    const metricSeries = {
-      type: "scatter",
-      colorBy: "series", //unless visualMap
-      data: [],
-      large: true,
-      dimensions: [],
-      name: "name",
-      emphasis: {
-        focus: "series",
-        label: {
-          show: false,
-          color: "black",
+    return new Promise<void>((resolve) => {
+      //if 3 metrics, visualMap
+      const metricSeries = {
+        type: "scatter",
+        colorBy: "series", //unless visualMap
+        data: [],
+        large: true,
+        dimensions: [],
+        name: "name",
+        emphasis: {
+          focus: "series",
+          label: {
+            show: false,
+            color: "black",
+          },
         },
-      },
-      clip: true,
-      encode: {
-        x: 0,
-        y: 1,
-        tooltip: [0, 1, 2],
-      },
-    };
+        clip: true,
+        encode: {
+          x: 0,
+          y: 1,
+          tooltip: [0, 1, 2],
+        },
+      };
 
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.thresholds,
-      this.properties,
-      this.dataRange,
-      2
-    );
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.thresholds,
+        this.properties,
+        this.dataRange,
+        2
+      );
 
-    this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
-      this.selectedMetrics,
-      this.channels,
-      data,
-      metricSeries,
-      this.dataRange
-    );
+      this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
+        this.selectedMetrics,
+        this.channels,
+        data,
+        metricSeries,
+        this.dataRange
+      );
+      resolve();
+    });
   }
 
   changeMetrics() {

@@ -5,7 +5,7 @@ import { Widget } from "@features/widget/models/widget";
 
 export class Dashboard {
   public channelGroup: ChannelGroup;
-  private _widgets: Array<Widget>;
+  private _widgets: Array<Widget> = [];
   public _properties: DashboardProperties = defaultProperties;
   widgetIds: Array<number>;
   constructor(

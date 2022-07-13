@@ -61,8 +61,9 @@ export class TimelineComponent
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
-      this.buildChartData(this.data);
-      this.changeMetrics();
+      this.buildChartData(this.data).then(() => {
+        this.changeMetrics();
+      });
     }
   }
   ngOnInit(): void {
@@ -118,56 +119,61 @@ export class TimelineComponent
 
   buildChartData(data) {
     this.loadingChange.emit("Building chart...");
-    this.metricSeries = {};
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.thresholds,
-      this.properties,
-      this.dataRange,
-      2
-    );
-    this.channels.sort((chanA, chanB) => {
-      return chanA.nslc.localeCompare(chanB.nslc);
-    });
-    this.channels.forEach((channel, index) => {
-      const nslc = channel.nslc.toUpperCase();
-      this.selectedMetrics.forEach((metric) => {
-        const channelObj = {
-          type: "custom",
-          name:
-            channel.networkCode.toUpperCase() +
-            "." +
-            channel.stationCode.toUpperCase(),
-          data: [],
-          large: true,
-          encode: {
-            x: [0, 1],
-            y: 3,
-          },
-          renderItem: this.renderItem,
-        };
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          data[channel.id][metric.id].forEach((measurement: Measurement) => {
-            const start = this.dateService
-              .parseUtc(measurement.starttime)
-              .toDate();
-            const end = this.dateService.parseUtc(measurement.endtime).toDate();
-            channelObj.data.push({
-              name: nslc,
-              value: [start, end, measurement.value, index],
-            });
-          });
-        }
-
-        if (!this.metricSeries[metric.id]) {
-          this.metricSeries[metric.id] = {
-            series: [],
-            yAxisLabels: [],
-          };
-        }
-        this.metricSeries[metric.id].series.push(channelObj);
-        this.metricSeries[metric.id].yAxisLabels.push(nslc);
+    return new Promise<void>((resolve) => {
+      this.metricSeries = {};
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.thresholds,
+        this.properties,
+        this.dataRange,
+        2
+      );
+      this.channels.sort((chanA, chanB) => {
+        return chanA.nslc.localeCompare(chanB.nslc);
       });
+      this.channels.forEach((channel, index) => {
+        const nslc = channel.nslc.toUpperCase();
+        this.selectedMetrics.forEach((metric) => {
+          const channelObj = {
+            type: "custom",
+            name:
+              channel.networkCode.toUpperCase() +
+              "." +
+              channel.stationCode.toUpperCase(),
+            data: [],
+            large: true,
+            encode: {
+              x: [0, 1],
+              y: 3,
+            },
+            renderItem: this.renderItem,
+          };
+          if (data[channel.id] && data[channel.id][metric.id]) {
+            data[channel.id][metric.id].forEach((measurement: Measurement) => {
+              const start = this.dateService
+                .parseUtc(measurement.starttime)
+                .toDate();
+              const end = this.dateService
+                .parseUtc(measurement.endtime)
+                .toDate();
+              channelObj.data.push({
+                name: nslc,
+                value: [start, end, measurement.value, index],
+              });
+            });
+          }
+
+          if (!this.metricSeries[metric.id]) {
+            this.metricSeries[metric.id] = {
+              series: [],
+              yAxisLabels: [],
+            };
+          }
+          this.metricSeries[metric.id].series.push(channelObj);
+          this.metricSeries[metric.id].yAxisLabels.push(nslc);
+        });
+      });
+      resolve();
     });
   }
 

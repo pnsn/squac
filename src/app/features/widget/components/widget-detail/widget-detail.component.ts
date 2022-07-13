@@ -85,7 +85,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       next: (dashboardId) => {
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
-          this.widgetDataService.params.next("widget detail"); //this is the first load
+
+          this.widgetDataService.params.next("widget detail");
         }
       },
       error: (error) => {
@@ -141,8 +142,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       );
 
       this.checkDimensions();
-      this.selectMetrics();
       this.widgetDataService.updateWidget(this.widget, this.widgetType);
+      this.selectMetrics();
     }
   }
 

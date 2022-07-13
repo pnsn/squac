@@ -144,7 +144,7 @@ export class MeasurementService {
         }
       });
     });
-    return of(data).pipe(delay(5000));
+    return of(data).pipe(delay(1000));
   }
 
   getRandom(max) {
