@@ -34,23 +34,22 @@ export const routes: Routes = [
         ],
       },
       {
+        path: ":dashboardId/edit",
+        component: DashboardEditEntryComponent,
+        canActivate: [PermissionGuard],
+        data: { subject: "Dashboard", action: "update" },
+        resolve: {
+          dashboard: DashboardResolver,
+        },
+      },
+
+      {
         path: ":dashboardId",
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
         runGuardsAndResolvers: "paramsChange",
         data: { subject: "Dashboard", action: "read" },
-        resolve: {
-          dashboard: DashboardResolver,
-        },
-        children: [
-          {
-            path: "edit",
-            component: DashboardEditEntryComponent,
-            canActivate: [PermissionGuard],
-            data: { subject: "Dashboard", action: "update" },
-          },
-          ...widgetRoutes,
-        ],
+        children: [...widgetRoutes],
       },
     ],
   },

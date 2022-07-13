@@ -136,6 +136,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (!this.widget.isValid) {
       this.error = "Widget failed to load, try checking configuration.";
+      this.loading = false;
     } else {
       this.widgetType = this.widgetTypes.find(
         (type) => type.type === this.widget.type

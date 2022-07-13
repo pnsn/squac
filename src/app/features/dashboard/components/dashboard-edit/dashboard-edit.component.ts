@@ -1,11 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
-import {
-  FormGroup,
-  Validators,
-  FormBuilder,
-  NumberValueAccessor,
-} from "@angular/forms";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { DashboardService } from "../../services/dashboard.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";

@@ -10,9 +10,7 @@ import * as dayjs from "dayjs";
 import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
 import { DateService } from "./date.service";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Channel } from "@core/models/channel";
-import { stringify } from "@angular/compiler/src/util";
 
 @Injectable({
   providedIn: "root",

@@ -72,6 +72,10 @@ export class Widget {
   }
 
   public get isValid(): boolean {
+    console.log(
+      this.name,
+      !!this.name && !!this.metrics && !!this.type && !!this.stat
+    );
     return !!this.name && !!this.metrics && !!this.type && !!this.stat;
   }
 

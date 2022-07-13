@@ -55,7 +55,7 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
-        return this.widget && this.metrics && this.channels.length > 0;
+        return this.widget && this.metrics && this.channels?.length > 0;
       }),
       map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
@@ -156,7 +156,6 @@ export class WidgetDataService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log(this.widget.name);
     this.viewService.widgetFinishedLoading();
     this.clearTimeout();
     this.subscription.unsubscribe();

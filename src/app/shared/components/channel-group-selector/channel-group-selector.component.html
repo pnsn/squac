@@ -1,7 +1,9 @@
-<mat-form-field>
+<mat-form-field class="medium">
+  <mat-label>Channel group (required)</mat-label>
   <mat-select
     [(ngModel)]="channelGroupId"
     (selectionChange)="selectionChange($event)"
+    required
   >
     <mat-option
       *ngFor="let channelGroup of channelGroups"
