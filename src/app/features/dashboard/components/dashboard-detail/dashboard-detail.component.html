@@ -60,7 +60,9 @@
       </div>
     </mat-toolbar-row>
     <mat-toolbar-row class="row space-between">
-      <div></div>
+      <div id="channelSelector">
+        <shared-channel-filter></shared-channel-filter>
+      </div>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
           [dataType]="archiveType"

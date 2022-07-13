@@ -79,7 +79,7 @@ export class WidgetDataService implements OnDestroy {
     const channelsSub = this.viewService.channels.subscribe({
       next: (channels) => {
         this.channels = channels;
-        this.params.next("channels changed." + this.widget?.name);
+        this.params.next({});
       },
     });
     this.subscription.add(channelsSub);
@@ -87,7 +87,6 @@ export class WidgetDataService implements OnDestroy {
   }
 
   private checkParams(p): MeasurementParams {
-    console.log(p);
     let start;
     let end;
     if (!p.starttime || !p.endtime) {
@@ -164,7 +163,7 @@ export class WidgetDataService implements OnDestroy {
   updateWidget(widget: Widget, type: any): void {
     this.widget = widget;
     this.type = type;
-    this.params.next("widget changed." + this.widget?.name);
+    this.params.next({});
   }
 
   updateMetrics(metrics: Metric[]): void {
@@ -177,7 +176,7 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
-    this.params.next("metrics changed." + this.widget?.name);
+    this.params.next({});
   }
 
   get dataRange(): any {

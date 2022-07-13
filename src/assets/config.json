@@ -96,7 +96,7 @@
       "useAggregate": true,
       "showChannelList": true,
       "displayInfo": "Color options not available for parallel plot.",
-      "description": "Chart with multiple metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range."
+      "description": "Chart with at least 2 metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range."
     },
     {
       "id": 7,

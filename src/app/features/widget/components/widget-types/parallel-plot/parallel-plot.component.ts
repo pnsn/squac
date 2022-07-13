@@ -148,11 +148,6 @@ export class ParallelPlotComponent
         },
         dimensions: [],
       };
-      // const visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      //   this.metrics,
-      //   this.thresholds,
-      //   this.dataRange
-      // );
       this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
         this.selectedMetrics,
         this.channels,
