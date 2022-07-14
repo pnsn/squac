@@ -22,6 +22,7 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
+import { ChannelFilterComponent } from "../features/dashboard/components/dashboard-detail/channel-filter/channel-filter.component";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -46,6 +47,7 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
     NgxEchartsModule,
     AbilityModule,
     NgxDatatableModule,
+    ReactiveFormsModule,
     FormsModule,
     RouterModule,
     NgxDaterangepickerMd.forRoot(),

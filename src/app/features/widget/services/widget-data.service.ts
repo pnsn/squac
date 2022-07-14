@@ -79,7 +79,7 @@ export class WidgetDataService implements OnDestroy {
     const channelsSub = this.viewService.channels.subscribe({
       next: (channels) => {
         this.channels = channels;
-        this.params.next({});
+        // this.params.next({});
       },
     });
     this.subscription.add(channelsSub);
@@ -131,7 +131,7 @@ export class WidgetDataService implements OnDestroy {
     const useAggregate = this.type.useAggregate;
 
     const data = {};
-    console.log("Loaded measurements: ", response.length);
+    // console.log("Loaded measurements: ", response.length);
     response.forEach((m) => {
       let value: Measurement | Aggregate | Archive;
       if (archiveType && archiveType !== "raw") {

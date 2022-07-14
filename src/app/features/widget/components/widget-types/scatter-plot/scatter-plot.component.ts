@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
@@ -41,7 +42,11 @@ export class ScatterPlotComponent
   initOptions: any = {};
   visualMaps: any = {};
   processedData: any;
-  constructor(private widgetTypeService: WidgetTypeService) {}
+  lastEmphasis;
+  constructor(
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -79,6 +84,18 @@ export class ScatterPlotComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
   }
   // toggleStationList() {}
 
@@ -88,6 +105,21 @@ export class ScatterPlotComponent
   onChartInit(event) {
     this.echartsInstance = event;
   }
+
+  emphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "highlight",
+      seriesName: channel,
+    });
+  }
+
+  deemphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "downplay",
+      seriesName: channel,
+    });
+  }
+
   toggleStationList() {
     let temp: any = {};
     if (this.showStationList) {
@@ -125,10 +157,6 @@ export class ScatterPlotComponent
         name: "name",
         emphasis: {
           focus: "series",
-          label: {
-            show: false,
-            color: "black",
-          },
         },
         clip: true,
         encode: {

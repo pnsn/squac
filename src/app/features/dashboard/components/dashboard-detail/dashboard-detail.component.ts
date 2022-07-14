@@ -5,6 +5,7 @@ import { Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { Channel } from "@core/models/channel";
 
 // Individual dashboard
 @Component({
@@ -17,7 +18,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   status: string;
   error: string = null;
-
+  channels: Channel[] = [];
   // dashboard params
   archiveType: string;
   archiveStat: string;
@@ -74,6 +75,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.dashboard = dashboard;
           this.archiveStat = this.dashboard.properties.archiveStat;
           this.archiveType = this.dashboard.properties.archiveType;
+          this.channels = this.dashboard.channelGroup.channels;
         })
       )
       .subscribe({

@@ -17,6 +17,7 @@ import { Subscription } from "rxjs";
 import { EChartsOption, graphic } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
 @Component({
   selector: "widget-timeline",
@@ -30,7 +31,8 @@ export class TimelineComponent
   constructor(
     private viewService: ViewService,
     private dateService: DateService,
-    private widgetTypeService: WidgetTypeService
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
   ) {}
   @Input() data;
   @Input() metrics: Metric[];
@@ -41,6 +43,8 @@ export class TimelineComponent
   @Input() properties: any[];
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  emphasizedChannel: string;
+  deemphasizedChannel: string;
   subscription = new Subscription();
   results: Array<any>;
   options = {};
@@ -52,12 +56,13 @@ export class TimelineComponent
   maxMeasurementGap: number = 1 * 1000;
   test = 0;
   echartsInstance;
+  lastEmphasis;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (
-      changes.data &&
+      (changes.channels || changes.data) &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
@@ -69,6 +74,18 @@ export class TimelineComponent
   ngOnInit(): void {
     //override defaults
 
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
     const chartOptions = {
       tooltip: {
         formatter: (params) => {
@@ -117,6 +134,20 @@ export class TimelineComponent
     this.echartsInstance = event;
   }
 
+  emphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "highlight",
+      seriesName: channel,
+    });
+  }
+
+  deemphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "downplay",
+      seriesName: channel,
+    });
+  }
+
   buildChartData(data) {
     this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
@@ -136,15 +167,18 @@ export class TimelineComponent
         this.selectedMetrics.forEach((metric) => {
           const channelObj = {
             type: "custom",
-            name:
-              channel.networkCode.toUpperCase() +
-              "." +
-              channel.stationCode.toUpperCase(),
+            name: nslc,
             data: [],
             large: true,
             encode: {
               x: [0, 1],
               y: 3,
+            },
+            emphasis: {
+              focus: "series",
+              itemStyle: {
+                borderWidth: 1,
+              },
             },
             renderItem: this.renderItem,
           };
@@ -219,6 +253,12 @@ export class TimelineComponent
       rectShape && {
         type: "rect",
         transition: ["shape"],
+        focus: "series",
+        blur: {
+          style: {
+            opacity: 0.7,
+          },
+        },
         shape: {
           x: start[0],
           y: start[1] - height / 2,

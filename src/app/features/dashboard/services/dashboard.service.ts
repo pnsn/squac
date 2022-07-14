@@ -59,7 +59,8 @@ export class DashboardService {
             dashboard.channelGroupId
           );
         } else {
-          return of(null);
+          return this.channelGroupService.getChannelGroup(1);
+          // return of(null);
         }
       }),
       map((channelGroup) => {

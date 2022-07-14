@@ -1,0 +1,28 @@
+<div>
+  <button mat-button>Check All</button>
+  <button mat-button>Uncheck All</button>
+</div>
+<button mat-flat-button (click)="update()">Update</button>
+
+<form [formGroup]="form">
+  <h3>Channels</h3>
+
+  <div formGroupName="checkboxes">
+    <ul>
+      <li
+        *ngFor="let item of form.get('checkboxes').value | keyvalue"
+        class="checkbox"
+      >
+        <mat-checkbox
+          type="checkbox"
+          [formControlName]="item.key"
+          [value]="item.value"
+          (mouseenter)="mouseenter(item.key)"
+          (mouseleave)="mouseleave(item.key)"
+        >
+          {{ item.key }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </div>
+</form>

@@ -8,6 +8,7 @@ import {
   OnChanges,
   TemplateRef,
   EventEmitter,
+  OnInit,
 } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { Subscription } from "rxjs";
@@ -16,6 +17,7 @@ import { Threshold } from "@widget/models/threshold";
 import { Channel } from "@core/models/channel";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
 @Component({
   selector: "widget-tabular",
@@ -24,7 +26,7 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
   providers: [WidgetTypeService],
 })
 export class TabularComponent
-  implements OnDestroy, OnChanges, WidgetTypeComponent
+  implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
 {
   @Input() data;
   @Input() metrics: Metric[];
@@ -58,7 +60,28 @@ export class TabularComponent
     selectedMessage: "selected",
   };
   sorts;
-  constructor(private widgetTypeService: WidgetTypeService) {}
+  constructor(
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
+  ) {}
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -75,6 +98,19 @@ export class TabularComponent
     }
   }
 
+  emphasizeChannel(channel) {
+    // this.echartsInstance.dispatchAction({
+    //   type: "highlight",
+    //   seriesName: channel,
+    // });
+  }
+
+  deemphasizeChannel(channel) {
+    // this.echartsInstance.dispatchAction({
+    //   type: "downplay",
+    //   seriesName: channel,
+    // });
+  }
   buildColumns() {
     let name;
     let isTreeColumn;

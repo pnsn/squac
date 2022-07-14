@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject, Observable, tap } from "rxjs";
+import { Subject, BehaviorSubject, Observable, tap, take } from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Widget } from "@widget/models/widget";
@@ -61,7 +61,13 @@ export class ViewService {
 
   // get channels as commas separated string
   get channelsString(): string {
-    return this.dashboard?.channelGroup?.channelsString;
+    let str = "";
+    this.channels.pipe(take(1)).subscribe((channels) => {
+      channels.forEach((channel) => {
+        str += channel.id + ",";
+      });
+    });
+    return str;
   }
 
   // returns the dashboard starttime
@@ -112,13 +118,17 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
-    this.channels.next(dashboard.channelGroup?.channels);
+    this.updateChannels(dashboard.channelGroup?.channels);
     if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
       this.status.next("finished");
     }
 
     this.setIntialDates();
     // return dates
+  }
+
+  updateChannels(channels) {
+    this.channels.next(channels);
   }
 
   setDashboardById(id): Observable<Dashboard> {

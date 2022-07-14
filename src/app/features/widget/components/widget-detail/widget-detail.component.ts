@@ -19,6 +19,7 @@ import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Channel } from "@core/models/channel";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
 @Component({
   selector: "widget-detail",
@@ -50,7 +51,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   widgetTypes: any;
   widgetType: any;
   showStationList = false;
-
   constructor(
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
@@ -94,6 +94,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
 
+    const channelsSub = this.viewService.channels.subscribe((channels) => {
+      this.channels = channels;
+    });
+
     // get dashboards user is able to edit
     this.dashboardService
       .getDashboards()
@@ -127,7 +131,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           this.error = "No data";
           this.loading = false;
         } else {
-          this.channels = this.widgetDataService.channels;
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
           this.error = false;

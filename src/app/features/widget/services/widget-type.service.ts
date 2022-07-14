@@ -445,7 +445,7 @@ export class WidgetTypeService {
 
       const station = {
         ...series,
-        name: staCode.toUpperCase(),
+        name: channel.nslc.toUpperCase(),
         data: [],
       };
       stations.push(station);

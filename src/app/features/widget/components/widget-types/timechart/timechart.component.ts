@@ -13,6 +13,7 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
@@ -30,7 +31,8 @@ export class TimechartComponent
   constructor(
     private viewService: ViewService,
     private dateService: DateService,
-    private widgetTypeService: WidgetTypeService
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
   ) {}
   @Input() data;
   @Input() metrics: Metric[];
@@ -42,6 +44,8 @@ export class TimechartComponent
   @Input() showStationList: boolean;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  emphasizedChannel: string;
+  deemphasizedChannel: string;
   echartsInstance;
   subscription = new Subscription();
   options: any = {};
@@ -49,6 +53,7 @@ export class TimechartComponent
   initOptions: any = {};
   metricSeries: any = {};
   visualMaps = {};
+  lastEmphasis;
 
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
@@ -73,6 +78,18 @@ export class TimechartComponent
     }
   }
   ngOnInit(): void {
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
     const chartOptions: any = {
       yAxis: {
         type: "value",
@@ -142,6 +159,20 @@ export class TimechartComponent
     });
   }
 
+  emphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "highlight",
+      seriesName: channel,
+    });
+  }
+
+  deemphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "downplay",
+      seriesName: channel,
+    });
+  }
+
   getVisualMaps() {
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
@@ -170,14 +201,23 @@ export class TimechartComponent
         emphasis: {
           focus: "series",
           blurScope: "global",
-          lineStyle: {
-            width: 2,
-          },
-          symbolSize: 5,
-        },
-        blur: {
+          scale: 2,
           lineStyle: {
             opacity: 1,
+            width: 2,
+          },
+          endLabel: {
+            show: true,
+            formatter: "{b}",
+          },
+        },
+
+        blur: {
+          lineStyle: {
+            opacity: 0.3,
+          },
+          itemStyle: {
+            opacity: 0.3,
           },
         },
         symbol: "circle",
@@ -193,7 +233,7 @@ export class TimechartComponent
         const station = {
           ...series,
           ...{
-            name: staCode.toUpperCase(),
+            name: nslc,
             data: [],
             count: 0,
             encode: {

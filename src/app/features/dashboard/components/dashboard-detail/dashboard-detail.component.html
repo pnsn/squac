@@ -60,9 +60,9 @@
       </div>
     </mat-toolbar-row>
     <mat-toolbar-row class="row space-between">
-      <div id="channelSelector">
-        <shared-channel-filter></shared-channel-filter>
-      </div>
+      <button type="button" mat-button (click)="drawer.toggle()">
+        Toggle sidenav
+      </button>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
           [dataType]="archiveType"
@@ -97,9 +97,17 @@
   >
   </mat-progress-bar>
 
-  <div id="dashboard-body">
-    <router-outlet></router-outlet>
-  </div>
+  <mat-drawer-container id="dashboard-body" autosize>
+    <mat-drawer #drawer class="example-sidenav" opened mode="side">
+      <dashboard-channel-filter
+        [channels]="channels"
+      ></dashboard-channel-filter>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>
 </div>
 <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
 <shared-loading *ngIf="!dashboard && !error"></shared-loading>

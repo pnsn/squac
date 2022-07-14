@@ -10,6 +10,7 @@ import {
 import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@features/widget/models/threshold";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
@@ -23,7 +24,10 @@ import { WidgetTypeComponent } from "../widget-type.component";
 export class ParallelPlotComponent
   implements OnInit, OnChanges, WidgetTypeComponent
 {
-  constructor(private widgetTypeService: WidgetTypeService) {}
+  constructor(
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
+  ) {}
   @Input() data;
   @Input() metrics: Metric[];
   @Input() thresholds: Threshold[];
@@ -60,11 +64,24 @@ export class ParallelPlotComponent
     }
   }
   ngOnInit(): void {
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
     const chartOptions = {
       parallel: {
         left: 10,
         bottom: 20,
         top: 50,
+        right: 10,
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,
@@ -94,6 +111,20 @@ export class ParallelPlotComponent
 
   onChartInit(ec) {
     this.echartsInstance = ec;
+  }
+
+  emphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "highlight",
+      seriesName: channel,
+    });
+  }
+
+  deemphasizeChannel(channel) {
+    this.echartsInstance.dispatchAction({
+      type: "downplay",
+      seriesName: channel,
+    });
   }
 
   toggleStationList() {

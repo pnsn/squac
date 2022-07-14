@@ -22,6 +22,11 @@
   // right: 5px;
   // bottom: -15px;
   // height: auto;
+  .emphasized {
+  }
+  .deemphasized {
+    opacity: 0.3;
+  }
   .datatable-header {
     height: auto !important;
     font-size: 10pt !important;
