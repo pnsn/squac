@@ -48,6 +48,9 @@ export class TabularComponent
   SelectionType = SelectionType;
   rows = [];
   columns = [];
+  selectedRow;
+  emphasizedChannel;
+  deemphasizedChannel;
   messages = {
     // Message to show when array is presented
     // but contains no values
@@ -71,12 +74,17 @@ export class TabularComponent
 
     const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
       (channel) => {
-        this.deemphasizeChannel(channel);
+        this.deemphasizedChannel = channel;
       }
     );
     const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
       (channel) => {
-        this.emphasizeChannel(channel);
+        const index = this.findRowIndex(channel);
+        const row = this.rows[index];
+        this.emphasizedChannel = channel;
+        this.selectedRow = [row];
+        this.table.element.querySelector(".datatable-body").scrollTop =
+          index * this.table.rowHeight;
       }
     );
     this.subscription.add(emphSub);
@@ -98,19 +106,6 @@ export class TabularComponent
     }
   }
 
-  emphasizeChannel(channel) {
-    // this.echartsInstance.dispatchAction({
-    //   type: "highlight",
-    //   seriesName: channel,
-    // });
-  }
-
-  deemphasizeChannel(channel) {
-    // this.echartsInstance.dispatchAction({
-    //   type: "downplay",
-    //   seriesName: channel,
-    // });
-  }
   buildColumns() {
     let name;
     let isTreeColumn;
@@ -172,6 +167,12 @@ export class TabularComponent
     if (this.table) {
       this.table.recalculate();
     }
+  }
+
+  private findRowIndex(nslc) {
+    return this.rows.findIndex((row) => {
+      return row.nslc === nslc;
+    });
   }
 
   private metricComparator(propA, propB) {
@@ -341,6 +342,15 @@ export class TabularComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getRowClass(row) {
+    console.log(row.nslc, this.deemphasizedChannel, this.emphasizedChannel);
+    const temp = {
+      deemphasized: row.nslc === this.deemphasizedChannel,
+      emphasized: row.nslc === this.emphasizedChannel,
+    };
+    return temp;
   }
 
   private getStyle(value, visualMap): string {

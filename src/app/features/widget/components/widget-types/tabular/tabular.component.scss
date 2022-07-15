@@ -22,11 +22,7 @@
   // right: 5px;
   // bottom: -15px;
   // height: auto;
-  .emphasized {
-  }
-  .deemphasized {
-    opacity: 0.3;
-  }
+
   .datatable-header {
     height: auto !important;
     font-size: 10pt !important;
@@ -43,6 +39,11 @@
   .datatable-body-row {
     padding: 0px 0px !important;
     line-height: 1.25 !important;
+    &.emphasized {
+    }
+    &.deemphasized {
+      opacity: 0.3;
+    }
   }
 
   .datatable-tree-button {

@@ -151,26 +151,32 @@ export class TimechartComponent
   }
 
   startZoom() {
-    this.echartsInstance.dispatchAction({
-      type: "takeGlobalCursor",
-      key: "dataZoomSelect",
-      // Activate or inactivate.
-      dataZoomSelectActive: true,
-    });
+    if (this.echartsInstance) {
+      this.echartsInstance.dispatchAction({
+        type: "takeGlobalCursor",
+        key: "dataZoomSelect",
+        // Activate or inactivate.
+        dataZoomSelectActive: true,
+      });
+    }
   }
 
   emphasizeChannel(channel) {
-    this.echartsInstance.dispatchAction({
-      type: "highlight",
-      seriesName: channel,
-    });
+    if (this.echartsInstance) {
+      this.echartsInstance.dispatchAction({
+        type: "highlight",
+        seriesName: channel,
+      });
+    }
   }
 
   deemphasizeChannel(channel) {
-    this.echartsInstance.dispatchAction({
-      type: "downplay",
-      seriesName: channel,
-    });
+    if (this.echartsInstance) {
+      this.echartsInstance.dispatchAction({
+        type: "downplay",
+        seriesName: channel,
+      });
+    }
   }
 
   getVisualMaps() {

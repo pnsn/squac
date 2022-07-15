@@ -15,6 +15,8 @@ import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "widget-map",
@@ -33,6 +35,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  subscription = new Subscription();
   resizeObserver;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
@@ -50,10 +53,25 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   stationList;
   stations;
 
-  constructor(private widgetTypeService: WidgetTypeService) {}
+  constructor(
+    private widgetTypeService: WidgetTypeService,
+    private widgetConnectService: WidgetConnectService
+  ) {}
 
   ngOnInit() {
     this.initMap();
+    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
+      (channel) => {
+        this.deemphasizeChannel(channel);
+      }
+    );
+    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
+      (channel) => {
+        this.emphasizeChannel(channel);
+      }
+    );
+    this.subscription.add(emphSub);
+    this.subscription.add(deemphsSub);
   }
 
   initMap(): void {
@@ -115,6 +133,42 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
     }, 0);
   }
 
+  emphasizeChannel(channel) {
+    // const layer = this.metricLayers[this.displayMetric.id];
+    if (channel && this.stations) {
+      const chan = channel.split(".");
+      const stationId = chan[0] + "." + chan[1];
+
+      const stationIndex = this.stations.findIndex((station) => {
+        return station.id === stationId;
+      });
+      const layer = this.metricLayers[this.displayMetric.id];
+      layer.forEach((marker, index) => {
+        if (index !== stationIndex) {
+          marker.closeTooltip();
+        } else {
+          const position = marker.getLatLng();
+          this.map.setView(position);
+          marker.openTooltip();
+        }
+      });
+    }
+  }
+
+  deemphasizeChannel(channel) {
+    // if (channel) {
+    //   const chan = channel.split(".");
+    //   const stationId = chan[0] + "." + chan[1];
+    //   const stationIndex = this.stations.findIndex((station) => {
+    //     return (station.id = stationId);
+    //   });
+    //   const layer = this.metricLayers[this.displayMetric.id];
+    //   layer.forEach((marker, index) => {
+    //     marker.setOpacity(1);
+    //   });
+    // }
+  }
+
   private initLegend() {
     const legend = L.DomUtil.get("legend");
     this.legend.onAdd = () => {
@@ -167,6 +221,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
     this.resizeObserver.unobserve(document.getElementById("map"));
   }
 
@@ -250,7 +305,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
           };
           channelRow = { ...channelRow };
           channelRows.push(channelRow);
-
           let staIndex = stations.indexOf(identifier);
           if (staIndex < 0) {
             staIndex = stations.length;
@@ -299,6 +353,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         this.metricLayers[metric.id] = stationMarkers;
         this.stations = stationRows;
       });
+
       resolve();
     });
   }
@@ -383,6 +438,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   private makeStationMarker(station, stationChannels) {
     const options: any = {
       autoPan: true,
+      riseOnHover: true,
     };
     let html;
     if (station.color) {

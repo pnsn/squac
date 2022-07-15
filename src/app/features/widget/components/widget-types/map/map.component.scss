@@ -11,6 +11,10 @@
   &.border {
     border: solid 1px black;
   }
+  &.selected {
+    height: 13px;
+    width: 13px;
+  }
 }
 :host ::ng-deep .icon-parent {
   height: 10px !important;
