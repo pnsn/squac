@@ -204,14 +204,6 @@ export class TimechartComponent
         },
         emphasis: {
           focus: "series",
-          lineStyle: {
-            opacity: 1,
-            width: 2,
-            color: "black",
-          },
-          itemStyle: {
-            color: "black",
-          },
         },
 
         symbol: "circle",

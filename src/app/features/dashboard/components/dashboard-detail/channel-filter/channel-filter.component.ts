@@ -50,7 +50,7 @@ export class ChannelFilterComponent implements OnInit {
     }, 0);
   }
   mouseleave(item) {
-    this.widgetConnectService.deemphasizeChannel.next(item);
+    this.widgetConnectService.deemphasizeChannel.next(null);
   }
 
   update() {
