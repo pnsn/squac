@@ -16,7 +16,7 @@ import { Threshold } from "@features/widget/models/threshold";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
-import { Subscription } from "rxjs";
+import { Subscription, throwIfEmpty } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
@@ -54,7 +54,6 @@ export class TimechartComponent
   metricSeries: any = {};
   visualMaps = {};
   lastEmphasis;
-
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
 
@@ -65,7 +64,7 @@ export class TimechartComponent
       this.getVisualMaps();
     }
     if (
-      changes.data &&
+      (changes.channels || changes.data) &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
@@ -165,7 +164,7 @@ export class TimechartComponent
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
         type: "highlight",
-        seriesName: channel,
+        seriesId: channel,
       });
     }
   }
@@ -174,7 +173,7 @@ export class TimechartComponent
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
         type: "downplay",
-        seriesName: channel,
+        seriesId: channel,
       });
     }
   }
@@ -197,35 +196,24 @@ export class TimechartComponent
       const series = {
         type: "line",
         large: true,
-        largeThreshold: 4000,
+        largeThreshold: 1000,
         legendHoverLink: true,
-        triggerLineEvent: false,
         lineStyle: {
           width: 1,
           opacity: 1,
         },
         emphasis: {
           focus: "series",
-          blurScope: "global",
-          scale: 2,
           lineStyle: {
             opacity: 1,
             width: 2,
+            color: "black",
           },
-          endLabel: {
-            show: true,
-            formatter: "{b}",
+          itemStyle: {
+            color: "black",
           },
         },
 
-        blur: {
-          lineStyle: {
-            opacity: 0.3,
-          },
-          itemStyle: {
-            opacity: 0.3,
-          },
-        },
         symbol: "circle",
         symbolSize: 2,
         sampling: "lttb",
@@ -240,6 +228,7 @@ export class TimechartComponent
           ...series,
           ...{
             name: nslc,
+            id: nslc,
             data: [],
             count: 0,
             encode: {
@@ -287,7 +276,7 @@ export class TimechartComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
-    this.loadingChange.emit(false);
+
     this.updateOptions = {
       series: this.metricSeries.series,
       title: {
@@ -300,5 +289,13 @@ export class TimechartComponent
         axisLabel: {},
       },
     };
+
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series"],
+      });
+    }
+    //
+    this.loadingChange.emit(false);
   }
 }

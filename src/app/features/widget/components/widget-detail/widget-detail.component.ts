@@ -95,6 +95,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     const channelsSub = this.viewService.channels.subscribe((channels) => {
+      console.log("Channels chanaged");
+      this.loading = "Requesting Data";
       this.channels = channels;
     });
 

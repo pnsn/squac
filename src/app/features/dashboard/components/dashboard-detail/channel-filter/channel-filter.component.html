@@ -1,6 +1,6 @@
 <div>
-  <button mat-button>Check All</button>
-  <button mat-button>Uncheck All</button>
+  <button mat-button (click)="toggleAll(true)">Check All</button>
+  <button mat-button (click)="toggleAll(false)">Uncheck All</button>
 </div>
 <button mat-flat-button (click)="update()">Update</button>
 

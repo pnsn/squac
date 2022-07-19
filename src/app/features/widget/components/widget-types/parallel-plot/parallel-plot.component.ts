@@ -50,7 +50,7 @@ export class ParallelPlotComponent
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (
-      (changes.data || changes.selectedMetrics) &&
+      (changes.data || changes.channels) &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
@@ -196,10 +196,14 @@ export class ParallelPlotComponent
 
   changeMetrics() {
     this.updateOptions = {
+      ...this.updateOptions,
       series: this.processedData.series,
       parallelAxis: this.processedData.axis,
     };
     if (this.echartsInstance) {
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series"],
+      });
       this.echartsInstance.resize();
     }
     this.loadingChange.emit(false);

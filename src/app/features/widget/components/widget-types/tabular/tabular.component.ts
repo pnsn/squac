@@ -97,7 +97,7 @@ export class TabularComponent
     // this.channels.length > 0 &&
     // this.selectedMetrics.length > 0
     if (
-      changes.data &&
+      (changes.channels || changes.data) &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {

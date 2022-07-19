@@ -51,7 +51,7 @@ export class ScatterPlotComponent
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (
-      changes.data &&
+      (changes.channels || changes.data) &&
       this.channels.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
@@ -156,7 +156,6 @@ export class ScatterPlotComponent
         type: "scatter",
         colorBy: "series", //unless visualMap
         data: [],
-        large: true,
         dimensions: [],
         name: "name",
         emphasis: {
@@ -208,5 +207,11 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
+    if (this.echartsInstance) {
+      console.log("has echarts instance");
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series"],
+      });
+    }
   }
 }
