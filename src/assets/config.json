@@ -125,9 +125,14 @@
       "description": "  ",
       "displayInfo": "channels as dots",
       "displayOptions": [{
-        "description": "each dot represents a channel - colors show aggregate value for a 3rd metric",
-        "displayType": "channel"
-      }]
+          "description": "break up by day",
+          "displayType": "day"
+        },
+        {
+          "description": "break up by hour",
+          "displayType": "hour"
+        }
+      ]
     }
   ],
   "statTypes": [{

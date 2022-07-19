@@ -42,7 +42,7 @@ export class CalendarComponent
   @Input() channels: Channel[];
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
-  @Input() properties: any[];
+  @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -96,7 +96,6 @@ export class CalendarComponent
         name: "Measurement Start",
 
         axisTick: {
-          interval: 0,
           show: true,
         },
         axisLine: {
@@ -173,6 +172,7 @@ export class CalendarComponent
         2
       );
       this.xAxisLabels = [];
+      const width = this.properties.display || "hour";
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
@@ -200,16 +200,21 @@ export class CalendarComponent
               if (!start) {
                 start = this.dateService
                   .parseUtc(measurement.starttime)
-                  .startOf("day");
+                  .startOf(width);
               }
               const measurementStart = this.dateService.parseUtc(
                 measurement.starttime
               );
 
-              if (!measurementStart.isSame(start, "day")) {
+              if (!measurementStart.isSame(start, width)) {
                 //   .toDate();
                 const avg = total / count;
-                const startString = start.format("MMM DD");
+                let startString;
+                if (width === "day") {
+                  startString = start.startOf(width).format("MMM DD");
+                } else {
+                  startString = start.startOf(width).format("MMM DD HH:00");
+                }
 
                 if (this.xAxisLabels.indexOf(startString) === -1) {
                   this.xAxisLabels.push(startString);
@@ -223,7 +228,7 @@ export class CalendarComponent
                 count = 0;
                 start = this.dateService
                   .parseUtc(measurement.starttime)
-                  .startOf("day");
+                  .startOf(width);
               }
 
               count += 1;
@@ -249,6 +254,7 @@ export class CalendarComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
+
     this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
