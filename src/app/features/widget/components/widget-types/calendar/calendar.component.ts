@@ -172,7 +172,7 @@ export class CalendarComponent
         2
       );
       this.xAxisLabels = [];
-      const width = this.properties.display || "hour";
+      const width = this.properties.display || "day";
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
