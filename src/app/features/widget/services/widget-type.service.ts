@@ -75,7 +75,7 @@ export class WidgetTypeService {
     grid: {
       containLabel: true,
       top: 40,
-      right: 5,
+      right: 8,
       bottom: 45,
       left: 35,
     },

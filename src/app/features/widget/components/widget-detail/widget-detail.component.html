@@ -278,6 +278,20 @@
           [properties]="widget.properties"
         >
         </widget-scatter-plot>
+        <widget-calendar-plot
+          #widgetChild
+          *ngSwitchCase="'calendar-plot'"
+          class="widget"
+          [(loading)]="loading"
+          [data]="data"
+          [dataRange]="dataRange"
+          [thresholds]="widget.thresholds"
+          [channels]="channels"
+          [selectedMetrics]="selectedMetrics"
+          [properties]="widget.properties"
+          [showStationList]="showStationList"
+        >
+        </widget-calendar-plot>
         <div *ngSwitchDefault class="widget-message">
           <p>
             Error: could not load widget...

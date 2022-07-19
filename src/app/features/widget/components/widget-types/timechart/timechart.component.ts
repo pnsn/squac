@@ -134,7 +134,7 @@ export class TimechartComponent
           show: false,
         },
         grid: {
-          right: 5,
+          right: 8,
         },
       };
     }

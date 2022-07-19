@@ -44,7 +44,8 @@ export class WidgetService {
 
   // Post and put for widget don't return serialized values
   updateWidget(widget: Widget): Observable<any> {
-    const postData: ApiPostWidget = this.widgetAdapter.adaptToApi(widget);
+    const postData: any = this.widgetAdapter.adaptToApi(widget);
+    postData.channel_group = 1;
     if (widget.id) {
       return this.squacApi.put(this.url, widget.id, postData);
     } else {

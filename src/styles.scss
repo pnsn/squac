@@ -30,7 +30,7 @@ body {
 }
 #body-content-container {
   width: 98%;
-  height: 100%;
+  height: calc(100% - 50px);
   margin: 10px 1% 0;
   @include md {
     margin: 10px 5% 0;

@@ -115,6 +115,19 @@
         ],
         "displayType": "channel"
       }]
+    },
+    {
+      "id": 7,
+      "name": "calendar plot",
+      "type": "calendar-plot",
+      "showChannelList": true,
+      "useAggregate": false,
+      "description": "  ",
+      "displayInfo": "channels as dots",
+      "displayOptions": [{
+        "description": "each dot represents a channel - colors show aggregate value for a 3rd metric",
+        "displayType": "channel"
+      }]
     }
   ],
   "statTypes": [{

@@ -19,6 +19,7 @@ import { TimechartComponent } from "./components/widget-types/timechart/timechar
 import { ScatterPlotComponent } from "./components/widget-types/scatter-plot/scatter-plot.component";
 import { BoxPlotComponent } from "./components/widget-types/box-plot/box-plot.component";
 import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/parallel-plot.component";
+import { CalendarComponent } from "./components/widget-types/calendar/calendar.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/p
     ScatterPlotComponent,
     BoxPlotComponent,
     ParallelPlotComponent,
+    CalendarComponent,
   ],
   imports: [SharedModule, NgxChartsModule, GridsterModule],
   providers: [

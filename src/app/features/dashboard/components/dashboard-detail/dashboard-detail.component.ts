@@ -136,6 +136,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
     this.save();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
+    console.log(this.archiveType, this.archiveStat);
     this.refreshData();
   }
 

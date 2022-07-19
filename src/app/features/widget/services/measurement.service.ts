@@ -45,7 +45,7 @@ export class MeasurementService {
     } else {
       path = "measurements/";
     }
-    return this.fakeData(params);
+    // return this.fakeData(params);
     return this.squacApi.get(this.url + path, null, {
       metric: params.metricString,
       channel: params.channelString,
