@@ -184,6 +184,7 @@ export class CalendarComponent
             name: nslc,
             data: [],
             large: true,
+            emphasis: { focus: "series" },
             encode: {
               x: 0,
               y: 3,
