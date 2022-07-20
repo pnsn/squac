@@ -40,8 +40,6 @@ export class ChannelGroupSelectorComponent implements OnInit {
       .getChannelGroup(+this.channelGroupId)
       .pipe(take(1))
       .subscribe((channelGroup) => {
-        console.log(channelGroup.channels);
-        console.log(channelGroup.channels.length);
         this.channelsChange.emit(channelGroup.channels);
       });
   }

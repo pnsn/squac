@@ -65,7 +65,6 @@ export class CalendarComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(changes.channels);
     if (
       (changes.channels || changes.data) &&
       this.channels?.length > 0 &&
