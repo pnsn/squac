@@ -47,9 +47,6 @@ export class DataTypeSelectorComponent implements OnChanges {
       }
       this.updateTypes();
     }
-    if (changes.statType) {
-      console.log(this.statType);
-    }
   }
 
   updateTypes(): void {

@@ -74,7 +74,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const widgetSub = this.viewService.widgetUpdated.subscribe(
       (widgetId: number) => {
-        console.log("wdiget udpated");
         const widget = this.viewService.getWidgetById(widgetId);
         this.updateWidget(widgetId, widget);
       }

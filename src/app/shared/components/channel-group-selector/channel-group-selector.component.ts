@@ -16,7 +16,7 @@ import { take } from "rxjs";
   templateUrl: "./channel-group-selector.component.html",
   styleUrls: ["./channel-group-selector.component.scss"],
 })
-export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
+export class ChannelGroupSelectorComponent implements OnInit {
   @Input() channelGroupId: number | string;
   @Input() label = "Channel Group";
   @Input() required = false;
@@ -31,15 +31,6 @@ export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
     this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
       this.channelGroups = channelGroups;
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.channelGroups) {
-      console.log(changes.channelGroups);
-    }
-    if (changes.channelGroupId) {
-      console.log("channnel group Id ins selector", this.channelGroupId);
-    }
   }
 
   selectionChange(event) {

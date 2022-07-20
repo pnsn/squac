@@ -208,7 +208,6 @@ export class ScatterPlotComponent
       },
     };
     if (this.echartsInstance) {
-      console.log("has echarts instance");
       this.echartsInstance.setOption(this.updateOptions, {
         replaceMerge: ["series"],
       });

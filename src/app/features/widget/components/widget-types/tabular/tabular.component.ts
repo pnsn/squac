@@ -345,7 +345,6 @@ export class TabularComponent
   }
 
   getRowClass(row) {
-    console.log(row.nslc, this.deemphasizedChannel, this.emphasizedChannel);
     const temp = {
       deemphasized: row.nslc === this.deemphasizedChannel,
       emphasized: row.nslc === this.emphasizedChannel,

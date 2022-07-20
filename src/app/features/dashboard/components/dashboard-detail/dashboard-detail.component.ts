@@ -145,7 +145,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   // tell view service the channels changed
   channelsChange(channels: Channel[]): void {
     this.channels = channels;
-    console.log("channels changed", channels.length);
     this.viewService.updateChannels(channels);
   }
 
