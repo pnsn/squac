@@ -14,11 +14,10 @@ import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Subscription } from "rxjs";
-import { EChartsOption, graphic } from "echarts";
+import { EChartsOption } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { format } from "d3";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 
 @Component({

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Observable, forkJoin, of } from "rxjs";
-import { ApiPostWidget, Widget, WidgetAdapter } from "@widget/models/widget";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Widget, WidgetAdapter } from "@widget/models/widget";
+import { map } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
 
 @Injectable({

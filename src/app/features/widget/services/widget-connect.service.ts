@@ -7,5 +7,4 @@ import { Subject } from "rxjs";
 export class WidgetConnectService {
   emphasizedChannel = new Subject<string>();
   deemphasizeChannel = new Subject<string>();
-  constructor() {}
 }

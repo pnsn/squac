@@ -1,7 +1,6 @@
 import { Threshold } from "@widget/models/threshold";
 import { ApiGetMetric, Metric, MetricAdapter } from "@core/models/metric";
 import { Adapter } from "@core/models/adapter";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Injectable } from "@angular/core";
 
 export class Widget {

@@ -1,4 +1,3 @@
-import { isDataSource } from "@angular/cdk/collections";
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
 import { Channel, ChannelAdapter } from "./channel";

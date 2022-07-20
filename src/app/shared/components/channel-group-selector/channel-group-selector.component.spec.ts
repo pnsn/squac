@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChannelGroupSelectorComponent } from './channel-group-selector.component';
+import { ChannelGroupSelectorComponent } from "./channel-group-selector.component";
 
-describe('ChannelGroupSelectorComponent', () => {
+describe("ChannelGroupSelectorComponent", () => {
   let component: ChannelGroupSelectorComponent;
   let fixture: ComponentFixture<ChannelGroupSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChannelGroupSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [ChannelGroupSelectorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ChannelGroupSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

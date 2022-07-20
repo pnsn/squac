@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Metric } from "@core/models/metric";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import * as colormap from "colormap";
-import { autoType } from "d3";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
@@ -441,8 +440,6 @@ export class WidgetTypeService {
     });
 
     channels.forEach((channel) => {
-      const staCode = channel.networkCode + "." + channel.stationCode;
-
       const station = {
         ...series,
         name: channel.nslc.toUpperCase(),

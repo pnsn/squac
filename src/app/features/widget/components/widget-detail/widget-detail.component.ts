@@ -19,7 +19,6 @@ import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Channel } from "@core/models/channel";
-import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
 @Component({
   selector: "widget-detail",
@@ -113,6 +112,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.dashboards = dashboards;
       });
 
+    this.subscription.add(channelsSub);
     this.subscription.add(resizeSub);
     this.subscription.add(updateSub);
     this.subscription.add(this.dataSub);

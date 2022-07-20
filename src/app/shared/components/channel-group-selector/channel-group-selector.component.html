@@ -6,7 +6,7 @@
   <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label>
   <mat-select
     [(ngModel)]="channelGroupId"
-    (selectionChange)="selectionChange($event)"
+    (selectionChange)="selectionChange()"
     [required]="required"
   >
     <mat-option

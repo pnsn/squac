@@ -16,7 +16,7 @@ import { Threshold } from "@features/widget/models/threshold";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
-import { Subscription, throwIfEmpty } from "rxjs";
+import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
@@ -214,7 +214,6 @@ export class TimechartComponent
 
       const metric = this.selectedMetrics[0];
       this.channels.forEach((channel) => {
-        const staCode = channel.networkCode + "." + channel.stationCode;
         const nslc = channel.nslc.toUpperCase();
         const station = {
           ...series,

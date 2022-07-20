@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { take } from "rxjs";
@@ -33,7 +25,7 @@ export class ChannelGroupSelectorComponent implements OnInit {
     });
   }
 
-  selectionChange(event) {
+  selectionChange() {
     this.channelGroupIdChange.emit(this.channelGroupId);
 
     this.channelGroupService

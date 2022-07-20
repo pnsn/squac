@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { WidgetConnectService } from './widget-connect.service';
+import { WidgetConnectService } from "./widget-connect.service";
 
-describe('WidgetConnectService', () => {
+describe("WidgetConnectService", () => {
   let service: WidgetConnectService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('WidgetConnectService', () => {
     service = TestBed.inject(WidgetConnectService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

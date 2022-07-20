@@ -1,19 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from "@angular/core";
-import { Form, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { MatChipInputEvent } from "@angular/material/chips";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
-import { startWith, map, Observable } from "rxjs";
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { Observable } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
@@ -22,7 +10,7 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
   templateUrl: "./channel-filter.component.html",
   styleUrls: ["./channel-filter.component.scss"],
 })
-export class ChannelFilterComponent implements OnInit {
+export class ChannelFilterComponent implements OnChanges {
   filteredChannels: Observable<Channel[]>;
   @Input() channels: Channel[];
   form: FormGroup;
@@ -33,8 +21,6 @@ export class ChannelFilterComponent implements OnInit {
     private widgetConnectService: WidgetConnectService,
     private viewService: ViewService
   ) {}
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -64,7 +50,7 @@ export class ChannelFilterComponent implements OnInit {
       this.widgetConnectService.emphasizedChannel.next(item);
     }, 0);
   }
-  mouseleave(item) {
+  mouseleave(_item) {
     this.widgetConnectService.deemphasizeChannel.next(null);
   }
 

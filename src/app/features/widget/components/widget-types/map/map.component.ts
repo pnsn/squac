@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -24,7 +25,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["./map.component.scss"],
   providers: [WidgetTypeService],
 })
-export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
+export class MapComponent
+  implements OnInit, OnChanges, OnDestroy, WidgetTypeComponent
+{
   @Input() data;
   @Input() metrics: Metric[];
   @Input() thresholds: Threshold[];
@@ -60,18 +63,12 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
 
   ngOnInit() {
     this.initMap();
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizeChannel(channel);
-      }
-    );
     const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
       (channel) => {
         this.emphasizeChannel(channel);
       }
     );
     this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
   }
 
   initMap(): void {
@@ -153,20 +150,6 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
         }
       });
     }
-  }
-
-  deemphasizeChannel(channel) {
-    // if (channel) {
-    //   const chan = channel.split(".");
-    //   const stationId = chan[0] + "." + chan[1];
-    //   const stationIndex = this.stations.findIndex((station) => {
-    //     return (station.id = stationId);
-    //   });
-    //   const layer = this.metricLayers[this.displayMetric.id];
-    //   layer.forEach((marker, index) => {
-    //     marker.setOpacity(1);
-    //   });
-    // }
   }
 
   private initLegend() {

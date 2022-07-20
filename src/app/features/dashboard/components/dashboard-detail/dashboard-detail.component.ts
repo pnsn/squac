@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, SimpleChanges } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap, tap } from "rxjs";
@@ -6,7 +6,6 @@ import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
 
 // Individual dashboard
 @Component({

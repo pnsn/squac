@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChannelFilterComponent } from './channel-filter.component';
+import { ChannelFilterComponent } from "./channel-filter.component";
 
-describe('ChannelFilterComponent', () => {
+describe("ChannelFilterComponent", () => {
   let component: ChannelFilterComponent;
   let fixture: ComponentFixture<ChannelFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChannelFilterComponent ]
-    })
-    .compileComponents();
+      declarations: [ChannelFilterComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ChannelFilterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
