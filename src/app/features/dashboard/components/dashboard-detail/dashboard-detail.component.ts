@@ -6,6 +6,7 @@ import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Channel } from "@core/models/channel";
+import { ChannelGroup } from "@core/models/channel-group";
 
 // Individual dashboard
 @Component({
@@ -24,6 +25,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   archiveStat: string;
   startTime: string;
   endTime: string;
+  channelGroupId: number;
   // time picker config
   datePickerTimeRanges = [
     {
@@ -76,6 +78,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.archiveStat = this.dashboard.properties.archiveStat;
           this.archiveType = this.dashboard.properties.archiveType;
           this.channels = this.dashboard.channelGroup.channels;
+          this.channelGroupId = this.dashboard.channelGroup.id;
         })
       )
       .subscribe({
@@ -136,8 +139,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
     this.save();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
-    console.log(this.archiveType, this.archiveStat);
     this.refreshData();
+  }
+
+  // tell view service the channels changed
+  channelsChange(channels: Channel[]): void {
+    this.channels = channels;
+    console.log("channels changed", channels.length);
+    this.viewService.updateChannels(channels);
   }
 
   // route to edit dashboard

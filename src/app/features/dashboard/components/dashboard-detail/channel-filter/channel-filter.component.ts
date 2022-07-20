@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from "@angular/core";
 import { Form, FormBuilder, FormControl, FormGroup } from "@angular/forms";
@@ -33,16 +34,29 @@ export class ChannelFilterComponent implements OnInit {
     private viewService: ViewService
   ) {}
 
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      checkboxes: this.formBuilder.group({}),
-    });
+  ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.channels) {
+      this.initForm();
+    }
+  }
+
+  initForm() {
+    if (!this.form) {
+      this.form = this.formBuilder.group({});
+    }
+    this.form.addControl("checkboxes", new FormGroup({}));
 
     const checkboxes = <FormGroup>this.form.get("checkboxes");
+    checkboxes.controls = {};
     this.channels.forEach((option: any) => {
       checkboxes.addControl(option.nslc.toUpperCase(), new FormControl(true));
     });
   }
+
   mouseenter(item) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {

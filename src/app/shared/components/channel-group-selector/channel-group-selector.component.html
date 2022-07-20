@@ -1,9 +1,13 @@
-<mat-form-field class="medium">
-  <mat-label>Channel group (required)</mat-label>
+<mat-form-field
+  class="medium"
+  [appearance]="appearance"
+  [ngClass]="{ 'dense-form-field': dense }"
+>
+  <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label>
   <mat-select
     [(ngModel)]="channelGroupId"
     (selectionChange)="selectionChange($event)"
-    required
+    [required]="required"
   >
     <mat-option
       *ngFor="let channelGroup of channelGroups"

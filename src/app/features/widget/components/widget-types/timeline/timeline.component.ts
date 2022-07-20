@@ -63,7 +63,7 @@ export class TimelineComponent
     //Add '${implements OnChanges}' to the class.
     if (
       (changes.channels || changes.data) &&
-      this.channels.length > 0 &&
+      this.channels?.length > 0 &&
       this.selectedMetrics.length > 0
     ) {
       this.buildChartData(this.data).then(() => {

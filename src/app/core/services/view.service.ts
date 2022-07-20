@@ -127,7 +127,8 @@ export class ViewService {
     // return dates
   }
 
-  updateChannels(channels) {
+  updateChannels(channels: Channel[]) {
+    console.log("Update channels in view", channels.length);
     this.channels.next(channels);
   }
 

@@ -94,7 +94,7 @@ export class MapComponent implements OnInit, OnChanges, WidgetTypeComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes.channels || changes.data) &&
-      this.channels.length > 0 &&
+      this.channels?.length > 0 &&
       this.selectedMetrics.length > 0 &&
       this.map
     ) {
