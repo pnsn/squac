@@ -26,6 +26,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   channelGroupId: number;
+  sideNavOpened = true;
   // time picker config
   datePickerTimeRanges = [
     {
@@ -140,6 +141,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.save();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
     this.refreshData();
+  }
+
+  toggleSidenav(): void {
+    this.viewService.resizeAll();
   }
 
   // tell view service the channels changed

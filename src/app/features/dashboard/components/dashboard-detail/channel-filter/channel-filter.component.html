@@ -1,11 +1,11 @@
-<div class="row space-between">
+<div class="row space-between header-row">
   <h3>Channels</h3>
   <button mat-button color="accent" (click)="update()">Update</button>
 </div>
 
 <div class="row space-between">
-  <button mat-button (click)="toggleAll(true)">All</button>
-  <button mat-button (click)="toggleAll(false)">None</button>
+  <button mat-stroked-button (click)="toggleAll(true)">All</button>
+  <button mat-stroked-button (click)="toggleAll(false)">None</button>
 </div>
 
 <form [formGroup]="form">
