@@ -1,12 +1,14 @@
-<div>
-  <button mat-button (click)="toggleAll(true)">Check All</button>
-  <button mat-button (click)="toggleAll(false)">Uncheck All</button>
+<div class="row space-between">
+  <h3>Channels</h3>
+  <button mat-button color="accent" (click)="update()">Update</button>
 </div>
-<button mat-flat-button (click)="update()">Update</button>
+
+<div class="row space-between">
+  <button mat-button (click)="toggleAll(true)">All</button>
+  <button mat-button (click)="toggleAll(false)">None</button>
+</div>
 
 <form [formGroup]="form">
-  <h3>Channels</h3>
-
   <div formGroupName="checkboxes">
     <ul>
       <li
@@ -19,6 +21,7 @@
           [value]="item.value"
           (mouseenter)="mouseenter(item.key)"
           (mouseleave)="mouseleave(item.key)"
+          [disableRipple]="true"
         >
           {{ item.key }}
         </mat-checkbox>

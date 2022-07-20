@@ -26,6 +26,7 @@ export class ChannelFilterComponent implements OnInit {
   @Input() channels: Channel[];
   form: FormGroup;
   timeout;
+  changed: false;
   constructor(
     private formBuilder: FormBuilder,
     private widgetConnectService: WidgetConnectService,
@@ -57,6 +58,7 @@ export class ChannelFilterComponent implements OnInit {
     const value = <FormGroup>this.form.get("checkboxes").value;
     const channels = this.channels.filter((c) => value[c.nslc.toUpperCase()]);
     this.viewService.updateChannels(channels);
+    this.changed = false;
   }
 
   toggleAll(toggle) {

@@ -185,6 +185,9 @@ export class CalendarComponent
             data: [],
             large: true,
             emphasis: { focus: "series" },
+            blur: {
+              itemStyle: { opacity: 0.7 },
+            },
             encode: {
               x: 0,
               y: 3,

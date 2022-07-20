@@ -3,3 +3,27 @@
     font-weight: bold;
   }
 }
+
+:host ::ng-deep.mat-button {
+  padding: 0px 5px !important;
+  height: 22px;
+  line-height: 11px;
+}
+.row {
+  gap: 3px;
+}
+
+:host ::ng-deep mat-checkbox {
+  height: 20px;
+  .mat-checkbox-inner-container {
+    height: 12px !important;
+    width: 12px !important;
+    margin-right: 2px;
+  }
+  .mat-ripple {
+    display: none !important;
+  }
+  .mat-checkbox-label {
+    font-size: 10pt !important;
+  }
+}
