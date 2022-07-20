@@ -36,11 +36,7 @@ describe("WidgetMainComponent", () => {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: 123 }),
-            snapshot: {
-              data: {
-                widgets: [],
-              },
-            },
+            data: of({ widgets: [] }),
           },
         },
         MockProvider(MeasurementService),

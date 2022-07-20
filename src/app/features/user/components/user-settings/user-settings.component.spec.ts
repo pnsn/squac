@@ -14,8 +14,17 @@ describe("UserSettingsComponent", () => {
   beforeEach(() => {
     return MockBuilder(UserSettingsComponent, UserModule)
       .mock(UserService)
-      .mock(ActivatedRoute)
-      .mock(MessageService);
+      .mock(MessageService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            data: {
+              user: {},
+            },
+          },
+        },
+      });
   });
 
   beforeEach(() => {

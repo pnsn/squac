@@ -73,7 +73,7 @@ describe("WidgetService", () => {
 
   it("should put widget with id", (done: DoneFn) => {
     const putSpy = spyOn(squacApiService, "put").and.callThrough();
-    const testWidget = new Widget(1, 1, "", 1, 1, [], "", "");
+    const testWidget = new Widget(1, 1, "", 1, [], "", "");
     widgetService.updateWidget(testWidget).subscribe(() => {
       expect(putSpy).toHaveBeenCalled();
       done();
@@ -82,7 +82,7 @@ describe("WidgetService", () => {
 
   it("should post widget without id", (done: DoneFn) => {
     const postSpy = spyOn(squacApiService, "post").and.callThrough();
-    const testWidget = new Widget(null, 1, "", 1, 1, [], "", "");
+    const testWidget = new Widget(null, 1, "", 1, [], "", "");
     widgetService.updateWidget(testWidget).subscribe(() => {
       expect(postSpy).toHaveBeenCalled();
       done();

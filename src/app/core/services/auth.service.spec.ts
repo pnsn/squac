@@ -65,7 +65,7 @@ describe("AuthService", () => {
   });
 
   it("should log existing user in", () => {
-    spyOn(authService, "autologout");
+    expect(authService.loggedIn).toBeFalse();
     const expDate = new Date().getTime() + 10000;
 
     localStorage.setItem(
@@ -78,7 +78,7 @@ describe("AuthService", () => {
     );
 
     authService.autologin();
-    expect(authService.autologout).toHaveBeenCalled();
+    expect(authService.loggedIn).toBeTrue();
   });
 
   it("should log new user in", () => {
@@ -88,13 +88,13 @@ describe("AuthService", () => {
   });
 
   it("should not log in if no user data", () => {
-    spyOn(authService, "autologout");
+    expect(authService.loggedIn).toBeFalse();
     localStorage.clear();
 
     authService.autologin();
 
     expect(localStorage.getItem("userData")).toBeNull();
-    expect(authService.autologout).not.toHaveBeenCalled();
+    expect(authService.loggedIn).toBeFalse();
   });
 
   it("should log user out", () => {

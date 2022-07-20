@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { SharedModule } from "@shared/shared.module";
+import { MockBuilder } from "ng-mocks";
+import { of } from "rxjs";
 
 import { ChannelGroupSelectorComponent } from "./channel-group-selector.component";
 
@@ -6,10 +10,15 @@ describe("ChannelGroupSelectorComponent", () => {
   let component: ChannelGroupSelectorComponent;
   let fixture: ComponentFixture<ChannelGroupSelectorComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ChannelGroupSelectorComponent],
-    }).compileComponents();
+  beforeEach(() => {
+    return MockBuilder(ChannelGroupSelectorComponent, SharedModule).provide({
+      provide: ChannelGroupService,
+      useValue: {
+        getChannelGroups: () => {
+          return of();
+        },
+      },
+    });
   });
 
   beforeEach(() => {

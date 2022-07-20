@@ -28,6 +28,10 @@ describe("WidgetEditOptionsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetEditOptionsComponent);
     component = fixture.componentInstance;
+    component.properties = {};
+    component.gradientOptions = [];
+    component.solidOptions = [];
+    component.thresholds = [];
     fixture.detectChanges();
   });
 

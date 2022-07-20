@@ -42,6 +42,11 @@ describe("WidgetDetailComponent", () => {
           status: new BehaviorSubject("loading"),
           error: new Subject(),
           updateData: new Subject(),
+          channels: new Subject(),
+          resize: new Subject(),
+          widgetFinishedLoading: () => {
+            return;
+          },
         },
       });
   });
@@ -49,7 +54,7 @@ describe("WidgetDetailComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetDetailComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(1, 1, "name", 1, 1, [], "", "");
+    component.widget = new Widget(1, 1, "name", 1, [], "", "");
     fixture.detectChanges();
   });
 

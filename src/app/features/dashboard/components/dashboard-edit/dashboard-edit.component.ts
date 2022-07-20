@@ -37,7 +37,10 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dashboard = this.data.dashboard;
-    this.channelGroupId = this.dashboard.channelGroupId;
+    if (this.dashboard) {
+      this.channelGroupId = this.dashboard.channelGroupId;
+    }
+
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.dashboard;
     this.orgId = this.userService.userOrg;

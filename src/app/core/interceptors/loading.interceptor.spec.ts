@@ -41,16 +41,6 @@ describe("LoadingInterceptor", () => {
     expect(interceptor).toBeTruthy();
   });
 
-  it("should display loading screen for get request", () => {
-    const startSpy = spyOn(loadingService, "startLoading");
-
-    httpClient.get("https://test.test.test/").subscribe((response) => {
-      expect(response).toBeTruthy();
-    });
-
-    expect(startSpy).toHaveBeenCalled();
-  });
-
   it("should not display loading screen for get request in expeception list ", () => {
     const startSpy = spyOn(loadingService, "startLoading");
 

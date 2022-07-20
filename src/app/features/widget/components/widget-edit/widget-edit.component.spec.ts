@@ -14,7 +14,6 @@ import { WidgetConfigService } from "@features/widget/services/widget-config.ser
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
-import { WidgetEditChannelGroupComponent } from "./widget-edit-channel-group/widget-edit-channel-group.component";
 import { WidgetEditOptionsComponent } from "./widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
 import { MockComponents, MockProviders, MockService } from "ng-mocks";
@@ -54,7 +53,6 @@ describe("WidgetEditComponent", () => {
       declarations: [
         WidgetEditComponent,
         MockComponents(
-          WidgetEditChannelGroupComponent,
           WidgetEditOptionsComponent,
           WidgetEditMetricsComponent,
           WidgetEditInfoComponent

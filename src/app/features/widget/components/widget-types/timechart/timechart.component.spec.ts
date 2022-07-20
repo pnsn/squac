@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
+import { of } from "rxjs";
 
 import { TimechartComponent } from "./timechart.component";
 
@@ -15,7 +17,14 @@ describe("TimechartComponent", () => {
     return MockBuilder(TimechartComponent, WidgetModule)
       .mock(ViewService)
       .mock(DateService)
-      .mock(WidgetTypeService);
+      .mock(WidgetTypeService)
+      .provide({
+        provide: WidgetConnectService,
+        useValue: {
+          deemphasizeChannel: of(),
+          emphasizedChannel: of(),
+        },
+      });
   });
 
   beforeEach(() => {

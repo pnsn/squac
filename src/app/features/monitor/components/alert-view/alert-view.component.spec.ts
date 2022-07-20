@@ -25,9 +25,7 @@ describe("AlertViewComponent", () => {
       .provide({
         provide: ActivatedRoute,
         useValue: {
-          parent: {
-            data: of(),
-          },
+          data: of(),
           snapshot: {},
         },
       });

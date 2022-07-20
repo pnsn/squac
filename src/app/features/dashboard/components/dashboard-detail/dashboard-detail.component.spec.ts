@@ -16,6 +16,8 @@ import { MockBuilder } from "ng-mocks";
 import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
 import { DataTypeSelectorComponent } from "./data-type-selector/data-type-selector.component";
 import { SharedModule } from "@shared/shared.module";
+import { ChannelFilterComponent } from "./channel-filter/channel-filter.component";
+import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
@@ -46,6 +48,8 @@ describe("DashboardDetailComponent", () => {
         OrganizationPipe,
         SharedIndicatorComponent,
         ErrorComponent,
+        ChannelFilterComponent,
+        ChannelGroupSelectorComponent,
       ])
       .provide({
         provide: ActivatedRoute,

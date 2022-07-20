@@ -18,7 +18,7 @@ describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const testWidget = new Widget(1, 1, "name", 1, 1, [], "", "");
+  const testWidget = new Widget(1, 1, "name", 1, [], "", "");
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 

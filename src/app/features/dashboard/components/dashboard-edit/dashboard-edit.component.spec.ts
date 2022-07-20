@@ -6,6 +6,7 @@ import { MaterialModule } from "@shared/material.module";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
@@ -21,7 +22,8 @@ describe("DashboardEditComponent", () => {
       .keep(ReactiveFormsModule)
       .keep(FormsModule)
       .mock(DashboardService)
-      .mock(UserService);
+      .mock(UserService)
+      .mock(ChannelGroupSelectorComponent);
   });
 
   it("should create", () => {

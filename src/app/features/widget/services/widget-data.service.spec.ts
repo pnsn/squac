@@ -1,6 +1,5 @@
 import { TestBed } from "@angular/core/testing";
 import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
@@ -15,9 +14,7 @@ describe("WidgetDataService", () => {
   let service: WidgetDataService;
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
   const testChannel = new Channel(1, "", "", 1, 1, 1, 1, "", "", "", "", "");
-  const testWidget = new Widget(1, 1, "", 1, 1, [testMetric], "", "");
-  testWidget.channelGroup = new ChannelGroup(1, 1, "", "", 1, [1, 2]);
-  testWidget.channelGroup.channels = [testChannel];
+  const testWidget = new Widget(1, 1, "", 1, [testMetric], "", "");
   testWidget.type = "tabular";
   let viewService;
 
@@ -31,7 +28,18 @@ describe("WidgetDataService", () => {
           },
         },
       })
-      .mock(ViewService);
+      .provide({
+        provide: ViewService,
+        useValue: {
+          channels: of(),
+          widgetStartedLoading: () => {
+            return;
+          },
+          widgetFinishedLoading: () => {
+            return;
+          },
+        },
+      });
   });
 
   beforeEach(() => {
@@ -44,32 +52,27 @@ describe("WidgetDataService", () => {
   });
 
   it("should set widget", () => {
-    const widgetSpy = spyOn(service, "setWidget");
-    service.setType({
+    const widgetSpy = spyOn(service, "updateWidget");
+    service.updateWidget(testWidget, {
       useAggregate: false,
     });
-    service.setWidget(testWidget);
 
     expect(widgetSpy).toHaveBeenCalled();
   });
 
   it("should not try to fetch measurements if no widget", () => {
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
-    service.setType({
+    service.updateWidget(null, {
       useAggregate: false,
     });
-    service.fetchMeasurements("start", "end");
     expect(viewSpy).not.toHaveBeenCalled();
   });
 
   it("should try to get measurements if there is a widget and dates", () => {
-    service.setWidget(testWidget);
-
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
-    service.setType({
-      useAggregate: false,
-    });
-    service.fetchMeasurements("start", "end");
+    service.updateWidget(testWidget, {});
+    service.channels = [testChannel];
+    service.updateMetrics([testMetric]);
     expect(viewSpy).toHaveBeenCalled();
   });
 });

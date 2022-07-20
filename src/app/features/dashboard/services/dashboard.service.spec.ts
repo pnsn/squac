@@ -9,6 +9,8 @@ import { WidgetService } from "@widget/services/widget.service";
 import { DashboardService } from "./dashboard.service";
 import { MockBuilder } from "ng-mocks";
 import { DashboardModule } from "../dashboard.module";
+import { ChannelGroup } from "@core/models/channel-group";
+import { of } from "rxjs";
 
 describe("DashboardService", () => {
   let dashboardService: DashboardService;
@@ -23,6 +25,8 @@ describe("DashboardService", () => {
     1
   );
 
+  const testChannelGroup = new ChannelGroup(1, 1, "name", "description", 1, []);
+
   beforeEach(() => {
     return MockBuilder(DashboardService, DashboardModule)
       .provide({
@@ -30,7 +34,14 @@ describe("DashboardService", () => {
         useValue: new MockSquacApiService(testDashboard),
       })
       .keep(DashboardAdapter)
-      .mock(ChannelGroupService)
+      .provide({
+        provide: ChannelGroupService,
+        useValue: {
+          getChannelGroup: () => {
+            return of(testChannelGroup);
+          },
+        },
+      })
       .mock(WidgetService);
   });
 

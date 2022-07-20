@@ -8,7 +8,6 @@ import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { GridsterModule } from "angular-gridster2";
 import { WidgetEditOptionsComponent } from "./components/widget-edit/widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./components/widget-edit/widget-edit-metrics/widget-edit-metrics.component";
-import { WidgetEditChannelGroupComponent } from "./components/widget-edit/widget-edit-channel-group/widget-edit-channel-group.component";
 import { SharedModule } from "@shared/shared.module";
 import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
@@ -31,7 +30,6 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     WidgetEditOptionsComponent,
     MeasurementPipe,
     WidgetEditMetricsComponent,
-    WidgetEditChannelGroupComponent,
     WidgetEditEntryComponent,
     MapComponent,
     WidgetEditInfoComponent,

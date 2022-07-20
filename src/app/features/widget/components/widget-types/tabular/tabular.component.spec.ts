@@ -6,6 +6,8 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
+import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { of } from "rxjs";
 
 describe("TabularComponent", () => {
   let component: TabularComponent;
@@ -15,7 +17,14 @@ describe("TabularComponent", () => {
     return MockBuilder(TabularComponent, WidgetModule)
       .mock(NgxEchartsModule)
       .mock(ViewService)
-      .mock(WidgetTypeService);
+      .mock(WidgetTypeService)
+      .provide({
+        provide: WidgetConnectService,
+        useValue: {
+          deemphasizeChannel: of(),
+          emphasizedChannel: of(),
+        },
+      });
   });
 
   beforeEach(() => {
