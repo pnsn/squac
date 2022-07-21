@@ -184,6 +184,7 @@ export class CalendarComponent
           break;
       }
 
+      console.log(width);
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
@@ -211,44 +212,66 @@ export class CalendarComponent
             let count = 0;
             let total = 0;
             //trusts that measurements are in order of time
-            data[channel.id][metric.id].forEach((measurement: Measurement) => {
-              if (!start) {
-                start = this.dateService
-                  .parseUtc(measurement.starttime)
-                  .startOf(width);
-              }
-              const measurementStart = this.dateService.parseUtc(
-                measurement.starttime
-              );
-
-              if (!measurementStart.isSame(start, width)) {
-                //   .toDate();
-                const avg = total / count;
-                let startString;
-                if (width === "day") {
-                  startString = start.startOf(width).format("MMM DD");
-                } else {
-                  startString = start.startOf(width).format("MMM DD HH:00");
+            data[channel.id][metric.id].forEach(
+              (measurement: Measurement, mIndex: number) => {
+                if (!start) {
+                  start = this.dateService
+                    .parseUtc(measurement.starttime)
+                    .startOf(width);
                 }
 
-                if (this.xAxisLabels.indexOf(startString) === -1) {
-                  this.xAxisLabels.push(startString);
+                const measurementStart = this.dateService.parseUtc(
+                  measurement.starttime
+                );
+
+                if (nslc === "CC.SEP.--.BHE") {
+                  console.log(
+                    start.format("MMM DD HH:00"),
+                    measurementStart.format("MMM DD HH:00")
+                  );
                 }
-                channelObj.data.push({
-                  name: nslc,
-                  value: [startString, count, avg, index],
-                });
 
-                total = 0;
-                count = 0;
-                start = this.dateService
-                  .parseUtc(measurement.starttime)
-                  .startOf(width);
+                // if next day/hour, end last time segment and start new one
+                if (
+                  !measurementStart.isSame(start, width) ||
+                  mIndex === data[channel.id][metric.id].length - 1
+                ) {
+                  //   .toDate();
+                  const avg = total / count;
+                  let startString;
+                  if (width === "day") {
+                    startString = start.startOf(width).utc().format("MMM DD");
+                  } else {
+                    startString = start
+                      .startOf(width)
+                      .utc()
+                      .format("MMM DD HH:00");
+                  }
+
+                  if (this.xAxisLabels.indexOf(startString) === -1) {
+                    this.xAxisLabels.push(startString);
+                  }
+
+                  channelObj.data.push({
+                    name: nslc,
+                    value: [startString, count, avg, index],
+                  });
+
+                  if (nslc === "CC.SEP.--.BHE") {
+                    console.log(startString, count, avg);
+                  }
+
+                  total = 0;
+                  count = 0;
+                  start = this.dateService
+                    .parseUtc(measurement.starttime)
+                    .startOf(width);
+                }
+
+                count += 1;
+                total += measurement.value;
               }
-
-              count += 1;
-              total += measurement.value;
-            });
+            );
           }
 
           if (!this.metricSeries[metric.id]) {

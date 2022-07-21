@@ -63,8 +63,11 @@ export class ViewService {
   get channelsString(): string {
     let str = "";
     this.channels.pipe(take(1)).subscribe((channels) => {
-      channels.forEach((channel) => {
-        str += channel.id + ",";
+      channels.forEach((channel, i) => {
+        str += channel.id;
+        if (i !== channels.length - 1) {
+          str += ",";
+        }
       });
     });
     return str;

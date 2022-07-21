@@ -19,6 +19,7 @@ export class ChannelGroup {
   channels: Channel[];
 
   get channelsString(): string {
+    console.log(this.channelIds.toString());
     return this.channelIds.toString();
   }
 

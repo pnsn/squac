@@ -55,6 +55,7 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
+        console.log(this.widget, this.metrics?.length, this.channels?.length);
         return this.widget && this.metrics && this.channels?.length > 0;
       }),
       map(this.checkParams.bind(this)),
@@ -79,7 +80,7 @@ export class WidgetDataService implements OnDestroy {
     const channelsSub = this.viewService.channels.subscribe({
       next: (channels) => {
         this.channels = channels;
-        // this.params.next({});
+        this.params.next({});
       },
     });
     this.subscription.add(channelsSub);
