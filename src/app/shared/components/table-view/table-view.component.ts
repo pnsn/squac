@@ -105,7 +105,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.subscription.add(userServ);
-
     if (this.controls.listenToRouter) {
       const currentPath =
         this.controls.basePath || this.router.routerState.snapshot.url;
@@ -133,7 +132,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.rows && changes.rows.currentValue) {
       this.processRows();
     }
-    if (changes.selectedRowId && changes.selectedRowId) {
+    if (changes.selectedRowId && changes.selectedRowId.currentValue) {
       this.selectResource(this.selectedRowId);
     }
 
@@ -145,7 +144,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // build columns
-  processColumns(): void {
+  private processColumns(): void {
     this.columns.forEach((col) => {
       if (col.prop === "owner" || col.name === "Owner") {
         col.pipe = this.userPipe;
@@ -166,7 +165,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // filter rows
-  processRows(): void {
+  private processRows(): void {
     this.toggleSharing();
   }
 
@@ -178,6 +177,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         this.clickCount = 0;
       }
+
       this.selectResource(event.selected[0].id);
       //view resource if doubleclicked
       if (this.clickCount === 2 && this.tableOptions.autoRouteToDetail) {
@@ -207,14 +207,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // select resource in table
-  selectResource(id): void {
+  private selectResource(id: number): void {
     this.selected = [];
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
     });
 
     this.selectedRow = this.selected[0];
-
     this.itemSelected.next(this.selectedRow);
   }
 
@@ -347,7 +346,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   //sort users by name
-  userComparator(userIdA, userIdB): number {
+  private userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();
     const userNameB = this.userPipe.transform(userIdB).toLowerCase();
 
@@ -360,7 +359,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   //sort organizations by name
-  orgComparator(orgIdA, orgIdB): number {
+  private orgComparator(orgIdA, orgIdB): number {
     const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
     const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
 
