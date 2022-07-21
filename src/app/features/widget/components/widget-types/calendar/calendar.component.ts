@@ -171,7 +171,19 @@ export class CalendarComponent
         2
       );
       this.xAxisLabels = [];
-      const width = this.properties.display || "day";
+
+      let width;
+
+      switch (this.properties.displayType) {
+        case "hour":
+          width = "hour";
+          break;
+
+        default:
+          width = "day";
+          break;
+      }
+
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
