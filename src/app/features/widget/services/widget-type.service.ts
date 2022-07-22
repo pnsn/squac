@@ -96,6 +96,12 @@ export class WidgetTypeService {
       nameTextStyle: {
         align: "center",
       },
+      axisTick: {
+        show: true,
+      },
+      axisLine: {
+        show: true,
+      },
     },
     yAxis: {
       nameLocation: "center",

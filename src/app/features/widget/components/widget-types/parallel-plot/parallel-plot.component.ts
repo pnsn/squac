@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -22,7 +23,7 @@ import { WidgetTypeComponent } from "../widget-type.component";
   providers: [WidgetTypeService],
 })
 export class ParallelPlotComponent
-  implements OnInit, OnChanges, WidgetTypeComponent
+  implements OnInit, OnChanges, OnDestroy, WidgetTypeComponent
 {
   constructor(
     private widgetTypeService: WidgetTypeService,
@@ -112,6 +113,11 @@ export class ParallelPlotComponent
 
   onChartInit(ec) {
     this.echartsInstance = ec;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.echartsInstance = null;
   }
 
   emphasizeChannel(channel) {

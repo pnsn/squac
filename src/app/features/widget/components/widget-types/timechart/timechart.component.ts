@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -26,7 +27,7 @@ import { WidgetTypeComponent } from "../widget-type.component";
   providers: [WidgetTypeService],
 })
 export class TimechartComponent
-  implements OnInit, OnChanges, WidgetTypeComponent
+  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private viewService: ViewService,
@@ -115,6 +116,11 @@ export class TimechartComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.echartsInstance = null;
   }
 
   toggleStationList() {

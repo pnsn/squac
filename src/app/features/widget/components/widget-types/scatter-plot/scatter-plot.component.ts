@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -21,7 +22,7 @@ import { WidgetTypeComponent } from "../widget-type.component";
   providers: [WidgetTypeService],
 })
 export class ScatterPlotComponent
-  implements OnInit, WidgetTypeComponent, OnChanges
+  implements OnInit, WidgetTypeComponent, OnChanges, OnDestroy
 {
   @Input() data;
   @Input() metrics: Metric[];
@@ -98,6 +99,11 @@ export class ScatterPlotComponent
     this.subscription.add(deemphsSub);
   }
   // toggleStationList() {}
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.echartsInstance = null;
+  }
 
   onChartEvent(event, type) {
     console.log(event.seriesName, type);

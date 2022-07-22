@@ -42,12 +42,28 @@
       "description": "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
       "displayInfo": "channel values, station stoplight",
       "displayOptions": [{
-        "description": "each row is a channel - values are raw measurement values",
-        "dimensions": [
-          "display"
-        ],
-        "displayType": "channel"
-      }]
+          "description": "each row is a channel - values are raw measurement values",
+          "dimensions": [
+            "display"
+          ],
+          "displayType": "raw"
+        },
+        {
+          "description": "each row is a channel - values are average of measurements for each day",
+          "dimensions": [
+            "display"
+          ],
+          "displayType": "day"
+        },
+        {
+          "description": "each row is a channel -  values are average of measurements for each hour",
+          "dimensions": [
+            "display"
+          ],
+          "displayType": "hour"
+        }
+
+      ]
     },
     {
       "id": 3,
@@ -125,12 +141,14 @@
       "description": "  ",
       "displayInfo": "channels as dots",
       "displayOptions": [{
-          "description": "break up by day",
-          "displayType": "day"
+          "description": "days of week",
+          "displayType": "days",
+          "dimensions": ["display"]
         },
         {
-          "description": "break up by hour",
-          "displayType": "hour"
+          "description": "hours of day",
+          "displayType": "hours",
+          "dimensions": ["display"]
         }
       ]
     }

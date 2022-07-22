@@ -132,7 +132,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       } else if (this.viewService.getTimeSpan("days") >= 7) {
         this.archiveType = "day";
         this.archiveStat = "mean";
-      } else if (this.viewService.getTimeSpan("days") <= 1) {
+      } else {
         this.archiveType = "raw";
         this.archiveStat = "";
       }

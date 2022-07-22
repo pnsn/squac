@@ -55,7 +55,6 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
-        console.log(this.widget, this.metrics?.length, this.channels?.length);
         return this.widget && this.metrics && this.channels?.length > 0;
       }),
       map(this.checkParams.bind(this)),

@@ -161,9 +161,9 @@ export class WidgetEditOptionsComponent
       let metricId;
       if (dim) {
         metricId = dim.metricId;
-      } else if (this.selectedMetrics[i]) {
+      } else if (this.selectedMetrics && this.selectedMetrics[i]) {
         metricId = this.selectedMetrics[i]?.id;
-      } else {
+      } else if (this.selectedMetrics) {
         metricId = this.selectedMetrics[0]?.id;
       }
 

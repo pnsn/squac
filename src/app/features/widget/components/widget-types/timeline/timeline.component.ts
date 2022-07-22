@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -26,7 +27,7 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
   providers: [WidgetTypeService],
 })
 export class TimelineComponent
-  implements OnInit, OnChanges, WidgetTypeComponent
+  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private viewService: ViewService,
@@ -40,7 +41,7 @@ export class TimelineComponent
   @Input() channels: Channel[];
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
-  @Input() properties: any[];
+  @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -57,6 +58,7 @@ export class TimelineComponent
   test = 0;
   echartsInstance;
   lastEmphasis;
+  xAxisLabels = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -86,30 +88,11 @@ export class TimelineComponent
     );
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
+
     const chartOptions = {
       tooltip: {
         formatter: (params) => {
           return this.widgetTypeService.timeAxisFormatToolTip(params);
-        },
-      },
-      xAxis: {
-        type: "time",
-        name: "Measurement Start",
-        axisTick: {
-          interval: 0,
-          show: true,
-        },
-        axisLine: {
-          show: true,
-        },
-        axisLabel: {
-          formatter: this.widgetTypeService.timeAxisTickFormatting,
-        },
-        axisPointer: {
-          show: "true",
-          label: {
-            formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
-          },
         },
       },
       yAxis: {
@@ -124,6 +107,11 @@ export class TimelineComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.echartsInstance = null;
   }
 
   onChartEvent(event, type) {
@@ -163,51 +151,72 @@ export class TimelineComponent
         this.dataRange,
         2
       );
+      const defaultSeries = {
+        large: true,
+        encode: {
+          x: 0,
+          y: 3,
+        },
+        emphasis: {
+          focus: "series",
+          itemStyle: {
+            borderWidth: 1,
+          },
+        },
+      };
+
+      let displayType;
+      this.xAxisLabels = [];
+
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
+
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc.toUpperCase();
         this.selectedMetrics.forEach((metric) => {
-          const channelObj = {
-            type: "custom",
-            name: nslc,
-            data: [],
-            large: true,
-            encode: {
-              x: [0, 1],
-              y: 3,
-            },
-            emphasis: {
-              focus: "series",
-              itemStyle: {
-                borderWidth: 1,
-              },
-            },
-            renderItem: this.renderItem,
-          };
-          if (data[channel.id] && data[channel.id][metric.id]) {
-            data[channel.id][metric.id].forEach((measurement: Measurement) => {
-              const start = this.dateService
-                .parseUtc(measurement.starttime)
-                .toDate();
-              const end = this.dateService
-                .parseUtc(measurement.endtime)
-                .toDate();
-              channelObj.data.push({
-                name: nslc,
-                value: [start, end, measurement.value, index],
-              });
-            });
-          }
-
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {
               series: [],
               yAxisLabels: [],
             };
           }
-          this.metricSeries[metric.id].series.push(channelObj);
+
+          if (data[channel.id] && data[channel.id][metric.id]) {
+            let series;
+            switch (this.properties.displayType) {
+              case "hour":
+                series = this.makeSeriesForFixed(
+                  nslc,
+                  data[channel.id][metric.id],
+                  index,
+                  "hour"
+                );
+                break;
+              case "day":
+                series = this.makeSeriesForFixed(
+                  nslc,
+                  data[channel.id][metric.id],
+                  index,
+                  "day"
+                );
+                break;
+              default:
+                series = this.makeSeriesForRaw(
+                  nslc,
+                  data[channel.id][metric.id],
+                  index
+                );
+                break;
+            }
+
+            const channelObj = {
+              ...defaultSeries,
+              ...series,
+            };
+            this.metricSeries[metric.id].series.push(channelObj);
+          }
+
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
@@ -215,23 +224,129 @@ export class TimelineComponent
     });
   }
 
+  makeSeriesForFixed(nslc, data, index, width) {
+    const channelObj = {
+      type: "heatmap",
+      name: nslc,
+      data: [],
+    };
+
+    let start;
+    let count = 0;
+    let total = 0;
+    //trusts that measurements are in order of time
+    data.forEach((measurement: Measurement, mIndex: number) => {
+      if (!start) {
+        start = this.dateService.parseUtc(measurement.starttime).startOf(width);
+      }
+
+      const measurementStart = this.dateService.parseUtc(measurement.starttime);
+
+      // if next day/hour, end last time segment and start new one
+      if (
+        !measurementStart.isSame(start, width) ||
+        mIndex === data.length - 1
+      ) {
+        //   .toDate();
+        const avg = total / count;
+        let startString;
+        if (width === "day") {
+          startString = start.startOf(width).utc().format("MMM DD");
+        } else {
+          startString = start.startOf(width).utc().format("MMM DD HH:00");
+        }
+
+        if (this.xAxisLabels.indexOf(startString) === -1) {
+          this.xAxisLabels.push(startString);
+        }
+
+        channelObj.data.push({
+          name: nslc,
+          value: [startString, count, avg, index],
+        });
+
+        total = 0;
+        count = 0;
+        start = this.dateService.parseUtc(measurement.starttime).startOf(width);
+      }
+
+      count += 1;
+      total += measurement.value;
+    });
+
+    return channelObj;
+  }
+
+  makeSeriesForRaw(nslc, data, index) {
+    const channelObj = {
+      type: "custom",
+      name: nslc,
+      data: [],
+      renderItem: this.renderItem,
+    };
+
+    data.forEach((measurement: Measurement) => {
+      const start = this.dateService.parseUtc(measurement.starttime).toDate();
+      const end = this.dateService.parseUtc(measurement.endtime).toDate();
+      channelObj.data.push({
+        name: nslc,
+        value: [start, end, measurement.value, index],
+      });
+    });
+
+    return channelObj;
+  }
+
   changeMetrics() {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
-    this.updateOptions = {
-      series: this.metricSeries[displayMetric.id].series,
-      visualMap: visualMap,
-      title: { text: `${displayMetric.name} (${displayMetric.unit})` },
-      xAxis: {
-        min: this.viewService.startTime,
-        max: this.viewService.endTime,
-      },
+
+    const options = {
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
+      series: this.metricSeries[displayMetric.id].series,
+      visualMap: visualMap,
+      title: { text: `${displayMetric.name} (${displayMetric.unit})` },
     };
+    if (
+      this.properties.displayType === "hour" ||
+      this.properties.displayType === "day"
+    ) {
+      this.updateOptions = {
+        ...options,
+        xAxis: {
+          type: "category",
+          name: "Measurement Start",
+          axisPointer: {
+            show: "true",
+          },
+
+          data: this.xAxisLabels,
+        },
+      };
+    } else {
+      this.updateOptions = {
+        ...options,
+        xAxis: {
+          type: "time",
+          name: "Measurement Start",
+          min: this.viewService.startTime,
+          max: this.viewService.endTime,
+          axisLabel: {
+            formatter: this.widgetTypeService.timeAxisTickFormatting,
+          },
+          axisPointer: {
+            show: "true",
+            label: {
+              formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
+            },
+          },
+        },
+      };
+    }
   }
 
   renderItem(params, api) {

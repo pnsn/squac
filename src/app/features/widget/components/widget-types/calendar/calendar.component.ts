@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -27,7 +28,7 @@ import { PrecisionPipe } from "@shared/pipes/precision.pipe";
   providers: [WidgetTypeService],
 })
 export class CalendarComponent
-  implements OnInit, OnChanges, WidgetTypeComponent
+  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private viewService: ViewService,
@@ -170,25 +171,48 @@ export class CalendarComponent
         this.dataRange,
         2
       );
-      this.xAxisLabels = [];
 
       let width;
 
       switch (this.properties.displayType) {
-        case "hour":
-          width = "hour";
+        case "hours":
+          this.xAxisLabels = [];
+          width = "hours";
+          for (let i = 0; i < 24; i++) {
+            this.xAxisLabels.push(i);
+          }
+
           break;
 
         default:
-          width = "day";
+          width = "days";
+          this.xAxisLabels = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
           break;
       }
 
-      console.log(width);
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
       });
       this.channels.forEach((channel, index) => {
+        // store values
+        const values = [];
+
+        this.xAxisLabels.forEach((label) => {
+          values.push({
+            label,
+            sum: 0,
+            count: 0,
+          });
+        });
+
         const nslc = channel.nslc.toUpperCase();
         this.selectedMetrics.forEach((metric) => {
           const channelObj = {
@@ -206,86 +230,53 @@ export class CalendarComponent
               tooltip: [0, 1, 3],
             },
           };
-
-          if (data[channel.id] && data[channel.id][metric.id]) {
-            let start;
-            let count = 0;
-            let total = 0;
-            //trusts that measurements are in order of time
-            data[channel.id][metric.id].forEach(
-              (measurement: Measurement, mIndex: number) => {
-                if (!start) {
-                  start = this.dateService
-                    .parseUtc(measurement.starttime)
-                    .startOf(width);
-                }
-
-                const measurementStart = this.dateService.parseUtc(
-                  measurement.starttime
-                );
-
-                if (nslc === "CC.SEP.--.BHE") {
-                  console.log(
-                    start.format("MMM DD HH:00"),
-                    measurementStart.format("MMM DD HH:00")
-                  );
-                }
-
-                // if next day/hour, end last time segment and start new one
-                if (
-                  !measurementStart.isSame(start, width) ||
-                  mIndex === data[channel.id][metric.id].length - 1
-                ) {
-                  //   .toDate();
-                  const avg = total / count;
-                  let startString;
-                  if (width === "day") {
-                    startString = start.startOf(width).utc().format("MMM DD");
-                  } else {
-                    startString = start
-                      .startOf(width)
-                      .utc()
-                      .format("MMM DD HH:00");
-                  }
-
-                  if (this.xAxisLabels.indexOf(startString) === -1) {
-                    this.xAxisLabels.push(startString);
-                  }
-
-                  channelObj.data.push({
-                    name: nslc,
-                    value: [startString, count, avg, index],
-                  });
-
-                  if (nslc === "CC.SEP.--.BHE") {
-                    console.log(startString, count, avg);
-                  }
-
-                  total = 0;
-                  count = 0;
-                  start = this.dateService
-                    .parseUtc(measurement.starttime)
-                    .startOf(width);
-                }
-
-                count += 1;
-                total += measurement.value;
-              }
-            );
-          }
-
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {
               series: [],
               yAxisLabels: [],
             };
           }
+
+          if (data[channel.id] && data[channel.id][metric.id]) {
+            //trusts that measurements are in order of time
+            data[channel.id][metric.id].forEach((measurement: Measurement) => {
+              const measurementStart = this.dateService.parseUtc(
+                measurement.starttime
+              );
+
+              let timeSegment;
+              if (width === "days") {
+                timeSegment = measurementStart.day();
+              } else if (width === "hours") {
+                timeSegment = measurementStart.hour();
+              }
+
+              if (values[timeSegment]) {
+                values[timeSegment].count++;
+                values[timeSegment].sum += measurement.value;
+              }
+            });
+          }
+
+          values.forEach((value) => {
+            const avg = value.count > 0 ? value.sum / value.count : null;
+            channelObj.data.push({
+              name: nslc,
+              value: [value.label, value.count, avg, index],
+            });
+          });
+
           this.metricSeries[metric.id].series.push(channelObj);
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
       resolve();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.echartsInstance = null;
   }
 
   changeMetrics() {
