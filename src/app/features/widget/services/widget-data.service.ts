@@ -60,6 +60,7 @@ export class WidgetDataService implements OnDestroy {
       map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
       switchMap((params: MeasurementParams) => {
+        console.log(params);
         return this.measurementService.getData(params);
       })
     );

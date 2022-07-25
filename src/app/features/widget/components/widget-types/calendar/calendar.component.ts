@@ -218,7 +218,6 @@ export class CalendarComponent
           this.xAxisLabels = [...weekLabels];
           break;
       }
-      console.log(this.xAxisLabels);
 
       this.channels.sort((chanA, chanB) => {
         return chanA.nslc.localeCompare(chanB.nslc);
@@ -293,12 +292,6 @@ export class CalendarComponent
             });
           });
 
-          if (width === "hours-week") {
-            if (index === 0) {
-              console.log(channelObj);
-            }
-          }
-
           this.metricSeries[metric.id].series.push(channelObj);
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
@@ -371,7 +364,6 @@ export class CalendarComponent
         },
       };
       xAxis1.data = this.xAxisLabels2;
-      console.log(xAxis1);
 
       axes.push(xAxis2);
       axes.push(xAxis1);

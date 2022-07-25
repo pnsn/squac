@@ -62,7 +62,6 @@ export class DataTypeSelectorComponent implements OnChanges {
   }
 
   selectDataType(type, stat): void {
-    this.dataType = type;
     this.statType = stat;
     this.fullType = type;
     this.dataType = type.value;
