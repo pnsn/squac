@@ -142,12 +142,17 @@
       "displayInfo": "channels as dots",
       "displayOptions": [{
           "description": "days of week",
-          "displayType": "days",
+          "displayType": "days-week",
+          "dimensions": ["display"]
+        },
+        {
+          "description": "hour of week",
+          "displayType": "hours-week",
           "dimensions": ["display"]
         },
         {
           "description": "hours of day",
-          "displayType": "hours",
+          "displayType": "hours-day",
           "dimensions": ["display"]
         }
       ]

@@ -132,6 +132,8 @@ export class WidgetTypeService {
         showDetail: false,
         showDataShadow: false,
         bottom: 10,
+        right: 20,
+        xAxisIndex: [0, 1],
       },
       {
         type: "slider",
