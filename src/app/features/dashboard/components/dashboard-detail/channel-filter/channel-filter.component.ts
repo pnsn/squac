@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
 import { Observable } from "rxjs";
@@ -16,6 +23,7 @@ export class ChannelFilterComponent implements OnChanges {
   form: FormGroup;
   timeout;
   changed: false;
+  @Output() closeSidenav = new EventEmitter<boolean>();
   constructor(
     private formBuilder: FormBuilder,
     private widgetConnectService: WidgetConnectService,
@@ -52,6 +60,10 @@ export class ChannelFilterComponent implements OnChanges {
   }
   mouseleave(_item) {
     this.widgetConnectService.deemphasizeChannel.next(null);
+  }
+  toggleSidenav() {
+    console.log("toggle");
+    this.closeSidenav.emit(true);
   }
 
   update() {

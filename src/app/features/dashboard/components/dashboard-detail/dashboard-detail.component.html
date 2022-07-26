@@ -61,6 +61,16 @@
     </mat-toolbar-row>
     <mat-toolbar-row class="row space-between">
       <div>
+        <button
+          type="button"
+          mat-icon-button
+          [color]="sideNavOpened ? '' : 'accent'"
+          (click)="drawer.toggle()"
+          matTooltip="Toggle channel list"
+          aria-label="Button to toggle channel list"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
         <shared-channel-group-selector
           [(channelGroupId)]="channelGroupId"
           (channelsChange)="channelsChange($event)"
@@ -68,14 +78,6 @@
           [dense]="true"
         >
         </shared-channel-group-selector>
-        <button
-          type="button"
-          mat-button
-          (click)="drawer.toggle()"
-          color="primary"
-        >
-          {{ sideNavOpened ? "Hide Channels" : "Show Channels" }}
-        </button>
       </div>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
@@ -114,6 +116,7 @@
   <mat-drawer-container id="dashboard-body" autosize>
     <mat-drawer
       #drawer
+      id="dashboard-sidenav-content"
       class="example-sidenav"
       [(opened)]="sideNavOpened"
       (opened)="toggleSidenav()"
@@ -122,9 +125,9 @@
     >
       <dashboard-channel-filter
         [channels]="channels"
+        (closeSidenav)="drawer.toggle()"
       ></dashboard-channel-filter>
     </mat-drawer>
-
     <div class="example-sidenav-content">
       <router-outlet></router-outlet>
     </div>
