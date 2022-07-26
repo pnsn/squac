@@ -59,9 +59,11 @@ export class WidgetEditOptionsComponent
 
   ngOnInit(): void {
     this.thresholdArray.valueChanges.subscribe((values) => {
+      this.thresholds = values;
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
       }
+      console.log(this.thresholds);
     });
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
       this.properties.numSplits = value.numSplits || 0;
@@ -81,7 +83,8 @@ export class WidgetEditOptionsComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedMetrics && changes.selectedMetrics.previousValue) {
+    if (changes.selectedMetrics) {
+      this.thresholdArray.clear({ emitEvent: false });
       this.changeMetrics();
       this.updateDimensions();
     }
@@ -93,7 +96,9 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.displayType) {
+      console.log("update dimensions");
       this.updateDimensions();
+      this.validateOptions();
     }
 
     if (changes.type) {
@@ -101,20 +106,11 @@ export class WidgetEditOptionsComponent
         return this.type === type.type;
       });
       if (!this.widgetType) {
+        console.log("clear thresholds");
         this.thresholds = [];
         this.thresholdArray.clear();
       }
       //update which display options available
-    }
-
-    if (
-      changes.thresholds &&
-      !changes.thresholds.previousValue &&
-      this.thresholds
-    ) {
-      this.thresholds.forEach((threshold) => {
-        this.addThreshold(threshold);
-      });
     }
   }
 
@@ -145,9 +141,6 @@ export class WidgetEditOptionsComponent
       },
       { emitEvent: true }
     );
-    if (this.thresholds.length === 0 && this.thresholdArray.length === 0) {
-      this.addThreshold();
-    }
   }
 
   // match dimensions on widget to selected metrics
@@ -159,14 +152,12 @@ export class WidgetEditOptionsComponent
         return dimension === m.type;
       });
       let metricId;
-      if (dim) {
+      if (dim && dim.metricId) {
+        console.log(dim);
         metricId = dim.metricId;
       } else if (this.selectedMetrics && this.selectedMetrics[i]) {
         metricId = this.selectedMetrics[i]?.id;
-      } else if (this.selectedMetrics) {
-        metricId = this.selectedMetrics[0]?.id;
       }
-
       this.dimensions.push(
         this.formBuilder.group({
           type: [dimension], //default to piecewise
@@ -179,15 +170,32 @@ export class WidgetEditOptionsComponent
 
   //check if metrics removed
   changeMetrics() {
+    console.log(this.thresholds);
     const temp = this.properties.dimensions;
+    if (this.selectedMetrics && this.selectedMetrics.length > 0) {
+      //remove dimensions that don't have metrics
+      this.properties.dimensions = temp?.filter((dim) => {
+        const index = this.selectedMetrics.findIndex(
+          (m) => m.id === dim.metricId
+        );
+        return index >= 0;
+      });
+      this.selectedMetrics.forEach((metric) => {
+        const threshold = this.thresholds.find((threshold) => {
+          return metric.id === threshold.metricId;
+        });
+        if (threshold) {
+          this.addThreshold(threshold);
+        } else {
+          this.addThreshold({
+            metricId: metric.id,
+            min: metric.minVal,
+            max: metric.maxVal,
+          });
+        }
+      });
+    }
 
-    //remove dimensions that don't have metrics
-    this.properties.dimensions = temp.filter((dim) => {
-      const index = this.selectedMetrics.findIndex(
-        (m) => m.id === dim.metricId
-      );
-      return index >= 0;
-    });
     this.updateDimensions();
   }
 
@@ -235,7 +243,7 @@ export class WidgetEditOptionsComponent
   // Add a new threshold
   addThreshold(threshold?: Threshold) {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
-    this.thresholdArray.push(thresholdFormGroup, { emitEvent: false });
+    this.thresholdArray.push(thresholdFormGroup, { emitEvent: true });
   }
 
   // Remove given threshold

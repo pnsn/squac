@@ -257,8 +257,15 @@ export class WidgetTypeService {
             properties.outOfRange.opacity = 1;
             min = min !== null ? min : dataRange[metricId]?.min;
             max = max !== null ? max : dataRange[metricId]?.max;
-            min = this.precisionPipe.transform(+min, 2);
-            max = this.precisionPipe.transform(+max, 2);
+
+            const minText = this.precisionPipe.transform(
+              dataRange[metricId]?.min,
+              3
+            );
+            const maxText = this.precisionPipe.transform(
+              dataRange[metricId]?.max,
+              3
+            );
             visualMaps[metricId] = {
               ...this.continuousDefaults,
               dimension,
@@ -266,11 +273,16 @@ export class WidgetTypeService {
               inRange: {
                 color: inColors,
               },
+              text: [maxText, minText],
+              formatter: (value) => this.precisionPipe.transform(value, 3),
+              border: "light-gray",
+              borderWidth: 1,
               min: Math.min(dataRange[metricId]?.min, min),
               max: Math.max(dataRange[metricId]?.max, max),
               range: [min, max],
               outOfRange: properties.outOfRange,
             };
+            console.log(dataRange[metricId]?.max, max);
           } else {
             console.error("something went wrong");
           }

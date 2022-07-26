@@ -88,9 +88,7 @@
     .cell-full {
       height: 19px;
       display: inline-block;
-      &.border {
-        border: solid 1px black;
-      }
+      border: solid 1px black;
     }
     .cell-icon {
       width: 20px;

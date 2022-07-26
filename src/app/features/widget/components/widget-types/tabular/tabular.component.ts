@@ -48,7 +48,7 @@ export class TabularComponent
   SelectionType = SelectionType;
   rows = [];
   columns = [];
-  selectedRow;
+  selectedRow = [];
   emphasizedChannel;
   deemphasizedChannel;
   messages = {

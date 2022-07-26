@@ -167,6 +167,12 @@ export class ScatterPlotComponent
         emphasis: {
           focus: "series",
         },
+        symbolSize: 7,
+        itemStyle: {
+          opacity: 1,
+          borderWidth: 1,
+          borderColor: "#000",
+        },
         clip: true,
         encode: {
           x: 0,

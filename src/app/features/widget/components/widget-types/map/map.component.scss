@@ -4,21 +4,19 @@
 }
 
 :host ::ng-deep .map-icon {
-  height: 10px !important;
-  width: 10px !important;
+  height: 8px !important;
+  width: 8px !important;
   border-radius: 50%;
   background-color: transparent;
-  &.border {
-    border: solid 1px black;
-  }
+  border: solid 1px black;
   &.selected {
     height: 13px;
     width: 13px;
   }
 }
 :host ::ng-deep .icon-parent {
-  height: 10px !important;
-  width: 10px !important;
+  height: 8px !important;
+  width: 8px !important;
   border-radius: 50%;
   border: none;
 }
