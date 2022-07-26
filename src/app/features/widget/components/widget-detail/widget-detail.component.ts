@@ -94,8 +94,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     const channelsSub = this.viewService.channels.subscribe((channels) => {
-      this.loading = "Requesting Data";
-      this.channels = channels;
+      if (channels.length > 0) {
+        this.loading = "Requesting Data";
+        this.channels = channels;
+      } else {
+        this.error = "Error: No channels selected.";
+        this.loading = false;
+      }
     });
 
     // get dashboards user is able to edit
