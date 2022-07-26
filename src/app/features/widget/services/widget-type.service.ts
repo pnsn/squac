@@ -18,7 +18,7 @@ export class WidgetTypeService {
     bottom: "auto",
     top: 0,
     right: 54,
-    left: "auto",
+    left: 0,
     orient: "horizontal",
     textStyle: {
       fontSize: 10,
@@ -39,6 +39,8 @@ export class WidgetTypeService {
     top: 0,
     right: 54,
     left: "auto",
+    calculable: true,
+    formatter: (value) => this.precisionPipe.transform(value, 3),
     textStyle: {
       fontSize: 10,
     },
@@ -249,7 +251,6 @@ export class WidgetTypeService {
                 dimension,
                 min: min,
                 max: max,
-                calculable: true,
                 outOfRange: properties.outOfRange,
               };
             }
@@ -258,31 +259,20 @@ export class WidgetTypeService {
             min = min !== null ? min : dataRange[metricId]?.min;
             max = max !== null ? max : dataRange[metricId]?.max;
 
-            const minText = this.precisionPipe.transform(
-              dataRange[metricId]?.min,
-              3
-            );
-            const maxText = this.precisionPipe.transform(
-              dataRange[metricId]?.max,
-              3
-            );
+            const minText = this.precisionPipe.transform(min, 3);
+            const maxText = this.precisionPipe.transform(max, 3);
             visualMaps[metricId] = {
               ...this.continuousDefaults,
               dimension,
-              calculable: true,
               inRange: {
                 color: inColors,
               },
-              text: [maxText, minText],
-              formatter: (value) => this.precisionPipe.transform(value, 3),
               border: "light-gray",
               borderWidth: 1,
-              min: Math.min(dataRange[metricId]?.min, min),
-              max: Math.max(dataRange[metricId]?.max, max),
-              range: [min, max],
+              min: min,
+              max: max,
               outOfRange: properties.outOfRange,
             };
-            console.log(dataRange[metricId]?.max, max);
           } else {
             console.error("something went wrong");
           }
@@ -390,13 +380,11 @@ export class WidgetTypeService {
       });
     } else if (visualMap.type === "continuous") {
       const colors = visualMap.inRange.color;
-      if (value <= visualMap.range[1] && value >= visualMap.range[0]) {
-        const i =
-          (value - visualMap.range[0]) /
-          (visualMap.range[1] - visualMap.range[0]);
+      if (value <= visualMap.max && value >= visualMap.min) {
+        const i = (value - visualMap.min) / (visualMap.max - visualMap.min);
 
         const colorIndex =
-          colors.length > 1 ? Math.floor(i * colors.length) : 0;
+          colors.length > 1 ? Math.floor(Math.abs(i) * colors.length) : 0;
         color = colors[colorIndex];
       }
     } else if (visualMap.type === "stoplight") {

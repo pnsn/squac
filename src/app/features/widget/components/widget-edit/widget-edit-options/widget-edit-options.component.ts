@@ -43,7 +43,7 @@ export class WidgetEditOptionsComponent
       displayType: [""],
       inRange: [null],
       outOfRange: [null],
-      numSplits: [null], //>0 not continuous
+      numSplits: [null, { validators: [Validators.min(0), Validators.max(5)] }], //>0 not continuous
       reverseColors: false,
     }),
   });
@@ -63,7 +63,6 @@ export class WidgetEditOptionsComponent
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
       }
-      console.log(this.thresholds);
     });
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
       this.properties.numSplits = value.numSplits || 0;
@@ -96,7 +95,6 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.displayType) {
-      console.log("update dimensions");
       this.updateDimensions();
       this.validateOptions();
     }
@@ -106,7 +104,6 @@ export class WidgetEditOptionsComponent
         return this.type === type.type;
       });
       if (!this.widgetType) {
-        console.log("clear thresholds");
         this.thresholds = [];
         this.thresholdArray.clear();
       }
@@ -135,7 +132,7 @@ export class WidgetEditOptionsComponent
         inRange: inColors || this.findColor("rainbow"),
         outOfRange: this.properties.outOfRange
           ? this.findColor(this.properties.outOfRange.type)
-          : this.findColor("white"),
+          : this.findColor("solid-gray"),
         numSplits: this.properties.numSplits || 0,
         reverseColors: this.properties.reverseColors,
       },
@@ -153,7 +150,6 @@ export class WidgetEditOptionsComponent
       });
       let metricId;
       if (dim && dim.metricId) {
-        console.log(dim);
         metricId = dim.metricId;
       } else if (this.selectedMetrics && this.selectedMetrics[i]) {
         metricId = this.selectedMetrics[i]?.id;
@@ -170,7 +166,6 @@ export class WidgetEditOptionsComponent
 
   //check if metrics removed
   changeMetrics() {
-    console.log(this.thresholds);
     const temp = this.properties.dimensions;
     if (this.selectedMetrics && this.selectedMetrics.length > 0) {
       //remove dimensions that don't have metrics

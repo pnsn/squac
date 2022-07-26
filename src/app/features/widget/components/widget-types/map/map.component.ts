@@ -234,6 +234,7 @@ export class MapComponent
         this.dataRange,
         3
       );
+
       //properties.stationView === 'stoplight' || 'worst'
       this.selectedMetrics.forEach((metric) => {
         const channelRows = [];
