@@ -236,8 +236,6 @@ export class TimelineComponent
           },
         },
       };
-
-      let displayType;
       this.xAxisLabels = [];
 
       this.channels.sort((chanA, chanB) => {

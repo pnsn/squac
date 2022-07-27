@@ -281,7 +281,7 @@ export class CalendarComponent
           weekLabels.forEach((weekLabel, j) => {
             this.xAxisLabels2.push(weekLabel, ...blanks);
 
-            hourLabels.forEach((label, i) => {
+            hourLabels.forEach((label) => {
               this.xAxisLabels.push(`${j}-${label}`);
             });
           });
@@ -408,7 +408,7 @@ export class CalendarComponent
           alignWithLabel: false,
           length: 16,
           align: "left",
-          interval: function (index, value) {
+          interval: function (_index, value) {
             return value ? true : false;
           },
         },
@@ -416,7 +416,7 @@ export class CalendarComponent
           margin: 16,
           fontSize: 11,
           align: "left",
-          interval: function (index, value) {
+          interval: function (_index, value) {
             return value ? true : false;
           },
         },

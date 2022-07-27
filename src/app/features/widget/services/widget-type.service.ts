@@ -257,17 +257,14 @@ export class WidgetTypeService {
             properties.outOfRange.opacity = 1;
             min = min !== null ? min : dataRange[metricId]?.min;
             max = max !== null ? max : dataRange[metricId]?.max;
-
-            const minText = this.precisionPipe.transform(min, 3);
-            const maxText = this.precisionPipe.transform(max, 3);
             visualMaps[metricId] = {
               ...this.continuousDefaults,
               dimension,
               inRange: {
                 color: inColors,
               },
-              min: min,
-              max: max,
+              min,
+              max,
               range: [min, max],
               text: [metric.name, `unit: ${metric.unit}`],
               outOfRange: properties.outOfRange,
