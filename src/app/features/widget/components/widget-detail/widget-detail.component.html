@@ -3,13 +3,13 @@
     <span>{{ widget.name }}</span>
     <div id="controls">
       <button
-        *ngIf="widgetType && widgetType.showChannelList"
+        *ngIf="widgetType && widgetType.toggleKey"
         class="icon-button"
         mat-icon-button
-        [color]="showStationList ? 'primary' : 'gray'"
-        matTooltip="toggle channel list"
-        aria-label="toggle channel list"
-        (click)="showStationList = !showStationList"
+        [color]="showKey ? 'primary' : 'gray'"
+        matTooltip="toggle key"
+        aria-label="button that toggles key"
+        (click)="showKey = !showKey"
       >
         <mat-icon>legend_toggle</mat-icon>
       </button>
@@ -29,6 +29,7 @@
         [matMenuTriggerFor]="widgetMenu"
         color="primary"
         aria-label="change widget settings"
+        matTooltip="widget options"
       >
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -193,7 +194,7 @@
           [channels]="channels"
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
         >
         </widget-timeline>
         <widget-tabular
@@ -207,6 +208,7 @@
           [dataRange]="dataRange"
           [properties]="widget.properties"
           [selectedMetrics]="selectedMetrics"
+          [showKey]="showKey"
         >
         </widget-tabular>
         <widget-parallel-plot
@@ -220,7 +222,7 @@
           [dataRange]="dataRange"
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
         >
         </widget-parallel-plot>
         <widget-timechart
@@ -233,7 +235,7 @@
           [channels]="channels"
           [dataRange]="dataRange"
           [selectedMetrics]="selectedMetrics"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
           [properties]="widget.properties"
         >
         </widget-timechart>
@@ -247,7 +249,7 @@
           [channels]="channels"
           [dataRange]="dataRange"
           [selectedMetrics]="selectedMetrics"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
           [properties]="widget.properties"
         >
         </widget-map>
@@ -262,6 +264,7 @@
           [dataRange]="dataRange"
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
+          [showKey]="showKey"
         >
         </widget-box-plot>
         <widget-scatter-plot
@@ -274,7 +277,7 @@
           [channels]="channels"
           [dataRange]="dataRange"
           [selectedMetrics]="selectedMetrics"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
           [properties]="widget.properties"
         >
         </widget-scatter-plot>
@@ -289,7 +292,7 @@
           [channels]="channels"
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
-          [showStationList]="showStationList"
+          [showKey]="showKey"
         >
         </widget-calendar-plot>
         <div *ngSwitchDefault class="widget-message">

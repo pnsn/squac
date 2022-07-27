@@ -8,16 +8,16 @@
 ></div>
 
 <div class="legend" id="legend">
-  <h4>{{ displayMetric?.name }}</h4>
-  <h5>({{ displayMetric?.unit }})</h5>
+  <div>{{ displayMetric?.name }}</div>
+  <div>unit: {{ displayMetric?.unit }}</div>
   <ng-container *ngIf="displayMetric && displayMap?.type === 'piecewise'">
     <div
       *ngFor="let piece of displayMap?.pieces"
       (click)="toggleColor(piece.color)"
       [class]="piece.color"
     >
-      <div class="map-icon" [style.background-color]="piece.color"></div>
       <span>{{ piece.label }}</span>
+      <div class="map-icon" [style.background-color]="piece.color"></div>
     </div>
   </ng-container>
 
@@ -26,84 +26,70 @@
       (click)="toggleColor(displayMap?.colors.in)"
       [class]="displayMap?.colors.in"
     >
+      <span>all in</span>
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.in"
       ></div>
-      <span>all in</span>
     </div>
     <div
       (click)="toggleColor(displayMap?.colors.middle)"
       [class]="displayMap?.colors.middle"
     >
+      <span>some in</span>
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.middle"
       ></div>
-      <span>some in</span>
     </div>
     <div
       (click)="toggleColor(displayMap?.colors.out)"
       [class]="displayMap?.colors.out"
     >
+      <span>none in</span>
       <div
         class="map-icon"
         [style.background-color]="displayMap?.colors.out"
       ></div>
-      <span>none in</span>
     </div>
   </ng-container>
 
   <ng-container *ngIf="displayMetric && displayMap?.type === 'continuous'">
     <div class="legend-container">
       <div id="gradient">
+        <div class="values">
+          <span>
+            {{ displayMap.max | precision: 3 }}
+          </span>
+          <span>
+            {{ displayMap.min | precision: 3 }}
+          </span>
+        </div>
         <div
           [style.background-image]="
             'linear-gradient(to top, ' + displayMap?.inRange.color + ')'
           "
           class="gradient-icon"
         ></div>
-        <div class="values">
-          <span>
-            {{ displayMap.max }}
-          </span>
-          <span>
-            {{ displayMap.min }}
-          </span>
-        </div>
       </div>
 
       <div (click)="toggleColor(displayMap?.outOfRange.color[0])">
+        <span>out of range</span>
         <div
           class="map-icon"
           [style.background-color]="displayMap?.outOfRange.color[0]"
         ></div>
-        out of range
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="displayMetric && !displayMap">
     <div (click)="toggleColor('gray')">
+      <span> no range</span>
       <div class="map-icon" [style.background-color]="'gray'"></div>
-      no range
     </div>
   </ng-container>
   <div (click)="toggleColor('nodata')" [class]="'white'">
+    <span> no data</span>
     <div class="map-icon border" [style.background-color]="'white'"></div>
-    no data
-  </div>
-</div>
-
-<div id="station-list" class="station-list">
-  <div id="content">
-    <div
-      *ngFor="let station of stations; let i = index"
-      class="station {{ i }}"
-      (click)="toggleStation(i, $event)"
-      (mouseenter)="hoverStation(i, 'open')"
-      (mouseleave)="hoverStation(i, 'close')"
-    >
-      {{ station.id }}
-    </div>
   </div>
 </div>

@@ -34,7 +34,7 @@ export class MapComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showStationList: boolean;
+  @Input() showKey: boolean;
   @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
@@ -53,7 +53,6 @@ export class MapComponent
   visualMaps;
   displayMap;
   legend;
-  stationList;
   stations;
 
   constructor(
@@ -100,17 +99,17 @@ export class MapComponent
       });
     }
 
-    if (changes.showStationList) {
+    if (changes.showKey) {
       this.legendToggle();
     }
   }
 
   legendToggle() {
     //show
-    if (this.showStationList) {
-      this.stationList.addTo(this.map);
-    } else if (this.stationList) {
-      this.stationList.remove();
+    if (this.showKey && this.map) {
+      this.legend.addTo(this.map);
+    } else if (this.legend) {
+      this.legend.remove();
     }
   }
 
@@ -120,9 +119,8 @@ export class MapComponent
       // Do stuff with map
       if (this.selectedMetrics.length > 0) {
         this.legend = new L.Control({
-          position: "bottomleft",
+          position: "topright",
         });
-        this.stationList = new L.Control({ position: "topright" });
         this.buildLayers().then(() => {
           this.changeMetric();
         });
@@ -158,13 +156,6 @@ export class MapComponent
       return legend;
     };
     this.legend.addTo(this.map);
-  }
-
-  private initStationList() {
-    const stationList = L.DomUtil.get("station-list");
-    this.stationList.onAdd = () => {
-      return stationList;
-    };
   }
 
   private toggleLayer(event) {
@@ -392,7 +383,6 @@ export class MapComponent
     this.addPanes(this.displayMap);
     this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
     this.initLegend();
-    this.initStationList();
     this.fitBounds = this.layers[0].getBounds();
     this.resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();

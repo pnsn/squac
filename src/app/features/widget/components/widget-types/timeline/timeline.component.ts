@@ -44,6 +44,7 @@ export class TimelineComponent
   @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  @Input() showKey: boolean;
   emphasizedChannel: string;
   deemphasizedChannel: string;
   subscription = new Subscription();
@@ -72,6 +73,10 @@ export class TimelineComponent
         this.changeMetrics();
       });
     }
+
+    if (changes.showKey) {
+      this.toggleKey();
+    }
   }
   ngOnInit(): void {
     //override defaults
@@ -95,6 +100,9 @@ export class TimelineComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
+      visualMap: {
+        show: true,
+      },
       yAxis: {
         inverse: true,
         axisTick: {
@@ -107,6 +115,16 @@ export class TimelineComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  toggleKey() {
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption({
+        visualMap: {
+          show: this.showKey,
+        },
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -303,36 +321,42 @@ export class TimelineComponent
     const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
 
-    const options = {
+    const sharedAxisOptions = {
+      nameLocation: "center",
+      name: "Measurement Start Date",
+      nameGap: 23,
+      nameTextStyle: {
+        align: "center",
+      },
+    };
+    this.updateOptions = {
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,
-      title: { text: `${displayMetric.name} (${displayMetric.unit})` },
     };
+    let options = {};
     if (
       this.properties.displayType === "hour" ||
       this.properties.displayType === "day"
     ) {
-      this.updateOptions = {
-        ...options,
+      options = {
         xAxis: {
+          ...sharedAxisOptions,
           type: "category",
-          name: "Measurement Start",
           axisPointer: {
             show: "true",
           },
-
+          nameLocation: "center",
           data: this.xAxisLabels,
         },
       };
     } else {
-      this.updateOptions = {
-        ...options,
+      options = {
         xAxis: {
+          ...sharedAxisOptions,
           type: "time",
-          name: "Measurement Start",
           min: this.viewService.startTime,
           max: this.viewService.endTime,
           axisLabel: {
@@ -347,6 +371,7 @@ export class TimelineComponent
         },
       };
     }
+    this.updateOptions = { ...this.updateOptions, ...options };
   }
 
   renderItem(params, api) {

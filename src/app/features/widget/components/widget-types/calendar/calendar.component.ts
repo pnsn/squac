@@ -43,6 +43,7 @@ export class CalendarComponent
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
   @Input() properties: any;
+  @Input() showKey: boolean;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -74,6 +75,10 @@ export class CalendarComponent
       this.buildChartData(this.data).then(() => {
         this.changeMetrics();
       });
+    }
+
+    if (changes.showKey) {
+      this.toggleKey();
     }
   }
   ngOnInit(): void {
@@ -132,6 +137,16 @@ export class CalendarComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  toggleKey() {
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption({
+        visualMap: {
+          show: this.showKey,
+        },
+      });
+    }
   }
 
   onChartEvent(event, type) {
@@ -377,7 +392,6 @@ export class CalendarComponent
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,
-      title: { text: `${displayMetric.name} (${displayMetric.unit})` },
       xAxis: axes,
       grid: {
         bottom: axes.length > 1 ? 24 : 45,

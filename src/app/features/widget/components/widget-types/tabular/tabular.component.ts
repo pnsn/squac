@@ -37,6 +37,7 @@ export class TabularComponent
   @Input() properties: any;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  @Input() showKey: boolean;
   subscription = new Subscription();
   visualMaps;
 

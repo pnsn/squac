@@ -21,13 +21,15 @@
   border: none;
 }
 
-.legend,
-.station-list,
 :host ::ng-deep .leaflet-popup-content {
   font-size: 13px !important;
   padding: 5px;
   margin: 0px;
   line-height: 18px;
+}
+
+.legend,
+:host ::ng-deep .leaflet-popup-content {
   .layer-hidden {
     opacity: 50%;
   }
@@ -43,6 +45,7 @@
   .legend-container {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     div {
       display: inline-block;
     }
@@ -51,15 +54,16 @@
       flex-direction: row;
     }
     div.values {
-      margin: 0px 5px;
+      margin: 0px 3px;
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
       justify-content: space-between;
     }
   }
   .gradient-icon {
-    height: 70px;
-    width: 14px;
+    height: 75px;
+    width: 10px;
   }
   div.map-icon {
     display: inline-block;
@@ -79,22 +83,20 @@
   border-radius: 2px;
 }
 
-.legend,
-.station-list {
+.legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11px !important;
+  padding: 0px 4px;
+  margin: 0px;
   cursor: pointer;
-  background: white;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px;
-}
-
-.station-list {
-  max-height: 50%;
-  .station {
-    &:hover {
-      cursor: pointer;
-    }
-    margin: 2px;
+  div.map-icon {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 0px;
   }
-  overflow-y: scroll;
 }

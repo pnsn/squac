@@ -49,7 +49,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   styles: any;
   widgetTypes: any;
   widgetType: any;
-  showStationList = false;
+  showKey = true;
   constructor(
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,

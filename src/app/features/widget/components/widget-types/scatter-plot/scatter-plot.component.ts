@@ -30,7 +30,7 @@ export class ScatterPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showStationList: boolean;
+  @Input() showKey: boolean;
   @Input() properties: any[];
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
@@ -61,15 +61,18 @@ export class ScatterPlotComponent
       });
     }
 
-    if (changes.showStationList) {
-      this.toggleStationList();
+    if (changes.showKey) {
+      this.toggleKey();
     }
   }
   ngOnInit(): void {
     const chartOptions = {
       series: [],
+      visualMap: {
+        show: true,
+      },
       grid: {
-        left: "50",
+        left: 50,
       },
       yAxis: {
         axisLabel: {
@@ -98,7 +101,7 @@ export class ScatterPlotComponent
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
   }
-  // toggleStationList() {}
+  // toggleKey() {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -130,28 +133,14 @@ export class ScatterPlotComponent
     }
   }
 
-  toggleStationList() {
-    let temp: any = {};
-    if (this.showStationList) {
-      temp = {
-        legend: {
-          show: true,
+  toggleKey() {
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption({
+        visualMap: {
+          show: this.showKey,
         },
-        grid: {
-          right: 75,
-        },
-      };
-    } else {
-      temp = {
-        legend: {
-          show: false,
-        },
-        grid: {
-          right: 5,
-        },
-      };
+      });
     }
-    this.updateOptions = { ...this.updateOptions, ...temp };
   }
 
   private buildChartData(data) {
@@ -210,9 +199,6 @@ export class ScatterPlotComponent
       series: this.processedData.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
-      },
-      title: {
-        text: `${colorMetric.name} (${colorMetric.unit})`,
       },
       visualMap,
       yAxis: {

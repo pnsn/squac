@@ -35,7 +35,7 @@ export class ParallelPlotComponent
   @Input() channels: Channel[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showStationList: boolean;
+  @Input() showKey: boolean;
   @Input() properties: any[];
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
@@ -61,7 +61,7 @@ export class ParallelPlotComponent
       });
     }
 
-    if (changes.showStationList) {
+    if (changes.showKey) {
       this.toggleStationList();
     }
   }
@@ -140,7 +140,7 @@ export class ParallelPlotComponent
 
   toggleStationList() {
     let temp: any = {};
-    if (this.showStationList) {
+    if (this.showKey) {
       temp = {
         legend: {
           show: true,
@@ -166,7 +166,9 @@ export class ParallelPlotComponent
       };
     }
 
-    this.updateOptions = { ...this.updateOptions, ...temp };
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption(temp);
+    }
   }
 
   private buildChartData(data) {

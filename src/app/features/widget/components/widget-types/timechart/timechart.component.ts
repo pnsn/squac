@@ -42,7 +42,7 @@ export class TimechartComponent
   @Input() properties: any[];
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
-  @Input() showStationList: boolean;
+  @Input() showKey: boolean;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -73,8 +73,8 @@ export class TimechartComponent
         this.changeMetrics();
       });
     }
-    if (changes.showStationList) {
-      this.toggleStationList();
+    if (changes.showKey) {
+      this.toggleKey();
     }
   }
   ngOnInit(): void {
@@ -93,6 +93,9 @@ export class TimechartComponent
     const chartOptions: any = {
       yAxis: {
         type: "value",
+      },
+      visualMap: {
+        show: true,
       },
       xAxis: {
         type: "time",
@@ -123,28 +126,14 @@ export class TimechartComponent
     this.echartsInstance = null;
   }
 
-  toggleStationList() {
-    let temp: any = {};
-    if (this.showStationList) {
-      temp = {
-        legend: {
-          show: true,
+  toggleKey() {
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption({
+        visualMap: {
+          show: this.showKey,
         },
-        grid: {
-          right: 75,
-        },
-      };
-    } else {
-      temp = {
-        legend: {
-          show: false,
-        },
-        grid: {
-          right: 8,
-        },
-      };
+      });
     }
-    this.updateOptions = { ...this.updateOptions, ...temp };
   }
 
   onChartEvent(event, type) {
@@ -276,14 +265,10 @@ export class TimechartComponent
 
     this.updateOptions = {
       series: this.metricSeries.series,
-      title: {
-        text: `${displayMetric.name} (${displayMetric.unit})`,
-      },
       visualMap,
       xAxis: {
         min: this.viewService.startTime,
         max: this.viewService.endTime,
-        axisLabel: {},
       },
     };
 

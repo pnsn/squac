@@ -10,40 +10,46 @@ export class WidgetTypeService {
   // defaults for piecewise visualmap
   piecewiseDefaults = {
     type: "piecewise",
+    border: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderWidth: 1,
+    align: "right",
     itemGap: 5,
     textGap: 3,
     itemWidth: 10,
     itemHeight: 10,
+    showLabel: true,
     itemSymbol: "rect",
-    bottom: "auto",
-    top: 0,
-    right: 54,
-    left: 0,
-    orient: "horizontal",
     textStyle: {
       fontSize: 10,
-      width: 30,
       overflow: "truncate",
     },
+    top: 25,
+    bottom: 40,
+    right: 0,
+    orient: "vertical",
   };
 
   // defaults for continuous visualmap
   continuousDefaults = {
     type: "continuous",
+    borderWidth: 1,
+    border: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: "rgba(255,255,255,0.8)",
+    align: "right",
     itemWidth: 10,
-    itemHeight: 100,
+    itemHeight: 75,
     hoverLink: false, //disable until formatting figured out
     itemSymbol: "rect",
-    orient: "horizontal",
-    bottom: "auto",
-    top: 0,
-    right: 54,
-    left: "auto",
     calculable: true,
     formatter: (value) => this.precisionPipe.transform(value, 3),
     textStyle: {
       fontSize: 10,
     },
+    top: 25,
+    bottom: 40,
+    right: 0,
+    orient: "vertical",
   };
 
   // defaults for echarts charts
@@ -51,18 +57,6 @@ export class WidgetTypeService {
     animation: false,
     legend: {
       show: false,
-      top: 25,
-      bottom: 40,
-      right: 0,
-      type: "scroll",
-      orient: "vertical",
-      align: "right",
-      icon: "none",
-      selector: true,
-      selectorButtonGap: 5,
-      selectorItemGap: 1,
-      pageButtonItemGap: 1,
-      pageIconSize: 10,
     },
     toolbox: {
       show: true,
@@ -79,16 +73,6 @@ export class WidgetTypeService {
       right: 8,
       bottom: 45,
       left: 35,
-    },
-    title: {
-      top: 17,
-      textStyle: {
-        fontSize: 12,
-        fontWeight: "normal",
-        fontStyle: "normal",
-        color: "#333",
-      },
-      left: "center",
     },
     useUtc: true,
     xAxis: {
@@ -249,6 +233,7 @@ export class WidgetTypeService {
                 ...this.piecewiseDefaults,
                 pieces: pieces.reverse(), // reverse for non-echarts legends
                 dimension,
+                text: [metric.name, `unit: ${metric.unit}`],
                 min: min,
                 max: max,
                 outOfRange: properties.outOfRange,
@@ -267,10 +252,9 @@ export class WidgetTypeService {
               inRange: {
                 color: inColors,
               },
-              border: "light-gray",
-              borderWidth: 1,
               min: min,
               max: max,
+              text: [metric.name, `unit: ${metric.unit}`],
               outOfRange: properties.outOfRange,
             };
           } else {
