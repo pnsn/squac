@@ -1,15 +1,21 @@
 <div class="row space-between header-row">
-  <h3>Channels</h3>
-  <button mat-icon-button (click)="toggleSidenav()">
+  <h4>Channels</h4>
+  <button
+    mat-icon-button
+    (click)="toggleSidenav()"
+    matTooltip="collapse list"
+    aria-label="button to collapse sidebar"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<button mat-stroked-button color="accent" (click)="update()">Update</button>
-<div class="row space-between">
-  <button mat-button (click)="toggleAll(true)">All</button>
-  <button mat-button (click)="toggleAll(false)">None</button>
+<div class="row">
+  <button mat-stroked-button color="accent" (click)="update()">Update</button>
 </div>
 
+<mat-checkbox type="checkbox" [(ngModel)]="toggledAll" (click)="toggleAll()">
+  Toggle All
+</mat-checkbox>
 <form [formGroup]="form">
   <div formGroupName="checkboxes">
     <ul>

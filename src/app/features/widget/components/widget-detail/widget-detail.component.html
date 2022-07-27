@@ -17,7 +17,7 @@
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
         class="icon-button"
-        (click)="(zooming === 'reset')"
+        (click)="zooming = 'reset'"
         matTooltip="reset zoom"
         aria-label="button that resets zoom"
       >
@@ -245,6 +245,7 @@
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
           [showKey]="showKey"
+          [(zooming)]="zooming"
         >
         </widget-parallel-plot>
         <widget-timechart
@@ -259,6 +260,7 @@
           [selectedMetrics]="selectedMetrics"
           [showKey]="showKey"
           [properties]="widget.properties"
+          [(zooming)]="zooming"
         >
         </widget-timechart>
         <widget-map
@@ -273,6 +275,7 @@
           [selectedMetrics]="selectedMetrics"
           [showKey]="showKey"
           [properties]="widget.properties"
+          [(zooming)]="zooming"
         >
         </widget-map>
         <widget-box-plot
@@ -287,6 +290,7 @@
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
           [showKey]="showKey"
+          [(zooming)]="zooming"
         >
         </widget-box-plot>
         <widget-scatter-plot
@@ -301,6 +305,7 @@
           [selectedMetrics]="selectedMetrics"
           [showKey]="showKey"
           [properties]="widget.properties"
+          [(zooming)]="zooming"
         >
         </widget-scatter-plot>
         <widget-calendar-plot
@@ -315,6 +320,7 @@
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
           [showKey]="showKey"
+          [(zooming)]="zooming"
         >
         </widget-calendar-plot>
         <div *ngSwitchDefault class="widget-message">

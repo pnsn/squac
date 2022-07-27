@@ -112,7 +112,7 @@
       "id": 6,
       "name": "parallel plot",
       "type": "parallel-plot",
-      "zoomControls": true,
+      "zoomControls": false,
       "toggleKey": false,
       "useAggregate": true,
       "displayInfo": "Color options not available for parallel plot.",

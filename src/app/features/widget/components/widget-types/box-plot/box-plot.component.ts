@@ -36,4 +36,8 @@ export class BoxPlotComponent implements WidgetTypeComponent {
   onChartInit(event) {
     this.echartsInstance = event;
   }
+
+  zoomStopped(event) {
+    console.log(event);
+  }
 }

@@ -204,6 +204,10 @@ export class ParallelPlotComponent
     });
   }
 
+  zoomStopped(event) {
+    console.log(event);
+  }
+
   changeMetrics() {
     this.updateOptions = {
       ...this.updateOptions,

@@ -45,6 +45,8 @@ export class TimechartComponent
   @Input() showKey: boolean;
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  @Input() zooming: string;
+  @Output() zoomingChange = new EventEmitter();
   emphasizedChannel: string;
   deemphasizedChannel: string;
   echartsInstance;
@@ -75,6 +77,10 @@ export class TimechartComponent
     }
     if (changes.showKey) {
       this.toggleKey();
+    }
+
+    if (changes.zooming) {
+      this.startZoom();
     }
   }
   ngOnInit(): void {
@@ -120,6 +126,44 @@ export class TimechartComponent
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
+  startZoom() {
+    if (this.echartsInstance) {
+      console.log(this.zooming);
+      if (this.zooming === "start") {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: true,
+        });
+      } else {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: false,
+        });
+        if (this.zooming === "reset") {
+          this.resetZoom();
+        }
+      }
+    }
+  }
+
+  resetZoom() {
+    this.echartsInstance.dispatchAction({
+      type: "dataZoom",
+      start: 0,
+      end: 100,
+    });
+  }
+
+  zoomStopped(event) {
+    if (event.batch?.length !== 1) {
+      this.zoomingChange.emit("stop");
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.echartsInstance = null;
@@ -141,17 +185,6 @@ export class TimechartComponent
 
   onChartInit(event) {
     this.echartsInstance = event;
-  }
-
-  startZoom() {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "takeGlobalCursor",
-        key: "dataZoomSelect",
-        // Activate or inactivate.
-        dataZoomSelectActive: true,
-      });
-    }
   }
 
   emphasizeChannel(channel) {

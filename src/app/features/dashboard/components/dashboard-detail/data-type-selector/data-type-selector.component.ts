@@ -32,6 +32,7 @@ export class DataTypeSelectorComponent implements OnChanges {
   ];
   dataTypes: any = [
     { value: "raw", short: "raw", full: "raw data" },
+    { value: "hour", short: "hourly", full: "hour archive" },
     { value: "day", short: "daily", full: "day archive" },
     { value: "month", short: "monthly", full: "month archive" },
   ];

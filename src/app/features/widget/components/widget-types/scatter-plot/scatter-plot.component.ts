@@ -34,6 +34,8 @@ export class ScatterPlotComponent
   @Input() properties: any[];
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
+  @Input() zooming: string;
+  @Output() zoomingChange = new EventEmitter();
   echartsInstance;
   schema = [];
   subscription = new Subscription();
@@ -63,6 +65,10 @@ export class ScatterPlotComponent
 
     if (changes.showKey) {
       this.toggleKey();
+    }
+
+    if (changes.zooming) {
+      this.startZoom();
     }
   }
   ngOnInit(): void {
@@ -97,6 +103,44 @@ export class ScatterPlotComponent
     );
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
+  }
+
+  startZoom() {
+    if (this.echartsInstance) {
+      console.log(this.zooming);
+      if (this.zooming === "start") {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: true,
+        });
+      } else {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: false,
+        });
+        if (this.zooming === "reset") {
+          this.resetZoom();
+        }
+      }
+    }
+  }
+
+  resetZoom() {
+    this.echartsInstance.dispatchAction({
+      type: "dataZoom",
+      start: 0,
+      end: 100,
+    });
+  }
+
+  zoomStopped(event) {
+    if (event.batch?.length !== 1) {
+      this.zoomingChange.emit("stop");
+    }
   }
   // toggleKey() {}
 

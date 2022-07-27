@@ -126,11 +126,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   //if dates larger than 3 days, default to daily, larger than 1 month, monthly
   checkDates(): void {
     if (this.viewService.archiveType === "raw") {
-      if (this.viewService.getTimeSpan("months") >= 1) {
-        this.archiveType = "month";
+      if (this.viewService.getTimeSpan("months") >= 4) {
+        this.archiveType = "day";
         this.archiveStat = "mean";
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = "day";
+        this.archiveType = "hour";
         this.archiveStat = "mean";
       } else {
         this.archiveType = "raw";

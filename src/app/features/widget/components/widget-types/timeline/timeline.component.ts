@@ -22,7 +22,7 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
 
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../test.component.html",
+  templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
   providers: [WidgetTypeService],
 })

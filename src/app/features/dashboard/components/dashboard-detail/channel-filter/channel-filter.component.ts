@@ -23,6 +23,7 @@ export class ChannelFilterComponent implements OnChanges {
   form: FormGroup;
   timeout;
   changed: false;
+  toggledAll = true;
   @Output() closeSidenav = new EventEmitter<boolean>();
   constructor(
     private formBuilder: FormBuilder,
@@ -73,10 +74,10 @@ export class ChannelFilterComponent implements OnChanges {
     this.changed = false;
   }
 
-  toggleAll(toggle) {
+  toggleAll() {
     const checkboxes = this.form.get("checkboxes") as FormGroup;
     Object.keys(checkboxes.controls).forEach((key) => {
-      checkboxes.controls[key].patchValue(toggle);
+      checkboxes.controls[key].patchValue(!this.toggledAll);
     });
   }
 }
