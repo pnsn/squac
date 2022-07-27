@@ -37,7 +37,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   dashboards: Dashboard[];
 
   channels: Channel[];
-
+  zooming: false;
   //metric changing
   selectedMetrics: Metric[] = []; //gets send to child
   notSelected: Metric[] = [];

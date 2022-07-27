@@ -39,6 +39,7 @@
       "type": "timeline",
       "useAggregate": false,
       "toggleKey": true,
+      "zoomControls": true,
       "description": "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
       "displayInfo": "channel values, station stoplight",
       "displayOptions": [{
@@ -71,6 +72,7 @@
       "type": "timeseries",
       "useAggregate": false,
       "toggleKey": true,
+      "zoomControls": true,
       "description": "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
       "displayInfo": "channel values",
       "displayOptions": [{
@@ -87,6 +89,7 @@
       "type": "map",
       "useAggregate": true,
       "toggleKey": true,
+      "zoomControls": true,
       "description": "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
       "displayInfo": "station stoplight, station worst",
       "displayOptions": [{
@@ -109,6 +112,7 @@
       "id": 6,
       "name": "parallel plot",
       "type": "parallel-plot",
+      "zoomControls": true,
       "toggleKey": false,
       "useAggregate": true,
       "displayInfo": "Color options not available for parallel plot.",
@@ -119,6 +123,7 @@
       "name": "scatter plot",
       "type": "scatter-plot",
       "toggleKey": true,
+      "zoomControls": true,
       "useAggregate": true,
       "description": "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
       "displayInfo": "channels as dots",
@@ -137,6 +142,7 @@
       "name": "calendar plot",
       "type": "calendar-plot",
       "useAggregate": false,
+      "zoomControls": true,
       "toggleKey": true,
       "description": "  ",
       "displayInfo": "channels as dots",

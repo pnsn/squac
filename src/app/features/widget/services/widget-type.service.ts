@@ -24,9 +24,9 @@ export class WidgetTypeService {
       fontSize: 10,
       overflow: "truncate",
     },
-    top: 25,
-    bottom: 40,
-    right: 0,
+    top: 5,
+
+    right: 8,
     orient: "vertical",
   };
 
@@ -46,33 +46,26 @@ export class WidgetTypeService {
     textStyle: {
       fontSize: 10,
     },
-    top: 25,
-    bottom: 40,
-    right: 0,
+    top: 5,
+    right: 8,
     orient: "vertical",
   };
 
   // defaults for echarts charts
   chartDefaults = {
+    textStyle: {
+      fontSize: 11,
+    },
     animation: false,
     legend: {
       show: false,
-    },
-    toolbox: {
-      show: true,
-      top: -5,
-      feature: {
-        dataZoom: {
-          show: true, //not resetting correctlys
-        },
-      },
     },
     visualMap: {
       show: true,
     },
     grid: {
       containLabel: true,
-      top: 40,
+      top: 5,
       right: 8,
       bottom: 45,
       left: 35,
@@ -91,9 +84,22 @@ export class WidgetTypeService {
       axisLine: {
         show: true,
       },
+      axisLabel: {
+        fontSize: 11,
+      },
     },
     yAxis: {
       nameLocation: "center",
+      axisLabel: {
+        fontSize: 11,
+      },
+    },
+    toolbox: {
+      feature: {
+        dataZoom: {
+          icon: null,
+        },
+      },
     },
     tooltip: {
       padding: 4,
@@ -261,6 +267,7 @@ export class WidgetTypeService {
               },
               min: min,
               max: max,
+              range: [min, max],
               text: [metric.name, `unit: ${metric.unit}`],
               outOfRange: properties.outOfRange,
             };

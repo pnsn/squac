@@ -22,7 +22,7 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
 
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../e-chart.component.html",
+  templateUrl: "../test.component.html",
   styleUrls: ["../e-chart.component.scss"],
   providers: [WidgetTypeService],
 })
@@ -42,6 +42,8 @@ export class TimelineComponent
   @Input() selectedMetrics: Metric[];
   @Input() dataRange: any;
   @Input() properties: any;
+  @Input() zooming: string;
+  @Output() zoomingChange = new EventEmitter();
   @Input() loading: string | boolean;
   @Output() loadingChange = new EventEmitter();
   @Input() showKey: boolean;
@@ -49,8 +51,8 @@ export class TimelineComponent
   deemphasizedChannel: string;
   subscription = new Subscription();
   results: Array<any>;
-  options = {};
-  updateOptions = {};
+  options: any = {};
+  updateOptions: EChartsOption = {};
   initOptions: EChartsOption = {};
   metricSeries = {};
   visualMaps = {};
@@ -77,6 +79,10 @@ export class TimelineComponent
     if (changes.showKey) {
       this.toggleKey();
     }
+
+    if (changes.zooming) {
+      this.startZoom();
+    }
   }
   ngOnInit(): void {
     //override defaults
@@ -100,6 +106,20 @@ export class TimelineComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
+      xAxis: {
+        nameLocation: "center",
+        name: "Measurement Start Date",
+        nameGap: 23,
+        nameTextStyle: {
+          align: "center",
+        },
+        axisTick: {
+          show: true,
+        },
+        axisLine: {
+          show: true,
+        },
+      },
       yAxis: {
         inverse: true,
         axisTick: {
@@ -121,6 +141,44 @@ export class TimelineComponent
           show: this.showKey,
         },
       });
+    }
+  }
+
+  startZoom() {
+    if (this.echartsInstance) {
+      console.log(this.zooming);
+      if (this.zooming === "start") {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: true,
+        });
+      } else {
+        this.echartsInstance.dispatchAction({
+          type: "takeGlobalCursor",
+          key: "dataZoomSelect",
+          // Activate or inactivate.
+          dataZoomSelectActive: false,
+        });
+        if (this.zooming === "reset") {
+          this.resetZoom();
+        }
+      }
+    }
+  }
+
+  resetZoom() {
+    this.echartsInstance.dispatchAction({
+      type: "dataZoom",
+      start: 0,
+      end: 100,
+    });
+  }
+
+  zoomStopped(event) {
+    if (event.batch?.length !== 1) {
+      this.zoomingChange.emit("stop");
     }
   }
 
@@ -318,57 +376,54 @@ export class TimelineComponent
     const visualMap = this.visualMaps[colorMetric.id];
     this.loadingChange.emit(false);
 
-    const sharedAxisOptions = {
-      nameLocation: "center",
-      name: "Measurement Start Date",
-      nameGap: 23,
-      nameTextStyle: {
-        align: "center",
-      },
-    };
-    this.updateOptions = {
-      yAxis: {
-        data: this.metricSeries[displayMetric.id].yAxisLabels,
-      },
-      series: this.metricSeries[displayMetric.id].series,
-      visualMap: visualMap,
-    };
-    let options = {};
+    let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
       this.properties.displayType === "day"
     ) {
-      options = {
-        xAxis: {
-          ...sharedAxisOptions,
-          type: "category",
-          axisPointer: {
-            show: "true",
-          },
-          nameLocation: "center",
-          data: this.xAxisLabels,
+      xAxis = {
+        ...xAxis,
+        type: "category",
+        axisPointer: {
+          show: true,
         },
+        nameLocation: "middle",
+        data: this.xAxisLabels,
       };
     } else {
-      options = {
-        xAxis: {
-          ...sharedAxisOptions,
-          type: "time",
-          min: this.viewService.startTime,
-          max: this.viewService.endTime,
-          axisLabel: {
-            formatter: this.widgetTypeService.timeAxisTickFormatting,
-          },
-          axisPointer: {
-            show: "true",
-            label: {
-              formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
-            },
+      xAxis = {
+        ...xAxis,
+        type: "time",
+        min: this.viewService.startTime,
+        max: this.viewService.endTime,
+        axisLabel: {
+          formatter: this.widgetTypeService.timeAxisTickFormatting,
+          fontSize: 11,
+        },
+        axisPointer: {
+          show: true,
+          label: {
+            formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
           },
         },
       };
+
+      this.updateOptions = {
+        yAxis: {
+          data: this.metricSeries[displayMetric.id].yAxisLabels,
+        },
+        series: this.metricSeries[displayMetric.id].series,
+        visualMap: visualMap,
+        xAxis,
+      };
+
+      console.log(this.updateOptions);
+      if (this.echartsInstance) {
+        this.echartsInstance.setOption(this.updateOptions, {
+          replaceMerge: ["series", "xAxis"],
+        });
+      }
     }
-    this.updateOptions = { ...this.updateOptions, ...options };
   }
 
   renderItem(params, api) {

@@ -3,6 +3,27 @@
     <span>{{ widget.name }}</span>
     <div id="controls">
       <button
+        *ngIf="widgetType && widgetType.zoomControls"
+        mat-icon-button
+        class="icon-button"
+        [color]="zooming === 'start' ? 'accent' : ''"
+        (click)="zooming = zooming !== 'start' ? 'start' : 'stop'"
+        matTooltip="start zoom"
+        aria-label="button that enables zoom"
+      >
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+      <button
+        *ngIf="widgetType && widgetType.zoomControls"
+        mat-icon-button
+        class="icon-button"
+        (click)="(zooming === 'reset')"
+        matTooltip="reset zoom"
+        aria-label="button that resets zoom"
+      >
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+      <button
         *ngIf="widgetType && widgetType.toggleKey"
         class="icon-button"
         mat-icon-button
@@ -195,6 +216,7 @@
           [selectedMetrics]="selectedMetrics"
           [properties]="widget.properties"
           [showKey]="showKey"
+          [(zooming)]="zooming"
         >
         </widget-timeline>
         <widget-tabular
