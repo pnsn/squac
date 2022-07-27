@@ -82,7 +82,7 @@ export class ParallelPlotComponent
       parallel: {
         left: 10,
         bottom: 20,
-        top: 50,
+        top: 20,
         right: 10,
         parallelAxisDefault: {
           nameTextStyle: {

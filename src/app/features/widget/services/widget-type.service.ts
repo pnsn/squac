@@ -67,14 +67,14 @@ export class WidgetTypeService {
       containLabel: true,
       top: 5,
       right: 8,
-      bottom: 45,
+      bottom: 38,
       left: 35,
     },
     useUtc: true,
     xAxis: {
       nameLocation: "center",
       name: "Measurement Start Date",
-      nameGap: 23,
+      nameGap: 14,
       nameTextStyle: {
         align: "center",
       },
@@ -85,6 +85,7 @@ export class WidgetTypeService {
         show: true,
       },
       axisLabel: {
+        margin: 3,
         fontSize: 11,
       },
     },
@@ -434,7 +435,9 @@ export class WidgetTypeService {
           axisTick: {
             inside: true,
           },
+          nameGap: 6,
           axisLabel: {
+            fontSize: 11,
             align: axisAlign,
             inside: true,
             margin,

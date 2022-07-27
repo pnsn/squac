@@ -108,6 +108,23 @@ export class CalendarComponent
         },
         axisPointer: {
           show: "true",
+          label: {
+            formatter: (params) => {
+              params = params.value.split("-");
+              const labels = [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ];
+              const week = params[0];
+              const time = params[1];
+              return `${labels[+week]} ${time} `;
+            },
+          },
         },
       },
       yAxis: {
@@ -346,18 +363,22 @@ export class CalendarComponent
         ...xAxis1,
         axisTick: {
           alignWithLabel: false,
-          length: 22,
+          length: 16,
           align: "left",
           interval: function (index, value) {
             return value ? true : false;
           },
         },
         axisLabel: {
-          margin: 22,
+          margin: 16,
+          fontSize: 11,
           align: "left",
           interval: function (index, value) {
             return value ? true : false;
           },
+        },
+        axisPointer: {
+          show: false,
         },
         splitLine: {
           show: true,
@@ -369,9 +390,10 @@ export class CalendarComponent
       const xAxis2 = {
         position: "bottom",
         data: this.xAxisLabels,
-        nameGap: 37,
+        nameGap: 28,
         name,
         axisLabel: {
+          fontSize: 11,
           formatter: (value, index) => {
             const val = value.split("-")[1];
             return val === "00" ? "" : val;
@@ -394,7 +416,7 @@ export class CalendarComponent
       visualMap: visualMap,
       xAxis: axes,
       grid: {
-        bottom: axes.length > 1 ? 24 : 45,
+        bottom: axes.length > 1 ? 24 : 38,
       },
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,

@@ -109,7 +109,6 @@ export class TimelineComponent
       xAxis: {
         nameLocation: "center",
         name: "Measurement Start Date",
-        nameGap: 23,
         nameTextStyle: {
           align: "center",
         },
@@ -377,6 +376,7 @@ export class TimelineComponent
     this.loadingChange.emit(false);
 
     let xAxis = { ...this.options.xAxis };
+    console.log("in change metrics");
     if (
       this.properties.displayType === "hour" ||
       this.properties.displayType === "day"
@@ -387,8 +387,11 @@ export class TimelineComponent
         axisPointer: {
           show: true,
         },
-        nameLocation: "middle",
         data: this.xAxisLabels,
+        axisLabel: {
+          fontSize: 11,
+          margin: 3,
+        },
       };
     } else {
       xAxis = {
@@ -399,6 +402,7 @@ export class TimelineComponent
         axisLabel: {
           formatter: this.widgetTypeService.timeAxisTickFormatting,
           fontSize: 11,
+          margin: 3,
         },
         axisPointer: {
           show: true,
@@ -407,22 +411,20 @@ export class TimelineComponent
           },
         },
       };
+    }
+    this.updateOptions = {
+      yAxis: {
+        data: this.metricSeries[displayMetric.id].yAxisLabels,
+      },
+      series: this.metricSeries[displayMetric.id].series,
+      visualMap: visualMap,
+      xAxis,
+    };
 
-      this.updateOptions = {
-        yAxis: {
-          data: this.metricSeries[displayMetric.id].yAxisLabels,
-        },
-        series: this.metricSeries[displayMetric.id].series,
-        visualMap: visualMap,
-        xAxis,
-      };
-
-      console.log(this.updateOptions);
-      if (this.echartsInstance) {
-        this.echartsInstance.setOption(this.updateOptions, {
-          replaceMerge: ["series", "xAxis"],
-        });
-      }
+    if (this.echartsInstance) {
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series", "xAxis"],
+      });
     }
   }
 

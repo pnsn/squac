@@ -99,12 +99,14 @@ export class TimechartComponent
         name: "Measurement Start",
 
         axisPointer: {
-          show: "true",
+          show: true,
           label: {
             formatter: this.widgetTypeService.timeAxisPointerLabelFormatting,
           },
         },
         axisLabel: {
+          fontSize: 11,
+          margin: 3,
           formatter: this.widgetTypeService.timeAxisTickFormatting,
         },
       },
