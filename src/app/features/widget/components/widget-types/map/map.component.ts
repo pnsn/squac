@@ -263,7 +263,7 @@ export class MapComponent
 
           stationChannels[channel.stationCode] =
             stationChannels[channel.stationCode] +
-            `<tr> <td> ${iconHtml} </td> <td> ${nslc} </td><td> ${
+            `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
               val !== null ? this.precisionPipe.transform(val) : "no data"
             }</td></tr>`;
 
@@ -433,9 +433,11 @@ export class MapComponent
       // ${stationChannels[station.staCode]} </table>`
       // )
       .bindTooltip(
-        `<h4> ${station.id} </h4> <table>
-        <thead><th colspan='2'>channel</th><th>value</th></thead>
-      ${stationChannels[station.staCode]} </table>`
+        `<div class='tooltip-name'> ${
+          station.id
+        } </div> <table class='tooltip-table'>
+        <thead><th>Channel</th><th>Value</th></thead><tbody>
+      ${stationChannels[station.staCode]}</tbody> </table>`
       );
     marker.on("click", (ev) => {
       ev.target.openPopup();

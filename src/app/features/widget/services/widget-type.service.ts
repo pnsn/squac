@@ -67,6 +67,9 @@ export class WidgetTypeService {
         },
       },
     },
+    visualMap: {
+      show: true,
+    },
     grid: {
       containLabel: true,
       top: 40,
@@ -93,10 +96,14 @@ export class WidgetTypeService {
       nameLocation: "center",
     },
     tooltip: {
+      padding: 4,
       confine: true,
       trigger: "item",
       axisPointer: {
         type: "cross",
+      },
+      textStyle: {
+        fontSize: 11,
       },
       // position: function (pt) {
       //   return [pt[0], "10%"];
@@ -460,8 +467,9 @@ export class WidgetTypeService {
   // channel & list of metric values
   // used for scatter, parallel etc
   multiMetricTooltipFormatting(params): string {
-    let str = `${params.name}`;
-    str += "<table><tr><th>Metric</th> <th>Value</th></tr>";
+    let str = `<div class='tooltip-name'> ${params.marker} ${params.name}</div>`;
+    str +=
+      "<table class='tooltip-table'><thead><th>Metric</th> <th>Value</th></thead><tbody>";
 
     params.value.forEach((data, i) => {
       str +=
@@ -471,7 +479,7 @@ export class WidgetTypeService {
         (data !== null ? this.precisionPipe.transform(data) : "no data") +
         "</td></tr>";
     });
-    str = str += "</br>";
+    str = str += "</tbody></table>";
     return str;
   }
 
@@ -484,14 +492,8 @@ export class WidgetTypeService {
       data.push(params);
     }
 
-    let str = "";
-    if (data[0]) {
-      str += `<h4> ${data[0].seriesName} </h4>`;
-    } else {
-      str += this.timeAxisPointerLabelFormatting({ value: data[0].value[1] });
-    }
-    str +=
-      "<table style='border-collapse: separate;border-spacing: 3px 0;'><tr><th colspan='2'>Channel</th> <th>Value</th></tr>";
+    let str =
+      "<table class='tooltip-table'><thead><th>Channel</th> <th>Value</th></thead> <tbody>";
 
     data.forEach((param) => {
       if (param.value) {
@@ -499,7 +501,6 @@ export class WidgetTypeService {
         str +=
           "<tr><td>" +
           param.marker +
-          "</td><td>" +
           name +
           "</td><td>" +
           this.precisionPipe.transform(param.value[2]) +
@@ -507,6 +508,7 @@ export class WidgetTypeService {
       }
     });
 
+    str += "</tbody></thead>";
     return str;
   }
 

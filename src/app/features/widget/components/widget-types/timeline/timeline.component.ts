@@ -100,9 +100,6 @@ export class TimelineComponent
           return this.widgetTypeService.timeAxisFormatToolTip(params);
         },
       },
-      visualMap: {
-        show: true,
-      },
       yAxis: {
         inverse: true,
         axisTick: {

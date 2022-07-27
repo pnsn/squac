@@ -68,9 +68,6 @@ export class ScatterPlotComponent
   ngOnInit(): void {
     const chartOptions = {
       series: [],
-      visualMap: {
-        show: true,
-      },
       grid: {
         left: 50,
       },

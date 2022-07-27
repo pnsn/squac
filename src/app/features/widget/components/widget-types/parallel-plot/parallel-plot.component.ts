@@ -91,6 +91,7 @@ export class ParallelPlotComponent
           },
         },
       },
+      visualMap: [],
       grid: {
         left: 10,
       },

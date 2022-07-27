@@ -22,10 +22,26 @@
 }
 
 :host ::ng-deep .leaflet-popup-content {
-  font-size: 13px !important;
-  padding: 5px;
+  padding: 3px;
   margin: 0px;
-  line-height: 18px;
+}
+
+:host ::ng-deep .tooltip-name {
+  font-size: 9pt !important;
+}
+:host ::ng-deep .tooltip-table {
+  th,
+  td {
+    font-size: 9pt !important;
+    padding-right: 5px;
+    div {
+      display: inline-block;
+    }
+  }
+  tr th:last-child,
+  tr td:last-child {
+    padding-right: 0px;
+  }
 }
 
 .legend,

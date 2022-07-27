@@ -94,9 +94,6 @@ export class TimechartComponent
       yAxis: {
         type: "value",
       },
-      visualMap: {
-        show: true,
-      },
       xAxis: {
         type: "time",
         name: "Measurement Start",

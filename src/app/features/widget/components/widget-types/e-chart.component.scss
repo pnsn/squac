@@ -4,3 +4,21 @@
   overflow: hidden;
   visibility: visible;
 }
+
+:host ::ng-deep .tooltip-name {
+  font-size: 9pt !important;
+}
+:host ::ng-deep .tooltip-table {
+  th,
+  td {
+    font-size: 9pt !important;
+    padding-right: 5px;
+    div {
+      display: inline-block;
+    }
+  }
+  tr th:last-child,
+  tr td:last-child {
+    padding-right: 0px;
+  }
+}

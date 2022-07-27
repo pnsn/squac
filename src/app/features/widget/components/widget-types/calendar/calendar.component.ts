@@ -121,14 +121,14 @@ export class CalendarComponent
       tooltip: {
         formatter: (params) => {
           let str = "";
-          str += `<h4> ${params.seriesName} </h4>`;
+          str += `<div class='tooltip-name'>${params.marker} ${params.seriesName} </div>`;
           if (params.value) {
             str +=
-              "<table  style='border-collapse: separate;border-spacing: 3px 0;'><tr><td>" +
+              "<table class='tooltip-table'><tbody><tr><td>" +
               params.value[0] +
-              "</td><td> (average): </td><td>" +
+              "(average):</td><td>" +
               this.precisionPipe.transform(params.value[2]) +
-              "</td></tr></table>";
+              "</td></tr></tbody></table>";
           }
           return str;
         },
