@@ -71,6 +71,9 @@ mat-icon.mat-icon {
 }
 
 .dense-radio-button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   .mat-radio-container,
   .mat-radio-inner-circle,
   .mat-radio-outer-circle {

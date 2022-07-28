@@ -10,18 +10,19 @@
 
 #thresholds-table {
   width: 100%;
-  .xsmall {
-    display: inline-block;
-    width: 60px;
-    mat-form-field {
-      width: 60px;
-    }
+
+  th,
+  td {
+    text-align: left;
   }
   .large {
-    display: inline-block;
-    width: 80%;
+    width: 50%;
+  }
+  .small {
+    width: 30%;
+    max-width: 150px;
     mat-form-field {
-      width: 100%;
+      max-width: 150px;
     }
   }
 }

@@ -21,12 +21,12 @@ export class WidgetTypeService {
     showLabel: true,
     itemSymbol: "rect",
     textStyle: {
-      fontSize: 10,
+      fontSize: 11,
       overflow: "truncate",
     },
     top: 5,
 
-    right: 8,
+    right: 5,
     orient: "vertical",
   };
 
@@ -36,7 +36,7 @@ export class WidgetTypeService {
     borderWidth: 1,
     border: "rgba(0, 0, 0, 0.2)",
     backgroundColor: "rgba(255,255,255,0.8)",
-    align: "right",
+    align: "auto",
     itemWidth: 10,
     itemHeight: 75,
     hoverLink: false, //disable until formatting figured out
@@ -44,10 +44,10 @@ export class WidgetTypeService {
     calculable: true,
     formatter: (value) => this.precisionPipe.transform(value, 3),
     textStyle: {
-      fontSize: 10,
+      fontSize: 11,
     },
     top: 5,
-    right: 8,
+    right: 5,
     orient: "vertical",
   };
 

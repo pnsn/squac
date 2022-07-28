@@ -86,7 +86,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="xsmall dense-form-field">
-          <mat-label># of splits (max 5)</mat-label>
+          <mat-label># of splits</mat-label>
           <input
             matInput
             type="number"
@@ -128,81 +128,76 @@
       </ng-container>
     </ng-container>
     <ng-container>
-      <div class="head-row">
-        <span class="label">Thresholds</span>
-        <button mat-button (click)="addThreshold()">
-          <mat-icon> add </mat-icon>add
-        </button>
-      </div>
       <p class="help-text">
-        Values between or equal to the min and max will be 'in range'. If
-        thresholds are not added for a metric, the chart will use the data min
-        and max for that metric.
+        Values between or equal to the min and max will be 'in range'. If values
+        are not set for a metric, the chart will use the data min or max
+        instead. Default values are the suggested min and max for the metric.
       </p>
       <ng-container formArrayName="thresholdArray">
-        <div id="thresholds-table">
-          <div class="body-row">
-            <div class="large">metric</div>
-
-            <div class="xsmall">min</div>
-            <div class="xsmall">max</div>
-            <div class="xsmall"></div>
-          </div>
-          <ng-container
-            *ngFor="let threshold of thresholdArray.controls; let i = index"
-          >
-            <div [formGroupName]="i" class="body-row">
-              <div class="large">
-                <mat-form-field class="dense-form-field-select">
-                  <mat-select #metric formControlName="metricId">
-                    <mat-select-trigger>
-                      {{ metric.value ? getMetricName(metric.value) : "" }}
-                    </mat-select-trigger>
-                    <mat-option
-                      *ngFor="let m of selectedMetrics"
-                      [value]="m.id"
+        <table id="thresholds-table">
+          <thead>
+            <th class="large">metric</th>
+            <th class="small">min value</th>
+            <th class="small">max value</th>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngFor="let threshold of thresholdArray.controls; let i = index"
+            >
+              <tr [formGroupName]="i">
+                {{
+                  threshold.metricId
+                }}
+                <td class="large">
+                  <span *ngIf="threshold.controls.metricId.value as metricId">
+                    {{ getMetricName(metricId) }}
+                  </span>
+                </td>
+                <td class="small">
+                  <mat-form-field class="dense-form-field">
+                    <input
+                      #min
+                      matInput
+                      type="number"
+                      name="min"
+                      formControlName="min"
+                    />
+                    <button
+                      matSuffix
+                      mat-icon-button
+                      aria-label="Clear"
+                      (click)="min.value = null"
                     >
-                      {{ m.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="xsmall">
-                <mat-form-field class="dense-form-field">
-                  <input
-                    matInput
-                    type="number"
-                    name="min"
-                    formControlName="min"
-                  />
-                </mat-form-field>
-              </div>
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </td>
 
-              <div class="xsmall">
-                <mat-form-field class="dense-form-field">
-                  <input
-                    matInput
-                    type="number"
-                    name="max"
-                    formControlName="max"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="xsmall">
-                <button
-                  mat-icon-button
-                  color="warn"
-                  (click)="removeThreshold(i)"
-                  aria-label="button that removes the threshold"
-                >
-                  <mat-icon> delete </mat-icon>
-                </button>
-              </div>
+                <td class="small">
+                  <mat-form-field class="dense-form-field">
+                    <input
+                      #max
+                      matInput
+                      type="number"
+                      name="max"
+                      formControlName="max"
+                    />
+                    <button
+                      matSuffix
+                      mat-icon-button
+                      aria-label="Clear"
+                      (click)="max.value = null"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </td>
 
-              <ng-template #default> default </ng-template>
-            </div>
-          </ng-container>
-        </div>
+                <ng-template #default> default </ng-template>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </ng-container>
     </ng-container>
   </form>

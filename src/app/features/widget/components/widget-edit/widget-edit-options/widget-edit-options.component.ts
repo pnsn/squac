@@ -43,7 +43,7 @@ export class WidgetEditOptionsComponent
       displayType: [""],
       inRange: [null],
       outOfRange: [null],
-      numSplits: [null, { validators: [Validators.min(0), Validators.max(5)] }], //>0 not continuous
+      numSplits: [null, { validators: [Validators.min(0)] }], //>0 not continuous
       reverseColors: false,
     }),
   });
@@ -243,7 +243,10 @@ export class WidgetEditOptionsComponent
 
   // Remove given threshold
   removeThreshold(index) {
-    this.thresholdArray.removeAt(index);
+    this.thresholdArray.at(index).patchValue({
+      min: null,
+      max: null,
+    });
   }
 
   // return metric name
