@@ -40,7 +40,6 @@ export class WidgetEditOptionsComponent
     thresholdArray: this.formBuilder.array([]),
     dimensions: this.formBuilder.array([]),
     options: this.formBuilder.group({
-      displayType: [""],
       inRange: [null],
       outOfRange: [null],
       numSplits: [null, { validators: [Validators.min(0)] }], //>0 not continuous
