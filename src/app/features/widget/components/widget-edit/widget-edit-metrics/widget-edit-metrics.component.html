@@ -7,8 +7,9 @@
       (keyup)="updateFilter($event)"
     />
     <div class="help-text">
-      Metrics can be reordered or hidden when viewing the widget
+      Select at least {{ minLength }} metric{{ minLength > 1 ? "s" : "" }}.
     </div>
+    <div class="help-text"></div>
   </div>
   <ngx-datatable
     id="metric-select-table"

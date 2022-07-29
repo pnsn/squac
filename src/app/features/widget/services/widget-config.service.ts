@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
+import { WidgetType } from "../models/widget-type";
 
 @Injectable({
   providedIn: "root",
@@ -11,14 +12,35 @@ export class WidgetConfigService {
   private _gradientOptions;
 
   constructor(configService: ConfigurationService) {
-    this._widgetTypes = configService.getValue("widgetTypes");
+    this.widgetTypes = configService.getValue("widgetTypes");
     this._statTypes = configService.getValue("statTypes");
     this._solidOptions = configService.getValue("solidOptions");
     this._gradientOptions = configService.getValue("gradientOptions");
   }
 
-  get widgetTypes(): any[] {
+  set widgetTypes(_widgetTypes: any) {
+    this._widgetTypes = _widgetTypes.map((type: WidgetType) => {
+      return new WidgetType(
+        type.id,
+        type.name,
+        type.type,
+        type.description,
+        type.displayInfo,
+        type.useAggregate,
+        type.toggleKey,
+        type.displayOptions
+      );
+    });
+  }
+
+  get widgetTypes(): WidgetType[] {
     return this._widgetTypes;
+  }
+
+  getWidgetType(type: string): WidgetType {
+    return this._widgetTypes.find((widgetType) => {
+      return widgetType.type === type;
+    });
   }
 
   get statTypes(): any[] {

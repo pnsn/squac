@@ -119,6 +119,7 @@ export interface WidgetProperties {
     color: string[];
     type: string;
   };
+  reverseColors?: boolean;
   displayType?: string; //worst, channel, stoplight
   numSplits?: number;
   // show_legend: boolean; TODO: add these

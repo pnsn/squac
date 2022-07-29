@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
+import { WidgetDisplayOption } from "@features/widget/models/widget-type";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -18,8 +19,10 @@ import { Metric } from "@core/models/metric";
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
+  @Input() displayType: WidgetDisplayOption;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
 
+  minLength = 1;
   done = false;
 
   @ViewChild("metricTable") metricTable;
@@ -64,6 +67,11 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
       this.rows = [...this.metrics];
     }
 
+    if (changes.displayType) {
+      this.minLength = this.displayType?.dimensions?.length || 1;
+      this.checkValid();
+    }
+
     //update selected metrics
     if (changes.selectedMetrics && changes.selectedMetrics.currentValue) {
       const temp = this.metrics.filter((metric) => {
@@ -81,7 +89,8 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
 
   // make sure there are metrics
   checkValid(): void {
-    this.done = this.selectedMetrics && this.selectedMetrics.length > 0;
+    this.done =
+      this.selectedMetrics && this.selectedMetrics.length > this.minLength;
   }
 
   // search for metrics

@@ -18,6 +18,7 @@ import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
 import { Channel } from "@core/models/channel";
+import { WidgetType } from "../models/widget-type";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
@@ -160,7 +161,7 @@ export class WidgetDataService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  updateWidget(widget: Widget, type: any): void {
+  updateWidget(widget: Widget, type: WidgetType): void {
     this.widget = widget;
     this.type = type;
     this.params.next({});

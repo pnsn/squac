@@ -3,7 +3,17 @@ export class Threshold {
   min: number;
   max: number;
   metricId: number;
-  data?: any;
+  dimension?: any;
+  inRange?: {
+    color: string[];
+    type: string;
+  };
+  outOfRange?: {
+    color: string[];
+    type: string;
+  };
+  displayType?: string; //worst, channel, stoplight
+  numSplits?: number;
   static get modelName() {
     return "Threshold";
   }

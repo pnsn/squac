@@ -32,13 +32,14 @@
     #metricsStep
     errorMessage="Missing metric."
     [completed]="metricsTab.done"
-    [hasError]="metricsStep.interacted && !metricsTab.done"
+    [hasError]="(metricsStep.interacted || editMode) && !metricsTab.done"
   >
     <ng-template matStepLabel>Metrics</ng-template>
     <widget-edit-metrics
       #metricsTab
       [metrics]="metrics"
       [(selectedMetrics)]="widget.metrics"
+      [displayType]="displayType"
     ></widget-edit-metrics>
   </mat-step>
   <mat-step [optional]="true">
@@ -49,6 +50,7 @@
       [type]="widget.type"
       [displayType]="displayType"
       [(thresholds)]="widget.thresholds"
+      (thresholdsChange)="change($event)"
       [(properties)]="widget.properties"
     ></widget-edit-options>
   </mat-step>
@@ -79,7 +81,7 @@
       type="button"
       color="accent"
       (click)="save()"
-      [disabled]="!widget.isValid"
+      [disabled]="!widget.isValid || !metricsTab.done"
     >
       Save
     </button>

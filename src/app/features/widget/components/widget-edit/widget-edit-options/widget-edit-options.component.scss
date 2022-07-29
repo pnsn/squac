@@ -16,13 +16,12 @@
     text-align: left;
   }
   .large {
-    width: 50%;
+    width: 100%;
   }
   .small {
-    width: 30%;
-    max-width: 150px;
+    max-width: 100px;
     mat-form-field {
-      max-width: 150px;
+      max-width: 100px;
     }
   }
 }

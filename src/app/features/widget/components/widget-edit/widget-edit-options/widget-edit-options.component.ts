@@ -12,8 +12,21 @@ import { Threshold } from "@features/widget/models/threshold";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
 import * as colormap from "colormap";
+import { checkThresholds } from "@core/utils/utils";
+import { WidgetProperties } from "@features/widget/models/widget";
+import {
+  WidgetDisplayOption,
+  WidgetType,
+} from "@features/widget/models/widget-type";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -25,20 +38,19 @@ export class WidgetEditOptionsComponent
   subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
   @Input() type: string;
-  @Input() displayType: any;
+  @Input() displayType: WidgetDisplayOption;
   @Input() thresholds: Threshold[];
   @Output() thresholdsChange = new EventEmitter<Threshold[]>();
-  @Input() properties: any;
+  @Input() properties: WidgetProperties;
   @Output() propertiesChange = new EventEmitter<any>();
 
-  widgetTypes: any;
-  widgetType: any;
+  widgetTypes: WidgetType[];
+  widgetType: WidgetType;
   gradientOptions: any[];
   solidOptions: any[];
 
   optionsForm: FormGroup = this.formBuilder.group({
     thresholdArray: this.formBuilder.array([]),
-    dimensions: this.formBuilder.array([]),
     options: this.formBuilder.group({
       inRange: [null],
       outOfRange: [null],
@@ -58,7 +70,10 @@ export class WidgetEditOptionsComponent
 
   ngOnInit(): void {
     this.thresholdArray.valueChanges.subscribe((values) => {
+      console.log("thresholds changed");
+      // this.validateThresholds();
       this.thresholds = values;
+      console.log("valid", this.thresholdArray.valid);
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
       }
@@ -72,11 +87,6 @@ export class WidgetEditOptionsComponent
       this.propertiesChange.emit(this.properties);
     });
 
-    this.dimensions.valueChanges.subscribe((value) => {
-      this.properties.dimensions = value;
-      this.propertiesChange.emit(this.properties);
-    });
-
     this.initForm();
   }
 
@@ -84,18 +94,14 @@ export class WidgetEditOptionsComponent
     if (changes.selectedMetrics) {
       this.thresholdArray.clear({ emitEvent: false });
       this.changeMetrics();
-      this.updateDimensions();
-    }
-
-    if (changes.properties && changes.properties.currentValue) {
-      if (!this.properties.dimensions) {
-        this.properties.dimensions = [];
-      }
     }
 
     if (changes.displayType) {
-      this.updateDimensions();
       this.validateOptions();
+      this.validateThresholds();
+    }
+    if (changes.thresholds) {
+      console.log(this.thresholds);
     }
 
     if (changes.type) {
@@ -139,41 +145,55 @@ export class WidgetEditOptionsComponent
     );
   }
 
-  // match dimensions on widget to selected metrics
-  updateDimensions() {
-    const selected = this.properties.dimensions;
-    this.dimensions.clear();
-    this.displayType?.dimensions?.forEach((dimension, i) => {
-      const dim = selected.find((m) => {
-        return dimension === m.type;
-      });
-      let metricId;
-      if (dim && dim.metricId) {
-        metricId = dim.metricId;
-      } else if (this.selectedMetrics && this.selectedMetrics[i]) {
-        metricId = this.selectedMetrics[i]?.id;
+  validateThresholds(index?: number) {
+    const thresholds = this.thresholdArray.controls;
+    let dimensions = [];
+
+    if (this.displayType?.dimensions) {
+      dimensions = [...this.displayType.dimensions];
+    }
+
+    const lastDimension = index ? thresholds[index].value.dimension : null;
+
+    thresholds.forEach((threshold, i) => {
+      const dimension = threshold.value.dimension;
+
+      if (dimension) {
+        //skip most recently changed
+        const dimIndex = dimensions.indexOf(dimension);
+        // dimension taken
+        if ((dimIndex > -1 && dimension !== lastDimension) || i === index) {
+          dimensions.splice(dimIndex, 1);
+        } else {
+          //remove dimension from threshold
+          threshold.patchValue(
+            {
+              dimension: null,
+            },
+            { emitEvent: true }
+          );
+        }
       }
-      this.dimensions.push(
-        this.formBuilder.group({
-          type: [dimension], //default to piecewise
-          metricId: [metricId],
-        })
-      );
     });
-    this.properties.dimensions = this.dimensions.value;
+
+    // assign remaining dimensions to other thresholds
+    thresholds.forEach((threshold) => {
+      if (!threshold.value.dimension && dimensions.length > 0) {
+        threshold.patchValue(
+          {
+            dimension: dimensions[0],
+          },
+          { emitEvent: true }
+        );
+
+        dimensions.splice(0, 1);
+      }
+    });
   }
 
   //check if metrics removed
   changeMetrics() {
-    const temp = this.properties.dimensions;
     if (this.selectedMetrics && this.selectedMetrics.length > 0) {
-      //remove dimensions that don't have metrics
-      this.properties.dimensions = temp?.filter((dim) => {
-        const index = this.selectedMetrics.findIndex(
-          (m) => m.id === dim.metricId
-        );
-        return index >= 0;
-      });
       this.selectedMetrics.forEach((metric) => {
         const threshold = this.thresholds.find((threshold) => {
           return metric.id === threshold.metricId;
@@ -188,14 +208,17 @@ export class WidgetEditOptionsComponent
           });
         }
       });
+      this.validateThresholds(0);
+      this.thresholds = this.thresholdArray.value;
+      this.thresholdsChange.emit(this.thresholds);
+      console.log(this.thresholds);
     }
-
-    this.updateDimensions();
   }
 
   // populate form
   makeThresholdForm(threshold?: Threshold) {
     return this.formBuilder.group({
+      dimension: [threshold ? threshold.dimension : null],
       min: [threshold ? threshold.min : null],
       max: [threshold ? threshold.max : null],
       metricId: [threshold ? threshold.metricId : null, Validators.required],
@@ -203,7 +226,7 @@ export class WidgetEditOptionsComponent
   }
 
   //find colors in options using the type
-  findColor(type: any): any {
+  findColor(type: string): any {
     const t = [...this.gradientOptions, ...this.solidOptions].find((option) => {
       return option.type === type;
     });
@@ -230,22 +253,10 @@ export class WidgetEditOptionsComponent
     return this.optionsForm.get("thresholdArray") as FormArray;
   }
 
-  get dimensions(): FormArray {
-    return this.optionsForm.get("dimensions") as FormArray;
-  }
-
   // Add a new threshold
   addThreshold(threshold?: Threshold) {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
     this.thresholdArray.push(thresholdFormGroup, { emitEvent: true });
-  }
-
-  // Remove given threshold
-  removeThreshold(index) {
-    this.thresholdArray.at(index).patchValue({
-      min: null,
-      max: null,
-    });
   }
 
   // return metric name

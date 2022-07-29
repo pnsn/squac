@@ -101,42 +101,21 @@
         </mat-checkbox>
       </div>
     </ng-container>
-
-    <ng-container *ngIf="displayType?.dimensions">
+    <ng-container>
       <div class="head-row">
-        <span class="label">Metrics</span>
+        <span class="label">Metric Thresholds</span>
       </div>
       <p class="help-text">
-        Select which metric(s) to show on the widget. These can also be changed
-        while viewing widget.
-      </p>
-      <ng-container formArrayName="dimensions">
-        <ng-container
-          *ngFor="let metric of dimensions?.controls; let i = index"
-        >
-          <div [formGroupName]="i" class="body-row metric-select-container">
-            {{ dimensions.controls[i].value.type }} metric:
-            <mat-form-field class="dense-form-field-select">
-              <mat-select #metric formControlName="metricId">
-                <mat-option *ngFor="let m of selectedMetrics" [value]="m.id">
-                  {{ m.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-    <ng-container>
-      <p class="help-text">
-        Values between or equal to the min and max will be 'in range'. If values
-        are not set for a metric, the chart will use the data min or max
-        instead. Default values are the suggested min and max for the metric.
+        Values between or equal to the min and max will be 'in range'. If the
+        min or max is empty, the chart will use the data min or max instead.
+        Default values are the suggested min and max for the metric.
       </p>
       <ng-container formArrayName="thresholdArray">
         <table id="thresholds-table">
           <thead>
             <th class="large">metric</th>
+            <th *ngIf="displayType?.dimensions" class="small">Dimension</th>
+
             <th class="small">min value</th>
             <th class="small">max value</th>
           </thead>
@@ -145,14 +124,28 @@
               *ngFor="let threshold of thresholdArray.controls; let i = index"
             >
               <tr [formGroupName]="i">
-                {{
-                  threshold.metricId
-                }}
                 <td class="large">
                   <span *ngIf="threshold.controls.metricId.value as metricId">
                     {{ getMetricName(metricId) }}
                   </span>
                 </td>
+                <td *ngIf="displayType?.dimensions" class="small">
+                  <mat-form-field class="dense-form-field-select">
+                    <mat-select
+                      #dimensions
+                      formControlName="dimension"
+                      (selectionChange)="validateThresholds(i)"
+                    >
+                      <mat-option
+                        *ngFor="let dim of displayType?.dimensions"
+                        [value]="dim"
+                      >
+                        {{ dim }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+
                 <td class="small">
                   <mat-form-field class="dense-form-field">
                     <input

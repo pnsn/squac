@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { WidgetProperties } from "@features/widget/models/widget";
+import {
+  WidgetDisplayOption,
+  WidgetType,
+} from "@features/widget/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 
 @Component({
@@ -11,20 +16,20 @@ export class WidgetEditInfoComponent implements OnInit {
   @Input() name: string;
   @Input() type: string;
   @Input() stat: string;
-  @Input() properties: any;
-  @Input() displayType: any;
+  @Input() properties: WidgetProperties;
+  @Input() displayType: WidgetDisplayOption;
   @Output() displayTypeChange = new EventEmitter<any>();
   @Output() propertiesChange = new EventEmitter<any>();
   @Output() nameChange = new EventEmitter<string>();
   @Output() typeChange = new EventEmitter<string>();
   @Output() statChange = new EventEmitter<string>();
 
-  selectedType: any;
+  selectedType: WidgetType;
   error: string;
   done = false;
   // TODO: Get this from SQUAC
 
-  widgetTypes: any;
+  widgetTypes: WidgetType[];
   statTypes: any;
 
   widgetForm = new FormGroup({
@@ -79,20 +84,20 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // when the type of widget changes, update related options
   changeTypes(): void {
-    this.selectedType = this.widgetTypes.find((type) => {
+    this.selectedType = this.widgetTypes.find((type: WidgetType) => {
       return type.type === this.type;
     });
     // default to 'mean'
     if (!this.stat) {
       this.stat = "mean";
     }
+
     // change displayOptions
     if (this.selectedType?.displayOptions) {
-      this.displayType = this.selectedType.displayOptions?.find(
-        (option) => option.displayType === this.properties.displayType
-      );
       this.displayType =
-        this.displayType || this.selectedType.displayOptions[0];
+        this.selectedType.getOption(this.properties.displayType) ||
+        this.selectedType.displayOptions[0];
+
       this.properties.displayType = this.displayType.displayType;
     } else {
       this.displayType = null;

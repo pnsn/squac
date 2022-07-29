@@ -72,6 +72,9 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     });
   }
 
+  change(event) {
+    console.log(event);
+  }
   //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
     // this.widgetEditService.clearWidget();
