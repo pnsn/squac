@@ -5,6 +5,7 @@ import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 import { Widget } from "../models/widget";
+import { WidgetType } from "../models/widget-type";
 import { WidgetModule } from "../widget.module";
 import { MeasurementService } from "./measurement.service";
 
@@ -15,6 +16,16 @@ describe("WidgetDataService", () => {
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
   const testChannel = new Channel(1, "", "", 1, 1, 1, 1, "", "", "", "", "");
   const testWidget = new Widget(1, 1, "", 1, [testMetric], "", "");
+  const testType = new WidgetType(
+    1,
+    "name",
+    "type",
+    "desc",
+    "display",
+    false,
+    true,
+    []
+  );
   testWidget.type = "tabular";
   let viewService;
 
@@ -53,24 +64,20 @@ describe("WidgetDataService", () => {
 
   it("should set widget", () => {
     const widgetSpy = spyOn(service, "updateWidget");
-    service.updateWidget(testWidget, {
-      useAggregate: false,
-    });
+    service.updateWidget(testWidget, testType);
 
     expect(widgetSpy).toHaveBeenCalled();
   });
 
   it("should not try to fetch measurements if no widget", () => {
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
-    service.updateWidget(null, {
-      useAggregate: false,
-    });
+    service.updateWidget(null, testType);
     expect(viewSpy).not.toHaveBeenCalled();
   });
 
   it("should try to get measurements if there is a widget and dates", () => {
     const viewSpy = spyOn(viewService, "widgetStartedLoading");
-    service.updateWidget(testWidget, {});
+    service.updateWidget(testWidget, testType);
     service.channels = [testChannel];
     service.updateMetrics([testMetric]);
     expect(viewSpy).toHaveBeenCalled();

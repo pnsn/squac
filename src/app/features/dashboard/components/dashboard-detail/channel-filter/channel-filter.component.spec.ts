@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ViewService } from "@core/services/view.service";
+import { DashboardModule } from "@features/dashboard/dashboard.module";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { MockBuilder } from "ng-mocks";
 
@@ -11,7 +12,7 @@ describe("ChannelFilterComponent", () => {
   let fixture: ComponentFixture<ChannelFilterComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ChannelFilterComponent)
+    return MockBuilder(ChannelFilterComponent, DashboardModule)
       .mock(FormsModule)
       .mock(ReactiveFormsModule)
       .mock(ViewService)

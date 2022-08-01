@@ -425,7 +425,7 @@ export class CalendarComponent
         },
         splitLine: {
           show: true,
-          interval: function (index, value) {
+          interval: function (_index, value) {
             return value ? true : false;
           },
         },
@@ -437,7 +437,7 @@ export class CalendarComponent
         name,
         axisLabel: {
           fontSize: 11,
-          formatter: (value, index) => {
+          formatter: (value, _index) => {
             const val = value.split("-")[1];
             return val === "00" ? "" : val;
           },

@@ -4,14 +4,18 @@ import { ViewService } from "@core/services/view.service";
 import { WidgetService } from "./widget.service";
 import { MockBuilder, MockRender, MockReset } from "ng-mocks";
 import { EMPTY } from "rxjs";
+import { ConfigurationService } from "@core/services/configuration.service";
 
 describe("WidgetConfigService", () => {
   beforeEach(() => {
-    return MockBuilder(WidgetConfigService, HttpClientTestingModule)
-      .mock(ViewService)
-      .mock(WidgetService, {
-        updateWidget: () => EMPTY,
-      });
+    return MockBuilder(WidgetConfigService, HttpClientTestingModule).provide({
+      provide: ConfigurationService,
+      useValue: {
+        getValue: (value: string) => {
+          return [];
+        },
+      },
+    });
   });
 
   afterAll(MockReset);

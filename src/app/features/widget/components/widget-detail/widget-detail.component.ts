@@ -203,7 +203,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
       // if enough not enough dimensions, update with remaining metrics
       if (this.selected.length < this.displayType.dimensions.length) {
-        this.widget.metrics.forEach((metric: Metric, index) => {
+        this.widget.metrics.forEach((metric: Metric, _index) => {
           if (
             this.selected.indexOf(metric.id) < 0 &&
             this.availableDimensions.length > 0
