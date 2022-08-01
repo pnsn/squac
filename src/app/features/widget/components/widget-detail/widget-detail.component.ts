@@ -96,6 +96,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
 
+    // listen to changes in channel selection
     const channelsSub = this.viewService.channels.subscribe((channels) => {
       if (channels.length > 0) {
         this.loading = "Requesting Data";
@@ -157,6 +158,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.widget.properties.displayType
       );
 
+      // check if has required # of metrics
       if (
         !this.widget.metrics ||
         this.displayType?.dimensions?.length > this.widget.metrics.length
@@ -173,8 +175,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   // populate selected metrics
   selectMetrics(): void {
     this.selected = [];
+
     if (this.displayType?.dimensions) {
       this.availableDimensions = [...this.displayType.dimensions];
+
+      // get metrics that match thresholds & check dimensions
       for (let i = this.widget.thresholds.length - 1; i >= 0; i--) {
         const threshold = this.widget.thresholds[i];
         if (threshold.dimension) {
@@ -195,6 +200,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       }
+
+      // if enough not enough dimensions, update with remaining metrics
       if (this.selected.length < this.displayType.dimensions.length) {
         this.widget.metrics.forEach((metric: Metric, index) => {
           if (
@@ -213,7 +220,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
     } else {
-      // for widgets with no dimensions, show all;
+      // for widgets with no dimensions, show all as selected;
       this.selected = this.widget.metrics.map((metric) => metric.id);
     }
 
@@ -227,6 +234,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.selected.push(this.widget.metrics[0].id);
       }
       const diff = this.displayType.dimensions?.length - this.selected.length;
+      //if not enough metrics, populate with 1st one to prevent breaking
       this.selected.fill(
         this.widget.metrics[0].id,
         this.selected.length - 1,
@@ -234,6 +242,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
 
+    // add all selected metrics
     if (
       this.selected.length >= this.displayType?.dimensions?.length ||
       (!this.displayType.dimensions && this.selected.length > 0)
@@ -244,6 +253,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.metricsChanged = false;
     }
 
+    // get new data
     this.widgetDataService.updateMetrics(this.selectedMetrics);
   }
 
@@ -271,6 +281,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.availableDimensions.length === 0 &&
         this.displayType.dimensions
       ) {
+        //remove dimension from other metrics
         threshold.dimension = this.displayType.dimensions[0];
         this.widget.thresholds.forEach((t) => {
           if (
@@ -283,15 +294,14 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
             this.selected.splice(index, 1);
           }
         });
-
-        // remove other threshold that has this?
       } else {
+        //take first dimension available
         threshold.dimension = this.availableDimensions[0];
         this.availableDimensions.splice(0, 1);
       }
       this.selected.push(metric.id);
     } else {
-      //already
+      // already selected, remove dimension
       if (this.displayType.dimensions) {
         const dim = threshold.dimension;
         threshold.dimension = null;
