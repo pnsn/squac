@@ -157,8 +157,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.widget.properties.displayType
       );
 
-      console.log(this.widgetType);
-
       if (
         !this.widget.metrics ||
         this.displayType?.dimensions?.length > this.widget.metrics.length
@@ -269,7 +267,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     $event.stopPropagation();
     if (selectedIndex === -1) {
       //not currently selected;
-
       if (
         this.availableDimensions.length === 0 &&
         this.displayType.dimensions
@@ -295,9 +292,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.selected.push(metric.id);
     } else {
       //already
-      const dim = threshold.dimension;
-      threshold.dimension = null;
-      this.availableDimensions.push(dim);
+      if (this.displayType.dimensions) {
+        const dim = threshold.dimension;
+        threshold.dimension = null;
+        this.availableDimensions.push(dim);
+      }
+
       this.selected.splice(selectedIndex, 1);
     }
   }

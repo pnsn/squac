@@ -117,7 +117,8 @@
         "
         color="accent"
       >
-        Change Metrics
+        Change Metrics {{ metricsChanged }} {{ this.selected.length }}
+        {{ this.availableDimensions.length }}
       </button>
 
       <ng-container
@@ -142,9 +143,7 @@
             (click)="changeThreshold($event, threshold, index, metric)"
           >
             <ng-container *ngIf="index > -1; else notSelected">
-              <ng-container
-                *ngIf="displayType?.dimensions.length > 0; else noDimensions"
-              >
+              <ng-container *ngIf="threshold.dimension; else noDimensions">
                 <span>{{ threshold.dimension }}:</span>
                 {{ metric.name }}
               </ng-container>
@@ -155,7 +154,6 @@
 
             <ng-template #notSelected>
               <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
-              {{ index }}
             </ng-template>
           </button>
         </ng-template>
