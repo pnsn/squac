@@ -95,6 +95,10 @@
               <mat-icon>undo</mat-icon>
             </button>
           </div>
+          <div>
+            <channel-group-matching-rule-edit [matchingRules]="matchingRules">
+            </channel-group-matching-rule-edit>
+          </div>
           <div class="table-container lt-gray-border">
             <ngx-datatable
               *ngIf="!loading; else isLoading"

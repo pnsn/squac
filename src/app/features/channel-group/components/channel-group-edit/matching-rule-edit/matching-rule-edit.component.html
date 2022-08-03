@@ -1,0 +1,21 @@
+<form [formGroup]="matchingRulesForm">
+  <ng-container formArrayName="rules">
+    <div *ngFor="let rule of rules.controls; let i = index">
+      <div [formGroupName]="i">
+        <mat-checkbox formControlName="isInclude"> </mat-checkbox>
+        <mat-form-field>
+          <input matInput formControlName="networkRegex" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="stationRegex" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="locationRegex" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="channelRegex" />
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+</form>

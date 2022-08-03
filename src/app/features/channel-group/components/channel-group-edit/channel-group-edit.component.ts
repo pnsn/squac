@@ -10,11 +10,13 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription } from "rxjs";
+import { Subscription, switchMap, tap, map } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
+import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
 
 @Component({
   selector: "channel-group-edit",
@@ -52,6 +54,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   columns: any = [];
   rows: Channel[] = [];
 
+  matchingRules: MatchingRule[];
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
@@ -63,21 +66,40 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private matchingRuleService: MatchingRuleService
   ) {}
 
   ngOnInit(): void {
-    // listen to route param
-    const paramsSub = this.route.params.subscribe((params: Params) => {
-      this.id = +params.channelGroupId;
-      this.editMode = !!this.id;
+    const chanSub = this.route.data
+      .pipe(
+        map((data) => {
+          if (data.channelGroup.error) {
+            // this.error = true;
+          } else {
+            // this.error = false;
+            this.channelGroup = data.channelGroup;
+            this.id = this.channelGroup.id;
+            this.editMode = !!this.id;
+            this.initForm();
+          }
 
-      this.initForm();
-    });
+          return data.channelGroup.id || null;
+        }),
+        switchMap((groupId: number) => {
+          return this.matchingRuleService.getMatchingRules(groupId);
+        }),
+        tap((rules: MatchingRule[]) => {
+          this.matchingRules = rules;
+        })
+      )
+      .subscribe(() => {
+        console.log(this.matchingRules);
+      });
 
     // get orgId
     this.orgId = this.userService.userOrg;
-    this.subscriptions.add(paramsSub);
+    this.subscriptions.add(chanSub);
 
     // table columns
     this.columns = [
@@ -155,19 +177,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     // if editing existing group, populate with the info
     if (this.editMode) {
-      this.channelGroupService.getChannelGroup(this.id).subscribe({
-        next: (channelGroup) => {
-          this.channelGroupForm.patchValue({
-            name: channelGroup.name,
-            description: channelGroup.description,
-          });
-          this.channelGroup = channelGroup;
-          this.channelsInGroup = [...channelGroup.channels];
-        },
-        error: () => {
-          this.messageService.error("Could not load channel group.");
-        },
+      this.channelGroupForm.patchValue({
+        name: this.channelGroup.name,
+        description: this.channelGroup.description,
       });
+      this.channelsInGroup = [...this.channelGroup.channels];
     }
   }
 

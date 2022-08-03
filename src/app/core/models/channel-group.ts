@@ -13,6 +13,9 @@ export class ChannelGroup {
     public channelIds: number[]
   ) {}
 
+  autoIncludeChannelIds: number[];
+  autoExcludeChannelIds: number[];
+
   get length(): number {
     return this.channelIds.length;
   }
@@ -38,6 +41,8 @@ export interface ApiGetChannelGroup {
   updated_at: string;
   user_id: string;
   organization: number;
+  auto_include_channels: number[];
+  auto_exclude_channels: number[];
 }
 
 export interface ApiPostChannelGroup {
@@ -46,6 +51,8 @@ export interface ApiPostChannelGroup {
   channels: number[];
   id?: number;
   organization: number;
+  auto_include_channels: number[];
+  auto_exclude_channels: number[];
 }
 
 @Injectable({
@@ -77,6 +84,9 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       channelIds
     );
 
+    channelGroup.autoIncludeChannelIds = item.auto_include_channels || [];
+    channelGroup.autoExcludeChannelIds = item.auto_exclude_channels || [];
+
     channelGroup.channels = channels;
     return channelGroup;
   }
@@ -85,8 +95,10 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     return {
       name: item.name,
       description: item.description,
-      channels: item.channelIds,
+      channels: item.channelIds || [],
       organization: item.orgId,
+      auto_exclude_channels: item.autoExcludeChannelIds || [],
+      auto_include_channels: item.autoIncludeChannelIds || [],
     };
   }
 }

@@ -51,10 +51,11 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
       item.is_include
     );
 
-    matchingRule.channelRegex = item.channel_regex;
-    matchingRule.networkRegex = item.network_regex;
-    matchingRule.locationRegex = item.location_regex;
-    matchingRule.stationRegex = item.station_regex;
+    const regex = /'(.*?)'/;
+    matchingRule.channelRegex = item.channel_regex.match(regex)[1];
+    matchingRule.networkRegex = item.network_regex.match(regex)[1];
+    matchingRule.locationRegex = item.location_regex.match(regex)[1];
+    matchingRule.stationRegex = item.station_regex.match(regex)[1];
 
     return matchingRule;
   }

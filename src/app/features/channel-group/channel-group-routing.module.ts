@@ -27,6 +27,9 @@ export const routes: Routes = [
         component: ChannelGroupEditComponent,
         canActivate: [PermissionGuard],
         data: { subject: "ChannelGroup", action: "update" },
+        resolve: {
+          channelGroup: ChannelGroupResolver,
+        },
       },
       {
         path: "",
