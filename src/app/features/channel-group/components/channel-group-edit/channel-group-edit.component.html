@@ -96,7 +96,11 @@
             </button>
           </div>
           <div>
-            <channel-group-matching-rule-edit [matchingRules]="matchingRules">
+            <channel-group-matching-rule-edit
+              [(matchingRules)]="matchingRules"
+              (previewRules)="previewRules($event)"
+              [channelGroupId]="channelGroup?.id"
+            >
             </channel-group-matching-rule-edit>
           </div>
           <div class="table-container lt-gray-border">

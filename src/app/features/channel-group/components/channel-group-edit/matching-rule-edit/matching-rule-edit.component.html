@@ -1,7 +1,7 @@
 <form [formGroup]="matchingRulesForm">
   <ng-container formArrayName="rules">
     <div *ngFor="let rule of rules.controls; let i = index">
-      <div [formGroupName]="i">
+      <div [formGroupName]="i" class="rule-row">
         <mat-checkbox formControlName="isInclude"> </mat-checkbox>
         <mat-form-field>
           <input matInput formControlName="networkRegex" />

@@ -54,7 +54,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   columns: any = [];
   rows: Channel[] = [];
 
-  matchingRules: MatchingRule[];
+  matchingRules: MatchingRule[] = [];
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
@@ -251,6 +251,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.getChannelsWithFilters();
   }
 
+  previewRules(rules: MatchingRule[]) {
+    console.log(rules);
+  }
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };

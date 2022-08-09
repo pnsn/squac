@@ -25,15 +25,23 @@ import { MatchingRule } from "@features/channel-group/models/matching-rule";
 })
 export class MatchingRuleEditComponent implements OnInit, OnChanges {
   @Input() matchingRules: MatchingRule[];
+  @Input() channelGroupId: number;
   @Output() matchingRulesChange = new EventEmitter<MatchingRule[]>();
-
+  @Output() previewRules = new EventEmitter<MatchingRule[]>();
+  removeRuleIds = [];
   constructor(private formBuilder: FormBuilder) {}
 
   matchingRulesForm = this.formBuilder.group({
     rules: this.formBuilder.array([]),
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const rulesSub = this.rules.valueChanges.subscribe((values) => {
+      if (this.rules.valid) {
+        this.matchingRules = values;
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
@@ -46,20 +54,40 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
 
   makeRuleForm(rule?: MatchingRule) {
     return this.formBuilder.group({
-      isInclude: rule.isInclude || true,
+      id: rule?.id || null,
+      channelGroupId: this.channelGroupId,
+      isInclude: rule?.isInclude || true,
       networkRegex: [
-        rule.networkRegex || "nothing",
-        { validators: [regexValidator(), Validators.required] },
+        rule?.networkRegex || "",
+        { validators: [regexValidator()] },
       ],
-      stationRegex: rule.stationRegex || "",
-      locationRegex: rule.locationRegex || "",
-      channelRegex: rule.channelRegex || "",
+      stationRegex: [
+        rule?.stationRegex || "",
+        { validators: [regexValidator()] },
+      ],
+      locationRegex: [
+        rule?.locationRegex || "",
+        { validators: [regexValidator()] },
+      ],
+      channelRegex: [
+        rule?.channelRegex || "",
+        { validators: [regexValidator()] },
+      ],
     });
   }
 
   // // Access triggers
   get rules(): FormArray {
     return this.matchingRulesForm.get("rules") as FormArray;
+  }
+
+  removeRule(index) {
+    const rule = this.rules.at(index).value;
+    if (rule.id) {
+      this.removeRuleIds.push(+rule.id);
+    }
+    this.rules.removeAt(index);
+    this.matchingRulesChange.emit(this.rules.value);
   }
 
   validateRule(values, ruleFormGroup) {}
@@ -72,14 +100,23 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
   }
 
   initForm() {
-    this.matchingRules.forEach((rule) => {
+    this.rules.clear({ emitEvent: false });
+    this.matchingRules?.forEach((rule) => {
       this.addRule(rule);
     });
+  }
+
+  previewChannels() {
+    this.previewRules.emit(this.matchingRules);
+    //request channels
   }
 }
 export function regexValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     let isValid = true;
+    if (control.value === "") {
+      return null;
+    }
     try {
       new RegExp(control.value);
     } catch (e) {
