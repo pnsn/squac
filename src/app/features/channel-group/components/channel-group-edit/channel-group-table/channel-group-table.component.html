@@ -1,0 +1,27 @@
+{{ title }}
+<div class="table-container lt-gray-border">
+  <ngx-datatable
+    #groupTable
+    class="material channel-table"
+    [rows]="rows"
+    [columns]="columns"
+    [columnMode]="ColumnMode.flex"
+    [headerHeight]="30"
+    [footerHeight]="0"
+    [rowHeight]="23"
+    [selectionType]="selectable ? SelectionType.multiClick : null"
+    [selected]="selected"
+    [scrollbarV]="true"
+    [sortType]="SortType.multi"
+    (select)="selectRow($event)"
+  >
+  </ngx-datatable>
+  <ng-template #isLoading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+  <ng-template ngx-datatable-cell-template let-row="row" #removeTemplate>
+    <button mat-icon-button (click)="removeRow(row)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </ng-template>
+</div>

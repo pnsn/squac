@@ -8,6 +8,7 @@ import { Component, EventEmitter, Output } from "@angular/core";
 })
 export class ChannelGroupFilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
+  @Output() addFilterToRegex = new EventEmitter<any>();
   // regex strings for each param
   filters: any = {
     net_search: "",
@@ -27,7 +28,7 @@ export class ChannelGroupFilterComponent {
     let filter;
     if (value) {
       const filterStr = value.toLowerCase().trim().replace(/\?/g, "."); //turn back to allowed character
-      filter = `^${filterStr}`;
+      filter = `${filterStr}`;
     } else {
       filter = "";
     }
@@ -43,8 +44,20 @@ export class ChannelGroupFilterComponent {
     this.updateFilters();
   }
 
+  //
+  addToRegex(): void {
+    this.populateFilters();
+
+    this.addFilterToRegex.next(this.filters);
+  }
+
   // send filters to parent on submit
   updateFilters(): void {
+    this.populateFilters();
+    this.filtersChanged.next(this.filters);
+  }
+
+  populateFilters(): void {
     if (!this.net && !this.chan && !this.sta && !this.loc) {
       this.filters = {};
     } else {
@@ -55,7 +68,5 @@ export class ChannelGroupFilterComponent {
         loc_search: this.formatFilter(this.loc),
       };
     }
-
-    this.filtersChanged.next(this.filters);
   }
 }

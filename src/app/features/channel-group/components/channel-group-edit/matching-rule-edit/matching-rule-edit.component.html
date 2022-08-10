@@ -1,21 +1,43 @@
-<form [formGroup]="matchingRulesForm">
-  <ng-container formArrayName="rules">
-    <div *ngFor="let rule of rules.controls; let i = index">
-      <div [formGroupName]="i" class="rule-row">
-        <mat-checkbox formControlName="isInclude"> </mat-checkbox>
-        <mat-form-field>
-          <input matInput formControlName="networkRegex" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput formControlName="stationRegex" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput formControlName="locationRegex" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput formControlName="channelRegex" />
-        </mat-form-field>
-      </div>
-    </div>
-  </ng-container>
-</form>
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h3>Regex (optional)</h3>
+      </mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+    <button mat-button (click)="previewChannels()">test rules</button>
+    <button mat-button (click)="addRule()">add rule</button>
+    <p class="help-text">
+      Channel groups can be defined by sets of regex. Groups will be updated
+      daily with any channels that match the expressions.
+    </p>
+    <form #rulesForm [formGroup]="matchingRulesForm">
+      <ng-container formArrayName="rules">
+        <div *ngFor="let rule of rules.controls; let i = index">
+          <div [formGroupName]="i" class="rule-row">
+            <mat-checkbox formControlName="isInclude"> </mat-checkbox>
+            <mat-form-field>
+              <input matInput formControlName="networkRegex" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput formControlName="stationRegex" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput formControlName="locationRegex" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput formControlName="channelRegex" />
+            </mat-form-field>
+            <button mat-icon-button (click)="removeRule(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div *ngIf="rules.controls[i].get('networkRegex').errors">
+            {{ rules.controls[i].get("networkRegex").errors | json }}
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>

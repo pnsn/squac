@@ -69,22 +69,15 @@
         search within a region.
       </p>
       <div id="filter-container">
-        <channel-group-filter (filtersChanged)="filtersChanged($event)">
+        <channel-group-filter
+          (filtersChanged)="filtersChanged($event)"
+          (addFilterToRegex)="addFilterToRegex($event)"
+        >
         </channel-group-filter>
       </div>
       <div class="row channels-row">
         <div class="column">
           <div class="row space-between select-channels-controls">
-            <span>{{ selectedChannels.length }} channels selected</span>
-
-            <button
-              mat-button
-              color="primary"
-              (click)="addChannels()"
-              [disabled]="!selectedChannels || selectedChannels.length === 0"
-            >
-              add selected
-            </button>
             <button
               mat-icon-button
               color="accent"
@@ -95,34 +88,10 @@
               <mat-icon>undo</mat-icon>
             </button>
           </div>
-          <div>
-            <channel-group-matching-rule-edit
-              [(matchingRules)]="matchingRules"
-              (previewRules)="previewRules($event)"
-              [channelGroupId]="channelGroup?.id"
-            >
-            </channel-group-matching-rule-edit>
-          </div>
-          <div class="table-container lt-gray-border">
-            <ngx-datatable
-              *ngIf="!loading; else isLoading"
-              #availableTable
-              class="material channel-table"
-              [rows]="rows"
-              [columns]="columns"
-              [columnMode]="ColumnMode.flex"
-              [headerHeight]="30"
-              [footerHeight]="0"
-              [rowHeight]="23"
-              [selectionType]="SelectionType.multiClick"
-              [selected]="selectedChannels"
-              [scrollbarV]="true"
-              [sortType]="SortType.multi"
-              (select)="selectRow($event)"
-            ></ngx-datatable>
-            <ng-template #isLoading>
-              <mat-spinner></mat-spinner>
-            </ng-template>
+
+          <div class="table-container">
+            <channel-group-edit-table [rows]="rows" [selectable]="true">
+            </channel-group-edit-table>
           </div>
         </div>
         <div id="map-box">
@@ -151,43 +120,24 @@
           ></textarea>
         </mat-form-field>
       </form>
-      <div class="row channels-row">
-        <div class="column">
-          <div class="row space-between select-channels-controls">
-            <span>{{ channelsInGroup.length }} channels in group</span>
-
-            <button
-              mat-button
-              color="warn"
-              (click)="removeChannels()"
-              [disabled]="
-                !selectedInGroupChannels || selectedInGroupChannels.length === 0
-              "
-            >
-              remove selected
-            </button>
-          </div>
-          <div class="table-container lt-gray-border">
-            <ngx-datatable
-              #groupTable
-              class="material channel-table"
-              [rows]="channelsInGroup"
-              [columns]="columns"
-              [columnMode]="ColumnMode.flex"
-              [headerHeight]="30"
-              [footerHeight]="0"
-              [rowHeight]="23"
-              [selectionType]="SelectionType.multiClick"
-              [selected]="selectedInGroupChannels"
-              [scrollbarV]="true"
-              [sortType]="SortType.multi"
-            ></ngx-datatable>
-            <ng-template #isLoading>
-              <mat-spinner></mat-spinner>
-            </ng-template>
-          </div>
-        </div>
-      </div>
+      <channel-group-matching-rule-edit
+        [(matchingRules)]="matchingRules"
+        (previewRules)="previewRules($event)"
+        [channelGroupId]="channelGroup?.id"
+      >
+      </channel-group-matching-rule-edit>
+      <channel-group-edit-table
+        [(rows)]="autoIncludeChannels"
+        title="Included Channels"
+        [selectable]="false"
+      >
+      </channel-group-edit-table>
+      <channel-group-edit-table
+        [(rows)]="autoExcludeChannels"
+        title="Excluded Channels"
+        [selectable]="false"
+      >
+      </channel-group-edit-table>
     </div>
   </div>
 </div>

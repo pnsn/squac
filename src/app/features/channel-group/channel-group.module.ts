@@ -9,6 +9,7 @@ import { ChannelGroupRoutingModule } from "./channel-group-routing.module";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
 import { ChannelGroupMapComponent } from "./components/channel-group-map/channel-group-map.component";
 import { MatchingRuleEditComponent } from './components/channel-group-edit/matching-rule-edit/matching-rule-edit.component';
+import { ChannelGroupTableComponent } from './components/channel-group-edit/channel-group-table/channel-group-table.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatchingRuleEditComponent } from './components/channel-group-edit/match
     ChannelGroupFilterComponent,
     ChannelGroupDetailComponent,
     MatchingRuleEditComponent,
+    ChannelGroupTableComponent,
   ],
   imports: [CommonModule, SharedModule, ChannelGroupRoutingModule],
 })

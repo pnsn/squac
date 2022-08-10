@@ -1,24 +1,60 @@
 <div id="filter-container">
-  <p class="help-text">
-    Regular expression allowed. Use ? or . for single character wildcard and [ ,
-    ] for sets. For example, [B,H]?Z would return all channels starting with B
-    or H and ending with Z.
-  </p>
   <div id="filter-box" class="row">
     <div class="filters row">
       <mat-form-field>
         <input matInput [(ngModel)]="net" placeholder="Network" />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="net = null"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
       <mat-form-field>
         <input matInput [(ngModel)]="sta" placeholder="Station" />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="sta = null"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
       <mat-form-field>
         <input matInput [(ngModel)]="loc" placeholder="Location" />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="loc = null"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
       <mat-form-field>
         <input matInput [(ngModel)]="chan" placeholder="Channel" />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="chan = null"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
     </div>
+    <button
+      mat-button
+      color="primary"
+      (click)="addToRegex()"
+      matTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      addToRegex
+    </button>
     <button
       mat-button
       color="primary"
@@ -28,16 +64,6 @@
     >
       <mat-icon>search</mat-icon>
       search
-    </button>
-    <button
-      mat-button
-      color="warn"
-      (click)="removeFilters()"
-      matTooltip="remove filters"
-      aria-label="Button that removes filters"
-    >
-      <mat-icon>clear</mat-icon>
-      clear
     </button>
   </div>
 </div>

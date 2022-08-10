@@ -55,6 +55,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   rows: Channel[] = [];
 
   matchingRules: MatchingRule[] = [];
+  autoIncludeChannels: Channel[];
+  autoExcludeChannels: Channel[];
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
@@ -182,6 +184,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         description: this.channelGroup.description,
       });
       this.channelsInGroup = [...this.channelGroup.channels];
+      this.autoExcludeChannels = [...this.channelGroup.autoExcludeChannels];
+      this.autoIncludeChannels = [...this.channelGroup.autoIncludeChannels];
     }
   }
 
@@ -350,6 +354,17 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     } else {
       this.cancel();
     }
+  }
+
+  addFilterToRegex(filter) {
+    const newRule = new MatchingRule(null, null, this.channelGroup.id, true);
+    newRule.networkRegex = filter.net_search || ".*";
+    newRule.stationRegex = filter.sta_search || ".*";
+    newRule.locationRegex = filter.loc_search || ".*";
+    newRule.channelRegex = filter.chan_search || ".*";
+
+    console.log(newRule);
+    this.matchingRules = [...this.matchingRules, newRule];
   }
 
   // Give a warning to user that delete will also delete widgets
