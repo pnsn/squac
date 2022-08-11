@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription, switchMap, tap, map } from "rxjs";
+import { Subscription, switchMap, tap, map, merge } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -291,7 +291,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save(): void {
     const values = this.channelGroupForm.value;
-    const selectedChannelIds = this.channelsInGroup.map(
+    const includeChannelIds = this.autoIncludeChannels.map(
       (channel) => channel.id
     );
 
@@ -301,19 +301,44 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       values.name,
       values.description,
       this.orgId,
-      selectedChannelIds
+      []
     );
 
-    this.channelGroupService.updateChannelGroup(cg).subscribe({
-      next: (result) => {
-        this.changeMade = false;
-        this.cancel(result.id);
-        this.messageService.message("Channel group saved.");
-      },
-      error: () => {
-        this.messageService.error("Could not save channel group.");
-      },
-    });
+    //need to updatematching rules
+
+    cg.autoExcludeChannelIds = this.autoExcludeChannels.map(
+      (channel) => channel.id
+    );
+
+    cg.autoIncludeChannelIds = this.autoIncludeChannels.map(
+      (channel) => channel.id
+    );
+
+    let id;
+    this.channelGroupService
+      .updateChannelGroup(cg)
+      .pipe(
+        switchMap((group) => {
+          id = group.id;
+          return merge(
+            ...this.matchingRuleService.updateMatchingRules(
+              this.matchingRules,
+              [],
+              id
+            )
+          );
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          this.changeMade = false;
+          this.cancel(id);
+          this.messageService.message("Channel group saved.");
+        },
+        error: () => {
+          this.messageService.error("Could not save channel group.");
+        },
+      });
   }
 
   // Delete channel group

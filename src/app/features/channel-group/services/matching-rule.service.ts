@@ -23,8 +23,25 @@ export class MatchingRuleService {
       );
   }
 
+  // combine observables for update or create triggers
+  updateMatchingRules(
+    rules: MatchingRule[],
+    deleteRules: number[],
+    groupId: number
+  ): Observable<MatchingRule>[] {
+    const ruleSubs: Observable<MatchingRule>[] = [];
+    for (const rule of rules) {
+      rule.channelGroupId = groupId;
+      ruleSubs.push(this.updateMatchingRule(rule));
+    }
+    for (const id of deleteRules) {
+      ruleSubs.push(this.deleteRule(id));
+    }
+    return ruleSubs;
+  }
+
   // Replaces channel group with new channel group
-  updateChannelGroup(matchingRule: MatchingRule) {
+  updateMatchingRule(matchingRule: MatchingRule) {
     const postData = this.matchingRuleAdapter.adaptToApi(matchingRule);
     if (matchingRule.id) {
       return this.squacApi
@@ -36,5 +53,10 @@ export class MatchingRuleService {
     return this.squacApi
       .post(this.url, postData)
       .pipe(map((response) => this.matchingRuleAdapter.adaptFromApi(response)));
+  }
+
+  // delete trigger
+  deleteRule(id): Observable<any> {
+    return this.squacApi.delete(this.url, id);
   }
 }
