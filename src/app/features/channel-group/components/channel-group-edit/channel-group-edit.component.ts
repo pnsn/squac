@@ -54,6 +54,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   columns: any = [];
   rows: Channel[] = [];
 
+  lastState: {
+    selectedChannels: Channel[];
+    autoIncludeChannels: Channel[];
+    autoExcludeChannels: Channel[];
+  };
   matchingRules: MatchingRule[] = [];
   autoIncludeChannels: Channel[];
   autoExcludeChannels: Channel[];
@@ -183,46 +188,31 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         name: this.channelGroup.name,
         description: this.channelGroup.description,
       });
-      this.channelsInGroup = [...this.channelGroup.channels];
       this.autoExcludeChannels = [...this.channelGroup.autoExcludeChannels];
       this.autoIncludeChannels = [...this.channelGroup.autoIncludeChannels];
     }
   }
 
-  // add selected channels to the group channels
-  addChannels(): void {
-    this.previousChannels = [...this.channelsInGroup];
-    //TODO: previous
-    this.changeMade = true;
-    const addChannels = this.findChannelsInGroup();
-    this.channelsInGroup = [...this.channelsInGroup, ...addChannels];
+  includeChannels() {
+    this.updateState();
+    const addChannels = this.findChannelsInGroup(this.autoIncludeChannels);
+    this.autoIncludeChannels = [...this.autoIncludeChannels, ...addChannels];
+    this.selectedChannels = [];
+  }
+
+  excludeChannels() {
+    this.updateState();
+    const addChannels = this.findChannelsInGroup(this.autoExcludeChannels);
+    this.autoExcludeChannels = [...this.autoExcludeChannels, ...addChannels];
     this.selectedChannels = [];
   }
 
   // returns channels that are not already in groupChannels
-  private findChannelsInGroup(): Channel[] {
+  private findChannelsInGroup(group): Channel[] {
     return this.selectedChannels.filter((channel) => {
-      const index = this.channelsInGroup.findIndex((c) => c.id === channel.id);
+      const index = group.findIndex((c) => c.id === channel.id);
       return index === -1;
     });
-  }
-
-  // returns channels that are in not selectedChannels
-  private findChannelsInSelected(): Channel[] {
-    return this.channelsInGroup.filter((channel) => {
-      const index = this.selectedInGroupChannels.findIndex(
-        (c) => c.id === channel.id
-      );
-      return index === -1;
-    });
-  }
-
-  // remove all selected channels from the channels in group
-  removeChannels(): void {
-    this.previousChannels = [...this.channelsInGroup];
-    const afterRemove = this.findChannelsInSelected();
-    this.channelsInGroup = [...afterRemove];
-    this.changeMade = true;
   }
 
   // Remove stations with offdates before today
@@ -235,17 +225,30 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.rows = [...temp];
   }
 
-  // restore channels to last version
+  // restore channels to last cversion
   undoSelectRemove(): void {
-    const newPrevious = [...this.channelsInGroup];
-    this.channelsInGroup = [...this.previousChannels];
-    this.previousChannels = newPrevious;
+    this.autoExcludeChannels = this.lastState.autoExcludeChannels;
+    this.autoIncludeChannels = this.lastState.autoIncludeChannels;
+    this.selectedChannels = this.lastState.selectedChannels;
+
+    this.updateState();
+    this.changeMade = false;
+  }
+
+  updateState() {
+    this.changeMade = true;
+
+    this.lastState = {
+      autoIncludeChannels: [...this.autoIncludeChannels],
+      autoExcludeChannels: [...this.autoExcludeChannels],
+      selectedChannels: [...this.selectedChannels],
+    };
   }
 
   // row selected on table
-  selectRow($event): void {
-    this.showChannel = this.selectedChannels[this.selectedChannels.length - 1];
-    this.selectedChannels = [...$event.selected];
+  selectRow(selectedChannels: Channel[]): void {
+    this.showChannel = selectedChannels[selectedChannels.length - 1];
+    this.selectedChannels = [...selectedChannels];
   }
 
   // filters changed in filter componenet

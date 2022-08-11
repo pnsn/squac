@@ -47,6 +47,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     if (changes.selectedChannels || changes.inGroupChannels) {
       this.updateMap(!!changes.showChannel);
     }
@@ -117,6 +118,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   // find station to show when channel is selected
   selectChannels(channel: Channel): void {
     if (channel) {
+      console.log("select");
       let stationMarker;
       this.stationLayer.eachLayer((layer: any) => {
         if (
@@ -125,10 +127,11 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
         ) {
           stationMarker = layer;
         }
+
         // layer.title === channel.nslc;
       });
-
       if (stationMarker) {
+        console.log(stationMarker);
         stationMarker.openPopup();
       }
     }

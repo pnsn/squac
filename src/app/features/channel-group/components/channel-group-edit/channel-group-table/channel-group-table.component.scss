@@ -1,0 +1,11 @@
+.table-container {
+  flex-grow: 1;
+  height: 100%;
+  min-height: 250px;
+  .channel-table {
+    height: 100%;
+    .datatable-body {
+      width: 100%;
+    }
+  }
+}
