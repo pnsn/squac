@@ -63,7 +63,6 @@ export class ChannelFilterComponent implements OnChanges {
     this.widgetConnectService.deemphasizeChannel.next(null);
   }
   toggleSidenav() {
-    console.log("toggle");
     this.closeSidenav.emit(true);
   }
 

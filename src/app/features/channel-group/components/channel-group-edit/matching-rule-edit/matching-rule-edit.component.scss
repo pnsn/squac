@@ -6,3 +6,26 @@ mat-form-field {
     margin-left: 5px;
   }
 }
+
+table {
+  width: 100%;
+  tr {
+    mat-form-field {
+      // width: 100%;
+    }
+  }
+}
+.narrow {
+  width: 30px;
+}
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 12px 8px !important;
+}
+mat-accordion {
+  mat-expansion-panel {
+    mat-expansion-panel-header {
+      height: 35px;
+      padding: 5px 10px;
+    }
+  }
+}

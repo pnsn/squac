@@ -18,7 +18,9 @@ import * as L from "leaflet";
   styleUrls: ["./channel-group-map.component.scss"],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() inGroupChannels: Channel[]; // channels already in group
+  @Input() searchedChannels: Channel[]; // channels already in group
+  @Input() autoExcludeChannels: Channel[];
+  @Input() autoIncludeChannels: Channel[];
   @Input() selectedChannels: Channel[]; // channels selected
   @Input() editPage: boolean; //is used on edit page or not
   @Input() showChannel: Channel; // channel to show
@@ -47,8 +49,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if (changes.selectedChannels || changes.inGroupChannels) {
+    if (
+      changes.selectedChannels ||
+      changes.autoIncludeChannels ||
+      changes.autoExcludeChannels ||
+      changes.searchedChannels
+    ) {
       this.updateMap(!!changes.showChannel);
     }
     if (!changes.selectedChannels && changes.showChannel) {
@@ -118,7 +124,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   // find station to show when channel is selected
   selectChannels(channel: Channel): void {
     if (channel) {
-      console.log("select");
       let stationMarker;
       this.stationLayer.eachLayer((layer: any) => {
         if (
@@ -131,7 +136,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
         // layer.title === channel.nslc;
       });
       if (stationMarker) {
-        console.log(stationMarker);
         stationMarker.openPopup();
       }
     }
@@ -144,7 +148,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.layers.pop();
       const stationMarkers = []; // Marker array
 
-      this.inGroupChannels?.forEach((channel) => {
+      this.searchedChannels?.forEach((channel) => {
         let station = stations.find((s) => {
           return s.code === channel.networkCode + "." + channel.stationCode;
         });
@@ -155,13 +159,59 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
             code: channel.networkCode + "." + channel.stationCode,
             lat: channel.lat,
             lon: channel.lon,
-            inGroupChannels: [],
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
             selectedChannels: [],
+            searchedChannels: [],
           };
           stations.push(station);
         }
 
-        station.inGroupChannels.push(channel);
+        station.searchedChannels.push(channel);
+      });
+
+      this.autoIncludeChannels?.forEach((channel) => {
+        let station = stations.find((s) => {
+          return s.code === channel.networkCode + "." + channel.stationCode;
+        });
+
+        if (!station) {
+          // make station if there isn't one yet
+          station = {
+            code: channel.networkCode + "." + channel.stationCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.autoIncludeChannels.push(channel);
+      });
+
+      this.autoExcludeChannels?.forEach((channel) => {
+        let station = stations.find((s) => {
+          return s.code === channel.networkCode + "." + channel.stationCode;
+        });
+
+        if (!station) {
+          // make station if there isn't one yet
+          station = {
+            code: channel.networkCode + "." + channel.stationCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.autoExcludeChannels.push(channel);
       });
 
       this.selectedChannels?.forEach((channel) => {
@@ -174,21 +224,32 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
             code: channel.networkCode + "." + channel.stationCode,
             lat: channel.lat,
             lon: channel.lon,
-            inGroupChannels: [],
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
             selectedChannels: [],
+            searchedChannels: [],
           };
           stations.push(station);
         }
 
         // check if station is already in the group
-        const index = station.inGroupChannels.findIndex(
+        const includeIndex = station.autoIncludeChannels.findIndex(
           (c) => c.id === channel.id
         );
 
-        if (index > -1) {
+        const excludeIndex = station.autoExcludeChannels.findIndex(
+          (c) => c.id === channel.id
+        );
+
+        if (includeIndex > -1) {
           //remove channel from ingroups to stop duplicates
-          station.inGroupChannels.splice(index, 1);
+          station.autoIncludeChannels.splice(includeIndex, 1);
         }
+
+        if (excludeIndex > -1) {
+          station.autoExcludeChannels.splice(includeIndex, 1);
+        }
+
         station.selectedChannels.push(channel);
       });
 
@@ -219,10 +280,22 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   makeMarker(station): L.Marker {
     let selectedChannelString = "";
     let inGroupChannelString = "";
-
-    station.inGroupChannels.forEach((channel) => {
+    station.searchedChannels.forEach((channel) => {
       inGroupChannelString +=
-        "<div> <div class='original-channels map-icon'></div>" +
+        "<div> <div class='included-channels map-icon'></div>" +
+        channel.nslc +
+        "</div>";
+    });
+
+    station.autoIncludeChannels.forEach((channel) => {
+      inGroupChannelString +=
+        "<div> <div class='included-channels map-icon'></div>" +
+        channel.nslc +
+        "</div>";
+    });
+    station.autoExcludeChannels.forEach((channel) => {
+      inGroupChannelString +=
+        "<div> <div class='excluded-channels map-icon'></div>" +
         channel.nslc +
         "</div>";
     });
@@ -235,8 +308,15 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
     let className = "";
 
-    if (station.inGroupChannels.length !== 0) {
-      className = "original-channels";
+    if (station.searchedChannels.length !== 0) {
+      className = "searched-channels";
+    }
+
+    if (station.autoIncludeChannels.length !== 0) {
+      className = "included-channels";
+    }
+    if (station.autoExcludeChannels.length !== 0) {
+      className = "excluded-channels";
     }
     if (station.selectedChannels.length !== 0) {
       className = "new-channels";
@@ -247,6 +327,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       icon: L.divIcon({ className: className }),
       title: station.code,
     }).bindPopup(popup);
+
     marker.on("click", (ev) => {
       ev.target.openPopup();
       this.zone.run(() => {

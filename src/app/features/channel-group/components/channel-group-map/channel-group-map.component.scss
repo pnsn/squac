@@ -18,10 +18,22 @@
   @extend .map-icon;
   background-color: $sq-yellow !important;
 }
+:host ::ng-deep .searched-channels {
+  @extend .map-icon;
+  background-color: white !important;
+}
 
 :host ::ng-deep .new-channels {
   @extend .map-icon;
   background-color: $sq-blue !important;
+}
+:host ::ng-deep .included-channels {
+  @extend .map-icon;
+  background-color: $sq-yellow !important;
+}
+:host ::ng-deep .excluded-channels {
+  @extend .map-icon;
+  background-color: $sq-gray !important;
 }
 
 .channel-list {

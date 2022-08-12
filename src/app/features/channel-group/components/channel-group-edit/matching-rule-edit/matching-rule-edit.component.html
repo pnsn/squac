@@ -13,31 +13,98 @@
       daily with any channels that match the expressions.
     </p>
     <form #rulesForm [formGroup]="matchingRulesForm">
-      <ng-container formArrayName="rules">
-        <div *ngFor="let rule of rules.controls; let i = index">
-          <div [formGroupName]="i" class="rule-row">
-            <mat-checkbox formControlName="isInclude"> </mat-checkbox>
-            <mat-form-field>
-              <input matInput formControlName="networkRegex" />
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput formControlName="stationRegex" />
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput formControlName="locationRegex" />
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput formControlName="channelRegex" />
-            </mat-form-field>
-            <button mat-icon-button (click)="removeRule(i)">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
-          <div *ngIf="rules.controls[i].get('networkRegex').errors">
-            {{ rules.controls[i].get("networkRegex").errors | json }}
-          </div>
-        </div>
-      </ng-container>
+      <table formArrayName="rules">
+        <tr>
+          <th class="narrow">include?</th>
+          <th>network</th>
+          <th>station</th>
+          <th>location</th>
+          <th>channel</th>
+          <th class="narrow"></th>
+        </tr>
+        <ng-container *ngFor="let rule of rules.controls; let i = index">
+          <tr [formGroupName]="i" class="rule-row">
+            <td class="narrow">
+              <mat-checkbox
+                #isInclude
+                formControlName="isInclude"
+                (change)="updateRules()"
+              >
+              </mat-checkbox>
+            </td>
+            <td>
+              <mat-form-field>
+                <input
+                  #networkRegex
+                  matInput
+                  formControlName="networkRegex"
+                  (keyup)="
+                    rules.controls[i].patchValue({
+                      networkRegex: $event.target.value.toUpperCase()
+                    })
+                  "
+                  (focusout)="updateRules()"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <input
+                  #stationRegex
+                  matInput
+                  formControlName="stationRegex"
+                  (keyup)="
+                    rules.controls[i].patchValue({
+                      stationRegex: $event.target.value.toUpperCase()
+                    })
+                  "
+                  (focusout)="updateRules()"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <input
+                  #locationRegex
+                  matInput
+                  formControlName="locationRegex"
+                  (keyup)="
+                    rules.controls[i].patchValue({
+                      locationRegex: $event.target.value.toUpperCase()
+                    })
+                  "
+                  (focusout)="updateRules()"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <input
+                  #channelRegex
+                  matInput
+                  formControlName="channelRegex"
+                  (keyup)="
+                    rules.controls[i].patchValue({
+                      channelRegex: $event.target.value.toUpperCase()
+                    })
+                  "
+                  (focusout)="updateRules()"
+                />
+              </mat-form-field>
+            </td>
+            <td class="narrow">
+              <button mat-icon-button type="button" (click)="removeRule(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="rules.controls[i].get('networkRegex').errors">
+            {{
+              rules.controls[i].get("networkRegex").errors | json
+            }}
+          </tr>
+        </ng-container>
+      </table>
     </form>
   </mat-expansion-panel>
 </mat-accordion>

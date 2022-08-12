@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription, switchMap, tap, map, merge } from "rxjs";
+import { Subscription, switchMap, tap, map, merge, forkJoin } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -35,7 +35,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: any;
-
   channelGroupForm: FormGroup; // form stuff
 
   channelsInGroup: Channel[] = []; // channels currently saved in group
@@ -53,6 +52,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   SortType = SortType;
   columns: any = [];
   rows: Channel[] = [];
+  deleteMatchingRulesIds = [];
 
   lastState: {
     selectedChannels: Channel[];
@@ -259,8 +259,54 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   previewRules(rules: MatchingRule[]) {
-    console.log(rules);
+    this.loading = true;
+    const ruleSubs = this.channelService.getChannelsByRules(rules);
+    const results = [];
+    merge(...ruleSubs)
+      .pipe(
+        tap((channels: Channel[]) => {
+          channels.forEach((channel) => {
+            const index = results.findIndex((chan) => chan.id === channel.id);
+            const excluded = this.checkRules(channel, rules);
+            if (index < 0 && !excluded) {
+              results.push(channel);
+            }
+          });
+        })
+      )
+      .subscribe((res) => {
+        this.loading = false;
+        this.rows = [...results];
+      });
   }
+
+  private checkRules(channel, rules) {
+    //excluded if any of them are true
+    const valid = rules
+      .filter((rule) => rule.isInclude !== true)
+      .every((rule: MatchingRule) => {
+        let net = false;
+        let sta = false;
+        let loc = false;
+        let chan = false;
+        if (rule.networkRegex !== ".*") {
+          net = new RegExp(rule.networkRegex, "i").test(channel.net);
+        }
+        if (rule.stationRegex !== ".*") {
+          sta = new RegExp(rule.stationRegex, "i").test(channel.sta);
+        }
+        if (rule.locationRegex !== ".*") {
+          loc = new RegExp(rule.locationRegex, "i").test(channel.loc);
+        }
+        if (rule.channelRegex !== ".*") {
+          chan = new RegExp(rule.channelRegex, "i").test(channel.code);
+        }
+
+        return net || sta || loc || chan;
+      });
+    return valid;
+  }
+
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
@@ -270,8 +316,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         .getChannelsByFilters(searchFilters)
         .subscribe({
           next: (response) => {
-            this.selectedChannels = [...response];
-            this.rows = [...this.selectedChannels];
+            // this.selectedChannels = [...response];
+            this.rows = [...response];
             //select retunred rows that are in group
 
             this.filterCurrent();
@@ -284,7 +330,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       this.subscriptions.add(channelsSub);
     } else {
       this.selectedChannels = [];
-      this.rows = [...this.selectedChannels];
+      this.rows = [];
     }
   }
 
@@ -323,7 +369,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           return merge(
             ...this.matchingRuleService.updateMatchingRules(
               this.matchingRules,
-              [],
+              this.deleteMatchingRulesIds,
               id
             )
           );
@@ -390,8 +436,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     newRule.stationRegex = filter.sta_search || ".*";
     newRule.locationRegex = filter.loc_search || ".*";
     newRule.channelRegex = filter.chan_search || ".*";
-
-    console.log(newRule);
     this.matchingRules = [...this.matchingRules, newRule];
   }
 
@@ -427,6 +471,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     });
 
     this.selectedChannels = temp;
+  }
+
+  deleteMatchingRules(ids: number[]) {
+    this.deleteMatchingRulesIds = ids;
   }
 
   // Update bounds for filtering channels with map

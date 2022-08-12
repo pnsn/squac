@@ -62,10 +62,8 @@ export class WidgetEditOptionsComponent
 
   ngOnInit(): void {
     this.thresholdArray.valueChanges.subscribe((values) => {
-      console.log("thresholds changed");
       // this.validateThresholds();
       this.thresholds = values;
-      console.log("valid", this.thresholdArray.valid);
       if (this.thresholdArray.valid) {
         this.thresholdsChange.emit(values);
       }
@@ -203,7 +201,6 @@ export class WidgetEditOptionsComponent
       this.validateThresholds(0);
       this.thresholds = this.thresholdArray.value;
       this.thresholdsChange.emit(this.thresholds);
-      console.log(this.thresholds);
     }
   }
 

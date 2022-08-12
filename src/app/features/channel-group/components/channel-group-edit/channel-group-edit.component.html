@@ -22,7 +22,10 @@
           color="accent"
           class="add-btn"
           (click)="save()"
-          [disabled]="!channelGroupForm.valid || channelsInGroup?.length === 0"
+          [disabled]="
+            !channelGroupForm.valid ||
+            (matchingRules?.length === 0 && autoIncludeChannels.length === 0)
+          "
           matTooltip="Save channel group"
           aria-label="Button that saves the changes to the channel group"
         >
@@ -75,6 +78,7 @@
         >
         </channel-group-filter>
       </div>
+      <shared-loading *ngIf="loading" [loadingMsg]=""> </shared-loading>
       <div class="row channels-row">
         <div class="column">
           <div class="row space-between select-channels-controls">
@@ -107,7 +111,9 @@
         </div>
         <div id="map-box">
           <channel-group-map
-            [inGroupChannels]="channelsInGroup"
+            [autoIncludeChannels]="autoIncludeChannels"
+            [autoExcludeChannels]="autoExcludeChannels"
+            [searchedChannels]="rows"
             [selectedChannels]="selectedChannels"
             [showChannel]="showChannel"
             [editPage]="true"
@@ -116,7 +122,7 @@
         </div>
       </div>
     </div>
-    <div class="column">
+    <div class="column" id="right-column">
       <form [formGroup]="channelGroupForm" class="column">
         <mat-form-field class="channel-group-input" class="medium">
           <input matInput placeholder="Name" formControlName="name" required />
@@ -133,6 +139,7 @@
       </form>
       <channel-group-matching-rule-edit
         [(matchingRules)]="matchingRules"
+        (matchingRuleDeleteIds)="deleteMatchingRules($event)"
         (previewRules)="previewRules($event)"
         [channelGroupId]="channelGroup?.id"
       >

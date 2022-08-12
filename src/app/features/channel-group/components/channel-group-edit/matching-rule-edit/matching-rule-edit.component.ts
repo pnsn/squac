@@ -28,6 +28,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
   @Input() channelGroupId: number;
   @Output() matchingRulesChange = new EventEmitter<MatchingRule[]>();
   @Output() previewRules = new EventEmitter<MatchingRule[]>();
+  @Output() matchingRuleDeleteIds = new EventEmitter<number[]>();
   removeRuleIds = [];
   constructor(private formBuilder: FormBuilder) {}
 
@@ -44,21 +45,16 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log(changes);
     if (changes.matchingRules) {
-      console.log("rules changed");
       this.initForm();
     }
   }
-  //uppercase everything
 
   makeRuleForm(rule?: MatchingRule) {
     return this.formBuilder.group({
       id: rule?.id || null,
       channelGroupId: this.channelGroupId,
-      isInclude: rule?.isInclude || true,
+      isInclude: rule?.isInclude,
       networkRegex: [
         rule?.networkRegex || "",
         { validators: [regexValidator()] },
@@ -83,6 +79,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
     return this.matchingRulesForm.get("rules") as FormArray;
   }
 
+  updateRules() {
+    this.matchingRulesChange.emit(this.matchingRules);
+  }
+
   removeRule(index) {
     const rule = this.rules.at(index).value;
     if (rule.id) {
@@ -90,15 +90,12 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
     }
     this.rules.removeAt(index);
     this.matchingRulesChange.emit(this.rules.value);
+    this.matchingRuleDeleteIds.emit(this.removeRuleIds);
   }
 
-  validateRule(values, ruleFormGroup) {}
   addRule(rule?: MatchingRule) {
     const ruleFormGroup = this.makeRuleForm(rule);
-    ruleFormGroup.valueChanges.subscribe((value) => {
-      this.validateRule(value, ruleFormGroup);
-    });
-    this.rules.push(ruleFormGroup);
+    this.rules.push(ruleFormGroup, { emitEvent: false });
   }
 
   initForm() {

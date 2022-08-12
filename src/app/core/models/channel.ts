@@ -20,6 +20,13 @@ export class Channel {
     public endttime: string
   ) {}
 
+  get net(): string {
+    return this.networkCode;
+  }
+  get sta(): string {
+    return this.stationCode;
+  }
+
   get nslc(): string {
     return (
       this.networkCode +

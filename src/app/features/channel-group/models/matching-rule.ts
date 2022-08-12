@@ -63,10 +63,10 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
   adaptToApi(item: MatchingRule): ApiPostMatchingRule {
     return {
       group: item.channelGroupId,
-      network_regex: item.networkRegex,
-      station_regex: item.stationRegex,
-      location_regex: item.locationRegex,
-      channel_regex: item.channelRegex,
+      network_regex: item.networkRegex || ".*",
+      station_regex: item.stationRegex || ".*",
+      location_regex: item.locationRegex || ".*",
+      channel_regex: item.channelRegex || ".*",
       is_include: item.isInclude,
     };
   }

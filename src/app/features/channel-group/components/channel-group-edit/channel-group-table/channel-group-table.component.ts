@@ -102,21 +102,24 @@ export class ChannelGroupTableComponent implements OnInit {
             },
           },
         },
-        {
+      ];
+      if (!this.selectable) {
+        this.columns.push({
           name: "",
           prop: "",
+          width: 30,
+          canAutoResize: false,
           draggable: false,
-          sortable: true,
+          sortable: false,
           resizeable: false,
           flexGrow: 1,
           cellTemplate: this.removeTemplate,
-        },
-      ];
+        });
+      }
     }, 0);
   }
   selectRow($event) {
     this.selected = [...$event.selected];
-    console.log(this.selected.length);
     this.selectedChange.emit(this.selected);
   }
 

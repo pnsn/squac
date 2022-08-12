@@ -23,7 +23,6 @@ export class ChannelGroup {
   autoIncludeChannels: Channel[] = [];
   autoExcludeChannels: Channel[] = [];
   get channelsString(): string {
-    console.log(this.channelIds.toString());
     return this.channelIds.toString();
   }
 
