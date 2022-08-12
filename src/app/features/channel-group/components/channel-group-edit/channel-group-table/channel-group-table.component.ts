@@ -2,8 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -15,7 +17,7 @@ import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
   templateUrl: "./channel-group-table.component.html",
   styleUrls: ["./channel-group-table.component.scss"],
 })
-export class ChannelGroupTableComponent implements OnInit {
+export class ChannelGroupTableComponent implements OnInit, OnChanges {
   @Input() rows: Channel[] = [];
   @Input() selected: Channel[] = [];
   @Input() title: string;
@@ -29,6 +31,14 @@ export class ChannelGroupTableComponent implements OnInit {
   SortType = SortType;
   columns: any = [];
   constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes.rows) {
+      console.log(this.rows);
+    }
+  }
 
   ngOnInit(): void {
     // table columns
@@ -119,11 +129,13 @@ export class ChannelGroupTableComponent implements OnInit {
     }, 0);
   }
   selectRow($event) {
+    console.log($event, this.rows);
     this.selected = [...$event.selected];
     this.selectedChange.emit(this.selected);
   }
 
   removeRow(row) {
+    console.log("remove");
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;
     });

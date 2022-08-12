@@ -1,0 +1,11 @@
+{{ status }}
+<div class="csv-file-chooser-section">
+  <input
+    type="file"
+    #fileImportInput
+    name="File Upload"
+    id="csvFileUpload"
+    (change)="fileChangeListener($event)"
+    accept=".csv"
+  />
+</div>

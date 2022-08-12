@@ -245,6 +245,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     };
   }
 
+  addChannelsFromCSV(channels) {
+    this.rows = channels;
+    this.selectedChannels = channels;
+  }
+
   // row selected on table
   selectRow(selectedChannels: Channel[]): void {
     this.showChannel = selectedChannels[selectedChannels.length - 1];

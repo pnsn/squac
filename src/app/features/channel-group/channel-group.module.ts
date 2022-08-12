@@ -8,8 +8,10 @@ import { ChannelGroupFilterComponent } from "./components/channel-group-edit/cha
 import { ChannelGroupRoutingModule } from "./channel-group-routing.module";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
 import { ChannelGroupMapComponent } from "./components/channel-group-map/channel-group-map.component";
-import { MatchingRuleEditComponent } from './components/channel-group-edit/matching-rule-edit/matching-rule-edit.component';
-import { ChannelGroupTableComponent } from './components/channel-group-edit/channel-group-table/channel-group-table.component';
+import { MatchingRuleEditComponent } from "./components/channel-group-edit/matching-rule-edit/matching-rule-edit.component";
+import { ChannelGroupTableComponent } from "./components/channel-group-edit/channel-group-table/channel-group-table.component";
+import { NgxCsvParserModule } from "ngx-csv-parser";
+import { CsvUploadComponent } from './components/channel-group-edit/csv-upload/csv-upload.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,13 @@ import { ChannelGroupTableComponent } from './components/channel-group-edit/chan
     ChannelGroupDetailComponent,
     MatchingRuleEditComponent,
     ChannelGroupTableComponent,
+    CsvUploadComponent,
   ],
-  imports: [CommonModule, SharedModule, ChannelGroupRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    ChannelGroupRoutingModule,
+    NgxCsvParserModule,
+  ],
 })
 export class ChannelGroupModule {}

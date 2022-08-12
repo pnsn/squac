@@ -282,7 +282,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     let inGroupChannelString = "";
     station.searchedChannels.forEach((channel) => {
       inGroupChannelString +=
-        "<div> <div class='included-channels map-icon'></div>" +
+        "<div> <div class='searched-channels map-icon'></div>" +
         channel.nslc +
         "</div>";
     });

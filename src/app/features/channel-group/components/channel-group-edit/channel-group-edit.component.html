@@ -58,6 +58,11 @@
   </div>
   <div class="edit-body row">
     <div class="column" id="left-column">
+      <channel-group-csv-upload
+        [(channels)]="selectedChannels"
+        (channelsChange)="addChannelsFromCSV($event)"
+      >
+      </channel-group-csv-upload>
       <div id="add-channel-header" class="row space-between">
         <h3>Add Channels to Group</h3>
         <mat-slide-toggle
