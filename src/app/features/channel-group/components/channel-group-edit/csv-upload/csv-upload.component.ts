@@ -9,7 +9,7 @@ import {
 import { Channel } from "@core/models/channel";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser, NgxCSVParserError } from "ngx-csv-parser";
-import { switchMap, tap, map } from "rxjs";
+import { switchMap, tap, map, catchError, of, throwError, filter } from "rxjs";
 
 @Component({
   selector: "channel-group-csv-upload",
@@ -18,10 +18,16 @@ import { switchMap, tap, map } from "rxjs";
 })
 export class CsvUploadComponent {
   csvRecords: any;
-  header = true;
+  csvHeaders: any;
+  header = false;
+  error = "";
   matchingChannels: Channel[];
   missingChannels: any[];
   status;
+  netRegex = new RegExp(/^Net\w{0,4}/, "i");
+  staRegex = new RegExp(/^Sta\w{0,4}/, "i");
+  chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
+  locRegex = new RegExp(/^Loc\w{0,5}/, "i");
   @Input() channels: Channel[];
   @Output() channelsChange = new EventEmitter<Channel[]>();
   constructor(
@@ -36,47 +42,69 @@ export class CsvUploadComponent {
     this.missingChannels = [];
     this.matchingChannels = [];
     const files = $event.srcElement.files;
-    this.header =
-      (this.header as unknown as string) === "true" || this.header === true;
 
-    let chanString = "";
+    let netIndex = -1;
+    let chanIndex = -1;
+    let locIndex = -1;
+    let staIndex = -1;
+
     this.ngxCsvParser
       .parse(files[0], { header: this.header, delimiter: "," })
       .pipe(
-        tap({
-          next: (results) => {
-            this.status = "requesting channels";
-            this.csvRecords = results;
-          },
-        }),
-        switchMap((results: any[], i) => {
+        tap((results: any[]) => {
           this.csvRecords = results;
-          this.csvRecords.forEach((channel) => {
-            const code = channel.station;
-            if (code) {
-              chanString += code + ",";
+          this.csvHeaders = this.csvRecords.shift();
+        }),
+        map(() => {
+          const hasHeaders = this.csvHeaders.some((h, index) => {
+            if (netIndex < 0) {
+              netIndex = this.netRegex.test(h) ? index : netIndex;
             }
+            if (staIndex < 0) {
+              staIndex = this.staRegex.test(h) ? index : staIndex;
+            }
+            if (locIndex < 0) {
+              locIndex = this.locRegex.test(h) ? index : locIndex;
+            }
+            if (chanIndex < 0) {
+              chanIndex = this.chanRegex.test(h) ? index : chanIndex;
+            }
+            return (
+              netIndex >= 0 && staIndex >= 0 && locIndex >= 0 && chanIndex >= 0
+            );
           });
 
+          if (!hasHeaders) {
+            throw new Error("Headers missing");
+          }
+
+          return this.csvRecords.reduce((previous, current) => {
+            const station = current[staIndex];
+            return previous ? previous + "," + station : station;
+          }, "");
+        }),
+        switchMap((chanString: string) => {
+          //stop before this point if no headers
+          console.log(chanString);
+          this.status = "requesting channels";
           return this.channelService.getChannelsByFilters({
             station: chanString,
           });
         }),
         tap((channels: Channel[]) => {
-          console.log(channels);
           this.status = "validating channels";
+
           this.csvRecords.forEach((record) => {
             const channel = channels.find((chan) => {
-              const net = record.network || record.net;
-              const sta = record.station || record.sta;
-              const loc = record.location || record.loc;
-              const code = record.channel || record.chan;
-
+              const net = record[netIndex];
+              const sta = record[staIndex];
+              const loc = record[locIndex];
+              const code = record[chanIndex];
               return (
-                chan.net.toUpperCase() === net.toUpperCase() &&
-                chan.sta.toUpperCase() === sta.toUpperCase() &&
-                chan.loc.toUpperCase() === loc.toUpperCase() &&
-                chan.code.toUpperCase() === code.toUpperCase()
+                chan.net.toLowerCase() === net.toLowerCase() &&
+                chan.sta.toLowerCase() === sta.toLowerCase() &&
+                chan.loc.toLowerCase() === loc.toLowerCase() &&
+                chan.code.toLowerCase() === code.toLowerCase()
               );
             });
             if (channel) {
@@ -85,16 +113,20 @@ export class CsvUploadComponent {
               this.missingChannels.push(record);
             }
           });
+
+          if (this.matchingChannels.length === 0) {
+            throw new Error("no matching channels found");
+          }
         })
       )
       .subscribe({
         next: (result): void => {
-          console.log(result);
-          console.log("Result", chanString);
+          console.log(this.matchingChannels);
           this.status = "done";
           this.channelsChange.emit(this.matchingChannels);
         },
-        error: (error: NgxCSVParserError): void => {
+        error: (error: any): void => {
+          this.error = error;
           console.log("Error", error);
         },
       });
