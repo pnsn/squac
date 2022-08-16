@@ -41,6 +41,7 @@ export class CsvUploadComponent {
     this.status = "parsing";
     this.missingChannels = [];
     this.matchingChannels = [];
+    this.channelsChange.emit(this.matchingChannels);
     const files = $event.srcElement.files;
 
     let netIndex = -1;

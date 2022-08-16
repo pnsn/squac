@@ -129,13 +129,11 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
     }, 0);
   }
   selectRow($event) {
-    console.log($event, this.rows);
     this.selected = [...$event.selected];
     this.selectedChange.emit(this.selected);
   }
 
   removeRow(row) {
-    console.log("remove");
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;
     });

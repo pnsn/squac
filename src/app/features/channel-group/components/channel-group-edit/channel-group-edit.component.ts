@@ -281,6 +281,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       )
       .subscribe((res) => {
         this.loading = false;
+        this.selectedChannels = [...results];
         this.rows = [...results];
       });
   }
@@ -321,7 +322,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         .getChannelsByFilters(searchFilters)
         .subscribe({
           next: (response) => {
-            // this.selectedChannels = [...response];
+            this.selectedChannels = [...response];
             this.rows = [...response];
             //select retunred rows that are in group
 
@@ -437,10 +438,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   addFilterToRegex(filter) {
     const newRule = new MatchingRule(null, null, this.channelGroup.id, true);
-    newRule.networkRegex = filter.net_search || ".*";
-    newRule.stationRegex = filter.sta_search || ".*";
-    newRule.locationRegex = filter.loc_search || ".*";
-    newRule.channelRegex = filter.chan_search || ".*";
+    newRule.networkRegex = filter.net_search.toUpperCase() || ".*";
+    newRule.stationRegex = filter.sta_search.toUpperCase() || ".*";
+    newRule.locationRegex = filter.loc_search.toUpperCase() || ".*";
+    newRule.channelRegex = filter.chan_search.toUpperCase() || ".*";
     this.matchingRules = [...this.matchingRules, newRule];
   }
 
