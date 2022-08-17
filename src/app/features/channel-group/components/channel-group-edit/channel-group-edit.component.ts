@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription, switchMap, tap, map, merge, forkJoin } from "rxjs";
+import { Subscription, switchMap, tap, map, merge, forkJoin, of } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -61,8 +61,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     autoExcludeChannels: Channel[];
   };
   matchingRules: MatchingRule[] = [];
-  autoIncludeChannels: Channel[];
-  autoExcludeChannels: Channel[];
+  autoIncludeChannels: Channel[] = [];
+  autoExcludeChannels: Channel[] = [];
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
@@ -82,7 +82,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const chanSub = this.route.data
       .pipe(
         map((data) => {
-          if (data.channelGroup.error) {
+          if (!data.channelGroup) {
+            this.editMode = false;
+          } else if (data.channelGroup.error) {
+            console.log("error", data.channelGroup.error);
             // this.error = true;
           } else {
             // this.error = false;
@@ -91,10 +94,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             this.editMode = !!this.id;
             this.initForm();
           }
-
-          return data.channelGroup.id || null;
+          this.initForm();
+          return data.channelGroup?.id;
         }),
         switchMap((groupId: number) => {
+          if (!groupId) {
+            return of([]);
+          }
           return this.matchingRuleService.getMatchingRules(groupId);
         }),
         tap((rules: MatchingRule[]) => {
