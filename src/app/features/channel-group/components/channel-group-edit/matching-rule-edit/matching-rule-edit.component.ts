@@ -54,7 +54,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
     return this.formBuilder.group({
       id: rule?.id || null,
       channelGroupId: this.channelGroupId,
-      isInclude: rule?.isInclude,
+      isInclude: rule ? rule.isInclude : true,
       networkRegex: [
         rule?.networkRegex || "",
         { validators: [regexValidator()] },
