@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CsvUploadComponent } from './csv-upload.component';
+import { CsvUploadComponent } from "./csv-upload.component";
 
-describe('CsvUploadComponent', () => {
+describe("CsvUploadComponent", () => {
   let component: CsvUploadComponent;
   let fixture: ComponentFixture<CsvUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CsvUploadComponent ]
-    })
-    .compileComponents();
+      declarations: [CsvUploadComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('CsvUploadComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -2,14 +2,13 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelService } from "@features/channel-group/services/channel.service";
-import { NgxCsvParser, NgxCSVParserError } from "ngx-csv-parser";
-import { switchMap, tap, map, catchError, of, throwError, filter } from "rxjs";
+import { NgxCsvParser } from "ngx-csv-parser";
+import { switchMap, tap, map } from "rxjs";
 
 @Component({
   selector: "channel-group-csv-upload",
@@ -122,7 +121,7 @@ export class CsvUploadComponent {
         })
       )
       .subscribe({
-        next: (result): void => {
+        next: (): void => {
           this.channelsChange.emit(this.matchingChannels);
           this.loadingChange.emit(false);
         },

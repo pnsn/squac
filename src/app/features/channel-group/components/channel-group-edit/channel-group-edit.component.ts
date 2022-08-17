@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription, switchMap, tap, map, merge, forkJoin, of } from "rxjs";
+import { Subscription, switchMap, tap, map, merge, of } from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -291,7 +291,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.selectedChannels = [...results];
           this.rows = [...results];
 
@@ -366,9 +366,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save(): void {
     const values = this.channelGroupForm.value;
-    const includeChannelIds = this.autoIncludeChannels.map(
-      (channel) => channel.id
-    );
 
     const cg = new ChannelGroup(
       this.id,
@@ -416,8 +413,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: (result) => {
-          console.log("saved");
+        next: () => {
           this.changeMade = false;
           this.cancel(id);
           this.messageService.message("Channel group saved.");

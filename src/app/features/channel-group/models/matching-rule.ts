@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 
 // Rules for building channel groups
@@ -42,7 +42,6 @@ export interface ApiPostMatchingRule {
   providedIn: "root",
 })
 export class MatchingRuleAdapter implements Adapter<MatchingRule> {
-  constructor() {}
   adaptFromApi(item: ApiGetMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
       item.id,

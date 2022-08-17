@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -11,24 +12,24 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators,
 } from "@angular/forms";
 import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "channel-group-matching-rule-edit",
   templateUrl: "./matching-rule-edit.component.html",
   styleUrls: ["./matching-rule-edit.component.scss"],
 })
-export class MatchingRuleEditComponent implements OnInit, OnChanges {
+export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   @Input() matchingRules: MatchingRule[];
   @Input() channelGroupId: number;
   @Output() matchingRulesChange = new EventEmitter<MatchingRule[]>();
   @Output() previewRules = new EventEmitter<MatchingRule[]>();
   @Output() matchingRuleDeleteIds = new EventEmitter<number[]>();
+  subscription = new Subscription();
   removeRuleIds = [];
   constructor(private formBuilder: FormBuilder) {}
 
@@ -42,12 +43,17 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges {
         this.matchingRules = values;
       }
     });
+    this.subscription.add(rulesSub);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.matchingRules) {
       this.initForm();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   makeRuleForm(rule?: MatchingRule) {

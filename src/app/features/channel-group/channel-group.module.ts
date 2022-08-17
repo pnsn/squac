@@ -11,7 +11,7 @@ import { ChannelGroupMapComponent } from "./components/channel-group-map/channel
 import { MatchingRuleEditComponent } from "./components/channel-group-edit/matching-rule-edit/matching-rule-edit.component";
 import { ChannelGroupTableComponent } from "./components/channel-group-edit/channel-group-table/channel-group-table.component";
 import { NgxCsvParserModule } from "ngx-csv-parser";
-import { CsvUploadComponent } from './components/channel-group-edit/csv-upload/csv-upload.component';
+import { CsvUploadComponent } from "./components/channel-group-edit/csv-upload/csv-upload.component";
 
 @NgModule({
   declarations: [

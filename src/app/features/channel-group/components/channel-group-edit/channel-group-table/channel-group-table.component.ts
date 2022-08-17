@@ -2,10 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -30,7 +28,6 @@ export class ChannelGroupTableComponent implements OnInit {
   ColumnMode = ColumnMode;
   SortType = SortType;
   columns: any = [];
-  constructor() {}
 
   ngOnInit(): void {
     // table columns

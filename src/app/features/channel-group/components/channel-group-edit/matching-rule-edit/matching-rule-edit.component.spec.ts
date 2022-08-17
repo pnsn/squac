@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MatchingRuleEditComponent } from './matching-rule-edit.component';
+import { MatchingRuleEditComponent } from "./matching-rule-edit.component";
 
-describe('MatchingRuleEditComponent', () => {
+describe("MatchingRuleEditComponent", () => {
   let component: MatchingRuleEditComponent;
   let fixture: ComponentFixture<MatchingRuleEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MatchingRuleEditComponent ]
-    })
-    .compileComponents();
+      declarations: [MatchingRuleEditComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('MatchingRuleEditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { Observable, map, tap } from "rxjs";
+import { Observable, map } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 
 @Injectable({
