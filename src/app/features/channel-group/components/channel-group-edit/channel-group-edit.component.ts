@@ -389,6 +389,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       (channel) => channel.id
     );
 
+    if (this.matchingRules.length === 0) {
+      cg.channels = cg.autoIncludeChannels;
+    }
+
     let id;
     this.channelGroupService
       .updateChannelGroup(cg)
