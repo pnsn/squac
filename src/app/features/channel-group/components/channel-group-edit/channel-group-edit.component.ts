@@ -395,6 +395,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((group) => {
           id = group.id;
+          console.log(id);
+          if (
+            this.matchingRules.length === 0 &&
+            this.deleteMatchingRulesIds.length === 0
+          ) {
+            return of([]);
+          }
           return merge(
             ...this.matchingRuleService.updateMatchingRules(
               this.matchingRules,
@@ -406,6 +413,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (result) => {
+          console.log("saved");
           this.changeMade = false;
           this.cancel(id);
           this.messageService.message("Channel group saved.");

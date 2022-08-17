@@ -39,7 +39,10 @@
           color="accent"
           class="add-btn"
           (click)="save()"
-          [disabled]="!channelGroupForm.valid || channelsInGroup.length === 0"
+          [disabled]="
+            !channelGroupForm.valid ||
+            (matchingRules?.length === 0 && autoIncludeChannels.length === 0)
+          "
           matTooltip="Create channel group"
           aria-label="Button that creates the channel group"
         >
