@@ -173,6 +173,7 @@ p {
 }
 .warn-text {
   @extend .help-text;
+  font-weight: 300;
   color: $sq-warn;
 }
 .emphasis-text {

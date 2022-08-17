@@ -11,9 +11,16 @@
     align-items: center;
     gap: 5px;
     flex-shrink: 1;
-    max-width: calc(100% - 200px);
+    max-width: calc(100% - 300px);
   }
   mat-form-field {
     max-width: 25%;
+    .no-input {
+      display: none;
+    }
+
+    .has-input {
+      display: inline-block;
+    }
   }
 }

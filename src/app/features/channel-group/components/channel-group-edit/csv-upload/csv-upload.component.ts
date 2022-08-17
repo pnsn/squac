@@ -20,16 +20,18 @@ export class CsvUploadComponent {
   csvRecords: any;
   csvHeaders: any;
   header = false;
-  error = "";
   matchingChannels: Channel[];
   missingChannels: any[];
-  status;
   netRegex = new RegExp(/^Net\w{0,4}/, "i");
   staRegex = new RegExp(/^Sta\w{0,4}/, "i");
   chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
   locRegex = new RegExp(/^Loc\w{0,5}/, "i");
   @Input() channels: Channel[];
   @Output() channelsChange = new EventEmitter<Channel[]>();
+  @Input() loading: string | boolean;
+  @Output() loadingChange = new EventEmitter<string | boolean>();
+  @Input() error: string | boolean;
+  @Output() errorChange = new EventEmitter<string | boolean>();
   constructor(
     private ngxCsvParser: NgxCsvParser,
     private channelService: ChannelService
@@ -38,10 +40,10 @@ export class CsvUploadComponent {
   @ViewChild("fileImportInput") fileImportInput: any;
 
   fileChangeListener($event: any): void {
-    this.status = "parsing";
     this.missingChannels = [];
     this.matchingChannels = [];
     this.channelsChange.emit(this.matchingChannels);
+    this.errorChange.emit(false);
     const files = $event.srcElement.files;
 
     let netIndex = -1;
@@ -76,7 +78,7 @@ export class CsvUploadComponent {
           });
 
           if (!hasHeaders) {
-            throw new Error("Headers missing");
+            throw new Error("Invalid or missing headers");
           }
 
           return this.csvRecords.reduce((previous, current) => {
@@ -86,14 +88,13 @@ export class CsvUploadComponent {
         }),
         switchMap((chanString: string) => {
           //stop before this point if no headers
-          console.log(chanString);
-          this.status = "requesting channels";
+          this.loadingChange.emit("Requesting channels");
           return this.channelService.getChannelsByFilters({
             station: chanString,
           });
         }),
         tap((channels: Channel[]) => {
-          this.status = "validating channels";
+          this.loadingChange.emit("Validating channels");
 
           this.csvRecords.forEach((record) => {
             const channel = channels.find((chan) => {
@@ -116,19 +117,19 @@ export class CsvUploadComponent {
           });
 
           if (this.matchingChannels.length === 0) {
-            throw new Error("no matching channels found");
+            throw new Error("No matching channels found");
           }
         })
       )
       .subscribe({
         next: (result): void => {
-          console.log(this.matchingChannels);
-          this.status = "done";
           this.channelsChange.emit(this.matchingChannels);
+          this.loadingChange.emit(false);
         },
         error: (error: any): void => {
-          this.error = error;
-          console.log("Error", error);
+          console.log(error);
+          this.errorChange.emit(error);
+          this.loadingChange.emit(false);
         },
       });
   }

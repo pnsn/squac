@@ -15,8 +15,8 @@ import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { MatchingRule } from "@features/channel-group/models/matching-rule";
 import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
+import { MatchingRule } from "@features/channel-group/models/matching-rule";
 
 @Component({
   selector: "channel-group-edit",
@@ -30,13 +30,14 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean; //create group or edit group
-  loading = false;
+  loading: boolean | string = false;
+  error: boolean | string = false;
   changeMade = false;
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: any;
   channelGroupForm: FormGroup; // form stuff
-
+  csvStatus: string;
   channelsInGroup: Channel[] = []; // channels currently saved in group
   selectedChannels: Channel[] = []; // Channels currently in selected list
   selectedInGroupChannels: Channel[] = []; // Channels selected from group table
@@ -246,8 +247,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   addChannelsFromCSV(channels) {
-    this.rows = channels;
-    this.selectedChannels = channels;
+    this.rows = [...channels];
+    this.selectedChannels = [...channels];
+
+    this.filterCurrent();
+    // add channels to selected Channels
   }
 
   // row selected on table
@@ -264,7 +268,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   previewRules(rules: MatchingRule[]) {
-    this.loading = true;
+    this.loading = "Requesting Channels";
+    this.error = false;
     const ruleSubs = this.channelService.getChannelsByRules(rules);
     const results = [];
     merge(...ruleSubs)
@@ -279,45 +284,57 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           });
         })
       )
-      .subscribe((res) => {
-        this.loading = false;
-        this.selectedChannels = [...results];
-        this.rows = [...results];
+      .subscribe({
+        next: (res) => {
+          this.selectedChannels = [...results];
+          this.rows = [...results];
+
+          this.filterCurrent();
+          // add channels to selected Channels
+        },
+        complete: () => {
+          this.loading = false;
+        },
       });
   }
 
+  //return true if channel should be excluded
   private checkRules(channel, rules) {
     //excluded if any of them are true
-    const valid = rules
-      .filter((rule) => rule.isInclude !== true)
-      .every((rule: MatchingRule) => {
-        let net = false;
-        let sta = false;
-        let loc = false;
-        let chan = false;
-        if (rule.networkRegex !== ".*") {
-          net = new RegExp(rule.networkRegex, "i").test(channel.net);
-        }
-        if (rule.stationRegex !== ".*") {
-          sta = new RegExp(rule.stationRegex, "i").test(channel.sta);
-        }
-        if (rule.locationRegex !== ".*") {
-          loc = new RegExp(rule.locationRegex, "i").test(channel.loc);
-        }
-        if (rule.channelRegex !== ".*") {
-          chan = new RegExp(rule.channelRegex, "i").test(channel.code);
-        }
+    const excludeRules = rules.filter((rule) => rule.isInclude !== true);
 
-        return net || sta || loc || chan;
-      });
-    return valid;
+    if (excludeRules.length === 0) {
+      return false;
+    }
+
+    return excludeRules.every((rule: MatchingRule) => {
+      let net = false;
+      let sta = false;
+      let loc = false;
+      let chan = false;
+      if (rule.networkRegex) {
+        net = new RegExp(rule.networkRegex, "i").test(channel.net);
+      }
+      if (rule.stationRegex) {
+        sta = new RegExp(rule.stationRegex, "i").test(channel.sta);
+      }
+      if (rule.locationRegex) {
+        loc = new RegExp(rule.locationRegex, "i").test(channel.loc);
+      }
+      if (rule.channelRegex) {
+        chan = new RegExp(rule.channelRegex, "i").test(channel.code);
+      }
+
+      return net || sta || loc || chan;
+    });
   }
 
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
     if (Object.keys(searchFilters).length !== 0) {
-      this.loading = true;
+      this.loading = "Requesting Channels";
+      this.error = false;
       const channelsSub = this.channelService
         .getChannelsByFilters(searchFilters)
         .subscribe({
@@ -438,10 +455,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   addFilterToRegex(filter) {
     const newRule = new MatchingRule(null, null, this.channelGroup.id, true);
-    newRule.networkRegex = filter.net_search.toUpperCase() || ".*";
-    newRule.stationRegex = filter.sta_search.toUpperCase() || ".*";
-    newRule.locationRegex = filter.loc_search.toUpperCase() || ".*";
-    newRule.channelRegex = filter.chan_search.toUpperCase() || ".*";
+    newRule.networkRegex = filter.net_search?.toUpperCase();
+    newRule.stationRegex = filter.sta_search?.toUpperCase();
+    newRule.locationRegex = filter.loc_search?.toUpperCase();
+    newRule.channelRegex = filter.chan_search?.toUpperCase();
     this.matchingRules = [...this.matchingRules, newRule];
   }
 

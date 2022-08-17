@@ -11,6 +11,7 @@
         <button
           matSuffix
           mat-icon-button
+          [class]="net ? 'has-input' : 'no-input'"
           aria-label="Clear"
           (click)="net = null"
         >
@@ -28,6 +29,7 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
+          [class]="sta ? 'has-input' : 'no-input'"
           (click)="sta = null"
         >
           <mat-icon>close</mat-icon>
@@ -44,6 +46,7 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
+          [class]="loc ? 'has-input' : 'no-input'"
           (click)="loc = null"
         >
           <mat-icon>close</mat-icon>
@@ -59,6 +62,7 @@
         <button
           matSuffix
           mat-icon-button
+          [class]="chan ? 'has-input' : 'no-input'"
           aria-label="Clear"
           (click)="chan = null"
         >
@@ -84,6 +88,14 @@
     >
       <mat-icon>search</mat-icon>
       search
+    </button>
+    <button
+      mat-button
+      (click)="removeFilters()"
+      matTooltip="Clear filters"
+      aria-label="Button that clears form input "
+    >
+      clear
     </button>
   </div>
 </div>

@@ -51,11 +51,10 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
       item.is_include
     );
 
-    const regex = /'(.*?)'/;
-    matchingRule.channelRegex = item.channel_regex.match(regex)[1];
-    matchingRule.networkRegex = item.network_regex.match(regex)[1];
-    matchingRule.locationRegex = item.location_regex.match(regex)[1];
-    matchingRule.stationRegex = item.station_regex.match(regex)[1];
+    matchingRule.channelRegex = item.channel_regex;
+    matchingRule.networkRegex = item.network_regex;
+    matchingRule.locationRegex = item.location_regex;
+    matchingRule.stationRegex = item.station_regex;
 
     return matchingRule;
   }
@@ -63,10 +62,10 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
   adaptToApi(item: MatchingRule): ApiPostMatchingRule {
     return {
       group: item.channelGroupId,
-      network_regex: item.networkRegex || ".*",
-      station_regex: item.stationRegex || ".*",
-      location_regex: item.locationRegex || ".*",
-      channel_regex: item.channelRegex || ".*",
+      network_regex: item.networkRegex,
+      station_regex: item.stationRegex,
+      location_regex: item.locationRegex,
+      channel_regex: item.channelRegex,
       is_include: item.isInclude,
     };
   }

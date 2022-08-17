@@ -58,13 +58,15 @@
   </div>
   <div class="edit-body row">
     <div class="column" id="left-column">
-      <channel-group-csv-upload
-        [(channels)]="selectedChannels"
-        (channelsChange)="addChannelsFromCSV($event)"
-      >
-      </channel-group-csv-upload>
       <div id="add-channel-header" class="row space-between">
         <h3>Add Channels to Group</h3>
+        <channel-group-csv-upload
+          [(channels)]="selectedChannels"
+          (channelsChange)="addChannelsFromCSV($event)"
+          [(loading)]="loading"
+          [(error)]="error"
+        >
+        </channel-group-csv-upload>
         <mat-slide-toggle
           [(ngModel)]="showOnlyCurrent"
           (change)="filterCurrent()"
@@ -72,9 +74,16 @@
           <span class="help-text">Only Show Current Channels</span>
         </mat-slide-toggle>
       </div>
+
       <p class="help-text">
-        Use the filters to the below to search for channels or use the map to
-        search within a region.
+        Channel groups can have a fixed set of channels or can be automatically
+        updated with channels that match a set of regular expressions. Add
+        regular expressions on the right under 'Regex' or below using the
+        filters. Add channels by uploading a CSV, searching with the filters, or
+        using the map to search within a region.
+      </p>
+      <p *ngIf="error" class="warn-text">
+        {{ error }}
       </p>
       <div id="filter-container">
         <channel-group-filter
@@ -83,15 +92,16 @@
         >
         </channel-group-filter>
       </div>
-      <shared-loading *ngIf="loading" [loadingMsg]=""> </shared-loading>
+      <shared-loading *ngIf="loading" [loadingMsg]="loading"> </shared-loading>
       <div class="row channels-row">
-        <div class="column">
+        <div class="column lt-gray-border search-results-container">
           <div class="row space-between select-channels-controls">
+            <h4>Results ({{ rows.length }})</h4>
             <button mat-button color="accent" (click)="includeChannels()">
-              include
+              add to include
             </button>
             <button mat-button color="accent" (click)="excludeChannels()">
-              exclude
+              add to exclude
             </button>
             <button
               mat-icon-button
@@ -128,41 +138,93 @@
       </div>
     </div>
     <div class="column" id="right-column">
-      <form [formGroup]="channelGroupForm" class="column">
-        <mat-form-field class="channel-group-input" class="medium">
-          <input matInput placeholder="Name" formControlName="name" required />
-        </mat-form-field>
+      <mat-accordion displayMode="flat" multi>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h4>Group information</h4>
+            </mat-panel-title>
+            <mat-panel-description>(required)</mat-panel-description>
+          </mat-expansion-panel-header>
 
-        <mat-form-field id="description">
-          <textarea
-            matInput
-            placeholder="Description"
-            formControlName="description"
-            required
-          ></textarea>
-        </mat-form-field>
-      </form>
-      <channel-group-matching-rule-edit
-        [(matchingRules)]="matchingRules"
-        (matchingRuleDeleteIds)="deleteMatchingRules($event)"
-        (previewRules)="previewRules($event)"
-        [channelGroupId]="channelGroup?.id"
-      >
-      </channel-group-matching-rule-edit>
-      <channel-group-edit-table
-        (rowsChange)="updateState()"
-        [(rows)]="autoIncludeChannels"
-        title="Included Channels"
-        [selectable]="false"
-      >
-      </channel-group-edit-table>
-      <channel-group-edit-table
-        (rowsChange)="updateState()"
-        [(rows)]="autoExcludeChannels"
-        title="Excluded Channels"
-        [selectable]="false"
-      >
-      </channel-group-edit-table>
+          <form [formGroup]="channelGroupForm" class="column">
+            <mat-form-field class="channel-group-input" class="medium">
+              <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+
+            <mat-form-field id="description">
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                required
+              ></textarea>
+            </mat-form-field>
+          </form>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel expanded="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h4>Regular Expressions</h4>
+            </mat-panel-title>
+            <mat-panel-description> (optional) </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p class="help-text">
+            Channel groups can be defined by sets of regex. Groups will be
+            updated daily with any channels that match the expressions.
+          </p>
+          <channel-group-matching-rule-edit
+            [(matchingRules)]="matchingRules"
+            (matchingRuleDeleteIds)="deleteMatchingRules($event)"
+            (previewRules)="previewRules($event)"
+            [channelGroupId]="channelGroup?.id"
+          >
+          </channel-group-matching-rule-edit>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h4>Included ({{ autoIncludeChannels.length }})</h4>
+            </mat-panel-title>
+            <mat-panel-description
+              >Channels always in group.</mat-panel-description
+            >
+          </mat-expansion-panel-header>
+
+          <channel-group-edit-table
+            (rowsChange)="updateState()"
+            [(rows)]="autoIncludeChannels"
+            title="Included Channels"
+            [selectable]="false"
+          >
+          </channel-group-edit-table>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel expanded="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h4>Excluded ({{ autoExcludeChannels.length }})</h4>
+            </mat-panel-title>
+            <mat-panel-description
+              >Channels never in group.</mat-panel-description
+            >
+          </mat-expansion-panel-header>
+          <channel-group-edit-table
+            (rowsChange)="updateState()"
+            [(rows)]="autoExcludeChannels"
+            title="Excluded Channels"
+            [selectable]="false"
+          >
+          </channel-group-edit-table>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
   </div>
 </div>
