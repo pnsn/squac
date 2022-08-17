@@ -5,6 +5,7 @@
   min-height: 400px;
   .channel-table {
     height: calc(100% - 25px);
+    min-height: 400px !important;
     .datatable-body {
       width: 100%;
     }
