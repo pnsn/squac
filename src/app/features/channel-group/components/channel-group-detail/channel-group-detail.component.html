@@ -52,7 +52,7 @@
     <div id="channel-group-container" class="row-reverse">
       <div id="map-container">
         <channel-group-map
-          [inGroupChannels]="channelGroup.channels"
+          [autoIncludeChannels]="channelGroup.channels"
           [selectedChannels]="selectedChannels"
           (showChannelChange)="selectChannel($event)"
           [showChannel]="showChannel"

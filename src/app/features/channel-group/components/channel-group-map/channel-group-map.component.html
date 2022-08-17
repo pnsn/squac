@@ -17,6 +17,10 @@
       (leafletDrawDeleted)="onRectangleDeleted()"
     ></div>
     <div id="legend" class="leaflet-custom-control">
+      <div class="channel-list" *ngIf="!editPage">
+        <div class="included-channels"></div>
+        <span>Channels</span>
+      </div>
       <div class="channel-list" *ngIf="editPage">
         <div class="included-channels"></div>
         <span>Included</span>
@@ -29,7 +33,7 @@
         <div class="searched-channels"></div>
         <span>Search Result</span>
       </div>
-      <div class="channel-list" *ngIf="editPage">
+      <div class="channel-list">
         <div class="new-channels"></div>
         <span>Selected</span>
       </div>
