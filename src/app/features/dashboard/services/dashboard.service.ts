@@ -19,8 +19,7 @@ export class DashboardService {
 
   constructor(
     private squacApi: SquacApiService,
-    private dashboardAdapter: DashboardAdapter,
-    private channelGroupService: ChannelGroupService
+    private dashboardAdapter: DashboardAdapter
   ) {}
 
   // Get all dashboards viewable by user from squac
@@ -52,21 +51,7 @@ export class DashboardService {
     let dashboard: Dashboard;
     // Fetch new dashboards if > 5 minutes since refresh
     return this.squacApi.get(this.url, id).pipe(
-      switchMap((response) => {
-        dashboard = this.dashboardAdapter.adaptFromApi(response);
-        if (dashboard.channelGroupId) {
-          return this.channelGroupService.getChannelGroup(
-            dashboard.channelGroupId
-          );
-        } else {
-          return this.channelGroupService.getChannelGroup(1);
-          // return of(null);
-        }
-      }),
-      map((channelGroup) => {
-        dashboard.channelGroup = channelGroup;
-        return dashboard;
-      }),
+      map((response) => this.dashboardAdapter.adaptFromApi(response)),
       tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
     );
   }

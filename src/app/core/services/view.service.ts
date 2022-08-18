@@ -17,7 +17,7 @@ import { Channel } from "@core/models/channel";
 })
 export class ViewService {
   // handle refreshing
-  channels = new BehaviorSubject<Channel[]>(null);
+  channels = new Subject<Channel[]>();
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
   resize = new Subject<number>();
@@ -25,6 +25,7 @@ export class ViewService {
   widgetUpdated = new Subject<number>();
   status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
+  loadingCount = 0;
   private autoRefresh: boolean;
   // refresh = new Subject<number>();
   private dashboard: Dashboard;
@@ -117,11 +118,11 @@ export class ViewService {
 
   // sets the given dashboard and sets up dates
   setDashboard(dashboard: Dashboard): void {
+    this.finishedLoading();
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
     this.dashboard = dashboard;
-    this.updateChannels(dashboard.channelGroup?.channels);
     if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
       this.status.next("finished");
     }
@@ -135,9 +136,9 @@ export class ViewService {
     this.channels.next(channels);
   }
 
-  setDashboardById(id): Observable<Dashboard> {
-    this.status.next("loading");
-    return this.dashboardService.getDashboard(id).pipe(
+  setDashboardById(dashboardId: number): Observable<Dashboard> {
+    this.startedLoading();
+    return this.dashboardService.getDashboard(dashboardId).pipe(
       tap({
         next: (dashboard) => {
           this.setDashboard(dashboard);
@@ -234,17 +235,17 @@ export class ViewService {
   }
 
   // decrements count of widgets still loading
-  widgetFinishedLoading(): void {
-    this.queuedWidgets--;
-    if (this.queuedWidgets <= 0) {
+  finishedLoading(): void {
+    this.loadingCount--;
+    if (this.loadingCount <= 0) {
       this.status.next("finished");
     }
   }
 
   // increments cound of widgets still loading
-  widgetStartedLoading(): void {
-    this.queuedWidgets++;
-    if (this.queuedWidgets > 0) {
+  startedLoading(): void {
+    this.loadingCount++;
+    if (this.loadingCount > 0) {
       this.status.next("loading");
     }
   }
@@ -252,12 +253,13 @@ export class ViewService {
   // broadcast id of changed widget
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
-    this.status.next("finished");
+    this.finishedLoading();
     this.error.next(null);
   }
 
   // updates the widget
   updateWidget(widgetId: number, widget?: Widget): void {
+    this.startedLoading();
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
       this.dashboard.widgets.splice(index, 1);

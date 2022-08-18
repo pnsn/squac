@@ -126,7 +126,7 @@ export class CsvUploadComponent {
           this.loadingChange.emit(false);
         },
         error: (error: any): void => {
-          console.log(error);
+          console.error(error);
           this.errorChange.emit(error);
           this.loadingChange.emit(false);
         },

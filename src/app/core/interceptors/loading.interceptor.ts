@@ -8,15 +8,14 @@ import {
 import { Observable } from "rxjs";
 import { LoadingService } from "@core/services/loading.service";
 import { finalize } from "rxjs/operators";
+import { ActivatedRoute } from "@angular/router";
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  activeRequests = 0;
-
   /**
    * URLs for which the loading screen should not be enabled
    */
-  skipUrls = [];
+  skipUrls = ["measurement", /groups\/\d+/];
 
   constructor(private loadingService: LoadingService) {}
 
@@ -41,14 +40,11 @@ export class LoadingInterceptor implements HttpInterceptor {
     }
 
     if (displayLoadingScreen) {
-      this.activeRequests++;
+      // this.loadingService.requestStarted(request.url);
       // keep showing loading screen until there are no requests left
       return next.handle(request).pipe(
         finalize(() => {
-          this.activeRequests--;
-          if (this.activeRequests === 0) {
-            this.loadingService.stopLoading();
-          }
+          this.loadingService.requestFinished(request.url);
         })
       );
     } else {

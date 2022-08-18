@@ -84,9 +84,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         map((data) => {
           if (!data.channelGroup) {
             this.editMode = false;
-          } else if (data.channelGroup.error) {
-            console.log("error", data.channelGroup.error);
-            // this.error = true;
           } else {
             // this.error = false;
             this.channelGroup = data.channelGroup;

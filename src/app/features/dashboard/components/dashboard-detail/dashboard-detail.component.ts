@@ -6,6 +6,7 @@ import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Channel } from "@core/models/channel";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 
 // Individual dashboard
 @Component({
@@ -63,26 +64,42 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private viewService: ViewService,
     private ability: AppAbility,
-    private confirmDialog: ConfirmDialogService
+    private confirmDialog: ConfirmDialogService,
+    private channelGroupService: ChannelGroupService
   ) {}
 
   ngOnInit(): void {
+    console.log("Dashboard init");
     const paramsSub = this.route.data
       .pipe(
         switchMap(() => {
           const dashboardId = this.route.snapshot.params.dashboardId;
-          return this.viewService.setDashboardById(dashboardId);
+          return this.viewService.setDashboardById(dashboardId).pipe(
+            tap((dashboard) => {
+              this.dashboard = dashboard;
+              this.archiveStat = this.dashboard.properties.archiveStat;
+              this.archiveType = this.dashboard.properties.archiveType;
+            })
+          );
         }),
-        tap((dashboard) => {
-          this.dashboard = dashboard;
-          this.archiveStat = this.dashboard.properties.archiveStat;
-          this.archiveType = this.dashboard.properties.archiveType;
-          this.channels = this.dashboard.channelGroup.channels;
-          this.channelGroupId = this.dashboard.channelGroup.id;
+        switchMap(() => {
+          this.viewService.startedLoading();
+          if (this.dashboard.channelGroup) {
+            this.channelGroupId = this.dashboard.channelGroup.id;
+          }
           const params = this.route.snapshot.queryParams;
           if (params.group) {
             this.channelGroupId = +params.group;
           }
+          return this.channelGroupService
+            .getChannelGroup(this.channelGroupId)
+            .pipe(
+              tap((channelGroup) => {
+                this.channels = channelGroup.channels;
+                this.viewService.updateChannels(this.channels);
+                this.viewService.finishedLoading();
+              })
+            );
         })
       )
       .subscribe({
@@ -95,6 +112,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     const statusSub = this.viewService.status.subscribe({
       next: (status) => {
+        console.log(status, " status changed");
         this.status = status;
       },
       error: (error) => {

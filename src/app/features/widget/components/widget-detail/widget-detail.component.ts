@@ -87,7 +87,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       next: (dashboardId) => {
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
-
+          console.log("update channels from detal");
           this.widgetDataService.params.next("widget detail");
         }
       },
@@ -98,9 +98,10 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     // listen to changes in channel selection
     const channelsSub = this.viewService.channels.subscribe((channels) => {
-      if (channels.length > 0) {
+      if (channels?.length > 0) {
         this.loading = "Requesting Data";
         this.channels = channels;
+        this.error = false;
       } else {
         this.error = "Error: No channels selected.";
         this.loading = false;
@@ -136,9 +137,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   // set up widget
   initWidget(): void {
     if (!this.dataSub) {
-      this.dataSub = this.widgetDataService.data.subscribe((data) => {
-        if (data && Object.keys(data).length === 0) {
-          this.error = "No data for this time range.";
+      this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
+        if (data && data.error) {
+          this.error = data.error;
           this.loading = false;
         } else {
           this.dataRange = this.widgetDataService.dataRange;

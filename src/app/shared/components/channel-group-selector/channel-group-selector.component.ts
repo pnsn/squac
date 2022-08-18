@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { Location } from "@angular/common";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
@@ -28,7 +29,8 @@ export class ChannelGroupSelectorComponent implements OnInit {
   constructor(
     private channelGroupService: ChannelGroupService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -40,13 +42,14 @@ export class ChannelGroupSelectorComponent implements OnInit {
   selectionChange() {
     this.channelGroupIdChange.emit(this.channelGroupId);
 
-    const queryParams: Params = { group: this.channelGroupId };
+    const url = this.router
+      .createUrlTree([], {
+        relativeTo: this.route,
+        queryParams: { group: this.channelGroupId },
+      })
+      .toString();
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: queryParams,
-      queryParamsHandling: "merge", // remove to replace all query params by provided
-    });
+    this.location.go(url);
 
     this.channelGroupService
       .getChannelGroup(+this.channelGroupId)

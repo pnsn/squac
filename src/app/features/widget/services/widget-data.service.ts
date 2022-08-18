@@ -10,6 +10,9 @@ import {
   tap,
   filter,
   ReplaySubject,
+  catchError,
+  empty,
+  EMPTY,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";
@@ -61,19 +64,23 @@ export class WidgetDataService implements OnDestroy {
       map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
       switchMap((params: MeasurementParams) => {
-        return this.measurementService.getData(params);
+        return this.measurementService.getData(params).pipe(
+          catchError(() => {
+            this.finishedLoading({
+              error: "Failed to get measurements from SQUAC",
+            });
+            return EMPTY;
+          })
+        );
       })
     );
 
+    //destroyed after failed loadign
     this.measurementReqSub = this.measurementReq
       .pipe(map(this.mapData.bind(this)))
       .subscribe({
         next: (data) => {
           this.finishedLoading(data);
-        },
-        error: (error) => {
-          this.finishedLoading({});
-          console.error("error in fetch measurements ", error);
         },
       });
 
@@ -108,19 +115,19 @@ export class WidgetDataService implements OnDestroy {
   // send data & clear the loading statuses
   private finishedLoading(data) {
     this.data.next(data);
-    this.viewService.widgetFinishedLoading();
+    this.viewService.finishedLoading();
     this.updateMeasurement();
     this.requestInProgress = false;
   }
 
   private startedLoading(): void {
     if (this.requestInProgress) {
-      this.viewService.widgetFinishedLoading();
+      this.viewService.finishedLoading();
     }
     this.requestInProgress = true;
     this.data.next(null);
     this.ranges = {};
-    this.viewService.widgetStartedLoading();
+    this.viewService.startedLoading();
     this.clearTimeout();
   }
 
@@ -132,6 +139,9 @@ export class WidgetDataService implements OnDestroy {
     const useAggregate = this.type.useAggregate;
 
     const data = {};
+    if (response.length === 0) {
+      return { error: "No measurements found." };
+    }
     // console.log("Loaded measurements: ", response.length);
     response.forEach((m) => {
       let value: Measurement | Aggregate | Archive;
@@ -156,7 +166,6 @@ export class WidgetDataService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.viewService.widgetFinishedLoading();
     this.clearTimeout();
     this.subscription.unsubscribe();
   }

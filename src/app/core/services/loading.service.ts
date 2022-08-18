@@ -1,5 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject } from "rxjs";
+import {
+  Subject,
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  delay,
+  tap,
+} from "rxjs";
 
 // Handles loading status for loading screen
 @Injectable({
@@ -8,6 +15,25 @@ import { Subject, BehaviorSubject } from "rxjs";
 export class LoadingService {
   loading: Subject<boolean> = new BehaviorSubject(false);
   loadingStatus: Subject<string> = new BehaviorSubject(null);
+  activeCount = 0;
+
+  requests = new Subject<any>();
+  $requests = this.requests.asObservable();
+  requestSub;
+
+  constructor() {
+    this.requestSub = this.$requests
+      .pipe(
+        delay(100),
+        tap(() => {
+          this.loading.next(this.activeCount > 0);
+          if (this.activeCount === 0) {
+            this.loadingStatus.next(null);
+          }
+        })
+      )
+      .subscribe();
+  }
 
   // changes the text shown on the loading screen
   setStatus(text: string): void {
@@ -15,14 +41,22 @@ export class LoadingService {
   }
 
   // Emits true to loading subscribers
-  startLoading(): void {
-    this.loading.next(true);
+  requestStarted(url): void {
+    this.activeCount++;
+    this.requests.next(true);
   }
 
+  //    this.loadingStatus.next(null);
   // Emits false to loading subscribers
   // Removes message
-  stopLoading(): void {
-    this.loading.next(false);
-    this.loadingStatus.next(null);
+  requestFinished(url): void {
+    this.activeCount--;
+    this.requests.next(false);
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.requestSub.unsubscribe();
   }
 }

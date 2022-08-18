@@ -3,11 +3,13 @@
   [appearance]="appearance"
   [ngClass]="{ 'dense-form-field': dense }"
 >
-  <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label>
+  <!-- <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label> -->
   <mat-select
+    #value
     [(ngModel)]="channelGroupId"
     (selectionChange)="selectionChange()"
     [required]="required"
+    placeholder="Select a Channel Group"
   >
     <mat-option
       *ngFor="let channelGroup of channelGroups"
@@ -16,3 +18,4 @@
     >
   </mat-select>
 </mat-form-field>
+id: {{ value.value }}
