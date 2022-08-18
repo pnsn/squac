@@ -79,6 +79,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.archiveType = this.dashboard.properties.archiveType;
           this.channels = this.dashboard.channelGroup.channels;
           this.channelGroupId = this.dashboard.channelGroup.id;
+          const params = this.route.snapshot.queryParams;
+          if (params.group) {
+            this.channelGroupId = +params.group;
+          }
         })
       )
       .subscribe({

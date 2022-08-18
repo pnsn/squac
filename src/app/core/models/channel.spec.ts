@@ -35,6 +35,7 @@ describe("Channel", () => {
       "nlo",
       "uw",
       "",
+      "",
       ""
     );
 
@@ -65,6 +66,7 @@ describe("Channel", () => {
       user_id: "string",
       starttime: "string",
       endtime: "string",
+      nslc: "string.string.string.string",
     };
     const channel = adapter.adaptFromApi(testData);
     expect(channel).toBeDefined();

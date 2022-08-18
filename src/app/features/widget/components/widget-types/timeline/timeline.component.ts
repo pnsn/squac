@@ -374,7 +374,6 @@ export class TimelineComponent
     this.loadingChange.emit(false);
 
     let xAxis = { ...this.options.xAxis };
-    console.log("in change metrics");
     if (
       this.properties.displayType === "hour" ||
       this.properties.displayType === "day"

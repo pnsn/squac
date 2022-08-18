@@ -17,12 +17,11 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   paramsSub: Subscription;
   dashboard: Dashboard;
   channelGroups: ChannelGroup[];
-
+  channelGroupId: number;
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private dashboardService: DashboardService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +30,9 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
       this.dashboardId = +params.dashboardId;
       this.dashboard = this.route.snapshot.data.dashboard;
       this.channelGroups = this.route.snapshot.data.channelGroups;
+      const queryParams = this.route.snapshot.queryParams;
+      this.channelGroupId = +queryParams.group;
+
       this.openDashboard();
     });
   }
@@ -42,6 +44,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
       data: {
         dashboard: this.dashboard,
         channelGroups: this.channelGroups,
+        channelGroupId: this.channelGroupId,
       },
     });
     this.dialogRef.afterClosed().subscribe({

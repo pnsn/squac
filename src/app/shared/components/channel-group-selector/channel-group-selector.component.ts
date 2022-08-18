@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { take } from "rxjs";
@@ -17,7 +25,11 @@ export class ChannelGroupSelectorComponent implements OnInit {
   channelGroups: ChannelGroup[];
   @Output() channelGroupIdChange = new EventEmitter<any>();
   @Output() channelsChange = new EventEmitter<any>();
-  constructor(private channelGroupService: ChannelGroupService) {}
+  constructor(
+    private channelGroupService: ChannelGroupService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
@@ -27,6 +39,14 @@ export class ChannelGroupSelectorComponent implements OnInit {
 
   selectionChange() {
     this.channelGroupIdChange.emit(this.channelGroupId);
+
+    const queryParams: Params = { group: this.channelGroupId };
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: "merge", // remove to replace all query params by provided
+    });
 
     this.channelGroupService
       .getChannelGroup(+this.channelGroupId)
