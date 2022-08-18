@@ -24,6 +24,8 @@ describe("ChannelGroup", () => {
       updated_at: "string",
       user_id: "1",
       organization: 1,
+      auto_exclude_channels: [],
+      auto_include_channels: [],
     };
     const channelGroup = adapter.adaptFromApi(testData);
     expect(channelGroup).toBeDefined();

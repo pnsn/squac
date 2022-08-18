@@ -40,6 +40,7 @@ describe("ChannelGroupEditComponent", () => {
               monitor: {},
             },
           },
+          data: of({}),
         },
       });
   });

@@ -21,6 +21,8 @@ describe("ChannelGroupService", () => {
     updated_at: "date",
     user_id: "1",
     organization: 1,
+    auto_include_channels: [],
+    auto_exclude_channels: [],
   };
 
   const mockSquacApiService = new MockSquacApiService(testChannelGroup);
