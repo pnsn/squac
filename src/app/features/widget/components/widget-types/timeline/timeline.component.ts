@@ -145,7 +145,6 @@ export class TimelineComponent
 
   startZoom() {
     if (this.echartsInstance) {
-      console.log(this.zooming);
       if (this.zooming === "start") {
         this.echartsInstance.dispatchAction({
           type: "takeGlobalCursor",

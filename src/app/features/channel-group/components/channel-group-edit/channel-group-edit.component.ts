@@ -107,9 +107,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           this.matchingRules = rules;
         })
       )
-      .subscribe(() => {
-        console.log(this.matchingRules);
-      });
+      .subscribe();
 
     // get orgId
     this.orgId = this.userService.userOrg;

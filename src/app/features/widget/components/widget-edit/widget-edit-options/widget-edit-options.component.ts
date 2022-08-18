@@ -90,9 +90,6 @@ export class WidgetEditOptionsComponent
       this.validateOptions();
       this.validateThresholds();
     }
-    if (changes.thresholds) {
-      console.log(this.thresholds);
-    }
 
     if (changes.type) {
       this.widgetType = this.widgetTypes.find((type) => {
