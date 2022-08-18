@@ -63,7 +63,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
 
   //channel selected on map
   selectChannel(event) {
-    this.selectedRows = event.inGroupChannels;
+    this.selectedRows = this.channelGroup.channels.filter(
+      (channel) => channel.staCode === event.code
+    );
   }
 
   // close container and route to parent

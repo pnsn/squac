@@ -17,7 +17,8 @@ export class Channel {
     public stationCode: string,
     public networkCode: string,
     public starttime: string,
-    public endttime: string
+    public endttime: string,
+    public _nslc: string
   ) {}
 
   get net(): string {
@@ -28,15 +29,11 @@ export class Channel {
   }
 
   get nslc(): string {
-    return (
-      this.networkCode +
-      "." +
-      this.stationCode +
-      "." +
-      this.loc +
-      "." +
-      this.code
-    );
+    return this._nslc.toUpperCase();
+  }
+
+  get staCode(): string {
+    return this.networkCode + "." + this.stationCode;
   }
 
   static get modelName() {
@@ -66,6 +63,7 @@ export interface ApiGetChannel {
   user_id: string;
   starttime: string;
   endtime: string;
+  nslc: string;
 }
 
 @Injectable({
@@ -85,7 +83,8 @@ export class ChannelAdapter implements Adapter<Channel> {
       item.station_code,
       item.network,
       item.starttime,
-      item.endtime
+      item.endtime,
+      item.nslc
     );
   }
 }

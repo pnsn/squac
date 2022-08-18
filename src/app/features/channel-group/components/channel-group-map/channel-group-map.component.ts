@@ -126,10 +126,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     if (channel) {
       let stationMarker;
       this.stationLayer.eachLayer((layer: any) => {
-        if (
-          layer.options.title ===
-          channel.networkCode + "." + channel.stationCode
-        ) {
+        if (layer.options.title === channel.staCode) {
           stationMarker = layer;
         }
 
@@ -150,13 +147,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.searchedChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -172,13 +169,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.autoIncludeChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -194,13 +191,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.autoExcludeChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -216,12 +213,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.selectedChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
