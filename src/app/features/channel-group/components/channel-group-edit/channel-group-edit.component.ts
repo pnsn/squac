@@ -376,7 +376,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((group) => {
           id = group.id;
-          console.log(id);
           if (
             this.matchingRules.length === 0 &&
             this.deleteMatchingRulesIds.length === 0

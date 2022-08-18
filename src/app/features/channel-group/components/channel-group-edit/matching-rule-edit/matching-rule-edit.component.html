@@ -104,11 +104,20 @@
           </button>
         </td>
       </tr>
-      <tr *ngIf="rules.controls[i].get('networkRegex').errors">
-        {{
-          rules.controls[i].get("networkRegex").errors | json
-        }}
+      <tr *ngIf="rules.controls[i].errors as errors">
+        <td colspan="6" class="warn-text">
+          {{ errors.atLeastOne?.message }}
+        </td>
       </tr>
+      <ng-container
+        *ngFor="let field of ['network', 'station', 'location', 'channel']"
+      >
+        <tr *ngIf="rules.controls[i].get(field + 'Regex').errors as errors">
+          <td colspan="6" class="warn-text">
+            {{ errors.invalidRegex?.message }} for {{ field }}
+          </td>
+        </tr>
+      </ng-container>
     </ng-container>
   </table>
 </form>

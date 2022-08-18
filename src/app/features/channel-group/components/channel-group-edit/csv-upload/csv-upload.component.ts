@@ -82,14 +82,14 @@ export class CsvUploadComponent {
 
           return this.csvRecords.reduce((previous, current) => {
             const station = current[staIndex];
-            return previous ? previous + "," + station : station;
+            return previous ? previous + "," + station.nslc : station.nslc;
           }, "");
         }),
-        switchMap((chanString: string) => {
+        switchMap((nslcString: string) => {
           //stop before this point if no headers
           this.loadingChange.emit("Requesting channels");
           return this.channelService.getChannelsByFilters({
-            station: chanString,
+            nslc: nslcString,
           });
         }),
         tap((channels: Channel[]) => {
