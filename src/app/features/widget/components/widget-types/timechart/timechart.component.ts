@@ -241,7 +241,7 @@ export class TimechartComponent
 
       const metric = this.selectedMetrics[0];
       this.channels.forEach((channel) => {
-        const nslc = channel.nslc.toUpperCase();
+        const nslc = channel.nslc;
         const station = {
           ...series,
           ...{

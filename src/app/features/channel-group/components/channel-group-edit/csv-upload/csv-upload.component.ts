@@ -102,10 +102,10 @@ export class CsvUploadComponent {
               const loc = record[locIndex];
               const code = record[chanIndex];
               return (
-                chan.net.toLowerCase() === net.toLowerCase() &&
-                chan.sta.toLowerCase() === sta.toLowerCase() &&
-                chan.loc.toLowerCase() === loc.toLowerCase() &&
-                chan.code.toLowerCase() === code.toLowerCase()
+                chan.net === net.toUpperCase() &&
+                chan.sta === sta.toUpperCase() &&
+                chan.loc === loc.toUpperCase() &&
+                chan.code === code.toUpperCase()
               );
             });
             if (channel) {

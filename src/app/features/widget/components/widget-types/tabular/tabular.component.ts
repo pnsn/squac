@@ -200,11 +200,8 @@ export class TabularComponent
     );
 
     this.channels.forEach((channel) => {
-      const identifier =
-        channel.networkCode.toUpperCase() +
-        "." +
-        channel.stationCode.toUpperCase();
-      const nslc = channel.nslc.toUpperCase();
+      const identifier = channel.staCode;
+      const nslc = channel.nslc;
       let agg = 0;
       const rowMetrics = {};
       const stationRowMetrics = {};
@@ -242,7 +239,7 @@ export class TabularComponent
       if (this.properties.displayType === "channel") {
         title = nslc;
       } else {
-        title = channel.loc.toUpperCase() + "." + channel.code.toUpperCase();
+        title = channel.loc + "." + channel.code;
       }
 
       let row = {

@@ -234,11 +234,8 @@ export class MapComponent
         const stationChannels = {};
 
         this.channels.forEach((channel) => {
-          const identifier =
-            channel.networkCode.toUpperCase() +
-            "." +
-            channel.stationCode.toUpperCase();
-          const nslc = channel.nslc.toUpperCase();
+          const identifier = channel.staCode;
+          const nslc = channel.nslc;
           let agg = 0;
           let val: number = null;
           if (data[channel.id] && data[channel.id][metric.id]) {
@@ -257,12 +254,12 @@ export class MapComponent
           const color = this.getStyle(val, visualMap);
           const iconHtml = this.getIconHtml(color);
 
-          if (!stationChannels[channel.stationCode]) {
-            stationChannels[channel.stationCode] = "";
+          if (!stationChannels[channel.staCode]) {
+            stationChannels[channel.staCode] = "";
           }
 
-          stationChannels[channel.stationCode] =
-            stationChannels[channel.stationCode] +
+          stationChannels[channel.staCode] =
+            stationChannels[channel.staCode] +
             `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
               val !== null ? this.precisionPipe.transform(val) : "no data"
             }</td></tr>`;
@@ -271,7 +268,7 @@ export class MapComponent
             title: nslc,
             id: channel.id,
             parentId: identifier,
-            staCode: channel.stationCode,
+            staCode: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             color,
@@ -286,7 +283,7 @@ export class MapComponent
             stationRows.push({
               ...{
                 id: identifier,
-                staCode: channel.stationCode,
+                staCode: channel.staCode,
                 lat: channel.lat,
                 lon: channel.lon,
                 count: 0,
@@ -426,19 +423,13 @@ export class MapComponent
     }
 
     options.icon = L.divIcon({ html, className: "icon-parent" });
-    const marker = L.marker([station.lat, station.lon], options)
-      // .bindPopup(
-      //   `<h4> ${station.netCode.toUpperCase()}.${station.staCode.toUpperCase()} </h4> <table>
-      //   <thead><th colspan='2'>channel</th><th>value</th></thead>
-      // ${stationChannels[station.staCode]} </table>`
-      // )
-      .bindTooltip(
-        `<div class='tooltip-name'> ${
-          station.id
-        } </div> <table class='tooltip-table'>
+    const marker = L.marker([station.lat, station.lon], options).bindTooltip(
+      `<div class='tooltip-name'> ${
+        station.id
+      } </div> <table class='tooltip-table'>
         <thead><th>Channel</th><th>Value</th></thead><tbody>
       ${stationChannels[station.staCode]}</tbody> </table>`
-      );
+    );
     marker.on("click", (ev) => {
       ev.target.openPopup();
     });

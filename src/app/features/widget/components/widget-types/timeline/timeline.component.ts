@@ -243,7 +243,7 @@ export class TimelineComponent
       });
 
       this.channels.forEach((channel, index) => {
-        const nslc = channel.nslc.toUpperCase();
+        const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {

@@ -3,6 +3,7 @@ import { Adapter } from "./adapter";
 
 // Describes a channel object
 export class Channel {
+  nslc: string;
   constructor(
     public id: number,
     public code: string,
@@ -14,26 +15,17 @@ export class Channel {
     public lon: number,
     public elev: number,
     public loc: string,
-    public stationCode: string,
-    public networkCode: string,
+    public sta: string,
+    public net: string,
     public starttime: string,
     public endttime: string,
-    public _nslc: string
-  ) {}
-
-  get net(): string {
-    return this.networkCode;
-  }
-  get sta(): string {
-    return this.stationCode;
-  }
-
-  get nslc(): string {
-    return this._nslc.toUpperCase();
+    _nslc: string
+  ) {
+    this.nslc = _nslc ? _nslc : net + "." + sta + "." + loc + "." + code;
   }
 
   get staCode(): string {
-    return this.networkCode + "." + this.stationCode;
+    return this.net + "." + this.sta;
   }
 
   static get modelName() {
@@ -73,18 +65,18 @@ export class ChannelAdapter implements Adapter<Channel> {
   adaptFromApi(item: ApiGetChannel): Channel {
     return new Channel(
       item.id,
-      item.code,
+      item.code.toUpperCase(),
       item.name,
       item.sample_rate,
       item.lat,
       item.lon,
       item.elev,
-      item.loc,
-      item.station_code,
-      item.network,
+      item.loc.toUpperCase(),
+      item.station_code.toUpperCase(),
+      item.network.toUpperCase(),
       item.starttime,
       item.endtime,
-      item.nslc
+      item.nslc.toUpperCase()
     );
   }
 }

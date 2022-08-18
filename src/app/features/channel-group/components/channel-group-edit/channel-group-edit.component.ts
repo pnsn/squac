@@ -129,29 +129,19 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
       {
         name: "Network",
-        prop: "networkCode",
+        prop: "net",
         draggable: false,
         sortable: true,
         resizeable: false,
-        pipe: {
-          transform: (value) => {
-            return value.toUpperCase();
-          },
-        },
         flexGrow: 1,
       },
       {
         name: "Station",
-        prop: "stationCode",
+        prop: "net",
         draggable: false,
         sortable: true,
         resizeable: false,
         flexGrow: 1,
-        pipe: {
-          transform: (value) => {
-            return value.toUpperCase();
-          },
-        },
       },
       {
         name: "Location",
@@ -160,11 +150,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         sortable: true,
         resizeable: false,
         flexGrow: 1,
-        pipe: {
-          transform: (value) => {
-            return value.toUpperCase();
-          },
-        },
       },
       {
         name: "Channel",
@@ -173,11 +158,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         sortable: true,
         resizeable: false,
         flexGrow: 1,
-        pipe: {
-          transform: (value) => {
-            return value.toUpperCase();
-          },
-        },
       },
     ];
   }

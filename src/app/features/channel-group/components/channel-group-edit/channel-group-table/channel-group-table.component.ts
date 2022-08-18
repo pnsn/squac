@@ -51,29 +51,19 @@ export class ChannelGroupTableComponent implements OnInit {
 
         {
           name: "Network",
-          prop: "networkCode",
+          prop: "net",
           draggable: false,
           sortable: true,
           resizeable: false,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
           flexGrow: 1,
         },
         {
           name: "Station",
-          prop: "stationCode",
+          prop: "sta",
           draggable: false,
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
         {
           name: "Location",
@@ -82,11 +72,6 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
         {
           name: "Channel",
@@ -95,11 +80,6 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
       ];
       if (!this.selectable) {

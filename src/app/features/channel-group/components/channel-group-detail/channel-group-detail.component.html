@@ -80,7 +80,7 @@
             [width]="30"
           >
             <ng-template let-row="row" ngx-datatable-cell-template>
-              {{ row.networkCode | uppercase }}
+              {{ row.net }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column name="Station" [draggable]="false" [width]="30">
@@ -89,7 +89,7 @@
               let-value="value"
               ngx-datatable-cell-template
             >
-              {{ row.stationCode | uppercase }}
+              {{ row.sta }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column name="Channel" [draggable]="false" [width]="30">
@@ -98,7 +98,7 @@
               let-value="value"
               ngx-datatable-cell-template
             >
-              {{ row.code | uppercase }}
+              {{ row.code }}
             </ng-template>
           </ngx-datatable-column>
 

@@ -48,7 +48,7 @@ export class ChannelFilterComponent implements OnChanges {
     const checkboxes = <FormGroup>this.form.get("checkboxes");
     checkboxes.controls = {};
     this.channels.forEach((option: any) => {
-      checkboxes.addControl(option.nslc.toUpperCase(), new FormControl(true));
+      checkboxes.addControl(option.nslc, new FormControl(true));
     });
   }
 
@@ -68,7 +68,7 @@ export class ChannelFilterComponent implements OnChanges {
 
   update() {
     const value = <FormGroup>this.form.get("checkboxes").value;
-    const channels = this.channels.filter((c) => value[c.nslc.toUpperCase()]);
+    const channels = this.channels.filter((c) => value[c.nslc]);
     this.viewService.updateChannels(channels);
     this.changed = false;
   }

@@ -448,13 +448,13 @@ export class WidgetTypeService {
     channels.forEach((channel) => {
       const station = {
         ...series,
-        name: channel.nslc.toUpperCase(),
+        name: channel.nslc,
         data: [],
       };
       stations.push(station);
 
       const channelData = {
-        name: channel.nslc.toUpperCase(),
+        name: channel.nslc,
         value: [],
       };
 

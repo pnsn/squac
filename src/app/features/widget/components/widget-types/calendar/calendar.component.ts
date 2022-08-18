@@ -309,7 +309,7 @@ export class CalendarComponent
           });
         });
 
-        const nslc = channel.nslc.toUpperCase();
+        const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
           const channelObj = {
             type: "heatmap",
