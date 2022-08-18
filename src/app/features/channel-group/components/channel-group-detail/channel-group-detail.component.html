@@ -26,6 +26,16 @@
           <mat-icon>delete</mat-icon>
         </button>
         <button
+          *ngIf="'create' | able: Dashboard"
+          mat-icon-button
+          class="add-btn"
+          (click)="addToDashboard()"
+          matTooltip="Create dasboard with group"
+          aria-label="Button that creates dashboard with group"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <button
           *ngIf="'update' | able: channelGroup"
           mat-icon-button
           color="primary"

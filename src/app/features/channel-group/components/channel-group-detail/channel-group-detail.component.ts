@@ -68,6 +68,13 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  addToDashboard(): void {
+    this.router.navigate(["/", "dashboards", "new"], {
+      relativeTo: this.route,
+      queryParams: { group: this.channelGroup.id },
+    });
+  }
+
   // close container and route to parent
   closeChannelGroup(): void {
     this.router.navigate(["../"], { relativeTo: this.route });
