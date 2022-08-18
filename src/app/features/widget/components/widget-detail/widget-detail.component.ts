@@ -87,7 +87,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       next: (dashboardId) => {
         if (this.widget.dashboardId === dashboardId) {
           // get new data and start timers over
-          console.log("update channels from detal");
           this.widgetDataService.params.next("widget detail");
         }
       },
@@ -107,7 +106,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.error = "Error: No channels selected.";
         this.loading = false;
       }
-      console.log(channels, this.loading);
     });
 
     // get dashboards user is able to edit

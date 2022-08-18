@@ -69,7 +69,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log("Dashboard init");
     const paramsSub = this.route.data
       .pipe(
         switchMap(() => {
@@ -117,7 +116,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
     const statusSub = this.viewService.status.subscribe({
       next: (status) => {
-        console.log(status, " status changed");
         this.status = status;
       },
       error: (error) => {

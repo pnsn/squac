@@ -140,7 +140,6 @@ export class ViewService {
 
   // send out new channels
   updateChannels(channels: Channel[]) {
-    console.log("update chanels view");
     this.channels.next(channels);
   }
 
