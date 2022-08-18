@@ -102,10 +102,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.loading = "Requesting Data";
         this.channels = channels;
         this.error = false;
-      } else {
+      }
+      if (channels?.length === 0) {
         this.error = "Error: No channels selected.";
         this.loading = false;
       }
+      console.log(channels, this.loading);
     });
 
     // get dashboards user is able to edit

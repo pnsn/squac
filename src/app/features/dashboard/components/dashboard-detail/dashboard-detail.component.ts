@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription, switchMap, tap } from "rxjs";
+import { EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -90,6 +90,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           const params = this.route.snapshot.queryParams;
           if (params.group) {
             this.channelGroupId = +params.group;
+          }
+          if (!this.channelGroupId) {
+            this.viewService.finishedLoading();
+            this.viewService.updateChannels([]);
+            return EMPTY;
           }
           return this.channelGroupService
             .getChannelGroup(this.channelGroupId)
