@@ -98,7 +98,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     });
 
     const resizeSub = this.viewService.resize.subscribe((widgetId) => {
-      if (!widgetId) {
+      if (!widgetId && this.options.api) {
         this.options.api.resize();
       }
     });

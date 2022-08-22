@@ -90,7 +90,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   // make sure there are metrics
   checkValid(): void {
     this.done =
-      this.selectedMetrics && this.selectedMetrics.length > this.minLength;
+      this.selectedMetrics && this.selectedMetrics.length >= this.minLength;
   }
 
   // search for metrics

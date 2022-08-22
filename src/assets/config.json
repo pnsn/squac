@@ -149,7 +149,7 @@
       "useAggregate": false,
       "zoomControls": true,
       "toggleKey": true,
-      "description": "  ",
+      "description": "Chart with average measurement values on the y-axis and the selected display type on the x-axis. Each channel is a separate line.",
       "displayInfo": "channels as dots",
       "displayOptions": [{
           "description": "days of week",
