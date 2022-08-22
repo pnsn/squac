@@ -63,14 +63,37 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   adaptFromApi(item: ApiGetChannelGroup): ChannelGroup {
     let channelIds;
     let channels;
+    let includeChannelIds = [];
+    let excludeChannelIds = [];
+    let includeChannels;
+    let excludeChannels;
 
-    if (item.channels[0] && typeof item.channels[0] === "number") {
+    //short response from
+    if (
+      typeof item.channels[0] === "number" ||
+      typeof item.auto_exclude_channels === "number" ||
+      typeof item.auto_include_channels === "number"
+    ) {
       channelIds = item.channels;
+      includeChannelIds = item.auto_include_channels;
+      excludeChannelIds = item.auto_exclude_channels;
       channels = [];
+      includeChannels = [];
+      excludeChannels = [];
+      //full response
     } else {
       channelIds = [];
       channels = item.channels.map((c) => {
         channelIds.push(c.id);
+        return this.channelAdapter.adaptFromApi(c);
+      });
+      includeChannels = item.auto_include_channels.map((c) => {
+        includeChannelIds.push(c.id);
+        const d = this.channelAdapter.adaptFromApi(c);
+        return d;
+      });
+      excludeChannels = item.auto_exclude_channels.map((c) => {
+        excludeChannelIds.push(c.id);
         return this.channelAdapter.adaptFromApi(c);
       });
     }
@@ -84,23 +107,10 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       channelIds
     );
 
-    if (
-      item.auto_include_channels[0] &&
-      typeof item.auto_include_channels[0] === "number"
-    ) {
-      channelGroup.autoIncludeChannelIds = item.auto_include_channels;
-      channelGroup.autoExcludeChannelIds = item.auto_exclude_channels;
-    } else {
-      channelGroup.autoIncludeChannels = item.auto_include_channels.map((c) => {
-        channelGroup.autoIncludeChannelIds.push(c.id);
-        const d = this.channelAdapter.adaptFromApi(c);
-        return d;
-      });
-      channelGroup.autoExcludeChannels = item.auto_exclude_channels.map((c) => {
-        channelGroup.autoExcludeChannelIds.push(c.id);
-        return this.channelAdapter.adaptFromApi(c);
-      });
-    }
+    channelGroup.autoIncludeChannels = includeChannels;
+    channelGroup.autoExcludeChannels = excludeChannels;
+    channelGroup.autoIncludeChannelIds = includeChannelIds;
+    channelGroup.autoExcludeChannelIds = excludeChannelIds;
     channelGroup.channels = channels;
     return channelGroup;
   }
