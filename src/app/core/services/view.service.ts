@@ -1,14 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import {
-  Subject,
-  BehaviorSubject,
-  Observable,
-  tap,
-  take,
-  ReplaySubject,
-} from "rxjs";
+import { Subject, BehaviorSubject, Observable, tap, take } from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Widget } from "@widget/models/widget";

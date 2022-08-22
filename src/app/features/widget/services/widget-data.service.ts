@@ -11,7 +11,6 @@ import {
   filter,
   ReplaySubject,
   catchError,
-  empty,
   EMPTY,
 } from "rxjs";
 import { Widget } from "../models/widget";

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
-import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@features/dashboard/models/dashboard";
 import { Subscription } from "rxjs";
 import { DashboardEditComponent } from "../dashboard-edit.component";

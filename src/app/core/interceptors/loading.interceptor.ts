@@ -8,7 +8,6 @@ import {
 import { Observable } from "rxjs";
 import { LoadingService } from "@core/services/loading.service";
 import { finalize } from "rxjs/operators";
-import { ActivatedRoute } from "@angular/router";
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {

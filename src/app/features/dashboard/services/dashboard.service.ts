@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
-import { Observable, of, switchMap } from "rxjs";
+import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 
 @Injectable({
   providedIn: "root",
@@ -48,7 +47,6 @@ export class DashboardService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    let dashboard: Dashboard;
     // Fetch new dashboards if > 5 minutes since refresh
     return this.squacApi.get(this.url, id).pipe(
       map((response) => this.dashboardAdapter.adaptFromApi(response)),

@@ -1,18 +1,11 @@
-import { Injectable } from "@angular/core";
-import {
-  Subject,
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  delay,
-  tap,
-} from "rxjs";
+import { Injectable, OnDestroy } from "@angular/core";
+import { Subject, BehaviorSubject, delay, tap } from "rxjs";
 
 // Handles loading status for loading screen
 @Injectable({
   providedIn: "root",
 })
-export class LoadingService {
+export class LoadingService implements OnDestroy {
   loading: Subject<boolean> = new BehaviorSubject(false);
   loadingStatus: Subject<string> = new BehaviorSubject(null);
   activeCount = 0;
@@ -41,7 +34,7 @@ export class LoadingService {
   }
 
   // Emits true to loading subscribers
-  requestStarted(url): void {
+  requestStarted(_url): void {
     this.activeCount++;
     this.requests.next(true);
   }
@@ -49,7 +42,7 @@ export class LoadingService {
   //    this.loadingStatus.next(null);
   // Emits false to loading subscribers
   // Removes message
-  requestFinished(url): void {
+  requestFinished(_url): void {
     this.activeCount--;
     this.requests.next(false);
   }
