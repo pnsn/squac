@@ -63,7 +63,6 @@ export interface ApiGetChannel {
 })
 export class ChannelAdapter implements Adapter<Channel> {
   adaptFromApi(item: ApiGetChannel): Channel {
-    console.log(item);
     return new Channel(
       item.id,
       item.code.toUpperCase(),

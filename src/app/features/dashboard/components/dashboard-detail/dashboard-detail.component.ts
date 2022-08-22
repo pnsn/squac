@@ -83,8 +83,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap(() => {
           this.viewService.startedLoading();
-          if (this.dashboard.channelGroup) {
-            this.channelGroupId = this.dashboard.channelGroup.id;
+          if (this.dashboard.channelGroupId) {
+            this.channelGroupId = this.dashboard.channelGroupId;
           }
           const params = this.route.snapshot.queryParams;
           if (params.group) {
