@@ -4,7 +4,6 @@ import { WidgetEditComponent } from "./components/widget-edit/widget-edit.compon
 import { MeasurementPipe } from "./pipes/measurement.pipe";
 import { TabularComponent } from "./components/widget-types/tabular/tabular.component";
 import { TimelineComponent } from "./components/widget-types/timeline/timeline.component";
-import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { GridsterModule } from "angular-gridster2";
 import { WidgetEditOptionsComponent } from "./components/widget-edit/widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./components/widget-edit/widget-edit-metrics/widget-edit-metrics.component";
@@ -40,7 +39,7 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     ParallelPlotComponent,
     CalendarComponent,
   ],
-  imports: [SharedModule, NgxChartsModule, GridsterModule],
+  imports: [SharedModule, GridsterModule],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
