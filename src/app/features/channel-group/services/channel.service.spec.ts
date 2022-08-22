@@ -4,25 +4,36 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { ChannelService } from "./channel.service";
-import { Channel } from "@core/models/channel";
+import { ApiGetChannel } from "@core/models/channel";
 
 describe("ChannelService", () => {
   let channelService: ChannelService;
 
-  const testChannel: Channel = new Channel(
-    1,
-    "code",
-    "name",
-    0,
-    0,
-    0,
-    0,
-    "loc",
-    "stationCode",
-    "networkCode",
-    "",
-    ""
-  );
+  const testChannel: ApiGetChannel = {
+    id: 1,
+    network: "1",
+    class_name: "channel",
+    code: "nnn",
+    name: "channel",
+    station_code: "sta",
+    loc: "loc",
+    lat: 1919,
+    lon: 222,
+    station_name: "",
+    url: "",
+    description: "",
+    sample_rate: 1,
+    elev: 1,
+    azimuth: 1,
+    dip: 1,
+    created_at: "",
+    updated_at: "",
+    nslc: "",
+    user_id: "1",
+    starttime: "",
+    endtime: "",
+  };
+
   const mockSquacApiService = new MockSquacApiService(testChannel);
 
   beforeEach(() => {

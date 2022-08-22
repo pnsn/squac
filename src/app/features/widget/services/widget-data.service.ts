@@ -141,7 +141,7 @@ export class WidgetDataService implements OnDestroy {
     if (response.length === 0) {
       return { error: "No measurements found." };
     }
-    // console.log("Loaded measurements: ", response.length);
+
     response.forEach((m) => {
       let value: Measurement | Aggregate | Archive;
       if (archiveType && archiveType !== "raw") {

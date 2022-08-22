@@ -21,24 +21,17 @@ describe("LoadingService", () => {
     });
   });
 
-  it("should start loading", () => {
-    service.startLoading();
-    service.loading.subscribe((loading) => {
-      expect(loading).toEqual(true);
-    });
-  });
-
   it("should stop loading", () => {
-    service.startLoading();
-    service.stopLoading();
+    service.requestStarted();
+    service.requestFinished();
     service.loading.subscribe((loading) => {
       expect(loading).toEqual(false);
     });
   });
 
   it("should empty status", () => {
-    service.startLoading();
-    service.stopLoading();
+    service.requestStarted();
+    service.requestFinished();
     service.loadingStatus.subscribe((status) => {
       expect(status).toBeNull();
     });

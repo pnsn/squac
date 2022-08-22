@@ -121,7 +121,7 @@ describe("ViewService", () => {
 
   it("should stop loading", () => {
     service.queuedWidgets = 1;
-    service.widgetFinishedLoading();
+    service.finishedLoading();
     service.status.pipe(take(1)).subscribe((status) => {
       expect(status).toEqual("finished");
     });
@@ -129,7 +129,7 @@ describe("ViewService", () => {
 
   it("should start loading", () => {
     service.queuedWidgets = 0;
-    service.widgetStartedLoading();
+    service.startedLoading();
     service.status.pipe(take(1)).subscribe((status) => {
       expect(status).toEqual("loading");
     });

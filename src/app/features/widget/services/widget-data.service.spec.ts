@@ -14,7 +14,21 @@ import { WidgetDataService } from "./widget-data.service";
 describe("WidgetDataService", () => {
   let service: WidgetDataService;
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
-  const testChannel = new Channel(1, "", "", 1, 1, 1, 1, "", "", "", "", "");
+  const testChannel = new Channel(
+    1,
+    "",
+    "",
+    1,
+    1,
+    1,
+    1,
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  );
   const testWidget = new Widget(1, 1, "", 1, [testMetric], "", "");
   const testType = new WidgetType(
     1,
@@ -34,8 +48,8 @@ describe("WidgetDataService", () => {
       .provide({
         provide: MeasurementService,
         useValue: {
-          getData: () => {
-            return of();
+          getData: (_params?) => {
+            return of([]);
           },
         },
       })
@@ -43,12 +57,16 @@ describe("WidgetDataService", () => {
         provide: ViewService,
         useValue: {
           channels: of(),
-          widgetStartedLoading: () => {
+          startedLoading: () => {
             return;
           },
-          widgetFinishedLoading: () => {
+          finishedLoading: () => {
             return;
           },
+          startTime: "start",
+          endTime: "end",
+          archiveType: "raw",
+          channelsString: "test.test.test.test",
         },
       });
   });
@@ -70,13 +88,13 @@ describe("WidgetDataService", () => {
   });
 
   it("should not try to fetch measurements if no widget", () => {
-    const viewSpy = spyOn(viewService, "widgetStartedLoading");
+    const viewSpy = spyOn(viewService, "startedLoading");
     service.updateWidget(null, testType);
     expect(viewSpy).not.toHaveBeenCalled();
   });
 
   it("should try to get measurements if there is a widget and dates", () => {
-    const viewSpy = spyOn(viewService, "widgetStartedLoading");
+    const viewSpy = spyOn(viewService, "finishedLoading");
     service.updateWidget(testWidget, testType);
     service.channels = [testChannel];
     service.updateMetrics([testMetric]);

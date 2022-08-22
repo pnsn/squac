@@ -34,7 +34,7 @@ export class LoadingService implements OnDestroy {
   }
 
   // Emits true to loading subscribers
-  requestStarted(_url): void {
+  requestStarted(_url?): void {
     this.activeCount++;
     this.requests.next(true);
   }
@@ -42,7 +42,7 @@ export class LoadingService implements OnDestroy {
   //    this.loadingStatus.next(null);
   // Emits false to loading subscribers
   // Removes message
-  requestFinished(_url): void {
+  requestFinished(_url?): void {
     this.activeCount--;
     this.requests.next(false);
   }
