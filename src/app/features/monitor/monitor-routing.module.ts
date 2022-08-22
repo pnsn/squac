@@ -17,7 +17,6 @@ export const routes: Routes = [
       monitors: MonitorResolver,
       alerts: AlertResolver,
     },
-    runGuardsAndResolvers: "always",
     children: [
       {
         path: "alerts",
@@ -30,6 +29,7 @@ export const routes: Routes = [
           monitors: MonitorResolver,
           alerts: AlertResolver,
         },
+        runGuardsAndResolvers: "always",
         children: [
           {
             path: "new",

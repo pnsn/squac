@@ -18,6 +18,7 @@ export const routes: Routes = [
     },
     canActivate: [AuthGuard],
     component: UserComponent,
+    runGuardsAndResolvers: "always",
     children: [
       {
         path: "",
@@ -42,6 +43,7 @@ export const routes: Routes = [
         resolve: {
           organization: OrganizationResolver,
         },
+        runGuardsAndResolvers: "always",
         children: [
           {
             path: "user/:userId/edit",

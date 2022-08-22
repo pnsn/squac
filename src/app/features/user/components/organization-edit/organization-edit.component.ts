@@ -56,8 +56,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
         { value: "", disabled: this.editMode },
         this.editMode ? [] : [Validators.required, Validators.email],
       ],
-      firstName: [""],
-      lastName: [""],
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
       isAdmin: [false, Validators.required],
       groups: ["", Validators.required],
     });
