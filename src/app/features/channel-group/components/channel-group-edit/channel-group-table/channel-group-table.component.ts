@@ -28,6 +28,9 @@ export class ChannelGroupTableComponent implements OnInit {
   ColumnMode = ColumnMode;
   SortType = SortType;
   columns: any = [];
+  messages = {
+    emptyMessage: "No channels found.",
+  };
 
   ngOnInit(): void {
     // table columns

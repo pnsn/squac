@@ -174,13 +174,13 @@
         <mat-expansion-panel expanded="false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h4>Regular Expressions ({{ matchingRules.length }})</h4>
+              <h4>RegEx Rules ({{ matchingRules.length }})</h4>
             </mat-panel-title>
             <mat-panel-description> (optional) </mat-panel-description>
           </mat-expansion-panel-header>
           <p class="help-text">
-            Channel groups can be defined by sets of regex. Groups will be
-            updated daily with any channels that match the expressions.
+            Channel groups can be defined by sets of regular expressions. Groups
+            will be updated daily with any channels that match the rules.
           </p>
           <channel-group-matching-rule-edit
             [(matchingRules)]="matchingRules"

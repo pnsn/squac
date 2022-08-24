@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
-import { EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Channel } from "@core/models/channel";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { MessageService } from "@core/services/message.service";
 
 // Individual dashboard
 @Component({
@@ -65,7 +66,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +95,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           if (!this.channelGroupId) {
             this.viewService.finishedLoading();
             this.viewService.updateChannels([]);
+            this.messageService.alert("Select a channel group.");
             return EMPTY;
           }
           return this.channelGroupService
@@ -107,7 +110,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: () => {
+        error: (error) => {
+          if (!this.dashboard) {
+            this.messageService.error("Could not load dashboard.");
+          } else {
+            this.messageService.error("Could not load channel group.");
+          }
+          this.viewService.finishedLoading();
+        },
+        next: (channelGroup) => {
           this.startTime = this.viewService.startTime;
           this.endTime = this.viewService.endTime;
           this.error = null;

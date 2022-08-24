@@ -19,26 +19,30 @@
 </div>
 
 <form #rulesForm [formGroup]="matchingRulesForm">
-  <table formArrayName="rules">
-    <tr>
-      <th class="narrow">include?</th>
-      <th>network</th>
-      <th>station</th>
-      <th>location</th>
-      <th>channel</th>
-      <th class="narrow"></th>
-    </tr>
+  <div formArrayName="rules" id="rules-container">
+    <div class="header-row">
+      <div class="medium">include?</div>
+      <div class="field-column">network</div>
+      <div class="field-column">station</div>
+      <div class="field-column">location</div>
+      <div class="field-column">channel</div>
+      <div class="narrow"></div>
+    </div>
+    <ng-container *ngIf="rules.controls.length === 0">
+      <span>No rules.</span>
+    </ng-container>
     <ng-container *ngFor="let rule of rules.controls; let i = index">
-      <tr [formGroupName]="i" class="rule-row">
-        <td class="narrow">
+      <div [formGroupName]="i" class="rule-row">
+        <div class="medium">
           <mat-checkbox
             #isInclude
             formControlName="isInclude"
             (change)="updateRules()"
           >
           </mat-checkbox>
-        </td>
-        <td>
+        </div>
+
+        <div class="field-column">
           <mat-form-field>
             <input
               #networkRegex
@@ -52,8 +56,9 @@
               (focusout)="updateRules()"
             />
           </mat-form-field>
-        </td>
-        <td>
+        </div>
+
+        <div class="field-column">
           <mat-form-field>
             <input
               #stationRegex
@@ -67,8 +72,9 @@
               (focusout)="updateRules()"
             />
           </mat-form-field>
-        </td>
-        <td>
+        </div>
+
+        <div class="field-column">
           <mat-form-field>
             <input
               #locationRegex
@@ -82,8 +88,9 @@
               (focusout)="updateRules()"
             />
           </mat-form-field>
-        </td>
-        <td>
+        </div>
+
+        <div class="field-column">
           <mat-form-field>
             <input
               #channelRegex
@@ -97,27 +104,28 @@
               (focusout)="updateRules()"
             />
           </mat-form-field>
-        </td>
-        <td class="narrow">
+        </div>
+
+        <div class="narrow">
           <button mat-icon-button type="button" (click)="removeRule(i)">
             <mat-icon>close</mat-icon>
           </button>
-        </td>
-      </tr>
-      <tr *ngIf="rules.controls[i].errors as errors">
-        <td colspan="6" class="warn-text">
+        </div>
+      </div>
+      <div *ngIf="rules.controls[i].errors as errors">
+        <span class="warn-text">
           {{ errors.atLeastOne?.message }}
-        </td>
-      </tr>
+        </span>
+      </div>
       <ng-container
         *ngFor="let field of ['network', 'station', 'location', 'channel']"
       >
-        <tr *ngIf="rules.controls[i].get(field + 'Regex').errors as errors">
-          <td colspan="6" class="warn-text">
+        <div *ngIf="rules.controls[i].get(field + 'Regex').errors as errors">
+          <span class="warn-text">
             {{ errors.invalidRegex?.message }} for {{ field }}
-          </td>
-        </tr>
+          </span>
+        </div>
       </ng-container>
     </ng-container>
-  </table>
+  </div>
 </form>

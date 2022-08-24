@@ -9,12 +9,12 @@
   .filters {
     justify-content: space-between;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
     flex-shrink: 1;
     max-width: calc(100% - 300px);
   }
   mat-form-field {
-    max-width: 25%;
+    max-width: 23%;
     .no-input {
       display: none;
     }
