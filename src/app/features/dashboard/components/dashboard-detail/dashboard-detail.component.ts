@@ -103,7 +103,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 this.viewService.updateChannels(this.channels);
                 this.viewService.finishedLoading();
               })
-            );
+            ); //catch error on missing channel group
         })
       )
       .subscribe({
