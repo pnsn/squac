@@ -115,7 +115,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (user) => {
-          // this.sendInvite(user.id, user.email);
+          this.sendInvite(user.id, user.email);
           this.messageService.message(`Updated user ${user.email}.`);
           this.cancel(user.id);
         },
