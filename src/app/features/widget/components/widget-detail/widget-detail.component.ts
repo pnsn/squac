@@ -144,7 +144,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
-          // this.error = false;
+          this.error = false;
         }
       });
     }
