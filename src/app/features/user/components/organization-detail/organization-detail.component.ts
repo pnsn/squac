@@ -36,7 +36,7 @@ export class OrganizationDetailComponent
       text: "Add User", //      *ngIf="isAdmin"
       path: "user",
     },
-    menu: {},
+    menu: null,
     refresh: true,
     links: [{ text: "View All Organizations", path: "../" }],
   };
