@@ -395,8 +395,7 @@ export class CalendarComponent
         show: "true",
       },
     };
-    const name =
-      this.properties.displayType == "hours" ? "Hour of Day" : "Day of Week";
+    const name = this.properties.displayType.replace("-", " of ");
     xAxis1.name = name;
     xAxis1.position = "bottom";
 

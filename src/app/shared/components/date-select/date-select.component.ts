@@ -54,7 +54,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
       changes.initialStartDate
     ) {
       this.setUpInitialValues();
-      console.log(this.secondsAgoFromNow);
     }
   }
 

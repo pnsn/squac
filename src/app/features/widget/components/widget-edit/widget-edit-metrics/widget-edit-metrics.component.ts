@@ -14,6 +14,7 @@ import {
   WidgetDisplayOption,
   WidgetType,
 } from "@features/widget/models/widget-type";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -22,8 +23,13 @@ import {
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-  @Input() type: WidgetType;
+  @Input() type: string;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
+  widgetTypes;
+
+  constructor(widgetConfigService: WidgetConfigService) {
+    this.widgetTypes = widgetConfigService.widgetTypes;
+  }
 
   minLength = 1;
   done = false;
@@ -71,7 +77,10 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
     }
 
     if (changes.type) {
-      this.minLength = this.type?.minMetrics || 1;
+      const selectedType = this.widgetTypes.find((type: WidgetType) => {
+        return type.type === this.type;
+      });
+      this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }
 
