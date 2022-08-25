@@ -177,15 +177,32 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   includeChannels() {
     this.updateState();
+
+    //get all channels that aren't already in add channels
     const addChannels = this.findChannelsInGroup(this.autoIncludeChannels);
+
+    // add channels
+    this.autoExcludeChannels = this.autoExcludeChannels.filter((channel) => {
+      const index = addChannels.findIndex((c) => c.id === channel.id);
+      return index === -1;
+    });
+
     this.autoIncludeChannels = [...this.autoIncludeChannels, ...addChannels];
+    //remove from excluded
     this.selectedChannels = [];
   }
 
   excludeChannels() {
     this.updateState();
     const addChannels = this.findChannelsInGroup(this.autoExcludeChannels);
+
+    this.autoIncludeChannels = this.autoIncludeChannels.filter((channel) => {
+      const index = addChannels.findIndex((c) => c.id === channel.id);
+      return index === -1;
+    });
+
     this.autoExcludeChannels = [...this.autoExcludeChannels, ...addChannels];
+    //remove from included
     this.selectedChannels = [];
   }
 
