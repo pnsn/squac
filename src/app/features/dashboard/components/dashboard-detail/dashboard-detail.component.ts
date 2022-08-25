@@ -28,6 +28,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   endTime: string;
   channelGroupId: number;
   sideNavOpened = true;
+  timeRange: number;
   // time picker config
   datePickerTimeRanges = [
     {
@@ -107,6 +108,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 this.viewService.finishedLoading();
                 this.startTime = this.viewService.startTime;
                 this.endTime = this.viewService.endTime;
+                this.timeRange = this.viewService.range;
               })
             ); //catch error on missing channel group
         })
