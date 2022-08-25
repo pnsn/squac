@@ -71,8 +71,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     //short response from
     if (
       typeof item.channels[0] === "number" ||
-      typeof item.auto_exclude_channels === "number" ||
-      typeof item.auto_include_channels === "number"
+      typeof item.auto_exclude_channels[0] === "number" ||
+      typeof item.auto_include_channels[0] === "number"
     ) {
       channelIds = item.channels;
       includeChannelIds = item.auto_include_channels;

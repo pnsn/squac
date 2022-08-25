@@ -26,8 +26,10 @@ export class WidgetConfigService {
         type.type,
         type.description,
         type.displayInfo,
+        type.zoomControls,
         type.useAggregate,
         type.toggleKey,
+        type.minMetrics,
         type.displayOptions
       );
     });

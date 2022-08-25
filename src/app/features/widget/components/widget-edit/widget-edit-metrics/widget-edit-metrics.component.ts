@@ -10,7 +10,10 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetDisplayOption } from "@features/widget/models/widget-type";
+import {
+  WidgetDisplayOption,
+  WidgetType,
+} from "@features/widget/models/widget-type";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -19,7 +22,7 @@ import { WidgetDisplayOption } from "@features/widget/models/widget-type";
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-  @Input() displayType: WidgetDisplayOption;
+  @Input() type: WidgetType;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
 
   minLength = 1;
@@ -67,8 +70,8 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
       this.rows = [...this.metrics];
     }
 
-    if (changes.displayType) {
-      this.minLength = this.displayType?.dimensions?.length || 1;
+    if (changes.type) {
+      this.minLength = this.type?.minMetrics || 1;
       this.checkValid();
     }
 

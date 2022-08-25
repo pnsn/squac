@@ -122,6 +122,7 @@ export class WidgetTypeService {
         moveOnMouseWheel: true,
         zoomOnMouseWheel: false,
         orient: "vertical",
+        filterMode: "empty",
       },
       {
         type: "slider",

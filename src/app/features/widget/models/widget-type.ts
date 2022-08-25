@@ -5,8 +5,10 @@ export class WidgetType {
     readonly type: string,
     readonly description: string,
     readonly displayInfo: string,
+    readonly zoomControls: boolean,
     readonly useAggregate: boolean,
     readonly toggleKey: boolean,
+    readonly minMetrics: number,
     readonly displayOptions?: WidgetDisplayOption[]
   ) {}
 

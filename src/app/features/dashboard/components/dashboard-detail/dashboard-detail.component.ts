@@ -105,6 +105,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 this.channels = channelGroup.channels;
                 this.viewService.updateChannels(this.channels);
                 this.viewService.finishedLoading();
+                this.startTime = this.viewService.startTime;
+                this.endTime = this.viewService.endTime;
               })
             ); //catch error on missing channel group
         })
@@ -119,8 +121,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.viewService.finishedLoading();
         },
         next: (channelGroup) => {
-          this.startTime = this.viewService.startTime;
-          this.endTime = this.viewService.endTime;
           this.error = null;
         },
       });

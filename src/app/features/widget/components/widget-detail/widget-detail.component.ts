@@ -155,6 +155,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.widgetType = this.widgetConfigService.getWidgetType(
         this.widget.type
       );
+
       this.displayType = this.widgetType.getOption(
         this.widget.properties.displayType
       );
@@ -162,9 +163,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       // check if has required # of metrics
       if (
         !this.widget.metrics ||
-        this.displayType?.dimensions?.length > this.widget.metrics.length
+        this.widgetType.minMetrics > this.widget.metrics.length
       ) {
-        this.error = `Error: ${this.widget.metrics} of ${this.displayType.dimensions?.length} metrics selected.`;
+        this.error = `Error: ${this.widget.metrics} of ${this.widgetType.minMetrics} metrics selected.`;
         this.loading = false;
       } else {
         this.widgetDataService.updateWidget(this.widget, this.widgetType);
@@ -203,7 +204,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       // if enough not enough dimensions, update with remaining metrics
-      if (this.selected.length < this.displayType.dimensions.length) {
+      if (this.selected.length < this.widgetType.minMetrics) {
         this.widget.metrics.forEach((metric: Metric, _index) => {
           if (
             this.selected.indexOf(metric.id) < 0 &&
@@ -230,11 +231,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   // get new data and save metrics when changed
   metricsSelected(): void {
-    if (this.widget.metrics && this.displayType.dimensions) {
-      while (this.selected.length < this.displayType.dimensions?.length) {
+    if (this.widget.metrics && this.widgetType.minMetrics) {
+      while (this.selected.length < this.widgetType.minMetrics) {
         this.selected.push(this.widget.metrics[0].id);
       }
-      const diff = this.displayType.dimensions?.length - this.selected.length;
+      const diff = this.widgetType.minMetrics - this.selected.length;
       //if not enough metrics, populate with 1st one to prevent breaking
       this.selected.fill(
         this.widget.metrics[0].id,
@@ -245,7 +246,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     // add all selected metrics
     if (
-      this.selected.length >= this.displayType?.dimensions?.length ||
+      this.selected.length >= this.widgetType.minMetrics ||
       (!this.displayType.dimensions && this.selected.length > 0)
     ) {
       this.selectedMetrics = this.widget.metrics.filter(

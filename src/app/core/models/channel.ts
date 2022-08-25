@@ -65,18 +65,18 @@ export class ChannelAdapter implements Adapter<Channel> {
   adaptFromApi(item: ApiGetChannel): Channel {
     return new Channel(
       item.id,
-      item.code.toUpperCase(),
+      item.code?.toUpperCase(),
       item.name,
       item.sample_rate,
       item.lat,
       item.lon,
       item.elev,
-      item.loc.toUpperCase(),
-      item.station_code.toUpperCase(),
-      item.network.toUpperCase(),
+      item.loc?.toUpperCase(),
+      item.station_code?.toUpperCase(),
+      item.network?.toUpperCase(),
       item.starttime,
       item.endtime,
-      item.nslc.toUpperCase()
+      item.nslc?.toUpperCase()
     );
   }
 }
