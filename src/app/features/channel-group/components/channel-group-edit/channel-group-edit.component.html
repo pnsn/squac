@@ -68,12 +68,10 @@
           (channelsChange)="addChannelsFromCSV($event)"
           [(loading)]="loading"
           [(error)]="error"
+          [showOnlyCurrent]="showOnlyCurrent"
         >
         </channel-group-csv-upload>
-        <mat-slide-toggle
-          [(ngModel)]="showOnlyCurrent"
-          (change)="filterCurrent()"
-        >
+        <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
           <span class="help-text">Only Show Current Channels</span>
         </mat-slide-toggle>
       </div>

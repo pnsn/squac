@@ -5,7 +5,9 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { Params } from "@angular/router";
 import { Channel } from "@core/models/channel";
+import { DateService } from "@core/services/date.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map } from "rxjs";
@@ -25,6 +27,7 @@ export class CsvUploadComponent {
   staRegex = new RegExp(/^Sta\w{0,4}/, "i");
   chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
   locRegex = new RegExp(/^Loc\w{0,5}/, "i");
+  @Input() showOnlyCurrent: boolean;
   @Input() channels: Channel[];
   @Output() channelsChange = new EventEmitter<Channel[]>();
   @Input() loading: string | boolean;
@@ -33,7 +36,8 @@ export class CsvUploadComponent {
   @Output() errorChange = new EventEmitter<string | boolean>();
   constructor(
     private ngxCsvParser: NgxCsvParser,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private dateService: DateService
   ) {}
 
   @ViewChild("fileImportInput") fileImportInput: any;
@@ -81,39 +85,29 @@ export class CsvUploadComponent {
           }
 
           return this.csvRecords.reduce((previous, current) => {
-            const station = current[staIndex];
-            return previous ? previous + "," + station.nslc : station.nslc;
+            const nslc = `${current[netIndex]}.${current[staIndex]}.${current[locIndex]}.${current[chanIndex]}`;
+            return previous
+              ? previous + "," + nslc.toLowerCase()
+              : nslc.toLowerCase();
           }, "");
         }),
         switchMap((nslcString: string) => {
           //stop before this point if no headers
+          const searchFilters: any = {};
+          if (this.showOnlyCurrent) {
+            const now = this.dateService.now();
+            searchFilters.endafter = this.dateService.format(now);
+          }
           this.loadingChange.emit("Requesting channels");
           return this.channelService.getChannelsByFilters({
             nslc: nslcString,
+            ...searchFilters,
           });
         }),
         tap((channels: Channel[]) => {
           this.loadingChange.emit("Validating channels");
 
-          this.csvRecords.forEach((record) => {
-            const channel = channels.find((chan) => {
-              const net = record[netIndex];
-              const sta = record[staIndex];
-              const loc = record[locIndex];
-              const code = record[chanIndex];
-              return (
-                chan.net === net.toUpperCase() &&
-                chan.sta === sta.toUpperCase() &&
-                chan.loc === loc.toUpperCase() &&
-                chan.code === code.toUpperCase()
-              );
-            });
-            if (channel) {
-              this.matchingChannels.push(channel);
-            } else {
-              this.missingChannels.push(record);
-            }
-          });
+          this.matchingChannels = channels;
 
           if (this.matchingChannels.length === 0) {
             throw new Error("No matching channels found");

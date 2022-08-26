@@ -17,6 +17,8 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
 import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { icon } from "leaflet";
+import { DateService } from "@core/services/date.service";
 
 @Component({
   selector: "channel-group-edit",
@@ -75,7 +77,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
-    private matchingRuleService: MatchingRuleService
+    private matchingRuleService: MatchingRuleService,
+    private dateService: DateService
   ) {}
 
   ngOnInit(): void {
@@ -214,16 +217,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Remove stations with offdates before today
-  filterCurrent(): void {
-    const current = new Date().getTime();
-    const temp = this.rows.filter((channel) => {
-      const offDate = new Date(channel.endttime).getTime();
-      return this.showOnlyCurrent ? current < offDate : true;
-    });
-    this.rows = [...temp];
-  }
-
   // restore channels to last cversion
   undoSelectRemove(): void {
     this.autoExcludeChannels = this.lastState.autoExcludeChannels;
@@ -247,9 +240,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   addChannelsFromCSV(channels) {
     this.rows = [...channels];
     this.selectedChannels = [...channels];
-
-    this.filterCurrent();
-    // add channels to selected Channels
   }
 
   // row selected on table
@@ -268,7 +258,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   previewRules(rules: MatchingRule[]) {
     this.loading = "Requesting Channels";
     this.error = false;
-    const ruleSubs = this.channelService.getChannelsByRules(rules);
+    const params: any = {};
+    if (this.showOnlyCurrent) {
+      const now = this.dateService.now();
+      params.endafter = this.dateService.format(now);
+    }
+    const ruleSubs = this.channelService.getChannelsByRules(rules, params);
     const results = [];
     merge(...ruleSubs)
       .pipe(
@@ -276,7 +271,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           channels.forEach((channel) => {
             const index = results.findIndex((chan) => chan.id === channel.id);
             const excluded = this.checkRules(channel, rules);
-            if (index < 0 && !excluded) {
+            if (index < 0 && !excluded && channel) {
               results.push(channel);
             }
           });
@@ -286,8 +281,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         next: () => {
           this.selectedChannels = [...results];
           this.rows = [...results];
-
-          this.filterCurrent();
           // add channels to selected Channels
         },
         complete: () => {
@@ -330,6 +323,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
+    if (this.showOnlyCurrent) {
+      const now = this.dateService.now();
+      searchFilters.endafter = this.dateService.format(now);
+    }
     if (Object.keys(searchFilters).length !== 0) {
       this.loading = "Requesting Channels";
       this.error = false;
@@ -340,9 +337,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             this.selectedChannels = [...response];
             this.rows = [...response];
             //select retunred rows that are in group
-
-            this.filterCurrent();
-            // add channels to selected Channels
           },
           complete: () => {
             this.loading = false;
