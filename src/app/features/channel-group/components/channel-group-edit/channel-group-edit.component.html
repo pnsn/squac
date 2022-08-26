@@ -117,15 +117,13 @@
             </button>
           </div>
 
-          <div class="table-container">
-            <channel-group-edit-table
-              [rows]="rows"
-              [selectable]="true"
-              [selected]="selectedChannels"
-              (selectedChange)="selectRow($event)"
-            >
-            </channel-group-edit-table>
-          </div>
+          <channel-group-edit-table
+            [rows]="rows"
+            [selectable]="true"
+            [selected]="selectedChannels"
+            (selectedChange)="selectRow($event)"
+          >
+          </channel-group-edit-table>
         </div>
         <div id="map-box">
           <channel-group-map
