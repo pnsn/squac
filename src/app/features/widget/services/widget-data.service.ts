@@ -32,7 +32,7 @@ export class WidgetDataService implements OnDestroy {
   updateTimeout;
   measurementReqSub;
   status = new ReplaySubject<string>();
-  channels: Channel[];
+  groupId: number;
 
   requestInProgress = false;
   private widget: Widget;
@@ -58,7 +58,7 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
-        return this.widget && this.metrics && this.channels?.length > 0;
+        return !!this.widget && !!this.metrics && !!this.groupId;
       }),
       map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
@@ -83,13 +83,13 @@ export class WidgetDataService implements OnDestroy {
         },
       });
 
-    const channelsSub = this.viewService.channels.subscribe({
-      next: (channels) => {
-        this.channels = channels;
+    const groupSub = this.viewService.channelGroupId.subscribe({
+      next: (id) => {
+        this.groupId = id;
         this.params.next({});
       },
     });
-    this.subscription.add(channelsSub);
+    this.subscription.add(groupSub);
     this.subscription.add(this.measurementReqSub);
   }
 
@@ -100,12 +100,11 @@ export class WidgetDataService implements OnDestroy {
       start = this.viewService.startTime;
       end = this.viewService.endTime;
     }
-    const channelString = this.viewService.channelsString;
     const params: MeasurementParams = {
       starttime: start,
       endtime: end,
       metricString: this.metrics,
-      channelString: channelString,
+      group: this.groupId,
       useAggregate: this.type.useAggregate,
       archiveType: this.viewService.archiveType,
     };

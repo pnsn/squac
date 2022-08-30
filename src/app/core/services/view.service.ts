@@ -18,6 +18,7 @@ import { Channel } from "@core/models/channel";
 export class ViewService {
   // handle refreshing
   channels = new BehaviorSubject<Channel[]>(null);
+  channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
   resize = new Subject<number>();
@@ -129,6 +130,10 @@ export class ViewService {
 
     this.setIntialDates();
     // return dates
+  }
+
+  updateChannelGroup(channelGroupId: number) {
+    this.channelGroupId.next(channelGroupId);
   }
 
   // send out new channels

@@ -11,7 +11,7 @@ export class MeasurementParams {
   starttime: string;
   endtime: string;
   metricString: string;
-  channelString: string;
+  group: number;
   useAggregate: boolean;
   archiveType?: string;
 }
@@ -47,7 +47,7 @@ export class MeasurementService {
     // return this.fakeData(params);
     return this.squacApi.get(this.url + path, null, {
       metric: params.metricString,
-      channel: params.channelString,
+      group: params.group,
       starttime: params.starttime,
       endtime: params.endtime,
     });
@@ -56,97 +56,5 @@ export class MeasurementService {
   // Get measurement aggregate from squac
   getAggregated(params: MeasurementHttpData): Observable<ApiGetAggregate[]> {
     return this.squacApi.get(this.url + "aggregated", null, params);
-  }
-
-  fakeData(params: MeasurementParams): Observable<any> {
-    //if aggregate each measurement has one
-    const data = [];
-    params.metricString.split(",").forEach((metric) => {
-      params.channelString.split(",").forEach((channel) => {
-        const base = {
-          channel: +channel,
-          metric: +metric,
-        };
-        if (params.useAggregate) {
-          const item: ApiGetAggregate = {
-            ...base,
-            min: this.getRandom(1),
-            max: this.getRandom(100),
-            mean: this.getRandom(50),
-            median: this.getRandom(50),
-            stdev: this.getRandom(20),
-            num_samps: this.getRandom(4),
-            maxabs: this.getRandom(100),
-            minabs: this.getRandom(20),
-            p05: 1,
-            p10: 20,
-            p90: 80,
-            p95: 99,
-            latest: this.getRandom(20),
-            starttime: params.starttime,
-            endtime: params.endtime,
-          };
-          data.push(item);
-        } else if (params.archiveType && params.archiveType !== "raw") {
-          const startDate = this.dateService.parseUtc(params.starttime);
-          const endDate = this.dateService.parseUtc(params.endtime);
-          for (let s: dayjs.Dayjs = startDate; s < endDate; ) {
-            let e: dayjs.Dayjs;
-            if (params.archiveType === "hour") {
-              e = s.add(1, "hour");
-            } else if (params.archiveType === "month") {
-              e = s.add(1, "month");
-            } else if (params.archiveType === "day") {
-              e = s.add(1, "day");
-            }
-            const item: ApiGetArchive = {
-              ...base,
-              id: "1",
-              min: this.getRandom(1),
-              max: this.getRandom(100),
-              mean: this.getRandom(50),
-              median: this.getRandom(50),
-              stdev: this.getRandom(20),
-              num_samps: this.getRandom(4),
-              maxabs: this.getRandom(100),
-              minabs: this.getRandom(20),
-              starttime: this.dateService.format(s),
-              endtime: this.dateService.format(e),
-              created_at: params.starttime,
-              updated_at: params.endtime,
-            };
-
-            data.push(item);
-
-            s = e;
-          }
-        } else {
-          const startDate = this.dateService.parseUtc(params.starttime);
-          const endDate = this.dateService.parseUtc(params.endtime);
-
-          for (let s: dayjs.Dayjs = startDate; s < endDate; ) {
-            const e: dayjs.Dayjs = s.add(10, "minutes");
-            const item: ApiGetMeasurement = {
-              ...base,
-              user_id: "1",
-              id: 1,
-              value: this.getRandom(100),
-              starttime: this.dateService.format(s),
-              endtime: this.dateService.format(e),
-              created_at: this.dateService.format(s),
-            };
-
-            data.push(item);
-
-            s = e;
-          }
-        }
-      });
-    });
-    return of(data).pipe(delay(1000));
-  }
-
-  getRandom(max) {
-    return Math.random() * max;
   }
 }

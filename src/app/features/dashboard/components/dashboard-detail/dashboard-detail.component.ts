@@ -103,6 +103,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
             .getChannelGroup(this.channelGroupId)
             .pipe(
               tap((channelGroup) => {
+                this.viewService.updateChannelGroup(this.channelGroupId);
                 this.channels = channelGroup.channels;
                 this.viewService.updateChannels(this.channels);
                 this.viewService.finishedLoading();
@@ -186,7 +187,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // tell view service the channels changed
   channelsChange(channels: Channel[]): void {
+    console.log("channels changed");
     this.channels = channels;
+    this.viewService.updateChannelGroup(this.channelGroupId);
     this.viewService.updateChannels(channels);
   }
 
