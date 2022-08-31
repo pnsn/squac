@@ -62,7 +62,7 @@ export interface ApiGetDashboard {
   id: number;
   name: string;
   description: string;
-  user_id: string;
+  user: number;
   share_all: boolean;
   share_org: boolean;
   organization: number;
@@ -114,7 +114,7 @@ export class DashboardAdapter implements Adapter<Dashboard> {
   adaptFromApi(item: ApiGetDashboard): Dashboard {
     const dashboard = new Dashboard(
       item.id,
-      +item.user_id,
+      item.user,
       item.name,
       item.description,
       item.share_org,

@@ -32,7 +32,7 @@ export interface ApiGetMetric {
   updated_at: string;
   default_minval: number;
   default_maxval: number;
-  user_id: string;
+  user: number;
   reference_url: string;
   sample_rate: number;
 }
@@ -54,7 +54,7 @@ export class MetricAdapter implements Adapter<Metric> {
   adaptFromApi(item: ApiGetMetric): Metric {
     return new Metric(
       item.id,
-      +item.user_id,
+      item.user,
       item.name,
       item.code,
       item.description,

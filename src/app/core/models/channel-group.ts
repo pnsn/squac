@@ -39,7 +39,7 @@ export interface ApiGetChannelGroup {
   channels: Array<number | any>;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   organization: number;
   auto_include_channels: Array<number | any>;
   auto_exclude_channels: Array<number | any>;
@@ -100,7 +100,7 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
 
     const channelGroup = new ChannelGroup(
       item.id,
-      +item.user_id,
+      item.user,
       item.name,
       item.description,
       item.organization,

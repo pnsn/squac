@@ -23,7 +23,7 @@ export interface ApiGetMatchingRule {
   channel_regex?: string;
   created_at?: string;
   updated_at?: string;
-  user_id: string;
+  user: number;
   group: number;
   is_include: boolean;
   url: string;
@@ -45,7 +45,7 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
   adaptFromApi(item: ApiGetMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
       item.id,
-      +item.user_id,
+      item.user,
       item.group,
       item.is_include
     );

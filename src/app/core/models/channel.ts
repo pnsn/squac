@@ -52,7 +52,7 @@ export interface ApiGetChannel {
   dip: number;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   starttime: string;
   endtime: string;
   nslc: string;
