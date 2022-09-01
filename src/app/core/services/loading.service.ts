@@ -17,7 +17,6 @@ export class LoadingService implements OnDestroy {
   constructor() {
     this.requestSub = this.$requests
       .pipe(
-        delay(100),
         tap(() => {
           this.loading.next(this.activeCount > 0);
           if (this.activeCount === 0) {

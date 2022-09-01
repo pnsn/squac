@@ -90,16 +90,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.data.monitor;
     this.initForm();
-    const triggerSub = this.triggers.valueChanges.subscribe({
-      next: (value) => {
-        this.triggers.patchValue(value, {
-          onlySelf: true,
-          emitEvent: false,
-        });
-      },
-    });
-
-    this.subscriptions.add(triggerSub);
   }
 
   // emitModelToViewChange: true,
@@ -110,37 +100,43 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // Add trigger info to form
   makeTriggerForm(trigger?: Trigger): FormGroup {
-    return this.formBuilder.group({
-      val1: [trigger ? trigger.val1 : null, Validators.required],
-      val2: [trigger ? trigger.val2 : null],
-      id: [trigger ? trigger.id : null],
-      value_operator: [
-        trigger ? trigger.value_operator : null,
-        Validators.required,
-      ],
-      num_channels: [
-        {
-          value: trigger ? trigger.num_channels : null,
-          disabled:
-            trigger?.num_channels_operator === "any" ||
-            trigger?.num_channels_operator === "all",
-        },
-      ],
-      num_channels_operator: [
-        trigger ? trigger.num_channels_operator : null,
-        Validators.required,
-      ],
-      alert_on_out_of_alarm: [trigger ? trigger.alert_on_out_of_alarm : false],
-      email_list: [trigger ? trigger.email_list : null, Validators.email], //this.emailValidator
-    });
+    return this.formBuilder.group(
+      {
+        val1: [trigger ? trigger.val1 : null, Validators.required],
+        val2: [{ value: trigger ? trigger.val2 : null }],
+        id: [trigger ? trigger.id : null],
+        value_operator: [
+          trigger ? trigger.value_operator : null,
+          Validators.required,
+        ],
+        num_channels: [
+          {
+            value: trigger ? trigger.num_channels : null,
+            disabled:
+              trigger?.num_channels_operator === "any" ||
+              trigger?.num_channels_operator === "all",
+          },
+        ],
+        num_channels_operator: [
+          trigger ? trigger.num_channels_operator : null,
+          Validators.required,
+        ],
+        alert_on_out_of_alarm: [
+          trigger ? trigger.alert_on_out_of_alarm : false,
+        ],
+        email_list: [trigger ? trigger.email_list : null, Validators.email], //this.emailValidator
+      },
+      { updateOn: "blur" }
+    );
   }
 
   // Add a new trigger
   addTrigger(trigger?: Trigger): void {
     const triggerFormGroup = this.makeTriggerForm(trigger);
-    triggerFormGroup.valueChanges.subscribe((value) =>
-      this.validateTrigger(value, triggerFormGroup)
-    );
+    triggerFormGroup.valueChanges.subscribe((value) => {
+      this.validateTrigger(value, triggerFormGroup);
+      triggerFormGroup.patchValue(value, { emitEvent: false });
+    });
     this.triggers.push(triggerFormGroup);
   }
 
@@ -152,7 +148,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.value_operator !== "outsideof" &&
       values.value_operator !== "within"
     ) {
-      val2.setValue("", { emitEvent: false });
+      val2.setValue(null, { emitEvent: false });
       val2.disable({ emitEvent: false });
       val2.removeValidators(Validators.required, { emitEvent: false });
     } else {
@@ -163,7 +159,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       values.num_channels_operator === "any" ||
       values.num_channels_operator === "all"
     ) {
-      num_channels.setValue("", { emitEvent: false });
+      num_channels.setValue(null, { emitEvent: false });
       num_channels.disable({ emitEvent: false });
       num_channels.removeValidators(Validators.required, { emitEvent: false });
     } else {
@@ -217,28 +213,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           this.messageService.error("Could not save monitor.");
         },
       });
-  }
-
-  // help fix weird decimal issue in form
-  keyPressNumbersWithDecimal(event): boolean {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-      event.preventDefault();
-      return false;
-    }
-    return true;
-  }
-
-  // help fix weird decimal issue in form
-  keyPressNumbers(event): boolean {
-    const charCode = event.which ? event.which : event.keyCode;
-    // Only Numbers 0-9
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault();
-      return false;
-    } else {
-      return true;
-    }
   }
 
   // Cancel and don't save changes

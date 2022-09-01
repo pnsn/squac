@@ -82,7 +82,7 @@
                       matInput
                       name="val1"
                       formControlName="val1"
-                      (keypress)="keyPressNumbersWithDecimal($event)"
+                      type="number"
                     />
                   </mat-form-field>
                   <ng-container> </ng-container>
@@ -91,9 +91,9 @@
                     <mat-label for="val2">value 2</mat-label>
                     <input
                       matInput
+                      type="number"
                       name="val2"
                       formControlName="val2"
-                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                 </div>
@@ -117,7 +117,7 @@
                     <mat-label for="num_channels"># of channels</mat-label>
                     <input
                       matInput
-                      (keypress)="keyPressNumbers($event)"
+                      type="number"
                       name="num_channels"
                       formControlName="num_channels"
                     />
@@ -145,7 +145,7 @@
                   matInput
                   name="intervalCount"
                   formControlName="intervalCount"
-                  (keypress)="keyPressNumbers($event)"
+                  type="number"
                 />
               </mat-form-field>
               <mat-form-field class="xsmall">
@@ -213,7 +213,7 @@
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbersWithDecimal($event)"
+                        type="number"
                         name="val1"
                         formControlName="val1"
                       />
@@ -224,7 +224,7 @@
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbersWithDecimal($event)"
+                        type="number"
                         name="val2"
                         formControlName="val2"
                       />
@@ -253,7 +253,7 @@
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbers($event)"
+                        type="number"
                         name="num_channels"
                         formControlName="num_channels"
                       />

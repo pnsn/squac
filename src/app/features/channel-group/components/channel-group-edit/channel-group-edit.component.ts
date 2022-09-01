@@ -373,7 +373,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     );
 
     if (this.matchingRules.length === 0) {
-      cg.channels = cg.autoIncludeChannels;
+      cg.channelIds = cg.autoExcludeChannelIds;
     }
 
     let id;
