@@ -55,7 +55,7 @@ export class CsvUploadComponent {
     let staIndex = -1;
 
     this.ngxCsvParser
-      .parse(files[0], { header: this.header, delimiter: "," })
+      .parse(files[0], { header: this.header, delimiter: "," }) //allow |?
       .pipe(
         tap((results: any[]) => {
           this.csvRecords = results;
@@ -85,7 +85,9 @@ export class CsvUploadComponent {
           }
 
           return this.csvRecords.reduce((previous, current) => {
-            const nslc = `${current[netIndex]}.${current[staIndex]}.${current[locIndex]}.${current[chanIndex]}`;
+            const nslc = `${current[netIndex]}.${current[staIndex]}.${
+              current[locIndex] || "--"
+            }.${current[chanIndex]}`;
             return previous
               ? previous + "," + nslc.toLowerCase()
               : nslc.toLowerCase();

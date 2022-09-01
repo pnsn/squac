@@ -379,11 +379,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     cg.autoIncludeChannelIds = this.autoIncludeChannels.map(
       (channel) => channel.id
     );
-
     if (this.matchingRules.length === 0) {
-      cg.channelIds = cg.autoExcludeChannelIds;
+      cg.channelIds = [...cg.autoIncludeChannelIds];
     }
-
     let id;
     this.channelGroupService
       .updateChannelGroup(cg)
