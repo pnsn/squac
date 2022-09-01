@@ -250,7 +250,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // filters changed in filter componenet
   filtersChanged(searchFilters: any): void {
+    //clear all filters
     this.searchFilters = searchFilters;
+
+    //clear bounds if search filters emptied
+    if (Object.keys(searchFilters).length === 0) {
+      this.bounds = {};
+    }
 
     this.getChannelsWithFilters();
   }
@@ -323,11 +329,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
-    if (this.showOnlyCurrent) {
-      const now = this.dateService.now();
-      searchFilters.endafter = this.dateService.format(now);
-    }
+
     if (Object.keys(searchFilters).length !== 0) {
+      if (this.showOnlyCurrent) {
+        const now = this.dateService.now();
+        searchFilters.endafter = this.dateService.format(now);
+      }
+
       this.loading = "Requesting Channels";
       this.error = false;
       const channelsSub = this.channelService
@@ -453,7 +461,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   addFilterToRegex(filter) {
-    const newRule = new MatchingRule(null, null, this.channelGroup.id, true);
+    const newRule = new MatchingRule(null, null, this.id, true);
     newRule.networkRegex = filter.net_search?.toUpperCase();
     newRule.stationRegex = filter.sta_search?.toUpperCase();
     newRule.locationRegex = filter.loc_search?.toUpperCase();
