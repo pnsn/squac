@@ -1,7 +1,7 @@
-<div
+<!-- <div
   id="loading-container"
-  *ngIf="loading"
   class="column centered blue-background"
+  [appIsLoading]="loadingService.isLoading(this)"
 >
   <div id="loading-gif">
     <img src="assets/loading.gif" alt="" />
@@ -11,4 +11,6 @@
       {{ status }}
     </li>
   </ul>
-</div>
+</div> -->
+<div [appIsLoading]="loadingService.isLoading({ test: 1 })"></div>
+{{ loadingService.isLoading({ test: 1 }) }}

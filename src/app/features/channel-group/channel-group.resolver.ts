@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
-import { Observable, of } from "rxjs";
+import { Observable, of, delay } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ChannelGroupService } from "./services/channel-group.service";
 
@@ -19,10 +19,19 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
 
   resolve(
     route: ActivatedRouteSnapshot
-  ): Observable<ChannelGroup> | Observable<ChannelGroup[]> {
+  ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = +route.paramMap.get("channelGroupId");
     if (id) {
-      this.loadingService.setStatus("Loading channel group");
+      return this.loadingService.doLoading(
+        this.channelGroupService.getChannelGroup(id).pipe(
+          delay(400),
+          catchError((error) => {
+            this.messageService.error("Could not load channel group.");
+            return this.handleError(error);
+          })
+        ),
+        { test: 1 }
+      );
       return this.channelGroupService.getChannelGroup(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel group.");
@@ -30,7 +39,16 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading channel groups");
+      return this.loadingService.doLoading(
+        this.channelGroupService.getChannelGroups().pipe(
+          delay(20000),
+          catchError((error) => {
+            this.messageService.error("Could not load channel groups.");
+            return this.handleError(error);
+          })
+        ),
+        { test: 1 }
+      );
       return this.channelGroupService.getChannelGroups().pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel groups.");

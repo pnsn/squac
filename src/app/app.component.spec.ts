@@ -1,7 +1,7 @@
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./core/services/auth.service";
-import { LoadingScreenComponent } from "@core/components/loading-screen/loading-screen.component";
+import { LoadingScreenComponent } from "@shared/components/loading-screen/loading-screen.component";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";

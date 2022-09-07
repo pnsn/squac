@@ -22,6 +22,9 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
+import { LoadingDirective } from "./directives/loading-directive.directive";
+import { LoadingScreenComponent } from "./components/loading-screen/loading-screen.component";
+import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -37,6 +40,9 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
     DateSelectComponent,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
+    LoadingScreenComponent,
+    LoadingDirective,
+    LoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +84,8 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
     NgxEchartsModule,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
+    LoadingScreenComponent,
+    LoadingSpinnerComponent,
   ],
 })
 export class SharedModule {}

@@ -103,7 +103,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     return this.formBuilder.group(
       {
         val1: [trigger ? trigger.val1 : null, Validators.required],
-        val2: [{ value: trigger ? trigger.val2 : null }],
+        val2: [trigger ? trigger.val2 : null],
         id: [trigger ? trigger.id : null],
         value_operator: [
           trigger ? trigger.value_operator : null,

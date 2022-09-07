@@ -21,7 +21,6 @@ export class AuthService {
     private router: Router,
     private squacApi: SquacApiService,
     private userService: UserService,
-    private loadingService: LoadingService,
     configService: ConfigurationService
   ) {
     this.expirationTime = configService.getValue("userExpirationTimeHours", 6);
@@ -108,6 +107,5 @@ export class AuthService {
   // handles the sign in
   private signInUser(token, _expiration) {
     this.token = token;
-    this.loadingService.setStatus("Logging in and loading data.");
   }
 }

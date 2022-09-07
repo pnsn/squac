@@ -41,11 +41,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     if (displayLoadingScreen) {
       // this.loadingService.requestStarted(request.url);
       // keep showing loading screen until there are no requests left
-      return next.handle(request).pipe(
-        finalize(() => {
-          this.loadingService.requestFinished(request.url);
-        })
-      );
+      return next.handle(request).pipe(finalize(() => {}));
     } else {
       return next.handle(request);
     }

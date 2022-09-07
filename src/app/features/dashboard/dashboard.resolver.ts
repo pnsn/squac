@@ -27,7 +27,6 @@ export class DashboardResolver implements Resolve<Observable<any>> {
   ): Observable<Dashboard> | Observable<Dashboard[]> {
     const id = +route.paramMap.get("dashboardId");
     if (id) {
-      this.loadingService.setStatus("Loading dashboard");
       // get specific resource
       return this.dashboardService.getDashboard(id).pipe(
         catchError((error) => {
@@ -36,7 +35,6 @@ export class DashboardResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading dashboards");
       return this.dashboardService.getDashboards().pipe(
         catchError((error) => {
           this.messageService.error("Could not load dashboards.");

@@ -22,7 +22,6 @@ export class MonitorResolver implements Resolve<Observable<any>> {
   ): Observable<Monitor> | Observable<Monitor[]> {
     const id = +route.paramMap.get("monitorId");
     if (id) {
-      this.loadingService.setStatus("Loading monitor");
       return this.monitorService.getMonitor(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitor.");
@@ -30,7 +29,6 @@ export class MonitorResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading monitors");
       return this.monitorService.getMonitors().pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitors.");

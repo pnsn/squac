@@ -19,7 +19,6 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get("orgId");
     if (id) {
-      this.loadingService.setStatus("Loading organization");
       return this.orgService.getOrganization(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load organization.");
@@ -27,7 +26,6 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading organizations");
       return this.orgService.getOrganizations().pipe(
         catchError((error) => {
           this.messageService.error("Could not load organizations.");
