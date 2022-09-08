@@ -86,6 +86,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     ChannelGroupSelectorComponent,
     LoadingScreenComponent,
     LoadingSpinnerComponent,
+    LoadingDirective,
   ],
 })
 export class SharedModule {}

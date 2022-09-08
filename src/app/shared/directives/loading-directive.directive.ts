@@ -44,7 +44,6 @@ export class LoadingDirective implements OnChanges {
 
     if (changes.isLoading) {
       const isLoadingValue = changes.isLoading.currentValue;
-      console.log(changes.isLoading);
       if (isLoadingValue) {
         this.addLoadingIndicator();
       } else {
@@ -56,13 +55,11 @@ export class LoadingDirective implements OnChanges {
   }
 
   protected addLoadingIndicator(): void {
-    console.log("Add");
     this.renderer.appendChild(this.hostElement, this.overlayElement);
     this.renderer.appendChild(this.overlayElement, this.spinnerElement);
   }
 
   protected removeLoadingIndicator(): void {
-    console.log("remove");
     this.renderer.removeChild(this.overlayElement, this.spinnerElement);
     this.renderer.removeChild(this.hostElement, this.overlayElement);
     this.viewContainerRef.clear();
@@ -82,12 +79,10 @@ export class LoadingDirective implements OnChanges {
       spinnerComponentFactory
     );
     this.spinnerElement = spinnerComponent.location.nativeElement;
-    console.log(this.spinnerElement);
   }
 
   protected initOverlayElement(): void {
     this.overlayElement = this.renderer.createElement("div");
     this.renderer.addClass(this.overlayElement, OVERLAY_CLASS);
-    console.log(this.overlayElement);
   }
 }

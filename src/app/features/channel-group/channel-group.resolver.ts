@@ -22,16 +22,17 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
   ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = +route.paramMap.get("channelGroupId");
     if (id) {
-      return this.loadingService.doLoading(
-        this.channelGroupService.getChannelGroup(id).pipe(
-          delay(400),
-          catchError((error) => {
-            this.messageService.error("Could not load channel group.");
-            return this.handleError(error);
-          })
-        ),
-        { test: 1 }
-      );
+      console.log("I'm being resolved");
+      // return this.loadingService.doLoading(
+      //   this.channelGroupService.getChannelGroup(id).pipe(
+      //     delay(400),
+      //     catchError((error) => {
+      //       this.messageService.error("Could not load channel group.");
+      //       return this.handleError(error);
+      //     })
+      //   ),
+      //   this.channelGroupService.context
+      // );
       return this.channelGroupService.getChannelGroup(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel group.");
@@ -39,16 +40,17 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      return this.loadingService.doLoading(
-        this.channelGroupService.getChannelGroups().pipe(
-          delay(20000),
-          catchError((error) => {
-            this.messageService.error("Could not load channel groups.");
-            return this.handleError(error);
-          })
-        ),
-        { test: 1 }
-      );
+      // return this.loadingService.doLoading(
+      //   this.channelGroupService.getChannelGroups().pipe(
+      //     delay(20000),
+      //     catchError((error) => {
+      //       this.messageService.error("Could not load channel groups.");
+      //       return this.handleError(error);
+      //     })
+      //   ),
+      //   this.channelGroupService.context
+      // );
+      console.log("resolve groups");
       return this.channelGroupService.getChannelGroups().pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel groups.");

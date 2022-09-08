@@ -118,7 +118,6 @@ export class LoadingService {
     state: boolean,
     loaderId: LoaderId
   ): void {
-    console.log(context, state, loaderId);
     if (!this.hasLoadingStates(context, loaderId)) {
       if (this.hasContextLoadingState(context)) {
         this.loadingStates.get(context).set(loaderId, state);
@@ -142,7 +141,6 @@ export class LoadingService {
       this.loadingStates.get(context).set(loaderId, state);
       this.loadingStates$.get(context).get(loaderId).next(state);
     }
-    console.log(this.loadingStates);
   }
 
   protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId) {

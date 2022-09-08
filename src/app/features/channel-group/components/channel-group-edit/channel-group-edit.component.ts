@@ -10,7 +10,16 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
-import { Subscription, switchMap, tap, map, merge, of } from "rxjs";
+import {
+  Subscription,
+  switchMap,
+  tap,
+  map,
+  merge,
+  of,
+  catchError,
+  EMPTY,
+} from "rxjs";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -19,7 +28,12 @@ import { MatchingRuleService } from "@features/channel-group/services/matching-r
 import { MatchingRule } from "@features/channel-group/models/matching-rule";
 import { icon } from "leaflet";
 import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 
+enum LoadingIndicator {
+  MAIN,
+  RESULTS,
+}
 @Component({
   selector: "channel-group-edit",
   templateUrl: "./channel-group-edit.component.html",
@@ -28,7 +42,7 @@ import { DateService } from "@core/services/date.service";
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-
+  LoadingIndicator = LoadingIndicator;
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean; //create group or edit group
@@ -78,37 +92,58 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
     private matchingRuleService: MatchingRuleService,
-    private dateService: DateService
+    private dateService: DateService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const chanSub = this.route.data
+    this.channelGroupForm = this.formBuilder.group({
+      name: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
+    });
+    const chanSub = this.route.params
       .pipe(
-        map((data) => {
-          if (!data.channelGroup) {
-            this.editMode = false;
-          } else {
-            // this.error = false;
-            this.channelGroup = data.channelGroup;
-            this.id = this.channelGroup.id;
-            this.editMode = !!this.id;
-            this.initForm();
-          }
-          this.initForm();
-          return data.channelGroup?.id;
+        map((params) => {
+          this.id = params.channelGroupId;
+          this.editMode = !!params.channelGroupId;
+
+          return this.id;
         }),
         switchMap((groupId: number) => {
           if (!groupId) {
-            return of([]);
+            return of();
           }
-          return this.matchingRuleService.getMatchingRules(groupId);
-        }),
-        tap((rules: MatchingRule[]) => {
-          this.matchingRules = rules;
+          return this.loadingService.doLoading(
+            this.channelGroupService.getChannelGroup(groupId).pipe(
+              tap((channelGroup: ChannelGroup) => {
+                this.channelGroup = channelGroup;
+              }),
+              switchMap((channelGroup: ChannelGroup) => {
+                this.channelGroup = channelGroup;
+                console.log("have channel group");
+                if (channelGroup) {
+                  return of([]);
+                }
+                return this.matchingRuleService.getMatchingRules(
+                  this.channelGroup.id
+                );
+              }),
+              tap((rules: MatchingRule[]) => {
+                this.matchingRules = rules;
+              }),
+              catchError((error) => {
+                this.error = error;
+                return EMPTY;
+              })
+            ),
+            this,
+            LoadingIndicator.MAIN
+          );
         })
       )
-      .subscribe();
-
+      .subscribe(() => {
+        this.initForm();
+      });
     // get orgId
     this.orgId = this.userService.userOrg;
     this.subscriptions.add(chanSub);
@@ -162,11 +197,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Inits group edit form
   private initForm(): void {
-    this.channelGroupForm = this.formBuilder.group({
-      name: new FormControl("", Validators.required),
-      description: new FormControl("", Validators.required),
-    });
-
     // if editing existing group, populate with the info
     if (this.editMode) {
       this.channelGroupForm.patchValue({
@@ -271,7 +301,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
     const ruleSubs = this.channelService.getChannelsByRules(rules, params);
     const results = [];
-    merge(...ruleSubs)
+    this.loadingService
+      .doLoading(merge(...ruleSubs), this, LoadingIndicator.RESULTS)
       .pipe(
         tap((channels: Channel[]) => {
           channels.forEach((channel) => {
@@ -338,8 +369,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
       this.loading = "Requesting Channels";
       this.error = false;
-      const channelsSub = this.channelService
-        .getChannelsByFilters(searchFilters)
+      this.loadingService
+        .doLoading(
+          this.channelService.getChannelsByFilters(searchFilters),
+          this,
+          LoadingIndicator.RESULTS
+        )
         .subscribe({
           next: (response) => {
             this.selectedChannels = [...response];
@@ -350,7 +385,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             this.loading = false;
           },
         });
-      this.subscriptions.add(channelsSub);
     } else {
       this.selectedChannels = [];
       this.rows = [];

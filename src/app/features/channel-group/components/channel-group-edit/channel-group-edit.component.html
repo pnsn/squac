@@ -1,4 +1,8 @@
-<div id="edit-container" class="column gray-border white-background">
+<div
+  id="edit-container"
+  class="column gray-border white-background"
+  [appIsLoading]="loadingService.isLoading(this, LoadingIndicator.MAIN)"
+>
   <div class="header-title">
     <h2>
       {{ editMode ? "Edit Channel Group" : "Create Channel Group" }}
@@ -94,7 +98,12 @@
         </channel-group-filter>
       </div>
       <shared-loading *ngIf="loading" [loadingMsg]="loading"> </shared-loading>
-      <div class="row channels-row">
+      <div
+        class="row channels-row"
+        [appIsLoading]="
+          loadingService.isLoading(this, LoadingIndicator.RESULTS)
+        "
+      >
         <div class="column lt-gray-border search-results-container">
           <div class="row space-between select-channels-controls">
             <h4>Results ({{ rows.length }})</h4>

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { LoadingService } from "@core/services/loading.service";
 
 // Table of channel groups
 @Component({
@@ -74,26 +75,51 @@ export class ChannelGroupViewComponent
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    if (this.route && this.route.data) {
-      // get channel groups to show
-      const routeSub = this.route.data.subscribe((data) => {
-        if (data.channelGroups.error) {
-          console.error("error in channels", data.channelGroups.error);
-        } else {
-          this.channelGroups = data.channelGroups;
+    // get channel groups to show
+    // const routeSub = this.route.data.subscribe((data) => {
+    //   console.log("route changing");
+    //   if (data.channelGroups.error) {
+    //     console.error("error in channels", data.channelGroups.error);
+    //   } else {
+    //     this.channelGroups = data.channelGroups;
+    //     this.rows = [...this.channelGroups];
+    //   }
+    //   this.selectedChannelGroupId =
+    //     this.route.children.length > 0
+    //       ? +this.route.snapshot.firstChild.params.channelGroupId
+    //       : null;
+    // });
+
+    const groupsSub = this.route.params
+      .pipe(
+        tap((params) => {
+          console.log("params change");
+          // this.error = false;
+        }),
+        switchMap((params) => {
+          return this.loadingService
+            .doLoading(this.channelGroupService.getChannelGroups(), this)
+            .pipe(
+              catchError((error) => {
+                // this.error = error;
+                return EMPTY;
+              })
+            );
+        })
+      )
+      .subscribe({
+        next: (channelGroups: ChannelGroup[]) => {
+          this.channelGroups = channelGroups;
           this.rows = [...this.channelGroups];
-        }
-        this.selectedChannelGroupId =
-          this.route.children.length > 0
-            ? +this.route.snapshot.firstChild.params.channelGroupId
-            : null;
+        },
       });
-      this.subscription.add(routeSub);
-    }
+
+    this.subscription.add(groupsSub);
   }
 
   ngAfterViewInit(): void {

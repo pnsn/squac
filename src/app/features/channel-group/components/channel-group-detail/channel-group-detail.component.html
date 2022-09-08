@@ -1,147 +1,151 @@
-<ng-container *ngIf="error && !channelGroup; else hasChannelGroup">
+<ng-template #hasError>
   <p>Could not load channel group.</p>
-</ng-container>
-<ng-template #hasChannelGroup>
-  <div id="group-view-container" class="box">
-    <div class="header-title">
-      <div id="channel-group-info">
-        <h3>{{ channelGroup.name }}</h3>
-        <span class="help-text">
-          by {{ channelGroup.owner | user }} ({{
-            channelGroup.orgId | organization
-          }})
-        </span>
-      </div>
+</ng-template>
 
-      <div id="button-container row space-between">
-        <button
-          *ngIf="'delete' | able: channelGroup"
-          mat-icon-button
-          color="warn"
-          class="add-btn"
-          (click)="onDelete()"
-          matTooltip="Delete channel group"
-          aria-label="Button that deletes the channel group"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button
-          *ngIf="'create' | able: 'Dashboard'"
-          mat-icon-button
-          class="add-btn"
-          (click)="addToDashboard()"
-          matTooltip="Create dasboard with group"
-          aria-label="Button that creates dashboard with group"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-        <button
-          *ngIf="'update' | able: channelGroup"
-          mat-icon-button
-          color="primary"
-          class="add-btn"
-          (click)="editChannelGroup()"
-          matTooltip="Edit channel group"
-          aria-label="Button that navigates to edit channel group page"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          *ngIf="'update' | able: channelGroup"
-          mat-icon-button
-          class="add-btn"
-          (click)="closeChannelGroup()"
-          matTooltip="Close channel group"
-          aria-label="Button that navigates to all channels"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
+<div
+  id="group-view-container"
+  class="box"
+  [appIsLoading]="loadingService.isLoading(this)"
+  *ngIf="!error; else hasError"
+>
+  <div class="header-title">
+    <div id="channel-group-info">
+      <h3>{{ channelGroup?.name }}</h3>
+      <span class="help-text">
+        by {{ channelGroup?.owner | user }} ({{
+          channelGroup?.orgId | organization
+        }})
+      </span>
     </div>
 
-    <div id="channel-group-container" class="row-reverse">
-      <div id="map-container">
-        <channel-group-map
-          [autoIncludeChannels]="channelGroup.channels"
-          [selectedChannels]="selectedChannels"
-          (showChannelChange)="selectChannel($event)"
-          [showChannel]="showChannel"
-          [editPage]="false"
-        ></channel-group-map>
-      </div>
-      <div id="channels-container">
-        <ngx-datatable
-          id="channel-table"
-          class="material lt-gray-border"
-          [rows]="channelGroup.channels"
-          [columnMode]="ColumnMode.force"
-          [selectionType]="SelectionType.single"
-          [headerHeight]="30"
-          [footerHeight]="50"
-          [rowHeight]="23"
-          [scrollbarV]="50"
-          (select)="onSelect($event)"
-          [selected]="selectedRows"
-        >
-          <ngx-datatable-column
-            name="Network"
-            [draggable]="false"
-            [sortable]="true"
-            [width]="30"
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              {{ row.net }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Station" [draggable]="false" [width]="30">
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
-            >
-              {{ row.sta }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Channel" [draggable]="false" [width]="30">
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
-            >
-              {{ row.code }}
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column
-            name="Location"
-            [draggable]="false"
-            [sortable]="false"
-            [width]="30"
-          >
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
-            >
-              {{ row.loc }}
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column
-            name="Name"
-            [draggable]="false"
-            [sortable]="false"
-          >
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
-            >
-              {{ row.name }}
-            </ng-template>
-          </ngx-datatable-column>
-        </ngx-datatable>
-      </div>
+    <div id="button-container row space-between">
+      <button
+        *ngIf="'delete' | able: channelGroup"
+        mat-icon-button
+        color="warn"
+        class="add-btn"
+        (click)="onDelete()"
+        matTooltip="Delete channel group"
+        aria-label="Button that deletes the channel group"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        *ngIf="'create' | able: 'Dashboard'"
+        mat-icon-button
+        class="add-btn"
+        (click)="addToDashboard()"
+        matTooltip="Create dasboard with group"
+        aria-label="Button that creates dashboard with group"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        *ngIf="'update' | able: channelGroup"
+        mat-icon-button
+        color="primary"
+        class="add-btn"
+        (click)="editChannelGroup()"
+        matTooltip="Edit channel group"
+        aria-label="Button that navigates to edit channel group page"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        *ngIf="'update' | able: channelGroup"
+        mat-icon-button
+        class="add-btn"
+        (click)="closeChannelGroup()"
+        matTooltip="Close channel group"
+        aria-label="Button that navigates to all channels"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
   </div>
-</ng-template>
+
+  <div id="channel-group-container" class="row-reverse">
+    <div id="map-container">
+      <channel-group-map
+        [autoIncludeChannels]="channelGroup?.channels"
+        [selectedChannels]="selectedChannels"
+        (showChannelChange)="selectChannel($event)"
+        [showChannel]="showChannel"
+        [editPage]="false"
+      ></channel-group-map>
+    </div>
+    <div id="channels-container">
+      <ngx-datatable
+        id="channel-table"
+        class="material lt-gray-border"
+        [rows]="channelGroup?.channels"
+        [columnMode]="ColumnMode.force"
+        [selectionType]="SelectionType.single"
+        [headerHeight]="30"
+        [footerHeight]="50"
+        [rowHeight]="23"
+        [scrollbarV]="50"
+        (select)="onSelect($event)"
+        [selected]="selectedRows"
+      >
+        <ngx-datatable-column
+          name="Network"
+          [draggable]="false"
+          [sortable]="true"
+          [width]="30"
+        >
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.net }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Station" [draggable]="false" [width]="30">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ row.sta }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Channel" [draggable]="false" [width]="30">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ row.code }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column
+          name="Location"
+          [draggable]="false"
+          [sortable]="false"
+          [width]="30"
+        >
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ row.loc }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column
+          name="Name"
+          [draggable]="false"
+          [sortable]="false"
+        >
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ row.name }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

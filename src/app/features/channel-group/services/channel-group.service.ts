@@ -15,6 +15,8 @@ export class ChannelGroupService {
   // Time stamp of last refresh
   private lastRefresh: number;
 
+  context = { test: 1 };
+
   constructor(
     private squacApi: SquacApiService,
     private channelGroupAdapter: ChannelGroupAdapter

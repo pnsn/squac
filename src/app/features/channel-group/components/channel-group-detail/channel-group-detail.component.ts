@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, of, Subscription, switchMap, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { Channel } from "@core/models/channel";
+import { LoadingService } from "@core/services/loading.service";
 
 @Component({
   selector: "channel-group-detail",
@@ -18,6 +19,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   channelGroup: ChannelGroup; // selected channel group
   showChannel: Channel; //channels to show on map
   error: boolean;
+  selectedChannels = [];
 
   // table config
   ColumnMode = ColumnMode;
@@ -29,19 +31,37 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     // get channel group info from route
-    const chanSub = this.route.data.subscribe((data) => {
-      if (data.channelGroup.error) {
-        this.error = true;
-      } else {
-        this.error = false;
-        this.channelGroup = data.channelGroup;
-      }
-    });
+
+    const chanSub = this.route.params
+      .pipe(
+        tap((params) => {
+          this.error = false;
+        }),
+        switchMap((params) => {
+          return this.loadingService.doLoading(
+            this.channelGroupService
+              .getChannelGroup(params.channelGroupId)
+              .pipe(
+                catchError((error) => {
+                  this.error = error;
+                  return EMPTY;
+                })
+              ),
+            this
+          );
+        })
+      )
+      .subscribe({
+        next: (channelGroup: ChannelGroup) => {
+          this.channelGroup = channelGroup;
+        },
+      });
     this.subscription.add(chanSub);
   }
 

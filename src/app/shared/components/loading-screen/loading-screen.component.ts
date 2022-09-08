@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "@core/services/loading.service";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -11,10 +13,15 @@ export class LoadingScreenComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   loading: boolean;
   statuses: string[] = []; //statuses to show
-  constructor(public loadingService: LoadingService) {}
-
+  constructor(
+    // public loadingService: LoadingService,
+    public channelGroupsService: ChannelGroupService
+  ) {
+    this.context = this.channelGroupsService.context;
+  }
+  context;
   ngOnInit(): void {
-    console.log(this.loadingService.isLoading({ test: 1 }));
+    // console.log(this.loadingService.isLoading({ test: 1 }));
     // // listens for loading status
     // const loadingSub = this.loadingService.loading.subscribe((loading) => {
     //   this.loading = loading;

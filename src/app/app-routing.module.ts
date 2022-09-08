@@ -52,7 +52,6 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       dashboards: DashboardResolver,
-      channelGroups: ChannelGroupResolver,
       metrics: MetricResolver,
       user: UserResolver,
       organizations: OrganizationResolver,
