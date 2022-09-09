@@ -85,8 +85,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
               tap((channelGroup) => {
                 this.channelGroupId =
                   this.viewService.channelGroupId.getValue();
-
-                console.log("set group id");
                 this.dashboard = this.viewService.dashboard;
                 this.archiveStat = this.viewService.archiveStat;
                 this.archiveType = this.viewService.archiveType;
@@ -167,7 +165,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   channelGroupChange(id: number): void {
     this.loadingService
       .doLoading(this.viewService.updateChannelGroup(id), this)
-      .subscribe();
+      .subscribe((ares) => {
+        console.log(ares);
+      });
   }
 
   // route to edit dashboard

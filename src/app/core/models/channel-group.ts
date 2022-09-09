@@ -6,7 +6,7 @@ import { Channel, ChannelAdapter } from "./channel";
 export class ChannelGroup {
   constructor(
     public id: number,
-    public owner: number,
+    public owner: string,
     public name: string,
     public description: string,
     public orgId: number,
@@ -39,7 +39,7 @@ export interface ApiGetChannelGroup {
   channels: Array<number | any>;
   created_at: string;
   updated_at: string;
-  user: number;
+  user: string;
   organization: number;
   auto_include_channels: Array<number | any>;
   auto_exclude_channels: Array<number | any>;
