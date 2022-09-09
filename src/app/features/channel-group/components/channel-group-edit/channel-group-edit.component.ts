@@ -130,6 +130,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
               }),
               tap((rules: MatchingRule[]) => {
                 this.matchingRules = rules;
+                this.initForm();
+                console.log(this.channelGroup);
               }),
               catchError((error) => {
                 this.error = error;
@@ -141,9 +143,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           );
         })
       )
-      .subscribe(() => {
-        this.initForm();
-      });
+      .subscribe();
     // get orgId
     this.orgId = this.userService.userOrg;
     this.subscriptions.add(chanSub);
@@ -417,25 +417,28 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       cg.channelIds = [...cg.autoIncludeChannelIds];
     }
     let id;
-    this.channelGroupService
-      .updateChannelGroup(cg)
-      .pipe(
-        switchMap((group) => {
-          id = group.id;
-          if (
-            this.matchingRules.length === 0 &&
-            this.deleteMatchingRulesIds.length === 0
-          ) {
-            return of([]);
-          }
-          return merge(
-            ...this.matchingRuleService.updateMatchingRules(
-              this.matchingRules,
-              this.deleteMatchingRulesIds,
-              id
-            )
-          );
-        })
+    this.loadingService
+      .doLoading(
+        this.channelGroupService.updateChannelGroup(cg).pipe(
+          switchMap((group) => {
+            id = group.id;
+            if (
+              this.matchingRules.length === 0 &&
+              this.deleteMatchingRulesIds.length === 0
+            ) {
+              return of([]);
+            }
+            return merge(
+              ...this.matchingRuleService.updateMatchingRules(
+                this.matchingRules,
+                this.deleteMatchingRulesIds,
+                id
+              )
+            );
+          })
+        ),
+        this,
+        LoadingIndicator.MAIN
       )
       .subscribe({
         next: () => {

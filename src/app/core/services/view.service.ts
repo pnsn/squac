@@ -1,7 +1,17 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject, Observable, tap, take } from "rxjs";
+import {
+  Subject,
+  BehaviorSubject,
+  Observable,
+  tap,
+  take,
+  switchMap,
+  EMPTY,
+  of,
+  distinctUntilChanged,
+} from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Widget } from "@widget/models/widget";
@@ -11,13 +21,15 @@ import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
 import { DateService } from "./date.service";
 import { Channel } from "@core/models/channel";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroup } from "@core/models/channel-group";
 
 @Injectable({
   providedIn: "root",
 })
 export class ViewService {
   // handle refreshing
-  channels = new BehaviorSubject<Channel[]>(null);
+  channels = new BehaviorSubject<Channel[]>([]);
   channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
@@ -29,7 +41,8 @@ export class ViewService {
   loadingCount = 0;
   private autoRefresh: boolean;
   // refresh = new Subject<number>();
-  private dashboard: Dashboard;
+
+  private _dashboard: Dashboard;
   dateRanges;
   queuedWidgets = 0;
   locale;
@@ -40,10 +53,15 @@ export class ViewService {
     private widgetService: WidgetService,
     private ability: Ability,
     private dateService: DateService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private channelGroupService: ChannelGroupService
   ) {
     this.dateRanges = this.dateService.dateRanges;
     this.defaultTimeRange = this.dateService.defaultTimeRange;
+  }
+
+  get dashboard(): Dashboard {
+    return this._dashboard;
   }
 
   // returns if current user can update the current dashboard
@@ -123,7 +141,7 @@ export class ViewService {
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
-    this.dashboard = dashboard;
+    this._dashboard = dashboard;
     if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
       this.status.next("finished");
     }
@@ -132,8 +150,16 @@ export class ViewService {
     // return dates
   }
 
-  updateChannelGroup(channelGroupId: number) {
-    this.channelGroupId.next(channelGroupId);
+  updateChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
+    console.log("updatechannelgroup");
+    return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
+      distinctUntilChanged(),
+      tap((group) => {
+        this.channels.next(group.channels);
+        console.log("update");
+        this.channelGroupId.next(group.id);
+      })
+    );
   }
 
   // send out new channels
@@ -141,8 +167,10 @@ export class ViewService {
     this.channels.next(channels);
   }
 
-  setDashboardById(dashboardId: number): Observable<Dashboard> {
-    this.startedLoading();
+  setDashboardById(
+    dashboardId: number,
+    channelGroupId: number
+  ): Observable<ChannelGroup> {
     return this.dashboardService.getDashboard(dashboardId).pipe(
       tap({
         next: (dashboard) => {
@@ -151,6 +179,14 @@ export class ViewService {
         error: () => {
           this.status.next("error");
         },
+      }),
+      switchMap((dashboard) => {
+        const groupId = channelGroupId || dashboard.channelGroupId;
+        if (groupId) {
+          return this.updateChannelGroup(groupId);
+        } else {
+          return of(null);
+        }
       })
     );
   }
@@ -195,25 +231,25 @@ export class ViewService {
     rangeInSeconds: number
   ): void {
     this.autoRefresh = autoRefresh;
-    this.dashboard.properties.timeRange = rangeInSeconds;
+    this._dashboard.properties.timeRange = rangeInSeconds;
     let startTime;
     let endTime;
     if (startDate && endDate) {
       startTime = this.dateService.format(startDate);
       endTime = this.dateService.format(endDate);
     }
-    this.dashboard.properties.startTime = startTime;
-    this.dashboard.properties.endTime = endTime;
+    this._dashboard.properties.startTime = startTime;
+    this._dashboard.properties.endTime = endTime;
   }
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
-    return this.dashboard.widgets?.findIndex((w) => w.id === id);
+    return this._dashboard.widgets?.findIndex((w) => w.id === id);
   }
 
   // return widget with given id
   getWidgetById(id: number): Widget {
-    return this.dashboard.widgets.find((w) => w.id === id);
+    return this._dashboard.widgets.find((w) => w.id === id);
   }
 
   // send id to resize subscribers
@@ -229,14 +265,14 @@ export class ViewService {
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
-      this.dashboard.widgets = widgets;
+      this._dashboard.widgets = widgets;
     }
   }
 
   // stores archive options
   setArchive(archiveType, archiveStat) {
-    this.dashboard.properties.archiveStat = archiveStat;
-    this.dashboard.properties.archiveType = archiveType;
+    this._dashboard.properties.archiveStat = archiveStat;
+    this._dashboard.properties.archiveType = archiveType;
   }
 
   // decrements count of widgets still loading
@@ -267,17 +303,17 @@ export class ViewService {
     this.startedLoading();
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
-      this.dashboard.widgets.splice(index, 1);
+      this._dashboard.widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
       this.widgetService.getWidget(widgetId).subscribe({
         next: (newWidget) => {
           if (index > -1) {
-            this.dashboard.widgets[index] = newWidget;
+            this._dashboard.widgets[index] = newWidget;
             this.messageService.message("Widget updated.");
           } else {
-            this.dashboard.widgets.push(newWidget);
+            this._dashboard.widgets.push(newWidget);
             this.messageService.message("Widget added.");
           }
           this.widgetChanged(newWidget.id);

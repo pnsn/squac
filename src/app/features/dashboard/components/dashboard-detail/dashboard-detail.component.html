@@ -1,15 +1,21 @@
-<div *ngIf="dashboard" id="dashboard-container" class="column">
+<div
+  id="dashboard-container"
+  class="column"
+  [appIsLoading]="loadingService.isLoading(this)"
+>
   <mat-toolbar id="dashboard-header" class="lt-gray-background box-shadow">
     <mat-toolbar-row class="row space-between">
       <div id="dashboard-info">
-        <h2>{{ dashboard.name }}</h2>
-        <span *ngIf="dashboard.owner && dashboard.orgId">
-          by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
+        <h2>{{ dashboard?.name }}</h2>
+        <span *ngIf="dashboard?.owner && dashboard?.orgId">
+          by {{ dashboard?.owner | user }} ({{
+            dashboard?.orgId | organization
+          }})
         </span>
 
         <shared-sharing-indicator
-          [shareAll]="dashboard.shareAll"
-          [shareOrg]="dashboard.shareOrg"
+          [shareAll]="dashboard?.shareAll"
+          [shareOrg]="dashboard?.shareOrg"
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
@@ -70,8 +76,8 @@
           <mat-icon>menu</mat-icon>
         </button>
         <shared-channel-group-selector
-          [(channelGroupId)]="channelGroupId"
-          (channelsChange)="channelsChange($event)"
+          [channelGroupId]="channelGroupId"
+          (channelGroupIdChange)="channelGroupChange($event)"
           appearance="outline"
           [dense]="true"
         >
@@ -85,9 +91,9 @@
         >
         </dashboard-data-type-selector>
         <shared-date-select
-          [secondsAgoFromNow]="timeRange"
-          [initialStartDate]="startTime"
-          [initialEndDate]="endTime"
+          [secondsAgoFromNow]="viewService.range"
+          [initialStartDate]="viewService.startTime"
+          [initialEndDate]="viewService.endTime"
           [timeRanges]="datePickerTimeRanges"
           (datesChanged)="datesChanged($event)"
         ></shared-date-select>
@@ -104,7 +110,7 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <ng-container *ngIf="viewService.status | async as status">
+  <!-- <ng-container *ngIf="viewService.status | async as status">
     <mat-progress-bar
       *ngIf="status !== 'finished'"
       [mode]="status !== 'error' ? 'indeterminate' : 'determinate'"
@@ -112,7 +118,7 @@
       [color]="status === 'error' ? 'warn' : 'primary'"
     >
     </mat-progress-bar>
-  </ng-container>
+  </ng-container> -->
 
   <mat-drawer-container id="dashboard-body" autosize>
     <mat-drawer
@@ -125,7 +131,6 @@
       mode="side"
     >
       <dashboard-channel-filter
-        [channels]="channels"
         (closeSidenav)="drawer.toggle()"
       ></dashboard-channel-filter>
     </mat-drawer>
@@ -135,4 +140,4 @@
   </mat-drawer-container>
 </div>
 <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
-<shared-loading *ngIf="!dashboard && !error"></shared-loading>
+<!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

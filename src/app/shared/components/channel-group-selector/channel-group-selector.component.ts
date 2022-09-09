@@ -18,7 +18,6 @@ export class ChannelGroupSelectorComponent implements OnInit {
   @Input() dense = false;
   channelGroups: ChannelGroup[];
   @Output() channelGroupIdChange = new EventEmitter<any>();
-  @Output() channelsChange = new EventEmitter<any>();
   constructor(
     private channelGroupService: ChannelGroupService,
     private route: ActivatedRoute,
@@ -43,12 +42,5 @@ export class ChannelGroupSelectorComponent implements OnInit {
       .toString();
 
     this.location.go(url);
-
-    this.channelGroupService
-      .getChannelGroup(+this.channelGroupId)
-      .pipe(take(1))
-      .subscribe((channelGroup) => {
-        this.channelsChange.emit(channelGroup.channels);
-      });
   }
 }

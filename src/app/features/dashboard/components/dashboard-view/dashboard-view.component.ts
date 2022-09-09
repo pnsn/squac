@@ -7,8 +7,9 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
 
 // List of dashboards
@@ -25,7 +26,7 @@ export class DashboardViewComponent
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
 
   dashboards: Dashboard[] = [];
-  rows: Dashboard[];
+  rows: Dashboard[] = [];
   columns = [];
   selectedDashboardId: number;
 
@@ -80,18 +81,30 @@ export class DashboardViewComponent
 
   constructor(
     private route: ActivatedRoute,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const dashboardsSub = this.route.data.subscribe((data) => {
-      if (data.dashboards && data.dashboards.error) {
-        console.error("error in dashboard", data.dashboards.error);
-      } else if (data.dashboards) {
-        this.dashboards = [...data.dashboards];
+    const dashboardsSub = this.route.params
+      .pipe(
+        tap(() => {
+          // this.error = false;
+        }),
+        switchMap(() => {
+          return this.loadingService
+            .doLoading(this.dashboardService.getDashboards(), this)
+            .pipe(
+              catchError((error) => {
+                return EMPTY;
+              })
+            );
+        })
+      )
+      .subscribe((dashboards) => {
+        this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
-      }
-    });
+      });
 
     this.subscription.add(dashboardsSub);
   }

@@ -8,6 +8,7 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Channel } from "@core/models/channel";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { MessageService } from "@core/services/message.service";
+import { LoadingService } from "@core/services/loading.service";
 
 // Individual dashboard
 @Component({
@@ -20,7 +21,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   status: string;
   error: string = null;
-  channels: Channel[] = [];
   // dashboard params
   archiveType: string;
   archiveStat: string;
@@ -64,73 +64,51 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private viewService: ViewService,
+    public viewService: ViewService,
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
-    private channelGroupService: ChannelGroupService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const paramsSub = this.route.data
+    const paramsSub = this.route.params
       .pipe(
-        switchMap(() => {
-          const dashboardId = this.route.snapshot.params.dashboardId;
-          return this.viewService.setDashboardById(dashboardId).pipe(
-            tap((dashboard) => {
-              this.dashboard = dashboard;
-              this.archiveStat = this.dashboard.properties.archiveStat;
-              this.archiveType = this.dashboard.properties.archiveType;
-            })
-          );
+        tap(() => {
+          this.error = null;
         }),
-        switchMap(() => {
-          this.viewService.startedLoading();
-          if (this.dashboard.channelGroupId) {
-            this.channelGroupId = this.dashboard.channelGroupId;
-          }
-          const params = this.route.snapshot.queryParams;
-          if (params.group) {
-            this.channelGroupId = +params.group;
-          }
-          if (!this.channelGroupId) {
-            this.viewService.finishedLoading();
-            this.viewService.updateChannels([]);
-            this.messageService.alert("Select a channel group.");
-            return EMPTY;
-          }
-          return this.channelGroupService
-            .getChannelGroup(this.channelGroupId)
-            .pipe(
+        switchMap((params) => {
+          const dashboardId = +params.dashboardId;
+          const groupId = +params.group;
+          return this.loadingService.doLoading(
+            this.viewService.setDashboardById(dashboardId, groupId).pipe(
               tap((channelGroup) => {
-                this.viewService.updateChannelGroup(this.channelGroupId);
-                this.channels = channelGroup.channels;
-                this.viewService.updateChannels(this.channels);
-                this.viewService.finishedLoading();
-                this.startTime = this.viewService.startTime;
-                this.endTime = this.viewService.endTime;
-                this.timeRange = this.viewService.range;
+                this.channelGroupId =
+                  this.viewService.channelGroupId.getValue();
+
+                console.log("set group id");
+                this.dashboard = this.viewService.dashboard;
+                this.archiveStat = this.viewService.archiveStat;
+                this.archiveType = this.viewService.archiveType;
+              }),
+              catchError((error) => {
+                if (!this.dashboard) {
+                  this.messageService.error("Could not load dashboard.");
+                } else {
+                  this.messageService.error("Could not load channel group.");
+                }
+                return EMPTY;
               })
-            ); //catch error on missing channel group
+            ),
+            this
+          );
         })
       )
-      .subscribe({
-        error: (error) => {
-          if (!this.dashboard) {
-            this.messageService.error("Could not load dashboard.");
-          } else {
-            this.messageService.error("Could not load channel group.");
-          }
-          this.viewService.finishedLoading();
-        },
-        next: (channelGroup) => {
-          this.error = null;
-        },
-      });
+      .subscribe();
 
     const statusSub = this.viewService.status.subscribe({
       next: (status) => {
-        this.status = status;
+        // this.status = status;
       },
       error: (error) => {
         console.error("error in dashboard detail status", error);
@@ -186,11 +164,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   // tell view service the channels changed
-  channelsChange(channels: Channel[]): void {
-    console.log("channels changed");
-    this.channels = channels;
-    this.viewService.updateChannelGroup(this.channelGroupId);
-    this.viewService.updateChannels(channels);
+  channelGroupChange(id: number): void {
+    this.loadingService
+      .doLoading(this.viewService.updateChannelGroup(id), this)
+      .subscribe();
   }
 
   // route to edit dashboard

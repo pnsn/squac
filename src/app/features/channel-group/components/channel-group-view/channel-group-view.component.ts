@@ -94,7 +94,7 @@ export class ChannelGroupViewComponent
     //       ? +this.route.snapshot.firstChild.params.channelGroupId
     //       : null;
     // });
-
+    //TODO: prevent loading everytime you go back...but also respond to changes
     const groupsSub = this.route.params
       .pipe(
         tap((params) => {

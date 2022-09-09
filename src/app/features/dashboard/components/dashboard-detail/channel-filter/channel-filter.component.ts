@@ -3,12 +3,14 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
   SimpleChanges,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
@@ -17,13 +19,14 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
   templateUrl: "./channel-filter.component.html",
   styleUrls: ["./channel-filter.component.scss"],
 })
-export class ChannelFilterComponent implements OnChanges {
+export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;
-  @Input() channels: Channel[];
+  channels: Channel[] = [];
   form: FormGroup;
   timeout;
   changed: false;
   toggledAll = true;
+  channelsSub: Subscription;
   @Output() closeSidenav = new EventEmitter<boolean>();
   constructor(
     private formBuilder: FormBuilder,
@@ -31,12 +34,17 @@ export class ChannelFilterComponent implements OnChanges {
     private viewService: ViewService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes.channels) {
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.channelsSub = this.viewService.channelGroupId.subscribe(() => {
+      this.channels = this.viewService.channels.getValue();
       this.initForm();
-    }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.channelsSub.unsubscribe();
   }
 
   initForm() {

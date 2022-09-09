@@ -21,9 +21,6 @@ export const routes: Routes = [
         component: DashboardViewComponent,
         canActivate: [PermissionGuard],
         runGuardsAndResolvers: "always",
-        resolve: {
-          dashboards: DashboardResolver,
-        },
         children: [
           {
             path: "new",
@@ -38,9 +35,6 @@ export const routes: Routes = [
         component: DashboardEditEntryComponent,
         canActivate: [PermissionGuard],
         data: { subject: "Dashboard", action: "update" },
-        resolve: {
-          dashboard: DashboardResolver,
-        },
       },
 
       {
