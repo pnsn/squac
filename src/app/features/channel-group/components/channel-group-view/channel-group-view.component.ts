@@ -31,6 +31,8 @@ export class ChannelGroupViewComponent
     footerLabel: "Channel Groups",
     selectionType: "single",
     displayCheck: true,
+    externalPaging: true,
+    footerHeight: 50,
   };
   // controls in table head
   controls = {
@@ -95,31 +97,35 @@ export class ChannelGroupViewComponent
     //       : null;
     // });
     //TODO: prevent loading everytime you go back...but also respond to changes
-    const groupsSub = this.route.params
-      .pipe(
-        tap((params) => {
-          console.log("params change");
-          // this.error = false;
-        }),
-        switchMap((params) => {
-          return this.loadingService
-            .doLoading(this.channelGroupService.getChannelGroups(), this)
-            .pipe(
-              catchError((error) => {
-                // this.error = error;
-                return EMPTY;
-              })
-            );
-        })
-      )
-      .subscribe({
-        next: (channelGroups: ChannelGroup[]) => {
-          this.channelGroups = channelGroups;
-          this.rows = [...this.channelGroups];
-        },
-      });
-
-    this.subscription.add(groupsSub);
+    // const groupsSub = this.route.params
+    //   .pipe(
+    //     tap((params) => {
+    //       console.log("params change");
+    //       // this.error = false;
+    //     }),
+    //     switchMap((params) => {
+    //       return this.loadingService
+    //         .doLoading(this.channelGroupService.getChannelGroups(), this)
+    //         .pipe(
+    //           catchError((error) => {
+    //             // this.error = error;
+    //             return EMPTY;
+    //           })
+    //         );
+    //     })
+    //   )
+    //   .subscribe({
+    //     next: (channelGroups: ChannelGroup[]) => {
+    //       this.channelGroups = channelGroups;
+    //       // this.rows = [...this.channelGroups];
+    //     },
+    //   });
+    // this.channelGroupService
+    //   .getPagedChannelGroups({ offset: 1, limit: 10 })
+    //   .subscribe((results) => {
+    //     console.log(results);
+    //   });
+    // this.subscription.add(groupsSub);
   }
 
   ngAfterViewInit(): void {

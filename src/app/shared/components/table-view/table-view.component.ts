@@ -11,7 +11,10 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ChannelGroup } from "@core/models/channel-group";
+import { PagedData, PageInfo } from "@core/models/page";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
@@ -19,6 +22,16 @@ import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
+export class Page {
+  // The number of elements in the page
+  size: number = 0;
+  // The total number of elements
+  totalElements: number = 0;
+  // The total number of pages
+  totalPages: number = 0;
+  // The current page number
+  pageNumber: number = 0;
+}
 @Component({
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
@@ -57,6 +70,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   selectedGroupKey;
   shareFilter = "org";
 
+  // paging & sorting
+  pageNumber = 0;
+  totalElements = 0;
+  cache: any = {};
+  isLoading = 0;
+
   //defaultOptions
   tableOptions = {
     columnMode: ColumnMode.force,
@@ -76,6 +95,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     autoRouteToDetail: true,
     selectAllRowsOnPage: false,
     displayCheck: false,
+    externalPaging: false,
+    externalSorting: false,
     messages: {
       emptyMessage: "No data",
       totalMessage: "total",
@@ -87,10 +108,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
+    private channelGroupService: ChannelGroupService,
     orgService: OrganizationService
   ) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
+    this.pageNumber = 0;
   }
   //doubleclick on row to view detail?
   ngOnInit() {
@@ -121,6 +144,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
       this.subscription.add(routerEvents);
     }
+
+    // this.page({
+    //   offset: 0,
+    //   pageSize: 3,
+    //   limit: 3,
+    //   count: 0,
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -310,6 +340,65 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   // emit refresh
   refreshResource(): void {
     this.refresh.emit(true);
+  }
+
+  page(pageInfo: PageInfo) {
+    console.log(pageInfo);
+    // Current page number is determined by last call to setPage
+    // This is the page the UI is currently displaying
+    // The current page is based on the UI pagesize and scroll position
+    // Pagesize can change depending on browser size
+    this.pageNumber = pageInfo.offset;
+    // Calculate row offset in the UI using pageInfo
+    // This is the scroll position in rows
+    const rowOffset = pageInfo.offset * pageInfo.pageSize;
+    // When calling the server, we keep page size fixed
+    // This should be the max UI pagesize or larger
+    // This is not necessary but helps simplify caching since the UI page size can change
+
+    const page = new Page();
+    page.size = 10;
+    page.pageNumber = Math.floor(rowOffset / page.size);
+    // console.log(rowOffset, rowOffset / page.size, page.pageNumber);
+    // We keep a index of server loaded pages so we don't load same data twice
+    // This is based on the server page not the UI
+    if (this.cache[rowOffset]) return;
+    this.cache[rowOffset] = true;
+
+    // Counter of pending API calls
+    this.isLoading++;
+
+    const params = {
+      offset: rowOffset,
+      limit: page.size,
+    };
+
+    this.channelGroupService
+      .getPagedChannelGroups(params)
+      .subscribe((pagedData: PagedData) => {
+        // Update total count
+        this.totalElements = pagedData.count;
+        console.log(pagedData.results);
+        // Create array to store data if missing
+        // The array should have the correct number of with "holes" for missing data
+        if (!this.tableRows) {
+          this.tableRows = new Array<ChannelGroup>(this.totalElements || 0);
+        }
+
+        const start = params.offset;
+
+        // Copy existing data
+        const tableRows = [...this.tableRows];
+        console.log(start, page.size, page.pageNumber);
+        // Insert new rows into correct position
+        tableRows.splice(start, page.size, ...pagedData.results);
+
+        // Set rows to our new rows for display
+        this.tableRows = tableRows;
+
+        // Decrement the counter of pending API calls
+        this.isLoading--;
+      });
   }
 
   // emit control click event with type

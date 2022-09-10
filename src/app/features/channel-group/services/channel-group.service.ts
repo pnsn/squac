@@ -3,6 +3,7 @@ import { ChannelGroup, ChannelGroupAdapter } from "@core/models/channel-group";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
+import { PagedData } from "@core/models/page";
 
 @Injectable({
   providedIn: "root",
@@ -22,15 +23,27 @@ export class ChannelGroupService {
     private channelGroupAdapter: ChannelGroupAdapter
   ) {}
 
+  getPagedChannelGroups(params): Observable<PagedData> {
+    console.log(params);
+    return this.squacApi.get(this.url, null, params).pipe(
+      map((results) => {
+        results.results.map((r) => {
+          const group = this.channelGroupAdapter.adaptFromApi(r);
+          return group;
+        });
+        return results;
+      })
+    );
+  }
   // Gets channel groups from server
-  getChannelGroups(): Observable<ChannelGroup[]> {
+  getChannelGroups(params?): Observable<ChannelGroup[]> {
     if (
       this.lastRefresh &&
       new Date().getTime() < this.lastRefresh + 5 * 60000
     ) {
       return of(this.localChannelGroups);
     }
-    return this.squacApi.get(this.url).pipe(
+    return this.squacApi.get(this.url, null, params).pipe(
       map((results) =>
         results.map((r) => {
           const group = this.channelGroupAdapter.adaptFromApi(r);
