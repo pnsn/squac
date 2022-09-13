@@ -76,8 +76,10 @@ export class LoadingDirective implements OnChanges {
     const spinnerComponent = this.viewContainerRef.createComponent(
       spinnerComponentFactory
     );
+
     this.spinnerElement = spinnerComponent.location.nativeElement;
-    if (this.fullScreen)
-      this.renderer.addClass(this.spinnerElement, OVERLAY_CLASS);
+    if (this.fullScreen) {
+      this.spinnerElement.classList.add(OVERLAY_CLASS);
+    }
   }
 }

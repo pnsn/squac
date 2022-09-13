@@ -135,7 +135,7 @@ export class ChannelGroupViewComponent
 
   fetchData() {
     return this.loadingService
-      .doLoading(this.channelGroupService.getChannelGroups(), this)
+      .doLoading(this.channelGroupService.getChannelGroups())
       .pipe(
         tap((results) => {
           this.channelGroups = results;

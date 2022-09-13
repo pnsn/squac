@@ -268,3 +268,47 @@ a {
   font-weight: 600;
   margin-right: 7px;
 }
+
+#loading-gif {
+  display: inline-block;
+  img {
+    height: 100px;
+    width: 100px;
+  }
+  z-index: 10001;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
+
+  /* LoadingDirective overlay styles */
+  .loading-overlay {
+    height: 100%;
+    width: 100%;
+    background: white;
+    opacity: 0.8;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.loading-full-screen {
+  .loading-container {
+    position: fixed;
+  }
+
+  .loading-overlay {
+    background: $sq-blue;
+    opacity: 1;
+  }
+}

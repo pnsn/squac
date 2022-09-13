@@ -5,7 +5,7 @@ import { finalize, observeOn } from "rxjs/operators";
 type LoadingContext = object;
 type LoaderId = string | number; // expected enum values
 const DEFAULT_LOADER_ID: LoaderId = "_DEFAULT";
-
+const DEFAULT_CONTEXT: LoadingContext = { _DEFAULT: true };
 /**
  * Used for centrally setting/unsetting loading flags for components or services.
  * Should be connected to global HTTP interceptor which will unset
@@ -38,13 +38,14 @@ export class LoadingService {
   // Such a scenario is used when your context has contains only one loading indicator.
   doLoading<V>(
     source$: Observable<V>,
-    context: LoadingContext,
+    context?: LoadingContext,
     loaderId?: LoaderId
   ): Observable<V> {
+    context = context || DEFAULT_CONTEXT;
     this.startLoading(context, loaderId);
     return source$.pipe(
-      observeOn(asyncScheduler),
-      finalize(() => this.endLoading(context, loaderId))
+      observeOn(asyncScheduler)
+      // finalize(() => this.endLoading(context, loaderId))
     );
   }
 
@@ -52,7 +53,8 @@ export class LoadingService {
   // Returns a boolean indicating whether a given loader is active in a given context.
   // If loaderId is unspecified, the method will return a logical disjunction of all
   // loader states in the context.
-  isLoading(context: LoadingContext, loaderId?: LoaderId): boolean {
+  isLoading(context?: LoadingContext, loaderId?: LoaderId): boolean {
+    context = context || DEFAULT_CONTEXT;
     const loaderStates = this.loadingStates.get(context);
     if (!loaderStates) {
       return false;
@@ -68,9 +70,10 @@ export class LoadingService {
   // To be used in your html templates with async pipes.
   // Returns an Observable of booleans indicating whether a given loader is active in a given context.
   isLoading$(
-    context: LoadingContext,
+    context?: LoadingContext,
     loaderId?: LoaderId
   ): Observable<boolean> {
+    context = context || DEFAULT_CONTEXT;
     const coalescedLoaderId = this.getLoaderId(loaderId);
 
     if (!this.hasLoadingStates(context, coalescedLoaderId)) {
@@ -83,7 +86,7 @@ export class LoadingService {
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
-    console.log("start loading");
+    console.log("start loading", context);
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
