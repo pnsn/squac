@@ -70,9 +70,10 @@
         <channel-group-csv-upload
           [(channels)]="selectedChannels"
           (channelsChange)="addChannelsFromCSV($event)"
-          [(loading)]="loading"
           [(error)]="error"
           [showOnlyCurrent]="showOnlyCurrent"
+          [context]="this"
+          [loadingIndicator]="LoadingIndicator.RESULTS"
         >
         </channel-group-csv-upload>
         <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
@@ -97,7 +98,6 @@
         >
         </channel-group-filter>
       </div>
-      <shared-loading *ngIf="loading" [loadingMsg]="loading"> </shared-loading>
       <div
         class="row channels-row"
         [appIsLoading]="

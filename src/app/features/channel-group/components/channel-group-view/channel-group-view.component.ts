@@ -80,44 +80,21 @@ export class ChannelGroupViewComponent
   ) {}
 
   ngOnInit(): void {
-    // get channel groups to show
-    // const routeSub = this.route.data.subscribe((data) => {
-    //   console.log("route changing");
-    //   if (data.channelGroups.error) {
-    //     console.error("error in channels", data.channelGroups.error);
-    //   } else {
-    //     this.channelGroups = data.channelGroups;
-    //     this.rows = [...this.channelGroups];
-    //   }
-    //   this.selectedChannelGroupId =
-    //     this.route.children.length > 0
-    //       ? +this.route.snapshot.firstChild.params.channelGroupId
-    //       : null;
-    // });
     //TODO: prevent loading everytime you go back...but also respond to changes
     const groupsSub = this.route.params
       .pipe(
         tap((params) => {
           console.log("params change");
-          // this.error = false;
+          this.selectedChannelGroupId =
+            this.route.children.length > 0
+              ? +this.route.snapshot.firstChild.params.channelGroupId
+              : null;
         }),
         switchMap((params) => {
-          return this.loadingService
-            .doLoading(this.channelGroupService.getChannelGroups(), this)
-            .pipe(
-              catchError((error) => {
-                // this.error = error;
-                return EMPTY;
-              })
-            );
+          return this.fetchData();
         })
       )
-      .subscribe({
-        next: (channelGroups: ChannelGroup[]) => {
-          this.channelGroups = channelGroups;
-          this.rows = [...this.channelGroups];
-        },
-      });
+      .subscribe();
 
     this.subscription.add(groupsSub);
   }
@@ -156,12 +133,24 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
+  fetchData() {
+    return this.loadingService
+      .doLoading(this.channelGroupService.getChannelGroups(), this)
+      .pipe(
+        tap((results) => {
+          this.channelGroups = results;
+          this.rows = [...this.channelGroups];
+        }),
+        catchError((error) => {
+          // this.error = error;
+          return EMPTY;
+        })
+      );
+  }
+
   // get fresh groups
-  refresh(): void {
-    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
-      this.channelGroups = channelGroups;
-      this.rows = [...this.channelGroups];
-    });
+  refresh() {
+    this.fetchData().subscribe();
   }
 
   // onSelect function for data table selection
@@ -181,8 +170,10 @@ export class ChannelGroupViewComponent
     this.channelGroupService
       .deleteChannelGroup(this.selectedChannelGroupId)
       .subscribe(() => {
-        this.router.navigate(["./"], { relativeTo: this.route });
-        this.refresh();
+        const index = this.channelGroups.findIndex(
+          (cG) => cG.id === this.selectedChannelGroupId
+        );
+        this.channelGroups.splice(index, 1);
       });
   }
 

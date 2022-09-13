@@ -18,7 +18,6 @@ export const routes: Routes = [
     },
     canActivate: [AuthGuard],
     component: UserComponent,
-    runGuardsAndResolvers: "always",
     children: [
       {
         path: "",
@@ -32,18 +31,16 @@ export const routes: Routes = [
       {
         path: "organizations",
         component: OrganizationsViewComponent,
-        resolve: {
-          organizations: OrganizationResolver,
-        },
       },
       {
         path: "organizations/:orgId",
 
         component: OrganizationDetailComponent,
+        runGuardsAndResolvers: "always",
         resolve: {
           organization: OrganizationResolver,
         },
-        runGuardsAndResolvers: "always",
+
         children: [
           {
             path: "user/:userId/edit",

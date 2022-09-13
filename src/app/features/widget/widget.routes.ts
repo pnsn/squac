@@ -4,7 +4,6 @@ import { WidgetMainComponent } from "./components/widget-main/widget-main.compon
 import { WidgetResolver } from "@widget/widget.resolver";
 import { WidgetEditEntryComponent } from "@widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricResolver } from "@metric/metric.resolver";
-import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
 
 export const widgetRoutes: Routes = [
   {
@@ -17,6 +16,7 @@ export const widgetRoutes: Routes = [
     component: WidgetMainComponent,
     resolve: {
       widgets: WidgetResolver,
+      metrics: MetricResolver,
     },
     runGuardsAndResolvers: "paramsOrQueryParamsChange",
     children: [
@@ -24,22 +24,12 @@ export const widgetRoutes: Routes = [
         path: "new",
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],
-        resolve: {
-          metrics: MetricResolver,
-          channelGroups: ChannelGroupResolver,
-        },
         data: { subject: "Widget", action: "create" },
       },
-      // {
-      //   path: ':widgetid',
-      //   component: DashboardDetailComponent
-      // },
       {
         path: ":widgetId/edit",
         resolve: {
           widget: WidgetResolver,
-          metrics: MetricResolver,
-          channelGroups: ChannelGroupResolver,
         },
         component: WidgetEditEntryComponent,
         canActivate: [PermissionGuard],

@@ -1,4 +1,5 @@
 <shared-table-view
+  [appIsLoading]="loadingService.isLoading(this)"
   title="Monitors"
   [options]="options"
   [rows]="rows"

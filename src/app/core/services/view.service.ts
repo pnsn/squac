@@ -151,7 +151,6 @@ export class ViewService {
   }
 
   updateChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
-    console.log("updatechannelgroup");
     return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
       distinctUntilChanged(),
       tap((group) => {

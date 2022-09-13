@@ -8,6 +8,7 @@
   (refresh)="refresh()"
   [controls]="controls"
   [filters]="filters"
+  [appIsLoading]="loadingService.isLoading(this)"
 >
   <ng-container tableHeadControls> </ng-container>
   <ng-container tableHeadFilters> </ng-container>

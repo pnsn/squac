@@ -82,7 +82,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           const groupId = +params.group;
           return this.loadingService.doLoading(
             this.viewService.setDashboardById(dashboardId, groupId).pipe(
-              tap((channelGroup) => {
+              tap(() => {
                 this.channelGroupId =
                   this.viewService.channelGroupId.getValue();
                 this.dashboard = this.viewService.dashboard;

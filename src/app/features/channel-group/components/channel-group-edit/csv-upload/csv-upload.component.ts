@@ -8,6 +8,7 @@ import {
 import { Params } from "@angular/router";
 import { Channel } from "@core/models/channel";
 import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map } from "rxjs";
@@ -30,14 +31,15 @@ export class CsvUploadComponent {
   @Input() showOnlyCurrent: boolean;
   @Input() channels: Channel[];
   @Output() channelsChange = new EventEmitter<Channel[]>();
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter<string | boolean>();
   @Input() error: string | boolean;
   @Output() errorChange = new EventEmitter<string | boolean>();
+  @Input() context: any; //context for loading service
+  @Input() loadingIndicator: any;
   constructor(
     private ngxCsvParser: NgxCsvParser,
     private channelService: ChannelService,
-    private dateService: DateService
+    private dateService: DateService,
+    private loadingService: LoadingService
   ) {}
 
   @ViewChild("fileImportInput") fileImportInput: any;
@@ -100,15 +102,16 @@ export class CsvUploadComponent {
             const now = this.dateService.now();
             searchFilters.endafter = this.dateService.format(now);
           }
-          this.loadingChange.emit("Requesting channels");
-          return this.channelService.getChannelsByFilters({
-            nslc: nslcString,
-            ...searchFilters,
-          });
+          return this.loadingService.doLoading(
+            this.channelService.getChannelsByFilters({
+              nslc: nslcString,
+              ...searchFilters,
+            }),
+            this.context,
+            this.loadingIndicator
+          );
         }),
         tap((channels: Channel[]) => {
-          this.loadingChange.emit("Validating channels");
-
           this.matchingChannels = channels;
 
           if (this.matchingChannels.length === 0) {
@@ -119,12 +122,9 @@ export class CsvUploadComponent {
       .subscribe({
         next: (): void => {
           this.channelsChange.emit(this.matchingChannels);
-          this.loadingChange.emit(false);
         },
         error: (error: any): void => {
-          console.error(error);
           this.errorChange.emit(error);
-          this.loadingChange.emit(false);
         },
       });
   }

@@ -46,7 +46,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   id: number;
   channelGroup: ChannelGroup;
   editMode: boolean; //create group or edit group
-  loading: boolean | string = false;
   error: boolean | string = false;
   changeMade = false;
   orgId: number;
@@ -292,7 +291,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   previewRules(rules: MatchingRule[]) {
-    this.loading = "Requesting Channels";
     this.error = false;
     const params: any = {};
     if (this.showOnlyCurrent) {
@@ -319,9 +317,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
           this.selectedChannels = [...results];
           this.rows = [...results];
           // add channels to selected Channels
-        },
-        complete: () => {
-          this.loading = false;
         },
       });
   }
@@ -366,8 +361,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         const now = this.dateService.now();
         searchFilters.endafter = this.dateService.format(now);
       }
-
-      this.loading = "Requesting Channels";
       this.error = false;
       this.loadingService
         .doLoading(
@@ -380,9 +373,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             this.selectedChannels = [...response];
             this.rows = [...response];
             //select retunred rows that are in group
-          },
-          complete: () => {
-            this.loading = false;
           },
         });
     } else {

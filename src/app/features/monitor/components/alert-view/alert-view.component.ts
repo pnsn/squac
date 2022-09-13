@@ -8,11 +8,20 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "@monitor/models/alert";
 import { Monitor } from "@monitor/models/monitor";
 import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
-import { mergeMap, Subscription, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  forkJoin,
+  mergeMap,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
 
 @Component({
   selector: "monitor-alert-view",
@@ -78,19 +87,20 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private alertService: AlertService,
     private route: ActivatedRoute,
     private monitorService: MonitorService,
-    private dateService: DateService
+    private dateService: DateService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      if (data.monitors.error || data.alerts.error) {
-        this.error = true;
-      } else {
-        this.error = false;
-        this.monitors = data.monitors;
-        this.findMonitorForAlerts(data.alerts);
-      }
-    });
+    const monitorsSub = this.route.params
+      .pipe(
+        switchMap(() => {
+          return this.fetchData();
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(monitorsSub);
   }
 
   ngAfterViewInit(): void {
@@ -138,29 +148,27 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  fetchData() {
+    const lastDay = this.dateService.subtractFromNow(1, "day").format();
+    return this.loadingService.doLoading(
+      forkJoin({
+        alerts: this.alertService.getAlerts({ starttime: lastDay }),
+        monitors: this.monitorService.getMonitors(),
+      }).pipe(
+        tap((results: any) => {
+          this.monitors = results.monitors;
+          this.findMonitorForAlerts(results.alerts);
+        }),
+        catchError(() => {
+          return EMPTY;
+        })
+      ),
+      this
+    );
+  }
   // get fresh data
   refresh(): void {
-    if (!this.refreshInProgress) {
-      this.refreshInProgress = true;
-      const lastHour = this.dateService.subtractFromNow(1, "day").format();
-      const refreshRequests = this.monitorService
-        .getMonitors()
-        .pipe(
-          tap((monitors) => {
-            this.monitors = monitors;
-          }),
-          mergeMap(() => {
-            return this.alertService.getAlerts({ starttime: lastHour });
-          }),
-          tap((alerts) => {
-            this.findMonitorForAlerts(alerts);
-            this.refreshInProgress = false;
-          })
-        )
-        .subscribe();
-
-      this.subscription.add(refreshRequests);
-    }
+    this.fetchData().subscribe();
   }
 
   // match alerts and monitors

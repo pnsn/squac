@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { OrganizationService } from "@user/services/organization.service";
 import { User } from "@user/models/user";
 import { Organization } from "@user/models/organization";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { InviteService } from "@user/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
+import { LoadingService } from "@core/services/loading.service";
 
 @Component({
   selector: "user-organization-detail",
@@ -17,6 +18,7 @@ export class OrganizationDetailComponent
 {
   subscription: Subscription = new Subscription();
   organization: Organization;
+  orgId: number;
   user: User;
   isAdmin: boolean;
 
@@ -74,44 +76,50 @@ export class OrganizationDetailComponent
     private orgService: OrganizationService,
     private inviteService: InviteService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const orgSub = this.route.data.subscribe((data) => {
-      this.user = this.route.snapshot.data.user;
-      if (data.organization && data.organization.users) {
-        this.organization = data.organization;
-        this.rows = [...this.organization.users];
-      }
-
-      this.isAdmin =
-        this.user.isStaff ||
-        (this.user.orgAdmin && this.user.orgId === this.organization.id);
-    });
-
-    if (this.isAdmin) {
-      this.controls.menu = {
-        text: "Actions",
-        path: "user",
-        options: [
-          {
-            text: "Edit",
-            permission: "update",
-            action: "edit",
-          },
-          {
-            text: "Send Invite",
-            action: "invite",
-          },
-          {
-            text: "Deactivate",
-            permission: "delete",
-            action: "deactivate",
-          },
-        ],
-      };
-    }
+    const orgSub = this.route.params
+      .pipe(
+        tap((params) => {
+          this.user = this.route.snapshot.data.user;
+          this.orgId = params.orgId;
+        }),
+        switchMap(() => {
+          return this.fetchData();
+        }),
+        tap(() => {
+          this.isAdmin =
+            this.user.isStaff ||
+            (this.user.orgAdmin && this.user.orgId === this.organization.id);
+          // this.error = false;
+          if (this.isAdmin) {
+            this.controls.menu = {
+              text: "Actions",
+              path: "user",
+              options: [
+                {
+                  text: "Edit",
+                  permission: "update",
+                  action: "edit",
+                },
+                {
+                  text: "Send Invite",
+                  action: "invite",
+                },
+                {
+                  text: "Deactivate",
+                  permission: "delete",
+                  action: "deactivate",
+                },
+              ],
+            };
+          }
+        })
+      )
+      .subscribe();
 
     this.subscription.add(orgSub);
   }
@@ -122,6 +130,19 @@ export class OrganizationDetailComponent
     }, 0);
   }
 
+  fetchData() {
+    return this.loadingService
+      .doLoading(this.orgService.getOrganization(this.orgId), this)
+      .pipe(
+        tap((results: Organization) => {
+          this.organization = results;
+          this.rows = [...this.organization.users];
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
+      );
+  }
   // make columns for table
   buildColumns(): void {
     if (this.isAdmin) {
@@ -245,12 +266,7 @@ export class OrganizationDetailComponent
 
   // get fresh user info
   refresh(): void {
-    this.orgService
-      .getOrganizationUsers(this.organization.id)
-      .subscribe((users) => {
-        this.organization.users = users;
-        this.rows = [...this.organization.users];
-      });
+    this.fetchData().subscribe();
   }
 
   // send invitation to user

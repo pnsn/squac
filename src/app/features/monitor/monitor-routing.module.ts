@@ -13,10 +13,6 @@ export const routes: Routes = [
     path: "",
     component: MonitorComponent,
     canActivate: [AuthGuard],
-    resolve: {
-      monitors: MonitorResolver,
-      alerts: AlertResolver,
-    },
     children: [
       {
         path: "alerts",
@@ -25,10 +21,6 @@ export const routes: Routes = [
       {
         path: "",
         component: MonitorViewComponent,
-        resolve: {
-          monitors: MonitorResolver,
-          alerts: AlertResolver,
-        },
         runGuardsAndResolvers: "always",
         children: [
           {
@@ -37,9 +29,6 @@ export const routes: Routes = [
           },
           {
             path: ":monitorId",
-            resolve: {
-              monitor: MonitorResolver,
-            },
             children: [
               {
                 path: "edit",
