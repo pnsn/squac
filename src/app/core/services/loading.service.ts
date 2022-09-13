@@ -44,8 +44,8 @@ export class LoadingService {
     context = context || DEFAULT_CONTEXT;
     this.startLoading(context, loaderId);
     return source$.pipe(
-      observeOn(asyncScheduler)
-      // finalize(() => this.endLoading(context, loaderId))
+      observeOn(asyncScheduler),
+      finalize(() => this.endLoading(context, loaderId))
     );
   }
 
