@@ -61,7 +61,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.error = false;
         }),
         switchMap(() => {
-          return this.fetchData();
+          return this.loadingService.doLoading(this.fetchData());
         })
       )
       .subscribe();
@@ -120,23 +120,21 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   fetchData() {
-    return this.loadingService
-      .doLoading(this.metricService.getMetrics(), this)
-      .pipe(
-        tap((results) => {
-          this.metrics = results;
-          this.rows = [...this.metrics];
-        }),
-        catchError((error) => {
-          // this.error = error;
-          return EMPTY;
-        })
-      );
+    return this.metricService.getMetrics().pipe(
+      tap((results) => {
+        this.metrics = results;
+        this.rows = [...this.metrics];
+      }),
+      catchError((error) => {
+        // this.error = error;
+        return EMPTY;
+      })
+    );
   }
 
   // get fresh metrics
   refresh(): void {
-    this.fetchData().subscribe();
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   ngOnDestroy(): void {

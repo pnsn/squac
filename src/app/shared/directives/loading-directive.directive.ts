@@ -22,7 +22,7 @@ export class LoadingDirective implements OnChanges {
   @Input("appIsLoading")
   isLoading = false;
 
-  @Input() fullScreen = false;
+  @Input() fullScreen;
 
   protected spinnerElement!: HTMLDivElement;
   protected hostElement!: HTMLDivElement;

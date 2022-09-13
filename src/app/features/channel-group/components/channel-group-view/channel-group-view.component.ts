@@ -91,7 +91,7 @@ export class ChannelGroupViewComponent
               : null;
         }),
         switchMap((params) => {
-          return this.fetchData();
+          return this.loadingService.doLoading(this.fetchData());
         })
       )
       .subscribe();
@@ -134,23 +134,21 @@ export class ChannelGroupViewComponent
   }
 
   fetchData() {
-    return this.loadingService
-      .doLoading(this.channelGroupService.getChannelGroups())
-      .pipe(
-        tap((results) => {
-          this.channelGroups = results;
-          this.rows = [...this.channelGroups];
-        }),
-        catchError((error) => {
-          // this.error = error;
-          return EMPTY;
-        })
-      );
+    return this.channelGroupService.getChannelGroups().pipe(
+      tap((results) => {
+        this.channelGroups = results;
+        this.rows = [...this.channelGroups];
+      }),
+      catchError((error) => {
+        // this.error = error;
+        return EMPTY;
+      })
+    );
   }
 
   // get fresh groups
   refresh() {
-    this.fetchData().subscribe();
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   // onSelect function for data table selection

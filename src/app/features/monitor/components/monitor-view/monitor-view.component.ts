@@ -117,7 +117,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const monitorsSub = this.route.params
       .pipe(
         switchMap((params) => {
-          return this.fetchData();
+          return this.loadingService.doLoading(this.fetchData());
         })
       )
       .subscribe();
@@ -228,26 +228,23 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fetchData() {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
-    return this.loadingService.doLoading(
-      forkJoin({
-        alerts: this.alertService.getAlerts({ starttime: lastDay }),
-        monitors: this.monitorService.getMonitors(),
-      }).pipe(
-        tap((results) => {
-          this.monitors = results.monitors;
-          this.alerts = results.alerts;
-          this.makeRows();
-        }),
-        catchError(() => {
-          return EMPTY;
-        })
-      ),
-      this
+    return forkJoin({
+      alerts: this.alertService.getAlerts({ starttime: lastDay }),
+      monitors: this.monitorService.getMonitors(),
+    }).pipe(
+      tap((results) => {
+        this.monitors = results.monitors;
+        this.alerts = results.alerts;
+        this.makeRows();
+      }),
+      catchError(() => {
+        return EMPTY;
+      })
     );
   }
   // get fresh alerts
   refresh() {
-    this.fetchData().subscribe();
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   // return alerts with monitorId

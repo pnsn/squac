@@ -92,7 +92,7 @@ export class DashboardViewComponent
           // this.error = false;
         }),
         switchMap(() => {
-          return this.fetchData();
+          return this.loadingService.doLoading(this.fetchData());
         })
       )
       .subscribe();
@@ -160,22 +160,20 @@ export class DashboardViewComponent
   }
 
   fetchData() {
-    return this.loadingService
-      .doLoading(this.dashboardService.getDashboards(), this)
-      .pipe(
-        tap((dashboards) => {
-          this.dashboards = [...dashboards];
-          this.rows = [...this.dashboards];
-        }),
-        catchError((error) => {
-          return EMPTY;
-        })
-      );
+    return this.dashboardService.getDashboards().pipe(
+      tap((dashboards) => {
+        this.dashboards = [...dashboards];
+        this.rows = [...this.dashboards];
+      }),
+      catchError((error) => {
+        return EMPTY;
+      })
+    );
   }
 
   // get fresh dashboards
   refresh(): void {
-    this.fetchData().subscribe();
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   ngOnDestroy(): void {
