@@ -23,7 +23,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
 import { LoadingDirective } from "./directives/loading-directive.directive";
-import { LoadingScreenComponent } from "./components/loading-screen/loading-screen.component";
+import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     DateSelectComponent,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
-    LoadingScreenComponent,
+    LoadingOverlayComponent,
     LoadingDirective,
     LoadingSpinnerComponent,
   ],
@@ -84,7 +84,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     NgxEchartsModule,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
-    LoadingScreenComponent,
+    LoadingOverlayComponent,
     LoadingSpinnerComponent,
     LoadingDirective,
   ],

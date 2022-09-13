@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   ViewContainerRef,
 } from "@angular/core";
+import { LoadingOverlayComponent } from "@shared/components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "../components/loading-spinner/loading-spinner.component";
 
 const OVERLAY_CLASS = "loading-full-screen";
@@ -23,8 +24,10 @@ export class LoadingDirective implements OnChanges {
   isLoading = false;
 
   @Input() fullScreen;
+  @Input() spinnerType;
 
   protected spinnerElement!: HTMLDivElement;
+  protected overlayElement!: HTMLDivElement;
   protected hostElement!: HTMLDivElement;
 
   constructor(
@@ -39,7 +42,7 @@ export class LoadingDirective implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.spinnerElement) {
+    if (!this.overlayElement || !this.spinnerElement) {
       this.init();
     }
 
@@ -56,16 +59,21 @@ export class LoadingDirective implements OnChanges {
   }
 
   protected addLoadingIndicator(): void {
+    // this.renderer.appendChild(this.hostElement, this.overlayElement);
+    // this.renderer.appendChild(this.overlayElement, this.spinnerElement);
     this.renderer.appendChild(this.hostElement, this.spinnerElement);
   }
 
   protected removeLoadingIndicator(): void {
+    // this.renderer.removeChild(this.hostElement, this.overlayElement);
+    // this.renderer.removeChild(this.overlayElement, this.spinnerElement);
     this.renderer.removeChild(this.hostElement, this.spinnerElement);
     this.viewContainerRef.clear();
   }
 
   protected init(): void {
     this.initSpinnerComponent();
+    // this.initOverlayComponent();
   }
 
   protected initSpinnerComponent(): void {
@@ -81,5 +89,23 @@ export class LoadingDirective implements OnChanges {
     if (this.fullScreen) {
       this.spinnerElement.classList.add(OVERLAY_CLASS);
     }
+    if (this.spinnerType === "buffer") {
+      this.spinnerElement.classList.add("buffer");
+    }
   }
+
+  // protected initOverlayComponent(): void {
+  //   const overlayComponentFactory =
+  //     this.componentFactoryResolver.resolveComponentFactory(
+  //       LoadingOverlayComponent
+  //     );
+  //   const overlayComponent = this.viewContainerRef.createComponent(
+  //     overlayComponentFactory
+  //   );
+
+  //   this.overlayElement = overlayComponent.location.nativeElement;
+  //   if (this.fullScreen) {
+  //     this.spinnerElement.classList.add(OVERLAY_CLASS);
+  //   }
+  // }
 }

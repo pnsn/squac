@@ -1,7 +1,7 @@
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./core/services/auth.service";
-import { LoadingScreenComponent } from "@shared/components/loading-screen/loading-screen.component";
+import { LoadingOverlayComponent } from "./shared/components/loading-overlay/loading-overlay.component";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
@@ -12,7 +12,7 @@ describe("AppComponent", () => {
   beforeEach(() =>
     MockBuilder(AppComponent)
       .keep(RouterTestingModule.withRoutes([]))
-      .mock(LoadingScreenComponent)
+      .mock(LoadingOverlayComponent)
       .mock(MaterialModule)
       .mock(AuthService)
       .provide({

@@ -269,15 +269,6 @@ a {
   margin-right: 7px;
 }
 
-#loading-gif {
-  display: inline-block;
-  img {
-    height: 100px;
-    width: 100px;
-  }
-  z-index: 10001;
-}
-
 .loading-container {
   display: flex;
   justify-content: center;
@@ -288,7 +279,9 @@ a {
   height: 100%;
   width: 100%;
   z-index: 10000;
-
+  .loading-buffer {
+    display: none;
+  }
   /* LoadingDirective overlay styles */
   .loading-overlay {
     height: 100%;
@@ -300,6 +293,21 @@ a {
     left: 0;
     top: 0;
   }
+}
+
+.buffer .loading-buffer {
+  display: block;
+}
+.buffer .loading-gif {
+  display: none;
+}
+.loading-gif {
+  display: inline-block;
+  img {
+    height: 100px;
+    width: 100px;
+  }
+  z-index: 10001;
 }
 
 .loading-full-screen {

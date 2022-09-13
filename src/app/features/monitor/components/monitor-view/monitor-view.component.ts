@@ -117,7 +117,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const monitorsSub = this.route.params
       .pipe(
         switchMap((params) => {
-          return this.loadingService.doLoading(this.fetchData());
+          return this.loadingService.doLoading(this.fetchData(), this);
         })
       )
       .subscribe();
