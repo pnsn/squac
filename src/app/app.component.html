@@ -1,1 +1,6 @@
-<app-loading-screen></app-loading-screen><router-outlet></router-outlet>
+<div
+  id="loading-screen"
+  [appIsLoading]="loadingService.isLoading(this)"
+  [fullScreen]="true"
+></div>
+<router-outlet></router-outlet>

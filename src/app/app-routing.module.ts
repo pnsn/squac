@@ -49,7 +49,6 @@ const appRoutes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     resolve: {
-      metrics: MetricResolver,
       user: UserResolver,
       organizations: OrganizationResolver,
     },

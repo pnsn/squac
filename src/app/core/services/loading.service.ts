@@ -10,20 +10,8 @@ const DEFAULT_LOADER_ID: LoaderId = "_DEFAULT";
  * Used for centrally setting/unsetting loading flags for components or services.
  * Should be connected to global HTTP interceptor which will unset
  * the loading flags in case an error happens using the clearLoadings() method.
- *
- * FAQ:
- * Q: How to change loading flag for a parent component?
- * A: Inject the parent component as a dependency to your constructor and
- *    call loadingService.setLoading(parentComponent, STATE).
- *
- * Q: How to change loading flag for a child component?
- * A: Use a @ViewChild with component selector and pass the
- *    reference of the child to setLoading method.
- *
- * Q: I need more loading indicators in my components. How to?
- * A: Assign a LoaderId to each indicator and then use them
- *    with calls to methods of this service.
  */
+
 @Injectable({
   providedIn: "root",
 })
@@ -54,7 +42,6 @@ export class LoadingService {
     loaderId?: LoaderId
   ): Observable<V> {
     this.startLoading(context, loaderId);
-    console.log("start loading");
     return source$.pipe(
       observeOn(asyncScheduler),
       finalize(() => this.endLoading(context, loaderId))
@@ -96,6 +83,7 @@ export class LoadingService {
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
+    console.log("start loading");
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
@@ -137,7 +125,6 @@ export class LoadingService {
         );
       }
     } else {
-      // @ts-ignore - loadingStates[context] is surely defined in this branch
       this.loadingStates.get(context).set(loaderId, state);
       this.loadingStates$.get(context).get(loaderId).next(state);
     }

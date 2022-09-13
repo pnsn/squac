@@ -17,7 +17,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   dashboardId: number;
   paramsSub: Subscription;
   metrics: Metric[];
-  channelGroups: ChannelGroup[];
   widget: Widget;
 
   constructor(
@@ -33,7 +32,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       const snapshot = this.route.snapshot;
       if (snapshot.data) {
         this.metrics = snapshot.data.metrics;
-        this.channelGroups = snapshot.data.channelGroups;
         this.widget = snapshot.data.widget;
       }
 
@@ -42,7 +40,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   }
 
   openWidget(): void {
-    if (this.dashboardId && this.metrics && this.channelGroups) {
+    if (this.dashboardId && this.metrics) {
       // get dashboard && widget from url
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         closeOnNavigation: true,
@@ -51,7 +49,6 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           widget: this.widget,
           dashboardId: this.dashboardId,
           metrics: this.metrics,
-          channelGroups: this.channelGroups,
         },
       });
 

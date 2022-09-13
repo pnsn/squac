@@ -11,7 +11,7 @@ import {
 } from "@angular/core";
 import { LoadingSpinnerComponent } from "../components/loading-spinner/loading-spinner.component";
 
-const OVERLAY_CLASS = "loading-overlay";
+const OVERLAY_CLASS = "loading-full-screen";
 
 // This directive places an overlay with a loading spinner over its host element
 // if isLoading equals to true and hides the overlay when isLoading becomes false.
@@ -22,7 +22,8 @@ export class LoadingDirective implements OnChanges {
   @Input("appIsLoading")
   isLoading = false;
 
-  protected overlayElement!: HTMLDivElement;
+  @Input() fullScreen = false;
+
   protected spinnerElement!: HTMLDivElement;
   protected hostElement!: HTMLDivElement;
 
@@ -38,7 +39,7 @@ export class LoadingDirective implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.overlayElement || !this.spinnerElement) {
+    if (!this.spinnerElement) {
       this.init();
     }
 
@@ -55,18 +56,15 @@ export class LoadingDirective implements OnChanges {
   }
 
   protected addLoadingIndicator(): void {
-    this.renderer.appendChild(this.hostElement, this.overlayElement);
-    this.renderer.appendChild(this.overlayElement, this.spinnerElement);
+    this.renderer.appendChild(this.hostElement, this.spinnerElement);
   }
 
   protected removeLoadingIndicator(): void {
-    this.renderer.removeChild(this.overlayElement, this.spinnerElement);
-    this.renderer.removeChild(this.hostElement, this.overlayElement);
+    this.renderer.removeChild(this.hostElement, this.spinnerElement);
     this.viewContainerRef.clear();
   }
 
   protected init(): void {
-    this.initOverlayElement();
     this.initSpinnerComponent();
   }
 
@@ -79,10 +77,7 @@ export class LoadingDirective implements OnChanges {
       spinnerComponentFactory
     );
     this.spinnerElement = spinnerComponent.location.nativeElement;
-  }
-
-  protected initOverlayElement(): void {
-    this.overlayElement = this.renderer.createElement("div");
-    this.renderer.addClass(this.overlayElement, OVERLAY_CLASS);
+    if (this.fullScreen)
+      this.renderer.addClass(this.spinnerElement, OVERLAY_CLASS);
   }
 }
