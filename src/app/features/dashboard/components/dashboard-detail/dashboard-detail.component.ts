@@ -5,8 +5,6 @@ import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { Channel } from "@core/models/channel";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 

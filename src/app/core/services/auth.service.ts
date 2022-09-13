@@ -3,7 +3,6 @@ import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { UserService } from "@user/services/user.service";
-import { LoadingService } from "./loading.service";
 import { ConfigurationService } from "./configuration.service";
 
 // Handles log in logic and API requests for login

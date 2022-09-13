@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ChannelGroup } from "@core/models/channel-group";
-import { LoadingService } from "@core/services/loading.service";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { Subscription } from "rxjs";
 

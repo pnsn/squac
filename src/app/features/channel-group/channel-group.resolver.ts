@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
-import { Observable, of, delay } from "rxjs";
+import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ChannelGroupService } from "./services/channel-group.service";
 

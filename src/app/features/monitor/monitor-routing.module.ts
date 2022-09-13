@@ -2,11 +2,9 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { MonitorComponent } from "./components/monitor/monitor.component";
 import { MonitorViewComponent } from "./components/monitor-view/monitor-view.component";
-import { MonitorResolver } from "./monitor.resolver";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
-import { AlertResolver } from "./alert.resolver";
 
 export const routes: Routes = [
   {

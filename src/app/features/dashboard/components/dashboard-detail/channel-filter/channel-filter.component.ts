@@ -1,12 +1,9 @@
 import {
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";

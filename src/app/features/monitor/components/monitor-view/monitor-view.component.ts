@@ -14,7 +14,6 @@ import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
 import {
   tap,
-  mergeMap,
   Subscription,
   catchError,
   EMPTY,

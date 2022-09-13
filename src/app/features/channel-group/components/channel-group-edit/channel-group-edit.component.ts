@@ -26,7 +26,6 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
 import { MatchingRule } from "@features/channel-group/models/matching-rule";
-import { icon } from "leaflet";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 

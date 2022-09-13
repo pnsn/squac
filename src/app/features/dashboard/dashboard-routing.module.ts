@@ -4,7 +4,6 @@ import { DashboardDetailComponent } from "./components/dashboard-detail/dashboar
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
-import { DashboardResolver } from "./dashboard.resolver";
 import { widgetRoutes } from "@widget/widget.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";

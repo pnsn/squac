@@ -19,7 +19,6 @@ import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
-import { Channel } from "@core/models/channel";
 import { WidgetType } from "../models/widget-type";
 @Injectable()
 export class WidgetDataService implements OnDestroy {

@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
-import { delay, Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ApiGetAggregate } from "@widget/models/aggregate";
 import { ApiGetMeasurement } from "../models/measurement";
 import { ApiGetArchive } from "../models/archive";
 import { DateService } from "@core/services/date.service";
-import * as dayjs from "dayjs";
 
 export class MeasurementParams {
   starttime: string;

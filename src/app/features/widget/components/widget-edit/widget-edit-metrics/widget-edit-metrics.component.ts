@@ -10,10 +10,7 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 @Component({
   selector: "widget-edit-metrics",

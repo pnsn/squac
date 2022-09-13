@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
-import { LoadingService } from "@core/services/loading.service";
 
 import { AuthService } from "./core/services/auth.service";
 

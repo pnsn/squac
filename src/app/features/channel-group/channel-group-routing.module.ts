@@ -5,7 +5,6 @@ import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
 import { ChannelGroupViewComponent } from "./components/channel-group-view/channel-group-view.component";
 import { ChannelGroupEditComponent } from "./components/channel-group-edit/channel-group-edit.component";
-import { ChannelGroupResolver } from "./channel-group.resolver";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
 
 export const routes: Routes = [

@@ -5,7 +5,6 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Params } from "@angular/router";
 import { Channel } from "@core/models/channel";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
