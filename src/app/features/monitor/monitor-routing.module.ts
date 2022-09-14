@@ -5,6 +5,9 @@ import { MonitorViewComponent } from "./components/monitor-view/monitor-view.com
 import { AuthGuard } from "@core/guards/auth.guard";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
+import { MonitorResolver } from "./monitor.resolver";
+import { MetricResolver } from "@features/metric/metric.resolver";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 
 export const routes: Routes = [
   {
@@ -20,6 +23,7 @@ export const routes: Routes = [
         path: "",
         component: MonitorViewComponent,
         runGuardsAndResolvers: "always",
+
         children: [
           {
             path: "new",
@@ -27,6 +31,11 @@ export const routes: Routes = [
           },
           {
             path: ":monitorId",
+            resolve: {
+              monitor: MonitorResolver,
+              metrics: MetricResolver,
+              channelGroups: ChannelGroupResolver,
+            },
             children: [
               {
                 path: "edit",

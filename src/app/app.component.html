@@ -2,6 +2,7 @@
   id="loading-screen"
   [appIsLoading]="loadingService.isLoading$() | async"
   [fullScreen]="true"
+  style="height: 100%"
 >
   <router-outlet></router-outlet>
 </div>

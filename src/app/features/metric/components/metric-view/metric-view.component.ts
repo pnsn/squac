@@ -51,7 +51,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private metricService: MetricService,
-    private loadingService: LoadingService
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {

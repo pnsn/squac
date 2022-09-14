@@ -37,6 +37,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() groupHeaderTemplate: TemplateRef<any>;
   @Input() tableFooterTemplate: TemplateRef<any>;
   @Input() rowDetailTemplate: TemplateRef<any>;
+  @Input() isLoading: boolean;
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();

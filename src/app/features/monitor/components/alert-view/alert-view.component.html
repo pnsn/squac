@@ -1,12 +1,12 @@
 <shared-table-view
   title="Alerts (last day)"
+  [isLoading]="loadingService.isLoading(this)"
   [options]="options"
   [rows]="rows"
   [columns]="columns"
   [controls]="controls"
   [filters]="filters"
   (refresh)="refresh()"
-  [appIsLoading]="loadingService.isLoading(this)"
 >
   <ng-container tableBody>
     <ng-template let-row="row" #stateTemplate>

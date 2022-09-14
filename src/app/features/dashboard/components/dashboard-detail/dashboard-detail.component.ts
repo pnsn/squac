@@ -95,8 +95,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 }
                 return EMPTY;
               })
-            ),
-            this
+            )
           );
         })
       )

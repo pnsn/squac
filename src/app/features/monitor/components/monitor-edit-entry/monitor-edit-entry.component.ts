@@ -34,7 +34,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         this.metrics = this.route.snapshot.data.metrics;
         this.channelGroups = this.route.snapshot.data.channelGroups;
       }
-
+      console.log(this.monitor);
       this.openMonitor();
     });
   }

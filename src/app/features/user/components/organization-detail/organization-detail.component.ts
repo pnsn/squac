@@ -81,11 +81,12 @@ export class OrganizationDetailComponent
   ) {}
 
   ngOnInit(): void {
-    const orgSub = this.route.params
+    const orgSub = this.route.data
       .pipe(
         tap((params) => {
+          console.log(params);
           this.user = this.route.snapshot.data.user;
-          this.orgId = params.orgId;
+          this.orgId = this.route.snapshot.params.orgId;
         }),
         switchMap(() => {
           return this.fetchData();

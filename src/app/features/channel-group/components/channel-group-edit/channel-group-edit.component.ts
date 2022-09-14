@@ -135,9 +135,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
                 this.error = error;
                 return EMPTY;
               })
-            ),
-            this,
-            LoadingIndicator.MAIN
+            )
           );
         })
       )
