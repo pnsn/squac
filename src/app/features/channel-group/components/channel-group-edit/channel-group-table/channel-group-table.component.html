@@ -1,4 +1,9 @@
 <div class="table-container">
+  <div class="action-row">
+    <button mat-stroked-button (click)="removeSelected()">
+      remove selected
+    </button>
+  </div>
   <ngx-datatable
     #groupTable
     class="material channel-table"

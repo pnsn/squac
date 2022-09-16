@@ -107,13 +107,22 @@
         <div class="column lt-gray-border search-results-container">
           <div class="row space-between select-channels-controls">
             <h4>Results ({{ rows.length }})</h4>
-            <button mat-button color="accent" (click)="includeChannels()">
-              add to included
-            </button>
-            <button mat-button color="accent" (click)="excludeChannels()">
-              add to excluded
+            <p class="help-text">add selected to:</p>
+            <button
+              mat-stroked-button
+              color="accent"
+              (click)="includeChannels()"
+            >
+              included
             </button>
             <button
+              mat-stroked-button
+              color="accent"
+              (click)="excludeChannels()"
+            >
+              excluded
+            </button>
+            <!-- <button
               mat-icon-button
               color="accent"
               (click)="undoSelectRemove()"
@@ -121,7 +130,7 @@
               matTooltip="undo last change"
             >
               <mat-icon>undo</mat-icon>
-            </button>
+            </button> -->
           </div>
 
           <channel-group-edit-table
@@ -210,7 +219,7 @@
             (rowsChange)="updateState()"
             [(rows)]="autoIncludeChannels"
             title="Included Channels"
-            [selectable]="false"
+            [selectable]="true"
           >
           </channel-group-edit-table>
         </mat-expansion-panel>
@@ -228,7 +237,7 @@
             (rowsChange)="updateState()"
             [(rows)]="autoExcludeChannels"
             title="Excluded Channels"
-            [selectable]="false"
+            [selectable]="true"
           >
           </channel-group-edit-table>
         </mat-expansion-panel>

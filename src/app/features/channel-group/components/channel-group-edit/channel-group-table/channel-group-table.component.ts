@@ -105,6 +105,16 @@ export class ChannelGroupTableComponent implements OnInit {
     this.selectedChange.emit(this.selected);
   }
 
+  removeSelected() {
+    this.rows = this.rows.filter(
+      (channel: Channel) =>
+        this.selected.findIndex((c: Channel) => c.id === channel.id) < 0
+    );
+    console.log(this.rows);
+    this.selectRow({ selected: [] });
+    this.rowsChange.emit(this.rows);
+  }
+
   removeRow(row) {
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;
