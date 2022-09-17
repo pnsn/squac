@@ -110,7 +110,7 @@ export class ChannelGroupViewComponent
         { name: "Description", draggable: false, sortable: true },
         {
           name: "# Channels",
-          prop: "channelIds.length",
+          prop: "channelsCount",
           draggable: false,
           sortable: true,
           width: 20,

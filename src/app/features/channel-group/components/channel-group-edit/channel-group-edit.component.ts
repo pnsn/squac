@@ -387,21 +387,22 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       null,
       values.name,
       values.description,
-      this.orgId,
-      []
+      this.orgId
     );
 
     //need to updatematching rules
 
-    cg.autoExcludeChannelIds = this.autoExcludeChannels.map(
-      (channel) => channel.id
-    );
+    cg.autoExcludeChannels = this.autoExcludeChannels;
 
-    cg.autoIncludeChannelIds = this.autoIncludeChannels.map(
-      (channel) => channel.id
-    );
+    cg.autoIncludeChannels = this.autoIncludeChannels;
+
+    /*
+      Temp fix for channel groups not updating with channels on
+      save unless there's matching rules.
+      Saves channels to group manually
+    */
     if (this.matchingRules.length === 0) {
-      cg.channelIds = [...cg.autoIncludeChannelIds];
+      cg.channels = [...cg.channels];
     }
     let id;
     this.loadingService
