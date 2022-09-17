@@ -98,6 +98,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.channelGroupForm = this.formBuilder.group({
       name: new FormControl("", Validators.required),
       description: new FormControl("", Validators.required),
+      share: ["private", Validators.required],
     });
     const chanSub = this.route.params
       .pipe(
@@ -195,9 +196,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   private initForm(): void {
     // if editing existing group, populate with the info
     if (this.editMode) {
+      let share = "private";
+      if (this.channelGroup.shareAll) {
+        share = "shareAll";
+      } else if (this.channelGroup.shareOrg) {
+        share = "shareOrg";
+      }
       this.channelGroupForm.patchValue({
         name: this.channelGroup.name,
         description: this.channelGroup.description,
+        share,
       });
       this.autoExcludeChannels = [...this.channelGroup.autoExcludeChannels];
       this.autoIncludeChannels = [...this.channelGroup.autoIncludeChannels];
@@ -381,7 +389,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // Save channel information
   save(): void {
     const values = this.channelGroupForm.value;
-
+    const shareAll = values.share === "shareAll";
+    const shareOrg = values.share === "shareOrg" || shareAll;
     const cg = new ChannelGroup(
       this.id,
       null,
@@ -393,8 +402,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     //need to updatematching rules
 
     cg.autoExcludeChannels = this.autoExcludeChannels;
-
     cg.autoIncludeChannels = this.autoIncludeChannels;
+    cg.shareAll = shareAll;
+    cg.shareOrg = shareOrg;
 
     /*
       Temp fix for channel groups not updating with channels on

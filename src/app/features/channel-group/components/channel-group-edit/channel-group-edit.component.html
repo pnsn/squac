@@ -182,6 +182,20 @@
                 required
               ></textarea>
             </mat-form-field>
+            <mat-radio-group
+              aria-label="change view permissions"
+              formControlName="share"
+              id="sharing-radio-group"
+              class="column"
+            >
+              <mat-radio-button value="private">Private</mat-radio-button>
+              <mat-radio-button value="shareOrg"
+                >Share with organization</mat-radio-button
+              >
+              <mat-radio-button value="shareAll"
+                >Share with all SQUAC users</mat-radio-button
+              >
+            </mat-radio-group>
           </form>
         </mat-expansion-panel>
 

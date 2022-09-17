@@ -81,3 +81,10 @@ mat-accordion {
     box-shadow: none !important;
   }
 }
+#sharing-radio-group {
+  margin: 3px 0;
+  align-items: flex-start;
+  mat-radio-button {
+    margin-bottom: 5px;
+  }
+}

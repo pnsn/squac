@@ -12,11 +12,16 @@ export class ChannelGroup {
     public orgId: number
   ) {}
 
-  channelsCount;
-  autoIncludeChannelsCount;
-  autoExcludeChannelsCount;
+  shareAll = false;
+  shareOrg = false;
 
-  channels: Channel[];
+  // eventually group list wont return array of channels
+  // which is why i've got these instead of channels.length
+  channelsCount = 0;
+  autoIncludeChannelsCount = 0;
+  autoExcludeChannelsCount = 0;
+
+  channels: Channel[] = [];
   autoIncludeChannels: Channel[] = [];
   autoExcludeChannels: Channel[] = [];
 
@@ -28,7 +33,6 @@ export class ChannelGroup {
 export interface ApiGetChannelGroup {
   name: string;
   id: number;
-  url: string;
   description: string;
   created_at: string;
   updated_at: string;
@@ -40,6 +44,8 @@ export interface ApiGetChannelGroup {
   channels_count?: number;
   auto_include_channels_count?: number;
   auto_exclude_channels_count;
+  share_org: boolean;
+  share_all: boolean;
 }
 
 export interface ApiPostChannelGroup {
@@ -50,6 +56,8 @@ export interface ApiPostChannelGroup {
   organization: number;
   auto_include_channels: number[];
   auto_exclude_channels: number[];
+  share_org: boolean;
+  share_all: boolean;
 }
 
 @Injectable({
@@ -66,21 +74,29 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.organization
     );
 
-    channelGroup.channelsCount = item.channels_count ?? item.channels?.length;
-    channelGroup.autoExcludeChannelsCount =
-      item.auto_exclude_channels_count ?? item.auto_exclude_channels?.length;
-    channelGroup.autoIncludeChannelsCount =
-      item.auto_include_channels_count ?? item.auto_include_channels?.length;
+    if (item.channels) {
+      channelGroup.channelsCount = item.channels_count ?? item.channels.length;
+      channelGroup.channels = item.channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+    }
 
-    channelGroup.autoIncludeChannels = item.auto_include_channels?.map((c) => {
-      return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-    });
-    channelGroup.autoExcludeChannels = item.auto_exclude_channels?.map((c) => {
-      return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-    });
-    channelGroup.channels = item.channels?.map((c) => {
-      return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-    });
+    if (item.auto_exclude_channels) {
+      channelGroup.autoExcludeChannelsCount =
+        item.auto_exclude_channels_count ?? item.auto_exclude_channels.length;
+      channelGroup.autoExcludeChannels = item.auto_exclude_channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+    }
+
+    if (item.auto_include_channels) {
+      channelGroup.autoIncludeChannelsCount =
+        item.auto_include_channels_count ?? item.auto_include_channels.length;
+      channelGroup.autoIncludeChannels = item.auto_include_channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+    }
+
     return channelGroup;
   }
 
@@ -92,6 +108,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       organization: item.orgId,
       auto_exclude_channels: item.autoExcludeChannels?.mapIds(),
       auto_include_channels: item.autoIncludeChannels?.mapIds(),
+      share_org: item.shareAll,
+      share_all: item.shareOrg,
     };
   }
 }
