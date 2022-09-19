@@ -4,7 +4,6 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Widget } from "@features/widget/models/widget";
 
 @Component({

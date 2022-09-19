@@ -41,7 +41,7 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
         tap((results) => {
           this.organizations = results;
         }),
-        catchError((error) => {
+        catchError(() => {
           return EMPTY;
         })
       );

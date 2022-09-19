@@ -9,7 +9,6 @@ import {
   SimpleChanges,
   ViewContainerRef,
 } from "@angular/core";
-import { LoadingOverlayComponent } from "@shared/components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "../components/loading-spinner/loading-spinner.component";
 
 const OVERLAY_CLASS = "loading-full-screen";
