@@ -28,8 +28,14 @@ describe("ChannelGroupDetailComponent", () => {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {},
-          data: of({
-            channelGroup: new ChannelGroup(1, 1, "name", "description", 1, []),
+          params: of({
+            channelGroup: new ChannelGroup(
+              1,
+              "owner",
+              "name",
+              "description",
+              1
+            ),
           }),
         },
       });

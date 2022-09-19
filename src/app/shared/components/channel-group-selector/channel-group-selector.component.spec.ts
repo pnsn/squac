@@ -7,7 +7,7 @@ import { of } from "rxjs";
 
 import { ChannelGroupSelectorComponent } from "./channel-group-selector.component";
 
-fdescribe("ChannelGroupSelectorComponent", () => {
+describe("ChannelGroupSelectorComponent", () => {
   let component: ChannelGroupSelectorComponent;
   let fixture: ComponentFixture<ChannelGroupSelectorComponent>;
 

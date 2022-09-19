@@ -22,7 +22,7 @@ describe("Monitor", () => {
       name: "string",
       created_at: "string",
       updated_at: "string",
-      user_id: "string",
+      user: 1,
     };
 
     const monitor = adapter.adaptFromApi(testData);

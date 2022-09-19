@@ -28,10 +28,7 @@ describe("MonitorViewComponent", () => {
       .provide({
         provide: ActivatedRoute,
         useValue: {
-          data: of({
-            monitors: [],
-            alerts: [],
-          }),
+          params: of(),
         },
       });
   });

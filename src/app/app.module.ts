@@ -16,7 +16,6 @@ import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
-import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -50,11 +49,6 @@ export function initApp(configurationService: ConfigurationService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
       multi: true,
     },
     {

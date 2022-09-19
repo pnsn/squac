@@ -3,7 +3,7 @@ import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
-import { of } from "rxjs";
+import { of, Subject } from "rxjs";
 import { Widget } from "../models/widget";
 import { WidgetType } from "../models/widget-type";
 import { WidgetModule } from "../widget.module";
@@ -38,6 +38,8 @@ describe("WidgetDataService", () => {
     "display",
     false,
     true,
+    true,
+    0,
     []
   );
   testWidget.type = "tabular";
@@ -63,6 +65,7 @@ describe("WidgetDataService", () => {
           finishedLoading: () => {
             return;
           },
+          channelGroupId: new Subject(),
           startTime: "start",
           endTime: "end",
           archiveType: "raw",
@@ -91,13 +94,5 @@ describe("WidgetDataService", () => {
     const viewSpy = spyOn(viewService, "startedLoading");
     service.updateWidget(null, testType);
     expect(viewSpy).not.toHaveBeenCalled();
-  });
-
-  it("should try to get measurements if there is a widget and dates", () => {
-    const viewSpy = spyOn(viewService, "finishedLoading");
-    service.updateWidget(testWidget, testType);
-    service.channels = [testChannel];
-    service.updateMetrics([testMetric]);
-    expect(viewSpy).toHaveBeenCalled();
   });
 });

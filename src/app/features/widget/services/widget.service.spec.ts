@@ -24,7 +24,7 @@ describe("WidgetService", () => {
     y_position: 1,
     stattype: {},
     channel_group: 1,
-    user_id: "1",
+    user: 1,
     color_palette: "string",
   };
 

@@ -29,7 +29,7 @@ describe("ChannelService", () => {
     created_at: "",
     updated_at: "",
     nslc: "",
-    user_id: "1",
+    user: 1,
     starttime: "",
     endtime: "",
   };

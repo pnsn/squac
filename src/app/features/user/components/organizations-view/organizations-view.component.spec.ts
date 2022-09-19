@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { OrganizationService } from "@features/user/services/organization.service";
+import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
 import { OrganizationsViewComponent } from "./organizations-view.component";
@@ -8,20 +11,16 @@ describe("OrganizationsViewComponent", () => {
   let component: OrganizationsViewComponent;
   let fixture: ComponentFixture<OrganizationsViewComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [OrganizationsViewComponent],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            data: of({
-              organizations: [],
-            }),
-          },
+  beforeEach(() => {
+    return MockBuilder(OrganizationsViewComponent)
+      .mock(RouterTestingModule.withRoutes([]))
+      .mock(OrganizationService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          params: of(),
         },
-      ],
-    }).compileComponents();
+      });
   });
 
   beforeEach(() => {

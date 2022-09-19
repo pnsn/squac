@@ -42,6 +42,7 @@ describe("WidgetDetailComponent", () => {
           status: new BehaviorSubject("loading"),
           error: new Subject(),
           updateData: new Subject(),
+          channelGroupId: new Subject(),
           channels: new Subject(),
           resize: new Subject(),
           widgetFinishedLoading: () => {

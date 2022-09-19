@@ -12,7 +12,7 @@ import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 })
 export class OrganizationsViewComponent implements OnInit, OnDestroy {
   organizations: Organization[];
-  subscription: Subscription;
+  subscription = new Subscription();
   constructor(
     public route: ActivatedRoute,
     public loadingService: LoadingService,

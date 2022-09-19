@@ -15,7 +15,7 @@ describe("NetworkService", () => {
     description: "desc",
     created_at: "date",
     updated_at: "date",
-    user_id: "1",
+    user: 1,
   };
   const mockSquacApiService = new MockSquacApiService(testNetwork);
 
