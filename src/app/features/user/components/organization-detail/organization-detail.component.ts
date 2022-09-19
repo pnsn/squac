@@ -83,8 +83,7 @@ export class OrganizationDetailComponent
   ngOnInit(): void {
     const orgSub = this.route.data
       .pipe(
-        tap((params) => {
-          console.log(params);
+        tap(() => {
           this.user = this.route.snapshot.data.user;
           this.orgId = this.route.snapshot.params.orgId;
         }),
@@ -139,7 +138,7 @@ export class OrganizationDetailComponent
           this.organization = results;
           this.rows = [...this.organization.users];
         }),
-        catchError((error) => {
+        catchError(() => {
           return EMPTY;
         })
       );

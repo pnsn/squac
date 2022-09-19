@@ -40,7 +40,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
 
     const chanSub = this.route.params
       .pipe(
-        tap((params) => {
+        tap(() => {
           this.error = false;
         }),
         switchMap((params) => {

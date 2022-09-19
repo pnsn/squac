@@ -165,7 +165,7 @@ export class DashboardViewComponent
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
       }),
-      catchError((error) => {
+      catchError(() => {
         return EMPTY;
       })
     );

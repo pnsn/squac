@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup, ChannelGroupAdapter } from "@core/models/channel-group";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
 

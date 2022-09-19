@@ -125,8 +125,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
         this.metrics = results;
         this.rows = [...this.metrics];
       }),
-      catchError((error) => {
-        // this.error = error;
+      catchError(() => {
         return EMPTY;
       })
     );

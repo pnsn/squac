@@ -90,7 +90,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 this.startTime = this.viewService.startTime;
                 this.endTime = this.viewService.endTime;
               }),
-              catchError((error) => {
+              catchError(() => {
                 if (!this.dashboard) {
                   this.messageService.error("Could not load dashboard.");
                 } else {
@@ -104,15 +104,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    const statusSub = this.viewService.status.subscribe({
-      next: (status) => {
-        // this.status = status;
-      },
-      error: (error) => {
-        console.error("error in dashboard detail status", error);
-      },
-    });
-
     // get any errors to show from view service
     const errorSub = this.viewService.error.subscribe({
       next: (error) => {
@@ -121,7 +112,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     });
 
     this.subscription.add(paramsSub);
-    this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }
 

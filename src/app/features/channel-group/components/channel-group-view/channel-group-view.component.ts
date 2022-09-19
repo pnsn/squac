@@ -83,14 +83,13 @@ export class ChannelGroupViewComponent
     //TODO: prevent loading everytime you go back...but also respond to changes
     const groupsSub = this.route.params
       .pipe(
-        tap((params) => {
-          console.log("params change");
+        tap(() => {
           this.selectedChannelGroupId =
             this.route.children.length > 0
               ? +this.route.snapshot.firstChild.params.channelGroupId
               : null;
         }),
-        switchMap((params) => {
+        switchMap(() => {
           return this.loadingService.doLoading(this.fetchData());
         })
       )
@@ -139,7 +138,7 @@ export class ChannelGroupViewComponent
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
       }),
-      catchError((error) => {
+      catchError(() => {
         // this.error = error;
         return EMPTY;
       })

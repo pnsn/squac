@@ -8,6 +8,7 @@ declare global {
     id: number | string;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Array<T> {
     toIdString(): string;
     mapIds(): Array<number>;
