@@ -18,8 +18,6 @@ export class ChannelGroup {
   // eventually group list wont return array of channels
   // which is why i've got these instead of channels.length
   channelsCount = 0;
-  autoIncludeChannelsCount = 0;
-  autoExcludeChannelsCount = 0;
 
   channels: Channel[] = [];
   autoIncludeChannels: Channel[] = [];
@@ -42,8 +40,6 @@ export interface ApiGetChannelGroup {
   auto_include_channels?: Array<ApiGetChannel>;
   auto_exclude_channels?: Array<ApiGetChannel>;
   channels_count?: number;
-  auto_include_channels_count?: number;
-  auto_exclude_channels_count;
   share_org: boolean;
   share_all: boolean;
 }
@@ -51,7 +47,6 @@ export interface ApiGetChannelGroup {
 export interface ApiPostChannelGroup {
   name: string;
   description: string;
-  channels: number[];
   id?: number;
   organization: number;
   auto_include_channels: number[];
@@ -74,25 +69,20 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.organization
     );
 
-    if (item.channels) {
-      channelGroup.channelsCount = item.channels_count ?? item.channels.length;
-      channelGroup.channels = item.channels.map((c) => {
-        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-      });
-    }
+    channelGroup.channelsCount = item.channels_count;
 
-    if (item.auto_exclude_channels) {
-      channelGroup.autoExcludeChannelsCount =
-        item.auto_exclude_channels_count ?? item.auto_exclude_channels.length;
+    if (
+      item.channels ||
+      item.auto_exclude_channels ||
+      item.auto_include_channels
+    ) {
       channelGroup.autoExcludeChannels = item.auto_exclude_channels.map((c) => {
         return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
       });
-    }
-
-    if (item.auto_include_channels) {
-      channelGroup.autoIncludeChannelsCount =
-        item.auto_include_channels_count ?? item.auto_include_channels.length;
       channelGroup.autoIncludeChannels = item.auto_include_channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+      channelGroup.channels = item.channels.map((c) => {
         return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
       });
     }
@@ -104,7 +94,6 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     return {
       name: item.name,
       description: item.description,
-      channels: item.channels?.mapIds(),
       organization: item.orgId,
       auto_exclude_channels: item.autoExcludeChannels?.mapIds(),
       auto_include_channels: item.autoIncludeChannels?.mapIds(),

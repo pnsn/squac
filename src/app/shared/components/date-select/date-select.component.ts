@@ -53,7 +53,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
       changes.initialEndDate ||
       changes.initialStartDate
     ) {
-      this.setUpInitialValues();
     }
   }
 

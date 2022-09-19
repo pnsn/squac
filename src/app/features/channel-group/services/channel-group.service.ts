@@ -24,29 +24,22 @@ export class ChannelGroupService {
 
   // Gets channel groups from server
   getChannelGroups(): Observable<ChannelGroup[]> {
-    if (
-      this.lastRefresh &&
-      new Date().getTime() < this.lastRefresh + 5 * 60000
-    ) {
-      return of(this.localChannelGroups);
-    }
     return this.squacApi.get(this.url).pipe(
       map((results) =>
         results.map((r) => {
           const group = this.channelGroupAdapter.adaptFromApi(r);
-          this.updateLocalChannelGroup(group.id, group);
           return group;
         })
-      ),
-      tap(() => {
-        this.lastRefresh = new Date().getTime();
-      })
+      )
     );
   }
 
   // Save channel groups to server
   updateLocalChannelGroup(id, channelGroup?): void {
-    const index = this.localChannelGroups.findIndex((cG) => cG.id === id);
+    const index = this.localChannelGroups.findIndex((cG) => {
+      console.log(cG);
+      return cG.id === id;
+    });
 
     if (index > -1) {
       if (channelGroup) {
