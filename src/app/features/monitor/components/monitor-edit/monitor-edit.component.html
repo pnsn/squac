@@ -131,7 +131,7 @@
                 <mat-label> Channel Group </mat-label>
                 <mat-select formControlName="channelGroup" name="channelGroup">
                   <mat-option *ngFor="let c of channelGroups" [value]="c"
-                    >{{ c.name }} ({{ c.channelIds.length }} channels)
+                    >{{ c.name }} ({{ c.channelsCount }} channels)
                   </mat-option>
                 </mat-select>
               </mat-form-field>
