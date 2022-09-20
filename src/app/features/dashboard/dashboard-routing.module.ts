@@ -7,6 +7,7 @@ import { PermissionGuard } from "@core/guards/permission.guard";
 import { widgetRoutes } from "@widget/widget.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 
 export const routes: Routes = [
   {
@@ -33,6 +34,7 @@ export const routes: Routes = [
         component: DashboardEditEntryComponent,
         canActivate: [PermissionGuard],
         data: { subject: "Dashboard", action: "update" },
+        resolve: { channelGroups: ChannelGroupResolver },
       },
 
       {

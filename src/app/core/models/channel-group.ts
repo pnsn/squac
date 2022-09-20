@@ -70,7 +70,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     );
 
     channelGroup.channelsCount = item.channels_count;
-
+    channelGroup.shareAll = item.share_all;
+    channelGroup.shareOrg = item.share_org;
     if (
       item.channels ||
       item.auto_exclude_channels ||

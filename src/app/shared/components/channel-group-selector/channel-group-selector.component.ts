@@ -3,6 +3,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { tap } from "rxjs";
 
 @Component({
   selector: "shared-channel-group-selector",
@@ -17,6 +18,11 @@ export class ChannelGroupSelectorComponent implements OnInit {
   @Input() dense = false;
   channelGroups: ChannelGroup[];
   @Output() channelGroupIdChange = new EventEmitter<any>();
+  groups: any;
+  /*{
+    name: string;
+    groups: ChannelGroup[];
+  };*/
   constructor(
     private channelGroupService: ChannelGroupService,
     private route: ActivatedRoute,
@@ -25,9 +31,11 @@ export class ChannelGroupSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
-      this.channelGroups = channelGroups;
-    });
+    this.channelGroupService
+      .getSortedChannelGroups()
+      .subscribe((sortedGroups) => {
+        this.groups = sortedGroups;
+      });
   }
 
   selectionChange() {

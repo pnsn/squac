@@ -29,7 +29,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   editMode: boolean;
   orgId: number;
   monitor: Monitor;
-  channelGroups: ChannelGroup[];
+  channelGroups: any;
   metrics: Metric[];
   emailValidator: Validators = Validators.pattern(
     /^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/
@@ -66,6 +66,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
+  groups: any;
   monitorForm = this.formBuilder.group({
     name: ["", Validators.required],
     intervalCount: ["", [Validators.required, Validators.min(1)]],
@@ -182,7 +183,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     const monitor = new Monitor(
       this.id,
       values.name,
-      values.channelGroup.id,
+      values.channelGroup,
       values.metric.id,
       values.intervalType,
       values.intervalCount,
@@ -226,9 +227,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.monitor = this.data.monitor;
       this.id = this.monitor.id;
-      this.selectedChannelGroup = this.channelGroups.find(
-        (cG) => cG.id === this.monitor.channelGroup.id
-      );
+
       this.selectedMetric = this.metrics.find(
         (m) => m.id === this.monitor.metric.id
       );
@@ -238,7 +237,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         intervalCount: this.monitor.intervalCount,
         intervalType: this.monitor.intervalType,
         stat: this.monitor.stat,
-        channelGroup: this.selectedChannelGroup,
+        channelGroup: this.monitor.channelGroup.id,
         metric: this.selectedMetric,
       });
 

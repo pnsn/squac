@@ -35,6 +35,46 @@ export class ChannelGroupService {
     );
   }
 
+  /*returns channel groups sorted into
+  // {
+  name: (public | private | organization),
+  groups: [channelGroups]
+  }
+  */
+  getSortedChannelGroups(params?: Params) {
+    const privateGroups: ChannelGroup[] = [];
+    const publicGroups: ChannelGroup[] = [];
+    const organizationGroups: ChannelGroup[] = [];
+    return this.getChannelGroups(params).pipe(
+      map((channelGroups) => {
+        channelGroups.forEach((cg) => {
+          if (cg.shareAll) {
+            publicGroups.push(cg);
+          } else if (cg.shareOrg) {
+            organizationGroups.push(cg);
+          } else {
+            privateGroups.push(cg);
+          }
+        });
+
+        return [
+          {
+            name: "Private Groups",
+            groups: privateGroups,
+          },
+          {
+            name: "Organization Groups",
+            groups: organizationGroups,
+          },
+          {
+            name: "All SQUAC Groups",
+            groups: publicGroups,
+          },
+        ];
+      })
+    );
+  }
+
   // Save channel groups to server
   updateLocalChannelGroup(id, channelGroup?): void {
     const index = this.localChannelGroups.findIndex((cG) => {

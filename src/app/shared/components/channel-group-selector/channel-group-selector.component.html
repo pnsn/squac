@@ -11,10 +11,12 @@
     [required]="required"
     placeholder="Select a Channel Group"
   >
-    <mat-option
-      *ngFor="let channelGroup of channelGroups"
-      [value]="channelGroup.id"
-      >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option
-    >
+    <mat-optgroup *ngFor="let group of groups" [label]="group.name">
+      <mat-option
+        *ngFor="let channelGroup of group.groups"
+        [value]="channelGroup.id"
+        >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option
+      >
+    </mat-optgroup>
   </mat-select>
 </mat-form-field>
