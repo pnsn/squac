@@ -22,26 +22,24 @@ export const routes: Routes = [
       {
         path: "",
         component: MonitorViewComponent,
-        runGuardsAndResolvers: "always",
 
         children: [
           {
             path: "new",
             component: MonitorEditEntryComponent,
+            resolve: {
+              metrics: MetricResolver,
+              channelGroups: ChannelGroupResolver,
+            },
           },
           {
-            path: ":monitorId",
+            path: ":monitorId/edit",
+            component: MonitorEditEntryComponent,
             resolve: {
               monitor: MonitorResolver,
               metrics: MetricResolver,
               channelGroups: ChannelGroupResolver,
             },
-            children: [
-              {
-                path: "edit",
-                component: MonitorEditEntryComponent,
-              },
-            ],
           },
         ],
       },

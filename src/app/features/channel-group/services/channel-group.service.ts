@@ -3,6 +3,7 @@ import { ChannelGroup, ChannelGroupAdapter } from "@core/models/channel-group";
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
+import { Params } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -23,8 +24,8 @@ export class ChannelGroupService {
   ) {}
 
   // Gets channel groups from server
-  getChannelGroups(): Observable<ChannelGroup[]> {
-    return this.squacApi.get(this.url).pipe(
+  getChannelGroups(params?: Params): Observable<ChannelGroup[]> {
+    return this.squacApi.get(this.url, null, params).pipe(
       map((results) =>
         results.map((r) => {
           const group = this.channelGroupAdapter.adaptFromApi(r);

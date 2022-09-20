@@ -12,6 +12,8 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { LoadingService } from "@core/services/loading.service";
+import { SquacApiService } from "@core/services/squacapi.service";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
@@ -38,9 +40,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() tableFooterTemplate: TemplateRef<any>;
   @Input() rowDetailTemplate: TemplateRef<any>;
   @Input() isLoading: boolean;
+  @Input() dataService: any;
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
+  @Output() filtersChanged = new EventEmitter<any>();
   @ViewChild("table") table;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
@@ -88,6 +92,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
+    private loadingService: LoadingService,
     orgService: OrganizationService
   ) {
     this.userPipe = new UserPipe(orgService);
@@ -167,7 +172,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   // filter rows
   private processRows(): void {
-    this.toggleSharing();
+    this.tableRows = [...this.rows];
   }
 
   // selected id, view resource if doubleclicked
@@ -326,26 +331,27 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   // change sharing settings and filter table to match
   toggleSharing(): void {
-    let temp;
-    if (this.filters.toggleShared && this.shareFilter === "user" && this.user) {
-      temp = this.rows.filter((row) => {
-        return this.user.id === row.owner;
-      });
-    } else if (
-      this.filters.toggleShared &&
-      this.shareFilter === "org" &&
-      this.user
-    ) {
-      temp = this.rows.filter((row) => {
-        return this.user.orgId === row.orgId;
-      });
-    } else {
-      //value === 'all'
-      temp = [...this.rows];
-    }
-    this.tableRows = temp;
-  }
+    const params: {
+      user?: number;
+      organization?: number;
+    } = {};
+    if (this.filters.toggleShared) {
+      switch (this.shareFilter) {
+        case "user":
+          params.user = this.user.id;
+          break;
 
+        case "org":
+          params.organization = this.user.orgId;
+          break;
+
+        default:
+          break;
+      }
+
+      this.filtersChanged.emit(params);
+    }
+  }
   //sort users by name
   private userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();

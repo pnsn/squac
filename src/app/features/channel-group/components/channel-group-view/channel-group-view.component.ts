@@ -84,13 +84,16 @@ export class ChannelGroupViewComponent
     const groupsSub = this.route.params
       .pipe(
         tap(() => {
+          this.orgId = this.route.snapshot.data.user.orgId;
           this.selectedChannelGroupId =
             this.route.children.length > 0
               ? +this.route.snapshot.firstChild.params.channelGroupId
               : null;
         }),
         switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
+          return this.loadingService.doLoading(
+            this.fetchData({ organization: this.orgId })
+          );
         })
       )
       .subscribe();
@@ -132,8 +135,8 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
-  fetchData() {
-    return this.channelGroupService.getChannelGroups().pipe(
+  fetchData(filters?) {
+    return this.channelGroupService.getChannelGroups(filters).pipe(
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
@@ -146,8 +149,8 @@ export class ChannelGroupViewComponent
   }
 
   // get fresh groups
-  refresh() {
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+  refresh(filters?) {
+    this.loadingService.doLoading(this.fetchData(filters), this).subscribe();
   }
 
   // onSelect function for data table selection

@@ -20,6 +20,8 @@ export class MonitorResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Monitor> | Observable<Monitor[]> {
+    console.log("resolver called")
+
     const id = +route.paramMap.get("monitorId");
     if (id) {
       return this.monitorService.getMonitor(id).pipe(
