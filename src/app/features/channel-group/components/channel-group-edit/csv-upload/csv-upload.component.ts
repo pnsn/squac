@@ -10,7 +10,7 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
-import { switchMap, tap, map } from "rxjs";
+import { switchMap, tap, map, merge, concatMap, Observable } from "rxjs";
 
 @Component({
   selector: "channel-group-csv-upload",
@@ -85,41 +85,62 @@ export class CsvUploadComponent {
             throw new Error("Invalid or missing headers");
           }
 
-          return this.csvRecords.reduce((previous, current) => {
+          const queryStrings = [];
+          let channelsCount = 0;
+          this.csvRecords.reduce((previous, current, currentIndex) => {
             const nslc = `${current[netIndex]}.${current[staIndex]}.${
               current[locIndex] || "--"
             }.${current[chanIndex]}`;
-            return previous
+
+            const str = previous
               ? previous + "," + nslc.toLowerCase()
               : nslc.toLowerCase();
+            if (
+              channelsCount > 500 ||
+              currentIndex === this.csvRecords.length - 1
+            ) {
+              queryStrings.push(str);
+              channelsCount = 0;
+              return "";
+            }
+            channelsCount++;
+            return str;
           }, "");
+          return queryStrings;
         }),
-        switchMap((nslcString: string) => {
+        switchMap((nslcStrings: string[]) => {
           //stop before this point if no headers
           const searchFilters: any = {};
           if (this.showOnlyCurrent) {
             const now = this.dateService.now();
             searchFilters.endafter = this.dateService.format(now);
           }
+
+          //break up into smaller chunks to get around header size limit
+          const queries: Observable<Channel[]>[] = nslcStrings.map(
+            (nslcString) => {
+              return this.channelService.getChannelsByFilters({
+                nslc: nslcString,
+                ...searchFilters,
+              });
+            }
+          );
+
           return this.loadingService.doLoading(
-            this.channelService.getChannelsByFilters({
-              nslc: nslcString,
-              ...searchFilters,
-            }),
+            merge(...queries),
             this.context,
             this.loadingIndicator
           );
-        }),
-        tap((channels: Channel[]) => {
-          this.matchingChannels = channels;
-
-          if (this.matchingChannels.length === 0) {
-            throw new Error("No matching channels found");
-          }
         })
       )
       .subscribe({
-        next: (): void => {
+        next: (channels: Channel[]): void => {
+          this.matchingChannels.push(...channels);
+        },
+        complete: () => {
+          if (this.matchingChannels.length === 0) {
+            throw new Error("No matching channels found");
+          }
           this.channelsChange.emit(this.matchingChannels);
         },
         error: (error: any): void => {
