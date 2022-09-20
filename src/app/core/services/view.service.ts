@@ -10,6 +10,7 @@ import {
   switchMap,
   of,
   distinctUntilChanged,
+  catchError,
 } from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
@@ -155,6 +156,9 @@ export class ViewService {
       tap((group) => {
         this.channels.next(group.channels);
         this.channelGroupId.next(group.id);
+      }),
+      catchError((error) => {
+        return of(null);
       })
     );
   }
