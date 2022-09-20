@@ -31,13 +31,13 @@
       <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
     </mat-form-field>
 
-    <div class="help-text">Sharing settings:</div>
     <mat-radio-group
       aria-label="change view permissions"
       formControlName="share"
       id="sharing-radio-group"
       class="column"
     >
+      <mat-label>Sharing: </mat-label>
       <mat-radio-button value="private">Private</mat-radio-button>
       <mat-radio-button value="shareOrg"
         >Share with organization</mat-radio-button
@@ -46,6 +46,20 @@
         >Share with all SQUAC users</mat-radio-button
       >
     </mat-radio-group>
+    <div [ngSwitch]="dashboardForm.get('share').value" class="help-container">
+      <p *ngSwitchCase="'shareAll'" class="help-text">
+        Public dashboards should use public channel groups or other users will
+        not be able to view the group.
+      </p>
+      <p *ngSwitchCase="'shareOrg'" class="help-text">
+        Organization dashboards should use public or organization channel groups
+        or other users will not be able to view the group.
+      </p>
+      <p *ngSwitchDefault class="help-text">
+        Private dashboards can use private, organization, or public channel
+        groups.
+      </p>
+    </div>
   </form>
 
   <shared-channel-group-selector
