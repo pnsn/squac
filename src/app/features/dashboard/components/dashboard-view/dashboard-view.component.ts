@@ -6,7 +6,7 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
@@ -79,6 +79,8 @@ export class DashboardViewComponent
     },
   };
 
+  queryParams: Params;
+
   constructor(
     private route: ActivatedRoute,
     private dashboardService: DashboardService,
@@ -90,6 +92,8 @@ export class DashboardViewComponent
       .pipe(
         tap(() => {
           // this.error = false;
+          const orgId = this.route.snapshot.data.user.orgId;
+          this.queryParams = { organization: orgId };
         }),
         switchMap(() => {
           return this.loadingService.doLoading(this.fetchData());
@@ -160,7 +164,7 @@ export class DashboardViewComponent
   }
 
   fetchData() {
-    return this.dashboardService.getDashboards().pipe(
+    return this.dashboardService.getDashboards(this.queryParams).pipe(
       tap((dashboards) => {
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
@@ -172,7 +176,8 @@ export class DashboardViewComponent
   }
 
   // get fresh dashboards
-  refresh(): void {
+  refresh(filters?): void {
+    this.queryParams = { ...filters };
     this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 

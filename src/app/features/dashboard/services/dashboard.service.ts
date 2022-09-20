@@ -3,6 +3,7 @@ import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
 import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
+import { Params } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class DashboardService {
   ) {}
 
   // Get all dashboards viewable by user from squac
-  getDashboards(): Observable<Dashboard[]> {
+  getDashboards(params?: Params): Observable<Dashboard[]> {
     // Fetch new dashboards if > 5 minutes since refresh
     if (
       this.lastRefresh &&
@@ -30,7 +31,7 @@ export class DashboardService {
     ) {
       return of(this.localDashboards);
     } else {
-      return this.squacApi.get(this.url).pipe(
+      return this.squacApi.get(this.url, null, params).pipe(
         map((results) =>
           results.map((r) => {
             const dashboard = this.dashboardAdapter.adaptFromApi(r);

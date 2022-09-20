@@ -154,7 +154,6 @@ export class ViewService {
       distinctUntilChanged(),
       tap((group) => {
         this.channels.next(group.channels);
-        console.log("update");
         this.channelGroupId.next(group.id);
       })
     );

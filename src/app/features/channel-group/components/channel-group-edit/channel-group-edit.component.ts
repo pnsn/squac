@@ -119,7 +119,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
               }),
               switchMap((channelGroup: ChannelGroup) => {
                 this.channelGroup = channelGroup;
-                console.log("have channel group");
                 if (channelGroup) {
                   return of([]);
                 }
@@ -130,7 +129,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
               tap((rules: MatchingRule[]) => {
                 this.matchingRules = rules;
                 this.initForm();
-                console.log(this.channelGroup);
               }),
               catchError((error) => {
                 this.error = error;

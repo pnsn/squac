@@ -86,12 +86,10 @@ export class LoadingService {
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
-    console.log("start loading", context);
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
   endLoading(context: LoadingContext, loaderId?: LoaderId): void {
-    console.log("end loading");
     this.setLoadingState(context, false, this.getLoaderId(loaderId));
   }
 

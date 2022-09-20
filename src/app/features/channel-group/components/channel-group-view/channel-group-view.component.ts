@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { LoadingService } from "@core/services/loading.service";
 
@@ -15,8 +15,6 @@ export class ChannelGroupViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   subscription: Subscription = new Subscription();
-  userId: number;
-  orgId: number;
 
   channelGroups: ChannelGroup[] = [];
   selectedChannelGroupId: number;
@@ -72,6 +70,8 @@ export class ChannelGroupViewComponent
     },
   };
 
+  queryParams: Params;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -84,16 +84,15 @@ export class ChannelGroupViewComponent
     const groupsSub = this.route.params
       .pipe(
         tap(() => {
-          this.orgId = this.route.snapshot.data.user.orgId;
+          const orgId = this.route.snapshot.data.user.orgId;
+          this.queryParams = { organization: orgId };
           this.selectedChannelGroupId =
             this.route.children.length > 0
               ? +this.route.snapshot.firstChild.params.channelGroupId
               : null;
         }),
         switchMap(() => {
-          return this.loadingService.doLoading(
-            this.fetchData({ organization: this.orgId })
-          );
+          return this.loadingService.doLoading(this.fetchData());
         })
       )
       .subscribe();
@@ -135,8 +134,8 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
-  fetchData(filters?) {
-    return this.channelGroupService.getChannelGroups(filters).pipe(
+  fetchData() {
+    return this.channelGroupService.getChannelGroups(this.queryParams).pipe(
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
@@ -150,7 +149,8 @@ export class ChannelGroupViewComponent
 
   // get fresh groups
   refresh(filters?) {
-    this.loadingService.doLoading(this.fetchData(filters), this).subscribe();
+    this.queryParams = { ...filters };
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   // onSelect function for data table selection

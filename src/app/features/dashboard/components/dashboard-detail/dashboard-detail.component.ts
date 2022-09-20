@@ -155,9 +155,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   channelGroupChange(id: number): void {
     this.loadingService
       .doLoading(this.viewService.updateChannelGroup(id), this)
-      .subscribe((ares) => {
-        console.log(ares);
-      });
+      .subscribe();
   }
 
   // route to edit dashboard
