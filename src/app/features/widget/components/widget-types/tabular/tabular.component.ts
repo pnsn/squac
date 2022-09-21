@@ -1,13 +1,11 @@
 import {
   Component,
   Input,
-  Output,
   ViewChild,
   OnDestroy,
   SimpleChanges,
   OnChanges,
   TemplateRef,
-  EventEmitter,
   OnInit,
 } from "@angular/core";
 import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";

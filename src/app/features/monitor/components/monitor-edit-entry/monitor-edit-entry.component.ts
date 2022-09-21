@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ActivatedRoute, Router, Params } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Monitor } from "@features/monitor/models/monitor";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 

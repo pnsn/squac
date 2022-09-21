@@ -13,7 +13,6 @@ import {
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { LoadingService } from "@core/services/loading.service";
-import { SquacApiService } from "@core/services/squacapi.service";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";

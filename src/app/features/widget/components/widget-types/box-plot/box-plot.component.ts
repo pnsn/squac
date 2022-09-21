@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";

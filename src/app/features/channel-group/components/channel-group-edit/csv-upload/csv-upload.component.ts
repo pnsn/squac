@@ -10,7 +10,7 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
-import { switchMap, tap, map, merge, concatMap, Observable } from "rxjs";
+import { switchMap, tap, map, merge, Observable } from "rxjs";
 
 @Component({
   selector: "channel-group-csv-upload",

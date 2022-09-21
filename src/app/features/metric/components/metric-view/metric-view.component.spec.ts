@@ -6,7 +6,7 @@ import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 
 describe("MetricViewComponent", () => {

@@ -12,7 +12,6 @@ import {
   ReplaySubject,
   catchError,
   EMPTY,
-  delay,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";

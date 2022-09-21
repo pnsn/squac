@@ -266,7 +266,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
         try {
           // adjust bounds to fit stations
           const bounds = this.stationLayer.getBounds();
-          this.map.fitBounds(this.stationLayer.getBounds(), {
+          this.map.fitBounds(bounds, {
             padding: [11, 11],
           });
         } catch {

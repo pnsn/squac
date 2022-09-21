@@ -3,7 +3,6 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { tap } from "rxjs";
 
 @Component({
   selector: "shared-channel-group-selector",
