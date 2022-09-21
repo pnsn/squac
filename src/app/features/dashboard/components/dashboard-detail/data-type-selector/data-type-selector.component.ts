@@ -40,7 +40,6 @@ export class DataTypeSelectorComponent implements OnChanges {
   fullType: any; //used for keeping track of name
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.statType || changes.dataType) {
@@ -55,7 +54,6 @@ export class DataTypeSelectorComponent implements OnChanges {
     this.fullType = this.dataTypes.find((dataType) => {
       return dataType.value === this.dataType;
     });
-    console.log(this.fullType);
 
     if (!this.fullType) {
       this.dataType === "raw";

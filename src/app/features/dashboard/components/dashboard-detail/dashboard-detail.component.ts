@@ -123,10 +123,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // send selected archive type to views ervice
   selectArchiveType(event): void {
-    console.log(event.dataType, event.statType);
-    this.viewService.setArchive(event.dataType, event.statType);
-    this.save();
-    this.refreshData();
+    this.archiveType = event.dataType;
+    this.archiveStat = event.statType;
+    this.updateArchiveType();
   }
 
   //if dates larger than 3 days, default to daily, larger than 1 month, monthly
@@ -143,9 +142,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.archiveStat = "";
       }
     }
-    console.log(this.archiveStat, this.archiveType);
-    this.save();
+    this.updateArchiveType();
+  }
+
+  private updateArchiveType() {
     this.viewService.setArchive(this.archiveType, this.archiveStat);
+    this.save();
     this.refreshData();
   }
 

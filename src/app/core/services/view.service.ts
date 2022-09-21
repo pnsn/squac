@@ -274,6 +274,7 @@ export class ViewService {
   setArchive(archiveType, archiveStat) {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
+    console.log("view service", archiveType, archiveStat);
   }
 
   // decrements count of widgets still loading
