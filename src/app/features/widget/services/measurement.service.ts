@@ -160,6 +160,8 @@ export class MeasurementService {
   }
 
   getRandom(max) {
-    return Math.random() * max;
+    const val = Math.random() * max;
+
+    return Math.round(val) % 7 === 0 ? null : val;
   }
 }

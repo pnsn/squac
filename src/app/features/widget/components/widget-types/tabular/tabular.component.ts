@@ -101,6 +101,10 @@ export class TabularComponent
       this.buildColumns();
       this.buildRows(this.data);
     }
+
+    if (changes.showKey) {
+      console.log(this.showKey);
+    }
   }
 
   buildColumns() {

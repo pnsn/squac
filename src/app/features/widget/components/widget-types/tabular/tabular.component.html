@@ -26,12 +26,7 @@
   let-sort="sortFn"
   ngx-datatable-header-template
 >
-  <div
-    matTooltip="{{ column.name }}"
-    matTooltipPosition="above"
-    class="header-cell datatable-header-cell-wrapper"
-    (click)="sort()"
-  >
+  <div class="header-cell datatable-header-cell-wrapper" (click)="sort()">
     {{ column.name }}
   </div>
 </ng-template>
@@ -49,14 +44,16 @@
   </ng-container>
 
   <ng-template #notStoplight>
-    <span
-      class="cell-icon"
-      [ngClass]="{ border: value.color === 'white' }"
-      [ngStyle]="{ 'background-color': value.color }"
-    ></span>
-    <span class="cell-text" *ngIf="value.value !== null; else noValue">
-      {{ value.value | precision }}
-    </span>
+    <ng-container *ngIf="value.value !== null; else noValue">
+      <span
+        [class]="showKey ? 'cell-icon' : 'cell-full'"
+        [ngClass]="{ border: value.color === 'white' }"
+        [ngStyle]="{ 'background-color': value.color }"
+      ></span>
+      <span *ngIf="showKey">
+        {{ value.value | precision }}
+      </span>
+    </ng-container>
   </ng-template>
 
   <ng-template #noValue>
