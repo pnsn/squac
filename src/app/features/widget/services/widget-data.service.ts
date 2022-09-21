@@ -70,7 +70,6 @@ export class WidgetDataService implements OnDestroy {
       switchMap((params: MeasurementParams) => {
         return this.loadingService.doLoading(
           this.measurementService.getData(params).pipe(
-            delay(10000),
             catchError(() => {
               this.finishedLoading({
                 error: "Failed to get measurements from SQUAC",
