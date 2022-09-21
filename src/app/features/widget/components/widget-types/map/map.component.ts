@@ -36,8 +36,6 @@ export class MapComponent
   @Input() selectedMetrics: Metric[];
   @Input() showKey: boolean;
   @Input() properties: any;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   subscription = new Subscription();
   resizeObserver;
   precisionPipe = new PrecisionPipe();
@@ -212,7 +210,6 @@ export class MapComponent
   }
 
   private buildLayers() {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       const data = this.data;
       this.metricLayers = {};
@@ -374,7 +371,6 @@ export class MapComponent
   }
 
   changeMetric() {
-    this.loadingChange.emit(false);
     this.displayMetric = this.selectedMetrics[0];
     this.displayMap = this.visualMaps[this.displayMetric.id];
     this.addPanes(this.displayMap);

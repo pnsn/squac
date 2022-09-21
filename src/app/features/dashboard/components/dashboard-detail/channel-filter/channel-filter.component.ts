@@ -21,7 +21,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   channels: Channel[] = [];
   form: FormGroup;
   timeout;
-  changed: false;
   toggledAll = true;
   channelsSub: Subscription;
   @Output() closeSidenav = new EventEmitter<boolean>();
@@ -75,7 +74,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     const value = <FormGroup>this.form.get("checkboxes").value;
     const channels = this.channels.filter((c) => value[c.nslc]);
     this.viewService.updateChannels(channels);
-    this.changed = false;
   }
 
   toggleAll() {

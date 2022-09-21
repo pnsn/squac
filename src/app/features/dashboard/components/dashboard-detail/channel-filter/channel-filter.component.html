@@ -13,10 +13,8 @@
 <div *ngIf="channels.length === 0; else hasChannels">
   Select a channel group above.
 </div>
+
 <ng-template #hasChannels>
-  <div class="row">
-    <button mat-stroked-button color="accent" (click)="update()">Update</button>
-  </div>
   <mat-checkbox type="checkbox" [(ngModel)]="toggledAll" (click)="toggleAll()">
     Toggle All
   </mat-checkbox>

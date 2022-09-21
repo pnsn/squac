@@ -44,8 +44,6 @@ export class CalendarComponent
   @Input() dataRange: any;
   @Input() properties: any;
   @Input() showKey: boolean;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -235,7 +233,6 @@ export class CalendarComponent
   }
 
   buildChartData(data) {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
@@ -450,8 +447,6 @@ export class CalendarComponent
       xAxis1.data = this.xAxisLabels;
       axes.push(xAxis1);
     }
-
-    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,

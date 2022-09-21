@@ -147,8 +147,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   private updateArchiveType() {
     this.viewService.setArchive(this.archiveType, this.archiveStat);
-    this.save();
-    this.refreshData();
   }
 
   toggleSidenav(): void {
@@ -186,6 +184,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(["/dashboards"]);
       }
     });
+  }
+
+  //tell view service to get new data & save dashboard
+  updateDashboard() {
+    this.viewService.updateDashboard();
+    this.save();
   }
 
   // tell view service to get new data

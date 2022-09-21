@@ -43,8 +43,6 @@ export class TimechartComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() showKey: boolean;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -215,7 +213,6 @@ export class TimechartComponent
   }
 
   buildChartData(data) {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       const stations = [];
       this.metricSeries = {};
@@ -307,7 +304,5 @@ export class TimechartComponent
         replaceMerge: ["series"],
       });
     }
-    //
-    this.loadingChange.emit(false);
   }
 }

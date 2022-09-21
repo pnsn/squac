@@ -35,8 +35,6 @@ export class TabularComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() properties: any;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() showKey: boolean;
   subscription = new Subscription();
   visualMaps;
@@ -186,7 +184,6 @@ export class TabularComponent
   }
 
   private buildRows(data) {
-    this.loadingChange.emit("Building chart...");
     const rows = [];
     const stations = [];
     const stationRows = [];
@@ -279,7 +276,6 @@ export class TabularComponent
         // check if agg if worse than current agg
       }
     });
-    this.loadingChange.emit(false);
     this.rows = [...stationRows, ...rows];
   }
 

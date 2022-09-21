@@ -12,6 +12,7 @@ import {
   ReplaySubject,
   catchError,
   EMPTY,
+  delay,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";
@@ -20,20 +21,18 @@ import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
 import { WidgetType } from "../models/widget-type";
+import { LoadingService } from "@core/services/loading.service";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
   data = new Subject();
   measurementReq: Observable<any>;
-  params = new Subject<any>();
-  $params = this.params.asObservable();
   test = new Observable<any>();
   updateTimeout;
   measurementReqSub;
   status = new ReplaySubject<string>();
   groupId: number;
 
-  requestInProgress = false;
   private widget: Widget;
   private metrics: string;
   private type: any;
@@ -47,28 +46,39 @@ export class WidgetDataService implements OnDestroy {
     configService: ConfigurationService,
     private measurementAdapter: MeasurementAdapter,
     private archiveAdapter: ArchiveAdapter,
-    private aggregateAdapter: AggregateAdapter
+    private aggregateAdapter: AggregateAdapter,
+    private loadingService: LoadingService
   ) {
     this.refreshInterval = configService.getValue(
       "dataRefreshIntervalMinutes",
       4
     );
 
-    this.measurementReq = this.$params.pipe(
-      filter(() => {
+    //listen to viewservice signal to update data
+    this.measurementReq = this.viewService.updateData.asObservable().pipe(
+      filter((dashboardId: number) => {
         //  only make request when widget is valid
-        return !!this.widget && !!this.metrics && !!this.groupId;
+        return (
+          !!this.widget &&
+          this.widget.dashboardId === dashboardId &&
+          !!this.metrics &&
+          !!this.groupId
+        );
       }),
       map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
       switchMap((params: MeasurementParams) => {
-        return this.measurementService.getData(params).pipe(
-          catchError(() => {
-            this.finishedLoading({
-              error: "Failed to get measurements from SQUAC",
-            });
-            return EMPTY;
-          })
+        return this.loadingService.doLoading(
+          this.measurementService.getData(params).pipe(
+            delay(10000),
+            catchError(() => {
+              this.finishedLoading({
+                error: "Failed to get measurements from SQUAC",
+              });
+              return EMPTY;
+            })
+          ),
+          this.widget
         );
       })
     );
@@ -85,9 +95,9 @@ export class WidgetDataService implements OnDestroy {
     const groupSub = this.viewService.channelGroupId.subscribe({
       next: (id) => {
         this.groupId = id;
-        this.params.next({});
       },
     });
+
     this.subscription.add(groupSub);
     this.subscription.add(this.measurementReqSub);
   }
@@ -112,19 +122,12 @@ export class WidgetDataService implements OnDestroy {
   // send data & clear the loading statuses
   private finishedLoading(data) {
     this.data.next(data);
-    this.viewService.finishedLoading();
     this.updateMeasurement();
-    this.requestInProgress = false;
   }
 
   private startedLoading(): void {
-    if (this.requestInProgress) {
-      this.viewService.finishedLoading();
-    }
-    this.requestInProgress = true;
     this.data.next(null);
     this.ranges = {};
-    this.viewService.startedLoading();
     this.clearTimeout();
   }
 
@@ -170,7 +173,6 @@ export class WidgetDataService implements OnDestroy {
   updateWidget(widget: Widget, type: WidgetType): void {
     this.widget = widget;
     this.type = type;
-    this.params.next({});
   }
 
   updateMetrics(metrics: Metric[]): void {
@@ -183,7 +185,6 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
-    this.params.next({});
   }
 
   get dataRange(): any {
@@ -220,10 +221,7 @@ export class WidgetDataService implements OnDestroy {
   private updateMeasurement(): void {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        this.params.next({
-          starttime: this.viewService.startTime,
-          endtime: this.viewService.endTime,
-        });
+        //
       }, this.refreshInterval * 60 * 1000);
     }
   }

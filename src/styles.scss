@@ -298,11 +298,16 @@ a {
   }
 }
 
-.buffer .loading-buffer {
-  display: block;
-}
-.buffer .loading-gif {
-  display: none;
+.buffer {
+  .loading-container {
+    align-items: flex-start;
+  }
+  .loading-buffer {
+    display: block;
+  }
+  .loading-gif {
+    display: none;
+  }
 }
 .loading-gif {
   display: inline-block;

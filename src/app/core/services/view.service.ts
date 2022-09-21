@@ -36,7 +36,6 @@ export class ViewService {
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();
-  status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
   loadingCount = 0;
   private autoRefresh: boolean;
@@ -47,7 +46,7 @@ export class ViewService {
   queuedWidgets = 0;
   locale;
   defaultTimeRange;
-
+  hasUnsavedChanges = false;
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
@@ -137,14 +136,10 @@ export class ViewService {
 
   // sets the given dashboard and sets up dates
   setDashboard(dashboard: Dashboard): void {
-    this.finishedLoading();
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
     this._dashboard = dashboard;
-    if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
-      this.status.next("finished");
-    }
 
     this.setIntialDates();
     // return dates
@@ -166,6 +161,7 @@ export class ViewService {
   // send out new channels
   updateChannels(channels: Channel[]) {
     this.channels.next(channels);
+    this.hasUnsavedChanges = true;
   }
 
   setDashboardById(
@@ -178,7 +174,7 @@ export class ViewService {
           this.setDashboard(dashboard);
         },
         error: () => {
-          this.status.next("error");
+          //do something about error
         },
       }),
       switchMap((dashboard) => {
@@ -188,8 +184,16 @@ export class ViewService {
         } else {
           return of(null);
         }
+      }),
+      tap(() => {
+        this.updateDashboard();
       })
     );
+  }
+
+  updateDashboard(): void {
+    this.hasUnsavedChanges = false;
+    this.updateData.next(this.dashboard.id);
   }
 
   //setChannelGroupById
@@ -221,7 +225,6 @@ export class ViewService {
       range = this.defaultTimeRange;
     }
     this.datesChanged(startDate, endDate, autoRefresh, range);
-    this.updateData.next(this.dashboard.id);
   }
 
   // takes given date config and saves it, emits changed dates
@@ -241,6 +244,7 @@ export class ViewService {
     }
     this._dashboard.properties.startTime = startTime;
     this._dashboard.properties.endTime = endTime;
+    this.hasUnsavedChanges = true;
   }
 
   // returns the wdiget index
@@ -274,35 +278,17 @@ export class ViewService {
   setArchive(archiveType, archiveStat) {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
-    console.log("view service", archiveType, archiveStat);
-  }
-
-  // decrements count of widgets still loading
-  finishedLoading(): void {
-    this.loadingCount--;
-    if (this.loadingCount <= 0) {
-      this.status.next("finished");
-    }
-  }
-
-  // increments cound of widgets still loading
-  startedLoading(): void {
-    this.loadingCount++;
-    if (this.loadingCount > 0) {
-      this.status.next("loading");
-    }
+    this.hasUnsavedChanges = true;
   }
 
   // broadcast id of changed widget
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
-    this.finishedLoading();
     this.error.next(null);
   }
 
   // updates the widget
   updateWidget(widgetId: number, widget?: Widget): void {
-    this.startedLoading();
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
       this._dashboard.widgets.splice(index, 1);

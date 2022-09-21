@@ -24,6 +24,7 @@ import {
   WidgetType,
 } from "@features/widget/models/widget-type";
 import { Threshold } from "@features/widget/models/threshold";
+import { LoadingService } from "@core/services/loading.service";
 
 @Component({
   selector: "widget-detail",
@@ -37,7 +38,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
-  loading: boolean | string = "Requesting Data";
   error: boolean | string;
   dashboards: Dashboard[];
 
@@ -63,7 +63,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     private confirmDialog: ConfirmDialogService,
     private dashboardService: DashboardService,
     private viewService: ViewService,
-    private ability: Ability
+    private ability: Ability,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -82,29 +83,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         },
       });
 
-    // listen for update to widget & load new data
-    const updateSub = this.viewService.updateData.subscribe({
-      next: (dashboardId) => {
-        if (this.widget.dashboardId === dashboardId) {
-          // get new data and start timers over
-          this.widgetDataService.params.next("widget detail");
-        }
-      },
-      error: (error) => {
-        console.error("error in widget detail dates: ", error);
-      },
-    });
-
     // listen to changes in channel selection
     const channelsSub = this.viewService.channels.subscribe((channels) => {
       if (channels?.length > 0) {
-        this.loading = "Requesting Data";
         this.channels = channels;
-        this.error = false;
       }
       if (channels?.length === 0) {
         this.error = "Error: No channels selected.";
-        this.loading = false;
       }
     });
 
@@ -124,7 +109,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscription.add(channelsSub);
     this.subscription.add(resizeSub);
-    this.subscription.add(updateSub);
     this.subscription.add(this.dataSub);
   }
 
@@ -140,7 +124,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
         if (data && data.error) {
           this.error = data.error;
-          this.loading = false;
         } else {
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
@@ -150,7 +133,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (!this.widget.isValid) {
       this.error = "Widget failed to load, try checking configuration.";
-      this.loading = false;
     } else {
       this.widgetType = this.widgetConfigService.getWidgetType(
         this.widget.type
@@ -166,7 +148,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         this.widgetType.minMetrics > this.widget.metrics.length
       ) {
         this.error = `Error: ${this.widget.metrics} of ${this.widgetType.minMetrics} metrics selected.`;
-        this.loading = false;
       } else {
         this.widgetDataService.updateWidget(this.widget, this.widgetType);
         this.selectMetrics();
