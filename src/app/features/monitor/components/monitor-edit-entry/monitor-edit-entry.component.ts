@@ -17,7 +17,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   monitorId: number;
   paramsSub: Subscription;
   metrics: Metric[];
-  channelGroups: ChannelGroup[];
+  channelGroups: any;
   monitor: Monitor;
 
   constructor(

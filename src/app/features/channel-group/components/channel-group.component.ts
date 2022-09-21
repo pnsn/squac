@@ -4,7 +4,8 @@ import { NetworkService } from "@channelGroup/services/network.service";
 
 @Component({
   selector: "channel-group-main",
-  template: "<router-outlet></router-outlet>",
+  template:
+    "<div class='body-content-container'><router-outlet></router-outlet></div>",
 })
 export class ChannelGroupComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

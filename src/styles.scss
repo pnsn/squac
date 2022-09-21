@@ -28,8 +28,8 @@ body {
   margin: 0;
   background-color: darken($sq-lt-gray, 5);
 }
-#body-content-container {
-  width: 98%;
+.body-content-container {
+  width: 100%;
   height: calc(100% - 50px);
   margin: 10px 1% 0;
   @include md {
@@ -43,13 +43,14 @@ body {
 }
 
 #dashboard-container {
-  margin: -10px -1% 0;
-  @include md {
-    margin: -10px -2% 0;
-  }
-  @include lg {
-    margin: -10px -4.25% 0;
-  }
+  // margin: -10px -1% 0;
+  // @include md {
+  //   margin: -10px -2% 0;
+  // }
+  // @include lg {
+  //   margin: -10px -4.25% 0;
+  // }
+  width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
