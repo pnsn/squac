@@ -42,7 +42,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     listenToRouter: true,
     resource: "Monitor",
     add: {
-      text: "Create Monitor",
+      text: "Add Monitor",
       path: "/monitors",
     },
     refresh: true,
@@ -52,7 +52,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters = {
     dateFilter: {},
     searchField: {
-      text: "Type to filter...",
+      text: "Filter alerts...",
       props: [
         "owner",
         { prop: "breaching_channels", props: ["channel"] },

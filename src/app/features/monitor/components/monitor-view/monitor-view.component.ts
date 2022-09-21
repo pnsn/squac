@@ -43,7 +43,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     basePath: "/monitors",
     resource: "Monitor",
     add: {
-      text: "Create Monitor",
+      text: "Add Monitor",
     },
     menu: {
       text: "Actions",
@@ -66,7 +66,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filters = {
     searchField: {
-      text: "Type to filter...",
+      text: "Filter monitors...",
       props: [
         "owner",
 

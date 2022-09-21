@@ -45,7 +45,7 @@ export class DashboardViewComponent
     basePath: "/dashboards",
     resource: "Dashboard",
     add: {
-      text: "Create Dashboard",
+      text: "Add Dashboard",
     },
     menu: {
       text: "Actions",
@@ -74,7 +74,7 @@ export class DashboardViewComponent
   filters = {
     toggleShared: true,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter dashboards...",
       props: ["owner", "orgId", "name", "description"],
     },
   };

@@ -43,7 +43,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters = {
     toggleShared: false,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter metrics...",
       props: ["owner", "orgId", "name", "description"],
     },
   };

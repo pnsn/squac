@@ -36,7 +36,7 @@ export class ChannelGroupViewComponent
     basePath: "/channel-groups",
     resource: "ChannelGroup",
     add: {
-      text: "Create ChannelGroup",
+      text: "Add Channel Group",
     },
     menu: {
       text: "Actions",
@@ -65,7 +65,7 @@ export class ChannelGroupViewComponent
   filters = {
     toggleShared: true,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter channel groups...",
       props: ["owner", "orgId", "name", "description"],
     },
   };
