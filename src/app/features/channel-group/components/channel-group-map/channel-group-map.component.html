@@ -6,6 +6,7 @@
     [leafletOptions]="options"
     [leafletLayers]="layers"
     (leafletMapReady)="onMapReady($event)"
+    (leafletMapZoomEnd)="onZoomEnd()"
   >
     <div
       *ngIf="editPage"
