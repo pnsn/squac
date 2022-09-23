@@ -25,7 +25,6 @@ export class DashboardResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Dashboard> | Observable<Dashboard[]> {
-    console.log("dashboard resovler");
     const id = +route.paramMap.get("dashboardId");
     if (id) {
       // get specific resource

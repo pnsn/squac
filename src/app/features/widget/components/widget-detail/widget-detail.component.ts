@@ -118,8 +118,15 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
         this.channels = this.viewService.channels.getValue();
-        if (data && data.error) {
+        if (!data) {
+          this.error = "No data.";
+        } else if (data.error) {
           this.error = data.error;
+        } else if (
+          this.widgetDataService.measurementsWithData.length <
+          this.widgetType.minMetrics
+        ) {
+          this.error = "No measurements found for one or more metrics.";
         } else {
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;

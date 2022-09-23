@@ -35,7 +35,7 @@ export class WidgetDataService implements OnDestroy {
   groupId: number;
   params = new Subject();
   $params = this.params.asObservable();
-
+  measurementsWithData: number[];
   private nslcStrings: string[];
   private widget: Widget;
   private metrics: string;
@@ -167,6 +167,7 @@ export class WidgetDataService implements OnDestroy {
 
   private startedLoading(): void {
     this.data.next(null);
+    this.measurementsWithData = [];
     this.ranges = {};
     this.clearTimeout();
   }
@@ -202,6 +203,9 @@ export class WidgetDataService implements OnDestroy {
         const channelMap = dataMap.get(m.channel);
         if (!channelMap.get(m.metric)) {
           channelMap.set(m.metric, []);
+          if (this.measurementsWithData.indexOf(m.metric) < 0) {
+            this.measurementsWithData.push(m.metric);
+          }
         }
         const metricMap = channelMap.get(m.metric);
         metricMap.push(value);

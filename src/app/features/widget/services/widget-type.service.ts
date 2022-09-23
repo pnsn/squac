@@ -461,9 +461,9 @@ export class WidgetTypeService {
 
       metrics.forEach((metric) => {
         let val: number = null;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          const rowData = data[channel.id][metric.id];
-          val = rowData[0].value;
+        if (data.has(channel.id)) {
+          const rowData = data.get(channel.id).get(metric.id);
+          val = rowData && rowData[0] ? rowData[0].value : val;
         }
         channelData.value.push(val);
       });

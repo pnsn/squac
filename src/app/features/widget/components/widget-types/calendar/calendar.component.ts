@@ -331,7 +331,7 @@ export class CalendarComponent
           if (data.has(channel.id)) {
             const measurements = data.get(channel.id).get(metric.id);
             //trusts that measurements are in order of time
-            measurements.forEach((measurement: Measurement) => {
+            measurements?.forEach((measurement: Measurement) => {
               const measurementStart = this.dateService.parseUtc(
                 measurement.starttime
               );

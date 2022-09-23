@@ -139,7 +139,6 @@ export class ChannelGroupViewComponent
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
-        console.log(this.rows);
       }),
       catchError(() => {
         // this.error = error;

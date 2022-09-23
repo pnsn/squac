@@ -235,7 +235,7 @@ export class MapComponent
           let val: number = null;
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
-            val = rowData[0] ? rowData[0].value : val;
+            val = rowData && rowData[0] ? rowData[0].value : val;
           }
 
           const visualMap = this.visualMaps[metric.id];

@@ -38,7 +38,6 @@ export class ChannelGroupSelectorComponent implements OnInit {
   }
 
   selectionChange() {
-    console.log("channel group in sort", this.channelGroupId);
     this.channelGroupIdChange.emit(this.channelGroupId);
 
     const url = this.router

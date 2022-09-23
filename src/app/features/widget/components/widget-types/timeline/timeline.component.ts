@@ -251,13 +251,14 @@ export class TimelineComponent
             };
           }
 
-          if (data[channel.id] && data[channel.id][metric.id]) {
+          if (data.has(channel.id)) {
+            const measurements = data.get(channel.id).get(metric.id);
             let series;
             switch (this.properties.displayType) {
               case "hour":
                 series = this.makeSeriesForFixed(
                   nslc,
-                  data[channel.id][metric.id],
+                  measurements,
                   index,
                   "hour"
                 );
@@ -265,17 +266,13 @@ export class TimelineComponent
               case "day":
                 series = this.makeSeriesForFixed(
                   nslc,
-                  data[channel.id][metric.id],
+                  measurements,
                   index,
                   "day"
                 );
                 break;
               default:
-                series = this.makeSeriesForRaw(
-                  nslc,
-                  data[channel.id][metric.id],
-                  index
-                );
+                series = this.makeSeriesForRaw(nslc, measurements, index);
                 break;
             }
 

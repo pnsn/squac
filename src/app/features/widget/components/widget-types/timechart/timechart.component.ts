@@ -252,8 +252,9 @@ export class TimechartComponent
           },
         };
         let lastEnd: dayjs.Dayjs;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          data[channel.id][metric.id].forEach((measurement: Measurement) => {
+        if (data.has(channel.id)) {
+          const measurements = data.get(channel.id).get(metric.id);
+          measurements?.forEach((measurement: Measurement) => {
             // // If time between measurements is greater than gap, don't connect
             const start = this.dateService.parseUtc(measurement.starttime);
             const end = this.dateService.parseUtc(measurement.endtime);
