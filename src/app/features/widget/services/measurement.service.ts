@@ -15,6 +15,7 @@ export class MeasurementParams {
   group: number;
   useAggregate: boolean;
   archiveType?: string;
+  nslc?: string;
 }
 
 export class MeasurementHttpData {
@@ -46,10 +47,10 @@ export class MeasurementService {
     } else {
       path = "measurements/";
     }
-    return this.fakeData(params);
+    // return this.fakeData(params);
     return this.squacApi.get(this.url + path, null, {
       metric: params.metricString,
-      group: params.group,
+      nslc: params.nslc,
       starttime: params.starttime,
       endtime: params.endtime,
     });
@@ -73,13 +74,13 @@ export class MeasurementService {
     const end = params.endtime;
     const archiveType = params.archiveType;
     const useAggregate = params.useAggregate;
-    const channels = this.viewService.channels.getValue();
+    const channels = params.nslc;
     params.metricString.split(",").forEach((m) => {
       const metric = +m;
-      channels.forEach((channel) => {
+      params.nslc.split(",").forEach((channel, i) => {
         if (useAggregate) {
           const item: ApiGetAggregate = {
-            channel: channel.id,
+            channel: i,
             metric: metric,
             min: this.getRandom(1),
             max: this.getRandom(100),
@@ -111,7 +112,7 @@ export class MeasurementService {
               e = s.add(1, "day");
             }
             const item: ApiGetArchive = {
-              channel: channel.id,
+              channel: i,
               metric: metric,
               id: "1",
               min: this.getRandom(1),
@@ -141,7 +142,7 @@ export class MeasurementService {
             const item: ApiGetMeasurement = {
               user: 1,
               id: 1,
-              channel: channel.id,
+              channel: i,
               metric: metric,
               value: this.getRandom(100),
               starttime: this.dateService.format(s),

@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class PrecisionPipe implements PipeTransform {
   transform(value: number, precision = 4): string {
-    return value.toPrecision(precision);
+    return value ? value.toPrecision(precision) : "";
   }
 }

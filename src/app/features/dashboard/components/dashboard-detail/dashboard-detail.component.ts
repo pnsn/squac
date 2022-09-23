@@ -77,7 +77,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((params) => {
           const dashboardId = +params.dashboardId;
-          const groupId = +params.group;
+
+          const groupId = +this.route.snapshot.queryParams.group;
           return this.loadingService.doLoading(
             this.viewService.setDashboardById(dashboardId, groupId).pipe(
               tap(() => {
@@ -155,9 +156,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // tell view service the channels changed
   channelGroupChange(id: number): void {
-    this.loadingService
-      .doLoading(this.viewService.updateChannelGroup(id), this)
-      .subscribe();
+    this.viewService.updateChannelGroup(id);
   }
 
   // route to edit dashboard

@@ -23,13 +23,19 @@ import { DateService } from "./date.service";
 import { Channel } from "@core/models/channel";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { ChannelGroup } from "@core/models/channel-group";
+import { LoadingService } from "./loading.service";
+import { FormGroup } from "@angular/forms";
+import { id } from "@swimlane/ngx-datatable";
 
 @Injectable({
   providedIn: "root",
 })
 export class ViewService {
   // handle refreshing
-  channels = new BehaviorSubject<Channel[]>([]);
+  channels = new BehaviorSubject<Channel[]>([]); //actual channels used
+  private _channelsList: FormGroup; //{ 'SCNL': boolean }
+  private _channels: Channel[] = []; //all available channels
+  private _channelGroupId: number;
   channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
@@ -53,7 +59,8 @@ export class ViewService {
     private ability: Ability,
     private dateService: DateService,
     private messageService: MessageService,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    private loadingService: LoadingService
   ) {
     this.dateRanges = this.dateService.dateRanges;
     this.defaultTimeRange = this.dateService.defaultTimeRange;
@@ -76,20 +83,6 @@ export class ViewService {
   // returns the dashboard time range
   get range(): number {
     return this.dashboard?.properties.timeRange;
-  }
-
-  // get channels as commas separated string
-  get channelsString(): string {
-    let str = "";
-    this.channels.pipe(take(1)).subscribe((channels) => {
-      channels.forEach((channel, i) => {
-        str += channel.id;
-        if (i !== channels.length - 1) {
-          str += ",";
-        }
-      });
-    });
-    return str;
   }
 
   // returns the dashboard starttime
@@ -115,6 +108,11 @@ export class ViewService {
     }
 
     return endTime;
+  }
+
+  // get all available channels
+  get allChannels(): Channel[] {
+    return [...this._channels];
   }
 
   //get amount of time between start and end
@@ -145,12 +143,17 @@ export class ViewService {
     // return dates
   }
 
-  updateChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
+  updateChannelGroup(channelGroupId: number) {
+    this._channelGroupId = channelGroupId;
+    this.hasUnsavedChanges = true;
+  }
+
+  getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
     return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
       distinctUntilChanged(),
       tap((group) => {
-        this.channels.next(group.channels);
-        this.channelGroupId.next(group.id);
+        this._channels = group.channels;
+        this._channelGroupId = group.id;
       }),
       catchError((error) => {
         return of(null);
@@ -158,10 +161,44 @@ export class ViewService {
     );
   }
 
-  // send out new channels
-  updateChannels(channels: Channel[]) {
-    this.channels.next(channels);
+  // { NSLC : true/false} from channel select
+  updateChannels(list: FormGroup) {
+    this._channelsList = list;
     this.hasUnsavedChanges = true;
+  }
+
+  // filter _channels that are true in channelsList
+  // if no filter list, return all channels
+  private filterChannels() {
+    return this._channelsList
+      ? this._channels.filter((c) => {
+          return this._channelsList[c.nslc];
+        })
+      : this._channels;
+  }
+
+  // send updates and reset values
+  updateDashboard(): void {
+    //get new channelgroup info if its changed
+    if (this._channelGroupId !== this.dashboard.channelGroupId) {
+      this.dashboard.channelGroupId = this._channelGroupId;
+      this.loadingService
+        .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
+        .subscribe(() => {
+          this.sendUpdate();
+        });
+    } else {
+      this.sendUpdate();
+    }
+  }
+
+  private sendUpdate() {
+    this.channelGroupId.next(this._channelGroupId);
+    this.channels.next(this.filterChannels());
+    this.updateData.next(this.dashboard.id);
+    this.hasUnsavedChanges = false;
+    this._channelsList = null;
+    this._channelGroupId = null;
   }
 
   setDashboardById(
@@ -180,7 +217,7 @@ export class ViewService {
       switchMap((dashboard) => {
         const groupId = channelGroupId || dashboard.channelGroupId;
         if (groupId) {
-          return this.updateChannelGroup(groupId);
+          return this.getChannelGroup(groupId);
         } else {
           return of(null);
         }
@@ -189,11 +226,6 @@ export class ViewService {
         this.updateDashboard();
       })
     );
-  }
-
-  updateDashboard(): void {
-    this.hasUnsavedChanges = false;
-    this.updateData.next(this.dashboard.id);
   }
 
   //setChannelGroupById

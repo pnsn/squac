@@ -4,7 +4,6 @@ import { ViewService } from "@core/services/view.service";
 import {
   Subject,
   Subscription,
-  map,
   Observable,
   switchMap,
   tap,
@@ -12,6 +11,8 @@ import {
   ReplaySubject,
   catchError,
   EMPTY,
+  map,
+  forkJoin,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";
@@ -21,6 +22,7 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
 import { WidgetType } from "../models/widget-type";
 import { LoadingService } from "@core/services/loading.service";
+import { Channel } from "@core/models/channel";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
@@ -31,7 +33,10 @@ export class WidgetDataService implements OnDestroy {
   measurementReqSub;
   status = new ReplaySubject<string>();
   groupId: number;
+  params = new Subject();
+  $params = this.params.asObservable();
 
+  private nslcStrings: string[];
   private widget: Widget;
   private metrics: string;
   private type: any;
@@ -54,27 +59,32 @@ export class WidgetDataService implements OnDestroy {
     );
 
     //listen to viewservice signal to update data
-    this.measurementReq = this.viewService.updateData.asObservable().pipe(
-      filter((dashboardId: number) => {
+    this.measurementReq = this.$params.pipe(
+      filter(() => {
         //  only make request when widget is valid
         return (
           !!this.widget &&
-          this.widget.dashboardId === dashboardId &&
           !!this.metrics &&
-          !!this.groupId
+          (!!this.groupId || this.nslcStrings?.length > 0)
         );
       }),
-      map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
-      switchMap((params: MeasurementParams) => {
+      map((p): Observable<any>[] => {
+        return this.nslcStrings.map((string) => {
+          const params = this.checkParams({ nslc: string });
+          return this.measurementService.getData(params);
+        });
+      }),
+      switchMap((reqs: Observable<any>[]) => {
         return this.loadingService.doLoading(
-          this.measurementService.getData(params).pipe(
-            catchError(() => {
+          forkJoin(reqs).pipe(
+            catchError((error) => {
               this.finishedLoading({
                 error: "Failed to get measurements from SQUAC",
               });
               return EMPTY;
-            })
+            }),
+            map(this.mapData.bind(this))
           ),
           this.widget
         );
@@ -82,22 +92,48 @@ export class WidgetDataService implements OnDestroy {
     );
 
     //destroyed after failed loadign
-    this.measurementReqSub = this.measurementReq
-      .pipe(map(this.mapData.bind(this)))
-      .subscribe({
-        next: (data) => {
-          this.finishedLoading(data);
-        },
-      });
-
-    const groupSub = this.viewService.channelGroupId.subscribe({
-      next: (id) => {
-        this.groupId = id;
+    this.measurementReqSub = this.measurementReq.subscribe({
+      next: (data) => {
+        this.finishedLoading(data);
       },
     });
 
-    this.subscription.add(groupSub);
+    const updateSub = this.viewService.updateData
+      .pipe(
+        filter((id) => this.widget && id === this.widget.dashboardId),
+        map(() => {
+          const channels = this.viewService.channels.getValue();
+          return this.nslcQueryStrings(channels);
+        }),
+        tap((strings) => {
+          this.nslcStrings = strings;
+          this.params.next({});
+          // const strings = this.params.next({});
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(updateSub);
     this.subscription.add(this.measurementReqSub);
+  }
+
+  // break up string into multiple to get around
+  // request length issue
+  private nslcQueryStrings(channels): string[] {
+    const queryStrings = [];
+    let channelsCount = 0;
+    channels.reduce((previous, current, currentIndex) => {
+      const nslc = current.nslc;
+      const str = previous ? previous + "," + nslc : nslc;
+      if (channelsCount > 100 || currentIndex === channels.length - 1) {
+        queryStrings.push(str);
+        channelsCount = 0;
+        return "";
+      }
+      channelsCount++;
+      return str;
+    }, "");
+    return queryStrings;
   }
 
   private checkParams(p): MeasurementParams {
@@ -115,6 +151,12 @@ export class WidgetDataService implements OnDestroy {
       useAggregate: this.type.useAggregate,
       archiveType: this.viewService.archiveType,
     };
+
+    if (this.groupId) {
+      params.group = this.groupId;
+    } else {
+      params.nslc = p.nslc;
+    }
     return params;
   }
   // send data & clear the loading statuses
@@ -135,32 +177,41 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
     const useAggregate = this.type.useAggregate;
+    const dataMap = new Map<any, Map<number, any>>();
+    if (response.error) {
+      return response;
+    }
+    response.forEach((r) => {
+      r.forEach((m) => {
+        let value: Measurement | Aggregate | Archive;
+        if (archiveType && archiveType !== "raw") {
+          value = this.archiveAdapter.adaptFromApi(m, archiveStat);
+        } else if (useAggregate) {
+          value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
+        } else {
+          value = this.measurementAdapter.adaptFromApi(m);
+        }
 
-    const data = {};
-    if (response.length === 0) {
+        if (!dataMap.has(m.channel)) {
+          const newMap = new Map<
+            number,
+            Array<Measurement | Aggregate | Archive>
+          >();
+          dataMap.set(m.channel, newMap);
+        }
+        const channelMap = dataMap.get(m.channel);
+        if (!channelMap.get(m.metric)) {
+          channelMap.set(m.metric, []);
+        }
+        const metricMap = channelMap.get(m.metric);
+        metricMap.push(value);
+        this.calculateDataRange(m.metric, value.value);
+      });
+    });
+    if (dataMap.size === 0) {
       return { error: "No measurements found." };
     }
-
-    response.forEach((m) => {
-      let value: Measurement | Aggregate | Archive;
-      if (archiveType && archiveType !== "raw") {
-        value = this.archiveAdapter.adaptFromApi(m, archiveStat);
-      } else if (useAggregate) {
-        value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
-      } else {
-        value = this.measurementAdapter.adaptFromApi(m);
-      }
-
-      if (!data[m.channel]) {
-        data[m.channel] = {};
-      }
-      if (!data[m.channel][m.metric]) {
-        data[m.channel][m.metric] = [];
-      }
-      this.calculateDataRange(m.metric, value.value);
-      data[m.channel][m.metric].push(value);
-    });
-    return data;
+    return dataMap;
   }
 
   ngOnDestroy(): void {
@@ -175,14 +226,12 @@ export class WidgetDataService implements OnDestroy {
 
   updateMetrics(metrics: Metric[]): void {
     if (metrics.length > 0) {
-      const temp = [];
-      metrics.forEach((metric) => {
-        temp.push(metric.id);
-      });
-      this.metrics = temp.toString();
+      this.metrics = metrics.toIdString();
     } else {
       this.metrics = this.widget.metricsString;
     }
+
+    this.params.next({});
   }
 
   get dataRange(): any {

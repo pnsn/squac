@@ -12,7 +12,9 @@
     <div id="channel-group-info">
       <h3>{{ channelGroup?.name }}</h3>
       <span class="help-text">
-        by {{ channelGroup?.owner }} ({{ channelGroup?.orgId | organization }})
+        by {{ channelGroup?.owner | user }} ({{
+          channelGroup?.orgId | organization
+        }})
       </span>
     </div>
 

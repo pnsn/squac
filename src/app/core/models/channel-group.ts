@@ -6,7 +6,7 @@ import "@core/utils/utils.ts";
 export class ChannelGroup {
   constructor(
     public id: number,
-    public owner: string,
+    public owner: number,
     public name: string,
     public description: string,
     public orgId: number
@@ -34,7 +34,7 @@ export interface ApiGetChannelGroup {
   description: string;
   created_at: string;
   updated_at: string;
-  user: string;
+  user: number;
   organization: number;
   channels?: Array<ApiGetChannel>;
   auto_include_channels?: Array<ApiGetChannel>;
@@ -68,7 +68,6 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       item.description,
       item.organization
     );
-
     channelGroup.channelsCount = item.channels_count;
     channelGroup.shareAll = item.share_all;
     channelGroup.shareOrg = item.share_org;

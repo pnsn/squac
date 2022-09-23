@@ -1,7 +1,7 @@
 <div
   id="dashboard-container"
   class="column"
-  [appIsLoading]="loadingService.isLoading(this)"
+  [appIsLoading]="loadingService.isLoading(viewService.dashboard)"
 >
   <mat-toolbar id="dashboard-header" class="lt-gray-background box-shadow">
     <mat-toolbar-row class="row space-between">
@@ -21,22 +21,13 @@
       </div>
       <div id="header-bottom" class="dashboard-controls">
         <button
+          mat-raised-button
+          color="accent"
           (click)="updateDashboard()"
           [disabled]="!viewService.hasUnsavedChanges"
         >
-          update
+          Apply Changes
         </button>
-        <button
-          mat-flat-button
-          color="accent"
-          (click)="addWidget()"
-          *ngIf="'update' | able: dashboard"
-          matTooltip="Add widget"
-          aria-label="Button to add widget"
-        >
-          Add widget
-        </button>
-
         <!-- if they have permission, otherwise show copy only -->
         <mat-menu
           #appMenu="matMenu"
@@ -44,7 +35,17 @@
           yPosition="below"
           xPosition="before"
         >
+          <button
+            mat-menu-item
+            (click)="addWidget()"
+            *ngIf="'update' | able: dashboard"
+          >
+            <mat-icon>add</mat-icon>
+            Add widget
+          </button>
+
           <button mat-menu-item (click)="editDashboard()">
+            <mat-icon>edit</mat-icon>
             Edit Dashboard
           </button>
           <button
@@ -54,6 +55,7 @@
             (click)="deleteDashboard()"
             *ngIf="'delete' | able: dashboard"
           >
+            <mat-icon color="warn">delete</mat-icon>
             Delete Dashboard
           </button>
         </mat-menu>

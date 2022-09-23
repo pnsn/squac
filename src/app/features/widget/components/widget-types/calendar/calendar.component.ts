@@ -31,7 +31,6 @@ export class CalendarComponent
   implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
     private widgetConnectService: WidgetConnectService
@@ -329,9 +328,10 @@ export class CalendarComponent
             };
           }
 
-          if (data[channel.id] && data[channel.id][metric.id]) {
+          if (data.has(channel.id)) {
+            const measurements = data.get(channel.id).get(metric.id);
             //trusts that measurements are in order of time
-            data[channel.id][metric.id].forEach((measurement: Measurement) => {
+            measurements.forEach((measurement: Measurement) => {
               const measurementStart = this.dateService.parseUtc(
                 measurement.starttime
               );

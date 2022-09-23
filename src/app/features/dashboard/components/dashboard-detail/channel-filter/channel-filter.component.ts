@@ -7,7 +7,13 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
-import { Observable, Subscription } from "rxjs";
+import {
+  distinctUntilChanged,
+  Observable,
+  Subscription,
+  take,
+  tap,
+} from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
@@ -33,10 +39,12 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.channelsSub = this.viewService.channelGroupId.subscribe(() => {
-      this.channels = this.viewService.channels.getValue();
-      this.initForm();
-    });
+    this.channelsSub = this.viewService.channelGroupId
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.channels = this.viewService.allChannels;
+        this.initForm();
+      });
   }
 
   ngOnDestroy(): void {
@@ -54,6 +62,11 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     this.channels.forEach((option: any) => {
       checkboxes.addControl(option.nslc, new FormControl(true));
     });
+
+    this.form.valueChanges.subscribe(() => {
+      const value = <FormGroup>this.form.get("checkboxes").value;
+      this.viewService.updateChannels(value);
+    });
   }
 
   mouseenter(item) {
@@ -68,12 +81,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   }
   toggleSidenav() {
     this.closeSidenav.emit(true);
-  }
-
-  update() {
-    const value = <FormGroup>this.form.get("checkboxes").value;
-    const channels = this.channels.filter((c) => value[c.nslc]);
-    this.viewService.updateChannels(channels);
   }
 
   toggleAll() {

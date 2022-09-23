@@ -101,10 +101,6 @@ export class TabularComponent
       this.buildColumns();
       this.buildRows(this.data);
     }
-
-    if (changes.showKey) {
-      console.log(this.showKey);
-    }
   }
 
   buildColumns() {
@@ -207,9 +203,10 @@ export class TabularComponent
       this.selectedMetrics.forEach((metric) => {
         let val: number = null;
         let count;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          const rowData = data[channel.id][metric.id];
-          val = rowData[0].value;
+
+        if (data.get(channel.id)) {
+          const rowData = data.get(channel.id).get(metric.id);
+          val = rowData ? rowData[0].value : null;
         }
 
         const visualMap = this.visualMaps[metric.id];

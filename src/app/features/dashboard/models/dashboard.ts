@@ -81,7 +81,7 @@ export interface ApiPostDashboard {
   share_all: boolean;
   share_org: boolean;
   organization: number;
-  channel_group: number;
+  channel_group?: number;
   properties: string;
 }
 
@@ -134,14 +134,17 @@ export class DashboardAdapter implements Adapter<Dashboard> {
   }
 
   adaptToApi(item: Dashboard): ApiPostDashboard {
-    return {
+    const d: ApiPostDashboard = {
       name: item.name,
       description: item.description,
       share_all: item.shareAll,
       share_org: item.shareOrg,
       organization: item.orgId,
-      channel_group: item.channelGroupId,
       properties: JSON.stringify(item.properties),
     };
+    if (item.channelGroupId) {
+      d.channel_group = item.channelGroupId;
+    }
+    return d;
   }
 }

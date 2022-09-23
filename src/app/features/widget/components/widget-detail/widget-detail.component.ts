@@ -83,14 +83,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         },
       });
 
-    // listen to changes in channel selection
     const channelsSub = this.viewService.channels.subscribe((channels) => {
-      if (channels?.length > 0) {
-        this.channels = channels;
-      }
-      if (channels?.length === 0) {
-        this.error = "Error: No channels selected.";
-      }
+      this.error =
+        channels?.length === 0 ? "Error: No channels selected." : null;
     });
 
     // get dashboards user is able to edit
@@ -122,6 +117,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   initWidget(): void {
     if (!this.dataSub) {
       this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
+        this.channels = this.viewService.channels.getValue();
         if (data && data.error) {
           this.error = data.error;
         } else {

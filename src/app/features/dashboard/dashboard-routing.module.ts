@@ -19,7 +19,6 @@ export const routes: Routes = [
         path: "",
         component: DashboardViewComponent,
         canActivate: [PermissionGuard],
-        runGuardsAndResolvers: "always",
         children: [
           {
             path: "new",
