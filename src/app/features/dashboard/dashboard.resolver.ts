@@ -25,24 +25,13 @@ export class DashboardResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Dashboard> | Observable<Dashboard[]> {
-    const id = +route.paramMap.get("dashboardId");
-    if (id) {
-      // get specific resource
-      return this.dashboardService.getDashboard(id).pipe(
-        catchError((error) => {
-          this.messageService.error("Could not load dashboard.");
-          return this.handleError(error);
-        })
-      );
-    } else {
-      return this.dashboardService.getDashboards().pipe(
-        catchError((error) => {
-          this.messageService.error("Could not load dashboards.");
-          return this.handleError(error);
-        })
-      );
-      // return all of them
-    }
+    return this.dashboardService.getDashboards().pipe(
+      catchError((error) => {
+        this.messageService.error("Could not load dashboards.");
+        return this.handleError(error);
+      })
+    );
+    // return all of them
   }
 
   handleError(error): Observable<any> {

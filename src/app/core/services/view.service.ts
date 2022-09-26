@@ -174,7 +174,7 @@ export class ViewService {
       ? this._channels.filter((c) => {
           return this._channelsList[c.nslc];
         })
-      : this._channels;
+      : [...this._channels];
   }
 
   // send updates and reset values
@@ -194,11 +194,13 @@ export class ViewService {
 
   private sendUpdate() {
     this.channelGroupId.next(this._channelGroupId);
-    this.channels.next(this.filterChannels());
+    const channels = this.filterChannels();
+
+    this.channels.next(channels);
     this.updateData.next(this.dashboard.id);
     this.hasUnsavedChanges = false;
-    this._channelsList = null;
-    this._channelGroupId = null;
+    // this._channelsList = undefined;
+    // this._channelGroupId = null;
   }
 
   setDashboardById(

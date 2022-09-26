@@ -35,11 +35,11 @@ import { LoadingService } from "@core/services/loading.service";
 export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   subscription = new Subscription();
   @Input() widget: Widget;
+  @Input() dashboards: Dashboard[];
   @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
   error: boolean | string;
-  dashboards: Dashboard[];
 
   channels: Channel[];
   zooming: false;
@@ -61,9 +61,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardService: DashboardService,
     private viewService: ViewService,
-    private ability: Ability,
     public loadingService: LoadingService
   ) {}
 
@@ -87,20 +85,6 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.error =
         channels?.length === 0 ? "Error: No channels selected." : null;
     });
-
-    // get dashboards user is able to edit
-    this.dashboardService
-      .getDashboards()
-      .pipe(
-        tap((dashboards) => {
-          this.dashboards = dashboards.filter((d) => {
-            return this.ability.can("update", d);
-          });
-        })
-      )
-      .subscribe((dashboards) => {
-        this.dashboards = dashboards;
-      });
 
     this.subscription.add(channelsSub);
     this.subscription.add(resizeSub);

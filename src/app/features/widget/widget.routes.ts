@@ -4,6 +4,8 @@ import { WidgetMainComponent } from "./components/widget-main/widget-main.compon
 import { WidgetResolver } from "@widget/widget.resolver";
 import { WidgetEditEntryComponent } from "@widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricResolver } from "@metric/metric.resolver";
+import { Dashboard } from "@features/dashboard/models/dashboard";
+import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
 
 export const widgetRoutes: Routes = [
   {
@@ -17,6 +19,7 @@ export const widgetRoutes: Routes = [
     resolve: {
       widgets: WidgetResolver,
       metrics: MetricResolver,
+      dashboards: DashboardResolver,
     },
     runGuardsAndResolvers: "paramsOrQueryParamsChange",
     children: [
