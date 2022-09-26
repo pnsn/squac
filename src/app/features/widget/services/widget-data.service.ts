@@ -62,11 +62,11 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
-        return (
+        const valid =
           !!this.widget &&
           !!this.metrics &&
-          (!!this.groupId || this.nslcStrings?.length > 0)
-        );
+          (!!this.groupId || this.nslcStrings?.length > 0);
+        return valid;
       }),
       tap(this.startedLoading.bind(this)),
       map((p): Observable<any>[] => {
@@ -101,14 +101,18 @@ export class WidgetDataService implements OnDestroy {
     const updateSub = this.viewService.updateData
       .pipe(
         filter((id) => this.widget && id === this.widget.dashboardId),
-        map(() => {
+        tap(() => {
+          const group = this.viewService.channelGroupId.getValue();
+          if (group !== this.groupId) {
+            //request using group id
+            this.groupId = group;
+          }
+
           const channels = this.viewService.channels.getValue();
-          return this.nslcQueryStrings(channels);
-        }),
-        tap((strings) => {
-          this.nslcStrings = strings;
+          this.nslcStrings = this.nslcQueryStrings(channels);
+          this.groupId = null;
+
           this.params.next({});
-          // const strings = this.params.next({});
         })
       )
       .subscribe();
@@ -125,7 +129,7 @@ export class WidgetDataService implements OnDestroy {
     channels.reduce((previous, current, currentIndex) => {
       const nslc = current.nslc;
       const str = previous ? previous + "," + nslc : nslc;
-      if (channelsCount > 100 || currentIndex === channels.length - 1) {
+      if (channelsCount > 500 || currentIndex === channels.length - 1) {
         queryStrings.push(str);
         channelsCount = 0;
         return "";
@@ -157,6 +161,7 @@ export class WidgetDataService implements OnDestroy {
     } else {
       params.nslc = p.nslc;
     }
+
     return params;
   }
   // send data & clear the loading statuses

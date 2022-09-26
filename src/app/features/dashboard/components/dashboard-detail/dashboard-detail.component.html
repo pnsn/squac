@@ -20,6 +20,7 @@
         ></shared-sharing-indicator>
       </div>
       <div id="header-bottom" class="dashboard-controls">
+        <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
         <button
           mat-raised-button
           color="accent"
@@ -137,5 +138,5 @@
     </div>
   </mat-drawer-container>
 </div>
-<shared-error *ngIf="error" [errorMsg]="error"></shared-error>
+
 <!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

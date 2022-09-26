@@ -153,6 +153,7 @@ export class ViewService {
       distinctUntilChanged(),
       tap((group) => {
         this._channels = group.channels;
+        this.dashboard.channelGroupId = group.id;
         this._channelGroupId = group.id;
       }),
       catchError((error) => {
@@ -207,6 +208,7 @@ export class ViewService {
     dashboardId: number,
     channelGroupId: number
   ): Observable<ChannelGroup> {
+    console.log("set dashboards");
     return this.dashboardService.getDashboard(dashboardId).pipe(
       tap({
         next: (dashboard) => {
