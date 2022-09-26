@@ -37,17 +37,15 @@ export class ChannelGroupTableComponent implements OnInit {
     setTimeout(() => {
       this.columns = [];
 
-      if (this.selectable) {
-        this.columns.push({
-          width: 30,
-          canAutoResize: false,
-          sortable: false,
-          draggable: false,
-          resizeable: false,
-          headerCheckboxable: true,
-          checkboxable: true,
-        });
-      }
+      this.columns.push({
+        width: 30,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false,
+        resizeable: false,
+        headerCheckboxable: true,
+        checkboxable: true,
+      });
 
       this.columns = [
         ...this.columns,
@@ -85,19 +83,19 @@ export class ChannelGroupTableComponent implements OnInit {
           flexGrow: 1,
         },
       ];
-      if (!this.selectable) {
-        this.columns.push({
-          name: "",
-          prop: "",
-          width: 30,
-          canAutoResize: false,
-          draggable: false,
-          sortable: false,
-          resizeable: false,
-          flexGrow: 1,
-          cellTemplate: this.removeTemplate,
-        });
-      }
+      // if (!this.selectable) {
+      //   this.columns.push({
+      //     name: "",
+      //     prop: "",
+      //     width: 30,
+      //     canAutoResize: false,
+      //     draggable: false,
+      //     sortable: false,
+      //     resizeable: false,
+      //     flexGrow: 1,
+      //     cellTemplate: this.removeTemplate,
+      //   });
+      // }
     }, 0);
   }
   selectRow($event) {

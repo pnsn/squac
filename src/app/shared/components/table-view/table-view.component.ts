@@ -12,7 +12,6 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { LoadingService } from "@core/services/loading.service";
 import { User } from "@features/user/models/user";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
@@ -71,7 +70,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     limit: undefined,
     reorderable: false,
     scrollbarH: false,
-    scrollbarV: false,
+    scrollbarV: true,
     sortType: "single",
     sorts: [],
     groupRowsBy: undefined,
@@ -84,6 +83,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       emptyMessage: "No data",
       totalMessage: "total",
     },
+    virtualization: false,
   };
 
   constructor(
@@ -91,7 +91,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private loadingService: LoadingService,
     orgService: OrganizationService
   ) {
     this.userPipe = new UserPipe(orgService);
@@ -118,7 +117,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
           filter((e) => e instanceof NavigationEnd),
           tap((e: NavigationEnd) => {
             if (e.urlAfterRedirects.toString() === currentPath) {
-              this.refreshResource();
+              // this.refreshResource();
+              this.selectResource(null);
             }
           })
         )
@@ -137,7 +137,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.rows && changes.rows.currentValue) {
       this.processRows();
     }
-    if (changes.selectedRowId && changes.selectedRowId.currentValue) {
+    if (changes.selectedRowId && !changes.selectedRowId.firstChange) {
       this.selectResource(this.selectedRowId);
     }
 
@@ -172,6 +172,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   // filter rows
   private processRows(): void {
     this.tableRows = [...this.rows];
+    if (this.selectedRowId && this.tableRows.length > 0) {
+      this.selectResource(this.selectedRowId);
+    }
   }
 
   // selected id, view resource if doubleclicked
@@ -217,7 +220,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
     });
-
     this.selectedRow = this.selected[0];
     this.itemSelected.next(this.selectedRow);
   }

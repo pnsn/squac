@@ -59,6 +59,7 @@ ngx-datatable.shared-view-table {
   .datatable-body {
     // max-height: 80vh;
     overflow-y: scroll;
+    height: 100% !important;
   }
   &.full {
     .datatable-body {
