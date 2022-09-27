@@ -5,7 +5,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { SharedModule } from "@shared/shared.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 import { SearchFilterComponent } from "../search-filter/search-filter.component";

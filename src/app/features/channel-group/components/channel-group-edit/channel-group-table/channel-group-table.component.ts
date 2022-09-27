@@ -8,7 +8,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 
 @Component({
   selector: "channel-group-edit-table",

@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   OnChanges,
 } from "@angular/core";
-import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
+import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@core/models/metric";
 import { WidgetType } from "@features/widget/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";

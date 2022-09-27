@@ -20,7 +20,11 @@ import {
   catchError,
   EMPTY,
 } from "rxjs";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";

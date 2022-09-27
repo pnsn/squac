@@ -8,7 +8,11 @@ import {
   TemplateRef,
   OnInit,
 } from "@angular/core";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";

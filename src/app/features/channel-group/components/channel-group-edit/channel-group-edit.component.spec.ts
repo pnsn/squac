@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { of } from "rxjs";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { ChannelGroupFilterComponent } from "./channel-group-filter/channel-group-filter.component";
 import { UserService } from "@user/services/user.service";
 import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";

@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { LoadingComponent } from "./components/loading/loading.component";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MaterialModule } from "./material.module";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
