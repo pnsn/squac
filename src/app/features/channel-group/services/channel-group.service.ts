@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Params } from "@angular/router";
+import { StorageService } from "@core/services/storage.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,14 +14,17 @@ export class ChannelGroupService {
   private url = "nslc/groups/";
   // Store groups
   private localChannelGroups: ChannelGroup[] = [];
+  private localDetailChannelGroups = new Map<number, ChannelGroup>();
+  private lastRefresh = new Map<number, number>(); //CgId:
   // Time stamp of last refresh
-  private lastRefresh: number;
+  private lastAllRefresh: number;
 
   context = { test: 1 };
 
   constructor(
     private squacApi: SquacApiService,
-    private channelGroupAdapter: ChannelGroupAdapter
+    private channelGroupAdapter: ChannelGroupAdapter,
+    private storage: StorageService
   ) {}
 
   // Gets channel groups from server
@@ -31,7 +35,12 @@ export class ChannelGroupService {
           const group = this.channelGroupAdapter.adaptFromApi(r);
           return group;
         })
-      )
+      ),
+      tap((groups) => {
+        this.localChannelGroups = groups;
+        // this.lastAllRefresh = new Date().toDateString();
+        //lst refresh of list
+      })
     );
   }
 
@@ -77,23 +86,16 @@ export class ChannelGroupService {
 
   // Save channel groups to server
   updateLocalChannelGroup(id, channelGroup?): void {
-    const index = this.localChannelGroups.findIndex((cG) => {
-      return cG.id === id;
-    });
-
-    if (index > -1) {
-      if (channelGroup) {
-        this.localChannelGroups[index] = channelGroup;
-      } else {
-        this.localChannelGroups.splice(index, 1);
-      }
+    if (channelGroup) {
+      this.localDetailChannelGroups.set(id, channelGroup);
     } else {
-      this.localChannelGroups.push(channelGroup);
+      this.localDetailChannelGroups.delete(id);
     }
   }
 
   // Gets a specific channel group with id from server
   getChannelGroup(id: number): Observable<ChannelGroup> {
+    //update local on get
     return this.squacApi.get(this.url, id).pipe(
       map((response) => {
         return this.channelGroupAdapter.adaptFromApi(response);
@@ -104,6 +106,7 @@ export class ChannelGroupService {
 
   // Replaces channel group with new channel group
   updateChannelGroup(channelGroup: ChannelGroup) {
+    //reset time on update
     const postData = this.channelGroupAdapter.adaptToApi(channelGroup);
     if (channelGroup.id) {
       return this.squacApi.put(this.url, channelGroup.id, postData).pipe(

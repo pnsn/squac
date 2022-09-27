@@ -18,7 +18,6 @@ export interface DashboardResolved {
 export class DashboardResolver implements Resolve<Observable<any>> {
   constructor(
     private dashboardService: DashboardService,
-    private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
 
