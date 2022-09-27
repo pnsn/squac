@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Resolve } from "@angular/router";
 import { DashboardService } from "./services/dashboard.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Dashboard } from "./models/dashboard";
 
@@ -21,9 +20,7 @@ export class DashboardResolver implements Resolve<Observable<any>> {
     private messageService: MessageService
   ) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot
-  ): Observable<Dashboard> | Observable<Dashboard[]> {
+  resolve(): Observable<Dashboard> | Observable<Dashboard[]> {
     return this.dashboardService.getDashboards().pipe(
       catchError((error) => {
         this.messageService.error("Could not load dashboards.");

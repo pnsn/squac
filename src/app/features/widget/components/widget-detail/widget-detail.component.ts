@@ -8,14 +8,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Widget } from "@widget/models/widget";
-import { filter, Subscription, tap } from "rxjs";
+import { filter, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { WidgetDataService } from "@widget/services/widget-data.service";
-import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Channel } from "@core/models/channel";

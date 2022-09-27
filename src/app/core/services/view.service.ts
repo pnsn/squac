@@ -6,7 +6,6 @@ import {
   BehaviorSubject,
   Observable,
   tap,
-  take,
   switchMap,
   of,
   distinctUntilChanged,
@@ -25,7 +24,6 @@ import { ChannelGroupService } from "@features/channel-group/services/channel-gr
 import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "./loading.service";
 import { FormGroup } from "@angular/forms";
-import { id } from "@swimlane/ngx-datatable";
 
 @Injectable({
   providedIn: "root",

@@ -22,7 +22,6 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
 import { WidgetType } from "../models/widget-type";
 import { LoadingService } from "@core/services/loading.service";
-import { Channel } from "@core/models/channel";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
@@ -69,7 +68,7 @@ export class WidgetDataService implements OnDestroy {
         return valid;
       }),
       tap(this.startedLoading.bind(this)),
-      map((p): Observable<any>[] => {
+      map((): Observable<any>[] => {
         return this.nslcStrings.map((string) => {
           const params = this.checkParams({ nslc: string });
           return this.measurementService.getData(params);
@@ -78,7 +77,7 @@ export class WidgetDataService implements OnDestroy {
       switchMap((reqs: Observable<any>[]) => {
         return this.loadingService.doLoading(
           forkJoin(reqs).pipe(
-            catchError((error) => {
+            catchError(() => {
               this.finishedLoading({
                 error: "Failed to get measurements from SQUAC",
               });

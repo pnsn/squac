@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
@@ -14,21 +13,6 @@ import { WidgetDataService } from "./widget-data.service";
 describe("WidgetDataService", () => {
   let service: WidgetDataService;
   const testMetric = new Metric(1, 1, "", "", "", "", "", 1);
-  const testChannel = new Channel(
-    1,
-    "",
-    "",
-    1,
-    1,
-    1,
-    1,
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
-  );
   const testWidget = new Widget(1, 1, "", 1, [testMetric], "", "");
   const testType = new WidgetType(
     1,

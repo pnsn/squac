@@ -7,13 +7,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
-import {
-  distinctUntilChanged,
-  Observable,
-  Subscription,
-  take,
-  tap,
-} from "rxjs";
+import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 

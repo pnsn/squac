@@ -11,7 +11,6 @@ import {
 import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
-import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Subscription } from "rxjs";
