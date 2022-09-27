@@ -25,6 +25,7 @@
     "@angular/router": "^13.1.0",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "@asymmetrik/ngx-leaflet-draw": "^7.0.0",
+    "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^5.4.4",
     "@casl/angular": "^7.0.0",
     "@swimlane/ngx-datatable": "^20.0.0",
