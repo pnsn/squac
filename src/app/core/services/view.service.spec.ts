@@ -1,92 +1,65 @@
 import { TestBed } from "@angular/core/testing";
 
 import { ViewService } from "./view.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { DashboardsService } from "@features/dashboards/services/dashboards.service";
-import { MockDashboardsService } from "@features/dashboards/services/dashboards.service.mock";
-import { MockWidgetsService } from "@features/widgets/services/widgets.service.mock";
-import { WidgetsService } from "@features/widgets/services/widgets.service";
-import { AbilityModule } from "@casl/angular";
+import { DashboardService } from "@dashboard/services/dashboard.service";
+import { WidgetService } from "@widget/services/widget.service";
 import { Ability } from "@casl/ability";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { Widget } from "@features/widgets/models/widget";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { Widget } from "@widget/models/widget";
+import { Dashboard } from "@dashboard/models/dashboard";
 import { take } from "rxjs/operators";
-import * as dayjs from "dayjs";
 import { MessageService } from "./message.service";
 import { of } from "rxjs";
 import { DateService } from "./date.service";
-import { MockDateService } from "./date.service.mock";
+import { MockBuilder } from "ng-mocks";
+import { AppModule } from "app/app.module";
+import * as dayjs from "dayjs";
 
 describe("ViewService", () => {
   let service: ViewService;
-  let widgetsService;
-  let dashboardsService;
-  const abilityMock = {
-    can: (_permission, resource) => {
-      return resource && resource.owner && resource.owner === 1;
-    },
-  };
-  const testWidget = new Widget(
-    1,
-    1,
-    "name",
-    "description",
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    []
-  );
+  let widgetService;
+  let dashboardService;
+  const testWidget = new Widget(1, 1, "name", 1, [], "", "");
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, AbilityModule, MatSnackBarModule],
-      providers: [
-        {
-          provide: DashboardsService,
-          useClass: MockDashboardsService,
-        },
-        {
-          provide: WidgetsService,
-          useClass: MockWidgetsService,
-        },
-        { provide: Ability, useValue: abilityMock },
-        {
-          provide: MessageService,
-          useValue: {
-            message: (_text) => {
-              return;
-            },
-            error: (_text) => {
-              return;
-            },
+    return MockBuilder(ViewService, AppModule)
+      .mock(WidgetService)
+      .mock(DashboardService)
+      .mock(MessageService)
+      .provide({
+        provide: DateService,
+        useValue: {
+          parseUtc: (date) => {
+            return dayjs.utc(date).clone();
+          },
+          subtractFromNow: (amount: number, unit: string) => {
+            return dayjs().subtract(amount, unit);
+          },
+          // format date
+          format: (date: dayjs.Dayjs) => {
+            return date.format();
+          },
+          now: () => {
+            return dayjs();
           },
         },
-        {
-          provide: DateService,
-          useValue: new MockDateService(),
+      })
+      .provide({
+        provide: Ability,
+        useValue: {
+          can: (_type, _resource) => {
+            return _resource ? true : undefined;
+          },
         },
-      ],
-    });
+      });
+  });
+
+  beforeEach(() => {
     service = TestBed.inject(ViewService);
-    widgetsService = TestBed.inject(WidgetsService);
-    dashboardsService = TestBed.inject(DashboardsService);
-    testDashboard = new Dashboard(
-      1,
-      1,
-      "name",
-      "description",
-      false,
-      false,
-      1,
-      [1]
-    );
+    widgetService = TestBed.inject(WidgetService);
+    dashboardService = TestBed.inject(DashboardService);
+    testDashboard = new Dashboard(1, 1, "name", "description", false, false, 1);
   });
   it("should be created", () => {
     expect(service).toBeTruthy();
@@ -112,18 +85,22 @@ describe("ViewService", () => {
 
   it("should return range", () => {
     expect(service.range).toBeUndefined();
+    testDashboard.properties = {
+      timeRange: 3,
+    };
     service.setDashboard(testDashboard);
     expect(service.range).toEqual(3);
   });
 
-  it("should return start date", () => {
+  it("should return start and end dates", () => {
+    testDashboard.properties = {
+      startTime: "2022-03-01T00:00:00Z",
+      endTime: "2022-03-01T01:00:00Z",
+    };
     service.setDashboard(testDashboard);
-    expect(service.startdate).toBeDefined();
-  });
 
-  it("should return enddate", () => {
-    service.setDashboard(testDashboard);
-    expect(service.enddate).toBeDefined();
+    expect(service.startTime).toBeDefined();
+    expect(service.endTime).toBeDefined();
   });
 
   it("should send out widget id to resize", () => {
@@ -142,33 +119,8 @@ describe("ViewService", () => {
     service.resizeAll();
   });
 
-  it("should stop loading", () => {
-    service.queuedWidgets = 1;
-    service.widgetFinishedLoading();
-    service.status.pipe(take(1)).subscribe((status) => {
-      expect(status).toEqual("finished");
-    });
-  });
-
-  it("should start loading", () => {
-    service.queuedWidgets = 0;
-    service.widgetStartedLoading();
-    service.status.pipe(take(1)).subscribe((status) => {
-      expect(status).toEqual("loading");
-    });
-  });
-
-  it("should send out new dates", () => {
-    service.setDashboard(testDashboard);
-    const datesSpy = spyOn(service.dates, "next");
-
-    service.datesChanged(dayjs.utc(), dayjs.utc(), true);
-
-    expect(datesSpy).toHaveBeenCalled();
-  });
-
   it("should update given widget", () => {
-    const widgetSpy = spyOn(widgetsService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -179,7 +131,7 @@ describe("ViewService", () => {
   });
 
   it("should add new widget", () => {
-    const widgetSpy = spyOn(widgetsService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -190,7 +142,7 @@ describe("ViewService", () => {
   });
 
   it("should delete given widget", () => {
-    const widgetSpy = spyOn(widgetsService, "deleteWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "deleteWidget").and.returnValue(
       of(true)
     );
     service.setDashboard(testDashboard);
@@ -201,16 +153,8 @@ describe("ViewService", () => {
     expect(widgetSpy).toHaveBeenCalled();
   });
 
-  it("should refresh widgets", () => {
-    service.refresh.subscribe((value) => {
-      expect(value).toEqual("refresh");
-    });
-
-    service.refreshWidgets();
-  });
-
   it("should delete dashboard", () => {
-    const dashSpy = spyOn(dashboardsService, "deleteDashboard").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "deleteDashboard").and.returnValue(
       of(true)
     );
 
@@ -221,7 +165,7 @@ describe("ViewService", () => {
 
   it("should save dashboard", () => {
     service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardsService, "updateDashboard").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "updateDashboard").and.returnValue(
       of(testDashboard)
     );
 

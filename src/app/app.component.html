@@ -1,2 +1,8 @@
-<app-loading-screen></app-loading-screen>
-<router-outlet></router-outlet>
+<div
+  id="loading-screen"
+  [appIsLoading]="loadingService.isLoading$() | async"
+  [fullScreen]="true"
+  style="height: 100%"
+>
+  <router-outlet></router-outlet>
+</div>

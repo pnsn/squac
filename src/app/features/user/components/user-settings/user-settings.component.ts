@@ -7,42 +7,44 @@ import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
 @Component({
-  selector: "app-user",
+  selector: "user-settings",
   templateUrl: "./user-settings.component.html",
   styleUrls: ["./user-settings.component.scss"],
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
-  user: User;
-  userForm: FormGroup;
   subscription: Subscription = new Subscription();
+  user: User;
+  id: number;
   editMode: boolean;
+  userForm: FormGroup;
   hide = true;
-  id;
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private messageService: MessageService
   ) {}
 
-  ngOnInit() {
-    if (this.route.parent) {
-      this.user = this.route.parent.snapshot.data.user;
-      this.initForm(this.user);
-    }
+  ngOnInit(): void {
+    this.user = this.route.snapshot.data.user;
+    this.initForm(this.user);
   }
 
-  initForm(user) {
+  // set up form
+  initForm(user): void {
     this.userForm = new FormGroup({
       firstName: new FormControl(user.firstName, Validators.required),
       lastName: new FormControl(user.lastName, Validators.required),
     });
   }
 
-  editForm() {
+  // enable edit
+  editForm(): void {
     this.editMode = true;
   }
 
-  save() {
+  // save changed user
+  save(): void {
     this.userService.updateUser(this.userForm.value).subscribe(
       () => {
         this.userService.fetchUser();
@@ -51,7 +53,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.messageService.error("Could not save user information.");
-        console.log("error in change user: ", error);
+        console.error("error in change user: ", error);
       }
     );
   }

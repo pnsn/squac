@@ -2,9 +2,8 @@ import { Component, HostListener, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  selector: "app-confirm-dialog",
+  selector: "shared-confirm-dialog",
   templateUrl: "./confirm-dialog.component.html",
-  styleUrls: ["./confirm-dialog.component.scss"],
 })
 export class ConfirmDialogComponent implements OnInit {
   confirmButtonColor: string;
@@ -20,6 +19,7 @@ export class ConfirmDialogComponent implements OnInit {
     },
     private matDialogRef: MatDialogRef<ConfirmDialogComponent>
   ) {}
+
   ngOnInit(): void {
     if (this.data.confirmText.toLowerCase() === "delete") {
       this.confirmButtonColor = "warn";
@@ -28,18 +28,18 @@ export class ConfirmDialogComponent implements OnInit {
     }
   }
 
-  public cancel() {
+  public cancel(): void {
     this.close(false);
   }
-  public close(value) {
+  public close(value): void {
     this.matDialogRef.close(value);
   }
-  public confirm() {
+  public confirm(): void {
     this.close(true);
   }
 
   @HostListener("keydown.esc")
-  public onEsc() {
+  public onEsc(): void {
     this.close(false);
   }
 }

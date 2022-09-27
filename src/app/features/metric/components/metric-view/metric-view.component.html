@@ -1,0 +1,16 @@
+<shared-table-view
+  title="Metrics"
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  [controls]="controls"
+  [filters]="filters"
+  (refresh)="refresh()"
+  [isLoading]="loadingService.isLoading(this)"
+>
+  <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+    <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
+  </ng-template>
+</shared-table-view>
+
+<router-outlet></router-outlet>

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
-import { Channel, ChannelAdapter } from "./channel";
-
+import { ApiGetChannel, Channel, ChannelAdapter } from "./channel";
+import "@core/utils/utils.ts";
 // Describes a channel group object
 export class ChannelGroup {
   constructor(
@@ -9,15 +9,19 @@ export class ChannelGroup {
     public owner: number,
     public name: string,
     public description: string,
-    public orgId: number,
-    public channelIds: number[]
+    public orgId: number
   ) {}
 
-  channels: Channel[];
+  shareAll = false;
+  shareOrg = false;
 
-  get channelsString(): string {
-    return this.channelIds.toString();
-  }
+  // eventually group list wont return array of channels
+  // which is why i've got these instead of channels.length
+  channelsCount = 0;
+
+  channels: Channel[] = [];
+  autoIncludeChannels: Channel[] = [];
+  autoExcludeChannels: Channel[] = [];
 
   static get modelName() {
     return "ChannelGroup";
@@ -27,21 +31,28 @@ export class ChannelGroup {
 export interface ApiGetChannelGroup {
   name: string;
   id: number;
-  url: string;
   description: string;
-  channels: Array<number | any>;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   organization: number;
+  channels?: Array<ApiGetChannel>;
+  auto_include_channels?: Array<ApiGetChannel>;
+  auto_exclude_channels?: Array<ApiGetChannel>;
+  channels_count?: number;
+  share_org: boolean;
+  share_all: boolean;
 }
 
 export interface ApiPostChannelGroup {
   name: string;
   description: string;
-  channels: number[];
   id?: number;
   organization: number;
+  auto_include_channels: number[];
+  auto_exclude_channels: number[];
+  share_org: boolean;
+  share_all: boolean;
 }
 
 @Injectable({
@@ -50,26 +61,32 @@ export interface ApiPostChannelGroup {
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   constructor(private channelAdapter: ChannelAdapter) {}
   adaptFromApi(item: ApiGetChannelGroup): ChannelGroup {
-    let channelIds;
-    let channels;
-
-    if (item.channels[0] && typeof item.channels[0] === "number") {
-      channelIds = item.channels;
-    } else {
-      channelIds = item.channels;
-      channels = item.channels.map((c) => this.channelAdapter.adaptFromApi(c));
-    }
-
     const channelGroup = new ChannelGroup(
       item.id,
-      +item.user_id,
+      item.user,
       item.name,
       item.description,
-      item.organization,
-      channelIds
+      item.organization
     );
+    channelGroup.channelsCount = item.channels_count;
+    channelGroup.shareAll = item.share_all;
+    channelGroup.shareOrg = item.share_org;
+    if (
+      item.channels ||
+      item.auto_exclude_channels ||
+      item.auto_include_channels
+    ) {
+      channelGroup.autoExcludeChannels = item.auto_exclude_channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+      channelGroup.autoIncludeChannels = item.auto_include_channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+      channelGroup.channels = item.channels.map((c) => {
+        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
+      });
+    }
 
-    channelGroup.channels = channels;
     return channelGroup;
   }
 
@@ -77,8 +94,11 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     return {
       name: item.name,
       description: item.description,
-      channels: item.channelIds,
       organization: item.orgId,
+      auto_exclude_channels: item.autoExcludeChannels?.mapIds(),
+      auto_include_channels: item.autoIncludeChannels?.mapIds(),
+      share_org: item.shareAll,
+      share_all: item.shareOrg,
     };
   }
 }

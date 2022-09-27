@@ -1,14 +1,13 @@
 import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockSquacApiService } from "@core/services/squacapi.service.mock";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { AuthComponent } from "../components/auth/auth.component";
 import { AbilityModule } from "@casl/angular";
-import { Ability } from "@casl/ability";
-import { UserService } from "@features/user/services/user.service";
-import { MockUserService } from "@features/user/services/user.service.mock";
+import { UserService } from "@user/services/user.service";
+import { MockBuilder } from "ng-mocks";
+import { AppModule } from "app/app.module";
 
 describe("AuthService", () => {
   let authService: AuthService;
@@ -19,26 +18,23 @@ describe("AuthService", () => {
   };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AbilityModule,
-        HttpClientTestingModule,
+    return MockBuilder(AuthService, AppModule)
+      .mock(AbilityModule)
+      .keep(
         RouterTestingModule.withRoutes([
           { path: "login", component: AuthComponent },
           { path: "", redirectTo: "dashboards", pathMatch: "full" },
           { path: "dashboards", component: AuthComponent },
-        ]),
-      ],
-      providers: [
-        {
-          provide: SquacApiService,
-          useValue: new MockSquacApiService(testUserData),
-        },
-        { provide: Ability, useValue: new Ability() },
-        { provide: UserService, useValue: new MockUserService() },
-      ],
-    });
+        ])
+      )
+      .provide({
+        provide: SquacApiService,
+        useValue: new MockSquacApiService(testUserData),
+      })
+      .mock(UserService);
+  });
 
+  beforeEach(() => {
     authService = TestBed.inject(AuthService);
 
     let store = {};
@@ -69,7 +65,7 @@ describe("AuthService", () => {
   });
 
   it("should log existing user in", () => {
-    spyOn(authService, "autologout");
+    expect(authService.loggedIn).toBeFalse();
     const expDate = new Date().getTime() + 10000;
 
     localStorage.setItem(
@@ -82,7 +78,7 @@ describe("AuthService", () => {
     );
 
     authService.autologin();
-    expect(authService.autologout).toHaveBeenCalled();
+    expect(authService.loggedIn).toBeTrue();
   });
 
   it("should log new user in", () => {
@@ -92,13 +88,13 @@ describe("AuthService", () => {
   });
 
   it("should not log in if no user data", () => {
-    spyOn(authService, "autologout");
+    expect(authService.loggedIn).toBeFalse();
     localStorage.clear();
 
     authService.autologin();
 
     expect(localStorage.getItem("userData")).toBeNull();
-    expect(authService.autologout).not.toHaveBeenCalled();
+    expect(authService.loggedIn).toBeFalse();
   });
 
   it("should log user out", () => {

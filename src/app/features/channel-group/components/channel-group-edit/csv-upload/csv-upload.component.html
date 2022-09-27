@@ -1,0 +1,16 @@
+<div class="csv-file-chooser-section">
+  <input
+    #csvInput
+    name="File Upload"
+    id="csvFileUpload"
+    hidden="true"
+    type="file"
+    onclick="this.value=null"
+    (change)="fileChangeListener($event)"
+    accept=".csv"
+  />
+  <button mat-stroked-button color="primary" (click)="csvInput.click()">
+    <mat-icon>upload_file</mat-icon>
+    Load from CSV
+  </button>
+</div>

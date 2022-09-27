@@ -1,0 +1,115 @@
+<shared-table-view
+  [isLoading]="loadingService.isLoading(this)"
+  title="Monitors"
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  (itemSelected)="onSelect($event)"
+  (controlClicked)="onClick($event)"
+  [controls]="controls"
+  [filters]="filters"
+  (refresh)="refresh()"
+  [groupHeaderTemplate]="groupHeaderTemplate"
+>
+  <!-- [rowDetailTemplate]="rowDetailTemplate" -->
+</shared-table-view>
+<ng-template #groupHeaderTemplate let-group="group" let-expanded="expanded">
+  <div
+    class="monitor-container row space-between"
+    *ngIf="group.value && group.value[0].monitor as monitor"
+  >
+    <div class="monitor-status row">
+      <div class="alarm-status">
+        <mat-icon *ngIf="monitor.inAlarm" color="accent"
+          >error_outline</mat-icon
+        >
+        <mat-icon *ngIf="!monitor.inAlarm" color="primary"
+          >check_circle_outline</mat-icon
+        >
+      </div>
+      <div class="monitor-name"><strong>Name: </strong>{{ monitor.name }}</div>
+      <div class="monitor-details">
+        <strong>values: </strong> {{ monitor.stat }} of measurements for
+        {{ monitor.metric.name }} metric over last {{ monitor.intervalCount }}
+        {{ monitor.intervalType }}{{ monitor.intervalCount > 1 ? "s" : "" }}
+      </div>
+    </div>
+    <div>
+      <button
+        mat-icon-button
+        color="primary"
+        class="add-btn"
+        (click)="editMonitor(monitor.id)"
+        matTooltip="Edit monitor"
+        aria-label="Button that navigates to edit monitor page"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template let-row="row" #stateTemplate>
+  <ng-container *ngIf="row.lastAlarm as alarm; else noAlert">
+    <a
+      *ngIf="alarm.inAlarm"
+      mat-icon-button
+      color="accent"
+      aria-label="monitor in alarm"
+    >
+      <mat-icon>error_outline</mat-icon>
+    </a>
+    <a
+      *ngIf="!alarm.inAlarm"
+      mat-icon-button
+      color="primary"
+      aria-label="
+            monitor not in alarm
+          "
+    >
+      <mat-icon>check_circle_outline</mat-icon>
+    </a>
+  </ng-container>
+  <ng-template #noAlert>
+    <a mat-icon-button aria-label="no alert data" disabled="true">
+      <mat-icon>help_outline</mat-icon>
+    </a>
+  </ng-template>
+</ng-template>
+<ng-template let-row="row" #updateTemplate>
+  <ng-container *ngIf="row.lastAlarm; else noAlert">
+    <div>
+      {{ row.lastAlarm.inAlarm ? "in alarm" : "out of alarm" }}
+    </div>
+    <div>
+      {{ row.lastAlarm.timestamp | date: "short" }}
+    </div>
+  </ng-container>
+  <ng-template #noAlert>no alerts</ng-template>
+</ng-template>
+<ng-template let-row="row" #channelsTemplate>
+  <ng-container *ngIf="row.lastAlarm; else noChannels">
+    {{ row.lastAlarm.breaching_channels.length }}
+  </ng-container>
+  <ng-template #noChannels> N/A </ng-template>
+</ng-template>
+<ng-template let-row="row" #conditionsTemplate>
+  values for
+  <span *ngIf="row.num_channels_operator !== '=='">
+    {{ row.num_channels_operator }}
+  </span>
+  {{ row.num_channels }} channel(s) in {{ row.monitor?.channelGroup.name }} are
+  {{ row.value_operator }}
+  {{ row.val1 }}
+  <span *ngIf="row.val2"> and {{ row.val2 }} </span>
+</ng-template>
+<ng-template let-row="row" #notificationTemplate>
+  <ng-container *ngIf="row.email_list; else noNotification">
+    email
+    {{ row.alert_on_out_of_alarm ? "for all state changes" : "when in alarm" }}
+  </ng-container>
+  <ng-template #noNotification> none </ng-template>
+</ng-template>
+<ng-template let-row="row" #emailListTemplate>
+  {{ row.email_list }}
+</ng-template>
+<router-outlet></router-outlet>

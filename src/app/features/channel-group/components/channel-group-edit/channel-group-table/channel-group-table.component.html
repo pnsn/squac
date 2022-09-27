@@ -1,0 +1,36 @@
+<div class="table-container">
+  <div class="action-row">
+    <button
+      *ngIf="selectable"
+      [disabled]="selected.length === 0"
+      mat-stroked-button
+      (click)="removeSelected()"
+    >
+      remove
+    </button>
+  </div>
+  <ngx-datatable
+    #groupTable
+    class="material channel-table"
+    [rows]="rows"
+    [columns]="columns"
+    [columnMode]="ColumnMode.flex"
+    [headerHeight]="30"
+    [rowHeight]="23"
+    [selectionType]="SelectionType.checkbox"
+    [selected]="selected"
+    [scrollbarV]="true"
+    [sortType]="SortType.multi"
+    (select)="selectRow($event)"
+    [messages]="messages"
+  >
+  </ngx-datatable>
+  <ng-template #isLoading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+  <ng-template ngx-datatable-cell-template let-row="row" #removeTemplate>
+    <button mat-icon-button (click)="removeRow(row)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </ng-template>
+</div>

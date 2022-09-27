@@ -1,29 +1,18 @@
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthComponent } from "./core/components/auth/auth.component";
 import { HeaderComponent } from "./core/components/header/header.component";
-import { AuthInterceptorService } from "./core/interceptors/auth-interceptor.service";
-
+import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 import { SharedModule } from "@shared/shared.module";
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule,
-} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
-
 import { Ability, PureAbility } from "@casl/ability";
-
 import { AppAbility } from "@core/utils/ability";
-
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
-import { LoadingScreenComponent } from "@core/components/loading-screen/loading-screen.component";
-
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
-import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
@@ -38,13 +27,11 @@ export function initApp(configurationService: ConfigurationService) {
     AuthComponent,
     HeaderComponent,
     NotFoundComponent,
-    LoadingScreenComponent,
     HomeComponent,
   ],
   imports: [
     HttpClientModule,
     SharedModule,
-    NoopAnimationsModule,
     BrowserAnimationsModule,
     BrowserModule,
     LeafletModule,
@@ -61,17 +48,12 @@ export function initApp(configurationService: ConfigurationService) {
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: AuthInterceptor,
       multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
       multi: true,
     },
     { provide: AppAbility, useValue: new AppAbility() },

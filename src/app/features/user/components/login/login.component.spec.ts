@@ -5,7 +5,7 @@ import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { of } from "rxjs";
-import { UserModule } from "@features/user/user.module";
+import { UserModule } from "@user/user.module";
 import { ReactiveFormsModule } from "@angular/forms";
 
 describe("LoginComponent", () => {
@@ -42,7 +42,7 @@ describe("LoginComponent", () => {
 
     component.onSubmit();
 
-    expect(component.error).toBe("Login successful.");
+    expect(component.message).toBe("Login successful.");
   });
 
   it("should not submit if the form is not valid", () => {

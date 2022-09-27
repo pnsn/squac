@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { mapTo, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
+// Used to access config file information
+// see /assets/config.json to change values
 @Injectable({
   providedIn: "root",
 })
@@ -15,7 +17,9 @@ export class ConfigurationService {
   load(): Observable<void> {
     return this.httpClient.get(this.path).pipe(
       tap((configuration: any) => (this.configuration = configuration)),
-      mapTo(undefined)
+      map(() => {
+        return undefined;
+      })
     );
   }
 
@@ -24,7 +28,3 @@ export class ConfigurationService {
     return this.configuration[key] || defaultValue;
   }
 }
-
-// Used to access config file information
-// see /assets/config.json to change values
-//

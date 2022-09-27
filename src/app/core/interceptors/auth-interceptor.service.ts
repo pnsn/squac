@@ -10,7 +10,7 @@ import { AuthService } from "../services/auth.service";
 @Injectable()
 
 // Intercepts http requests and adds auth token.
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {

@@ -32,7 +32,7 @@
         "@angular-eslint/component-selector": [
           "error",
           {
-            "prefix": "app",
+            "prefix": ["app", "shared", "dashboard", "widget", "monitor", "user", "channel", "metric"],
             "style": "kebab-case",
             "type": "element"
           }
@@ -40,7 +40,7 @@
         "@angular-eslint/directive-selector": [
           "error",
           {
-            "prefix": "app",
+            "prefix": ["app", "shared", "widget"],
             "style": "camelCase",
             "type": "attribute"
           }

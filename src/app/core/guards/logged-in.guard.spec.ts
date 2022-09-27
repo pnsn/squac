@@ -8,7 +8,7 @@ import {
   NG_MOCKS_GUARDS,
 } from "ng-mocks";
 import { RouterModule } from "@angular/router";
-import { LoginComponent } from "@features/user/components/login/login.component";
+import { LoginComponent } from "@user/components/login/login.component";
 import { AppModule } from "app/app.module";
 
 describe("LoggedInGuard", () => {

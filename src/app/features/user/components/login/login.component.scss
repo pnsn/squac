@@ -1,21 +1,16 @@
-@import "variables";
-
-form {
-  display: flex;
-  flex-direction: column;
+.form {
+  align-items: center;
+  width: 100%;
   mat-form-field {
-    margin-top: 15px;
-  }
-  .mat-form-field-wrapper {
-    margin: 0.12em 0;
-  }
-  #forgot-password {
-    align-self: flex-start;
-    margin-bottom: 15px;
+    width: 100%;
   }
 }
 
-a {
-  color: $sq-dk-gray;
-  font-size: 0.9rem;
+h1 {
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+.login-button {
+  margin: 15px 0px;
+  width: 100%;
 }

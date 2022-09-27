@@ -1,0 +1,70 @@
+<form action="" [formGroup]="widgetForm" (change)="checkValid()">
+  <div class="label">Title:</div>
+  <mat-form-field floatLabel="never" class="large">
+    <input
+      matInput
+      type="text"
+      id="name"
+      formControlName="name"
+      placeholder="Widget title"
+      required
+    />
+  </mat-form-field>
+  <br />
+  <div id="widget-type-container" class="column">
+    <div class="label">Widget type:</div>
+    <mat-button-toggle-group formControlName="type" vertical="false">
+      <mat-button-toggle *ngFor="let type of widgetTypes" [value]="type.type">
+        <div class="type-label">{{ type.name | titlecase }}</div>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div id="type-container" class="row">
+    <div id="stat-type-container" *ngIf="selectedType?.useAggregate">
+      <div class="label">Select aggregation type:</div>
+      <mat-form-field class="dense-form-field-select">
+        <mat-label>Stat type</mat-label>
+        <mat-select formControlName="stat" *ngIf="statTypes" required>
+          <mat-option
+            *ngFor="let statType of statTypes"
+            [value]="statType.type"
+          >
+            {{ statType.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div id="description">
+      <div class="label">Description:</div>
+      <p *ngIf="selectedType; else selectWidget" class="help-text">
+        {{ selectedType?.description }}
+      </p>
+      <ng-template #selectWidget>
+        <p>Select a widget type.</p>
+      </ng-template>
+    </div>
+  </div>
+  <div
+    id="display-container"
+    class="column"
+    *ngIf="
+      selectedType?.displayOptions && selectedType?.displayOptions.length > 1
+    "
+  >
+    <div class="label">Select display type:</div>
+    <mat-radio-group
+      formControlName="displayType"
+      class="dense-radio-button-group"
+    >
+      <mat-radio-button
+        *ngFor="let type of selectedType?.displayOptions"
+        [value]="type"
+        class="radio-button-dense"
+      >
+        <span>
+          {{ type.description }}
+        </span>
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</form>

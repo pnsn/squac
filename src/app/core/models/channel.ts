@@ -3,6 +3,7 @@ import { Adapter } from "./adapter";
 
 // Describes a channel object
 export class Channel {
+  nslc: string;
   constructor(
     public id: number,
     public code: string,
@@ -14,22 +15,17 @@ export class Channel {
     public lon: number,
     public elev: number,
     public loc: string,
-    public stationCode: string,
-    public networkCode: string,
+    public sta: string,
+    public net: string,
     public starttime: string,
-    public endttime: string
-  ) {}
+    public endttime: string,
+    _nslc: string
+  ) {
+    this.nslc = _nslc ? _nslc : net + "." + sta + "." + loc + "." + code;
+  }
 
-  get nslc(): string {
-    return (
-      this.networkCode +
-      "." +
-      this.stationCode +
-      "." +
-      this.loc +
-      "." +
-      this.code
-    );
+  get staCode(): string {
+    return this.net + "." + this.sta;
   }
 
   static get modelName() {
@@ -56,9 +52,10 @@ export interface ApiGetChannel {
   dip: number;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   starttime: string;
   endtime: string;
+  nslc: string;
 }
 
 @Injectable({
@@ -68,17 +65,18 @@ export class ChannelAdapter implements Adapter<Channel> {
   adaptFromApi(item: ApiGetChannel): Channel {
     return new Channel(
       item.id,
-      item.code,
+      item.code?.toUpperCase(),
       item.name,
       item.sample_rate,
       item.lat,
       item.lon,
       item.elev,
-      item.loc,
-      item.station_code,
-      item.network,
+      item.loc?.toUpperCase(),
+      item.station_code?.toUpperCase(),
+      item.network?.toUpperCase(),
       item.starttime,
-      item.endtime
+      item.endtime,
+      item.nslc?.toUpperCase()
     );
   }
 }

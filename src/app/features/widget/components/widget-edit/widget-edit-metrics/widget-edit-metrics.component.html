@@ -1,0 +1,30 @@
+<div class="edit-body">
+  <div id="metric-header" class="row">
+    <input
+      type="text"
+      class="metric-filter"
+      placeholder="Filter by metric name..."
+      (keyup)="updateFilter($event)"
+    />
+    <div class="help-text">
+      Select at least {{ minLength }} metric{{ minLength > 1 ? "s" : "" }}.
+    </div>
+    <div class="help-text"></div>
+  </div>
+  <ngx-datatable
+    id="metric-select-table"
+    #metricTable
+    class="material"
+    [rows]="rows"
+    [columns]="columns"
+    [headerHeight]="30"
+    [columnMode]="ColumnMode.flex"
+    [footerHeight]="30"
+    rowHeight="auto"
+    [selected]="selected"
+    [selectionType]="SelectionType.multiClick"
+    [selectAllRowsOnPage]="false"
+    (select)="metricsSelected($event)"
+  >
+  </ngx-datatable>
+</div>

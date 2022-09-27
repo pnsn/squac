@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { OrganizationsService } from "@features/user/services/organizations.service";
+import { OrganizationService } from "@user/services/organization.service";
 import { ngMocks, MockBuilder } from "ng-mocks";
 import { OrganizationPipe } from "./organization.pipe";
 
@@ -7,11 +7,11 @@ describe("OrganizationPipe", () => {
   ngMocks.faster();
   let orgService;
   beforeAll(() => {
-    return MockBuilder(OrganizationPipe).mock(OrganizationsService);
+    return MockBuilder(OrganizationPipe).mock(OrganizationService);
   });
 
   beforeEach(() => {
-    orgService = TestBed.inject(OrganizationsService);
+    orgService = TestBed.inject(OrganizationService);
   });
 
   it("create an instance", () => {

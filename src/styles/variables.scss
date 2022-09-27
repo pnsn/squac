@@ -6,7 +6,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 
 $squac-ui-primary: mat.define-palette($mat-sqblue, 500, 300, 700);
-$squac-ui-accent: mat.define-palette($mat-sqyellow, 500, 900, A100);
+$squac-ui-accent: mat.define-palette($mat-sqyellow, 500, 300, 700);
 $squac-ui-neutral: mat.define-palette($mat-sqgray, 300, 50, 600);
 
 // The warn palette is optional (defaults to red).
@@ -33,3 +33,7 @@ $sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral, darker);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
 $sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, lighter);
 $sq-warn: mat.get-color-from-palette($squac-ui-warn);
+
+$default-border: 1px solid darken($sq-lt-gray, 10);
+$light-border: 1px solid $sq-lt-gray;
+$default-shadow: 0px 0px 4px $sq-gray;

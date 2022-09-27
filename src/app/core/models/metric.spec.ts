@@ -33,7 +33,7 @@ describe("Metric", () => {
       updated_at: "string",
       default_minval: 2,
       default_maxval: 3,
-      user_id: "string",
+      user: 1,
       reference_url: "string",
       sample_rate: 1,
     };

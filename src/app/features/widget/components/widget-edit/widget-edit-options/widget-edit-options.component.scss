@@ -1,0 +1,93 @@
+@import "variables";
+
+.edit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+#thresholds-table {
+  width: 100%;
+
+  th,
+  td {
+    text-align: left;
+  }
+  .large {
+    width: 100%;
+  }
+  .small {
+    max-width: 100px;
+    mat-form-field {
+      max-width: 100px;
+    }
+  }
+}
+.default {
+  cursor: default;
+}
+
+.threshold {
+  cursor: text;
+  width: 100%;
+}
+
+.radio-button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  mat-radio-button {
+    margin: 3px 0px;
+  }
+}
+.indicator {
+  display: inline-block;
+  border: solid 1px black;
+  height: 10px;
+}
+.body-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px 10px;
+  justify-content: flex-start;
+}
+.metric-select-container {
+  height: 35px;
+}
+.head-row {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.label {
+  margin-bottom: 5px;
+}
+
+mat-select-trigger {
+  .gradient-indicator {
+    @extend .indicator;
+    width: 100%;
+  }
+
+  .color-indicator {
+    @extend .indicator;
+    width: 100%;
+  }
+}
+mat-option {
+  .gradient-indicator {
+    @extend .indicator;
+    width: 50%;
+  }
+
+  .color-indicator {
+    @extend .indicator;
+    width: 10px;
+    margin-right: 5px;
+  }
+}

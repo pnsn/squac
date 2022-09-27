@@ -1,32 +1,30 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { UserService } from "@features/user/services/user.service";
-import { MockUserService } from "@features/user/services/user.service.mock";
-import { MaterialModule } from "@shared/material.module";
-import { SharedModule } from "@shared/shared.module";
+import { UserService } from "@user/services/user.service";
 
 import { UserSettingsComponent } from "./user-settings.component";
+import { MockBuilder } from "ng-mocks";
+import { MessageService } from "@core/services/message.service";
+import { UserModule } from "@features/user/user.module";
 
 describe("UserSettingsComponent", () => {
   let component: UserSettingsComponent;
   let fixture: ComponentFixture<UserSettingsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [UserSettingsComponent],
-      providers: [
-        { provide: UserService, useClass: MockUserService },
-        { provide: ActivatedRoute, useValue: {} },
-      ],
-      imports: [
-        SharedModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        MaterialModule,
-      ],
-    }).compileComponents();
+  beforeEach(() => {
+    return MockBuilder(UserSettingsComponent, UserModule)
+      .mock(UserService)
+      .mock(MessageService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            data: {
+              user: {},
+            },
+          },
+        },
+      });
   });
 
   beforeEach(() => {

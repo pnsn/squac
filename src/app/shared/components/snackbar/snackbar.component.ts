@@ -5,9 +5,8 @@ import {
 } from "@angular/material/snack-bar";
 
 @Component({
-  selector: "app-snackbar",
+  selector: "shared-snackbar",
   templateUrl: "./snackbar.component.html",
-  styleUrls: ["./snackbar.component.scss"],
 })
 export class SnackbarComponent implements OnInit {
   message: string;
@@ -24,7 +23,7 @@ export class SnackbarComponent implements OnInit {
     this.action = this.data.action;
   }
 
-  dismiss() {
+  dismiss(): void {
     this.matSnackBarRef.dismiss();
   }
 }

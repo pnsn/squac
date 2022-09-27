@@ -2,8 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { AbilityModule } from "@casl/angular";
 import { defineAbilitiesFor, AppAbility } from "./ability";
 import { Ability, PureAbility } from "@casl/ability";
-import { User } from "@features/user/models/user";
-import { Dashboard } from "@features/dashboards/models/dashboard";
+import { User } from "@user/models/user";
+import { Dashboard } from "@dashboard/models/dashboard";
 
 describe("Ability", () => {
   let testAbility: Ability;
@@ -75,8 +75,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 
@@ -92,8 +91,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 
@@ -109,8 +107,7 @@ describe("Ability", () => {
       "description",
       true,
       false,
-      1,
-      []
+      1
     );
     testAbility.update(defineAbilitiesFor(testUser));
 

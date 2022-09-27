@@ -7,6 +7,7 @@ import { OrganizationDetailComponent } from "./components/organization-detail/or
 import { OrganizationResolver } from "./organization.resolver";
 import { UserSettingsComponent } from "./components/user-settings/user-settings.component";
 import { OrganizationsViewComponent } from "./components/organizations-view/organizations-view.component";
+import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
 
 // TODO: fix this weird routing set up
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
     resolve: {
       user: UserResolver,
     },
+    canActivate: [AuthGuard],
     component: UserComponent,
     children: [
       {
@@ -29,17 +31,26 @@ export const routes: Routes = [
       {
         path: "organizations",
         component: OrganizationsViewComponent,
-        resolve: {
-          organizations: OrganizationResolver,
-        },
       },
       {
         path: "organizations/:orgId",
-        canActivate: [AuthGuard],
+
         component: OrganizationDetailComponent,
+        runGuardsAndResolvers: "always",
         resolve: {
           organization: OrganizationResolver,
         },
+
+        children: [
+          {
+            path: "user/:userId/edit",
+            component: OrganizationEditEntryComponent,
+          },
+          {
+            path: "user/new",
+            component: OrganizationEditEntryComponent,
+          },
+        ],
       },
     ],
   },

@@ -2,15 +2,13 @@ import { Injectable } from "@angular/core";
 import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { UserService } from "@features/user/services/user.service";
-import { LoadingService } from "./loading.service";
+import { UserService } from "@user/services/user.service";
 import { ConfigurationService } from "./configuration.service";
 
+// Handles log in logic and API requests for login
 @Injectable({
   providedIn: "root",
 })
-
-// Handles log in logic and API requests for login
 export class AuthService {
   private url = "user/token/";
 
@@ -22,8 +20,7 @@ export class AuthService {
     private router: Router,
     private squacApi: SquacApiService,
     private userService: UserService,
-    private loadingService: LoadingService,
-    private configService: ConfigurationService
+    configService: ConfigurationService
   ) {
     this.expirationTime = configService.getValue("userExpirationTimeHours", 6);
   }
@@ -46,10 +43,11 @@ export class AuthService {
       tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem("userData"));
 
-    // if no data or the expiration date has passed
+    // Don't log in if no auth data or is expired
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
     } else {
+      // set remaining time until expire
       const expirationDuration =
         new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
 
@@ -66,7 +64,6 @@ export class AuthService {
       })
       .pipe(
         tap((resData) => {
-          // TODO: Get expiration time from Jon
           this.handleAuth(resData.token, this.expirationTime);
 
           if (this.redirectUrl) {
@@ -92,17 +89,6 @@ export class AuthService {
     }
   }
 
-  // TODO: add idle timeout instead of token expiration
-  // Removed token expiration for test users
-
-  // Logs out user after expiration time passes
-  autologout(_expirationDuration: number) {
-    // console.log('expires in (Minutes)', expirationDuration / (1000 * 60));
-    // this.tokenExpirationTimer = setTimeout(() => {
-    //   this.logout();
-    // }, expirationDuration);
-  }
-
   // after login, save user data
   private handleAuth(token: string, expiresIn: number) {
     const msToExpire = expiresIn * 60 * 60 * 1000;
@@ -118,9 +104,7 @@ export class AuthService {
   }
 
   // handles the sign in
-  private signInUser(token, expiration) {
-    this.autologout(expiration);
+  private signInUser(token, _expiration) {
     this.token = token;
-    this.loadingService.setStatus("Logging in and loading data.");
   }
 }

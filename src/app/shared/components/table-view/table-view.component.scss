@@ -1,30 +1,19 @@
 #table-view-container {
   width: 100%;
-  height: 100%;
-  // box-shadow: 0 1px 1px 0;
-  margin: 10px;
   #table-head {
-    padding: 10px 20px 5px 20px;
-    h2 {
-      margin-top: 5px;
-      span {
-        font-weight: 400;
-        font-size: inherit;
-      }
-    }
+    padding: 5px 10px;
     #controls,
     #filters {
-      padding: 4px 0px;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: flex-end;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .row {
+      gap: 5px;
     }
   }
   #table-body {
+    height: 100%;
   }
-
   ngx-datatable {
     width: 100%;
     height: 100%;

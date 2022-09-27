@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable, of } from "rxjs";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { Ability } from "@casl/ability";
 
 @Injectable({
@@ -19,7 +19,6 @@ export class PermissionGuard implements CanActivate {
     //   return this.userService.user.pipe(
     //     switchMap(
     //       user => {
-    //         console.log(subject, action, this.ability.can(action, subject));
     //         return of(this.ability.can(action, subject));
     //       }
     //     ),

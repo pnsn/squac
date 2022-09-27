@@ -1,0 +1,72 @@
+<shared-table-view
+  title="Alerts (last day)"
+  [isLoading]="loadingService.isLoading(this)"
+  [options]="options"
+  [rows]="rows"
+  [columns]="columns"
+  [controls]="controls"
+  [filters]="filters"
+  (refresh)="refresh()"
+>
+  <ng-container tableBody>
+    <ng-template let-row="row" #stateTemplate>
+      <a
+        *ngIf="row.inAlarm"
+        mat-icon-button
+        color="accent"
+        aria-label="monitor in alarm"
+      >
+        <mat-icon>error_outline</mat-icon>
+      </a>
+      <a
+        *ngIf="!row.inAlarm"
+        mat-icon-button
+        color="primary"
+        aria-label="
+                monitor not in alarm
+              "
+      >
+        <mat-icon>check_circle_outline</mat-icon>
+      </a>
+    </ng-template>
+    <ng-template let-row="row" #updateTemplate>
+      <div>
+        {{ row.inAlarm ? "in alarm" : "out of alarm" }}
+      </div>
+      <div>
+        {{ row.timestamp | date: "short" }}
+      </div>
+    </ng-template>
+    <ng-template
+      #triggerTemplate
+      let-value="value"
+      let-row="row"
+      ngx-datatable-cell-template
+    >
+      values for
+      <span *ngIf="value.num_channels_operator !== '=='">
+        {{ value.num_channels_operator }}
+      </span>
+      {{ value.num_channels }} channel(s) in
+      {{ row.monitor.channelGroup.name }} are {{ value.value_operator }}
+      {{ value.val1 }}
+      <span *ngIf="value.val2"> and {{ value.val2 }} </span>
+    </ng-template>
+    <ng-template
+      #channelsTemplate
+      let-value="value"
+      let-row="row"
+      ngx-datatable-cell-template
+    >
+      <ul>
+        <li *ngFor="let chan of value">
+          <span>
+            {{ chan.channel }}
+            {{ row.monitor.stat }}: {{ chan[row.monitor.stat] }}
+          </span>
+        </li>
+      </ul>
+    </ng-template>
+  </ng-container>
+</shared-table-view>
+<router-outlet></router-outlet>

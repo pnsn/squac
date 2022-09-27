@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
-import { User } from "@features/user/models/user";
+import { User } from "@user/models/user";
 
 @Component({
   selector: "app-home",
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // get user for header
     if (this.route.snapshot.data.user) {
       this.user = this.route.snapshot.data.user;
     } else {

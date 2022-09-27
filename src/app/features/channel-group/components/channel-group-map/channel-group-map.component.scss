@@ -1,0 +1,48 @@
+@import "variables";
+#map-container {
+  height: 100%;
+  width: 100%;
+  #map {
+    flex-grow: 1;
+  }
+}
+
+.map-icon {
+  height: 9px !important;
+  width: 9px !important;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+:host ::ng-deep .original-channels {
+  @extend .map-icon;
+  background-color: $sq-yellow !important;
+}
+:host ::ng-deep .searched-channels {
+  @extend .map-icon;
+  background-color: white !important;
+}
+
+:host ::ng-deep .new-channels {
+  @extend .map-icon;
+  background-color: $sq-blue !important;
+}
+:host ::ng-deep .included-channels {
+  @extend .map-icon;
+  background-color: $sq-yellow !important;
+}
+:host ::ng-deep .excluded-channels {
+  @extend .map-icon;
+  background-color: $sq-gray !important;
+}
+
+.channel-list {
+  div.map-icon {
+    display: inline-block;
+    margin-right: 3px;
+  }
+}
+
+span {
+  padding-left: 5px;
+}

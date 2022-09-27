@@ -1,0 +1,24 @@
+<mat-form-field
+  id="search-filter"
+  style="min-width: 250px"
+  appearance="outline"
+  class="dense-form-field"
+>
+  <span matPrefix><mat-icon>search</mat-icon></span>
+  <input
+    type="text"
+    matInput
+    [placeholder]="config?.text"
+    (keyup)="update($event)"
+    [(ngModel)]="searchString"
+  />
+  <button
+    *ngIf="searchString"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="remove()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>

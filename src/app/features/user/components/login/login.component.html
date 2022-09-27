@@ -1,52 +1,59 @@
-<h1>Sign In</h1>
-<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div *ngIf="error">
+<div class="column centered">
+  <h1>Sign In</h1>
+  <span *ngIf="error" class="error">
     {{ error }}
-  </div>
-  <mat-form-field appearance="outline">
-    <mat-label> Email </mat-label>
-    <input
-      matInput
-      type="email"
-      id="email"
-      formControlName="email"
-      placeholder="Email"
-      name="email"
-      required
-    />
-  </mat-form-field>
+  </span>
+  <span *ngIf="message" class="info">
+    {{ message }}
+  </span>
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label> Email </mat-label>
+      <input
+        matInput
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Email"
+        name="email"
+        required
+      />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label> Password </mat-label>
-    <input
-      matInput
-      formControlName="password"
-      appearance="outline"
-      placeholder="Password"
-      [type]="hide ? 'password' : 'text'"
-      name="password"
-      required
-    />
+    <mat-form-field appearance="outline">
+      <mat-label> Password </mat-label>
+      <input
+        matInput
+        formControlName="password"
+        appearance="outline"
+        placeholder="Password"
+        [type]="hide ? 'password' : 'text'"
+        name="password"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
     <button
-      mat-icon-button
-      matSuffix
-      type="button"
-      (click)="hide = !hide"
-      [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hide"
+      class="login-button"
+      mat-flat-button
+      color="accent"
+      type="submit"
+      [disabled]="!loginForm.valid"
     >
-      <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      Sign In
     </button>
-  </mat-form-field>
+  </form>
   <a [routerLink]="['password-reset']" id="forgot-password">
     Forgot your password?
   </a>
-  <button
-    mat-flat-button
-    color="accent"
-    type="submit"
-    [disabled]="!loginForm.valid"
-  >
-    Sign In
-  </button>
-</form>
+</div>

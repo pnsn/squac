@@ -1,8 +1,6 @@
 @import "variables";
 
 #auth-container {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
 }
 #auth-header {
@@ -25,26 +23,6 @@
   width: 320px;
   margin-top: 200px;
   z-index: 1;
-  padding: 20px;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    mat-form-field {
-      margin-top: 15px;
-    }
-    .mat-form-field-wrapper {
-      margin: 0.12em 0;
-    }
-    #forgot-password {
-      align-self: flex-start;
-      margin-bottom: 15px;
-    }
-  }
-}
-
-#forgot-password,
-#no-acct {
-  color: $sq-dk-gray;
-  font-size: 0.9rem;
+  padding: 15px 30px;
+  align-items: stretch;
 }

@@ -11,6 +11,7 @@ interface ConfirmDialogOptions {
   confirmText: string;
 }
 
+// Manages confirmation dialogs
 @Injectable({
   providedIn: "root",
 })

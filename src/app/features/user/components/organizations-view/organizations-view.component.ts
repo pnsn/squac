@@ -1,25 +1,53 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Organization } from "@features/user/models/organization";
-import { Subscription } from "rxjs";
+import { LoadingService } from "@core/services/loading.service";
+import { OrganizationService } from "@features/user/services/organization.service";
+import { Organization } from "@user/models/organization";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 
 @Component({
-  selector: "app-organizations-view",
+  selector: "user-organizations-view",
   templateUrl: "./organizations-view.component.html",
   styleUrls: ["./organizations-view.component.scss"],
 })
 export class OrganizationsViewComponent implements OnInit, OnDestroy {
   organizations: Organization[];
-  orgSub: Subscription;
-  constructor(public route: ActivatedRoute) {}
+  subscription = new Subscription();
+  constructor(
+    public route: ActivatedRoute,
+    public loadingService: LoadingService,
+    private organizationsService: OrganizationService
+  ) {}
 
   ngOnInit(): void {
-    this.orgSub = this.route.data.subscribe((data) => {
-      this.organizations = data.organizations;
-    });
+    const orgSub = this.route.params
+      .pipe(
+        tap(() => {
+          // this.error = false;
+        }),
+        switchMap(() => {
+          return this.fetchData();
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(orgSub);
+  }
+
+  fetchData() {
+    return this.loadingService
+      .doLoading(this.organizationsService.getOrganizations(), this)
+      .pipe(
+        tap((results) => {
+          this.organizations = results;
+        }),
+        catchError(() => {
+          return EMPTY;
+        })
+      );
   }
 
   ngOnDestroy(): void {
-    this.orgSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

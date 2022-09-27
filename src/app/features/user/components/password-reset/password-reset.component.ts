@@ -4,16 +4,11 @@ import { PasswordResetService } from "../../services/password-reset.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "app-password-reset",
+  selector: "user-password-reset",
   templateUrl: "./password-reset.component.html",
   styleUrls: ["./password-reset.component.scss"],
 })
 export class PasswordResetComponent implements OnInit {
-  constructor(
-    private passwordResetService: PasswordResetService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
   emailSent = false; // has email been sent
   tokenValidated = false; // has token been validated
   error: string; // error message
@@ -21,14 +16,19 @@ export class PasswordResetComponent implements OnInit {
   attempts = 0; // soft block for too many
   token: string; // the token
 
+  // set up forms
   email = new FormControl("", [Validators.required, Validators.email]);
-
   newPassword = new FormControl("", [
     Validators.required,
     Validators.minLength(6),
   ]);
-
   passwordConfirm = new FormControl("", [Validators.required]);
+
+  constructor(
+    private passwordResetService: PasswordResetService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -42,7 +42,8 @@ export class PasswordResetComponent implements OnInit {
     });
   }
 
-  sendEmail() {
+  // send user email to reset password
+  sendEmail(): void {
     if (this.attempts > 4) {
       this.error = "Too many attempts, contact pnsn@uw.edu to reset password";
     }
@@ -57,16 +58,19 @@ export class PasswordResetComponent implements OnInit {
     );
   }
 
-  resendEmail() {
+  // try sending again
+  resendEmail(): void {
     this.emailSent = false;
     this.tokenValidated = false;
   }
 
-  sendToken(token: string) {
+  // tell squac to send token
+  sendToken(token: string): void {
     this.passwordResetService.validateToken(token).subscribe(
       (response) => {
         // go to next step
         this.tokenValidated = !!response;
+        this.error = "";
       },
       (error) => {
         this.error = error;
@@ -74,7 +78,8 @@ export class PasswordResetComponent implements OnInit {
     );
   }
 
-  confirmPassword() {
+  // check passwords match
+  confirmPassword(): void {
     const password1 = this.newPassword.value;
     const password2 = this.passwordConfirm.value;
 
@@ -84,6 +89,7 @@ export class PasswordResetComponent implements OnInit {
     this.passwordResetService.confirmPassword(password1).subscribe(
       () => {
         this.router.navigate(["/login"]);
+        this.error = "";
       },
       (error) => {
         this.error = error;

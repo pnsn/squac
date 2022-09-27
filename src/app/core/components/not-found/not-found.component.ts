@@ -10,10 +10,10 @@ import { filter } from "rxjs/operators";
 export class NotFoundComponent {
   previousUrl;
   constructor(router: Router) {
+    // listen for navigation end events to show last url
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        console.log("prev:", event.url);
         this.previousUrl = event.url;
       });
   }

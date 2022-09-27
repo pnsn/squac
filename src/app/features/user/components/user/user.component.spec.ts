@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { UserComponent } from "./user.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";

@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync } from "@angular/core/testing";
 
 import { PermissionGuard } from "./permission.guard";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";

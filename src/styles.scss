@@ -1,15 +1,15 @@
-@import "./styles/variables.scss";
-@import "~@swimlane/ngx-datatable/index.css";
-@import "~@swimlane/ngx-datatable/themes/material.scss";
-@import "~@swimlane/ngx-datatable/assets/icons.css";
-// @import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
+@import "./styles/mixins.scss";
+
+@import "~@boring.devs/ngx-datatable/index.css";
+@import "~@boring.devs/ngx-datatable/assets/icons.css";
+// @import "~@boring.devs/ngx-datatable/themes/material.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet-draw/dist/leaflet.draw.css";
-
+@import "./styles/datatables.scss";
+@import "./styles/material.scss";
+@import "./styles/date-range-picker.scss";
 /* You can add global styles to this file, and also import other style files */
-
 // @include date-range-picker-theme($squac-ui-theme);
-
 * {
   margin: 0;
   padding: 0;
@@ -25,33 +25,99 @@ body {
 
 body {
   margin: 0;
-  // background-color: darken($sq-lt-gray, 5);
+  background-color: darken($sq-lt-gray, 5);
+}
+.body-content-container {
+  width: 100%;
+  height: calc(100% - 50px);
+  margin: 10px 1% 0;
+  @include md {
+    margin: 10px 2% 0;
+    width: 96%;
+  }
+  @include lg {
+    margin: 10px 4% 0;
+    width: 92%;
+  }
+}
+
+#dashboard-container {
+  // margin: -10px -1% 0;
+  // @include md {
+  //   margin: -10px -2% 0;
+  // }
+  // @include lg {
+  //   margin: -10px -4.25% 0;
+  // }
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 /* Background color */
 
-.blue {
+.blue-background {
   background-color: $sq-blue;
 }
 
-.gray-background {
+.lt-gray-background {
   background-color: $sq-lt-gray;
 }
 
-// body {
-//   background-color:$sq-lt-gray;
-// }
+.gray-background {
+  background-color: $sq-gray;
+}
+
+.white-background {
+  background-color: white;
+}
+
+.blue,
+.primary,
+.default {
+  color: $sq-blue;
+}
+.lt-gray {
+  color: $sq-lt-gray;
+}
+.gray {
+  color: $sq-gray;
+}
+.dk-gray,
+.info {
+  color: $sq-dk-gray;
+}
+.dk-blue {
+  color: $sq-dk-blue;
+}
+.warn,
+.error {
+  color: $sq-warn;
+}
+.accent,
+.alert {
+  color: $sq-yellow;
+}
+
+.gray-border {
+  border: $default-border;
+}
+
+.lt-gray-border {
+  border: $light-border;
+}
 
 /* Text styles */
 
 h1 {
-  margin-top: 15px;
+  margin-top: 0px;
   font-size: 1.6rem;
   font-weight: 600;
 }
 
 h2 {
-  margin-top: 25px;
+  margin-top: 0px;
   font-size: 1.4rem;
   font-weight: 600;
 }
@@ -69,331 +135,195 @@ h4 {
 }
 
 p {
-  margin-top: 25px;
+  margin-top: 10px;
   font-size: 1rem;
   font-weight: 400;
 }
 
-// .unselect-links {
-//   font-size: 1.3rem;
-//   color: white;
-//   font-weight: 400;
-// }
+//shared flex styling
+.row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+}
 
-// .select-links {
-//   font-size: 1.3rem;
-//   color: $sq-lt-blue;
-//   font-weight: 600;
-// }
-
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.centered {
+  align-items: center;
+  justify-content: center;
+}
+.space-between {
+  align-items: center;
+  justify-content: space-between;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+//text styling
 .help-text {
   font-size: 0.9rem;
   font-weight: 300;
-  margin-top: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+.warn-text {
+  @extend .help-text;
+  font-weight: 300;
+  color: $sq-warn;
+}
+.emphasis-text {
+  @extend .help-text;
+  font-weight: 400;
+  color: $sq-dk-blue;
 }
 
-.mat-button,
-.mat-flat-button {
-  border-radius: 0 !important;
+a[disabled] {
+  pointer-events: none;
 }
 
-/* Button styling on headers */
-.btn-container-right {
-  float: right;
-
-  button {
-    margin-left: 15px;
-  }
+a {
+  color: $sq-dk-gray;
+  font-size: 0.9rem;
 }
 
-/* Button styling on forms */
-.btn-container button {
-  margin-top: 15px;
-  margin-right: 25px;
-}
-
-.form {
-  text-align: center;
-
-  .form-group {
-    text-align: left;
-    margin-bottom: 30px;
-
-    label {
-      margin-top: 25px;
-    }
-
-    input,
-    textarea {
-      width: 300px;
-      line-height: 2em;
-      border: 1px solid $sq-gray;
-      border-radius: 5px;
-      padding-left: 5px;
-    }
-  }
+.box-shadow {
+  box-shadow: $default-shadow;
 }
 
 /* Box containers for widgets */
 
 .box {
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  align-items: center;
+  @extend .gray-border;
+  @extend .white-background;
+  @extend .box-shadow;
   background-color: white;
-  border: 1px solid $sq-gray;
-  border-radius: 2px;
   overflow: hidden;
 }
 
-.square-box {
-  text-align: center;
-  background-color: white;
-  border: 1px solid $sq-gray;
-}
-
-.border-shadow {
-  box-shadow: -1px 1px 2px $sq-lt-gray, 1px 1px 2px $sq-lt-gray;
-  border: 1px solid darken($sq-lt-gray, 10);
-}
-
-/* Popup formatting */
-.popup {
-  position: fixed;
-  z-index: 15;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
 .hidden {
-  display: none;
+  display: none !important;
 }
 
-.popup-box {
-  z-index: 16;
-  margin: 200px auto;
-  width: 450px;
-  padding: 10px;
-
-  p {
-    margin: 5px;
-  }
-}
-
-/* Data Table*/
-datatable-scroller {
-  width: 100% !important;
-  border-bottom: 0px !important;
-}
-
-ngx-datatable {
-  width: 100% !important;
-  button.datatable-tree-button.ng-star-inserted {
-    border: 1px solid $sq-lt-gray;
-    background-color: transparent;
-    margin-right: 5px;
-    border-radius: 5px;
-    width: 20px;
-    height: 20px;
-    &:hover {
-      color: $sq-blue;
-    }
-  }
-  &.ngx-datatable.material {
-    box-shadow: unset;
-  }
-  .datatable-header-cell {
-    padding: 5px !important;
-    white-space: normal !important;
-  }
-
-  .datatable-body-cell,
-  .datatable-body-row {
-    padding: 1px 3px !important;
-    white-space: normal !important;
-    line-height: 1.25 !important;
-  }
-}
-
-ngx-datatable.shared-view-table {
-  .datatable-body {
-    max-height: 80vh;
-    overflow-y: scroll;
-  }
-
-  a {
-    color: $sq-blue;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  $default-border: 1px solid darken($sq-lt-gray, 10);
-  $light-border: 1px solid $sq-lt-gray;
-  datatable-header {
-    background-color: $sq-lt-gray;
-    border-top: $default-border;
-    border-bottom: $default-border;
-    .datatable-row-center {
-      datatable-header-cell {
-        border-left: $default-border;
-        border-collapse: collapse;
-        line-height: unset !important;
-        .datatable-header-cell-wrapper {
-          padding: 0px 5px;
-          .datatable-header-cell-label {
-            font-weight: bold;
-          }
-        }
-        .sort-btn {
-          float: right;
-        }
-      }
-      datatable-header-cell:nth-child(1) {
-        border-left: none;
-      }
-    }
-  }
-  datatable-footer {
-    border-top: $default-border;
-    .datatable-footer-inner {
-      .page-count {
-        display: inline-block;
-        padding: 0px 10px;
-      }
-    }
-  }
-  datatable-row-wrapper {
-    .datatable-group-header {
-      text-align: center;
-      background-color: rgba(255, 255, 255, 0.589) !important;
-      padding: 5px 10px !important;
-      border-top: $default-border;
-      border-bottom: $default-border;
-    }
-    .datatable-body-cell,
-    .datatable-body-row {
-      font-weight: lighter;
-      padding: 2px 8px !important;
-      white-space: normal !important;
-      line-height: 1.25 !important;
-    }
-    .datatable-body-row {
-      border-bottom: $light-border;
-    }
-  }
-}
-
-.datatable-row-detail {
+.form {
+  @extend .column;
   width: 100%;
-}
-
-.ngx-datatable.material {
-  .datatable-header {
-    .datatable-header-cell {
-      font-weight: 700;
-      color: black;
-    }
+  align-items: flex-start;
+  span {
+    white-space: pre;
   }
 }
 
-.datatable-body-row.active,
-.datatable-body-row.active .datatable-row-group {
-  background-color: $sq-lt-blue !important;
-}
-.datatable-body-row.active:hover,
-.datatable-body-row.active:hover .datatable-row-group {
-  background-color: darken($sq-lt-blue, 15%) !important;
-}
-.datatable-body-row:hover,
-.datatable-body-row:hover .datatable-row-group {
-  background-color: $sq-lt-gray !important;
-}
-
-// Material overrides
-.mat-list-item.active {
-  color: $sq-dk-blue;
-  background-color: $sq-lt-gray;
-}
-
-.mat-menu-dense {
-  button.mat-menu-item {
-    height: 30px !important;
-    line-height: 10px;
+.title {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  h2 {
+    display: inline-block;
+  }
+  h3 {
+    display: inline-block;
+  }
+  &.mat-dialog-title {
+    margin: 0 0 10px !important;
   }
 }
-.mat-nav-list-dense {
-  .mat-nav-list {
-    a {
-      height: 30px !important;
-    }
-  }
+.dialog-title {
+  @extend .title;
 }
-#dashboard-header {
-  background-color: $sq-lt-gray;
-}
-
-#dashboard-sidenav.mat-sidenav {
-  border-right: none;
-}
-
-#dashboard-edit-toolbar {
-  height: auto;
-}
-
-#dashboard-sidenav-content.mat-sidenav-content {
-  z-index: 3;
-  overflow: unset;
-  margin-left: 20px;
-  border-left: 1px solid $sq-gray;
-}
-
-.widget-container {
-  @extend .box;
+.header-title {
+  @extend .title;
+  @extend .lt-gray-background;
+  padding: 5px 10px;
 }
 
 .chart-tooltip {
   background-color: $sq-dk-gray !important;
 }
 
-.mat-snack-bar-themed {
-  background-color: $sq-dk-gray !important;
+.dialog-options {
+  @extend .row-reverse;
+  @extend .space-between;
+  .save {
+    margin-left: 20px;
+  }
+}
+.leaflet-custom-control {
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  border-radius: 4px;
 }
 
-ngx-daterangepicker-material {
-  // Custom css for date range picker since its all messed up
-  .md-drppicker td.active,
-  .md-drppicker td.available.in-range.active,
-  .md-drppicker td.active:hover,
-  .md-drppicker .btn:not(.btn-default),
-  .md-drppicker .ranges ul li button.active {
-    background-color: $sq-blue !important;
-    color: white !important;
-  }
-  // .md-drppicker.ltr .calendar.right { display: none; }
-  .md-drppicker .calendar-time .select .select-item {
-    font-size: unset !important;
-  }
-  .md-drppicker {
-    right: 0px !important;
-    left: auto !important;
-    width: max-content !important;
+.label {
+  display: inline-block;
+  font-weight: 600;
+  margin-right: 7px;
+}
 
-    .buttons {
-      white-space: normal !important;
-      button {
-        margin-left: 10px !important;
-      }
-    }
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
+  .loading-buffer {
+    display: none;
+  }
+  /* LoadingDirective overlay styles */
+  .loading-overlay {
+    height: 100%;
+    width: 100%;
+    background: white;
+    opacity: 0.8;
 
-    .calendar-table {
-      padding: 2px !important;
-    }
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.buffer {
+  .loading-container {
+    align-items: flex-start;
+  }
+  .loading-buffer {
+    display: block;
+  }
+  .loading-gif {
+    display: none;
+  }
+}
+.loading-gif {
+  display: inline-block;
+  img {
+    height: 100px;
+    width: 100px;
+  }
+  z-index: 10001;
+}
+
+.loading-full-screen {
+  .loading-container {
+    position: fixed;
+  }
+
+  .loading-overlay {
+    background: $sq-blue;
+    opacity: 1;
   }
 }

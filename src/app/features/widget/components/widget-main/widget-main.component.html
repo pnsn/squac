@@ -1,0 +1,40 @@
+<ng-container *ngIf="widgetItems.length > 0; else noWidgets">
+  <gridster id="dashboard-content" [options]="options">
+    <gridster-item
+      [item]="item"
+      *ngFor="let item of widgetItems; trackBy: trackBy"
+    >
+      <div class="drag-handler" *ngIf="'update' | able: item.widget"></div>
+      <widget-detail
+        class="widget-detail"
+        [widget]="item.widget"
+        [dashboards]="dashboards"
+      ></widget-detail>
+    </gridster-item>
+  </gridster>
+</ng-container>
+<shared-loading *ngIf="loading"></shared-loading>
+<ng-template #noWidgets>
+  <div id="add-widget" *ngIf="!loading && !error">
+    <p>There are currently no widgets for this dashboard.</p>
+    <button
+      mat-flat-button
+      *ngIf="canUpdate"
+      color="accent"
+      aria-label="Add widget"
+      (click)="addWidget()"
+    >
+      Add Widget
+    </button>
+  </div>
+
+  <div *ngIf="error">
+    <p>
+      {{ error }}
+    </p>
+  </div>
+</ng-template>
+
+<div id="overlay">
+  <router-outlet></router-outlet>
+</div>

@@ -4,16 +4,18 @@ import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: "app-login",
+  selector: "user-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
 
 // This component handles the login page
 export class LoginComponent implements OnDestroy {
-  error: string = null; // Has there been an error?
-  hide = true;
   subscription = new Subscription();
+  error: string = null; // Has there been an error?
+  message: string = null;
+  hide = true;
+
   loginForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
@@ -25,7 +27,7 @@ export class LoginComponent implements OnDestroy {
   ) {}
 
   // Form submit
-  onSubmit() {
+  onSubmit(): void {
     if (!this.loginForm.valid) {
       return;
     }
@@ -36,9 +38,11 @@ export class LoginComponent implements OnDestroy {
     // Send data and log user in
     const loginSub = this.loginService.login(email, password).subscribe(
       () => {
-        this.error = "Login successful.";
+        this.error = "";
+        this.message = "Login successful.";
       },
       () => {
+        this.message = "";
         this.error = "Failed to log in - please try again";
       }
     );
