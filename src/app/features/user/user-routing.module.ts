@@ -31,17 +31,16 @@ export const routes: Routes = [
       {
         path: "organizations",
         component: OrganizationsViewComponent,
-        resolve: {
-          organizations: OrganizationResolver,
-        },
       },
       {
         path: "organizations/:orgId",
 
         component: OrganizationDetailComponent,
+        runGuardsAndResolvers: "always",
         resolve: {
           organization: OrganizationResolver,
         },
+
         children: [
           {
             path: "user/:userId/edit",

@@ -1,7 +1,16 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Subject, BehaviorSubject, Observable, tap, take } from "rxjs";
+import {
+  Subject,
+  BehaviorSubject,
+  Observable,
+  tap,
+  switchMap,
+  of,
+  distinctUntilChanged,
+  catchError,
+} from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Widget } from "@widget/models/widget";
@@ -11,37 +20,52 @@ import { Ability } from "@casl/ability";
 import { MessageService } from "./message.service";
 import { DateService } from "./date.service";
 import { Channel } from "@core/models/channel";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroup } from "@core/models/channel-group";
+import { LoadingService } from "./loading.service";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: "root",
 })
 export class ViewService {
   // handle refreshing
-  channels = new BehaviorSubject<Channel[]>(null);
+  channels = new BehaviorSubject<Channel[]>([]); //actual channels used
+  private _channelsList: FormGroup; //{ 'SCNL': boolean }
+  private _channels: Channel[] = []; //all available channels
+  private _channelGroupId: number;
+  channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
   updateData = new Subject<number>();
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();
-  status = new BehaviorSubject<string>("loading"); // loading, error, finished
   error = new BehaviorSubject<string>(null);
+  loadingCount = 0;
   private autoRefresh: boolean;
   // refresh = new Subject<number>();
-  private dashboard: Dashboard;
+
+  private _dashboard: Dashboard;
   dateRanges;
   queuedWidgets = 0;
   locale;
   defaultTimeRange;
-
+  hasUnsavedChanges = false;
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
     private ability: Ability,
     private dateService: DateService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private channelGroupService: ChannelGroupService,
+    private loadingService: LoadingService
   ) {
     this.dateRanges = this.dateService.dateRanges;
     this.defaultTimeRange = this.dateService.defaultTimeRange;
+  }
+
+  get dashboard(): Dashboard {
+    return this._dashboard;
   }
 
   // returns if current user can update the current dashboard
@@ -57,20 +81,6 @@ export class ViewService {
   // returns the dashboard time range
   get range(): number {
     return this.dashboard?.properties.timeRange;
-  }
-
-  // get channels as commas separated string
-  get channelsString(): string {
-    let str = "";
-    this.channels.pipe(take(1)).subscribe((channels) => {
-      channels.forEach((channel, i) => {
-        str += channel.id;
-        if (i !== channels.length - 1) {
-          str += ",";
-        }
-      });
-    });
-    return str;
   }
 
   // returns the dashboard starttime
@@ -98,6 +108,11 @@ export class ViewService {
     return endTime;
   }
 
+  // get all available channels
+  get allChannels(): Channel[] {
+    return [...this._channels];
+  }
+
   //get amount of time between start and end
   getTimeSpan(unit: any): number {
     const start = this.dateService.parseUtc(this.startTime);
@@ -120,31 +135,97 @@ export class ViewService {
     this.currentWidgets.next([]);
     // clear old widgets
     this.queuedWidgets = 0;
-    this.dashboard = dashboard;
-    this.updateChannels(dashboard.channelGroup?.channels);
-    if (!dashboard.widgetIds || dashboard.widgetIds.length === 0) {
-      this.status.next("finished");
-    }
+    this._dashboard = dashboard;
 
     this.setIntialDates();
     // return dates
   }
 
-  // send out new channels
-  updateChannels(channels: Channel[]) {
-    this.channels.next(channels);
+  updateChannelGroup(channelGroupId: number) {
+    this._channelGroupId = channelGroupId;
+    this.hasUnsavedChanges = true;
   }
 
-  setDashboardById(id): Observable<Dashboard> {
-    this.status.next("loading");
-    return this.dashboardService.getDashboard(id).pipe(
+  getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
+    return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
+      distinctUntilChanged(),
+      tap((group) => {
+        this._channels = group.channels;
+        this.dashboard.channelGroupId = group.id;
+        this._channelGroupId = group.id;
+      }),
+      catchError((error) => {
+        return of(null);
+      })
+    );
+  }
+
+  // { NSLC : true/false} from channel select
+  updateChannels(list: FormGroup) {
+    this._channelsList = list;
+    this.hasUnsavedChanges = true;
+  }
+
+  // filter _channels that are true in channelsList
+  // if no filter list, return all channels
+  private filterChannels() {
+    return this._channelsList
+      ? this._channels.filter((c) => {
+          return this._channelsList[c.nslc];
+        })
+      : [...this._channels];
+  }
+
+  // send updates and reset values
+  updateDashboard(): void {
+    //get new channelgroup info if its changed
+    if (this._channelGroupId !== this.dashboard.channelGroupId) {
+      this.dashboard.channelGroupId = this._channelGroupId;
+      this.loadingService
+        .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
+        .subscribe(() => {
+          this.sendUpdate();
+        });
+    } else {
+      this.sendUpdate();
+    }
+  }
+
+  private sendUpdate() {
+    this.channelGroupId.next(this._channelGroupId);
+    const channels = this.filterChannels();
+
+    this.channels.next(channels);
+    this.updateData.next(this.dashboard.id);
+    this.hasUnsavedChanges = false;
+    // this._channelsList = undefined;
+    // this._channelGroupId = null;
+  }
+
+  setDashboardById(
+    dashboardId: number,
+    channelGroupId: number
+  ): Observable<ChannelGroup> {
+    console.log("set dashboards");
+    return this.dashboardService.getDashboard(dashboardId).pipe(
       tap({
         next: (dashboard) => {
           this.setDashboard(dashboard);
         },
         error: () => {
-          this.status.next("error");
+          //do something about error
         },
+      }),
+      switchMap((dashboard) => {
+        const groupId = channelGroupId || dashboard.channelGroupId;
+        if (groupId) {
+          return this.getChannelGroup(groupId);
+        } else {
+          return of(null);
+        }
+      }),
+      tap(() => {
+        this.updateDashboard();
       })
     );
   }
@@ -178,7 +259,6 @@ export class ViewService {
       range = this.defaultTimeRange;
     }
     this.datesChanged(startDate, endDate, autoRefresh, range);
-    this.updateData.next(this.dashboard.id);
   }
 
   // takes given date config and saves it, emits changed dates
@@ -189,25 +269,26 @@ export class ViewService {
     rangeInSeconds: number
   ): void {
     this.autoRefresh = autoRefresh;
-    this.dashboard.properties.timeRange = rangeInSeconds;
+    this._dashboard.properties.timeRange = rangeInSeconds;
     let startTime;
     let endTime;
     if (startDate && endDate) {
       startTime = this.dateService.format(startDate);
       endTime = this.dateService.format(endDate);
     }
-    this.dashboard.properties.startTime = startTime;
-    this.dashboard.properties.endTime = endTime;
+    this._dashboard.properties.startTime = startTime;
+    this._dashboard.properties.endTime = endTime;
+    this.hasUnsavedChanges = true;
   }
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
-    return this.dashboard.widgets?.findIndex((w) => w.id === id);
+    return this._dashboard.widgets?.findIndex((w) => w.id === id);
   }
 
   // return widget with given id
   getWidgetById(id: number): Widget {
-    return this.dashboard.widgets.find((w) => w.id === id);
+    return this._dashboard.widgets.find((w) => w.id === id);
   }
 
   // send id to resize subscribers
@@ -223,36 +304,20 @@ export class ViewService {
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
     if (this.dashboard) {
-      this.dashboard.widgets = widgets;
+      this._dashboard.widgets = widgets;
     }
   }
 
   // stores archive options
   setArchive(archiveType, archiveStat) {
-    this.dashboard.properties.archiveStat = archiveStat;
-    this.dashboard.properties.archiveType = archiveType;
-  }
-
-  // decrements count of widgets still loading
-  widgetFinishedLoading(): void {
-    this.queuedWidgets--;
-    if (this.queuedWidgets <= 0) {
-      this.status.next("finished");
-    }
-  }
-
-  // increments cound of widgets still loading
-  widgetStartedLoading(): void {
-    this.queuedWidgets++;
-    if (this.queuedWidgets > 0) {
-      this.status.next("loading");
-    }
+    this._dashboard.properties.archiveStat = archiveStat;
+    this._dashboard.properties.archiveType = archiveType;
+    this.hasUnsavedChanges = true;
   }
 
   // broadcast id of changed widget
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
-    this.status.next("finished");
     this.error.next(null);
   }
 
@@ -260,17 +325,17 @@ export class ViewService {
   updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
-      this.dashboard.widgets.splice(index, 1);
+      this._dashboard.widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
       this.widgetService.getWidget(widgetId).subscribe({
         next: (newWidget) => {
           if (index > -1) {
-            this.dashboard.widgets[index] = newWidget;
+            this._dashboard.widgets[index] = newWidget;
             this.messageService.message("Widget updated.");
           } else {
-            this.dashboard.widgets.push(newWidget);
+            this._dashboard.widgets.push(newWidget);
             this.messageService.message("Widget added.");
           }
           this.widgetChanged(newWidget.id);

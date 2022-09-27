@@ -1,14 +1,13 @@
 import {
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
-  SimpleChanges,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
-import { Observable } from "rxjs";
+import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 
@@ -17,13 +16,13 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
   templateUrl: "./channel-filter.component.html",
   styleUrls: ["./channel-filter.component.scss"],
 })
-export class ChannelFilterComponent implements OnChanges {
+export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;
-  @Input() channels: Channel[];
+  channels: Channel[] = [];
   form: FormGroup;
   timeout;
-  changed: false;
   toggledAll = true;
+  channelsSub: Subscription;
   @Output() closeSidenav = new EventEmitter<boolean>();
   constructor(
     private formBuilder: FormBuilder,
@@ -31,12 +30,19 @@ export class ChannelFilterComponent implements OnChanges {
     private viewService: ViewService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes.channels) {
-      this.initForm();
-    }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.channelsSub = this.viewService.channelGroupId
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.channels = this.viewService.allChannels;
+        this.initForm();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.channelsSub.unsubscribe();
   }
 
   initForm() {
@@ -48,7 +54,12 @@ export class ChannelFilterComponent implements OnChanges {
     const checkboxes = <FormGroup>this.form.get("checkboxes");
     checkboxes.controls = {};
     this.channels.forEach((option: any) => {
-      checkboxes.addControl(option.nslc.toUpperCase(), new FormControl(true));
+      checkboxes.addControl(option.nslc, new FormControl(true));
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      const value = <FormGroup>this.form.get("checkboxes").value;
+      this.viewService.updateChannels(value);
     });
   }
 
@@ -64,13 +75,6 @@ export class ChannelFilterComponent implements OnChanges {
   }
   toggleSidenav() {
     this.closeSidenav.emit(true);
-  }
-
-  update() {
-    const value = <FormGroup>this.form.get("checkboxes").value;
-    const channels = this.channels.filter((c) => value[c.nslc.toUpperCase()]);
-    this.viewService.updateChannels(channels);
-    this.changed = false;
   }
 
   toggleAll() {

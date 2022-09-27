@@ -134,7 +134,7 @@ export interface ApiGetWidget {
   dashboard: number;
   metrics: ApiGetMetric[];
   thresholds: string;
-  user_id: string;
+  user: number;
   properties: string;
   type: string;
   stat: string;
@@ -191,7 +191,7 @@ export class WidgetAdapter implements Adapter<Widget> {
     const stat = item.stat || item.stattype?.type;
     const widget = new Widget(
       item.id,
-      +item.user_id,
+      item.user,
       item.name,
       item.dashboard,
       metrics,

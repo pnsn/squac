@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
-import { Observable, of, switchMap } from "rxjs";
+import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { Params } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -19,12 +19,11 @@ export class DashboardService {
 
   constructor(
     private squacApi: SquacApiService,
-    private dashboardAdapter: DashboardAdapter,
-    private channelGroupService: ChannelGroupService
+    private dashboardAdapter: DashboardAdapter
   ) {}
 
   // Get all dashboards viewable by user from squac
-  getDashboards(): Observable<Dashboard[]> {
+  getDashboards(params?: Params): Observable<Dashboard[]> {
     // Fetch new dashboards if > 5 minutes since refresh
     if (
       this.lastRefresh &&
@@ -32,7 +31,7 @@ export class DashboardService {
     ) {
       return of(this.localDashboards);
     } else {
-      return this.squacApi.get(this.url).pipe(
+      return this.squacApi.get(this.url, null, params).pipe(
         map((results) =>
           results.map((r) => {
             const dashboard = this.dashboardAdapter.adaptFromApi(r);
@@ -49,24 +48,9 @@ export class DashboardService {
 
   // Gets dashboard by id from SQUAC
   getDashboard(id: number): Observable<Dashboard> {
-    let dashboard: Dashboard;
     // Fetch new dashboards if > 5 minutes since refresh
     return this.squacApi.get(this.url, id).pipe(
-      switchMap((response) => {
-        dashboard = this.dashboardAdapter.adaptFromApi(response);
-        if (dashboard.channelGroupId) {
-          return this.channelGroupService.getChannelGroup(
-            dashboard.channelGroupId
-          );
-        } else {
-          return this.channelGroupService.getChannelGroup(1);
-          // return of(null);
-        }
-      }),
-      map((channelGroup) => {
-        dashboard.channelGroup = channelGroup;
-        return dashboard;
-      }),
+      map((response) => this.dashboardAdapter.adaptFromApi(response)),
       tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
     );
   }

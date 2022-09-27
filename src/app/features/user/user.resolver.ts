@@ -15,7 +15,6 @@ export class UserResolver implements Resolve<Observable<any>> {
   ) {}
 
   resolve(): Observable<any> {
-    this.loadingService.setStatus("Loading user");
     return this.userService.getUser().pipe(catchError(this.handleError));
   }
 

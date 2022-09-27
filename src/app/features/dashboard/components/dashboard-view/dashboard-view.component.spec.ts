@@ -19,7 +19,7 @@ describe("DashboardViewComponent", () => {
       .provide({
         provide: ActivatedRoute,
         useValue: {
-          data: of(),
+          params: of(),
         },
       })
       .mock(FormsModule)

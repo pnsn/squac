@@ -18,7 +18,7 @@ describe("Network", () => {
       description: "string",
       created_at: "string",
       updated_at: "string",
-      user_id: "1",
+      user: 1,
     };
 
     const network = adapter.adaptFromApi(testData);

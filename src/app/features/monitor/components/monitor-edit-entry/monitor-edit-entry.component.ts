@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ActivatedRoute, Router, Params } from "@angular/router";
-import { Subscription } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription, switchMap } from "rxjs";
 import { Metric } from "@core/models/metric";
-import { ChannelGroup } from "@core/models/channel-group";
 import { Monitor } from "@features/monitor/models/monitor";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 
 @Component({
   selector: "monitor-edit-entry",
@@ -16,27 +16,34 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   monitorId: number;
   paramsSub: Subscription;
   metrics: Metric[];
-  channelGroups: ChannelGroup[];
+  channelGroups: any;
   monitor: Monitor;
 
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private channelGroupService: ChannelGroupService
   ) {}
 
   ngOnInit(): void {
-    this.paramsSub = this.route.params.subscribe((params: Params) => {
-      this.monitorId = +params.monitorId;
+    this.paramsSub = this.route.params
+      .pipe(
+        switchMap((params) => {
+          this.monitorId = +params.monitorId;
 
-      if (this.route.snapshot && this.route.snapshot.data) {
-        this.monitor = this.route.snapshot.data.monitor;
-        this.metrics = this.route.snapshot.data.metrics;
-        this.channelGroups = this.route.snapshot.data.channelGroups;
-      }
+          if (this.route.snapshot && this.route.snapshot.data) {
+            this.monitor = this.route.snapshot.data.monitor;
+            this.metrics = this.route.snapshot.data.metrics;
+          }
+          return this.channelGroupService.getSortedChannelGroups();
+        })
+      )
+      .subscribe((groups: any) => {
+        this.channelGroups = groups;
 
-      this.openMonitor();
-    });
+        this.openMonitor();
+      });
   }
 
   openMonitor(): void {

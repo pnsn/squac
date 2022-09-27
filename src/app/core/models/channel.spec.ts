@@ -17,6 +17,7 @@ describe("Channel", () => {
         "",
         "",
         "",
+        "",
         ""
       )
     ).toBeTruthy();
@@ -34,6 +35,7 @@ describe("Channel", () => {
       "--",
       "nlo",
       "uw",
+      "",
       "",
       ""
     );
@@ -62,9 +64,10 @@ describe("Channel", () => {
       dip: 1,
       created_at: "string",
       updated_at: "string",
-      user_id: "string",
+      user: 1,
       starttime: "string",
       endtime: "string",
+      nslc: "string.string.string.string",
     };
     const channel = adapter.adaptFromApi(testData);
     expect(channel).toBeDefined();

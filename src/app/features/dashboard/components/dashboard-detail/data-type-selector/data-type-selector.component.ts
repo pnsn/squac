@@ -42,7 +42,7 @@ export class DataTypeSelectorComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.dataType && this.dataType) {
+    if (changes.statType || changes.dataType) {
       if (this.dataType === "raw") {
         this.statType = "";
       }

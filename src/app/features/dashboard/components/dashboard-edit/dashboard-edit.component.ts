@@ -40,7 +40,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     if (this.dashboard) {
       this.channelGroupId = this.dashboard.channelGroupId;
     }
-
+    if (this.data.channelGroupId) {
+      this.channelGroupId = this.data.channelGroupId;
+    }
     this.channelGroups = this.data.channelGroups;
     this.editMode = !!this.dashboard;
     this.orgId = this.userService.userOrg;

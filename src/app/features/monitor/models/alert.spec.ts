@@ -22,7 +22,7 @@ describe("Alert", () => {
       num_channels_operator: "string", //any, ==, <, >
       created_at: "string",
       updated_at: "string",
-      user_id: "string",
+      user: 1,
       alert_on_out_of_alarm: false,
       email_list: "string", //comma separated
     };
@@ -37,7 +37,7 @@ describe("Alert", () => {
       breaching_channels: [],
       created_at: "string",
       updated_at: "ng",
-      user_id: "1",
+      user: 1,
     };
 
     const alert = adapter.adaptFromApi(testData);

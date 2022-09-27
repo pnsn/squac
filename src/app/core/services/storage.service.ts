@@ -4,5 +4,8 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class StorageService {
+  // remove
+  // update
+  //cleanup
   // interact with local storage
 }

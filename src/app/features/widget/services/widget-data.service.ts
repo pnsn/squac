@@ -4,12 +4,15 @@ import { ViewService } from "@core/services/view.service";
 import {
   Subject,
   Subscription,
-  map,
   Observable,
   switchMap,
   tap,
   filter,
   ReplaySubject,
+  catchError,
+  EMPTY,
+  map,
+  forkJoin,
 } from "rxjs";
 import { Widget } from "../models/widget";
 import { MeasurementParams, MeasurementService } from "./measurement.service";
@@ -17,22 +20,22 @@ import { Measurement, MeasurementAdapter } from "../models/measurement";
 import { Archive, ArchiveAdapter } from "../models/archive";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { Metric } from "@core/models/metric";
-import { Channel } from "@core/models/channel";
 import { WidgetType } from "../models/widget-type";
+import { LoadingService } from "@core/services/loading.service";
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
   data = new Subject();
   measurementReq: Observable<any>;
-  params = new Subject<any>();
-  $params = this.params.asObservable();
   test = new Observable<any>();
   updateTimeout;
   measurementReqSub;
   status = new ReplaySubject<string>();
-  channels: Channel[];
-
-  requestInProgress = false;
+  groupId: number;
+  params = new Subject();
+  $params = this.params.asObservable();
+  measurementsWithData: number[];
+  private nslcStrings: string[];
   private widget: Widget;
   private metrics: string;
   private type: any;
@@ -46,45 +49,94 @@ export class WidgetDataService implements OnDestroy {
     configService: ConfigurationService,
     private measurementAdapter: MeasurementAdapter,
     private archiveAdapter: ArchiveAdapter,
-    private aggregateAdapter: AggregateAdapter
+    private aggregateAdapter: AggregateAdapter,
+    private loadingService: LoadingService
   ) {
     this.refreshInterval = configService.getValue(
       "dataRefreshIntervalMinutes",
       4
     );
 
+    //listen to viewservice signal to update data
     this.measurementReq = this.$params.pipe(
       filter(() => {
         //  only make request when widget is valid
-        return this.widget && this.metrics && this.channels?.length > 0;
+        const valid =
+          !!this.widget &&
+          !!this.metrics &&
+          (!!this.groupId || this.nslcStrings?.length > 0);
+        return valid;
       }),
-      map(this.checkParams.bind(this)),
       tap(this.startedLoading.bind(this)),
-      switchMap((params: MeasurementParams) => {
-        return this.measurementService.getData(params);
+      map((): Observable<any>[] => {
+        return this.nslcStrings.map((string) => {
+          const params = this.checkParams({ nslc: string });
+          return this.measurementService.getData(params);
+        });
+      }),
+      switchMap((reqs: Observable<any>[]) => {
+        return this.loadingService.doLoading(
+          forkJoin(reqs).pipe(
+            catchError(() => {
+              this.finishedLoading({
+                error: "Failed to get measurements from SQUAC",
+              });
+              return EMPTY;
+            }),
+            map(this.mapData.bind(this))
+          ),
+          this.widget
+        );
       })
     );
 
-    this.measurementReqSub = this.measurementReq
-      .pipe(map(this.mapData.bind(this)))
-      .subscribe({
-        next: (data) => {
-          this.finishedLoading(data);
-        },
-        error: (error) => {
-          this.finishedLoading({});
-          console.error("error in fetch measurements ", error);
-        },
-      });
-
-    const channelsSub = this.viewService.channels.subscribe({
-      next: (channels) => {
-        this.channels = channels;
-        this.params.next({});
+    //destroyed after failed loadign
+    this.measurementReqSub = this.measurementReq.subscribe({
+      next: (data) => {
+        this.finishedLoading(data);
       },
     });
-    this.subscription.add(channelsSub);
+
+    const updateSub = this.viewService.updateData
+      .pipe(
+        filter((id) => this.widget && id === this.widget.dashboardId),
+        tap(() => {
+          const group = this.viewService.channelGroupId.getValue();
+          if (group !== this.groupId) {
+            //request using group id
+            this.groupId = group;
+          }
+
+          const channels = this.viewService.channels.getValue();
+          this.nslcStrings = this.nslcQueryStrings(channels);
+          this.groupId = null;
+
+          this.params.next({});
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(updateSub);
     this.subscription.add(this.measurementReqSub);
+  }
+
+  // break up string into multiple to get around
+  // request length issue
+  private nslcQueryStrings(channels): string[] {
+    const queryStrings = [];
+    let channelsCount = 0;
+    channels.reduce((previous, current, currentIndex) => {
+      const nslc = current.nslc;
+      const str = previous ? previous + "," + nslc : nslc;
+      if (channelsCount > 500 || currentIndex === channels.length - 1) {
+        queryStrings.push(str);
+        channelsCount = 0;
+        return "";
+      }
+      channelsCount++;
+      return str;
+    }, "");
+    return queryStrings;
   }
 
   private checkParams(p): MeasurementParams {
@@ -94,33 +146,33 @@ export class WidgetDataService implements OnDestroy {
       start = this.viewService.startTime;
       end = this.viewService.endTime;
     }
-    const channelString = this.viewService.channelsString;
     const params: MeasurementParams = {
       starttime: start,
       endtime: end,
       metricString: this.metrics,
-      channelString: channelString,
+      group: this.groupId,
       useAggregate: this.type.useAggregate,
       archiveType: this.viewService.archiveType,
     };
+
+    if (this.groupId) {
+      params.group = this.groupId;
+    } else {
+      params.nslc = p.nslc;
+    }
+
     return params;
   }
   // send data & clear the loading statuses
   private finishedLoading(data) {
     this.data.next(data);
-    this.viewService.widgetFinishedLoading();
     this.updateMeasurement();
-    this.requestInProgress = false;
   }
 
   private startedLoading(): void {
-    if (this.requestInProgress) {
-      this.viewService.widgetFinishedLoading();
-    }
-    this.requestInProgress = true;
     this.data.next(null);
+    this.measurementsWithData = [];
     this.ranges = {};
-    this.viewService.widgetStartedLoading();
     this.clearTimeout();
   }
 
@@ -130,33 +182,47 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.viewService.archiveType;
     const archiveStat = this.viewService.archiveStat;
     const useAggregate = this.type.useAggregate;
+    const dataMap = new Map<any, Map<number, any>>();
+    if (response.error) {
+      return response;
+    }
+    response.forEach((r) => {
+      r.forEach((m) => {
+        let value: Measurement | Aggregate | Archive;
+        if (archiveType && archiveType !== "raw") {
+          value = this.archiveAdapter.adaptFromApi(m, archiveStat);
+        } else if (useAggregate) {
+          value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
+        } else {
+          value = this.measurementAdapter.adaptFromApi(m);
+        }
 
-    const data = {};
-    // console.log("Loaded measurements: ", response.length);
-    response.forEach((m) => {
-      let value: Measurement | Aggregate | Archive;
-      if (archiveType && archiveType !== "raw") {
-        value = this.archiveAdapter.adaptFromApi(m, archiveStat);
-      } else if (useAggregate) {
-        value = this.aggregateAdapter.adaptFromApi(m, widgetStat);
-      } else {
-        value = this.measurementAdapter.adaptFromApi(m);
-      }
-
-      if (!data[m.channel]) {
-        data[m.channel] = {};
-      }
-      if (!data[m.channel][m.metric]) {
-        data[m.channel][m.metric] = [];
-      }
-      this.calculateDataRange(m.metric, value.value);
-      data[m.channel][m.metric].push(value);
+        if (!dataMap.has(m.channel)) {
+          const newMap = new Map<
+            number,
+            Array<Measurement | Aggregate | Archive>
+          >();
+          dataMap.set(m.channel, newMap);
+        }
+        const channelMap = dataMap.get(m.channel);
+        if (!channelMap.get(m.metric)) {
+          channelMap.set(m.metric, []);
+          if (this.measurementsWithData.indexOf(m.metric) < 0) {
+            this.measurementsWithData.push(m.metric);
+          }
+        }
+        const metricMap = channelMap.get(m.metric);
+        metricMap.push(value);
+        this.calculateDataRange(m.metric, value.value);
+      });
     });
-    return data;
+    if (dataMap.size === 0) {
+      return { error: "No measurements found." };
+    }
+    return dataMap;
   }
 
   ngOnDestroy(): void {
-    this.viewService.widgetFinishedLoading();
     this.clearTimeout();
     this.subscription.unsubscribe();
   }
@@ -164,19 +230,15 @@ export class WidgetDataService implements OnDestroy {
   updateWidget(widget: Widget, type: WidgetType): void {
     this.widget = widget;
     this.type = type;
-    this.params.next({});
   }
 
   updateMetrics(metrics: Metric[]): void {
     if (metrics.length > 0) {
-      const temp = [];
-      metrics.forEach((metric) => {
-        temp.push(metric.id);
-      });
-      this.metrics = temp.toString();
+      this.metrics = metrics.toIdString();
     } else {
       this.metrics = this.widget.metricsString;
     }
+
     this.params.next({});
   }
 
@@ -214,10 +276,7 @@ export class WidgetDataService implements OnDestroy {
   private updateMeasurement(): void {
     if (this.viewService.isLive) {
       this.updateTimeout = setTimeout(() => {
-        this.params.next({
-          starttime: this.viewService.startTime,
-          endtime: this.viewService.endTime,
-        });
+        //
       }, this.refreshInterval * 60 * 1000);
     }
   }

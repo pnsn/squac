@@ -7,11 +7,19 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "@monitor/models/alert";
 import { Monitor } from "@monitor/models/monitor";
 import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
-import { tap, mergeMap, Subscription } from "rxjs";
+import {
+  tap,
+  Subscription,
+  catchError,
+  EMPTY,
+  forkJoin,
+  switchMap,
+} from "rxjs";
 
 @Component({
   selector: "monitor-view",
@@ -35,7 +43,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     basePath: "/monitors",
     resource: "Monitor",
     add: {
-      text: "Create Monitor",
+      text: "Add Monitor",
     },
     menu: {
       text: "Actions",
@@ -58,7 +66,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filters = {
     searchField: {
-      text: "Type to filter...",
+      text: "Filter monitors...",
       props: [
         "owner",
 
@@ -101,25 +109,24 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private alertService: AlertService,
     private monitorService: MonitorService,
-    private dateService: DateService
+    private dateService: DateService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      if (data.monitors.error || data.alerts.error) {
-        this.error = true;
-      } else {
-        this.error = false;
-        this.monitors = data.monitors;
-        this.alerts = data.alerts;
-      }
-    });
+    const monitorsSub = this.route.params
+      .pipe(
+        switchMap(() => {
+          return this.loadingService.doLoading(this.fetchData(), this);
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(monitorsSub);
 
     if (this.route.firstChild) {
       this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
     }
-
-    this.makeRows();
   }
 
   ngAfterViewInit(): void {
@@ -183,7 +190,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   // delete selected monitor
   onDelete(): void {
     this.monitorService.deleteMonitor(this.selectedMonitorId).subscribe(() => {
-      this.refresh();
+      const index = this.monitors.findIndex(
+        (m) => m.id === this.selectedMonitorId
+      );
+
+      this.monitors.splice(index, 1);
     });
   }
 
@@ -215,30 +226,25 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
+  fetchData() {
+    const lastDay = this.dateService.subtractFromNow(1, "day").format();
+    return forkJoin({
+      alerts: this.alertService.getAlerts({ starttime: lastDay }),
+      monitors: this.monitorService.getMonitors(),
+    }).pipe(
+      tap((results) => {
+        this.monitors = results.monitors;
+        this.alerts = results.alerts;
+        this.makeRows();
+      }),
+      catchError(() => {
+        return EMPTY;
+      })
+    );
+  }
   // get fresh alerts
   refresh() {
-    if (!this.refreshInProgress) {
-      this.refreshInProgress = true;
-      const lastDay = this.dateService.subtractFromNow(1, "day").format();
-      const refreshRequests = this.alertService
-        .getAlerts({ starttime: lastDay })
-        .pipe(
-          tap((alerts) => {
-            this.alerts = alerts;
-          }),
-          mergeMap(() => {
-            return this.monitorService.getMonitors();
-          }),
-          tap((monitors) => {
-            this.monitors = monitors;
-            this.makeRows();
-            this.refreshInProgress = false;
-          })
-        )
-        .subscribe();
-
-      this.subscription.add(refreshRequests);
-    }
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   // return alerts with monitorId
@@ -249,18 +255,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   // route to edit monitor page
   editMonitor(id: number): void {
     this.router.navigate([id, "edit"], { relativeTo: this.route });
-  }
-
-  // delete monitor
-  deleteMonitor(id): void {
-    this.monitorService
-      .deleteMonitor(id)
-      .pipe(
-        tap(() => {
-          this.refresh();
-        })
-      )
-      .subscribe();
   }
 
   // route to monitor page

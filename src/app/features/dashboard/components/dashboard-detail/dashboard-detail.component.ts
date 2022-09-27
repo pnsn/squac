@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { Channel } from "@core/models/channel";
+import { MessageService } from "@core/services/message.service";
+import { LoadingService } from "@core/services/loading.service";
 
 // Individual dashboard
 @Component({
@@ -18,7 +19,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   dashboard: Dashboard;
   status: string;
   error: string = null;
-  channels: Channel[] = [];
   // dashboard params
   archiveType: string;
   archiveStat: string;
@@ -26,6 +26,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   endTime: string;
   channelGroupId: number;
   sideNavOpened = true;
+  timeRange: number;
   // time picker config
   datePickerTimeRanges = [
     {
@@ -61,42 +62,50 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private viewService: ViewService,
+    public viewService: ViewService,
     private ability: AppAbility,
-    private confirmDialog: ConfirmDialogService
+    private confirmDialog: ConfirmDialogService,
+    private messageService: MessageService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const paramsSub = this.route.data
+    const paramsSub = this.route.params
       .pipe(
-        switchMap(() => {
-          const dashboardId = this.route.snapshot.params.dashboardId;
-          return this.viewService.setDashboardById(dashboardId);
+        tap(() => {
+          this.error = null;
         }),
-        tap((dashboard) => {
-          this.dashboard = dashboard;
-          this.archiveStat = this.dashboard.properties.archiveStat;
-          this.archiveType = this.dashboard.properties.archiveType;
-          this.channels = this.dashboard.channelGroup.channels;
-          this.channelGroupId = this.dashboard.channelGroup.id;
+        switchMap((params) => {
+          const dashboardId = +params.dashboardId;
+
+          const groupId = +this.route.snapshot.queryParams.group;
+          return this.loadingService.doLoading(
+            this.viewService.setDashboardById(dashboardId, groupId).pipe(
+              tap((channelGroup) => {
+                if (channelGroup) {
+                  this.channelGroupId = channelGroup.id;
+                }
+
+                this.dashboard = this.viewService.dashboard;
+                this.archiveStat = this.viewService.archiveStat;
+                this.archiveType = this.viewService.archiveType;
+                this.timeRange = this.viewService.range;
+                this.startTime = this.viewService.startTime;
+                this.endTime = this.viewService.endTime;
+              }),
+              catchError(() => {
+                if (!this.dashboard) {
+                  this.messageService.error("Could not load dashboard.");
+                } else {
+                  this.messageService.error("Could not load channel group.");
+                }
+                return EMPTY;
+              })
+            )
+          );
         })
       )
-      .subscribe({
-        next: () => {
-          this.startTime = this.viewService.startTime;
-          this.endTime = this.viewService.endTime;
-          this.error = null;
-        },
-      });
-
-    const statusSub = this.viewService.status.subscribe({
-      next: (status) => {
-        this.status = status;
-      },
-      error: (error) => {
-        console.error("error in dashboard detail status", error);
-      },
-    });
+      .subscribe();
 
     // get any errors to show from view service
     const errorSub = this.viewService.error.subscribe({
@@ -106,7 +115,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     });
 
     this.subscription.add(paramsSub);
-    this.subscription.add(statusSub);
     this.subscription.add(errorSub);
   }
 
@@ -118,9 +126,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // send selected archive type to views ervice
   selectArchiveType(event): void {
-    this.viewService.setArchive(event.dataType, event.statType);
-    this.save();
-    this.refreshData();
+    this.archiveType = event.dataType;
+    this.archiveStat = event.statType;
+    this.updateArchiveType();
   }
 
   //if dates larger than 3 days, default to daily, larger than 1 month, monthly
@@ -137,9 +145,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.archiveStat = "";
       }
     }
-    this.save();
+    this.updateArchiveType();
+  }
+
+  private updateArchiveType() {
     this.viewService.setArchive(this.archiveType, this.archiveStat);
-    this.refreshData();
   }
 
   toggleSidenav(): void {
@@ -147,9 +157,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   // tell view service the channels changed
-  channelsChange(channels: Channel[]): void {
-    this.channels = channels;
-    this.viewService.updateChannels(channels);
+  channelGroupChange(id: number): void {
+    this.viewService.updateChannelGroup(id);
   }
 
   // route to edit dashboard
@@ -176,6 +185,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(["/dashboards"]);
       }
     });
+  }
+
+  //tell view service to get new data & save dashboard
+  updateDashboard() {
+    this.viewService.updateDashboard();
+    this.save();
   }
 
   // tell view service to get new data

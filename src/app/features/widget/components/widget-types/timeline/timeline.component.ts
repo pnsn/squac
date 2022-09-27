@@ -145,7 +145,6 @@ export class TimelineComponent
 
   startZoom() {
     if (this.echartsInstance) {
-      console.log(this.zooming);
       if (this.zooming === "start") {
         this.echartsInstance.dispatchAction({
           type: "takeGlobalCursor",
@@ -243,7 +242,7 @@ export class TimelineComponent
       });
 
       this.channels.forEach((channel, index) => {
-        const nslc = channel.nslc.toUpperCase();
+        const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {
@@ -252,13 +251,14 @@ export class TimelineComponent
             };
           }
 
-          if (data[channel.id] && data[channel.id][metric.id]) {
+          if (data.has(channel.id)) {
+            const measurements = data.get(channel.id).get(metric.id);
             let series;
             switch (this.properties.displayType) {
               case "hour":
                 series = this.makeSeriesForFixed(
                   nslc,
-                  data[channel.id][metric.id],
+                  measurements,
                   index,
                   "hour"
                 );
@@ -266,17 +266,13 @@ export class TimelineComponent
               case "day":
                 series = this.makeSeriesForFixed(
                   nslc,
-                  data[channel.id][metric.id],
+                  measurements,
                   index,
                   "day"
                 );
                 break;
               default:
-                series = this.makeSeriesForRaw(
-                  nslc,
-                  data[channel.id][metric.id],
-                  index
-                );
+                series = this.makeSeriesForRaw(nslc, measurements, index);
                 break;
             }
 
@@ -374,7 +370,6 @@ export class TimelineComponent
     this.loadingChange.emit(false);
 
     let xAxis = { ...this.options.xAxis };
-    console.log("in change metrics");
     if (
       this.properties.displayType === "hour" ||
       this.properties.displayType === "day"

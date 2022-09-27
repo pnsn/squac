@@ -19,7 +19,7 @@ describe("ChannelGroupService", () => {
     share_org: false,
     created_at: "date",
     updated_at: "date",
-    user_id: "1",
+    user: 1,
     organization: 1,
     auto_include_channels: [],
     auto_exclude_channels: [],
@@ -56,7 +56,7 @@ describe("ChannelGroupService", () => {
   });
 
   it("should put channel group with id", (done: DoneFn) => {
-    const testGroup = new ChannelGroup(1, 1, "name", "description", 1, []);
+    const testGroup = new ChannelGroup(1, 1, "name", "description", 1);
     channelGroupService.updateChannelGroup(testGroup).subscribe((response) => {
       expect(response).toBeDefined();
       done();
@@ -69,8 +69,7 @@ describe("ChannelGroupService", () => {
       null,
       "name",
       "description",
-      1,
-      []
+      1
     );
 
     channelGroupService

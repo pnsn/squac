@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { LoadingComponent } from "./components/loading/loading.component";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MaterialModule } from "./material.module";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
@@ -22,6 +22,9 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
+import { LoadingDirective } from "./directives/loading-directive.directive";
+import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
+import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -37,6 +40,9 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
     DateSelectComponent,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
+    LoadingOverlayComponent,
+    LoadingDirective,
+    LoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +84,9 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
     NgxEchartsModule,
     PrecisionPipe,
     ChannelGroupSelectorComponent,
+    LoadingOverlayComponent,
+    LoadingSpinnerComponent,
+    LoadingDirective,
   ],
 })
 export class SharedModule {}

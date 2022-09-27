@@ -12,12 +12,10 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
-import { LoadingScreenComponent } from "@core/components/loading-screen/loading-screen.component";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
-import { LoadingInterceptor } from "@core/interceptors/loading.interceptor";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -29,7 +27,6 @@ export function initApp(configurationService: ConfigurationService) {
     AuthComponent,
     HeaderComponent,
     NotFoundComponent,
-    LoadingScreenComponent,
     HomeComponent,
   ],
   imports: [
@@ -52,11 +49,6 @@ export function initApp(configurationService: ConfigurationService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
       multi: true,
     },
     {

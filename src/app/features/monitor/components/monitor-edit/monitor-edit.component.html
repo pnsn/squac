@@ -82,7 +82,7 @@
                       matInput
                       name="val1"
                       formControlName="val1"
-                      (keypress)="keyPressNumbersWithDecimal($event)"
+                      type="number"
                     />
                   </mat-form-field>
                   <ng-container> </ng-container>
@@ -91,9 +91,9 @@
                     <mat-label for="val2">value 2</mat-label>
                     <input
                       matInput
+                      type="number"
                       name="val2"
                       formControlName="val2"
-                      (keypress)="keyPressNumbersWithDecimal($event)"
                     />
                   </mat-form-field>
                 </div>
@@ -117,7 +117,7 @@
                     <mat-label for="num_channels"># of channels</mat-label>
                     <input
                       matInput
-                      (keypress)="keyPressNumbers($event)"
+                      type="number"
                       name="num_channels"
                       formControlName="num_channels"
                     />
@@ -130,9 +130,18 @@
               <mat-form-field class="medium">
                 <mat-label> Channel Group </mat-label>
                 <mat-select formControlName="channelGroup" name="channelGroup">
-                  <mat-option *ngFor="let c of channelGroups" [value]="c"
-                    >{{ c.name }} ({{ c.channelIds.length }} channels)
-                  </mat-option>
+                  <mat-optgroup
+                    *ngFor="let group of channelGroups"
+                    [label]="group.name"
+                  >
+                    <mat-option
+                      *ngFor="let channelGroup of group.groups"
+                      [value]="channelGroup.id"
+                      >{{ channelGroup.name }} ({{
+                        channelGroup.channelsCount
+                      }})</mat-option
+                    >
+                  </mat-optgroup>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -145,7 +154,7 @@
                   matInput
                   name="intervalCount"
                   formControlName="intervalCount"
-                  (keypress)="keyPressNumbers($event)"
+                  type="number"
                 />
               </mat-form-field>
               <mat-form-field class="xsmall">
@@ -171,7 +180,8 @@
         <div id="trigger-container">
           <p class="help-text">
             An alert will be sent when the monitor enters the 'in alarm' state.
-            It can also alert when the monitor is no longer 'in alarm'.
+            If 'Alert on Exit' is true, it will also alert when the monitor is
+            no longer 'in alarm'.
           </p>
           <ng-container formArrayName="triggers">
             <table id="trigger-table">
@@ -213,7 +223,7 @@
                       <mat-label for="val1">value</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbersWithDecimal($event)"
+                        type="number"
                         name="val1"
                         formControlName="val1"
                       />
@@ -224,7 +234,7 @@
                       <mat-label for="val2">value 2</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbersWithDecimal($event)"
+                        type="number"
                         name="val2"
                         formControlName="val2"
                       />
@@ -253,7 +263,7 @@
                       <mat-label for="num_channels"># of channels</mat-label>
                       <input
                         matInput
-                        (keypress)="keyPressNumbers($event)"
+                        type="number"
                         name="num_channels"
                         formControlName="num_channels"
                       />

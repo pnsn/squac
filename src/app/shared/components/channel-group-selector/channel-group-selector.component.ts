@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Location } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { take } from "rxjs";
 
 @Component({
   selector: "shared-channel-group-selector",
@@ -16,23 +17,36 @@ export class ChannelGroupSelectorComponent implements OnInit {
   @Input() dense = false;
   channelGroups: ChannelGroup[];
   @Output() channelGroupIdChange = new EventEmitter<any>();
-  @Output() channelsChange = new EventEmitter<any>();
-  constructor(private channelGroupService: ChannelGroupService) {}
+  groups: any;
+  /*{
+    name: string;
+    groups: ChannelGroup[];
+  };*/
+  constructor(
+    private channelGroupService: ChannelGroupService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
-      this.channelGroups = channelGroups;
-    });
+    this.channelGroupService
+      .getSortedChannelGroups()
+      .subscribe((sortedGroups) => {
+        this.groups = sortedGroups;
+      });
   }
 
   selectionChange() {
     this.channelGroupIdChange.emit(this.channelGroupId);
 
-    this.channelGroupService
-      .getChannelGroup(+this.channelGroupId)
-      .pipe(take(1))
-      .subscribe((channelGroup) => {
-        this.channelsChange.emit(channelGroup.channels);
-      });
+    const url = this.router
+      .createUrlTree([], {
+        relativeTo: this.route,
+        queryParams: { group: this.channelGroupId },
+      })
+      .toString();
+
+    this.location.go(url);
   }
 }

@@ -6,7 +6,6 @@ import { MonitorViewComponent } from "./components/monitor-view/monitor-view.com
 import { MonitorRoutingModule } from "./monitor-routing.module";
 import { SharedModule } from "@shared/shared.module";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
-import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
 import { AbilityModule } from "@casl/angular";
 
@@ -18,12 +17,6 @@ import { AbilityModule } from "@casl/angular";
     MonitorEditEntryComponent,
     AlertViewComponent,
   ],
-  imports: [
-    CommonModule,
-    MonitorRoutingModule,
-    SharedModule,
-    AbilityModule,
-    NgxChartsModule,
-  ],
+  imports: [CommonModule, MonitorRoutingModule, SharedModule, AbilityModule],
 })
 export class MonitorModule {}

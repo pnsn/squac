@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Subscription } from "rxjs";
-import { Router, ActivatedRoute } from "@angular/router";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { LoadingService } from "@core/services/loading.service";
 
 // Table of channel groups
 @Component({
@@ -14,8 +15,6 @@ export class ChannelGroupViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   subscription: Subscription = new Subscription();
-  userId: number;
-  orgId: number;
 
   channelGroups: ChannelGroup[] = [];
   selectedChannelGroupId: number;
@@ -37,7 +36,7 @@ export class ChannelGroupViewComponent
     basePath: "/channel-groups",
     resource: "ChannelGroup",
     add: {
-      text: "Create ChannelGroup",
+      text: "Add Channel Group",
     },
     menu: {
       text: "Actions",
@@ -66,34 +65,39 @@ export class ChannelGroupViewComponent
   filters = {
     toggleShared: true,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter channel groups...",
       props: ["owner", "orgId", "name", "description"],
     },
   };
 
+  queryParams: Params;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    if (this.route && this.route.data) {
-      // get channel groups to show
-      const routeSub = this.route.data.subscribe((data) => {
-        if (data.channelGroups.error) {
-          console.error("error in channels", data.channelGroups.error);
-        } else {
-          this.channelGroups = data.channelGroups;
-          this.rows = [...this.channelGroups];
-        }
-        this.selectedChannelGroupId =
-          this.route.children.length > 0
-            ? +this.route.snapshot.firstChild.params.channelGroupId
-            : null;
-      });
-      this.subscription.add(routeSub);
-    }
+    //TODO: prevent loading everytime you go back...but also respond to changes
+    const groupsSub = this.route.params
+      .pipe(
+        tap(() => {
+          const orgId = this.route.snapshot.data.user.orgId;
+          this.queryParams = { organization: orgId };
+          this.selectedChannelGroupId =
+            this.route.children.length > 0
+              ? +this.route.snapshot.firstChild.params.channelGroupId
+              : null;
+        }),
+        switchMap(() => {
+          return this.loadingService.doLoading(this.fetchData());
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(groupsSub);
   }
 
   ngAfterViewInit(): void {
@@ -107,7 +111,7 @@ export class ChannelGroupViewComponent
         { name: "Description", draggable: false, sortable: true },
         {
           name: "# Channels",
-          prop: "channelIds.length",
+          prop: "channelsCount",
           draggable: false,
           sortable: true,
           width: 20,
@@ -130,12 +134,23 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
+  fetchData() {
+    return this.channelGroupService.getChannelGroups(this.queryParams).pipe(
+      tap((results) => {
+        this.channelGroups = results;
+        this.rows = [...this.channelGroups];
+      }),
+      catchError(() => {
+        // this.error = error;
+        return EMPTY;
+      })
+    );
+  }
+
   // get fresh groups
-  refresh(): void {
-    this.channelGroupService.getChannelGroups().subscribe((channelGroups) => {
-      this.channelGroups = channelGroups;
-      this.rows = [...this.channelGroups];
-    });
+  refresh(filters?) {
+    this.queryParams = { ...filters };
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   // onSelect function for data table selection
@@ -155,8 +170,10 @@ export class ChannelGroupViewComponent
     this.channelGroupService
       .deleteChannelGroup(this.selectedChannelGroupId)
       .subscribe(() => {
-        this.router.navigate(["./"], { relativeTo: this.route });
-        this.refresh();
+        const index = this.channelGroups.findIndex(
+          (cG) => cG.id === this.selectedChannelGroupId
+        );
+        this.channelGroups.splice(index, 1);
       });
   }
 

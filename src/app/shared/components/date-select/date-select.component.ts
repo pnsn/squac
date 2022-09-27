@@ -2,8 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
@@ -17,7 +19,7 @@ import { DaterangepickerDirective } from "ngx-daterangepicker-material";
   templateUrl: "./date-select.component.html",
   styleUrls: ["./date-select.component.scss"],
 })
-export class DateSelectComponent implements OnInit {
+export class DateSelectComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerDirective, { static: true })
   pickerDirective: DaterangepickerDirective;
   @Output() datesChanged = new EventEmitter<any>();
@@ -43,6 +45,16 @@ export class DateSelectComponent implements OnInit {
     dayjs.extend(utc);
     dayjs.extend(timezone);
     dayjs.tz.setDefault("Etc/UTC");
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes.secondsAgoFromNow ||
+      changes.initialEndDate ||
+      changes.initialStartDate
+    ) {
+      this.setUpInitialValues();
+    }
   }
 
   ngOnInit(): void {

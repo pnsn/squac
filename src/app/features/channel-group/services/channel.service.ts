@@ -27,7 +27,10 @@ export class ChannelService {
       );
   }
 
-  getChannelsByRules(rules: MatchingRule[]): Observable<Channel[]>[] {
+  getChannelsByRules(
+    rules: MatchingRule[],
+    params?: Params
+  ): Observable<Channel[]>[] {
     const ruleSubs: Observable<Channel[]>[] = [];
 
     rules.forEach((rule) => {
@@ -38,6 +41,7 @@ export class ChannelService {
             sta_search: rule.stationRegex,
             loc_search: rule.locationRegex,
             chan_search: rule.channelRegex,
+            ...params,
           })
         );
       }

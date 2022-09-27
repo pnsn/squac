@@ -41,6 +41,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
+  lastZoom = null;
 
   constructor(private zone: NgZone) {}
 
@@ -126,10 +127,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     if (channel) {
       let stationMarker;
       this.stationLayer.eachLayer((layer: any) => {
-        if (
-          layer.options.title ===
-          channel.networkCode + "." + channel.stationCode
-        ) {
+        if (layer.options.title === channel.staCode) {
           stationMarker = layer;
         }
 
@@ -150,13 +148,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.searchedChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -172,13 +170,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.autoIncludeChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -194,13 +192,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.autoExcludeChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           // make station if there isn't one yet
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -216,12 +214,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
       this.selectedChannels?.forEach((channel) => {
         let station = stations.find((s) => {
-          return s.code === channel.networkCode + "." + channel.stationCode;
+          return s.code === channel.staCode;
         });
 
         if (!station) {
           station = {
-            code: channel.networkCode + "." + channel.stationCode,
+            code: channel.staCode,
             lat: channel.lat,
             lon: channel.lon,
             autoIncludeChannels: [],
@@ -263,12 +261,20 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.stationLayer = L.featureGroup(stationMarkers);
       this.layers.push(this.stationLayer);
 
-      // adjust bounds to fit stations
-      if (stationMarkers.length > 0) {
-        this.map.fitBounds(this.stationLayer.getBounds(), {
-          padding: [11, 11],
-        });
+      // only reset map zoom & bounds if user hasn't yet
+      if (!this.lastZoom || this.lastZoom !== "user") {
+        try {
+          // adjust bounds to fit stations
+          const bounds = this.stationLayer.getBounds();
+          this.map.fitBounds(bounds, {
+            padding: [11, 11],
+          });
+        } catch {
+          this.map.setZoom(1);
+        }
+        this.lastZoom = "auto";
       }
+
       // show selected channel
       if (showChannel) {
         this.selectChannels(this.showChannel);
@@ -339,17 +345,25 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     return marker;
   }
 
+  // after zoom triggers
+  // if user changed bounds, don't override
+  onZoomEnd(): void {
+    if (this.lastZoom === "auto") {
+      this.lastZoom = null;
+    } else {
+      this.lastZoom = "user";
+    }
+  }
   // Clear out old stuff and remove bounds
   onDrawStart(): void {
     this.drawnItems.clearLayers();
-    this.boundsChange.emit("");
+    // this.boundsChange.emit("");
   }
 
   // Send out newly drawn bounds
   onRectangleCreated(e: any): void {
     this.rectLayer = e.layer;
     this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
-    this.boundsChange.emit(""); // Clear old bounds
     const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
     const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
     const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;
@@ -359,7 +373,6 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
   // Listen to rectangle edit and change bounds
   onRectangleEdited(): void {
-    this.boundsChange.emit(""); // Clear old bounds
     const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
     const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
     const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;

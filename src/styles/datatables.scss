@@ -40,7 +40,7 @@ ngx-datatable {
   }
 }
 
-.datatable-body-row.active,
+.ngx-datatable.material.datatable-body .datatable-body-row.active,
 .datatable-body-row.active .datatable-row-group,
 .group-header-container.active {
   background-color: lighten($sq-lt-blue, 30%) !important;
@@ -59,6 +59,7 @@ ngx-datatable.shared-view-table {
   .datatable-body {
     // max-height: 80vh;
     overflow-y: scroll;
+    height: 100% !important;
   }
   &.full {
     .datatable-body {
@@ -142,5 +143,51 @@ ngx-datatable.shared-view-table {
   }
   .empty-row {
     padding: 5px 10px;
+  }
+}
+
+.ngx-datatable .datatable-body .progress-linear {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 5px;
+  padding: 0;
+  margin: 0;
+}
+.ngx-datatable .datatable-body .progress-linear .container {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 5px;
+  -webkit-transform: translate(0, 0) scale(1, 1);
+  transform: translate(0, 0) scale(1, 1);
+  background-color: $sq-lt-gray;
+}
+.ngx-datatable .datatable-body .progress-linear .container .bar {
+  transition: all 0.8s linear;
+  -webkit-animation: query 1s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+  animation: query 1s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition: -webkit-transform 0.8s linear;
+  transition: transform 0.8s linear;
+  background-color: $sq-dk-blue;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+}
+/**
+ * Progress bar animations
+ */
+@keyframes query {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(0.3, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(35%) scale(0.3, 1);
   }
 }

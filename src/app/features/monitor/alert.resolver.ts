@@ -24,7 +24,6 @@ export class AlertResolver implements Resolve<Observable<any>> {
   ): Observable<Alert> | Observable<Alert[]> {
     const id = +route.paramMap.get("alertId");
     if (id) {
-      this.loadingService.setStatus("Loading alert");
       return this.alertService.getAlert(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load alert.");
@@ -32,7 +31,6 @@ export class AlertResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading alerts for last day");
       const lastday = this.dateService.subtractFromNow(1, "day").format();
       return this.alertService.getAlerts({ starttime: lastday }).pipe(
         catchError((error) => {

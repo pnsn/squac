@@ -21,7 +21,7 @@ export interface ApiGetMeasurement {
   channel: number;
   metric: number;
   id: number;
-  user_id: string;
+  user: number;
   value: number;
   starttime: string;
   endtime: string;
@@ -35,7 +35,7 @@ export class MeasurementAdapter implements Adapter<Measurement> {
   adaptFromApi(item: ApiGetMeasurement): Measurement {
     const measurement = new Measurement(
       item.id,
-      +item.user_id,
+      item.user,
       item.metric,
       item.channel,
       item.value,

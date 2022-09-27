@@ -38,7 +38,7 @@ export interface ApiGetTrigger {
   num_channels_operator: string; //any, ==, <, >
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   alert_on_out_of_alarm: boolean;
   email_list: string; //comma separated
 }
@@ -65,7 +65,7 @@ export class TriggerAdapter implements Adapter<Trigger> {
       item.value_operator, //outsideof, within, ==, <, <=, >, >=
       item.num_channels,
       item.num_channels_operator, //any, ==, <, >
-      +item.user_id,
+      item.user,
       item.alert_on_out_of_alarm,
       item.email_list, //comma separated
       item.val1,

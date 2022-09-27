@@ -32,8 +32,6 @@ export class ScatterPlotComponent
   @Input() selectedMetrics: Metric[];
   @Input() showKey: boolean;
   @Input() properties: any[];
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   echartsInstance;
@@ -107,7 +105,6 @@ export class ScatterPlotComponent
 
   startZoom() {
     if (this.echartsInstance) {
-      console.log(this.zooming);
       if (this.zooming === "start") {
         this.echartsInstance.dispatchAction({
           type: "takeGlobalCursor",
@@ -185,7 +182,6 @@ export class ScatterPlotComponent
   }
 
   private buildChartData(data) {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -235,7 +231,6 @@ export class ScatterPlotComponent
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
     const visualMap = this.visualMaps[colorMetric.id] || null;
-    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.processedData.series,
       xAxis: {

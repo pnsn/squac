@@ -19,10 +19,9 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
 
   resolve(
     route: ActivatedRouteSnapshot
-  ): Observable<ChannelGroup> | Observable<ChannelGroup[]> {
+  ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = +route.paramMap.get("channelGroupId");
     if (id) {
-      this.loadingService.setStatus("Loading channel group");
       return this.channelGroupService.getChannelGroup(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel group.");
@@ -30,7 +29,6 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
         })
       );
     } else {
-      this.loadingService.setStatus("Loading channel groups");
       return this.channelGroupService.getChannelGroups().pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel groups.");

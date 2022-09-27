@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MaterialModule } from "@shared/material.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MockBuilder } from "ng-mocks";
 
 import { ChannelGroupTableComponent } from "./channel-group-table.component";

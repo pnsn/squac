@@ -17,7 +17,7 @@ import { OrganizationService } from "@features/user/services/organization.servic
 import { UserService } from "@features/user/services/user.service";
 import { OrganizationPipe } from "@shared/pipes/organization.pipe";
 import { UserPipe } from "@shared/pipes/user.pipe";
-import { ColumnMode } from "@swimlane/ngx-datatable";
+import { ColumnMode } from "@boring.devs/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
 @Component({
   selector: "shared-table-view",
@@ -37,9 +37,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() groupHeaderTemplate: TemplateRef<any>;
   @Input() tableFooterTemplate: TemplateRef<any>;
   @Input() rowDetailTemplate: TemplateRef<any>;
+  @Input() isLoading: boolean;
+  @Input() dataService: any;
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
+  @Output() filtersChanged = new EventEmitter<any>();
   @ViewChild("table") table;
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
   @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
@@ -67,7 +70,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     limit: undefined,
     reorderable: false,
     scrollbarH: false,
-    scrollbarV: false,
+    scrollbarV: true,
     sortType: "single",
     sorts: [],
     groupRowsBy: undefined,
@@ -80,6 +83,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       emptyMessage: "No data",
       totalMessage: "total",
     },
+    virtualization: false,
   };
 
   constructor(
@@ -113,7 +117,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
           filter((e) => e instanceof NavigationEnd),
           tap((e: NavigationEnd) => {
             if (e.urlAfterRedirects.toString() === currentPath) {
-              this.refreshResource();
+              // this.refreshResource();
+              this.selectResource(null);
             }
           })
         )
@@ -132,7 +137,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.rows && changes.rows.currentValue) {
       this.processRows();
     }
-    if (changes.selectedRowId && changes.selectedRowId.currentValue) {
+    if (changes.selectedRowId && !changes.selectedRowId.firstChange) {
       this.selectResource(this.selectedRowId);
     }
 
@@ -166,7 +171,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   // filter rows
   private processRows(): void {
-    this.toggleSharing();
+    this.tableRows = [...this.rows];
+    if (this.selectedRowId && this.tableRows.length > 0) {
+      this.selectResource(this.selectedRowId);
+    }
   }
 
   // selected id, view resource if doubleclicked
@@ -212,7 +220,6 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.selected = this.tableRows.filter((row) => {
       return row.id === id;
     });
-
     this.selectedRow = this.selected[0];
     this.itemSelected.next(this.selectedRow);
   }
@@ -325,26 +332,27 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   // change sharing settings and filter table to match
   toggleSharing(): void {
-    let temp;
-    if (this.filters.toggleShared && this.shareFilter === "user" && this.user) {
-      temp = this.rows.filter((row) => {
-        return this.user.id === row.owner;
-      });
-    } else if (
-      this.filters.toggleShared &&
-      this.shareFilter === "org" &&
-      this.user
-    ) {
-      temp = this.rows.filter((row) => {
-        return this.user.orgId === row.orgId;
-      });
-    } else {
-      //value === 'all'
-      temp = [...this.rows];
-    }
-    this.tableRows = temp;
-  }
+    const params: {
+      user?: number;
+      organization?: number;
+    } = {};
+    if (this.filters.toggleShared) {
+      switch (this.shareFilter) {
+        case "user":
+          params.user = this.user.id;
+          break;
 
+        case "org":
+          params.organization = this.user.orgId;
+          break;
+
+        default:
+          break;
+      }
+
+      this.filtersChanged.emit(params);
+    }
+  }
   //sort users by name
   private userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();

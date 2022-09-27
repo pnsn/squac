@@ -1,4 +1,8 @@
-<div id="edit-container" class="column gray-border white-background">
+<div
+  id="edit-container"
+  class="column gray-border white-background"
+  [appIsLoading]="loadingService.isLoading(this, LoadingIndicator.MAIN)"
+>
   <div class="header-title">
     <h2>
       {{ editMode ? "Edit Channel Group" : "Create Channel Group" }}
@@ -66,14 +70,13 @@
         <channel-group-csv-upload
           [(channels)]="selectedChannels"
           (channelsChange)="addChannelsFromCSV($event)"
-          [(loading)]="loading"
           [(error)]="error"
+          [showOnlyCurrent]="showOnlyCurrent"
+          [context]="this"
+          [loadingIndicator]="LoadingIndicator.RESULTS"
         >
         </channel-group-csv-upload>
-        <mat-slide-toggle
-          [(ngModel)]="showOnlyCurrent"
-          (change)="filterCurrent()"
-        >
+        <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
           <span class="help-text">Only Show Current Channels</span>
         </mat-slide-toggle>
       </div>
@@ -95,18 +98,31 @@
         >
         </channel-group-filter>
       </div>
-      <shared-loading *ngIf="loading" [loadingMsg]="loading"> </shared-loading>
-      <div class="row channels-row">
+      <div
+        class="row channels-row"
+        [appIsLoading]="
+          loadingService.isLoading(this, LoadingIndicator.RESULTS)
+        "
+      >
         <div class="column lt-gray-border search-results-container">
           <div class="row space-between select-channels-controls">
             <h4>Results ({{ rows.length }})</h4>
-            <button mat-button color="accent" (click)="includeChannels()">
-              add to include
-            </button>
-            <button mat-button color="accent" (click)="excludeChannels()">
-              add to exclude
+            <p class="help-text">add selected to:</p>
+            <button
+              mat-stroked-button
+              color="accent"
+              (click)="includeChannels()"
+            >
+              included
             </button>
             <button
+              mat-stroked-button
+              color="accent"
+              (click)="excludeChannels()"
+            >
+              excluded
+            </button>
+            <!-- <button
               mat-icon-button
               color="accent"
               (click)="undoSelectRemove()"
@@ -114,18 +130,16 @@
               matTooltip="undo last change"
             >
               <mat-icon>undo</mat-icon>
-            </button>
+            </button> -->
           </div>
 
-          <div class="table-container">
-            <channel-group-edit-table
-              [rows]="rows"
-              [selectable]="true"
-              [selected]="selectedChannels"
-              (selectedChange)="selectRow($event)"
-            >
-            </channel-group-edit-table>
-          </div>
+          <channel-group-edit-table
+            [rows]="rows"
+            [selectable]="false"
+            [selected]="selectedChannels"
+            (selectedChange)="selectRow($event)"
+          >
+          </channel-group-edit-table>
         </div>
         <div id="map-box">
           <channel-group-map
@@ -168,19 +182,33 @@
                 required
               ></textarea>
             </mat-form-field>
+            <mat-radio-group
+              aria-label="change view permissions"
+              formControlName="share"
+              id="sharing-radio-group"
+              class="column"
+            >
+              <mat-radio-button value="private">Private</mat-radio-button>
+              <mat-radio-button value="shareOrg"
+                >Share with organization</mat-radio-button
+              >
+              <mat-radio-button value="shareAll"
+                >Share with all SQUAC users</mat-radio-button
+              >
+            </mat-radio-group>
           </form>
         </mat-expansion-panel>
 
         <mat-expansion-panel expanded="false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h4>Regular Expressions</h4>
+              <h4>RegEx Rules ({{ matchingRules.length }})</h4>
             </mat-panel-title>
             <mat-panel-description> (optional) </mat-panel-description>
           </mat-expansion-panel-header>
           <p class="help-text">
-            Channel groups can be defined by sets of regex. Groups will be
-            updated daily with any channels that match the expressions.
+            Channel groups can be defined by sets of regular expressions. Groups
+            will be updated daily with any channels that match the rules.
           </p>
           <channel-group-matching-rule-edit
             [(matchingRules)]="matchingRules"
@@ -205,7 +233,7 @@
             (rowsChange)="updateState()"
             [(rows)]="autoIncludeChannels"
             title="Included Channels"
-            [selectable]="false"
+            [selectable]="true"
           >
           </channel-group-edit-table>
         </mat-expansion-panel>
@@ -223,7 +251,7 @@
             (rowsChange)="updateState()"
             [(rows)]="autoExcludeChannels"
             title="Excluded Channels"
-            [selectable]="false"
+            [selectable]="true"
           >
           </channel-group-edit-table>
         </mat-expansion-panel>

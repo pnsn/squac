@@ -20,7 +20,6 @@ export class WidgetResolver implements Resolve<Observable<any>> {
   ): Observable<Widget> | Observable<Widget[]> | Observable<any> {
     const dashboardId = +route.paramMap.get("dashboardId");
     const widgetId = +route.paramMap.get("widgetId");
-    this.loadingService.setStatus("Loading widgets");
 
     if (widgetId) {
       return this.widgetService.getWidget(widgetId).pipe(

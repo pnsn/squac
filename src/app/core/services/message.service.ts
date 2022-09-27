@@ -10,10 +10,10 @@ import { SnackbarComponent } from "@shared/components/snackbar/snackbar.componen
 export class MessageService implements OnDestroy {
   snackBarRef: MatSnackBarRef<SnackbarComponent>;
   private durationInSeconds = 4;
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) {} //make close on navigation
 
   // opens a snackbar and passes data to component
-  openSnackBar(type, message, action?): void {
+  openSnackBar(type, message, duration, action?): void {
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data: {
         message,
@@ -22,7 +22,7 @@ export class MessageService implements OnDestroy {
       },
       verticalPosition: "top",
       panelClass: "mat-snack-bar-themed",
-      duration: this.durationInSeconds * 1000,
+      duration: duration * 1000,
     });
   }
 
@@ -35,17 +35,17 @@ export class MessageService implements OnDestroy {
 
   // open standard snack bar
   message(message: string): void {
-    this.openSnackBar("default", message, null);
+    this.openSnackBar("default", message, this.durationInSeconds, null);
   }
 
   // opens snack bar with red text
   error(message: string): void {
-    this.openSnackBar("error", message, "close");
+    this.openSnackBar("error", message, 10, "Dismiss");
   }
 
   // opens snack bar with close option
   alert(message: string): void {
-    this.openSnackBar("alert", message, null);
+    this.openSnackBar("alert", message, 10, "Dismiss");
   }
 
   // Close all snackbars on destroy

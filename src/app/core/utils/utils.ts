@@ -2,6 +2,30 @@ import { Threshold } from "@widget/models/threshold";
 import { defer } from "rxjs";
 
 // App wide helper functions
+//stringify array using ids of T
+declare global {
+  interface idType {
+    id: number | string;
+  }
+
+  /* eslint-disable-next-line unused-imports/no-unused-vars */
+  interface Array<T> {
+    toIdString(): string;
+    mapIds(): Array<number>;
+  }
+}
+
+Array.prototype.toIdString = function <T extends idType>(this: T[]): string {
+  return this.reduce((previous: string, current: T) => {
+    return previous
+      ? previous + "," + current.id.toString()
+      : current.id.toString();
+  }, "");
+};
+
+Array.prototype.mapIds = function <T extends idType>(this: T[]): Array<number> {
+  return this.map((T) => +T.id);
+};
 
 // helps when testing responses to observables
 export function fakeAsyncResponse<T>(data: T) {

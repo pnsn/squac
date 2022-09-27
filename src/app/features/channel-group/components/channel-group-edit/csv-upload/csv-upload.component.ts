@@ -6,9 +6,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
+import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
-import { switchMap, tap, map } from "rxjs";
+import { switchMap, tap, map, merge, Observable } from "rxjs";
 
 @Component({
   selector: "channel-group-csv-upload",
@@ -25,15 +27,18 @@ export class CsvUploadComponent {
   staRegex = new RegExp(/^Sta\w{0,4}/, "i");
   chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
   locRegex = new RegExp(/^Loc\w{0,5}/, "i");
+  @Input() showOnlyCurrent: boolean;
   @Input() channels: Channel[];
   @Output() channelsChange = new EventEmitter<Channel[]>();
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter<string | boolean>();
   @Input() error: string | boolean;
   @Output() errorChange = new EventEmitter<string | boolean>();
+  @Input() context: any; //context for loading service
+  @Input() loadingIndicator: any;
   constructor(
     private ngxCsvParser: NgxCsvParser,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private dateService: DateService,
+    private loadingService: LoadingService
   ) {}
 
   @ViewChild("fileImportInput") fileImportInput: any;
@@ -51,7 +56,7 @@ export class CsvUploadComponent {
     let staIndex = -1;
 
     this.ngxCsvParser
-      .parse(files[0], { header: this.header, delimiter: "," })
+      .parse(files[0], { header: this.header, delimiter: "," }) //allow |?
       .pipe(
         tap((results: any[]) => {
           this.csvRecords = results;
@@ -80,55 +85,66 @@ export class CsvUploadComponent {
             throw new Error("Invalid or missing headers");
           }
 
-          return this.csvRecords.reduce((previous, current) => {
-            const station = current[staIndex];
-            return previous ? previous + "," + station : station;
-          }, "");
-        }),
-        switchMap((chanString: string) => {
-          //stop before this point if no headers
-          this.loadingChange.emit("Requesting channels");
-          return this.channelService.getChannelsByFilters({
-            station: chanString,
-          });
-        }),
-        tap((channels: Channel[]) => {
-          this.loadingChange.emit("Validating channels");
+          const queryStrings = [];
+          let channelsCount = 0;
+          this.csvRecords.reduce((previous, current, currentIndex) => {
+            const nslc = `${current[netIndex]}.${current[staIndex]}.${
+              current[locIndex] || "--"
+            }.${current[chanIndex]}`;
 
-          this.csvRecords.forEach((record) => {
-            const channel = channels.find((chan) => {
-              const net = record[netIndex];
-              const sta = record[staIndex];
-              const loc = record[locIndex];
-              const code = record[chanIndex];
-              return (
-                chan.net.toLowerCase() === net.toLowerCase() &&
-                chan.sta.toLowerCase() === sta.toLowerCase() &&
-                chan.loc.toLowerCase() === loc.toLowerCase() &&
-                chan.code.toLowerCase() === code.toLowerCase()
-              );
-            });
-            if (channel) {
-              this.matchingChannels.push(channel);
-            } else {
-              this.missingChannels.push(record);
+            const str = previous
+              ? previous + "," + nslc.toLowerCase()
+              : nslc.toLowerCase();
+            if (
+              channelsCount > 500 ||
+              currentIndex === this.csvRecords.length - 1
+            ) {
+              queryStrings.push(str);
+              channelsCount = 0;
+              return "";
             }
-          });
-
-          if (this.matchingChannels.length === 0) {
-            throw new Error("No matching channels found");
+            channelsCount++;
+            return str;
+          }, "");
+          return queryStrings;
+        }),
+        switchMap((nslcStrings: string[]) => {
+          //stop before this point if no headers
+          const searchFilters: any = {};
+          if (this.showOnlyCurrent) {
+            const now = this.dateService.now();
+            searchFilters.endafter = this.dateService.format(now);
           }
+
+          //break up into smaller chunks to get around header size limit
+          const queries: Observable<Channel[]>[] = nslcStrings.map(
+            (nslcString) => {
+              return this.channelService.getChannelsByFilters({
+                nslc: nslcString,
+                ...searchFilters,
+              });
+            }
+          );
+
+          return this.loadingService.doLoading(
+            merge(...queries),
+            this.context,
+            this.loadingIndicator
+          );
         })
       )
       .subscribe({
-        next: (): void => {
+        next: (channels: Channel[]): void => {
+          this.matchingChannels.push(...channels);
+        },
+        complete: () => {
+          if (this.matchingChannels.length === 0) {
+            throw new Error("No matching channels found");
+          }
           this.channelsChange.emit(this.matchingChannels);
-          this.loadingChange.emit(false);
         },
         error: (error: any): void => {
-          console.log(error);
           this.errorChange.emit(error);
-          this.loadingChange.emit(false);
         },
       });
   }

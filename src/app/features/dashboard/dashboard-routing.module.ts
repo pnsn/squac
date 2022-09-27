@@ -4,26 +4,21 @@ import { DashboardDetailComponent } from "./components/dashboard-detail/dashboar
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
-import { DashboardResolver } from "./dashboard.resolver";
 import { widgetRoutes } from "@widget/widget.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
+import { ChannelGroupResolver } from "@features/channel-group/channel-group.resolver";
 
 export const routes: Routes = [
   {
     path: "",
     component: DashboardComponent,
     canActivate: [AuthGuard],
-
     children: [
       {
         path: "",
         component: DashboardViewComponent,
         canActivate: [PermissionGuard],
-        runGuardsAndResolvers: "always",
-        resolve: {
-          dashboards: DashboardResolver,
-        },
         children: [
           {
             path: "new",
@@ -38,9 +33,7 @@ export const routes: Routes = [
         component: DashboardEditEntryComponent,
         canActivate: [PermissionGuard],
         data: { subject: "Dashboard", action: "update" },
-        resolve: {
-          dashboard: DashboardResolver,
-        },
+        resolve: { channelGroups: ChannelGroupResolver },
       },
 
       {

@@ -35,12 +35,12 @@ describe("MessageService", () => {
 
   it("should open snackbar", () => {
     const openSpy = spyOn(snackbar, "openFromComponent");
-    service.openSnackBar("default", "message");
+    service.openSnackBar("default", "message", 0);
     expect(openSpy).toHaveBeenCalled();
   });
 
   it("should close snackbar", () => {
-    service.openSnackBar("default", "message");
+    service.openSnackBar("default", "message", 0);
     const closeSpy = spyOn(service.snackBarRef, "dismiss");
     service.close();
 

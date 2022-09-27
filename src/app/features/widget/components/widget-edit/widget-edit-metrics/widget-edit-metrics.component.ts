@@ -8,9 +8,10 @@ import {
   SimpleChanges,
   OnChanges,
 } from "@angular/core";
-import { SelectionType, ColumnMode } from "@swimlane/ngx-datatable";
+import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@core/models/metric";
-import { WidgetDisplayOption } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -19,8 +20,13 @@ import { WidgetDisplayOption } from "@features/widget/models/widget-type";
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-  @Input() displayType: WidgetDisplayOption;
+  @Input() type: string;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
+  widgetTypes;
+
+  constructor(widgetConfigService: WidgetConfigService) {
+    this.widgetTypes = widgetConfigService.widgetTypes;
+  }
 
   minLength = 1;
   done = false;
@@ -67,8 +73,11 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
       this.rows = [...this.metrics];
     }
 
-    if (changes.displayType) {
-      this.minLength = this.displayType?.dimensions?.length || 1;
+    if (changes.type) {
+      const selectedType = this.widgetTypes.find((type: WidgetType) => {
+        return type.type === this.type;
+      });
+      this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }
 
@@ -90,7 +99,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   // make sure there are metrics
   checkValid(): void {
     this.done =
-      this.selectedMetrics && this.selectedMetrics.length > this.minLength;
+      this.selectedMetrics && this.selectedMetrics.length >= this.minLength;
   }
 
   // search for metrics

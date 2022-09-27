@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { MetricService } from "@features/metric/services/metric.service";
+import { LoadingService } from "@core/services/loading.service";
 
 @Component({
   selector: "metric-view",
@@ -42,21 +43,30 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters = {
     toggleShared: false,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter metrics...",
       props: ["owner", "orgId", "name", "description"],
     },
   };
 
   constructor(
     private route: ActivatedRoute,
-    private metricService: MetricService
+    private metricService: MetricService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    if (this.route && this.route.snapshot) {
-      this.metrics = this.route.snapshot.data.metrics;
-      this.rows = [...this.metrics];
-    }
+    const monitorsSub = this.route.params
+      .pipe(
+        tap(() => {
+          // this.error = false;
+        }),
+        switchMap(() => {
+          return this.loadingService.doLoading(this.fetchData());
+        })
+      )
+      .subscribe();
+
+    this.subscription.add(monitorsSub);
   }
 
   ngAfterViewInit(): void {
@@ -109,14 +119,21 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  fetchData() {
+    return this.metricService.getMetrics().pipe(
+      tap((results) => {
+        this.metrics = results;
+        this.rows = [...this.metrics];
+      }),
+      catchError(() => {
+        return EMPTY;
+      })
+    );
+  }
+
   // get fresh metrics
   refresh(): void {
-    this.metricService.getMetrics().subscribe({
-      next: (metrics) => {
-        this.metrics = metrics;
-        this.rows = [...this.rows];
-      },
-    });
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   ngOnDestroy(): void {

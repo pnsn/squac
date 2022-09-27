@@ -8,13 +8,19 @@ import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";
 import { MaterialModule } from "@shared/material.module";
 import { ActivatedRoute } from "@angular/router";
+import { Subject } from "rxjs";
 describe("ChannelGroupViewComponent", () => {
   let component: ChannelGroupViewComponent;
   let fixture: ComponentFixture<ChannelGroupViewComponent>;
   beforeEach(() => {
     return MockBuilder(ChannelGroupViewComponent)
       .keep(RouterTestingModule.withRoutes([]))
-      .mock(ActivatedRoute)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          params: new Subject(),
+        },
+      })
       .mock(MaterialModule)
       .mock(TableViewComponent)
       .mock(AbilityModule)

@@ -42,7 +42,7 @@ export interface ApiGetMonitor {
   name: string;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
   triggers?: ApiGetTrigger[];
 }
 
@@ -98,7 +98,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
       item.interval_type,
       item.interval_count,
       item.stat,
-      +item.user_id,
+      item.user,
       triggers
     );
 

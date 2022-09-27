@@ -1,9 +1,8 @@
 @import "./styles/mixins.scss";
 
-@import "~@swimlane/ngx-datatable/index.css";
-@import "~@swimlane/ngx-datatable/themes/material.scss";
-@import "~@swimlane/ngx-datatable/assets/icons.css";
-// @import '~ngx-daterangepicker-material/daterangepicker-theme.scss';
+@import "~@boring.devs/ngx-datatable/index.css";
+@import "~@boring.devs/ngx-datatable/assets/icons.css";
+// @import "~@boring.devs/ngx-datatable/themes/material.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet-draw/dist/leaflet.draw.css";
 @import "./styles/datatables.scss";
@@ -28,8 +27,8 @@ body {
   margin: 0;
   background-color: darken($sq-lt-gray, 5);
 }
-#body-content-container {
-  width: 98%;
+.body-content-container {
+  width: 100%;
   height: calc(100% - 50px);
   margin: 10px 1% 0;
   @include md {
@@ -43,13 +42,14 @@ body {
 }
 
 #dashboard-container {
-  margin: -10px -1% 0;
-  @include md {
-    margin: -10px -2% 0;
-  }
-  @include lg {
-    margin: -10px -4% 0;
-  }
+  // margin: -10px -1% 0;
+  // @include md {
+  //   margin: -10px -2% 0;
+  // }
+  // @include lg {
+  //   margin: -10px -4.25% 0;
+  // }
+  width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
@@ -172,6 +172,8 @@ p {
   font-weight: 300;
   margin-top: 3px;
   margin-bottom: 3px;
+  overflow-wrap: break-word;
+  hyphens: manual;
 }
 .warn-text {
   @extend .help-text;
@@ -267,4 +269,61 @@ a {
   display: inline-block;
   font-weight: 600;
   margin-right: 7px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
+  .loading-buffer {
+    display: none;
+  }
+  /* LoadingDirective overlay styles */
+  .loading-overlay {
+    height: 100%;
+    width: 100%;
+    background: white;
+    opacity: 0.8;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.buffer {
+  .loading-container {
+    align-items: flex-start;
+  }
+  .loading-buffer {
+    display: block;
+  }
+  .loading-gif {
+    display: none;
+  }
+}
+.loading-gif {
+  display: inline-block;
+  img {
+    height: 100px;
+    width: 100px;
+  }
+  z-index: 10001;
+}
+
+.loading-full-screen {
+  .loading-container {
+    position: fixed;
+  }
+
+  .loading-overlay {
+    background: $sq-blue;
+    opacity: 1;
+  }
 }

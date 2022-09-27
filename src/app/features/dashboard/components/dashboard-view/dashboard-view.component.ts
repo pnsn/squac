@@ -6,9 +6,10 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
+import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { Subscription } from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Dashboard } from "../../models/dashboard";
 
 // List of dashboards
@@ -25,7 +26,7 @@ export class DashboardViewComponent
   @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
 
   dashboards: Dashboard[] = [];
-  rows: Dashboard[];
+  rows: Dashboard[] = [];
   columns = [];
   selectedDashboardId: number;
 
@@ -44,7 +45,7 @@ export class DashboardViewComponent
     basePath: "/dashboards",
     resource: "Dashboard",
     add: {
-      text: "Create Dashboard",
+      text: "Add Dashboard",
     },
     menu: {
       text: "Actions",
@@ -73,25 +74,32 @@ export class DashboardViewComponent
   filters = {
     toggleShared: true,
     searchField: {
-      text: "Type to filter...",
+      text: "Filter dashboards...",
       props: ["owner", "orgId", "name", "description"],
     },
   };
 
+  queryParams: Params;
+
   constructor(
     private route: ActivatedRoute,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    const dashboardsSub = this.route.data.subscribe((data) => {
-      if (data.dashboards && data.dashboards.error) {
-        console.error("error in dashboard", data.dashboards.error);
-      } else if (data.dashboards) {
-        this.dashboards = [...data.dashboards];
-        this.rows = [...this.dashboards];
-      }
-    });
+    const dashboardsSub = this.route.params
+      .pipe(
+        tap(() => {
+          // this.error = false;
+          const orgId = this.route.snapshot.data.user.orgId;
+          this.queryParams = { organization: orgId };
+        }),
+        switchMap(() => {
+          return this.loadingService.doLoading(this.fetchData());
+        })
+      )
+      .subscribe();
 
     this.subscription.add(dashboardsSub);
   }
@@ -155,14 +163,22 @@ export class DashboardViewComponent
       });
   }
 
-  // get fresh dashboards
-  refresh(): void {
-    this.dashboardService.getDashboards().subscribe({
-      next: (dashboards) => {
-        this.dashboards = dashboards;
+  fetchData() {
+    return this.dashboardService.getDashboards(this.queryParams).pipe(
+      tap((dashboards) => {
+        this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
-      },
-    });
+      }),
+      catchError(() => {
+        return EMPTY;
+      })
+    );
+  }
+
+  // get fresh dashboards
+  refresh(filters?): void {
+    this.queryParams = { ...filters };
+    this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
   ngOnDestroy(): void {

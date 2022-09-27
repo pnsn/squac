@@ -1,20 +1,30 @@
-mat-form-field {
-  width: 40px;
-}
-.rule-row {
-  mat-form-field {
-    margin-left: 5px;
-  }
-}
-
-table {
+#rules-container {
+  min-height: 60px;
   width: 100%;
-  tr {
+  .header-row {
+    width: 100%;
+    div {
+      display: inline-block;
+    }
+  }
+  .field-column {
+    width: calc(25% - 25px);
     mat-form-field {
-      // width: 100%;
+      width: calc(95%);
+    }
+  }
+  .rule-row {
+    width: 100%;
+    div {
+      display: inline-block;
     }
   }
 }
+
 .narrow {
-  width: 30px;
+  min-width: 30px;
+}
+.medium {
+  min-width: 60px;
+  text-align: center;
 }

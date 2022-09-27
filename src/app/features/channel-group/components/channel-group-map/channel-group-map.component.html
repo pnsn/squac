@@ -6,6 +6,7 @@
     [leafletOptions]="options"
     [leafletLayers]="layers"
     (leafletMapReady)="onMapReady($event)"
+    (leafletMapZoomEnd)="onZoomEnd()"
   >
     <div
       *ngIf="editPage"
@@ -31,7 +32,7 @@
       </div>
       <div class="channel-list" *ngIf="editPage">
         <div class="searched-channels"></div>
-        <span>Search Result</span>
+        <span>Not Selected</span>
       </div>
       <div class="channel-list">
         <div class="new-channels"></div>

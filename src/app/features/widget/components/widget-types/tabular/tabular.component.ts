@@ -1,16 +1,18 @@
 import {
   Component,
   Input,
-  Output,
   ViewChild,
   OnDestroy,
   SimpleChanges,
   OnChanges,
   TemplateRef,
-  EventEmitter,
   OnInit,
 } from "@angular/core";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 import { Subscription } from "rxjs";
 import { Metric } from "@core/models/metric";
 import { Threshold } from "@widget/models/threshold";
@@ -35,8 +37,6 @@ export class TabularComponent
   @Input() dataRange: any;
   @Input() selectedMetrics: Metric[];
   @Input() properties: any;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() showKey: boolean;
   subscription = new Subscription();
   visualMaps;
@@ -186,7 +186,6 @@ export class TabularComponent
   }
 
   private buildRows(data) {
-    this.loadingChange.emit("Building chart...");
     const rows = [];
     const stations = [];
     const stationRows = [];
@@ -200,20 +199,18 @@ export class TabularComponent
     );
 
     this.channels.forEach((channel) => {
-      const identifier =
-        channel.networkCode.toUpperCase() +
-        "." +
-        channel.stationCode.toUpperCase();
-      const nslc = channel.nslc.toUpperCase();
+      const identifier = channel.staCode;
+      const nslc = channel.nslc;
       let agg = 0;
       const rowMetrics = {};
       const stationRowMetrics = {};
       this.selectedMetrics.forEach((metric) => {
         let val: number = null;
         let count;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          const rowData = data[channel.id][metric.id];
-          val = rowData[0].value;
+
+        if (data.get(channel.id)) {
+          const rowData = data.get(channel.id).get(metric.id);
+          val = rowData && rowData[0] ? rowData[0].value : null;
         }
 
         const visualMap = this.visualMaps[metric.id];
@@ -242,7 +239,7 @@ export class TabularComponent
       if (this.properties.displayType === "channel") {
         title = nslc;
       } else {
-        title = channel.loc.toUpperCase() + "." + channel.code.toUpperCase();
+        title = channel.loc + "." + channel.code;
       }
 
       let row = {
@@ -282,7 +279,6 @@ export class TabularComponent
         // check if agg if worse than current agg
       }
     });
-    this.loadingChange.emit(false);
     this.rows = [...stationRows, ...rows];
   }
 

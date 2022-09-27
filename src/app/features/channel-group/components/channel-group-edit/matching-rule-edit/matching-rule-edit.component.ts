@@ -8,13 +8,8 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  ValidationErrors,
-  ValidatorFn,
-} from "@angular/forms";
+import { FormArray, FormBuilder } from "@angular/forms";
+import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "@features/channel-group/models/matching-rule";
 import { Subscription } from "rxjs";
 
@@ -57,27 +52,39 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   makeRuleForm(rule?: MatchingRule) {
-    return this.formBuilder.group({
-      id: rule?.id || null,
-      channelGroupId: this.channelGroupId,
-      isInclude: rule ? rule.isInclude : true,
-      networkRegex: [
-        rule?.networkRegex || "",
-        { validators: [regexValidator()] },
-      ],
-      stationRegex: [
-        rule?.stationRegex || "",
-        { validators: [regexValidator()] },
-      ],
-      locationRegex: [
-        rule?.locationRegex || "",
-        { validators: [regexValidator()] },
-      ],
-      channelRegex: [
-        rule?.channelRegex || "",
-        { validators: [regexValidator()] },
-      ],
-    });
+    return this.formBuilder.group(
+      {
+        id: rule?.id || null,
+        channelGroupId: this.channelGroupId,
+        isInclude: rule ? rule.isInclude : true,
+        networkRegex: [
+          rule?.networkRegex || "",
+          { validators: [regexValidator()] },
+        ],
+        stationRegex: [
+          rule?.stationRegex || "",
+          { validators: [regexValidator()] },
+        ],
+        locationRegex: [
+          rule?.locationRegex || "",
+          { validators: [regexValidator()] },
+        ],
+        channelRegex: [
+          rule?.channelRegex || "",
+          { validators: [regexValidator()] },
+        ],
+      },
+      {
+        validators: [
+          atLeastOneValidator([
+            "networkRegex",
+            "stationRegex",
+            "locationRegex",
+            "channelRegex",
+          ]),
+        ],
+      }
+    );
   }
 
   // // Access triggers
@@ -115,18 +122,4 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     this.previewRules.emit(this.matchingRules);
     //request channels
   }
-}
-export function regexValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    let isValid = true;
-    if (control.value === "") {
-      return null;
-    }
-    try {
-      new RegExp(control.value);
-    } catch (e) {
-      isValid = false;
-    }
-    return isValid ? null : { inValidRegex: { value: control.value } };
-  };
 }

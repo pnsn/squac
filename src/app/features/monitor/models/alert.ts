@@ -31,7 +31,7 @@ export interface ApiGetAlert {
   breaching_channels: Array<any>;
   created_at: string;
   updated_at: string;
-  user_id: string;
+  user: number;
 }
 
 @Injectable({
@@ -42,7 +42,7 @@ export class AlertAdapter implements Adapter<Alert> {
   adaptFromApi(item: ApiGetAlert): Alert {
     return new Alert(
       item.id,
-      +item.user_id,
+      item.user,
       item.timestamp,
       item.message,
       item.in_alarm,

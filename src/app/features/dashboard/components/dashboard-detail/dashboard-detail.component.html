@@ -1,32 +1,34 @@
-<div *ngIf="dashboard" id="dashboard-container" class="column">
+<div
+  id="dashboard-container"
+  class="column"
+  [appIsLoading]="loadingService.isLoading(viewService.dashboard)"
+>
   <mat-toolbar id="dashboard-header" class="lt-gray-background box-shadow">
     <mat-toolbar-row class="row space-between">
       <div id="dashboard-info">
-        <h2>
-          {{ dashboard.name }}
-        </h2>
-        <span *ngIf="dashboard.owner && dashboard.orgId">
-          by {{ dashboard.owner | user }} ({{ dashboard.orgId | organization }})
+        <h2>{{ dashboard?.name }}</h2>
+        <span *ngIf="dashboard?.owner && dashboard?.orgId">
+          by {{ dashboard?.owner | user }} ({{
+            dashboard?.orgId | organization
+          }})
         </span>
 
         <shared-sharing-indicator
-          [shareAll]="dashboard.shareAll"
-          [shareOrg]="dashboard.shareOrg"
+          [shareAll]="dashboard?.shareAll"
+          [shareOrg]="dashboard?.shareOrg"
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
       <div id="header-bottom" class="dashboard-controls">
+        <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
         <button
-          mat-flat-button
+          mat-raised-button
           color="accent"
-          (click)="addWidget()"
-          *ngIf="'update' | able: dashboard"
-          matTooltip="Add widget"
-          aria-label="Button to add widget"
+          (click)="updateDashboard()"
+          [disabled]="!viewService.hasUnsavedChanges"
         >
-          Add widget
+          Apply Changes
         </button>
-
         <!-- if they have permission, otherwise show copy only -->
         <mat-menu
           #appMenu="matMenu"
@@ -34,7 +36,17 @@
           yPosition="below"
           xPosition="before"
         >
+          <button
+            mat-menu-item
+            (click)="addWidget()"
+            *ngIf="'update' | able: dashboard"
+          >
+            <mat-icon>add</mat-icon>
+            Add widget
+          </button>
+
           <button mat-menu-item (click)="editDashboard()">
+            <mat-icon>edit</mat-icon>
             Edit Dashboard
           </button>
           <button
@@ -44,6 +56,7 @@
             (click)="deleteDashboard()"
             *ngIf="'delete' | able: dashboard"
           >
+            <mat-icon color="warn">delete</mat-icon>
             Delete Dashboard
           </button>
         </mat-menu>
@@ -72,8 +85,8 @@
           <mat-icon>menu</mat-icon>
         </button>
         <shared-channel-group-selector
-          [(channelGroupId)]="channelGroupId"
-          (channelsChange)="channelsChange($event)"
+          [channelGroupId]="channelGroupId"
+          (channelGroupIdChange)="channelGroupChange($event)"
           appearance="outline"
           [dense]="true"
         >
@@ -81,13 +94,13 @@
       </div>
       <div id="header-controls" class="dashboard-controls">
         <dashboard-data-type-selector
-          [(dataType)]="archiveType"
-          [(statType)]="archiveStat"
+          [dataType]="archiveType"
+          [statType]="archiveStat"
           (dataTypeSelected)="selectArchiveType($event)"
         >
         </dashboard-data-type-selector>
         <shared-date-select
-          [secondsAgoFromNow]="viewService?.range"
+          [secondsAgoFromNow]="timeRange"
           [initialStartDate]="startTime"
           [initialEndDate]="endTime"
           [timeRanges]="datePickerTimeRanges"
@@ -105,13 +118,6 @@
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
-  <mat-progress-bar
-    *ngIf="status && status !== 'finished'"
-    [mode]="status !== 'error' ? 'indeterminate' : 'determinate'"
-    value="1001"
-    [color]="status === 'error' ? 'warn' : 'primary'"
-  >
-  </mat-progress-bar>
 
   <mat-drawer-container id="dashboard-body" autosize>
     <mat-drawer
@@ -124,7 +130,6 @@
       mode="side"
     >
       <dashboard-channel-filter
-        [channels]="channels"
         (closeSidenav)="drawer.toggle()"
       ></dashboard-channel-filter>
     </mat-drawer>
@@ -133,5 +138,5 @@
     </div>
   </mat-drawer-container>
 </div>
-<shared-error *ngIf="error" [errorMsg]="error"></shared-error>
-<shared-loading *ngIf="!dashboard && !error"></shared-loading>
+
+<!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

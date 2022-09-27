@@ -11,7 +11,6 @@ import {
 import { Channel } from "@core/models/channel";
 import { Metric } from "@core/models/metric";
 import { DateService } from "@core/services/date.service";
-import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@features/widget/models/measurement";
 import { Threshold } from "@features/widget/models/threshold";
 import { Subscription } from "rxjs";
@@ -31,7 +30,6 @@ export class CalendarComponent
   implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
     private widgetConnectService: WidgetConnectService
@@ -44,8 +42,6 @@ export class CalendarComponent
   @Input() dataRange: any;
   @Input() properties: any;
   @Input() showKey: boolean;
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   emphasizedChannel: string;
@@ -181,7 +177,6 @@ export class CalendarComponent
 
   startZoom() {
     if (this.echartsInstance) {
-      console.log(this.zooming);
       if (this.zooming === "start") {
         this.echartsInstance.dispatchAction({
           type: "takeGlobalCursor",
@@ -236,7 +231,6 @@ export class CalendarComponent
   }
 
   buildChartData(data) {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
@@ -309,7 +303,7 @@ export class CalendarComponent
           });
         });
 
-        const nslc = channel.nslc.toUpperCase();
+        const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
           const channelObj = {
             type: "heatmap",
@@ -333,9 +327,10 @@ export class CalendarComponent
             };
           }
 
-          if (data[channel.id] && data[channel.id][metric.id]) {
+          if (data.has(channel.id)) {
+            const measurements = data.get(channel.id).get(metric.id);
             //trusts that measurements are in order of time
-            data[channel.id][metric.id].forEach((measurement: Measurement) => {
+            measurements?.forEach((measurement: Measurement) => {
               const measurementStart = this.dateService.parseUtc(
                 measurement.starttime
               );
@@ -396,8 +391,7 @@ export class CalendarComponent
         show: "true",
       },
     };
-    const name =
-      this.properties.displayType == "hours" ? "Hour of Day" : "Day of Week";
+    const name = this.properties.displayType.replace("-", " of ");
     xAxis1.name = name;
     xAxis1.position = "bottom";
 
@@ -452,8 +446,6 @@ export class CalendarComponent
       xAxis1.data = this.xAxisLabels;
       axes.push(xAxis1);
     }
-
-    this.loadingChange.emit(false);
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMap,

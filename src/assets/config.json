@@ -14,6 +14,7 @@
       "type": "tabular",
       "useAggregate": true,
       "toggleKey": true,
+      "minMetrics": 1,
       "description": "Table with stations as rows and metrics as columns. Values shown are aggregates of measurements over the time range.",
       "displayInfo": "channel values, station stoplight, worst channel",
       "displayOptions": [{
@@ -42,6 +43,7 @@
       "zoomControls": true,
       "description": "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
       "displayInfo": "channel values, station stoplight",
+      "minMetrics": 1,
       "displayOptions": [{
           "description": "each row is a channel - values are raw measurement values",
           "dimensions": [
@@ -73,6 +75,7 @@
       "useAggregate": false,
       "toggleKey": true,
       "zoomControls": true,
+      "minMetrics": 1,
       "description": "Chart with measurement values on the y-axis and time on the x-axis. Each channel is a separate line.",
       "displayInfo": "channel values",
       "displayOptions": [{
@@ -89,11 +92,12 @@
       "type": "map",
       "useAggregate": true,
       "toggleKey": true,
-      "zoomControls": true,
+      "zoomControls": false,
+      "minMetrics": 1,
       "description": "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
       "displayInfo": "station stoplight, station worst",
       "displayOptions": [{
-          "description": "each map icon is a station - color reflects the aggregate value for the 'worst' station",
+          "description": "each map icon is a station - color reflects the aggregate value for the 'worst' channel",
           "dimensions": [
             "display"
           ],
@@ -115,13 +119,10 @@
       "zoomControls": false,
       "toggleKey": false,
       "useAggregate": true,
+      "minMetrics": 2,
       "displayInfo": "Color options not available for parallel plot.",
       "description": "Chart with at least 2 metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
-      "displayOptions": [{
-        "description": "",
-        "dimensions": null,
-        "displayType": "standard"
-      }]
+      "displayOptions": []
     },
     {
       "id": 7,
@@ -130,6 +131,7 @@
       "toggleKey": true,
       "zoomControls": true,
       "useAggregate": true,
+      "minMetrics": 3,
       "description": "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
       "displayInfo": "channels as dots",
       "displayOptions": [{
@@ -149,7 +151,8 @@
       "useAggregate": false,
       "zoomControls": true,
       "toggleKey": true,
-      "description": "  ",
+      "minMetrics": 1,
+      "description": "Chart with average measurement values on the y-axis and the selected display type on the x-axis. Each channel is a separate line.",
       "displayInfo": "channels as dots",
       "displayOptions": [{
           "description": "days of week",

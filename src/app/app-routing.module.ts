@@ -8,11 +8,8 @@ import { LoginComponent } from "@user/components/login/login.component";
 import { UserEditComponent } from "@user/components/user-edit/user-edit.component";
 import { UserResolver } from "@user/user.resolver";
 import { OrganizationResolver } from "@user/organization.resolver";
-import { MetricResolver } from "@metric/metric.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
-import { DashboardResolver } from "@dashboard/dashboard.resolver";
-import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
 
 const appRoutes: Routes = [
   {
@@ -51,9 +48,6 @@ const appRoutes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     resolve: {
-      dashboards: DashboardResolver,
-      channelGroups: ChannelGroupResolver,
-      metrics: MetricResolver,
       user: UserResolver,
       organizations: OrganizationResolver,
     },

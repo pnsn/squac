@@ -4,6 +4,8 @@ import { Widget } from "@widget/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Ability } from "@casl/ability";
 
 @Component({
   selector: "widget-main",
@@ -14,6 +16,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   loading = true;
   inited = 0;
+  dashboards: Dashboard[];
 
   error: string;
   canUpdate: boolean;
@@ -68,7 +71,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   constructor(
     private viewService: ViewService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ability: Ability
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +89,12 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       if (data.widgets.error) {
         this.error = "Could not load dashboard or widgets";
       } else {
+        if (data.dashboards) {
+          this.dashboards = data.dashboards.filter((d) => {
+            return this.ability.can("update", d);
+          });
+        }
+
         this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
@@ -98,7 +108,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     });
 
     const resizeSub = this.viewService.resize.subscribe((widgetId) => {
-      if (!widgetId) {
+      if (!widgetId && this.options.api) {
         this.options.api.resize();
       }
     });

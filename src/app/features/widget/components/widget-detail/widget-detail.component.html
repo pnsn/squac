@@ -117,8 +117,7 @@
         "
         color="accent"
       >
-        Change Metrics {{ metricsChanged }} {{ this.selected.length }}
-        {{ this.availableDimensions.length }}
+        Apply Changes
       </button>
 
       <ng-container
@@ -158,43 +157,14 @@
           </button>
         </ng-template>
       </ng-container>
-
-      <!-- <ng-container
-        *ngIf="widget.properties?.dimensions.length > 0; else noDim"
-      >
-        <button
-          *ngFor="let metric of selected; let i = index"
-          mat-menu-item
-          (click)="changeMetric($event, 'remove', i)"
-        >
-          <span>{{ widget.properties?.dimensions[i]?.type }}:</span>
-          {{ metric.name }}
-        </button>
-      </ng-container>
-      <ng-template #noDim>
-        <button
-          mat-menu-item
-          *ngFor="let metric of selected; let i = index"
-          (click)="changeMetric($event, 'remove', i)"
-        >
-          <mat-icon>check_box</mat-icon> {{ metric.name }}
-        </button>
-      </ng-template>
-
-      <button
-        mat-menu-item
-        *ngFor="let metric of notSelected; let i = index"
-        (click)="changeMetric($event, 'add', i)"
-      >
-        <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
-      </button> -->
-
       <ng-container *ngFor="let metric of metrics"> </ng-container>
     </ng-template>
   </mat-menu>
-  <div class="widget-content">
-    <shared-loading *ngIf="loading && !error" [loadingMsg]="loading">
-    </shared-loading>
+  <div
+    class="widget-content"
+    [appIsLoading]="loadingService.isLoading(widget)"
+    spinnerType="buffer"
+  >
     <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
     <shared-error
       *ngIf="!widget.metrics || widget.metrics?.length === 0"
@@ -207,7 +177,6 @@
           #widgetChild
           *ngSwitchCase="'timeline'"
           class="widget"
-          [(loading)]="loading"
           [data]="data"
           [dataRange]="dataRange"
           [thresholds]="widget.thresholds"
@@ -222,7 +191,6 @@
           #widgetChild
           *ngSwitchCase="'tabular'"
           class="widget"
-          [(loading)]="loading"
           [data]="data"
           [thresholds]="widget.thresholds"
           [channels]="channels"
@@ -237,7 +205,6 @@
           #widgetChild
           class="widget"
           [data]="data"
-          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="channels"
           [dataRange]="dataRange"
@@ -252,7 +219,6 @@
           #widgetChild
           class="widget"
           [data]="data"
-          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="channels"
           [dataRange]="dataRange"
@@ -267,7 +233,6 @@
           #widgetChild
           class="widget"
           [data]="data"
-          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="channels"
           [dataRange]="dataRange"
@@ -282,7 +247,6 @@
           #widgetChild
           class="widget"
           [data]="data"
-          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="channels"
           [dataRange]="dataRange"
@@ -297,7 +261,6 @@
           #widgetChild
           class="widget"
           [data]="data"
-          [(loading)]="loading"
           [thresholds]="widget.thresholds"
           [channels]="channels"
           [dataRange]="dataRange"
@@ -311,7 +274,6 @@
           #widgetChild
           *ngSwitchCase="'calendar-plot'"
           class="widget"
-          [(loading)]="loading"
           [data]="data"
           [dataRange]="dataRange"
           [thresholds]="widget.thresholds"

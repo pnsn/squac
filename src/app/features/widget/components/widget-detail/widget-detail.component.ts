@@ -8,14 +8,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Widget } from "@widget/models/widget";
-import { filter, Subscription, tap } from "rxjs";
+import { filter, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { DashboardService } from "@dashboard/services/dashboard.service";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { WidgetDataService } from "@widget/services/widget-data.service";
-import { Ability } from "@casl/ability";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Channel } from "@core/models/channel";
@@ -24,6 +22,7 @@ import {
   WidgetType,
 } from "@features/widget/models/widget-type";
 import { Threshold } from "@features/widget/models/threshold";
+import { LoadingService } from "@core/services/loading.service";
 
 @Component({
   selector: "widget-detail",
@@ -34,12 +33,11 @@ import { Threshold } from "@features/widget/models/threshold";
 export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   subscription = new Subscription();
   @Input() widget: Widget;
+  @Input() dashboards: Dashboard[];
   @ViewChild("widgetChild") widgetChild: any;
   data: any;
   dataRange: any;
-  loading: boolean | string = "Requesting Data";
   error: boolean | string;
-  dashboards: Dashboard[];
 
   channels: Channel[];
   zooming: false;
@@ -61,9 +59,8 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private dashboardService: DashboardService,
     private viewService: ViewService,
-    private ability: Ability
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -82,48 +79,13 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         },
       });
 
-    // listen for update to widget & load new data
-    const updateSub = this.viewService.updateData.subscribe({
-      next: (dashboardId) => {
-        if (this.widget.dashboardId === dashboardId) {
-          // get new data and start timers over
-
-          this.widgetDataService.params.next("widget detail");
-        }
-      },
-      error: (error) => {
-        console.error("error in widget detail dates: ", error);
-      },
-    });
-
-    // listen to changes in channel selection
     const channelsSub = this.viewService.channels.subscribe((channels) => {
-      if (channels.length > 0) {
-        this.loading = "Requesting Data";
-        this.channels = channels;
-      } else {
-        this.error = "Error: No channels selected.";
-        this.loading = false;
-      }
+      this.error =
+        channels?.length === 0 ? "Error: No channels selected." : null;
     });
-
-    // get dashboards user is able to edit
-    this.dashboardService
-      .getDashboards()
-      .pipe(
-        tap((dashboards) => {
-          this.dashboards = dashboards.filter((d) => {
-            return this.ability.can("update", d);
-          });
-        })
-      )
-      .subscribe((dashboards) => {
-        this.dashboards = dashboards;
-      });
 
     this.subscription.add(channelsSub);
     this.subscription.add(resizeSub);
-    this.subscription.add(updateSub);
     this.subscription.add(this.dataSub);
   }
 
@@ -136,24 +98,31 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   // set up widget
   initWidget(): void {
     if (!this.dataSub) {
-      this.dataSub = this.widgetDataService.data.subscribe((data) => {
-        if (data && Object.keys(data).length === 0) {
-          this.error = "No data for this time range.";
-          this.loading = false;
+      this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
+        this.channels = this.viewService.channels.getValue();
+        if (!data) {
+          this.error = "No data.";
+        } else if (data.error) {
+          this.error = data.error;
+        } else if (
+          this.widgetDataService.measurementsWithData.length <
+          this.widgetType.minMetrics
+        ) {
+          this.error = "No measurements found for one or more metrics.";
         } else {
           this.dataRange = this.widgetDataService.dataRange;
           this.data = data;
-          // this.error = false;
+          this.error = false;
         }
       });
     }
     if (!this.widget.isValid) {
       this.error = "Widget failed to load, try checking configuration.";
-      this.loading = false;
     } else {
       this.widgetType = this.widgetConfigService.getWidgetType(
         this.widget.type
       );
+
       this.displayType = this.widgetType.getOption(
         this.widget.properties.displayType
       );
@@ -161,10 +130,9 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       // check if has required # of metrics
       if (
         !this.widget.metrics ||
-        this.displayType?.dimensions?.length > this.widget.metrics.length
+        this.widgetType.minMetrics > this.widget.metrics.length
       ) {
-        this.error = `Error: ${this.widget.metrics} of ${this.displayType.dimensions?.length} metrics selected.`;
-        this.loading = false;
+        this.error = `Error: ${this.widget.metrics} of ${this.widgetType.minMetrics} metrics selected.`;
       } else {
         this.widgetDataService.updateWidget(this.widget, this.widgetType);
         this.selectMetrics();
@@ -202,7 +170,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       // if enough not enough dimensions, update with remaining metrics
-      if (this.selected.length < this.displayType.dimensions.length) {
+      if (this.selected.length < this.widgetType.minMetrics) {
         this.widget.metrics.forEach((metric: Metric, _index) => {
           if (
             this.selected.indexOf(metric.id) < 0 &&
@@ -229,11 +197,11 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   // get new data and save metrics when changed
   metricsSelected(): void {
-    if (this.widget.metrics && this.displayType.dimensions) {
-      while (this.selected.length < this.displayType.dimensions?.length) {
+    if (this.widget.metrics && this.widgetType.minMetrics) {
+      while (this.selected.length < this.widgetType.minMetrics) {
         this.selected.push(this.widget.metrics[0].id);
       }
-      const diff = this.displayType.dimensions?.length - this.selected.length;
+      const diff = this.widgetType.minMetrics - this.selected.length;
       //if not enough metrics, populate with 1st one to prevent breaking
       this.selected.fill(
         this.widget.metrics[0].id,
@@ -244,7 +212,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     // add all selected metrics
     if (
-      this.selected.length >= this.displayType?.dimensions?.length ||
+      this.selected.length >= this.widgetType.minMetrics ||
       (!this.displayType.dimensions && this.selected.length > 0)
     ) {
       this.selectedMetrics = this.widget.metrics.filter(

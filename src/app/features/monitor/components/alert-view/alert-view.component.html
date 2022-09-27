@@ -1,5 +1,6 @@
 <shared-table-view
   title="Alerts (last day)"
+  [isLoading]="loadingService.isLoading(this)"
   [options]="options"
   [rows]="rows"
   [columns]="columns"

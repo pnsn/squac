@@ -4,6 +4,7 @@ import { ViewService } from "@core/services/view.service";
 import { DashboardModule } from "@features/dashboard/dashboard.module";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { MockBuilder } from "ng-mocks";
+import { Subject } from "rxjs";
 
 import { ChannelFilterComponent } from "./channel-filter.component";
 
@@ -15,7 +16,12 @@ describe("ChannelFilterComponent", () => {
     return MockBuilder(ChannelFilterComponent, DashboardModule)
       .mock(FormsModule)
       .mock(ReactiveFormsModule)
-      .mock(ViewService)
+      .provide({
+        provide: ViewService,
+        useValue: {
+          channelGroupId: new Subject(),
+        },
+      })
       .mock(WidgetConnectService);
   });
 

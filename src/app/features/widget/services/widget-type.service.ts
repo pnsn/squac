@@ -122,6 +122,7 @@ export class WidgetTypeService {
         moveOnMouseWheel: true,
         zoomOnMouseWheel: false,
         orient: "vertical",
+        filterMode: "filter",
       },
       {
         type: "slider",
@@ -448,21 +449,21 @@ export class WidgetTypeService {
     channels.forEach((channel) => {
       const station = {
         ...series,
-        name: channel.nslc.toUpperCase(),
+        name: channel.nslc,
         data: [],
       };
       stations.push(station);
 
       const channelData = {
-        name: channel.nslc.toUpperCase(),
+        name: channel.nslc,
         value: [],
       };
 
       metrics.forEach((metric) => {
         let val: number = null;
-        if (data[channel.id] && data[channel.id][metric.id]) {
-          const rowData = data[channel.id][metric.id];
-          val = rowData[0].value;
+        if (data.has(channel.id)) {
+          const rowData = data.get(channel.id).get(metric.id);
+          val = rowData && rowData[0] ? rowData[0].value : val;
         }
         channelData.value.push(val);
       });

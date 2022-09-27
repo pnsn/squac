@@ -1,4 +1,14 @@
 <div class="table-container">
+  <div class="action-row">
+    <button
+      *ngIf="selectable"
+      [disabled]="selected.length === 0"
+      mat-stroked-button
+      (click)="removeSelected()"
+    >
+      remove
+    </button>
+  </div>
   <ngx-datatable
     #groupTable
     class="material channel-table"
@@ -6,13 +16,13 @@
     [columns]="columns"
     [columnMode]="ColumnMode.flex"
     [headerHeight]="30"
-    [footerHeight]="0"
     [rowHeight]="23"
-    [selectionType]="selectable ? SelectionType.checkbox : null"
+    [selectionType]="SelectionType.checkbox"
     [selected]="selected"
     [scrollbarV]="true"
     [sortType]="SortType.multi"
     (select)="selectRow($event)"
+    [messages]="messages"
   >
   </ngx-datatable>
   <ng-template #isLoading>

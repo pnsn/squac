@@ -8,7 +8,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Channel } from "@core/models/channel";
-import { ColumnMode, SelectionType, SortType } from "@swimlane/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 
 @Component({
   selector: "channel-group-edit-table",
@@ -28,52 +32,43 @@ export class ChannelGroupTableComponent implements OnInit {
   ColumnMode = ColumnMode;
   SortType = SortType;
   columns: any = [];
+  messages = {
+    emptyMessage: "No channels found.",
+  };
 
   ngOnInit(): void {
     // table columns
     setTimeout(() => {
       this.columns = [];
 
-      if (this.selectable) {
-        this.columns.push({
-          width: 30,
-          canAutoResize: false,
-          sortable: false,
-          draggable: false,
-          resizeable: false,
-          headerCheckboxable: true,
-          checkboxable: true,
-        });
-      }
+      this.columns.push({
+        width: 30,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false,
+        resizeable: false,
+        headerCheckboxable: true,
+        checkboxable: true,
+      });
 
       this.columns = [
         ...this.columns,
 
         {
           name: "Network",
-          prop: "networkCode",
+          prop: "net",
           draggable: false,
           sortable: true,
           resizeable: false,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
           flexGrow: 1,
         },
         {
           name: "Station",
-          prop: "stationCode",
+          prop: "sta",
           draggable: false,
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
         {
           name: "Location",
@@ -82,11 +77,6 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
         {
           name: "Channel",
@@ -95,31 +85,35 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
-          pipe: {
-            transform: (value) => {
-              return value.toUpperCase();
-            },
-          },
         },
       ];
-      if (!this.selectable) {
-        this.columns.push({
-          name: "",
-          prop: "",
-          width: 30,
-          canAutoResize: false,
-          draggable: false,
-          sortable: false,
-          resizeable: false,
-          flexGrow: 1,
-          cellTemplate: this.removeTemplate,
-        });
-      }
+      // if (!this.selectable) {
+      //   this.columns.push({
+      //     name: "",
+      //     prop: "",
+      //     width: 30,
+      //     canAutoResize: false,
+      //     draggable: false,
+      //     sortable: false,
+      //     resizeable: false,
+      //     flexGrow: 1,
+      //     cellTemplate: this.removeTemplate,
+      //   });
+      // }
     }, 0);
   }
   selectRow($event) {
     this.selected = [...$event.selected];
     this.selectedChange.emit(this.selected);
+  }
+
+  removeSelected() {
+    this.rows = this.rows.filter(
+      (channel: Channel) =>
+        this.selected.findIndex((c: Channel) => c.id === channel.id) < 0
+    );
+    this.selectRow({ selected: [] });
+    this.rowsChange.emit(this.rows);
   }
 
   removeRow(row) {

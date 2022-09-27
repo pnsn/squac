@@ -93,7 +93,10 @@ export class WidgetEditInfoComponent implements OnInit {
     }
 
     // change displayOptions
-    if (this.selectedType?.displayOptions) {
+    if (
+      this.selectedType?.displayOptions &&
+      this.selectedType?.displayOptions.length > 0
+    ) {
       this.displayType =
         this.selectedType.getOption(this.properties.displayType) ||
         this.selectedType.displayOptions[0];

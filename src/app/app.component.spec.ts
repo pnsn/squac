@@ -1,10 +1,11 @@
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./core/services/auth.service";
-import { LoadingScreenComponent } from "@core/components/loading-screen/loading-screen.component";
+import { LoadingOverlayComponent } from "./shared/components/loading-overlay/loading-overlay.component";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("AppComponent", () => {
   MockInstance.scope();
@@ -12,9 +13,10 @@ describe("AppComponent", () => {
   beforeEach(() =>
     MockBuilder(AppComponent)
       .keep(RouterTestingModule.withRoutes([]))
-      .mock(LoadingScreenComponent)
+      .mock(LoadingOverlayComponent)
       .mock(MaterialModule)
       .mock(AuthService)
+      .mock(LoadingDirective)
       .provide({
         provide: ConfigurationService,
         useValue: {
