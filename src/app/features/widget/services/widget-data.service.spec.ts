@@ -59,9 +59,7 @@ describe("WidgetDataService", () => {
         provide: ViewService,
         useValue: {
           channels: of(),
-          startedLoading: () => {
-            return;
-          },
+          updateData: of(),
           finishedLoading: () => {
             return;
           },
@@ -91,8 +89,8 @@ describe("WidgetDataService", () => {
   });
 
   it("should not try to fetch measurements if no widget", () => {
-    const viewSpy = spyOn(viewService, "startedLoading");
+    const updateSpy = spyOn(viewService, "updateData");
     service.updateWidget(null, testType);
-    expect(viewSpy).not.toHaveBeenCalled();
+    expect(updateSpy).not.toHaveBeenCalled();
   });
 });

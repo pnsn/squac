@@ -29,6 +29,7 @@ describe("DashboardDetailComponent", () => {
       .mock(ConfirmDialogService)
       .mock(MaterialModule)
       .mock(SharedModule)
+      .mock(ChannelFilterComponent)
       .provide({
         provide: ViewService,
         useValue: {

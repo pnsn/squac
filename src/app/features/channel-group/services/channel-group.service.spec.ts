@@ -56,7 +56,7 @@ describe("ChannelGroupService", () => {
   });
 
   it("should put channel group with id", (done: DoneFn) => {
-    const testGroup = new ChannelGroup(1, "1", "name", "description", 1);
+    const testGroup = new ChannelGroup(1, 1, "name", "description", 1);
     channelGroupService.updateChannelGroup(testGroup).subscribe((response) => {
       expect(response).toBeDefined();
       done();

@@ -5,6 +5,7 @@ import { LoadingOverlayComponent } from "./shared/components/loading-overlay/loa
 import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("AppComponent", () => {
   MockInstance.scope();
@@ -15,6 +16,7 @@ describe("AppComponent", () => {
       .mock(LoadingOverlayComponent)
       .mock(MaterialModule)
       .mock(AuthService)
+      .mock(LoadingDirective)
       .provide({
         provide: ConfigurationService,
         useValue: {

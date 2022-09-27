@@ -25,7 +25,7 @@ describe("DashboardService", () => {
     1
   );
 
-  const testChannelGroup = new ChannelGroup(1, "1", "name", "description", 1);
+  const testChannelGroup = new ChannelGroup(1, 1, "name", "description", 1);
 
   beforeEach(() => {
     return MockBuilder(DashboardService, DashboardModule)

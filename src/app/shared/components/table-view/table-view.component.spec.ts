@@ -84,8 +84,7 @@ describe("TableViewComponent", () => {
     expect(component.tableRows).toEqual(rows);
   });
 
-  it("should listen to router events and refresh", fakeAsync(() => {
-    const refreshSpy = spyOn(component, "refreshResource");
+  it("should listen to router events and set selected", fakeAsync(() => {
     fixture.componentInstance.controls.listenToRouter = true;
     fixture.componentInstance.controls.basePath = "/1";
     fixture.detectChanges();
@@ -102,7 +101,7 @@ describe("TableViewComponent", () => {
     // We should see Target1Component component on /1 page.
     expect(location.path()).toEqual("/1");
 
-    expect(refreshSpy).toHaveBeenCalled();
+    expect(fixture.componentInstance.selectedRowId).toBeNull();
   }));
 
   it("should select row", () => {

@@ -9,7 +9,7 @@ describe("ChannelGroup", () => {
   let adapter: ChannelGroupAdapter;
 
   it("should create an instance", () => {
-    expect(new ChannelGroup(1, "owner", "test", "description", 1)).toBeTruthy();
+    expect(new ChannelGroup(1, 1, "test", "description", 1)).toBeTruthy();
   });
 
   it("should create new channel group from api", () => {
@@ -21,7 +21,7 @@ describe("ChannelGroup", () => {
       channels: [],
       created_at: "string",
       updated_at: "string",
-      user: "string",
+      user: 1,
       organization: 1,
       auto_exclude_channels: [],
       auto_include_channels: [],
@@ -37,7 +37,7 @@ describe("ChannelGroup", () => {
     adapter = TestBed.inject(ChannelGroupAdapter);
     const testGroup: ChannelGroup = new ChannelGroup(
       1,
-      "user",
+      1,
       "testName",
       "description",
       1

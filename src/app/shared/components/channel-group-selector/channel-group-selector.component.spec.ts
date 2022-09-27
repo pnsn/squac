@@ -19,6 +19,9 @@ describe("ChannelGroupSelectorComponent", () => {
           getChannelGroups: () => {
             return of();
           },
+          getSortedChannelGroups: () => {
+            return of();
+          },
         },
       })
       .provide({

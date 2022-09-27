@@ -14,6 +14,7 @@ import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group
 import { MockBuilder } from "ng-mocks";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MessageService } from "@core/services/message.service";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe("ChannelGroupEditComponent", () => {
@@ -30,6 +31,7 @@ describe("ChannelGroupEditComponent", () => {
       .mock(MessageService)
       .mock(ChannelService)
       .mock(ChannelGroupService)
+      .mock(LoadingDirective)
       .mock(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,

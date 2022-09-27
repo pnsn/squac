@@ -119,22 +119,6 @@ describe("ViewService", () => {
     service.resizeAll();
   });
 
-  it("should stop loading", () => {
-    service.queuedWidgets = 1;
-    service.finishedLoading();
-    service.status.pipe(take(1)).subscribe((status) => {
-      expect(status).toEqual("finished");
-    });
-  });
-
-  it("should start loading", () => {
-    service.queuedWidgets = 0;
-    service.startedLoading();
-    service.status.pipe(take(1)).subscribe((status) => {
-      expect(status).toEqual("loading");
-    });
-  });
-
   it("should update given widget", () => {
     const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
       of(testWidget)

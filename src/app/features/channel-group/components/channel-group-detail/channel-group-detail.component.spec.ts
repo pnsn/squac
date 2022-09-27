@@ -11,6 +11,7 @@ import { MockBuilder } from "ng-mocks";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("ChannelGroupDetailComponent", () => {
   let component: ChannelGroupDetailComponent;
@@ -24,18 +25,13 @@ describe("ChannelGroupDetailComponent", () => {
       .mock(RouterTestingModule.withRoutes([]))
       .mock(OrganizationService)
       .mock(UserService)
+      .mock(LoadingDirective)
       .provide({
         provide: ActivatedRoute,
         useValue: {
           snapshot: {},
           params: of({
-            channelGroup: new ChannelGroup(
-              1,
-              "owner",
-              "name",
-              "description",
-              1
-            ),
+            channelGroup: new ChannelGroup(1, 1, "name", "description", 1),
           }),
         },
       });

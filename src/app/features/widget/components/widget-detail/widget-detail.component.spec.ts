@@ -11,6 +11,7 @@ import { ErrorComponent } from "@shared/components/error/error.component";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;
@@ -21,6 +22,7 @@ describe("WidgetDetailComponent", () => {
       .mock(AbilityModule)
       .mock(Ability)
       .mock(ErrorComponent)
+      .mock(LoadingDirective)
       .keep(RouterTestingModule.withRoutes([]))
       .provide({
         provide: DashboardService,
