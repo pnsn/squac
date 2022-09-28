@@ -136,6 +136,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         this.widgetDataService.updateWidget(this.widget, this.widgetType);
         this.selectMetrics();
+        this.viewService.updateData.next({ widget: this.widget.id });
       }
     }
   }

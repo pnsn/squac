@@ -195,7 +195,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // tell view service to get new data
   refreshData(): void {
-    this.viewService.updateData.next(this.dashboard.id);
+    this.viewService.updateData.next({ dashboard: this.dashboard.id });
   }
 
   // save dashboard

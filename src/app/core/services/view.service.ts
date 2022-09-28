@@ -34,9 +34,10 @@ export class ViewService {
   private _channelsList: FormGroup; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
   private _channelGroupId: number;
+  private _widgets: Widget[];
   channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
-  updateData = new Subject<number>();
+  updateData = new Subject<any>();
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();
@@ -136,7 +137,6 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this._dashboard = dashboard;
-
     this.setIntialDates();
     // return dates
   }
@@ -154,7 +154,7 @@ export class ViewService {
         this.dashboard.channelGroupId = group.id;
         this._channelGroupId = group.id;
       }),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       })
     );
@@ -196,7 +196,7 @@ export class ViewService {
     const channels = this.filterChannels();
 
     this.channels.next(channels);
-    this.updateData.next(this.dashboard.id);
+    this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges = false;
     // this._channelsList = undefined;
     // this._channelGroupId = null;
@@ -206,7 +206,7 @@ export class ViewService {
     dashboardId: number,
     channelGroupId: number
   ): Observable<ChannelGroup> {
-    console.log("set dashboards");
+    this._widgets = [];
     return this.dashboardService.getDashboard(dashboardId).pipe(
       tap({
         next: (dashboard) => {
@@ -283,12 +283,12 @@ export class ViewService {
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
-    return this._dashboard.widgets?.findIndex((w) => w.id === id);
+    return this._widgets?.findIndex((w) => w.id === id);
   }
 
   // return widget with given id
   getWidgetById(id: number): Widget {
-    return this._dashboard.widgets.find((w) => w.id === id);
+    return this._widgets.find((w) => w.id === id);
   }
 
   // send id to resize subscribers
@@ -303,9 +303,7 @@ export class ViewService {
 
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
-    if (this.dashboard) {
-      this._dashboard.widgets = widgets;
-    }
+    this._widgets = widgets;
   }
 
   // stores archive options
@@ -325,23 +323,23 @@ export class ViewService {
   updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
-      this._dashboard.widgets.splice(index, 1);
+      this._widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
       this.widgetService.getWidget(widgetId).subscribe({
         next: (newWidget) => {
           if (index > -1) {
-            this._dashboard.widgets[index] = newWidget;
+            this._widgets[index] = newWidget;
             this.messageService.message("Widget updated.");
           } else {
-            this._dashboard.widgets.push(newWidget);
+            this._widgets.push(newWidget);
             this.messageService.message("Widget added.");
           }
           this.widgetChanged(newWidget.id);
         },
         error: () => {
-          this.messageService.error("Could not updated widget.");
+          this.messageService.error("Could not update widget.");
         },
       });
     }
