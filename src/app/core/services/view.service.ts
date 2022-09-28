@@ -10,7 +10,6 @@ import {
   of,
   distinctUntilChanged,
   catchError,
-  ReplaySubject,
 } from "rxjs";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
@@ -155,7 +154,7 @@ export class ViewService {
         this.dashboard.channelGroupId = group.id;
         this._channelGroupId = group.id;
       }),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       })
     );
