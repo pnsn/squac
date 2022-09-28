@@ -97,8 +97,8 @@ export class Widget {
 const defaultProperties: WidgetProperties = {};
 
 const defaultLayout: WidgetLayout = {
-  rows: 3,
-  columns: 6,
+  rows: 5,
+  columns: 10,
 };
 
 export interface WidgetLayout {

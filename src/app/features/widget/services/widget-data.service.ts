@@ -57,9 +57,17 @@ export class WidgetDataService implements OnDestroy {
       4
     );
 
+    console.log("Widget data init");
+
     //listen to viewservice signal to update data
     this.measurementReq = this.$params.pipe(
       filter(() => {
+        console.log(
+          this.widget.name,
+          this.metrics,
+          this.groupId,
+          !!this.nslcStrings
+        );
         //  only make request when widget is valid
         const valid =
           !!this.widget &&
@@ -96,10 +104,15 @@ export class WidgetDataService implements OnDestroy {
         this.finishedLoading(data);
       },
     });
-
     const updateSub = this.viewService.updateData
       .pipe(
-        filter((id) => this.widget && id === this.widget.dashboardId),
+        filter((data) => {
+          return (
+            this.widget &&
+            ((data.dashboard && data.dashboard === this.widget.dashboardId) ||
+              (data.widget && data.widget === this.widget.id))
+          );
+        }),
         tap(() => {
           const group = this.viewService.channelGroupId.getValue();
           if (group !== this.groupId) {

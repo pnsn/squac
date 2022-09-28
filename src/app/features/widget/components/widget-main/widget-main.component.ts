@@ -94,7 +94,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
             return this.ability.can("update", d);
           });
         }
-
         this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
@@ -147,8 +146,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   // insert grid item into widget
   addWidgetToGrid(widget: Widget, rePosition?: boolean): void {
     const item = {
-      cols: widget.layout.columns ? widget.layout.columns : 1,
-      rows: widget.layout.rows ? widget.layout.rows : 1,
+      cols: widget.layout.columns ? widget.layout.columns : 10,
+      rows: widget.layout.rows ? widget.layout.rows : 5,
       y: rePosition ? null : widget.layout.y,
       x: rePosition ? null : widget.layout.x,
       widget,
@@ -170,6 +169,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     } else {
       this.widgetItems[index].widget = widget;
     }
+    this.viewService.updateData.next({ widget: widgetId });
   }
 
   ngOnDestroy(): void {
