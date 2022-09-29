@@ -121,9 +121,16 @@ export class CalendarComponent
                 "Friday",
                 "Saturday",
               ];
-              const week = params[0];
-              const time = params[1];
-              return `${labels[+week]} ${time} `;
+              if (params.length > 1) {
+                const week = params[0];
+                const time = params[1];
+                return `${labels[+week]} ${time}:00`;
+              } else {
+                if (+params[0]) {
+                  return `${params[0]}:00`;
+                }
+                return `${params[0]}`;
+              }
             },
           },
         },
