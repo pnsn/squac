@@ -223,6 +223,7 @@ export class MapComponent
 
       //properties.stationView === 'stoplight' || 'worst'
       this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
         const channelRows = [];
         const stations = [];
         const stationRows = [];

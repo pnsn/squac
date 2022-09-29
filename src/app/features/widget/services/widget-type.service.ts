@@ -201,6 +201,9 @@ export class WidgetTypeService {
       }
 
       metrics.forEach((metric) => {
+        if (!metric) {
+          return;
+        }
         const metricId = metric.id;
         const threshold = thresholds.find(
           (threshold) => threshold.metricId === metricId
@@ -403,6 +406,7 @@ export class WidgetTypeService {
     const stations = [];
     const axis = [];
     metrics.forEach((metric, i) => {
+      if (!metric) return;
       if (series.type === "parallel") {
         let align;
         let axisAlign;
@@ -460,6 +464,7 @@ export class WidgetTypeService {
       };
 
       metrics.forEach((metric) => {
+        if (!metric) return;
         let val: number = null;
         if (data.has(channel.id)) {
           const rowData = data.get(channel.id).get(metric.id);

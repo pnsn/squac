@@ -149,7 +149,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.availableDimensions = [...this.displayType.dimensions];
 
       // get metrics that match thresholds & check dimensions
-      for (let i = this.widget.thresholds.length - 1; i >= 0; i--) {
+      for (let i = 0; i < this.widget.thresholds.length; i++) {
         const threshold = this.widget.thresholds[i];
         if (threshold.dimension) {
           const metricIndex = this.widget.metrics.findIndex(
@@ -216,12 +216,16 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.selected.length >= this.widgetType.minMetrics ||
       (!this.displayType.dimensions && this.selected.length > 0)
     ) {
-      this.selectedMetrics = this.widget.metrics.filter(
-        (metric) => this.selected.indexOf(metric.id) > -1
-      );
+      // this.selectedMetrics = this.widget.metrics.filter(
+      //   (metric) => this.selected.indexOf(metric.id) > -1
+      // );
+
+      this.selectedMetrics = this.selected.map((metricId) => {
+        return this.widget.metrics.find((m) => m.id === metricId);
+      });
       this.metricsChanged = false;
     }
-
+    //order is getting reset by this
     // get new data
     this.widgetDataService.updateMetrics(this.selectedMetrics);
   }
@@ -234,6 +238,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       console.log("resized");
     }
   }
+
+  //97: decrequest
+  //94 hourly bp
+  //83 hourly max
+
+  //x-axis, y-axis, color
 
   // change dimension for metric
   changeThreshold(
@@ -248,7 +258,7 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
       //not currently selected;
       if (
         this.availableDimensions.length === 0 &&
-        this.displayType.dimensions
+        this.displayType?.dimensions
       ) {
         //remove dimension from other metrics
         threshold.dimension = this.displayType.dimensions[0];
@@ -259,25 +269,39 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
           ) {
             t.dimension = null;
             const index = this.selected.indexOf(t.metricId);
+            this.selected[index] = threshold.metricId;
+          }
+        });
+      } else if (this.displayType?.dimensions) {
+        // put in correct spot
+        threshold.dimension = this.availableDimensions[0];
+        this.availableDimensions.splice(0, 1);
 
-            this.selected.splice(index, 1);
+        this.displayType.dimensions.forEach((dim, i) => {
+          if (dim === threshold.dimension) {
+            this.selected[i] = threshold.metricId;
           }
         });
       } else {
-        //take first dimension available
-        threshold.dimension = this.availableDimensions[0];
-        this.availableDimensions.splice(0, 1);
+        //put in first available spot
+        let metricSet = false;
+        this.selected = this.selected.map((s) => {
+          if (s || metricSet) {
+            return s;
+          } else if (!metricSet && !s) {
+            metricSet = true;
+            return metric.id;
+          }
+        });
       }
-      this.selected.push(metric.id);
     } else {
       // already selected, remove dimension
-      if (this.displayType.dimensions) {
+      if (this.displayType?.dimensions) {
         const dim = threshold.dimension;
         threshold.dimension = null;
         this.availableDimensions.push(dim);
       }
-
-      this.selected.splice(selectedIndex, 1);
+      this.selected[selectedIndex] = null;
     }
   }
 

@@ -305,6 +305,7 @@ export class CalendarComponent
 
         const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
           const channelObj = {
             type: "heatmap",
             name: nslc,
