@@ -323,6 +323,10 @@
       "type": "bluered"
     },
     {
+      "label": "Green and Red",
+      "color": ["green", "green", "green", "red", "red", "red"]
+    },
+    {
       "label": "Viridis",
       "type": "viridis"
     },
