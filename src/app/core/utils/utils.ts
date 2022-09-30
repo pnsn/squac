@@ -17,6 +17,9 @@ declare global {
 
 Array.prototype.toIdString = function <T extends idType>(this: T[]): string {
   return this.reduce((previous: string, current: T) => {
+    if (!current) {
+      return previous;
+    }
     return previous
       ? previous + "," + current.id.toString()
       : current.id.toString();

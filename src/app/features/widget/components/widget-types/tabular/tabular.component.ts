@@ -149,6 +149,7 @@ export class TabularComponent
     this.sorts = [{ prop: "agg", dir: "desc" }];
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
         this.columns.push({
           name: metric.name,
           prop: metric.id,
@@ -205,6 +206,7 @@ export class TabularComponent
       const rowMetrics = {};
       const stationRowMetrics = {};
       this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
         let val: number = null;
         let count;
 

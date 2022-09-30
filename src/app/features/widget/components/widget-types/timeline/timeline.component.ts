@@ -244,6 +244,7 @@ export class TimelineComponent
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {
               series: [],

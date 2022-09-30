@@ -57,17 +57,9 @@ export class WidgetDataService implements OnDestroy {
       4
     );
 
-    console.log("Widget data init");
-
     //listen to viewservice signal to update data
     this.measurementReq = this.$params.pipe(
       filter(() => {
-        console.log(
-          this.widget.name,
-          this.metrics,
-          this.groupId,
-          !!this.nslcStrings
-        );
         //  only make request when widget is valid
         const valid =
           !!this.widget &&
@@ -251,7 +243,6 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.metrics = this.widget.metricsString;
     }
-
     this.params.next({});
   }
 
