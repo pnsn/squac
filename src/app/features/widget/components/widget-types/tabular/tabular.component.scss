@@ -85,10 +85,12 @@ $font-size: 9pt !important;
       font-size: inherit;
     }
     &:hover {
-      overflow: visible;
       z-index: 1000;
+      overflow: auto;
+      overflow-wrap: break-word;
       span {
         display: inline-block;
+        word-break: break-word;
         background-color: white;
         font-weight: bold;
       }
