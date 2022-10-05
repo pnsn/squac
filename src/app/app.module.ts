@@ -16,6 +16,8 @@ import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.
 import { HomeComponent } from "./core/components/home/home.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfigurationService } from "@core/services/configuration.service";
+import { ApiModule, BASE_PATH } from "@pnsn/ngx-squacapi-client";
+import { environment } from "environments/environment";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -30,6 +32,7 @@ export function initApp(configurationService: ConfigurationService) {
     HomeComponent,
   ],
   imports: [
+    ApiModule,
     HttpClientModule,
     SharedModule,
     BrowserAnimationsModule,
@@ -40,6 +43,10 @@ export function initApp(configurationService: ConfigurationService) {
     AppRoutingModule,
   ],
   providers: [
+    {
+      provide: BASE_PATH,
+      useValue: environment.API_BASE_PATH,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
