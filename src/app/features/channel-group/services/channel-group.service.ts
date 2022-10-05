@@ -5,6 +5,10 @@ import { map, tap } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Params } from "@angular/router";
 import { StorageService } from "@core/services/storage.service";
+import {
+  ApiService,
+  ReadOnlyGroupDetailSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",
@@ -24,13 +28,20 @@ export class ChannelGroupService {
   constructor(
     private squacApi: SquacApiService,
     private channelGroupAdapter: ChannelGroupAdapter,
-    private storage: StorageService
+    private storage: StorageService,
+    private api: ApiService
   ) {}
 
   // Gets channel groups from server
   getChannelGroups(params?: Params): Observable<ChannelGroup[]> {
     console.log(params);
     const data = this.storage.getData(this.url);
+
+    this.api.apiNslcGroupsRead("3").subscribe({
+      next: (response: ReadOnlyGroupDetailSerializer) => {
+        console.log(response);
+      },
+    });
     return data
       ? of(data)
       : this.squacApi.get(this.url, null, params).pipe(
