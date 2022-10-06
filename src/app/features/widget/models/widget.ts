@@ -1,7 +1,8 @@
 import { Threshold } from "@widget/models/threshold";
-import { ApiGetMetric, Metric, MetricAdapter } from "@core/models/metric";
+import { Metric, MetricAdapter } from "@core/models/metric";
 import { Adapter } from "@core/models/adapter";
 import { Injectable } from "@angular/core";
+import { ApiMetric, ReadWidget, WriteWidget } from "@core/models/squac-types";
 
 export class Widget {
   public _thresholds: Threshold[] = [];
@@ -128,67 +129,22 @@ export interface WidgetProperties {
   // sampling: string;
 }
 
-export interface ApiGetWidget {
-  id: number;
-  name: string;
-  dashboard: number;
-  metrics: ApiGetMetric[];
-  thresholds: string;
-  user: number;
-  properties: string;
-  type: string;
-  stat: string;
-  layout: string;
-  columns?: number;
-  rows?: number;
-  x_position: number;
-  y_position: number;
-  stattype: any;
-  widgettype: any;
-}
-
-export interface ApiPostWidget {
-  name: string;
-  dashboard: number;
-  metrics: number[];
-
-  properties: string;
-  layout: string;
-  type: string;
-  stat: string;
-  thresholds: string;
-}
-function populateLayout(item: ApiGetWidget): string {
-  const layout: WidgetLayout = {
-    rows: item.rows,
-    columns: item.columns,
-    x: item.x_position,
-    y: item.y_position,
-  };
-
-  return JSON.stringify(layout);
-}
-function populateProperties(_item: ApiGetWidget): string {
-  const properties: WidgetProperties = {};
-
-  return JSON.stringify(properties);
-}
 @Injectable({
   providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget> {
   constructor(public metricAdapter: MetricAdapter) {}
-  adaptFromApi(item: ApiGetWidget): Widget {
-    const metrics = [];
+  adaptFromApi(item: ReadWidget): Widget {
+    let metrics = [];
 
     if (item.metrics) {
-      item.metrics.forEach((m) => {
+      metrics = item.metrics.map((m: ApiMetric) => {
         metrics.push(this.metricAdapter.adaptFromApi(m));
       });
     }
 
-    const type = item.type || item.widgettype?.type;
-    const stat = item.stat || item.stattype?.type;
+    const type = item.type;
+    const stat = item.stat;
     const widget = new Widget(
       item.id,
       item.user,
@@ -201,15 +157,16 @@ export class WidgetAdapter implements Adapter<Widget> {
 
     widget.thresholds = item.thresholds || [];
 
-    widget.layout = item.layout || populateLayout(item);
-    widget.properties = item.properties || populateProperties(item);
+    widget.layout = item.layout;
+    widget.properties = item.properties;
     return widget;
   }
 
-  adaptToApi(item: Widget): ApiPostWidget {
+  adaptToApi(item: Widget): WriteWidget {
+    const metrics = new Set(item.metricsIds);
     return {
       name: item.name,
-      metrics: item.metricsIds,
+      metrics,
       dashboard: item.dashboardId,
       type: item.type,
       stat: item.stat,

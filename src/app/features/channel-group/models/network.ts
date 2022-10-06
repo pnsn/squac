@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ReadNetwork } from "@core/models/squac-types";
 
 export class Network {
   constructor(
@@ -13,22 +14,11 @@ export class Network {
   }
 }
 
-export interface ApiGetNetwork {
-  class_name: string;
-  code: string;
-  name: string;
-  url: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  user: number;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class NetworkAdapter implements Adapter<Network> {
-  adaptFromApi(item: ApiGetNetwork): Network {
+  adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }
 }

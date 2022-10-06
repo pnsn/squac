@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ReadMeasurement } from "@core/models/squac-types";
 
 export class Measurement {
   constructor(
@@ -17,22 +18,11 @@ export class Measurement {
   }
 }
 
-export interface ApiGetMeasurement {
-  channel: number;
-  metric: number;
-  id: number;
-  user: number;
-  value: number;
-  starttime: string;
-  endtime: string;
-  created_at: string;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class MeasurementAdapter implements Adapter<Measurement> {
-  adaptFromApi(item: ApiGetMeasurement): Measurement {
+  adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement = new Measurement(
       item.id,
       item.user,

@@ -55,7 +55,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       text: "Filter alerts...",
       props: [
         "owner",
-        { prop: "breaching_channels", props: ["channel"] },
+        { prop: "breachingChannels", props: ["channel"] },
         {
           prop: "monitor",
           props: [
@@ -138,7 +138,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: "Breaching Channels",
-          prop: "breaching_channels",
+          prop: "breachingChannels",
           sortable: false,
           width: 50,
           cellTemplate: this.channelsTemplate,

@@ -44,11 +44,11 @@
       ngx-datatable-cell-template
     >
       values for
-      <span *ngIf="value.num_channels_operator !== '=='">
-        {{ value.num_channels_operator }}
+      <span *ngIf="value.numChannelsOperator !== '=='">
+        {{ value.numChannelsOperator }}
       </span>
-      {{ value.num_channels }} channel(s) in
-      {{ row.monitor.channelGroup.name }} are {{ value.value_operator }}
+      {{ value.numChannels }} channel(s) in
+      {{ row.monitor.channelGroup.name }} are {{ value.valueOperator }}
       {{ value.val1 }}
       <span *ngIf="value.val2"> and {{ value.val2 }} </span>
     </ng-template>

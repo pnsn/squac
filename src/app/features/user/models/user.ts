@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ReadUser, WriteUser } from "@core/models/squac-types";
 
 // Describes a user object
 export class User {
@@ -45,30 +46,6 @@ export class User {
   }
 }
 
-export interface ApiGetUser {
-  email: string;
-  firstname: string;
-  lastname: string;
-  is_staff: boolean;
-  groups?: Array<number | string>;
-  id: number;
-  organization: number;
-  is_org_admin: boolean;
-  last_login: string;
-  is_active: boolean;
-}
-
-export interface ApiPostUser {
-  email: string;
-  password?: string;
-  firstname: string;
-  lastname: string;
-  groups: Array<number>;
-  organization: number;
-  is_org_admin: boolean;
-  is_active?: boolean;
-}
-
 @Injectable({
   providedIn: "root",
 })
@@ -81,20 +58,15 @@ export class UserAdapter implements Adapter<User> {
     { id: 4, name: "admin" },
   ];
 
-  adaptFromApi(item: ApiGetUser): User {
-    let groups = [];
-    if (item.groups) {
-      groups = item.groups.map((g) => {
+  adaptFromApi(item: ReadUser): User {
+    const groups = [];
+    if ("groups" in item) {
+      item.groups.forEach((g) => {
+        let group = g;
         if (typeof g === "number") {
-          const group = this.groupIds.find((groupId) => groupId.id === g);
-          if (group) {
-            return group.name;
-          } else {
-            return;
-          }
-        } else {
-          return g;
+          group = this.groupIds.find((groupId) => groupId.id === g);
         }
+        groups.push(group.name);
       });
     }
 
@@ -107,13 +79,22 @@ export class UserAdapter implements Adapter<User> {
       item.is_org_admin,
       groups
     );
-    user.lastLogin = item.last_login;
-    user.squacAdmin = item.is_staff;
-    user.isActive = item.is_active;
+    if ("last_login" in item) {
+      user.lastLogin = item.last_login;
+    }
+
+    if ("is_staff" in item) {
+      user.squacAdmin = item.is_staff;
+    }
+
+    if ("is_active" in item) {
+      user.isActive = item.is_active;
+    }
+
     return user;
   }
 
-  adaptToApi(item: User): ApiPostUser {
+  adaptToApi(item: User): WriteUser {
     const groups = item.groups.map((g) => {
       const group = this.groupIds.find((groupId) => groupId.name === g);
       if (group) {
@@ -122,7 +103,7 @@ export class UserAdapter implements Adapter<User> {
         return;
       }
     });
-
+    const groupSet = new Set(groups);
     return {
       email: item.email,
       firstname: item.firstName,
@@ -130,7 +111,7 @@ export class UserAdapter implements Adapter<User> {
       organization: item.orgId,
       is_org_admin: item.orgAdmin,
       is_active: item.isActive,
-      groups,
+      groups: groupSet,
     };
   }
 }

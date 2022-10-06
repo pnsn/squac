@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import { ReadArchive } from "@core/models/squac-types";
 
 // Describes an archive
 export class Archive {
@@ -25,29 +26,11 @@ export class Archive {
   }
 }
 
-export interface ApiGetArchive {
-  channel: number;
-  metric: number;
-  id: string;
-  min: number;
-  max: number;
-  mean: number;
-  median: number;
-  stdev: number;
-  num_samps: number;
-  maxabs: number;
-  minabs: number;
-  starttime: string;
-  endtime: string;
-  created_at: string;
-  updated_at: string;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class ArchiveAdapter implements Adapter<Archive> {
-  adaptFromApi(item: ApiGetArchive, stat: string): Archive {
+  adaptFromApi(item: ReadArchive, stat: string): Archive {
     const archive = new Archive(
       +item.id,
       item.metric,
@@ -58,8 +41,8 @@ export class ArchiveAdapter implements Adapter<Archive> {
       item.median,
       item.stdev,
       item.num_samps,
-      item.minabs,
-      item.maxabs,
+      +item.minabs,
+      +item.maxabs,
       item.starttime,
       item.endtime
     );

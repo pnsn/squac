@@ -1,13 +1,19 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 import {
-  ApiGetChannelGroup,
+  // ApiGetChannelGroup,
   ChannelGroup,
   ChannelGroupAdapter,
 } from "@core/models/channel-group";
-import { Metric, ApiGetMetric, MetricAdapter } from "@core/models/metric";
+import { Metric, MetricAdapter } from "@core/models/metric";
+import {
+  ApiTrigger,
+  ReadMonitor,
+  ReadOnlyMonitorDetailSerializer,
+  WriteMonitor,
+} from "@core/models/squac-types";
 import { Alert } from "./alert";
-import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
+import { Trigger, TriggerAdapter } from "./trigger";
 
 export class Monitor {
   constructor(
@@ -15,9 +21,9 @@ export class Monitor {
     public name: string,
     public channelGroupId: number,
     public metricId: number,
-    public intervalType: string,
+    public intervalType: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum,
     public intervalCount: number,
-    public stat: string,
+    public stat: ReadOnlyMonitorDetailSerializer.StatEnum,
     public owner: number,
     public triggers: Trigger[]
   ) {}
@@ -31,30 +37,6 @@ export class Monitor {
   }
 }
 
-export interface ApiGetMonitor {
-  id: number;
-  url: string;
-  channel_group: number | ApiGetChannelGroup;
-  metric: number | ApiGetMetric;
-  interval_type: string;
-  interval_count: number;
-  stat: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  user: number;
-  triggers?: ApiGetTrigger[];
-}
-
-export interface ApiPostMonitor {
-  channel_group: number;
-  metric: number;
-  interval_type: string;
-  interval_count: number;
-  stat: string;
-  name: string;
-}
-
 @Injectable({
   providedIn: "root",
 })
@@ -65,7 +47,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
     private channelGroupAdapter: ChannelGroupAdapter,
     private triggerAdapter: TriggerAdapter
   ) {}
-  adaptFromApi(item: ApiGetMonitor): Monitor {
+  adaptFromApi(item: ReadMonitor): Monitor {
     let channelGroupId;
     let metricId;
     let channelGroup: ChannelGroup;
@@ -86,8 +68,10 @@ export class MonitorAdapter implements Adapter<Monitor> {
       metric = this.metricAdapter.adaptFromApi(item.metric);
     }
 
-    if (item.triggers) {
-      triggers = item.triggers.map((t) => this.triggerAdapter.adaptFromApi(t));
+    if ("triggers" in item) {
+      triggers = item.triggers.map((t: ApiTrigger) =>
+        this.triggerAdapter.adaptFromApi(t)
+      );
     }
 
     const monitor = new Monitor(
@@ -108,7 +92,7 @@ export class MonitorAdapter implements Adapter<Monitor> {
     return monitor;
   }
 
-  adaptToApi(item: Monitor): ApiPostMonitor {
+  adaptToApi(item: Monitor): WriteMonitor {
     return {
       interval_type: item.intervalType,
       interval_count: item.intervalCount,

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
-
+import { ReadChannel } from "./squac-types";
 // Describes a channel object
+
 export class Channel {
   nslc: string;
   constructor(
@@ -32,37 +33,11 @@ export class Channel {
     return "Channel";
   }
 }
-
-export interface ApiGetChannel {
-  id: number;
-  class_name: string;
-  code: string;
-  name: string;
-  station_code: string;
-  station_name: string;
-  url: string;
-  description: string;
-  sample_rate: number;
-  network: string;
-  loc: string;
-  lat: number;
-  lon: number;
-  elev: number;
-  azimuth: number;
-  dip: number;
-  created_at: string;
-  updated_at: string;
-  user: number;
-  starttime: string;
-  endtime: string;
-  nslc: string;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class ChannelAdapter implements Adapter<Channel> {
-  adaptFromApi(item: ApiGetChannel): Channel {
+  adaptFromApi(item: ReadChannel): Channel {
     return new Channel(
       item.id,
       item.code?.toUpperCase(),

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
-
+import { ReadMetric, WriteMetric } from "./squac-types";
 // Describes a metric object
 export class Metric {
   constructor(
@@ -21,37 +21,11 @@ export class Metric {
   }
 }
 
-export interface ApiGetMetric {
-  id: number;
-  name: string;
-  code: string;
-  url: string;
-  description: string;
-  unit: string;
-  created_at: string;
-  updated_at: string;
-  default_minval: number;
-  default_maxval: number;
-  user: number;
-  reference_url: string;
-  sample_rate: number;
-}
-
-export interface ApiPostMetric {
-  name: string;
-  code: string;
-  description: string;
-  unit: string;
-  reference_url: string;
-  default_minval: number;
-  default_maxval: number;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class MetricAdapter implements Adapter<Metric> {
-  adaptFromApi(item: ApiGetMetric): Metric {
+  adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id,
       item.user,
@@ -66,7 +40,7 @@ export class MetricAdapter implements Adapter<Metric> {
     );
   }
 
-  adaptToApi(item: Metric): ApiPostMetric {
+  adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,
       code: item.code,
