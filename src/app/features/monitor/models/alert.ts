@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
 import { Monitor } from "./monitor";
-import { ApiGetTrigger, Trigger, TriggerAdapter } from "./trigger";
+import { Trigger, TriggerAdapter } from "./trigger";
+import { ReadAlert } from "@core/models/squac-types";
 
 export class Alert {
   constructor(
@@ -10,28 +11,16 @@ export class Alert {
     public timestamp: string,
     public message: string,
     public inAlarm: boolean,
-    public breaching_channels: Array<any>,
-    public trigger: Trigger
+    public breachingChannels: Array<any>,
+    public triggerId: number
   ) {}
 
   monitor: Monitor;
+  trigger: Trigger;
 
   static get modelName() {
     return "Alert";
   }
-}
-
-export interface ApiGetAlert {
-  id: number;
-  url: string;
-  trigger: ApiGetTrigger;
-  timestamp: string;
-  message: string;
-  in_alarm: boolean;
-  breaching_channels: Array<any>;
-  created_at: string;
-  updated_at: string;
-  user: number;
 }
 
 @Injectable({
@@ -39,15 +28,32 @@ export interface ApiGetAlert {
 })
 export class AlertAdapter implements Adapter<Alert> {
   constructor(private triggerAdapter: TriggerAdapter) {}
-  adaptFromApi(item: ApiGetAlert): Alert {
-    return new Alert(
+  adaptFromApi(item: ReadAlert): Alert {
+    let breachingChannels;
+    let trigger;
+    let triggerId;
+    if (typeof item.breaching_channels === "string") {
+      breachingChannels = JSON.parse(item.breaching_channels) || [];
+    }
+    if (typeof item.trigger === "number") {
+      triggerId = item.trigger;
+    } else {
+      triggerId = item.trigger.id;
+      trigger = this.triggerAdapter.adaptFromApi(item.trigger);
+    }
+
+    const alert = new Alert(
       item.id,
       item.user,
       item.timestamp,
       item.message,
       item.in_alarm,
-      item.breaching_channels,
-      this.triggerAdapter.adaptFromApi(item.trigger)
+      breachingChannels,
+      triggerId
     );
+
+    alert.trigger = trigger;
+
+    return alert;
   }
 }

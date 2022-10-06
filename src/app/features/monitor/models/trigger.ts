@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
+import {
+  ReadOnlyTriggerSerializer,
+  WriteOnlyTriggerSerializer,
+  Trigger as ApiTrigger,
+} from "@pnsn/ngx-squacapi-client";
 import { Alert } from "./alert";
 import { Monitor } from "./monitor";
 
@@ -7,12 +12,11 @@ export class Trigger {
   constructor(
     public id: number,
     public monitorId: number,
-    public value_operator: string, //outsideof, within, ==, <, <=, >, >=
-    public num_channels: number,
-    public num_channels_operator: string, //any, ==, <, >
-    public owner: number,
-    public alert_on_out_of_alarm: boolean,
-    public email_list: string, //comma separated
+    public valueOperator: ApiTrigger.ValueOperatorEnum, //outsideof, within, ==, <, <=, >, >=
+    public numChannels: number,
+    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum, //any, ==, <, >
+    public alertOnOutOfAlarm: boolean,
+    public emailList: string, //comma separated
     public val1: number,
     public val2?: number
   ) {}
@@ -27,62 +31,35 @@ export class Trigger {
   monitor: Monitor;
 }
 
-export interface ApiGetTrigger {
-  id: number;
-  url: string;
-  monitor: number;
-  val1: number;
-  val2: number;
-  value_operator: string; //outsideof, within, ==, <, <=, >, >=
-  num_channels: number;
-  num_channels_operator: string; //any, ==, <, >
-  created_at: string;
-  updated_at: string;
-  user: number;
-  alert_on_out_of_alarm: boolean;
-  email_list: string; //comma separated
-}
-
-export interface ApiPostTrigger {
-  monitor: number;
-  val1: number;
-  val2: number;
-  value_operator: string; //outsideof, within, ==, <, <=, >, >=
-  num_channels: number;
-  num_channels_operator: string; //any, ==, <, >
-  alert_on_out_of_alarm: boolean;
-  email_list: string; //comma separated
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class TriggerAdapter implements Adapter<Trigger> {
-  adaptFromApi(item: ApiGetTrigger): Trigger {
-    return new Trigger(
+  adaptFromApi(item: ReadOnlyTriggerSerializer | ApiTrigger): Trigger {
+    const trigger = new Trigger(
       item.id,
       item.monitor,
       item.value_operator, //outsideof, within, ==, <, <=, >, >=
       item.num_channels,
       item.num_channels_operator, //any, ==, <, >
-      item.user,
       item.alert_on_out_of_alarm,
       item.email_list, //comma separated
       item.val1,
       item.val2
     );
+    return trigger;
   }
 
-  adaptToApi(item: Trigger): ApiPostTrigger {
+  adaptToApi(item: Trigger): WriteOnlyTriggerSerializer {
     return {
       monitor: item.monitorId,
       val1: item.val1,
       val2: item.val2,
-      value_operator: item.value_operator,
-      num_channels: item.num_channels,
-      num_channels_operator: item.num_channels_operator,
-      alert_on_out_of_alarm: item.alert_on_out_of_alarm,
-      email_list: item.email_list,
+      value_operator: item.valueOperator,
+      num_channels: item.numChannels,
+      num_channels_operator: item.numChannelsOperator,
+      alert_on_out_of_alarm: item.alertOnOutOfAlarm,
+      email_list: item.emailList,
     };
   }
 }

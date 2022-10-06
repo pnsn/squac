@@ -144,6 +144,7 @@ export class DashboardViewComponent
 
   // onSelect function for data table selection
   onSelect(dashboard): void {
+    console.log(dashboard);
     this.selectedDashboardId = dashboard.id;
   }
 

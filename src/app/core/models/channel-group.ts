@@ -1,8 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
-import { ApiGetChannel, Channel, ChannelAdapter } from "./channel";
+import { Channel, ChannelAdapter } from "./channel";
 import "@core/utils/utils.ts";
+import {
+  NslcChannel,
+  ReadChannelGroup,
+  WriteChannelGroup,
+} from "./squac-types";
 // Describes a channel group object
+
 export class ChannelGroup {
   constructor(
     public id: number,
@@ -28,39 +34,12 @@ export class ChannelGroup {
   }
 }
 
-export interface ApiGetChannelGroup {
-  name: string;
-  id: number;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  user: number;
-  organization: number;
-  channels?: Array<ApiGetChannel>;
-  auto_include_channels?: Array<ApiGetChannel>;
-  auto_exclude_channels?: Array<ApiGetChannel>;
-  channels_count?: number;
-  share_org: boolean;
-  share_all: boolean;
-}
-
-export interface ApiPostChannelGroup {
-  name: string;
-  description: string;
-  id?: number;
-  organization: number;
-  auto_include_channels: number[];
-  auto_exclude_channels: number[];
-  share_org: boolean;
-  share_all: boolean;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   constructor(private channelAdapter: ChannelAdapter) {}
-  adaptFromApi(item: ApiGetChannelGroup): ChannelGroup {
+  adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelGroup = new ChannelGroup(
       item.id,
       item.user,
@@ -71,34 +50,47 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     channelGroup.channelsCount = item.channels_count;
     channelGroup.shareAll = item.share_all;
     channelGroup.shareOrg = item.share_org;
-    if (
-      item.channels ||
-      item.auto_exclude_channels ||
-      item.auto_include_channels
-    ) {
-      channelGroup.autoExcludeChannels = item.auto_exclude_channels.map((c) => {
-        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-      });
-      channelGroup.autoIncludeChannels = item.auto_include_channels.map((c) => {
-        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-      });
-      channelGroup.channels = item.channels.map((c) => {
-        return typeof c === "number" ? c : this.channelAdapter.adaptFromApi(c);
-      });
+
+    if ("channels" in item) {
+      channelGroup.channels = item.channels.map((c: NslcChannel) =>
+        this.channelAdapter.adaptFromApi(c)
+      );
+    }
+    if ("auto_exclude_channels" in item) {
+      channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
+        (c: NslcChannel) => {
+          return typeof c === "number"
+            ? c
+            : this.channelAdapter.adaptFromApi(c);
+        }
+      );
+    }
+
+    if ("auto_include_channels" in item) {
+      channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
+        (c: NslcChannel) => {
+          return typeof c === "number"
+            ? c
+            : this.channelAdapter.adaptFromApi(c);
+        }
+      );
     }
 
     return channelGroup;
   }
 
-  adaptToApi(item: ChannelGroup): ApiPostChannelGroup {
+  adaptToApi(item: ChannelGroup): WriteChannelGroup {
+    const incl = new Set(item.autoExcludeChannels?.mapIds());
+    const ex = new Set(item.autoExcludeChannels?.mapIds());
+
     return {
       name: item.name,
       description: item.description,
       organization: item.orgId,
-      auto_exclude_channels: item.autoExcludeChannels?.mapIds(),
-      auto_include_channels: item.autoIncludeChannels?.mapIds(),
-      share_org: item.shareOrg,
-      share_all: item.shareAll,
+      auto_exclude_channels: incl,
+      auto_include_channels: ex,
+      share_org: item.shareAll,
+      share_all: item.shareOrg,
     };
   }
 }

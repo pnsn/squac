@@ -7,7 +7,8 @@ import { Params } from "@angular/router";
 import { StorageService } from "@core/services/storage.service";
 import {
   ApiService,
-  ReadOnlyGroupDetailSerializer,
+  ReadOnlyGroupSerializer,
+  NslcGroupsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
@@ -37,8 +38,8 @@ export class ChannelGroupService {
     console.log(params);
     const data = this.storage.getData(this.url);
 
-    this.api.apiNslcGroupsRead("3").subscribe({
-      next: (response: ReadOnlyGroupDetailSerializer) => {
+    this.api.nslcGroupsList(null).subscribe({
+      next: (response: ReadOnlyGroupSerializer[]) => {
         console.log(response);
       },
     });
