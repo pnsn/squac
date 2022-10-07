@@ -2,11 +2,7 @@ import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
 import { Channel, ChannelAdapter } from "./channel";
 import "@core/utils/utils.ts";
-import {
-  NslcChannel,
-  ReadChannelGroup,
-  WriteChannelGroup,
-} from "./squac-types";
+import { ApiChannel, ReadChannelGroup, WriteChannelGroup } from "./squac-types";
 // Describes a channel group object
 
 export class ChannelGroup {
@@ -52,13 +48,13 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     channelGroup.shareOrg = item.share_org;
 
     if ("channels" in item) {
-      channelGroup.channels = item.channels.map((c: NslcChannel) =>
+      channelGroup.channels = item.channels.map((c: ApiChannel) =>
         this.channelAdapter.adaptFromApi(c)
       );
     }
     if ("auto_exclude_channels" in item) {
       channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
-        (c: NslcChannel) => {
+        (c: ApiChannel) => {
           return typeof c === "number"
             ? c
             : this.channelAdapter.adaptFromApi(c);
@@ -68,7 +64,7 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
 
     if ("auto_include_channels" in item) {
       channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
-        (c: NslcChannel) => {
+        (c: ApiChannel) => {
           return typeof c === "number"
             ? c
             : this.channelAdapter.adaptFromApi(c);

@@ -29,7 +29,7 @@ export class Aggregate {
   }
 }
 
-export interface ApiGetAggregate {
+export interface ReadAggregate {
   channel: number;
   metric: number;
   min: number;
@@ -53,7 +53,7 @@ export interface ApiGetAggregate {
   providedIn: "root",
 })
 export class AggregateAdapter implements Adapter<Aggregate> {
-  adaptFromApi(item: ApiGetAggregate, stat: string): Aggregate {
+  adaptFromApi(item: ReadAggregate, stat: string): Aggregate {
     const aggregate = new Aggregate(
       item.metric,
       item.channel,

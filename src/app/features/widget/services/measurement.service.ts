@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
-import { ApiGetAggregate } from "@widget/models/aggregate";
-import { ApiGetMeasurement } from "../models/measurement";
-import { ApiGetArchive } from "../models/archive";
+import { ReadAggregate } from "@widget/models/aggregate";
+import { ReadArchive, ReadMeasurement } from "@core/models/squac-types";
+
 export class MeasurementParams {
   starttime: string;
   endtime: string;
@@ -30,7 +30,7 @@ export class MeasurementService {
   // gets data from squac, returns measurements or archives
   getData(
     params: MeasurementParams
-  ): Observable<ApiGetAggregate[] | ApiGetMeasurement[] | ApiGetArchive[]> {
+  ): Observable<ReadAggregate[] | ReadMeasurement[] | ReadArchive[]> {
     let path;
     if (params.archiveType && params.archiveType !== "raw") {
       path = params.archiveType + "-archives/";
@@ -49,7 +49,7 @@ export class MeasurementService {
   }
 
   // Get measurement aggregate from squac
-  getAggregated(params: MeasurementHttpData): Observable<ApiGetAggregate[]> {
+  getAggregated(params: MeasurementHttpData): Observable<ReadAggregate[]> {
     return this.squacApi.get(this.url + "aggregated", null, params);
   }
 }

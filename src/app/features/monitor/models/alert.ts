@@ -29,12 +29,13 @@ export class Alert {
 export class AlertAdapter implements Adapter<Alert> {
   constructor(private triggerAdapter: TriggerAdapter) {}
   adaptFromApi(item: ReadAlert): Alert {
-    let breachingChannels;
+    let breachingChannels = [];
     let trigger;
     let triggerId;
     if (typeof item.breaching_channels === "string") {
       breachingChannels = JSON.parse(item.breaching_channels) || [];
     }
+
     if (typeof item.trigger === "number") {
       triggerId = item.trigger;
     } else {
