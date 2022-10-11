@@ -126,9 +126,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
                 if (channelGroup) {
                   return of([]);
                 }
-                return this.matchingRuleService.getMatchingRules(
-                  this.channelGroup.id
-                );
+                return this.matchingRuleService.list({
+                  group: this.channelGroup.id.toString(),
+                });
               }),
               tap((rules: MatchingRule[]) => {
                 this.matchingRules = rules;
@@ -419,7 +419,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     let id;
     this.loadingService
       .doLoading(
-        this.channelGroupService.update(cg).pipe(
+        this.channelGroupService.updateOrCreate(cg).pipe(
           switchMap((group) => {
             id = group.id;
             if (

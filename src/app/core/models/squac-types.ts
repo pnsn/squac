@@ -21,7 +21,7 @@ export type WriteMetric = squacapi.WriteOnlyMetricSerializer;
 
 // matching rules
 export type ReadMatchingRule = squacapi.ReadOnlyMatchingRuleSerializer;
-
+export type WriteMatchingRule = squacapi.WriteOnlyMatchingRuleSerializer;
 // networks
 export type ReadNetwork = squacapi.ReadOnlyNetworkSerializer;
 
@@ -57,11 +57,9 @@ export type ApiUserGroup = squacapi.UserGroup;
 export type ReadUser =
   | squacapi.ReadOnlyUserMeSerializer
   | squacapi.ReadOnlyUserSerializer
-  | squacapi.ReadOnlyUserFullSerializer
   | squacapi.ReadOnlyUserSimpleSerializer
   | ApiUserSimple;
 export type WriteUser =
-  | squacapi.WriteOnlyUserFullSerializer
   | squacapi.WriteOnlyUserMeSerializer
   | squacapi.WriteOnlyUserSerializer;
 

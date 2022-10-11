@@ -2,6 +2,11 @@ import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { Network, NetworkAdapter } from "@channelGroup/models/network";
+import {
+  ApiService,
+  NslcNetworksListRequestParams,
+  ReadOnlyNetworkSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",
@@ -13,26 +18,15 @@ export class NetworkService {
   private url = "nslc/networks/";
   // Subscribeable networks
   constructor(
-    private squacApi: SquacApiService,
+    private api: ApiService,
     private networkAdapter: NetworkAdapter
   ) {}
 
-  // Get all networks from api
-  fetchNetworks() {
-    this.squacApi
-      .get(this.url)
-      .pipe(
-        map((response) =>
-          response.map((r) => this.networkAdapter.adaptFromApi(r))
-        )
-      )
-      .subscribe(
-        (networks) => {
-          this.networks = networks;
-        },
-        (error) => {
-          console.error("error in networks service: ", error);
-        }
-      );
+  list(params: NslcNetworksListRequestParams) {
+    this.api.nslcNetworksList(params).pipe(
+      map((response: ReadOnlyNetworkSerializer[]) => {
+        return response.map(this.networkAdapter.adaptFromApi);
+      })
+    );
   }
 }

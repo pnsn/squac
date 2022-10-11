@@ -28,7 +28,7 @@
     "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^5.4.4",
     "@casl/angular": "^7.0.0",
-    "@pnsn/ngx-squacapi-client": "^0.0.6-alpha.1",
+    "@pnsn/ngx-squacapi-client": "^0.0.6-alpha.2",
     "@types/d3": "^7.1.0",
     "@types/jasmine": "^3.10.2",
     "angular-gridster2": "^13.1.0",

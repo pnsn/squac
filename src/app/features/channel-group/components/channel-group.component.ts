@@ -7,17 +7,4 @@ import { NetworkService } from "@channelGroup/services/network.service";
   template:
     "<div class='body-content-container'><router-outlet></router-outlet></div>",
 })
-export class ChannelGroupComponent implements OnInit, OnDestroy {
-  subscription: Subscription = new Subscription();
-
-  constructor(private networkService: NetworkService) {}
-
-  ngOnInit() {
-    const networkService = this.networkService.fetchNetworks();
-    this.subscription.add(networkService);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-}
+export class ChannelGroupComponent {}
