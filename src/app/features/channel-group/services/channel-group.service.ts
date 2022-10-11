@@ -7,16 +7,16 @@ import {
   ReadOnlyGroupSerializer,
   NslcGroupsListRequestParams,
   NslcGroupsReadRequestParams,
-  WriteOnlyGroupSerializer,
   NslcGroupsUpdateRequestParams,
   NslcGroupsCreateRequestParams,
   NslcGroupsDeleteRequestParams,
 } from "@pnsn/ngx-squacapi-client";
+import { GenericApiService } from "@core/models/generic-api-service";
 
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService {
+export class ChannelGroupService implements GenericApiService<ChannelGroup> {
   constructor(
     private channelGroupAdapter: ChannelGroupAdapter,
     private api: ApiService
@@ -81,24 +81,30 @@ export class ChannelGroupService {
       .pipe(map(this.channelGroupAdapter.adaptFromApi));
   }
 
-  // Replaces channel group with new channel group
-  update(channelGroup: ChannelGroup) {
-    const data: WriteOnlyGroupSerializer =
-      this.channelGroupAdapter.adaptToApi(channelGroup);
+  updateOrCreate(channelGroup: ChannelGroup): Observable<ChannelGroup> {
     if (channelGroup.id) {
-      const params: NslcGroupsUpdateRequestParams = {
-        id: channelGroup.id.toString(),
-        data,
-      };
-      return this.api
-        .nslcGroupsUpdate(params)
-        .pipe(map(this.channelGroupAdapter.adaptFromApi));
+      return this.update(channelGroup);
     }
+    return this.create(channelGroup);
+  }
+
+  create(channelGroup: ChannelGroup): Observable<ChannelGroup> {
     const params: NslcGroupsCreateRequestParams = {
-      data,
+      data: this.channelGroupAdapter.adaptToApi(channelGroup),
     };
     return this.api
       .nslcGroupsCreate(params)
+      .pipe(map(this.channelGroupAdapter.adaptFromApi));
+  }
+
+  // Replaces channel group with new channel group
+  update(channelGroup: ChannelGroup): Observable<ChannelGroup> {
+    const params: NslcGroupsUpdateRequestParams = {
+      id: channelGroup.id.toString(),
+      data: this.channelGroupAdapter.adaptToApi(channelGroup),
+    };
+    return this.api
+      .nslcGroupsUpdate(params)
       .pipe(map(this.channelGroupAdapter.adaptFromApi));
   }
 

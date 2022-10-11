@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "@core/models/adapter";
-
+import { ReadMatchingRule, WriteMatchingRule } from "@core/models/squac-types";
 // Rules for building channel groups
 export class MatchingRule {
   constructor(
@@ -15,34 +15,11 @@ export class MatchingRule {
   channelRegex: string;
 }
 
-export interface ApiGetMatchingRule {
-  id?: number;
-  network_regex?: string;
-  station_regex?: string;
-  location_regex?: string;
-  channel_regex?: string;
-  created_at?: string;
-  updated_at?: string;
-  user: number;
-  group: number;
-  is_include: boolean;
-  url: string;
-}
-
-export interface ApiPostMatchingRule {
-  network_regex?: string;
-  station_regex?: string;
-  location_regex?: string;
-  channel_regex?: string;
-  group: number;
-  is_include: boolean;
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class MatchingRuleAdapter implements Adapter<MatchingRule> {
-  adaptFromApi(item: ApiGetMatchingRule): MatchingRule {
+  adaptFromApi(item: ReadMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
       item.id,
       item.user,
@@ -58,7 +35,7 @@ export class MatchingRuleAdapter implements Adapter<MatchingRule> {
     return matchingRule;
   }
 
-  adaptToApi(item: MatchingRule): ApiPostMatchingRule {
+  adaptToApi(item: MatchingRule): WriteMatchingRule {
     return {
       group: item.channelGroupId,
       network_regex: item.networkRegex,
