@@ -13,7 +13,6 @@ import { ChannelGroupService } from "./services/channel-group.service";
 export class ChannelGroupResolver implements Resolve<Observable<any>> {
   constructor(
     private channelGroupService: ChannelGroupService,
-    private loadingService: LoadingService,
     private messageService: MessageService
   ) {}
 

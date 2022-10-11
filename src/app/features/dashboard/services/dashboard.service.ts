@@ -4,91 +4,74 @@ import { Observable, of } from "rxjs";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { map, tap } from "rxjs/operators";
 import { Params } from "@angular/router";
+import {
+  ApiService,
+  DashboardDashboardsCreateRequestParams,
+  DashboardDashboardsDeleteRequestParams,
+  DashboardDashboardsListRequestParams,
+  DashboardDashboardsReadRequestParams,
+  DashboardDashboardsUpdateRequestParams,
+  ReadOnlyDashboardSerializer,
+} from "@pnsn/ngx-squacapi-client";
+import { GenericApiService } from "@core/models/generic-api-service";
 
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService {
-  // Squacapi route for dashboards
-  private url = "dashboard/dashboards/";
-  // Time stamp for last full dashboard refresh
-  private lastRefresh: number;
-
-  // Local copy of dashboards
-  private localDashboards: Dashboard[] = [];
-
+export class DashboardService implements GenericApiService<Dashboard> {
   constructor(
-    private squacApi: SquacApiService,
+    private api: ApiService,
     private dashboardAdapter: DashboardAdapter
   ) {}
 
-  // Get all dashboards viewable by user from squac
-  getDashboards(params?: Params): Observable<Dashboard[]> {
-    // Fetch new dashboards if > 5 minutes since refresh
-    if (
-      this.lastRefresh &&
-      new Date().getTime() < this.lastRefresh + 5 * 60000
-    ) {
-      return of(this.localDashboards);
-    } else {
-      return this.squacApi.get(this.url, null, params).pipe(
-        map((results) =>
-          results.map((r) => {
-            const dashboard = this.dashboardAdapter.adaptFromApi(r);
-            this.updateLocalDashboards(dashboard.id, dashboard);
-            return dashboard;
-          })
-        ),
-        tap(() => {
-          this.lastRefresh = new Date().getTime();
-        })
-      );
-    }
-  }
-
-  // Gets dashboard by id from SQUAC
-  getDashboard(id: number): Observable<Dashboard> {
-    // Fetch new dashboards if > 5 minutes since refresh
-    return this.squacApi.get(this.url, id).pipe(
-      map((response) => this.dashboardAdapter.adaptFromApi(response)),
-      tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
+  list(params?: DashboardDashboardsListRequestParams): Observable<Dashboard[]> {
+    return this.api.dashboardDashboardsList(params).pipe(
+      map((response: ReadOnlyDashboardSerializer[]) => {
+        return response.map(this.dashboardAdapter.adaptFromApi);
+      })
     );
   }
 
-  // Post/Put dashboard to squac
-  updateDashboard(dashboard: Dashboard): Observable<Dashboard> {
-    const postData = this.dashboardAdapter.adaptToApi(dashboard);
+  // Gets channel group with id from server
+  read(id: number): Observable<Dashboard> {
+    const params: DashboardDashboardsReadRequestParams = {
+      id: `${id}`,
+    };
+    return this.api
+      .nslcGroupsRead(params)
+      .pipe(map(this.dashboardAdapter.adaptFromApi));
+  }
+
+  updateOrCreate(dashboard: Dashboard): Observable<Dashboard> {
     if (dashboard.id) {
-      return this.squacApi.put(this.url, dashboard.id, postData).pipe(
-        map((response) => this.dashboardAdapter.adaptFromApi(response)),
-        tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
-      );
-    } else {
-      return this.squacApi.post(this.url, postData).pipe(
-        map((response) => this.dashboardAdapter.adaptFromApi(response)),
-        tap((dashboard) => this.updateLocalDashboards(dashboard.id, dashboard))
-      );
+      return this.update(dashboard);
     }
+    return this.create(dashboard);
   }
 
-  // Delete dashboard from squac
-  deleteDashboard(dashboardId: number): Observable<any> {
-    this.updateLocalDashboards(dashboardId);
-    return this.squacApi.delete(this.url, dashboardId);
+  update(dashboard: Dashboard): Observable<Dashboard> {
+    const params: DashboardDashboardsUpdateRequestParams = {
+      id: `${dashboard.id}`,
+      data: this.dashboardAdapter.adaptToApi(dashboard),
+    };
+    return this.api
+      .dashboardDashboardsUpdate(params)
+      .pipe(map(this.dashboardAdapter.adaptFromApi));
   }
 
-  // Save/delete/replace changed dashboard in local storage
-  private updateLocalDashboards(id: number, dashboard?: Dashboard): void {
-    const index = this.localDashboards.findIndex((d) => d.id === id);
+  create(dashboard: Dashboard): Observable<Dashboard> {
+    const params: DashboardDashboardsCreateRequestParams = {
+      data: this.dashboardAdapter.adaptToApi(dashboard),
+    };
+    return this.api
+      .dashboardDashboardsCreate(params)
+      .pipe(map(this.dashboardAdapter.adaptFromApi));
+  }
 
-    if (index > -1) {
-      if (dashboard) {
-        this.localDashboards[index] = dashboard;
-      } else {
-        this.localDashboards.splice(index, 1);
-      }
-    } else {
-      this.localDashboards.push(dashboard);
-    }
+  delete(id: number): Observable<any> {
+    const params: DashboardDashboardsDeleteRequestParams = {
+      id: `${id}`,
+    };
+    return this.api.dashboardDashboardsDelete(params);
   }
 }

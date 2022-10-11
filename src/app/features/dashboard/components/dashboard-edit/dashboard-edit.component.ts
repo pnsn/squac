@@ -91,7 +91,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       dashboard.properties = this.dashboard.properties;
     }
 
-    this.dashboardService.updateDashboard(dashboard).subscribe({
+    this.dashboardService.updateOrCreate(dashboard).subscribe({
       next: (result) => {
         this.messageService.message("Dashboard saved.");
         this.cancel(result.id);

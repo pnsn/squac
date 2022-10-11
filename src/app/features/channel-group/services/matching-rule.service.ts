@@ -39,7 +39,7 @@ export class MatchingRuleService implements GenericApiService<MatchingRule> {
 
   update(matchingRule: MatchingRule): Observable<MatchingRule> {
     const params: NslcMatchingRulesUpdateRequestParams = {
-      id: matchingRule.id.toString(),
+      id: `${matchingRule.id}`,
       data: this.matchingRuleAdapter.adaptToApi(matchingRule),
     };
     return this.api
@@ -49,7 +49,7 @@ export class MatchingRuleService implements GenericApiService<MatchingRule> {
 
   delete(id: number): Observable<any> {
     const params: NslcMatchingRulesDeleteRequestParams = {
-      id: id.toString(),
+      id: `${id}`,
     };
     return this.api.nslcMatchingRulesDelete(params);
   }

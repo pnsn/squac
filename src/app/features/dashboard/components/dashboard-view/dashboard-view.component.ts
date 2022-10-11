@@ -157,15 +157,13 @@ export class DashboardViewComponent
 
   // delete dashboard
   onDelete(): void {
-    this.dashboardService
-      .deleteDashboard(this.selectedDashboardId)
-      .subscribe(() => {
-        this.refresh();
-      });
+    this.dashboardService.delete(this.selectedDashboardId).subscribe(() => {
+      this.refresh();
+    });
   }
 
   fetchData() {
-    return this.dashboardService.getDashboards(this.queryParams).pipe(
+    return this.dashboardService.list(this.queryParams).pipe(
       tap((dashboards) => {
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
