@@ -21,7 +21,7 @@ export class DashboardResolver implements Resolve<Observable<any>> {
   ) {}
 
   resolve(): Observable<Dashboard> | Observable<Dashboard[]> {
-    return this.dashboardService.getDashboards().pipe(
+    return this.dashboardService.list().pipe(
       catchError((error) => {
         this.messageService.error("Could not load dashboards.");
         return this.handleError(error);

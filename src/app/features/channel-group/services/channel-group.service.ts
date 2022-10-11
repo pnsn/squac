@@ -74,7 +74,7 @@ export class ChannelGroupService implements GenericApiService<ChannelGroup> {
   // Gets channel group with id from server
   read(id: number): Observable<ChannelGroup> {
     const params: NslcGroupsReadRequestParams = {
-      id: id.toString(),
+      id: `${id}`,
     };
     return this.api
       .nslcGroupsRead(params)
@@ -100,7 +100,7 @@ export class ChannelGroupService implements GenericApiService<ChannelGroup> {
   // Replaces channel group with new channel group
   update(channelGroup: ChannelGroup): Observable<ChannelGroup> {
     const params: NslcGroupsUpdateRequestParams = {
-      id: channelGroup.id.toString(),
+      id: `${channelGroup.id}`,
       data: this.channelGroupAdapter.adaptToApi(channelGroup),
     };
     return this.api
@@ -111,7 +111,7 @@ export class ChannelGroupService implements GenericApiService<ChannelGroup> {
   // Deletes a channel group
   delete(id: number): Observable<any> {
     const params: NslcGroupsDeleteRequestParams = {
-      id: id.toString(),
+      id: `${id}`,
     };
     return this.api.nslcGroupsDelete(params);
   }

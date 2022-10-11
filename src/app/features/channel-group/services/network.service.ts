@@ -14,9 +14,6 @@ import {
 
 // Service for handling networks
 export class NetworkService {
-  networks: Network[];
-  private url = "nslc/networks/";
-  // Subscribeable networks
   constructor(
     private api: ApiService,
     private networkAdapter: NetworkAdapter

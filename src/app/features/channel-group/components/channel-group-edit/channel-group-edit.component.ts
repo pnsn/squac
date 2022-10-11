@@ -127,7 +127,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
                   return of([]);
                 }
                 return this.matchingRuleService.list({
-                  group: this.channelGroup.id.toString(),
+                  group: `${this.channelGroup.id}`,
                 });
               }),
               tap((rules: MatchingRule[]) => {

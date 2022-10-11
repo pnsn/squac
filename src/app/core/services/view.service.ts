@@ -207,7 +207,7 @@ export class ViewService {
     channelGroupId: number
   ): Observable<ChannelGroup> {
     this._widgets = [];
-    return this.dashboardService.getDashboard(dashboardId).pipe(
+    return this.dashboardService.read(dashboardId).pipe(
       tap({
         next: (dashboard) => {
           this.setDashboard(dashboard);
@@ -372,7 +372,7 @@ export class ViewService {
 
   // deletes the dashboard
   deleteDashboard(dashboardId): void {
-    this.dashboardService.deleteDashboard(dashboardId).subscribe({
+    this.dashboardService.delete(dashboardId).subscribe({
       next: () => {
         this.messageService.message("Dashboard deleted.");
         // redirect to dashboards
@@ -385,7 +385,7 @@ export class ViewService {
 
   // saves the dashboard to squac
   saveDashboard(): void {
-    this.dashboardService.updateDashboard(this.dashboard).subscribe({
+    this.dashboardService.updateOrCreate(this.dashboard).subscribe({
       error: () => {
         this.messageService.error("Could not save dashboard.");
       },
