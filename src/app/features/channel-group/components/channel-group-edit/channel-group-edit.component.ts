@@ -117,7 +117,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             return of();
           }
           return this.loadingService.doLoading(
-            this.channelGroupService.getChannelGroup(groupId).pipe(
+            this.channelGroupService.read(groupId).pipe(
               tap((channelGroup: ChannelGroup) => {
                 this.channelGroup = channelGroup;
               }),
@@ -419,7 +419,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     let id;
     this.loadingService
       .doLoading(
-        this.channelGroupService.updateChannelGroup(cg).pipe(
+        this.channelGroupService.update(cg).pipe(
           switchMap((group) => {
             id = group.id;
             if (
@@ -454,7 +454,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Delete channel group
   delete(): void {
-    this.channelGroupService.deleteChannelGroup(this.id).subscribe({
+    this.channelGroupService.delete(this.id).subscribe({
       next: () => {
         this.cancel();
         this.messageService.message("Channel group deleted.");

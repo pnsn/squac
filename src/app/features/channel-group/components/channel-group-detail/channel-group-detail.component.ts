@@ -45,14 +45,12 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((params) => {
           return this.loadingService.doLoading(
-            this.channelGroupService
-              .getChannelGroup(params.channelGroupId)
-              .pipe(
-                catchError((error) => {
-                  this.error = error;
-                  return EMPTY;
-                })
-              ),
+            this.channelGroupService.read(params.channelGroupId).pipe(
+              catchError((error) => {
+                this.error = error;
+                return EMPTY;
+              })
+            ),
             this
           );
         })
@@ -117,14 +115,14 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
 
   // Delete channel group
   delete(): void {
-    this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
-      () => {
+    this.channelGroupService.delete(this.channelGroup.id).subscribe({
+      next: () => {
         this.closeChannelGroup();
         this.messageService.message("Channel group deleted.");
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not delete channel group");
-      }
-    );
+      },
+    });
   }
 }

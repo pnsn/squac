@@ -147,7 +147,7 @@ export class ViewService {
   }
 
   getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
-    return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
+    return this.channelGroupService.read(channelGroupId).pipe(
       distinctUntilChanged(),
       tap((group) => {
         this._channels = group.channels;

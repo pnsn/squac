@@ -135,7 +135,7 @@ export class ChannelGroupViewComponent
   }
 
   fetchData() {
-    return this.channelGroupService.getChannelGroups(this.queryParams).pipe(
+    return this.channelGroupService.list(this.queryParams).pipe(
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
@@ -168,7 +168,7 @@ export class ChannelGroupViewComponent
   // delete channel group
   onDelete(): void {
     this.channelGroupService
-      .deleteChannelGroup(this.selectedChannelGroupId)
+      .delete(this.selectedChannelGroupId)
       .subscribe(() => {
         const index = this.channelGroups.findIndex(
           (cG) => cG.id === this.selectedChannelGroupId
