@@ -371,7 +371,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       this.error = false;
       this.loadingService
         .doLoading(
-          this.channelService.getChannelsByFilters(searchFilters),
+          this.channelService.list(searchFilters),
           this,
           LoadingIndicator.RESULTS
         )

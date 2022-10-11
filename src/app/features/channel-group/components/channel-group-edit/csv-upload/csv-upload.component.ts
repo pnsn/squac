@@ -119,7 +119,7 @@ export class CsvUploadComponent {
           //break up into smaller chunks to get around header size limit
           const queries: Observable<Channel[]>[] = nslcStrings.map(
             (nslcString) => {
-              return this.channelService.getChannelsByFilters({
+              return this.channelService.list({
                 nslc: nslcString,
                 ...searchFilters,
               });
