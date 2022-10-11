@@ -22,14 +22,14 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
   ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = +route.paramMap.get("channelGroupId");
     if (id) {
-      return this.channelGroupService.getChannelGroup(id).pipe(
+      return this.channelGroupService.read(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel group.");
           return this.handleError(error);
         })
       );
     } else {
-      return this.channelGroupService.getChannelGroups().pipe(
+      return this.channelGroupService.list().pipe(
         catchError((error) => {
           this.messageService.error("Could not load channel groups.");
           return this.handleError(error);
