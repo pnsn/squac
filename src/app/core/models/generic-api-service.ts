@@ -1,4 +1,4 @@
-import { Observable, map } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Adapter } from "./adapter";
 
 // base squac object

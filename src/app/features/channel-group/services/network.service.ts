@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { map } from "rxjs/operators";
 import { NetworkAdapter } from "@channelGroup/models/network";
+import { ReadApiService } from "@core/models/generic-api-service";
 import {
   ApiService,
   NslcNetworksListRequestParams,
-  ReadOnlyNetworkSerializer,
+  NslcNetworksReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
@@ -12,17 +12,12 @@ import {
 })
 
 // Service for handling networks
-export class NetworkService {
-  constructor(
-    private api: ApiService,
-    private networkAdapter: NetworkAdapter
-  ) {}
-
-  list(params: NslcNetworksListRequestParams) {
-    this.api.nslcNetworksList(params).pipe(
-      map((response: ReadOnlyNetworkSerializer[]) => {
-        return response.map(this.networkAdapter.adaptFromApi);
-      })
-    );
+export class NetworkService extends ReadApiService<Network> {
+  constructor(private api: ApiService, networkAdapter: NetworkAdapter) {
+    super(networkAdapter);
   }
+  protected apiList = (params: NslcNetworksListRequestParams) =>
+    this.api.nslcNetworksList(params);
+  protected apiRead = (params: NslcNetworksReadRequestParams) =>
+    this.api.nslcNetworksRead(params);
 }

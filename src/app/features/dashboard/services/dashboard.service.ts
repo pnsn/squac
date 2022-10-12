@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
+import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import {
   ApiService,
   DashboardDashboardsCreateRequestParams,
@@ -9,67 +8,24 @@ import {
   DashboardDashboardsListRequestParams,
   DashboardDashboardsReadRequestParams,
   DashboardDashboardsUpdateRequestParams,
-  ReadOnlyDashboardSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { GenericApiService } from "@core/models/generic-api-service";
 
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService implements GenericApiService<Dashboard> {
-  constructor(
-    private api: ApiService,
-    private dashboardAdapter: DashboardAdapter
-  ) {}
-
-  list(params?: DashboardDashboardsListRequestParams): Observable<Dashboard[]> {
-    return this.api.dashboardDashboardsList(params).pipe(
-      map((response: ReadOnlyDashboardSerializer[]) => {
-        return response.map(this.dashboardAdapter.adaptFromApi);
-      })
-    );
+export class DashboardService extends ReadWriteDeleteApiService<Dashboard> {
+  constructor(private api: ApiService, dashboardAdapter: DashboardAdapter) {
+    super(dashboardAdapter);
   }
 
-  // Gets channel group with id from server
-  read(id: number): Observable<Dashboard> {
-    const params: DashboardDashboardsReadRequestParams = {
-      id: `${id}`,
-    };
-    return this.api
-      .nslcGroupsRead(params)
-      .pipe(map(this.dashboardAdapter.adaptFromApi));
-  }
-
-  updateOrCreate(dashboard: Dashboard): Observable<Dashboard> {
-    if (dashboard.id) {
-      return this.update(dashboard);
-    }
-    return this.create(dashboard);
-  }
-
-  update(dashboard: Dashboard): Observable<Dashboard> {
-    const params: DashboardDashboardsUpdateRequestParams = {
-      id: `${dashboard.id}`,
-      data: this.dashboardAdapter.adaptToApi(dashboard),
-    };
-    return this.api
-      .dashboardDashboardsUpdate(params)
-      .pipe(map(this.dashboardAdapter.adaptFromApi));
-  }
-
-  create(dashboard: Dashboard): Observable<Dashboard> {
-    const params: DashboardDashboardsCreateRequestParams = {
-      data: this.dashboardAdapter.adaptToApi(dashboard),
-    };
-    return this.api
-      .dashboardDashboardsCreate(params)
-      .pipe(map(this.dashboardAdapter.adaptFromApi));
-  }
-
-  delete(id: number): Observable<any> {
-    const params: DashboardDashboardsDeleteRequestParams = {
-      id: `${id}`,
-    };
-    return this.api.dashboardDashboardsDelete(params);
-  }
+  protected apiList = (params: DashboardDashboardsListRequestParams) =>
+    this.api.dashboardDashboardsList(params);
+  protected apiRead = (params: DashboardDashboardsReadRequestParams) =>
+    this.api.dashboardDashboardsRead(params);
+  protected apiCreate = (params: DashboardDashboardsCreateRequestParams) =>
+    this.api.dashboardDashboardsCreate(params);
+  protected apiUpdate = (params: DashboardDashboardsUpdateRequestParams) =>
+    this.api.dashboardDashboardsUpdate(params);
+  protected apiDelete = (params: DashboardDashboardsDeleteRequestParams) =>
+    this.api.dashboardDashboardsDelete(params);
 }

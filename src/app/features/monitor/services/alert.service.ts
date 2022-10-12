@@ -5,9 +5,7 @@ import {
   ApiService,
   MeasurementAlertsListRequestParams,
   MeasurementAlertsReadRequestParams,
-  ReadOnlyAlertDetailSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -18,15 +16,9 @@ export class AlertService extends ReadApiService<Alert> {
   }
 
   //** @override */
-  protected apiList = (
-    params: MeasurementAlertsListRequestParams
-  ): Observable<Array<ReadOnlyAlertDetailSerializer>> => {
-    return this.api.measurementAlertsList(params);
-  };
+  protected apiList = (params: MeasurementAlertsListRequestParams) =>
+    this.api.measurementAlertsList(params);
 
-  protected apiRead = (
-    params: MeasurementAlertsReadRequestParams
-  ): Observable<ReadOnlyAlertDetailSerializer> => {
-    return this.api.measurementAlertsRead(params);
-  };
+  protected apiRead = (params: MeasurementAlertsReadRequestParams) =>
+    this.api.measurementAlertsRead(params);
 }

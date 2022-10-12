@@ -1,29 +1,29 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import {
-  Subject,
-  BehaviorSubject,
-  Observable,
-  tap,
-  switchMap,
-  of,
-  distinctUntilChanged,
-  catchError,
-} from "rxjs";
+import { FormGroup } from "@angular/forms";
+import { Ability } from "@casl/ability";
+import { Channel } from "@core/models/channel";
+import { ChannelGroup } from "@core/models/channel-group";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 import { Widget } from "@widget/models/widget";
 import { WidgetService } from "@widget/services/widget.service";
 import * as dayjs from "dayjs";
-import { Ability } from "@casl/ability";
-import { MessageService } from "./message.service";
+import {
+  BehaviorSubject,
+  catchError,
+  distinctUntilChanged,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+} from "rxjs";
 import { DateService } from "./date.service";
-import { Channel } from "@core/models/channel";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "./loading.service";
-import { FormGroup } from "@angular/forms";
+import { MessageService } from "./message.service";
 
 @Injectable({
   providedIn: "root",
@@ -327,7 +327,7 @@ export class ViewService {
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
-      this.widgetService.getWidget(widgetId).subscribe({
+      this.widgetService.read(widgetId).subscribe({
         next: (newWidget) => {
           if (index > -1) {
             this._widgets[index] = newWidget;
@@ -347,7 +347,7 @@ export class ViewService {
 
   // Tell widgets to resize
   saveWidgetResize(widget: Widget) {
-    this.widgetService.updateWidget(widget).subscribe({
+    this.widgetService.update(widget).subscribe({
       next: (widget) => {
         this.resizeWidget(widget.id);
       },
@@ -359,7 +359,7 @@ export class ViewService {
 
   // deletes given widget
   deleteWidget(widgetId): void {
-    this.widgetService.deleteWidget(widgetId).subscribe({
+    this.widgetService.delete(widgetId).subscribe({
       next: () => {
         this.updateWidget(widgetId);
         this.messageService.message("Widget deleted.");
