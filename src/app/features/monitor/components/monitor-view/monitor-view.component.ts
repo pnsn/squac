@@ -13,12 +13,12 @@ import { Monitor } from "@monitor/models/monitor";
 import { AlertService } from "@monitor/services/alert.service";
 import { MonitorService } from "@monitor/services/monitor.service";
 import {
-  tap,
-  Subscription,
   catchError,
   EMPTY,
   forkJoin,
+  Subscription,
   switchMap,
+  tap,
 } from "rxjs";
 
 @Component({
@@ -189,7 +189,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // delete selected monitor
   onDelete(): void {
-    this.monitorService.deleteMonitor(this.selectedMonitorId).subscribe(() => {
+    this.monitorService.delete(this.selectedMonitorId).subscribe(() => {
       const index = this.monitors.findIndex(
         (m) => m.id === this.selectedMonitorId
       );
@@ -231,7 +231,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
       alerts: this.alertService.list({ starttime: lastDay }),
-      monitors: this.monitorService.getMonitors(),
+      monitors: this.monitorService.list(),
     }).pipe(
       tap((results) => {
         this.monitors = results.monitors;
@@ -248,6 +248,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingService.doLoading(this.fetchData(), this).subscribe();
   }
 
+  //** * @param */
   // return alerts with monitorId
   getAlerts(monitorId: number): Alert[] {
     return this.alerts.filter((a) => a.trigger.monitorId === monitorId);

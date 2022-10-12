@@ -12,7 +12,7 @@
         ],
         "createDefaultProgram": true
       },
-      "plugins": ["unused-imports"],
+      "plugins": ["unused-imports", "eslint-plugin-tsdoc"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -44,7 +44,8 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "tsdoc/syntax": "warn"
       }
     },
     {

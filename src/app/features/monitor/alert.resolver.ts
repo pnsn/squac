@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { DateService } from "@core/services/date.service";
-import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -14,7 +13,6 @@ import { AlertService } from "./services/alert.service";
 export class AlertResolver implements Resolve<Observable<any>> {
   constructor(
     private alertService: AlertService,
-    private loadingService: LoadingService,
     private messageService: MessageService,
     private dateService: DateService
   ) {}

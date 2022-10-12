@@ -191,7 +191,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     );
 
     this.monitorService
-      .updateMonitor(monitor)
+      .updateOrCreate(monitor)
       .pipe(
         switchMap((m) => {
           return merge(
