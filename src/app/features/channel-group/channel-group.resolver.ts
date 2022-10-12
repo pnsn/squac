@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
-import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";

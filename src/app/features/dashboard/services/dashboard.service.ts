@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
-import { Observable, of } from "rxjs";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { map, tap } from "rxjs/operators";
-import { Params } from "@angular/router";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import {
   ApiService,
   DashboardDashboardsCreateRequestParams,

@@ -4,35 +4,32 @@ import { SquacApiService } from "@core/services/squacapi.service";
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Alert, AlertAdapter } from "@monitor/models/alert";
+import { ReadApiService } from "@core/models/generic-api-service";
+import {
+  ApiService,
+  MeasurementAlertsListRequestParams,
+  MeasurementAlertsReadRequestParams,
+  ReadOnlyAlertDetailSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",
 })
-export class AlertService {
-  localAlerts: { [monitorId: number]: Alert[] } = {};
-  alerts: Subject<Alert[]> = new Subject();
-  refreshTimeout;
-
-  private url = "measurement/alerts/";
-
-  constructor(
-    private squacApi: SquacApiService,
-    private alertAdapter: AlertAdapter
-  ) {}
-
-  // get all alerts from squacapi
-  getAlerts(params?: Params): Observable<Alert[]> {
-    return this.squacApi
-      .get(this.url, null, params)
-      .pipe(
-        map((results) => results.map((r) => this.alertAdapter.adaptFromApi(r)))
-      );
+export class AlertService extends ReadApiService<Alert> {
+  constructor(alertAdapter: AlertAdapter, private api: ApiService) {
+    super(alertAdapter);
   }
 
-  // get alert with id from squacapi
-  getAlert(id: number): Observable<Alert> {
-    return this.squacApi
-      .get(this.url, id)
-      .pipe(map((response) => this.alertAdapter.adaptFromApi(response)));
-  }
+  //** @override */
+  protected apiList = (
+    params: MeasurementAlertsListRequestParams
+  ): Observable<Array<ReadOnlyAlertDetailSerializer>> => {
+    return this.api.measurementAlertsList(params);
+  };
+
+  protected apiRead = (
+    params: MeasurementAlertsReadRequestParams
+  ): Observable<ReadOnlyAlertDetailSerializer> => {
+    return this.api.measurementAlertsRead(params);
+  };
 }
