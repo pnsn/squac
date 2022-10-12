@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -22,13 +22,13 @@ export class WidgetResolver implements Resolve<Observable<any>> {
     const widgetId = +route.paramMap.get("widgetId");
 
     if (widgetId) {
-      return this.widgetService.getWidget(widgetId).pipe(
+      return this.widgetService.read(widgetId).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
       );
     } else if (dashboardId) {
-      return this.widgetService.getWidgets(dashboardId).pipe(
+      return this.widgetService.list({ dashboard: dashboardId }).pipe(
         catchError((error) => {
           return this.handleError(error);
         })

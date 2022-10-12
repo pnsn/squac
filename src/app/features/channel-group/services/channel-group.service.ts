@@ -1,35 +1,37 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup, ChannelGroupAdapter } from "@core/models/channel-group";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import {
   ApiService,
-  ReadOnlyGroupSerializer,
+  NslcGroupsCreateRequestParams,
+  NslcGroupsDeleteRequestParams,
   NslcGroupsListRequestParams,
   NslcGroupsReadRequestParams,
   NslcGroupsUpdateRequestParams,
-  NslcGroupsCreateRequestParams,
-  NslcGroupsDeleteRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { GenericApiService } from "@core/models/generic-api-service";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService implements GenericApiService<ChannelGroup> {
+export class ChannelGroupService extends ReadWriteDeleteApiService<ChannelGroup> {
   constructor(
-    private channelGroupAdapter: ChannelGroupAdapter,
+    channelGroupAdapter: ChannelGroupAdapter,
     private api: ApiService
-  ) {}
-
-  // Gets all channel groups from server that match params
-  list(params?: NslcGroupsListRequestParams): Observable<ChannelGroup[]> {
-    return this.api.nslcGroupsList(params).pipe(
-      map((response: ReadOnlyGroupSerializer[]) => {
-        return response.map(this.channelGroupAdapter.adaptFromApi);
-      })
-    );
+  ) {
+    super(channelGroupAdapter);
   }
+
+  protected apiList = (params: NslcGroupsListRequestParams) =>
+    this.api.nslcGroupsList(params);
+  protected apiRead = (params: NslcGroupsReadRequestParams) =>
+    this.api.nslcGroupsRead(params);
+  protected apiCreate = (params: NslcGroupsCreateRequestParams) =>
+    this.api.nslcGroupsCreate(params);
+  protected apiUpdate = (params: NslcGroupsUpdateRequestParams) =>
+    this.api.nslcGroupsUpdate(params);
+  protected apiDelete = (params: NslcGroupsDeleteRequestParams) =>
+    this.api.nslcGroupsDelete(params);
 
   /*returns channel groups sorted into
   // {
@@ -69,50 +71,5 @@ export class ChannelGroupService implements GenericApiService<ChannelGroup> {
         ];
       })
     );
-  }
-
-  // Gets channel group with id from server
-  read(id: number): Observable<ChannelGroup> {
-    const params: NslcGroupsReadRequestParams = {
-      id: `${id}`,
-    };
-    return this.api
-      .nslcGroupsRead(params)
-      .pipe(map(this.channelGroupAdapter.adaptFromApi));
-  }
-
-  updateOrCreate(channelGroup: ChannelGroup): Observable<ChannelGroup> {
-    if (channelGroup.id) {
-      return this.update(channelGroup);
-    }
-    return this.create(channelGroup);
-  }
-
-  create(channelGroup: ChannelGroup): Observable<ChannelGroup> {
-    const params: NslcGroupsCreateRequestParams = {
-      data: this.channelGroupAdapter.adaptToApi(channelGroup),
-    };
-    return this.api
-      .nslcGroupsCreate(params)
-      .pipe(map(this.channelGroupAdapter.adaptFromApi));
-  }
-
-  // Replaces channel group with new channel group
-  update(channelGroup: ChannelGroup): Observable<ChannelGroup> {
-    const params: NslcGroupsUpdateRequestParams = {
-      id: `${channelGroup.id}`,
-      data: this.channelGroupAdapter.adaptToApi(channelGroup),
-    };
-    return this.api
-      .nslcGroupsUpdate(params)
-      .pipe(map(this.channelGroupAdapter.adaptFromApi));
-  }
-
-  // Deletes a channel group
-  delete(id: number): Observable<any> {
-    const params: NslcGroupsDeleteRequestParams = {
-      id: `${id}`,
-    };
-    return this.api.nslcGroupsDelete(params);
   }
 }
