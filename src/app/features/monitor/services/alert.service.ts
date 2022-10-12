@@ -1,16 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Params } from "@angular/router";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { Observable, Subject } from "rxjs";
-import { map } from "rxjs/operators";
-import { Alert, AlertAdapter } from "@monitor/models/alert";
 import { ReadApiService } from "@core/models/generic-api-service";
+import { Alert, AlertAdapter } from "@monitor/models/alert";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,
   MeasurementAlertsReadRequestParams,
   ReadOnlyAlertDetailSerializer,
 } from "@pnsn/ngx-squacapi-client";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

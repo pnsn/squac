@@ -6,6 +6,10 @@
 
   "editor.formatOnSave": true,
   // ... more config
+  "editor.codeActionsOnSave": {
+    "source.fixAll.esLint": true,
+    "source.organizeImports": true
+  },
 
   "eslint.validate": [
     "javascript",

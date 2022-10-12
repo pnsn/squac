@@ -1,53 +1,52 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import { Monitor, MonitorAdapter } from "@monitor/models/monitor";
+import {
+  ApiService,
+  MeasurementMeasurementsListRequestParams,
+  MeasurementMeasurementsReadRequestParams,
+  MeasurementMonitorsCreateRequestParams,
+  MeasurementMonitorsDeleteRequestParams,
+  MeasurementMonitorsUpdateRequestParams,
+  ReadOnlyMeasurementSerializer,
+  ReadOnlyMonitorSerializer,
+} from "@pnsn/ngx-squacapi-client";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class MonitorService {
-  private url = "measurement/monitors/";
-
-  constructor(
-    private squacApi: SquacApiService,
-    private monitorAdapter: MonitorAdapter
-  ) {}
-
-  // get all monitors for user from squacapi
-  getMonitors(): Observable<Monitor[]> {
-    return this.squacApi
-      .get(this.url)
-      .pipe(
-        map((results) =>
-          results.map((r) => this.monitorAdapter.adaptFromApi(r))
-        )
-      );
+export class MonitorService extends ReadWriteDeleteApiService<Monitor> {
+  constructor(monitorAdapter: MonitorAdapter, private api: ApiService) {
+    super(monitorAdapter);
   }
+  protected apiList = (
+    params: MeasurementMeasurementsListRequestParams
+  ): Observable<ReadOnlyMeasurementSerializer[]> => {
+    return this.api.measurementMeasurementsList(params);
+  };
 
-  // get monitor with id
-  getMonitor(id: number): Observable<Monitor> {
-    return this.squacApi
-      .get(this.url, id)
-      .pipe(map((response) => this.monitorAdapter.adaptFromApi(response)));
-  }
+  protected apiRead = (
+    params: MeasurementMeasurementsReadRequestParams
+  ): Observable<ReadOnlyMeasurementSerializer> => {
+    return this.api.measurementMeasurementsRead(params);
+  };
 
-  // Update or create monitor
-  updateMonitor(monitor: Monitor): Observable<Monitor> {
-    const postData = this.monitorAdapter.adaptToApi(monitor);
-    if (monitor.id) {
-      return this.squacApi
-        .put(this.url, monitor.id, postData)
-        .pipe(map((response) => this.monitorAdapter.adaptFromApi(response)));
-    }
-    return this.squacApi
-      .post(this.url, postData)
-      .pipe(map((response) => this.monitorAdapter.adaptFromApi(response)));
-  }
+  protected apiCreate = (
+    params: MeasurementMonitorsCreateRequestParams
+  ): Observable<ReadOnlyMonitorSerializer> => {
+    return this.api.measurementMonitorsCreate(params);
+  };
 
-  // delete monitor
-  deleteMonitor(id: number): Observable<any> {
-    return this.squacApi.delete(this.url, id);
-  }
+  protected apiUpdate = (
+    params: MeasurementMonitorsUpdateRequestParams
+  ): Observable<ReadOnlyMonitorSerializer> => {
+    return this.api.measurementMonitorsUpdate(params);
+  };
+
+  protected apiDelete = (
+    params: MeasurementMonitorsDeleteRequestParams
+  ): Observable<any> => {
+    return this.api.measurementMonitorsDelete(params);
+  };
 }

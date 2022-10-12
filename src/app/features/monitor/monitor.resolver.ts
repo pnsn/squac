@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { Observable, of } from "rxjs";
@@ -22,14 +22,14 @@ export class MonitorResolver implements Resolve<Observable<any>> {
   ): Observable<Monitor> | Observable<Monitor[]> {
     const id = +route.paramMap.get("monitorId");
     if (id) {
-      return this.monitorService.getMonitor(id).pipe(
+      return this.monitorService.read(id).pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitor.");
           return this.handleError(error);
         })
       );
     } else {
-      return this.monitorService.getMonitors().pipe(
+      return this.monitorService.list().pipe(
         catchError((error) => {
           this.messageService.error("Could not load monitors.");
           return this.handleError(error);
