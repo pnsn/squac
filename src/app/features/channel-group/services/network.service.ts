@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { Network, NetworkAdapter } from "@channelGroup/models/network";
+import { NetworkAdapter } from "@channelGroup/models/network";
 import {
   ApiService,
   NslcNetworksListRequestParams,

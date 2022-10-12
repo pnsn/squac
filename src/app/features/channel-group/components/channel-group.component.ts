@@ -1,6 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
-import { NetworkService } from "@channelGroup/services/network.service";
+import { Component } from "@angular/core";
 
 @Component({
   selector: "channel-group-main",

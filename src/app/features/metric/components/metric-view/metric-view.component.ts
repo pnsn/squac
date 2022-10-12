@@ -120,7 +120,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   fetchData() {
-    return this.metricService.getMetrics().pipe(
+    return this.metricService.list().pipe(
       tap((results) => {
         this.metrics = results;
         this.rows = [...this.metrics];

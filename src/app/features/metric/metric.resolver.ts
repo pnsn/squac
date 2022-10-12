@@ -17,11 +17,9 @@ export class MetricResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get("metricId");
     if (id) {
-      return this.metricService
-        .getMetric(id)
-        .pipe(catchError(this.handleError));
+      return this.metricService.read(id).pipe(catchError(this.handleError));
     } else {
-      return this.metricService.getMetrics().pipe(catchError(this.handleError));
+      return this.metricService.list().pipe(catchError(this.handleError));
       // return all of them
     }
   }
