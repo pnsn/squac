@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { ReadArchive, ReadMeasurement } from "@core/models/squac-types";
 import { SquacApiService } from "@core/services/squacapi.service";
 import { ReadAggregate } from "@widget/models/aggregate";
-import { ReadArchive, ReadMeasurement } from "@core/models/squac-types";
+import { Observable } from "rxjs";
 
 export class MeasurementParams {
   starttime: string;
@@ -20,6 +20,7 @@ export class MeasurementHttpData {
   starttime: string;
   endtime: string;
 }
+
 @Injectable({
   providedIn: "root",
 })
