@@ -3,6 +3,7 @@ import { Adapter } from "@core/models/adapter";
 
 // Describes an aggregate
 export class Aggregate {
+  id: number;
   public value: number;
   constructor(
     public metricId: number,

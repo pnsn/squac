@@ -16,19 +16,27 @@ export interface GenericApiService<T> {
   updateOrCreate?(a: T): Observable<T>;
 }
 
-// Service that allows Read only api operations
-export abstract class ReadApiService<T extends SquacObject>
+export abstract class ListApiService<T extends SquacObject>
   implements GenericApiService<T>
 {
   constructor(protected adapter: Adapter<T>) {}
   protected abstract apiList(params?: any): Observable<any>;
-  protected abstract apiRead(params?: any): Observable<any>;
 
   list(params: any = {}): Observable<T[]> {
     return this.apiList(params).pipe(
       map((r: Array<any>) => r.map(this.adapter.adaptFromApi))
     );
   }
+}
+
+// Service that allows Read only api operations
+export abstract class ReadApiService<
+  T extends SquacObject
+> extends ListApiService<T> {
+  constructor(protected adapter: Adapter<T>) {
+    super(adapter);
+  }
+  protected abstract apiRead(params?: any): Observable<any>;
 
   read(id: number): Observable<T> {
     const params = {

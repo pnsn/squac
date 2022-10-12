@@ -3,6 +3,7 @@ import { Adapter } from "@core/models/adapter";
 import { ReadNetwork } from "@core/models/squac-types";
 
 export class Network {
+  id: number;
   constructor(
     public code: string,
     public name: string,
