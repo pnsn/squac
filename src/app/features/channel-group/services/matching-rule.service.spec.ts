@@ -1,19 +1,15 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { MockSquacApiService } from "@core/services/squacapi.service.mock";
-
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { MatchingRuleService } from "./matching-rule.service";
 
 describe("MatchingRuleService", () => {
   let service: MatchingRuleService;
 
-  const mockSquacApiService = new MockSquacApiService();
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{ provide: SquacApiService, useValue: mockSquacApiService }],
+      providers: [{ provide: ApiService, useValue: {} }],
     });
     service = TestBed.inject(MatchingRuleService);
   });

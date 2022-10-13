@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ApiGetNetwork, Network, NetworkAdapter } from "./network";
+import { Network, NetworkAdapter } from "./network";
 
 describe("Network", () => {
   let adapter: NetworkAdapter;
@@ -10,7 +10,7 @@ describe("Network", () => {
   it("should adapt api json to Network", () => {
     adapter = TestBed.inject(NetworkAdapter);
 
-    const testData: ApiGetNetwork = {
+    const testData = {
       class_name: "class",
       code: "code",
       name: "testName",

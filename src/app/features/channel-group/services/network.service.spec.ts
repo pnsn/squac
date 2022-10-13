@@ -1,8 +1,6 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-
-import { SquacApiService } from "@core/services/squacapi.service";
-import { MockSquacApiService } from "@core/services/squacapi.service.mock";
+import { TestBed } from "@angular/core/testing";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { NetworkService } from "./network.service";
 
 describe("NetworkService", () => {
@@ -17,12 +15,10 @@ describe("NetworkService", () => {
     updated_at: "date",
     user: 1,
   };
-  const mockSquacApiService = new MockSquacApiService(testNetwork);
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{ provide: SquacApiService, useValue: mockSquacApiService }],
+      providers: [{ provide: ApiService, useValue: {} }],
     });
 
     networkService = TestBed.inject(NetworkService);
@@ -32,10 +28,5 @@ describe("NetworkService", () => {
     const service: NetworkService = TestBed.inject(NetworkService);
 
     expect(service).toBeTruthy();
-  });
-
-  it("should fetch networks", () => {
-    networkService.fetchNetworks();
-    expect(networkService.networks[0].name).toEqual(testNetwork.name);
   });
 });

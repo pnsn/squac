@@ -5,6 +5,7 @@ import {
   UserTokenCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
+import { Subject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { ConfigurationService } from "./configuration.service";
 
@@ -19,6 +20,8 @@ export class AuthService {
   private tokenExpirationTimer: any; // Time left before token expires
   redirectUrl: string;
   expirationTime;
+
+  getAccessToken = new Subject();
   constructor(
     private router: Router,
     private api: ApiService,

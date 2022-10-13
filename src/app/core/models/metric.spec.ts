@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ApiGetMetric, Metric, MetricAdapter } from "./metric";
+import { Metric, MetricAdapter } from "./metric";
 
 describe("Metric", () => {
   let adapter: MetricAdapter;
@@ -22,7 +22,7 @@ describe("Metric", () => {
 
   it("should create new metric from api ", () => {
     adapter = TestBed.inject(MetricAdapter);
-    const testData: ApiGetMetric = {
+    const testData = {
       id: 1,
       name: "testName",
       code: "string",

@@ -1,9 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import {
-  ApiGetOrganization,
-  Organization,
-  OrganizationAdapter,
-} from "./organization";
+import { Organization, OrganizationAdapter } from "./organization";
 
 describe("Organization", () => {
   let adapter: OrganizationAdapter;
@@ -13,11 +9,12 @@ describe("Organization", () => {
 
   it("should adapt from api to organization", () => {
     adapter = TestBed.inject(OrganizationAdapter);
-    const testData: ApiGetOrganization = {
+    const testData = {
       name: "testName",
       id: 1,
       description: "",
       created_at: "",
+      users: [],
     };
 
     const organization = adapter.adaptFromApi(testData);

@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ApiGetUser, User, UserAdapter } from "./user";
+import { User, UserAdapter } from "./user";
 
 describe("User", () => {
   let adapter: UserAdapter;
@@ -24,12 +24,12 @@ describe("User", () => {
 
   it("should adapt from api to user", () => {
     adapter = TestBed.inject(UserAdapter);
-    const testData: ApiGetUser = {
+    const testData = {
       email: "string",
       firstname: "string",
       lastname: "string",
       is_staff: false,
-      groups: [1],
+      groups: new Set([1]),
       id: 1,
       organization: 1,
       is_org_admin: false,

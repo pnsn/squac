@@ -1,9 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import {
-  ApiGetChannelGroup,
-  ChannelGroup,
-  ChannelGroupAdapter,
-} from "./channel-group";
+import { ChannelGroup, ChannelGroupAdapter } from "./channel-group";
 
 describe("ChannelGroup", () => {
   let adapter: ChannelGroupAdapter;
@@ -14,7 +10,7 @@ describe("ChannelGroup", () => {
 
   it("should create new channel group from api", () => {
     adapter = TestBed.inject(ChannelGroupAdapter);
-    const testData: ApiGetChannelGroup = {
+    const testData = {
       name: "string",
       id: 1,
       description: "string",
