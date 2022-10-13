@@ -1,13 +1,13 @@
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 // Intercepts and formats http error responses for uniformity
 @Injectable()
@@ -19,6 +19,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       // retry(1), //TODO: enable retrys after CORS fixed
       catchError((error: HttpErrorResponse) => {
+        console.log(request, error);
         let errorMessage = "Unknown error occured.";
         if (error.error instanceof Error) {
           // client-side error
@@ -35,7 +36,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             }
           }
         }
-        return throwError(errorMessage);
+        throw new Error(errorMessage);
       })
     );
   }

@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "@core/services/squacapi.service";
+import {
+  InviteCreateRequestParams,
+  InviteService as InviteApi,
+  RegisterCreateRequestParams,
+} from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
 // Service to get user info & reset things
@@ -7,12 +11,16 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class InviteService {
-  private url = "invite/";
-  constructor(private squacApi: SquacApiService) {}
+  constructor(private inviteApi: InviteApi) {}
 
   // tells squac to send an invite to existing user
   sendInviteToUser(user: number): Observable<any> {
-    return this.squacApi.post(this.url + "invite/", { user });
+    const params: InviteCreateRequestParams = {
+      data: {
+        user,
+      },
+    };
+    return this.inviteApi.inviteCreate(params);
   }
 
   // sends registration info to squac
@@ -22,11 +30,15 @@ export class InviteService {
     token: string,
     password: string
   ): Observable<any> {
-    return this.squacApi.post(this.url + "register/", {
-      firstname,
-      lastname,
-      token,
-      password,
-    });
+    const params: RegisterCreateRequestParams = {
+      data: {
+        firstname,
+        lastname,
+        token,
+        password,
+      },
+    };
+
+    return this.inviteApi.registerCreate(params);
   }
 }
