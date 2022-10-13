@@ -87,7 +87,7 @@ export abstract class ReadWriteDeleteApiService<T extends SquacObject>
 {
   // api delete method
   /**
-   * @param requestParameters request params for object type
+   * @param requestParameters - request params for object type
    */
   protected abstract apiDelete(requestParameters?: any): Observable<any>;
   constructor(protected adapter: Adapter<T>) {
