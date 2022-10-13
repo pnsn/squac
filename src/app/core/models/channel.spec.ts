@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ApiGetChannel, Channel, ChannelAdapter } from "./channel";
+import { Channel, ChannelAdapter } from "./channel";
 
 describe("Channel", () => {
   let adapter: ChannelAdapter;
@@ -45,7 +45,7 @@ describe("Channel", () => {
 
   it("should create new channel from api json", () => {
     adapter = TestBed.inject(ChannelAdapter);
-    const testData: ApiGetChannel = {
+    const testData = {
       id: 1,
       class_name: "string",
       code: "code",

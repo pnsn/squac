@@ -1,17 +1,17 @@
 import { TestBed } from "@angular/core/testing";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { MockSquacApiService } from "@core/services/squacapi.service.mock";
-
+import { ApiService } from "@pnsn/ngx-squacapi-client";
+import { MockBuilder } from "ng-mocks";
 import { TriggerService } from "./trigger.service";
 
 describe("TriggerService", () => {
   let service: TriggerService;
 
   beforeEach(() => {
+    return MockBuilder(TriggerService).mock(ApiService);
+  });
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: SquacApiService, useValue: new MockSquacApiService() },
-      ],
+      providers: [],
     });
     service = TestBed.inject(TriggerService);
   });
