@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import { ChannelGroup } from "@core/models/channel-group";
-import { Dashboard, DashboardAdapter } from "@dashboard/models/dashboard";
+import { DashboardAdapter } from "@dashboard/models/dashboard";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { WidgetService } from "@widget/services/widget.service";
 import { MockBuilder } from "ng-mocks";
@@ -11,16 +11,6 @@ import { DashboardService } from "./dashboard.service";
 
 describe("DashboardService", () => {
   let dashboardService: DashboardService;
-
-  const testDashboard = new Dashboard(
-    1,
-    1,
-    "name",
-    "description",
-    true,
-    true,
-    1
-  );
 
   const testChannelGroup = new ChannelGroup(1, 1, "name", "description", 1);
 

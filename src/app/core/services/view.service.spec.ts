@@ -28,9 +28,9 @@ describe("ViewService", () => {
         provide: DashboardService,
         useValue: {
           list: (i) => of(i),
-          update: (i) => of(true),
-          delete: (i) => of(true),
-          updateOrCreate: (i) => of(true),
+          update: (_i) => of(true),
+          delete: (_i) => of(true),
+          updateOrCreate: (_i) => of(true),
         },
       })
       .mock(MessageService)

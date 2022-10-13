@@ -1,37 +1,21 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { Metric } from "@core/models/metric";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { MetricService } from "./metric.service";
 
 describe("MetricService", () => {
-  let metricService: MetricService;
-
-  const testMetric: Metric = new Metric(
-    1,
-    1,
-    "name",
-    "code",
-    "description",
-    "reference",
-    "unit",
-    1
-  );
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{ provide: ApiService, useValue: {} }],
     });
-
-    metricService = TestBed.inject(MetricService);
   });
 
-  // it("should be created", () => {
-  //   const service: MetricService = TestBed.inject(MetricService);
+  it("should be created", () => {
+    const service: MetricService = TestBed.inject(MetricService);
 
-  //   expect(service).toBeTruthy();
-  // });
+    expect(service).toBeTruthy();
+  });
 
   // it("should return all metrics", () => {
   //   metricService.getMetrics().subscribe((metrics) => {

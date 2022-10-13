@@ -1,8 +1,7 @@
 import { MockService } from "ng-mocks";
-import { Alert, AlertAdapter } from "./alert";
+import { Alert } from "./alert";
 
 describe("Alert", () => {
-  let adapter: AlertAdapter;
   it("should create an instance", () => {
     expect(MockService(Alert)).toBeTruthy();
   });

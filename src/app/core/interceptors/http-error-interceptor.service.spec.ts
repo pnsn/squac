@@ -5,9 +5,6 @@ import { HttpErrorInterceptor } from "./http-error-interceptor.service";
 
 describe("HttpErrorInterceptor", () => {
   let interceptor;
-  let httpRequestSpy;
-  let httpHandlerSpy;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

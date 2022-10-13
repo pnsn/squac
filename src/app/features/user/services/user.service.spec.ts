@@ -6,16 +6,6 @@ import { UserService } from "./user.service";
 
 describe("UserService", () => {
   let userService: UserService;
-  const testData = {
-    id: 1,
-    email: "email",
-    firstname: "first",
-    lastname: "last",
-    organization: 1,
-    is_org_admin: false,
-    groups: [1, 2],
-    is_staff: false,
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

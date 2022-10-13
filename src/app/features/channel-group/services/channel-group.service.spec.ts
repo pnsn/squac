@@ -4,30 +4,11 @@ import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { ChannelGroupService } from "./channel-group.service";
 
 describe("ChannelGroupService", () => {
-  let channelGroupService: ChannelGroupService;
-
-  const testChannelGroup = {
-    name: "name",
-    id: 1,
-    url: "url",
-    description: "description",
-    channels: [],
-    share_all: false,
-    share_org: false,
-    created_at: "date",
-    updated_at: "date",
-    user: 1,
-    organization: 1,
-    auto_include_channels: [],
-    auto_exclude_channels: [],
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{ provide: ApiService, useValue: {} }],
     });
-    channelGroupService = TestBed.inject(ChannelGroupService);
   });
 
   it("should be created", () => {
