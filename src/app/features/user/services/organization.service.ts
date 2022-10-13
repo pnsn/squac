@@ -1,20 +1,24 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "@core/services/squacapi.service";
-import { Observable } from "rxjs";
+import {
+  ApiService,
+  OrganizationOrganizationsListRequestParams,
+  OrganizationUsersCreateRequestParams,
+  OrganizationUsersPartialUpdateRequestParams,
+} from "@pnsn/ngx-squacapi-client";
 import { Organization, OrganizationAdapter } from "@user/models/organization";
-import { map, tap } from "rxjs/operators";
 import { User, UserAdapter } from "@user/models/user";
+import { Observable } from "rxjs";
+import { map, tap } from "rxjs/operators";
 
 // Service to get user info & reset things
 @Injectable({
   providedIn: "root",
 })
 export class OrganizationService {
-  private url = "organization/";
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
-    private squacApi: SquacApiService,
+    private api: ApiService,
     private organizationAdapter: OrganizationAdapter,
     private userAdapter: UserAdapter
   ) {}
@@ -34,8 +38,8 @@ export class OrganizationService {
   }
 
   getOrganizations(): Observable<Organization[]> {
-    const path = "organizations/";
-    return this.squacApi.get(this.url + path).pipe(
+    const params: OrganizationOrganizationsListRequestParams = {};
+    return this.api.organizationOrganizationsList(params).pipe(
       map((response) =>
         response.map((r) => {
           this.storeOrgUsers(r.users);
@@ -49,31 +53,35 @@ export class OrganizationService {
   }
 
   updateUser(user: User): Observable<User> {
-    const path = "users/";
     const postData = this.userAdapter.adaptToApi(user);
     if (user.id) {
-      return this.squacApi
-        .patch(this.url + path, user.id, postData)
+      const params: OrganizationUsersPartialUpdateRequestParams = {
+        id: user.id.toString(),
+        data: postData,
+      };
+      return this.api
+        .organizationUsersPartialUpdate(params)
         .pipe(map((response) => this.userAdapter.adaptFromApi(response)));
     } else {
-      return this.squacApi
-        .post(this.url + path, postData)
+      const params: OrganizationUsersCreateRequestParams = {
+        data: postData,
+      };
+      return this.api
+        .organizationUsersCreate(params)
         .pipe(map((response) => this.userAdapter.adaptFromApi(response)));
     }
   }
 
   getOrganization(id: number): Observable<Organization> {
-    const path = "organizations/";
-    return this.squacApi
-      .get(this.url + path, id)
+    return this.api
+      .organizationOrganizationsRead({ id: id.toString() })
       .pipe(map((response) => this.organizationAdapter.adaptFromApi(response)));
   }
 
   getOrganizationUsers(orgId: number): Observable<User[]> {
-    const path = "users/";
-    return this.squacApi
-      .get(this.url + path, null, {
-        organization: orgId,
+    return this.api
+      .organizationUsersList({
+        organization: orgId.toString(),
       })
       .pipe(
         map((response) => response.map((r) => this.userAdapter.adaptFromApi(r)))
@@ -81,8 +89,9 @@ export class OrganizationService {
   }
 
   deleteUser(userId): Observable<User> {
-    const path = "users/";
-    return this.squacApi.delete(this.url + path, userId);
+    return this.api.organizationUsersDelete({
+      id: userId.toString(),
+    });
   }
 
   private storeOrgUsers(orgUsers): void {

@@ -9,20 +9,11 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { User } from "../models/user";
 
-interface UserHttpData {
-  email?: string;
-  password?: string;
-  firstname: string;
-  lastname: string;
-  organization?: string;
-}
-
 // Service to get user info & reset things
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  private url = "user/me/";
   private currentUser: User;
   user = new BehaviorSubject<User>(null);
   constructor(private api: ApiService, private ability: AppAbility) {}
