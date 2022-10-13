@@ -1,8 +1,8 @@
-import { Threshold } from "@widget/models/threshold";
-import { Metric, MetricAdapter } from "@core/models/metric";
-import { Adapter } from "@core/models/adapter";
 import { Injectable } from "@angular/core";
+import { Adapter } from "@core/models/adapter";
+import { Metric, MetricAdapter } from "@core/models/metric";
 import { ApiMetric, ReadWidget, WriteWidget } from "@core/models/squac-types";
+import { Threshold } from "@widget/models/threshold";
 
 export class Widget {
   public _thresholds: Threshold[] = [];
@@ -77,17 +77,7 @@ export class Widget {
 
   // get ids from the metrics
   get metricsIds(): number[] {
-    const array = [];
-    if (this.metrics) {
-      this.metrics.forEach((metric) => {
-        array.push(metric.id);
-      });
-    }
-    return array;
-  }
-
-  get metricsString(): string {
-    return this.metricsIds.toString();
+    return this.metrics.map((m) => m.id);
   }
 
   static get modelName() {

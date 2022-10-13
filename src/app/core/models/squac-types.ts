@@ -58,10 +58,9 @@ export type ReadUser =
   | squacapi.ReadOnlyUserMeSerializer
   | squacapi.ReadOnlyUserSerializer
   | squacapi.ReadOnlyUserSimpleSerializer
+  | squacapi.ReadOnlyUserUpdateSerializer
   | ApiUserSimple;
-export type WriteUser =
-  | squacapi.WriteOnlyUserMeSerializer
-  | squacapi.WriteOnlyUserSerializer;
+export type WriteUser = squacapi.WriteOnlyUserSerializer;
 
 // measurements
 export type ReadArchive =

@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
-import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
-import { SquacApiService } from "@core/services/squacapi.service";
+import {
+  ApiService,
+  UserTokenCreateRequestParams,
+} from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
+import { tap } from "rxjs/operators";
 import { ConfigurationService } from "./configuration.service";
 
 // Handles log in logic and API requests for login
@@ -18,7 +21,7 @@ export class AuthService {
   expirationTime;
   constructor(
     private router: Router,
-    private squacApi: SquacApiService,
+    private api: ApiService,
     private userService: UserService,
     configService: ConfigurationService
   ) {
@@ -56,24 +59,25 @@ export class AuthService {
   }
 
   // after user enters data, log them in
-  login(userEmail: string, userPassword: string) {
-    return this.squacApi
-      .post(this.url, {
-        email: userEmail,
-        password: userPassword,
-      })
-      .pipe(
-        tap((resData) => {
-          this.handleAuth(resData.token, this.expirationTime);
+  login(email: string, password: string) {
+    const params: UserTokenCreateRequestParams = {
+      data: {
+        email,
+        password,
+      },
+    };
+    return this.api.userTokenCreate(params).pipe(
+      tap((resData) => {
+        this.handleAuth(resData.token, this.expirationTime);
 
-          if (this.redirectUrl) {
-            this.router.navigate([this.redirectUrl]);
-            this.redirectUrl = null;
-          } else {
-            this.router.navigate(["/"]);
-          }
-        })
-      );
+        if (this.redirectUrl) {
+          this.router.navigate([this.redirectUrl]);
+          this.redirectUrl = null;
+        } else {
+          this.router.navigate(["/"]);
+        }
+      })
+    );
   }
 
   // after user hits log out, wipe data
