@@ -5,24 +5,6 @@ import { OrganizationService } from "./organization.service";
 
 describe("OrganizationService", () => {
   let service: OrganizationService;
-  const testUser = {
-    id: 1,
-    email: "email",
-    firstname: "first",
-    lastname: "last",
-    organization: 1,
-    is_staff: false,
-    groups: [1],
-    is_active: true,
-    is_org_admin: false,
-    last_login: true,
-  };
-  const testData = {
-    id: 1,
-    name: "name",
-    description: "description",
-    users: [testUser],
-  };
 
   beforeEach(() => {
     return MockBuilder(OrganizationService).mock(ApiService);

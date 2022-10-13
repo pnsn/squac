@@ -8,27 +8,6 @@ import { WidgetModule } from "../widget.module";
 import { WidgetService } from "./widget.service";
 
 describe("WidgetService", () => {
-  const testData = {
-    id: 1,
-    name: "string",
-    dashboard: {},
-    description: "desc",
-    widgettype: {},
-    metrics: [],
-    thresholds: [],
-    columns: 1,
-    rows: 1,
-    x_position: 1,
-    y_position: 1,
-    stattype: {},
-    channel_group: 1,
-    user: 1,
-    color_palette: "string",
-  };
-
-  let squacApiService;
-  let widgetService: WidgetService;
-
   beforeEach(() => {
     return MockBuilder(WidgetService, WidgetModule)
       .keep(WidgetAdapter)
@@ -41,9 +20,6 @@ describe("WidgetService", () => {
           },
         },
       });
-  });
-  beforeEach(() => {
-    widgetService = TestBed.inject(WidgetService);
   });
 
   it("should be created", () => {
