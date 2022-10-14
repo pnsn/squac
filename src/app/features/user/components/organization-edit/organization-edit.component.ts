@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { User } from "@user/models/user";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -17,7 +17,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   user: User;
   editMode: boolean;
   orgId: number;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
 
   userIsActive = true;
   groupTypes = [
@@ -38,7 +38,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     },
   ];
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<OrganizationEditComponent>,
     private orgService: OrganizationService,
     private messageService: MessageService,

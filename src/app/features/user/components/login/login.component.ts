@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
@@ -16,14 +16,14 @@ export class LoginComponent implements OnDestroy {
   message: string = null;
   hide = true;
 
-  loginForm: FormGroup = this.formBuilder.group({
+  loginForm: UntypedFormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
   });
 
   constructor(
     private loginService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   // Form submit

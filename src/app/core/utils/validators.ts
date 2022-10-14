@@ -1,6 +1,6 @@
 import {
   AbstractControl,
-  FormGroup,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
 } from "@angular/forms";
@@ -23,7 +23,7 @@ export function regexValidator(): ValidatorFn {
 
 // return true if at least input from fiels is filled
 export function atLeastOneValidator(fields: string[]): ValidatorFn {
-  return (formGroup: FormGroup): ValidationErrors | null => {
+  return (formGroup: UntypedFormGroup): ValidationErrors | null => {
     const values = formGroup.value;
 
     const isValid = fields.some((fieldName) => {

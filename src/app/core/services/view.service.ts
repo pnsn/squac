@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
 import { Channel } from "@core/models/channel";
 import { ChannelGroup } from "@core/models/channel-group";
@@ -31,7 +31,7 @@ import { MessageService } from "./message.service";
 export class ViewService {
   // handle refreshing
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
-  private _channelsList: FormGroup; //{ 'SCNL': boolean }
+  private _channelsList: UntypedFormGroup; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
   private _channelGroupId: number;
   private _widgets: Widget[];
@@ -161,7 +161,7 @@ export class ViewService {
   }
 
   // { NSLC : true/false} from channel select
-  updateChannels(list: FormGroup) {
+  updateChannels(list: UntypedFormGroup) {
     this._channelsList = list;
     this.hasUnsavedChanges = true;
   }

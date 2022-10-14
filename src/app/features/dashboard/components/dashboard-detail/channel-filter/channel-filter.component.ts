@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Channel } from "@core/models/channel";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
@@ -19,13 +19,13 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
 export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;
   channels: Channel[] = [];
-  form: FormGroup;
+  form: UntypedFormGroup;
   timeout;
   toggledAll = true;
   channelsSub: Subscription;
   @Output() closeSidenav = new EventEmitter<boolean>();
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private widgetConnectService: WidgetConnectService,
     private viewService: ViewService
   ) {}
@@ -49,16 +49,16 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     if (!this.form) {
       this.form = this.formBuilder.group({});
     }
-    this.form.addControl("checkboxes", new FormGroup({}));
+    this.form.addControl("checkboxes", new UntypedFormGroup({}));
 
-    const checkboxes = <FormGroup>this.form.get("checkboxes");
+    const checkboxes = <UntypedFormGroup>this.form.get("checkboxes");
     checkboxes.controls = {};
     this.channels.forEach((option: any) => {
-      checkboxes.addControl(option.nslc, new FormControl(true));
+      checkboxes.addControl(option.nslc, new UntypedFormControl(true));
     });
 
     this.form.valueChanges.subscribe(() => {
-      const value = <FormGroup>this.form.get("checkboxes").value;
+      const value = <UntypedFormGroup>this.form.get("checkboxes").value;
       this.viewService.updateChannels(value);
     });
   }
@@ -78,7 +78,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   }
 
   toggleAll() {
-    const checkboxes = this.form.get("checkboxes") as FormGroup;
+    const checkboxes = this.form.get("checkboxes") as UntypedFormGroup;
     Object.keys(checkboxes.controls).forEach((key) => {
       checkboxes.controls[key].patchValue(!this.toggledAll);
     });

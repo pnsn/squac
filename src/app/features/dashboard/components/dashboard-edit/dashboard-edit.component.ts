@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Dashboard } from "../../models/dashboard";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from "@angular/forms";
 import { DashboardService } from "../../services/dashboard.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
@@ -20,14 +20,14 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   orgId: number;
   channelGroups: ChannelGroup[];
   channelGroupId: number;
-  dashboardForm: FormGroup = this.formBuilder.group({
+  dashboardForm: UntypedFormGroup = this.formBuilder.group({
     name: ["", Validators.required],
     description: ["", Validators.required],
     share: ["private", Validators.required],
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<DashboardEditComponent>,
     private dashboardService: DashboardService,
     private userService: UserService,

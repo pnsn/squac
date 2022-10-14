@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Validators, FormControl, FormGroup } from "@angular/forms";
+import { Validators, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { InviteService } from "@user/services/invite.service";
 
 @Component({
@@ -19,23 +19,23 @@ export class UserEditComponent implements OnInit {
   hide = true; // show/hide password
   attempts = 0; // soft block for too many
   token: string; // the token
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.token = params.token;
     });
 
-    this.userForm = new FormGroup({
-      firstName: new FormControl("", [Validators.required]),
-      lastName: new FormControl("", [Validators.required]),
-      passwords: new FormGroup(
+    this.userForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl("", [Validators.required]),
+      lastName: new UntypedFormControl("", [Validators.required]),
+      passwords: new UntypedFormGroup(
         {
-          password: new FormControl("", [
+          password: new UntypedFormControl("", [
             Validators.minLength(8),
             Validators.required,
           ]),
-          confirm: new FormControl("", [Validators.required]),
+          confirm: new UntypedFormControl("", [Validators.required]),
         },
         [this.passwordValidator]
       ),
@@ -43,7 +43,7 @@ export class UserEditComponent implements OnInit {
   }
 
   // check passwords match
-  passwordValidator(group: FormGroup) {
+  passwordValidator(group: UntypedFormGroup) {
     if (
       group.value.password &&
       group.value.confirm &&
