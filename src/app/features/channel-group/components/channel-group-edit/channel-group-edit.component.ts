@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroup } from "@core/models/channel-group";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
-  FormBuilder,
+  UntypedFormBuilder,
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
 import { Channel } from "@core/models/channel";
@@ -54,7 +54,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: any;
-  channelGroupForm: FormGroup; // form stuff
+  channelGroupForm: UntypedFormGroup; // form stuff
   csvStatus: string;
   channelsInGroup: Channel[] = []; // channels currently saved in group
   selectedChannels: Channel[] = []; // Channels currently in selected list
@@ -89,7 +89,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
     private channelService: ChannelService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
@@ -100,8 +100,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.channelGroupForm = this.formBuilder.group({
-      name: new FormControl("", Validators.required),
-      description: new FormControl("", Validators.required),
+      name: new UntypedFormControl("", Validators.required),
+      description: new UntypedFormControl("", Validators.required),
       share: ["private", Validators.required],
     });
     const chanSub = this.route.params

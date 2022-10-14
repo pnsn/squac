@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ChannelGroup } from "@core/models/channel-group";
 import { Metric } from "@core/models/metric";
@@ -78,7 +78,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private monitorService: MonitorService,
     public dialogRef: MatDialogRef<MonitorEditComponent>,
     private triggerService: TriggerService,
@@ -95,12 +95,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // emitModelToViewChange: true,
   // // Access triggers
-  get triggers(): FormArray {
-    return this.monitorForm.get("triggers") as FormArray;
+  get triggers(): UntypedFormArray {
+    return this.monitorForm.get("triggers") as UntypedFormArray;
   }
 
   // Add trigger info to form
-  makeTriggerForm(trigger?: Trigger): FormGroup {
+  makeTriggerForm(trigger?: Trigger): UntypedFormGroup {
     return this.formBuilder.group(
       {
         val1: [trigger ? trigger.val1 : null, Validators.required],
