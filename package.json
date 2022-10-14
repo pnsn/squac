@@ -43,7 +43,6 @@
     "ngx-daterangepicker-material": "^5.0.1",
     "ngx-echarts": "^8.0.1",
     "rxjs": "^7.4.0",
-    "timelines-chart": "^2.11.2",
     "ts-node": "^10.4.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -51,7 +50,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.6",
     "@angular-eslint/builder": "13.0.1",
-    "@angular-eslint/eslint-plugin": "13.0.1",
+    "@angular-eslint/eslint-plugin": "^13.0.1",
     "@angular-eslint/eslint-plugin-template": "13.0.1",
     "@angular-eslint/schematics": "13.0.1",
     "@angular-eslint/template-parser": "13.0.1",
