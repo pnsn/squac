@@ -41,7 +41,7 @@
     "ng-mocks": "^13.3.0",
     "ngx-csv-parser": "^1.1.1",
     "ngx-daterangepicker-material": "^5.0.1",
-    "ngx-echarts": "^8.0.1",
+    "ngx-echarts": "^14.0.0",
     "rxjs": "^7.4.0",
     "ts-node": "^10.4.0",
     "tslib": "^2.0.0",
