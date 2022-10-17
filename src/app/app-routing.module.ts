@@ -54,7 +54,7 @@ const appRoutes: Routes = [
     children: [
       {
         path: "",
-        pathMatch: "prefix",
+        pathMatch: "full",
         redirectTo: "dashboards",
       },
       {

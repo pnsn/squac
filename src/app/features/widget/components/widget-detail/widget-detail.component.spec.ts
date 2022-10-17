@@ -3,15 +3,11 @@ import { WidgetDetailComponent } from "./widget-detail.component";
 import { WidgetModule } from "../../widget.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Widget } from "@widget/models/widget";
-import { Ability } from "@casl/ability";
-import { AbilityModule } from "@casl/angular";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
-import { ErrorComponent } from "@shared/components/error/error.component";
-import { BehaviorSubject, of, Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { DashboardService } from "@features/dashboard/services/dashboard.service";
-import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;

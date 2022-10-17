@@ -2,7 +2,7 @@ import { fakeAsync, flush, TestBed, tick } from "@angular/core/testing";
 import { Location } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Router, RouterModule, RouterOutlet } from "@angular/router";
+import { Router, RouterOutlet } from "@angular/router";
 import {
   MockBuilder,
   MockComponent,
@@ -12,16 +12,8 @@ import {
 } from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
-import { AppModule } from "app/app.module";
-import { DashboardModule } from "@dashboard/dashboard.module";
-import { DashboardResolver } from "@dashboard/dashboard.resolver";
-import { ChannelGroupResolver } from "@channelGroup/channel-group.resolver";
-import { UserResolver } from "@user/user.resolver";
-import { MetricResolver } from "@metric/metric.resolver";
-import { OrganizationResolver } from "@user/organization.resolver";
 import { LoginComponent } from "@features/user/components/login/login.component";
 import { DashboardComponent } from "@features/dashboard/components/dashboard/dashboard.component";
-import { LoggedInGuard } from "./logged-in.guard";
 
 describe("AuthGuard", () => {
   ngMocks.faster();
