@@ -1,12 +1,12 @@
 import { TestBed } from "@angular/core/testing";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { of, Subject } from "rxjs";
-import { Widget } from "../models/widget";
+import { Widget } from "@squacapi/models/widget";
 import { WidgetType } from "../models/widget-type";
 import { WidgetModule } from "../widget.module";
-import { MeasurementService } from "./measurement.service";
+import { MeasurementService } from "@squacapi/services/measurement.service";
 
 import { WidgetDataService } from "./widget-data.service";
 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardViewComponent } from "./dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { DashboardModule } from "@features/dashboard/dashboard.module";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";

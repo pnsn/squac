@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardEditComponent } from "./dashboard-edit.component";
-import { DashboardService } from "../../services/dashboard.service";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
 import { UserService } from "@user/services/user.service";
