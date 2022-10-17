@@ -1,12 +1,12 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
-
 import "zone.js/testing";
 import { getTestBed } from "@angular/core/testing";
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from "@angular/platform-browser-dynamic/testing";
-import { ngMocks, MockInstance } from "ng-mocks";
+import { DefaultTitleStrategy, TitleStrategy } from "@angular/router";
+import { MockInstance, MockService, ngMocks } from "ng-mocks";
 
 declare const require: any;
 declare const jasmine: any;
@@ -23,6 +23,8 @@ jasmine.getEnv().addReporter({
 ngMocks.config({
   onTestBedFlushNeed: "warn",
 });
+
+ngMocks.defaultMock(TitleStrategy, () => MockService(DefaultTitleStrategy));
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

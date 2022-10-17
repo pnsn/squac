@@ -16,10 +16,8 @@ describe("AlertViewComponent", () => {
   let fixture: ComponentFixture<AlertViewComponent>;
 
   beforeEach(() => {
-    return MockBuilder(AlertViewComponent, MonitorModule)
-      .mock(TableViewComponent)
-      .mock(AbilityModule)
-      .mock(HttpClientTestingModule)
+    return MockBuilder(AlertViewComponent)
+      .mock(MonitorModule)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(DateService)
       .provide({

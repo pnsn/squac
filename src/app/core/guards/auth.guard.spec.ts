@@ -21,31 +21,40 @@ import { MetricResolver } from "@metric/metric.resolver";
 import { OrganizationResolver } from "@user/organization.resolver";
 import { LoginComponent } from "@features/user/components/login/login.component";
 import { DashboardComponent } from "@features/dashboard/components/dashboard/dashboard.component";
+import { LoggedInGuard } from "./logged-in.guard";
 
 describe("AuthGuard", () => {
   ngMocks.faster();
 
   beforeAll(() => {
-    return MockBuilder(AuthGuard, AppModule)
+    return MockBuilder(AuthGuard)
       .exclude(NG_MOCKS_GUARDS)
-      .mock(DashboardModule)
-      .mock(DashboardResolver)
-      .mock(ChannelGroupResolver)
-      .mock(UserResolver)
-      .mock(MetricResolver)
-      .mock(OrganizationResolver)
       .mock(AuthService, {
         login: () => EMPTY,
         loggedIn: false,
       })
-      .keep(RouterModule)
       .keep(
         RouterTestingModule.withRoutes([
           {
             path: "login",
             component: MockComponent(LoginComponent),
           },
-          { path: "dashboards", component: MockComponent(DashboardComponent) },
+          {
+            path: "",
+            pathMatch: "prefix",
+            canActivate: [AuthGuard],
+            children: [
+              {
+                path: "",
+                pathMatch: "full",
+                redirectTo: "dashboards",
+              },
+              {
+                path: "dashboards",
+                component: MockComponent(DashboardComponent),
+              },
+            ],
+          },
         ])
       );
   });
@@ -57,9 +66,7 @@ describe("AuthGuard", () => {
     const authService: AuthService = TestBed.inject(AuthService);
 
     expect(authService.loggedIn).toBeFalse();
-
     location.go("/");
-
     if (fixture.ngZone) {
       fixture.ngZone.run(() => router.initialNavigation());
       tick(); // is needed for rendering of the current route.

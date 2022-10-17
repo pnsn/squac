@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Validators, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import {
+  Validators,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from "@angular/forms";
 import { InviteService } from "@user/services/invite.service";
 
 @Component({

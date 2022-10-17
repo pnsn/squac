@@ -12,7 +12,8 @@ describe("MonitorEditEntryComponent", () => {
   let fixture: ComponentFixture<MonitorEditEntryComponent>;
 
   beforeEach(() => {
-    return MockBuilder(MonitorEditComponent, MonitorModule)
+    return MockBuilder(MonitorEditComponent)
+      .mock(MonitorModule)
       .mock(MonitorEditComponent)
       .keep(ActivatedRoute)
       .keep(RouterTestingModule.withRoutes([]));

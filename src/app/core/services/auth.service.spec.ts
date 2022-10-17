@@ -1,3 +1,4 @@
+import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AbilityModule } from "@casl/angular";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
@@ -8,8 +9,9 @@ import { AuthComponent } from "../components/auth/auth.component";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {
+  let authService: AuthService;
   beforeEach(() => {
-    return MockBuilder(AuthService, AppModule)
+    return MockBuilder(AuthService)
       .mock(AbilityModule)
       .mock(ApiService)
       .keep(
@@ -44,11 +46,13 @@ describe("AuthService", () => {
     spyOn(localStorage, "setItem").and.callFake(mockLocalStorage.setItem);
     spyOn(localStorage, "removeItem").and.callFake(mockLocalStorage.removeItem);
     spyOn(localStorage, "clear").and.callFake(mockLocalStorage.clear);
+
+    authService = TestBed.inject(AuthService);
   });
 
-  // it("should be created", () => {
-  //   expect(authService).toBeTruthy();
-  // });
+  it("should be created", () => {
+    expect(authService).toBeTruthy();
+  });
 
   // it("should log existing user in", () => {
   //   expect(authService.loggedIn).toBeFalse();

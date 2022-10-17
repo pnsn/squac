@@ -41,7 +41,8 @@ describe("ViewService", () => {
             return dayjs.utc(date).clone();
           },
           subtractFromNow: (amount: number, unit: string) => {
-            return dayjs().subtract(amount, unit);
+            const mT = unit as dayjs.ManipulateType;
+            return dayjs().subtract(amount, mT);
           },
           // format date
           format: (date: dayjs.Dayjs) => {

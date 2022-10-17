@@ -1,5 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import { AppModule } from "app/app.module";
 import { MockBuilder, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
 import { AuthService } from "../services/auth.service";
@@ -12,6 +13,11 @@ describe(`AuthInterceptor`, () => {
       .exclude(NG_MOCKS_INTERCEPTORS)
       .keep(HTTP_INTERCEPTORS)
       .mock(AuthService);
+  });
+
+  it("should be created", () => {
+    const interceptor = TestBed.inject(AuthInterceptor);
+    expect(interceptor).toBeTruthy();
   });
 
   // it("should add an Authorization header if user logged in", () => {
