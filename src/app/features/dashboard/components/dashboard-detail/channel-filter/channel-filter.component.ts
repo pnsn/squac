@@ -5,7 +5,11 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from "@angular/forms";
 import { Channel } from "@core/models/channel";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";

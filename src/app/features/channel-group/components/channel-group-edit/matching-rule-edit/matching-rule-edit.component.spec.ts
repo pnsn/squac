@@ -11,10 +11,10 @@ describe("MatchingRuleEditComponent", () => {
   let fixture: ComponentFixture<MatchingRuleEditComponent>;
 
   beforeEach(() => {
-    return MockBuilder(MatchingRuleEditComponent, ChannelGroupModule)
+    return MockBuilder(MatchingRuleEditComponent)
+      .mock(ChannelGroupModule)
       .mock(ReactiveFormsModule)
-      .keep(UntypedFormBuilder)
-      .mock(MaterialModule);
+      .keep(UntypedFormBuilder);
   });
 
   it("should create", () => {

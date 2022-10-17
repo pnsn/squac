@@ -12,6 +12,13 @@ import { ChannelGroupModule } from "@features/channel-group/channel-group.module
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { UserPipe } from "@shared/pipes/user.pipe";
+import { OrganizationPipe } from "@shared/pipes/organization.pipe";
+import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { LoadingService } from "@core/services/loading.service";
+import { AbilityModule } from "@casl/angular";
+import { ChannelGroupMapComponent } from "../channel-group-map/channel-group-map.component";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 
 describe("ChannelGroupDetailComponent", () => {
   let component: ChannelGroupDetailComponent;
@@ -19,13 +26,15 @@ describe("ChannelGroupDetailComponent", () => {
   let router;
 
   beforeEach(() => {
-    return MockBuilder(ChannelGroupDetailComponent, ChannelGroupModule)
-      .mock(MessageService)
-      .mock(ConfirmDialogService)
+    return MockBuilder(ChannelGroupDetailComponent)
+      .mock(ChannelGroupModule)
+      .mock([
+        MessageService,
+        ConfirmDialogService,
+        ChannelGroupService,
+        LoadingService,
+      ])
       .mock(RouterTestingModule.withRoutes([]))
-      .mock(OrganizationService)
-      .mock(UserService)
-      .mock(LoadingDirective)
       .provide({
         provide: ActivatedRoute,
         useValue: {

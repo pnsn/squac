@@ -10,8 +10,8 @@ import {
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import * as dayjs from "dayjs";
-import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
+import * as utc from "dayjs/plugin/utc";
 import { DaterangepickerDirective } from "ngx-daterangepicker-material";
 
 @Component({

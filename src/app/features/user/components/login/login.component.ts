@@ -1,5 +1,9 @@
 import { Component, OnDestroy } from "@angular/core";
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+} from "@angular/forms";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 

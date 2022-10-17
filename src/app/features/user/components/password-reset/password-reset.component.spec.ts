@@ -12,7 +12,8 @@ describe("PasswordResetComponent", () => {
   let fixture: ComponentFixture<PasswordResetComponent>;
 
   beforeEach(() => {
-    return MockBuilder(PasswordResetComponent, UserModule)
+    return MockBuilder(PasswordResetComponent)
+      .mock(UserModule)
       .keep(RouterTestingModule.withRoutes([]))
       .mock(ReactiveFormsModule)
       .mock(PasswordResetService);

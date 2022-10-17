@@ -18,26 +18,11 @@ describe("WidgetDetailComponent", () => {
   let fixture: ComponentFixture<WidgetDetailComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetDetailComponent, WidgetModule)
-      .mock(AbilityModule)
-      .mock(Ability)
-      .mock(ErrorComponent)
-      .mock(LoadingDirective)
+    return MockBuilder(WidgetDetailComponent)
+      .mock(WidgetModule)
       .keep(RouterTestingModule.withRoutes([]))
-      .provide({
-        provide: DashboardService,
-        useValue: {
-          getDashboards: () => {
-            return of();
-          },
-        },
-      })
-      .provide({
-        provide: WidgetDataService,
-        useValue: {
-          data: new Subject(),
-        },
-      })
+      .mock(DashboardService)
+      .mock(WidgetDataService)
       .provide({
         provide: ViewService,
         useValue: {

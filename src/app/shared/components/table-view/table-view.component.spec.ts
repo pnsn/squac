@@ -1,15 +1,17 @@
+import { Location } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { fakeAsync, tick } from "@angular/core/testing";
+import { MatMenuModule } from "@angular/material/menu";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
+import { AbilityModule } from "@casl/angular";
 import { OrganizationService } from "@features/user/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
 import { SharedModule } from "@shared/shared.module";
-import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 import { SearchFilterComponent } from "../search-filter/search-filter.component";
-import { Location } from "@angular/common";
 import { TableViewComponent } from "./table-view.component";
 
 describe("TableViewComponent", () => {
@@ -17,11 +19,16 @@ describe("TableViewComponent", () => {
   let fixture;
 
   beforeEach(() => {
-    return MockBuilder(TableViewComponent, SharedModule)
+    return MockBuilder(TableViewComponent)
+      .mock(SharedModule)
       .keep(NgxDatatableModule)
-      .mock(SearchFilterComponent)
-      .mock(HttpClientTestingModule)
-      .mock(ActivatedRoute)
+      .keep(HttpClientTestingModule)
+      .mock([
+        SearchFilterComponent,
+        ActivatedRoute,
+        AbilityModule,
+        MatMenuModule,
+      ])
       .keep(
         RouterTestingModule.withRoutes([
           { path: "1", component: TableViewComponent },

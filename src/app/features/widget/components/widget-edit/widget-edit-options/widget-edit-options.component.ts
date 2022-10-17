@@ -12,7 +12,12 @@ import { Threshold } from "@features/widget/models/threshold";
 import { Metric } from "@core/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import * as colormap from "colormap";
 import { WidgetProperties } from "@features/widget/models/widget";
 import {

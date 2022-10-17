@@ -14,7 +14,8 @@ describe("DashboardViewComponent", () => {
   let fixture: ComponentFixture<DashboardViewComponent>;
 
   beforeEach(() => {
-    return MockBuilder(DashboardViewComponent, DashboardModule)
+    return MockBuilder(DashboardViewComponent)
+      .mock(DashboardModule)
       .keep(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,
@@ -22,8 +23,6 @@ describe("DashboardViewComponent", () => {
           params: of(),
         },
       })
-      .mock(FormsModule)
-      .mock(TableViewComponent)
       .mock(DashboardService);
   });
 

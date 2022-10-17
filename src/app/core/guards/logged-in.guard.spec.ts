@@ -1,22 +1,19 @@
-import { LoggedInGuard } from "./logged-in.guard";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthService } from "../services/auth.service";
+import { LoginComponent } from "@user/components/login/login.component";
 import {
   MockBuilder,
   MockInstance,
   MockRender,
   NG_MOCKS_GUARDS,
 } from "ng-mocks";
-import { RouterModule } from "@angular/router";
-import { LoginComponent } from "@user/components/login/login.component";
-import { AppModule } from "app/app.module";
+import { AuthService } from "../services/auth.service";
+import { LoggedInGuard } from "./logged-in.guard";
 
 describe("LoggedInGuard", () => {
   let guard: LoggedInGuard;
   beforeEach(() => {
-    return MockBuilder(LoggedInGuard, AppModule)
+    return MockBuilder(LoggedInGuard)
       .exclude(NG_MOCKS_GUARDS)
-      .keep(RouterModule)
       .mock(LoginComponent)
       .mock(
         RouterTestingModule.withRoutes([

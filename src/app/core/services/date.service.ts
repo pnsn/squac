@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as dayjs from "dayjs";
-import * as utc from "dayjs/plugin/utc";
 import * as duration from "dayjs/plugin/duration";
+import * as utc from "dayjs/plugin/utc";
 import { ConfigurationService } from "./configuration.service";
 
 //service to help reduce imports of dayjs
@@ -43,12 +43,14 @@ export class DateService {
 
   // subtract time from start
   subtract(start: dayjs.Dayjs, amount: number, unit: string): dayjs.Dayjs {
-    return start.utc().subtract(amount, unit);
+    const manipulateType = unit as dayjs.ManipulateType;
+    return start.utc().subtract(amount, manipulateType);
   }
 
   // subtract time from now
   subtractFromNow(amount: number, unit: string): dayjs.Dayjs {
-    return this.now().subtract(amount, unit);
+    const manipulateType = unit as dayjs.ManipulateType;
+    return this.now().subtract(amount, manipulateType);
   }
 
   //subtract duration

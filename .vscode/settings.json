@@ -8,7 +8,7 @@
   // ... more config
   "editor.codeActionsOnSave": {
     "source.fixAll.esLint": true,
-    "source.organizeImports": true
+    "source.organizeImports": false
   },
 
   "eslint.validate": [

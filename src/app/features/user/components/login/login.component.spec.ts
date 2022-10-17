@@ -1,19 +1,17 @@
-import { LoginComponent } from "./login.component";
-import { AuthService } from "@core/services/auth.service";
+import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MaterialModule } from "@shared/material.module";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { AuthService } from "@core/services/auth.service";
+import { UserModule } from "@user/user.module";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { of } from "rxjs";
-import { UserModule } from "@user/user.module";
-import { ReactiveFormsModule } from "@angular/forms";
+import { LoginComponent } from "./login.component";
 
 describe("LoginComponent", () => {
   beforeEach(() => {
-    return MockBuilder(LoginComponent, UserModule)
+    return MockBuilder(LoginComponent)
+      .mock(UserModule)
       .keep(ReactiveFormsModule)
       .keep(RouterTestingModule.withRoutes([]))
-      .mock(MaterialModule, NoopAnimationsModule)
       .provide({
         provide: AuthService,
         useValue: {
