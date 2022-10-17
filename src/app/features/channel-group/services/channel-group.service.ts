@@ -3,11 +3,7 @@ import { ChannelGroup, ChannelGroupAdapter } from "@core/models/channel-group";
 import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import {
   ApiService,
-  NslcGroupsCreateRequestParams,
-  NslcGroupsDeleteRequestParams,
   NslcGroupsListRequestParams,
-  NslcGroupsReadRequestParams,
-  NslcGroupsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { map } from "rxjs/operators";
 

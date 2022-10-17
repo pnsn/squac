@@ -1,14 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import { Monitor, MonitorAdapter } from "@monitor/models/monitor";
-import {
-  ApiService,
-  MeasurementMonitorsCreateRequestParams,
-  MeasurementMonitorsDeleteRequestParams,
-  MeasurementMonitorsListRequestParams,
-  MeasurementMonitorsReadRequestParams,
-  MeasurementMonitorsUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",

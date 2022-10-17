@@ -23,6 +23,7 @@
       "@metric/*": ["app/features/metric/*"],
       "@monitor/*": ["app/features/monitor/*"],
       "@user/*": ["app/features/user/*"],
+      "@squacapi/*": ["app/features/squacapi/*"]
     }
   }
 }

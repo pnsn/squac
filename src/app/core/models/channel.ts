@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "./adapter";
+import { SquacObject } from "./generic-api-service";
 import { ReadChannel } from "./squac-types";
 // Describes a channel object
 
-export class Channel {
+export class Channel implements SquacObject {
   nslc: string;
   constructor(
     public id: number,

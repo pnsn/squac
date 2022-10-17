@@ -1,13 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
-import {
-  ApiService,
-  DashboardWidgetsCreateRequestParams,
-  DashboardWidgetsDeleteRequestParams,
-  DashboardWidgetsListRequestParams,
-  DashboardWidgetsReadRequestParams,
-  DashboardWidgetsUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Widget, WidgetAdapter } from "@widget/models/widget";
 
 @Injectable({

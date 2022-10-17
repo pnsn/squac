@@ -2,10 +2,7 @@ import { Injectable } from "@angular/core";
 import { Params } from "@angular/router";
 import { Channel, ChannelAdapter } from "@core/models/channel";
 import { ListApiService } from "@core/models/generic-api-service";
-import {
-  ApiService,
-  NslcChannelsListRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule } from "../models/matching-rule";
 
