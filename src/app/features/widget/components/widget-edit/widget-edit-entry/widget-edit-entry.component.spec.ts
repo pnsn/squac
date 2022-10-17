@@ -6,8 +6,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { of } from "rxjs";
 import { MockBuilder } from "ng-mocks";
 import { WidgetEditComponent } from "../widget-edit.component";
-import { WidgetService } from "@features/widget/services/widget.service";
-import { WidgetModule } from "@features/widget/widget.module";
+import { WidgetService } from "@squacapi/services/widget.service";
+import { WidgetModule } from "@widget/widget.module";
 
 describe("WidgetEditEntryComponent", () => {
   let component: WidgetEditEntryComponent;
