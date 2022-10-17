@@ -18,7 +18,7 @@ export class OrganizationService {
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
-    private api: ApiService,
+    protected api: ApiService,
     private organizationAdapter: OrganizationAdapter,
     private userAdapter: UserAdapter
   ) {}

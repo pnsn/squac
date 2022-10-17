@@ -13,19 +13,7 @@ import {
   providedIn: "root",
 })
 export class MetricService extends ReadWriteApiService<Metric> {
-  constructor(metricAdapter: MetricAdapter, private api: ApiService) {
-    super(metricAdapter);
+  constructor(protected adapter: MetricAdapter, protected api: ApiService) {
+    super("measurementMetrics", api);
   }
-
-  protected apiList = (params: MeasurementMetricsListRequestParams) =>
-    this.api.measurementMetricsList(params);
-
-  protected apiRead = (params: MeasurementMetricsReadRequestParams) =>
-    this.api.measurementMetricsRead(params);
-
-  protected apiCreate = (params: MeasurementMetricsCreateRequestParams) =>
-    this.api.measurementMetricsCreate(params);
-
-  protected apiUpdate = (params: MeasurementMetricsUpdateRequestParams) =>
-    this.api.measurementMetricsUpdate(params);
 }

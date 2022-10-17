@@ -12,9 +12,10 @@ import {
 
 // Service for handling networks
 export class NetworkService extends ListApiService<Network> {
-  constructor(private api: ApiService, networkAdapter: NetworkAdapter) {
-    super(networkAdapter);
+  constructor(
+    protected api: ApiService,
+    protected networkAdapter: NetworkAdapter
+  ) {
+    super("nslcNetworks", api);
   }
-  protected apiList = (params: NslcNetworksListRequestParams) =>
-    this.api.nslcNetworksList(params);
 }

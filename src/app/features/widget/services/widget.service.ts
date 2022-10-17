@@ -15,18 +15,7 @@ import { Widget, WidgetAdapter } from "@widget/models/widget";
 })
 // Class for widget interaction with squac
 export class WidgetService extends ReadWriteDeleteApiService<Widget> {
-  constructor(widgetAdapter: WidgetAdapter, private api: ApiService) {
-    super(widgetAdapter);
+  constructor(protected adapter: WidgetAdapter, protected api: ApiService) {
+    super("dashboardWidgets", api);
   }
-
-  protected apiList = (params: DashboardWidgetsListRequestParams) =>
-    this.api.dashboardWidgetsList(params);
-  protected apiRead = (params: DashboardWidgetsReadRequestParams) =>
-    this.api.dashboardWidgetsRead(params);
-  protected apiCreate = (params: DashboardWidgetsCreateRequestParams) =>
-    this.api.dashboardWidgetsCreate(params);
-  protected apiUpdate = (params: DashboardWidgetsUpdateRequestParams) =>
-    this.api.dashboardWidgetsUpdate(params);
-  protected apiDelete = (params: DashboardWidgetsDeleteRequestParams) =>
-    this.api.dashboardWidgetsDelete(params);
 }

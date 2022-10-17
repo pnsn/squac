@@ -41,13 +41,10 @@ export class Monitor {
   providedIn: "root",
 })
 export class MonitorAdapter implements Adapter<Monitor> {
-  // channelgroup adapter,metric adapter
-  constructor(
-    private metricAdapter: MetricAdapter,
-    private channelGroupAdapter: ChannelGroupAdapter,
-    private triggerAdapter: TriggerAdapter
-  ) {}
   adaptFromApi(item: ReadMonitor): Monitor {
+    const channelGroupAdapter = new ChannelGroupAdapter();
+    const metricAdapter = new MetricAdapter();
+    const triggerAdapter = new TriggerAdapter();
     let channelGroupId;
     let metricId;
     let channelGroup: ChannelGroup;
@@ -58,19 +55,19 @@ export class MonitorAdapter implements Adapter<Monitor> {
       channelGroupId = item.channel_group;
     } else {
       channelGroupId = item.channel_group.id;
-      channelGroup = this.channelGroupAdapter.adaptFromApi(item.channel_group);
+      channelGroup = channelGroupAdapter.adaptFromApi(item.channel_group);
     }
 
     if (typeof item.metric === "number") {
       metricId = item.metric;
     } else {
       metricId = item.metric.id;
-      metric = this.metricAdapter.adaptFromApi(item.metric);
+      metric = metricAdapter.adaptFromApi(item.metric);
     }
 
     if ("triggers" in item) {
       triggers = item.triggers.map((t: ApiTrigger) =>
-        this.triggerAdapter.adaptFromApi(t)
+        triggerAdapter.adaptFromApi(t)
       );
     }
 

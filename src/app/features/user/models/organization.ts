@@ -20,13 +20,11 @@ export class Organization {
   providedIn: "root",
 })
 export class OrganizationAdapter implements Adapter<Organization> {
-  constructor(private userAdapter: UserAdapter) {}
   adaptFromApi(item: ReadOrganization): Organization {
+    const userAdapter = new UserAdapter();
     let users = [];
     if (item.users) {
-      users = item.users.map((u: ApiUserSimple) =>
-        this.userAdapter.adaptFromApi(u)
-      );
+      users = item.users.map((u: ApiUserSimple) => userAdapter.adaptFromApi(u));
     }
     return new Organization(item.id, item.name, item.description, users);
   }

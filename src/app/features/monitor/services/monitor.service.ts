@@ -14,17 +14,7 @@ import {
   providedIn: "root",
 })
 export class MonitorService extends ReadWriteDeleteApiService<Monitor> {
-  constructor(monitorAdapter: MonitorAdapter, private api: ApiService) {
-    super(monitorAdapter);
+  constructor(protected adapter: MonitorAdapter, protected api: ApiService) {
+    super("measurementMonitors", api);
   }
-  protected apiList = (params: MeasurementMonitorsListRequestParams) =>
-    this.api.measurementMonitorsList(params);
-  protected apiRead = (params: MeasurementMonitorsReadRequestParams) =>
-    this.api.measurementMonitorsRead(params);
-  protected apiCreate = (params: MeasurementMonitorsCreateRequestParams) =>
-    this.api.measurementMonitorsCreate(params);
-  protected apiUpdate = (params: MeasurementMonitorsUpdateRequestParams) =>
-    this.api.measurementMonitorsUpdate(params);
-  protected apiDelete = (params: MeasurementMonitorsDeleteRequestParams) =>
-    this.api.measurementMonitorsDelete(params);
 }

@@ -16,22 +16,11 @@ import { map } from "rxjs/operators";
 })
 export class ChannelGroupService extends ReadWriteDeleteApiService<ChannelGroup> {
   constructor(
-    channelGroupAdapter: ChannelGroupAdapter,
-    private api: ApiService
+    protected adapter: ChannelGroupAdapter,
+    protected api: ApiService
   ) {
-    super(channelGroupAdapter);
+    super("nslcGroups", api);
   }
-
-  protected apiList = (params: NslcGroupsListRequestParams) =>
-    this.api.nslcGroupsList(params);
-  protected apiRead = (params: NslcGroupsReadRequestParams) =>
-    this.api.nslcGroupsRead(params);
-  protected apiCreate = (params: NslcGroupsCreateRequestParams) =>
-    this.api.nslcGroupsCreate(params);
-  protected apiUpdate = (params: NslcGroupsUpdateRequestParams) =>
-    this.api.nslcGroupsUpdate(params);
-  protected apiDelete = (params: NslcGroupsDeleteRequestParams) =>
-    this.api.nslcGroupsDelete(params);
 
   /*returns channel groups sorted into
   // {

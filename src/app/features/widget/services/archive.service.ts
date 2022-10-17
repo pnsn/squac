@@ -21,7 +21,7 @@ export type ArchiveParams =
   providedIn: "root",
 })
 export class ArchiveService implements GenericApiService<Archive> {
-  constructor(private adapter: ArchiveAdapter, private api: ApiService) {}
+  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {}
 
   list(params: {
     type: string;

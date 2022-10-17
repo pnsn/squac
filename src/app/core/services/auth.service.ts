@@ -24,7 +24,7 @@ export class AuthService {
   getAccessToken = new Subject();
   constructor(
     private router: Router,
-    private api: ApiService,
+    protected api: ApiService,
     private userService: UserService,
     configService: ConfigurationService
   ) {

@@ -16,22 +16,11 @@ import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 })
 export class MatchingRuleService extends ReadWriteDeleteApiService<MatchingRule> {
   constructor(
-    private api: ApiService,
-    matchingRuleAdapter: MatchingRuleAdapter
+    protected api: ApiService,
+    protected adapter: MatchingRuleAdapter
   ) {
-    super(matchingRuleAdapter);
+    super("nslcMatchingRules", api);
   }
-
-  protected apiList = (params: NslcMatchingRulesListRequestParams) =>
-    this.api.nslcMatchingRulesList(params);
-  protected apiRead = (params: NslcMatchingRulesReadRequestParams) =>
-    this.api.nslcMatchingRulesRead(params);
-  protected apiCreate = (params: NslcMatchingRulesCreateRequestParams) =>
-    this.api.nslcMatchingRulesCreate(params);
-  protected apiUpdate = (params: NslcMatchingRulesUpdateRequestParams) =>
-    this.api.nslcMatchingRulesUpdate(params);
-  protected apiDelete = (params: NslcMatchingRulesDeleteRequestParams) =>
-    this.api.nslcMatchingRulesDelete(params);
 
   // combine observables for update or create triggers
   updateMatchingRules(

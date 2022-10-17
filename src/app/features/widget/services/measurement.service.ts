@@ -11,12 +11,12 @@ import { Measurement, MeasurementAdapter } from "../models/measurement";
   providedIn: "root",
 })
 export class MeasurementService extends ListApiService<Measurement> {
-  constructor(adapter: MeasurementAdapter, private api: ApiService) {
-    super(adapter);
+  constructor(
+    protected adapter: MeasurementAdapter,
+    protected api: ApiService
+  ) {
+    super("measurementMeasurements", api);
   }
-
-  protected apiList = (params: MeasurementMeasurementsListRequestParams) =>
-    this.api.measurementMeasurementsList(params);
 
   // gets data from squac, returns measurements or archives
   list(

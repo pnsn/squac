@@ -10,11 +10,7 @@ import {
   providedIn: "root",
 })
 export class AlertService extends ListApiService<Alert> {
-  constructor(alertAdapter: AlertAdapter, private api: ApiService) {
-    super(alertAdapter);
+  constructor(protected adapter: AlertAdapter, protected api: ApiService) {
+    super("measurementAlerts", api);
   }
-
-  //** @override */
-  protected apiList = (params: MeasurementAlertsListRequestParams) =>
-    this.api.measurementAlertsList(params);
 }
