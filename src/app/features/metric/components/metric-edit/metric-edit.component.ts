@@ -6,7 +6,7 @@ import {
   UntypedFormControl,
   Validators,
 } from "@angular/forms";
-import { MetricService } from "@metric/services/metric.service";
+import { MetricService } from "@squacapi/services/metric.service";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 

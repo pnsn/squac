@@ -5,8 +5,11 @@ import {
   OrganizationUsersCreateRequestParams,
   OrganizationUsersPartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Organization, OrganizationAdapter } from "@user/models/organization";
-import { User, UserAdapter } from "@user/models/user";
+import {
+  Organization,
+  OrganizationAdapter,
+} from "@squacapi/models/organization";
+import { User, UserAdapter } from "@squacapi/models/user";
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 

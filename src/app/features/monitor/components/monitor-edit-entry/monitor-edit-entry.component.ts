@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";
 import { Metric } from "@squacapi/models/metric";
 import { Monitor } from "@squacapi/models/monitor";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 
 @Component({
   selector: "monitor-edit-entry",

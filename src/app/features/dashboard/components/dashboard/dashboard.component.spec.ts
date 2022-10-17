@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DashboardComponent } from "./dashboard.component";
-import { DashboardService } from "@dashboard/services/dashboard.service";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DashboardViewComponent } from "@dashboard/components/dashboard-view/dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";

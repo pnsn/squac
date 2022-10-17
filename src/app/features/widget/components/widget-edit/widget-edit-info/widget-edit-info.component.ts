@@ -5,8 +5,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { WidgetDisplayOption, WidgetType } from "@widget/models/widget-type";
+import { WidgetConfigService } from "@widget/services/widget-config.service";
 
 @Component({
   selector: "widget-edit-info",

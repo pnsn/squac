@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@widget/models/threshold";
+import { Threshold } from "@squacapi/models/threshold";
 import * as L from "leaflet";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";

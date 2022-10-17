@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MetricViewComponent } from "./metric-view.component";
-import { MetricService } from "@metric/services/metric.service";
+import { MetricService } from "@squacapi/services/metric.service";
 import { AbilityModule } from "@casl/angular";
 import { MockBuilder } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";

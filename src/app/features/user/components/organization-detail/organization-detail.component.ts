@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { OrganizationService } from "@user/services/organization.service";
-import { User } from "@user/models/user";
-import { Organization } from "@user/models/organization";
+import { User } from "@squacapi/models/user";
+import { Organization } from "@squacapi/models/organization";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { InviteService } from "@user/services/invite.service";
+import { InviteService } from "@squacapi/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";

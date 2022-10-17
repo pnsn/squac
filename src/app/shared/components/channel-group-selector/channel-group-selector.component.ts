@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "@squacapi/models/channel-group";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 
 @Component({
   selector: "shared-channel-group-selector",

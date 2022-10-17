@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Metric } from "@squacapi/models/metric";
 import { MessageService } from "@core/services/message.service";
 import { ViewService } from "@core/services/view.service";
-import { WidgetService } from "@features/widget/services/widget.service";
-import { Widget } from "@widget/models/widget";
+import { WidgetService } from "@squacapi/services/widget.service";
+import { Widget } from "@squacapi/models/widget";
 import { Subscription } from "rxjs";
 
 @Component({

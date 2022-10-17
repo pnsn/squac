@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationService } from "@features/user/services/organization.service";
-import { Organization } from "@user/models/organization";
+import { Organization } from "@squacapi/models/organization";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 
 @Component({

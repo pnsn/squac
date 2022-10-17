@@ -8,9 +8,9 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { Dashboard } from "../../models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 
 // List of dashboards
 @Component({
@@ -163,7 +163,7 @@ export class DashboardViewComponent
 
   fetchData() {
     return this.dashboardService.list(this.queryParams).pipe(
-      tap((dashboards) => {
+      tap((dashboards: Dashboard[]) => {
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
       }),

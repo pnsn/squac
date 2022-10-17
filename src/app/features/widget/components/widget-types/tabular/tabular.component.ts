@@ -15,7 +15,7 @@ import {
 } from "@boring.devs/ngx-datatable";
 import { Subscription } from "rxjs";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@widget/models/threshold";
+import { Threshold } from "@squacapi/models/threshold";
 import { Channel } from "@squacapi/models/channel";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";

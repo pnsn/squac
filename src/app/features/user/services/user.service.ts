@@ -7,7 +7,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
-import { User } from "../models/user";
+import { User } from "@squacapi/models/user";
 
 // Service to get user info & reset things
 @Injectable({

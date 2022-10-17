@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupDetailComponent } from "./channel-group-detail.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import { LoadingService } from "@core/services/loading.service";
 
 describe("ChannelGroupDetailComponent", () => {

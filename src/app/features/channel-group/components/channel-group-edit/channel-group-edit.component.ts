@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroup } from "@squacapi/models/channel-group";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import {
   UntypedFormGroup,
   UntypedFormControl,
   Validators,
   UntypedFormBuilder,
 } from "@angular/forms";
-import { ChannelService } from "@channelGroup/services/channel.service";
+import { ChannelService } from "@squacapi/services/channel.service";
 import { Channel } from "@squacapi/models/channel";
 import {
   Subscription,
@@ -28,8 +28,8 @@ import {
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
-import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { MatchingRuleService } from "@squacapi/services/matching-rule.service";
+import { MatchingRule } from "@squacapi/models/matching-rule";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 

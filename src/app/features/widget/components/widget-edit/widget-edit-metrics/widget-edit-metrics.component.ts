@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetType } from "@squacapi/models/widget-type";
+import { WidgetType } from "@widget/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 @Component({
   selector: "widget-edit-metrics",

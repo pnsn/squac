@@ -7,19 +7,22 @@ import {
   OnChanges,
   ViewChild,
 } from "@angular/core";
-import { Widget } from "@widget/models/widget";
+import { Widget } from "@squacapi/models/widget";
 import { filter, Subscription } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { Dashboard } from "@dashboard/models/dashboard";
-import { WidgetDataService } from "@widget/services/widget-data.service";
+import { Dashboard } from "@squacapi/models/dashboard";
+import { WidgetDataService } from "../../services/widget-data.service";
 import { Metric } from "@squacapi/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Channel } from "@squacapi/models/channel";
-import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
 import { Threshold } from "@squacapi/models/threshold";
 import { LoadingService } from "@core/services/loading.service";
+import {
+  WidgetDisplayOption,
+  WidgetType,
+} from "@features/widget/models/widget-type";
 
 @Component({
   selector: "widget-detail",

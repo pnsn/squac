@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WidgetDetailComponent } from "./widget-detail.component";
 import { WidgetModule } from "../../widget.module";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Widget } from "@widget/models/widget";
+import { Widget } from "@squacapi/models/widget";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
