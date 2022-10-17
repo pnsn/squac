@@ -40,7 +40,7 @@
     "leaflet-draw": "^1.0.4",
     "ng-mocks": "^14.3.0",
     "ngx-csv-parser": "^1.1.1",
-    "ngx-daterangepicker-material": "^5.0.1",
+    "ngx-daterangepicker-material": "^6.0.4",
     "ngx-echarts": "^14.0.0",
     "rxjs": "^7.4.0",
     "ts-node": "^10.4.0",
