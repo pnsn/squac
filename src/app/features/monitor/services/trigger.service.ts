@@ -15,23 +15,9 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class TriggerService extends ReadWriteDeleteApiService<Trigger> {
-  constructor(triggerAdapter: TriggerAdapter, private api: ApiService) {
-    super(triggerAdapter);
+  constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
+    super("measurementTriggers", api);
   }
-  protected apiList = (params: MeasurementTriggersListRequestParams) =>
-    this.api.measurementTriggersList(params);
-
-  protected apiRead = (params: MeasurementTriggersReadRequestParams) =>
-    this.api.measurementTriggersRead(params);
-
-  protected apiCreate = (params: MeasurementTriggersCreateRequestParams) =>
-    this.api.measurementTriggersCreate(params);
-
-  protected apiUpdate = (params: MeasurementTriggersUpdateRequestParams) =>
-    this.api.measurementTriggersUpdate(params);
-
-  protected apiDelete = (params: MeasurementTriggersDeleteRequestParams) =>
-    this.api.measurementTriggersDelete(params);
 
   // combine observables for update or create triggers
   updateTriggers(

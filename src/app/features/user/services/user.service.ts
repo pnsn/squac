@@ -16,7 +16,7 @@ import { User } from "../models/user";
 export class UserService {
   private currentUser: User;
   user = new BehaviorSubject<User>(null);
-  constructor(private api: ApiService, private ability: AppAbility) {}
+  constructor(protected api: ApiService, private ability: AppAbility) {}
 
   // returns orgId for current user
   get userOrg(): number {

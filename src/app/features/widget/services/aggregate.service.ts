@@ -11,7 +11,7 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
   providedIn: "root",
 })
 export class AggregateService implements GenericApiService<Aggregate> {
-  constructor(private adapter: AggregateAdapter, private api: ApiService) {}
+  constructor(protected adapter: AggregateAdapter, protected api: ApiService) {}
 
   list(params: {
     stat: string;

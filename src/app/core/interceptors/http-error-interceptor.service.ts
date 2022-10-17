@@ -19,7 +19,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       // retry(1), //TODO: enable retrys after CORS fixed
       catchError((error: HttpErrorResponse) => {
-        console.log(request, error);
         let errorMessage = "Unknown error occured.";
         if (error.error instanceof Error) {
           // client-side error

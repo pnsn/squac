@@ -27,8 +27,8 @@ export class Alert {
   providedIn: "root",
 })
 export class AlertAdapter implements Adapter<Alert> {
-  constructor(private triggerAdapter: TriggerAdapter) {}
   adaptFromApi(item: ReadAlert): Alert {
+    const triggerAdapter = new TriggerAdapter();
     let breachingChannels = [];
     let trigger;
     let triggerId;
@@ -40,7 +40,7 @@ export class AlertAdapter implements Adapter<Alert> {
       triggerId = item.trigger;
     } else {
       triggerId = item.trigger.id;
-      trigger = this.triggerAdapter.adaptFromApi(item.trigger);
+      trigger = triggerAdapter.adaptFromApi(item.trigger);
     }
 
     const alert = new Alert(

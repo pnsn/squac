@@ -123,14 +123,14 @@ export interface WidgetProperties {
   providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget> {
-  constructor(public metricAdapter: MetricAdapter) {}
   adaptFromApi(item: ReadWidget): Widget {
+    const metricAdapter = new MetricAdapter();
     let metrics = [];
 
     if (item.metrics) {
-      metrics = item.metrics.map((m: ApiMetric) => {
-        metrics.push(this.metricAdapter.adaptFromApi(m));
-      });
+      metrics = item.metrics.map((m: ApiMetric) =>
+        metricAdapter.adaptFromApi(m)
+      );
     }
 
     const type = item.type;

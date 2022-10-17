@@ -13,12 +13,9 @@ import { MatchingRule } from "../models/matching-rule";
   providedIn: "root",
 })
 export class ChannelService extends ListApiService<Channel> {
-  constructor(private api: ApiService, channelAdapter: ChannelAdapter) {
-    super(channelAdapter);
+  constructor(protected api: ApiService, protected adapter: ChannelAdapter) {
+    super("nslcChannels", api);
   }
-
-  protected apiList = (params: NslcChannelsListRequestParams) =>
-    this.api.nslcChannelsList(params);
 
   getChannelsByRules(
     rules: MatchingRule[],

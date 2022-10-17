@@ -34,8 +34,8 @@ export class ChannelGroup {
   providedIn: "root",
 })
 export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
-  constructor(private channelAdapter: ChannelAdapter) {}
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
+    const channelAdapter = new ChannelAdapter();
     const channelGroup = new ChannelGroup(
       item.id,
       item.user,
@@ -49,15 +49,13 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
 
     if ("channels" in item) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
-        this.channelAdapter.adaptFromApi(c)
+        channelAdapter.adaptFromApi(c)
       );
     }
     if ("auto_exclude_channels" in item) {
       channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
         (c: ApiChannel) => {
-          return typeof c === "number"
-            ? c
-            : this.channelAdapter.adaptFromApi(c);
+          return typeof c === "number" ? c : channelAdapter.adaptFromApi(c);
         }
       );
     }
@@ -65,9 +63,7 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
     if ("auto_include_channels" in item) {
       channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
         (c: ApiChannel) => {
-          return typeof c === "number"
-            ? c
-            : this.channelAdapter.adaptFromApi(c);
+          return typeof c === "number" ? c : channelAdapter.adaptFromApi(c);
         }
       );
     }
