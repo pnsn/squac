@@ -14,14 +14,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { WidgetDataService } from "@widget/services/widget-data.service";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
-import { Channel } from "@core/models/channel";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
-import { Threshold } from "@features/widget/models/threshold";
+import { Channel } from "@squacapi/models/channel";
+import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
+import { Threshold } from "@squacapi/models/threshold";
 import { LoadingService } from "@core/services/loading.service";
 
 @Component({

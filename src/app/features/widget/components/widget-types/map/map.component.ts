@@ -6,8 +6,8 @@ import {
   OnInit,
   SimpleChanges,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@widget/models/threshold";
 import * as L from "leaflet";
 import { WidgetTypeComponent } from "../widget-type.component";

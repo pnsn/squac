@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
 import { PermissionGuard } from "@core/guards/permission.guard";
 import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
-import { WidgetResolver } from "@widget/widget.resolver";
+import { WidgetResolver } from "@squacapi/resolvers/widget.resolver";
 import { WidgetEditEntryComponent } from "@widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
-import { MetricResolver } from "@metric/metric.resolver";
-import { DashboardResolver } from "@features/dashboard/dashboard.resolver";
+import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
+import { DashboardResolver } from "@squacapi/resolvers/dashboard.resolver";
 
 export const widgetRoutes: Routes = [
   {

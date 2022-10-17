@@ -8,12 +8,12 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
-import { Measurement } from "@features/widget/models/measurement";
-import { Threshold } from "@features/widget/models/threshold";
+import { Measurement } from "@squacapi/models/measurement";
+import { Threshold } from "@squacapi/models/threshold";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";

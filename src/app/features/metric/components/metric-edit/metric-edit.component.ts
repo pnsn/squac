@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import {
   UntypedFormGroup,
   UntypedFormBuilder,

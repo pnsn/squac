@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import {
   ColumnMode,
   SelectionType,

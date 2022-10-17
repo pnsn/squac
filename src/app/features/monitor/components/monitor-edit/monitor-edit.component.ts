@@ -7,8 +7,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Metric } from "@core/models/metric";
+import { ChannelGroup } from "@squacapi/models/channel-group";
+import { Metric } from "@squacapi/models/metric";
 import { MessageService } from "@core/services/message.service";
 import { Monitor } from "@monitor/models/monitor";
 import { Trigger } from "@monitor/models/trigger";

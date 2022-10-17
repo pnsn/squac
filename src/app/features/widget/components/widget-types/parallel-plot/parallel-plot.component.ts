@@ -6,9 +6,9 @@ import {
   OnInit,
   SimpleChanges,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widget/models/threshold";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
+import { Threshold } from "@squacapi/models/threshold";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";

@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   NgZone,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import * as L from "leaflet";
 
 // shared map for channels
