@@ -31,7 +31,7 @@
     "@pnsn/ngx-squacapi-client": "^0.0.6-alpha.4",
     "@types/d3": "^7.1.0",
     "@types/jasmine": "^4.3.0",
-    "angular-gridster2": "^14.1.1",
+    "angular-gridster2": "^14.1.2",
     "colormap": "^2.3.2",
     "d3": "^7.2.1",
     "dayjs": "^1.10.7",
