@@ -1,10 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Network, NetworkAdapter } from "@channelGroup/models/network";
 import { ListApiService } from "@core/models/generic-api-service";
-import {
-  ApiService,
-  NslcNetworksListRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",

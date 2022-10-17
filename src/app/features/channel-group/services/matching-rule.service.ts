@@ -1,13 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
-import {
-  ApiService,
-  NslcMatchingRulesCreateRequestParams,
-  NslcMatchingRulesDeleteRequestParams,
-  NslcMatchingRulesListRequestParams,
-  NslcMatchingRulesReadRequestParams,
-  NslcMatchingRulesUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 

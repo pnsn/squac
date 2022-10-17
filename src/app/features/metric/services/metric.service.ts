@@ -1,13 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ReadWriteApiService } from "@core/models/generic-api-service";
 import { Metric, MetricAdapter } from "@core/models/metric";
-import {
-  ApiService,
-  MeasurementMetricsCreateRequestParams,
-  MeasurementMetricsListRequestParams,
-  MeasurementMetricsReadRequestParams,
-  MeasurementMetricsUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 
 @Injectable({
   providedIn: "root",

@@ -9,10 +9,7 @@ import { UserService } from "./services/user.service";
   providedIn: "root",
 })
 export class UserResolver implements Resolve<Observable<any>> {
-  constructor(
-    private userService: UserService,
-    private loadingService: LoadingService
-  ) {}
+  constructor(private userService: UserService) {}
 
   resolve(): Observable<any> {
     return this.userService.getUser().pipe(catchError(this.handleError));

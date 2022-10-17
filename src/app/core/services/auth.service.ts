@@ -14,8 +14,6 @@ import { ConfigurationService } from "./configuration.service";
   providedIn: "root",
 })
 export class AuthService {
-  private url = "user/token/";
-
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
   redirectUrl: string;

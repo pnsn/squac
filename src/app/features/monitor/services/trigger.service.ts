@@ -1,14 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ReadWriteDeleteApiService } from "@core/models/generic-api-service";
 import { Trigger, TriggerAdapter } from "@monitor/models/trigger";
-import {
-  ApiService,
-  MeasurementTriggersCreateRequestParams,
-  MeasurementTriggersDeleteRequestParams,
-  MeasurementTriggersListRequestParams,
-  MeasurementTriggersReadRequestParams,
-  MeasurementTriggersUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
 @Injectable({
