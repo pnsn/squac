@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import { MessageService } from "@core/services/message.service";
 import { ViewService } from "@core/services/view.service";
 import { WidgetService } from "@features/widget/services/widget.service";

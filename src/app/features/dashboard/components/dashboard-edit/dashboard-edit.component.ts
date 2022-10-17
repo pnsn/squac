@@ -10,7 +10,7 @@ import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 
 @Component({
   selector: "dashboard-edit",

@@ -4,7 +4,7 @@ import { Widget } from "@widget/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 import { Ability } from "@casl/ability";
 
 @Component({

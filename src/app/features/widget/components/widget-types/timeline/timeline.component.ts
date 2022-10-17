@@ -8,12 +8,12 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
-import { Measurement } from "@features/widget/models/measurement";
-import { Threshold } from "@features/widget/models/threshold";
+import { Measurement } from "@squacapi/models/measurement";
+import { Threshold } from "@squacapi/models/threshold";
 import { Subscription } from "rxjs";
 import { EChartsOption, graphic } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";

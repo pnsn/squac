@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
 import {
   UntypedFormGroup,
@@ -9,7 +9,7 @@ import {
   UntypedFormBuilder,
 } from "@angular/forms";
 import { ChannelService } from "@channelGroup/services/channel.service";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import {
   Subscription,
   switchMap,

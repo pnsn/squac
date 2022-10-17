@@ -11,9 +11,7 @@ import { ErrorComponent } from "./components/error/error.component";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
 import { ReplacePipe } from "./pipes/replace.pipe";
-import { OrganizationPipe } from "./pipes/organization.pipe";
 import { SnackbarComponent } from "./components/snackbar/snackbar.component";
-import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
@@ -32,9 +30,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     LoadingComponent,
     ErrorComponent,
     ReplacePipe,
-    OrganizationPipe,
     SnackbarComponent,
-    UserPipe,
     SharedIndicatorComponent,
     TableViewComponent,
     DateSelectComponent,
@@ -74,10 +70,8 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
-    OrganizationPipe,
     SnackbarComponent,
     SharedIndicatorComponent,
-    UserPipe,
     TableViewComponent,
     SearchFilterComponent,
     DateSelectComponent,

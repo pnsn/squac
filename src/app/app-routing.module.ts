@@ -6,8 +6,8 @@ import { LoggedInGuard } from "./core/guards/logged-in.guard";
 import { PasswordResetComponent } from "@user/components/password-reset/password-reset.component";
 import { LoginComponent } from "@user/components/login/login.component";
 import { UserEditComponent } from "@user/components/user-edit/user-edit.component";
-import { UserResolver } from "@user/user.resolver";
-import { OrganizationResolver } from "@user/organization.resolver";
+import { UserResolver } from "@squacapi/resolvers/user.resolver";
+import { OrganizationResolver } from "@squacapi/resolvers/organization.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
 

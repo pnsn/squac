@@ -3,8 +3,8 @@ import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";
-import { Metric } from "@core/models/metric";
-import { Monitor } from "@features/monitor/models/monitor";
+import { Metric } from "@squacapi/models/metric";
+import { Monitor } from "@squacapi/models/monitor";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
 
 @Component({

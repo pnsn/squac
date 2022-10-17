@@ -3,8 +3,8 @@
 import { Injectable } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
-import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
+import { Channel } from "@squacapi/models/channel";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Dashboard } from "@dashboard/models/dashboard";
 import { DashboardService } from "@dashboard/services/dashboard.service";
 import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";

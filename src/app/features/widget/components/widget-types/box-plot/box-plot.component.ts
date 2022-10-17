@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@features/widget/models/threshold";
+import { Channel } from "@squacapi/models/channel";
+import { ChannelGroup } from "@squacapi/models/channel-group";
+import { Metric } from "@squacapi/models/metric";
+import { Threshold } from "@squacapi/models/threshold";
 import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({

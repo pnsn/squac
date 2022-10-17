@@ -4,11 +4,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { WidgetProperties } from "@features/widget/models/widget";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
+import { WidgetProperties } from "@squacapi/models/widget";
+import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 
 @Component({

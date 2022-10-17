@@ -8,8 +8,8 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";

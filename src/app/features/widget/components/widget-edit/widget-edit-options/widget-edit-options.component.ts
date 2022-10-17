@@ -8,8 +8,8 @@ import {
   OnChanges,
   OnInit,
 } from "@angular/core";
-import { Threshold } from "@features/widget/models/threshold";
-import { Metric } from "@core/models/metric";
+import { Threshold } from "@squacapi/models/threshold";
+import { Metric } from "@squacapi/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Subscription } from "rxjs";
 import {
@@ -19,11 +19,8 @@ import {
   Validators,
 } from "@angular/forms";
 import * as colormap from "colormap";
-import { WidgetProperties } from "@features/widget/models/widget";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
+import { WidgetProperties } from "@squacapi/models/widget";
+import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",

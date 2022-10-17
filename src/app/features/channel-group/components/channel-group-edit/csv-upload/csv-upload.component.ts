@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "@features/channel-group/services/channel.service";

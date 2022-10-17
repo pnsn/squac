@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import { LoadingService } from "@core/services/loading.service";
 import { ViewService } from "@core/services/view.service";
 import {
