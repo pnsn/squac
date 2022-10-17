@@ -8,10 +8,10 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { Alert } from "@monitor/models/alert";
-import { Monitor } from "@monitor/models/monitor";
-import { AlertService } from "@monitor/services/alert.service";
-import { MonitorService } from "@monitor/services/monitor.service";
+import { Alert } from "@squacapi/models/alert";
+import { Monitor } from "@squacapi/models/monitor";
+import { AlertService } from "@squacapi/services/alert.service";
+import { MonitorService } from "@squacapi/services/monitor.service";
 import {
   catchError,
   EMPTY,

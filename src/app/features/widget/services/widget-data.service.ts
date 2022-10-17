@@ -18,14 +18,17 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { Aggregate } from "../models/aggregate";
-import { Archive } from "../models/archive";
-import { Measurement } from "../models/measurement";
-import { Widget } from "../models/widget";
+import { Aggregate } from "@squacapi/models/aggregate";
+import { Archive } from "@squacapi/models/archive";
+import { Measurement } from "@squacapi/models/measurement";
+import { Widget } from "@squacapi/models/widget";
 import { WidgetType } from "../models/widget-type";
-import { AggregateService } from "./aggregate.service";
-import { ArchiveParams, ArchiveService } from "./archive.service";
-import { MeasurementService } from "./measurement.service";
+import { AggregateService } from "@squacapi/services/aggregate.service";
+import {
+  ArchiveParams,
+  ArchiveService,
+} from "@squacapi/services/archive.service";
+import { MeasurementService } from "@squacapi/services/measurement.service";
 
 type MeasurementParams =
   | MeasurementMeasurementsListRequestParams

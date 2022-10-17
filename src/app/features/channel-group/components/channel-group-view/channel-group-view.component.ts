@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ChannelGroup } from "@squacapi/models/channel-group";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import { LoadingService } from "@core/services/loading.service";
 
 // Table of channel groups

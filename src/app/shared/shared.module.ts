@@ -23,6 +23,7 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
+import { SquacapiModule } from "@squacapi/squacapi.module";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -52,6 +53,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     FormsModule,
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
+    SquacapiModule,
     NgxEchartsModule.forRoot({
       echarts: () => import("echarts"),
     }),
@@ -81,6 +83,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     LoadingOverlayComponent,
     LoadingSpinnerComponent,
     LoadingDirective,
+    SquacapiModule,
   ],
 })
 export class SharedModule {}

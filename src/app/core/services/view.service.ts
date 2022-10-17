@@ -5,11 +5,11 @@ import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
 import { Channel } from "@squacapi/models/channel";
 import { ChannelGroup } from "@squacapi/models/channel-group";
-import { Dashboard } from "@dashboard/models/dashboard";
-import { DashboardService } from "@dashboard/services/dashboard.service";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { Widget } from "@widget/models/widget";
-import { WidgetService } from "@widget/services/widget.service";
+import { Dashboard } from "@squacapi/models/dashboard";
+import { DashboardService } from "@squacapi/services/dashboard.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { Widget } from "@squacapi/models/widget";
+import { WidgetService } from "@squacapi/services/widget.service";
 import * as dayjs from "dayjs";
 import {
   BehaviorSubject,

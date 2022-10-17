@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ChannelGroupViewComponent } from "./channel-group-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";

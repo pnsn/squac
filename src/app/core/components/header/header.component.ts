@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
-import { User } from "@user/models/user";
+import { User } from "@squacapi/models/user";
 
 @Component({
   selector: "app-header",

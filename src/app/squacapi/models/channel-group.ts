@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "../interfaces/adapter";
 import { Channel, ChannelAdapter } from "./channel";
-import "@core/utils/utils.ts";
 import {
   ApiChannel,
   ReadChannelGroup,
@@ -76,8 +75,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   }
 
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl = new Set(item.autoExcludeChannels?.mapIds());
-    const ex = new Set(item.autoExcludeChannels?.mapIds());
+    const incl = new Set(item.autoExcludeChannels?.map((c) => c.id));
+    const ex = new Set(item.autoExcludeChannels?.map((c) => c.id));
 
     return {
       name: item.name,

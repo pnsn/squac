@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { UserService } from "@user/services/user.service";
 import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { InviteService } from "@user/services/invite.service";
+import { InviteService } from "@squacapi/services/invite.service";
 import { OrganizationService } from "@user/services/organization.service";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";

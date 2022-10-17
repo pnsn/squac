@@ -4,7 +4,7 @@ import { WidgetMainComponent } from "./widget-main.component";
 import { ActivatedRoute } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MeasurementService } from "@widget/services/measurement.service";
+import { MeasurementService } from "@squacapi/services/measurement.service";
 import { WidgetModule } from "@widget/widget.module";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";

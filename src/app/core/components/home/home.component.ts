@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
-import { User } from "@user/models/user";
+import { User } from "@squacapi/models/user";
 
 @Component({
   selector: "app-home",

@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { WidgetDetailComponent } from "./components/widget-detail/widget-detail.component";
 import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
-import { MeasurementPipe } from "./pipes/measurement.pipe";
 import { TabularComponent } from "./components/widget-types/tabular/tabular.component";
 import { TimelineComponent } from "./components/widget-types/timeline/timeline.component";
 import { GridsterModule } from "angular-gridster2";
@@ -27,7 +26,6 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     TabularComponent,
     TimelineComponent,
     WidgetEditOptionsComponent,
-    MeasurementPipe,
     WidgetEditMetricsComponent,
     WidgetEditEntryComponent,
     MapComponent,

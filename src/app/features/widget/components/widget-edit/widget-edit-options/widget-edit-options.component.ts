@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { Threshold } from "@squacapi/models/threshold";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { WidgetConfigService } from "@widget/services/widget-config.service";
 import { Subscription } from "rxjs";
 import {
   UntypedFormArray,
@@ -20,7 +20,7 @@ import {
 } from "@angular/forms";
 import * as colormap from "colormap";
 import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetDisplayOption, WidgetType } from "@squacapi/models/widget-type";
+import { WidgetDisplayOption, WidgetType } from "@widget/models/widget-type";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",

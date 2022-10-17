@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Dashboard } from "../../models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
