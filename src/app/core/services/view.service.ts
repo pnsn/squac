@@ -179,7 +179,10 @@ export class ViewService {
   // send updates and reset values
   updateDashboard(): void {
     //get new channelgroup info if its changed
-    if (this._channelGroupId !== this.dashboard.channelGroupId) {
+    if (
+      this._channelGroupId &&
+      this._channelGroupId !== this.dashboard.channelGroupId
+    ) {
       this.dashboard.channelGroupId = this._channelGroupId;
       this.loadingService
         .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
