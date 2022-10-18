@@ -144,7 +144,7 @@ export class DashboardViewComponent
 
   // onSelect function for data table selection
   onSelect(dashboard): void {
-    this.selectedDashboardId = dashboard.id || dashboard;
+    this.selectedDashboardId = dashboard ? dashboard.id : dashboard;
   }
 
   // click event from table
