@@ -8,12 +8,12 @@ describe("Trigger", () => {
     expect(MockService(Trigger)).toBeTruthy();
   });
 
-  it("should adapt from api to trigger", () => {
-    adapter = TestBed.inject(TriggerAdapter);
+  // it("should adapt from api to trigger", () => {
+  //   adapter = TestBed.inject(TriggerAdapter);
 
-    // const trigger = adapter.adaptFromApi(testData);
-    // expect(trigger).toBeDefined();
-  });
+  //   // const trigger = adapter.adaptFromApi(testData);
+  //   // expect(trigger).toBeDefined();
+  // });
 
   it("should adapt from trigger to api", () => {
     adapter = TestBed.inject(TriggerAdapter);

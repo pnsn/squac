@@ -12,9 +12,6 @@ export class StorageService {
   //check for staorage errors
 
   //string must be jsonified
-  constructor() {
-    console.log("storage service made");
-  }
   defaultMaxAge = 60; //seconds
 
   data = new Map<any, any>();
