@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
-import { ReadWriteDeleteApiService } from "../interfaces/generic-api-service";
+import {
+  ReadWriteDeleteApiService,
+  SquacApiService,
+} from "../interfaces/generic-api-service";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
@@ -7,7 +10,7 @@ import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 @Injectable({
   providedIn: "root",
 })
-export class MatchingRuleService extends ReadWriteDeleteApiService<MatchingRule> {
+export class MatchingRuleService extends SquacApiService<MatchingRule> {
   constructor(
     protected api: ApiService,
     protected adapter: MatchingRuleAdapter

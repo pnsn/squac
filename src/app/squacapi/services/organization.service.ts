@@ -1,6 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
-import { ReadApiService } from "@squacapi/interfaces/generic-api-service";
+import {
+  ApiService,
+  OrganizationOrganizationsListRequestParams,
+} from "@pnsn/ngx-squacapi-client";
+import {
+  ListApiService,
+  ListOnlyApiService,
+  SquacApiService,
+} from "@squacapi/interfaces/generic-api-service";
 import {
   Organization,
   OrganizationAdapter,
@@ -10,7 +17,7 @@ import { Observable, tap } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationService extends ReadApiService<Organization> {
+export class OrganizationService extends ListApiService<Organization> {
   private localOrganizations: Organization[] = [];
   private orgUsers = {};
   constructor(
@@ -20,9 +27,13 @@ export class OrganizationService extends ReadApiService<Organization> {
     super("organizationOrganizations", api);
   }
 
+  listParams(params: any): OrganizationOrganizationsListRequestParams {
+    return params;
+  }
+
   list(params?: any): Observable<Organization[]> {
     return super.list(params).pipe(
-      tap((organizations) => {
+      tap((organizations: Organization[]) => {
         this.localOrganizations = organizations.slice();
         organizations.forEach((org) => {
           for (const user of org.users) {

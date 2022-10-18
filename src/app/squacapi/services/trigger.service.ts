@@ -1,15 +1,28 @@
 import { Injectable } from "@angular/core";
-import { ReadWriteDeleteApiService } from "../interfaces/generic-api-service";
+import {
+  GenericApiService,
+  SquacApiService,
+} from "../interfaces/generic-api-service";
 import { Trigger, TriggerAdapter } from "../models/trigger";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
+import {
+  ApiService,
+  MeasurementTriggersDeleteRequestParams,
+  MeasurementTriggersListRequestParams,
+  MeasurementTriggersReadRequestParams,
+  MeasurementTriggersUpdateRequestParams,
+} from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class TriggerService extends ReadWriteDeleteApiService<Trigger> {
+export class TriggerService extends SquacApiService<Trigger> {
   constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
     super("measurementTriggers", api);
+  }
+
+  listParams(params: any): MeasurementTriggersListRequestParams {
+    return params;
   }
 
   // combine observables for update or create triggers

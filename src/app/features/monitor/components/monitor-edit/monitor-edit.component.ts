@@ -194,7 +194,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       null,
       this.triggers.value
     );
-
     this.monitorService
       .updateOrCreate(monitor)
       .pipe(
