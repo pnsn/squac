@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { OrganizationService } from "@user/services/organization.service";
+import { OrganizationService } from "@squacapi/services/organization.service";
 import { ngMocks, MockBuilder } from "ng-mocks";
 import { OrganizationPipe } from "./organization.pipe";
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { OrganizationService } from "@squacapi/services/organization.service";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
