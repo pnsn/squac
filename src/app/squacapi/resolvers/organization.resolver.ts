@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { OrganizationService } from "../../features/user/services/organization.service";
+import { OrganizationService } from "../services/organization.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,13 +13,13 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = +route.paramMap.get("orgId");
     if (id) {
-      return this.orgService.getOrganization(id).pipe(
+      return this.orgService.read(id).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
       );
     } else {
-      return this.orgService.getOrganizations().pipe(
+      return this.orgService.list().pipe(
         catchError((error) => {
           return this.handleError(error);
         })

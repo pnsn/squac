@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { OrganizationService } from "@squacapi/services/organization.service";
 import { Organization } from "@squacapi/models/organization";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 
@@ -36,7 +36,7 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
 
   fetchData() {
     return this.loadingService
-      .doLoading(this.organizationsService.getOrganizations(), this)
+      .doLoading(this.organizationsService.list(), this)
       .pipe(
         tap((results) => {
           this.organizations = results;

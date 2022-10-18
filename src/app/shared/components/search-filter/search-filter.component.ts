@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { OrganizationService } from "@squacapi/services/organization.service";
 import { OrganizationPipe } from "@squacapi/pipes/organization.pipe";
 import { UserPipe } from "@squacapi/pipes/user.pipe";
 
