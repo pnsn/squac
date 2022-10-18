@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup, ChannelGroupAdapter } from "../models/channel-group";
-import { ReadWriteDeleteApiService } from "../interfaces/generic-api-service";
+import {
+  ReadWriteDeleteApiService,
+  SquacApiService,
+} from "../interfaces/generic-api-service";
 import {
   ApiService,
   NslcGroupsListRequestParams,
@@ -10,7 +13,7 @@ import { map } from "rxjs/operators";
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService extends ReadWriteDeleteApiService<ChannelGroup> {
+export class ChannelGroupService extends SquacApiService<ChannelGroup> {
   constructor(
     protected adapter: ChannelGroupAdapter,
     protected api: ApiService

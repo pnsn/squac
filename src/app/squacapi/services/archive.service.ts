@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
-import { GenericApiService } from "../interfaces/generic-api-service";
+import {
+  GenericApiService,
+  ListApiService,
+} from "../interfaces/generic-api-service";
 import { ReadArchive } from "../interfaces/squac-types";
 import {
   ApiService,
@@ -20,7 +23,7 @@ export type ArchiveParams =
 @Injectable({
   providedIn: "root",
 })
-export class ArchiveService implements GenericApiService<Archive> {
+export class ArchiveService implements ListApiService<Archive> {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {}
 
   list(params: {
