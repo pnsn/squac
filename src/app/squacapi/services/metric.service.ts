@@ -1,16 +1,34 @@
 import { Injectable } from "@angular/core";
 import {
-  ReadWriteApiService,
-  SquacApiService,
+  BaseApiService,
+  WriteableApiService,
 } from "../interfaces/generic-api-service";
 import { Metric, MetricAdapter } from "../models/metric";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
+import {
+  ApiService,
+  MeasurementMetricsListRequestParams,
+  MeasurementMetricsReadRequestParams,
+} from "@pnsn/ngx-squacapi-client";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class MetricService extends SquacApiService<Metric> {
+export class MetricService
+  extends BaseApiService<Metric>
+  implements WriteableApiService<Metric>
+{
   constructor(protected adapter: MetricAdapter, protected api: ApiService) {
     super("measurementMetrics", api);
+  }
+
+  read(id: number): Observable<Metric> {
+    return super.read(id);
+  }
+  list(params?: MeasurementMetricsListRequestParams): Observable<Metric[]> {
+    return super._list(params);
+  }
+  updateOrCreate(t: Metric): Observable<Metric> {
+    return super._updateOrCreate(t);
   }
 }

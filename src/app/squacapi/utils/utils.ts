@@ -1,3 +1,10 @@
+/**
+ * Takes inputed string and capitalizes first letter
+ * @param word - string to capitalize first letter
+ */
+export function titleCaseWord(word: string): string {
+  return !word ? word : word[0].toUpperCase() + word.substring(1).toLowerCase();
+}
 // // App wide helper functions
 // //stringify array using ids of T
 // declare global {

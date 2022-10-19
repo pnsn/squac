@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
-  GenericApiService,
+  BaseApiService,
   SquacApiService,
 } from "../interfaces/generic-api-service";
 import {
@@ -18,42 +18,44 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 // Class for widget interaction with squac
-export class WidgetService extends SquacApiService<Widget> {
+export class WidgetService
+  extends BaseApiService<Widget>
+  implements SquacApiService<Widget>
+{
   constructor(protected adapter: WidgetAdapter, protected api: ApiService) {
     super("dashboardWidgets", api);
   }
 
-  readParams(id: number | string): DashboardWidgetsReadRequestParams {
+  // widget is weird and uses number ids unlike other endpoints
+  readParams(id: number): DashboardWidgetsReadRequestParams {
+    return { id };
+  }
+
+  deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
+    console.log("get widget id");
+    return { id };
+  }
+
+  updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
     return {
-      id: +id,
+      id: w.id,
+      data: this.adapter.adaptToApi(w),
     };
   }
 
-  listParams(params: any): DashboardWidgetsListRequestParams {
-    return params;
+  read(id: number): Observable<Widget> {
+    return super.read(id);
   }
 
-  updateParams(data: any): DashboardWidgetsUpdateRequestParams {
-    return {
-      id: +data.id,
-      data,
-    };
+  list(params?: DashboardWidgetsListRequestParams): Observable<Widget[]> {
+    return super._list(params);
   }
 
-  createParams(data: any): DashboardWidgetsCreateRequestParams {
-    return {
-      data,
-    };
+  updateOrCreate(t: Widget): Observable<Widget> {
+    return super._updateOrCreate(t);
   }
 
-  deleteParams(id: string | number): DashboardWidgetsDeleteRequestParams {
-    return {
-      id: +id,
-    };
+  delete(id: number): Observable<any> {
+    return super.delete(id);
   }
 }
-
-// const params = {
-//   id: `${t.id}`,
-//   data: this.adapter.adaptToApi(t),
-// };

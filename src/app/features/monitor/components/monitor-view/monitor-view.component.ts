@@ -230,7 +230,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   fetchData() {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
-      alerts: this.alertService.list({ starttime: lastDay }),
+      alerts: this.alertService.list({ timestampGte: lastDay }),
       monitors: this.monitorService.list(),
     }).pipe(
       tap((results) => {

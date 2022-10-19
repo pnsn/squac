@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { GenericApiService } from "../interfaces/generic-api-service";
+import { BaseApiService, ListService } from "../interfaces/generic-api-service";
 import {
   ApiService,
   MeasurementAggregatedListRequestParams,
@@ -10,8 +10,13 @@ import { Aggregate, AggregateAdapter } from "../models/aggregate";
 @Injectable({
   providedIn: "root",
 })
-export class AggregateService implements GenericApiService<Aggregate> {
-  constructor(protected adapter: AggregateAdapter, protected api: ApiService) {}
+export class AggregateService
+  extends BaseApiService<Aggregate>
+  implements ListService<Aggregate>
+{
+  constructor(protected adapter: AggregateAdapter, protected api: ApiService) {
+    super("measurementAggregated", api);
+  }
 
   list(params: {
     stat: string;

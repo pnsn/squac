@@ -350,7 +350,7 @@ export class ViewService {
 
   // Tell widgets to resize
   saveWidgetResize(widget: Widget) {
-    this.widgetService.update(widget).subscribe({
+    this.widgetService.updateOrCreate(widget).subscribe({
       next: (widget) => {
         this.resizeWidget(widget.id);
       },

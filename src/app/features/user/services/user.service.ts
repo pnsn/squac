@@ -28,8 +28,10 @@ export class UserService {
     if (this.currentUser) {
       return of(this.currentUser);
     }
+
     return this.api.userMeRead().pipe(
       map((response: ReadOnlyUserMeSerializer) => {
+        console.log(response);
         const currentUser = new User(
           response.id,
           response.email,
