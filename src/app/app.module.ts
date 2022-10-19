@@ -6,6 +6,7 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { Ability, PureAbility } from "@casl/ability";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
+import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
@@ -68,6 +69,11 @@ export function initApp(configurationService: ConfigurationService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
       multi: true,
     },
     {
