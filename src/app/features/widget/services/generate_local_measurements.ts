@@ -120,7 +120,7 @@ export class FakeMeasurementBackend {
       const metricMax = this.getRandom();
       channels.forEach((c) => {
         let currentTime = starttime;
-        while (currentTime <= endtime) {
+        while (currentTime < endtime) {
           let newEnd;
           if (timeInterval) {
             newEnd = currentTime.add(time, timeInterval);
@@ -161,31 +161,30 @@ export class FakeMeasurementBackend {
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
   ): Observable<Aggregate[]> {
-    console.log("get aggregate");
-    return this.getList(params, this.measurement.bind(this));
+    return this.getList(params, this.aggregate.bind(this));
   }
 
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
   ): Observable<ReadOnlyArchiveDaySerializer[]> {
-    return this.getList(params, this.measurement.bind(this), 1, "day");
+    return this.getList(params, this.archive.bind(this), 1, "day");
   }
 
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable<ReadOnlyArchiveHourSerializer[]> {
-    return this.getList(params, this.measurement.bind(this), 1, "hour");
+    return this.getList(params, this.archive.bind(this), 1, "hour");
   }
 
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable<ReadOnlyArchiveWeekSerializer[]> {
-    return this.getList(params, this.measurement.bind(this), 1, "week");
+    return this.getList(params, this.archive.bind(this), 1, "week");
   }
 
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable<ReadOnlyArchiveMonthSerializer[]> {
-    return this.getList(params, this.measurement.bind(this), 1, "month");
+    return this.getList(params, this.archive.bind(this), 1, "month");
   }
 }

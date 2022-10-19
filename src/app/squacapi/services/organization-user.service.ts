@@ -19,7 +19,7 @@ export class OrganizationUserService
   implements WriteableApiService<User>
 {
   constructor(protected adapter: UserAdapter, protected api: ApiService) {
-    super("organizationUser", api);
+    super("organizationUsers", api);
   }
 
   read(id: number): Observable<User> {

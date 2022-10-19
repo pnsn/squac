@@ -10,7 +10,7 @@ import {
   NslcMatchingRulesReadRequestParams,
   NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 
 @Injectable({
@@ -33,12 +33,10 @@ export class MatchingRuleService
   }
 
   deleteParams(id: number): NslcMatchingRulesDeleteRequestParams {
-    console.log("get widget id");
     return { id };
   }
 
   updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
-    console.log("widget create params");
     return {
       id: m.id,
       data: this.adapter.adaptToApi(m),
@@ -50,7 +48,7 @@ export class MatchingRuleService
   }
 
   list(params: NslcMatchingRulesListRequestParams): Observable<MatchingRule[]> {
-    return super._list(params);
+    return super._list(params).pipe(tap(console.log));
   }
 
   updateOrCreate(t: MatchingRule): Observable<MatchingRule> {

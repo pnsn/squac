@@ -31,7 +31,6 @@ export class WidgetService
   }
 
   deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
-    console.log("get widget id");
     return { id };
   }
 

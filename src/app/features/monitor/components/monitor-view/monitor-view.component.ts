@@ -215,7 +215,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
         const monitorCopy = Object.assign({}, monitor);
         monitorCopy.triggers = [];
         trigger.monitor = monitorCopy;
-        console.log(trigger);
         temp.push(trigger);
       });
     });

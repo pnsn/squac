@@ -10,9 +10,18 @@ import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.
 import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
 import { FakeMeasurementBackend } from "@features/widget/services/generate_local_measurements";
+import {
+  AggregateFactory,
+  ArchiveFactory,
+  MeasurementFactory,
+} from "@features/widget/services/measurementFactories";
 import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import { SharedModule } from "@shared/shared.module";
-import { Measurement, MeasurementAdapter } from "@squacapi/models/measurement";
+import { AggregateAdapter } from "@squacapi/models/aggregate";
+import { ArchiveAdapter } from "@squacapi/models/archive";
+import { MeasurementAdapter } from "@squacapi/models/measurement";
+import { AggregateService } from "@squacapi/services/aggregate.service";
+import { ArchiveService } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -73,17 +82,17 @@ export function initApp(configurationService: ConfigurationService) {
       useFactory: MeasurementFactory,
       deps: [BASE_PATH, MeasurementAdapter, ApiService, FakeMeasurementBackend],
     },
+    {
+      provide: ArchiveService,
+      useFactory: ArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: AggregateService,
+      useFactory: AggregateFactory,
+      deps: [BASE_PATH, AggregateAdapter, ApiService, FakeMeasurementBackend],
+    },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-export function MeasurementFactory(path, adapter, service, fakeService) {
-  console.log("doing my measurement factoryu thing", path);
-  if (path === "http://localhost:8000") {
-    console.log("Use fake measurements");
-    return new MeasurementService(adapter, fakeService);
-  } else {
-    return new MeasurementService(adapter, service);
-  }
-}
