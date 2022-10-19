@@ -132,11 +132,12 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
         !this.widget.metrics ||
         this.widgetType.minMetrics > this.widget.metrics.length
       ) {
-        this.error = `Error: ${this.widget.metrics} of ${this.widgetType.minMetrics} metrics selected.`;
+        this.error = `Error: ${this.widget.metrics.length} of ${this.widgetType.minMetrics} metrics selected.`;
       } else {
         this.widgetDataService.updateWidget(this.widget, this.widgetType);
         this.selectMetrics();
-        this.viewService.updateData.next({ widget: this.widget.id });
+        console.log("update data in widget");
+        // this.viewService.updateData.next({ widget: this.widget.id });
       }
     }
   }

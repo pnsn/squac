@@ -68,14 +68,17 @@ export class WidgetDataService implements OnDestroy {
     // listen to param changes
     this.measurementReq = this.$params.pipe(
       filter((params: MeasurementParams) => {
+        const isValid = this.checkParams(params);
+        console.log(params, isValid);
         //only make request when all params present
-        return this.checkParams(params);
+        return isValid;
       }),
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
         return this.loadingService.doLoading(
           this.dataRequest(params).pipe(
-            catchError(() => {
+            catchError((error) => {
+              console.log(error);
               this.finishedLoading({
                 error: "Failed to get measurements from SQUAC",
               });
@@ -121,6 +124,7 @@ export class WidgetDataService implements OnDestroy {
             params.channel = channels.map((c) => c.id);
             delete params.group;
           }
+          console.log("update data", params);
           this.params.next(params);
         })
       )
@@ -135,9 +139,10 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // check params have all data before requesting
-  private checkParams(params: MeasurementParams): boolean {
+  private checkParams(params: MeasurementParams, attempts = 1): boolean {
     const valid: boolean =
       !!this.widget &&
+      params.metric &&
       params.metric.length > 0 &&
       ((params.group && params.group.length > 0) ||
         (params.channel && params.channel.length > 0)) &&
@@ -150,12 +155,10 @@ export class WidgetDataService implements OnDestroy {
         params.starttime = this.viewService.startTime;
         params.endtime = this.viewService.endTime;
       }
-      this.params.next(params);
-    } else {
-      this._params = { ...params };
     }
+    this._params = { ...params };
 
-    return valid;
+    return attempts > 0 && !valid ? this.checkParams(params, 0) : valid; //try again once more
 
     //       useAggregate: this.widgetType.useAggregate,
     //  archiveType: this.viewService.archiveType,
@@ -246,6 +249,7 @@ export class WidgetDataService implements OnDestroy {
     } else {
       params.metric = this.widget.metricsIds;
     }
+    console.log("update metrics");
     this.params.next(params);
   }
 

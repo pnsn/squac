@@ -7,7 +7,6 @@ import { Alert, AlertAdapter } from "../models/alert";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,
-  MeasurementAlertsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 

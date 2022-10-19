@@ -6,9 +6,7 @@ import {
 import { Trigger, TriggerAdapter } from "../models/trigger";
 import {
   ApiService,
-  MeasurementTriggersDeleteRequestParams,
   MeasurementTriggersListRequestParams,
-  MeasurementTriggersReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 

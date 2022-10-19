@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import {
   ApiService,
   OrganizationOrganizationsListRequestParams,
-  OrganizationOrganizationsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import {
   BaseApiService,

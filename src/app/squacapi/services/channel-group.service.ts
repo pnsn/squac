@@ -6,9 +6,7 @@ import {
 } from "../interfaces/generic-api-service";
 import {
   ApiService,
-  NslcGroupsDeleteRequestParams,
   NslcGroupsListRequestParams,
-  NslcGroupsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";

@@ -1,3 +1,4 @@
+import { HttpResponse } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
 import { Adapter } from "./adapter";
@@ -85,11 +86,18 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of result of request
    */
   protected _create(params: any): Observable<T> {
+    console.log("Create", params);
     return this.api[`${this.modelPath}Create`](
       params,
-      this.observe,
+      "response",
       this.reportProgress
-    ).pipe(map(this.mapFromApi.bind(this)));
+    ).pipe(
+      map((response: HttpResponse<any>) => {
+        console.log(response);
+        return response.body;
+      }),
+      map(this.mapFromApi.bind(this))
+    );
   }
 
   /**

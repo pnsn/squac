@@ -93,6 +93,7 @@ export class ViewService {
     } else {
       startTime = this.dashboard?.properties.startTime;
     }
+    console.log(startTime);
     return startTime;
   }
 
@@ -195,6 +196,7 @@ export class ViewService {
   }
 
   private sendUpdate() {
+    console.log("send update");
     this.channelGroupId.next(this._channelGroupId);
     const channels = this.filterChannels();
 

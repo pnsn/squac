@@ -10,6 +10,7 @@ export const environment = {
   API_BASE_PATH: "http://localhost:8000",
   // apiUrl: "https://squacapi.pnsn.org/",
   version: "api/",
+  fakeMeasurements: true,
 };
 
 /*
