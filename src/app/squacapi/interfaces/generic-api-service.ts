@@ -86,14 +86,12 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of result of request
    */
   protected _create(params: any): Observable<T> {
-    console.log("Create", params);
     return this.api[`${this.modelPath}Create`](
       params,
       "response",
       this.reportProgress
     ).pipe(
       map((response: HttpResponse<any>) => {
-        console.log(response);
         return response.body;
       }),
       map(this.mapFromApi.bind(this))

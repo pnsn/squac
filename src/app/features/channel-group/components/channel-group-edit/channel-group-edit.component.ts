@@ -123,7 +123,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
               }),
               switchMap((channelGroup: ChannelGroup) => {
                 this.channelGroup = channelGroup;
-                if (channelGroup) {
+                if (!channelGroup) {
                   return of([]);
                 }
                 return this.matchingRuleService.list({

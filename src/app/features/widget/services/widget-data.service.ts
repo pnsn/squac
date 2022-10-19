@@ -69,7 +69,7 @@ export class WidgetDataService implements OnDestroy {
     this.measurementReq = this.$params.pipe(
       filter((params: MeasurementParams) => {
         const isValid = this.checkParams(params);
-        console.log(params, isValid);
+
         //only make request when all params present
         return isValid;
       }),
@@ -78,7 +78,7 @@ export class WidgetDataService implements OnDestroy {
         return this.loadingService.doLoading(
           this.dataRequest(params).pipe(
             catchError((error) => {
-              console.log(error);
+              console.error(error);
               this.finishedLoading({
                 error: "Failed to get measurements from SQUAC",
               });
@@ -124,7 +124,6 @@ export class WidgetDataService implements OnDestroy {
             params.channel = channels.map((c) => c.id);
             delete params.group;
           }
-          console.log("update data", params);
           this.params.next(params);
         })
       )
@@ -249,7 +248,6 @@ export class WidgetDataService implements OnDestroy {
     } else {
       params.metric = this.widget.metricsIds;
     }
-    console.log("update metrics");
     this.params.next(params);
   }
 
