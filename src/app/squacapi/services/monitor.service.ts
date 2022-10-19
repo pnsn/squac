@@ -6,9 +6,7 @@ import {
 import { Monitor, MonitorAdapter } from "../models/monitor";
 import {
   ApiService,
-  MeasurementMonitorsDeleteRequestParams,
   MeasurementMonitorsListRequestParams,
-  MeasurementMonitorsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 

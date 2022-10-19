@@ -5,7 +5,6 @@ import {
 } from "../interfaces/generic-api-service";
 import {
   ApiService,
-  DashboardWidgetsCreateRequestParams,
   DashboardWidgetsDeleteRequestParams,
   DashboardWidgetsListRequestParams,
   DashboardWidgetsReadRequestParams,

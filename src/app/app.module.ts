@@ -9,8 +9,11 @@ import { NotFoundComponent } from "@core/components/not-found/not-found.componen
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
-import { ApiModule, BASE_PATH } from "@pnsn/ngx-squacapi-client";
+import { FakeMeasurementBackend } from "@features/widget/services/generate_local_measurements";
+import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import { SharedModule } from "@shared/shared.module";
+import { Measurement, MeasurementAdapter } from "@squacapi/models/measurement";
+import { MeasurementService } from "@squacapi/services/measurement.service";
 import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -65,7 +68,22 @@ export function initApp(configurationService: ConfigurationService) {
     },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility, useExisting: Ability },
+    {
+      provide: MeasurementService,
+      useFactory: MeasurementFactory,
+      deps: [BASE_PATH, MeasurementAdapter, ApiService, FakeMeasurementBackend],
+    },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+export function MeasurementFactory(path, adapter, service, fakeService) {
+  console.log("doing my measurement factoryu thing", path);
+  if (path === "http://localhost:8000") {
+    console.log("Use fake measurements");
+    return new MeasurementService(adapter, fakeService);
+  } else {
+    return new MeasurementService(adapter, service);
+  }
+}

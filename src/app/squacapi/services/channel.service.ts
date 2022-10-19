@@ -8,7 +8,6 @@ import {
 import {
   ApiService,
   NslcChannelsListRequestParams,
-  NslcChannelsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule } from "../models/matching-rule";

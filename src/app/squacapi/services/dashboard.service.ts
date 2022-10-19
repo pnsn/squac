@@ -6,9 +6,7 @@ import {
 import { Dashboard, DashboardAdapter } from "../models/dashboard";
 import {
   ApiService,
-  DashboardDashboardsDeleteRequestParams,
   DashboardDashboardsListRequestParams,
-  DashboardDashboardsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 

@@ -7,7 +7,6 @@ import { Metric, MetricAdapter } from "../models/metric";
 import {
   ApiService,
   MeasurementMetricsListRequestParams,
-  MeasurementMetricsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 

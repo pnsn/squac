@@ -103,7 +103,6 @@ export class UserAdapter implements Adapter<User> {
         return;
       }
     });
-    const groupSet = new Set(groups);
     return {
       email: item.email,
       firstname: item.firstName,
@@ -111,7 +110,7 @@ export class UserAdapter implements Adapter<User> {
       organization: item.orgId,
       is_org_admin: item.orgAdmin,
       is_active: item.isActive,
-      groups: groupSet,
+      groups,
     };
   }
 }

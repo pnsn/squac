@@ -31,7 +31,6 @@ export class UserService {
 
     return this.api.userMeRead().pipe(
       map((response: ReadOnlyUserMeSerializer) => {
-        console.log(response);
         const currentUser = new User(
           response.id,
           response.email,

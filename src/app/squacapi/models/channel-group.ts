@@ -75,8 +75,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
   }
 
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl = new Set(item.autoExcludeChannels?.map((c) => c.id));
-    const ex = new Set(item.autoExcludeChannels?.map((c) => c.id));
+    const incl = item.autoExcludeChannels?.map((c) => c.id);
+    const ex = item.autoExcludeChannels?.map((c) => c.id);
 
     return {
       name: item.name,

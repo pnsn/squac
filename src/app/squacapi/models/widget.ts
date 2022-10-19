@@ -153,10 +153,9 @@ export class WidgetAdapter implements Adapter<Widget> {
   }
 
   adaptToApi(item: Widget): WriteWidget {
-    const metrics = new Set(item.metricsIds);
     return {
       name: item.name,
-      metrics,
+      metrics: item.metricsIds,
       dashboard: item.dashboardId,
       type: item.type,
       stat: item.stat,

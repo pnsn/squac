@@ -4,19 +4,13 @@
 
 export const environment = {
   production: false,
-<<<<<<< HEAD
-  // apiUrl: "http://localhost:8000/",
-  // apiUrl: "https://staging-squacapi.pnsn.org/",
-  apiUrl: "https://squacapi.pnsn.org/",
-  version: "v1.0/",
-=======
   apiUrl: "http://localhost:8000/",
   // apiUrl: "https://staging-squacapi.pnsn.org/",
   // API_BASE_PATH: "http://localhost:8000"
   API_BASE_PATH: "http://localhost:8000",
   // apiUrl: "https://squacapi.pnsn.org/",
   version: "api/",
->>>>>>> b0cbb99d (use Api client)
+  fakeMeasurements: true,
 };
 
 /*
