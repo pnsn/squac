@@ -9,8 +9,6 @@ export class CacheService {
   data = new Map<string, any>();
   expirations = new Map<string, number>();
 
-  constructor() {}
-
   hasData(key): boolean {
     const now = new Date().getTime();
     if (this.expirations.has(key) && this.expirations.get(key) > now) {

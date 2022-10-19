@@ -1,17 +1,35 @@
 import { Injectable } from "@angular/core";
 import { Params } from "@angular/router";
 import { Channel, ChannelAdapter } from "../models/channel";
-import { ListApiService } from "../interfaces/generic-api-service";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
+import {
+  BaseApiService,
+  ReadOnlyApiService,
+} from "../interfaces/generic-api-service";
+import {
+  ApiService,
+  NslcChannelsListRequestParams,
+  NslcChannelsReadRequestParams,
+} from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule } from "../models/matching-rule";
 
 @Injectable({
   providedIn: "root",
 })
-export class ChannelService extends ListApiService<Channel> {
+export class ChannelService
+  extends BaseApiService<Channel>
+  implements ReadOnlyApiService<Channel>
+{
   constructor(protected api: ApiService, protected adapter: ChannelAdapter) {
     super("nslcChannels", api);
+  }
+
+  read(id: number): Observable<Channel> {
+    return super.read(id);
+  }
+
+  list(params: NslcChannelsListRequestParams): Observable<Channel[]> {
+    return super._list(params);
   }
 
   getChannelsByRules(

@@ -254,7 +254,7 @@ export class OrganizationDetailComponent
   deactivateUser(): void {
     if (this.selected) {
       this.selected.isActive = false;
-      this.orgUserService.update(this.selected).subscribe({
+      this.orgUserService.updateOrCreate(this.selected).subscribe({
         next: () => {
           this.messageService.message("User deactivated.");
           this.refresh();

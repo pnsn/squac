@@ -1,24 +1,46 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup, ChannelGroupAdapter } from "../models/channel-group";
 import {
-  ReadWriteDeleteApiService,
+  BaseApiService,
   SquacApiService,
 } from "../interfaces/generic-api-service";
 import {
   ApiService,
+  NslcGroupsDeleteRequestParams,
   NslcGroupsListRequestParams,
+  NslcGroupsReadRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService extends SquacApiService<ChannelGroup> {
+export class ChannelGroupService
+  extends BaseApiService<ChannelGroup>
+  implements SquacApiService<ChannelGroup>
+{
   constructor(
     protected adapter: ChannelGroupAdapter,
     protected api: ApiService
   ) {
     super("nslcGroups", api);
+  }
+
+  read(id: number): Observable<ChannelGroup> {
+    return super.read(id);
+  }
+
+  list(params?: NslcGroupsListRequestParams): Observable<ChannelGroup[]> {
+    return super._list(params);
+  }
+
+  updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {
+    return super._updateOrCreate(t);
+  }
+
+  delete(id: number): Observable<any> {
+    return super.delete(id);
   }
 
   /*returns channel groups sorted into

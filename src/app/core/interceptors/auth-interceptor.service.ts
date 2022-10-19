@@ -6,7 +6,6 @@ import {
   HttpHeaders,
 } from "@angular/common/http";
 import { AuthService } from "../services/auth.service";
-import { tap } from "rxjs";
 
 @Injectable()
 
@@ -16,17 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     if (this.authService.loggedIn) {
-      console.log(req);
       const modifiedReq = req.clone({
         headers: new HttpHeaders({
           Authorization: "Token " + this.authService.auth,
         }),
       });
-      return next.handle(modifiedReq).pipe(
-        tap((response) => {
-          console.log(response);
-        })
-      );
+      return next.handle(modifiedReq);
     }
 
     return next.handle(req);

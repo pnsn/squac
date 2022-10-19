@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
-  GenericApiService,
+  BaseApiService,
   SquacApiService,
 } from "../interfaces/generic-api-service";
 import { Trigger, TriggerAdapter } from "../models/trigger";
@@ -9,20 +9,34 @@ import {
   MeasurementTriggersDeleteRequestParams,
   MeasurementTriggersListRequestParams,
   MeasurementTriggersReadRequestParams,
-  MeasurementTriggersUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class TriggerService extends SquacApiService<Trigger> {
+export class TriggerService
+  extends BaseApiService<Trigger>
+  implements SquacApiService<Trigger>
+{
   constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
     super("measurementTriggers", api);
   }
 
-  listParams(params: any): MeasurementTriggersListRequestParams {
-    return params;
+  read(id: number): Observable<Trigger> {
+    return super.read(id);
+  }
+
+  list(params?: MeasurementTriggersListRequestParams): Observable<Trigger[]> {
+    return super._list(params);
+  }
+
+  updateOrCreate(t: Trigger): Observable<Trigger> {
+    return super._updateOrCreate(t);
+  }
+
+  delete(id: number): Observable<any> {
+    return super.delete(id);
   }
 
   // combine observables for update or create triggers

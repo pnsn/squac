@@ -1,16 +1,41 @@
 import { Injectable } from "@angular/core";
 import {
-  ReadWriteDeleteApiService,
+  BaseApiService,
   SquacApiService,
 } from "../interfaces/generic-api-service";
 import { Dashboard, DashboardAdapter } from "../models/dashboard";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
+import {
+  ApiService,
+  DashboardDashboardsDeleteRequestParams,
+  DashboardDashboardsListRequestParams,
+  DashboardDashboardsReadRequestParams,
+} from "@pnsn/ngx-squacapi-client";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService extends SquacApiService<Dashboard> {
+export class DashboardService
+  extends BaseApiService<Dashboard>
+  implements SquacApiService<Dashboard>
+{
   constructor(protected api: ApiService, protected adapter: DashboardAdapter) {
     super("dashboardDashboards", api);
+  }
+
+  read(id: number): Observable<Dashboard> {
+    return super.read(id);
+  }
+
+  list(params?: DashboardDashboardsListRequestParams): Observable<Dashboard[]> {
+    return super._list(params);
+  }
+
+  updateOrCreate(d: Dashboard): Observable<Dashboard> {
+    return super._updateOrCreate(d);
+  }
+
+  delete(id: number): Observable<any> {
+    return super.delete(id);
   }
 }

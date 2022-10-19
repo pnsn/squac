@@ -151,7 +151,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
       forkJoin({
-        alerts: this.alertService.list({ starttime: lastDay }),
+        alerts: this.alertService.list({ timestampGte: lastDay }),
         monitors: this.monitorService.list(),
       }).pipe(
         tap((results: any) => {

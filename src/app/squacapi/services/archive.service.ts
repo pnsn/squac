@@ -1,9 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  GenericApiService,
-  ListApiService,
-} from "../interfaces/generic-api-service";
-import { ReadArchive } from "../interfaces/squac-types";
+import { BaseApiService, ListService } from "../interfaces/generic-api-service";
 import {
   ApiService,
   MeasurementDayArchivesListRequestParams,
@@ -13,6 +9,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
 import { Archive, ArchiveAdapter } from "../models/archive";
+import { titleCaseWord } from "@squacapi/utils/utils";
 
 export type ArchiveParams =
   | MeasurementDayArchivesListRequestParams
@@ -23,38 +20,24 @@ export type ArchiveParams =
 @Injectable({
   providedIn: "root",
 })
-export class ArchiveService implements ListApiService<Archive> {
-  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {}
+export class ArchiveService
+  extends BaseApiService<Archive>
+  implements ListService<Archive>
+{
+  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
+    super("measurement", api);
+  }
 
   list(params: {
     type: string;
     stat: string;
     params: ArchiveParams;
   }): Observable<Archive[]> {
-    return this.listArchiveType(params.type, params.params).pipe(
-      map((r) => r.map((a) => this.adapter.adaptFromApi(a, params.stat)))
+    const type = titleCaseWord(params.type);
+    return this.api[`measurement${type}ArchivesList`](params.params).pipe(
+      map((r: Array<any>) =>
+        r.map((a) => this.adapter.adaptFromApi(a, params.stat))
+      )
     );
-  }
-
-  private listArchiveType(
-    type: string,
-    params: ArchiveParams
-  ): Observable<ReadArchive[]> {
-    switch (type) {
-      case "hour":
-        return this.api.measurementHourArchivesList(params);
-
-      case "day":
-        return this.api.measurementDayArchivesList(params);
-
-      case "week":
-        return this.api.measurementWeekArchivesList(params);
-
-      case "month":
-        return this.api.measurementMonthArchivesList(params);
-
-      default:
-        break;
-    }
   }
 }

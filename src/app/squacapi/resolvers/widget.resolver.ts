@@ -24,7 +24,7 @@ export class WidgetResolver implements Resolve<Observable<any>> {
         })
       );
     } else if (dashboardId) {
-      return this.widgetService.list({ dashboard: dashboardId }).pipe(
+      return this.widgetService.list({ dashboard: `${dashboardId}` }).pipe(
         catchError((error) => {
           return this.handleError(error);
         })

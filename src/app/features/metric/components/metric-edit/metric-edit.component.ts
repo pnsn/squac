@@ -64,7 +64,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   save(): void {
     const values = this.metricForm.value;
     this.metricService
-      .update(
+      .updateOrCreate(
         new Metric(
           this.id,
           null,
