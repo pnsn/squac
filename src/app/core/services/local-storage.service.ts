@@ -35,16 +35,21 @@ export class LocalStorageService {
   static getItem(
     storageType: LocalStorageTypes,
     key: string
-  ): HttpResponse<any> {
+  ): HttpResponse<any> | any {
     const storage = LocalStorageService._getStorage(storageType);
     const val = storage.getItem(`${PROJECT_NAME}:${key}`);
     try {
       const res = JSON.parse(val);
-      return new HttpResponse(res);
+      if (res instanceof HttpResponse) {
+        return new HttpResponse(res);
+      } else {
+        return res;
+      }
+
       // return JSON.parse(val);
     } catch (e) {
       //something wrong with response
-      return null;
+      return val;
     }
   }
 

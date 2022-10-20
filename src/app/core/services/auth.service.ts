@@ -8,6 +8,10 @@ import { UserService } from "@user/services/user.service";
 import { Subject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { ConfigurationService } from "./configuration.service";
+import {
+  LocalStorageService,
+  LocalStorageTypes,
+} from "./local-storage.service";
 
 // Handles log in logic and API requests for login
 @Injectable({
@@ -16,6 +20,7 @@ import { ConfigurationService } from "./configuration.service";
 export class AuthService {
   private token: string; // stores the token
   private tokenExpirationTimer: any; // Time left before token expires
+
   redirectUrl: string;
   expirationTime;
 
@@ -30,7 +35,7 @@ export class AuthService {
   }
 
   // True if a user logged in
-  get loggedIn(): boolean {
+  isAuthenticated(): boolean {
     return !!this.token;
   }
 
@@ -41,11 +46,10 @@ export class AuthService {
 
   // Checks if user data exists in browser
   autologin() {
-    // Looks for local user data
     const authData: {
       token: string;
       tokenExpirationDate: string;
-    } = JSON.parse(localStorage.getItem("userData"));
+    } = LocalStorageService.getItem(LocalStorageTypes.LOCAL, "userData");
 
     // Don't log in if no auth data or is expired
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
@@ -54,8 +58,8 @@ export class AuthService {
       // set remaining time until expire
       const expirationDuration =
         new Date(authData.tokenExpirationDate).getTime() - new Date().getTime();
-
-      this.signInUser(authData.token, expirationDuration);
+      this.handleAuth(authData.token, expirationDuration);
+      this.token = authData.token;
     }
   }
 
@@ -86,8 +90,8 @@ export class AuthService {
     this.userService.logout();
     this.token = null;
     this.router.navigate(["/login"]);
-    localStorage.removeItem("userData");
 
+    LocalStorageService.invalidateCache();
     // TODO: make sure all modals close
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -103,13 +107,7 @@ export class AuthService {
       token,
       tokenExpirationDate: expirationDate,
     };
-
-    localStorage.setItem("userData", JSON.stringify(authData));
-    this.signInUser(authData.token, msToExpire);
-  }
-
-  // handles the sign in
-  private signInUser(token, _expiration) {
-    this.token = token;
+    LocalStorageService.setItem(LocalStorageTypes.LOCAL, "userData", authData);
+    this.token = authData.token;
   }
 }
