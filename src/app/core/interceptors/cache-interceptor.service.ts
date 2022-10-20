@@ -9,7 +9,17 @@ import {
 import { Injectable } from "@angular/core";
 import { HttpCacheService } from "@core/services/cache.service";
 import { LoadingService } from "@core/services/loading.service";
-import { catchError, finalize, Observable, tap } from "rxjs";
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  share,
+  shareReplay,
+  switchMap,
+  tap,
+} from "rxjs";
 
 /**
  * Intercept http requests and handle caching
@@ -33,7 +43,8 @@ export class CacheInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let cachedResponse;
+    console.log(`REQUEST ${request.urlWithParams}`);
+    let cachedResponse: HttpResponse<any>;
     if (request.method === "GET") {
       cachedResponse = this._cache.get(request);
       if (cachedResponse) {
@@ -52,19 +63,20 @@ export class CacheInterceptor implements HttpInterceptor {
       if (removedFromCache) {
         console.log(`Cleared ${request.urlWithParams} from the cache`);
       }
+      return next.handle(request);
     }
+    if (cachedResponse) {
+      return of(cachedResponse.clone());
+    }
+
     return next.handle(request).pipe(
-      tap<HttpEvent<any>>((httpEvent: HttpEvent<any>) => {
+      tap((httpEvent: HttpEvent<any>) => {
+        console.log(httpEvent);
         if (httpEvent instanceof HttpResponse) {
+          console.log(`REQUEST ${request.urlWithParams} save to cache`);
           this._cache.put(request, httpEvent);
+          return httpEvent;
         }
-        return cachedResponse ? cachedResponse : httpEvent;
-      }),
-      catchError((err: HttpErrorResponse) => {
-        throw err;
-      }),
-      finalize(() => {
-        this._loading.clearLoadings();
       })
     );
   }

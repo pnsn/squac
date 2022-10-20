@@ -1,5 +1,7 @@
+import { HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 export const PROJECT_NAME = "SQUAC";
+import * as Route from "route-parser";
 
 /**
  * the types of local storage
@@ -30,13 +32,19 @@ export class LocalStorageService {
    * @param storageType {'local'|'session'}
    * @param key {string}
    */
-  static getItem(storageType: LocalStorageTypes, key: string) {
+  static getItem(
+    storageType: LocalStorageTypes,
+    key: string
+  ): HttpResponse<any> {
     const storage = LocalStorageService._getStorage(storageType);
     const val = storage.getItem(`${PROJECT_NAME}:${key}`);
     try {
-      return JSON.parse(val);
+      const res = JSON.parse(val);
+      return new HttpResponse(res);
+      // return JSON.parse(val);
     } catch (e) {
-      return val;
+      //something wrong with response
+      return null;
     }
   }
 
@@ -67,20 +75,90 @@ export class LocalStorageService {
    * @param storageType {LocalStorageTypes}
    * @param key {string}
    */
-  static removeMatchingItems(storageType: LocalStorageTypes, pattern: string) {
+  static removeMatchingItems(
+    storageType: LocalStorageTypes,
+    matchingRoute: {
+      route: any;
+      pattern: string;
+    }
+  ) {
     const storage = LocalStorageService._getStorage(storageType);
     let i;
     const results = [];
 
+    //if route with :id has changed, remove routes that may contain that item
+    let parentRoutePattern;
+    if (matchingRoute.route && matchingRoute.route.id) {
+      parentRoutePattern = matchingRoute.pattern.replace(":id/", "");
+    }
+
     for (i in storage) {
       if (i in storage) {
-        if (i.match(pattern) || (!pattern && typeof i === "string")) {
-          const value = JSON.parse(storage.getItem(i));
-          results.push({ key: i, val: value });
+        const key = i.replace(`${PROJECT_NAME}:`, "");
+
+        const route = new Route(matchingRoute.pattern);
+        const routeMatch = route.match(key);
+
+        let parentRouteMatch;
+        if (parentRoutePattern) {
+          const parentRoute = new Route(parentRoutePattern);
+          parentRouteMatch = parentRoute.match(key);
+        }
+
+        if (routeMatch || parentRouteMatch) {
+          storage.removeItem(i);
+          results.push(key);
         }
       }
     }
-    console.log(pattern, results);
+    console.log("remove keys", results);
     return results;
+  }
+
+  /**
+   * Empty all cache items that match route
+   * Empty all cache items if no route
+   */
+  static invalidateCache(matchingRoute?: { route: any; pattern: string }) {
+    const results = [];
+    const prefix = PROJECT_NAME;
+    Object.values(LocalStorageService).forEach((storageType) => {
+      const storage = LocalStorageService._getStorage(storageType);
+      let i;
+      let route;
+      let parentRoutePattern;
+      if (matchingRoute) {
+        route = new Route(matchingRoute.pattern);
+        if (matchingRoute.route && matchingRoute.route.id) {
+          parentRoutePattern = matchingRoute.pattern.replace(":id/", "");
+        }
+      }
+
+      for (i in storage) {
+        if (i in storage) {
+          if (!matchingRoute && i.match(prefix)) {
+            storage.removeItem(i);
+            results.push(i);
+          }
+          if (matchingRoute && route) {
+            const key = i.replace(`${PROJECT_NAME}:`, "");
+
+            const routeMatch = route.match(key);
+
+            let parentRouteMatch;
+            if (parentRoutePattern) {
+              const parentRoute = new Route(parentRoutePattern);
+              parentRouteMatch = parentRoute.match(key);
+            }
+
+            if (routeMatch || parentRouteMatch) {
+              storage.removeItem(i);
+              results.push(key);
+            }
+          }
+        }
+      }
+    });
+    console.log(results);
   }
 }
