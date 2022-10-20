@@ -8,12 +8,16 @@ import { widgetRoutes } from "@widget/widget.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@squacapi/resolvers/channel-group.resolver";
+import { DashboardResolver } from "@squacapi/resolvers/dashboard.resolver";
 
 export const routes: Routes = [
   {
     path: "",
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      dashboards: DashboardResolver,
+    },
     children: [
       {
         path: "",
@@ -33,7 +37,10 @@ export const routes: Routes = [
         component: DashboardEditEntryComponent,
         canActivate: [PermissionGuard],
         data: { subject: "Dashboard", action: "update" },
-        resolve: { channelGroups: ChannelGroupResolver },
+        resolve: {
+          channelGroups: ChannelGroupResolver,
+          dashboard: DashboardResolver,
+        },
       },
 
       {

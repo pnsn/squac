@@ -61,4 +61,26 @@ export class LocalStorageService {
     const storage = LocalStorageService._getStorage(storageType);
     storage.removeItem(`${PROJECT_NAME}:${key}`);
   }
+
+  /**
+   * Remove an items with matching pattern from localStorage or sessionStorage
+   * @param storageType {LocalStorageTypes}
+   * @param key {string}
+   */
+  static removeMatchingItems(storageType: LocalStorageTypes, pattern: string) {
+    const storage = LocalStorageService._getStorage(storageType);
+    let i;
+    const results = [];
+
+    for (i in storage) {
+      if (i in storage) {
+        if (i.match(pattern) || (!pattern && typeof i === "string")) {
+          const value = JSON.parse(storage.getItem(i));
+          results.push({ key: i, val: value });
+        }
+      }
+    }
+    console.log(pattern, results);
+    return results;
+  }
 }
