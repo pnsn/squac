@@ -90,7 +90,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.error = "Could not load dashboard or widgets";
       } else {
         if (data.dashboards) {
-          console.log(data.dashboards);
           this.dashboards = data.dashboards.filter((d) => {
             return this.ability.can("update", d);
           });

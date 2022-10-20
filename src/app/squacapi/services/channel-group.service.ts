@@ -26,10 +26,12 @@ export class ChannelGroupService
   }
 
   read(id: number): Observable<ChannelGroup> {
+    console.log("read channel groups");
     return super.read(id);
   }
 
   list(params?: NslcGroupsListRequestParams): Observable<ChannelGroup[]> {
+    console.log("list channel groups");
     return super._list(params);
   }
 

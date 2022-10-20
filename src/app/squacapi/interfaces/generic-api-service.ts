@@ -1,6 +1,6 @@
 import { HttpResponse } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { Adapter } from "./adapter";
 import { SquacObject } from "./squac-object";
 
