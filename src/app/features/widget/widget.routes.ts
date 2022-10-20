@@ -4,7 +4,6 @@ import { WidgetMainComponent } from "./components/widget-main/widget-main.compon
 import { WidgetResolver } from "@squacapi/resolvers/widget.resolver";
 import { WidgetEditEntryComponent } from "@widget/components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
-import { DashboardResolver } from "@squacapi/resolvers/dashboard.resolver";
 
 export const widgetRoutes: Routes = [
   {
@@ -18,7 +17,6 @@ export const widgetRoutes: Routes = [
     resolve: {
       widgets: WidgetResolver,
       metrics: MetricResolver,
-      dashboards: DashboardResolver,
     },
     runGuardsAndResolvers: "paramsOrQueryParamsChange",
     children: [
