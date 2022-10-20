@@ -54,7 +54,7 @@ describe("AuthService", () => {
   });
 
   // it("should log existing user in", () => {
-  //   expect(authService.loggedIn).toBeFalse();
+  //   expect(authService.isAuthenticated()).toBeFalse();
   //   const expDate = new Date().getTime() + 10000;
 
   //   localStorage.setItem(
@@ -67,7 +67,7 @@ describe("AuthService", () => {
   //   );
 
   //   authService.autologin();
-  //   expect(authService.loggedIn).toBeTrue();
+  //   expect(authService.isAuthenticated()).toBeTrue();
   // });
 
   // it("should log new user in", () => {
@@ -77,13 +77,13 @@ describe("AuthService", () => {
   // });
 
   // it("should not log in if no user data", () => {
-  //   expect(authService.loggedIn).toBeFalse();
+  //   expect(authService.isAuthenticated()).toBeFalse();
   //   localStorage.clear();
 
   //   authService.autologin();
 
   //   expect(localStorage.getItem("userData")).toBeNull();
-  //   expect(authService.loggedIn).toBeFalse();
+  //   expect(authService.isAuthenticated()).toBeFalse();
   // });
 
   // it("should log user out", () => {
@@ -98,9 +98,9 @@ describe("AuthService", () => {
   // });
 
   // it("should return true if user logged in", () => {
-  //   expect(authService.loggedIn).toBe(false);
+  //   expect(authService.isAuthenticated()).toBe(false);
   //   authService.login(testUserData.email, "password").subscribe(() => {
-  //     expect(authService.loggedIn).toEqual(true);
+  //     expect(authService.isAuthenticated()).toEqual(true);
   //   });
   // });
 

@@ -57,7 +57,7 @@ describe("AuthGuard", () => {
     const location = TestBed.inject(Location);
     const authService: AuthService = TestBed.inject(AuthService);
 
-    expect(authService.loggedIn).toBeFalse();
+    expect(authService.isAuthenticated()).toBeFalse();
     location.go("/");
     if (fixture.ngZone) {
       fixture.ngZone.run(() => router.initialNavigation());
@@ -75,7 +75,7 @@ describe("AuthGuard", () => {
     const authService: AuthService = TestBed.inject(AuthService);
 
     ngMocks.stubMember(authService, "loggedIn", true);
-    expect(authService.loggedIn).toBeTrue();
+    expect(authService.isAuthenticated()).toBeTrue();
 
     location.go("/");
     if (fixture.ngZone) {
