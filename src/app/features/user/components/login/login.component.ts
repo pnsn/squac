@@ -40,16 +40,17 @@ export class LoginComponent implements OnDestroy {
     const password = this.loginForm.value.password;
 
     // Send data and log user in
-    const loginSub = this.loginService.login(email, password).subscribe(
-      () => {
+    const loginSub = this.loginService.login(email, password).subscribe({
+      next: () => {
         this.error = "";
         this.message = "Login successful.";
       },
-      () => {
+      error: (error) => {
+        console.error(error);
         this.message = "";
         this.error = "Failed to log in - please try again";
-      }
-    );
+      },
+    });
 
     this.subscription.add(loginSub);
   }
