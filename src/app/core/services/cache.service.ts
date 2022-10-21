@@ -32,7 +32,7 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Get an item from the cache
-   * @param req
+   * @param req -
    */
   get(req: HttpRequest<any>): HttpResponse<any> {
     const urlWithParams = this.stripUrl(req.urlWithParams);
@@ -48,8 +48,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Put an item in the cache
-   * @param req
-   * @param res
+   * @param req -
+   * @param res -
    */
   put(req: HttpRequest<any>, res: HttpResponse<any>): void {
     const urlWithParams = this.stripUrl(req.urlWithParams);
@@ -67,10 +67,9 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Delete an item from the cache
-   * @param req
+   * @param req -
    */
   delete(req: HttpRequest<any>): boolean {
-    const url = this.stripUrl(req.url);
     const urlWithParams = this.stripUrl(req.urlWithParams);
     //need to delete everything?, expiration
     const cachedRequest = this.get(req);
@@ -106,9 +105,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Determine if a url SHOULD be cached or not. It must match a route pattern provided in
-   * @link(CachableRoutePatterns)
    *
-   * @param urlWithParams
+   * @param urlWithParams -
    */
   shouldCache(urlWithParams: string) {
     return !!this.matchRoutes(urlWithParams).route;
@@ -116,9 +114,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Determine if a url SHOUlD be placed in sessionStorage or not. It must match a route pattern provided in
-   * @link(CachableRoutePatterns) AND the item in CachableRoutePatterns must have a value of `true`
    *
-   * @param urlWithParams
+   * @param urlWithParams -
    */
   shouldCacheToSessionStorage(urlWithParams: string) {
     const matchRoutes = this.matchRoutes(urlWithParams);
@@ -130,7 +127,7 @@ export class HttpCacheService implements HttpCache {
   /**
    * Determine if a url should be place in local or sessions storage and which one
    * It must match a route pattern provided in CachableRoutePatterns
-   * @param urlWithParams
+   * @param urlWithParams -
    * @returns
    */
   whichStorageToUse(urlWithParams: string): LocalStorageTypes {
@@ -141,8 +138,8 @@ export class HttpCacheService implements HttpCache {
   /**
    * Place the response in the local `cache` variable
    *
-   * @param urlWithParams
-   * @param res
+   * @param urlWithParams -
+   * @param res -
    */
   cacheToLocal(urlWithParams: string, res: HttpResponse<any>) {
     this.cache[urlWithParams] = res;
@@ -150,8 +147,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Place the response in localStorage
-   * @param urlWithParams
-   * @param res
+   * @param urlWithParams -
+   * @param res -
    */
   cacheToStorage(
     storageType: LocalStorageTypes,
@@ -164,8 +161,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Place the response in sessionStorage
-   * @param urlWithParams
-   * @param res
+   * @param urlWithParams -
+   * @param res -
    */
   cacheToSessionStorage(urlWithParams: string, res: HttpResponse<any>) {
     console.log("cache to local", urlWithParams);

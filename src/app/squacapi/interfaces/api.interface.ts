@@ -4,7 +4,6 @@ import {
   AggregateListParams,
   ReadAggregate,
 } from "@squacapi/models/aggregate";
-import { Alert } from "@squacapi/models/alert";
 import { Archive } from "@squacapi/models/archive";
 import { Channel } from "@squacapi/models/channel";
 import { ChannelGroup } from "@squacapi/models/channel-group";
@@ -33,6 +32,7 @@ export enum ApiMethod {
  */
 export enum ApiEndpoints {
   AGGREGATE = "measurementAggregated",
+  ALERT = "measurementAlerts",
   USER_ME = "userMe",
   USER_TOKEN = "userToken",
   DAY_ARCHIVE = "measurementDayArchives",

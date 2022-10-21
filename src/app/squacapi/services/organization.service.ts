@@ -3,6 +3,7 @@ import {
   ApiService,
   OrganizationOrganizationsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 import {
   BaseApiService,
   ReadOnlyApiService,
@@ -26,7 +27,7 @@ export class OrganizationService
     protected adapter: OrganizationAdapter,
     protected api: ApiService
   ) {
-    super("organizationOrganizations", api);
+    super(ApiEndpoints.ORGANIZATION, api);
   }
 
   read(id: number): Observable<Organization> {

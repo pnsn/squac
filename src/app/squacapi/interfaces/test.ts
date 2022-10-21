@@ -9,6 +9,9 @@ export abstract class SquacModel {
 }
 
 export class Test extends SquacModel {
+  constructor() {
+    super();
+  }
   static app: "Test";
   static model: "Tests";
   value: string;
@@ -16,7 +19,7 @@ export class Test extends SquacModel {
   static serialize(t: Test): string {
     return JSON.stringify(t);
   }
-  static deserialize(s: string): Test {
+  static deserialize(_s: string): Test {
     return new Test();
   }
 }

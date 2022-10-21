@@ -17,9 +17,6 @@ export enum LocalStorageTypes {
 export class LocalStorageService {
   /**
    * Get the storage facility
-   * @param storageType {LocalStorageTypes}
-   * @private
-   * @returns {localStorage|sessionStorage}
    */
   private static _getStorage(storageType: LocalStorageTypes) {
     return storageType === LocalStorageTypes.LOCAL
@@ -29,8 +26,6 @@ export class LocalStorageService {
 
   /**
    * Get a localStorage or sessionStorage item value
-   * @param storageType {'local'|'session'}
-   * @param key {string}
    */
   static getItem(
     storageType: LocalStorageTypes,
@@ -55,9 +50,7 @@ export class LocalStorageService {
 
   /**
    * Set a localStorage or sessionStorage item value
-   * @param storageType {LocalStorageTypes}
-   * @param key {string}
-   * @param value {any}
+
    */
   static setItem(storageType: LocalStorageTypes, key: string, value: any) {
     const storage = LocalStorageService._getStorage(storageType);
@@ -67,8 +60,6 @@ export class LocalStorageService {
 
   /**
    * Remove an item from localStorage or sessionStorage
-   * @param storageType {LocalStorageTypes}
-   * @param key {string}
    */
   static removeItem(storageType: LocalStorageTypes, key: string) {
     const storage = LocalStorageService._getStorage(storageType);
@@ -77,8 +68,6 @@ export class LocalStorageService {
 
   /**
    * Remove an items with matching pattern from localStorage or sessionStorage
-   * @param storageType {LocalStorageTypes}
-   * @param key {string}
    */
   static removeMatchingItems(
     storageType: LocalStorageTypes,

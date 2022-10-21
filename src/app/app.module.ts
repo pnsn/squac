@@ -8,7 +8,6 @@ import { Ability, PureAbility } from "@casl/ability";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
-import { AuthService } from "@core/services/auth.service";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
 import { FakeMeasurementBackend } from "@features/widget/services/generate_local_measurements";
@@ -17,12 +16,7 @@ import {
   ArchiveFactory,
   MeasurementFactory,
 } from "@features/widget/services/measurementFactories";
-import {
-  ApiModule,
-  ApiService,
-  BASE_PATH,
-  Configuration,
-} from "@pnsn/ngx-squacapi-client";
+import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import { SharedModule } from "@shared/shared.module";
 import { AggregateAdapter } from "@squacapi/models/aggregate";
 import { ArchiveAdapter } from "@squacapi/models/archive";

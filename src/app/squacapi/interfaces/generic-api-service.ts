@@ -1,7 +1,8 @@
 import { HttpResponse } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
-import { map, Observable, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Adapter } from "./adapter";
+import { ApiEndpoints } from "./api.interface";
 import { SquacObject } from "./squac-object";
 
 export interface ListService<T> {
@@ -36,7 +37,7 @@ export abstract class BaseApiService<T extends SquacObject> {
 
   protected adapter: Adapter<T>;
 
-  constructor(protected modelPath: string, protected api: ApiService) {}
+  constructor(protected apiEndpoint: ApiEndpoints, protected api: ApiService) {}
 
   private mapFromApi(apiObject: any) {
     return this.adapter.adaptFromApi(apiObject);
@@ -47,7 +48,7 @@ export abstract class BaseApiService<T extends SquacObject> {
   //  * @returns observable of request results
   //  */
   protected _list(params: any = {}): Observable<Array<T>> {
-    return this.api[`${this.modelPath}List`](
+    return this.api[`${this.apiEndpoint}List`](
       params,
       this.observe,
       this.reportProgress
@@ -60,7 +61,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of request result
    */
   protected _read(params: any): Observable<T> {
-    return this.api[`${this.modelPath}Read`](
+    return this.api[`${this.apiEndpoint}Read`](
       params,
       this.observe,
       this.reportProgress
@@ -73,7 +74,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of result of request
    */
   protected _update(params: any): Observable<T> {
-    return this.api[`${this.modelPath}Update`](
+    return this.api[`${this.apiEndpoint}Update`](
       params,
       this.observe,
       this.reportProgress
@@ -86,7 +87,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of result of request
    */
   protected _create(params: any): Observable<T> {
-    return this.api[`${this.modelPath}Create`](
+    return this.api[`${this.apiEndpoint}Create`](
       params,
       "response",
       this.reportProgress
@@ -104,7 +105,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns observable of result of request
    */
   protected _delete(params: any): Observable<any> {
-    return this.api[`${this.modelPath}Delete`](
+    return this.api[`${this.apiEndpoint}Delete`](
       params,
       this.observe,
       this.reportProgress

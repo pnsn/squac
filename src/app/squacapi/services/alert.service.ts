@@ -9,6 +9,7 @@ import {
   MeasurementAlertsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class AlertService
   implements ReadOnlyApiService<Alert>
 {
   constructor(protected adapter: AlertAdapter, protected api: ApiService) {
-    super("measurementAlerts", api);
+    super(ApiEndpoints.ALERT, api);
   }
 
   read(id: number): Observable<Alert> {

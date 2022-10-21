@@ -9,6 +9,7 @@ import {
   MeasurementMonitorsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class MonitorService
   implements SquacApiService<Monitor>
 {
   constructor(protected adapter: MonitorAdapter, protected api: ApiService) {
-    super("measurementMonitors", api);
+    super(ApiEndpoints.MONITOR, api);
   }
 
   read(id: number): Observable<Monitor> {

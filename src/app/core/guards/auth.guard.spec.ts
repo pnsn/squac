@@ -74,6 +74,9 @@ describe("AuthGuard", () => {
     const location = TestBed.inject(Location);
     const authService: AuthService = TestBed.inject(AuthService);
 
+    ngMocks.stubMember(authService, "isAuthenticated", () => true);
+    expect(authService.isAuthenticated()).toBeTrue();
+
     location.go("/");
     if (fixture.ngZone) {
       fixture.ngZone.run(() => router.initialNavigation());

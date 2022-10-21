@@ -7,7 +7,7 @@ import { HttpCacheService } from "./cache.service";
 
 describe("HttpCacheService", () => {
   let service: HttpCacheService;
-  let httpTestingController: HttpTestingController;
+  let _httpTestingController: HttpTestingController;
   // const mockUser = new MockDataService().user;
   // const sessionCacheUrl =
   //   "api/user/LeL7PVOhpBbebsNLR5Ov899a0509-de80-4d45-b525-00829095685b";
@@ -19,7 +19,7 @@ describe("HttpCacheService", () => {
       imports: [HttpClientTestingModule],
       providers: [HttpCacheService],
     });
-    httpTestingController = TestBed.get(HttpTestingController);
+    _httpTestingController = TestBed.get(HttpTestingController);
     service = TestBed.inject(HttpCacheService);
   });
 

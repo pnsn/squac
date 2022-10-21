@@ -6,6 +6,7 @@ import {
   NslcNetworksListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +21,7 @@ export class NetworkService
     protected api: ApiService,
     protected networkAdapter: NetworkAdapter
   ) {
-    super("nslcNetworks", api);
+    super(ApiEndpoints.NETWORK, api);
   }
 
   list(params?: NslcNetworksListRequestParams): Observable<Network[]> {

@@ -9,6 +9,7 @@ import {
   DashboardDashboardsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class DashboardService
   implements SquacApiService<Dashboard>
 {
   constructor(protected api: ApiService, protected adapter: DashboardAdapter) {
-    super("dashboardDashboards", api);
+    super(ApiEndpoints.DASHBOARD, api);
   }
 
   read(id: number): Observable<Dashboard> {

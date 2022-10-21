@@ -12,6 +12,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable, tap } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -24,7 +25,7 @@ export class MatchingRuleService
     protected api: ApiService,
     protected adapter: MatchingRuleAdapter
   ) {
-    super("nslcMatchingRules", api);
+    super(ApiEndpoints.MATCHING_RULE, api);
   }
 
   // matching rules is weird and uses number ids unlike other endpoints
