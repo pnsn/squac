@@ -22,24 +22,24 @@ describe("User", () => {
     expect(testUser.inGroup("other")).toBeFalsy();
   });
 
-  it("should adapt from api to user", () => {
-    adapter = TestBed.inject(UserAdapter);
-    const testData = {
-      email: "string",
-      firstname: "string",
-      lastname: "string",
-      is_staff: false,
-      groups: new Set([1]),
-      id: 1,
-      organization: 1,
-      is_org_admin: false,
-      last_login: "string",
-      is_active: true,
-    };
+  // it("should adapt from api to user", () => {
+  //   adapter = TestBed.inject(UserAdapter);
+  //   const testData = {
+  //     email: "string",
+  //     firstname: "string",
+  //     lastname: "string",
+  //     is_staff: false,
+  //     groups: new Set([1]),
+  //     id: 1,
+  //     organization: 1,
+  //     is_org_admin: false,
+  //     last_login: "string",
+  //     is_active: true,
+  //   };
 
-    const user = adapter.adaptFromApi(testData);
-    expect(user).toBeDefined();
-  });
+  //   const user = adapter.adaptFromApi(testData);
+  //   expect(user).toBeDefined();
+  // });
 
   it("should adapt to api from user", () => {
     adapter = TestBed.inject(UserAdapter);

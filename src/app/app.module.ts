@@ -28,7 +28,7 @@ import { AggregateAdapter } from "@squacapi/models/aggregate";
 import { ArchiveAdapter } from "@squacapi/models/archive";
 import { MeasurementAdapter } from "@squacapi/models/measurement";
 import { AggregateService } from "@squacapi/services/aggregate.service";
-import { ArchiveService } from "@squacapi/services/archive.service";
+import { DayArchiveService } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -96,7 +96,7 @@ export function initApp(configurationService: ConfigurationService) {
       deps: [BASE_PATH, MeasurementAdapter, ApiService, FakeMeasurementBackend],
     },
     {
-      provide: ArchiveService,
+      provide: DayArchiveService,
       useFactory: ArchiveFactory,
       deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
     },

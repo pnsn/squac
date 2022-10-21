@@ -1,5 +1,9 @@
 import { LocalStorageTypes } from "@core/services/local-storage.service";
-import { Aggregate } from "@squacapi/models/aggregate";
+import {
+  Aggregate,
+  AggregateListParams,
+  ReadAggregate,
+} from "@squacapi/models/aggregate";
 import { Alert } from "@squacapi/models/alert";
 import { Archive } from "@squacapi/models/archive";
 import { Channel } from "@squacapi/models/channel";
@@ -14,38 +18,39 @@ import { Organization } from "@squacapi/models/organization";
 import { Trigger } from "@squacapi/models/trigger";
 import { User } from "@squacapi/models/user";
 import { Widget } from "@squacapi/models/widget";
+import { Observable } from "rxjs";
 
 export enum ApiMethod {
-  LIST,
-  READ,
-  UPDATE,
-  CREATE,
-  DELETE,
-  PARTIAL_UPDATE,
+  LIST = "List",
+  READ = "Read",
+  UPDATE = "Update",
+  CREATE = "Create",
+  DELETE = "Delete",
+  PARTIAL_UPDATE = "PartialUpdate",
 }
 /**
  * Api endpoints maped to models.
  */
 export enum ApiEndpoints {
-  AGGREGATE,
-  USER_ME,
-  USER_TOKEN,
-  DAY_ARCHIVE,
-  HOUR_ARCHIVE,
-  WEEK_ARCHIVE,
-  MONTH_ARCHIVE,
-  CHANNEL_GROUP,
-  CHANNEL,
-  DASHBOARD,
-  MATCHING_RULE,
-  MEASUREMENT,
-  METRIC,
-  MONITOR,
-  NETWORK,
-  ORGANIZATION,
-  ORGANIZATION_USER,
-  TRIGGER,
-  WIDGET,
+  AGGREGATE = "measurementAggregated",
+  USER_ME = "userMe",
+  USER_TOKEN = "userToken",
+  DAY_ARCHIVE = "measurementDayArchives",
+  HOUR_ARCHIVE = "measurementHourArchives",
+  WEEK_ARCHIVE = "measurementWeekArchives",
+  MONTH_ARCHIVE = "measurementMonthArchives",
+  CHANNEL_GROUP = "nslcGroups",
+  CHANNEL = "nslcChannels",
+  DASHBOARD = "dashboardDashboards",
+  MATCHING_RULE = "nslcMatchingRules",
+  MEASUREMENT = "measurementMeasurements",
+  METRIC = "measurementMetrics",
+  MONITOR = "measurementMonitors",
+  NETWORK = "measurementNetworks",
+  ORGANIZATION = "organizationOrganizations",
+  ORGANIZATION_USER = "organizationUsers",
+  TRIGGER = "measurementTriggers",
+  WIDGET = "dashboardWidgets",
 }
 
 export enum InviteApiEndpoints {
@@ -53,37 +58,53 @@ export enum InviteApiEndpoints {
   REGISTER = "register",
 }
 
+export type ApiConfig = {
+  class: any; // object class
+  methods: {
+    [key in ApiMethod]?: Array<any>; //map of available Api Methods and required Params
+  };
+  cache?: LocalStorageTypes; //should requests for this type be cache
+};
+
 /**
- * This maps top level api request routes to a class & allowed methods. For example, if a request is
+ * This maps top level api request routes to a class & allowed. For example, if a request is
  * made to "/api/person" which returns an array of people, we want each item in that
  * array to be an instance of User. Like wise a request to "/api/person/<id>" returns
  * a single person, we also want that to be an instance of User.
  */
-export const ApiRouteToClass = {
+export const ApiRouteToData = {
   [ApiEndpoints.AGGREGATE]: {
     class: Aggregate,
-    endPoint: "measurementAggregated",
-    methods: [ApiMethod.LIST],
+    methods: {
+      [ApiMethod.LIST]: [AggregateListParams, Observable<ReadAggregate>],
+    },
   },
   [ApiEndpoints.USER_ME]: {
     class: User,
-    endpoint: "userMe",
-    methods: [ApiMethod.READ, ApiMethod.PARTIAL_UPDATE],
+    app: User,
+    model: "Me",
+    methods: {
+      [ApiMethod.READ]: [],
+      [ApiMethod.PARTIAL_UPDATE]: [],
+    },
   },
   [ApiEndpoints.USER_TOKEN]: {
     class: undefined,
-    methods: [ApiMethod.CREATE],
-    endpoint: "userToken",
+    app: "User",
+    model: "Token",
+    methods: { [ApiMethod.CREATE]: [] },
   },
   [ApiEndpoints.DAY_ARCHIVE]: {
     class: Archive,
-    methods: [ApiMethod.LIST],
-    endpoint: "measurementDayArchives",
+    app: "Measurement",
+    model: "DayArchives",
+    methods: { [ApiMethod.LIST]: [] },
   },
   [ApiEndpoints.HOUR_ARCHIVE]: {
     class: Archive,
-    methods: [ApiMethod.LIST],
-    endpoint: "measurementHourArchives",
+    app: "Measurement",
+    model: "HourArchives",
+    methods: { [ApiMethod.LIST]: [] },
   },
   [ApiEndpoints.WEEK_ARCHIVE]: {
     class: Archive,
@@ -203,9 +224,6 @@ export const ApiRouteToClass = {
   },
 };
 
-/**
- * Maps of routes to cache & which storage to use
- */
 export const CachableRoutePatterns = {
   "/dashboard/dashboards/": LocalStorageTypes.SESSION,
   "/dashboard/dashboards/:id/": LocalStorageTypes.SESSION,
@@ -219,3 +237,6 @@ export const CachableRoutePatterns = {
 
 // Model type
 //
+export enum Apps {
+  Measurement,
+}

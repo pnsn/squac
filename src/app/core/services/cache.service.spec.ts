@@ -1,23 +1,18 @@
-import { HttpRequest, HttpResponse } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { HttpCacheService } from "./cache.service";
-import {
-  LocalStorageService,
-  LocalStorageTypes,
-} from "./local-storage.service";
 
 describe("HttpCacheService", () => {
   let service: HttpCacheService;
   let httpTestingController: HttpTestingController;
-  const mockUser = new MockDataService().user;
-  const sessionCacheUrl =
-    "api/user/LeL7PVOhpBbebsNLR5Ov899a0509-de80-4d45-b525-00829095685b";
-  const localCacheUrl =
-    "api/campaign/9945967b-a399-4776-8e46-0d1556152f3f/collaborators";
+  // const mockUser = new MockDataService().user;
+  // const sessionCacheUrl =
+  //   "api/user/LeL7PVOhpBbebsNLR5Ov899a0509-de80-4d45-b525-00829095685b";
+  // const localCacheUrl =
+  //   "api/campaign/9945967b-a399-4776-8e46-0d1556152f3f/collaborators";
 
   beforeEach(() => {
     TestBed.configureTestingModule({

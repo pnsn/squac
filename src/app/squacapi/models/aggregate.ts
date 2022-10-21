@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter } from "../interfaces/adapter";
+import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
+
+export class AggregateListParams
+  implements MeasurementAggregatedListRequestParams {}
 
 // Describes an aggregate
 export class Aggregate {
@@ -54,7 +58,7 @@ export interface ReadAggregate {
   providedIn: "root",
 })
 export class AggregateAdapter implements Adapter<Aggregate> {
-  adaptFromApi(item: ReadAggregate, stat: string): Aggregate {
+  adaptFromApi(item: ReadAggregate): Aggregate {
     const aggregate = new Aggregate(
       item.metric,
       item.channel,
@@ -74,9 +78,6 @@ export class AggregateAdapter implements Adapter<Aggregate> {
       item.starttime,
       item.endtime
     );
-    if (stat) {
-      aggregate.value = item[stat];
-    }
     return aggregate;
   }
 }

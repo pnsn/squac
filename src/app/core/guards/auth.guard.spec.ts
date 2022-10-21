@@ -23,7 +23,7 @@ describe("AuthGuard", () => {
       .exclude(NG_MOCKS_GUARDS)
       .mock(AuthService, {
         login: () => EMPTY,
-        loggedIn: false,
+        isAuthenticated: () => false,
       })
       .keep(
         RouterTestingModule.withRoutes([
@@ -73,9 +73,6 @@ describe("AuthGuard", () => {
     const router = TestBed.inject(Router);
     const location = TestBed.inject(Location);
     const authService: AuthService = TestBed.inject(AuthService);
-
-    ngMocks.stubMember(authService, "loggedIn", true);
-    expect(authService.isAuthenticated()).toBeTrue();
 
     location.go("/");
     if (fixture.ngZone) {
