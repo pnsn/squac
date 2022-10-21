@@ -18,14 +18,9 @@ export class AggregateService
     super("measurementAggregated", api);
   }
 
-  list(params: {
-    stat: string;
-    params: MeasurementAggregatedListRequestParams;
-  }): Observable<Aggregate[]> {
-    return this.api
-      .measurementAggregatedList(params.params)
-      .pipe(
-        map((r) => r.map((a) => this.adapter.adaptFromApi(a, params.stat)))
-      );
+  list(
+    params: MeasurementAggregatedListRequestParams
+  ): Observable<Aggregate[]> {
+    return super._list(params);
   }
 }

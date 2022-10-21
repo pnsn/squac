@@ -25,15 +25,22 @@ import { Widget } from "@squacapi/models/widget";
 import { WidgetType } from "../models/widget-type";
 import { AggregateService } from "@squacapi/services/aggregate.service";
 import {
-  ArchiveParams,
-  ArchiveService,
+  DayArchiveService,
+  HourArchiveService,
+  MonthArchiveService,
+  WeekArchiveService,
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
-
+export enum ArchiveTypes {
+  DAY = "day",
+  HOUR = "hour",
+  WEEK = "week",
+  MONTH = "month",
+  RAW = "raw",
+}
 type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
-  | MeasurementAggregatedListRequestParams
-  | ArchiveParams;
+  | MeasurementAggregatedListRequestParams;
 
 type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
@@ -62,7 +69,10 @@ export class WidgetDataService implements OnDestroy {
     private viewService: ViewService,
     private measurementService: MeasurementService,
     private aggregateService: AggregateService,
-    private archiveService: ArchiveService,
+    private hourArchiveService: HourArchiveService,
+    private dayArchiveService: DayArchiveService,
+    private monthArchiveService: MonthArchiveService,
+    private weekArchiveService: WeekArchiveService,
     private loadingService: LoadingService
   ) {
     // listen to param changes
@@ -165,24 +175,32 @@ export class WidgetDataService implements OnDestroy {
 
   // returns correct request type
   private dataRequest(params): Observable<Array<MeasurementType>> {
-    const widgetStat = this.widget.stat;
     const archiveType = this.viewService.archiveType;
-    const archiveStat = this.viewService.archiveStat;
     const useAggregate = this.widgetType.useAggregate;
 
     if (archiveType && archiveType !== "raw") {
-      return this.archiveService.list({
-        type: archiveType,
-        stat: archiveStat,
-        params,
-      });
-    } else if (useAggregate) {
-      return this.aggregateService.list({
-        stat: widgetStat,
-        params,
-      });
-    } else {
-      return this.measurementService.list(params);
+      switch (archiveType) {
+        case ArchiveTypes.HOUR:
+          return this.hourArchiveService.list(params);
+
+        case ArchiveTypes.DAY:
+          return this.dayArchiveService.list(params);
+
+        case ArchiveTypes.WEEK:
+          return this.weekArchiveService.list(params);
+
+        case ArchiveTypes.MONTH:
+          return this.monthArchiveService.list(params);
+        default:
+          if (useAggregate) {
+            //stat: widgetStat
+            return this.aggregateService.list(params);
+          } else {
+            return this.measurementService.list(params);
+          }
+
+          break;
+      }
     }
   }
 
@@ -201,14 +219,21 @@ export class WidgetDataService implements OnDestroy {
   // format raw squacapi data
   private mapData(response: Array<MeasurementType>) {
     const dataMap = new Map<any, Map<number, any>>();
+    const stat = this.widget.stat || this.viewService.archiveStat;
+    console.log(stat);
     try {
       response.forEach((item: MeasurementType) => {
+        //for archive/aggregate populate value
         const channelId = item.channelId;
         const metricId = item.metricId;
 
         if (!dataMap.has(channelId)) {
           const newMap = new Map<number, Array<MeasurementType>>();
           dataMap.set(channelId, newMap);
+        }
+
+        if (stat && !item.value) {
+          item.value = item[stat];
         }
 
         const channelMap = dataMap.get(channelId);
