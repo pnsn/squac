@@ -7,9 +7,9 @@ import {
   MeasurementMonthArchivesListRequestParams,
   MeasurementWeekArchivesListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Archive, ArchiveAdapter } from "../models/archive";
-import { titleCaseWord } from "@squacapi/utils/utils";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +19,7 @@ export class HourArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super("measurementHourArchives", api);
+    super(ApiEndpoints.HOUR_ARCHIVE, api);
   }
 
   list(
@@ -37,7 +37,7 @@ export class DayArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super("measurementDayArchives", api);
+    super(ApiEndpoints.DAY_ARCHIVE, api);
   }
 
   list(params: MeasurementDayArchivesListRequestParams): Observable<Archive[]> {
@@ -53,7 +53,7 @@ export class WeekArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super("measurementWeekArchives", api);
+    super(ApiEndpoints.WEEK_ARCHIVE, api);
   }
 
   list(
@@ -71,7 +71,7 @@ export class MonthArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super("measurementMonthArchives", api);
+    super(ApiEndpoints.MONTH_ARCHIVE, api);
   }
 
   list(

@@ -6,6 +6,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { Measurement, MeasurementAdapter } from "../models/measurement";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class MeasurementService
     protected adapter: MeasurementAdapter,
     protected api: ApiService
   ) {
-    super("measurementMeasurements", api);
+    super(ApiEndpoints.MEASUREMENT, api);
   }
 
   // gets data from squac, returns measurements or archives

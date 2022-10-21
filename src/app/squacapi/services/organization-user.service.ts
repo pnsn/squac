@@ -3,6 +3,7 @@ import {
   ApiService,
   OrganizationUsersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 import {
   BaseApiService,
   WriteableApiService,
@@ -19,7 +20,7 @@ export class OrganizationUserService
   implements WriteableApiService<User>
 {
   constructor(protected adapter: UserAdapter, protected api: ApiService) {
-    super("organizationUsers", api);
+    super(ApiEndpoints.ORGANIZATION_USER, api);
   }
 
   read(id: number): Observable<User> {

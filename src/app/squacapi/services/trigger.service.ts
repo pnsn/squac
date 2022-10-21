@@ -9,6 +9,7 @@ import {
   MeasurementTriggersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class TriggerService
   implements SquacApiService<Trigger>
 {
   constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
-    super("measurementTriggers", api);
+    super(ApiEndpoints.TRIGGER, api);
   }
 
   read(id: number): Observable<Trigger> {

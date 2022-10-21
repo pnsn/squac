@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { TestBaseApiService } from "@squacapi/interfaces/api-service";
-import { Test, TestApiService, SquacModel } from "./test";
+import { Test, TestApiService } from "./test";
 //apiService.
 
 export enum TestApiMethod {
@@ -12,13 +12,28 @@ export enum TestApiEndpoint {
   TEST,
 }
 
+type ApiConfig = {
+  class: any;
+  methods: {
+    [key in TestApiMethod]?: any;
+  };
+  app: string;
+  model: string;
+};
 export const TestApiRoutes: {
-  [key in TestApiEndpoint]: typeof SquacModel;
+  [key in TestApiEndpoint]: ApiConfig;
 } = {
-  [TestApiEndpoint.TEST]: Test,
+  [TestApiEndpoint.TEST]: {
+    class: Test,
+    methods: {
+      [TestApiMethod.LIST]: [],
+    },
+    app: "Test",
+    model: "Test",
+  },
 };
 
-fdescribe("TestApiService", () => {
+describe("TestApiService", () => {
   let service: TestBaseApiService;
 
   beforeEach(() => {
@@ -35,15 +50,5 @@ fdescribe("TestApiService", () => {
 
   it("should be created", () => {
     expect(service).toBeTruthy();
-  });
-
-  it("should get list for passed in model", (done: DoneFn) => {
-    const testList = {};
-    service
-      .request(TestApiMethod.LIST, TestApiEndpoint.TEST, testList)
-      .subscribe((data) => {
-        expect(data).toBeDefined();
-        done();
-      });
   });
 });

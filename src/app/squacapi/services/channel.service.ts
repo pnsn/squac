@@ -11,6 +11,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule } from "../models/matching-rule";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +21,7 @@ export class ChannelService
   implements ReadOnlyApiService<Channel>
 {
   constructor(protected api: ApiService, protected adapter: ChannelAdapter) {
-    super("nslcChannels", api);
+    super(ApiEndpoints.CHANNEL, api);
   }
 
   read(id: number): Observable<Channel> {

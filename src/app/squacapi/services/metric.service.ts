@@ -9,6 +9,7 @@ import {
   MeasurementMetricsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class MetricService
   implements WriteableApiService<Metric>
 {
   constructor(protected adapter: MetricAdapter, protected api: ApiService) {
-    super("measurementMetrics", api);
+    super(ApiEndpoints.METRIC, api);
   }
 
   read(id: number): Observable<Metric> {

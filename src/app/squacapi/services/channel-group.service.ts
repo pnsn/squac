@@ -10,6 +10,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class ChannelGroupService
     protected adapter: ChannelGroupAdapter,
     protected api: ApiService
   ) {
-    super("nslcGroups", api);
+    super(ApiEndpoints.CHANNEL_GROUP, api);
   }
 
   read(id: number): Observable<ChannelGroup> {

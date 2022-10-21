@@ -1,5 +1,4 @@
 import {
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -9,17 +8,7 @@ import {
 import { Injectable } from "@angular/core";
 import { HttpCacheService } from "@core/services/cache.service";
 import { LoadingService } from "@core/services/loading.service";
-import {
-  catchError,
-  finalize,
-  map,
-  Observable,
-  of,
-  share,
-  shareReplay,
-  switchMap,
-  tap,
-} from "rxjs";
+import { Observable, of, tap } from "rxjs";
 
 /**
  * Intercept http requests and handle caching
@@ -35,9 +24,6 @@ export class CacheInterceptor implements HttpInterceptor {
    * intercept request
    * return cached data if available
    * stop loading on error
-   * @param {HttpRequest} request
-   * @param {HttpHandler} next
-   * @returns {Observable<HttpEvent<any>>}
    */
   intercept(
     request: HttpRequest<any>,

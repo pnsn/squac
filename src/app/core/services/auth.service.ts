@@ -5,9 +5,7 @@ import {
   UserTokenCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
-import { of, Subject } from "rxjs";
 import { tap } from "rxjs/operators";
-import { ConfigurationService } from "./configuration.service";
 import {
   LocalStorageService,
   LocalStorageTypes,

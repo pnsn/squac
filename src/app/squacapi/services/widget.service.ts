@@ -12,6 +12,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Widget, WidgetAdapter } from "../models/widget";
 import { Observable } from "rxjs";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class WidgetService
   implements SquacApiService<Widget>
 {
   constructor(protected adapter: WidgetAdapter, protected api: ApiService) {
-    super("dashboardWidgets", api);
+    super(ApiEndpoints.WIDGET, api);
   }
 
   // widget is weird and uses number ids unlike other endpoints

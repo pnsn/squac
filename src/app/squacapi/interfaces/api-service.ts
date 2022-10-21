@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { Observable, of } from "rxjs";
 import { SquacModel } from "./test";
-import { TestApiEndpoint, TestApiRoutes, TestApiMethod } from "./test-api.spec";
+import { TestApiEndpoint, TestApiMethod } from "./test-api.spec";
 
 @Injectable({
   providedIn: "root",
@@ -17,17 +17,12 @@ export class TestBaseApiService {
     return of();
   }
 
-  request<T extends SquacModel>(
-    method: TestApiMethod,
-    endpoint: TestApiEndpoint,
-    data: any
-  ): Observable<T[]> {
-    const Model = TestApiRoutes[endpoint];
-    console.log(typeof Model);
-    console.log(Model.app);
-    const path = `${Model.app.toLowerCase()}${Model.model}`;
-    console.log(path);
-    return this.api[path](data);
+  request(
+    _method: TestApiMethod,
+    _endpoint: TestApiEndpoint,
+    _data: any
+  ): Observable<any[]> {
+    return of();
   }
 
   // /**

@@ -4,8 +4,9 @@ import {
   ApiService,
   MeasurementAggregatedListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
+import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,7 @@ export class AggregateService
   implements ListService<Aggregate>
 {
   constructor(protected adapter: AggregateAdapter, protected api: ApiService) {
-    super("measurementAggregated", api);
+    super(ApiEndpoints.AGGREGATE, api);
   }
 
   list(
