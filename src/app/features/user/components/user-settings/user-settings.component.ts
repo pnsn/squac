@@ -9,7 +9,6 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
-import { UserMeService } from "@squacapi/services/user-me.service";
 
 @Component({
   selector: "user-settings",

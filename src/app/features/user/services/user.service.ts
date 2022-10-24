@@ -1,12 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AppAbility, defineAbilitiesFor } from "@core/utils/ability";
-import {
-  ApiService,
-  ReadOnlyUserMeSerializer,
-  UserMePartialUpdateRequestParams,
-} from "@pnsn/ngx-squacapi-client";
+
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { User } from "@squacapi/models/user";
 import { UserMeService } from "@squacapi/services/user-me.service";
 
