@@ -8,6 +8,7 @@ import {
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { User } from "@squacapi/models/user";
+import { UserMeService } from "@squacapi/services/user-me.service";
 
 // Service to get user info & reset things
 @Injectable({
@@ -16,7 +17,10 @@ import { User } from "@squacapi/models/user";
 export class UserService {
   private currentUser: User;
   user = new BehaviorSubject<User>(null);
-  constructor(protected api: ApiService, private ability: AppAbility) {}
+  constructor(
+    protected userMeService: UserMeService,
+    private ability: AppAbility
+  ) {}
 
   // returns orgId for current user
   get userOrg(): number {
@@ -29,20 +33,7 @@ export class UserService {
       return of(this.currentUser);
     }
 
-    return this.api.userMeRead().pipe(
-      map((response: ReadOnlyUserMeSerializer) => {
-        const currentUser = new User(
-          response.id,
-          response.email,
-          response.firstname,
-          response.lastname,
-          response.organization,
-          response.is_org_admin,
-          response.groups
-        );
-        currentUser.squacAdmin = response.is_staff;
-        return currentUser;
-      }),
+    return this.userMeService.read().pipe(
       tap((user) => {
         this.currentUser = user;
         this.ability.update(defineAbilitiesFor(this.currentUser));
@@ -64,17 +55,10 @@ export class UserService {
   }
 
   // User needs to enter password to make changes
-  updateUser(user): Observable<any> {
-    const putData: UserMePartialUpdateRequestParams = {
-      data: {
-        organization: this.userOrg,
-        firstname: user.firstName,
-        lastname: user.lastName,
-      },
-    };
-
+  update(user: Partial<User>): Observable<any> {
+    user.orgId = this.userOrg;
     // other user ifo
-    return this.api.userMePartialUpdate(putData);
+    return this.userMeService.update(user);
     // TODO: after it puts, update current user
   }
 }

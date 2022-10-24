@@ -34,7 +34,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param id - id of requested resource
    * @returns observable of request result
    */
-  protected _read(params: any): Observable<T> {
+  protected _read(params?: any): Observable<T> {
     return this.api[`${this.apiEndpoint}Read`](
       params,
       this.observe,
@@ -47,7 +47,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param t - object to update in squacapi
    * @returns observable of result of request
    */
-  protected _update(params: any): Observable<T> {
+  protected _update(params?: any): Observable<T> {
     return this.api[`${this.apiEndpoint}Update`](
       params,
       this.observe,
@@ -60,7 +60,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param t - object to add to squacapi
    * @returns observable of result of request
    */
-  protected _create(params: any): Observable<T> {
+  protected _create(params?: any): Observable<T> {
     return this.api[`${this.apiEndpoint}Create`](
       params,
       "response",
@@ -78,7 +78,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param id - id of object to delete
    * @returns observable of result of request
    */
-  protected _delete(params: any): Observable<any> {
+  protected _delete(params?: any): Observable<any> {
     return this.api[`${this.apiEndpoint}Delete`](
       params,
       this.observe,
