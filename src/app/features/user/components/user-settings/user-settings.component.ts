@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
+import { UserMeService } from "@squacapi/services/user-me.service";
 
 @Component({
   selector: "user-settings",
@@ -49,17 +50,16 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   // save changed user
   save(): void {
-    this.userService.updateUser(this.userForm.value).subscribe(
-      () => {
-        this.userService.fetchUser();
+    this.userService.update(this.userForm.value).subscribe({
+      next: () => {
         this.editMode = false;
         this.messageService.message("User information updated.");
       },
-      (error) => {
+      error: (error) => {
         this.messageService.error("Could not save user information.");
         console.error("error in change user: ", error);
-      }
-    );
+      },
+    });
   }
 
   ngOnDestroy(): void {
