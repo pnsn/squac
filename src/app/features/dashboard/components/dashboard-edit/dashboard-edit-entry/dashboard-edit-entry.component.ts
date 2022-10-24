@@ -28,7 +28,6 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe((params) => {
       this.dashboardId = +params.dashboardId;
       this.dashboard = this.route.snapshot.data.dashboard;
-      console.log(this.dashboard);
       this.channelGroups = this.route.snapshot.data.channelGroups;
       const queryParams = this.route.snapshot.queryParams;
       this.channelGroupId = +queryParams.group;

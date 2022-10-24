@@ -10,9 +10,6 @@ describe("TriggerService", () => {
     return MockBuilder(TriggerService).mock(ApiService);
   });
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [],
-    });
     service = TestBed.inject(TriggerService);
   });
 

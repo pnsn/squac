@@ -43,7 +43,6 @@ export class AuthService {
       token: string;
       tokenExpirationDate: string;
     } = LocalStorageService.getItem(LocalStorageTypes.LOCAL, "userData");
-    console.log(authData);
     // Don't log in if no auth data or is expired
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;

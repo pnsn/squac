@@ -21,12 +21,10 @@ export class DashboardService
   }
 
   read(id: number): Observable<Dashboard> {
-    console.log(`get dashboard ${id}`);
     return super.read(id);
   }
 
   list(params?: DashboardDashboardsListRequestParams): Observable<Dashboard[]> {
-    console.log("request dashboard list");
     return super._list(params);
   }
 

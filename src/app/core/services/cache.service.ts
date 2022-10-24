@@ -18,13 +18,7 @@ export class HttpCacheService implements HttpCache {
   cache: { [key: string]: HttpResponse<any> } = {};
   cachableRoutes = CachableRoutePatterns;
 
-  constructor() {
-    console.log(
-      `HttpCacheService constructed for ${Object.keys(this.cachableRoutes).join(
-        ",\n"
-      )}`
-    );
-  }
+  constructor() {}
 
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, "");
@@ -57,10 +51,8 @@ export class HttpCacheService implements HttpCache {
     const shouldCache = this.shouldCache(urlWithParams);
     const storageLocation = this.whichStorageToUse(urlWithParams);
     if (shouldCache && storageLocation) {
-      console.log("Cache to session storage");
       this.cacheToSessionStorage(urlWithParams, res);
     } else if (shouldCache) {
-      console.log("cache to local storage");
       this.cacheToLocal(urlWithParams, res);
     }
   }
@@ -79,7 +71,6 @@ export class HttpCacheService implements HttpCache {
     if (storageLocation && cachedRequest) {
       const matchingRoute = this.matchRoutes(urlWithParams);
       LocalStorageService.invalidateCache(matchingRoute);
-      // console.log(results);
       returnVal = true;
     } else if (cachedRequest) {
       delete this.cache[urlWithParams];
@@ -155,7 +146,6 @@ export class HttpCacheService implements HttpCache {
     urlWithParams: string,
     res: HttpResponse<any>
   ) {
-    console.log("cache to local storage", urlWithParams);
     LocalStorageService.setItem(storageType, urlWithParams, res);
   }
 
@@ -165,7 +155,6 @@ export class HttpCacheService implements HttpCache {
    * @param res -
    */
   cacheToSessionStorage(urlWithParams: string, res: HttpResponse<any>) {
-    console.log("cache to local", urlWithParams);
     LocalStorageService.setItem(LocalStorageTypes.SESSION, urlWithParams, res);
   }
 }

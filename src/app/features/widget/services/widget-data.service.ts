@@ -220,7 +220,7 @@ export class WidgetDataService implements OnDestroy {
   private mapData(response: Array<MeasurementType>) {
     const dataMap = new Map<any, Map<number, any>>();
     const stat = this.widget.stat || this.viewService.archiveStat;
-    console.log(stat);
+
     try {
       response.forEach((item: MeasurementType) => {
         //for archive/aggregate populate value
