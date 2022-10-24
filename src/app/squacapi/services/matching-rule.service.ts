@@ -47,7 +47,7 @@ export class MatchingRuleService
   }
 
   list(params: NslcMatchingRulesListRequestParams): Observable<MatchingRule[]> {
-    return super._list(params).pipe(tap(console.log));
+    return super._list(params);
   }
 
   updateOrCreate(t: MatchingRule): Observable<MatchingRule> {
