@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup, ChannelGroupAdapter } from "../models/channel-group";
-import {
-  BaseApiService,
-  SquacApiService,
-} from "../interfaces/generic-api-service";
+import { SquacApiService } from "../interfaces/api-service.interface";
+import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcGroupsListRequestParams,

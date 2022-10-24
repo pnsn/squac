@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BaseApiService, ListService } from "../interfaces/generic-api-service";
+import { ListService } from "../interfaces/api-service.interface";
 import {
   ApiService,
   MeasurementAggregatedListRequestParams,
@@ -7,6 +7,7 @@ import {
 import { Observable } from "rxjs";
 import { Aggregate, AggregateAdapter } from "../models/aggregate";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { BaseApiService } from "./generic-api.service";
 
 @Injectable({
   providedIn: "root",

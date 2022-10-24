@@ -3,11 +3,9 @@ import {
   ApiService,
   OrganizationUsersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
+import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import {
-  BaseApiService,
-  WriteableApiService,
-} from "@squacapi/interfaces/generic-api-service";
+import { WriteableApiService } from "@squacapi/interfaces/api-service.interface";
 
 import { User, UserAdapter } from "@squacapi/models/user";
 import { Observable } from "rxjs";
