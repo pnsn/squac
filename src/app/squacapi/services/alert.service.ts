@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import {
-  BaseApiService,
-  ReadOnlyApiService,
-} from "../interfaces/generic-api-service";
+import { ReadOnlyApiService } from "../interfaces/api-service.interface";
+import { BaseApiService } from "./generic-api.service";
 import { Alert, AlertAdapter } from "../models/alert";
 import {
   ApiService,

@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import {
-  BaseApiService,
-  WriteableApiService,
-} from "../interfaces/generic-api-service";
+import { WriteableApiService } from "../interfaces/api-service.interface";
+import { BaseApiService } from "./generic-api.service";
 import { Metric, MetricAdapter } from "../models/metric";
 import {
   ApiService,

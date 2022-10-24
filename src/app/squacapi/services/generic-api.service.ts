@@ -1,35 +1,9 @@
 import { HttpResponse } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { Adapter } from "./adapter";
-import { ApiEndpoints } from "./api.interface";
-import { SquacObject } from "./squac-object";
-
-export interface ListService<T> {
-  list(params?: any): Observable<Array<T>>;
-}
-
-export interface ReadService<T> {
-  read(params: any): Observable<T>;
-}
-
-export interface WriteService<T> {
-  updateOrCreate(t: T): Observable<T>;
-}
-
-export interface DeleteService<T> {
-  delete(params: any): Observable<T>;
-}
-
-export interface ReadOnlyApiService<T> extends ReadService<T>, ListService<T> {}
-
-export interface WriteableApiService<T>
-  extends ReadOnlyApiService<T>,
-    WriteService<T> {}
-
-export interface SquacApiService<T>
-  extends WriteableApiService<T>,
-    DeleteService<T> {}
+import { Adapter } from "../interfaces/adapter";
+import { ApiEndpoints } from "../interfaces/api.interface";
+import { SquacObject } from "../interfaces/squac-object";
 
 export abstract class BaseApiService<T extends SquacObject> {
   observe = "body";

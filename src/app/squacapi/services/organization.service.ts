@@ -4,10 +4,8 @@ import {
   OrganizationOrganizationsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import {
-  BaseApiService,
-  ReadOnlyApiService,
-} from "@squacapi/interfaces/generic-api-service";
+import { ReadOnlyApiService } from "@squacapi/interfaces/api-service.interface";
+import { BaseApiService } from "./generic-api.service";
 import {
   Organization,
   OrganizationAdapter,

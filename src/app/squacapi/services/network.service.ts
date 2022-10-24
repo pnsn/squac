@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Network, NetworkAdapter } from "../models/network";
-import { BaseApiService, ListService } from "../interfaces/generic-api-service";
+import { ListService } from "../interfaces/api-service.interface";
+import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcNetworksListRequestParams,
