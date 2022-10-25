@@ -38,7 +38,7 @@ export class CacheInterceptor implements HttpInterceptor {
       request.method === "PATCH" ||
       request.method === "DELETE"
     ) {
-      const removedFromCache = this._cache.delete(request);
+      const _removedFromCache = this._cache.delete(request);
       return next.handle(request);
     }
     if (cachedResponse) {
