@@ -8,7 +8,7 @@ import {
   NslcMatchingRulesReadRequestParams,
   NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 

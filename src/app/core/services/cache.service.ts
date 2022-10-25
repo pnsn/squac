@@ -18,8 +18,6 @@ export class HttpCacheService implements HttpCache {
   cache: { [key: string]: HttpResponse<any> } = {};
   cachableRoutes = CachableRoutePatterns;
 
-  constructor() {}
-
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, "");
   }
