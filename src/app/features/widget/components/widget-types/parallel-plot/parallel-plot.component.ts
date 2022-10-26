@@ -13,28 +13,30 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetProperties } from "@squacapi/models/widget";
 
 @Component({
   selector: "widget-parallel-plot",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class ParallelPlotComponent
   implements OnInit, OnChanges, OnDestroy, WidgetTypeComponent
 {
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
+
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() showKey: boolean;
-  @Input() properties: any[];
+
   schema = [];
   subscription = new Subscription();
   results: Array<any>;
@@ -60,6 +62,16 @@ export class ParallelPlotComponent
     if (changes.showKey) {
       this.toggleStationList();
     }
+  }
+
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.buildChartData(this.data).then(() => {
+      this.changeMetrics();
+    });
   }
   ngOnInit(): void {
     const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
@@ -192,8 +204,7 @@ export class ParallelPlotComponent
         this.selectedMetrics,
         this.channels,
         data,
-        metricSeries,
-        this.dataRange
+        metricSeries
       );
       resolve();
     });

@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
+/**
+ * Service for communication between widgets
+ */
 @Injectable({
   providedIn: "root",
 })

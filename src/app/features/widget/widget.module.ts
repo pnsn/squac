@@ -17,6 +17,7 @@ import { ScatterPlotComponent } from "./components/widget-types/scatter-plot/sca
 import { BoxPlotComponent } from "./components/widget-types/box-plot/box-plot.component";
 import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/parallel-plot.component";
 import { CalendarComponent } from "./components/widget-types/calendar/calendar.component";
+import { WidgetTypeDirective } from "./components/widget-types/widget-type.directive";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     BoxPlotComponent,
     ParallelPlotComponent,
     CalendarComponent,
+    WidgetTypeDirective,
   ],
   imports: [SharedModule, GridsterModule],
   providers: [

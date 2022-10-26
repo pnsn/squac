@@ -16,24 +16,23 @@ import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { Subscription } from "rxjs";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 @Component({
   selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class MapComponent
   implements OnInit, OnChanges, OnDestroy, WidgetTypeComponent
 {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() showKey: boolean;
-  @Input() properties: any;
+
   subscription = new Subscription();
   resizeObserver;
   precisionPipe = new PrecisionPipe();
@@ -53,7 +52,8 @@ export class MapComponent
 
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
 
   ngOnInit() {
@@ -83,17 +83,20 @@ export class MapComponent
     };
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0 &&
-      this.map
-    ) {
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    if (this.map) {
       this.buildLayers().then(() => {
         this.changeMetric();
       });
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("CHANGES");
 
     if (changes.showKey) {
       this.legendToggle();
@@ -191,7 +194,9 @@ export class MapComponent
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.map = null;
-    this.resizeObserver.unobserve(document.getElementById("map"));
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(document.getElementById("map"));
+    }
   }
 
   hoverStation(i, status) {
@@ -215,9 +220,7 @@ export class MapComponent
       //this.properties.displayType
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
         this.selectedMetrics,
-        this.thresholds,
         this.properties,
-        this.dataRange,
         3
       );
 

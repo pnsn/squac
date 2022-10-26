@@ -14,24 +14,23 @@ import { WidgetConnectService } from "@features/widget/services/widget-connect.s
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetProperties } from "@squacapi/models/widget";
 
 @Component({
   selector: "widget-scatter-plot",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class ScatterPlotComponent
   implements OnInit, WidgetTypeComponent, OnChanges, OnDestroy
 {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: [];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() showKey: boolean;
-  @Input() properties: any[];
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   echartsInstance;
@@ -46,20 +45,12 @@ export class ScatterPlotComponent
   lastEmphasis;
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildChartData(this.data).then(() => {
-        this.changeMetrics();
-      });
-    }
 
     if (changes.showKey) {
       this.toggleKey();
@@ -69,6 +60,17 @@ export class ScatterPlotComponent
       this.startZoom();
     }
   }
+
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.buildChartData(this.data).then(() => {
+      this.changeMetrics();
+    });
+  }
+
   ngOnInit(): void {
     const chartOptions = {
       series: [],
@@ -209,9 +211,9 @@ export class ScatterPlotComponent
 
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
         this.selectedMetrics,
-        this.thresholds,
+
         this.properties,
-        this.dataRange,
+
         2
       );
 
@@ -219,8 +221,7 @@ export class ScatterPlotComponent
         this.selectedMetrics,
         this.channels,
         data,
-        metricSeries,
-        this.dataRange
+        metricSeries
       );
       resolve();
     });

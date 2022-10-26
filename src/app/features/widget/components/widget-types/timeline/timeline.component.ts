@@ -19,12 +19,12 @@ import { EChartsOption, graphic } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 @Component({
   selector: "widget-timeline",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class TimelineComponent
   implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
@@ -33,15 +33,15 @@ export class TimelineComponent
     private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() selectedMetrics: Metric[];
-  @Input() dataRange: any;
-  @Input() properties: any;
+
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   @Input() loading: string | boolean;
@@ -66,15 +66,6 @@ export class TimelineComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildChartData(this.data).then(() => {
-        this.changeMetrics();
-      });
-    }
 
     if (changes.showKey) {
       this.toggleKey();
@@ -84,6 +75,17 @@ export class TimelineComponent
       this.startZoom();
     }
   }
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+
+    this.buildChartData(data).then(() => {
+      this.changeMetrics();
+    });
+  }
+
   ngOnInit(): void {
     //override defaults
 
@@ -217,9 +219,7 @@ export class TimelineComponent
       this.metricSeries = {};
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
         this.selectedMetrics,
-        this.thresholds,
         this.properties,
-        this.dataRange,
         2
       );
       const defaultSeries = {

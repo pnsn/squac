@@ -38,7 +38,7 @@ export enum ArchiveTypes {
   MONTH = "month",
   RAW = "raw",
 }
-type MeasurementParams =
+export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
   | MeasurementAggregatedListRequestParams;
 
@@ -46,7 +46,7 @@ type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
-  data = new Subject();
+  data = new ReplaySubject(1);
   measurementReq: Observable<any>;
   test = new Observable<any>();
   updateTimeout;
@@ -58,15 +58,18 @@ export class WidgetDataService implements OnDestroy {
   $params = this.params.asObservable();
 
   measurementsWithData: number[];
+  selectedMetrics: Metric[];
 
-  private widget: Widget;
-  private widgetType: WidgetType;
-  private groupId: number;
+  widgetSub = new ReplaySubject<Widget>(1);
+  widget: Widget;
+
+  archiveType: string;
+  useAggregate: boolean;
+  stat: string;
 
   private ranges = {};
 
   constructor(
-    private viewService: ViewService,
     private measurementService: MeasurementService,
     private aggregateService: AggregateService,
     private hourArchiveService: HourArchiveService,
@@ -78,10 +81,8 @@ export class WidgetDataService implements OnDestroy {
     // listen to param changes
     this.measurementReq = this.$params.pipe(
       filter((params: MeasurementParams) => {
-        const isValid = this.checkParams(params);
-
         //only make request when all params present
-        return isValid;
+        return !!this.widget && this.checkParams(params);
       }),
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
@@ -108,38 +109,6 @@ export class WidgetDataService implements OnDestroy {
         this.finishedLoading(data);
       },
     });
-
-    const updateSub = this.viewService.updateData
-      .pipe(
-        filter((data) => {
-          return (
-            // only make changes if it's the correct dashboard and widget
-            this.widget &&
-            ((data.dashboard && data.dashboard === this.widget.dashboardId) ||
-              (data.widget && data.widget === this.widget.id))
-          );
-        }),
-        tap(() => {
-          const params = { ...this._params };
-
-          const group = this.viewService.channelGroupId.getValue();
-          // group has changed, use for first load
-          if (group !== this.groupId) {
-            //request using group id
-            this.groupId = group;
-            delete params.channel;
-            params.group = [this.groupId];
-          } else {
-            const channels = this.viewService.channels.getValue();
-            params.channel = channels.map((c) => c.id);
-            delete params.group;
-          }
-          this.params.next(params);
-        })
-      )
-      .subscribe();
-
-    this.subscription.add(updateSub);
     this.subscription.add(this.measurementReqSub);
   }
 
@@ -148,59 +117,40 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // check params have all data before requesting
-  private checkParams(params: MeasurementParams, attempts = 1): boolean {
+  private checkParams(params: MeasurementParams): boolean {
     const valid: boolean =
-      !!this.widget &&
       params.metric &&
       params.metric.length > 0 &&
       ((params.group && params.group.length > 0) ||
         (params.channel && params.channel.length > 0)) &&
       !!params.starttime &&
       !!params.endtime;
-
-    if (!valid) {
-      //try adding dates and try again
-      if (!params.starttime || !params.endtime) {
-        params.starttime = this.viewService.startTime;
-        params.endtime = this.viewService.endTime;
-      }
-    }
-    this._params = { ...params };
-
-    return attempts > 0 && !valid ? this.checkParams(params, 0) : valid; //try again once more
-
-    //       useAggregate: this.widgetType.useAggregate,
-    //  archiveType: this.viewService.archiveType,
+    return valid; //try again once more
   }
 
   // returns correct request type
   private dataRequest(params): Observable<Array<MeasurementType>> {
-    const archiveType = this.viewService.archiveType;
-    const useAggregate = this.widgetType.useAggregate;
+    const archiveType = this.archiveType;
+    const useAggregate = this.useAggregate;
 
-    if (archiveType && archiveType !== "raw") {
-      switch (archiveType) {
-        case ArchiveTypes.HOUR:
-          return this.hourArchiveService.list(params);
+    switch (archiveType) {
+      case ArchiveTypes.HOUR:
+        return this.hourArchiveService.list(params);
 
-        case ArchiveTypes.DAY:
-          return this.dayArchiveService.list(params);
+      case ArchiveTypes.DAY:
+        return this.dayArchiveService.list(params);
 
-        case ArchiveTypes.WEEK:
-          return this.weekArchiveService.list(params);
+      case ArchiveTypes.WEEK:
+        return this.weekArchiveService.list(params);
 
-        case ArchiveTypes.MONTH:
-          return this.monthArchiveService.list(params);
-        default:
-          if (useAggregate) {
-            //stat: widgetStat
-            return this.aggregateService.list(params);
-          } else {
-            return this.measurementService.list(params);
-          }
-
-          break;
-      }
+      case ArchiveTypes.MONTH:
+        return this.monthArchiveService.list(params);
+      default:
+        if (useAggregate) {
+          //stat: widgetStat
+          return this.aggregateService.list(params);
+        }
+        return this.measurementService.list(params);
     }
   }
 
@@ -219,7 +169,6 @@ export class WidgetDataService implements OnDestroy {
   // format raw squacapi data
   private mapData(response: Array<MeasurementType>) {
     const dataMap = new Map<any, Map<number, any>>();
-    const stat = this.widget.stat || this.viewService.archiveStat;
 
     try {
       response.forEach((item: MeasurementType) => {
@@ -232,8 +181,8 @@ export class WidgetDataService implements OnDestroy {
           dataMap.set(channelId, newMap);
         }
 
-        if (stat && !item.value) {
-          item.value = item[stat];
+        if (this.stat && !item.value) {
+          item.value = item[this.stat];
         }
 
         const channelMap = dataMap.get(channelId);
@@ -259,21 +208,6 @@ export class WidgetDataService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  updateWidget(widget: Widget, type: WidgetType): void {
-    this.widget = widget;
-    this.widgetType = type;
-  }
-
-  updateMetrics(metrics: Metric[]): void {
-    const params = { ...this._params };
-    if (metrics.length > 0) {
-      params.metric = metrics.map((m) => m.id);
-    } else {
-      params.metric = this.widget.metricsIds;
-    }
-    this.params.next(params);
   }
 
   /**

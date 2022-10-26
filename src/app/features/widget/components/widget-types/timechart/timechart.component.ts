@@ -19,12 +19,13 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import * as dayjs from "dayjs";
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetProperties } from "@squacapi/models/widget";
 
 @Component({
   selector: "widget-timechart",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class TimechartComponent
   implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
@@ -33,20 +34,20 @@ export class TimechartComponent
     private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() properties: any[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() showKey: boolean;
   @Input() zooming: string;
   @Output() zoomingChange = new EventEmitter();
   emphasizedChannel: string;
   deemphasizedChannel: string;
+
   echartsInstance;
   subscription = new Subscription();
   options: any = {};
@@ -61,18 +62,7 @@ export class TimechartComponent
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.properties) {
-      this.getVisualMaps();
-    }
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildChartData(this.data).then(() => {
-        this.changeMetrics();
-      });
-    }
+
     if (changes.showKey) {
       this.toggleKey();
     }
@@ -122,6 +112,17 @@ export class TimechartComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
+  }
+
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.getVisualMaps();
+    this.buildChartData(data).then(() => {
+      this.changeMetrics();
+    });
   }
 
   startZoom() {
@@ -205,9 +206,7 @@ export class TimechartComponent
   getVisualMaps() {
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
-      this.thresholds,
       this.properties,
-      this.dataRange,
       2
     );
   }

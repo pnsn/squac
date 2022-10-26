@@ -5,6 +5,11 @@ import * as colormap from "colormap";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
+  constructor() {
+    console.log("init widget type service");
+  }
+  thresholds;
+  dataRange;
   precisionPipe = new PrecisionPipe();
 
   // defaults for piecewise visualmap
@@ -171,16 +176,10 @@ export class WidgetTypeService {
     return newOptions;
   }
 
-  //can use thresholds or another metric to color?
-  getVisualMapFromThresholds(
-    metrics: Metric[],
-    thresholds,
-    properties,
-    dataRange,
-    dimension
-  ): any {
+  //can use this.thresholds or another metric to color?
+  getVisualMapFromThresholds(metrics: Metric[], properties, dimension): any {
     const visualMaps = {};
-    if (properties) {
+    if (properties && this.thresholds && this.dataRange) {
       let numSplits = properties.numSplits;
 
       const outColor = properties.outOfRange
@@ -205,7 +204,7 @@ export class WidgetTypeService {
           return;
         }
         const metricId = metric.id;
-        const threshold = thresholds.find(
+        const threshold = this.thresholds.find(
           (threshold) => threshold.metricId === metricId
         );
 
@@ -216,10 +215,10 @@ export class WidgetTypeService {
           max = threshold.max;
         }
 
-        if (dataRange[metricId]) {
+        if (this.dataRange[metricId]) {
           if (min === null && max === null) {
-            min = dataRange[metricId].min;
-            max = dataRange[metricId].max;
+            min = this.dataRange[metricId].min;
+            max = this.dataRange[metricId].max;
           } else if (min === null || max === null) {
             numSplits = 1;
           }
@@ -259,8 +258,8 @@ export class WidgetTypeService {
             }
           } else if (numSplits === 0) {
             properties.outOfRange.opacity = 1;
-            min = min !== null ? min : dataRange[metricId]?.min;
-            max = max !== null ? max : dataRange[metricId]?.max;
+            min = min !== null ? min : this.dataRange[metricId]?.min;
+            max = max !== null ? max : this.dataRange[metricId]?.max;
             visualMaps[metricId] = {
               ...this.continuousDefaults,
               dimension,
@@ -402,7 +401,7 @@ export class WidgetTypeService {
 
   //series for data with no time and multiple metrics
   // parallel and scatter
-  getSeriesForMultipleMetrics(metrics, channels, data, series, dataRange): any {
+  getSeriesForMultipleMetrics(metrics, channels, data, series): any {
     const stations = [];
     const axis = [];
     metrics.forEach((metric, i) => {
@@ -428,8 +427,8 @@ export class WidgetTypeService {
         axis.push({
           name: metric.name, //metric.name.replace(/_/g, " "),
           dim: i,
-          min: dataRange[metric.id]?.min,
-          max: dataRange[metric.id]?.max,
+          min: this.dataRange[metric.id]?.min,
+          max: this.dataRange[metric.id]?.max,
           scale: true,
           nameTextStyle: {
             align,
