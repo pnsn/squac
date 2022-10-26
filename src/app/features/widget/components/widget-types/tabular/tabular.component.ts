@@ -20,23 +20,21 @@ import { Channel } from "@squacapi/models/channel";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 @Component({
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class TabularComponent
-  implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
+  implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
-  @Input() properties: any;
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   @Input() showKey: boolean;
   subscription = new Subscription();
   visualMaps;
@@ -66,7 +64,8 @@ export class TabularComponent
   sorts;
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private widgetManager: WidgetManagerService
   ) {}
 
   ngOnInit(): void {
@@ -91,20 +90,15 @@ export class TabularComponent
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    // (changes.data || changes.selectedMetrics) &&
-    // this.channels.length > 0 &&
-    // this.selectedMetrics.length > 0
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildColumns();
-      this.buildRows(this.data);
-    }
+
+  updateData(data: any): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+
+    this.buildColumns();
+    this.buildRows(this.data);
   }
 
   buildColumns() {
@@ -193,9 +187,7 @@ export class TabularComponent
 
     this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
       this.selectedMetrics,
-      this.thresholds,
       this.properties,
-      this.dataRange,
       3
     );
 

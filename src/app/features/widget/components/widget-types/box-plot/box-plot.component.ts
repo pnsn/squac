@@ -13,14 +13,11 @@ import { WidgetTypeComponent } from "../widget-type.component";
 
 // https://echarts.apache.org/examples/en/editor.html?c=data-transform-aggregate
 export class BoxPlotComponent implements WidgetTypeComponent {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() channelGroup: ChannelGroup;
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() currentMetricId: number;
-  @Input() dataRange: any;
-  @Input() properties: any[];
+  data;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: any;
+
   initOptions: any;
   options: any;
   autoResize: any;
