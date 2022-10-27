@@ -1,8 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import { Channel } from "@squacapi/models/channel";
-import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
 import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
@@ -12,17 +10,19 @@ import { WidgetTypeComponent } from "../widget-type.component";
 })
 
 // https://echarts.apache.org/examples/en/editor.html?c=data-transform-aggregate
-export class BoxPlotComponent implements WidgetTypeComponent {
+export class BoxPlotComponent {
   data;
   channels: Channel[];
   selectedMetrics: Metric[];
   properties: any;
-
+  emphasizedChannel: string;
+  deemphasizedChannel: string;
   initOptions: any;
   options: any;
   autoResize: any;
   updateOptions: any;
   echartsInstance;
+  updateData(d: any): any {}
 
   onChartEvent(event, type) {
     console.log(event, type);

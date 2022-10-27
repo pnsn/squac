@@ -1,26 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@squacapi/models/measurement";
-import { Threshold } from "@squacapi/models/threshold";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
-import { Subscription } from "rxjs";
-import { WidgetTypeComponent } from "../widget-type.component";
+import {
+  GenericWidgetComponent,
+  WidgetTypeComponent,
+} from "../widget-type.component";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetProperties } from "@squacapi/models/widget";
+import { EChartComponent } from "../e-chart.component";
 
 @Component({
   selector: "widget-timechart",
@@ -28,62 +18,22 @@ import { WidgetProperties } from "@squacapi/models/widget";
   styleUrls: ["../e-chart.component.scss"],
 })
 export class TimechartComponent
-  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
+  extends EChartComponent
+  implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService,
-    private widgetManager: WidgetManagerService
-  ) {}
-  data;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: any;
-
-  @Input() showKey: boolean;
-  @Input() zooming: string;
-  @Output() zoomingChange = new EventEmitter();
-  emphasizedChannel: string;
-  deemphasizedChannel: string;
-
-  echartsInstance;
-  subscription = new Subscription();
-  options: any = {};
-  updateOptions: any = {};
-  initOptions: any = {};
-  metricSeries: any = {};
-  visualMaps = {};
-  lastEmphasis;
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
+  }
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-
-    if (changes.showKey) {
-      this.toggleKey();
-    }
-
-    if (changes.zooming) {
-      this.startZoom();
-    }
-  }
-  ngOnInit(): void {
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizeChannel(channel);
-      }
-    );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        this.emphasizeChannel(channel);
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
+  configureChart(): void {
     const chartOptions: any = {
       yAxis: {
         type: "value",
@@ -114,105 +64,13 @@ export class TimechartComponent
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
-  updateData(data: any): void {
-    this.data = data;
-    this.channels = this.widgetManager.channels;
-    this.selectedMetrics = this.widgetManager.selectedMetrics;
-    this.properties = this.widgetManager.properties;
-    this.getVisualMaps();
-    this.buildChartData(data).then(() => {
-      this.changeMetrics();
-    });
-  }
-
-  startZoom() {
-    if (this.echartsInstance) {
-      if (this.zooming === "start") {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: true,
-        });
-      } else {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: false,
-        });
-        if (this.zooming === "reset") {
-          this.resetZoom();
-        }
-      }
-    }
-  }
-
-  resetZoom() {
-    this.echartsInstance.dispatchAction({
-      type: "dataZoom",
-      start: 0,
-      end: 100,
-    });
-  }
-
-  zoomStopped(event) {
-    if (event.batch?.length !== 1) {
-      this.zoomingChange.emit("stop");
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.echartsInstance = null;
-  }
-
-  toggleKey() {
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption({
-        visualMap: {
-          show: this.showKey,
-        },
-      });
-    }
-  }
-
-  onChartEvent(event, type) {
-    console.log(event, type);
-  }
-
-  onChartInit(event) {
-    this.echartsInstance = event;
-  }
-
-  emphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "highlight",
-        seriesId: channel,
-      });
-    }
-  }
-
-  deemphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "downplay",
-        seriesId: channel,
-      });
-    }
-  }
-
-  getVisualMaps() {
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.properties,
-      2
-    );
-  }
-
   buildChartData(data) {
     return new Promise<void>((resolve) => {
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
       const stations = [];
       this.metricSeries = {};
       const series = {

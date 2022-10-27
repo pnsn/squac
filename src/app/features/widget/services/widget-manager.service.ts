@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { ViewService } from "@core/services/view.service";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
@@ -18,6 +17,8 @@ export class WidgetManagerService {
 
   widget = new ReplaySubject(1);
   errors = new Subject();
+  toggleKey = new Subject<boolean>();
+  zoomStatus = new Subject<string>();
   private _params: MeasurementParams = {};
   private _channels: Channel[];
   private _group: number; //channel group id
@@ -121,15 +122,10 @@ export class WidgetManagerService {
     this.fetchData();
   }
 
-  startLoading() {}
-
   fetchData() {
     this.widgetDataService.params.next(this._params);
-    // metricIds
-    // group or channels
-    // stat
-    //
   }
+
   //zooming
   //togglekey
 

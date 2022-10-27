@@ -1,18 +1,15 @@
 import {
   ChangeDetectorRef,
-  ComponentFactoryResolver,
   ComponentRef,
   Directive,
   ElementRef,
   Injector,
-  Input,
+  OnDestroy,
+  OnInit,
   Renderer2,
-  SimpleChange,
-  SimpleChanges,
   ViewContainerRef,
 } from "@angular/core";
 import { ViewService } from "@core/services/view.service";
-import { WidgetType } from "@features/widget/models/widget-type";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
@@ -52,7 +49,7 @@ enum WidgetErrors {
   selector: "[widgetContainer]",
   providers: [WidgetTypeService],
 })
-export class WidgetTypeDirective {
+export class WidgetTypeDirective implements OnInit, OnDestroy {
   widgetType;
   widget: Widget;
   widgetId;

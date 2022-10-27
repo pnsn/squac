@@ -7,7 +7,7 @@
         mat-icon-button
         class="icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
-        (click)="zooming = zooming !== 'start' ? 'start' : 'stop'"
+        (click)="updateZoom()"
         matTooltip="start zoom"
         aria-label="button that enables zoom"
       >
@@ -17,7 +17,7 @@
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
         class="icon-button"
-        (click)="zooming = 'reset'"
+        (click)="updateZoom('reset')"
         matTooltip="reset zoom"
         aria-label="button that resets zoom"
       >
@@ -30,7 +30,7 @@
         [color]="showKey ? 'primary' : 'gray'"
         matTooltip="toggle key"
         aria-label="button that toggles key"
-        (click)="showKey = !showKey"
+        (click)="toggleKey()"
       >
         <mat-icon>legend_toggle</mat-icon>
       </button>

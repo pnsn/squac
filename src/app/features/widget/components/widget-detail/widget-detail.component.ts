@@ -1,11 +1,11 @@
 import {
   Component,
-  OnInit,
   Input,
   OnDestroy,
   SimpleChanges,
   OnChanges,
   ViewChild,
+  OnInit,
 } from "@angular/core";
 import { Widget } from "@squacapi/models/widget";
 import { filter, Subscription, tap } from "rxjs";
@@ -16,7 +16,6 @@ import { Dashboard } from "@squacapi/models/dashboard";
 import { WidgetDataService } from "../../services/widget-data.service";
 import { Metric } from "@squacapi/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
-import { Channel } from "@squacapi/models/channel";
 import { Threshold } from "@squacapi/models/threshold";
 import { LoadingService } from "@core/services/loading.service";
 import {
@@ -31,7 +30,7 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
   styleUrls: ["./widget-detail.component.scss"],
   providers: [WidgetManagerService, WidgetDataService],
 })
-export class WidgetDetailComponent implements OnDestroy, OnChanges {
+export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   subscription = new Subscription();
   @Input() widget: Widget;
   @Input() dashboards: Dashboard[];
@@ -51,7 +50,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges {
   displayType: WidgetDisplayOption;
   @ViewChild("widgetChild") widgetChild: any;
 
-  zooming: false;
+  zooming: string;
   showKey = true;
   constructor(
     private widgetManager: WidgetManagerService,
@@ -96,6 +95,13 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges {
     this.widgetManager.widget.subscribe((widget: Widget) => {
       this.initWidget(widget);
     });
+
+    this.widgetManager.zoomStatus.subscribe((status) => {
+      this.zooming = status;
+    });
+    this.widgetManager.toggleKey.subscribe((show) => {
+      this.showKey = show;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -107,8 +113,8 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges {
   // set up widget after it's validated
   initWidget(widget): void {
     // widget manager will check if valid
-    const widgetType = this.widgetConfigService.getWidgetType(widget.type);
-    this.widgetManager.widgetType = widgetType;
+    this.widgetType = this.widgetConfigService.getWidgetType(widget.type);
+    this.widgetManager.widgetType = this.widgetType;
     this.displayType = this.widgetManager.widgetDisplayOption;
     this.expectedMetrics = this.widgetManager.widgetType.minMetrics;
     this.initialMetrics = widget.metrics.slice();
@@ -207,13 +213,17 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(selectedMetrics);
   }
+  toggleKey() {
+    this.widgetManager.toggleKey.next(!this.showKey);
+  }
 
-  startZoom() {
-    this.widgetChild.startZoom();
-    try {
-      this.widgetChild.startZoom();
-    } catch {
-      console.log("resized");
+  updateZoom(status?: string) {
+    if (status) {
+      this.widgetManager.zoomStatus.next(status);
+    } else if (this.zooming === "start") {
+      this.widgetManager.zoomStatus.next("stop");
+    } else {
+      this.widgetManager.zoomStatus.next("start");
     }
   }
 
