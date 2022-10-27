@@ -170,7 +170,9 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     } else {
       this.widgetItems[index].widget = widget;
     }
-    this.viewService.updateData.next({ widget: widgetId });
+    if (widget) {
+      this.viewService.updateData.next({ widget: widgetId });
+    }
   }
 
   ngOnDestroy(): void {

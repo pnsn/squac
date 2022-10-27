@@ -75,7 +75,6 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           );
         }),
         tap(() => {
-          console.log("get channels etc.");
           const group = this.viewService.channelGroupId.getValue();
           const channels = this.viewService.channels.getValue();
 

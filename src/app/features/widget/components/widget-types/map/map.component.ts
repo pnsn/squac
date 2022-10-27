@@ -181,6 +181,7 @@ export class MapComponent
 
   buildChartData(data) {
     return new Promise<void>((resolve) => {
+      this.data = data;
       if (this.map) {
         this.metricLayers = {};
 
@@ -342,18 +343,20 @@ export class MapComponent
   }
 
   changeMetrics() {
-    this.displayMetric = this.selectedMetrics[0];
-    this.displayMap = this.visualMaps[this.displayMetric.id];
-    this.addPanes(this.displayMap);
-    this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
-    this.initLegend();
-    this.fitBounds = this.layers[0].getBounds();
-    this.resizeObserver = new ResizeObserver(() => {
-      this.map.invalidateSize();
+    if (this.map) {
+      this.displayMetric = this.selectedMetrics[0];
+      this.displayMap = this.visualMaps[this.displayMetric.id];
+      this.addPanes(this.displayMap);
+      this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
+      this.initLegend();
       this.fitBounds = this.layers[0].getBounds();
-    });
+      this.resizeObserver = new ResizeObserver(() => {
+        this.map.invalidateSize();
+        this.fitBounds = this.layers[0].getBounds();
+      });
 
-    this.resizeObserver.observe(document.getElementById("map"));
+      this.resizeObserver.observe(document.getElementById("map"));
+    }
   }
 
   private getIconHtml(color?: string) {
