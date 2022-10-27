@@ -18,6 +18,7 @@ import { BoxPlotComponent } from "./components/widget-types/box-plot/box-plot.co
 import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/parallel-plot.component";
 import { CalendarComponent } from "./components/widget-types/calendar/calendar.component";
 import { WidgetTypeDirective } from "./components/widget-types/widget-type.directive";
+import { EChartComponent } from "./components/widget-types/e-chart.component";
 
 @NgModule({
   declarations: [

@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
@@ -15,7 +6,7 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import { Subscription } from "rxjs";
 import { WidgetTypeComponent } from "../widget-type.component";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetProperties } from "@squacapi/models/widget";
+import { EChartComponent } from "../e-chart.component";
 
 @Component({
   selector: "widget-scatter-plot",
@@ -23,55 +14,18 @@ import { WidgetProperties } from "@squacapi/models/widget";
   styleUrls: ["../e-chart.component.scss"],
 })
 export class ScatterPlotComponent
-  implements OnInit, WidgetTypeComponent, OnChanges, OnDestroy
+  extends EChartComponent
+  implements OnInit, WidgetTypeComponent, OnDestroy
 {
-  data;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: any;
-
-  @Input() showKey: boolean;
-  @Input() zooming: string;
-  @Output() zoomingChange = new EventEmitter();
-  echartsInstance;
-  schema = [];
-  subscription = new Subscription();
-  results: Array<any>;
-  options: any = {};
-  updateOptions: any = {};
-  initOptions: any = {};
-  visualMaps: any = {};
-  processedData: any;
-  lastEmphasis;
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService,
-    private widgetManager: WidgetManagerService
-  ) {}
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-
-    if (changes.showKey) {
-      this.toggleKey();
-    }
-
-    if (changes.zooming) {
-      this.startZoom();
-    }
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
   }
 
-  updateData(data: any): void {
-    this.data = data;
-    this.channels = this.widgetManager.channels;
-    this.selectedMetrics = this.widgetManager.selectedMetrics;
-    this.properties = this.widgetManager.properties;
-    this.buildChartData(this.data).then(() => {
-      this.changeMetrics();
-    });
-  }
-
-  ngOnInit(): void {
+  configureChart(): void {
     const chartOptions = {
       series: [],
       grid: {
@@ -91,99 +45,9 @@ export class ScatterPlotComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizeChannel(channel);
-      }
-    );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        this.emphasizeChannel(channel);
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
   }
 
-  startZoom() {
-    if (this.echartsInstance) {
-      if (this.zooming === "start") {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: true,
-        });
-      } else {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: false,
-        });
-        if (this.zooming === "reset") {
-          this.resetZoom();
-        }
-      }
-    }
-  }
-
-  resetZoom() {
-    this.echartsInstance.dispatchAction({
-      type: "dataZoom",
-      start: 0,
-      end: 100,
-    });
-  }
-
-  zoomStopped(event) {
-    if (event.batch?.length !== 1) {
-      this.zoomingChange.emit("stop");
-    }
-  }
-  // toggleKey() {}
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.echartsInstance = null;
-  }
-
-  onChartEvent(event, type) {
-    console.log(event.seriesName, type);
-  }
-  onChartInit(event) {
-    this.echartsInstance = event;
-  }
-
-  emphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "highlight",
-        seriesName: channel,
-      });
-    }
-  }
-
-  deemphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "downplay",
-        seriesName: channel,
-      });
-    }
-  }
-
-  toggleKey() {
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption({
-        visualMap: {
-          show: this.showKey,
-        },
-      });
-    }
-  }
-
-  private buildChartData(data) {
+  buildChartData(data) {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -217,7 +81,7 @@ export class ScatterPlotComponent
         2
       );
 
-      this.processedData = this.widgetTypeService.getSeriesForMultipleMetrics(
+      this.metricSeries = this.widgetTypeService.getSeriesForMultipleMetrics(
         this.selectedMetrics,
         this.channels,
         data,
@@ -233,7 +97,7 @@ export class ScatterPlotComponent
     const colorMetric = this.selectedMetrics[2];
     const visualMap = this.visualMaps[colorMetric.id] || null;
     this.updateOptions = {
-      series: this.processedData.series,
+      series: this.metricSeries.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
       },

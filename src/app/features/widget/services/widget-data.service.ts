@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { Metric } from "@squacapi/models/metric";
 import { LoadingService } from "@core/services/loading.service";
-import { ViewService } from "@core/services/view.service";
 import {
   MeasurementAggregatedListRequestParams,
   MeasurementMeasurementsListRequestParams,
@@ -22,7 +21,6 @@ import { Aggregate } from "@squacapi/models/aggregate";
 import { Archive } from "@squacapi/models/archive";
 import { Measurement } from "@squacapi/models/measurement";
 import { Widget } from "@squacapi/models/widget";
-import { WidgetType } from "../models/widget-type";
 import { AggregateService } from "@squacapi/services/aggregate.service";
 import {
   DayArchiveService,

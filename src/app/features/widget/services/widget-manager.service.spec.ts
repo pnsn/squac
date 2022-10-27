@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { WidgetManagerService } from './widget-manager.service';
+import { WidgetManagerService } from "./widget-manager.service";
 
-describe('WidgetManagerService', () => {
+describe("WidgetManagerService", () => {
   let service: WidgetManagerService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('WidgetManagerService', () => {
     service = TestBed.inject(WidgetManagerService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

@@ -1,10 +1,7 @@
 import {
   Component,
-  Input,
   ViewChild,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
   TemplateRef,
   OnInit,
 } from "@angular/core";
@@ -13,14 +10,16 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
-import { Subscription } from "rxjs";
-import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
-import { Channel } from "@squacapi/models/channel";
-import { WidgetTypeComponent } from "../widget-type.component";
+import {
+  GenericWidgetComponent,
+  WidgetTypeComponent,
+} from "../widget-type.component";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { Channel } from "@squacapi/models/channel";
+import { Metric } from "@squacapi/models/metric";
+import { WidgetProperties } from "@squacapi/models/widget";
 
 @Component({
   selector: "widget-tabular",
@@ -28,28 +27,29 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
   styleUrls: ["./tabular.component.scss"],
 })
 export class TabularComponent
+  extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  data;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: any;
-
-  @Input() showKey: boolean;
-  subscription = new Subscription();
-  visualMaps;
-
   @ViewChild("dataTable") table: any;
   @ViewChild("cellTemplate") cellTemplate: TemplateRef<any>;
   @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
+
+  data: any;
+  channels: Channel[];
+  selectedMetrics: Metric[];
+  properties: WidgetProperties;
+
+  visualMaps: any;
+  emphasizedChannel: string;
+  deemphasizedChannel: string;
+
   ColumnMode = ColumnMode;
   SortType = SortType;
   SelectionType = SelectionType;
   rows = [];
   columns = [];
   selectedRow = [];
-  emphasizedChannel;
-  deemphasizedChannel;
+
   messages = {
     // Message to show when array is presented
     // but contains no values
@@ -64,41 +64,41 @@ export class TabularComponent
   sorts;
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService,
-    private widgetManager: WidgetManagerService
-  ) {}
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizedChannel = channel;
-      }
-    );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        const index = this.findRowIndex(channel);
-        const row = this.rows[index];
-        this.emphasizedChannel = channel;
-        this.selectedRow = [row];
-        this.table.element.querySelector(".datatable-body").scrollTop =
-          index * this.table.rowHeight;
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
   }
 
-  updateData(data: any): void {
-    this.data = data;
-    this.channels = this.widgetManager.channels;
-    this.selectedMetrics = this.widgetManager.selectedMetrics;
-    this.properties = this.widgetManager.properties;
+  startZoom(): void {
+    return;
+  }
+  toggleKey(): void {
+    return;
+  }
+  configureChart(): void {}
 
-    this.buildColumns();
-    this.buildRows(this.data);
+  deemphasizeChannel(channel: string): void {
+    this.deemphasizedChannel = channel;
+  }
+
+  changeMetrics(): void {}
+
+  buildChartData(data) {
+    return new Promise<void>((resolve) => {
+      this.buildColumns();
+      this.buildRows(data);
+      resolve();
+    });
+  }
+
+  emphasizeChannel(channel: string): void {
+    const index = this.findRowIndex(channel);
+    const row = this.rows[index];
+    this.emphasizedChannel = channel;
+    this.selectedRow = [row];
+    this.table.element.querySelector(".datatable-body").scrollTop =
+      index * this.table.rowHeight;
   }
 
   buildColumns() {
@@ -329,10 +329,6 @@ export class TabularComponent
 
   onSelect(event) {
     this.onTreeAction({ row: event.selected[0] });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   getRowClass(row) {

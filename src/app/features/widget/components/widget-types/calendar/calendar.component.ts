@@ -1,18 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models/measurement";
-import { Threshold } from "@squacapi/models/threshold";
 import { Subscription } from "rxjs";
 import { EChartsOption } from "echarts";
 import { WidgetTypeComponent } from "../widget-type.component";
@@ -20,6 +10,7 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { EChartComponent } from "../e-chart.component";
 
 @Component({
   selector: "widget-calendar-plot",
@@ -27,75 +18,25 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
   styleUrls: ["../e-chart.component.scss"],
 })
 export class CalendarComponent
-  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
+  extends EChartComponent
+  implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService,
-    private widgetManager: WidgetManagerService
-  ) {}
-  data;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: any;
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
+  }
 
-  @Input() showKey: boolean;
-  @Input() zooming: string;
-  @Output() zoomingChange = new EventEmitter();
-  emphasizedChannel: string;
-  deemphasizedChannel: string;
-  subscription = new Subscription();
-  results: Array<any>;
-  options: any = {};
-  updateOptions = {};
-  initOptions: EChartsOption = {};
-  metricSeries = {};
-  visualMaps = {};
   xAxisLabels = [];
   xAxisLabels2 = []; //second row
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
-  test = 0;
-  echartsInstance;
-  lastEmphasis;
   precisionPipe = new PrecisionPipe();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes.showKey) {
-      this.toggleKey();
-    }
-    if (changes.zooming) {
-      this.startZoom();
-    }
-  }
-
-  updateData(data: any): void {
-    this.data = data;
-    this.channels = this.widgetManager.channels;
-    this.selectedMetrics = this.widgetManager.selectedMetrics;
-    this.properties = this.widgetManager.properties;
-    this.buildChartData(this.data).then(() => {
-      this.changeMetrics();
-    });
-  }
-  ngOnInit(): void {
-    //override defaults
-
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizeChannel(channel);
-      }
-    );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        this.emphasizeChannel(channel);
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
+  configureChart(): void {
     const chartOptions = {
       xAxis: {
         type: "category",
@@ -161,79 +102,6 @@ export class CalendarComponent
     };
 
     this.options = this.widgetTypeService.chartOptions(chartOptions);
-  }
-
-  toggleKey() {
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption({
-        visualMap: {
-          show: this.showKey,
-        },
-      });
-    }
-  }
-
-  onChartEvent(event, type) {
-    console.log(event, type);
-  }
-
-  onChartInit(event) {
-    this.echartsInstance = event;
-  }
-
-  startZoom() {
-    if (this.echartsInstance) {
-      if (this.zooming === "start") {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: true,
-        });
-      } else {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: false,
-        });
-        if (this.zooming === "reset") {
-          this.resetZoom();
-        }
-      }
-    }
-  }
-
-  resetZoom() {
-    this.echartsInstance.dispatchAction({
-      type: "dataZoom",
-      start: 0,
-      end: 100,
-    });
-  }
-
-  zoomStopped(event) {
-    if (event.batch?.length !== 1) {
-      this.zoomingChange.emit("stop");
-    }
-  }
-
-  emphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "highlight",
-        seriesName: channel,
-      });
-    }
-  }
-
-  deemphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "downplay",
-        seriesName: channel,
-      });
-    }
   }
 
   buildChartData(data) {
@@ -373,11 +241,6 @@ export class CalendarComponent
       });
       resolve();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.echartsInstance = null;
   }
 
   changeMetrics() {
