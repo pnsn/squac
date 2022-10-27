@@ -86,14 +86,14 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     });
 
     this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
-      if (this.errors) {
-        //do error handling
-        this.addError();
-      } else if (data) {
+      if (data && !data.error) {
         this.addWidget(this.widgetManager.widgetType.type);
         this.widgetTypeService.thresholds = this.widgetManager.thresholds;
         this.widgetTypeService.dataRange = this.widgetDataService.dataRange;
         this.childComponent.updateData(data);
+      } else if (data && data.error) {
+        this.errors = data.error;
+        this.addError();
       }
     });
 

@@ -105,7 +105,6 @@ export class LocalStorageService {
         }
       }
     }
-    console.log("remove keys", results);
     return results;
   }
 
@@ -153,6 +152,5 @@ export class LocalStorageService {
         }
       }
     });
-    console.log(results);
   }
 }

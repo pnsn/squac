@@ -17,6 +17,7 @@ import {
   distinctUntilChanged,
   Observable,
   of,
+  ReplaySubject,
   Subject,
   switchMap,
   tap,
@@ -37,7 +38,7 @@ export class ViewService {
   private _widgets: Widget[];
   channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
-  updateData = new Subject<any>();
+  updateData = new ReplaySubject<any>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();

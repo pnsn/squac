@@ -69,7 +69,7 @@ export class WidgetManagerService {
     } else {
       //emit error
     }
-
+    console.log("Widget init", widget);
     this.widget.next(this._widget);
   }
 

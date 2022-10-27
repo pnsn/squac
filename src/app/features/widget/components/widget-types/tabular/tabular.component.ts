@@ -34,12 +34,6 @@ export class TabularComponent
   @ViewChild("cellTemplate") cellTemplate: TemplateRef<any>;
   @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
 
-  data: any;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: WidgetProperties;
-
-  visualMaps: any;
   emphasizedChannel: string;
   deemphasizedChannel: string;
 
@@ -76,20 +70,11 @@ export class TabularComponent
   toggleKey(): void {
     return;
   }
-  configureChart(): void {}
-
-  deemphasizeChannel(channel: string): void {
-    this.deemphasizedChannel = channel;
-  }
 
   changeMetrics(): void {}
 
-  buildChartData(data) {
-    return new Promise<void>((resolve) => {
-      this.buildColumns();
-      this.buildRows(data);
-      resolve();
-    });
+  deemphasizeChannel(channel: string): void {
+    this.deemphasizedChannel = channel;
   }
 
   emphasizeChannel(channel: string): void {
@@ -101,7 +86,7 @@ export class TabularComponent
       index * this.table.rowHeight;
   }
 
-  buildColumns() {
+  configureChart(): void {
     let name;
     let isTreeColumn;
     switch (this.properties.displayType) {
@@ -180,100 +165,103 @@ export class TabularComponent
     return propA.localeCompare(propB);
   }
 
-  private buildRows(data) {
-    const rows = [];
-    const stations = [];
-    const stationRows = [];
+  buildChartData(data) {
+    return new Promise<void>((resolve) => {
+      const rows = [];
+      const stations = [];
+      const stationRows = [];
 
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.properties,
-      3
-    );
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        3
+      );
 
-    this.channels.forEach((channel) => {
-      const identifier = channel.staCode;
-      const nslc = channel.nslc;
-      let agg = 0;
-      const rowMetrics = {};
-      const stationRowMetrics = {};
-      this.selectedMetrics.forEach((metric) => {
-        if (!metric) return;
-        let val: number = null;
-        let count;
+      this.channels.forEach((channel) => {
+        const identifier = channel.staCode;
+        const nslc = channel.nslc;
+        let agg = 0;
+        const rowMetrics = {};
+        const stationRowMetrics = {};
+        this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
+          let val: number = null;
+          let count;
 
-        if (data.get(channel.id)) {
-          const rowData = data.get(channel.id).get(metric.id);
-          val = rowData && rowData[0] ? rowData[0].value : null;
-        }
+          if (data.get(channel.id)) {
+            const rowData = data.get(channel.id).get(metric.id);
+            val = rowData && rowData[0] ? rowData[0].value : null;
+          }
 
-        const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap
-          ? this.widgetTypeService.checkValue(val, visualMap)
-          : true;
-        if (val === null || (visualMap && !inRange)) {
-          agg++;
-          count = 0;
-        } else {
-          count = 1;
-        }
+          const visualMap = this.visualMaps[metric.id];
+          const inRange = visualMap
+            ? this.widgetTypeService.checkValue(val, visualMap)
+            : true;
+          if (val === null || (visualMap && !inRange)) {
+            agg++;
+            count = 0;
+          } else {
+            count = 1;
+          }
 
-        rowMetrics[metric.id] = {
-          value: val,
-          color: this.getStyle(val, visualMap),
-          count: 0,
-        };
-        stationRowMetrics[metric.id] = {
-          value: val,
-          color: this.getStyle(val, visualMap),
-          count, //channel in range for this metric
-        };
-      });
-      let title;
-      if (this.properties.displayType === "channel") {
-        title = nslc;
-      } else {
-        title = channel.loc + "." + channel.code;
-      }
-
-      let row = {
-        title,
-        id: channel.id,
-        nslc: nslc,
-        parentId: identifier,
-        treeStatus: "disabled",
-        agg,
-      };
-      row = { ...row, ...rowMetrics };
-      rows.push(row);
-
-      if (this.properties.displayType !== "channel") {
-        let staIndex = stations.indexOf(identifier);
-        if (staIndex < 0) {
-          staIndex = stations.length;
-          stations.push(identifier);
-          const station = {
-            ...{
-              title: identifier,
-              id: identifier,
-              treeStatus: "collapsed",
-              count: 0, //number of channels the station has
-              agg, //number of channels/metrics out of spec
-              type: this.properties.displayType,
-            },
+          rowMetrics[metric.id] = {
+            value: val,
+            color: this.getStyle(val, visualMap),
+            count: 0,
           };
-
-          stationRows.push(station);
+          stationRowMetrics[metric.id] = {
+            value: val,
+            color: this.getStyle(val, visualMap),
+            count, //channel in range for this metric
+          };
+        });
+        let title;
+        if (this.properties.displayType === "channel") {
+          title = nslc;
+        } else {
+          title = channel.loc + "." + channel.code;
         }
-        stationRows[staIndex] = this.findWorstChannel(
-          row,
-          stationRows[staIndex],
-          stationRowMetrics
-        );
-        // check if agg if worse than current agg
-      }
+
+        let row = {
+          title,
+          id: channel.id,
+          nslc: nslc,
+          parentId: identifier,
+          treeStatus: "disabled",
+          agg,
+        };
+        row = { ...row, ...rowMetrics };
+        rows.push(row);
+
+        if (this.properties.displayType !== "channel") {
+          let staIndex = stations.indexOf(identifier);
+          if (staIndex < 0) {
+            staIndex = stations.length;
+            stations.push(identifier);
+            const station = {
+              ...{
+                title: identifier,
+                id: identifier,
+                treeStatus: "collapsed",
+                count: 0, //number of channels the station has
+                agg, //number of channels/metrics out of spec
+                type: this.properties.displayType,
+              },
+            };
+
+            stationRows.push(station);
+          }
+          stationRows[staIndex] = this.findWorstChannel(
+            row,
+            stationRows[staIndex],
+            stationRowMetrics
+          );
+          // check if agg if worse than current agg
+        }
+      });
+      this.rows = [...stationRows, ...rows];
+      resolve();
     });
-    this.rows = [...stationRows, ...rows];
   }
 
   //FIXME: this needs to be cleaned up
