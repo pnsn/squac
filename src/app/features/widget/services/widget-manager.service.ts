@@ -15,8 +15,8 @@ import { MeasurementParams, WidgetDataService } from "./widget-data.service";
 export class WidgetManagerService {
   constructor(private widgetDataService: WidgetDataService) {}
 
-  widget = new ReplaySubject(1);
-  errors = new Subject();
+  widget = new ReplaySubject<Widget>(1);
+  errors = new Subject<string>();
 
   // communication between external widget controls and actual widget
   toggleKey = new Subject<boolean>();
@@ -72,7 +72,6 @@ export class WidgetManagerService {
     } else {
       //emit error
     }
-    console.log("Widget init", widget);
     this.widget.next(this._widget);
   }
 
@@ -107,8 +106,6 @@ export class WidgetManagerService {
 
     if (this._channels.length === 0) {
       this.errors.next("No channels selected.");
-      //no channels error
-      console.log("errors");
     }
     this.fetchData();
   }
