@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
 import * as L from "leaflet";
-import {
-  GenericWidgetComponent,
-  WidgetTypeComponent,
-} from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { Subscription } from "rxjs";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { GenericWidgetComponent } from "../generic-widget.component";
 
 @Component({
   selector: "widget-map",
@@ -48,7 +43,7 @@ export class MapComponent
     super(widgetManager, widgetConnectService);
   }
 
-  deemphasizeChannel(channel: string): void {
+  deemphasizeChannel(_channel: string): void {
     return;
   }
 

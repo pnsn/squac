@@ -7,28 +7,11 @@ import { Metric } from "@squacapi/models/metric";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { Subscription } from "rxjs";
 
-export interface WidgetTypeComponent {
-  data: any;
-  channels: Channel[];
-  selectedMetrics: Metric[];
-  properties: WidgetProperties;
-  visualMaps: any;
-  emphasizedChannel?: string;
-  deemphasizedChannel?: string;
-  zooming?: string;
-  loading?: string | boolean;
-  showKey?: boolean;
-  ngOnInit(): void;
-  resize?(): void;
-  updateData?(data: any): void;
-  configureChart(): void;
-}
-
 @Component({ template: "" })
 export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   zooming: string;
-  showKey: boolean;
+  showKey = true; //default to key on
   loading: string;
   widgetType: WidgetType;
 

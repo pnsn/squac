@@ -23,7 +23,7 @@ import { ScatterPlotComponent } from "./scatter-plot/scatter-plot.component";
 import { TabularComponent } from "./tabular/tabular.component";
 import { TimechartComponent } from "./timechart/timechart.component";
 import { TimelineComponent } from "./timeline/timeline.component";
-import { WidgetTypeComponent } from "./widget-type.component";
+import { WidgetTypeComponent } from "./widget-type.interface";
 
 export const componentMap = {
   map: MapComponent,
@@ -35,13 +35,6 @@ export const componentMap = {
   timeseries: TimechartComponent,
 };
 
-enum WidgetErrors {
-  DATA = "no data found.",
-  METRICS = "no measurements returned for one or more required metrics.",
-  CHANNELS = "no channels selected.",
-  MEASUREMENTS = "no measurements returned",
-  API = "failed to get data from squac",
-}
 /**
  * solely responsible for showing either error component or the correct widget type
  */
@@ -55,7 +48,6 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   widgetId;
 
   errors;
-  // errors = new Set<WidgetErrors>();
   showKey;
   zooming;
   subscription = new Subscription();

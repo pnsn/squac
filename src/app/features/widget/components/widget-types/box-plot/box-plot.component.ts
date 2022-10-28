@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetTypeComponent } from "../widget-type.component";
 
 @Component({
   selector: "widget-box-plot",
@@ -22,7 +21,9 @@ export class BoxPlotComponent {
   autoResize: any;
   updateOptions: any;
   echartsInstance;
-  updateData(d: any): any {}
+  updateData(_d: any): any {
+    return;
+  }
 
   onChartEvent(event, type) {
     console.log(event, type);

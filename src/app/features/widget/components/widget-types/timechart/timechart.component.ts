@@ -5,10 +5,7 @@ import { Measurement } from "@squacapi/models/measurement";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
-import {
-  GenericWidgetComponent,
-  WidgetTypeComponent,
-} from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { EChartComponent } from "../e-chart.component";
 

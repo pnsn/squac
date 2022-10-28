@@ -10,16 +10,11 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
-import {
-  GenericWidgetComponent,
-  WidgetTypeComponent,
-} from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
-import { WidgetProperties } from "@squacapi/models/widget";
+import { GenericWidgetComponent } from "../generic-widget.component";
 
 @Component({
   selector: "widget-tabular",
@@ -71,7 +66,9 @@ export class TabularComponent
     return;
   }
 
-  changeMetrics(): void {}
+  changeMetrics(): void {
+    return;
+  }
 
   deemphasizeChannel(channel: string): void {
     this.deemphasizedChannel = channel;
