@@ -17,8 +17,11 @@ export class WidgetManagerService {
 
   widget = new ReplaySubject(1);
   errors = new Subject();
+
+  // communication between external widget controls and actual widget
   toggleKey = new Subject<boolean>();
   zoomStatus = new Subject<string>();
+
   private _params: MeasurementParams = {};
   private _channels: Channel[];
   private _group: number; //channel group id
@@ -125,13 +128,4 @@ export class WidgetManagerService {
   fetchData() {
     this.widgetDataService.params.next(this._params);
   }
-
-  //zooming
-  //togglekey
-
-  //selected metrics
-
-  //loading status?
-  //data
-  // errors
 }

@@ -44,23 +44,20 @@ type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
-  data = new ReplaySubject(1);
-  measurementReq: Observable<any>;
-  test = new Observable<any>();
-  updateTimeout;
-  measurementReqSub: Subscription;
-  status = new ReplaySubject<string>();
+  private measurementReq: Observable<any>;
+  private measurementReqSub: Subscription;
 
-  _params: MeasurementParams = {};
   params = new Subject<MeasurementParams>();
-  $params = this.params.asObservable();
+  private $params = this.params.asObservable();
+
+  // actual data
+  data = new ReplaySubject<Map<any, any>>(1);
 
   measurementsWithData: number[];
+
+  // data info
   selectedMetrics: Metric[];
-
-  widgetSub = new ReplaySubject<Widget>(1);
   widget: Widget;
-
   archiveType: string;
   useAggregate: boolean;
   stat: string;
@@ -166,7 +163,7 @@ export class WidgetDataService implements OnDestroy {
 
   // format raw squacapi data
   private mapData(response: Array<MeasurementType>) {
-    const dataMap = new Map<any, Map<number, any>>();
+    const dataMap = new Map<number, Map<number, Array<MeasurementType>>>();
 
     try {
       response.forEach((item: MeasurementType) => {

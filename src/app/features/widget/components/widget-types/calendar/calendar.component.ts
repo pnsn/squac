@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models/measurement";
-import { Subscription } from "rxjs";
-import { EChartsOption } from "echarts";
-import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";

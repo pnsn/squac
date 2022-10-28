@@ -1,20 +1,18 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
-import { WidgetProperties } from "@squacapi/models/widget";
-import { EChartsOption, EChartsType } from "echarts";
-import {
-  GenericWidgetComponent,
-  WidgetTypeComponent,
-} from "./widget-type.component";
+import { EChartsOption } from "echarts";
+import { GenericWidgetComponent } from "./generic-widget.component";
+import { WidgetTypeComponent } from "./widget-type.interface";
 
+/**
+ * Abstract class to make creation of Echart widgets simpler
+ */
 @Component({ template: "" })
 // extends GenericWidgetComponent
 export abstract class EChartComponent
   extends GenericWidgetComponent
-  implements WidgetTypeComponent
+  implements WidgetTypeComponent, OnDestroy
 {
   // abstract buildChartData(data: any): Promise<void>;
 

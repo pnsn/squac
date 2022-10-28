@@ -2,11 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@squacapi/models/measurement";
-import { EChartsOption, graphic } from "echarts";
-import {
-  GenericWidgetComponent,
-  WidgetTypeComponent,
-} from "../widget-type.component";
+import { graphic } from "echarts";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";

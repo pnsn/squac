@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { Subscription } from "rxjs";
-import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { EChartComponent } from "../e-chart.component";
 
