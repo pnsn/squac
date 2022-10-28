@@ -15,7 +15,7 @@ import { Threshold } from "@squacapi/models/threshold";
 @Component({
   selector: "widget-metric-toggle",
   templateUrl: "./metric-toggle.component.html",
-  styleUrls: ["./metric-toggle.component.scss"],
+  styleUrls: ["../widget-detail.component.scss"],
 })
 export class MetricToggleComponent implements OnChanges {
   selected: number[] = [];
@@ -148,8 +148,10 @@ export class MetricToggleComponent implements OnChanges {
     metric
   ): void {
     $event.stopPropagation();
+    console.log(metric.name, threshold, selectedIndex);
     if (selectedIndex === -1) {
       //not currently selected;
+      console.log(this.availableDimensions.length);
       if (this.availableDimensions.length === 0 && this.dimensions) {
         //remove dimension from other metrics
         threshold.dimension = this.dimensions[0];
@@ -185,7 +187,7 @@ export class MetricToggleComponent implements OnChanges {
             return metric.id;
           }
         });
-        if (this.selected.length === 0) {
+        if (!metricSet) {
           this.selected.push(metric.id);
         }
       }
@@ -195,8 +197,10 @@ export class MetricToggleComponent implements OnChanges {
         const dim = threshold.dimension;
         threshold.dimension = null;
         this.availableDimensions.push(dim);
+        this.selected[selectedIndex] = null;
+      } else if (!this.dimensions) {
+        this.selected.splice(selectedIndex, 1);
       }
-      this.selected.splice(selectedIndex, 1);
     }
 
     this.metricsChanged =

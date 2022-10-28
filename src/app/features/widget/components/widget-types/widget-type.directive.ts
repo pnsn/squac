@@ -72,9 +72,8 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const errorsSub = this.widgetManager.errors.subscribe((errors) => {
-      this.errors = errors;
-      this.addError();
+    const errorsSub = this.widgetManager.errors.subscribe((error: string) => {
+      this.addError(error);
     });
 
     this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
@@ -84,8 +83,9 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
         this.widgetTypeService.dataRange = this.widgetDataService.dataRange;
         this.childComponent.updateData(data);
       } else if (data && data.error) {
-        this.errors = data.error;
-        this.addError();
+        this.addError(data.error);
+      } else {
+        this.addError("Error: no data returned.");
       }
     });
 
@@ -104,6 +104,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       });
 
     this.subscription.add(resizeSub);
+    this.subscription.add(errorsSub);
     this.subscription.add(this.dataSub);
   }
 
@@ -137,12 +138,12 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent = this.childComponentRef.instance;
   }
 
-  addError() {
+  addError(error: string) {
     this.clearChildComponents();
 
     const errorComp =
       this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
-    errorComp.instance.errorMsg = this.errors;
+    errorComp.instance.errorMsg = error;
   }
 
   ngOnDestroy(): void {

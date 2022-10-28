@@ -118,17 +118,19 @@ mat-form-field {
 }
 
 button[mat-menu-item] {
-  &[color="accent"] {
-    color: $sq-yellow;
-  }
-  &[color="warn"] {
-    color: $sq-warn;
-  }
-  &[color="primary"] {
-    color: $sq-blue;
-  }
-  &[color="gray"] {
-    color: $sq-lt-gray;
+  &:not([disabled]) {
+    &[color="accent"] {
+      color: $sq-yellow;
+    }
+    &[color="warn"] {
+      color: $sq-warn;
+    }
+    &[color="primary"] {
+      color: $sq-blue;
+    }
+    &[color="gray"] {
+      color: $sq-lt-gray;
+    }
   }
   &.active {
     background-color: lighten($sq-lt-blue, 30%) !important;
