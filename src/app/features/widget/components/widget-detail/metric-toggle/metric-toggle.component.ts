@@ -3,12 +3,8 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
-  SimpleChange,
-  SimpleChanges,
 } from "@angular/core";
-import { WidgetDisplayOption } from "@features/widget/models/widget-type";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
 
@@ -18,7 +14,7 @@ import { Threshold } from "@squacapi/models/threshold";
   styleUrls: ["../widget-detail.component.scss"],
 })
 export class MetricToggleComponent implements OnChanges {
-  selected: number[] = [];
+  selectedMetricIds: number[] = [];
   @Input() expectedMetrics: number;
   metricsChanged = false;
   availableDimensions = [];
@@ -29,24 +25,35 @@ export class MetricToggleComponent implements OnChanges {
   @Output() thresholdsChange = new EventEmitter();
   @Output() metricsChange = new EventEmitter();
 
-  constructor() {}
-
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.selectMetrics();
   }
 
+  /**
+   * Find index of metric in selected metrics
+   * @param id - id of metric
+   * @returns - index of metric
+   */
   getSelectedIndex(id: number): number {
-    return this.selected.indexOf(id);
+    return this.selectedMetricIds.indexOf(id);
   }
+
+  /**
+   * Get metric from given id
+   * @param id - id of metric
+   * @returns - metric
+   */
   getMetric(id: number): Metric {
     return this.initialMetrics.find((m) => {
       return m.id === id;
     });
   }
 
-  // populate selected metrics
+  /**
+   * Populate selected metrics
+   */
   selectMetrics(): void {
-    this.selected = [];
+    this.selectedMetricIds = [];
 
     if (this.dimensions) {
       this.availableDimensions = [...this.dimensions];
@@ -62,7 +69,7 @@ export class MetricToggleComponent implements OnChanges {
             //check if widget has metric
             this.thresholds.splice(i, 1);
           } else {
-            this.selected.push(threshold.metricId);
+            this.selectedMetricIds.push(threshold.metricId);
             const index = this.availableDimensions.indexOf(threshold.dimension);
             if (index > -1) {
               this.availableDimensions.splice(index, 1);
@@ -74,10 +81,10 @@ export class MetricToggleComponent implements OnChanges {
       }
 
       // if enough not enough dimensions, update with remaining metrics;
-      if (this.selected.length < this.expectedMetrics) {
+      if (this.selectedMetricIds.length < this.expectedMetrics) {
         this.initialMetrics.forEach((metric: Metric, _index) => {
           if (
-            this.selected.indexOf(metric.id) < 0 &&
+            this.selectedMetricIds.indexOf(metric.id) < 0 &&
             this.availableDimensions.length > 0
           ) {
             this.thresholds.push({
@@ -86,14 +93,14 @@ export class MetricToggleComponent implements OnChanges {
               max: metric.maxVal,
               dimension: this.availableDimensions[0],
             });
-            this.selected.push(metric.id);
+            this.selectedMetricIds.push(metric.id);
             this.availableDimensions.splice(0, 1);
           }
         });
       }
     } else {
       // for widgets with no dimensions, show all as selected;
-      this.selected = this.initialMetrics.map((metric) => metric.id);
+      this.selectedMetricIds = this.initialMetrics.map((metric) => metric.id);
     }
 
     this.metricsSelected();
@@ -101,37 +108,37 @@ export class MetricToggleComponent implements OnChanges {
 
   // get new data and save metrics when changed
   metricsSelected(): void {
-    let selectedMetrics = [];
+    let selected = [];
     if (this.initialMetrics && this.expectedMetrics) {
-      while (this.selected.length < this.expectedMetrics) {
-        this.selected.push(this.initialMetrics[0].id);
+      while (this.selectedMetricIds.length < this.expectedMetrics) {
+        this.selectedMetricIds.push(this.initialMetrics[0].id);
       }
-      const diff = this.expectedMetrics - this.selected.length;
+      const diff = this.expectedMetrics - this.selectedMetricIds.length;
       //if not enough metrics, populate with 1st one to prevent breaking
-      this.selected.fill(
+      this.selectedMetricIds.fill(
         this.initialMetrics[0].id,
-        this.selected.length - 1,
-        diff + this.selected.length - 1
+        this.selectedMetricIds.length - 1,
+        diff + this.selectedMetricIds.length - 1
       );
     }
 
     // add all selected metrics
     if (
-      this.selected.length >= this.expectedMetrics ||
-      (!this.dimensions && this.selected.length > 0)
+      this.selectedMetricIds.length >= this.expectedMetrics ||
+      (!this.dimensions && this.selectedMetricIds.length > 0)
     ) {
-      // this.selectedMetrics = this.initialMetrics.filter(
-      //   (metric) => this.selected.indexOf(metric.id) > -1
+      // this.selectedMetricIdsMetrics = this.initialMetrics.filter(
+      //   (metric) => this.selectedMetricIds.indexOf(metric.id) > -1
       // );
 
-      selectedMetrics = this.selected.map((metricId) => {
+      selected = this.selectedMetricIds.map((metricId) => {
         return this.initialMetrics.find((m) => m.id === metricId);
       });
       this.metricsChanged = false;
     }
     //order is getting reset by this
     // get new data
-    this.metricsChange.emit(selectedMetrics);
+    this.metricsChange.emit(selected);
   }
 
   //97: decrequest
@@ -161,8 +168,8 @@ export class MetricToggleComponent implements OnChanges {
             t.metricId !== threshold.metricId
           ) {
             t.dimension = null;
-            const index = this.selected.indexOf(t.metricId);
-            this.selected[index] = threshold.metricId;
+            const index = this.selectedMetricIds.indexOf(t.metricId);
+            this.selectedMetricIds[index] = threshold.metricId;
           }
         });
       } else if (this.dimensions) {
@@ -172,14 +179,14 @@ export class MetricToggleComponent implements OnChanges {
 
         this.dimensions.forEach((dim, i) => {
           if (dim === threshold.dimension) {
-            this.selected[i] = threshold.metricId;
+            this.selectedMetricIds[i] = threshold.metricId;
           }
         });
       } else {
         //put in first available spot
         let metricSet = false;
 
-        this.selected = this.selected.map((s) => {
+        this.selectedMetricIds = this.selectedMetricIds.map((s) => {
           if (s || metricSet) {
             return s;
           } else if (!metricSet && !s) {
@@ -188,7 +195,7 @@ export class MetricToggleComponent implements OnChanges {
           }
         });
         if (!metricSet) {
-          this.selected.push(metric.id);
+          this.selectedMetricIds.push(metric.id);
         }
       }
     } else {
@@ -197,13 +204,14 @@ export class MetricToggleComponent implements OnChanges {
         const dim = threshold.dimension;
         threshold.dimension = null;
         this.availableDimensions.push(dim);
-        this.selected[selectedIndex] = null;
+        this.selectedMetricIds[selectedIndex] = null;
       } else if (!this.dimensions) {
-        this.selected.splice(selectedIndex, 1);
+        this.selectedMetricIds.splice(selectedIndex, 1);
       }
     }
 
     this.metricsChanged =
-      this.selected.length > 0 && this.availableDimensions.length === 0;
+      this.selectedMetricIds.length > 0 &&
+      this.availableDimensions.length === 0;
   }
 }

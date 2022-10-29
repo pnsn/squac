@@ -2,22 +2,29 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
+import { NgxEchartsModule } from "ngx-echarts";
 import { of } from "rxjs";
-import { TimechartComponent } from "../timechart/timechart.component";
-
 import { CalendarComponent } from "./calendar.component";
 
 describe("CalendarComponent", () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
   beforeEach(() => {
-    return MockBuilder(TimechartComponent, WidgetModule)
+    return MockBuilder(CalendarComponent)
+      .mock(NgxEchartsModule)
       .mock(ViewService)
       .mock(DateService)
       .mock(WidgetTypeService)
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          toggleKey: of(),
+          widgetType: {},
+        },
+      })
       .provide({
         provide: WidgetConnectService,
         useValue: {
@@ -31,7 +38,6 @@ describe("CalendarComponent", () => {
     fixture = TestBed.createComponent(CalendarComponent);
     component = fixture.componentInstance;
     component.data = {};
-    component.metrics = [];
     component.selectedMetrics = [];
     component.channels = [];
     fixture.detectChanges();

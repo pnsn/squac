@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
 import { NgxEchartsModule } from "ngx-echarts";
 
@@ -11,9 +11,10 @@ describe("BoxPlotComponent", () => {
   let fixture: ComponentFixture<BoxPlotComponent>;
 
   beforeEach(() => {
-    return MockBuilder(BoxPlotComponent, WidgetModule)
+    return MockBuilder(BoxPlotComponent)
       .mock(NgxEchartsModule)
-      .mock(WidgetTypeService);
+      .mock(WidgetTypeService)
+      .mock(WidgetManagerService);
   });
 
   beforeEach(() => {

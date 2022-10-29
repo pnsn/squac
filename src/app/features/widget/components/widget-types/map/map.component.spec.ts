@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
@@ -14,10 +14,17 @@ describe("MapComponent", () => {
   let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(() => {
-    return MockBuilder(MapComponent, WidgetModule)
+    return MockBuilder(MapComponent)
       .mock(LeafletModule)
       .mock(LeafletDrawModule)
       .mock(WidgetTypeService)
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          toggleKey: of(),
+          widgetType: {},
+        },
+      })
       .provide({
         provide: WidgetConnectService,
         useValue: {
@@ -31,7 +38,6 @@ describe("MapComponent", () => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
     component.data = {};
-    component.metrics = [];
     component.selectedMetrics = [];
     component.channels = [];
     component.resizeObserver = new ResizeObserver(() => {

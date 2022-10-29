@@ -1,5 +1,4 @@
 import { MeasurementPipe } from "./measurement.pipe";
-
 describe("MeasurementPipe", () => {
   const testValues = [
     {
@@ -24,7 +23,7 @@ describe("MeasurementPipe", () => {
   it("should return the average of the values", () => {
     const pipe = new MeasurementPipe();
 
-    expect(pipe.transform(testValues, "mean")).toEqual(2);
+    expect(pipe.transform(testValues, "ave")).toEqual(2);
   });
 
   it("should return the most recent value", () => {
@@ -55,6 +54,9 @@ describe("MeasurementPipe", () => {
     const pipe = new MeasurementPipe();
 
     expect(pipe.transform(testValues, "med")).toEqual(2);
+    const values = [...testValues];
+    values.splice(0, 1); //try for even #
+    expect(pipe.transform(values, "med")).toEqual(2);
   });
 
   it("should return the most recent value if unknown", () => {
@@ -69,10 +71,16 @@ describe("MeasurementPipe", () => {
     expect(pipe.transform(testValues, "minabs")).toEqual(1);
   });
 
-  it("should return the amx abs value", () => {
+  it("should return the max abs value", () => {
     const pipe = new MeasurementPipe();
 
     expect(pipe.transform(testValues, "maxabs")).toEqual(3);
+  });
+
+  it("should return the percentile value", () => {
+    const pipe = new MeasurementPipe();
+
+    expect(pipe.transform(testValues, "75")).toEqual(2);
   });
 
   it("should return null if no values", () => {

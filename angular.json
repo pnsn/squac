@@ -27,7 +27,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles/material.scss",
+              "src/styles/datatables.scss",
+              "src/styles/date-range-picker.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
