@@ -1,4 +1,6 @@
 import { TestBed } from "@angular/core/testing";
+import { MockBuilder } from "ng-mocks";
+import { WidgetDataService } from "./widget-data.service";
 
 import { WidgetManagerService } from "./widget-manager.service";
 
@@ -6,7 +8,10 @@ describe("WidgetManagerService", () => {
   let service: WidgetManagerService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    return MockBuilder(WidgetManagerService).mock(WidgetDataService);
+  });
+
+  beforeEach(() => {
     service = TestBed.inject(WidgetManagerService);
   });
 

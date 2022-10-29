@@ -2,22 +2,29 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TabularComponent } from "./tabular.component";
 import { ViewService } from "@core/services/view.service";
-import { NgxEchartsModule } from "ngx-echarts";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { of } from "rxjs";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 
 describe("TabularComponent", () => {
   let component: TabularComponent;
   let fixture: ComponentFixture<TabularComponent>;
 
   beforeEach(() => {
-    return MockBuilder(TabularComponent, WidgetModule)
-      .mock(NgxEchartsModule)
+    return MockBuilder(TabularComponent)
       .mock(ViewService)
       .mock(WidgetTypeService)
+      .mock(NgxDatatableModule)
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          toggleKey: of(),
+          widgetType: {},
+        },
+      })
       .provide({
         provide: WidgetConnectService,
         useValue: {
@@ -31,10 +38,9 @@ describe("TabularComponent", () => {
     fixture = TestBed.createComponent(TabularComponent);
     component = fixture.componentInstance;
     component.data = {};
-    component.metrics = [];
     component.selectedMetrics = [];
     component.channels = [];
-
+    component.properties = {};
     fixture.detectChanges();
   });
 

@@ -5,9 +5,6 @@ import * as colormap from "colormap";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetTypeService {
-  constructor() {
-    console.log("init widget type service");
-  }
   thresholds;
   dataRange;
   precisionPipe = new PrecisionPipe();

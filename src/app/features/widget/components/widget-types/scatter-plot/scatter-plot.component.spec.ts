@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetModule } from "@features/widget/widget.module";
 import { MockBuilder } from "ng-mocks";
 import { NgxEchartsModule } from "ngx-echarts";
 import { of } from "rxjs";
@@ -13,9 +13,16 @@ describe("ScatterPlotComponent", () => {
   let fixture: ComponentFixture<ScatterPlotComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ScatterPlotComponent, WidgetModule)
+    return MockBuilder(ScatterPlotComponent)
       .mock(NgxEchartsModule)
       .mock(WidgetTypeService)
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          toggleKey: of(),
+          widgetType: {},
+        },
+      })
       .provide({
         provide: WidgetConnectService,
         useValue: {
@@ -29,7 +36,6 @@ describe("ScatterPlotComponent", () => {
     fixture = TestBed.createComponent(ScatterPlotComponent);
     component = fixture.componentInstance;
     component.data = {};
-    component.metrics = [];
     component.selectedMetrics = [];
     component.channels = [];
     fixture.detectChanges();
