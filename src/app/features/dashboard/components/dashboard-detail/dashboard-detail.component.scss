@@ -17,8 +17,8 @@ button {
   position: -webkit-sticky;
   z-index: 100;
   mat-button-toggle {
-    height: 40px;
-    width: 40px;
+    max-height: 40px;
+    max-width: 40px;
   }
   mat-menu-item {
     span {
@@ -26,7 +26,7 @@ button {
     }
   }
   mat-toolbar-row {
-    height: 48px;
+    height: 40px;
     padding: 0px;
   }
 
