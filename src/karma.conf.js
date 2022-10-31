@@ -11,6 +11,7 @@ module.exports = function (config) {
       require("karma-jasmine-html-reporter"),
       require("karma-coverage-istanbul-reporter"),
       require("@angular-devkit/build-angular/plugins/karma"),
+      require("karma-spec-reporter")
     ],
     client: {
       jasmine: {
@@ -23,7 +24,7 @@ module.exports = function (config) {
       reports: ["html", "lcovonly", "text-summary"],
       fixWebpackSourcePaths: true,
     },
-    reporters: ["progress", "kjhtml", "coverage-istanbul"],
+    reporters: ["kjhtml", "coverage-istanbul", "spec"],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -32,6 +33,9 @@ module.exports = function (config) {
     singleRun: false,
     restartOnFileChange: true,
     failOnFailingTestSuite: false,
+    specReporter: {
+      maxLogLines: 3
+    }
     // browserDisconnectTimeout : 10000, // default 2000
     // browserDisconnectTolerance : 1, // default 0
     // browserNoActivityTimeout : 4*60*1000, //default 10000
