@@ -97,8 +97,8 @@ export class ChannelGroupAdapter implements Adapter<ChannelGroup> {
       organization: item.orgId,
       auto_exclude_channels: item.autoExcludeChannels?.mapIds(),
       auto_include_channels: item.autoIncludeChannels?.mapIds(),
-      share_org: item.shareAll,
-      share_all: item.shareOrg,
+      share_org: item.shareOrg,
+      share_all: item.shareAll,
     };
   }
 }
