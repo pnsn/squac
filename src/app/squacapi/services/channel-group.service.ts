@@ -24,12 +24,15 @@ export class ChannelGroupService
     super(ApiEndpoints.CHANNEL_GROUP, api);
   }
 
-  read(id: number): Observable<ChannelGroup> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<ChannelGroup> {
+    return super.read(id, { refresh });
   }
 
-  list(params?: NslcGroupsListRequestParams): Observable<ChannelGroup[]> {
-    return super._list(params);
+  list(
+    params?: NslcGroupsListRequestParams,
+    refresh?: boolean
+  ): Observable<ChannelGroup[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {

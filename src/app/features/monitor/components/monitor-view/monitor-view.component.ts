@@ -226,10 +226,10 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
-      alerts: this.alertService.list({ timestampGte: lastDay }),
+      alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
       monitors: this.monitorService.list(),
     }).pipe(
       tap((results) => {
@@ -244,7 +244,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // get fresh alerts
   refresh() {
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   //** * @param */

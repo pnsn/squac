@@ -147,12 +147,12 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
       forkJoin({
-        alerts: this.alertService.list({ timestampGte: lastDay }),
-        monitors: this.monitorService.list(),
+        alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
+        monitors: this.monitorService.list({}, refresh),
       }).pipe(
         tap((results: any) => {
           this.monitors = results.monitors;
@@ -167,7 +167,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // get fresh data
   refresh(): void {
-    this.fetchData().subscribe();
+    this.fetchData(true).subscribe();
   }
 
   // match alerts and monitors

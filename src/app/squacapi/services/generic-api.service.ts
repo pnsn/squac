@@ -1,9 +1,15 @@
-import { HttpResponse } from "@angular/common/http";
+import {
+  HttpResponse,
+  HttpContext,
+  HttpContextToken,
+} from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
 import { Adapter } from "../interfaces/adapter";
 import { ApiEndpoints } from "../interfaces/api.interface";
 import { SquacObject } from "../interfaces/squac-object-base.interface";
+
+export const REFRESH_REQUEST = new HttpContextToken<boolean>(() => false);
 
 export abstract class BaseApiService<T extends SquacObject> {
   observe = "body";
@@ -16,16 +22,27 @@ export abstract class BaseApiService<T extends SquacObject> {
   private mapFromApi(apiObject: any) {
     return this.adapter.adaptFromApi(apiObject);
   }
+
+  private getHttpOptions(options: any) {
+    const httpOptions: any = {};
+    if (options && options.refresh) {
+      httpOptions.context = new HttpContext().set(REFRESH_REQUEST, true);
+    }
+    return httpOptions;
+  }
+
   // /**
   //  * GET request - list of objects
   //  * @param params - request params, type varies by object
   //  * @returns observable of request results
   //  */
-  protected _list(params: any = {}): Observable<Array<T>> {
+  protected _list(params: any = {}, options: any = {}): Observable<Array<T>> {
+    const httpOptions = this.getHttpOptions(options);
     return this.api[`${this.apiEndpoint}List`](
       params,
       this.observe,
-      this.reportProgress
+      this.reportProgress,
+      httpOptions
     ).pipe(map((r: Array<any>) => r.map(this.mapFromApi.bind(this))));
   }
 
@@ -34,11 +51,13 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param id - id of requested resource
    * @returns observable of request result
    */
-  protected _read(params?: any): Observable<T> {
+  protected _read(params?: any, options?: any): Observable<T> {
+    const httpOptions = this.getHttpOptions(options);
     return this.api[`${this.apiEndpoint}Read`](
       params,
       this.observe,
-      this.reportProgress
+      this.reportProgress,
+      httpOptions
     ).pipe(map(this.mapFromApi.bind(this)));
   }
 
@@ -108,9 +127,9 @@ export abstract class BaseApiService<T extends SquacObject> {
     return { id: `${id}` };
   }
 
-  protected read(id: number): Observable<T> {
+  protected read(id: number, options?: any): Observable<T> {
     const params = this.readParams(id);
-    return this._read(params);
+    return this._read(params, options);
   }
 
   protected delete(id: number): Observable<T> {

@@ -28,14 +28,15 @@ export class OrganizationService
     super(ApiEndpoints.ORGANIZATION, api);
   }
 
-  read(id: number): Observable<Organization> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Organization> {
+    return super.read(id, { refresh });
   }
 
   list(
-    params?: OrganizationOrganizationsListRequestParams
+    params?: OrganizationOrganizationsListRequestParams,
+    refresh?: boolean
   ): Observable<Organization[]> {
-    return super._list(params).pipe(
+    return super._list(params, { refresh }).pipe(
       tap((organizations: Organization[]) => {
         this.localOrganizations = organizations.slice();
         organizations.forEach((org) => {

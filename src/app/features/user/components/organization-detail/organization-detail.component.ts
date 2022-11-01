@@ -132,9 +132,9 @@ export class OrganizationDetailComponent
     }, 0);
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     return this.loadingService
-      .doLoading(this.orgService.read(this.orgId), this)
+      .doLoading(this.orgService.read(this.orgId, refresh), this)
       .pipe(
         tap((results: Organization) => {
           this.organization = results;
@@ -268,7 +268,7 @@ export class OrganizationDetailComponent
 
   // get fresh user info
   refresh(): void {
-    this.fetchData().subscribe();
+    this.fetchData(true).subscribe();
   }
 
   // send invitation to user

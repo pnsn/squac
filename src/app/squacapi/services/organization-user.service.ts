@@ -21,12 +21,15 @@ export class OrganizationUserService
     super(ApiEndpoints.ORGANIZATION_USER, api);
   }
 
-  read(id: number): Observable<User> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<User> {
+    return super.read(id, { refresh });
   }
 
-  list(params: OrganizationUsersListRequestParams): Observable<User[]> {
-    return super._list(params);
+  list(
+    params: OrganizationUsersListRequestParams,
+    refresh?: boolean
+  ): Observable<User[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(t: User): Observable<User> {

@@ -22,12 +22,15 @@ export class ChannelService
     super(ApiEndpoints.CHANNEL, api);
   }
 
-  read(id: number): Observable<Channel> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Channel> {
+    return super.read(id, { refresh });
   }
 
-  list(params: NslcChannelsListRequestParams): Observable<Channel[]> {
-    return super._list(params);
+  list(
+    params: NslcChannelsListRequestParams,
+    refresh?: boolean
+  ): Observable<Channel[]> {
+    return super._list(params, { refresh });
   }
 
   getChannelsByRules(

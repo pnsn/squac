@@ -40,12 +40,15 @@ export class WidgetService
     };
   }
 
-  read(id: number): Observable<Widget> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Widget> {
+    return super.read(id, { refresh });
   }
 
-  list(params?: DashboardWidgetsListRequestParams): Observable<Widget[]> {
-    return super._list(params);
+  list(
+    params?: DashboardWidgetsListRequestParams,
+    refresh?: boolean
+  ): Observable<Widget[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(t: Widget): Observable<Widget> {

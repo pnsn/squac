@@ -20,10 +20,14 @@ export class AlertService
     super(ApiEndpoints.ALERT, api);
   }
 
-  read(id: number): Observable<Alert> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Alert> {
+    return super.read(id, { refresh });
   }
-  list(params?: MeasurementAlertsListRequestParams): Observable<Alert[]> {
-    return super._list(params);
+
+  list(
+    params?: MeasurementAlertsListRequestParams,
+    refresh?: boolean
+  ): Observable<Alert[]> {
+    return super._list(params, { refresh });
   }
 }

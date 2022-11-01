@@ -161,8 +161,8 @@ export class DashboardViewComponent
     });
   }
 
-  fetchData() {
-    return this.dashboardService.list(this.queryParams).pipe(
+  fetchData(refresh?: boolean) {
+    return this.dashboardService.list(this.queryParams, refresh).pipe(
       tap((dashboards: Dashboard[]) => {
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
@@ -176,7 +176,7 @@ export class DashboardViewComponent
   // get fresh dashboards
   refresh(filters?): void {
     this.queryParams = { ...filters };
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   ngOnDestroy(): void {

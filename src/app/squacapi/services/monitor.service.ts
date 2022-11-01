@@ -20,11 +20,14 @@ export class MonitorService
     super(ApiEndpoints.MONITOR, api);
   }
 
-  read(id: number): Observable<Monitor> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Monitor> {
+    return super.read(id, { refresh });
   }
-  list(params?: MeasurementMonitorsListRequestParams): Observable<Monitor[]> {
-    return super._list(params);
+  list(
+    params?: MeasurementMonitorsListRequestParams,
+    refresh?: boolean
+  ): Observable<Monitor[]> {
+    return super._list(params, { refresh });
   }
   updateOrCreate(t: Monitor): Observable<Monitor> {
     return super._updateOrCreate(t);

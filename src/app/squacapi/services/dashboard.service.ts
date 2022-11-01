@@ -20,12 +20,15 @@ export class DashboardService
     super(ApiEndpoints.DASHBOARD, api);
   }
 
-  read(id: number): Observable<Dashboard> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Dashboard> {
+    return super.read(id, { refresh });
   }
 
-  list(params?: DashboardDashboardsListRequestParams): Observable<Dashboard[]> {
-    return super._list(params);
+  list(
+    params?: DashboardDashboardsListRequestParams,
+    refresh?: boolean
+  ): Observable<Dashboard[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(d: Dashboard): Observable<Dashboard> {

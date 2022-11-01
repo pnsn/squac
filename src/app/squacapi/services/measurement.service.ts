@@ -25,8 +25,9 @@ export class MeasurementService
 
   // gets data from squac, returns measurements or archives
   list(
-    params: MeasurementMeasurementsListRequestParams
+    params: MeasurementMeasurementsListRequestParams,
+    refresh?: boolean
   ): Observable<Measurement[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }
