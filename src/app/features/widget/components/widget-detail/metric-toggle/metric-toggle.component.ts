@@ -155,10 +155,8 @@ export class MetricToggleComponent implements OnChanges {
     metric
   ): void {
     $event.stopPropagation();
-    console.log(metric.name, threshold, selectedIndex);
     if (selectedIndex === -1) {
       //not currently selected;
-      console.log(this.availableDimensions.length);
       if (this.availableDimensions.length === 0 && this.dimensions) {
         //remove dimension from other metrics
         threshold.dimension = this.dimensions[0];
