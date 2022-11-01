@@ -47,7 +47,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   widget: Widget;
   widgetId;
 
-  errors;
+  error;
   showKey;
   zooming;
   subscription = new Subscription();
@@ -113,6 +113,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   addWidget(widgetType: string) {
+    this.error = "";
     const injector = Injector.create({
       providers: [
         {
@@ -139,11 +140,14 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   addError(error: string) {
-    this.clearChildComponents();
+    if (!this.error) {
+      this.clearChildComponents();
 
-    const errorComp =
-      this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
-    errorComp.instance.errorMsg = error;
+      const errorComp =
+        this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
+      errorComp.instance.errorMsg = error;
+      this.error = error;
+    }
   }
 
   ngOnDestroy(): void {
