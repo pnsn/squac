@@ -25,7 +25,10 @@ export class NetworkService
     super(ApiEndpoints.NETWORK, api);
   }
 
-  list(params?: NslcNetworksListRequestParams): Observable<Network[]> {
+  list(
+    params?: NslcNetworksListRequestParams,
+    refresh?: boolean
+  ): Observable<Network[]> {
     return super._list(params, { refresh });
   }
 }
