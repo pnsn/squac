@@ -118,7 +118,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
   // save widgets after resize or move
   itemChange(item): void {
-    console.log("item changed", item);
     item.widget.layout.columns = item.cols;
     item.widget.layout.rows = item.rows;
     item.widget.layout.x = item.x;
