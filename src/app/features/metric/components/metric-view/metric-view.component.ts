@@ -119,8 +119,8 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  fetchData() {
-    return this.metricService.list().pipe(
+  fetchData(refresh?: boolean) {
+    return this.metricService.list({}, refresh).pipe(
       tap((results) => {
         this.metrics = results;
         this.rows = [...this.metrics];
@@ -133,7 +133,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // get fresh metrics
   refresh(): void {
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   ngOnDestroy(): void {

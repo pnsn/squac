@@ -20,11 +20,14 @@ export class MetricService
     super(ApiEndpoints.METRIC, api);
   }
 
-  read(id: number): Observable<Metric> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Metric> {
+    return super.read(id, { refresh });
   }
-  list(params?: MeasurementMetricsListRequestParams): Observable<Metric[]> {
-    return super._list(params);
+  list(
+    params?: MeasurementMetricsListRequestParams,
+    refresh?: boolean
+  ): Observable<Metric[]> {
+    return super._list(params, { refresh });
   }
   updateOrCreate(t: Metric): Observable<Metric> {
     return super._updateOrCreate(t);

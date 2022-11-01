@@ -20,12 +20,15 @@ export class TriggerService
     super(ApiEndpoints.TRIGGER, api);
   }
 
-  read(id: number): Observable<Trigger> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<Trigger> {
+    return super.read(id, { refresh });
   }
 
-  list(params?: MeasurementTriggersListRequestParams): Observable<Trigger[]> {
-    return super._list(params);
+  list(
+    params?: MeasurementTriggersListRequestParams,
+    refresh?: boolean
+  ): Observable<Trigger[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(t: Trigger): Observable<Trigger> {

@@ -134,8 +134,8 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
-  fetchData() {
-    return this.channelGroupService.list(this.queryParams).pipe(
+  fetchData(refresh?: boolean) {
+    return this.channelGroupService.list(this.queryParams, refresh).pipe(
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
@@ -150,7 +150,7 @@ export class ChannelGroupViewComponent
   // get fresh groups
   refresh(filters?) {
     this.queryParams = { ...filters };
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   // onSelect function for data table selection

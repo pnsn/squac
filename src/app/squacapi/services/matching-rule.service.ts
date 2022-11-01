@@ -42,12 +42,15 @@ export class MatchingRuleService
     };
   }
 
-  read(id: number): Observable<MatchingRule> {
-    return super.read(id);
+  read(id: number, refresh?: boolean): Observable<MatchingRule> {
+    return super.read(id, { refresh });
   }
 
-  list(params: NslcMatchingRulesListRequestParams): Observable<MatchingRule[]> {
-    return super._list(params);
+  list(
+    params: NslcMatchingRulesListRequestParams,
+    refresh?: boolean
+  ): Observable<MatchingRule[]> {
+    return super._list(params, { refresh });
   }
 
   updateOrCreate(t: MatchingRule): Observable<MatchingRule> {

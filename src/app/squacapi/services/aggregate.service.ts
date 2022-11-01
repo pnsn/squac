@@ -21,8 +21,9 @@ export class AggregateService
   }
 
   list(
-    params: MeasurementAggregatedListRequestParams
+    params: MeasurementAggregatedListRequestParams,
+    refresh?: boolean
   ): Observable<Aggregate[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }

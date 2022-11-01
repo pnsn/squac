@@ -24,9 +24,10 @@ export class HourArchiveService
   }
 
   list(
-    params: MeasurementHourArchivesListRequestParams
+    params: MeasurementHourArchivesListRequestParams,
+    refresh?: boolean
   ): Observable<Archive[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }
 
@@ -41,8 +42,11 @@ export class DayArchiveService
     super(ApiEndpoints.DAY_ARCHIVE, api);
   }
 
-  list(params: MeasurementDayArchivesListRequestParams): Observable<Archive[]> {
-    return super._list(params);
+  list(
+    params: MeasurementDayArchivesListRequestParams,
+    refresh?: boolean
+  ): Observable<Archive[]> {
+    return super._list(params, { refresh });
   }
 }
 
@@ -58,9 +62,10 @@ export class WeekArchiveService
   }
 
   list(
-    params: MeasurementWeekArchivesListRequestParams
+    params: MeasurementWeekArchivesListRequestParams,
+    refresh?: boolean
   ): Observable<Archive[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }
 
@@ -76,8 +81,9 @@ export class MonthArchiveService
   }
 
   list(
-    params: MeasurementMonthArchivesListRequestParams
+    params: MeasurementMonthArchivesListRequestParams,
+    refresh?: boolean
   ): Observable<Archive[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }

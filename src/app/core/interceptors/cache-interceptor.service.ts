@@ -8,6 +8,7 @@ import {
 import { Injectable } from "@angular/core";
 import { HttpCacheService } from "@core/services/cache.service";
 import { LoadingService } from "@core/services/loading.service";
+import { REFRESH_REQUEST } from "@squacapi/services/generic-api.service";
 import { Observable, of, tap } from "rxjs";
 
 /**
@@ -41,7 +42,8 @@ export class CacheInterceptor implements HttpInterceptor {
       const _removedFromCache = this._cache.delete(request);
       return next.handle(request);
     }
-    if (cachedResponse) {
+
+    if (cachedResponse && !request.context.get(REFRESH_REQUEST) === true) {
       return of(cachedResponse.clone());
     }
 

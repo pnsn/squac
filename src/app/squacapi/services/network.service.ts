@@ -26,6 +26,6 @@ export class NetworkService
   }
 
   list(params?: NslcNetworksListRequestParams): Observable<Network[]> {
-    return super._list(params);
+    return super._list(params, { refresh });
   }
 }
