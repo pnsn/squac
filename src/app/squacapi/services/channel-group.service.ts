@@ -32,6 +32,7 @@ export class ChannelGroupService
     params?: NslcGroupsListRequestParams,
     refresh?: boolean
   ): Observable<ChannelGroup[]> {
+    console.log(params);
     return super._list(params, { refresh });
   }
 

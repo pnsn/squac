@@ -1,20 +1,9 @@
 #filter-container {
   width: 100%;
-}
-#filter-box {
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-  .filters {
-    justify-content: space-between;
-    align-items: center;
-    gap: 3px;
-    flex-shrink: 1;
-    max-width: calc(100% - 300px);
-  }
+  gap: 3px;
   mat-form-field {
-    max-width: 23%;
+    width: 70px;
+    flex-grow: 1;
     .no-input {
       display: none;
     }
@@ -22,5 +11,14 @@
     .has-input {
       display: inline-block;
     }
+  }
+  button {
+    flex-basis: content;
+    // min-width: ;
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
   }
 }

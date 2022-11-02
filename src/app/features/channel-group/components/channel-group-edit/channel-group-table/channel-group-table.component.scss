@@ -2,13 +2,53 @@
   flex-grow: 1;
   height: 100%;
   min-height: 400px;
-  .channel-table {
-    height: 100%;
-    min-height: 400px !important;
-    // .datatable-body {
-    //   width: calc100%;
-    //   height: 100%;
-    // }
+}
+:host ::ng-deep.channel-table.ngx-datatable {
+  height: 100%;
+  min-height: 400px !important;
+  .datatable-header {
+    height: auto !important;
+  }
+  .datatable-header-cell {
+    padding: 1px !important;
+    white-space: normal !important;
+    &:hover {
+      z-index: 1000;
+      overflow: visible !important;
+    }
+  }
+
+  .datatable-header-cell-template-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .resize-handle {
+    width: 2px !important;
+    padding: 0px 1px !important;
+  }
+  .datatable-header-cell-label {
+    text-overflow: ellipsis;
+  }
+  .header-cell {
+    width: 100%;
+    overflow: hidden;
+    max-height: 50px;
+    span {
+      font-size: inherit;
+    }
+    &:hover {
+      z-index: 1000;
+      overflow: auto;
+      overflow-wrap: break-word;
+      span {
+        display: inline-block;
+        word-break: break-word;
+        background-color: white;
+        font-weight: bold;
+      }
+    }
   }
 }
 

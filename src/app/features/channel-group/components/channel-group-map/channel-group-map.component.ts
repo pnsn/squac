@@ -11,6 +11,12 @@ import {
 import { Channel } from "@squacapi/models/channel";
 import * as L from "leaflet";
 
+export interface MapBounds {
+  latMin: number;
+  latMax: number;
+  lonMin: number;
+  lonMax: number;
+}
 // shared map for channels
 @Component({
   selector: "channel-group-map",
@@ -25,7 +31,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   @Input() editPage: boolean; //is used on edit page or not
   @Input() showChannel: Channel; // channel to show
   @Output() showChannelChange = new EventEmitter<any>(); //channel to show changed
-  @Output() boundsChange = new EventEmitter(); // in html (boundsChange)="updateBounds($event)"
+  @Output() boundsChange = new EventEmitter<MapBounds>(); // in html (boundsChange)="updateBounds($event)"
 
   //leaflet stuff
   stationLayer: L.FeatureGroup;
@@ -360,28 +366,34 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     // this.boundsChange.emit("");
   }
 
+  // take leaflet rectangle and get bounds and emit results
+  getBoundsFromRectangle(): void {
+    const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
+    const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
+    const bounds: MapBounds = {
+      latMax: rectangleNE.lat,
+      latMin: rectangleSW.lat,
+      lonMin: rectangleSW.lng,
+      lonMax: rectangleNE.lng,
+    };
+    this.boundsChange.emit(bounds);
+  }
+
   // Send out newly drawn bounds
   onRectangleCreated(e: any): void {
     this.rectLayer = e.layer;
     this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
-    const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
-    const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
-    const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;
-    // Convert SE and NE to upper left and NE and SW coordinates
-    this.boundsChange.emit(latLngBounds);
+
+    this.getBoundsFromRectangle();
   }
 
   // Listen to rectangle edit and change bounds
   onRectangleEdited(): void {
-    const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
-    const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
-    const latLngBounds = `${rectangleNE.lat} ${rectangleSW.lng} ${rectangleSW.lat} ${rectangleNE.lng}`;
-    // Convert SE and NE to upper left and NE and SW coordinates
-    this.boundsChange.emit(latLngBounds);
+    this.getBoundsFromRectangle();
   }
 
   // clear bounds when rectangle deleted
   onRectangleDeleted(): void {
-    this.boundsChange.emit(""); // Clear old bounds
+    this.boundsChange.emit(); // Clear old bounds
   }
 }

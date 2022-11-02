@@ -20,12 +20,12 @@
 
 <form #rulesForm [formGroup]="matchingRulesForm">
   <div formArrayName="rules" id="rules-container">
-    <div class="header-row">
-      <div class="medium">include?</div>
-      <div class="field-column">network</div>
-      <div class="field-column">station</div>
-      <div class="field-column">location</div>
-      <div class="field-column">channel</div>
+    <div class="header-row" *ngIf="rules.controls.length > 0">
+      <div class="medium"><span>include?</span></div>
+      <div class="field-column"><span>network</span></div>
+      <div class="field-column"><span>station</span></div>
+      <div class="field-column"><span>location</span></div>
+      <div class="field-column"><span>channel</span></div>
       <div class="narrow"></div>
     </div>
     <ng-container *ngIf="rules.controls.length === 0">
