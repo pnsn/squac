@@ -63,10 +63,13 @@
       </button>
     </div>
   </div>
-  <div class="edit-body row">
-    <div class="column" id="left-column">
-      <div id="add-channel-header" class="row space-between">
-        <h3>Add Channels to Group</h3>
+  <div class="edit-body">
+    <div>
+      <div id="add-channel-header" class="row wrap space-between">
+        <h3 class="auto-margin">Add Channels to Group</h3>
+        <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
+          <span class="help-text">Only Show Current Channels</span>
+        </mat-slide-toggle>
         <channel-group-csv-upload
           [(channels)]="selectedChannels"
           (channelsChange)="addChannelsFromCSV($event)"
@@ -76,9 +79,6 @@
           [loadingIndicator]="LoadingIndicator.RESULTS"
         >
         </channel-group-csv-upload>
-        <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
-          <span class="help-text">Only Show Current Channels</span>
-        </mat-slide-toggle>
       </div>
 
       <p class="help-text">
@@ -91,37 +91,41 @@
       <p *ngIf="error" class="warn-text">
         {{ error }}
       </p>
-      <div id="filter-container">
-        <channel-group-filter
-          (filtersChanged)="filtersChanged($event)"
-          (addFilterToRegex)="addFilterToRegex($event)"
-        >
-        </channel-group-filter>
-      </div>
+
+      <channel-group-filter
+        (filtersChanged)="filtersChanged($event)"
+        (addFilterToRegex)="addFilterToRegex($event)"
+      >
+      </channel-group-filter>
+
       <div
         class="row channels-row"
         [appIsLoading]="
           loadingService.isLoading(this, LoadingIndicator.RESULTS)
         "
       >
-        <div class="column lt-gray-border search-results-container">
-          <div class="row space-between select-channels-controls">
+        <div class="lt-gray-border search-results-container">
+          <div class="row space-between select-channels-controls wrap">
             <h4>Results ({{ rows.length }})</h4>
-            <p class="help-text">add selected to:</p>
-            <button
-              mat-stroked-button
-              color="accent"
-              (click)="includeChannels()"
-            >
-              included
-            </button>
-            <button
-              mat-stroked-button
-              color="accent"
-              (click)="excludeChannels()"
-            >
-              excluded
-            </button>
+
+            <div class="row space-between wrap">
+              <p class="help-text">add selected to:</p>
+              <button
+                mat-stroked-button
+                color="accent"
+                (click)="includeChannels()"
+              >
+                included
+              </button>
+              <button
+                mat-stroked-button
+                color="accent"
+                (click)="excludeChannels()"
+              >
+                excluded
+              </button>
+            </div>
+
             <!-- <button
               mat-icon-button
               color="accent"
@@ -141,20 +145,19 @@
           >
           </channel-group-edit-table>
         </div>
-        <div id="map-box">
-          <channel-group-map
-            [autoIncludeChannels]="autoIncludeChannels"
-            [autoExcludeChannels]="autoExcludeChannels"
-            [searchedChannels]="rows"
-            [selectedChannels]="selectedChannels"
-            [showChannel]="showChannel"
-            [editPage]="true"
-            (boundsChange)="updateBounds($event)"
-          ></channel-group-map>
-        </div>
+
+        <channel-group-map
+          [autoIncludeChannels]="autoIncludeChannels"
+          [autoExcludeChannels]="autoExcludeChannels"
+          [searchedChannels]="rows"
+          [selectedChannels]="selectedChannels"
+          [showChannel]="showChannel"
+          [editPage]="true"
+          (boundsChange)="updateBounds($event)"
+        ></channel-group-map>
       </div>
     </div>
-    <div class="column" id="right-column">
+    <div>
       <mat-accordion displayMode="flat" multi>
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>

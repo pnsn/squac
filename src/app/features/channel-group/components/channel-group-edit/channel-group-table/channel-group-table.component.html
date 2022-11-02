@@ -25,6 +25,16 @@
     [messages]="messages"
   >
   </ngx-datatable>
+  <ng-template
+    #headerTemplate
+    let-column="column"
+    let-sort="sortFn"
+    ngx-datatable-header-template
+  >
+    <div class="header-cell datatable-header-cell-wrapper" (click)="sort()">
+      <span>{{ column.name }}</span>
+    </div>
+  </ng-template>
   <ng-template #isLoading>
     <mat-spinner></mat-spinner>
   </ng-template>
