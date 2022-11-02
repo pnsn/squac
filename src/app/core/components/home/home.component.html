@@ -2,7 +2,7 @@
   <a [routerLink]="['/']" routerLinkActive="active" id="logo">
     <img src="/assets/text_logo.svg" alt="SQUAC logo" />
   </a>
-  <div *ngIf="user" class="row menu-items">
+  <div class="row menu-items">
     <ng-container *ngTemplateOutlet="menuContent"></ng-container>
   </div>
   <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">
@@ -21,46 +21,48 @@
 </mat-sidenav-container>
 
 <ng-template #menuContent>
-  <a
-    mat-button
-    [routerLink]="['/dashboards']"
-    routerLinkActive="active"
-    *ngIf="'read' | able: 'Dashboard'"
-    >Dashboards</a
-  >
-  <a
-    mat-button
-    [routerLink]="['/monitors']"
-    routerLinkActive="active"
-    *ngIf="'read' | able: 'Monitor'"
-    >Monitors</a
-  >
-  <a
-    mat-button
-    [routerLink]="['/channel-groups']"
-    routerLinkActive="active"
-    *ngIf="'read' | able: 'ChannelGroup'"
-    >Channel Groups</a
-  >
-  <a
-    mat-button
-    [routerLink]="['/metrics']"
-    routerLinkActive="active"
-    *ngIf="'read' | able: 'Metric'"
-    >Metrics</a
-  >
-  <mat-menu #appMenu="matMenu" class="mat-menu-dense">
-    <a mat-menu-item [routerLink]="['/user']" routerLinkActive="active"
-      >User Settings</a
+  <ng-container *ngIf="user">
+    <a
+      mat-button
+      [routerLink]="['/dashboards']"
+      routerLinkActive="active"
+      *ngIf="'read' | able: 'Dashboard'"
+      >Dashboards</a
     >
     <a
-      mat-menu-item
-      [routerLink]="['/user', 'organizations', user.orgId]"
+      mat-button
+      [routerLink]="['/monitors']"
       routerLinkActive="active"
-      >Organization Settings</a
+      *ngIf="'read' | able: 'Monitor'"
+      >Monitors</a
     >
-    <button mat-menu-item (click)="logout()">Log Out</button>
-  </mat-menu>
+    <a
+      mat-button
+      [routerLink]="['/channel-groups']"
+      routerLinkActive="active"
+      *ngIf="'read' | able: 'ChannelGroup'"
+      >Channel Groups</a
+    >
+    <a
+      mat-button
+      [routerLink]="['/metrics']"
+      routerLinkActive="active"
+      *ngIf="'read' | able: 'Metric'"
+      >Metrics</a
+    >
+    <mat-menu #appMenu="matMenu" class="mat-menu-dense">
+      <a mat-menu-item [routerLink]="['/user']" routerLinkActive="active"
+        >User Settings</a
+      >
+      <a
+        mat-menu-item
+        [routerLink]="['/user', 'organizations', user.orgId]"
+        routerLinkActive="active"
+        >Organization Settings</a
+      >
+      <button mat-menu-item (click)="logout()">Log Out</button>
+    </mat-menu>
 
-  <a mat-button [matMenuTriggerFor]="appMenu">Settings</a>
+    <a mat-button [matMenuTriggerFor]="appMenu">Settings</a>
+  </ng-container>
 </ng-template>

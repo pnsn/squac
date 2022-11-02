@@ -49,6 +49,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           dashboardId: this.dashboardId,
           metrics: this.metrics,
         },
+        panelClass: "dialog-responsive",
       });
 
       this.dialogRef.afterClosed().subscribe(

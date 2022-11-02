@@ -325,3 +325,15 @@ a {
     opacity: 1;
   }
 }
+.dialog-responsive {
+  width: 100%;
+  @include sm {
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .dialog-responsive {
+    width: 100%;
+  }
+}
