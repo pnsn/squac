@@ -9,6 +9,7 @@ import { User } from "@squacapi/models/user";
 })
 export class HeaderComponent {
   @Input() user: User;
+  showMenu: boolean;
 
   constructor(private authService: AuthService) {}
 
