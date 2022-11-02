@@ -76,15 +76,16 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           const group = this.viewService.channelGroupId.getValue();
           const channels = this.viewService.channels.getValue();
 
-          this.widgetManager.updateTimes(
-            this.viewService.startTime,
-            this.viewService.endTime
-          );
           this.widgetManager.updateStat(
             this.widget.stat || this.viewService.archiveStat,
             this.viewService.archiveType
           );
+          this.widgetManager.updateTimes(
+            this.viewService.startTime,
+            this.viewService.endTime
+          );
           this.widgetManager.updateChannels(group, channels);
+          this.widgetManager.fetchData();
         })
       )
       .subscribe();

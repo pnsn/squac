@@ -149,7 +149,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   private updateArchiveType() {
+    this.checkArchiveType();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
+  }
+
+  private checkArchiveType() {
+    if (this.archiveType !== "raw") {
+      if (this.viewService.getTimeSpan(this.archiveType) === 0) {
+        //archiveType is larger than time window
+        console.log("time range is too small");
+      }
+    }
   }
 
   toggleSidenav(): void {

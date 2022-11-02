@@ -368,7 +368,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         const now = this.dateService.now();
         searchFilters.endafter = this.dateService.format(now);
       }
-      console.log(searchFilters);
       this.error = false;
       this.loadingService
         .doLoading(
