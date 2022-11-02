@@ -28,7 +28,6 @@ import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthComponent } from "./core/components/auth/auth.component";
-import { HeaderComponent } from "./core/components/header/header.component";
 import { HomeComponent } from "./core/components/home/home.component";
 import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 
@@ -37,13 +36,7 @@ export function initApp(configurationService: ConfigurationService) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    HeaderComponent,
-    NotFoundComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent, AuthComponent, NotFoundComponent, HomeComponent],
   imports: [
     ApiModule,
     HttpClientModule,
