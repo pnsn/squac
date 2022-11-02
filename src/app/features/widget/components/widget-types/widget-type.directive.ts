@@ -16,7 +16,7 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
-import { filter, Subscription, tap } from "rxjs";
+import { Subscription, tap } from "rxjs";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { MapComponent } from "./map/map.component";
 import { ParallelPlotComponent } from "./parallel-plot/parallel-plot.component";
@@ -46,7 +46,6 @@ export const componentMap = {
 export class WidgetTypeDirective implements OnInit, OnDestroy {
   widgetType;
   widget: Widget;
-  widgetId;
   error;
   showKey;
   zooming;
@@ -96,21 +95,6 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    const resizeSub = this.viewService.resize
-      .pipe(filter((id) => this.widgetId === id))
-      .subscribe({
-        next: () => {
-          if (
-            this.childComponent &&
-            typeof this.childComponent.resize === "function"
-          ) {
-            //check if widget has resize function then call it
-            this.childComponent.resize();
-          }
-        },
-      });
-
-    this.subscription.add(resizeSub);
     this.subscription.add(managerErrors);
     this.subscription.add(this.dataSub);
   }

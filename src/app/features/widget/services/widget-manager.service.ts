@@ -18,6 +18,7 @@ export class WidgetManagerService {
 
   widget = new ReplaySubject<Widget>(1);
   errors = new ReplaySubject<WidgetErrors>();
+  resize = new Subject<any>();
 
   // communication between external widget controls and actual widget
   toggleKey = new Subject<boolean>();
