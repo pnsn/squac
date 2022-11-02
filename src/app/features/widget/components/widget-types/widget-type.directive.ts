@@ -16,7 +16,17 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
-import { catchError, filter, of, Subscription } from "rxjs";
+import {
+  catchError,
+  filter,
+  map,
+  of,
+  retry,
+  Subscription,
+  switchMap,
+  tap,
+  throwError,
+} from "rxjs";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { MapComponent } from "./map/map.component";
 import { ParallelPlotComponent } from "./parallel-plot/parallel-plot.component";
@@ -80,21 +90,21 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
 
     this.dataSub = this.widgetDataService.data
       .pipe(
-        catchError((error: WidgetErrors) => {
-          this.addError(error);
-          return of();
+        tap({
+          next: (data: Map<number, any> | WidgetErrors) => {
+            if (data instanceof Map) {
+              this.addWidget(this.widgetManager.widgetType.type);
+              this.widgetTypeService.thresholds = this.widgetManager.thresholds;
+              this.widgetTypeService.dataRange =
+                this.widgetDataService.dataRange;
+              this.childComponent.updateData(data);
+            } else {
+              this.addError(data);
+            }
+          },
         })
       )
-      .subscribe({
-        next: (data: Map<number, any>) => {
-          if (data && data.size > 0) {
-            this.addWidget(this.widgetManager.widgetType.type);
-            this.widgetTypeService.thresholds = this.widgetManager.thresholds;
-            this.widgetTypeService.dataRange = this.widgetDataService.dataRange;
-            this.childComponent.updateData(data);
-          }
-        },
-      });
+      .subscribe();
 
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widgetId === id))
@@ -147,7 +157,6 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   addError(error: WidgetErrors) {
-    console.log(error);
     if (!this.error) {
       this.clearChildComponents();
 

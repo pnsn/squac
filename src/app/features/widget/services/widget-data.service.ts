@@ -52,7 +52,8 @@ export class WidgetDataService implements OnDestroy {
   private $params = this.params.asObservable();
 
   // actual data
-  data = new ReplaySubject<Map<any, any>>(1);
+
+  data = new ReplaySubject<WidgetErrors | Map<any, any>>(1);
   measurementsWithData: number[];
 
   // data info
@@ -117,9 +118,6 @@ export class WidgetDataService implements OnDestroy {
         (params.channel && params.channel.length > 0)) &&
       !!params.starttime &&
       !!params.endtime;
-    if (valid) {
-      console.log(params);
-    }
     return valid; //try again once more
   }
 
@@ -127,7 +125,6 @@ export class WidgetDataService implements OnDestroy {
   private dataRequest(params): Observable<Array<MeasurementType>> {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
-
     switch (archiveType) {
       case ArchiveTypes.HOUR:
         return this.hourArchiveService.list(params);
@@ -152,14 +149,11 @@ export class WidgetDataService implements OnDestroy {
   // send data & clear the loading statuses
   private finishedLoading(data?: Map<any, any>) {
     if (!data) {
-      this.data.error(WidgetErrors.SQUAC_ERROR);
-      console.log("squac error");
+      this.data.next(WidgetErrors.SQUAC_ERROR);
       //squac error
     } else if (data.size === 0) {
-      this.data.error(WidgetErrors.NO_MEASUREMENTS);
-      console.log("no data returned");
+      this.data.next(WidgetErrors.NO_MEASUREMENTS);
     } else {
-      console.log(data);
       this.data.next(data);
     }
   }
@@ -201,7 +195,7 @@ export class WidgetDataService implements OnDestroy {
         this.calculateDataRange(metricId, item.value);
       });
     } catch {
-      console.log(response);
+      console.error("Error in widget response", response);
       return response;
     }
     return dataMap;

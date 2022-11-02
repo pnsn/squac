@@ -16,7 +16,7 @@ import {
 import { ReadArchive } from "@squacapi/interfaces/squac-types";
 import { Aggregate, ReadAggregate } from "@squacapi/models/aggregate";
 import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { delay, map, Observable, of } from "rxjs";
+import { delay, map, Observable, of, switchMap, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -145,9 +145,9 @@ export class FakeMeasurementBackend {
   }
 
   getList(params, fn, time?, timeInterval?) {
-    const randomDelay = Math.round(Math.random() * 20) * 1000;
+    // const randomDelay = Math.round(Math.random() * 20) * 1000;
     return this.getChannels(params).pipe(
-      delay(randomDelay),
+      // delay(randomDelay),
       map((channels: number[]) => {
         return this.getData(channels, params, fn, time, timeInterval);
       })
@@ -168,9 +168,8 @@ export class FakeMeasurementBackend {
 
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
-  ): Observable<ReadOnlyArchiveDaySerializer[]> {
-    return of();
-    return this.getList(params, this.archive.bind(this), 1, "day");
+  ): Observable<any> {
+    return this.getList(params, this.archive.bind(this), 1, "day").pipe();
   }
 
   measurementHourArchivesList(

@@ -111,8 +111,6 @@ export class WidgetManagerService {
 
     if (this._channels.length === 0) {
       this.errors.next(WidgetErrors.NO_CHANNELS);
-    } else {
-      this.fetchData();
     }
   }
 
@@ -125,7 +123,6 @@ export class WidgetManagerService {
   updateTimes(start, end) {
     this._params.starttime = start;
     this._params.endtime = end;
-    this.fetchData();
   }
 
   fetchData() {
