@@ -11,11 +11,12 @@ import {
 } from "@angular/core";
 import { ViewService } from "@core/services/view.service";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
+import { WidgetErrors } from "@features/widget/services/widget-errors";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
-import { filter, Subscription } from "rxjs";
+import { catchError, filter, of, Subscription } from "rxjs";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { MapComponent } from "./map/map.component";
 import { ParallelPlotComponent } from "./parallel-plot/parallel-plot.component";
@@ -46,7 +47,6 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   widgetType;
   widget: Widget;
   widgetId;
-
   error;
   showKey;
   zooming;
@@ -72,22 +72,29 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const errorsSub = this.widgetManager.errors.subscribe((error: string) => {
-      this.addError(error);
-    });
-
-    this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
-      if (data && !data.error) {
-        this.addWidget(this.widgetManager.widgetType.type);
-        this.widgetTypeService.thresholds = this.widgetManager.thresholds;
-        this.widgetTypeService.dataRange = this.widgetDataService.dataRange;
-        this.childComponent.updateData(data);
-      } else if (data && data.error) {
-        this.addError(data.error);
-      } else {
-        this.addError("Error: no data returned.");
+    const managerErrors = this.widgetManager.errors.subscribe(
+      (error: WidgetErrors) => {
+        this.addError(error);
       }
-    });
+    );
+
+    this.dataSub = this.widgetDataService.data
+      .pipe(
+        catchError((error: WidgetErrors) => {
+          this.addError(error);
+          return of();
+        })
+      )
+      .subscribe({
+        next: (data: Map<number, any>) => {
+          if (data && data.size > 0) {
+            this.addWidget(this.widgetManager.widgetType.type);
+            this.widgetTypeService.thresholds = this.widgetManager.thresholds;
+            this.widgetTypeService.dataRange = this.widgetDataService.dataRange;
+            this.childComponent.updateData(data);
+          }
+        },
+      });
 
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widgetId === id))
@@ -104,7 +111,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       });
 
     this.subscription.add(resizeSub);
-    this.subscription.add(errorsSub);
+    this.subscription.add(managerErrors);
     this.subscription.add(this.dataSub);
   }
 
@@ -139,7 +146,8 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent = this.childComponentRef.instance;
   }
 
-  addError(error: string) {
+  addError(error: WidgetErrors) {
+    console.log(error);
     if (!this.error) {
       this.clearChildComponents();
 

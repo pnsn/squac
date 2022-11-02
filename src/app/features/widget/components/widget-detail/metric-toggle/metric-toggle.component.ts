@@ -109,7 +109,11 @@ export class MetricToggleComponent implements OnChanges {
   // get new data and save metrics when changed
   metricsSelected(): void {
     let selected = [];
-    if (this.initialMetrics && this.expectedMetrics) {
+    if (
+      this.initialMetrics &&
+      this.expectedMetrics &&
+      this.initialMetrics.length > 0
+    ) {
       while (this.selectedMetricIds.length < this.expectedMetrics) {
         this.selectedMetricIds.push(this.initialMetrics[0].id);
       }
