@@ -101,6 +101,14 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       this.showKey = show;
     });
 
+    const resizeSub = this.viewService.resize
+      .pipe(filter((id) => this.widget && this.widget.id === id))
+      .subscribe(() => {
+        this.widgetManager.resize.next(true);
+      });
+
+    this.subscription.add(resizeSub);
+
     this.subscription.add(updateSub);
   }
 

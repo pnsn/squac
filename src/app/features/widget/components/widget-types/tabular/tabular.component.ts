@@ -58,6 +58,12 @@ export class TabularComponent
   ) {
     super(widgetManager, widgetConnectService);
   }
+  ngOnInit(): void {
+    this.subscription.add(
+      this.widgetManager.resize.subscribe(this.resize.bind(this))
+    );
+    super.ngOnInit();
+  }
 
   startZoom(): void {
     return;
@@ -142,6 +148,7 @@ export class TabularComponent
   }
 
   resize() {
+    console.log("resize table");
     if (this.table) {
       this.table.recalculate();
     }
