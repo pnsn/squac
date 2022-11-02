@@ -1,9 +1,9 @@
+import { MatSidenavModule } from "@angular/material/sidenav";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MessageService } from "@core/services/message.service";
 import { AppModule } from "app/app.module";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
-import { HeaderComponent } from "../header/header.component";
 import { HomeComponent } from "./home.component";
 
 describe("HomeComponent", () => {
@@ -15,7 +15,7 @@ describe("HomeComponent", () => {
       [HomeComponent, AppModule],
       [RouterTestingModule.withRoutes([])]
     )
-      .mock(HeaderComponent)
+      .mock(MatSidenavModule)
       .mock(MessageService)
       .provide({
         provide: ActivatedRoute,

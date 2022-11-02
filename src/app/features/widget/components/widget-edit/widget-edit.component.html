@@ -5,55 +5,57 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
+<div mat-dialog-content>
+  <mat-horizontal-stepper
+    #stepper
+    [linear]="!editMode"
+    color="primary"
+    (selectionChange)="stepSelected()"
+  >
+    <mat-step
+      #infoStep
+      [errorMessage]="infoTab.error"
+      [completed]="infoTab.done"
+      [hasError]="infoStep.interacted && !infoTab.done"
+    >
+      <ng-template matStepLabel>Widget Information</ng-template>
+      <widget-edit-info
+        #infoTab
+        [(name)]="widget.name"
+        [(type)]="widget.type"
+        [(stat)]="widget.stat"
+        [(displayType)]="displayType"
+        [(properties)]="widget.properties"
+      ></widget-edit-info>
+    </mat-step>
+    <mat-step
+      #metricsStep
+      errorMessage="Missing metric."
+      [completed]="metricsTab.done"
+      [hasError]="(metricsStep.interacted || editMode) && !metricsTab.done"
+    >
+      <ng-template matStepLabel>Metrics</ng-template>
+      <widget-edit-metrics
+        #metricsTab
+        [metrics]="metrics"
+        [(selectedMetrics)]="widget.metrics"
+        [type]="widget.type"
+      ></widget-edit-metrics>
+    </mat-step>
+    <mat-step [optional]="true">
+      <ng-template matStepLabel>Options</ng-template>
+      <widget-edit-options
+        #optionsTab
+        [selectedMetrics]="widget.metrics"
+        [type]="widget.type"
+        [displayType]="displayType"
+        [(thresholds)]="widget.thresholds"
+        [(properties)]="widget.properties"
+      ></widget-edit-options>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
 
-<mat-horizontal-stepper
-  #stepper
-  [linear]="!editMode"
-  color="primary"
-  (selectionChange)="stepSelected()"
->
-  <mat-step
-    #infoStep
-    [errorMessage]="infoTab.error"
-    [completed]="infoTab.done"
-    [hasError]="infoStep.interacted && !infoTab.done"
-  >
-    <ng-template matStepLabel>Widget Information</ng-template>
-    <widget-edit-info
-      #infoTab
-      [(name)]="widget.name"
-      [(type)]="widget.type"
-      [(stat)]="widget.stat"
-      [(displayType)]="displayType"
-      [(properties)]="widget.properties"
-    ></widget-edit-info>
-  </mat-step>
-  <mat-step
-    #metricsStep
-    errorMessage="Missing metric."
-    [completed]="metricsTab.done"
-    [hasError]="(metricsStep.interacted || editMode) && !metricsTab.done"
-  >
-    <ng-template matStepLabel>Metrics</ng-template>
-    <widget-edit-metrics
-      #metricsTab
-      [metrics]="metrics"
-      [(selectedMetrics)]="widget.metrics"
-      [type]="widget.type"
-    ></widget-edit-metrics>
-  </mat-step>
-  <mat-step [optional]="true">
-    <ng-template matStepLabel>Options</ng-template>
-    <widget-edit-options
-      #optionsTab
-      [selectedMetrics]="widget.metrics"
-      [type]="widget.type"
-      [displayType]="displayType"
-      [(thresholds)]="widget.thresholds"
-      [(properties)]="widget.properties"
-    ></widget-edit-options>
-  </mat-step>
-</mat-horizontal-stepper>
 <div mat-dialog-actions class="dialog-options">
   <div>
     <button

@@ -7,7 +7,6 @@ import {
   MeasurementMeasurementsListRequestParams,
   MeasurementMonthArchivesListRequestParams,
   MeasurementWeekArchivesListRequestParams,
-  ReadOnlyArchiveDaySerializer,
   ReadOnlyArchiveHourSerializer,
   ReadOnlyArchiveMonthSerializer,
   ReadOnlyArchiveWeekSerializer,
@@ -16,7 +15,7 @@ import {
 import { ReadArchive } from "@squacapi/interfaces/squac-types";
 import { Aggregate, ReadAggregate } from "@squacapi/models/aggregate";
 import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { delay, map, Observable, of, switchMap, throwError } from "rxjs";
+import { map, Observable, of } from "rxjs";
 
 @Injectable({
   providedIn: "root",

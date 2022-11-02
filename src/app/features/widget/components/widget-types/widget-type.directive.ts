@@ -16,17 +16,7 @@ import { WidgetManagerService } from "@features/widget/services/widget-manager.s
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
-import {
-  catchError,
-  filter,
-  map,
-  of,
-  retry,
-  Subscription,
-  switchMap,
-  tap,
-  throwError,
-} from "rxjs";
+import { filter, Subscription, tap } from "rxjs";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { MapComponent } from "./map/map.component";
 import { ParallelPlotComponent } from "./parallel-plot/parallel-plot.component";

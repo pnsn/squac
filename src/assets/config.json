@@ -114,7 +114,7 @@
     },
     {
       "id": 6,
-      "name": "parallel plot",
+      "name": "parallel",
       "type": "parallel-plot",
       "zoomControls": false,
       "toggleKey": false,
@@ -126,7 +126,7 @@
     },
     {
       "id": 7,
-      "name": "scatter plot",
+      "name": "scatter",
       "type": "scatter-plot",
       "toggleKey": true,
       "zoomControls": true,
@@ -146,7 +146,7 @@
     },
     {
       "id": 7,
-      "name": "calendar plot",
+      "name": "calendar",
       "type": "calendar-plot",
       "useAggregate": false,
       "zoomControls": true,
