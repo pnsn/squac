@@ -19,6 +19,7 @@ import { Subscription } from "rxjs";
   styleUrls: ["./matching-rule-edit.component.scss"],
 })
 export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
+  _matchingRules: MatchingRule[];
   @Input() matchingRules: MatchingRule[];
   @Input() channelGroupId: number;
   @Output() matchingRulesChange = new EventEmitter<MatchingRule[]>();
@@ -34,15 +35,24 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     const rulesSub = this.rules.valueChanges.subscribe((values) => {
-      if (this.rules.valid) {
-        this.matchingRules = values;
-      }
+      this._matchingRules = [];
+      values.forEach((value) => {
+        if (
+          value.networkRegex ||
+          value.stationRegex ||
+          value.locationRegex ||
+          value.channelRegex
+        ) {
+          this._matchingRules.push(value);
+        }
+      });
     });
     this.subscription.add(rulesSub);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.matchingRules) {
+    //only take initial values
+    if (changes.matchingRules && this.matchingRules) {
       this.initForm();
     }
   }
@@ -93,7 +103,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   updateRules() {
-    this.matchingRulesChange.emit(this.matchingRules);
+    this.matchingRulesChange.emit(this._matchingRules);
   }
 
   removeRule(index) {
@@ -112,14 +122,19 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   initForm() {
-    this.rules.clear({ emitEvent: false });
-    this.matchingRules?.forEach((rule) => {
-      this.addRule(rule);
-    });
+    // this.rules.clear({ emitEvent: false });
+
+    //only take initial matchingRules
+    if (this.matchingRules.length > 0 && !this._matchingRules) {
+      this._matchingRules = this.matchingRules.slice();
+      this._matchingRules?.forEach((rule) => {
+        this.addRule(rule);
+      });
+    }
   }
 
   previewChannels() {
-    this.previewRules.emit(this.matchingRules);
+    this.previewRules.emit(this._matchingRules);
     //request channels
   }
 }

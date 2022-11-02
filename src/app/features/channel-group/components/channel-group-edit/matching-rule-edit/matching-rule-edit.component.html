@@ -1,3 +1,5 @@
+{{ _matchingRules?.length > 0 }}
+{{ !rules.valid }}
 <div class="row space-between">
   <button
     mat-button
@@ -5,9 +7,11 @@
     (click)="previewChannels()"
     matTooltip="Test regular expressions"
     aria-label="Button that searches for channels"
+    [disabled]="!_matchingRules || _matchingRules?.length === 0 || !rules.valid"
   >
     test regex
   </button>
+
   <button
     mat-button
     (click)="addRule()"
