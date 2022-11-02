@@ -6,6 +6,7 @@ import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
 import { WidgetDisplayOption, WidgetType } from "../models/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
+import { WidgetErrors } from "./widget-errors";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -16,7 +17,7 @@ export class WidgetManagerService {
   constructor(private widgetDataService: WidgetDataService) {}
 
   widget = new ReplaySubject<Widget>(1);
-  errors = new Subject<string>();
+  errors = new ReplaySubject<WidgetErrors>();
 
   // communication between external widget controls and actual widget
   toggleKey = new Subject<boolean>();
@@ -59,8 +60,11 @@ export class WidgetManagerService {
       this._widget.properties.displayType
     );
 
-    if (widgetType.minMetrics > this._widget.metrics.length) {
+    if (this._widget.metrics.length === 0) {
+      this.errors.next(WidgetErrors.NO_METRICS);
+    } else if (widgetType.minMetrics > this._widget.metrics.length) {
       ///ERROR
+      this.errors.next(WidgetErrors.MISSING_METRICS);
     }
     this.widgetDataService.useAggregate = widgetType.useAggregate;
   }
@@ -69,10 +73,11 @@ export class WidgetManagerService {
     if (widget.isValid) {
       this._widget = widget;
       this.widgetDataService.widget = widget;
+      this.widget.next(this._widget);
     } else {
+      this.errors.next(WidgetErrors.BAD_CONFIGURATION);
       //emit error
     }
-    this.widget.next(this._widget);
   }
 
   updateMetrics(metrics: Metric[]) {
@@ -80,7 +85,7 @@ export class WidgetManagerService {
     this._selectedMetrics = metrics;
     if (metrics.length > 0) {
       this._params.metric = metrics.map((m) => m.id);
-    } else {
+    } else if (this._widget.metricsIds.length > 0) {
       this._params.metric = this._widget.metricsIds;
     }
     // no metrics error
@@ -105,9 +110,10 @@ export class WidgetManagerService {
     this._channels = channels;
 
     if (this._channels.length === 0) {
-      this.errors.next("No channels selected.");
+      this.errors.next(WidgetErrors.NO_CHANNELS);
+    } else {
+      this.fetchData();
     }
-    this.fetchData();
   }
 
   updateStat(stat: string, archiveType) {

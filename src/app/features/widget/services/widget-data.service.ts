@@ -29,6 +29,7 @@ import {
   WeekArchiveService,
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
+import { WidgetErrors } from "./widget-errors";
 export enum ArchiveTypes {
   DAY = "day",
   HOUR = "hour",
@@ -52,7 +53,6 @@ export class WidgetDataService implements OnDestroy {
 
   // actual data
   data = new ReplaySubject<Map<any, any>>(1);
-
   measurementsWithData: number[];
 
   // data info
@@ -83,11 +83,8 @@ export class WidgetDataService implements OnDestroy {
       switchMap((params) => {
         return this.loadingService.doLoading(
           this.dataRequest(params).pipe(
-            catchError((error) => {
-              console.error(error);
-              this.finishedLoading({
-                error: "Failed to get measurements from SQUAC",
-              });
+            catchError(() => {
+              this.finishedLoading();
               return EMPTY;
             }),
             map(this.mapData.bind(this))
@@ -120,6 +117,9 @@ export class WidgetDataService implements OnDestroy {
         (params.channel && params.channel.length > 0)) &&
       !!params.starttime &&
       !!params.endtime;
+    if (valid) {
+      console.log(params);
+    }
     return valid; //try again once more
   }
 
@@ -150,13 +150,22 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // send data & clear the loading statuses
-  private finishedLoading(data) {
-    this.data.next(data);
+  private finishedLoading(data?: Map<any, any>) {
+    if (!data) {
+      this.data.error(WidgetErrors.SQUAC_ERROR);
+      console.log("squac error");
+      //squac error
+    } else if (data.size === 0) {
+      this.data.error(WidgetErrors.NO_MEASUREMENTS);
+      console.log("no data returned");
+    } else {
+      console.log(data);
+      this.data.next(data);
+    }
   }
 
   // clear existing data
   private startedLoading(): void {
-    this.data.next(null);
     this.measurementsWithData = [];
     this.ranges = {};
   }
@@ -192,11 +201,8 @@ export class WidgetDataService implements OnDestroy {
         this.calculateDataRange(metricId, item.value);
       });
     } catch {
+      console.log(response);
       return response;
-    }
-
-    if (dataMap.size === 0) {
-      return { error: "No measurements found." };
     }
     return dataMap;
   }

@@ -1,7 +1,7 @@
 <div class="widget-container box" *ngIf="widget">
   <div class="widget-header row space-between">
     <span>{{ widget.name }}</span>
-    <div id="controls">
+    <div id="controls" *ngIf="!error">
       <button
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
@@ -35,6 +35,7 @@
         <mat-icon>legend_toggle</mat-icon>
       </button>
       <widget-metric-toggle
+        *ngIf="initialMetrics?.length > 0"
         [dimensions]="displayType?.dimensions"
         [initialMetrics]="initialMetrics"
         (metricsChange)="metricsChanged($event)"
@@ -107,11 +108,6 @@
     [appIsLoading]="loadingService.isLoading(widget)"
     spinnerType="buffer"
   >
-    <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
-    <shared-error
-      *ngIf="!widget.metrics || widget.metrics?.length === 0"
-      [errorMsg]="'Could not load metric. Resource may have been deleted.'"
-    ></shared-error>
     <div widgetContainer class="widget"></div>
   </div>
 </div>
