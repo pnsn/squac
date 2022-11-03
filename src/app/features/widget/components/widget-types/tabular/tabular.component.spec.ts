@@ -23,6 +23,7 @@ describe("TabularComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          resize: of(),
         },
       })
       .provide({

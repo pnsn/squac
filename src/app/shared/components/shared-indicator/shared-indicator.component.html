@@ -9,20 +9,18 @@
   >
 
   <span class="cdk-visually-hidden" *ngIf="shareOrg">
-    {{ resource }} shared with organization
+    {{ resource }} is shared with organization
   </span>
   <mat-icon
     *ngIf="shareOrg && !shareAll"
-    matTooltip="{{ resource | titlecase }} shared with organization"
+    matTooltip="{{ resource | titlecase }} is shared with organization"
     >visibility</mat-icon
   >
 
   <span class="cdk-visually-hidden" *ngIf="shareAll">
-    {{ resource }} shared with all
+    {{ resource }} is public
   </span>
-  <mat-icon
-    *ngIf="shareAll"
-    matTooltip="{{ resource | titlecase }} shared with all"
+  <mat-icon *ngIf="shareAll" matTooltip="{{ resource | titlecase }} is public"
     >public</mat-icon
   >
 </div>

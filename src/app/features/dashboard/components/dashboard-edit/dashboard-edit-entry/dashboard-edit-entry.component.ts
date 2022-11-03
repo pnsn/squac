@@ -40,6 +40,8 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   openDashboard(): void {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
       closeOnNavigation: true,
+      maxWidth: 800,
+      panelClass: "dialog-responsive",
       data: {
         dashboard: this.dashboard,
         channelGroups: this.channelGroups,
