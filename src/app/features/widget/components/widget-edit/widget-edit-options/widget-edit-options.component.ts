@@ -8,17 +8,19 @@ import {
   OnChanges,
   OnInit,
 } from "@angular/core";
-import { Threshold } from "@features/widget/models/threshold";
-import { Metric } from "@core/models/metric";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { Threshold } from "@squacapi/models/threshold";
+import { Metric } from "@squacapi/models/metric";
+import { WidgetConfigService } from "@widget/services/widget-config.service";
 import { Subscription } from "rxjs";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import * as colormap from "colormap";
-import { WidgetProperties } from "@features/widget/models/widget";
 import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import * as colormap from "colormap";
+import { WidgetProperties } from "@squacapi/models/widget";
+import { WidgetDisplayOption, WidgetType } from "@widget/models/widget-type";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -41,7 +43,7 @@ export class WidgetEditOptionsComponent
   gradientOptions: any[];
   solidOptions: any[];
 
-  optionsForm: FormGroup = this.formBuilder.group({
+  optionsForm: UntypedFormGroup = this.formBuilder.group({
     thresholdArray: this.formBuilder.array([]),
     options: this.formBuilder.group({
       inRange: [null],
@@ -53,7 +55,7 @@ export class WidgetEditOptionsComponent
 
   constructor(
     widgetConfigService: WidgetConfigService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.gradientOptions = widgetConfigService.gradientOptions;
     this.solidOptions = widgetConfigService.solidOptions;
@@ -235,8 +237,8 @@ export class WidgetEditOptionsComponent
     this.subscriptions.unsubscribe();
   }
 
-  get thresholdArray(): FormArray {
-    return this.optionsForm.get("thresholdArray") as FormArray;
+  get thresholdArray(): UntypedFormArray {
+    return this.optionsForm.get("thresholdArray") as UntypedFormArray;
   }
 
   // Add a new threshold

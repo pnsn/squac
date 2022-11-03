@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { AuthService } from "@core/services/auth.service";
 import { MessageService } from "@core/services/message.service";
-import { User } from "@user/models/user";
+import { User } from "@squacapi/models/user";
 
 @Component({
   selector: "app-home",
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -23,5 +25,8 @@ export class HomeComponent implements OnInit {
     } else {
       this.messageService.error("Could not load user information.");
     }
+  }
+  logout() {
+    this.authService.logout();
   }
 }

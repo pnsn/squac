@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
 import { MetricComponent } from "./components/metric/metric.component";
-import { MetricResolver } from "./metric.resolver";
+import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
 import { MetricViewComponent } from "./components/metric-view/metric-view.component";
 import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
 

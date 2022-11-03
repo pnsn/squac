@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import { LoadingService } from "@core/services/loading.service";
 
 // Table of channel groups
@@ -134,8 +134,8 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
-  fetchData() {
-    return this.channelGroupService.getChannelGroups(this.queryParams).pipe(
+  fetchData(refresh?: boolean) {
+    return this.channelGroupService.list(this.queryParams, refresh).pipe(
       tap((results) => {
         this.channelGroups = results;
         this.rows = [...this.channelGroups];
@@ -150,7 +150,7 @@ export class ChannelGroupViewComponent
   // get fresh groups
   refresh(filters?) {
     this.queryParams = { ...filters };
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   // onSelect function for data table selection
@@ -168,7 +168,7 @@ export class ChannelGroupViewComponent
   // delete channel group
   onDelete(): void {
     this.channelGroupService
-      .deleteChannelGroup(this.selectedChannelGroupId)
+      .delete(this.selectedChannelGroupId)
       .subscribe(() => {
         const index = this.channelGroups.findIndex(
           (cG) => cG.id === this.selectedChannelGroupId

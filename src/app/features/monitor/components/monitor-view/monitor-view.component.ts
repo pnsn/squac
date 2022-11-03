@@ -8,17 +8,17 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { Alert } from "@monitor/models/alert";
-import { Monitor } from "@monitor/models/monitor";
-import { AlertService } from "@monitor/services/alert.service";
-import { MonitorService } from "@monitor/services/monitor.service";
+import { Alert } from "@squacapi/models/alert";
+import { Monitor } from "@squacapi/models/monitor";
+import { AlertService } from "@squacapi/services/alert.service";
+import { MonitorService } from "@squacapi/services/monitor.service";
 import {
-  tap,
-  Subscription,
   catchError,
   EMPTY,
   forkJoin,
+  Subscription,
   switchMap,
+  tap,
 } from "rxjs";
 
 @Component({
@@ -189,7 +189,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // delete selected monitor
   onDelete(): void {
-    this.monitorService.deleteMonitor(this.selectedMonitorId).subscribe(() => {
+    this.monitorService.delete(this.selectedMonitorId).subscribe(() => {
       const index = this.monitors.findIndex(
         (m) => m.id === this.selectedMonitorId
       );
@@ -226,11 +226,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
-      alerts: this.alertService.getAlerts({ starttime: lastDay }),
-      monitors: this.monitorService.getMonitors(),
+      alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
+      monitors: this.monitorService.list(),
     }).pipe(
       tap((results) => {
         this.monitors = results.monitors;
@@ -244,9 +244,10 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // get fresh alerts
   refresh() {
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
+  //** * @param */
   // return alerts with monitorId
   getAlerts(monitorId: number): Alert[] {
     return this.alerts.filter((a) => a.trigger.monitorId === monitorId);

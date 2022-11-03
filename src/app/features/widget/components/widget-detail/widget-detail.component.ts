@@ -1,60 +1,57 @@
 import {
   Component,
-  OnInit,
   Input,
   OnDestroy,
   SimpleChanges,
   OnChanges,
   ViewChild,
+  OnInit,
 } from "@angular/core";
-import { Widget } from "@widget/models/widget";
-import { filter, Subscription } from "rxjs";
+import { Widget } from "@squacapi/models/widget";
+import { filter, Subscription, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { Dashboard } from "@dashboard/models/dashboard";
-import { WidgetDataService } from "@widget/services/widget-data.service";
-import { Metric } from "@core/models/metric";
+import { Dashboard } from "@squacapi/models/dashboard";
+import { WidgetDataService } from "../../services/widget-data.service";
+import { Metric } from "@squacapi/models/metric";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
-import { Channel } from "@core/models/channel";
+import { Threshold } from "@squacapi/models/threshold";
+import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,
   WidgetType,
 } from "@features/widget/models/widget-type";
-import { Threshold } from "@features/widget/models/threshold";
-import { LoadingService } from "@core/services/loading.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 @Component({
   selector: "widget-detail",
   templateUrl: "./widget-detail.component.html",
   styleUrls: ["./widget-detail.component.scss"],
-  providers: [WidgetDataService],
+  providers: [WidgetManagerService, WidgetDataService],
 })
-export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
+export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   subscription = new Subscription();
   @Input() widget: Widget;
   @Input() dashboards: Dashboard[];
-  @ViewChild("widgetChild") widgetChild: any;
-  data: any;
-  dataRange: any;
+
   error: boolean | string;
 
-  channels: Channel[];
-  zooming: false;
-  //metric changing
-  selectedMetrics: Metric[] = []; //gets send to child
-  notSelected: Metric[] = [];
   selected: number[] = [];
   expectedMetrics: number;
-  metricsChanged = false;
   availableDimensions = [];
-  dataSub: Subscription; //keep track of datasub to prevent duplicate
-  styles: any;
+
+  initialMetrics: Metric[];
+  thresholds: Threshold[];
+
   widgetType: WidgetType;
   displayType: WidgetDisplayOption;
+  @ViewChild("widgetChild") widgetChild: any;
+
+  zooming: string;
   showKey = true;
   constructor(
-    private widgetDataService: WidgetDataService,
+    private widgetManager: WidgetManagerService,
     private widgetConfigService: WidgetConfigService,
     private router: Router,
     private route: ActivatedRoute,
@@ -64,229 +61,91 @@ export class WidgetDetailComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    // listen to resize
-    const resizeSub = this.viewService.resize
-      .pipe(filter((id) => this.widget.id === id))
-      .subscribe({
-        next: () => {
-          if (
-            this.widgetChild &&
-            typeof this.widgetChild.resize === "function"
-          ) {
-            //check if widget has resize function then call it
-            this.widgetChild.resize();
-          }
-        },
-      });
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    const updateSub = this.viewService.updateData
+      .pipe(
+        filter((data: any) => {
+          return (
+            this.widget &&
+            ((data.dashboard && data.dashboard === this.widget.dashboardId) ||
+              (data.widget && data.widget === this.widget.id))
+          );
+        }),
+        tap(() => {
+          const group = this.viewService.channelGroupId.getValue();
+          const channels = this.viewService.channels.getValue();
 
-    const channelsSub = this.viewService.channels.subscribe((channels) => {
-      this.error =
-        channels?.length === 0 ? "Error: No channels selected." : null;
+          this.widgetManager.updateStat(
+            this.widget.stat || this.viewService.archiveStat,
+            this.viewService.archiveType
+          );
+          this.widgetManager.updateTimes(
+            this.viewService.startTime,
+            this.viewService.endTime
+          );
+          this.widgetManager.updateChannels(group, channels);
+          this.widgetManager.fetchData();
+        })
+      )
+      .subscribe();
+
+    this.widgetManager.widget.subscribe((widget: Widget) => {
+      this.initWidget(widget);
     });
 
-    this.subscription.add(channelsSub);
+    this.widgetManager.zoomStatus.subscribe((status) => {
+      this.zooming = status;
+    });
+    this.widgetManager.toggleKey.subscribe((show) => {
+      this.showKey = show;
+    });
+
+    const resizeSub = this.viewService.resize
+      .pipe(filter((id) => this.widget && this.widget.id === id))
+      .subscribe(() => {
+        this.widgetManager.resize.next(true);
+      });
+
     this.subscription.add(resizeSub);
-    this.subscription.add(this.dataSub);
+
+    this.subscription.add(updateSub);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.widget) {
-      this.initWidget();
+      this.widgetManager.initWidget(this.widget);
     }
   }
 
-  // set up widget
-  initWidget(): void {
-    if (!this.dataSub) {
-      this.dataSub = this.widgetDataService.data.subscribe((data: any) => {
-        this.channels = this.viewService.channels.getValue();
-        if (!data) {
-          this.error = "No data.";
-        } else if (data.error) {
-          this.error = data.error;
-        } else if (
-          this.widgetDataService.measurementsWithData.length <
-          this.widgetType.minMetrics
-        ) {
-          this.error = "No measurements found for one or more metrics.";
-        } else {
-          this.dataRange = this.widgetDataService.dataRange;
-          this.data = data;
-          this.error = false;
-        }
-      });
-    }
-    if (!this.widget.isValid) {
-      this.error = "Widget failed to load, try checking configuration.";
+  // set up widget after it's validated
+  initWidget(widget): void {
+    // widget manager will check if valid
+    this.widgetType = this.widgetConfigService.getWidgetType(widget.type);
+    this.widgetManager.widgetType = this.widgetType;
+    this.displayType = this.widgetManager.widgetDisplayOption;
+    this.expectedMetrics = this.widgetManager.widgetType.minMetrics;
+    this.initialMetrics = widget.metrics.slice();
+    this.thresholds = widget.thresholds.slice();
+  }
+
+  metricsChanged(metrics: Metric[]) {
+    this.widgetManager.updateThresholds(this.thresholds);
+    this.widgetManager.updateMetrics(metrics);
+  }
+
+  toggleKey() {
+    this.widgetManager.toggleKey.next(!this.showKey);
+  }
+
+  updateZoom(status?: string) {
+    if (status) {
+      this.widgetManager.zoomStatus.next(status);
+    } else if (this.zooming === "start") {
+      this.widgetManager.zoomStatus.next("stop");
     } else {
-      this.widgetType = this.widgetConfigService.getWidgetType(
-        this.widget.type
-      );
-
-      this.displayType = this.widgetType.getOption(
-        this.widget.properties.displayType
-      );
-
-      // check if has required # of metrics
-      if (
-        !this.widget.metrics ||
-        this.widgetType.minMetrics > this.widget.metrics.length
-      ) {
-        this.error = `Error: ${this.widget.metrics} of ${this.widgetType.minMetrics} metrics selected.`;
-      } else {
-        this.widgetDataService.updateWidget(this.widget, this.widgetType);
-        this.selectMetrics();
-      }
+      this.widgetManager.zoomStatus.next("start");
     }
-  }
-
-  // populate selected metrics
-  selectMetrics(): void {
-    this.selected = [];
-
-    if (this.displayType?.dimensions) {
-      this.availableDimensions = [...this.displayType.dimensions];
-
-      // get metrics that match thresholds & check dimensions
-      for (let i = this.widget.thresholds.length - 1; i >= 0; i--) {
-        const threshold = this.widget.thresholds[i];
-        if (threshold.dimension) {
-          const metricIndex = this.widget.metrics.findIndex(
-            (m) => m.id === threshold.metricId
-          );
-          if (metricIndex === -1) {
-            //check if widget has metric
-            this.widget.thresholds.splice(i, 1);
-          } else {
-            this.selected.push(threshold.metricId);
-            const index = this.availableDimensions.indexOf(threshold.dimension);
-            if (index > -1) {
-              this.availableDimensions.splice(index, 1);
-            } else {
-              threshold.dimension = null;
-            }
-          }
-        }
-      }
-
-      // if enough not enough dimensions, update with remaining metrics
-      if (this.selected.length < this.widgetType.minMetrics) {
-        this.widget.metrics.forEach((metric: Metric, _index) => {
-          if (
-            this.selected.indexOf(metric.id) < 0 &&
-            this.availableDimensions.length > 0
-          ) {
-            this.widget.thresholds.push({
-              metricId: metric.id,
-              min: metric.minVal,
-              max: metric.maxVal,
-              dimension: this.availableDimensions[0],
-            });
-            this.selected.push(metric.id);
-            this.availableDimensions.splice(0, 1);
-          }
-        });
-      }
-    } else {
-      // for widgets with no dimensions, show all as selected;
-      this.selected = this.widget.metrics.map((metric) => metric.id);
-    }
-
-    this.metricsSelected();
-  }
-
-  // get new data and save metrics when changed
-  metricsSelected(): void {
-    if (this.widget.metrics && this.widgetType.minMetrics) {
-      while (this.selected.length < this.widgetType.minMetrics) {
-        this.selected.push(this.widget.metrics[0].id);
-      }
-      const diff = this.widgetType.minMetrics - this.selected.length;
-      //if not enough metrics, populate with 1st one to prevent breaking
-      this.selected.fill(
-        this.widget.metrics[0].id,
-        this.selected.length - 1,
-        diff + this.selected.length - 1
-      );
-    }
-
-    // add all selected metrics
-    if (
-      this.selected.length >= this.widgetType.minMetrics ||
-      (!this.displayType.dimensions && this.selected.length > 0)
-    ) {
-      this.selectedMetrics = this.widget.metrics.filter(
-        (metric) => this.selected.indexOf(metric.id) > -1
-      );
-      this.metricsChanged = false;
-    }
-
-    // get new data
-    this.widgetDataService.updateMetrics(this.selectedMetrics);
-  }
-
-  startZoom() {
-    this.widgetChild.startZoom();
-    try {
-      this.widgetChild.startZoom();
-    } catch {
-      console.log("resized");
-    }
-  }
-
-  // change dimension for metric
-  changeThreshold(
-    $event,
-    threshold: Threshold,
-    selectedIndex: number,
-    metric
-  ): void {
-    this.metricsChanged = true;
-    $event.stopPropagation();
-    if (selectedIndex === -1) {
-      //not currently selected;
-      if (
-        this.availableDimensions.length === 0 &&
-        this.displayType.dimensions
-      ) {
-        //remove dimension from other metrics
-        threshold.dimension = this.displayType.dimensions[0];
-        this.widget.thresholds.forEach((t) => {
-          if (
-            t.dimension === threshold.dimension &&
-            t.metricId !== threshold.metricId
-          ) {
-            t.dimension = null;
-            const index = this.selected.indexOf(t.metricId);
-
-            this.selected.splice(index, 1);
-          }
-        });
-      } else {
-        //take first dimension available
-        threshold.dimension = this.availableDimensions[0];
-        this.availableDimensions.splice(0, 1);
-      }
-      this.selected.push(metric.id);
-    } else {
-      // already selected, remove dimension
-      if (this.displayType.dimensions) {
-        const dim = threshold.dimension;
-        threshold.dimension = null;
-        this.availableDimensions.push(dim);
-      }
-
-      this.selected.splice(selectedIndex, 1);
-    }
-  }
-
-  getSelectedIndex(id: number): number {
-    return this.selected.indexOf(id);
-  }
-  getMetric(id: number): Metric {
-    return this.widget.metrics.find((m) => {
-      return m.id === id;
-    });
   }
 
   ngOnDestroy(): void {

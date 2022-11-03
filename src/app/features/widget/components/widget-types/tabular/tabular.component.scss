@@ -30,9 +30,14 @@ $font-size: 9pt !important;
   .datatable-tree-button:disabled {
     display: none;
   }
+
   .datatable-header-cell {
     padding: 1px !important;
     white-space: normal !important;
+    &:hover {
+      z-index: 1000;
+      overflow: visible !important;
+    }
   }
 
   .datatable-body-cell,
@@ -76,6 +81,20 @@ $font-size: 9pt !important;
     overflow: hidden;
     max-height: 50px;
     font-size: $font-size;
+    span {
+      font-size: inherit;
+    }
+    &:hover {
+      z-index: 1000;
+      overflow: auto;
+      overflow-wrap: break-word;
+      span {
+        display: inline-block;
+        word-break: break-word;
+        background-color: white;
+        font-weight: bold;
+      }
+    }
   }
   .datatable-body-cell-label {
     font-size: $font-size;
@@ -88,7 +107,6 @@ $font-size: 9pt !important;
     .cell-full {
       height: 19px;
       display: inline-block;
-      border: solid 1px black;
     }
     .cell-icon {
       width: 20px;

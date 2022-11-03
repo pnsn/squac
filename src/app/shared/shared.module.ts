@@ -11,9 +11,7 @@ import { ErrorComponent } from "./components/error/error.component";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
 import { ReplacePipe } from "./pipes/replace.pipe";
-import { OrganizationPipe } from "./pipes/organization.pipe";
 import { SnackbarComponent } from "./components/snackbar/snackbar.component";
-import { UserPipe } from "./pipes/user.pipe";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
@@ -25,6 +23,7 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
+import { SquacapiModule } from "@squacapi/squacapi.module";
 @NgModule({
   declarations: [
     SearchFilterComponent,
@@ -32,9 +31,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     LoadingComponent,
     ErrorComponent,
     ReplacePipe,
-    OrganizationPipe,
     SnackbarComponent,
-    UserPipe,
     SharedIndicatorComponent,
     TableViewComponent,
     DateSelectComponent,
@@ -56,6 +53,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     FormsModule,
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
+    SquacapiModule,
     NgxEchartsModule.forRoot({
       echarts: () => import("echarts"),
     }),
@@ -74,10 +72,8 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
-    OrganizationPipe,
     SnackbarComponent,
     SharedIndicatorComponent,
-    UserPipe,
     TableViewComponent,
     SearchFilterComponent,
     DateSelectComponent,
@@ -87,6 +83,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
     LoadingOverlayComponent,
     LoadingSpinnerComponent,
     LoadingDirective,
+    SquacapiModule,
   ],
 })
 export class SharedModule {}

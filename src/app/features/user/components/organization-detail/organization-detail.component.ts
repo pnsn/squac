@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { OrganizationService } from "@user/services/organization.service";
-import { User } from "@user/models/user";
-import { Organization } from "@user/models/organization";
+import { OrganizationService } from "@squacapi/services/organization.service";
+import { User } from "@squacapi/models/user";
+import { Organization } from "@squacapi/models/organization";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { InviteService } from "@user/services/invite.service";
+import { InviteService } from "@squacapi/services/invite.service";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
+import { OrganizationUserService } from "@squacapi/services/organization-user.service";
 
 @Component({
   selector: "user-organization-detail",
@@ -74,6 +75,7 @@ export class OrganizationDetailComponent
   ];
   constructor(
     private orgService: OrganizationService,
+    private orgUserService: OrganizationUserService,
     private inviteService: InviteService,
     private route: ActivatedRoute,
     private messageService: MessageService,
@@ -130,9 +132,9 @@ export class OrganizationDetailComponent
     }, 0);
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     return this.loadingService
-      .doLoading(this.orgService.getOrganization(this.orgId), this)
+      .doLoading(this.orgService.read(this.orgId, refresh), this)
       .pipe(
         tap((results: Organization) => {
           this.organization = results;
@@ -252,7 +254,7 @@ export class OrganizationDetailComponent
   deactivateUser(): void {
     if (this.selected) {
       this.selected.isActive = false;
-      this.orgService.updateUser(this.selected).subscribe({
+      this.orgUserService.updateOrCreate(this.selected).subscribe({
         next: () => {
           this.messageService.message("User deactivated.");
           this.refresh();
@@ -266,7 +268,7 @@ export class OrganizationDetailComponent
 
   // get fresh user info
   refresh(): void {
-    this.fetchData().subscribe();
+    this.fetchData(true).subscribe();
   }
 
   // send invitation to user

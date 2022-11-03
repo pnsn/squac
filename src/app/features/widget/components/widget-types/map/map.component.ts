@@ -1,72 +1,57 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@widget/models/threshold";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import * as L from "leaflet";
-import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { Subscription } from "rxjs";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { GenericWidgetComponent } from "../generic-widget.component";
 
 @Component({
   selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class MapComponent
-  implements OnInit, OnChanges, OnDestroy, WidgetTypeComponent
+  extends GenericWidgetComponent
+  implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
-  @Input() showKey: boolean;
-  @Input() properties: any;
-  subscription = new Subscription();
+  any;
+
   resizeObserver;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
   displayMetric;
   options: any;
+
   drawOptions: Record<string, never>;
   layers: L.FeatureGroup[];
   fitBounds: L.LatLngBounds;
   rectLayer: any;
   map: L.Map;
   metricLayers: { [metricId: number]: L.Marker[] };
-  visualMaps;
   displayMap;
   legend;
   stations;
 
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
-  ) {}
-
-  ngOnInit() {
-    this.initMap();
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        this.emphasizeChannel(channel);
-      }
-    );
-    this.subscription.add(emphSub);
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
   }
 
-  initMap(): void {
+  deemphasizeChannel(_channel: string): void {
+    return;
+  }
+
+  startZoom(): void {
+    return;
+  }
+
+  configureChart(): void {
     // Add all the layers to the array that will be fed to options
     const baseLayers = [
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -83,24 +68,7 @@ export class MapComponent
     };
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0 &&
-      this.map
-    ) {
-      this.buildLayers().then(() => {
-        this.changeMetric();
-      });
-    }
-
-    if (changes.showKey) {
-      this.legendToggle();
-    }
-  }
-
-  legendToggle() {
+  toggleKey() {
     //show
     if (this.showKey && this.map) {
       this.legend.addTo(this.map);
@@ -117,8 +85,8 @@ export class MapComponent
         this.legend = new L.Control({
           position: "topright",
         });
-        this.buildLayers().then(() => {
-          this.changeMetric();
+        this.buildChartData(this.data).then(() => {
+          this.changeMetrics();
         });
       }
     }, 0);
@@ -154,10 +122,6 @@ export class MapComponent
     this.legend.addTo(this.map);
   }
 
-  private toggleLayer(event) {
-    console.log(event);
-  }
-
   toggleColor(pane) {
     const pane1 = this.map.getPane(pane);
     pane1.classList.toggle("hidden");
@@ -189,9 +153,12 @@ export class MapComponent
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.map = null;
-    this.resizeObserver.unobserve(document.getElementById("map"));
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(document.getElementById("map"));
+    }
+
+    super.ngOnDestroy();
   }
 
   hoverStation(i, status) {
@@ -207,119 +174,121 @@ export class MapComponent
     }
   }
 
-  private buildLayers() {
+  buildChartData(data) {
     return new Promise<void>((resolve) => {
-      const data = this.data;
-      this.metricLayers = {};
+      this.data = data;
+      if (this.map) {
+        this.metricLayers = {};
 
-      //this.properties.displayType
-      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.thresholds,
-        this.properties,
-        this.dataRange,
-        3
-      );
+        //this.properties.displayType
+        this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+          this.selectedMetrics,
+          this.properties,
+          3
+        );
 
-      //properties.stationView === 'stoplight' || 'worst'
-      this.selectedMetrics.forEach((metric) => {
-        const channelRows = [];
-        const stations = [];
-        const stationRows = [];
-        const stationChannels = {};
+        //properties.stationView === 'stoplight' || 'worst'
+        this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
+          const channelRows = [];
+          const stations = [];
+          const stationRows = [];
+          const stationChannels = {};
 
-        this.channels.forEach((channel) => {
-          const identifier = channel.staCode;
-          const nslc = channel.nslc;
-          let agg = 0;
-          let val: number = null;
-          if (data.get(channel.id)) {
-            const rowData = data.get(channel.id).get(metric.id);
-            val = rowData && rowData[0] ? rowData[0].value : val;
-          }
-
-          const visualMap = this.visualMaps[metric.id];
-          const inRange = visualMap
-            ? this.widgetTypeService.checkValue(val, visualMap)
-            : true;
-
-          if (val === null || (visualMap && !inRange)) {
-            agg++;
-          }
-          const color = this.getStyle(val, visualMap);
-          const iconHtml = this.getIconHtml(color);
-
-          if (!stationChannels[channel.staCode]) {
-            stationChannels[channel.staCode] = "";
-          }
-
-          stationChannels[channel.staCode] =
-            stationChannels[channel.staCode] +
-            `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
-              val !== null ? this.precisionPipe.transform(val) : "no data"
-            }</td></tr>`;
-
-          let channelRow = {
-            title: nslc,
-            id: channel.id,
-            parentId: identifier,
-            staCode: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            color,
-            metricAgg: agg,
-          };
-          channelRow = { ...channelRow };
-          channelRows.push(channelRow);
-          let staIndex = stations.indexOf(identifier);
-          if (staIndex < 0) {
-            staIndex = stations.length;
-            stations.push(identifier);
-            stationRows.push({
-              ...{
-                id: identifier,
-                staCode: channel.staCode,
-                lat: channel.lat,
-                lon: channel.lon,
-                count: 0,
-                agg,
-                color,
-                channelAgg: 0,
-                metricAgg: 0,
-              },
-            });
-          }
-          const station = this.findWorstChannel(
-            channelRow,
-            stationRows[staIndex]
-          );
-
-          if (visualMap?.type === "stoplight") {
-            let color;
-            if (station.channelAgg === 0) {
-              color = visualMap.colors.in;
-            } else if (station.channelAgg === station.count) {
-              color = visualMap.colors.out;
-            } else {
-              color = visualMap.colors.middle;
+          this.channels.forEach((channel) => {
+            const identifier = channel.staCode;
+            const nslc = channel.nslc;
+            let agg = 0;
+            let val: number = null;
+            if (data.get(channel.id)) {
+              const rowData = data.get(channel.id).get(metric.id);
+              val = rowData && rowData[0] ? rowData[0].value : val;
             }
-            station.color = color;
-          }
 
-          stationRows[staIndex] = station;
+            const visualMap = this.visualMaps[metric.id];
+            const inRange = visualMap
+              ? this.widgetTypeService.checkValue(val, visualMap)
+              : true;
 
-          // check if agg if worse than current agg
+            if (val === null || (visualMap && !inRange)) {
+              agg++;
+            }
+            const color = this.getStyle(val, visualMap);
+            const iconHtml = this.getIconHtml(color);
+
+            if (!stationChannels[channel.staCode]) {
+              stationChannels[channel.staCode] = "";
+            }
+
+            stationChannels[channel.staCode] =
+              stationChannels[channel.staCode] +
+              `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
+                val !== null ? this.precisionPipe.transform(val) : "no data"
+              }</td></tr>`;
+
+            let channelRow = {
+              title: nslc,
+              id: channel.id,
+              parentId: identifier,
+              staCode: channel.staCode,
+              lat: channel.lat,
+              lon: channel.lon,
+              color,
+              metricAgg: agg,
+            };
+            channelRow = { ...channelRow };
+            channelRows.push(channelRow);
+            let staIndex = stations.indexOf(identifier);
+            if (staIndex < 0) {
+              staIndex = stations.length;
+              stations.push(identifier);
+              stationRows.push({
+                ...{
+                  id: identifier,
+                  staCode: channel.staCode,
+                  lat: channel.lat,
+                  lon: channel.lon,
+                  count: 0,
+                  agg,
+                  color,
+                  channelAgg: 0,
+                  metricAgg: 0,
+                },
+              });
+            }
+            const station = this.findWorstChannel(
+              channelRow,
+              stationRows[staIndex]
+            );
+
+            if (visualMap?.type === "stoplight") {
+              let color;
+              if (station.channelAgg === 0) {
+                color = visualMap.colors.in;
+              } else if (station.channelAgg === station.count) {
+                color = visualMap.colors.out;
+              } else {
+                color = visualMap.colors.middle;
+              }
+              station.color = color;
+            }
+
+            stationRows[staIndex] = station;
+
+            // check if agg if worse than current agg
+          });
+          const stationMarkers = [];
+
+          stationRows.forEach((station) => {
+            stationMarkers.push(
+              this.makeStationMarker(station, stationChannels)
+            );
+          });
+          //each layer is own feature group
+          this.metricLayers[metric.id] = stationMarkers;
+          this.stations = stationRows;
         });
-        const stationMarkers = [];
-
-        stationRows.forEach((station) => {
-          stationMarkers.push(this.makeStationMarker(station, stationChannels));
-        });
-        //each layer is own feature group
-        this.metricLayers[metric.id] = stationMarkers;
-        this.stations = stationRows;
-      });
-
+      }
       resolve();
     });
   }
@@ -368,19 +337,21 @@ export class MapComponent
     this.map.createPane("nodata"); //no data pane
   }
 
-  changeMetric() {
-    this.displayMetric = this.selectedMetrics[0];
-    this.displayMap = this.visualMaps[this.displayMetric.id];
-    this.addPanes(this.displayMap);
-    this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
-    this.initLegend();
-    this.fitBounds = this.layers[0].getBounds();
-    this.resizeObserver = new ResizeObserver(() => {
-      this.map.invalidateSize();
+  changeMetrics() {
+    if (this.map) {
+      this.displayMetric = this.selectedMetrics[0];
+      this.displayMap = this.visualMaps[this.displayMetric.id];
+      this.addPanes(this.displayMap);
+      this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
+      this.initLegend();
       this.fitBounds = this.layers[0].getBounds();
-    });
+      this.resizeObserver = new ResizeObserver(() => {
+        this.map.invalidateSize();
+        this.fitBounds = this.layers[0].getBounds();
+      });
 
-    this.resizeObserver.observe(document.getElementById("map"));
+      this.resizeObserver.observe(document.getElementById("map"));
+    }
   }
 
   private getIconHtml(color?: string) {

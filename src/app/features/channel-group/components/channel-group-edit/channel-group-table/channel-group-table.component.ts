@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import {
   ColumnMode,
   SelectionType,
@@ -27,6 +27,7 @@ export class ChannelGroupTableComponent implements OnInit {
   @Output() rowsChange = new EventEmitter<Channel[]>();
   @Output() selectedChange = new EventEmitter<Channel[]>();
   @ViewChild("removeTemplate") removeTemplate: TemplateRef<any>;
+  @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
   // table config
   SelectionType = SelectionType;
   ColumnMode = ColumnMode;
@@ -61,6 +62,7 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
+          headerTemplate: this.headerTemplate,
         },
         {
           name: "Station",
@@ -69,6 +71,7 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
+          headerTemplate: this.headerTemplate,
         },
         {
           name: "Location",
@@ -77,6 +80,7 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
+          headerTemplate: this.headerTemplate,
         },
         {
           name: "Channel",
@@ -85,6 +89,7 @@ export class ChannelGroupTableComponent implements OnInit {
           sortable: true,
           resizeable: false,
           flexGrow: 1,
+          headerTemplate: this.headerTemplate,
         },
       ];
       // if (!this.selectable) {

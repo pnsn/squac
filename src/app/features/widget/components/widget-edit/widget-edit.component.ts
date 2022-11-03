@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Subscription } from "rxjs";
-import { Widget } from "@widget/models/widget";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import { MessageService } from "@core/services/message.service";
-import { WidgetService } from "@features/widget/services/widget.service";
 import { ViewService } from "@core/services/view.service";
+import { WidgetService } from "@squacapi/services/widget.service";
+import { Widget } from "@squacapi/models/widget";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "widget-edit",
@@ -59,7 +59,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   // save widget
   save(): void {
-    this.widgetService.updateWidget(this.widget).subscribe({
+    this.widgetService.updateOrCreate(this.widget).subscribe({
       next: (response) => {
         this.widget.id = response.id;
         this.viewService.updateWidget(this.widget.id, this.widget);

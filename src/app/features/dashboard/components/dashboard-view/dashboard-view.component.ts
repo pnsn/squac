@@ -8,9 +8,9 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { DashboardService } from "@features/dashboard/services/dashboard.service";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { Dashboard } from "../../models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 
 // List of dashboards
 @Component({
@@ -144,7 +144,7 @@ export class DashboardViewComponent
 
   // onSelect function for data table selection
   onSelect(dashboard): void {
-    this.selectedDashboardId = dashboard.id;
+    this.selectedDashboardId = dashboard ? dashboard.id : dashboard;
   }
 
   // click event from table
@@ -156,16 +156,14 @@ export class DashboardViewComponent
 
   // delete dashboard
   onDelete(): void {
-    this.dashboardService
-      .deleteDashboard(this.selectedDashboardId)
-      .subscribe(() => {
-        this.refresh();
-      });
+    this.dashboardService.delete(this.selectedDashboardId).subscribe(() => {
+      this.refresh();
+    });
   }
 
-  fetchData() {
-    return this.dashboardService.getDashboards(this.queryParams).pipe(
-      tap((dashboards) => {
+  fetchData(refresh?: boolean) {
+    return this.dashboardService.list(this.queryParams, refresh).pipe(
+      tap((dashboards: Dashboard[]) => {
         this.dashboards = [...dashboards];
         this.rows = [...this.dashboards];
       }),
@@ -178,7 +176,7 @@ export class DashboardViewComponent
   // get fresh dashboards
   refresh(filters?): void {
     this.queryParams = { ...filters };
-    this.loadingService.doLoading(this.fetchData(), this).subscribe();
+    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
   ngOnDestroy(): void {

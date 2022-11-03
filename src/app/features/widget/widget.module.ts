@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { WidgetDetailComponent } from "./components/widget-detail/widget-detail.component";
 import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
-import { MeasurementPipe } from "./pipes/measurement.pipe";
 import { TabularComponent } from "./components/widget-types/tabular/tabular.component";
 import { TimelineComponent } from "./components/widget-types/timeline/timeline.component";
 import { GridsterModule } from "angular-gridster2";
@@ -18,6 +17,8 @@ import { ScatterPlotComponent } from "./components/widget-types/scatter-plot/sca
 import { BoxPlotComponent } from "./components/widget-types/box-plot/box-plot.component";
 import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/parallel-plot.component";
 import { CalendarComponent } from "./components/widget-types/calendar/calendar.component";
+import { WidgetTypeDirective } from "./components/widget-types/widget-type.directive";
+import { MetricToggleComponent } from "./components/widget-detail/metric-toggle/metric-toggle.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,6 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     TabularComponent,
     TimelineComponent,
     WidgetEditOptionsComponent,
-    MeasurementPipe,
     WidgetEditMetricsComponent,
     WidgetEditEntryComponent,
     MapComponent,
@@ -38,6 +38,8 @@ import { CalendarComponent } from "./components/widget-types/calendar/calendar.c
     BoxPlotComponent,
     ParallelPlotComponent,
     CalendarComponent,
+    WidgetTypeDirective,
+    MetricToggleComponent,
   ],
   imports: [SharedModule, GridsterModule],
   providers: [

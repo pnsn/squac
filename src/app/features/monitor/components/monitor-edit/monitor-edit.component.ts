@@ -1,14 +1,19 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "@core/models/channel-group";
-import { Metric } from "@core/models/metric";
+import { ChannelGroup } from "@squacapi/models/channel-group";
+import { Metric } from "@squacapi/models/metric";
 import { MessageService } from "@core/services/message.service";
-import { Monitor } from "@monitor/models/monitor";
-import { Trigger } from "@monitor/models/trigger";
-import { MonitorService } from "@monitor/services/monitor.service";
-import { TriggerService } from "@monitor/services/trigger.service";
+import { Monitor } from "@squacapi/models/monitor";
+import { Trigger } from "@squacapi/models/trigger";
+import { MonitorService } from "@squacapi/services/monitor.service";
+import { TriggerService } from "@squacapi/services/trigger.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
@@ -47,7 +52,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     { value: "min", name: "minimum" },
     { value: "max", name: "maximum" },
   ];
-  value_operators: object[] = [
+  valueOperators: object[] = [
     { value: "outsideof", name: "outside of" },
     { value: "within", name: "within" },
     { value: "==", name: "equal to" },
@@ -56,7 +61,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     { value: ">", name: "greater than" },
     { value: ">=", name: "greater than or equal to" },
   ];
-  num_channels_operators: object[] = [
+  numChannelsOperators: object[] = [
     { value: "any", name: "any" },
     { value: "all", name: "all" },
     { value: "==", name: "exactly" },
@@ -78,7 +83,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private monitorService: MonitorService,
     public dialogRef: MatDialogRef<MonitorEditComponent>,
     private triggerService: TriggerService,
@@ -95,37 +100,35 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
   // emitModelToViewChange: true,
   // // Access triggers
-  get triggers(): FormArray {
-    return this.monitorForm.get("triggers") as FormArray;
+  get triggers(): UntypedFormArray {
+    return this.monitorForm.get("triggers") as UntypedFormArray;
   }
 
   // Add trigger info to form
-  makeTriggerForm(trigger?: Trigger): FormGroup {
+  makeTriggerForm(trigger?: Trigger): UntypedFormGroup {
     return this.formBuilder.group(
       {
         val1: [trigger ? trigger.val1 : null, Validators.required],
         val2: [trigger ? trigger.val2 : null],
         id: [trigger ? trigger.id : null],
-        value_operator: [
-          trigger ? trigger.value_operator : null,
+        valueOperator: [
+          trigger ? trigger.valueOperator : null,
           Validators.required,
         ],
-        num_channels: [
+        numChannels: [
           {
-            value: trigger ? trigger.num_channels : null,
+            value: trigger ? trigger.numChannels : null,
             disabled:
-              trigger?.num_channels_operator === "any" ||
-              trigger?.num_channels_operator === "all",
+              trigger?.numChannelsOperator === "any" ||
+              trigger?.numChannelsOperator === "all",
           },
         ],
-        num_channels_operator: [
-          trigger ? trigger.num_channels_operator : null,
+        numChannelsOperator: [
+          trigger ? trigger.numChannelsOperator : null,
           Validators.required,
         ],
-        alert_on_out_of_alarm: [
-          trigger ? trigger.alert_on_out_of_alarm : false,
-        ],
-        email_list: [trigger ? trigger.email_list : null, Validators.email], //this.emailValidator
+        alertOnOutOfAlarm: [trigger ? trigger.alertOnOutOfAlarm : false],
+        emailList: [trigger ? trigger.emailList : null, Validators.email], //this.emailValidator
       },
       { updateOn: "blur" }
     );
@@ -144,10 +147,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // enable and disable trigger form controls
   validateTrigger(values, triggerFormGroup): void {
     const val2 = triggerFormGroup.get("val2");
-    const num_channels = triggerFormGroup.get("num_channels");
+    const numChannels = triggerFormGroup.get("numChannels");
     if (
-      values.value_operator !== "outsideof" &&
-      values.value_operator !== "within"
+      values.valueOperator !== "outsideof" &&
+      values.valueOperator !== "within"
     ) {
       val2.setValue(null, { emitEvent: false });
       val2.disable({ emitEvent: false });
@@ -157,15 +160,15 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       val2.enable({ emitEvent: false });
     }
     if (
-      values.num_channels_operator === "any" ||
-      values.num_channels_operator === "all"
+      values.numChannelsOperator === "any" ||
+      values.numChannelsOperator === "all"
     ) {
-      num_channels.setValue(null, { emitEvent: false });
-      num_channels.disable({ emitEvent: false });
-      num_channels.removeValidators(Validators.required, { emitEvent: false });
+      numChannels.setValue(null, { emitEvent: false });
+      numChannels.disable({ emitEvent: false });
+      numChannels.removeValidators(Validators.required, { emitEvent: false });
     } else {
-      num_channels.enable({ emitEvent: false });
-      num_channels.addValidators(Validators.required, { emitEvent: false });
+      numChannels.enable({ emitEvent: false });
+      numChannels.addValidators(Validators.required, { emitEvent: false });
     }
   }
   // Remove given trigger
@@ -191,9 +194,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       null,
       this.triggers.value
     );
-
     this.monitorService
-      .updateMonitor(monitor)
+      .updateOrCreate(monitor)
       .pipe(
         switchMap((m) => {
           return merge(

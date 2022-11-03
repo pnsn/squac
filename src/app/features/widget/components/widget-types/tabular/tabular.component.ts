@@ -1,10 +1,7 @@
 import {
   Component,
-  Input,
   ViewChild,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
   TemplateRef,
   OnInit,
 } from "@angular/core";
@@ -13,45 +10,35 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
-import { Subscription } from "rxjs";
-import { Metric } from "@core/models/metric";
-import { Threshold } from "@widget/models/threshold";
-import { Channel } from "@core/models/channel";
-import { WidgetTypeComponent } from "../widget-type.component";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { GenericWidgetComponent } from "../generic-widget.component";
 
 @Component({
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class TabularComponent
-  implements OnInit, OnDestroy, OnChanges, WidgetTypeComponent
+  extends GenericWidgetComponent
+  implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() dataRange: any;
-  @Input() selectedMetrics: Metric[];
-  @Input() properties: any;
-  @Input() showKey: boolean;
-  subscription = new Subscription();
-  visualMaps;
-
   @ViewChild("dataTable") table: any;
   @ViewChild("cellTemplate") cellTemplate: TemplateRef<any>;
   @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
+
+  emphasizedChannel: string;
+  deemphasizedChannel: string;
+
   ColumnMode = ColumnMode;
   SortType = SortType;
   SelectionType = SelectionType;
   rows = [];
   columns = [];
   selectedRow = [];
-  emphasizedChannel;
-  deemphasizedChannel;
+
   messages = {
     // Message to show when array is presented
     // but contains no values
@@ -66,48 +53,43 @@ export class TabularComponent
   sorts;
   constructor(
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
-  ) {}
-
+    protected widgetConnectService: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnectService);
+  }
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizedChannel = channel;
-      }
+    this.subscription.add(
+      this.widgetManager.resize.subscribe(this.resize.bind(this))
     );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        const index = this.findRowIndex(channel);
-        const row = this.rows[index];
-        this.emphasizedChannel = channel;
-        this.selectedRow = [row];
-        this.table.element.querySelector(".datatable-body").scrollTop =
-          index * this.table.rowHeight;
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    // (changes.data || changes.selectedMetrics) &&
-    // this.channels.length > 0 &&
-    // this.selectedMetrics.length > 0
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildColumns();
-      this.buildRows(this.data);
-    }
+    super.ngOnInit();
   }
 
-  buildColumns() {
+  startZoom(): void {
+    return;
+  }
+  toggleKey(): void {
+    return;
+  }
+
+  changeMetrics(): void {
+    return;
+  }
+
+  deemphasizeChannel(channel: string): void {
+    this.deemphasizedChannel = channel;
+  }
+
+  emphasizeChannel(channel: string): void {
+    const index = this.findRowIndex(channel);
+    const row = this.rows[index];
+    this.emphasizedChannel = channel;
+    this.selectedRow = [row];
+    this.table.element.querySelector(".datatable-body").scrollTop =
+      index * this.table.rowHeight;
+  }
+
+  configureChart(): void {
     let name;
     let isTreeColumn;
     switch (this.properties.displayType) {
@@ -149,6 +131,7 @@ export class TabularComponent
     this.sorts = [{ prop: "agg", dir: "desc" }];
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
         this.columns.push({
           name: metric.name,
           prop: metric.id,
@@ -165,6 +148,7 @@ export class TabularComponent
   }
 
   resize() {
+    console.log("resize table");
     if (this.table) {
       this.table.recalculate();
     }
@@ -185,101 +169,103 @@ export class TabularComponent
     return propA.localeCompare(propB);
   }
 
-  private buildRows(data) {
-    const rows = [];
-    const stations = [];
-    const stationRows = [];
+  buildChartData(data) {
+    return new Promise<void>((resolve) => {
+      const rows = [];
+      const stations = [];
+      const stationRows = [];
 
-    this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
-      this.selectedMetrics,
-      this.thresholds,
-      this.properties,
-      this.dataRange,
-      3
-    );
+      this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        3
+      );
 
-    this.channels.forEach((channel) => {
-      const identifier = channel.staCode;
-      const nslc = channel.nslc;
-      let agg = 0;
-      const rowMetrics = {};
-      const stationRowMetrics = {};
-      this.selectedMetrics.forEach((metric) => {
-        let val: number = null;
-        let count;
+      this.channels.forEach((channel) => {
+        const identifier = channel.staCode;
+        const nslc = channel.nslc;
+        let agg = 0;
+        const rowMetrics = {};
+        const stationRowMetrics = {};
+        this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
+          let val: number = null;
+          let count;
 
-        if (data.get(channel.id)) {
-          const rowData = data.get(channel.id).get(metric.id);
-          val = rowData && rowData[0] ? rowData[0].value : null;
-        }
+          if (data.get(channel.id)) {
+            const rowData = data.get(channel.id).get(metric.id);
+            val = rowData && rowData[0] ? rowData[0].value : null;
+          }
 
-        const visualMap = this.visualMaps[metric.id];
-        const inRange = visualMap
-          ? this.widgetTypeService.checkValue(val, visualMap)
-          : true;
-        if (val === null || (visualMap && !inRange)) {
-          agg++;
-          count = 0;
-        } else {
-          count = 1;
-        }
+          const visualMap = this.visualMaps[metric.id];
+          const inRange = visualMap
+            ? this.widgetTypeService.checkValue(val, visualMap)
+            : true;
+          if (val === null || (visualMap && !inRange)) {
+            agg++;
+            count = 0;
+          } else {
+            count = 1;
+          }
 
-        rowMetrics[metric.id] = {
-          value: val,
-          color: this.getStyle(val, visualMap),
-          count: 0,
-        };
-        stationRowMetrics[metric.id] = {
-          value: val,
-          color: this.getStyle(val, visualMap),
-          count, //channel in range for this metric
-        };
-      });
-      let title;
-      if (this.properties.displayType === "channel") {
-        title = nslc;
-      } else {
-        title = channel.loc + "." + channel.code;
-      }
-
-      let row = {
-        title,
-        id: channel.id,
-        nslc: nslc,
-        parentId: identifier,
-        treeStatus: "disabled",
-        agg,
-      };
-      row = { ...row, ...rowMetrics };
-      rows.push(row);
-
-      if (this.properties.displayType !== "channel") {
-        let staIndex = stations.indexOf(identifier);
-        if (staIndex < 0) {
-          staIndex = stations.length;
-          stations.push(identifier);
-          const station = {
-            ...{
-              title: identifier,
-              id: identifier,
-              treeStatus: "collapsed",
-              count: 0, //number of channels the station has
-              agg, //number of channels/metrics out of spec
-              type: this.properties.displayType,
-            },
+          rowMetrics[metric.id] = {
+            value: val,
+            color: this.getStyle(val, visualMap),
+            count: 0,
           };
-
-          stationRows.push(station);
+          stationRowMetrics[metric.id] = {
+            value: val,
+            color: this.getStyle(val, visualMap),
+            count, //channel in range for this metric
+          };
+        });
+        let title;
+        if (this.properties.displayType === "channel") {
+          title = nslc;
+        } else {
+          title = channel.loc + "." + channel.code;
         }
-        stationRows[staIndex] = this.findWorstChannel(
-          row,
-          stationRows[staIndex],
-          stationRowMetrics
-        );
-        // check if agg if worse than current agg
-      }
+
+        let row = {
+          title,
+          id: channel.id,
+          nslc: nslc,
+          parentId: identifier,
+          treeStatus: "disabled",
+          agg,
+        };
+        row = { ...row, ...rowMetrics };
+        rows.push(row);
+
+        if (this.properties.displayType !== "channel") {
+          let staIndex = stations.indexOf(identifier);
+          if (staIndex < 0) {
+            staIndex = stations.length;
+            stations.push(identifier);
+            const station = {
+              ...{
+                title: identifier,
+                id: identifier,
+                treeStatus: "collapsed",
+                count: 0, //number of channels the station has
+                agg, //number of channels/metrics out of spec
+                type: this.properties.displayType,
+              },
+            };
+
+            stationRows.push(station);
+          }
+          stationRows[staIndex] = this.findWorstChannel(
+            row,
+            stationRows[staIndex],
+            stationRowMetrics
+          );
+          // check if agg if worse than current agg
+        }
+      });
+      this.rows = [...stationRows, ...rows];
+      resolve();
     });
-    this.rows = [...stationRows, ...rows];
   }
 
   //FIXME: this needs to be cleaned up
@@ -335,10 +321,6 @@ export class TabularComponent
 
   onSelect(event) {
     this.onTreeAction({ row: event.selected[0] });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   getRowClass(row) {

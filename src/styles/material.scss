@@ -117,18 +117,26 @@ mat-form-field {
   background-color: $sq-lt-gray;
 }
 
-button[mat-menu-item] {
-  &[color="accent"] {
-    color: $sq-yellow;
-  }
-  &[color="warn"] {
-    color: $sq-warn;
-  }
+mat-sidenav {
   &[color="primary"] {
-    color: $sq-blue;
+    background-color: $sq-blue;
+    color: white;
   }
-  &[color="gray"] {
-    color: $sq-lt-gray;
+}
+button[mat-menu-item] {
+  &:not([disabled]) {
+    &[color="accent"] {
+      color: $sq-yellow;
+    }
+    &[color="warn"] {
+      color: $sq-warn;
+    }
+    &[color="primary"] {
+      color: $sq-blue;
+    }
+    &[color="gray"] {
+      color: $sq-lt-gray;
+    }
   }
   &.active {
     background-color: lighten($sq-lt-blue, 30%) !important;

@@ -9,10 +9,10 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { Alert } from "@monitor/models/alert";
-import { Monitor } from "@monitor/models/monitor";
-import { AlertService } from "@monitor/services/alert.service";
-import { MonitorService } from "@monitor/services/monitor.service";
+import { Alert } from "@squacapi/models/alert";
+import { Monitor } from "@squacapi/models/monitor";
+import { AlertService } from "@squacapi/services/alert.service";
+import { MonitorService } from "@squacapi/services/monitor.service";
 import {
   catchError,
   EMPTY,
@@ -55,7 +55,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       text: "Filter alerts...",
       props: [
         "owner",
-        { prop: "breaching_channels", props: ["channel"] },
+        { prop: "breachingChannels", props: ["channel"] },
         {
           prop: "monitor",
           props: [
@@ -138,7 +138,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: "Breaching Channels",
-          prop: "breaching_channels",
+          prop: "breachingChannels",
           sortable: false,
           width: 50,
           cellTemplate: this.channelsTemplate,
@@ -147,12 +147,12 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  fetchData() {
+  fetchData(refresh?: boolean) {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
       forkJoin({
-        alerts: this.alertService.getAlerts({ starttime: lastDay }),
-        monitors: this.monitorService.getMonitors(),
+        alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
+        monitors: this.monitorService.list({}, refresh),
       }).pipe(
         tap((results: any) => {
           this.monitors = results.monitors;
@@ -167,7 +167,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // get fresh data
   refresh(): void {
-    this.fetchData().subscribe();
+    this.fetchData(true).subscribe();
   }
 
   // match alerts and monitors

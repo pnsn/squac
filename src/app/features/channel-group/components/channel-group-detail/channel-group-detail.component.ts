@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
-import { Channel } from "@core/models/channel";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { Channel } from "@squacapi/models/channel";
 import { LoadingService } from "@core/services/loading.service";
 
 @Component({
@@ -45,14 +45,12 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((params) => {
           return this.loadingService.doLoading(
-            this.channelGroupService
-              .getChannelGroup(params.channelGroupId)
-              .pipe(
-                catchError((error) => {
-                  this.error = error;
-                  return EMPTY;
-                })
-              ),
+            this.channelGroupService.read(params.channelGroupId).pipe(
+              catchError((error) => {
+                this.error = error;
+                return EMPTY;
+              })
+            ),
             this
           );
         })
@@ -117,14 +115,14 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
 
   // Delete channel group
   delete(): void {
-    this.channelGroupService.deleteChannelGroup(this.channelGroup.id).subscribe(
-      () => {
+    this.channelGroupService.delete(this.channelGroup.id).subscribe({
+      next: () => {
         this.closeChannelGroup();
         this.messageService.message("Channel group deleted.");
       },
-      () => {
+      error: () => {
         this.messageService.error("Could not delete channel group");
-      }
-    );
+      },
+    });
   }
 }

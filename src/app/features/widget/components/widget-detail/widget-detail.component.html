@@ -1,13 +1,13 @@
 <div class="widget-container box" *ngIf="widget">
   <div class="widget-header row space-between">
     <span>{{ widget.name }}</span>
-    <div id="controls">
+    <div id="controls" *ngIf="!error">
       <button
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
         class="icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
-        (click)="zooming = zooming !== 'start' ? 'start' : 'stop'"
+        (click)="updateZoom()"
         matTooltip="start zoom"
         aria-label="button that enables zoom"
       >
@@ -17,7 +17,7 @@
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
         class="icon-button"
-        (click)="zooming = 'reset'"
+        (click)="updateZoom('reset')"
         matTooltip="reset zoom"
         aria-label="button that resets zoom"
       >
@@ -30,20 +30,18 @@
         [color]="showKey ? 'primary' : 'gray'"
         matTooltip="toggle key"
         aria-label="button that toggles key"
-        (click)="showKey = !showKey"
+        (click)="toggleKey()"
       >
         <mat-icon>legend_toggle</mat-icon>
       </button>
-      <button
-        class="icon-button"
-        mat-icon-button
-        [matMenuTriggerFor]="metricMenu"
-        color="primary"
-        matTooltip="change metrics"
-        aria-label="change metrics"
-      >
-        <mat-icon>auto_graph</mat-icon>
-      </button>
+      <widget-metric-toggle
+        *ngIf="initialMetrics?.length > 0"
+        [dimensions]="displayType?.dimensions"
+        [initialMetrics]="initialMetrics"
+        (metricsChange)="metricsChanged($event)"
+        [(thresholds)]="thresholds"
+        [expectedMetrics]="expectedMetrics"
+      ></widget-metric-toggle>
       <button
         class="icon-button"
         mat-icon-button
@@ -105,192 +103,11 @@
     </ng-template>
   </mat-menu>
 
-  <mat-menu #metricMenu="matMenu" class="mat-menu-dense">
-    <ng-template matMenuContent>
-      <button
-        mat-menu-item
-        (click)="metricsSelected()"
-        [disabled]="
-          !metricsChanged ||
-          this.selected.length === 0 ||
-          this.availableDimensions.length > 0
-        "
-        color="accent"
-      >
-        Apply Changes
-      </button>
-
-      <ng-container
-        *ngFor="let threshold of widget.thresholds; let thresholdIndex = index"
-      >
-        <ng-template
-          #thresholdTemplate
-          [ngTemplateOutlet]="thresholdTemplate"
-          let-index="index"
-          let-threshold="threshold"
-          let-thresholdIndex="thresholdIndex"
-          let-metric="metric"
-          [ngTemplateOutletContext]="{
-            metric: getMetric(threshold.metricId),
-            index: getSelectedIndex(threshold.metricId),
-            threshold: threshold,
-            thresholdIndex: threshold
-          }"
-        >
-          <button
-            mat-menu-item
-            (click)="changeThreshold($event, threshold, index, metric)"
-          >
-            <ng-container *ngIf="index > -1; else notSelected">
-              <ng-container *ngIf="threshold.dimension; else noDimensions">
-                <span>{{ threshold.dimension }}:</span>
-                {{ metric.name }}
-              </ng-container>
-              <ng-template #noDimensions>
-                <mat-icon>check_box</mat-icon> {{ metric.name }}
-              </ng-template>
-            </ng-container>
-
-            <ng-template #notSelected>
-              <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
-            </ng-template>
-          </button>
-        </ng-template>
-      </ng-container>
-      <ng-container *ngFor="let metric of metrics"> </ng-container>
-    </ng-template>
-  </mat-menu>
   <div
     class="widget-content"
     [appIsLoading]="loadingService.isLoading(widget)"
     spinnerType="buffer"
   >
-    <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
-    <shared-error
-      *ngIf="!widget.metrics || widget.metrics?.length === 0"
-      [errorMsg]="'Could not load metric. Resource may have been deleted.'"
-    ></shared-error>
-
-    <ng-container *ngIf="!error && data">
-      <ng-container [ngSwitch]="widget?.type">
-        <widget-timeline
-          #widgetChild
-          *ngSwitchCase="'timeline'"
-          class="widget"
-          [data]="data"
-          [dataRange]="dataRange"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [selectedMetrics]="selectedMetrics"
-          [properties]="widget.properties"
-          [showKey]="showKey"
-          [(zooming)]="zooming"
-        >
-        </widget-timeline>
-        <widget-tabular
-          #widgetChild
-          *ngSwitchCase="'tabular'"
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [properties]="widget.properties"
-          [selectedMetrics]="selectedMetrics"
-          [showKey]="showKey"
-        >
-        </widget-tabular>
-        <widget-parallel-plot
-          *ngSwitchCase="'parallel-plot'"
-          #widgetChild
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [selectedMetrics]="selectedMetrics"
-          [properties]="widget.properties"
-          [showKey]="showKey"
-          [(zooming)]="zooming"
-        >
-        </widget-parallel-plot>
-        <widget-timechart
-          *ngSwitchCase="'timeseries'"
-          #widgetChild
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [selectedMetrics]="selectedMetrics"
-          [showKey]="showKey"
-          [properties]="widget.properties"
-          [(zooming)]="zooming"
-        >
-        </widget-timechart>
-        <widget-map
-          *ngSwitchCase="'map'"
-          #widgetChild
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [selectedMetrics]="selectedMetrics"
-          [showKey]="showKey"
-          [properties]="widget.properties"
-          [(zooming)]="zooming"
-        >
-        </widget-map>
-        <widget-box-plot
-          *ngSwitchCase="'box-plot'"
-          #widgetChild
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [selectedMetrics]="selectedMetrics"
-          [properties]="widget.properties"
-          [showKey]="showKey"
-          [(zooming)]="zooming"
-        >
-        </widget-box-plot>
-        <widget-scatter-plot
-          *ngSwitchCase="'scatter-plot'"
-          #widgetChild
-          class="widget"
-          [data]="data"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [dataRange]="dataRange"
-          [selectedMetrics]="selectedMetrics"
-          [showKey]="showKey"
-          [properties]="widget.properties"
-          [(zooming)]="zooming"
-        >
-        </widget-scatter-plot>
-        <widget-calendar-plot
-          #widgetChild
-          *ngSwitchCase="'calendar-plot'"
-          class="widget"
-          [data]="data"
-          [dataRange]="dataRange"
-          [thresholds]="widget.thresholds"
-          [channels]="channels"
-          [selectedMetrics]="selectedMetrics"
-          [properties]="widget.properties"
-          [showKey]="showKey"
-          [(zooming)]="zooming"
-        >
-        </widget-calendar-plot>
-        <div *ngSwitchDefault class="widget-message">
-          <p>
-            Error: could not load widget...
-            {{ widget?.type }}
-          </p>
-        </div>
-      </ng-container>
-    </ng-container>
+    <div widgetContainer class="widget"></div>
   </div>
 </div>

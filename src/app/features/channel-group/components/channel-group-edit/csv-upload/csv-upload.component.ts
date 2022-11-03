@@ -5,10 +5,10 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Channel } from "@core/models/channel";
+import { Channel } from "@squacapi/models/channel";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { ChannelService } from "@features/channel-group/services/channel.service";
+import { ChannelService } from "@squacapi/services/channel.service";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
 
@@ -119,7 +119,7 @@ export class CsvUploadComponent {
           //break up into smaller chunks to get around header size limit
           const queries: Observable<Channel[]>[] = nslcStrings.map(
             (nslcString) => {
-              return this.channelService.getChannelsByFilters({
+              return this.channelService.list({
                 nslc: nslcString,
                 ...searchFilters,
               });

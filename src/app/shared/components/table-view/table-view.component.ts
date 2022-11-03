@@ -12,11 +12,11 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { User } from "@features/user/models/user";
-import { OrganizationService } from "@features/user/services/organization.service";
+import { User } from "@squacapi/models/user";
+import { OrganizationService } from "@squacapi/services/organization.service";
 import { UserService } from "@features/user/services/user.service";
-import { OrganizationPipe } from "@shared/pipes/organization.pipe";
-import { UserPipe } from "@shared/pipes/user.pipe";
+import { OrganizationPipe } from "@squacapi/pipes/organization.pipe";
+import { UserPipe } from "@squacapi/pipes/user.pipe";
 import { ColumnMode } from "@boring.devs/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
 @Component({

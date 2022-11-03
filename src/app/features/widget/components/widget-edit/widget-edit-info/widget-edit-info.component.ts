@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { WidgetProperties } from "@features/widget/models/widget";
 import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { WidgetProperties } from "@squacapi/models/widget";
+import { WidgetDisplayOption, WidgetType } from "@widget/models/widget-type";
+import { WidgetConfigService } from "@widget/services/widget-config.service";
 
 @Component({
   selector: "widget-edit-info",
@@ -32,11 +33,11 @@ export class WidgetEditInfoComponent implements OnInit {
   widgetTypes: WidgetType[];
   statTypes: any;
 
-  widgetForm = new FormGroup({
-    name: new FormControl("", Validators.required),
-    type: new FormControl("", Validators.required),
-    stat: new FormControl("latest", Validators.required), // default is raw data
-    displayType: new FormControl(""),
+  widgetForm = new UntypedFormGroup({
+    name: new UntypedFormControl("", Validators.required),
+    type: new UntypedFormControl("", Validators.required),
+    stat: new UntypedFormControl("latest", Validators.required), // default is raw data
+    displayType: new UntypedFormControl(""),
   });
 
   constructor(widgetConfigService: WidgetConfigService) {

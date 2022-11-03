@@ -15,21 +15,23 @@ button {
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
+  padding: 3px;
   z-index: 100;
+  gap: 3px;
+  & > .row {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
   mat-button-toggle {
-    height: 40px;
-    width: 40px;
+    max-height: 40px;
+    max-width: 40px;
   }
   mat-menu-item {
     span {
       margin: 0px 5px;
     }
   }
-  mat-toolbar-row {
-    height: 48px;
-    padding: 0px;
-  }
-
   #dashboard-info {
     margin-left: 10px;
     h2 {
@@ -43,18 +45,9 @@ button {
       font-weight: 200;
     }
   }
-  #header-bottom {
-    // width: 100%;
-  }
-
-  .dashboard-controls {
-    // height: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-  }
+}
+.auto-margin {
+  margin-inline-end: auto;
 }
 
 .sidenav-toggle-container {
@@ -68,23 +61,17 @@ button {
   }
 }
 
-// #date-range {
-//     width: 230px;
-//     margin-left:10px;
-//     margin-right:10px;
-// }
-
 #dashboard-body {
   z-index: 0;
   height: 100%;
   width: 100%;
 }
 
-.example-sidenav-content {
+.sidenav-content {
   height: 100%;
 }
 
-.example-sidenav {
+.sidenav {
   padding: 20px;
 }
 

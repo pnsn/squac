@@ -1,11 +1,15 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { User } from "@user/models/user";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { User } from "@squacapi/models/user";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { OrganizationService } from "@user/services/organization.service";
 import { MessageService } from "@core/services/message.service";
-import { InviteService } from "@user/services/invite.service";
+import { InviteService } from "@squacapi/services/invite.service";
+import { OrganizationUserService } from "@squacapi/services/organization-user.service";
 
 @Component({
   selector: "user-organization-edit",
@@ -17,7 +21,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   user: User;
   editMode: boolean;
   orgId: number;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
 
   userIsActive = true;
   groupTypes = [
@@ -38,9 +42,9 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     },
   ];
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<OrganizationEditComponent>,
-    private orgService: OrganizationService,
+    private orgUserService: OrganizationUserService,
     private messageService: MessageService,
     private inviteService: InviteService,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -101,8 +105,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       values.groups
     );
     user.isActive = this.userIsActive;
-    this.orgService
-      .updateUser(
+    this.orgUserService
+      .updateOrCreate(
         new User(
           this.user ? this.user.id : null,
           values.email ? values.email : this.user.email,

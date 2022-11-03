@@ -1,12 +1,16 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Dashboard } from "../../models/dashboard";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { DashboardService } from "../../services/dashboard.service";
+import { Dashboard } from "@squacapi/models/dashboard";
+import {
+  UntypedFormGroup,
+  Validators,
+  UntypedFormBuilder,
+} from "@angular/forms";
+import { DashboardService } from "@squacapi/services/dashboard.service";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 
 @Component({
   selector: "dashboard-edit",
@@ -20,14 +24,14 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   orgId: number;
   channelGroups: ChannelGroup[];
   channelGroupId: number;
-  dashboardForm: FormGroup = this.formBuilder.group({
+  dashboardForm: UntypedFormGroup = this.formBuilder.group({
     name: ["", Validators.required],
     description: ["", Validators.required],
     share: ["private", Validators.required],
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<DashboardEditComponent>,
     private dashboardService: DashboardService,
     private userService: UserService,
@@ -91,7 +95,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       dashboard.properties = this.dashboard.properties;
     }
 
-    this.dashboardService.updateDashboard(dashboard).subscribe({
+    this.dashboardService.updateOrCreate(dashboard).subscribe({
       next: (result) => {
         this.messageService.message("Dashboard saved.");
         this.cancel(result.id);

@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { Subscription } from "rxjs";
-import { User } from "../../models/user";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { User } from "@squacapi/models/user";
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
@@ -16,7 +20,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   user: User;
   id: number;
   editMode: boolean;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   hide = true;
 
   constructor(
@@ -32,9 +36,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   // set up form
   initForm(user): void {
-    this.userForm = new FormGroup({
-      firstName: new FormControl(user.firstName, Validators.required),
-      lastName: new FormControl(user.lastName, Validators.required),
+    this.userForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl(user.firstName, Validators.required),
+      lastName: new UntypedFormControl(user.lastName, Validators.required),
     });
   }
 
@@ -45,17 +49,16 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   // save changed user
   save(): void {
-    this.userService.updateUser(this.userForm.value).subscribe(
-      () => {
-        this.userService.fetchUser();
+    this.userService.update(this.userForm.value).subscribe({
+      next: () => {
         this.editMode = false;
         this.messageService.message("User information updated.");
       },
-      (error) => {
+      error: (error) => {
         this.messageService.error("Could not save user information.");
         console.error("error in change user: ", error);
-      }
-    );
+      },
+    });
   }
 
   ngOnDestroy(): void {

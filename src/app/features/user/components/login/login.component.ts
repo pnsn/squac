@@ -1,5 +1,9 @@
 import { Component, OnDestroy } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+} from "@angular/forms";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
@@ -16,14 +20,14 @@ export class LoginComponent implements OnDestroy {
   message: string = null;
   hide = true;
 
-  loginForm: FormGroup = this.formBuilder.group({
+  loginForm: UntypedFormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
   });
 
   constructor(
     private loginService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   // Form submit
@@ -36,16 +40,17 @@ export class LoginComponent implements OnDestroy {
     const password = this.loginForm.value.password;
 
     // Send data and log user in
-    const loginSub = this.loginService.login(email, password).subscribe(
-      () => {
+    const loginSub = this.loginService.login(email, password).subscribe({
+      next: () => {
         this.error = "";
         this.message = "Login successful.";
       },
-      () => {
+      error: (error) => {
+        console.error(error);
         this.message = "";
         this.error = "Failed to log in - please try again";
-      }
-    );
+      },
+    });
 
     this.subscription.add(loginSub);
   }

@@ -11,10 +11,10 @@ export class ChannelGroupFilterComponent {
   @Output() addFilterToRegex = new EventEmitter<any>();
   // regex strings for each param
   filters: any = {
-    net_search: "",
-    chan_search: "",
-    sta_search: "",
-    loc_search: "",
+    netSearch: "",
+    chanSearch: "",
+    staSearch: "",
+    locSearch: "",
   };
 
   // strings for form
@@ -62,10 +62,10 @@ export class ChannelGroupFilterComponent {
       this.filters = {};
     } else {
       this.filters = {
-        net_search: this.formatFilter(this.net),
-        chan_search: this.formatFilter(this.chan),
-        sta_search: this.formatFilter(this.sta),
-        loc_search: this.formatFilter(this.loc),
+        netSearch: this.formatFilter(this.net),
+        chanSearch: this.formatFilter(this.chan),
+        staSearch: this.formatFilter(this.sta),
+        locSearch: this.formatFilter(this.loc),
       };
     }
   }

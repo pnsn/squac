@@ -6,6 +6,7 @@ import { MetricViewComponent } from "./components/metric-view/metric-view.compon
 import { MetricEditComponent } from "./components/metric-edit/metric-edit.component";
 import { MetricRoutingModule } from "./metric-routing.module";
 import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
+
 @NgModule({
   declarations: [
     MetricComponent,

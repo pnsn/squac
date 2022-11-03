@@ -1,29 +1,30 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import {
-  Subject,
-  BehaviorSubject,
-  Observable,
-  tap,
-  switchMap,
-  of,
-  distinctUntilChanged,
-  catchError,
-} from "rxjs";
-import { Dashboard } from "@dashboard/models/dashboard";
-import { DashboardService } from "@dashboard/services/dashboard.service";
-import { Widget } from "@widget/models/widget";
-import { WidgetService } from "@widget/services/widget.service";
-import * as dayjs from "dayjs";
+import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
-import { MessageService } from "./message.service";
+import { Channel } from "@squacapi/models/channel";
+import { ChannelGroup } from "@squacapi/models/channel-group";
+import { Dashboard } from "@squacapi/models/dashboard";
+import { DashboardService } from "@squacapi/services/dashboard.service";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { Widget } from "@squacapi/models/widget";
+import { WidgetService } from "@squacapi/services/widget.service";
+import * as dayjs from "dayjs";
+import {
+  BehaviorSubject,
+  catchError,
+  distinctUntilChanged,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+  switchMap,
+  tap,
+} from "rxjs";
 import { DateService } from "./date.service";
-import { Channel } from "@core/models/channel";
-import { ChannelGroupService } from "@features/channel-group/services/channel-group.service";
-import { ChannelGroup } from "@core/models/channel-group";
 import { LoadingService } from "./loading.service";
-import { FormGroup } from "@angular/forms";
+import { MessageService } from "./message.service";
 
 @Injectable({
   providedIn: "root",
@@ -31,12 +32,13 @@ import { FormGroup } from "@angular/forms";
 export class ViewService {
   // handle refreshing
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
-  private _channelsList: FormGroup; //{ 'SCNL': boolean }
+  private _channelsList: UntypedFormGroup; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
   private _channelGroupId: number;
+  private _widgets: Widget[];
   channelGroupId = new BehaviorSubject<number>(null);
   currentWidgets = new Subject<Widget[]>();
-  updateData = new Subject<number>();
+  updateData = new ReplaySubject<any>(1);
   resize = new Subject<number>();
   refresh = new Subject<string>();
   widgetUpdated = new Subject<number>();
@@ -136,7 +138,6 @@ export class ViewService {
     // clear old widgets
     this.queuedWidgets = 0;
     this._dashboard = dashboard;
-
     this.setIntialDates();
     // return dates
   }
@@ -147,21 +148,21 @@ export class ViewService {
   }
 
   getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
-    return this.channelGroupService.getChannelGroup(channelGroupId).pipe(
+    return this.channelGroupService.read(channelGroupId).pipe(
       distinctUntilChanged(),
       tap((group) => {
         this._channels = group.channels;
         this.dashboard.channelGroupId = group.id;
         this._channelGroupId = group.id;
       }),
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       })
     );
   }
 
   // { NSLC : true/false} from channel select
-  updateChannels(list: FormGroup) {
+  updateChannels(list: UntypedFormGroup) {
     this._channelsList = list;
     this.hasUnsavedChanges = true;
   }
@@ -179,7 +180,10 @@ export class ViewService {
   // send updates and reset values
   updateDashboard(): void {
     //get new channelgroup info if its changed
-    if (this._channelGroupId !== this.dashboard.channelGroupId) {
+    if (
+      this._channelGroupId &&
+      this._channelGroupId !== this.dashboard.channelGroupId
+    ) {
       this.dashboard.channelGroupId = this._channelGroupId;
       this.loadingService
         .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
@@ -196,7 +200,7 @@ export class ViewService {
     const channels = this.filterChannels();
 
     this.channels.next(channels);
-    this.updateData.next(this.dashboard.id);
+    this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges = false;
     // this._channelsList = undefined;
     // this._channelGroupId = null;
@@ -206,8 +210,8 @@ export class ViewService {
     dashboardId: number,
     channelGroupId: number
   ): Observable<ChannelGroup> {
-    console.log("set dashboards");
-    return this.dashboardService.getDashboard(dashboardId).pipe(
+    this._widgets = [];
+    return this.dashboardService.read(dashboardId).pipe(
       tap({
         next: (dashboard) => {
           this.setDashboard(dashboard);
@@ -283,12 +287,12 @@ export class ViewService {
 
   // returns the wdiget index
   private getWidgetIndexById(id: number): number {
-    return this._dashboard.widgets?.findIndex((w) => w.id === id);
+    return this._widgets?.findIndex((w) => w.id === id);
   }
 
   // return widget with given id
   getWidgetById(id: number): Widget {
-    return this._dashboard.widgets.find((w) => w.id === id);
+    return this._widgets.find((w) => w.id === id);
   }
 
   // send id to resize subscribers
@@ -303,9 +307,7 @@ export class ViewService {
 
   // saves the given widgets
   setWidgets(widgets: Widget[]): void {
-    if (this.dashboard) {
-      this._dashboard.widgets = widgets;
-    }
+    this._widgets = widgets;
   }
 
   // stores archive options
@@ -325,23 +327,23 @@ export class ViewService {
   updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
-      this._dashboard.widgets.splice(index, 1);
+      this._widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
       // get widget data since incomplete widget is coming in
-      this.widgetService.getWidget(widgetId).subscribe({
+      this.widgetService.read(widgetId).subscribe({
         next: (newWidget) => {
           if (index > -1) {
-            this._dashboard.widgets[index] = newWidget;
+            this._widgets[index] = newWidget;
             this.messageService.message("Widget updated.");
           } else {
-            this._dashboard.widgets.push(newWidget);
+            this._widgets.push(newWidget);
             this.messageService.message("Widget added.");
           }
           this.widgetChanged(newWidget.id);
         },
         error: () => {
-          this.messageService.error("Could not updated widget.");
+          this.messageService.error("Could not update widget.");
         },
       });
     }
@@ -349,7 +351,7 @@ export class ViewService {
 
   // Tell widgets to resize
   saveWidgetResize(widget: Widget) {
-    this.widgetService.updateWidget(widget).subscribe({
+    this.widgetService.updateOrCreate(widget).subscribe({
       next: (widget) => {
         this.resizeWidget(widget.id);
       },
@@ -361,7 +363,7 @@ export class ViewService {
 
   // deletes given widget
   deleteWidget(widgetId): void {
-    this.widgetService.deleteWidget(widgetId).subscribe({
+    this.widgetService.delete(widgetId).subscribe({
       next: () => {
         this.updateWidget(widgetId);
         this.messageService.message("Widget deleted.");
@@ -374,7 +376,7 @@ export class ViewService {
 
   // deletes the dashboard
   deleteDashboard(dashboardId): void {
-    this.dashboardService.deleteDashboard(dashboardId).subscribe({
+    this.dashboardService.delete(dashboardId).subscribe({
       next: () => {
         this.messageService.message("Dashboard deleted.");
         // redirect to dashboards
@@ -387,7 +389,7 @@ export class ViewService {
 
   // saves the dashboard to squac
   saveDashboard(): void {
-    this.dashboardService.updateDashboard(this.dashboard).subscribe({
+    this.dashboardService.updateOrCreate(this.dashboard).subscribe({
       error: () => {
         this.messageService.error("Could not save dashboard.");
       },

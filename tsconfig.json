@@ -9,20 +9,22 @@
     "module": "es2020",
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "importHelpers": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
+    "target": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
       "@core/*": ["app/core/*"],
       "@shared/*": ["app/shared/*"],
       "@features/*": ["app/features/*"],
+      "@squacapi/*": ["app/squacapi/*"],
       "@widget/*": ["app/features/widget/*"],
       "@dashboard/*": ["app/features/dashboard/*"],
       "@channelGroup/*": ["app/features/channel-group/*"],
       "@metric/*": ["app/features/metric/*"],
       "@monitor/*": ["app/features/monitor/*"],
       "@user/*": ["app/features/user/*"],
+
     }
   }
 }

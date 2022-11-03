@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
+import { UntypedFormControl, Validators } from "@angular/forms";
 import { PasswordResetService } from "../../services/password-reset.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
@@ -17,12 +17,12 @@ export class PasswordResetComponent implements OnInit {
   token: string; // the token
 
   // set up forms
-  email = new FormControl("", [Validators.required, Validators.email]);
-  newPassword = new FormControl("", [
+  email = new UntypedFormControl("", [Validators.required, Validators.email]);
+  newPassword = new UntypedFormControl("", [
     Validators.required,
     Validators.minLength(6),
   ]);
-  passwordConfirm = new FormControl("", [Validators.required]);
+  passwordConfirm = new UntypedFormControl("", [Validators.required]);
 
   constructor(
     private passwordResetService: PasswordResetService,

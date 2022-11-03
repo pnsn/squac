@@ -8,9 +8,9 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { FormArray, FormBuilder } from "@angular/forms";
+import { UntypedFormArray, UntypedFormBuilder } from "@angular/forms";
 import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
-import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { MatchingRule } from "@squacapi/models/matching-rule";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -26,7 +26,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   @Output() matchingRuleDeleteIds = new EventEmitter<number[]>();
   subscription = new Subscription();
   removeRuleIds = [];
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   matchingRulesForm = this.formBuilder.group({
     rules: this.formBuilder.array([]),
@@ -88,8 +88,8 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   // // Access triggers
-  get rules(): FormArray {
-    return this.matchingRulesForm.get("rules") as FormArray;
+  get rules(): UntypedFormArray {
+    return this.matchingRulesForm.get("rules") as UntypedFormArray;
   }
 
   updateRules() {

@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { ChannelGroup } from "@core/models/channel-group";
-import { ChannelGroupService } from "@channelGroup/services/channel-group.service";
+import { ChannelGroup } from "@squacapi/models/channel-group";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
-  FormBuilder,
+  UntypedFormBuilder,
 } from "@angular/forms";
-import { ChannelService } from "@channelGroup/services/channel.service";
-import { Channel } from "@core/models/channel";
+import { ChannelService } from "@squacapi/services/channel.service";
+import { Channel } from "@squacapi/models/channel";
 import {
   Subscription,
   switchMap,
@@ -28,10 +28,11 @@ import {
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { MatchingRuleService } from "@features/channel-group/services/matching-rule.service";
-import { MatchingRule } from "@features/channel-group/models/matching-rule";
+import { MatchingRuleService } from "@squacapi/services/matching-rule.service";
+import { MatchingRule } from "@squacapi/models/matching-rule";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
+import { MapBounds } from "../channel-group-map/channel-group-map.component";
 
 enum LoadingIndicator {
   MAIN,
@@ -54,7 +55,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: any;
-  channelGroupForm: FormGroup; // form stuff
+  channelGroupForm: UntypedFormGroup; // form stuff
   csvStatus: string;
   channelsInGroup: Channel[] = []; // channels currently saved in group
   selectedChannels: Channel[] = []; // Channels currently in selected list
@@ -63,7 +64,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Map stuff
   showChannel: Channel; // Channel to show on map
-  bounds: any; // Latlng bounds to either filter by or make a new request with
+  bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
 
   // table config
   SelectionType = SelectionType;
@@ -89,7 +90,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
     private channelService: ChannelService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
@@ -100,8 +101,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.channelGroupForm = this.formBuilder.group({
-      name: new FormControl("", Validators.required),
-      description: new FormControl("", Validators.required),
+      name: new UntypedFormControl("", Validators.required),
+      description: new UntypedFormControl("", Validators.required),
       share: ["private", Validators.required],
     });
     const chanSub = this.route.params
@@ -117,18 +118,18 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
             return of();
           }
           return this.loadingService.doLoading(
-            this.channelGroupService.getChannelGroup(groupId).pipe(
+            this.channelGroupService.read(groupId).pipe(
               tap((channelGroup: ChannelGroup) => {
                 this.channelGroup = channelGroup;
               }),
               switchMap((channelGroup: ChannelGroup) => {
                 this.channelGroup = channelGroup;
-                if (channelGroup) {
+                if (!channelGroup) {
                   return of([]);
                 }
-                return this.matchingRuleService.getMatchingRules(
-                  this.channelGroup.id
-                );
+                return this.matchingRuleService.list({
+                  group: `${this.channelGroup.id}`,
+                });
               }),
               tap((rules: MatchingRule[]) => {
                 this.matchingRules = rules;
@@ -291,7 +292,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     //clear bounds if search filters emptied
     if (Object.keys(searchFilters).length === 0) {
-      this.bounds = {};
+      this.bounds = null;
     }
 
     this.getChannelsWithFilters();
@@ -362,7 +363,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   // get channels with filters and/or bounds
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
-
     if (Object.keys(searchFilters).length !== 0) {
       if (this.showOnlyCurrent) {
         const now = this.dateService.now();
@@ -371,7 +371,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       this.error = false;
       this.loadingService
         .doLoading(
-          this.channelService.getChannelsByFilters(searchFilters),
+          this.channelService.list(searchFilters),
           this,
           LoadingIndicator.RESULTS
         )
@@ -419,7 +419,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     let id;
     this.loadingService
       .doLoading(
-        this.channelGroupService.updateChannelGroup(cg).pipe(
+        this.channelGroupService.updateOrCreate(cg).pipe(
           switchMap((group) => {
             id = group.id;
             if (
@@ -454,7 +454,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   // Delete channel group
   delete(): void {
-    this.channelGroupService.deleteChannelGroup(this.id).subscribe({
+    this.channelGroupService.delete(this.id).subscribe({
       next: () => {
         this.cancel();
         this.messageService.message("Channel group deleted.");
@@ -497,10 +497,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   addFilterToRegex(filter) {
     const newRule = new MatchingRule(null, null, this.id, true);
-    newRule.networkRegex = filter.net_search?.toUpperCase();
-    newRule.stationRegex = filter.sta_search?.toUpperCase();
-    newRule.locationRegex = filter.loc_search?.toUpperCase();
-    newRule.channelRegex = filter.chan_search?.toUpperCase();
+    newRule.networkRegex = filter.netSearch?.toUpperCase();
+    newRule.stationRegex = filter.staSearch?.toUpperCase();
+    newRule.locationRegex = filter.locSearch?.toUpperCase();
+    newRule.channelRegex = filter.chanSearch?.toUpperCase();
     this.matchingRules = [...this.matchingRules, newRule];
   }
 
@@ -527,11 +527,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   filterBounds(): void {
     const temp = this.selectedChannels.filter((channel) => {
       const latCheck =
-        channel.lat <= this.bounds.lat_max &&
-        channel.lat >= this.bounds.lat_min;
+        channel.lat <= this.bounds.latMax && channel.lat >= this.bounds.latMin;
       const lonCheck =
-        channel.lon >= this.bounds.lon_min &&
-        channel.lon <= this.bounds.lon_max;
+        channel.lon >= this.bounds.lonMin && channel.lon <= this.bounds.lonMax;
       return latCheck && lonCheck;
     });
 
@@ -543,21 +541,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Update bounds for filtering channels with map
-  updateBounds(newBounds: string): void {
-    if (!newBounds) {
-      this.bounds = {};
+  updateBounds(newBounds: MapBounds): void {
+    this.bounds = newBounds;
+    if (!this.bounds) {
       this.rows = [...this.selectedChannels];
     } else {
-      const boundsArr = newBounds.split(" ").map((bound) => {
-        // format: 'N_lat W_lon S_lat E_lon'
-        return parseFloat(bound);
-      });
-      this.bounds = {
-        lat_min: boundsArr[2], // south bound
-        lat_max: boundsArr[0], // north bound
-        lon_min: boundsArr[1], // west bound
-        lon_max: boundsArr[3], // east bound
-      };
       this.getChannelsWithFilters();
     }
   }

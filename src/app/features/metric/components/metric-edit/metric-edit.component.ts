@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Metric } from "@core/models/metric";
+import { Metric } from "@squacapi/models/metric";
 import {
-  FormGroup,
-  FormBuilder,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
   Validators,
 } from "@angular/forms";
-import { MetricService } from "@metric/services/metric.service";
+import { MetricService } from "@squacapi/services/metric.service";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
@@ -21,20 +21,20 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   metric: Metric;
   editMode: boolean;
 
-  metricForm: FormGroup = this.formBuilder.group({
-    name: new FormControl("", Validators.required),
-    description: new FormControl("", Validators.required),
-    code: new FormControl("", Validators.required),
-    refUrl: new FormControl("", Validators.required),
-    unit: new FormControl("", Validators.required),
-    sampleRate: new FormControl("", Validators.required),
-    minVal: new FormControl(""),
-    maxVal: new FormControl(""),
+  metricForm: UntypedFormGroup = this.formBuilder.group({
+    name: new UntypedFormControl("", Validators.required),
+    description: new UntypedFormControl("", Validators.required),
+    code: new UntypedFormControl("", Validators.required),
+    refUrl: new UntypedFormControl("", Validators.required),
+    unit: new UntypedFormControl("", Validators.required),
+    sampleRate: new UntypedFormControl("", Validators.required),
+    minVal: new UntypedFormControl(""),
+    maxVal: new UntypedFormControl(""),
   });
 
   constructor(
     private metricService: MetricService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<MetricEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -64,7 +64,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   save(): void {
     const values = this.metricForm.value;
     this.metricService
-      .updateMetric(
+      .updateOrCreate(
         new Metric(
           this.id,
           null,

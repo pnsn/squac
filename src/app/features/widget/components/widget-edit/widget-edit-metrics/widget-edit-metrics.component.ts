@@ -9,8 +9,8 @@ import {
   OnChanges,
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
-import { Metric } from "@core/models/metric";
-import { WidgetType } from "@features/widget/models/widget-type";
+import { Metric } from "@squacapi/models/metric";
+import { WidgetType } from "@widget/models/widget-type";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 @Component({
   selector: "widget-edit-metrics",

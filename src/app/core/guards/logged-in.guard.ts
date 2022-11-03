@@ -10,10 +10,10 @@ export class LoggedInGuard implements CanActivate {
 
   // returns prevents user from accessing certain pages when logged in
   canActivate(): boolean {
-    if (this.authService.loggedIn) {
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(["/"]);
     }
 
-    return !this.authService.loggedIn;
+    return !this.authService.isAuthenticated();
   }
 }

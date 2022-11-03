@@ -3,8 +3,8 @@ import { WidgetEditComponent } from "../widget-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Subscription } from "rxjs";
-import { Metric } from "@core/models/metric";
-import { Widget } from "@features/widget/models/widget";
+import { Metric } from "@squacapi/models/metric";
+import { Widget } from "@squacapi/models/widget";
 
 @Component({
   selector: "widget-edit-entry",
@@ -49,6 +49,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           dashboardId: this.dashboardId,
           metrics: this.metrics,
         },
+        panelClass: "dialog-responsive",
       });
 
       this.dialogRef.afterClosed().subscribe(

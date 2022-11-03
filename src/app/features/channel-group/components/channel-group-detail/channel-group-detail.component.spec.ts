@@ -3,15 +3,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupDetailComponent } from "./channel-group-detail.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
-import { ChannelGroup } from "@core/models/channel-group";
+import { ChannelGroup } from "@squacapi/models/channel-group";
 import { RouterTestingModule } from "@angular/router/testing";
-import { OrganizationService } from "@user/services/organization.service";
-import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { LoadingService } from "@core/services/loading.service";
 
 describe("ChannelGroupDetailComponent", () => {
   let component: ChannelGroupDetailComponent;
@@ -19,13 +18,15 @@ describe("ChannelGroupDetailComponent", () => {
   let router;
 
   beforeEach(() => {
-    return MockBuilder(ChannelGroupDetailComponent, ChannelGroupModule)
-      .mock(MessageService)
-      .mock(ConfirmDialogService)
+    return MockBuilder(ChannelGroupDetailComponent)
+      .mock(ChannelGroupModule)
+      .mock([
+        MessageService,
+        ConfirmDialogService,
+        ChannelGroupService,
+        LoadingService,
+      ])
       .mock(RouterTestingModule.withRoutes([]))
-      .mock(OrganizationService)
-      .mock(UserService)
-      .mock(LoadingDirective)
       .provide({
         provide: ActivatedRoute,
         useValue: {

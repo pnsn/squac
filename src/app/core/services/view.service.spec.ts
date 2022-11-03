@@ -1,18 +1,17 @@
 import { TestBed } from "@angular/core/testing";
-
-import { ViewService } from "./view.service";
-import { DashboardService } from "@dashboard/services/dashboard.service";
-import { WidgetService } from "@widget/services/widget.service";
 import { Ability } from "@casl/ability";
-import { Widget } from "@widget/models/widget";
-import { Dashboard } from "@dashboard/models/dashboard";
-import { take } from "rxjs/operators";
-import { MessageService } from "./message.service";
-import { of } from "rxjs";
-import { DateService } from "./date.service";
-import { MockBuilder } from "ng-mocks";
+import { Dashboard } from "@squacapi/models/dashboard";
+import { DashboardService } from "@squacapi/services/dashboard.service";
+import { Widget } from "@squacapi/models/widget";
+import { WidgetService } from "@squacapi/services/widget.service";
 import { AppModule } from "app/app.module";
 import * as dayjs from "dayjs";
+import { MockBuilder } from "ng-mocks";
+import { of } from "rxjs";
+import { take } from "rxjs/operators";
+import { DateService } from "./date.service";
+import { MessageService } from "./message.service";
+import { ViewService } from "./view.service";
 
 describe("ViewService", () => {
   let service: ViewService;
@@ -25,7 +24,15 @@ describe("ViewService", () => {
   beforeEach(() => {
     return MockBuilder(ViewService, AppModule)
       .mock(WidgetService)
-      .mock(DashboardService)
+      .provide({
+        provide: DashboardService,
+        useValue: {
+          list: (i) => of(i),
+          update: (_i) => of(true),
+          delete: (_i) => of(true),
+          updateOrCreate: (_i) => of(true),
+        },
+      })
       .mock(MessageService)
       .provide({
         provide: DateService,
@@ -34,7 +41,8 @@ describe("ViewService", () => {
             return dayjs.utc(date).clone();
           },
           subtractFromNow: (amount: number, unit: string) => {
-            return dayjs().subtract(amount, unit);
+            const mT = unit as dayjs.ManipulateType;
+            return dayjs().subtract(amount, mT);
           },
           // format date
           format: (date: dayjs.Dayjs) => {
@@ -120,7 +128,7 @@ describe("ViewService", () => {
   });
 
   it("should update given widget", () => {
-    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "read").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -131,7 +139,7 @@ describe("ViewService", () => {
   });
 
   it("should add new widget", () => {
-    const widgetSpy = spyOn(widgetService, "getWidget").and.returnValue(
+    const widgetSpy = spyOn(widgetService, "read").and.returnValue(
       of(testWidget)
     );
     service.setDashboard(testDashboard);
@@ -142,9 +150,7 @@ describe("ViewService", () => {
   });
 
   it("should delete given widget", () => {
-    const widgetSpy = spyOn(widgetService, "deleteWidget").and.returnValue(
-      of(true)
-    );
+    const widgetSpy = spyOn(widgetService, "delete").and.returnValue(of(true));
     service.setDashboard(testDashboard);
     service.setWidgets([testWidget]);
 
@@ -154,9 +160,7 @@ describe("ViewService", () => {
   });
 
   it("should delete dashboard", () => {
-    const dashSpy = spyOn(dashboardService, "deleteDashboard").and.returnValue(
-      of(true)
-    );
+    const dashSpy = spyOn(dashboardService, "delete").and.returnValue(of(true));
 
     service.deleteDashboard(testDashboard.id);
 
@@ -165,7 +169,7 @@ describe("ViewService", () => {
 
   it("should save dashboard", () => {
     service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardService, "updateDashboard").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "updateOrCreate").and.returnValue(
       of(testDashboard)
     );
 

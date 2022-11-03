@@ -5,9 +5,8 @@
 // @import "~@boring.devs/ngx-datatable/themes/material.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet-draw/dist/leaflet.draw.css";
-@import "./styles/datatables.scss";
-@import "./styles/material.scss";
-@import "./styles/date-range-picker.scss";
+@import "./styles/variables.scss";
+
 /* You can add global styles to this file, and also import other style files */
 // @include date-range-picker-theme($squac-ui-theme);
 * {
@@ -29,8 +28,7 @@ body {
 }
 .body-content-container {
   width: 100%;
-  height: calc(100% - 50px);
-  margin: 10px 1% 0;
+  height: calc(100% - 47px);
   @include md {
     margin: 10px 2% 0;
     width: 96%;
@@ -325,5 +323,17 @@ a {
   .loading-overlay {
     background: $sq-blue;
     opacity: 1;
+  }
+}
+.dialog-responsive {
+  width: 100%;
+  @include sm {
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .dialog-responsive {
+    width: 100%;
   }
 }

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
+import { UntypedFormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { UserService } from "@user/services/user.service";
@@ -8,6 +8,7 @@ import { of } from "rxjs";
 import { MonitorEditComponent } from "./monitor-edit.component";
 import { MockBuilder } from "ng-mocks";
 import { MonitorModule } from "@features/monitor/monitor.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("MonitorEditComponent", () => {
   let component: MonitorEditComponent;
@@ -17,9 +18,11 @@ describe("MonitorEditComponent", () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(MonitorEditComponent, MonitorModule)
-      .keep(ReactiveFormsModule)
+    return MockBuilder(MonitorEditComponent)
+      .mock(MonitorModule)
+      .mock(RouterTestingModule.withRoutes([]))
       .mock(UserService)
+      .keep(UntypedFormBuilder)
       .provide({
         provide: MatDialogRef,
         useValue: mockDialogRef,

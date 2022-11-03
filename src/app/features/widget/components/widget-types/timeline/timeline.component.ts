@@ -1,105 +1,38 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
-import { Channel } from "@core/models/channel";
-import { Metric } from "@core/models/metric";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
-import { Measurement } from "@features/widget/models/measurement";
-import { Threshold } from "@features/widget/models/threshold";
-import { Subscription } from "rxjs";
-import { EChartsOption, graphic } from "echarts";
-import { WidgetTypeComponent } from "../widget-type.component";
+import { Measurement } from "@squacapi/models/measurement";
+import { graphic } from "echarts";
+import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { EChartComponent } from "../e-chart.component";
 
 @Component({
   selector: "widget-timeline",
   templateUrl: "../e-chart.component.html",
   styleUrls: ["../e-chart.component.scss"],
-  providers: [WidgetTypeService],
 })
 export class TimelineComponent
-  implements OnInit, OnChanges, WidgetTypeComponent, OnDestroy
+  extends EChartComponent
+  implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
     private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
-    private widgetConnectService: WidgetConnectService
-  ) {}
-  @Input() data;
-  @Input() metrics: Metric[];
-  @Input() thresholds: Threshold[];
-  @Input() channels: Channel[];
-  @Input() selectedMetrics: Metric[];
-  @Input() dataRange: any;
-  @Input() properties: any;
-  @Input() zooming: string;
-  @Output() zoomingChange = new EventEmitter();
-  @Input() loading: string | boolean;
-  @Output() loadingChange = new EventEmitter();
-  @Input() showKey: boolean;
-  emphasizedChannel: string;
-  deemphasizedChannel: string;
-  subscription = new Subscription();
-  results: Array<any>;
-  options: any = {};
-  updateOptions: EChartsOption = {};
-  initOptions: EChartsOption = {};
-  metricSeries = {};
-  visualMaps = {};
+    protected widgetConnector: WidgetConnectService,
+    protected widgetManager: WidgetManagerService
+  ) {
+    super(widgetManager, widgetConnector);
+  }
+
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
-  test = 0;
-  echartsInstance;
-  lastEmphasis;
   xAxisLabels = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (
-      (changes.channels || changes.data) &&
-      this.channels?.length > 0 &&
-      this.selectedMetrics.length > 0
-    ) {
-      this.buildChartData(this.data).then(() => {
-        this.changeMetrics();
-      });
-    }
-
-    if (changes.showKey) {
-      this.toggleKey();
-    }
-
-    if (changes.zooming) {
-      this.startZoom();
-    }
-  }
-  ngOnInit(): void {
-    //override defaults
-
-    const deemphsSub = this.widgetConnectService.deemphasizeChannel.subscribe(
-      (channel) => {
-        this.deemphasizeChannel(channel);
-      }
-    );
-    const emphSub = this.widgetConnectService.emphasizedChannel.subscribe(
-      (channel) => {
-        this.emphasizeChannel(channel);
-      }
-    );
-    this.subscription.add(emphSub);
-    this.subscription.add(deemphsSub);
-
+  configureChart(): void {
     const chartOptions = {
       tooltip: {
         formatter: (params) => {
@@ -133,93 +66,12 @@ export class TimelineComponent
     this.options = this.widgetTypeService.chartOptions(chartOptions);
   }
 
-  toggleKey() {
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption({
-        visualMap: {
-          show: this.showKey,
-        },
-      });
-    }
-  }
-
-  startZoom() {
-    if (this.echartsInstance) {
-      if (this.zooming === "start") {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: true,
-        });
-      } else {
-        this.echartsInstance.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "dataZoomSelect",
-          // Activate or inactivate.
-          dataZoomSelectActive: false,
-        });
-        if (this.zooming === "reset") {
-          this.resetZoom();
-        }
-      }
-    }
-  }
-
-  resetZoom() {
-    this.echartsInstance.dispatchAction({
-      type: "dataZoom",
-      start: 0,
-      end: 100,
-    });
-  }
-
-  zoomStopped(event) {
-    if (event.batch?.length !== 1) {
-      this.zoomingChange.emit("stop");
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.echartsInstance = null;
-  }
-
-  onChartEvent(event, type) {
-    console.log(event, type);
-  }
-
-  onChartInit(event) {
-    this.echartsInstance = event;
-  }
-
-  emphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "highlight",
-        seriesName: channel,
-      });
-    }
-  }
-
-  deemphasizeChannel(channel) {
-    if (this.echartsInstance) {
-      this.echartsInstance.dispatchAction({
-        type: "downplay",
-        seriesName: channel,
-      });
-    }
-  }
-
   buildChartData(data) {
-    this.loadingChange.emit("Building chart...");
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetTypeService.getVisualMapFromThresholds(
         this.selectedMetrics,
-        this.thresholds,
         this.properties,
-        this.dataRange,
         2
       );
       const defaultSeries = {
@@ -244,6 +96,7 @@ export class TimelineComponent
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc;
         this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
           if (!this.metricSeries[metric.id]) {
             this.metricSeries[metric.id] = {
               series: [],
@@ -367,7 +220,6 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
-    this.loadingChange.emit(false);
 
     let xAxis = { ...this.options.xAxis };
     if (

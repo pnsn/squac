@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ViewService } from "@core/services/view.service";
-import { Widget } from "@widget/models/widget";
+import { Widget } from "@squacapi/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Dashboard } from "@features/dashboard/models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 import { Ability } from "@casl/ability";
 
 @Component({
@@ -94,7 +94,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
             return this.ability.can("update", d);
           });
         }
-
         this.addWidgetsToView(data.widgets);
         // this.options.api.res
         this.viewService.setWidgets(data.widgets);
@@ -147,8 +146,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   // insert grid item into widget
   addWidgetToGrid(widget: Widget, rePosition?: boolean): void {
     const item = {
-      cols: widget.layout.columns ? widget.layout.columns : 1,
-      rows: widget.layout.rows ? widget.layout.rows : 1,
+      cols: widget.layout.columns ? widget.layout.columns : 10,
+      rows: widget.layout.rows ? widget.layout.rows : 5,
       y: rePosition ? null : widget.layout.y,
       x: rePosition ? null : widget.layout.x,
       widget,
@@ -169,6 +168,9 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
       this.widgetItems[index].widget = widget;
+    }
+    if (widget) {
+      this.viewService.updateData.next({ widget: widgetId });
     }
   }
 

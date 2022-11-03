@@ -88,28 +88,28 @@
 </ng-template>
 <ng-template let-row="row" #channelsTemplate>
   <ng-container *ngIf="row.lastAlarm; else noChannels">
-    {{ row.lastAlarm.breaching_channels.length }}
+    {{ row.lastAlarm.breachingChannels.length }}
   </ng-container>
   <ng-template #noChannels> N/A </ng-template>
 </ng-template>
 <ng-template let-row="row" #conditionsTemplate>
   values for
-  <span *ngIf="row.num_channels_operator !== '=='">
-    {{ row.num_channels_operator }}
+  <span *ngIf="row.numChannelsOperator !== '=='">
+    {{ row.numChannelsOperator }}
   </span>
-  {{ row.num_channels }} channel(s) in {{ row.monitor?.channelGroup.name }} are
-  {{ row.value_operator }}
+  {{ row.numChannels }} channel(s) in {{ row.monitor?.channelGroup.name }} are
+  {{ row.valueOperator }}
   {{ row.val1 }}
   <span *ngIf="row.val2"> and {{ row.val2 }} </span>
 </ng-template>
 <ng-template let-row="row" #notificationTemplate>
-  <ng-container *ngIf="row.email_list; else noNotification">
+  <ng-container *ngIf="row.emailList; else noNotification">
     email
-    {{ row.alert_on_out_of_alarm ? "for all state changes" : "when in alarm" }}
+    {{ row.alertOnOutOfAlarm ? "for all state changes" : "when in alarm" }}
   </ng-container>
   <ng-template #noNotification> none </ng-template>
 </ng-template>
 <ng-template let-row="row" #emailListTemplate>
-  {{ row.email_list }}
+  {{ row.emailList }}
 </ng-template>
 <router-outlet></router-outlet>

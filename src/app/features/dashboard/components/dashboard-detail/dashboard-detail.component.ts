@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Dashboard } from "../../models/dashboard";
+import { Dashboard } from "@squacapi/models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@core/services/view.service";
@@ -149,7 +149,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   private updateArchiveType() {
+    this.checkArchiveType();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
+  }
+
+  private checkArchiveType() {
+    if (this.archiveType !== "raw") {
+      if (this.viewService.getTimeSpan(this.archiveType) === 0) {
+        //archiveType is larger than time window
+        console.log("time range is too small");
+      }
+    }
   }
 
   toggleSidenav(): void {
@@ -195,7 +205,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   // tell view service to get new data
   refreshData(): void {
-    this.viewService.updateData.next(this.dashboard.id);
+    this.viewService.updateData.next({ dashboard: this.dashboard.id });
   }
 
   // save dashboard
