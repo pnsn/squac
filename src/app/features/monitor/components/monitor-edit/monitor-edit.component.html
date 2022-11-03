@@ -281,7 +281,10 @@
                           name="emailList"
                           formControlName="emailList"
                         ></textarea>
-                        <mat-error></mat-error>
+                        <mat-error
+                          *ngIf="trigger.get('emailList').hasError('email')"
+                          >Enter a valid email address</mat-error
+                        >
                       </mat-form-field>
                     </td>
                     <td>
