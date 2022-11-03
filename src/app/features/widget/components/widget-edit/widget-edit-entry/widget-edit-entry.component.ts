@@ -44,12 +44,12 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         closeOnNavigation: true,
         maxWidth: 800,
+        panelClass: "dialog-responsive",
         data: {
           widget: this.widget,
           dashboardId: this.dashboardId,
           metrics: this.metrics,
         },
-        panelClass: "dialog-responsive",
       });
 
       this.dialogRef.afterClosed().subscribe(

@@ -30,13 +30,20 @@ import { AppComponent } from "./app.component";
 import { AuthComponent } from "./core/components/auth/auth.component";
 import { HomeComponent } from "./core/components/home/home.component";
 import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
+import { MenuComponent } from "@core/components/menu/menu.component";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
 }
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, NotFoundComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    AuthComponent,
+    NotFoundComponent,
+    HomeComponent,
+    MenuComponent,
+  ],
   imports: [
     ApiModule,
     HttpClientModule,

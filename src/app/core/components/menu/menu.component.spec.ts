@@ -1,23 +1,17 @@
-import { MatSidenavModule } from "@angular/material/sidenav";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MessageService } from "@core/services/message.service";
-import { AppModule } from "app/app.module";
+import { AuthService } from "@core/services/auth.service";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
-import { MenuComponent } from "../menu/menu.component";
-import { HomeComponent } from "./home.component";
 
-describe("HomeComponent", () => {
+import { MenuComponent } from "./menu.component";
+
+describe("MenuComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
   beforeAll(() => {
-    return MockBuilder(
-      [HomeComponent, AppModule],
-      [RouterTestingModule.withRoutes([])]
-    )
-      .mock(MatSidenavModule)
-      .mock(MessageService)
+    return MockBuilder([MenuComponent], [RouterTestingModule.withRoutes([])])
+      .mock(AuthService)
       .mock(MenuComponent)
       .provide({
         provide: ActivatedRoute,
@@ -30,7 +24,7 @@ describe("HomeComponent", () => {
   });
 
   it("should create", () => {
-    const fixture = MockRender(HomeComponent);
+    const fixture = MockRender(MenuComponent);
     const component = fixture.point.componentInstance;
     expect(component).toBeTruthy();
   });
