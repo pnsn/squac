@@ -31,6 +31,10 @@ import { AuthComponent } from "./core/components/auth/auth.component";
 import { HomeComponent } from "./core/components/home/home.component";
 import { AuthInterceptor } from "./core/interceptors/auth-interceptor.service";
 import { MenuComponent } from "@core/components/menu/menu.component";
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from "@angular/material/core";
 
 export function initApp(configurationService: ConfigurationService) {
   return () => configurationService.load().toPromise();
@@ -61,6 +65,7 @@ export function initApp(configurationService: ConfigurationService) {
       useValue: environment.API_BASE_PATH,
     },
 
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
