@@ -50,6 +50,14 @@ export class WidgetManagerService {
     return this._widget.properties;
   }
 
+  get starttime(): string {
+    return this._params.starttime;
+  }
+
+  get endtime(): string {
+    return this._params.endtime;
+  }
+
   get widgetType(): WidgetType {
     return this._widgetType;
   }

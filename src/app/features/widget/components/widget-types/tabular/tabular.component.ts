@@ -10,11 +10,11 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
-import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { GenericWidgetComponent } from "../generic-widget.component";
+import { GenericWidgetComponent } from "../interfaces/generic-widget.component";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-tabular",
@@ -73,23 +73,6 @@ export class TabularComponent
   }
 
   changeMetrics(): void {
-    return;
-  }
-
-  deemphasizeChannel(channel: string): void {
-    this.deemphasizedChannel = channel;
-  }
-
-  emphasizeChannel(channel: string): void {
-    const index = this.findRowIndex(channel);
-    const row = this.rows[index];
-    this.emphasizedChannel = channel;
-    this.selectedRow = [row];
-    this.table.element.querySelector(".datatable-body").scrollTop =
-      index * this.table.rowHeight;
-  }
-
-  configureChart(): void {
     let name;
     let isTreeColumn;
     switch (this.properties.displayType) {
@@ -145,6 +128,23 @@ export class TabularComponent
       });
       this.columns = [...this.columns];
     }, 0);
+  }
+
+  deemphasizeChannel(channel: string): void {
+    this.deemphasizedChannel = channel;
+  }
+
+  emphasizeChannel(channel: string): void {
+    const index = this.findRowIndex(channel);
+    const row = this.rows[index];
+    this.emphasizedChannel = channel;
+    this.selectedRow = [row];
+    this.table.element.querySelector(".datatable-body").scrollTop =
+      index * this.table.rowHeight;
+  }
+
+  configureChart(): void {
+    return;
   }
 
   resize() {

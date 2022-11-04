@@ -45,7 +45,6 @@ export class Widget {
     } else if (typeof properties !== "string") {
       props = { ...properties };
     }
-
     this._properties = { ...props };
   }
 

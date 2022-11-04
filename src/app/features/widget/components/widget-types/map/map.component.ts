@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import * as L from "leaflet";
-import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { GenericWidgetComponent } from "../generic-widget.component";
+import { GenericWidgetComponent } from "../interfaces/generic-widget.component";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-map",

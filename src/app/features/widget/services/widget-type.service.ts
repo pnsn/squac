@@ -543,9 +543,13 @@ export class WidgetTypeService {
     }
     formatOptions.hour12 = false;
     formatOptions.timeZone = "UTC";
-    const string = new Intl.DateTimeFormat("en-US", formatOptions).format(
-      value
-    );
+    let string;
+    try {
+      string = new Intl.DateTimeFormat("en-US", formatOptions).format(value);
+    } catch {
+      string = val;
+    }
+
     return string;
   }
 

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
-import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { EChartComponent } from "../e-chart.component";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-scatter-plot",

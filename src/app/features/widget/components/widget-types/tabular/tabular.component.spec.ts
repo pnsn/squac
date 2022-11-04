@@ -6,8 +6,8 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { of } from "rxjs";
-import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 describe("TabularComponent", () => {
   let component: TabularComponent;
