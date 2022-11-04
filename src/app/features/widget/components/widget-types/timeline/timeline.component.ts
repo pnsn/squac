@@ -3,11 +3,11 @@ import { DateService } from "@core/services/date.service";
 import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { graphic } from "echarts";
-import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { EChartComponent } from "../e-chart.component";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 
 @Component({
   selector: "widget-timeline",
@@ -220,7 +220,6 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
-
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -242,8 +241,8 @@ export class TimelineComponent
       xAxis = {
         ...xAxis,
         type: "time",
-        min: this.viewService.startTime,
-        max: this.viewService.endTime,
+        min: this.widgetManager.starttime,
+        max: this.widgetManager.endtime,
         axisLabel: {
           formatter: this.widgetTypeService.timeAxisTickFormatting,
           fontSize: 11,

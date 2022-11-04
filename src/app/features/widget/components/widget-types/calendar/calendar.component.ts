@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models/measurement";
-import { WidgetTypeComponent } from "../widget-type.interface";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { EChartComponent } from "../e-chart.component";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-calendar-plot",

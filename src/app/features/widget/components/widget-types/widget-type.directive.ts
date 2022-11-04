@@ -9,7 +9,6 @@ import {
   Renderer2,
   ViewContainerRef,
 } from "@angular/core";
-import { ViewService } from "@core/services/view.service";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetErrors } from "@features/widget/services/widget-errors";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
@@ -17,24 +16,8 @@ import { WidgetTypeService } from "@features/widget/services/widget-type.service
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription, tap } from "rxjs";
-import { CalendarComponent } from "./calendar/calendar.component";
-import { MapComponent } from "./map/map.component";
-import { ParallelPlotComponent } from "./parallel-plot/parallel-plot.component";
-import { ScatterPlotComponent } from "./scatter-plot/scatter-plot.component";
-import { TabularComponent } from "./tabular/tabular.component";
-import { TimechartComponent } from "./timechart/timechart.component";
-import { TimelineComponent } from "./timeline/timeline.component";
-import { WidgetTypeComponent } from "./widget-type.interface";
-
-export const componentMap = {
-  map: MapComponent,
-  "calendar-plot": CalendarComponent,
-  "parallel-plot": ParallelPlotComponent,
-  "scatter-plot": ScatterPlotComponent,
-  tabular: TabularComponent,
-  timeline: TimelineComponent,
-  timeseries: TimechartComponent,
-};
+import { WidgetTypeComponent } from "./interfaces/widget-type.interface";
+import { widgetTypeComponents } from "./interfaces/widget-types";
 
 /**
  * solely responsible for showing either error component or the correct widget type
@@ -63,7 +46,6 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     protected readonly changeDetectorRef: ChangeDetectorRef,
     protected readonly viewContainerRef: ViewContainerRef,
     private widgetDataService: WidgetDataService,
-    private viewService: ViewService,
     private widgetTypeService: WidgetTypeService,
     private widgetManager: WidgetManagerService
   ) {
@@ -118,7 +100,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       ],
     });
     this.clearChildComponents();
-    const componentType = componentMap[widgetType];
+    const componentType = widgetTypeComponents[widgetType];
     this.childComponentRef =
       this.viewContainerRef.createComponent<WidgetTypeComponent>(
         componentType,

@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetTypeService } from "@features/widget/services/widget-type.service";
 import * as dayjs from "dayjs";
-import { WidgetTypeComponent } from "../widget-type.interface";
-import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+
 import { EChartComponent } from "../e-chart.component";
+import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-timechart",
@@ -19,7 +19,6 @@ export class TimechartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private viewService: ViewService,
     private dateService: DateService,
     private widgetTypeService: WidgetTypeService,
     protected widgetConnectService: WidgetConnectService,
@@ -149,8 +148,8 @@ export class TimechartComponent
       series: this.metricSeries.series,
       visualMap,
       xAxis: {
-        min: this.viewService.startTime,
-        max: this.viewService.endTime,
+        min: this.widgetManager.starttime,
+        max: this.widgetManager.endtime,
       },
     };
 

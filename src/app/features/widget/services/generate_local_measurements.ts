@@ -13,7 +13,7 @@ import {
   ReadOnlyMeasurementSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { ReadArchive } from "@squacapi/interfaces/squac-types";
-import { Aggregate, ReadAggregate } from "@squacapi/models/aggregate";
+import { ReadAggregate } from "@squacapi/models/aggregate";
 import { ChannelGroupService } from "@squacapi/services/channel-group.service";
 import { map, Observable, of } from "rxjs";
 
@@ -135,7 +135,6 @@ export class FakeMeasurementBackend {
 
           const measurement = datafn(start, end, metricMax, m, c);
           measurements.push(measurement);
-
           currentTime = newEnd;
         }
       });
@@ -161,7 +160,7 @@ export class FakeMeasurementBackend {
 
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
-  ): Observable<Aggregate[]> {
+  ): Observable<ReadAggregate[]> {
     return this.getList(params, this.aggregate.bind(this));
   }
 

@@ -54,10 +54,10 @@ export class WidgetDataService implements OnDestroy {
   // actual data
 
   data = new ReplaySubject<WidgetErrors | Map<any, any>>(1);
-  measurementsWithData: number[];
+  measurementsWithData: number[] = [];
 
   // data info
-  selectedMetrics: Metric[];
+  selectedMetrics: Metric[] = [];
   widget: Widget;
   archiveType: string;
   useAggregate: boolean;
@@ -165,15 +165,13 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // format raw squacapi data
-  private mapData(response: Array<MeasurementType>) {
+  mapData(response: Array<MeasurementType>) {
     const dataMap = new Map<number, Map<number, Array<MeasurementType>>>();
-
     try {
       response.forEach((item: MeasurementType) => {
         //for archive/aggregate populate value
         const channelId = item.channelId;
         const metricId = item.metricId;
-
         if (!dataMap.has(channelId)) {
           const newMap = new Map<number, Array<MeasurementType>>();
           dataMap.set(channelId, newMap);
@@ -194,8 +192,8 @@ export class WidgetDataService implements OnDestroy {
         metricMap.push(item);
         this.calculateDataRange(metricId, item.value);
       });
-    } catch {
-      console.error("Error in widget response", response);
+    } catch (e) {
+      console.error("Error in widget response", e);
       return response;
     }
     return dataMap;
