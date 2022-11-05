@@ -149,7 +149,10 @@ export class ChannelGroupViewComponent
 
   // get fresh groups
   refresh(filters?) {
-    this.queryParams = { ...filters };
+    if (filters) {
+      this.queryParams = { ...filters };
+    }
+
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 

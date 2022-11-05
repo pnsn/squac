@@ -175,7 +175,9 @@ export class DashboardViewComponent
 
   // get fresh dashboards
   refresh(filters?): void {
-    this.queryParams = { ...filters };
+    if (filters) {
+      this.queryParams = { ...filters };
+    }
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
