@@ -133,17 +133,23 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   //if dates larger than 3 days, default to daily, larger than 1 month, monthly
   checkDates(): void {
+    this.error = "";
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.archiveType = "day";
+        this.archiveType = "month";
+        this.archiveStat = "mean";
+      } else if (this.viewService.getTimeSpan("weeks") >= 6) {
+        this.archiveType = "week";
         this.archiveStat = "mean";
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = "hour";
+        this.archiveType = "day";
         this.archiveStat = "mean";
       } else {
         this.archiveType = "raw";
         this.archiveStat = "";
       }
+
+      this.error = `Data type defaulted to ${this.archiveType} archive.`;
     }
     this.updateArchiveType();
   }
@@ -157,7 +163,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if (this.archiveType !== "raw") {
       if (this.viewService.getTimeSpan(this.archiveType) === 0) {
         //archiveType is larger than time window
-        console.log("time range is too small");
+        this.error = "Select a time range greater than the archive size.";
       }
     }
   }
