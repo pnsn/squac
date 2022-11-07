@@ -7,6 +7,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  AfterContentChecked,
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models/metric";
@@ -17,7 +18,9 @@ import { WidgetConfigService } from "@features/widget/services/widget-config.ser
   templateUrl: "./widget-edit-metrics.component.html",
   styleUrls: ["./widget-edit-metrics.component.scss"],
 })
-export class WidgetEditMetricsComponent implements OnInit, OnChanges {
+export class WidgetEditMetricsComponent
+  implements OnInit, OnChanges, AfterContentChecked
+{
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
   @Input() type: string;
@@ -66,10 +69,21 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
       },
     ];
   }
+  ngAfterContentChecked(): void {
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    if (this.selectedMetrics) {
+      const temp = this.metrics.filter((metric) => {
+        return this.selectedMetrics.findIndex((m) => m.id === metric.id) > -1;
+      });
+      this.selected = [...temp];
+      this.checkValid();
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //update metrics
-    if (changes.metrics && changes.metrics.currentValue) {
+    if (this.columns && changes.metrics && changes.metrics.currentValue) {
       this.rows = [...this.metrics];
     }
 
@@ -80,20 +94,13 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }
-
-    //update selected metrics
-    if (changes.selectedMetrics && changes.selectedMetrics.currentValue) {
-      const temp = this.metrics.filter((metric) => {
-        return this.selectedMetrics.findIndex((m) => m.id === metric.id) > -1;
-      });
-      this.selected = [...temp];
-      this.checkValid();
-    }
   }
 
   // emit metrics when changed
   metricsSelected({ selected }): void {
+    this.selected = [...selected];
     this.selectedMetricsChange.emit(selected);
+    this.checkValid();
   }
 
   // make sure there are metrics

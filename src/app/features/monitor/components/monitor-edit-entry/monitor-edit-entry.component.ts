@@ -49,7 +49,8 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   openMonitor(): void {
     this.dialogRef = this.dialog.open(MonitorEditComponent, {
       closeOnNavigation: true,
-      width: "70vw",
+      maxWidth: 800,
+      panelClass: "dialog-responsive",
       data: {
         monitor: this.monitor,
         metrics: this.metrics,

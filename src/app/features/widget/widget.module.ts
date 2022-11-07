@@ -19,6 +19,7 @@ import { ParallelPlotComponent } from "./components/widget-types/parallel-plot/p
 import { CalendarComponent } from "./components/widget-types/calendar/calendar.component";
 import { WidgetTypeDirective } from "./components/widget-types/widget-type.directive";
 import { MetricToggleComponent } from "./components/widget-detail/metric-toggle/metric-toggle.component";
+import { WidgetTypeExampleDirective } from "./components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MetricToggleComponent } from "./components/widget-detail/metric-toggle/
     CalendarComponent,
     WidgetTypeDirective,
     MetricToggleComponent,
+    WidgetTypeExampleDirective,
   ],
   imports: [SharedModule, GridsterModule],
   providers: [

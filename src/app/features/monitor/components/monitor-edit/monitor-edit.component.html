@@ -4,7 +4,7 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-content id="edit-container">
+<div mat-dialog-content>
   <form #monitorEditForm [formGroup]="monitorForm" class="form">
     <mat-horizontal-stepper #stepper color="primary">
       <mat-step
@@ -183,116 +183,149 @@
             If 'Alert on Exit' is true, it will also alert when the monitor is
             no longer 'in alarm'.
           </p>
-          <ng-container formArrayName="triggers">
+          <div id="table-container" formArrayName="triggers">
             <table id="trigger-table">
               <tr>
-                <th>Alert on exit</th>
+                <th></th>
                 <th colspan="3">Values</th>
                 <th colspan="2"># of channels</th>
-                <th colspan="2">Email</th>
               </tr>
               <ng-container
                 *ngFor="let trigger of triggers.controls; let i = index"
               >
-                <tr [formGroupName]="i" class="trigger">
-                  <td>
-                    <mat-slide-toggle
-                      name="alertOnOutOfAlarm"
-                      formControlName="alertOnOutOfAlarm"
-                    >
-                    </mat-slide-toggle>
-                  </td>
-                  <td>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="valueOperator">operator</mat-label>
-                      <mat-select
-                        formControlName="valueOperator"
-                        name="valueOperator"
-                      >
-                        <mat-option
-                          *ngFor="let o of valueOperators"
-                          [value]="o.value"
+                <ng-container [formGroupName]="i" class="trigger">
+                  <tr>
+                    <td>
+                      Notification
+                      {{ i + 1 }}:
+                    </td>
+                    <td>
+                      <mat-form-field class="xsmall">
+                        <mat-label for="valueOperator">operator</mat-label>
+                        <mat-select
+                          formControlName="valueOperator"
+                          name="valueOperator"
                         >
-                          {{ o.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="val1">value</mat-label>
-                      <input
-                        matInput
-                        type="number"
-                        name="val1"
-                        formControlName="val1"
-                      />
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="val2">value 2</mat-label>
-                      <input
-                        matInput
-                        type="number"
-                        name="val2"
-                        formControlName="val2"
-                      />
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="numChannelsOperator">operator</mat-label>
-                      <mat-select
-                        formControlName="numChannelsOperator"
-                        name="numChannelsOperator"
-                      >
-                        <mat-option
-                          *ngFor="let n of numChannelsOperators"
-                          [value]="n.value"
+                          <mat-option
+                            *ngFor="let o of valueOperators"
+                            [value]="o.value"
+                          >
+                            {{ o.name }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error
+                          *ngIf="
+                            trigger.get('valueOperator').hasError('required')
+                          "
+                          >* required field</mat-error
                         >
-                          {{ n.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field class="xsmall">
-                      <mat-label for="numChannels"># of channels</mat-label>
-                      <input
-                        matInput
-                        type="number"
-                        name="numChannels"
-                        formControlName="numChannels"
-                      />
-                    </mat-form-field>
-                  </td>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="xsmall">
+                        <mat-label for="val1">value</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          name="val1"
+                          formControlName="val1"
+                        />
+                        <mat-error
+                          *ngIf="trigger.get('val1').hasError('required')"
+                          >* required field</mat-error
+                        >
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="xsmall">
+                        <mat-label for="val2">value 2</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          name="val2"
+                          formControlName="val2"
+                        />
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="xsmall">
+                        <mat-label for="numChannelsOperator"
+                          >operator</mat-label
+                        >
+                        <mat-select
+                          formControlName="numChannelsOperator"
+                          name="numChannelsOperator"
+                        >
+                          <mat-option
+                            *ngFor="let n of numChannelsOperators"
+                            [value]="n.value"
+                          >
+                            {{ n.name }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error
+                          *ngIf="
+                            trigger
+                              .get('numChannelsOperator')
+                              .hasError('required')
+                          "
+                          >* required field</mat-error
+                        >
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="xsmall">
+                        <mat-label for="numChannels"># of channels</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          name="numChannels"
+                          formControlName="numChannels"
+                        />
+                      </mat-form-field>
+                    </td>
 
-                  <td>
-                    <mat-form-field>
-                      <mat-label for="emailList">email:</mat-label>
-                      <textarea
-                        matInput
-                        name="emailList"
-                        formControlName="emailList"
-                      ></textarea>
-                      <mat-error></mat-error>
-                    </mat-form-field>
-                  </td>
+                    <ng-template #default> default </ng-template>
+                  </tr>
+                  <tr>
+                    <td></td>
 
-                  <td>
-                    <button
-                      mat-icon-button
-                      color="warn"
-                      (click)="removeTrigger(i)"
-                      aria-label="button that removes the trigger"
-                      *ngIf="i !== 0"
-                    >
-                      <mat-icon> delete </mat-icon>
-                    </button>
-                  </td>
-                  <ng-template #default> default </ng-template>
-                </tr>
+                    <td colspan="3">
+                      Send notification to:
+                      <mat-form-field>
+                        <mat-label for="emailList">email:</mat-label>
+                        <textarea
+                          matInput
+                          name="emailList"
+                          formControlName="emailList"
+                        ></textarea>
+                        <mat-error
+                          *ngIf="trigger.get('emailList').hasError('email')"
+                          >Enter a valid email address</mat-error
+                        >
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-checkbox
+                        name="alertOnOutOfAlarm"
+                        formControlName="alertOnOutOfAlarm"
+                      >
+                        also alert on exit
+                      </mat-checkbox>
+                    </td>
+                    <td>
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeTrigger(i)"
+                        aria-label="button that removes the trigger"
+                        *ngIf="i !== 0"
+                      >
+                        <mat-icon> delete </mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
               </ng-container>
             </table>
             <!-- <div class="trigger-help">
@@ -320,7 +353,7 @@
                 values > {{ trigger.value.max }}
               </span>
             </div> -->
-          </ng-container>
+          </div>
           <button
             mat-button
             (click)="addTrigger()"

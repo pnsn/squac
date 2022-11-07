@@ -1,10 +1,3 @@
-.edit-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 60vh;
-}
-
 .metric-filter {
   width: 30%;
   padding: 4px;
@@ -17,9 +10,12 @@
 }
 
 #metric-select-table {
-  flex-grow: 1;
   overflow: scroll;
   width: 100%;
+  height: 100%;
   display: inline-block;
   box-sizing: border-box;
+}
+ngx-datatable {
+  height: 100%;
 }

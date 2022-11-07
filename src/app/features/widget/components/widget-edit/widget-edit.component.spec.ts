@@ -16,8 +16,14 @@ import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Metric } from "@squacapi/models/metric";
 import { WidgetEditOptionsComponent } from "./widget-edit-options/widget-edit-options.component";
 import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
-import { MockComponents, MockProviders, MockService } from "ng-mocks";
+import {
+  MockComponents,
+  MockDirective,
+  MockProviders,
+  MockService,
+} from "ng-mocks";
 import { WidgetEditInfoComponent } from "./widget-edit-info/widget-edit-info.component";
+import { WidgetTypeExampleDirective } from "./widget-edit-info/widget-type-example/widget-type-example.directive";
 
 describe("WidgetEditComponent", () => {
   let component: WidgetEditComponent;
@@ -51,6 +57,7 @@ describe("WidgetEditComponent", () => {
         },
       ],
       declarations: [
+        MockDirective(WidgetTypeExampleDirective),
         WidgetEditComponent,
         MockComponents(
           WidgetEditOptionsComponent,

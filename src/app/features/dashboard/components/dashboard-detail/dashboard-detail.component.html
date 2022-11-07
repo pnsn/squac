@@ -22,6 +22,14 @@
 
       <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
       <button
+        mat-icon-button
+        (click)="refreshData()"
+        matTooltip="Refresh data"
+        aria-label="Button that requests new data from the database"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button
         mat-raised-button
         color="accent"
         (click)="updateDashboard()"
@@ -104,15 +112,6 @@
         [timeRanges]="datePickerTimeRanges"
         (datesChanged)="datesChanged($event)"
       ></shared-date-select>
-
-      <button
-        mat-icon-button
-        (click)="refreshData()"
-        matTooltip="Refresh data"
-        aria-label="Button that requests new data from the database"
-      >
-        <mat-icon>refresh</mat-icon>
-      </button>
     </div>
   </div>
 
