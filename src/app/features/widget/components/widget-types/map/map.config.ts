@@ -1,0 +1,27 @@
+import { WidgetType } from "@features/widget/models/widget-type";
+
+export const Map: WidgetType = {
+  name: "map",
+  type: "map",
+  useAggregate: true,
+  toggleKey: true,
+  zoomControls: false,
+  minMetrics: 1,
+  description:
+    "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
+  displayInfo: "station stoplight, station worst",
+  displayOptions: [
+    {
+      description:
+        "each map icon is a station - color reflects the aggregate value for the 'worst' channel",
+      dimensions: ["display"],
+      displayType: "worst",
+    },
+    {
+      description:
+        "each map icon is a station - symbol color shows if all, some, or no channels are in/out of range",
+      dimensions: ["display"],
+      displayType: "stoplight",
+    },
+  ],
+};
