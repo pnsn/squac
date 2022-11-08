@@ -23,10 +23,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerDirective, { static: true })
   pickerDirective: DaterangepickerDirective;
   @Output() datesChanged = new EventEmitter<any>();
-  @Input() secondsAgoFromNow;
-  @Input() initialStartDate;
-  @Input() initialEndDate;
-  @Input() timeRanges;
+  @Input() secondsAgoFromNow: number;
+  @Input() initialStartDate: string;
+  @Input() initialEndDate: string;
+  @Input() timeRanges: any;
   startDate: dayjs.Dayjs;
   maxDate: dayjs.Dayjs;
   // settings for date select
@@ -34,11 +34,11 @@ export class DateSelectComponent implements OnInit, OnChanges {
   ranges: any = {};
 
   selected: {
-    startDate;
-    endDate;
+    startDate: dayjs.Dayjs;
+    endDate: dayjs.Dayjs;
   };
   selectedRange: any;
-  rangesForDatePicker = {};
+  rangesForDatePicker: { [key: string]: [dayjs.Dayjs, dayjs.Dayjs] } = {};
   liveMode: boolean;
 
   constructor(private dateService: DateService) {
@@ -81,9 +81,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
       };
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
+      //parse as local because datepicker refuses to show utc
+      const startLocal = this.dateService.parse(this.initialStartDate);
+      const endLocal = this.dateService.parse(this.initialEndDate);
       this.selected = {
-        startDate: this.dateService.parseUtc(this.initialStartDate),
-        endDate: this.dateService.parseUtc(this.initialEndDate),
+        startDate: this.dateService.fakeLocalFromUtc(startLocal),
+        endDate: this.dateService.fakeLocalFromUtc(endLocal),
       };
       this.selectedRange = "custom";
     } else {
@@ -124,13 +127,25 @@ export class DateSelectComponent implements OnInit, OnChanges {
 
   datePickerChange(dates: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs }) {
     if (dates.startDate && dates.endDate) {
-      const startDate = this.dateService.correctForLocal(dates.startDate);
-      const endDate = this.dateService.correctForLocal(dates.endDate);
+      const startDate = this.dateService.fakeUtcFromLocal(dates.startDate);
+      const endDate = this.dateService.fakeUtcFromLocal(dates.endDate);
       this.datesUpdated(startDate, endDate, false, null);
     }
   }
 
-  datesUpdated(startDate, endDate, liveMode, rangeInSeconds) {
+  /**
+   *
+   * @param startDate - dayjs date, start of time range
+   * @param endDate - dayjs date, end of time range
+   * @param liveMode - use live data
+   * @param rangeInSeconds - width of time range in seconds
+   */
+  datesUpdated(
+    startDate: dayjs.Dayjs,
+    endDate: dayjs.Dayjs,
+    liveMode: boolean,
+    rangeInSeconds: number
+  ) {
     this.datesChanged.emit({
       startDate,
       endDate,
@@ -139,6 +154,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Opens date picker
+   * @param e - instance of event
+   */
   openDatePicker(e): void {
     this.pickerDirective.open(e);
   }
