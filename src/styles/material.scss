@@ -40,7 +40,7 @@ mat-icon.mat-icon {
 .dense-form-field {
   .mat-form-field-flex {
     align-items: center;
-    height: 38px;
+    height: 37px;
     padding: 0 0 0 5px !important;
     margin-top: 3px;
   }
@@ -153,6 +153,7 @@ button[mat-menu-item] {
 }
 
 .dense-button-toggle {
+  height: 33px;
   &.mat-button-toggle-group-appearance-standard {
     border-radius: 0px;
   }
