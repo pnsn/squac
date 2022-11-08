@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as dayjs from "dayjs";
 import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
+import * as timezone from "dayjs/plugin/timezone";
 import { ConfigurationService } from "./configuration.service";
 
 //service to help reduce imports of dayjs
@@ -18,12 +19,19 @@ export class DateService {
   constructor(private configService: ConfigurationService) {
     dayjs.extend(utc);
     dayjs.extend(duration);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault("Etc/UTC");
     this.locale = configService.getValue("locale");
   }
 
   // adjust date using utc offset
-  correctForLocal(localDate: dayjs.Dayjs): dayjs.Dayjs {
+  fakeUtcFromLocal(localDate: dayjs.Dayjs): dayjs.Dayjs {
     return localDate.add(localDate.utcOffset(), "minutes").utc();
+  }
+
+  // adjust date using utc offset
+  fakeLocalFromUtc(localDate: dayjs.Dayjs): dayjs.Dayjs {
+    return localDate.subtract(localDate.utcOffset(), "minutes").utc();
   }
 
   // change dayjs object to utc mode
@@ -56,6 +64,11 @@ export class DateService {
   //subtract duration
   subtractDuration(start: dayjs.Dayjs, duration): dayjs.Dayjs {
     return start.utc().subtract(duration).clone();
+  }
+
+  // parse date from string
+  parse(date: string): dayjs.Dayjs {
+    return dayjs(date).clone();
   }
 
   // parse utc date from string
