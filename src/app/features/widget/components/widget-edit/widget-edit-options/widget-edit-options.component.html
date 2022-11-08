@@ -1,6 +1,6 @@
 <div class="edit-body">
   <form #optionsEditForm [formGroup]="optionsForm">
-    <ng-container formGroupName="options" *ngIf="displayType">
+    <ng-container formGroupName="options" *ngIf="displayOption">
       <div class="head-row">
         <span class="label">Colors</span>
       </div>
@@ -113,7 +113,7 @@
         <table id="thresholds-table">
           <thead>
             <th class="large">metric</th>
-            <th *ngIf="displayType?.dimensions" class="small">Dimension</th>
+            <th *ngIf="displayOption?.dimensions" class="small">Dimension</th>
 
             <th class="small">min value</th>
             <th class="small">max value</th>
@@ -128,7 +128,7 @@
                     {{ getMetricName(metricId) }}
                   </span>
                 </td>
-                <td *ngIf="displayType?.dimensions" class="small">
+                <td *ngIf="displayOption?.dimensions" class="small">
                   <mat-form-field class="dense-form-field-select">
                     <mat-select
                       #dimensions
@@ -136,7 +136,7 @@
                       (selectionChange)="validateThresholds(i)"
                     >
                       <mat-option
-                        *ngFor="let dim of displayType?.dimensions"
+                        *ngFor="let dim of displayOption?.dimensions"
                         [value]="dim"
                       >
                         {{ dim }}

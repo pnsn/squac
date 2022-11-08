@@ -13,8 +13,7 @@ describe("WidgetEditInfoComponent", () => {
   beforeEach(() => {
     return MockBuilder(WidgetEditInfoComponent)
       .mock(MaterialModule)
-      .mock(ReactiveFormsModule)
-      .mock(WidgetConfigService);
+      .mock(ReactiveFormsModule);
   });
 
   beforeEach(() => {

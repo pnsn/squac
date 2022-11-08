@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ConfigurationService } from "@core/services/configuration.service";
-import { WidgetType } from "../models/widget-type";
+import { WidgetType } from "../interfaces/widget-type";
 
 @Injectable({
   providedIn: "root",
@@ -19,20 +19,20 @@ export class WidgetConfigService {
   }
 
   set widgetTypes(_widgetTypes: any) {
-    this._widgetTypes = _widgetTypes.map((type: WidgetType) => {
-      return new WidgetType(
-        type.id,
-        type.name,
-        type.type,
-        type.description,
-        type.displayInfo,
-        type.zoomControls,
-        type.useAggregate,
-        type.toggleKey,
-        type.minMetrics,
-        type.displayOptions
-      );
-    });
+    // this._widgetTypes = _widgetTypes.map((type: WidgetType) => {
+    //   return new WidgetType(
+    //     type.id,
+    //     type.name,
+    //     type.type,
+    //     type.description,
+    //     type.displayInfo,
+    //     type.zoomControls,
+    //     type.useAggregate,
+    //     type.toggleKey,
+    //     type.minMetrics,
+    //     type.displayOptions
+    //   );
+    // });
   }
 
   get widgetTypes(): WidgetType[] {

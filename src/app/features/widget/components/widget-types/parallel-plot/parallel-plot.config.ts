@@ -1,4 +1,4 @@
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 
 export const Parallel: WidgetType = {
   name: "parallel",
@@ -10,5 +10,4 @@ export const Parallel: WidgetType = {
   displayInfo: "Color options not available for parallel plot.",
   description:
     "Chart with at least 2 metrics with separate y-axes, Each channel is a separate line. Values are aggregates of measurements over the time range.",
-  displayOptions: [],
 };

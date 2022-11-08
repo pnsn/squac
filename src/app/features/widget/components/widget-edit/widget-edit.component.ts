@@ -6,8 +6,6 @@ import { ViewService } from "@core/services/view.service";
 import { WidgetService } from "@squacapi/services/widget.service";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription } from "rxjs";
-import { WidgetType } from "@features/widget/models/widget-type";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 
 @Component({
   selector: "widget-edit",
@@ -19,9 +17,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   id: number;
   widget: Widget;
-  widgetType: string;
-  widgetTypes: WidgetType[];
-  selectedMetrics: [];
   metrics: Metric[];
   editMode: boolean;
   copyWidget: boolean;
@@ -32,11 +27,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetService: WidgetService,
     private messageService: MessageService,
-    private viewService: ViewService,
-    widgetConfigService: WidgetConfigService
-  ) {
-    this.widgetTypes = widgetConfigService.widgetTypes;
-  }
+    private viewService: ViewService
+  ) {}
 
   ngOnInit(): void {
     // check if editing or creating

@@ -4,7 +4,7 @@ import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
-import { WidgetDisplayOption, WidgetType } from "../models/widget-type";
+import { WidgetDisplayOption, WidgetType } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
 import { WidgetErrors } from "./widget-errors";
 
@@ -65,9 +65,8 @@ export class WidgetManagerService {
   set widgetType(widgetType: WidgetType) {
     this._widgetType = widgetType;
 
-    this._widgetDisplayOption = this._widgetType.getOption(
-      this._widget.properties.displayType
-    );
+    this._widgetDisplayOption =
+      this._widgetType.displayOptions[this._widget.properties.displayType];
 
     if (this._widget.metrics.length === 0) {
       this.errors.next(WidgetErrors.NO_METRICS);

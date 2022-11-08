@@ -1,4 +1,4 @@
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 
 export const Map: WidgetType = {
   name: "map",
@@ -10,18 +10,17 @@ export const Map: WidgetType = {
   description:
     "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
   displayInfo: "station stoplight, station worst",
-  displayOptions: [
-    {
+  defaultDisplay: "worst",
+  displayOptions: {
+    worst: {
       description:
         "each map icon is a station - color reflects the aggregate value for the 'worst' channel",
       dimensions: ["display"],
-      displayType: "worst",
     },
-    {
+    stoplight: {
       description:
         "each map icon is a station - symbol color shows if all, some, or no channels are in/out of range",
       dimensions: ["display"],
-      displayType: "stoplight",
     },
-  ],
+  },
 };

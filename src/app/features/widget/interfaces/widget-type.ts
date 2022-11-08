@@ -10,11 +10,12 @@ export interface WidgetType {
   useAggregate?: boolean;
   toggleKey?: boolean;
   minMetrics: number;
-  displayOptions?: WidgetDisplayOption[];
+  defaultDisplay?: string;
+  displayOptions?: { [type: string]: WidgetDisplayOption };
 }
 
 export interface WidgetDisplayOption {
-  displayType: string;
   dimensions: string[];
   description: string;
+  name?: string;
 }

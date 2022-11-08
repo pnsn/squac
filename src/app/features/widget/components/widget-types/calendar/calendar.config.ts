@@ -1,4 +1,4 @@
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 
 export const Calendar: WidgetType = {
   name: "calendar",
@@ -10,21 +10,19 @@ export const Calendar: WidgetType = {
   description:
     "Chart with average measurement values on the y-axis and the selected display type on the x-axis. Each channel is a separate line.",
   displayInfo: "channels as dots",
-  displayOptions: [
-    {
+  defaultDisplay: "days-week",
+  displayOptions: {
+    "days-week": {
       description: "days of week",
-      displayType: "days-week",
       dimensions: ["display"],
     },
-    {
+    "hours-week": {
       description: "hour of week",
-      displayType: "hours-week",
       dimensions: ["display"],
     },
-    {
+    "hours-day": {
       description: "hours of day",
-      displayType: "hours-day",
       dimensions: ["display"],
     },
-  ],
+  },
 };

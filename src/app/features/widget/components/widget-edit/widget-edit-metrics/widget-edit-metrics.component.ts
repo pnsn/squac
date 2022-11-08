@@ -11,8 +11,10 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetType } from "@widget/models/widget-type";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import {
+  WidgetTypeInfo,
+  WidgetTypes,
+} from "@features/widget/interfaces/widget-types";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -23,13 +25,8 @@ export class WidgetEditMetricsComponent
 {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-  @Input() type: string;
+  @Input() type: WidgetTypes;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
-  widgetTypes;
-
-  constructor(widgetConfigService: WidgetConfigService) {
-    this.widgetTypes = widgetConfigService.widgetTypes;
-  }
 
   minLength = 1;
   done = false;
@@ -88,9 +85,7 @@ export class WidgetEditMetricsComponent
     }
 
     if (changes.type) {
-      const selectedType = this.widgetTypes.find((type: WidgetType) => {
-        return type.type === this.type;
-      });
+      const selectedType = WidgetTypeInfo[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }

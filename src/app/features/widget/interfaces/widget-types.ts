@@ -15,16 +15,16 @@ import { TimechartComponent } from "../components/widget-types/timechart/timecha
 import { TimeChart } from "../components/widget-types/timechart/timechart.config";
 import { TimelineComponent } from "../components/widget-types/timeline/timeline.component";
 import { Timeline } from "../components/widget-types/timeline/timeline.config";
-import { WidgetType } from "../models/widget-type";
+import { WidgetType } from "./widget-type";
 
 export enum WidgetTypes {
-  TABULAR,
-  TIMELINE,
-  TIMESERIES,
-  MAP,
-  PARALLEL,
-  SCATTER,
-  CALENDAR,
+  TABULAR = "tabular",
+  TIMELINE = "timeline",
+  TIMESERIES = "timeseries",
+  MAP = "map",
+  PARALLEL = "parallel-plot",
+  SCATTER = "scatter-plot",
+  CALENDAR = "calendar-plot",
 }
 
 type WidgetTypeInfo = {
@@ -34,7 +34,7 @@ type WidgetTypeInfo = {
 /**
  * Associate widget types with the corresponding component
  */
-export const WidgetTypeComponentMap: {
+export const WidgetTypeInfo: {
   [key in WidgetTypes]: WidgetTypeInfo;
 } = {
   [WidgetTypes.TABULAR]: { component: TabularComponent, config: Tabular },

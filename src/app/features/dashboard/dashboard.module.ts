@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { DashboardComponent } from "./components/dashboard-main/dashboard.component";
 import { DashboardDetailComponent } from "./components/dashboard-detail/dashboard-detail.component";
 import { DashboardEditComponent } from "./components/dashboard-edit/dashboard-edit.component";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";

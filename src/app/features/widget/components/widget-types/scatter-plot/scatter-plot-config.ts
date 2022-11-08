@@ -1,4 +1,4 @@
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 
 export const ScatterPlot: WidgetType = {
   name: "scatter",
@@ -10,12 +10,12 @@ export const ScatterPlot: WidgetType = {
   description:
     "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
   displayInfo: "channels as dots",
-  displayOptions: [
-    {
+  defaultDisplay: "channel",
+  displayOptions: {
+    channel: {
       description:
         "each dot represents a channel - colors show aggregate value for a 3rd metric",
       dimensions: ["x-axis", "y-axis", "color"],
-      displayType: "channel",
     },
-  ],
+  },
 };

@@ -1,4 +1,4 @@
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 
 export const Timeline: WidgetType = {
   name: "timeline",
@@ -10,23 +10,21 @@ export const Timeline: WidgetType = {
     "Chart with channels on y-axis and time on x-axis. Values shown are raw measurements.",
   displayInfo: "channel values, station stoplight",
   minMetrics: 1,
-  displayOptions: [
-    {
+  defaultDisplay: "raw",
+  displayOptions: {
+    raw: {
       description: "each row is a channel - values are raw measurement values",
       dimensions: ["display"],
-      displayType: "raw",
     },
-    {
+    day: {
       description:
         "each row is a channel - values are average of measurements for each day",
       dimensions: ["display"],
-      displayType: "day",
     },
-    {
+    hour: {
       description:
         "each row is a channel -  values are average of measurements for each hour",
       dimensions: ["display"],
-      displayType: "hour",
     },
-  ],
+  },
 };

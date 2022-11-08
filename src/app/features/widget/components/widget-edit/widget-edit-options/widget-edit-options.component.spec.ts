@@ -12,17 +12,9 @@ describe("WidgetEditOptionsComponent", () => {
   let fixture: ComponentFixture<WidgetEditOptionsComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetEditOptionsComponent, WidgetModule)
-      .keep(ReactiveFormsModule)
-      .provide({
-        provide: WidgetConfigService,
-        useValue: {
-          selectedMetrics: new BehaviorSubject(null),
-          getThresholds: () => {
-            return;
-          },
-        },
-      });
+    return MockBuilder(WidgetEditOptionsComponent, WidgetModule).keep(
+      ReactiveFormsModule
+    );
   });
 
   beforeEach(() => {

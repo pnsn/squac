@@ -30,13 +30,8 @@ import {
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { WidgetErrors } from "./widget-errors";
-export enum ArchiveTypes {
-  DAY = "day",
-  HOUR = "hour",
-  WEEK = "week",
-  MONTH = "month",
-  RAW = "raw",
-}
+import { ArchiveTypes } from "@squacapi/interfaces/archivetypes";
+
 export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
   | MeasurementAggregatedListRequestParams;
@@ -126,8 +121,8 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
-      case ArchiveTypes.HOUR:
-        return this.hourArchiveService.list(params);
+      // case ArchiveTypes.HOUR:
+      //   return this.hourArchiveService.list(params);
 
       case ArchiveTypes.DAY:
         return this.dayArchiveService.list(params);

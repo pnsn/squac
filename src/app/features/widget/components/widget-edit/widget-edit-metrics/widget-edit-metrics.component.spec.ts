@@ -15,15 +15,7 @@ describe("WidgetEditMetricsComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NgxDatatableModule, HttpClientTestingModule, MaterialModule],
-      providers: [
-        MetricService,
-        {
-          provide: WidgetConfigService,
-          useValue: {
-            getMetricIds: () => [],
-          },
-        },
-      ],
+      providers: [MetricService],
       declarations: [WidgetEditMetricsComponent, LoadingComponent],
     }).compileComponents();
   }));

@@ -3,8 +3,10 @@
  */
 export enum ArchiveTypes {
   DAY = "day",
+  // HOUR = "hour",
   WEEK = "week",
   MONTH = "month",
+  RAW = "raw",
 }
 
 /**

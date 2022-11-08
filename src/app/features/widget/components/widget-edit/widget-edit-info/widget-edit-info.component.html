@@ -25,10 +25,12 @@
     <div class="row" id="widget-type-container">
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
-          *ngFor="let widgetType of widgetTypes"
-          [value]="widgetType.type"
+          *ngFor="let widgetType of WidgetTypes | keyvalue"
+          [value]="widgetType.value"
         >
-          <div class="type-label">{{ widgetType.name | titlecase }}</div>
+          <div class="type-label">
+            {{ WidgetTypeInfo[widgetType.value].config.name | titlecase }}
+          </div>
         </mat-button-toggle>
       </mat-button-toggle-group>
       <div id="type-container" class="column">
@@ -46,12 +48,12 @@
           <div class="label">Select aggregation type:</div>
           <mat-form-field class="dense-form-field-select">
             <mat-label>Stat type</mat-label>
-            <mat-select formControlName="stat" *ngIf="statTypes" required>
+            <mat-select formControlName="stat" required>
               <mat-option
-                *ngFor="let statType of statTypes"
-                [value]="statType.type"
+                *ngFor="let statType of WidgetStatTypes | keyvalue"
+                [value]="statType.value"
               >
-                {{ statType.name }}
+                {{ WidgetStatTypeNames[statType.value] }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -60,10 +62,7 @@
         <div
           id="display-container"
           class="column"
-          *ngIf="
-            selectedType?.displayOptions &&
-            selectedType?.displayOptions.length > 1
-          "
+          *ngIf="selectedType?.displayOptions"
         >
           <div class="label">Select display type:</div>
           <mat-radio-group
@@ -71,11 +70,11 @@
             class="dense-radio-button-group"
           >
             <mat-radio-button
-              *ngFor="let type of selectedType?.displayOptions"
-              [value]="type"
+              *ngFor="let option of selectedType?.displayOptions | keyvalue"
+              [value]="option.key"
               class="radio-button-dense"
               ><div class="option-container">
-                <span>{{ type.description }}</span>
+                <span>{{ option.value.description }}</span>
               </div>
             </mat-radio-button>
           </mat-radio-group>
