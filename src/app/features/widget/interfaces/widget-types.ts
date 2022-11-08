@@ -1,8 +1,5 @@
-import { Component } from "@angular/core";
 import { CalendarComponent } from "../components/widget-types/calendar/calendar.component";
 import { Calendar } from "../components/widget-types/calendar/calendar.config";
-import { GenericWidgetComponent } from "../components/widget-types/interfaces/generic-widget.component";
-import { WidgetTypeComponent } from "../components/widget-types/interfaces/widget-type.interface";
 import { MapComponent } from "../components/widget-types/map/map.component";
 import { Map } from "../components/widget-types/map/map.config";
 import { ParallelPlotComponent } from "../components/widget-types/parallel-plot/parallel-plot.component";

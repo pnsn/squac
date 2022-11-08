@@ -10,10 +10,7 @@ import {
   WidgetTypes,
 } from "@features/widget/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/interfaces/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 import { WidgetStatTypes } from "@squacapi/interfaces/archivetypes";
 import { WidgetStatTypeNames } from "@features/widget/interfaces/widget-stattypes";
 

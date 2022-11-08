@@ -12,10 +12,7 @@ import {
 import { DateService } from "@core/services/date.service";
 import { WidgetTypeComponent } from "@features/widget/components/widget-types/interfaces/widget-type.interface";
 import { widgetTypeComponents } from "@features/widget/components/widget-types/interfaces/widget-types";
-import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/interfaces/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 import {
   WidgetTypeInfo,
   WidgetTypes,

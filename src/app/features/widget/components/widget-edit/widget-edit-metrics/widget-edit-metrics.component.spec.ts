@@ -5,7 +5,6 @@ import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MetricService } from "@squacapi/services/metric.service";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MaterialModule } from "@shared/material.module";
 
 describe("WidgetEditMetricsComponent", () => {

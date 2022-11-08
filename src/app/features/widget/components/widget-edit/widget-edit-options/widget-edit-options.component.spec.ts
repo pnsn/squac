@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditOptionsComponent } from "./widget-edit-options.component";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
-import { BehaviorSubject } from "rxjs";
 import { WidgetModule } from "@features/widget/widget.module";
 import { ReactiveFormsModule } from "@angular/forms";
 
