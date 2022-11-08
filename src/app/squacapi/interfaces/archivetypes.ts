@@ -12,7 +12,7 @@ export enum ArchiveTypes {
 /**
  * Stat types available for archive types type
  */
-export enum WidgetStatTypes {
+export enum ArchiveStatTypes {
   MEAN = "mean",
   LATEST = "latest",
   NUM_SAMPS = "numSamps",

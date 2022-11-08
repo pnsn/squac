@@ -11,8 +11,10 @@ import {
 } from "@features/widget/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { WidgetType } from "@features/widget/interfaces/widget-type";
-import { WidgetStatTypes } from "@squacapi/interfaces/archivetypes";
-import { WidgetStatTypeNames } from "@features/widget/interfaces/widget-stattypes";
+import {
+  WidgetStatTypeNames,
+  WidgetStatTypes,
+} from "@features/widget/interfaces/widget-stattypes";
 
 @Component({
   selector: "widget-edit-info",
