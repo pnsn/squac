@@ -1,0 +1,1401 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac-ui documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  MatchingRuleEditComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>channel-group-matching-rule-edit</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./matching-rule-edit.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./matching-rule-edit.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#matchingRulesForm" >matchingRulesForm</a>
+                            </li>
+                            <li>
+                                <a href="#removeRuleIds" >removeRuleIds</a>
+                            </li>
+                            <li>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addRule" >addRule</a>
+                            </li>
+                            <li>
+                                <a href="#initForm" >initForm</a>
+                            </li>
+                            <li>
+                                <a href="#makeRuleForm" >makeRuleForm</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#previewChannels" >previewChannels</a>
+                            </li>
+                            <li>
+                                <a href="#removeRule" >removeRule</a>
+                            </li>
+                            <li>
+                                <a href="#updateRules" >updateRules</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#channelGroupId" >channelGroupId</a>
+                            </li>
+                            <li>
+                                <a href="#matchingRules" >matchingRules</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#matchingRuleDeleteIds" >matchingRuleDeleteIds</a>
+                            </li>
+                            <li>
+                                <a href="#matchingRulesChange" >matchingRulesChange</a>
+                            </li>
+                            <li>
+                                <a href="#previewRules" >previewRules</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#rules" >rules</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: UntypedFormBuilder)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                    <code>UntypedFormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="channelGroupId"></a>
+                        <b>channelGroupId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:23</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="matchingRules"></a>
+                        <b>matchingRules</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/MatchingRule.html" target="_self" >MatchingRule[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="matchingRuleDeleteIds"></a>
+                        <b>matchingRuleDeleteIds</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="matchingRulesChange"></a>
+                        <b>matchingRulesChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="previewRules"></a>
+                        <b>previewRules</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addRule"></a>
+                    <span class="name">
+                        <span ><b>addRule</b></span>
+                        <a href="#addRule"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addRule(rule?: <a href="../classes/MatchingRule.html" target="_self">MatchingRule</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rule</td>
+                                    <td>
+                                                <code><a href="../classes/MatchingRule.html" target="_self" >MatchingRule</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initForm"></a>
+                    <span class="name">
+                        <span ><b>initForm</b></span>
+                        <a href="#initForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initForm()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeRuleForm"></a>
+                    <span class="name">
+                        <span ><b>makeRuleForm</b></span>
+                        <a href="#makeRuleForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeRuleForm(rule?: <a href="../classes/MatchingRule.html" target="_self">MatchingRule</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rule</td>
+                                    <td>
+                                                <code><a href="../classes/MatchingRule.html" target="_self" >MatchingRule</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:44</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previewChannels"></a>
+                    <span class="name">
+                        <span ><b>previewChannels</b></span>
+                        <a href="#previewChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>previewChannels()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeRule"></a>
+                    <span class="name">
+                        <span ><b>removeRule</b></span>
+                        <a href="#removeRule"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeRule(index)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:99</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateRules"></a>
+                    <span class="name">
+                        <span ><b>updateRules</b></span>
+                        <a href="#updateRules"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateRules()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:95</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="matchingRulesForm"></a>
+                    <span class="name">
+                        <span ><b>matchingRulesForm</b></span>
+                        <a href="#matchingRulesForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.formBuilder.group({
+    rules: this.formBuilder.array([]),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeRuleIds"></a>
+                    <span class="name">
+                        <span ><b>removeRuleIds</b></span>
+                        <a href="#removeRuleIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rules"></a>
+                        <span class="name"><b>rules</b><a href="#rules"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>rules()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:91</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from &quot;@angular/core&quot;;
+import { UntypedFormArray, UntypedFormBuilder } from &quot;@angular/forms&quot;;
+import { atLeastOneValidator, regexValidator } from &quot;@core/utils/validators&quot;;
+import { MatchingRule } from &quot;@squacapi/models/matching-rule&quot;;
+import { Subscription } from &quot;rxjs&quot;;
+
+@Component({
+  selector: &quot;channel-group-matching-rule-edit&quot;,
+  templateUrl: &quot;./matching-rule-edit.component.html&quot;,
+  styleUrls: [&quot;./matching-rule-edit.component.scss&quot;],
+})
+export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() matchingRules: MatchingRule[];
+  @Input() channelGroupId: number;
+  @Output() matchingRulesChange &#x3D; new EventEmitter&lt;MatchingRule[]&gt;();
+  @Output() previewRules &#x3D; new EventEmitter&lt;MatchingRule[]&gt;();
+  @Output() matchingRuleDeleteIds &#x3D; new EventEmitter&lt;number[]&gt;();
+  subscription &#x3D; new Subscription();
+  removeRuleIds &#x3D; [];
+  constructor(private formBuilder: UntypedFormBuilder) {}
+
+  matchingRulesForm &#x3D; this.formBuilder.group({
+    rules: this.formBuilder.array([]),
+  });
+
+  ngOnInit(): void {
+    const rulesSub &#x3D; this.rules.valueChanges.subscribe((values) &#x3D;&gt; {
+      if (this.rules.valid) {
+        this.matchingRules &#x3D; values;
+      }
+    });
+    this.subscription.add(rulesSub);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.matchingRules) {
+      this.initForm();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  makeRuleForm(rule?: MatchingRule) {
+    return this.formBuilder.group(
+      {
+        id: rule?.id || null,
+        channelGroupId: this.channelGroupId,
+        isInclude: rule ? rule.isInclude : true,
+        networkRegex: [
+          rule?.networkRegex || &quot;&quot;,
+          { validators: [regexValidator()] },
+        ],
+        stationRegex: [
+          rule?.stationRegex || &quot;&quot;,
+          { validators: [regexValidator()] },
+        ],
+        locationRegex: [
+          rule?.locationRegex || &quot;&quot;,
+          { validators: [regexValidator()] },
+        ],
+        channelRegex: [
+          rule?.channelRegex || &quot;&quot;,
+          { validators: [regexValidator()] },
+        ],
+      },
+      {
+        validators: [
+          atLeastOneValidator([
+            &quot;networkRegex&quot;,
+            &quot;stationRegex&quot;,
+            &quot;locationRegex&quot;,
+            &quot;channelRegex&quot;,
+          ]),
+        ],
+      }
+    );
+  }
+
+  // // Access triggers
+  get rules(): UntypedFormArray {
+    return this.matchingRulesForm.get(&quot;rules&quot;) as UntypedFormArray;
+  }
+
+  updateRules() {
+    this.matchingRulesChange.emit(this.matchingRules);
+  }
+
+  removeRule(index) {
+    const rule &#x3D; this.rules.at(index).value;
+    if (rule.id) {
+      this.removeRuleIds.push(+rule.id);
+    }
+    this.rules.removeAt(index);
+    this.matchingRulesChange.emit(this.rules.value);
+    this.matchingRuleDeleteIds.emit(this.removeRuleIds);
+  }
+
+  addRule(rule?: MatchingRule) {
+    const ruleFormGroup &#x3D; this.makeRuleForm(rule);
+    this.rules.push(ruleFormGroup, { emitEvent: false });
+  }
+
+  initForm() {
+    this.rules.clear({ emitEvent: false });
+    this.matchingRules?.forEach((rule) &#x3D;&gt; {
+      this.addRule(rule);
+    });
+  }
+
+  previewChannels() {
+    this.previewRules.emit(this.matchingRules);
+    //request channels
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row space-between&quot;&gt;
+  &lt;button
+    mat-button
+    color&#x3D;&quot;primary&quot;
+    (click)&#x3D;&quot;previewChannels()&quot;
+    matTooltip&#x3D;&quot;Test regular expressions&quot;
+    aria-label&#x3D;&quot;Button that searches for channels&quot;
+  &gt;
+    test regex
+  &lt;/button&gt;
+  &lt;button
+    mat-button
+    (click)&#x3D;&quot;addRule()&quot;
+    matTooltip&#x3D;&quot;Add new regular expressions&quot;
+  &gt;
+    &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+    add regex
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;form #rulesForm [formGroup]&#x3D;&quot;matchingRulesForm&quot;&gt;
+  &lt;div formArrayName&#x3D;&quot;rules&quot; id&#x3D;&quot;rules-container&quot;&gt;
+    &lt;div class&#x3D;&quot;header-row&quot; *ngIf&#x3D;&quot;rules.controls.length &gt; 0&quot;&gt;
+      &lt;div class&#x3D;&quot;medium&quot;&gt;&lt;span&gt;include?&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;network&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;station&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;location&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;channel&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;narrow&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;rules.controls.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+      &lt;span&gt;No rules.&lt;/span&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *ngFor&#x3D;&quot;let rule of rules.controls; let i &#x3D; index&quot;&gt;
+      &lt;div [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;rule-row&quot;&gt;
+        &lt;div class&#x3D;&quot;medium&quot;&gt;
+          &lt;mat-checkbox
+            #isInclude
+            formControlName&#x3D;&quot;isInclude&quot;
+            (change)&#x3D;&quot;updateRules()&quot;
+          &gt;
+          &lt;/mat-checkbox&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field-column&quot;&gt;
+          &lt;mat-form-field&gt;
+            &lt;input
+              #networkRegex
+              matInput
+              formControlName&#x3D;&quot;networkRegex&quot;
+              (keyup)&#x3D;&quot;
+                rules.controls[i].patchValue({
+                  networkRegex: $event.target.value.toUpperCase()
+                })
+              &quot;
+              (focusout)&#x3D;&quot;updateRules()&quot;
+            /&gt;
+          &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field-column&quot;&gt;
+          &lt;mat-form-field&gt;
+            &lt;input
+              #stationRegex
+              matInput
+              formControlName&#x3D;&quot;stationRegex&quot;
+              (keyup)&#x3D;&quot;
+                rules.controls[i].patchValue({
+                  stationRegex: $event.target.value.toUpperCase()
+                })
+              &quot;
+              (focusout)&#x3D;&quot;updateRules()&quot;
+            /&gt;
+          &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field-column&quot;&gt;
+          &lt;mat-form-field&gt;
+            &lt;input
+              #locationRegex
+              matInput
+              formControlName&#x3D;&quot;locationRegex&quot;
+              (keyup)&#x3D;&quot;
+                rules.controls[i].patchValue({
+                  locationRegex: $event.target.value.toUpperCase()
+                })
+              &quot;
+              (focusout)&#x3D;&quot;updateRules()&quot;
+            /&gt;
+          &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field-column&quot;&gt;
+          &lt;mat-form-field&gt;
+            &lt;input
+              #channelRegex
+              matInput
+              formControlName&#x3D;&quot;channelRegex&quot;
+              (keyup)&#x3D;&quot;
+                rules.controls[i].patchValue({
+                  channelRegex: $event.target.value.toUpperCase()
+                })
+              &quot;
+              (focusout)&#x3D;&quot;updateRules()&quot;
+            /&gt;
+          &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;narrow&quot;&gt;
+          &lt;button mat-icon-button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;removeRule(i)&quot;&gt;
+            &lt;mat-icon&gt;close&lt;/mat-icon&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;rules.controls[i].errors as errors&quot;&gt;
+        &lt;span class&#x3D;&quot;warn-text&quot;&gt;
+          {{ errors.atLeastOne?.message }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+      &lt;ng-container
+        *ngFor&#x3D;&quot;let field of [&#x27;network&#x27;, &#x27;station&#x27;, &#x27;location&#x27;, &#x27;channel&#x27;]&quot;
+      &gt;
+        &lt;div *ngIf&#x3D;&quot;rules.controls[i].get(field + &#x27;Regex&#x27;).errors as errors&quot;&gt;
+          &lt;span class&#x3D;&quot;warn-text&quot;&gt;
+            {{ errors.invalidRegex?.message }} for {{ field }}
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+    &lt;/ng-container&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./matching-rule-edit.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">#rules-container {
+  min-height: 60px;
+  width: 100%;
+  .header-row,
+  .rule-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+  }
+  .field-column {
+    width: calc(25% - 25px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    span {
+      text-overflow: ellipsis;
+    }
+    mat-form-field {
+      width: calc(95%);
+    }
+  }
+}
+
+.narrow {
+  min-width: 25px;
+}
+.medium {
+  min-width: 60px;
+  text-align: center;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="row space-between">  <button    mat-button    color="primary"    (click)="previewChannels()"    matTooltip="Test regular expressions"    aria-label="Button that searches for channels"  >    test regex  </button>  <button    mat-button    (click)="addRule()"    matTooltip="Add new regular expressions"  >    <mat-icon>add</mat-icon>    add regex  </button></div><form #rulesForm [formGroup]="matchingRulesForm">  <div formArrayName="rules" id="rules-container">    <div class="header-row" *ngIf="rules.controls.length > 0">      <div class="medium"><span>include?</span></div>      <div class="field-column"><span>network</span></div>      <div class="field-column"><span>station</span></div>      <div class="field-column"><span>location</span></div>      <div class="field-column"><span>channel</span></div>      <div class="narrow"></div>    </div>    <ng-container *ngIf="rules.controls.length === 0">      <span>No rules.</span>    </ng-container>    <ng-container *ngFor="let rule of rules.controls; let i = index">      <div [formGroupName]="i" class="rule-row">        <div class="medium">          <mat-checkbox            #isInclude            formControlName="isInclude"            (change)="updateRules()"          >          </mat-checkbox>        </div>        <div class="field-column">          <mat-form-field>            <input              #networkRegex              matInput              formControlName="networkRegex"              (keyup)="                rules.controls[i].patchValue({                  networkRegex: $event.target.value.toUpperCase()                })              "              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #stationRegex              matInput              formControlName="stationRegex"              (keyup)="                rules.controls[i].patchValue({                  stationRegex: $event.target.value.toUpperCase()                })              "              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #locationRegex              matInput              formControlName="locationRegex"              (keyup)="                rules.controls[i].patchValue({                  locationRegex: $event.target.value.toUpperCase()                })              "              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #channelRegex              matInput              formControlName="channelRegex"              (keyup)="                rules.controls[i].patchValue({                  channelRegex: $event.target.value.toUpperCase()                })              "              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="narrow">          <button mat-icon-button type="button" (click)="removeRule(i)">            <mat-icon>close</mat-icon>          </button>        </div>      </div>      <div *ngIf="rules.controls[i].errors as errors">        <span class="warn-text">          {{ errors.atLeastOne?.message }}        </span>      </div>      <ng-container        *ngFor="let field of [\'network\', \'station\', \'location\', \'channel\']"      >        <div *ngIf="rules.controls[i].get(field + \'Regex\').errors as errors">          <span class="warn-text">            {{ errors.invalidRegex?.message }} for {{ field }}          </span>        </div>      </ng-container>    </ng-container>  </div></form></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BoxPlotComponent', 'selector': 'widget-box-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[widgetTypeExample]'}];
+    var ACTUAL_COMPONENT = {'name': 'MatchingRuleEditComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MatchingRuleEditComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

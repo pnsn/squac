@@ -4,7 +4,7 @@ import { DashboardDetailComponent } from "./components/dashboard-detail/dashboar
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { PermissionGuard } from "@core/guards/permission.guard";
-import { widgetRoutes } from "@widget/widget.routes";
+import { widgetRoutes } from "app/features/widget/widget.routes";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@squacapi/resolvers/channel-group.resolver";

@@ -1,0 +1,1469 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac-ui documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >WidgetDataService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/widget/services/widget-data.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#$params" >$params</a>
+                            </li>
+                            <li>
+                                <a href="#archiveType" >archiveType</a>
+                            </li>
+                            <li>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#measurementReq" >measurementReq</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#measurementReqSub" >measurementReqSub</a>
+                            </li>
+                            <li>
+                                <a href="#measurementsWithData" >measurementsWithData</a>
+                            </li>
+                            <li>
+                                <a href="#params" >params</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ranges" >ranges</a>
+                            </li>
+                            <li>
+                                <a href="#selectedMetrics" >selectedMetrics</a>
+                            </li>
+                            <li>
+                                <a href="#stat" >stat</a>
+                            </li>
+                            <li>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                            <li>
+                                <a href="#useAggregate" >useAggregate</a>
+                            </li>
+                            <li>
+                                <a href="#widget" >widget</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#calculateDataRange" >calculateDataRange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#checkParams" >checkParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dataRequest" >dataRequest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#finishedLoading" >finishedLoading</a>
+                            </li>
+                            <li>
+                                <a href="#mapData" >mapData</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startedLoading" >startedLoading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#dataRange" >dataRange</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(measurementService: <a href="../injectables/MeasurementService.html" target="_self">MeasurementService</a>, aggregateService: <a href="../injectables/AggregateService.html" target="_self">AggregateService</a>, hourArchiveService: <a href="../injectables/HourArchiveService.html" target="_self">HourArchiveService</a>, dayArchiveService: <a href="../injectables/DayArchiveService.html" target="_self">DayArchiveService</a>, monthArchiveService: <a href="../injectables/MonthArchiveService.html" target="_self">MonthArchiveService</a>, weekArchiveService: <a href="../injectables/WeekArchiveService.html" target="_self">WeekArchiveService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:66</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>measurementService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MeasurementService.html" target="_self" >MeasurementService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>aggregateService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AggregateService.html" target="_self" >AggregateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>hourArchiveService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/HourArchiveService.html" target="_self" >HourArchiveService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dayArchiveService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DayArchiveService.html" target="_self" >DayArchiveService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>monthArchiveService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MonthArchiveService.html" target="_self" >MonthArchiveService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>weekArchiveService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WeekArchiveService.html" target="_self" >WeekArchiveService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calculateDataRange"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>calculateDataRange</b></span>
+                        <a href="#calculateDataRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calculateDataRange(metricId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Calculates the min, max, and count of data for the metric after including the given value</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metricId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>id of metric</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>measurement value to add</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkParams"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>checkParams</b></span>
+                        <a href="#checkParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkParams(params: <a href="../classes/Measurement.html" target="_self">MeasurementParams</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:113</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementParams</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataRequest"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>dataRequest</b></span>
+                        <a href="#dataRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dataRequest(params)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >Observable&lt;Array&lt;MeasurementType&gt;&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="finishedLoading"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>finishedLoading</b></span>
+                        <a href="#finishedLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>finishedLoading(data?: Map<any | any>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                            <code>Map&lt;any | any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapData"></a>
+                    <span class="name">
+                        <span ><b>mapData</b></span>
+                        <a href="#mapData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mapData(response: <a href="../classes/Measurement.html" target="_self">Array&lt;MeasurementType&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >Array&lt;MeasurementType&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startedLoading"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>startedLoading</b></span>
+                        <a href="#startedLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>startedLoading()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:162</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="$params"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>$params</b></span>
+                        <a href="#$params"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.params.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archiveType"></a>
+                    <span class="name">
+                        <span ><b>archiveType</b></span>
+                        <a href="#archiveType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new ReplaySubject&lt;WidgetErrors | Map&lt;any, any&gt;&gt;(1)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="measurementReq"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>measurementReq</b></span>
+                        <a href="#measurementReq"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="measurementReqSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>measurementReqSub</b></span>
+                        <a href="#measurementReqSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="measurementsWithData"></a>
+                    <span class="name">
+                        <span ><b>measurementsWithData</b></span>
+                        <a href="#measurementsWithData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="params"></a>
+                    <span class="name">
+                        <span ><b>params</b></span>
+                        <a href="#params"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;MeasurementParams&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ranges</b></span>
+                        <a href="#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedMetrics"></a>
+                    <span class="name">
+                        <span ><b>selectedMetrics</b></span>
+                        <a href="#selectedMetrics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stat"></a>
+                    <span class="name">
+                        <span ><b>stat</b></span>
+                        <a href="#stat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="useAggregate"></a>
+                    <span class="name">
+                        <span ><b>useAggregate</b></span>
+                        <a href="#useAggregate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widget"></a>
+                    <span class="name">
+                        <span ><b>widget</b></span>
+                        <a href="#widget"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >Widget</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataRange"></a>
+                        <span class="name"><b>dataRange</b><a href="#dataRange"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>dataRange()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/app/features/widget/services/widget-data.service.ts:108</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &quot;@angular/core&quot;;
+import { Metric } from &quot;@squacapi/models/metric&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
+import {
+  MeasurementAggregatedListRequestParams,
+  MeasurementMeasurementsListRequestParams,
+} from &quot;@pnsn/ngx-squacapi-client&quot;;
+import {
+  catchError,
+  EMPTY,
+  filter,
+  map,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+  switchMap,
+  tap,
+} from &quot;rxjs&quot;;
+import { Aggregate } from &quot;@squacapi/models/aggregate&quot;;
+import { Archive } from &quot;@squacapi/models/archive&quot;;
+import { Measurement } from &quot;@squacapi/models/measurement&quot;;
+import { Widget } from &quot;@squacapi/models/widget&quot;;
+import { AggregateService } from &quot;@squacapi/services/aggregate.service&quot;;
+import {
+  DayArchiveService,
+  HourArchiveService,
+  MonthArchiveService,
+  WeekArchiveService,
+} from &quot;@squacapi/services/archive.service&quot;;
+import { MeasurementService } from &quot;@squacapi/services/measurement.service&quot;;
+import { WidgetErrors } from &quot;./widget-errors&quot;;
+export enum ArchiveTypes {
+  DAY &#x3D; &quot;day&quot;,
+  HOUR &#x3D; &quot;hour&quot;,
+  WEEK &#x3D; &quot;week&quot;,
+  MONTH &#x3D; &quot;month&quot;,
+  RAW &#x3D; &quot;raw&quot;,
+}
+export type MeasurementParams &#x3D;
+  | MeasurementMeasurementsListRequestParams
+  | MeasurementAggregatedListRequestParams;
+
+type MeasurementType &#x3D; Measurement | Aggregate | Archive;
+@Injectable()
+export class WidgetDataService implements OnDestroy {
+  subscription: Subscription &#x3D; new Subscription();
+  private measurementReq: Observable&lt;any&gt;;
+  private measurementReqSub: Subscription;
+
+  params &#x3D; new Subject&lt;MeasurementParams&gt;();
+  private $params &#x3D; this.params.asObservable();
+
+  // actual data
+
+  data &#x3D; new ReplaySubject&lt;WidgetErrors | Map&lt;any, any&gt;&gt;(1);
+  measurementsWithData: number[] &#x3D; [];
+
+  // data info
+  selectedMetrics: Metric[] &#x3D; [];
+  widget: Widget;
+  archiveType: string;
+  useAggregate: boolean;
+  stat: string;
+
+  private ranges &#x3D; {};
+
+  constructor(
+    private measurementService: MeasurementService,
+    private aggregateService: AggregateService,
+    private hourArchiveService: HourArchiveService,
+    private dayArchiveService: DayArchiveService,
+    private monthArchiveService: MonthArchiveService,
+    private weekArchiveService: WeekArchiveService,
+    private loadingService: LoadingService
+  ) {
+    // listen to param changes
+    this.measurementReq &#x3D; this.$params.pipe(
+      filter((params: MeasurementParams) &#x3D;&gt; {
+        //only make request when all params present
+        return !!this.widget &amp;&amp; this.checkParams(params);
+      }),
+      tap(this.startedLoading.bind(this)), // show loading icon
+      switchMap((params) &#x3D;&gt; {
+        return this.loadingService.doLoading(
+          this.dataRequest(params).pipe(
+            catchError(() &#x3D;&gt; {
+              this.finishedLoading();
+              return EMPTY;
+            }),
+            map(this.mapData.bind(this))
+          ),
+          this.widget
+        );
+      })
+    );
+
+    //destroyed after failed loading
+    this.measurementReqSub &#x3D; this.measurementReq.subscribe({
+      next: (data) &#x3D;&gt; {
+        //process data when returned
+        this.finishedLoading(data);
+      },
+    });
+    this.subscription.add(this.measurementReqSub);
+  }
+
+  get dataRange(): any {
+    return this.ranges;
+  }
+
+  // check params have all data before requesting
+  private checkParams(params: MeasurementParams): boolean {
+    const valid: boolean &#x3D;
+      params.metric &amp;&amp;
+      params.metric.length &gt; 0 &amp;&amp;
+      ((params.group &amp;&amp; params.group.length &gt; 0) ||
+        (params.channel &amp;&amp; params.channel.length &gt; 0)) &amp;&amp;
+      !!params.starttime &amp;&amp;
+      !!params.endtime;
+    return valid; //try again once more
+  }
+
+  // returns correct request type
+  private dataRequest(params): Observable&lt;Array&lt;MeasurementType&gt;&gt; {
+    const archiveType &#x3D; this.archiveType;
+    const useAggregate &#x3D; this.useAggregate;
+    switch (archiveType) {
+      case ArchiveTypes.HOUR:
+        return this.hourArchiveService.list(params);
+
+      case ArchiveTypes.DAY:
+        return this.dayArchiveService.list(params);
+
+      case ArchiveTypes.WEEK:
+        return this.weekArchiveService.list(params);
+
+      case ArchiveTypes.MONTH:
+        return this.monthArchiveService.list(params);
+      default:
+        if (useAggregate) {
+          //stat: widgetStat
+          return this.aggregateService.list(params);
+        }
+        return this.measurementService.list(params);
+    }
+  }
+
+  // send data &amp; clear the loading statuses
+  private finishedLoading(data?: Map&lt;any, any&gt;) {
+    if (!data) {
+      this.data.next(WidgetErrors.SQUAC_ERROR);
+      //squac error
+    } else if (data.size &#x3D;&#x3D;&#x3D; 0) {
+      this.data.next(WidgetErrors.NO_MEASUREMENTS);
+    } else {
+      this.data.next(data);
+    }
+  }
+
+  // clear existing data
+  private startedLoading(): void {
+    this.measurementsWithData &#x3D; [];
+    this.ranges &#x3D; {};
+  }
+
+  // format raw squacapi data
+  mapData(response: Array&lt;MeasurementType&gt;) {
+    const dataMap &#x3D; new Map&lt;number, Map&lt;number, Array&lt;MeasurementType&gt;&gt;&gt;();
+    try {
+      response.forEach((item: MeasurementType) &#x3D;&gt; {
+        //for archive/aggregate populate value
+        const channelId &#x3D; item.channelId;
+        const metricId &#x3D; item.metricId;
+        if (!dataMap.has(channelId)) {
+          const newMap &#x3D; new Map&lt;number, Array&lt;MeasurementType&gt;&gt;();
+          dataMap.set(channelId, newMap);
+        }
+
+        if (this.stat &amp;&amp; !item.value) {
+          item.value &#x3D; item[this.stat];
+        }
+
+        const channelMap &#x3D; dataMap.get(channelId);
+        if (!channelMap.get(metricId)) {
+          channelMap.set(metricId, []);
+          if (this.measurementsWithData.indexOf(metricId) &lt; 0) {
+            this.measurementsWithData.push(metricId);
+          }
+        }
+        const metricMap &#x3D; channelMap.get(metricId);
+        metricMap.push(item);
+        this.calculateDataRange(metricId, item.value);
+      });
+    } catch (e) {
+      console.error(&quot;Error in widget response&quot;, e);
+      return response;
+    }
+    return dataMap;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  /**
+   * Calculates the min, max, and count of data for the metric after including the given value
+   *
+   * @param metricId - id of metric
+   * @param value - measurement value to add
+   */
+  private calculateDataRange(metricId: number, value: number): void {
+    if (!this.ranges[metricId]) {
+      this.ranges[metricId] &#x3D; {
+        min: null,
+        max: null,
+        count: 0,
+      };
+    }
+
+    const metricRange &#x3D; this.ranges[metricId];
+    if (metricRange.min &#x3D;&#x3D;&#x3D; null || value &lt; metricRange.min) {
+      metricRange.min &#x3D; value;
+    }
+    if (metricRange.max &#x3D;&#x3D;&#x3D; null || value &gt; metricRange.max) {
+      metricRange.max &#x3D; value;
+    }
+
+    metricRange.count++;
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'WidgetDataService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
