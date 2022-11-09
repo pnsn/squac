@@ -24,19 +24,17 @@ import { Widget } from "@squacapi/models/widget";
 import { AggregateService } from "@squacapi/services/aggregate.service";
 import {
   DayArchiveService,
-  HourArchiveService,
   MonthArchiveService,
   WeekArchiveService,
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { WidgetErrors } from "./widget-errors";
-export enum ArchiveTypes {
-  DAY = "day",
-  HOUR = "hour",
-  WEEK = "week",
-  MONTH = "month",
-  RAW = "raw",
-}
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
+import { WidgetStatTypes } from "../interfaces/widget-stattypes";
+
 export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
   | MeasurementAggregatedListRequestParams;
@@ -59,16 +57,15 @@ export class WidgetDataService implements OnDestroy {
   // data info
   selectedMetrics: Metric[] = [];
   widget: Widget;
-  archiveType: string;
+  archiveType: ArchiveTypes;
   useAggregate: boolean;
-  stat: string;
+  stat: string | WidgetStatTypes | ArchiveStatTypes;
 
   private ranges = {};
 
   constructor(
     private measurementService: MeasurementService,
     private aggregateService: AggregateService,
-    private hourArchiveService: HourArchiveService,
     private dayArchiveService: DayArchiveService,
     private monthArchiveService: MonthArchiveService,
     private weekArchiveService: WeekArchiveService,
@@ -126,8 +123,8 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
-      case ArchiveTypes.HOUR:
-        return this.hourArchiveService.list(params);
+      // case ArchiveTypes.HOUR:
+      //   return this.hourArchiveService.list(params);
 
       case ArchiveTypes.DAY:
         return this.dayArchiveService.list(params);

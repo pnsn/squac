@@ -1,5 +1,10 @@
 import { AggregateService } from "@squacapi/services/aggregate.service";
-import { DayArchiveService } from "@squacapi/services/archive.service";
+import {
+  DayArchiveService,
+  HourArchiveService,
+  MonthArchiveService,
+  WeekArchiveService,
+} from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 
 export function MeasurementFactory(path, adapter, service, fakeService) {
@@ -18,10 +23,32 @@ export function AggregateFactory(path, adapter, service, fakeService) {
   }
 }
 
-export function ArchiveFactory(path, adapter, service, fakeService) {
+export function DayArchiveFactory(path, adapter, service, fakeService) {
   if (path === "http://localhost:8000") {
     return new DayArchiveService(adapter, fakeService);
   } else {
     return new DayArchiveService(adapter, service);
+  }
+}
+export function HourArchiveFactory(path, adapter, service, fakeService) {
+  if (path === "http://localhost:8000") {
+    return new HourArchiveService(adapter, fakeService);
+  } else {
+    return new HourArchiveService(adapter, service);
+  }
+}
+export function WeekArchiveFactory(path, adapter, service, fakeService) {
+  if (path === "http://localhost:8000") {
+    return new WeekArchiveService(adapter, fakeService);
+  } else {
+    return new WeekArchiveService(adapter, service);
+  }
+}
+
+export function MonthArchiveFactory(path, adapter, service, fakeService) {
+  if (path === "http://localhost:8000") {
+    return new MonthArchiveService(adapter, fakeService);
+  } else {
+    return new MonthArchiveService(adapter, service);
   }
 }

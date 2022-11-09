@@ -12,13 +12,14 @@ import {
 import { DateService } from "@core/services/date.service";
 import { WidgetTypeComponent } from "@features/widget/components/widget-types/interfaces/widget-type.interface";
 import { widgetTypeComponents } from "@features/widget/components/widget-types/interfaces/widget-types";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 import {
-  WidgetDisplayOption,
-  WidgetType,
-} from "@features/widget/models/widget-type";
+  WidgetTypeInfo,
+  WidgetTypes,
+} from "@features/widget/interfaces/widget-types";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
@@ -33,13 +34,12 @@ import {
 
 @Directive({
   selector: "[widgetTypeExample]",
-  providers: [WidgetTypeService, WidgetDataService],
+  providers: [WidgetConfigService, WidgetDataService],
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
-  @Input() type: string;
-  @Input() widgetTypes: WidgetType[];
+  @Input() type: WidgetTypes;
   @Input() stat: string;
-  @Input() displayType: WidgetDisplayOption;
+  @Input() displayType: string;
   @Input() properties: WidgetProperties;
   @Input() selectedMetrics: Metric[];
   @Input() thresholds: Threshold[];
@@ -57,7 +57,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   constructor(
     protected readonly elementRef: ElementRef,
     protected readonly viewContainerRef: ViewContainerRef,
-    protected widgetTypeService: WidgetTypeService,
+    protected widgetTypeService: WidgetConfigService,
     protected widgetDataService: WidgetDataService,
     private dateService: DateService
   ) {}
@@ -156,9 +156,8 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.viewContainerRef.clear();
 
     if (this.type) {
-      this.widgetType = this.widgetTypes.find(
-        (type) => type.type === this.type
-      );
+      this.widgetType = WidgetTypeInfo[this.type].config;
+
       this.widgetManager.widgetType = this.widgetType;
       this.widgetDataService.stat = this.stat;
       this.widgetManager.properties = this.properties;
@@ -166,7 +165,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       const injector = Injector.create({
         providers: [
           {
-            provide: WidgetTypeService,
+            provide: WidgetConfigService,
             useValue: this.widgetTypeService,
           },
           {

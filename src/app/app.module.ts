@@ -13,8 +13,11 @@ import { AppAbility } from "@core/utils/ability";
 import { FakeMeasurementBackend } from "@features/widget/services/generate_local_measurements";
 import {
   AggregateFactory,
-  ArchiveFactory,
+  DayArchiveFactory,
+  HourArchiveFactory,
   MeasurementFactory,
+  MonthArchiveFactory,
+  WeekArchiveFactory,
 } from "@features/widget/services/measurementFactories";
 import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import { SharedModule } from "@shared/shared.module";
@@ -22,7 +25,12 @@ import { AggregateAdapter } from "@squacapi/models/aggregate";
 import { ArchiveAdapter } from "@squacapi/models/archive";
 import { MeasurementAdapter } from "@squacapi/models/measurement";
 import { AggregateService } from "@squacapi/services/aggregate.service";
-import { DayArchiveService } from "@squacapi/services/archive.service";
+import {
+  DayArchiveService,
+  HourArchiveService,
+  MonthArchiveService,
+  WeekArchiveService,
+} from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -96,7 +104,22 @@ export function initApp(configurationService: ConfigurationService) {
     },
     {
       provide: DayArchiveService,
-      useFactory: ArchiveFactory,
+      useFactory: DayArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: HourArchiveService,
+      useFactory: HourArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: WeekArchiveService,
+      useFactory: WeekArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: MonthArchiveService,
+      useFactory: MonthArchiveFactory,
       deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
     },
     {

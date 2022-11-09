@@ -79,7 +79,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     autoIncludeChannels: Channel[];
     autoExcludeChannels: Channel[];
   };
-  matchingRules: MatchingRule[] = [];
+  matchingRules: MatchingRule[];
   autoIncludeChannels: Channel[] = [];
   autoExcludeChannels: Channel[] = [];
   @ViewChild("availableTable") availableTable: any;
@@ -305,28 +305,30 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       const now = this.dateService.now();
       params.endafter = this.dateService.format(now);
     }
-    const ruleSubs = this.channelService.getChannelsByRules(rules, params);
-    const results = [];
-    this.loadingService
-      .doLoading(merge(...ruleSubs), this, LoadingIndicator.RESULTS)
-      .pipe(
-        tap((channels: Channel[]) => {
-          channels.forEach((channel) => {
-            const index = results.findIndex((chan) => chan.id === channel.id);
-            const excluded = this.checkRules(channel, rules);
-            if (index < 0 && !excluded && channel) {
-              results.push(channel);
-            }
-          });
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.selectedChannels = [...results];
-          this.rows = [...results];
-          // add channels to selected Channels
-        },
-      });
+    if (rules && rules.length > 0) {
+      const ruleSubs = this.channelService.getChannelsByRules(rules, params);
+      const results = [];
+      this.loadingService
+        .doLoading(merge(...ruleSubs), this, LoadingIndicator.RESULTS)
+        .pipe(
+          tap((channels: Channel[]) => {
+            channels.forEach((channel) => {
+              const index = results.findIndex((chan) => chan.id === channel.id);
+              const excluded = this.checkRules(channel, rules);
+              if (index < 0 && !excluded && channel) {
+                results.push(channel);
+              }
+            });
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.selectedChannels = [...results];
+            this.rows = [...results];
+            // add channels to selected Channels
+          },
+        });
+    }
   }
 
   //return true if channel should be excluded
@@ -495,6 +497,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  // add user's searched params to the request
   addFilterToRegex(filter) {
     const newRule = new MatchingRule(null, null, this.id, true);
     newRule.networkRegex = filter.netSearch?.toUpperCase();

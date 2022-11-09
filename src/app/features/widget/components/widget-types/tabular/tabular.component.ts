@@ -10,7 +10,7 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { GenericWidgetComponent } from "../interfaces/generic-widget.component";
@@ -52,7 +52,7 @@ export class TabularComponent
   };
   sorts;
   constructor(
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
   ) {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetType } from "@features/widget/models/widget-type";
+import { WidgetType } from "@features/widget/interfaces/widget-type";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { Channel } from "@squacapi/models/channel";

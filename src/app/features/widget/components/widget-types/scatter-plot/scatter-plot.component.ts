@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { EChartComponent } from "../e-chart.component";
 import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
@@ -15,7 +15,7 @@ export class ScatterPlotComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
   ) {

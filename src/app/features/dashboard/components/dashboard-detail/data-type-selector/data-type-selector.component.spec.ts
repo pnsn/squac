@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MaterialModule } from "@shared/material.module";
+import { ArchiveTypes } from "@squacapi/interfaces/archivetypes";
 import { MockBuilder } from "ng-mocks";
 
 import { DataTypeSelectorComponent } from "./data-type-selector.component";
@@ -15,9 +16,8 @@ describe("DataTypeSelectorComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DataTypeSelectorComponent);
     component = fixture.componentInstance;
-    component.dataType = "raw";
-    component.statType = "";
-    component.fullType = { value: "raw", short: "raw", full: "raw data" };
+    component.dataType = ArchiveTypes.RAW;
+    component.statType = null;
     fixture.detectChanges();
   });
 

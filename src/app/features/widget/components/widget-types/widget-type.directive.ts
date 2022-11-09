@@ -12,7 +12,7 @@ import {
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetErrors } from "@features/widget/services/widget-errors";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription, tap } from "rxjs";
@@ -24,7 +24,7 @@ import { widgetTypeComponents } from "./interfaces/widget-types";
  */
 @Directive({
   selector: "[widgetContainer]",
-  providers: [WidgetTypeService],
+  providers: [WidgetConfigService],
 })
 export class WidgetTypeDirective implements OnInit, OnDestroy {
   widgetType;
@@ -46,7 +46,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     protected readonly changeDetectorRef: ChangeDetectorRef,
     protected readonly viewContainerRef: ViewContainerRef,
     private widgetDataService: WidgetDataService,
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     private widgetManager: WidgetManagerService
   ) {
     this.hostElement = this.elementRef.nativeElement;
@@ -90,7 +90,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     const injector = Injector.create({
       providers: [
         {
-          provide: WidgetTypeService,
+          provide: WidgetConfigService,
           useValue: this.widgetTypeService,
         },
         {

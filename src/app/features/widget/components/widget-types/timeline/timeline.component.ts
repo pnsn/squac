@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { ViewService } from "@core/services/view.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { graphic } from "echarts";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { EChartComponent } from "../e-chart.component";
 import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
@@ -19,9 +18,8 @@ export class TimelineComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private viewService: ViewService,
     private dateService: DateService,
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     protected widgetConnector: WidgetConnectService,
     protected widgetManager: WidgetManagerService
   ) {

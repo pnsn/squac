@@ -3,7 +3,7 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
@@ -17,7 +17,7 @@ describe("MapComponent", () => {
     return MockBuilder(MapComponent)
       .mock(LeafletModule)
       .mock(LeafletDrawModule)
-      .mock(WidgetTypeService)
+      .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,
         useValue: {

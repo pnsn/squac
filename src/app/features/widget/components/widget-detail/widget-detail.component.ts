@@ -15,14 +15,14 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Dashboard } from "@squacapi/models/dashboard";
 import { WidgetDataService } from "../../services/widget-data.service";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Threshold } from "@squacapi/models/threshold";
 import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,
   WidgetType,
-} from "@features/widget/models/widget-type";
+} from "@features/widget/interfaces/widget-type";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
+import { WidgetTypeInfo } from "@features/widget/interfaces/widget-types";
 
 @Component({
   selector: "widget-detail",
@@ -52,7 +52,6 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   showKey = true;
   constructor(
     private widgetManager: WidgetManagerService,
-    private widgetConfigService: WidgetConfigService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
@@ -121,7 +120,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   // set up widget after it's validated
   initWidget(widget): void {
     // widget manager will check if valid
-    this.widgetType = this.widgetConfigService.getWidgetType(widget.type);
+    this.widgetType = WidgetTypeInfo[widget.type].config;
     this.widgetManager.widgetType = this.widgetType;
     this.displayType = this.widgetManager.widgetDisplayOption;
     this.expectedMetrics = this.widgetManager.widgetType.minMetrics;

@@ -3,6 +3,10 @@ import { Adapter } from "../interfaces/adapter";
 import { ChannelGroup } from "./channel-group";
 import { ReadDashboard, WriteDashboard } from "../interfaces/squac-types";
 import { Widget } from "./widget";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
 export class Dashboard {
   public channelGroup: ChannelGroup;
   private _widgets: Array<Widget> = [];
@@ -54,7 +58,7 @@ export class Dashboard {
 
 const defaultProperties: DashboardProperties = {
   timeRange: 3600,
-  archiveType: "raw",
+  archiveType: ArchiveTypes.RAW,
   autoRefresh: true,
 };
 
@@ -62,8 +66,8 @@ export interface DashboardProperties {
   timeRange?: number;
   startTime?: string;
   endTime?: string;
-  archiveStat?: string;
-  archiveType: string;
+  archiveStat?: ArchiveStatTypes;
+  archiveType: ArchiveTypes;
   autoRefresh: boolean;
 }
 

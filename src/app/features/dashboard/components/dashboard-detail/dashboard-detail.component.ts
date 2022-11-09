@@ -7,6 +7,11 @@ import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
+import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
 
 // Individual dashboard
 @Component({
@@ -20,44 +25,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   status: string;
   error: string = null;
   // dashboard params
-  archiveType: string;
-  archiveStat: string;
+  archiveType: ArchiveTypes;
+  archiveStat: ArchiveStatTypes;
   startTime: string;
   endTime: string;
   channelGroupId: number;
   sideNavOpened = true;
   timeRange: number;
   // time picker config
-  datePickerTimeRanges = [
-    {
-      amount: "30",
-      unit: "minutes",
-    },
-    {
-      amount: "1",
-      unit: "hour",
-    },
-    {
-      amount: "6",
-      unit: "hours",
-    },
-    {
-      amount: "12",
-      unit: "hours",
-    },
-    {
-      amount: "1",
-      unit: "day",
-    },
-    {
-      amount: "1",
-      unit: "week",
-    },
-    {
-      amount: "1",
-      unit: "month",
-    },
-  ];
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
 
   constructor(
     private route: ActivatedRoute,
@@ -136,17 +112,17 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.error = "";
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.archiveType = "month";
-        this.archiveStat = "mean";
+        this.archiveType = ArchiveTypes.MONTH;
+        this.archiveStat = ArchiveStatTypes.MEAN;
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.archiveType = "week";
-        this.archiveStat = "mean";
+        this.archiveType = ArchiveTypes.WEEK;
+        this.archiveStat = ArchiveStatTypes.MEAN;
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = "day";
-        this.archiveStat = "mean";
+        this.archiveType = ArchiveTypes.DAY;
+        this.archiveStat = ArchiveStatTypes.MEAN;
       } else {
-        this.archiveType = "raw";
-        this.archiveStat = "";
+        this.archiveType = ArchiveTypes.RAW;
+        this.archiveStat = null;
       }
 
       this.error = `Data type defaulted to ${this.archiveType} archive.`;

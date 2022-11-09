@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import * as dayjs from "dayjs";
 
 import { EChartComponent } from "../e-chart.component";
@@ -20,7 +20,7 @@ export class TimechartComponent
 {
   constructor(
     private dateService: DateService,
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
   ) {

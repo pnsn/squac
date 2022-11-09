@@ -1,10 +1,15 @@
 import { Injectable } from "@angular/core";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
-import { WidgetDisplayOption, WidgetType } from "../models/widget-type";
+import { WidgetStatTypes } from "../interfaces/widget-stattypes";
+import { WidgetDisplayOption, WidgetType } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
 import { WidgetErrors } from "./widget-errors";
 
@@ -65,9 +70,8 @@ export class WidgetManagerService {
   set widgetType(widgetType: WidgetType) {
     this._widgetType = widgetType;
 
-    this._widgetDisplayOption = this._widgetType.getOption(
-      this._widget.properties.displayType
-    );
+    this._widgetDisplayOption =
+      this._widgetType.displayOptions[this._widget.properties.displayType];
 
     if (this._widget.metrics.length === 0) {
       this.errors.next(WidgetErrors.NO_METRICS);
@@ -123,7 +127,10 @@ export class WidgetManagerService {
     }
   }
 
-  updateStat(stat: string, archiveType) {
+  updateStat(
+    stat: ArchiveStatTypes | WidgetStatTypes | string,
+    archiveType: ArchiveTypes
+  ) {
     //calculate stat
     this.widgetDataService.stat = stat;
     this.widgetDataService.archiveType = archiveType;

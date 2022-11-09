@@ -10,7 +10,6 @@ import {
 } from "@angular/core";
 import { Threshold } from "@squacapi/models/threshold";
 import { Metric } from "@squacapi/models/metric";
-import { WidgetConfigService } from "@widget/services/widget-config.service";
 import { Subscription } from "rxjs";
 import {
   UntypedFormArray,
@@ -20,7 +19,18 @@ import {
 } from "@angular/forms";
 import * as colormap from "colormap";
 import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetDisplayOption, WidgetType } from "@widget/models/widget-type";
+import {
+  WidgetDisplayOption,
+  WidgetType,
+} from "@features/widget/interfaces/widget-type";
+import {
+  WidgetTypeInfo,
+  WidgetTypes,
+} from "@features/widget/interfaces/widget-types";
+import {
+  WidgetGradientColors,
+  WidgetSolidColors,
+} from "@features/widget/interfaces/widget-colors";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -31,15 +41,15 @@ export class WidgetEditOptionsComponent
 {
   subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
-  @Input() type: string;
-  @Input() displayType: WidgetDisplayOption;
+  @Input() type: WidgetTypes;
+  @Input() displayType: string;
   @Input() thresholds: Threshold[];
   @Output() thresholdsChange = new EventEmitter<Threshold[]>();
   @Input() properties: WidgetProperties;
   @Output() propertiesChange = new EventEmitter<any>();
 
-  widgetTypes: WidgetType[];
   widgetType: WidgetType;
+  displayOption: WidgetDisplayOption;
   gradientOptions: any[];
   solidOptions: any[];
 
@@ -53,13 +63,9 @@ export class WidgetEditOptionsComponent
     }),
   });
 
-  constructor(
-    widgetConfigService: WidgetConfigService,
-    private formBuilder: UntypedFormBuilder
-  ) {
-    this.gradientOptions = widgetConfigService.gradientOptions;
-    this.solidOptions = widgetConfigService.solidOptions;
-    this.widgetTypes = widgetConfigService.widgetTypes;
+  constructor(private formBuilder: UntypedFormBuilder) {
+    this.gradientOptions = WidgetGradientColors;
+    this.solidOptions = WidgetSolidColors;
   }
 
   ngOnInit(): void {
@@ -94,9 +100,7 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.type) {
-      this.widgetType = this.widgetTypes.find((type) => {
-        return this.type === type.type;
-      });
+      this.widgetType = WidgetTypeInfo[this.type].config;
       if (!this.widgetType) {
         this.thresholds = [];
         this.thresholdArray.clear();
@@ -140,8 +144,13 @@ export class WidgetEditOptionsComponent
     const thresholds = this.thresholdArray.controls;
     let dimensions = [];
 
-    if (this.displayType?.dimensions) {
-      dimensions = [...this.displayType.dimensions];
+    if (
+      this.displayType &&
+      this.widgetType &&
+      this.widgetType.displayOptions[this.displayType]
+    ) {
+      this.displayOption = this.widgetType.displayOptions[this.displayType];
+      dimensions = [...this.displayOption.dimensions];
     }
 
     const lastDimension = index ? thresholds[index].value.dimension : null;

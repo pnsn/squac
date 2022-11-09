@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
@@ -13,8 +12,7 @@ describe("WidgetEditInfoComponent", () => {
   beforeEach(() => {
     return MockBuilder(WidgetEditInfoComponent)
       .mock(MaterialModule)
-      .mock(ReactiveFormsModule)
-      .mock(WidgetConfigService);
+      .mock(ReactiveFormsModule);
   });
 
   beforeEach(() => {

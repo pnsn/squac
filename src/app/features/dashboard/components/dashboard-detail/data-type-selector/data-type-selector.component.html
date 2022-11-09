@@ -13,24 +13,24 @@
   #dataTypeMenu="matMenu"
   panelClass="stat-type-menu"
 >
-  <ng-container *ngFor="let type of dataTypes">
+  <ng-container *ngFor="let type of DataTypes | keyvalue">
     <button
       [ngClass]="type.value === dataType ? 'active' : ''"
-      *ngIf="type.value === 'raw'"
+      *ngIf="type.value === DataTypes.RAW"
       mat-menu-item
-      (click)="selectDataType(type, '')"
+      (click)="selectDataType(type.value, null)"
     >
-      raw data
+      {{ archiveTypeOptions[type.value].full }}
     </button>
 
     <button
       mat-menu-item
       [ngClass]="type.value === dataType ? 'active' : ''"
-      *ngIf="type.value !== 'raw'"
+      *ngIf="type.value !== DataTypes.RAW"
       [matMenuTriggerFor]="statType"
       [matMenuTriggerData]="{ type }"
     >
-      {{ type.full }}
+      {{ archiveTypeOptions[type.value].full }}
     </button>
   </ng-container>
 </mat-menu>
@@ -38,15 +38,17 @@
 <mat-menu class="mat-menu-dense" #statType="matMenu" overlapTrigger="false">
   <ng-template matMenuContent let-type="type">
     <button mat-menu-item disabled readonly>
-      {{ type.full }}
+      {{ archiveTypeOptions[type.value].full }}
     </button>
     <button
       mat-menu-item
-      *ngFor="let stat of statTypes"
-      [ngClass]="type.value === dataType && stat === statType ? 'active' : ''"
-      (click)="selectDataType(type, stat)"
+      *ngFor="let stat of StatTypes | keyvalue"
+      [ngClass]="
+        type.value === dataType && stat.value === statType ? 'active' : ''
+      "
+      (click)="selectDataType(type.value, stat.value)"
     >
-      {{ stat }}
+      {{ stat.value }}
     </button>
   </ng-template>
 </mat-menu>

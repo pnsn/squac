@@ -25,6 +25,10 @@ import {
 import { DateService } from "./date.service";
 import { LoadingService } from "./loading.service";
 import { MessageService } from "./message.service";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
 
 @Injectable({
   providedIn: "root",
@@ -123,12 +127,12 @@ export class ViewService {
   }
 
   // returns the dashboard archive type
-  get archiveType(): string {
+  get archiveType(): ArchiveTypes {
     return this.dashboard?.properties.archiveType;
   }
 
   // returns the dashboard archive stat
-  get archiveStat(): string {
+  get archiveStat(): ArchiveStatTypes {
     return this.dashboard?.properties.archiveStat;
   }
 
@@ -311,7 +315,7 @@ export class ViewService {
   }
 
   // stores archive options
-  setArchive(archiveType, archiveStat) {
+  setArchive(archiveType: ArchiveTypes, archiveStat: ArchiveStatTypes) {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
     this.hasUnsavedChanges = true;

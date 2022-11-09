@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import * as L from "leaflet";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { timeout } from "d3";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
@@ -36,7 +36,7 @@ export class MapComponent
   stations;
 
   constructor(
-    private widgetTypeService: WidgetTypeService,
+    private widgetTypeService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
   ) {
