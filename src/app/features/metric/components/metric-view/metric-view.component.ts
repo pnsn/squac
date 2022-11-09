@@ -115,6 +115,14 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
           draggable: false,
           sortable: true,
         },
+        {
+          name: "Owner",
+          prop: "owner",
+          canAutoResize: false,
+          draggable: false,
+          sortable: true,
+          width: 120,
+        },
       ];
     }, 0);
   }
