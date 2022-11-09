@@ -18,6 +18,12 @@
   <ng-container tableFooter>
     <div>Footer content</div>
   </ng-container>
+  <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
+    <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
+    <ng-template #private>
+      {{ row.shareOrg ? (row.orgId | organization) : "private" }}
+    </ng-template>
+  </ng-template>
 </shared-table-view>
 <router-outlet></router-outlet>
 

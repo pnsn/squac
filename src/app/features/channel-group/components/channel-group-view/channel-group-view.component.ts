@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { ChannelGroup } from "@core/models/channel-group";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
@@ -15,7 +22,7 @@ export class ChannelGroupViewComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   subscription: Subscription = new Subscription();
-
+  @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   channelGroups: ChannelGroup[] = [];
   selectedChannelGroupId: number;
 
@@ -129,6 +136,14 @@ export class ChannelGroupViewComponent
           draggable: false,
           sortable: true,
           width: 20,
+        },
+        {
+          name: "Sharing",
+          draggable: false,
+          canAutoResize: false,
+          width: 150,
+          sortable: false,
+          cellTemplate: this.sharingTemplate,
         },
       ];
     }, 0);
