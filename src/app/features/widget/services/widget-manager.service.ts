@@ -1,9 +1,14 @@
 import { Injectable } from "@angular/core";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
+import { WidgetStatTypes } from "../interfaces/widget-stattypes";
 import { WidgetDisplayOption, WidgetType } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
 import { WidgetErrors } from "./widget-errors";
@@ -122,7 +127,10 @@ export class WidgetManagerService {
     }
   }
 
-  updateStat(stat: string, archiveType) {
+  updateStat(
+    stat: ArchiveStatTypes | WidgetStatTypes | string,
+    archiveType: ArchiveTypes
+  ) {
     //calculate stat
     this.widgetDataService.stat = stat;
     this.widgetDataService.archiveType = archiveType;

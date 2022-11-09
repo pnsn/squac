@@ -30,7 +30,11 @@ import {
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 import { WidgetErrors } from "./widget-errors";
-import { ArchiveTypes } from "@squacapi/interfaces/archivetypes";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+} from "@squacapi/interfaces/archivetypes";
+import { WidgetStatTypes } from "../interfaces/widget-stattypes";
 
 export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
@@ -54,16 +58,15 @@ export class WidgetDataService implements OnDestroy {
   // data info
   selectedMetrics: Metric[] = [];
   widget: Widget;
-  archiveType: string;
+  archiveType: ArchiveTypes;
   useAggregate: boolean;
-  stat: string;
+  stat: string | WidgetStatTypes | ArchiveStatTypes;
 
   private ranges = {};
 
   constructor(
     private measurementService: MeasurementService,
     private aggregateService: AggregateService,
-    private hourArchiveService: HourArchiveService,
     private dayArchiveService: DayArchiveService,
     private monthArchiveService: MonthArchiveService,
     private weekArchiveService: WeekArchiveService,

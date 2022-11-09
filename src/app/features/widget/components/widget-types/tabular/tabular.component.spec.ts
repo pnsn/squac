@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TabularComponent } from "./tabular.component";
 import { ViewService } from "@core/services/view.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
 import { of } from "rxjs";
@@ -16,7 +16,7 @@ describe("TabularComponent", () => {
   beforeEach(() => {
     return MockBuilder(TabularComponent)
       .mock(ViewService)
-      .mock(WidgetTypeService)
+      .mock(WidgetConfigService)
       .mock(NgxDatatableModule)
       .provide({
         provide: WidgetManagerService,

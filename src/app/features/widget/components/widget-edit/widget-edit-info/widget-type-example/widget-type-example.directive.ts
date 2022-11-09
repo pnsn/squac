@@ -19,7 +19,7 @@ import {
 } from "@features/widget/interfaces/widget-types";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeService } from "@features/widget/services/widget-type.service";
+import { WidgetConfigService } from "@features/widget/services/widget-config.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
@@ -34,7 +34,7 @@ import {
 
 @Directive({
   selector: "[widgetTypeExample]",
-  providers: [WidgetTypeService, WidgetDataService],
+  providers: [WidgetConfigService, WidgetDataService],
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   @Input() type: WidgetTypes;
@@ -57,7 +57,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   constructor(
     protected readonly elementRef: ElementRef,
     protected readonly viewContainerRef: ViewContainerRef,
-    protected widgetTypeService: WidgetTypeService,
+    protected widgetTypeService: WidgetConfigService,
     protected widgetDataService: WidgetDataService,
     private dateService: DateService
   ) {}
@@ -165,7 +165,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       const injector = Injector.create({
         providers: [
           {
-            provide: WidgetTypeService,
+            provide: WidgetConfigService,
             useValue: this.widgetTypeService,
           },
           {

@@ -15,7 +15,7 @@ export enum ArchiveTypes {
 export enum ArchiveStatTypes {
   MEAN = "mean",
   LATEST = "latest",
-  NUM_SAMPS = "numSamps",
+  NUM_SAMPS = "num_samps",
   MEDIAN = "median",
   MIN = "min",
   MAX = "max",
@@ -28,9 +28,32 @@ export enum ArchiveStatTypes {
   STDEV = "stdev",
 }
 
-// dataTypes: any = [
-//   { value: "raw", short: "raw", full: "raw data" },
-//   { value: "hour", short: "hourly", full: "hour archive" },
-//   { value: "day", short: "daily", full: "day archive" },
-//   { value: "month", short: "monthly", full: "month archive" },
-// ];
+interface ArchiveTypeOption {
+  short: string;
+  full: string;
+  useStatTypes: boolean;
+}
+export const ARCHIVE_TYPE_OPTIONS: {
+  [key in ArchiveTypes]: ArchiveTypeOption;
+} = {
+  [ArchiveTypes.DAY]: {
+    short: "daily",
+    full: "day archive",
+    useStatTypes: true,
+  },
+  [ArchiveTypes.MONTH]: {
+    short: "monthly",
+    full: "month archive",
+    useStatTypes: true,
+  },
+  [ArchiveTypes.WEEK]: {
+    short: "weekly",
+    full: "week archive",
+    useStatTypes: true,
+  },
+  [ArchiveTypes.RAW]: {
+    short: "raw",
+    full: "raw data",
+    useStatTypes: false,
+  },
+};

@@ -120,7 +120,6 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   // set up widget after it's validated
   initWidget(widget): void {
     // widget manager will check if valid
-    console.log(widget.type, WidgetTypeInfo[widget.type]);
     this.widgetType = WidgetTypeInfo[widget.type].config;
     this.widgetManager.widgetType = this.widgetType;
     this.displayType = this.widgetManager.widgetDisplayOption;

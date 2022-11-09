@@ -13,6 +13,7 @@ import * as dayjs from "dayjs";
 import * as timezone from "dayjs/plugin/timezone";
 import * as utc from "dayjs/plugin/utc";
 import { DaterangepickerDirective } from "ngx-daterangepicker-material";
+import { TimeRange } from "./time-range.interface";
 
 @Component({
   selector: "shared-date-select",
@@ -26,7 +27,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
   @Input() secondsAgoFromNow: number;
   @Input() initialStartDate: string;
   @Input() initialEndDate: string;
-  @Input() timeRanges: any;
+  @Input() timeRanges: TimeRange[];
   startDate: dayjs.Dayjs;
   maxDate: dayjs.Dayjs;
   // settings for date select

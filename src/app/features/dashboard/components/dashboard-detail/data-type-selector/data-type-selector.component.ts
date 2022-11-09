@@ -6,6 +6,11 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import {
+  ArchiveStatTypes,
+  ArchiveTypes,
+  ARCHIVE_TYPE_OPTIONS,
+} from "@squacapi/interfaces/archivetypes";
 
 @Component({
   selector: "dashboard-data-type-selector",
@@ -13,59 +18,28 @@ import {
   styleUrls: ["./data-type-selector.component.scss"],
 })
 export class DataTypeSelectorComponent implements OnChanges {
-  @Input() dataType: string;
-  @Input() statType: string;
+  @Input() dataType: ArchiveTypes;
+  @Input() statType: ArchiveStatTypes;
   @Output() dataTypeSelected = new EventEmitter<any>();
-  statTypes: string[] = [
-    "min",
-    "max",
-    "mean",
-    "median",
-    "stdev",
-    "num_samps",
-    "p05",
-    "p10",
-    "p90",
-    "p95",
-    "minabs",
-    "maxabs",
-  ];
-  dataTypes: any = [
-    { value: "raw", short: "raw", full: "raw data" },
-    { value: "hour", short: "hourly", full: "hour archive" },
-    { value: "day", short: "daily", full: "day archive" },
-    { value: "month", short: "monthly", full: "month archive" },
-  ];
 
-  fullType: any; //used for keeping track of name
+  StatTypes = ArchiveStatTypes;
+
+  DataTypes = ArchiveTypes;
+  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.statType || changes.dataType) {
-      if (this.dataType === "raw") {
-        this.statType = "";
+      if (this.dataType === ArchiveTypes.RAW) {
+        this.statType = null;
       }
-      this.updateTypes();
     }
   }
 
-  updateTypes(): void {
-    this.fullType = this.dataTypes.find((dataType) => {
-      return dataType.value === this.dataType;
-    });
-
-    if (!this.fullType) {
-      this.dataType === "raw";
-      this.statType = "";
-      this.fullType = { value: "raw", short: "raw", full: "raw data" };
-    }
-  }
-
-  selectDataType(type, stat): void {
+  selectDataType(type: ArchiveTypes, stat: ArchiveStatTypes): void {
     this.statType = stat;
-    this.fullType = type;
-    this.dataType = type.value;
+    this.dataType = type;
 
     this.dataTypeSelected.emit({
       statType: this.statType,
@@ -74,6 +48,14 @@ export class DataTypeSelectorComponent implements OnChanges {
   }
 
   get displayString() {
-    return this.fullType?.full + " " + this.statType;
+    let string = "";
+    if (this.dataType) {
+      const full = this.archiveTypeOptions[this.dataType].full;
+      string += full;
+    }
+    if (this.statType) {
+      string += ` ${this.statType}`;
+    }
+    return string;
   }
 }
