@@ -57,7 +57,6 @@ export class MetricToggleComponent implements OnChanges {
 
     if (this.dimensions) {
       this.availableDimensions = [...this.dimensions];
-
       // get metrics that match thresholds & check dimensions
       for (let i = 0; i < this.thresholds.length; i++) {
         const threshold = this.thresholds[i];

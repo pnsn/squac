@@ -13,8 +13,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   zooming: string;
   showKey = true; //default to key on
   loading: string;
-  widgetType: WidgetType;
-
+  widgetConfig: WidgetType;
   data: any;
   channels: Channel[];
   selectedMetrics: Metric[];
@@ -34,7 +33,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     protected widgetManager: WidgetManagerService,
     protected widgetConnector: WidgetConnectService
   ) {
-    this.widgetType = widgetManager.widgetType;
+    this.widgetConfig = widgetManager.widgetConfig;
   }
 
   initToggleKey() {
@@ -67,11 +66,11 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.configureChart();
-    if (this.widgetType.toggleKey) {
+    if (this.widgetConfig.toggleKey) {
       this.initToggleKey();
     }
 
-    if (this.widgetType.zoomControls) {
+    if (this.widgetConfig.zoomControls) {
       this.initZoom();
     }
     const deemphsSub = this.widgetConnector.deemphasizeChannel.subscribe(

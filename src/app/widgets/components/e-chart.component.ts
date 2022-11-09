@@ -3,7 +3,7 @@ import { WidgetConnectService } from "../services/widget-connect.service";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { EChartsOption } from "echarts";
 import { GenericWidgetComponent } from "../interfaces/generic-widget.component";
-import { WidgetTypeComponent } from "./interfaces/widget-type.interface";
+import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 
 /**
  * Abstract class to make creation of Echart widgets simpler

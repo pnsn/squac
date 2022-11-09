@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
@@ -12,6 +13,7 @@ import { TabularComponent } from "./components/tabular/tabular.component";
 import { TimechartComponent } from "./components/timechart/timechart.component";
 import { TimelineComponent } from "./components/timeline/timeline.component";
 import { WidgetTypeDirective } from "./directives/widget-type.directive";
+import { PrecisionPipe } from "./pipes/precision.pipe";
 
 @NgModule({
   declarations: [
@@ -25,17 +27,18 @@ import { WidgetTypeDirective } from "./directives/widget-type.directive";
     ParallelPlotComponent,
     CalendarComponent,
     WidgetTypeDirective,
+    PrecisionPipe,
   ],
   imports: [
     NgxDatatableModule,
-    NgxEchartsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import("echarts"),
+    }),
     SquacapiModule,
     LeafletModule,
+    CommonModule,
   ],
+  exports: [WidgetTypeDirective],
   providers: [],
 })
 export class WidgetsModule {}
-
-// NgxEchartsModule.forRoot({
-//   echarts: () => import("echarts"),
-// }),

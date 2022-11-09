@@ -3,10 +3,10 @@ import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { WidgetConnectService } from "../../services/widget-connect.service";
-import { PrecisionPipe } from "@shared/pipes/precision.pipe";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 import { EChartComponent } from "../e-chart.component";
-import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
+import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
 
 @Component({
   selector: "widget-calendar-plot",

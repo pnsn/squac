@@ -22,7 +22,6 @@ import {
   WidgetType,
 } from "app/widgets/interfaces/widget-type";
 import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
-import { WidgetTypeInfo } from "app/widgets/interfaces/widget-types";
 
 @Component({
   selector: "widget-detail",
@@ -120,10 +119,9 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   // set up widget after it's validated
   initWidget(widget): void {
     // widget manager will check if valid
-    this.widgetType = WidgetTypeInfo[widget.type].config;
-    this.widgetManager.widgetType = this.widgetType;
+    this.widgetType = this.widgetManager.widgetConfig;
     this.displayType = this.widgetManager.widgetDisplayOption;
-    this.expectedMetrics = this.widgetManager.widgetType.minMetrics;
+    this.expectedMetrics = this.widgetType.minMetrics;
     this.initialMetrics = widget.metrics.slice();
     this.thresholds = widget.thresholds.slice();
   }

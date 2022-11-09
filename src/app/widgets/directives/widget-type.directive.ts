@@ -10,14 +10,14 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { WidgetDataService } from "../services/widget-data.service";
-import { WidgetErrors } from "../interfaces/widget-errors";
+import { WidgetErrors } from "../../features/widget/services/widget-errors";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription, tap } from "rxjs";
 import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
-import { widgetTypeComponents } from "../interfaces/widget-types";
+import { WIDGET_TYPE_INFO, WidgetTypes } from "../interfaces/widget-types";
 
 /**
  * solely responsible for showing either error component or the correct widget type
@@ -64,7 +64,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
         tap({
           next: (data: Map<number, any> | WidgetErrors) => {
             if (data instanceof Map) {
-              this.addWidget(this.widgetManager.widgetType.type);
+              this.addWidget(this.widgetManager.widgetType);
               this.widgetConfigService.thresholds =
                 this.widgetManager.thresholds;
               this.widgetConfigService.dataRange =
@@ -86,7 +86,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
   }
 
-  addWidget(widgetType: string) {
+  addWidget(widgetType: WidgetTypes) {
     this.error = "";
     const injector = Injector.create({
       providers: [
@@ -101,7 +101,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       ],
     });
     this.clearChildComponents();
-    const componentType = widgetTypeComponents[widgetType];
+    const componentType = WIDGET_TYPE_INFO[widgetType].component;
     this.childComponentRef =
       this.viewContainerRef.createComponent<WidgetTypeComponent>(
         componentType,

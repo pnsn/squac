@@ -11,7 +11,8 @@ import { ReplaySubject, Subject } from "rxjs";
 import { WidgetStatTypes } from "../interfaces/widget-stattypes";
 import { WidgetDisplayOption, WidgetType } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
-import { WidgetErrors } from "../interfaces/widget-errors";
+import { WidgetErrors } from "../../features/widget/services/widget-errors";
+import { WidgetTypes, WIDGET_TYPE_INFO } from "../interfaces/widget-types";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -33,9 +34,10 @@ export class WidgetManagerService {
   private _channels: Channel[];
   private _group: number; //channel group id
   private _widget: Widget;
-  private _widgetType: WidgetType;
+  private _widgetType: WidgetTypes;
   private _widgetDisplayOption: WidgetDisplayOption;
   private _selectedMetrics: Metric[];
+  private _widgetConfig: WidgetType;
 
   get channels(): Channel[] {
     return this._channels;
@@ -63,28 +65,35 @@ export class WidgetManagerService {
     return this._params.endtime;
   }
 
-  get widgetType(): WidgetType {
+  get widgetConfig(): WidgetType {
+    return this._widgetConfig;
+  }
+
+  get widgetType(): WidgetTypes {
     return this._widgetType;
   }
 
-  set widgetType(widgetType: WidgetType) {
+  set widgetType(widgetType: WidgetTypes) {
     this._widgetType = widgetType;
 
+    this._widgetConfig = WIDGET_TYPE_INFO[this._widgetType].config;
     this._widgetDisplayOption =
-      this._widgetType.displayOptions[this._widget.properties.displayType];
+      this.widgetConfig.displayOptions[this._widget.properties.displayType];
 
     if (this._widget.metrics.length === 0) {
       this.errors.next(WidgetErrors.NO_METRICS);
-    } else if (widgetType.minMetrics > this._widget.metrics.length) {
+    } else if (this.widgetConfig.minMetrics > this._widget.metrics.length) {
       ///ERROR
       this.errors.next(WidgetErrors.MISSING_METRICS);
     }
-    this.widgetDataService.useAggregate = widgetType.useAggregate;
+    this.widgetDataService.useAggregate = this.widgetConfig.useAggregate;
   }
 
   initWidget(widget: Widget) {
     if (widget.isValid) {
       this._widget = widget;
+      this.widgetType = widget.type as WidgetTypes;
+
       this.widgetDataService.widget = widget;
       this.widget.next(this._widget);
     } else {

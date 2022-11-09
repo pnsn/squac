@@ -10,15 +10,14 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { widgetTypeComponents } from "app/widgets/interfaces/widget-types";
 import { WidgetType } from "app/widgets/interfaces/widget-type";
 import {
-  WidgetTypeInfo,
+  WIDGET_TYPE_INFO,
   WidgetTypes,
 } from "app/widgets/interfaces/widget-types";
-import { WidgetDataService } from "@features/widget/services/widget-data.service";
-import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetConfigService } from "@features/widget/services/widget-config.service";
+import { WidgetDataService } from "app/widgets/services/widget-data.service";
+import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
+import { WidgetConfigService } from "app/widgets/services/widget-config.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
@@ -47,7 +46,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   channels = channels;
   _metrics;
   _thresholds;
-  widgetType: WidgetType;
+  widgetConfig: WidgetType;
   widgetManager;
   dataRange;
   childComponentRef: ComponentRef<WidgetTypeComponent>;
@@ -81,7 +80,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         this.updateWidgetType();
       }
 
-      if (changes.selectedMetrics && this.widgetType) {
+      if (changes.selectedMetrics && this.type) {
         this.updateMetrics();
       }
     }
@@ -118,7 +117,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         let currentTime = start;
         while (currentTime < end) {
           let newEnd;
-          if (!this.widgetType.useAggregate) {
+          if (!this.widgetManager.widgetConfig.useAggregate) {
             newEnd = currentTime.add(time, timeInterval);
             if (newEnd > end) {
               return;
@@ -154,11 +153,10 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   updateWidgetType() {
     this.viewContainerRef.clear();
-
     if (this.type) {
-      this.widgetType = WidgetTypeInfo[this.type].config;
+      this.widgetManager.widgetType = this.type;
+      this.widgetManager.widgetConfig = WIDGET_TYPE_INFO[this.type].config;
 
-      this.widgetManager.widgetType = this.widgetType;
       this.widgetDataService.stat = this.stat;
       this.widgetManager.properties = this.properties;
       this.widgetManager.widgetDisplayOption = this.properties.displayType;
@@ -174,7 +172,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           },
         ],
       });
-      const componentType = widgetTypeComponents[this.type];
+      const componentType = WIDGET_TYPE_INFO[this.type].component;
       this.childComponentRef =
         this.viewContainerRef.createComponent<WidgetTypeComponent>(
           componentType,

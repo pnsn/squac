@@ -18,7 +18,7 @@ import {
   MeasurementFactory,
   MonthArchiveFactory,
   WeekArchiveFactory,
-} from "@features/widget/services/measurementFactories";
+} from "app/widgets/services/measurementFactories";
 import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import { SharedModule } from "@shared/shared.module";
 import { AggregateAdapter } from "@squacapi/models/aggregate";

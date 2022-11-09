@@ -6,8 +6,8 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  WidgetTypeInfo,
   WidgetTypes,
+  WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { WidgetType } from "app/widgets/interfaces/widget-type";
@@ -34,7 +34,7 @@ export class WidgetEditInfoComponent implements OnInit {
   @Output() statChange = new EventEmitter<WidgetStatTypes>();
 
   WidgetTypes = WidgetTypes;
-  WidgetTypeInfo = WidgetTypeInfo;
+  WidgetTypeInfo = WIDGET_TYPE_INFO;
   WidgetStatTypes = WidgetStatTypes;
   WidgetStatTypeNames = WidgetStatTypeNames;
   selectedType: WidgetType;
@@ -91,7 +91,7 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // when the type of widget changes, update related options
   changeTypes(): void {
-    this.selectedType = WidgetTypeInfo[this.type].config;
+    this.selectedType = this.WidgetTypeInfo[this.type].config;
     // default to 'mean'
     if (!this.stat) {
       this.stat = WidgetStatTypes.MEAN;

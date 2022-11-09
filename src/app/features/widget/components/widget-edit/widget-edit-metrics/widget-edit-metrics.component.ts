@@ -12,8 +12,8 @@ import {
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models/metric";
 import {
-  WidgetTypeInfo,
   WidgetTypes,
+  WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 @Component({
   selector: "widget-edit-metrics",
@@ -85,7 +85,7 @@ export class WidgetEditMetricsComponent
     }
 
     if (changes.type) {
-      const selectedType = WidgetTypeInfo[this.type].config;
+      const selectedType = WIDGET_TYPE_INFO[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }

@@ -24,7 +24,7 @@ import {
   WidgetType,
 } from "app/widgets/interfaces/widget-type";
 import {
-  WidgetTypeInfo,
+  WIDGET_TYPE_INFO,
   WidgetTypes,
 } from "app/widgets/interfaces/widget-types";
 import {
@@ -49,6 +49,7 @@ export class WidgetEditOptionsComponent
   @Output() propertiesChange = new EventEmitter<any>();
 
   widgetType: WidgetType;
+  WidgetTypeInfo = WIDGET_TYPE_INFO;
   displayOption: WidgetDisplayOption;
   gradientOptions: any[];
   solidOptions: any[];
@@ -73,6 +74,7 @@ export class WidgetEditOptionsComponent
       // this.validateThresholds();
       this.thresholds = values;
       if (this.thresholdArray.valid) {
+        console.log(values);
         this.thresholdsChange.emit(values);
       }
     });
@@ -94,18 +96,18 @@ export class WidgetEditOptionsComponent
       this.changeMetrics();
     }
 
-    if (changes.displayType) {
-      this.validateOptions();
-      this.validateThresholds();
-    }
-
     if (changes.type) {
-      this.widgetType = WidgetTypeInfo[this.type].config;
+      this.widgetType = this.WidgetTypeInfo[this.type].config;
       if (!this.widgetType) {
         this.thresholds = [];
         this.thresholdArray.clear();
       }
       //update which display options available
+    }
+
+    if (changes.displayType) {
+      this.validateOptions();
+      this.validateThresholds();
     }
   }
 
@@ -165,6 +167,7 @@ export class WidgetEditOptionsComponent
         if ((dimIndex > -1 && dimension !== lastDimension) || i === index) {
           dimensions.splice(dimIndex, 1);
         } else {
+          console.log("threshold remove ");
           //remove dimension from threshold
           threshold.patchValue(
             {
@@ -174,6 +177,7 @@ export class WidgetEditOptionsComponent
           );
         }
       }
+      console.log(threshold.value);
     });
 
     // assign remaining dimensions to other thresholds

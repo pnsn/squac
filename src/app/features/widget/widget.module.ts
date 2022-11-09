@@ -11,6 +11,7 @@ import { WidgetEditInfoComponent } from "./components/widget-edit/widget-edit-in
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { MetricToggleComponent } from "./components/widget-detail/metric-toggle/metric-toggle.component";
 import { WidgetTypeExampleDirective } from "./components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive";
+import { WidgetsModule } from "app/widgets/widgets.module";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { WidgetTypeExampleDirective } from "./components/widget-edit/widget-edit
     MetricToggleComponent,
     WidgetTypeExampleDirective,
   ],
-  imports: [SharedModule, GridsterModule],
+  imports: [SharedModule, GridsterModule, WidgetsModule],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,

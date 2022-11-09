@@ -3,7 +3,7 @@ import { WidgetConnectService } from "../../services/widget-connect.service";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { EChartComponent } from "../e-chart.component";
-import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
+import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
 
 @Component({
   selector: "widget-scatter-plot",
