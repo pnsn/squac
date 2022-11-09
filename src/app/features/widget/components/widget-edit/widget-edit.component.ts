@@ -27,8 +27,11 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private widgetService: WidgetService,
     private messageService: MessageService,
-    private viewService: ViewService
-  ) {}
+    private viewService: ViewService,
+    widgetConfigService: WidgetConfigService
+  ) {
+    this.widgetTypes = widgetConfigService.widgetTypes;
+  }
 
   ngOnInit(): void {
     // check if editing or creating
