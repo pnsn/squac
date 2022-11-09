@@ -14,7 +14,7 @@ import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { User } from "@squacapi/models/user";
 import { OrganizationService } from "@squacapi/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { OrganizationPipe } from "@squacapi/pipes/organization.pipe";
 import { UserPipe } from "@squacapi/pipes/user.pipe";
 import { ColumnMode } from "@boring.devs/ngx-datatable";

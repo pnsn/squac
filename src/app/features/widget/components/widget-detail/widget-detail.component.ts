@@ -13,16 +13,16 @@ import { ViewService } from "@core/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Dashboard } from "@squacapi/models/dashboard";
-import { WidgetDataService } from "../../services/widget-data.service";
+import { WidgetDataService } from "app/widgets/services/widget-data.service";
 import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/models/threshold";
 import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,
   WidgetType,
-} from "@features/widget/interfaces/widget-type";
-import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
-import { WidgetTypeInfo } from "@features/widget/interfaces/widget-types";
+} from "app/widgets/interfaces/widget-type";
+import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
+import { WidgetTypeInfo } from "app/widgets/interfaces/widget-types";
 
 @Component({
   selector: "widget-detail",

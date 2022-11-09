@@ -10,7 +10,7 @@ import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
-import { FakeMeasurementBackend } from "@features/widget/services/generate_local_measurements";
+import { FakeMeasurementBackend } from "app/widgets/services/generate_local_measurements";
 import {
   AggregateFactory,
   DayArchiveFactory,

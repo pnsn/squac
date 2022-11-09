@@ -22,15 +22,15 @@ import { WidgetProperties } from "@squacapi/models/widget";
 import {
   WidgetDisplayOption,
   WidgetType,
-} from "@features/widget/interfaces/widget-type";
+} from "app/widgets/interfaces/widget-type";
 import {
   WidgetTypeInfo,
   WidgetTypes,
-} from "@features/widget/interfaces/widget-types";
+} from "app/widgets/interfaces/widget-types";
 import {
   WidgetGradientColors,
   WidgetSolidColors,
-} from "@features/widget/interfaces/widget-colors";
+} from "app/widgets/interfaces/widget-colors";
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",

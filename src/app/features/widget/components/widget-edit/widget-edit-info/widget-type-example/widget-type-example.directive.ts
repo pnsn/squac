@@ -10,13 +10,12 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { WidgetTypeComponent } from "@features/widget/components/widget-types/interfaces/widget-type.interface";
-import { widgetTypeComponents } from "@features/widget/components/widget-types/interfaces/widget-types";
-import { WidgetType } from "@features/widget/interfaces/widget-type";
+import { widgetTypeComponents } from "app/widgets/interfaces/widget-types";
+import { WidgetType } from "app/widgets/interfaces/widget-type";
 import {
   WidgetTypeInfo,
   WidgetTypes,
-} from "@features/widget/interfaces/widget-types";
+} from "app/widgets/interfaces/widget-types";
 import { WidgetDataService } from "@features/widget/services/widget-data.service";
 import { WidgetManagerService } from "@features/widget/services/widget-manager.service";
 import { WidgetConfigService } from "@features/widget/services/widget-config.service";
@@ -31,6 +30,7 @@ import {
   selectedMetrics,
   starttime,
 } from "./widget-example-config";
+import { WidgetTypeComponent } from "app/widgets/interfaces/widget-type.interface";
 
 @Directive({
   selector: "[widgetTypeExample]",
@@ -57,7 +57,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   constructor(
     protected readonly elementRef: ElementRef,
     protected readonly viewContainerRef: ViewContainerRef,
-    protected widgetTypeService: WidgetConfigService,
+    protected widgetConfigService: WidgetConfigService,
     protected widgetDataService: WidgetDataService,
     private dateService: DateService
   ) {}
@@ -72,7 +72,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       channels: this.channels,
     };
 
-    this.widgetTypeService.chartDefaults.dataZoom = [];
+    this.widgetConfigService.chartDefaults.dataZoom = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -166,7 +166,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         providers: [
           {
             provide: WidgetConfigService,
-            useValue: this.widgetTypeService,
+            useValue: this.widgetConfigService,
           },
           {
             provide: WidgetManagerService,
@@ -196,7 +196,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   updateThresholds() {
     this._thresholds = this.getThresholds(this._metrics);
-    this.widgetTypeService.thresholds = this._thresholds;
+    this.widgetConfigService.thresholds = this._thresholds;
     this.updateData();
   }
 
@@ -207,7 +207,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         : selectedMetrics;
     this.data = this.getData();
     this.widgetManager.selectedMetrics = this._metrics;
-    this.widgetTypeService.dataRange = this.dataRange;
+    this.widgetConfigService.dataRange = this.dataRange;
     this.updateThresholds();
   }
 }

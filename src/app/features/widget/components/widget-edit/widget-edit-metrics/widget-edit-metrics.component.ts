@@ -14,7 +14,7 @@ import { Metric } from "@squacapi/models/metric";
 import {
   WidgetTypeInfo,
   WidgetTypes,
-} from "@features/widget/interfaces/widget-types";
+} from "app/widgets/interfaces/widget-types";
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",

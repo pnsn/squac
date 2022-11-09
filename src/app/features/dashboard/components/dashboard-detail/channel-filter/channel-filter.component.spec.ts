@@ -6,7 +6,7 @@ import {
 } from "@angular/forms";
 import { ViewService } from "@core/services/view.service";
 import { DashboardModule } from "@features/dashboard/dashboard.module";
-import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { WidgetConnectService } from "app/widgets/services/widget-connect.service";
 import { MockBuilder } from "ng-mocks";
 import { Subject } from "rxjs";
 
