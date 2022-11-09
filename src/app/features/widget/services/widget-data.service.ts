@@ -24,7 +24,6 @@ import { Widget } from "@squacapi/models/widget";
 import { AggregateService } from "@squacapi/services/aggregate.service";
 import {
   DayArchiveService,
-  HourArchiveService,
   MonthArchiveService,
   WeekArchiveService,
 } from "@squacapi/services/archive.service";
