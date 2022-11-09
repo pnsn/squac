@@ -120,7 +120,7 @@ export class DashboardViewComponent
           prop: "owner",
           draggable: false,
           sortable: true,
-          width: 50,
+          width: 120,
         },
         {
           name: "Organization",
