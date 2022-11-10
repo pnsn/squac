@@ -1,4 +1,4 @@
-export class Threshold {
+export interface Threshold {
   type?: string; //continuous, piecewise, markLine, markArea
   min: number;
   max: number;
@@ -14,9 +14,6 @@ export class Threshold {
   };
   displayType?: string; //worst, channel, stoplight
   numSplits?: number;
-  static get modelName() {
-    return "Threshold";
-  }
 
   // returns true if in threshold, false if outside or no thresholds
   // checkThresholds(value: number): boolean {

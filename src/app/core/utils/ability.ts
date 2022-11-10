@@ -9,7 +9,6 @@ import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Metric } from "@squacapi/models/metric";
 import { User } from "@squacapi/models/user";
 import { Dashboard } from "@squacapi/models/dashboard";
-import { Threshold } from "@squacapi/models/threshold";
 import { Measurement } from "@squacapi/models/measurement";
 import { Monitor } from "@squacapi/models/monitor";
 
@@ -19,7 +18,6 @@ type Subjects =
   | InferSubjects<
       | typeof Dashboard
       | typeof Widget
-      | typeof Threshold
       | typeof ChannelGroup
       | typeof Measurement
       | typeof Metric
@@ -40,13 +38,10 @@ export function defineAbilitiesFor(user: User) {
   if (user.inGroup("reporter")) {
     can(
       ["update", "delete"],
-      ["Dashboard", "Widget", "Threshold", "ChannelGroup", "Monitor"],
+      ["Dashboard", "Widget", "ChannelGroup", "Monitor"],
       { owner: user.id }
     );
-    can(
-      ["read", "create"],
-      ["Dashboard", "Widget", "Threshold", "ChannelGroup", "Monitor"]
-    );
+    can(["read", "create"], ["Dashboard", "Widget", "ChannelGroup", "Monitor"]);
   }
 
   if (user.inGroup("contributor")) {

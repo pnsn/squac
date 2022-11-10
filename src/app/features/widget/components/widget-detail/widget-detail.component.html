@@ -37,9 +37,9 @@
       <widget-metric-toggle
         *ngIf="initialMetrics?.length > 0"
         [dimensions]="displayType?.dimensions"
+        [(thresholds)]="thresholds"
         [initialMetrics]="initialMetrics"
         (metricsChange)="metricsChanged($event)"
-        [(thresholds)]="thresholds"
         [expectedMetrics]="expectedMetrics"
       ></widget-metric-toggle>
       <button

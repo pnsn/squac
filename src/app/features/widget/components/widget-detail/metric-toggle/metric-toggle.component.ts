@@ -141,6 +141,7 @@ export class MetricToggleComponent implements OnChanges {
     }
     //order is getting reset by this
     // get new data
+    this.thresholdsChange.emit(this.thresholds);
     this.metricsChange.emit(selected);
   }
 
@@ -210,6 +211,7 @@ export class MetricToggleComponent implements OnChanges {
         this.selectedMetricIds.splice(selectedIndex, 1);
       }
     }
+    console.log(this.thresholds);
 
     this.metricsChanged =
       this.selectedMetricIds.length > 0 &&

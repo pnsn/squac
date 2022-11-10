@@ -344,6 +344,7 @@ export class ViewService {
             this._widgets.push(newWidget);
             this.messageService.message("Widget added.");
           }
+
           this.widgetChanged(newWidget.id);
         },
         error: () => {
@@ -354,15 +355,19 @@ export class ViewService {
   }
 
   // Tell widgets to resize
-  saveWidgetResize(widget: Widget) {
-    this.widgetService.updateOrCreate(widget).subscribe({
-      next: (widget) => {
-        this.resizeWidget(widget.id);
-      },
-      error: (error) => {
-        console.error("error in widget update: ", error);
-      },
-    });
+  saveWidget(widget: Widget, silentUpdate?: boolean) {
+    if (this.ability.can("update", widget)) {
+      this.widgetService.updateOrCreate(widget).subscribe({
+        next: (widget) => {
+          if (!silentUpdate) {
+            this.resizeWidget(widget.id);
+          }
+        },
+        error: (error) => {
+          console.error("error in widget update: ", error);
+        },
+      });
+    }
   }
 
   // deletes given widget
