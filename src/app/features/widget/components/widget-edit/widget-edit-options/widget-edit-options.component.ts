@@ -8,7 +8,7 @@ import {
   OnChanges,
   OnInit,
 } from "@angular/core";
-import { Threshold } from "@squacapi/models/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold";
 import { Metric } from "@squacapi/models/metric";
 import { Subscription } from "rxjs";
 import {

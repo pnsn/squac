@@ -6,7 +6,7 @@ import {
   Output,
 } from "@angular/core";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold";
 
 @Component({
   selector: "widget-metric-toggle",

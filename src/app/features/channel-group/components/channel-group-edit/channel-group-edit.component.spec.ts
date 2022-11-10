@@ -9,7 +9,7 @@ import { UntypedFormBuilder } from "@angular/forms";
 import { of } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
-import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { MatchingRuleService } from "@squacapi/services/matching-rule.service";
 import { DateService } from "@core/services/date.service";

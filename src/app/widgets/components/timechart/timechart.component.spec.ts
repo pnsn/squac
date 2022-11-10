@@ -25,6 +25,7 @@ describe("TimechartComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          widgetConfig: {},
         },
       })
       .provide({

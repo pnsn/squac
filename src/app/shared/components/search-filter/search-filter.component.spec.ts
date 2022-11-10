@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { OrganizationService } from "@squacapi/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 

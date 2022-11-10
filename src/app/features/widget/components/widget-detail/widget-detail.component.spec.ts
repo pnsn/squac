@@ -6,7 +6,7 @@ import { Widget } from "@squacapi/models/widget";
 import { ViewService } from "@core/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
-import { WidgetDataService } from "@features/widget/services/widget-data.service";
+import { WidgetDataService } from "app/widgets/services/widget-data.service";
 import { DashboardService } from "@squacapi/services/dashboard.service";
 
 describe("WidgetDetailComponent", () => {

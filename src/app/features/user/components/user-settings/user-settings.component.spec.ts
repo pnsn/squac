@@ -5,7 +5,7 @@ import { UserService } from "@user/services/user.service";
 import { UserSettingsComponent } from "./user-settings.component";
 import { MockBuilder } from "ng-mocks";
 import { MessageService } from "@core/services/message.service";
-import { UserModule } from "@features/user/user.module";
+import { UserModule } from "@user/user.module";
 
 describe("UserSettingsComponent", () => {
   let component: UserSettingsComponent;

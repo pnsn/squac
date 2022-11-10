@@ -15,7 +15,7 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Dashboard } from "@squacapi/models/dashboard";
 import { WidgetDataService } from "app/widgets/services/widget-data.service";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold";
 import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,

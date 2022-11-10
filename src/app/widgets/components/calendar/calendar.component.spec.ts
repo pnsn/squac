@@ -23,6 +23,7 @@ describe("CalendarComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          widgetConfig: {},
         },
       })
       .provide({

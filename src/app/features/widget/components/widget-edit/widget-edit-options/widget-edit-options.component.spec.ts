@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditOptionsComponent } from "./widget-edit-options.component";
 import { MockBuilder } from "ng-mocks";
-import { WidgetModule } from "@features/widget/widget.module";
+import { WidgetModule } from "app/features/widget/widget.module";
 import { ReactiveFormsModule } from "@angular/forms";
 
 describe("WidgetEditOptionsComponent", () => {

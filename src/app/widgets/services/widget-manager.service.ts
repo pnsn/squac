@@ -5,7 +5,7 @@ import {
 } from "@squacapi/interfaces/archivetypes";
 import { Channel } from "@squacapi/models/channel";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
 import { WidgetStatTypes } from "../interfaces/widget-stattypes";

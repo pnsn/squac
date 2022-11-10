@@ -25,6 +25,7 @@ describe("TimelineComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          widgetConfig: {},
         },
       })
       .provide({

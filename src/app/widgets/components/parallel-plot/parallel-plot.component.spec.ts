@@ -21,6 +21,7 @@ describe("ParallelPlotComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          widgetConfig: {},
         },
       })
       .provide({

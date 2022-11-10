@@ -20,7 +20,7 @@ import { WidgetManagerService } from "app/widgets/services/widget-manager.servic
 import { WidgetConfigService } from "app/widgets/services/widget-config.service";
 import { Measurement } from "@squacapi/models/measurement";
 import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/models/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { of } from "rxjs";
 import {

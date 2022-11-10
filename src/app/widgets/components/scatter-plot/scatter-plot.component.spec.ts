@@ -21,6 +21,7 @@ describe("ScatterPlotComponent", () => {
         useValue: {
           toggleKey: of(),
           widgetType: {},
+          widgetConfig: {},
         },
       })
       .provide({

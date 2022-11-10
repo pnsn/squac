@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MeasurementService } from "@squacapi/services/measurement.service";
-import { WidgetModule } from "@widget/widget.module";
+import { WidgetModule } from "app/features/widget/widget.module";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";

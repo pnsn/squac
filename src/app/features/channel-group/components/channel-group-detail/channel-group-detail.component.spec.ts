@@ -6,7 +6,7 @@ import { of } from "rxjs";
 import { ChannelGroup } from "@squacapi/models/channel-group";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
-import { ChannelGroupModule } from "@features/channel-group/channel-group.module";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { ChannelGroupService } from "@squacapi/services/channel-group.service";

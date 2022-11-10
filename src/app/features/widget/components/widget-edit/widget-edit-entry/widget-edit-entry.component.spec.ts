@@ -7,7 +7,7 @@ import { of } from "rxjs";
 import { MockBuilder } from "ng-mocks";
 import { WidgetEditComponent } from "../widget-edit.component";
 import { WidgetService } from "@squacapi/services/widget.service";
-import { WidgetModule } from "@widget/widget.module";
+import { WidgetModule } from "app/features/widget/widget.module";
 
 describe("WidgetEditEntryComponent", () => {
   let component: WidgetEditEntryComponent;
