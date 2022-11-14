@@ -7,18 +7,6 @@
 </div>
 
 <div mat-dialog-content>
-  <div id="chart-container">
-    <p *ngIf="!widget.type">Select a widget type to see preview.</p>
-    <div
-      widgetTypeExample
-      [type]="widget.type"
-      [displayType]="displayType"
-      [properties]="widget.properties"
-      [selectedMetrics]="widget.metrics"
-      [thresholds]="widget.thresholds"
-      [stat]="widget.stat"
-    ></div>
-  </div>
   <mat-horizontal-stepper
     #stepper
     [linear]="!editMode"

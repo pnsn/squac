@@ -101,10 +101,12 @@ export class WidgetEditOptionsComponent
         this.thresholds = [];
         this.thresholdArray.clear();
       }
+      this.validateOptions();
+      this.validateThresholds();
       //update which display options available
     }
 
-    if (changes.displayType) {
+    if (changes.displayType && !changes.type) {
       this.validateOptions();
       this.validateThresholds();
     }
@@ -144,14 +146,15 @@ export class WidgetEditOptionsComponent
   validateThresholds(index?: number) {
     const thresholds = this.thresholdArray.controls;
     let dimensions = [];
-
     if (
       this.displayType &&
       this.widgetType &&
       this.widgetType.displayOptions[this.displayType]
     ) {
       this.displayOption = this.widgetType.displayOptions[this.displayType];
-      dimensions = [...this.displayOption.dimensions];
+      if (this.displayOption.dimensions) {
+        dimensions = [...this.displayOption.dimensions];
+      }
     }
 
     const lastDimension = index ? thresholds[index].value.dimension : null;
