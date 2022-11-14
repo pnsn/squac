@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import * as L from "leaflet";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { PrecisionPipe } from "../../pipes/precision.pipe";
@@ -17,7 +23,8 @@ export class MapComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  any;
+  @ViewChild("legendElement", { static: false }) public legendRef: ElementRef;
+  @ViewChild("mapElement", { static: false }) public mapRef: ElementRef;
 
   resizeObserver;
   precisionPipe = new PrecisionPipe();
@@ -115,7 +122,7 @@ export class MapComponent
   }
 
   private initLegend() {
-    const legend = L.DomUtil.get("legend");
+    const legend = this.legendRef.nativeElement;
     this.legend.onAdd = () => {
       return legend;
     };
@@ -125,7 +132,7 @@ export class MapComponent
   toggleColor(pane) {
     const pane1 = this.map.getPane(pane);
     pane1.classList.toggle("hidden");
-    const el = document.getElementsByClassName(pane);
+    const el = this.mapRef.nativeElement.getElementsByClassName(pane);
     if (el[0]) {
       el[0].classList.toggle("layer-hidden");
     }
@@ -136,7 +143,7 @@ export class MapComponent
 
   toggleStation(i, event) {
     event.preventDefault();
-    const el = document.getElementsByClassName(i)[0];
+    const el = this.mapRef.nativeElement.getElementsByClassName(i)[0];
     const layer = this.metricLayers[this.displayMetric.id];
     const station = layer[i];
     if (this.layers[0].hasLayer(station)) {
@@ -155,7 +162,7 @@ export class MapComponent
   ngOnDestroy(): void {
     this.map = null;
     if (this.resizeObserver) {
-      this.resizeObserver.unobserve(document.getElementById("map"));
+      this.resizeObserver.unobserve(this.mapRef.nativeElement);
     }
 
     super.ngOnDestroy();
@@ -350,7 +357,7 @@ export class MapComponent
         this.fitBounds = this.layers[0].getBounds();
       });
 
-      this.resizeObserver.observe(document.getElementById("map"));
+      this.resizeObserver.observe(this.mapRef.nativeElement);
     }
   }
 

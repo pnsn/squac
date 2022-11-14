@@ -1,5 +1,6 @@
 <div
   id="map"
+  #mapElement
   leaflet
   [leafletOptions]="options"
   [leafletLayers]="layers"
@@ -7,7 +8,7 @@
   [leafletFitBounds]="fitBounds"
 ></div>
 
-<div class="legend" id="legend">
+<div id="map-legend" #legendElement>
   <div>{{ displayMetric?.name }}</div>
   <div>unit: {{ displayMetric?.unit }}</div>
   <ng-container *ngIf="displayMetric && displayMap?.type === 'piecewise'">
@@ -73,7 +74,10 @@
         ></div>
       </div>
 
-      <div (click)="toggleColor(displayMap?.outOfRange.color[0])">
+      <div
+        (click)="toggleColor(displayMap?.outOfRange.color[0])"
+        [class]="displayMap?.outOfRange.color[0]"
+      >
         <span>out of range</span>
         <div
           class="map-icon"
@@ -88,7 +92,7 @@
       <div class="map-icon" [style.background-color]="'gray'"></div>
     </div>
   </ng-container>
-  <div (click)="toggleColor('nodata')" [class]="'white'">
+  <div (click)="toggleColor('nodata')" class="white nodata">
     <span> no data</span>
     <div class="map-icon border" [style.background-color]="'white'"></div>
   </div>
