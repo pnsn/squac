@@ -128,7 +128,6 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
 
   metricsChanged(metrics: Metric[]) {
     this.widgetManager.updateThresholds(this.thresholds);
-    console.log(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
     this.widget.thresholds = this.thresholds;
     this.viewService.saveWidget(this.widget, true);

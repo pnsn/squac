@@ -84,7 +84,7 @@ export class WidgetEditMetricsComponent
       this.rows = [...this.metrics];
     }
 
-    if (changes.type) {
+    if (changes.type && this.type) {
       const selectedType = WIDGET_TYPE_INFO[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();

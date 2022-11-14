@@ -91,35 +91,37 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // when the type of widget changes, update related options
   changeTypes(): void {
-    this.selectedType = this.WidgetTypeInfo[this.type].config;
-    // default to 'mean'
-    if (!this.stat) {
-      this.stat = WidgetStatTypes.MEAN;
-    }
-
-    // change displayOptions
-    if (this.selectedType?.displayOptions) {
-      if (!this.properties.displayType) {
-        this.properties.displayType = this.selectedType.defaultDisplay;
-      } else if (
-        !this.selectedType.displayOptions[this.properties.displayType]
-      ) {
-        this.properties.displayType = this.selectedType.defaultDisplay;
+    if (this.type) {
+      this.selectedType = this.WidgetTypeInfo[this.type].config;
+      // default to 'mean'
+      if (!this.stat) {
+        this.stat = WidgetStatTypes.MEAN;
       }
 
-      this.displayType =
-        this.properties.displayType || this.selectedType.defaultDisplay;
-    } else {
-      this.displayType = null;
-      this.properties.displayType = null;
+      // change displayOptions
+      if (this.selectedType?.displayOptions) {
+        if (!this.properties.displayType) {
+          this.properties.displayType = this.selectedType.defaultDisplay;
+        } else if (
+          !this.selectedType.displayOptions[this.properties.displayType]
+        ) {
+          this.properties.displayType = this.selectedType.defaultDisplay;
+        }
+
+        this.displayType =
+          this.properties.displayType || this.selectedType.defaultDisplay;
+      } else {
+        this.displayType = null;
+        this.properties.displayType = null;
+      }
+      this.widgetForm.patchValue(
+        {
+          stat: this.stat,
+          displayType: this.displayType,
+        },
+        { emitEvent: true }
+      );
     }
-    this.widgetForm.patchValue(
-      {
-        stat: this.stat,
-        displayType: this.displayType,
-      },
-      { emitEvent: true }
-    );
   }
 
   // check if has all properties

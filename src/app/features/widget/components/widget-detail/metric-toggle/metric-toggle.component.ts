@@ -211,7 +211,6 @@ export class MetricToggleComponent implements OnChanges {
         this.selectedMetricIds.splice(selectedIndex, 1);
       }
     }
-    console.log(this.thresholds);
 
     this.metricsChanged =
       this.selectedMetricIds.length > 0 &&
