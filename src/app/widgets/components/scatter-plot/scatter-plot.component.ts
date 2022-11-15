@@ -4,6 +4,7 @@ import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { EChartComponent } from "../e-chart.component";
 import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
+import { PrecisionPipe } from "app/widgets/pipes/precision.pipe";
 
 @Component({
   selector: "widget-scatter-plot",
@@ -21,18 +22,26 @@ export class ScatterPlotComponent
   ) {
     super(widgetManager, widgetConnectService);
   }
-
+  precisionPipe = new PrecisionPipe();
   configureChart(): void {
     const chartOptions = {
       series: [],
       grid: {
         left: 50,
       },
+      xAxis: {
+        formatter: (value) => {
+          return value.toPrecision(4);
+        },
+      },
       yAxis: {
         axisLabel: {
           inside: true,
         },
         nameGap: 10,
+        formatter: (value) => {
+          return value.toPrecision(4);
+        },
       },
       tooltip: {
         formatter: (params) => {

@@ -77,29 +77,17 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         : selectedMetrics;
     this.data = this.getData();
     this.widgetManager.selectedMetrics = this._metrics;
-    this.widgetConfigService.dataRange = this.dataRange;
-    this._thresholds = this.getThresholds(this._metrics);
-    this.widgetConfigService.thresholds = this._thresholds;
 
-    this.widgetConfigService.chartDefaults.dataZoom = [];
-    this.widgetConfigService.chartDefaults.grid = {
-      ...this.widgetConfigService.chartDefaults.grid,
-      bottom: 5,
-      left: 5,
-    };
+    this._thresholds = this.getThresholds(this._metrics);
+
     this.updateWidgetType();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (this.widgetManager) {
       if (changes.type || changes.displayType || changes.properties) {
         this.updateWidgetType();
       }
-
-      // if (changes.selectedMetrics && this.previewType) {
-      //   this.updateMetrics();
-      // }
     }
   }
 
@@ -167,23 +155,38 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.viewContainerRef.clear();
 
     const widgetType = this.type;
-    console.log(widgetType, this.displayType);
     if (widgetType) {
       this.widgetManager.widgetType = widgetType;
-      this.widgetManager.widgetConfig = WIDGET_TYPE_INFO[widgetType].config;
+      const widgetConfig = WIDGET_TYPE_INFO[widgetType].config;
 
+      const displayOptions = widgetConfig.displayOptions;
+
+      this.widgetManager.widgetConfig = widgetConfig;
       this.widgetDataService.stat = this.stat;
-      if (!this.properties.displayType) {
+      if (
+        !this.properties.displayType ||
+        (displayOptions && !displayOptions[this.properties.displayType])
+      ) {
         this.properties.displayType =
           this.widgetManager.widgetConfig.defaultDisplay;
       }
+      const widgetConfigService = new WidgetConfigService();
 
+      widgetConfigService.thresholds = this._thresholds;
+      widgetConfigService.dataRange = this.dataRange;
+      widgetConfigService.chartDefaults.dataZoom = [];
+
+      widgetConfigService.chartDefaults.grid = {
+        ...widgetConfigService.chartDefaults.grid,
+        left: 10,
+        bottom: 15,
+      };
       this.widgetManager.properties = this.properties;
       const injector = Injector.create({
         providers: [
           {
             provide: WidgetConfigService,
-            useValue: this.widgetConfigService,
+            useValue: widgetConfigService,
           },
           {
             provide: WidgetManagerService,

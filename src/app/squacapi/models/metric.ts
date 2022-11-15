@@ -11,7 +11,7 @@ export class Metric {
     public description: string,
     public refUrl: string,
     public unit: string,
-    public sampleRate: number,
+    public sampleRate: number, //seconds
     public minVal?: number,
     public maxVal?: number
   ) {}

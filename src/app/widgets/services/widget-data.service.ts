@@ -34,6 +34,7 @@ import {
   ArchiveTypes,
 } from "@squacapi/interfaces/archivetypes";
 import { WidgetStatType } from "../interfaces/widget-stattypes";
+import { PrecisionPipe } from "../pipes/precision.pipe";
 
 export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
@@ -43,6 +44,7 @@ type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   subscription: Subscription = new Subscription();
+  private precisionPipe = new PrecisionPipe();
   private measurementReq: Observable<any>;
   private measurementReqSub: Subscription;
 

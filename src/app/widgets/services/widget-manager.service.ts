@@ -73,6 +73,7 @@ export class WidgetManagerService {
     return this._widgetType;
   }
 
+  //FIXME: setter shouldn't have conseqeuences
   set widgetType(widgetType: WidgetType) {
     this._widgetType = widgetType;
 

@@ -15,7 +15,6 @@ import {
   WidgetStatTypeNames,
   WidgetStatType,
 } from "app/widgets/interfaces/widget-stattypes";
-import { timeThursday } from "d3";
 
 @Component({
   selector: "widget-edit-info",
@@ -85,7 +84,6 @@ export class WidgetEditInfoComponent implements OnInit {
   }
 
   updateType() {
-    console.log("update type", this.type, this.previewType);
     if (this.type !== this.previewType) {
       this.type === this.previewType;
       this.widgetForm.patchValue(
@@ -94,7 +92,6 @@ export class WidgetEditInfoComponent implements OnInit {
         },
         { emitEvent: true }
       );
-      console.log("updatetype");
     }
   }
   // set up form
@@ -110,7 +107,6 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // when the type of widget changes, update related options
   changeTypes(): void {
-    console.log("change type function");
     if (this.type) {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       // default to 'mean'
@@ -154,7 +150,6 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // check if has all properties
   checkValid(): void {
-    console.log("check valid");
     this.done = !!this.name && !!this.type && !!this.stat;
     if (!this.done) {
       if (!this.name) {

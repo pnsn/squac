@@ -28,10 +28,14 @@
   }
 }
 
+.option-container {
+  overflow: wrap;
+  white-space: normal;
+  // text-overflow: ;
+}
+
 #chart-container {
-  flex: 0 1 200px;
-  // width: 100%;
-  border: 1px solid black;
+  flex: 1 1 200px;
 }
 
 mat-button-toggle-group {

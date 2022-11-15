@@ -33,23 +33,18 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
-    const paramsSub = this.route.params.subscribe((params: Params) => {
-      const dashboardId = +params.dashboardId;
-      const snapshot = this.route.snapshot;
-      const data = snapshot.data;
-
-      // check if editing or creating
-      this.editMode = !!data.widget;
-      this.widget =
-        data.widget || new Widget(null, null, "", dashboardId, null, "", "");
-      //check if copying to new dashboard
-      this.copyWidget = this.widget.dashboardId !== dashboardId;
-      if (this.copyWidget) {
-        this.widget.id = null;
-        this.widget.dashboardId = data.dashboardId;
-      }
-      this.metrics = data.metrics;
-    });
+    // check if editing or creating
+    this.editMode = !!this.data.widget;
+    const dashboardId = this.data.dashboardId;
+    this.widget =
+      this.data.widget || new Widget(null, null, "", dashboardId, null, "", "");
+    //check if copying to new dashboard
+    this.copyWidget = this.widget.dashboardId !== dashboardId;
+    if (this.copyWidget) {
+      this.widget.id = null;
+      this.widget.dashboardId = dashboardId;
+    }
+    this.metrics = this.data.metrics;
   }
 
   ngOnDestroy(): void {
@@ -78,7 +73,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   //TODO: make sure this isn't affecting existing widget
   cancel(widget?: Widget) {
-    // this.widgetEditService.clearWidget();
-    // this.dialogRef.close(widget);
+    this.dialogRef.close(widget);
   }
 }
