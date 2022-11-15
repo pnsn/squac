@@ -148,7 +148,6 @@ export class TabularComponent
   }
 
   resize() {
-    console.log("resize table");
     if (this.table) {
       this.table.recalculate();
     }

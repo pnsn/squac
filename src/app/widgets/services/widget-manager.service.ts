@@ -73,8 +73,20 @@ export class WidgetManagerService {
     return this._widgetType;
   }
 
-  //FIXME: setter shouldn't have conseqeuences
-  set widgetType(widgetType: WidgetType) {
+  initWidget(widget: Widget) {
+    if (widget.isValid) {
+      this._widget = widget;
+      this.updateWidgetType(widget.type as WidgetType);
+
+      this.widgetDataService.widget = widget;
+      this.widget.next(this._widget);
+    } else {
+      this.errors.next(WidgetErrors.BAD_CONFIGURATION);
+      //emit error
+    }
+  }
+
+  updateWidgetType(widgetType: WidgetType) {
     this._widgetType = widgetType;
 
     this._widgetConfig = WIDGET_TYPE_INFO[this._widgetType].config;
@@ -90,19 +102,6 @@ export class WidgetManagerService {
       this.errors.next(WidgetErrors.MISSING_METRICS);
     }
     this.widgetDataService.useAggregate = this.widgetConfig.useAggregate;
-  }
-
-  initWidget(widget: Widget) {
-    if (widget.isValid) {
-      this._widget = widget;
-      this.widgetType = widget.type as WidgetType;
-
-      this.widgetDataService.widget = widget;
-      this.widget.next(this._widget);
-    } else {
-      this.errors.next(WidgetErrors.BAD_CONFIGURATION);
-      //emit error
-    }
   }
 
   updateMetrics(metrics: Metric[]) {

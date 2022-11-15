@@ -86,7 +86,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
-      console.log(data);
       if (data.widgets.error) {
         this.error = "Could not load dashboard or widgets";
       } else {
