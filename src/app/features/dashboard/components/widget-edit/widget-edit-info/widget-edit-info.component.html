@@ -27,86 +27,76 @@
         <mat-button-toggle
           *ngFor="let widgetType of WidgetType | keyvalue"
           [value]="widgetType.value"
-          (mouseenter)="previewType(widgetType.value)"
-          (mouseleave)="previewType()"
+          (mouseenter)="changePreviewType(widgetType.value)"
         >
           <div class="type-label">
             {{ WidgetTypeInfo[widgetType.value].config.name | titlecase }}
           </div>
         </mat-button-toggle>
       </mat-button-toggle-group>
-      <ng-container
-        *ngTemplateOutlet="
-          widgetContent;
-          context: { type: _previewType || type }
-        "
-      >
+
+      <ng-container *ngIf="previewType; else selectWidget">
+        <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
+          <div id="type-container" class="column">
+            <div id="description">
+              <div class="label">Description:</div>
+              <p class="help-text">
+                {{ config.description }}
+              </p>
+            </div>
+
+            <div id="stat-type-container" *ngIf="config.useAggregate">
+              <div class="label">Select aggregation type:</div>
+              <mat-form-field class="dense-form-field-select">
+                <mat-label>Stat type</mat-label>
+                <mat-select formControlName="stat" required>
+                  <mat-option
+                    *ngFor="let statType of WidgetStatType | keyvalue"
+                    [value]="statType.value"
+                  >
+                    {{ WidgetStatTypeNames[statType.value] }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              id="display-container"
+              class="column"
+              *ngIf="config.displayOptions"
+            >
+              <div class="label">Select display type:</div>
+              <mat-radio-group
+                formControlName="displayType"
+                class="dense-radio-button-group"
+              >
+                <mat-radio-button
+                  *ngFor="let option of config.displayOptions | keyvalue"
+                  [value]="option.key"
+                  class="radio-button-dense"
+                  ><div class="option-container">
+                    <span>{{ option.value.description }}</span>
+                  </div>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div id="chart-container">
+              <div
+                widgetTypeExample
+                [type]="previewType"
+                [displayType]="displayType"
+                [properties]="properties"
+                [stat]="stat"
+              ></div>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
 
-      <div id="type-container" class="column">
-        <div id="description" *ngIf="widgetConfig; else selectWidget">
-          <div class="label">Description:</div>
-          <p class="help-text">
-            {{ widgetConfig?.description }}
-          </p>
-        </div>
-
-        <ng-template #selectWidget>
-          <p>Select a widget type.</p>
-        </ng-template>
-        <div id="stat-type-container" *ngIf="widgetConfig?.useAggregate">
-          <div class="label">Select aggregation type:</div>
-          <mat-form-field class="dense-form-field-select">
-            <mat-label>Stat type</mat-label>
-            <mat-select formControlName="stat" required>
-              <mat-option
-                *ngFor="let statType of WidgetStatType | keyvalue"
-                [value]="statType.value"
-              >
-                {{ WidgetStatTypeNames[statType.value] }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div
-          id="display-container"
-          class="column"
-          *ngIf="widgetConfig?.displayOptions"
-        >
-          <div class="label">Select display type:</div>
-          <mat-radio-group
-            formControlName="displayType"
-            class="dense-radio-button-group"
-          >
-            <mat-radio-button
-              *ngFor="let option of widgetConfig?.displayOptions | keyvalue"
-              [value]="option.key"
-              class="radio-button-dense"
-              ><div class="option-container">
-                <span>{{ option.value.description }}</span>
-              </div>
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-
-        <div id="chart-container">
-          <div
-            widgetTypeExample
-            [previewType]="_previewType"
-            [type]="type"
-            [displayType]="displayType"
-            [properties]="properties"
-            [stat]="stat"
-          ></div>
-        </div>
-      </div>
+      <ng-template #selectWidget>
+        <p>Select a widget type.</p>
+      </ng-template>
     </div>
   </div>
 </form>
-
-<ng-template #widgetContent let-type="type">
-  <div>
-    {{ type }}
-  </div>
-</ng-template>

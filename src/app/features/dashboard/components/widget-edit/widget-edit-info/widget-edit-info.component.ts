@@ -15,6 +15,7 @@ import {
   WidgetStatTypeNames,
   WidgetStatType,
 } from "app/widgets/interfaces/widget-stattypes";
+import { timeThursday } from "d3";
 
 @Component({
   selector: "widget-edit-info",
@@ -33,7 +34,7 @@ export class WidgetEditInfoComponent implements OnInit {
   @Output() typeChange = new EventEmitter<WidgetType>();
   @Output() statChange = new EventEmitter<WidgetStatType>();
 
-  _previewType: WidgetType;
+  previewType: WidgetType;
   WidgetType = WidgetType;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
   WidgetStatType = WidgetStatType;
@@ -54,8 +55,10 @@ export class WidgetEditInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
+      console.log("displayTypeChange");
       this.displayType = displayType;
       this.properties.displayType = this.displayType;
+      this.updateType();
       this.displayTypeChange.emit(this.displayType);
       this.propertiesChange.emit(this.properties);
     });
@@ -66,12 +69,20 @@ export class WidgetEditInfoComponent implements OnInit {
       this.checkValid();
     });
     this.widgetForm.get("stat").valueChanges.subscribe((stat) => {
+      console.log("stat changed");
       this.stat = stat;
+
+      this.updateType();
       this.statChange.emit(this.stat);
       this.checkValid();
     });
     this.widgetForm.get("type").valueChanges.subscribe((type) => {
+      console.log("type changed");
       this.type = type;
+      if (this.previewType !== type) {
+        this.previewType = type;
+      }
+
       this.changeTypes();
       this.typeChange.emit(this.type);
       this.checkValid();
@@ -79,6 +90,17 @@ export class WidgetEditInfoComponent implements OnInit {
     this.initForm();
   }
 
+  updateType() {
+    if (this.type !== this.previewType) {
+      this.widgetForm.patchValue(
+        {
+          type: this.previewType,
+        },
+        { emitEvent: true }
+      );
+      console.log("updatetype");
+    }
+  }
   // set up form
   initForm(): void {
     this.widgetForm.patchValue(
@@ -92,6 +114,7 @@ export class WidgetEditInfoComponent implements OnInit {
 
   // when the type of widget changes, update related options
   changeTypes(): void {
+    console.log("change type function");
     if (this.type) {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       // default to 'mean'
@@ -125,13 +148,18 @@ export class WidgetEditInfoComponent implements OnInit {
     }
   }
 
-  previewType(e?) {
-    this._previewType = e;
-    console.log(e);
+  changePreviewType(e?) {
+    if (!e) {
+      this.previewType = this.type || this.previewType;
+    } else {
+      this.previewType = e;
+      this.type === this.type || e;
+    }
   }
 
   // check if has all properties
   checkValid(): void {
+    console.log("check valid");
     this.done = !!this.name && !!this.type && !!this.stat;
     if (!this.done) {
       if (!this.name) {

@@ -37,7 +37,6 @@ import { WidgetTypeComponent } from "app/widgets/interfaces/widget-type.interfac
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   @Input() type: WidgetType;
-  @Input() previewType: WidgetType;
   @Input() stat: string;
   @Input() displayType: string;
   @Input() properties: WidgetProperties;
@@ -165,7 +164,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   updateWidgetType() {
     this.viewContainerRef.clear();
 
-    const widgetType = this.previewType || this.type;
+    const widgetType = this.type;
 
     if (widgetType) {
       this.widgetManager.widgetType = widgetType;
