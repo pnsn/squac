@@ -14,7 +14,6 @@
   padding: 10px;
   flex: 1;
   border: 1px solid $sq-blue;
-  border-left: 3px solid $sq-blue;
   gap: 5px;
   justify-content: flex-start;
   p {
@@ -31,18 +30,18 @@
 
 mat-button-toggle-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: stretch;
   // @include sm {
   //   flex-direction: row;
   //   flex-wrap: wrap;
   // }
-  flex: 0 0 100px;
+  height: 36px;
   border-radius: 0;
   border: solid 0.5px $sq-blue !important;
   mat-button-toggle {
-    // @include sm {
-    //   flex: 1 0;
-    // }
+    flex: auto;
     // height: 45px;
     color: $sq-blue;
   }

@@ -1,4 +1,4 @@
-<div mat-dialog-title class="dialog-title">
+<div class="dialog-title">
   <h3 *ngIf="!copyWidget">{{ editMode ? "Edit Widget" : "New Widget" }}</h3>
   <h3 *ngIf="copyWidget">Add Widget to Dashboard</h3>
   <button mat-icon-button type="button" (click)="cancel()">
@@ -6,8 +6,8 @@
   </button>
 </div>
 
-<div mat-dialog-content>
-  <mat-horizontal-stepper
+<div>
+  <mat-stepper
     #stepper
     [linear]="!editMode"
     color="primary"
@@ -54,10 +54,10 @@
         [(properties)]="widget.properties"
       ></widget-edit-options>
     </mat-step>
-  </mat-horizontal-stepper>
+  </mat-stepper>
 </div>
 
-<div mat-dialog-actions class="dialog-options" *ngIf="widget">
+<div class="dialog-options" *ngIf="widget">
   <div>
     <button
       mat-stroked-button

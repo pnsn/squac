@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { WidgetDataService } from "../services/widget-data.service";
-import { WidgetErrors } from "../../features/widget/services/widget-errors";
+import { WidgetErrors } from "../interfaces/widget-errors";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
 import { ErrorComponent } from "@shared/components/error/error.component";

@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { WidgetType } from "app/widgets/interfaces/widget-type";
+import { WidgetConfig } from "app/widgets/interfaces/widget-type";
 import {
   WIDGET_TYPE_INFO,
   WidgetTypes,
@@ -37,6 +37,7 @@ import { WidgetTypeComponent } from "app/widgets/interfaces/widget-type.interfac
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   @Input() type: WidgetTypes;
+  @Input() previewType: WidgetTypes;
   @Input() stat: string;
   @Input() displayType: string;
   @Input() properties: WidgetProperties;
@@ -46,7 +47,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   channels = channels;
   _metrics;
   _thresholds;
-  widgetConfig: WidgetType;
+  widgetConfig: WidgetConfig;
   widgetManager;
   dataRange;
   childComponentRef: ComponentRef<WidgetTypeComponent>;
@@ -71,18 +72,33 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       channels: this.channels,
     };
 
+    this._metrics =
+      this.selectedMetrics && this.selectedMetrics.length > 0
+        ? this.selectedMetrics
+        : selectedMetrics;
+    this.data = this.getData();
+    this.widgetManager.selectedMetrics = this._metrics;
+    this.widgetConfigService.dataRange = this.dataRange;
+    this._thresholds = this.getThresholds(this._metrics);
+    this.widgetConfigService.thresholds = this._thresholds;
+
     this.widgetConfigService.chartDefaults.dataZoom = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.widgetManager) {
-      if (changes.type || changes.displayType || changes.properties) {
+      if (
+        changes.previewType ||
+        changes.type ||
+        changes.displayType ||
+        changes.properties
+      ) {
         this.updateWidgetType();
       }
 
-      if (changes.selectedMetrics && this.type) {
-        this.updateMetrics();
-      }
+      // if (changes.selectedMetrics && this.previewType) {
+      //   this.updateMetrics();
+      // }
     }
   }
 
@@ -116,14 +132,9 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
         let currentTime = start;
         while (currentTime < end) {
-          let newEnd;
-          if (!this.widgetManager.widgetConfig.useAggregate) {
-            newEnd = currentTime.add(time, timeInterval);
-            if (newEnd > end) {
-              return;
-            }
-          } else {
-            newEnd = end;
+          const newEnd = currentTime.add(time, timeInterval);
+          if (newEnd > end) {
+            return;
           }
 
           const starttime = this.dateService.format(currentTime);
@@ -153,13 +164,20 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   updateWidgetType() {
     this.viewContainerRef.clear();
-    if (this.type) {
-      this.widgetManager.widgetType = this.type;
-      this.widgetManager.widgetConfig = WIDGET_TYPE_INFO[this.type].config;
+
+    const widgetType = this.previewType || this.type;
+
+    if (widgetType) {
+      this.widgetManager.widgetType = widgetType;
+      this.widgetManager.widgetConfig = WIDGET_TYPE_INFO[widgetType].config;
 
       this.widgetDataService.stat = this.stat;
+      if (!this.properties.displayType) {
+        this.properties.displayType =
+          this.widgetManager.widgetConfig.defaultDisplay;
+      }
+
       this.widgetManager.properties = this.properties;
-      this.widgetManager.widgetDisplayOption = this.properties.displayType;
       const injector = Injector.create({
         providers: [
           {
@@ -172,7 +190,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           },
         ],
       });
-      const componentType = WIDGET_TYPE_INFO[this.type].component;
+      const componentType = WIDGET_TYPE_INFO[widgetType].component;
       this.childComponentRef =
         this.viewContainerRef.createComponent<WidgetTypeComponent>(
           componentType,
@@ -181,8 +199,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           }
         );
       this.childComponent = this.childComponentRef.instance;
-
-      this.updateMetrics();
+      this.childComponent.updateData(this.data);
     }
   }
 
@@ -192,20 +209,20 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     }
   }
 
-  updateThresholds() {
-    this._thresholds = this.getThresholds(this._metrics);
-    this.widgetConfigService.thresholds = this._thresholds;
-    this.updateData();
-  }
+  // updateThresholds() {
+  //   this._thresholds = this.getThresholds(this._metrics);
+  //   this.widgetConfigService.thresholds = this._thresholds;
+  //   this.updateData();
+  // }
 
-  updateMetrics() {
-    this._metrics =
-      this.selectedMetrics && this.selectedMetrics.length > 0
-        ? this.selectedMetrics
-        : selectedMetrics;
-    this.data = this.getData();
-    this.widgetManager.selectedMetrics = this._metrics;
-    this.widgetConfigService.dataRange = this.dataRange;
-    this.updateThresholds();
-  }
+  // updateMetrics() {
+  //   this._metrics =
+  //     this.selectedMetrics && this.selectedMetrics.length > 0
+  //       ? this.selectedMetrics
+  //       : selectedMetrics;
+  //   this.data = this.getData();
+  //   this.widgetManager.selectedMetrics = this._metrics;
+  //   this.widgetConfigService.dataRange = this.dataRange;
+  //   this.updateThresholds();
+  // }
 }

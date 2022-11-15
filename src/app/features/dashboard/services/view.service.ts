@@ -22,9 +22,9 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { DateService } from "./date.service";
-import { LoadingService } from "./loading.service";
-import { MessageService } from "./message.service";
+import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
+import { MessageService } from "@core/services/message.service";
 import {
   ArchiveStatTypes,
   ArchiveTypes,

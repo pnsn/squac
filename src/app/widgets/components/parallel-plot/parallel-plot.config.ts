@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const Parallel: WidgetType = {
+export const Parallel: WidgetConfig = {
   name: "parallel",
   type: "parallel-plot",
   zoomControls: false,

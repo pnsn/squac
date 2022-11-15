@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const TimeChart: WidgetType = {
+export const TimeChart: WidgetConfig = {
   name: "time series",
   type: "timeseries",
   useAggregate: false,

@@ -49,33 +49,8 @@ button {
 .auto-margin {
   margin-inline-end: auto;
 }
-
-.sidenav-toggle-container {
-  margin-top: 10px;
-  margin-left: -20px;
-  position: absolute;
-  z-index: 800 !important;
-  visibility: visible !important;
-  button {
-    color: white;
-  }
-}
-
 #dashboard-body {
   z-index: 0;
   height: 100%;
   width: 100%;
-}
-
-.sidenav-content {
-  height: 100%;
-}
-
-.sidenav {
-  padding: 20px;
-}
-
-.mat-drawer {
-  padding: 5px 10px;
-  width: 140px;
 }

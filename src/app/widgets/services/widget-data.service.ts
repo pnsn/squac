@@ -28,7 +28,7 @@ import {
   WeekArchiveService,
 } from "@squacapi/services/archive.service";
 import { MeasurementService } from "@squacapi/services/measurement.service";
-import { WidgetErrors } from "../../features/widget/services/widget-errors";
+import { WidgetErrors } from "../interfaces/widget-errors";
 import {
   ArchiveStatTypes,
   ArchiveTypes,

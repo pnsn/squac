@@ -10,7 +10,7 @@ import {
   WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetType } from "app/widgets/interfaces/widget-type";
+import { WidgetConfig } from "app/widgets/interfaces/widget-type";
 import {
   WidgetStatTypeNames,
   WidgetStatTypes,
@@ -33,11 +33,12 @@ export class WidgetEditInfoComponent implements OnInit {
   @Output() typeChange = new EventEmitter<WidgetTypes>();
   @Output() statChange = new EventEmitter<WidgetStatTypes>();
 
+  _previewType: WidgetTypes;
   WidgetTypes = WidgetTypes;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
   WidgetStatTypes = WidgetStatTypes;
   WidgetStatTypeNames = WidgetStatTypeNames;
-  selectedType: WidgetType;
+  widgetConfig: WidgetConfig;
   error: string;
   done = false;
   // TODO: Get this from SQUAC
@@ -92,24 +93,24 @@ export class WidgetEditInfoComponent implements OnInit {
   // when the type of widget changes, update related options
   changeTypes(): void {
     if (this.type) {
-      this.selectedType = this.WidgetTypeInfo[this.type].config;
+      this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       // default to 'mean'
       if (!this.stat) {
         this.stat = WidgetStatTypes.MEAN;
       }
 
       // change displayOptions
-      if (this.selectedType?.displayOptions) {
+      if (this.widgetConfig?.displayOptions) {
         if (!this.properties.displayType) {
-          this.properties.displayType = this.selectedType.defaultDisplay;
+          this.properties.displayType = this.widgetConfig.defaultDisplay;
         } else if (
-          !this.selectedType.displayOptions[this.properties.displayType]
+          !this.widgetConfig.displayOptions[this.properties.displayType]
         ) {
-          this.properties.displayType = this.selectedType.defaultDisplay;
+          this.properties.displayType = this.widgetConfig.defaultDisplay;
         }
 
         this.displayType =
-          this.properties.displayType || this.selectedType.defaultDisplay;
+          this.properties.displayType || this.widgetConfig.defaultDisplay;
       } else {
         this.displayType = null;
         this.properties.displayType = null;
@@ -122,6 +123,11 @@ export class WidgetEditInfoComponent implements OnInit {
         { emitEvent: true }
       );
     }
+  }
+
+  previewType(e?) {
+    this._previewType = e;
+    console.log(e);
   }
 
   // check if has all properties

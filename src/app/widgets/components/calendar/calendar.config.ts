@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const Calendar: WidgetType = {
+export const Calendar: WidgetConfig = {
   name: "calendar",
   type: "calendar-plot",
   useAggregate: false,

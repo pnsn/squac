@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { Widget } from "@squacapi/models/widget";
 import { filter, Subscription, tap } from "rxjs";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { Dashboard } from "@squacapi/models/dashboard";
@@ -19,7 +19,7 @@ import { Threshold } from "@squacapi/interfaces/threshold";
 import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,
-  WidgetType,
+  WidgetConfig,
 } from "app/widgets/interfaces/widget-type";
 import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
 
@@ -43,7 +43,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   initialMetrics: Metric[];
   thresholds: Threshold[];
 
-  widgetType: WidgetType;
+  widgetType: WidgetConfig;
   displayType: WidgetDisplayOption;
   @ViewChild("widgetChild") widgetChild: any;
 

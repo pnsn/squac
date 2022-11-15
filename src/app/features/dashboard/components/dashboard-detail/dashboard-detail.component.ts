@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "@squacapi/models/dashboard";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
@@ -30,7 +30,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   channelGroupId: number;
-  sideNavOpened = true;
+
   timeRange: number;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
@@ -142,10 +142,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         this.error = "Select a time range greater than the archive size.";
       }
     }
-  }
-
-  toggleSidenav(): void {
-    this.viewService.resizeAll();
   }
 
   // tell view service the channels changed

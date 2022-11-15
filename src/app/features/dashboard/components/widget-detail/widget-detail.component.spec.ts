@@ -3,7 +3,7 @@ import { WidgetDetailComponent } from "./widget-detail.component";
 import { WidgetModule } from "../../widget.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Widget } from "@squacapi/models/widget";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
 import { WidgetDataService } from "app/widgets/services/widget-data.service";

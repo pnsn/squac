@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { of, Subject } from "rxjs";
 import { WidgetModule } from "../../features/widget/widget.module";

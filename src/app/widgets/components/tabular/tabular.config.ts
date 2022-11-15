@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const Tabular: WidgetType = {
+export const Tabular: WidgetConfig = {
   name: "table",
   type: "tabular",
   useAggregate: true,

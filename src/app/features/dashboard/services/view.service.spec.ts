@@ -9,8 +9,8 @@ import * as dayjs from "dayjs";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 import { take } from "rxjs/operators";
-import { DateService } from "./date.service";
-import { MessageService } from "./message.service";
+import { DateService } from "../../../core/services/date.service";
+import { MessageService } from "../../../core/services/message.service";
 import { ViewService } from "./view.service";
 
 describe("ViewService", () => {

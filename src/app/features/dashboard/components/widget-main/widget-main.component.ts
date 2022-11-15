@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { Widget } from "@squacapi/models/widget";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
@@ -17,7 +17,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   loading = true;
   inited = 0;
   dashboards: Dashboard[];
-
+  sideNavOpened = true;
   error: string;
   canUpdate: boolean;
 
@@ -86,6 +86,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
+      console.log(data);
       if (data.widgets.error) {
         this.error = "Could not load dashboard or widgets";
       } else {
@@ -106,14 +107,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
 
-    const resizeSub = this.viewService.resize.subscribe((widgetId) => {
-      if (!widgetId && this.options.api) {
-        this.options.api.resize();
-      }
-    });
     this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
-    this.subscription.add(resizeSub);
   }
 
   // save widgets after resize or move
@@ -131,6 +126,12 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
   trackBy(_index, item): number {
     return item.id;
+  }
+
+  toggleSidenav(): void {
+    if (this.options.api) {
+      this.options.api.resize();
+    }
   }
 
   private addWidgetsToView(widgets: Widget[]): void {

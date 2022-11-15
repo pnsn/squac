@@ -9,9 +9,9 @@ import { Threshold } from "@squacapi/interfaces/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
 import { WidgetStatTypes } from "../interfaces/widget-stattypes";
-import { WidgetDisplayOption, WidgetType } from "../interfaces/widget-type";
+import { WidgetConfig, WidgetDisplayOption } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
-import { WidgetErrors } from "../../features/widget/services/widget-errors";
+import { WidgetErrors } from "../interfaces/widget-errors";
 import { WidgetTypes, WIDGET_TYPE_INFO } from "../interfaces/widget-types";
 
 /**
@@ -37,7 +37,7 @@ export class WidgetManagerService {
   private _widgetType: WidgetTypes;
   private _widgetDisplayOption: WidgetDisplayOption;
   private _selectedMetrics: Metric[];
-  private _widgetConfig: WidgetType;
+  private _widgetConfig: WidgetConfig;
 
   get channels(): Channel[] {
     return this._channels;
@@ -65,7 +65,7 @@ export class WidgetManagerService {
     return this._params.endtime;
   }
 
-  get widgetConfig(): WidgetType {
+  get widgetConfig(): WidgetConfig {
     return this._widgetConfig;
   }
 
@@ -77,8 +77,10 @@ export class WidgetManagerService {
     this._widgetType = widgetType;
 
     this._widgetConfig = WIDGET_TYPE_INFO[this._widgetType].config;
-    this._widgetDisplayOption =
-      this.widgetConfig.displayOptions[this._widget.properties.displayType];
+
+    const displayType =
+      this._widget.properties.displayType || this._widgetConfig.defaultDisplay;
+    this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];
 
     if (this._widget.metrics.length === 0) {
       this.errors.next(WidgetErrors.NO_METRICS);

@@ -255,7 +255,11 @@ export class CalendarComponent
         show: "true",
       },
     };
-    const name = this.properties.displayType.replace("-", " of ");
+    let name = "";
+    if (this.properties.displayType) {
+      name = this.properties.displayType.replace("-", " of ");
+    }
+
     xAxis1.name = name;
     xAxis1.position = "bottom";
 

@@ -12,7 +12,7 @@ import {
 } from "@angular/forms";
 import { Channel } from "@squacapi/models/channel";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "app/widgets/services/widget-connect.service";
 
 @Component({

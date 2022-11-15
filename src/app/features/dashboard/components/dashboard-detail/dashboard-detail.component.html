@@ -81,7 +81,7 @@
     </div>
     <div class="row">
       <div class="auto-margin">
-        <button
+        <!-- <button
           type="button"
           mat-icon-button
           [color]="sideNavOpened ? '' : 'accent'"
@@ -90,7 +90,7 @@
           aria-label="Button to toggle channel list"
         >
           <mat-icon>menu</mat-icon>
-        </button>
+        </button> -->
         <shared-channel-group-selector
           [channelGroupId]="channelGroupId"
           (channelGroupIdChange)="channelGroupChange($event)"
@@ -115,24 +115,8 @@
     </div>
   </div>
 
-  <mat-drawer-container id="dashboard-body" autosize>
-    <mat-drawer
-      #drawer
-      id="dashboard-sidenav-content"
-      class="sidenav"
-      [(opened)]="sideNavOpened"
-      (opened)="toggleSidenav()"
-      (closed)="toggleSidenav()"
-      mode="side"
-    >
-      <dashboard-channel-filter
-        (closeSidenav)="drawer.toggle()"
-      ></dashboard-channel-filter>
-    </mat-drawer>
-    <div class="sidenav-content">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-drawer-container>
+  <div id="dashboard-body"><router-outlet> </router-outlet></div>
 </div>
 
+<!-- <router-outlet></router-outlet> -->
 <!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

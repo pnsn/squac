@@ -4,7 +4,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { DashboardModule } from "@dashboard/dashboard.module";
 import { WidgetConnectService } from "app/widgets/services/widget-connect.service";
 import { MockBuilder } from "ng-mocks";

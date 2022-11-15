@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const ScatterPlot: WidgetType = {
+export const ScatterPlot: WidgetConfig = {
   name: "scatter",
   type: "scatter-plot",
   toggleKey: true,

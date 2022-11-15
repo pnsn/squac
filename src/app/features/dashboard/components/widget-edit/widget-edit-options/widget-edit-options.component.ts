@@ -20,8 +20,8 @@ import {
 import * as colormap from "colormap";
 import { WidgetProperties } from "@squacapi/models/widget";
 import {
+  WidgetConfig,
   WidgetDisplayOption,
-  WidgetType,
 } from "app/widgets/interfaces/widget-type";
 import {
   WIDGET_TYPE_INFO,
@@ -48,7 +48,7 @@ export class WidgetEditOptionsComponent
   @Input() properties: WidgetProperties;
   @Output() propertiesChange = new EventEmitter<any>();
 
-  widgetType: WidgetType;
+  widgetConfig: WidgetConfig;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
   displayOption: WidgetDisplayOption;
   gradientOptions: any[];
@@ -96,8 +96,8 @@ export class WidgetEditOptionsComponent
     }
 
     if (changes.type && this.type) {
-      this.widgetType = this.WidgetTypeInfo[this.type].config;
-      if (!this.widgetType) {
+      this.widgetConfig = this.WidgetTypeInfo[this.type].config;
+      if (!this.widgetConfig) {
         this.thresholds = [];
         this.thresholdArray.clear();
       }
@@ -148,10 +148,10 @@ export class WidgetEditOptionsComponent
     let dimensions = [];
     if (
       this.displayType &&
-      this.widgetType &&
-      this.widgetType.displayOptions[this.displayType]
+      this.widgetConfig &&
+      this.widgetConfig.displayOptions[this.displayType]
     ) {
-      this.displayOption = this.widgetType.displayOptions[this.displayType];
+      this.displayOption = this.widgetConfig.displayOptions[this.displayType];
       if (this.displayOption.dimensions) {
         dimensions = [...this.displayOption.dimensions];
       }

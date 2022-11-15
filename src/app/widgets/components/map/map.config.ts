@@ -1,6 +1,6 @@
-import { WidgetType } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-type";
 
-export const Map: WidgetType = {
+export const Map: WidgetConfig = {
   name: "map",
   type: "map",
   useAggregate: true,

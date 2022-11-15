@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetType } from "../interfaces/widget-type";
+import { WidgetConfig } from "../interfaces/widget-type";
 import { WidgetConnectService } from "../services/widget-connect.service";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { Channel } from "@squacapi/models/channel";
@@ -13,7 +13,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   zooming: string;
   showKey = true; //default to key on
   loading: string;
-  widgetConfig: WidgetType;
+  widgetConfig: WidgetConfig;
   data: any;
   channels: Channel[];
   selectedMetrics: Metric[];
