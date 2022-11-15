@@ -82,16 +82,18 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.widgetConfigService.thresholds = this._thresholds;
 
     this.widgetConfigService.chartDefaults.dataZoom = [];
+    this.widgetConfigService.chartDefaults.grid = {
+      ...this.widgetConfigService.chartDefaults.grid,
+      bottom: 5,
+      left: 5,
+    };
+    this.updateWidgetType();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     if (this.widgetManager) {
-      if (
-        changes.previewType ||
-        changes.type ||
-        changes.displayType ||
-        changes.properties
-      ) {
+      if (changes.type || changes.displayType || changes.properties) {
         this.updateWidgetType();
       }
 
@@ -110,12 +112,12 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   getData() {
     this.dataRange = {};
     const data = new Map<number, any>();
-    const time = 30;
-    const timeInterval = "minutes";
+    const timeInterval = "seconds";
     const start = this.dateService.parseUtc(starttime);
     const end = this.dateService.parseUtc(endtime);
 
-    this._metrics.forEach((m) => {
+    this._metrics.forEach((m: Metric) => {
+      const time = m.sampleRate;
       this.dataRange[m.id] = {
         min: m.minVal,
         max: m.maxVal,
@@ -165,7 +167,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.viewContainerRef.clear();
 
     const widgetType = this.type;
-
+    console.log(widgetType, this.displayType);
     if (widgetType) {
       this.widgetManager.widgetType = widgetType;
       this.widgetManager.widgetConfig = WIDGET_TYPE_INFO[widgetType].config;

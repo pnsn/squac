@@ -22,7 +22,11 @@
       *ngIf="widgetForm.touched && widgetForm.get('type').hasError('required')"
       >Please select a widget type.</mat-error
     >
-    <div class="column" id="widget-type-container">
+    <div
+      class="column"
+      id="widget-type-container"
+      (mouseleave)="changePreviewType()"
+    >
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
           *ngFor="let widgetType of WidgetType | keyvalue"
@@ -37,7 +41,7 @@
 
       <ng-container *ngIf="previewType; else selectWidget">
         <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
-          <div id="type-container" class="column">
+          <div id="type-detail-container" (click)="updateType()">
             <div id="description">
               <div class="label">Description:</div>
               <p class="help-text">

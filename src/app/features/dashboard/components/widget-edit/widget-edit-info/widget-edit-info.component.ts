@@ -55,10 +55,8 @@ export class WidgetEditInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
-      console.log("displayTypeChange");
       this.displayType = displayType;
       this.properties.displayType = this.displayType;
-      this.updateType();
       this.displayTypeChange.emit(this.displayType);
       this.propertiesChange.emit(this.properties);
     });
@@ -69,15 +67,11 @@ export class WidgetEditInfoComponent implements OnInit {
       this.checkValid();
     });
     this.widgetForm.get("stat").valueChanges.subscribe((stat) => {
-      console.log("stat changed");
       this.stat = stat;
-
-      this.updateType();
       this.statChange.emit(this.stat);
       this.checkValid();
     });
     this.widgetForm.get("type").valueChanges.subscribe((type) => {
-      console.log("type changed");
       this.type = type;
       if (this.previewType !== type) {
         this.previewType = type;
@@ -91,7 +85,9 @@ export class WidgetEditInfoComponent implements OnInit {
   }
 
   updateType() {
+    console.log("update type", this.type, this.previewType);
     if (this.type !== this.previewType) {
+      this.type === this.previewType;
       this.widgetForm.patchValue(
         {
           type: this.previewType,
@@ -153,7 +149,6 @@ export class WidgetEditInfoComponent implements OnInit {
       this.previewType = this.type || this.previewType;
     } else {
       this.previewType = e;
-      this.type === this.type || e;
     }
   }
 

@@ -13,7 +13,7 @@ export const selectedMetrics = [
     "",
     "",
     "unit",
-    10,
+    3600,
     0,
     340
   ),
@@ -25,7 +25,7 @@ export const selectedMetrics = [
     "",
     "",
     "unit",
-    10,
+    1800,
     0,
     10000
   ),
@@ -37,7 +37,7 @@ export const selectedMetrics = [
     "",
     "",
     "unit",
-    10,
+    5400,
     -100,
     100
   ),
