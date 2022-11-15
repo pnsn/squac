@@ -8,11 +8,11 @@ import { Metric } from "@squacapi/models/metric";
 import { Threshold } from "@squacapi/interfaces/threshold";
 import { Widget, WidgetProperties } from "@squacapi/models/widget";
 import { ReplaySubject, Subject } from "rxjs";
-import { WidgetStatTypes } from "../interfaces/widget-stattypes";
+import { WidgetStatType } from "../interfaces/widget-stattypes";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces/widget-type";
 import { MeasurementParams, WidgetDataService } from "./widget-data.service";
 import { WidgetErrors } from "../interfaces/widget-errors";
-import { WidgetTypes, WIDGET_TYPE_INFO } from "../interfaces/widget-types";
+import { WidgetType, WIDGET_TYPE_INFO } from "../interfaces/widget-types";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -34,7 +34,7 @@ export class WidgetManagerService {
   private _channels: Channel[];
   private _group: number; //channel group id
   private _widget: Widget;
-  private _widgetType: WidgetTypes;
+  private _widgetType: WidgetType;
   private _widgetDisplayOption: WidgetDisplayOption;
   private _selectedMetrics: Metric[];
   private _widgetConfig: WidgetConfig;
@@ -69,11 +69,11 @@ export class WidgetManagerService {
     return this._widgetConfig;
   }
 
-  get widgetType(): WidgetTypes {
+  get widgetType(): WidgetType {
     return this._widgetType;
   }
 
-  set widgetType(widgetType: WidgetTypes) {
+  set widgetType(widgetType: WidgetType) {
     this._widgetType = widgetType;
 
     this._widgetConfig = WIDGET_TYPE_INFO[this._widgetType].config;
@@ -94,7 +94,7 @@ export class WidgetManagerService {
   initWidget(widget: Widget) {
     if (widget.isValid) {
       this._widget = widget;
-      this.widgetType = widget.type as WidgetTypes;
+      this.widgetType = widget.type as WidgetType;
 
       this.widgetDataService.widget = widget;
       this.widget.next(this._widget);
@@ -139,7 +139,7 @@ export class WidgetManagerService {
   }
 
   updateStat(
-    stat: ArchiveStatTypes | WidgetStatTypes | string,
+    stat: ArchiveStatTypes | WidgetStatType | string,
     archiveType: ArchiveTypes
   ) {
     //calculate stat

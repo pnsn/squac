@@ -33,7 +33,7 @@ import {
   ArchiveStatTypes,
   ArchiveTypes,
 } from "@squacapi/interfaces/archivetypes";
-import { WidgetStatTypes } from "../interfaces/widget-stattypes";
+import { WidgetStatType } from "../interfaces/widget-stattypes";
 
 export type MeasurementParams =
   | MeasurementMeasurementsListRequestParams
@@ -59,7 +59,7 @@ export class WidgetDataService implements OnDestroy {
   widget: Widget;
   archiveType: ArchiveTypes;
   useAggregate: boolean;
-  stat: string | WidgetStatTypes | ArchiveStatTypes;
+  stat: string | WidgetStatType | ArchiveStatTypes;
 
   private ranges = {};
 

@@ -25,7 +25,7 @@ import {
 } from "app/widgets/interfaces/widget-type";
 import {
   WIDGET_TYPE_INFO,
-  WidgetTypes,
+  WidgetType,
 } from "app/widgets/interfaces/widget-types";
 import {
   WidgetGradientColors,
@@ -41,7 +41,7 @@ export class WidgetEditOptionsComponent
 {
   subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
-  @Input() type: WidgetTypes;
+  @Input() type: WidgetType;
   @Input() displayType: string;
   @Input() thresholds: Threshold[];
   @Output() thresholdsChange = new EventEmitter<Threshold[]>();

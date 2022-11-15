@@ -14,7 +14,7 @@ import { TimelineComponent } from "../components/timeline/timeline.component";
 import { Timeline } from "../components/timeline/timeline.config";
 import { WidgetConfig } from "./widget-type";
 
-export enum WidgetTypes {
+export enum WidgetType {
   TABULAR = "tabular",
   TIMELINE = "timeline",
   TIMESERIES = "timeseries",
@@ -32,22 +32,22 @@ type WidgetTypeInfo = {
  * Associate widget types with the corresponding component
  */
 export const WIDGET_TYPE_INFO: {
-  [key in WidgetTypes]: WidgetTypeInfo;
+  [key in WidgetType]: WidgetTypeInfo;
 } = {
-  [WidgetTypes.TABULAR]: { component: TabularComponent, config: Tabular },
-  [WidgetTypes.TIMELINE]: { component: TimelineComponent, config: Timeline },
-  [WidgetTypes.TIMESERIES]: {
+  [WidgetType.TABULAR]: { component: TabularComponent, config: Tabular },
+  [WidgetType.TIMELINE]: { component: TimelineComponent, config: Timeline },
+  [WidgetType.TIMESERIES]: {
     component: TimechartComponent,
     config: TimeChart,
   },
-  [WidgetTypes.MAP]: { component: MapComponent, config: Map },
-  [WidgetTypes.PARALLEL]: {
+  [WidgetType.MAP]: { component: MapComponent, config: Map },
+  [WidgetType.PARALLEL]: {
     component: ParallelPlotComponent,
     config: Parallel,
   },
-  [WidgetTypes.SCATTER]: {
+  [WidgetType.SCATTER]: {
     component: ScatterPlotComponent,
     config: ScatterPlot,
   },
-  [WidgetTypes.CALENDAR]: { component: CalendarComponent, config: Calendar },
+  [WidgetType.CALENDAR]: { component: CalendarComponent, config: Calendar },
 };

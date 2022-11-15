@@ -13,7 +13,7 @@ import { DateService } from "@core/services/date.service";
 import { WidgetConfig } from "app/widgets/interfaces/widget-type";
 import {
   WIDGET_TYPE_INFO,
-  WidgetTypes,
+  WidgetType,
 } from "app/widgets/interfaces/widget-types";
 import { WidgetDataService } from "app/widgets/services/widget-data.service";
 import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
@@ -36,8 +36,8 @@ import { WidgetTypeComponent } from "app/widgets/interfaces/widget-type.interfac
   providers: [WidgetConfigService, WidgetDataService],
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
-  @Input() type: WidgetTypes;
-  @Input() previewType: WidgetTypes;
+  @Input() type: WidgetType;
+  @Input() previewType: WidgetType;
   @Input() stat: string;
   @Input() displayType: string;
   @Input() properties: WidgetProperties;

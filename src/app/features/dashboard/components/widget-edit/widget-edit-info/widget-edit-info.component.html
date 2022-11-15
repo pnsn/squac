@@ -25,7 +25,7 @@
     <div class="column" id="widget-type-container">
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
-          *ngFor="let widgetType of WidgetTypes | keyvalue"
+          *ngFor="let widgetType of WidgetType | keyvalue"
           [value]="widgetType.value"
           (mouseenter)="previewType(widgetType.value)"
           (mouseleave)="previewType()"
@@ -60,7 +60,7 @@
             <mat-label>Stat type</mat-label>
             <mat-select formControlName="stat" required>
               <mat-option
-                *ngFor="let statType of WidgetStatTypes | keyvalue"
+                *ngFor="let statType of WidgetStatType | keyvalue"
                 [value]="statType.value"
               >
                 {{ WidgetStatTypeNames[statType.value] }}

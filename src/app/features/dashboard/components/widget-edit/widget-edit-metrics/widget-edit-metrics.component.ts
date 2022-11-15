@@ -12,7 +12,7 @@ import {
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models/metric";
 import {
-  WidgetTypes,
+  WidgetType,
   WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 @Component({
@@ -25,7 +25,7 @@ export class WidgetEditMetricsComponent
 {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
-  @Input() type: WidgetTypes;
+  @Input() type: WidgetType;
   @Output() selectedMetricsChange = new EventEmitter<Metric[]>();
 
   minLength = 1;

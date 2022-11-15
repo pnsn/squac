@@ -6,14 +6,14 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  WidgetTypes,
+  WidgetType,
   WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { WidgetConfig } from "app/widgets/interfaces/widget-type";
 import {
   WidgetStatTypeNames,
-  WidgetStatTypes,
+  WidgetStatType,
 } from "app/widgets/interfaces/widget-stattypes";
 
 @Component({
@@ -23,20 +23,20 @@ import {
 })
 export class WidgetEditInfoComponent implements OnInit {
   @Input() name: string;
-  @Input() type: WidgetTypes;
-  @Input() stat: WidgetStatTypes;
+  @Input() type: WidgetType;
+  @Input() stat: WidgetStatType;
   @Input() properties: WidgetProperties;
   @Input() displayType: string;
   @Output() displayTypeChange = new EventEmitter<string>();
   @Output() propertiesChange = new EventEmitter<WidgetProperties>();
   @Output() nameChange = new EventEmitter<string>();
-  @Output() typeChange = new EventEmitter<WidgetTypes>();
-  @Output() statChange = new EventEmitter<WidgetStatTypes>();
+  @Output() typeChange = new EventEmitter<WidgetType>();
+  @Output() statChange = new EventEmitter<WidgetStatType>();
 
-  _previewType: WidgetTypes;
-  WidgetTypes = WidgetTypes;
+  _previewType: WidgetType;
+  WidgetType = WidgetType;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
-  WidgetStatTypes = WidgetStatTypes;
+  WidgetStatType = WidgetStatType;
   WidgetStatTypeNames = WidgetStatTypeNames;
   widgetConfig: WidgetConfig;
   error: string;
@@ -96,7 +96,7 @@ export class WidgetEditInfoComponent implements OnInit {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       // default to 'mean'
       if (!this.stat) {
-        this.stat = WidgetStatTypes.MEAN;
+        this.stat = WidgetStatType.MEAN;
       }
 
       // change displayOptions

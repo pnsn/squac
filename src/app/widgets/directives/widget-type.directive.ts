@@ -17,7 +17,7 @@ import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription, tap } from "rxjs";
 import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
-import { WIDGET_TYPE_INFO, WidgetTypes } from "../interfaces/widget-types";
+import { WIDGET_TYPE_INFO, WidgetType } from "../interfaces/widget-types";
 
 /**
  * solely responsible for showing either error component or the correct widget type
@@ -86,7 +86,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
   }
 
-  addWidget(widgetType: WidgetTypes) {
+  addWidget(widgetType: WidgetType) {
     this.error = "";
     const injector = Injector.create({
       providers: [

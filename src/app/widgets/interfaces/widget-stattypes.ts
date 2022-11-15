@@ -1,7 +1,7 @@
 /**
  * Stat types available in squac
  */
-export enum WidgetStatTypes {
+export enum WidgetStatType {
   MEAN = "mean",
   LATEST = "latest",
   NUM_SAMPS = "numSamps",
@@ -16,17 +16,17 @@ export enum WidgetStatTypes {
   p05 = "p05",
 }
 
-export const WidgetStatTypeNames: { [key in WidgetStatTypes]: string } = {
-  [WidgetStatTypes.MEAN]: "Average",
-  [WidgetStatTypes.LATEST]: "Most Recent",
-  [WidgetStatTypes.NUM_SAMPS]: "Sample Count",
-  [WidgetStatTypes.MEDIAN]: "Median",
-  [WidgetStatTypes.MIN]: "Minimum",
-  [WidgetStatTypes.MAX]: "Maximum",
-  [WidgetStatTypes.MIN_ABS]: "Min of abs(min, max)",
-  [WidgetStatTypes.MAX_ABS]: "Max of abs(min, max)",
-  [WidgetStatTypes.P95]: "95th percentile",
-  [WidgetStatTypes.P90]: "90th percentile",
-  [WidgetStatTypes.p10]: "10th percentile",
-  [WidgetStatTypes.p05]: "5th percentile",
+export const WidgetStatTypeNames: { [key in WidgetStatType]: string } = {
+  [WidgetStatType.MEAN]: "Average",
+  [WidgetStatType.LATEST]: "Most Recent",
+  [WidgetStatType.NUM_SAMPS]: "Sample Count",
+  [WidgetStatType.MEDIAN]: "Median",
+  [WidgetStatType.MIN]: "Minimum",
+  [WidgetStatType.MAX]: "Maximum",
+  [WidgetStatType.MIN_ABS]: "Min of abs(min, max)",
+  [WidgetStatType.MAX_ABS]: "Max of abs(min, max)",
+  [WidgetStatType.P95]: "95th percentile",
+  [WidgetStatType.P90]: "90th percentile",
+  [WidgetStatType.p10]: "10th percentile",
+  [WidgetStatType.p05]: "5th percentile",
 };
