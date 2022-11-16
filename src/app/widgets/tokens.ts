@@ -1,5 +1,8 @@
 import { InjectionToken } from "@angular/core";
 
-export const MY_TOKEN = new InjectionToken<string>("MyToken", {
-  factory: () => "Token Value",
-});
+export const DATE_FORMAT = new InjectionToken<string>(
+  "Date format used by default on widgets.",
+  {
+    factory: () => "Token Value",
+  }
+);

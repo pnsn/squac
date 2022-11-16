@@ -48,10 +48,9 @@ export class ViewService {
   // refresh = new Subject<number>();
 
   private _dashboard: Dashboard;
-  dateRanges;
   queuedWidgets = 0;
   locale;
-  defaultTimeRange;
+  defaultTimeRange = 3600;
   hasUnsavedChanges = false;
   constructor(
     private dashboardService: DashboardService,
@@ -61,10 +60,7 @@ export class ViewService {
     private messageService: MessageService,
     private channelGroupService: ChannelGroupService,
     private loadingService: LoadingService
-  ) {
-    this.dateRanges = this.dateService.dateRanges;
-    this.defaultTimeRange = this.dateService.defaultTimeRange;
-  }
+  ) {}
 
   get dashboard(): Dashboard {
     return this._dashboard;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { PrecisionPipe } from "../../pipes/precision.pipe";
+import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 import {
   WidgetConnectService,
   WidgetManagerService,

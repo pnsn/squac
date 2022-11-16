@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models";
 import { graphic } from "echarts";
 
@@ -10,6 +9,7 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
+import { parseUtc } from "../../shared/utils";
 
 @Component({
   selector: "widget-timeline",
@@ -21,7 +21,6 @@ export class TimelineComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private dateService: DateService,
     private widgetConfigService: WidgetConfigService,
     protected widgetConnector: WidgetConnectService,
     protected widgetManager: WidgetManagerService
@@ -157,10 +156,10 @@ export class TimelineComponent
     //trusts that measurements are in order of time
     data.forEach((measurement: Measurement, mIndex: number) => {
       if (!start) {
-        start = this.dateService.parseUtc(measurement.starttime).startOf(width);
+        start = parseUtc(measurement.starttime).startOf(width);
       }
 
-      const measurementStart = this.dateService.parseUtc(measurement.starttime);
+      const measurementStart = parseUtc(measurement.starttime);
 
       // if next day/hour, end last time segment and start new one
       if (
@@ -187,7 +186,7 @@ export class TimelineComponent
 
         total = 0;
         count = 0;
-        start = this.dateService.parseUtc(measurement.starttime).startOf(width);
+        start = parseUtc(measurement.starttime).startOf(width);
       }
 
       count += 1;
@@ -206,8 +205,8 @@ export class TimelineComponent
     };
 
     data.forEach((measurement: Measurement) => {
-      const start = this.dateService.parseUtc(measurement.starttime).toDate();
-      const end = this.dateService.parseUtc(measurement.endtime).toDate();
+      const start = parseUtc(measurement.starttime).toDate();
+      const end = parseUtc(measurement.endtime).toDate();
       channelObj.data.push({
         name: nslc,
         value: [start, end, measurement.value, index],

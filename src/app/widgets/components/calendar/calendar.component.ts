@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models";
 
-import { PrecisionPipe } from "../../pipes/precision.pipe";
+import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 
 import {
   WidgetConnectService,
@@ -11,6 +10,7 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
+import { parseUtc } from "../../shared/utils";
 
 @Component({
   selector: "widget-calendar-plot",
@@ -22,7 +22,6 @@ export class CalendarComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private dateService: DateService,
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
@@ -204,9 +203,7 @@ export class CalendarComponent
             const measurements = data.get(channel.id).get(metric.id);
             //trusts that measurements are in order of time
             measurements?.forEach((measurement: Measurement) => {
-              const measurementStart = this.dateService.parseUtc(
-                measurement.starttime
-              );
+              const measurementStart = parseUtc(measurement.starttime);
 
               let timeSegment;
               if (width === "days-week") {

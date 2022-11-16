@@ -16,7 +16,7 @@ export class DateService {
 
   locale;
 
-  constructor(private configService: ConfigurationService) {
+  constructor(configService: ConfigurationService) {
     dayjs.extend(utc);
     dayjs.extend(duration);
     dayjs.extend(timezone);
@@ -94,20 +94,5 @@ export class DateService {
   // return duration
   duration(count: number, type: string) {
     return dayjs.duration(count, type as duration.DurationUnitType);
-  }
-
-  // get dateranges from config
-  get dateRanges() {
-    return this.configService.getValue("dateRanges");
-  }
-
-  // get time ranges for date picker
-  get datePickerTimeRanges() {
-    return this.configService.getValue("datePickerTimeRanges");
-  }
-
-  // get default dashboard time range
-  get defaultTimeRange() {
-    return this.configService.getValue("defaultTimeRange", 3);
   }
 }

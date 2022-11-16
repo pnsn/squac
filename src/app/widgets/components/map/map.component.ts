@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import * as L from "leaflet";
-import { PrecisionPipe } from "../../pipes/precision.pipe";
+import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 import { timeout } from "d3";
 
 import {

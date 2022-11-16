@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models";
 import * as dayjs from "dayjs";
 
@@ -10,6 +9,7 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
+import { parseUtc } from "../../shared/utils";
 
 @Component({
   selector: "widget-timechart",
@@ -21,7 +21,6 @@ export class TimechartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
   constructor(
-    private dateService: DateService,
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     protected widgetManager: WidgetManagerService
@@ -111,14 +110,14 @@ export class TimechartComponent
           const measurements = data.get(channel.id).get(metric.id);
           measurements?.forEach((measurement: Measurement) => {
             // // If time between measurements is greater than gap, don't connect
-            const start = this.dateService.parseUtc(measurement.starttime);
-            const end = this.dateService.parseUtc(measurement.endtime);
+            const start = parseUtc(measurement.starttime);
+            const end = parseUtc(measurement.endtime);
 
+            const diff = start.diff(end, "seconds");
             if (
               station.data.length > 0 &&
               lastEnd &&
-              this.dateService.diff(start, lastEnd) >=
-                metric.sampleRate * this.maxMeasurementGap
+              diff >= metric.sampleRate * this.maxMeasurementGap
             ) {
               // time since last measurement
               station.data.push({
