@@ -1,8 +1,12 @@
 #metric-edit-container {
   height: 100%;
   overflow: hidden;
+  gap: 5px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-items: stretch;
+  align-items: stretch;
 }
 .metric-filter {
   width: 30%;
@@ -16,13 +20,11 @@
 }
 
 #table-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1;
   overflow: hidden;
-}
-
-#metric-select-table {
   width: 100%;
-  height: 100%;
-}
-ngx-datatable {
-  height: 100%;
+  justify-items: stretch;
+  align-items: stretch;
 }

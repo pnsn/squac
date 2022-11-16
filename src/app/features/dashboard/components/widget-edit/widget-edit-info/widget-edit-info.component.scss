@@ -28,7 +28,6 @@
     border: 1px solid $sq-blue;
     gap: 5px;
     justify-content: space-between;
-    overflow: hidden;
     height: 400px;
     p {
       margin-top: 0px;
@@ -54,11 +53,6 @@
     flex-direction: row;
     justify-content: stretch;
     align-content: flex-start;
-    // @include sm {
-    //   flex-direction: row;
-    //   flex-wrap: wrap;
-    // }
-
     // width: 100px;
     border-radius: 0;
     border: solid 0.5px $sq-blue !important;
