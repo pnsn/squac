@@ -20,26 +20,11 @@ export type WidgetTypeInfo = {
 export const WIDGET_TYPE_INFO: {
   [key in WidgetType]: WidgetTypeInfo;
 } = {
-  [WidgetType.TABULAR]: Tabular.WIDGET_INFO,
-  [WidgetType.TIMELINE]: {
-    component: Timeline.TimelineComponent,
-    config: Timeline.CONFIG,
-  },
-  [WidgetType.TIMESERIES]: {
-    component: Timechart.TimechartComponent,
-    config: Timechart.CONFIG,
-  },
-  [WidgetType.MAP]: { component: Map.MapComponent, config: Map.CONFIG },
-  [WidgetType.PARALLEL]: {
-    component: Parallel.ParallelPlotComponent,
-    config: Parallel.CONFIG,
-  },
-  [WidgetType.SCATTER]: {
-    component: Scatter.ScatterPlotComponent,
-    config: Scatter.CONFIG,
-  },
-  [WidgetType.CALENDAR]: {
-    component: Calendar.CalendarComponent,
-    config: Calendar.CONFIG,
-  },
+  [WidgetType.TABULAR]: Tabular.CONFIG,
+  [WidgetType.TIMELINE]: Timeline.CONFIG,
+  [WidgetType.TIMESERIES]: Timechart.CONFIG,
+  [WidgetType.MAP]: Map.CONFIG,
+  [WidgetType.PARALLEL]: Parallel.CONFIG,
+  [WidgetType.SCATTER]: Scatter.CONFIG,
+  [WidgetType.CALENDAR]: Calendar.CONFIG,
 };

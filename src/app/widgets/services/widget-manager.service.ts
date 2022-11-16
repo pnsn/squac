@@ -93,7 +93,10 @@ export class WidgetManagerService {
 
     const displayType =
       this._widget.properties.displayType || this._widgetConfig.defaultDisplay;
-    this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];
+
+    if (this.widgetConfig.displayOptions) {
+      this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];
+    }
 
     if (this._widget.metrics.length === 0) {
       this.errors.next(WidgetErrors.NO_METRICS);

@@ -1,7 +1,7 @@
 import { WidgetTypeInfo } from "app/widgets/constants";
 import { TabularComponent } from "./tabular.component";
 
-export const WIDGET_INFO: WidgetTypeInfo = {
+export const CONFIG: WidgetTypeInfo = {
   component: TabularComponent,
   config: {
     name: "table",

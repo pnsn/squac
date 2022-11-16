@@ -1,12 +1,12 @@
-import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
-import { SquacapiModule } from "@squacapi/squacapi.module";
+
 import { TabularComponent } from "./tabular.component";
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [TabularComponent],
-  imports: [NgxDatatableModule, SquacapiModule, CommonModule],
+  imports: [NgxDatatableModule, SharedModule],
   exports: [TabularComponent],
   providers: [],
 })
