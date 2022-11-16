@@ -3,7 +3,7 @@ import * as dayjs from "dayjs";
 import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
-import { ConfigurationService } from "./configuration.service";
+import { DEFAULT_LOCALE } from "@core/locale.constant";
 
 //service to help reduce imports of dayjs
 @Injectable({
@@ -14,14 +14,13 @@ export class DateService {
   // "displayFormat": "YYYY/MM/DD HH:mm"
   // "direction": "ltr"
 
-  locale;
+  locale = DEFAULT_LOCALE;
 
-  constructor(configService: ConfigurationService) {
+  constructor() {
     dayjs.extend(utc);
     dayjs.extend(duration);
     dayjs.extend(timezone);
     dayjs.tz.setDefault("Etc/UTC");
-    this.locale = configService.getValue("locale");
   }
 
   // adjust date using utc offset
