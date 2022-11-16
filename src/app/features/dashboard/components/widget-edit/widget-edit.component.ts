@@ -6,7 +6,6 @@ import { ViewService } from "@dashboard/services/view.service";
 import { WidgetService } from "@squacapi/services/widget.service";
 import { Widget } from "@squacapi/models/widget";
 import { Subscription } from "rxjs";
-import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
   selector: "widget-edit",
@@ -27,7 +26,6 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     private widgetService: WidgetService,
     private messageService: MessageService,
     private viewService: ViewService,
-    private route: ActivatedRoute,
     public dialogRef?: MatDialogRef<WidgetEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data?: any
   ) {}

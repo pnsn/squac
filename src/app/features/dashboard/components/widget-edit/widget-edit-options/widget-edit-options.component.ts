@@ -28,8 +28,8 @@ import {
   WidgetType,
 } from "app/widgets/interfaces/widget-types";
 import {
-  WidgetGradientColors,
-  WidgetSolidColors,
+  WIDGET_GRADIENT_COLORS,
+  WIDGET_SOLID_COLORS,
 } from "app/widgets/interfaces/widget-colors";
 @Component({
   selector: "widget-edit-options",
@@ -65,8 +65,8 @@ export class WidgetEditOptionsComponent
   });
 
   constructor(private formBuilder: UntypedFormBuilder) {
-    this.gradientOptions = WidgetGradientColors;
-    this.solidOptions = WidgetSolidColors;
+    this.gradientOptions = WIDGET_GRADIENT_COLORS;
+    this.solidOptions = WIDGET_SOLID_COLORS;
   }
 
   ngOnInit(): void {

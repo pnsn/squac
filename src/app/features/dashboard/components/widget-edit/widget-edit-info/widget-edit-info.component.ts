@@ -12,7 +12,7 @@ import {
 import { WidgetProperties } from "@squacapi/models/widget";
 import { WidgetConfig } from "app/widgets/interfaces/widget-type";
 import {
-  WidgetStatTypeNames,
+  WIDGET_STAT_TYPE_NAMES,
   WidgetStatType,
 } from "app/widgets/interfaces/widget-stattypes";
 
@@ -37,7 +37,7 @@ export class WidgetEditInfoComponent implements OnInit {
   WidgetType = WidgetType;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
   WidgetStatType = WidgetStatType;
-  WidgetStatTypeNames = WidgetStatTypeNames;
+  WIDGET_STAT_TYPE_NAMES = WIDGET_STAT_TYPE_NAMES;
   widgetConfig: WidgetConfig;
   error: string;
   done = false;

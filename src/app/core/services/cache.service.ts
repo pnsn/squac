@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { LocalStorageTypes } from "@core/services/local-storage.service";
 import { LocalStorageService } from "@core/services/local-storage.service";
-import { CachableRoutePatterns } from "@squacapi/interfaces/api.interface";
+import { CACHEABLE_ROUTE_PATTERNS } from "@squacapi/interfaces/api.interface";
 import * as Route from "route-parser";
 
 abstract class HttpCache {
@@ -16,7 +16,7 @@ abstract class HttpCache {
 })
 export class HttpCacheService implements HttpCache {
   cache: { [key: string]: HttpResponse<any> } = {};
-  cachableRoutes = CachableRoutePatterns;
+  cachableRoutes = CACHEABLE_ROUTE_PATTERNS;
 
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, "");
@@ -115,7 +115,7 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Determine if a url should be place in local or sessions storage and which one
-   * It must match a route pattern provided in CachableRoutePatterns
+   * It must match a route pattern provided in CACHEABLE_ROUTE_PATTERNS
    * @param urlWithParams -
    * @returns
    */

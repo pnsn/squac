@@ -1,4 +1,4 @@
-export const WidgetSolidColors = [
+export const WIDGET_SOLID_COLORS = [
   {
     color: ["lightgray"],
     label: "Light gray",
@@ -41,7 +41,7 @@ export const WidgetSolidColors = [
   },
 ];
 
-export const WidgetGradientColors = [
+export const WIDGET_GRADIENT_COLORS = [
   {
     label: "Rainbow",
     type: "rainbow",

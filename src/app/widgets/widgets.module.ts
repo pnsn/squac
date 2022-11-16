@@ -4,7 +4,6 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { SquacapiModule } from "@squacapi/squacapi.module";
 import { NgxEchartsModule } from "ngx-echarts";
-import { BoxPlotComponent } from "./components/box-plot/box-plot.component";
 import { CalendarComponent } from "./components/calendar/calendar.component";
 import { MapComponent } from "./components/map/map.component";
 import { ParallelPlotComponent } from "./components/parallel-plot/parallel-plot.component";
@@ -23,7 +22,6 @@ import { PrecisionPipe } from "./pipes/precision.pipe";
     TimechartComponent,
     TimelineComponent,
     ScatterPlotComponent,
-    BoxPlotComponent,
     ParallelPlotComponent,
     CalendarComponent,
     WidgetTypeDirective,

@@ -16,7 +16,7 @@ export enum WidgetStatType {
   p05 = "p05",
 }
 
-export const WidgetStatTypeNames: { [key in WidgetStatType]: string } = {
+export const WIDGET_STAT_TYPE_NAMES: { [key in WidgetStatType]: string } = {
   [WidgetStatType.MEAN]: "Average",
   [WidgetStatType.LATEST]: "Most Recent",
   [WidgetStatType.NUM_SAMPS]: "Sample Count",
