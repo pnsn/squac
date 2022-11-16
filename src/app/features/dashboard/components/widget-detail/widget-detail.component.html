@@ -105,7 +105,7 @@
 
   <div
     class="widget-content"
-    [appIsLoading]="loadingService.isLoading(widget)"
+    [appIsLoading]="widgetManager.isLoading$ | async"
     spinnerType="buffer"
   >
     <div widgetContainer class="widget"></div>

@@ -13,6 +13,7 @@ import { WidgetStatType, WidgetErrors, WidgetType } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from "../services";
 import { WIDGET_TYPE_INFO } from "../constants";
+import { BehaviorSubject } from "rxjs";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -20,8 +21,11 @@ import { WIDGET_TYPE_INFO } from "../constants";
  */
 @Injectable()
 export class WidgetManagerService {
-  constructor(private widgetDataService: WidgetDataService) {}
+  constructor(private widgetDataService: WidgetDataService) {
+    this.isLoading$ = widgetDataService.isLoading$;
+  }
 
+  isLoading$: BehaviorSubject<boolean>;
   widget = new ReplaySubject<Widget>(1);
   errors = new ReplaySubject<WidgetErrors>();
   resize = new Subject<any>();

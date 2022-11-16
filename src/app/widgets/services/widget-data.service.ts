@@ -31,6 +31,7 @@ import { MeasurementParams } from "@squacapi/interfaces";
 import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
 
 import { WidgetErrors, WidgetStatType } from "../enums";
+import { BehaviorSubject } from "rxjs";
 
 type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
@@ -39,6 +40,7 @@ export class WidgetDataService implements OnDestroy {
   private measurementReq: Observable<any>;
   private measurementReqSub: Subscription;
 
+  isLoading$ = new BehaviorSubject<boolean>(false);
   params = new Subject<MeasurementParams>();
   private $params = this.params.asObservable();
 
@@ -61,8 +63,7 @@ export class WidgetDataService implements OnDestroy {
     private aggregateService: AggregateService,
     private dayArchiveService: DayArchiveService,
     private monthArchiveService: MonthArchiveService,
-    private weekArchiveService: WeekArchiveService,
-    private loadingService: LoadingService
+    private weekArchiveService: WeekArchiveService
   ) {
     // listen to param changes
     this.measurementReq = this.$params.pipe(
@@ -72,15 +73,12 @@ export class WidgetDataService implements OnDestroy {
       }),
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
-        return this.loadingService.doLoading(
-          this.dataRequest(params).pipe(
-            catchError(() => {
-              this.finishedLoading();
-              return EMPTY;
-            }),
-            map(this.mapData.bind(this))
-          ),
-          this.widget
+        return this.dataRequest(params).pipe(
+          catchError(() => {
+            this.finishedLoading();
+            return EMPTY;
+          }),
+          map(this.mapData.bind(this))
         );
       })
     );
@@ -146,12 +144,14 @@ export class WidgetDataService implements OnDestroy {
     } else {
       this.data.next(data);
     }
+    this.isLoading$.next(false);
   }
 
   // clear existing data
   private startedLoading(): void {
     this.measurementsWithData = [];
     this.ranges = {};
+    this.isLoading$.next(true);
   }
 
   // format raw squacapi data

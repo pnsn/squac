@@ -14,7 +14,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { WidgetDataService, WidgetManagerService } from "app/widgets/services";
 import { Threshold } from "@squacapi/interfaces";
-import { LoadingService } from "@core/services/loading.service";
 import { WidgetDisplayOption, WidgetConfig } from "app/widgets/interfaces";
 
 @Component({
@@ -48,8 +47,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private viewService: ViewService,
-    public loadingService: LoadingService
+    private viewService: ViewService
   ) {}
 
   ngOnInit(): void {
