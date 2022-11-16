@@ -82,7 +82,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.widgetManager) {
-      if (changes.type || changes.displayType || changes.properties) {
+      if (changes.displayType || changes.properties) {
         this.updateWidgetType();
       }
     }
