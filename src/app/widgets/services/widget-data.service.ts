@@ -11,7 +11,6 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { LoadingService } from "@core/services/loading.service";
 
 import {
   Metric,
