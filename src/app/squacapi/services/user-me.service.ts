@@ -4,10 +4,12 @@ import {
   UserMePartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import { User, UserAdapter } from "@squacapi/models/user";
+import { User } from "@squacapi/models";
+
 import { Observable } from "rxjs";
 import { BaseApiService } from "./generic-api.service";
 import { ReadUpdateApiService } from "@squacapi/interfaces/api-service.interface";
+import { UserAdapter } from "@squacapi/models/user";
 
 @Injectable({
   providedIn: "root",

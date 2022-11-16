@@ -1,10 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 import { MessageService } from "@core/services/message.service";
 import { ViewService } from "@dashboard/services/view.service";
-import { WidgetService } from "@squacapi/services/widget.service";
-import { Widget } from "@squacapi/models/widget";
+import { WidgetService } from "@squacapi/services";
+import { Widget } from "@squacapi/models";
 import { Subscription } from "rxjs";
 
 @Component({

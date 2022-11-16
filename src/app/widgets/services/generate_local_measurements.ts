@@ -14,7 +14,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { ReadArchive } from "@squacapi/interfaces/squac-types";
 import { ReadAggregate } from "@squacapi/models/aggregate";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services";
 import { map, Observable, of } from "rxjs";
 
 @Injectable({

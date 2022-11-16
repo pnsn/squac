@@ -6,10 +6,10 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ChannelGroup } from "@squacapi/models/channel-group";
+import { ChannelGroup } from "@squacapi/models";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { ChannelGroupService } from "@squacapi/services";
 import { LoadingService } from "@core/services/loading.service";
 
 // Table of channel groups

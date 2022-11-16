@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { OrganizationService } from "@squacapi/services/organization.service";
-import { User } from "@squacapi/models/user";
-import { Organization } from "@squacapi/models/organization";
+import { OrganizationService } from "@squacapi/services";
+import { User } from "@squacapi/models";
+import { Organization } from "@squacapi/models";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { InviteService } from "@squacapi/services/invite.service";
+import { InviteService } from "@squacapi/services";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
-import { OrganizationUserService } from "@squacapi/services/organization-user.service";
+import { OrganizationUserService } from "@squacapi/services";
 
 @Component({
   selector: "user-organization-detail",

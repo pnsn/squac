@@ -3,8 +3,8 @@ import { WidgetEditComponent } from "../widget-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Subscription } from "rxjs";
-import { Metric } from "@squacapi/models/metric";
-import { Widget } from "@squacapi/models/widget";
+import { Metric } from "@squacapi/models";
+import { Widget } from "@squacapi/models";
 
 @Component({
   selector: "widget-edit-entry",

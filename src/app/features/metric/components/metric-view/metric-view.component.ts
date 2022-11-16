@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { Metric } from "@squacapi/models/metric";
-import { MetricService } from "@squacapi/services/metric.service";
+import { Metric } from "@squacapi/models";
+import { MetricService } from "@squacapi/services";
 import { LoadingService } from "@core/services/loading.service";
 
 @Component({

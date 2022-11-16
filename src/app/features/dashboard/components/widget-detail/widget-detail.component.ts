@@ -7,20 +7,20 @@ import {
   ViewChild,
   OnInit,
 } from "@angular/core";
-import { Widget } from "@squacapi/models/widget";
+import { Widget } from "@squacapi/models";
 import { filter, Subscription, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { Dashboard } from "@squacapi/models";
 import { WidgetDataService } from "app/widgets/services/widget-data.service";
-import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/interfaces/threshold";
+import { Metric } from "@squacapi/models";
+import { Threshold } from "@squacapi/interfaces/threshold.interface";
 import { LoadingService } from "@core/services/loading.service";
 import {
   WidgetDisplayOption,
   WidgetConfig,
-} from "app/widgets/interfaces/widget-type";
+} from "app/widgets/interfaces/widget-config.interface";
 import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
 
 @Component({

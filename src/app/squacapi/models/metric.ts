@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { ReadMetric, WriteMetric } from "../interfaces/squac-types";
 // Describes a metric object
 export class Metric {

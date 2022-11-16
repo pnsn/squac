@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { Metric, MetricAdapter } from "./metric";
 import { ApiMetric, ReadWidget, WriteWidget } from "../interfaces/squac-types";
-import { Threshold } from "../interfaces/threshold";
+import { Threshold } from "../interfaces/threshold.interface";
 
 export class Widget {
   public _thresholds: Threshold[] = [];

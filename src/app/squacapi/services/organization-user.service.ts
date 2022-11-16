@@ -7,8 +7,9 @@ import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 import { WriteableApiService } from "@squacapi/interfaces/api-service.interface";
 
-import { User, UserAdapter } from "@squacapi/models/user";
+import { User } from "@squacapi/models";
 import { Observable } from "rxjs";
+import { UserAdapter } from "@squacapi/models/user";
 
 @Injectable({
   providedIn: "root",

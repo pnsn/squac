@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { Measurement } from "@squacapi/models/measurement";
+import { Measurement } from "@squacapi/models";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { WidgetManagerService } from "../../services/widget-manager.service";

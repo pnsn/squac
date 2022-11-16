@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Organization } from "@squacapi/models/organization";
-import { User } from "@squacapi/models/user";
+import { Organization } from "@squacapi/models";
+import { User } from "@squacapi/models";
 import { Subscription } from "rxjs";
 import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
 

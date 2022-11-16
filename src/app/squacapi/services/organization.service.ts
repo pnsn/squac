@@ -6,11 +6,9 @@ import {
 import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
 import { ReadOnlyApiService } from "@squacapi/interfaces/api-service.interface";
 import { BaseApiService } from "./generic-api.service";
-import {
-  Organization,
-  OrganizationAdapter,
-} from "@squacapi/models/organization";
+import { Organization } from "@squacapi/models";
 import { Observable, tap } from "rxjs";
+import { OrganizationAdapter } from "@squacapi/models/organization";
 
 @Injectable({
   providedIn: "root",

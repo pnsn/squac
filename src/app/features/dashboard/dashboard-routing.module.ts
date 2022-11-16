@@ -12,7 +12,7 @@ import { WidgetMainComponent } from "./components/widget-main/widget-main.compon
 import { WidgetResolver } from "@squacapi/resolvers/widget.resolver";
 import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
 import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
-import { Widget } from "@squacapi/models/widget";
+import { Widget } from "@squacapi/models";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 
 export const routes: Routes = [

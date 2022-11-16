@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MetricEditComponent } from "../metric-edit.component";
 import { Subscription } from "rxjs";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 
 @Component({
   selector: "metric-edit-entry",

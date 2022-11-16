@@ -3,13 +3,13 @@
 import { Injectable } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
-import { Channel } from "@squacapi/models/channel";
-import { ChannelGroup } from "@squacapi/models/channel-group";
-import { Dashboard } from "@squacapi/models/dashboard";
-import { DashboardService } from "@squacapi/services/dashboard.service";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { Widget } from "@squacapi/models/widget";
-import { WidgetService } from "@squacapi/services/widget.service";
+import { Channel } from "@squacapi/models";
+import { ChannelGroup } from "@squacapi/models";
+import { Dashboard } from "@squacapi/models";
+import { DashboardService } from "@squacapi/services";
+import { ChannelGroupService } from "@squacapi/services";
+import { Widget } from "@squacapi/models";
+import { WidgetService } from "@squacapi/services";
 import * as dayjs from "dayjs";
 import {
   BehaviorSubject,

@@ -10,7 +10,7 @@ import {
   WIDGET_TYPE_INFO,
 } from "app/widgets/interfaces/widget-types";
 import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetConfig } from "app/widgets/interfaces/widget-type";
+import { WidgetConfig } from "app/widgets/interfaces/widget-config.interface";
 import {
   WIDGET_STAT_TYPE_NAMES,
   WidgetStatType,

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { Subscription } from "rxjs";
-import { User } from "@squacapi/models/user";
+import { User } from "@squacapi/models";
 import {
   UntypedFormGroup,
   UntypedFormControl,

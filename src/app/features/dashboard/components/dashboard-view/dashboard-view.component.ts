@@ -8,9 +8,9 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { DashboardService } from "@squacapi/services";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { Dashboard } from "@squacapi/models";
 
 // List of dashboards
 @Component({

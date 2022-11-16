@@ -1,4 +1,4 @@
-import { WidgetConfig } from "../../interfaces/widget-type";
+import { WidgetConfig } from "../../interfaces/widget-config.interface";
 
 export const Map: WidgetConfig = {
   name: "map",

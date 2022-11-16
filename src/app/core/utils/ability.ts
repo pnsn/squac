@@ -4,13 +4,13 @@ import {
   AbilityClass,
   InferSubjects,
 } from "@casl/ability";
-import { Widget } from "@squacapi/models/widget";
-import { ChannelGroup } from "@squacapi/models/channel-group";
-import { Metric } from "@squacapi/models/metric";
-import { User } from "@squacapi/models/user";
-import { Dashboard } from "@squacapi/models/dashboard";
-import { Measurement } from "@squacapi/models/measurement";
-import { Monitor } from "@squacapi/models/monitor";
+import { Widget } from "@squacapi/models";
+import { ChannelGroup } from "@squacapi/models";
+import { Metric } from "@squacapi/models";
+import { User } from "@squacapi/models";
+import { Dashboard } from "@squacapi/models";
+import { Measurement } from "@squacapi/models";
+import { Monitor } from "@squacapi/models";
 
 // class for handling permissions, see Angular CASL for more info
 type Actions = "create" | "read" | "update" | "delete" | "manage";

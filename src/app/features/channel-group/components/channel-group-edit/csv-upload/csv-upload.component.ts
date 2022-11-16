@@ -5,10 +5,10 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
+import { Channel } from "@squacapi/models";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { ChannelService } from "@squacapi/services/channel.service";
+import { ChannelService } from "@squacapi/services";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
 

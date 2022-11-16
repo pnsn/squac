@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { WidgetConfig } from "app/widgets/interfaces/widget-type";
+import { WidgetConfig } from "app/widgets/interfaces/widget-config.interface";
 import {
   WIDGET_TYPE_INFO,
   WidgetType,
@@ -18,9 +18,9 @@ import {
 import { WidgetDataService } from "app/widgets/services/widget-data.service";
 import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
 import { WidgetConfigService } from "app/widgets/services/widget-config.service";
-import { Measurement } from "@squacapi/models/measurement";
-import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/interfaces/threshold";
+import { Measurement } from "@squacapi/models";
+import { Metric } from "@squacapi/models";
+import { Threshold } from "@squacapi/interfaces/threshold.interface";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { of } from "rxjs";
 import {

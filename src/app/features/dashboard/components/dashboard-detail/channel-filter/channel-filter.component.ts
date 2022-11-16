@@ -10,7 +10,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from "@angular/forms";
-import { Channel } from "@squacapi/models/channel";
+import { Channel } from "@squacapi/models";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "app/widgets/services/widget-connect.service";

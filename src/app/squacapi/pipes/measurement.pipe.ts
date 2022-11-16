@@ -7,7 +7,7 @@ import {
   percentile,
   mostRecent,
   absvalue,
-} from "../utils/measurement-values";
+} from "../utils/measurement-values.utils";
 @Pipe({
   name: "measurement",
 })

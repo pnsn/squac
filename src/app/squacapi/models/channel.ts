@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { SquacObject } from "../interfaces/squac-object-base.interface";
 import { ReadChannel } from "../interfaces/squac-types";
 // Describes a channel object

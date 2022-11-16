@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import {
   ReadOnlyTriggerSerializer,
   WriteOnlyTriggerSerializer,

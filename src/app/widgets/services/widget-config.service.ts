@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 import { PrecisionPipe } from "../pipes/precision.pipe";
 import * as colormap from "colormap";
-import { Threshold } from "@squacapi/interfaces/threshold";
+import { Threshold } from "@squacapi/interfaces/threshold.interface";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetConfigService {

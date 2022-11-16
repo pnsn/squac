@@ -1,6 +1,6 @@
 // Imports/exports of squac types to reduce reliance on importing from module
 import * as squacapi from "@pnsn/ngx-squacapi-client/model/models";
-export * from "@pnsn/ngx-squacapi-client/model/models";
+
 // channels
 export type ApiChannel = squacapi.Channel;
 export type ReadChannel = squacapi.ReadOnlyChannelSerializer | ApiChannel;

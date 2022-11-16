@@ -5,7 +5,7 @@ import {
 } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { ApiEndpoints } from "../interfaces/api.interface";
 import { SquacObject } from "../interfaces/squac-object-base.interface";
 

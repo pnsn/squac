@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { Dashboard } from "@squacapi/models";
 import {
   UntypedFormGroup,
   Validators,
   UntypedFormBuilder,
 } from "@angular/forms";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { DashboardService } from "@squacapi/services";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroup } from "@squacapi/models/channel-group";
+import { ChannelGroup } from "@squacapi/models";
 
 @Component({
   selector: "dashboard-edit",

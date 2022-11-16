@@ -1,5 +1,5 @@
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
+import { Channel } from "@squacapi/models";
+import { Metric } from "@squacapi/models";
 
 export const endtime = "2022-11-03T23:53:51Z";
 export const starttime = "2022-11-02T23:53:51Z";

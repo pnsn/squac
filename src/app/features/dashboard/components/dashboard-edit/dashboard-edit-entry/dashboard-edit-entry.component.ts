@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ChannelGroup } from "@squacapi/models/channel-group";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { ChannelGroup } from "@squacapi/models";
+import { Dashboard } from "@squacapi/models";
 import { Subscription } from "rxjs";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 

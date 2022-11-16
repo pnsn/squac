@@ -22,15 +22,13 @@ export class AlertResolver implements Resolve<Observable<any>> {
     if (id) {
       return this.alertService.read(id).pipe(
         catchError((error) => {
-          this.messageService.error("Could not load alert.");
           return this.handleError(error);
         })
       );
     } else {
       const lastday = this.dateService.subtractFromNow(1, "day").format();
-      return this.alertService.list({ starttime: lastday }).pipe(
+      return this.alertService.list({ timestampGte: lastday }).pipe(
         catchError((error) => {
-          this.messageService.error("Could not load alerts.");
           return this.handleError(error);
         })
       );

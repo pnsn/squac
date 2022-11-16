@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   NgZone,
 } from "@angular/core";
-import { Channel } from "@squacapi/models/channel";
+import { Channel } from "@squacapi/models";
 import * as L from "leaflet";
 
 export interface MapBounds {

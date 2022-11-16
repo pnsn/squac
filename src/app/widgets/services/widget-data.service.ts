@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 import { LoadingService } from "@core/services/loading.service";
 import {
   MeasurementAggregatedListRequestParams,
@@ -17,17 +17,17 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { Aggregate } from "@squacapi/models/aggregate";
-import { Archive } from "@squacapi/models/archive";
-import { Measurement } from "@squacapi/models/measurement";
-import { Widget } from "@squacapi/models/widget";
-import { AggregateService } from "@squacapi/services/aggregate.service";
+import { Aggregate } from "@squacapi/models";
+import { Archive } from "@squacapi/models";
+import { Measurement } from "@squacapi/models";
+import { Widget } from "@squacapi/models";
+import { AggregateService } from "@squacapi/services";
 import {
   DayArchiveService,
   MonthArchiveService,
   WeekArchiveService,
-} from "@squacapi/services/archive.service";
-import { MeasurementService } from "@squacapi/services/measurement.service";
+} from "@squacapi/services";
+import { MeasurementService } from "@squacapi/services";
 import { WidgetErrors } from "../interfaces/widget-errors";
 import {
   ArchiveStatTypes,

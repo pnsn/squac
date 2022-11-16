@@ -24,14 +24,14 @@ import { SharedModule } from "@shared/shared.module";
 import { AggregateAdapter } from "@squacapi/models/aggregate";
 import { ArchiveAdapter } from "@squacapi/models/archive";
 import { MeasurementAdapter } from "@squacapi/models/measurement";
-import { AggregateService } from "@squacapi/services/aggregate.service";
+import { AggregateService } from "@squacapi/services";
 import {
   DayArchiveService,
   HourArchiveService,
   MonthArchiveService,
   WeekArchiveService,
-} from "@squacapi/services/archive.service";
-import { MeasurementService } from "@squacapi/services/measurement.service";
+} from "@squacapi/services";
+import { MeasurementService } from "@squacapi/services";
 import { environment } from "environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";

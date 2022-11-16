@@ -1,11 +1,11 @@
-import { AggregateService } from "@squacapi/services/aggregate.service";
+import { AggregateService } from "@squacapi/services";
 import {
   DayArchiveService,
   HourArchiveService,
   MonthArchiveService,
   WeekArchiveService,
-} from "@squacapi/services/archive.service";
-import { MeasurementService } from "@squacapi/services/measurement.service";
+} from "@squacapi/services";
+import { MeasurementService } from "@squacapi/services";
 
 export function MeasurementFactory(path, adapter, service, fakeService) {
   if (path === "http://localhost:8000") {

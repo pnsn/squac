@@ -8,8 +8,8 @@ import {
   OnChanges,
   OnInit,
 } from "@angular/core";
-import { Threshold } from "@squacapi/interfaces/threshold";
-import { Metric } from "@squacapi/models/metric";
+import { Threshold } from "@squacapi/interfaces/threshold.interface";
+import { Metric } from "@squacapi/models";
 import { Subscription } from "rxjs";
 import {
   UntypedFormArray,
@@ -22,7 +22,7 @@ import { WidgetProperties } from "@squacapi/models/widget";
 import {
   WidgetConfig,
   WidgetDisplayOption,
-} from "app/widgets/interfaces/widget-type";
+} from "app/widgets/interfaces/widget-config.interface";
 import {
   WIDGET_TYPE_INFO,
   WidgetType,

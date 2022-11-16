@@ -5,8 +5,8 @@ import {
   OnChanges,
   Output,
 } from "@angular/core";
-import { Metric } from "@squacapi/models/metric";
-import { Threshold } from "@squacapi/interfaces/threshold";
+import { Metric } from "@squacapi/models";
+import { Threshold } from "@squacapi/interfaces/threshold.interface";
 
 @Component({
   selector: "widget-metric-toggle",

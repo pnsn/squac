@@ -3,8 +3,8 @@ import { AppAbility, defineAbilitiesFor } from "@core/utils/ability";
 
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
-import { User } from "@squacapi/models/user";
-import { UserMeService } from "@squacapi/services/user-me.service";
+import { User } from "@squacapi/models";
+import { UserMeService } from "@squacapi/services";
 
 // Service to get user info & reset things
 @Injectable({

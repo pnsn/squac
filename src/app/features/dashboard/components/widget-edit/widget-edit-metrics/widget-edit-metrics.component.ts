@@ -10,7 +10,7 @@ import {
   AfterContentChecked,
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 import {
   WidgetType,
   WIDGET_TYPE_INFO,

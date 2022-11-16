@@ -4,12 +4,12 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { User } from "@squacapi/models/user";
+import { User } from "@squacapi/models";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
-import { InviteService } from "@squacapi/services/invite.service";
-import { OrganizationUserService } from "@squacapi/services/organization-user.service";
+import { InviteService } from "@squacapi/services";
+import { OrganizationUserService } from "@squacapi/services";
 
 @Component({
   selector: "user-organization-edit",

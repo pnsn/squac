@@ -7,13 +7,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "@squacapi/models/channel-group";
-import { Metric } from "@squacapi/models/metric";
+import { ChannelGroup } from "@squacapi/models";
+import { Metric } from "@squacapi/models";
 import { MessageService } from "@core/services/message.service";
-import { Monitor } from "@squacapi/models/monitor";
-import { Trigger } from "@squacapi/models/trigger";
-import { MonitorService } from "@squacapi/services/monitor.service";
-import { TriggerService } from "@squacapi/services/trigger.service";
+import { Monitor } from "@squacapi/models";
+import { Trigger } from "@squacapi/models";
+import { MonitorService } from "@squacapi/services";
+import { TriggerService } from "@squacapi/services";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 

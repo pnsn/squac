@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetConfig } from "../interfaces/widget-type";
+import { WidgetConfig } from "./widget-config.interface";
 import { WidgetConnectService } from "../services/widget-connect.service";
 import { WidgetManagerService } from "../services/widget-manager.service";
-import { Channel } from "@squacapi/models/channel";
-import { Metric } from "@squacapi/models/metric";
+import { Channel } from "@squacapi/models";
+import { Metric } from "@squacapi/models";
 import { WidgetProperties } from "@squacapi/models/widget";
 import { Subscription } from "rxjs";
 

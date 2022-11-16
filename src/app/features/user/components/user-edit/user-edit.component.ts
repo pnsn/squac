@@ -5,7 +5,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from "@angular/forms";
-import { InviteService } from "@squacapi/services/invite.service";
+import { InviteService } from "@squacapi/services";
 
 @Component({
   selector: "user-edit",

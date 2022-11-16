@@ -14,7 +14,7 @@ import { WidgetErrors } from "../interfaces/widget-errors";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
-import { Widget } from "@squacapi/models/widget";
+import { Widget } from "@squacapi/models";
 import { Subscription, tap } from "rxjs";
 import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
 import { WIDGET_TYPE_INFO, WidgetType } from "../interfaces/widget-types";

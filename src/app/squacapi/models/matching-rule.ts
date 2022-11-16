@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { ReadMatchingRule, WriteMatchingRule } from "../interfaces/squac-types";
 // Rules for building channel groups
 export class MatchingRule {

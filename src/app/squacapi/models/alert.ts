@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter";
+import { Adapter } from "../interfaces/adapter.interface";
 import { Monitor } from "./monitor";
 import { Trigger, TriggerAdapter } from "./trigger";
 import { ReadAlert } from "../interfaces/squac-types";

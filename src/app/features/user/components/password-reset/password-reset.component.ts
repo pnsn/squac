@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { UntypedFormControl, Validators } from "@angular/forms";
-import { PasswordResetService } from "../../services/password-reset.service";
+import { PasswordResetService } from "@squacapi/services";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({

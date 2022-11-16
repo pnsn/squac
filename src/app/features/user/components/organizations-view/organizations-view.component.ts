@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { OrganizationService } from "@squacapi/services/organization.service";
-import { Organization } from "@squacapi/models/organization";
+import { OrganizationService } from "@squacapi/services";
+import { Organization } from "@squacapi/models";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 
 @Component({

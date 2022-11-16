@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ViewService } from "@dashboard/services/view.service";
-import { Widget } from "@squacapi/models/widget";
+import { Widget } from "@squacapi/models";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { Dashboard } from "@squacapi/models";
 import { Ability } from "@casl/ability";
 
 @Component({

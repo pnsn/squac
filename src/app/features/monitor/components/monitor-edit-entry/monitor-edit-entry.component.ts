@@ -3,9 +3,9 @@ import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";
-import { Metric } from "@squacapi/models/metric";
-import { Monitor } from "@squacapi/models/monitor";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
+import { Metric } from "@squacapi/models";
+import { Monitor } from "@squacapi/models";
+import { ChannelGroupService } from "@squacapi/services";
 
 @Component({
   selector: "monitor-edit-entry",

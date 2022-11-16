@@ -12,7 +12,7 @@ import { TimechartComponent } from "../components/timechart/timechart.component"
 import { TimeChart } from "../components/timechart/timechart.config";
 import { TimelineComponent } from "../components/timeline/timeline.component";
 import { Timeline } from "../components/timeline/timeline.config";
-import { WidgetConfig } from "./widget-type";
+import { WidgetConfig } from "./widget-config.interface";
 
 export enum WidgetType {
   TABULAR = "tabular",

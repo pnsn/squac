@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { UntypedFormArray, UntypedFormBuilder } from "@angular/forms";
 import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
-import { MatchingRule } from "@squacapi/models/matching-rule";
+import { MatchingRule } from "@squacapi/models";
 import { Subscription } from "rxjs";
 
 @Component({

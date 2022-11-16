@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Metric } from "@squacapi/models/metric";
+import { Metric } from "@squacapi/models";
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
   UntypedFormControl,
   Validators,
 } from "@angular/forms";
-import { MetricService } from "@squacapi/services/metric.service";
+import { MetricService } from "@squacapi/services";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 

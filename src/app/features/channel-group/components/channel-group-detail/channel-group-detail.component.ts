@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ChannelGroup } from "@squacapi/models/channel-group";
+import { ChannelGroup } from "@squacapi/models";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { Channel } from "@squacapi/models/channel";
+import { ChannelGroupService } from "@squacapi/services";
+import { Channel } from "@squacapi/models";
 import { LoadingService } from "@core/services/loading.service";
 
 @Component({
