@@ -1,6 +1,6 @@
-import { WidgetConfig } from "../../interfaces/widget-config.interface";
+import { WidgetConfig } from "../../interfaces";
 
-export const Timeline: WidgetConfig = {
+export const CONFIG: WidgetConfig = {
   name: "timeline",
   type: "timeline",
   useAggregate: false,

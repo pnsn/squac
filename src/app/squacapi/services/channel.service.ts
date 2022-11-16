@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Params } from "@angular/router";
-import { Channel, ChannelAdapter } from "../models/channel";
-import { ReadOnlyApiService } from "../interfaces/api-service.interface";
-import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcChannelsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { MatchingRule } from "../models/matching-rule";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+
+import { Channel, ChannelAdapter, MatchingRule } from "../models";
+import { ReadOnlyApiService } from "../interfaces";
+import { BaseApiService } from "./generic-api.service";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +19,7 @@ export class ChannelService
   implements ReadOnlyApiService<Channel>
 {
   constructor(protected api: ApiService, protected adapter: ChannelAdapter) {
-    super(ApiEndpoints.CHANNEL, api);
+    super(ApiEndpoint.CHANNEL, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Channel> {

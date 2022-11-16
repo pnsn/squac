@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { LocalStorageTypes } from "@core/services/local-storage.service";
 import { LocalStorageService } from "@core/services/local-storage.service";
-import { CACHEABLE_ROUTE_PATTERNS } from "@squacapi/interfaces/api.interface";
+import { CACHEABLE_ROUTE_PATTERNS } from "@squacapi/constants";
 import * as Route from "route-parser";
 
 abstract class HttpCache {

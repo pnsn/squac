@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ChannelGroup, ChannelGroupAdapter } from "../models/channel-group";
-import { SquacApiService } from "../interfaces/api-service.interface";
+import { ChannelGroup, ChannelGroupAdapter } from "../models";
+import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -8,7 +8,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +21,7 @@ export class ChannelGroupService
     protected adapter: ChannelGroupAdapter,
     protected api: ApiService
   ) {
-    super(ApiEndpoints.CHANNEL_GROUP, api);
+    super(ApiEndpoint.CHANNEL_GROUP, api);
   }
 
   read(id: number, refresh?: boolean): Observable<ChannelGroup> {

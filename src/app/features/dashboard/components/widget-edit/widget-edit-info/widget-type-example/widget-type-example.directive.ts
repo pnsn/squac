@@ -10,18 +10,14 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { WidgetConfig } from "app/widgets/interfaces/widget-config.interface";
+import { WidgetConfig, WidgetTypeComponent } from "app/widgets/interfaces";
 import {
-  WIDGET_TYPE_INFO,
-  WidgetType,
-} from "app/widgets/interfaces/widget-types";
-import { WidgetDataService } from "app/widgets/services/widget-data.service";
-import { WidgetManagerService } from "app/widgets/services/widget-manager.service";
-import { WidgetConfigService } from "app/widgets/services/widget-config.service";
-import { Measurement } from "@squacapi/models";
-import { Metric } from "@squacapi/models";
-import { Threshold } from "@squacapi/interfaces/threshold.interface";
-import { WidgetProperties } from "@squacapi/models/widget";
+  WidgetConfigService,
+  WidgetDataService,
+  WidgetManagerService,
+} from "app/widgets/services";
+import { Measurement, Metric } from "@squacapi/models";
+import { Threshold, WidgetProperties } from "@squacapi/interfaces";
 import { of } from "rxjs";
 import {
   channels,
@@ -29,7 +25,8 @@ import {
   selectedMetrics,
   starttime,
 } from "./widget-example-config";
-import { WidgetTypeComponent } from "app/widgets/interfaces/widget-type.interface";
+import { WidgetType } from "app/widgets/enums";
+import { WIDGET_TYPE_INFO } from "app/widgets/constants";
 
 @Directive({
   selector: "[widgetTypeExample]",

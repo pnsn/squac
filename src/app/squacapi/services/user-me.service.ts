@@ -3,13 +3,12 @@ import {
   ApiService,
   UserMePartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import { User } from "@squacapi/models";
+import { ApiEndpoint } from "../enums";
+import { User, UserAdapter } from "../models";
 
 import { Observable } from "rxjs";
 import { BaseApiService } from "./generic-api.service";
-import { ReadUpdateApiService } from "@squacapi/interfaces/api-service.interface";
-import { UserAdapter } from "@squacapi/models/user";
+import { ReadUpdateApiService } from "../interfaces";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +18,7 @@ export class UserMeService
   implements ReadUpdateApiService<User>
 {
   constructor(protected adapter: UserAdapter, protected api: ApiService) {
-    super(ApiEndpoints.USER_ME, api);
+    super(ApiEndpoint.USER_ME, api);
   }
 
   read(): Observable<User> {

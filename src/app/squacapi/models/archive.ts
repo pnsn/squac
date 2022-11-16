@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { ReadArchive } from "../interfaces/squac-types";
+import { Adapter, ReadArchive } from "../interfaces";
 
 // Describes an archive
 export class Archive {

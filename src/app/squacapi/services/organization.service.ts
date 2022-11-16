@@ -3,12 +3,11 @@ import {
   ApiService,
   OrganizationOrganizationsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import { ReadOnlyApiService } from "@squacapi/interfaces/api-service.interface";
+import { ApiEndpoint } from "../enums";
+import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Organization } from "@squacapi/models";
+import { Organization, OrganizationAdapter } from "../models";
 import { Observable, tap } from "rxjs";
-import { OrganizationAdapter } from "@squacapi/models/organization";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +22,7 @@ export class OrganizationService
     protected adapter: OrganizationAdapter,
     protected api: ApiService
   ) {
-    super(ApiEndpoints.ORGANIZATION, api);
+    super(ApiEndpoint.ORGANIZATION, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Organization> {

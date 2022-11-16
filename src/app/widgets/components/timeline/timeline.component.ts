@@ -2,16 +2,19 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models";
 import { graphic } from "echarts";
-import { WidgetConfigService } from "../../services/widget-config.service";
-import { WidgetConnectService } from "../../services/widget-connect.service";
-import { EChartComponent } from "../e-chart.component";
-import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
-import { WidgetManagerService } from "../../services/widget-manager.service";
+
+import {
+  WidgetConnectService,
+  WidgetManagerService,
+  WidgetConfigService,
+} from "../../services";
+import { WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../abstract-components";
 
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../e-chart.component.html",
-  styleUrls: ["../e-chart.component.scss"],
+  templateUrl: "../e-chart/e-chart.component.html",
+  styleUrls: ["../e-chart/e-chart.component.scss"],
 })
 export class TimelineComponent
   extends EChartComponent

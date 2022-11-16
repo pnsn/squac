@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ReadOnlyApiService } from "../interfaces/api-service.interface";
+import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Alert, AlertAdapter } from "../models/alert";
+import { Alert, AlertAdapter } from "../models";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class AlertService
   implements ReadOnlyApiService<Alert>
 {
   constructor(protected adapter: AlertAdapter, protected api: ApiService) {
-    super(ApiEndpoints.ALERT, api);
+    super(ApiEndpoint.ALERT, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Alert> {

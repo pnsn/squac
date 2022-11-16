@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces/api-service.interface";
-import { BaseApiService } from "./generic-api.service";
-import { Monitor, MonitorAdapter } from "../models/monitor";
 import {
   ApiService,
   MeasurementMonitorsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { SquacApiService } from "../interfaces";
+import { BaseApiService } from "./generic-api.service";
+import { Monitor, MonitorAdapter } from "../models";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class MonitorService
   implements SquacApiService<Monitor>
 {
   constructor(protected adapter: MonitorAdapter, protected api: ApiService) {
-    super(ApiEndpoints.MONITOR, api);
+    super(ApiEndpoint.MONITOR, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Monitor> {

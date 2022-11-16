@@ -10,14 +10,14 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { WidgetDataService } from "../services/widget-data.service";
-import { WidgetErrors } from "../interfaces/widget-errors";
+import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
 import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "@squacapi/models";
 import { Subscription, tap } from "rxjs";
-import { WidgetTypeComponent } from "../interfaces/widget-type.interface";
-import { WIDGET_TYPE_INFO, WidgetType } from "../interfaces/widget-types";
+import { WidgetTypeComponent } from "../interfaces";
+import { WIDGET_TYPE_INFO } from "../constants";
 
 /**
  * solely responsible for showing either error component or the correct widget type

@@ -1,22 +1,18 @@
 import { Injectable } from "@angular/core";
-import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-} from "@squacapi/interfaces/archivetypes";
-import { Channel } from "@squacapi/models";
-import { Metric } from "@squacapi/models";
-import { Threshold } from "@squacapi/interfaces/threshold.interface";
-import { Widget } from "@squacapi/models";
 import { ReplaySubject, Subject } from "rxjs";
-import { WidgetStatType } from "../interfaces/widget-stattypes";
+
+import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
+import { Channel, Metric, Widget } from "@squacapi/models";
 import {
-  WidgetConfig,
-  WidgetDisplayOption,
-} from "../interfaces/widget-config.interface";
-import { MeasurementParams, WidgetDataService } from "./widget-data.service";
-import { WidgetErrors } from "../interfaces/widget-errors";
-import { WidgetType, WIDGET_TYPE_INFO } from "../interfaces/widget-types";
-import { WidgetProperties } from "@squacapi/models/widget";
+  MeasurementParams,
+  Threshold,
+  WidgetProperties,
+} from "@squacapi/interfaces";
+
+import { WidgetStatType, WidgetErrors, WidgetType } from "../enums";
+import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
+import { WidgetDataService } from "../services";
+import { WIDGET_TYPE_INFO } from "../constants";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -143,8 +139,8 @@ export class WidgetManagerService {
   }
 
   updateStat(
-    stat: ArchiveStatTypes | WidgetStatType | string,
-    archiveType: ArchiveTypes
+    stat: ArchiveStatType | WidgetStatType | string,
+    archiveType: ArchiveType
   ) {
     //calculate stat
     this.widgetDataService.stat = stat;

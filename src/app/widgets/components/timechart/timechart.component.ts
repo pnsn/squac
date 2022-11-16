@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { Measurement } from "@squacapi/models";
-import { WidgetConnectService } from "../../services/widget-connect.service";
-import { WidgetConfigService } from "../../services/widget-config.service";
 import * as dayjs from "dayjs";
 
-import { EChartComponent } from "../e-chart.component";
-import { WidgetManagerService } from "../../services/widget-manager.service";
-import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
+import {
+  WidgetConnectService,
+  WidgetManagerService,
+  WidgetConfigService,
+} from "../../services";
+import { WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../abstract-components";
 
 @Component({
   selector: "widget-timechart",
-  templateUrl: "../e-chart.component.html",
-  styleUrls: ["../e-chart.component.scss"],
+  templateUrl: "../e-chart/e-chart.component.html",
+  styleUrls: ["../e-chart/e-chart.component.scss"],
 })
 export class TimechartComponent
   extends EChartComponent

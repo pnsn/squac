@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ListService } from "../interfaces/api-service.interface";
+import { ListService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -9,8 +9,8 @@ import {
   MeasurementWeekArchivesListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Archive, ArchiveAdapter } from "../models/archive";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { Archive, ArchiveAdapter } from "../models";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +20,7 @@ export class HourArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super(ApiEndpoints.HOUR_ARCHIVE, api);
+    super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
 
   list(
@@ -39,7 +39,7 @@ export class DayArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super(ApiEndpoints.DAY_ARCHIVE, api);
+    super(ApiEndpoint.DAY_ARCHIVE, api);
   }
 
   list(
@@ -58,7 +58,7 @@ export class WeekArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super(ApiEndpoints.WEEK_ARCHIVE, api);
+    super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
 
   list(
@@ -77,7 +77,7 @@ export class MonthArchiveService
   implements ListService<Archive>
 {
   constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
-    super(ApiEndpoints.MONTH_ARCHIVE, api);
+    super(ApiEndpoint.MONTH_ARCHIVE, api);
   }
 
   list(

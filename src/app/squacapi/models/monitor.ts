@@ -1,19 +1,16 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
+import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
 import {
   // ApiGetChannelGroup,
   ChannelGroup,
   ChannelGroupAdapter,
-} from "./channel-group";
-import { Metric, MetricAdapter } from "./metric";
-import {
-  ApiTrigger,
-  ReadMonitor,
-  WriteMonitor,
-} from "../interfaces/squac-types";
-import { Alert } from "./alert";
-import { Trigger, TriggerAdapter } from "./trigger";
-import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
+  Metric,
+  MetricAdapter,
+  Alert,
+  Trigger,
+  TriggerAdapter,
+} from "../models";
+import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
 export class Monitor {
   constructor(

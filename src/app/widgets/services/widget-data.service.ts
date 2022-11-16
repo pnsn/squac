@@ -1,10 +1,4 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { Metric } from "@squacapi/models";
-import { LoadingService } from "@core/services/loading.service";
-import {
-  MeasurementAggregatedListRequestParams,
-  MeasurementMeasurementsListRequestParams,
-} from "@pnsn/ngx-squacapi-client";
 import {
   catchError,
   EMPTY,
@@ -17,28 +11,27 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { Aggregate } from "@squacapi/models";
-import { Archive } from "@squacapi/models";
-import { Measurement } from "@squacapi/models";
-import { Widget } from "@squacapi/models";
-import { AggregateService } from "@squacapi/services";
+import { LoadingService } from "@core/services/loading.service";
+
 import {
+  Metric,
+  Archive,
+  Aggregate,
+  Measurement,
+  Widget,
+} from "@squacapi/models";
+import {
+  AggregateService,
   DayArchiveService,
   MonthArchiveService,
   WeekArchiveService,
+  MeasurementService,
 } from "@squacapi/services";
-import { MeasurementService } from "@squacapi/services";
-import { WidgetErrors } from "../interfaces/widget-errors";
-import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-} from "@squacapi/interfaces/archivetypes";
-import { WidgetStatType } from "../interfaces/widget-stattypes";
-import { PrecisionPipe } from "../pipes/precision.pipe";
+import { MeasurementParams } from "@squacapi/interfaces";
+import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
 
-export type MeasurementParams =
-  | MeasurementMeasurementsListRequestParams
-  | MeasurementAggregatedListRequestParams;
+import { WidgetErrors, WidgetStatType } from "../enums";
+import { PrecisionPipe } from "../pipes/precision.pipe";
 
 type MeasurementType = Measurement | Aggregate | Archive;
 @Injectable()
@@ -59,9 +52,9 @@ export class WidgetDataService implements OnDestroy {
   // data info
   selectedMetrics: Metric[] = [];
   widget: Widget;
-  archiveType: ArchiveTypes;
+  archiveType: ArchiveType;
   useAggregate: boolean;
-  stat: string | WidgetStatType | ArchiveStatTypes;
+  stat: string | WidgetStatType | ArchiveStatType;
 
   private ranges = {};
 
@@ -125,16 +118,16 @@ export class WidgetDataService implements OnDestroy {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
-      // case ArchiveTypes.HOUR:
+      // case ArchiveType.HOUR:
       //   return this.hourArchiveService.list(params);
 
-      case ArchiveTypes.DAY:
+      case ArchiveType.DAY:
         return this.dayArchiveService.list(params);
 
-      case ArchiveTypes.WEEK:
+      case ArchiveType.WEEK:
         return this.weekArchiveService.list(params);
 
-      case ArchiveTypes.MONTH:
+      case ArchiveType.MONTH:
         return this.monthArchiveService.list(params);
       default:
         if (useAggregate) {

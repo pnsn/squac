@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
+import { Adapter, ReadAggregate } from "../interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
 
 export class AggregateListParams
@@ -32,26 +32,6 @@ export class Aggregate {
   static get modelName() {
     return "Aggregate";
   }
-}
-
-export interface ReadAggregate {
-  channel: number;
-  metric: number;
-  min: number;
-  max: number;
-  mean: number;
-  median: number;
-  stdev: number;
-  num_samps: number;
-  p05: number;
-  p10: number;
-  p90: number;
-  p95: number;
-  minabs: number;
-  maxabs: number;
-  latest: number;
-  starttime: string;
-  endtime: string;
 }
 
 @Injectable({

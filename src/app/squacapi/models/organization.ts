@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { User, UserAdapter } from "./user";
-import { ReadOrganization, ApiUserSimple } from "../interfaces/squac-types";
+import { User, UserAdapter } from "../models";
+import { Adapter, ReadOrganization, ApiUserSimple } from "../interfaces";
 
 // Describes a user object
 export class Organization {

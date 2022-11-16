@@ -6,13 +6,16 @@ import {
   ViewChild,
 } from "@angular/core";
 import * as L from "leaflet";
-import { WidgetConfigService } from "../../services/widget-config.service";
 import { PrecisionPipe } from "../../pipes/precision.pipe";
 import { timeout } from "d3";
-import { WidgetConnectService } from "../../services/widget-connect.service";
-import { WidgetManagerService } from "../../services/widget-manager.service";
-import { GenericWidgetComponent } from "../../interfaces/generic-widget.component";
-import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
+
+import {
+  WidgetConnectService,
+  WidgetManagerService,
+  WidgetConfigService,
+} from "../../services";
+import { WidgetTypeComponent } from "../../interfaces";
+import { GenericWidgetComponent } from "../abstract-components";
 
 @Component({
   selector: "widget-map",

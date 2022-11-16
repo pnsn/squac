@@ -5,9 +5,9 @@ import { MonitorViewComponent } from "./components/monitor-view/monitor-view.com
 import { AuthGuard } from "@core/guards/auth.guard";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
-import { MonitorResolver } from "@squacapi/resolvers/monitor.resolver";
-import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
-import { ChannelGroupResolver } from "@squacapi/resolvers/channel-group.resolver";
+import { MonitorResolver } from "@core/resolvers/monitor.resolver";
+import { MetricResolver } from "@core/resolvers/metric.resolver";
+import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 
 export const routes: Routes = [
   {

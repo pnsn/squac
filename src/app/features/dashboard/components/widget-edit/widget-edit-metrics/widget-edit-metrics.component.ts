@@ -11,10 +11,9 @@ import {
 } from "@angular/core";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
 import { Metric } from "@squacapi/models";
-import {
-  WidgetType,
-  WIDGET_TYPE_INFO,
-} from "app/widgets/interfaces/widget-types";
+import { WIDGET_TYPE_INFO } from "app/widgets/constants";
+import { WidgetType } from "app/widgets/enums";
+
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",

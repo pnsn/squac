@@ -12,8 +12,10 @@ import {
   ReadOnlyArchiveWeekSerializer,
   ReadOnlyMeasurementSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { ReadArchive } from "@squacapi/interfaces/squac-types";
-import { ReadAggregate } from "@squacapi/models/aggregate";
+import {
+  ReadArchive,
+  ReadAggregate,
+} from "@squacapi/interfaces/squacapi.types";
 import { ChannelGroupService } from "@squacapi/services";
 import { map, Observable, of } from "rxjs";
 

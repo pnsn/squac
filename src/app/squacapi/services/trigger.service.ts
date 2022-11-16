@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces/api-service.interface";
+import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Trigger, TriggerAdapter } from "../models/trigger";
+import { Trigger, TriggerAdapter } from "../models";
 import {
   ApiService,
   MeasurementTriggersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class TriggerService
   implements SquacApiService<Trigger>
 {
   constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
-    super(ApiEndpoints.TRIGGER, api);
+    super(ApiEndpoint.TRIGGER, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Trigger> {

@@ -5,9 +5,8 @@ import {
 } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { Adapter } from "../interfaces/adapter.interface";
-import { ApiEndpoints } from "../interfaces/api.interface";
-import { SquacObject } from "../interfaces/squac-object-base.interface";
+import { Adapter, SquacObject } from "../interfaces";
+import { ApiEndpoint } from "../enums";
 
 export const REFRESH_REQUEST = new HttpContextToken<boolean>(() => false);
 
@@ -17,7 +16,7 @@ export abstract class BaseApiService<T extends SquacObject> {
 
   protected adapter: Adapter<T>;
 
-  constructor(protected apiEndpoint: ApiEndpoints, protected api: ApiService) {}
+  constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
 
   private mapFromApi(apiObject: any) {
     return this.adapter.adaptFromApi(apiObject);

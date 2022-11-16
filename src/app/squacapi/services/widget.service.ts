@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces/api-service.interface";
+import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -8,9 +8,9 @@ import {
   DashboardWidgetsReadRequestParams,
   DashboardWidgetsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Widget, WidgetAdapter } from "../models/widget";
+import { Widget, WidgetAdapter } from "../models";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +21,7 @@ export class WidgetService
   implements SquacApiService<Widget>
 {
   constructor(protected adapter: WidgetAdapter, protected api: ApiService) {
-    super(ApiEndpoints.WIDGET, api);
+    super(ApiEndpoint.WIDGET, api);
   }
 
   // widget is weird and uses number ids unlike other endpoints

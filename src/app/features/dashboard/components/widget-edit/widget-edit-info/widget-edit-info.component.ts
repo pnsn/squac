@@ -6,15 +6,12 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  WidgetType,
   WIDGET_TYPE_INFO,
-} from "app/widgets/interfaces/widget-types";
-import { WidgetProperties } from "@squacapi/models/widget";
-import { WidgetConfig } from "app/widgets/interfaces/widget-config.interface";
-import {
   WIDGET_STAT_TYPE_NAMES,
-  WidgetStatType,
-} from "app/widgets/interfaces/widget-stattypes";
+} from "app/widgets/constants";
+import { WidgetConfig } from "app/widgets/interfaces";
+import { WidgetStatType, WidgetType } from "app/widgets/enums";
+import { WidgetProperties } from "@squacapi/interfaces";
 
 @Component({
   selector: "widget-edit-info",

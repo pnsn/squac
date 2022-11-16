@@ -6,11 +6,8 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-  ARCHIVE_TYPE_OPTIONS,
-} from "@squacapi/interfaces/archivetypes";
+import { ARCHIVE_TYPE_OPTIONS } from "@squacapi/constants";
+import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
 
 @Component({
   selector: "dashboard-data-type-selector",
@@ -18,26 +15,26 @@ import {
   styleUrls: ["./data-type-selector.component.scss"],
 })
 export class DataTypeSelectorComponent implements OnChanges {
-  @Input() dataType: ArchiveTypes;
-  @Input() statType: ArchiveStatTypes;
+  @Input() dataType: ArchiveType;
+  @Input() statType: ArchiveStatType;
   @Output() dataTypeSelected = new EventEmitter<any>();
 
-  StatTypes = ArchiveStatTypes;
+  StatTypes = ArchiveStatType;
 
-  DataTypes = ArchiveTypes;
+  DataTypes = ArchiveType;
   archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes.statType || changes.dataType) {
-      if (this.dataType === ArchiveTypes.RAW) {
+      if (this.dataType === ArchiveType.RAW) {
         this.statType = null;
       }
     }
   }
 
-  selectDataType(type: ArchiveTypes, stat: ArchiveStatTypes): void {
+  selectDataType(type: ArchiveType, stat: ArchiveStatType): void {
     this.statType = stat;
     this.dataType = type;
 

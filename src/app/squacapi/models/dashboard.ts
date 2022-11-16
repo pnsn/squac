@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { ChannelGroup } from "./channel-group";
-import { ReadDashboard, WriteDashboard } from "../interfaces/squac-types";
-import { Widget } from "./widget";
+import { ChannelGroup, Widget } from "../models";
 import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-} from "@squacapi/interfaces/archivetypes";
+  Adapter,
+  ReadDashboard,
+  WriteDashboard,
+  DashboardProperties,
+} from "../interfaces";
+import { DASHBOARD_PROPERTIES } from "../constants";
 export class Dashboard {
   public channelGroup: ChannelGroup;
   private _widgets: Array<Widget> = [];
-  public _properties: DashboardProperties = defaultProperties;
+  public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
   widgetIds: Array<number>;
   constructor(
     public id: number,
@@ -27,7 +27,7 @@ export class Dashboard {
   public set properties(properties: string | Partial<DashboardProperties>) {
     let props: Partial<DashboardProperties>;
     if (!properties) {
-      props = defaultProperties;
+      props = DASHBOARD_PROPERTIES;
     } else if (properties && typeof properties === "string") {
       props = { ...JSON.parse(properties) };
     } else if (typeof properties !== "string") {
@@ -54,21 +54,6 @@ export class Dashboard {
   static get modelName() {
     return "Dashboard";
   }
-}
-
-const defaultProperties: DashboardProperties = {
-  timeRange: 3600,
-  archiveType: ArchiveTypes.RAW,
-  autoRefresh: true,
-};
-
-export interface DashboardProperties {
-  timeRange?: number;
-  startTime?: string;
-  endTime?: string;
-  archiveStat?: ArchiveStatTypes;
-  archiveType: ArchiveTypes;
-  autoRefresh: boolean;
 }
 
 @Injectable({

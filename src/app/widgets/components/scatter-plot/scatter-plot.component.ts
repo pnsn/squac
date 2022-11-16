@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetConnectService } from "../../services/widget-connect.service";
-import { WidgetManagerService } from "../../services/widget-manager.service";
-import { WidgetConfigService } from "../../services/widget-config.service";
-import { EChartComponent } from "../e-chart.component";
-import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
-import { PrecisionPipe } from "app/widgets/pipes/precision.pipe";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
+import {
+  WidgetConnectService,
+  WidgetManagerService,
+  WidgetConfigService,
+} from "../../services";
+import { WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../abstract-components";
 
 @Component({
   selector: "widget-scatter-plot",
-  templateUrl: "../e-chart.component.html",
-  styleUrls: ["../e-chart.component.scss"],
+  templateUrl: "../e-chart/e-chart.component.html",
+  styleUrls: ["../e-chart/e-chart.component.scss"],
 })
 export class ScatterPlotComponent
   extends EChartComponent

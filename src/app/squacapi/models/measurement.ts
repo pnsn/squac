@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { ReadMeasurement } from "../interfaces/squac-types";
+import { Adapter, ReadMeasurement } from "../interfaces";
 
 export class Measurement {
   constructor(

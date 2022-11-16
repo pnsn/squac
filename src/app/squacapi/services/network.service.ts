@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Network, NetworkAdapter } from "../models/network";
-import { ListService } from "../interfaces/api-service.interface";
+import { Network, NetworkAdapter } from "../models";
+import { ListService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcNetworksListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +22,7 @@ export class NetworkService
     protected api: ApiService,
     protected networkAdapter: NetworkAdapter
   ) {
-    super(ApiEndpoints.NETWORK, api);
+    super(ApiEndpoint.NETWORK, api);
   }
 
   list(

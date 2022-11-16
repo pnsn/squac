@@ -1,22 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { SquacapiModule } from "@squacapi/squacapi.module";
 import { NgxEchartsModule } from "ngx-echarts";
-import { CalendarComponent } from "./components/calendar/calendar.component";
-import { MapComponent } from "./components/map/map.component";
-import { ParallelPlotComponent } from "./components/parallel-plot/parallel-plot.component";
-import { ScatterPlotComponent } from "./components/scatter-plot/scatter-plot.component";
-import { TabularComponent } from "./components/tabular/tabular.component";
-import { TimechartComponent } from "./components/timechart/timechart.component";
-import { TimelineComponent } from "./components/timeline/timeline.component";
+import { CalendarComponent } from "./components/calendar";
+import { MapComponent } from "./components/map";
+import { ParallelPlotComponent } from "./components/parallel-plot";
+import { ScatterPlotComponent } from "./components/scatter-plot";
+import { TabularModule } from "./components/tabular";
+import { TimechartComponent } from "./components/timechart";
+import { TimelineComponent } from "./components/timeline";
 import { WidgetTypeDirective } from "./directives/widget-type.directive";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 
 @NgModule({
   declarations: [
-    TabularComponent,
     TimelineComponent,
     MapComponent,
     TimechartComponent,
@@ -28,7 +26,7 @@ import { PrecisionPipe } from "./pipes/precision.pipe";
     PrecisionPipe,
   ],
   imports: [
-    NgxDatatableModule,
+    TabularModule,
     NgxEchartsModule.forRoot({
       echarts: () => import("echarts"),
     }),

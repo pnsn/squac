@@ -1,13 +1,20 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { Metric, MetricAdapter } from "./metric";
-import { ApiMetric, ReadWidget, WriteWidget } from "../interfaces/squac-types";
-import { Threshold } from "../interfaces/threshold.interface";
+import { Threshold } from "../interfaces";
+import { Metric, MetricAdapter } from "../models";
+import {
+  Adapter,
+  ApiMetric,
+  ReadWidget,
+  WriteWidget,
+  WidgetProperties,
+  WidgetLayout,
+} from "../interfaces";
+import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 
 export class Widget {
   public _thresholds: Threshold[] = [];
-  public _layout: WidgetLayout = defaultLayout;
-  public _properties: WidgetProperties = defaultProperties;
+  public _layout: WidgetLayout = WIDGET_LAYOUT;
+  public _properties: WidgetProperties = WIDGET_PROPERTIES;
   constructor(
     public id: number,
     public owner: number,
@@ -43,7 +50,7 @@ export class Widget {
   public set properties(properties: string | Partial<WidgetProperties>) {
     let props: Partial<WidgetProperties>;
     if (!properties) {
-      props = defaultProperties;
+      props = WIDGET_PROPERTIES;
     } else if (properties && typeof properties === "string") {
       props = { ...JSON.parse(properties) };
     } else if (typeof properties !== "string") {
@@ -60,7 +67,7 @@ export class Widget {
   public set layout(layout: string | Partial<WidgetLayout>) {
     let props: Partial<WidgetLayout>;
     if (!layout) {
-      props = defaultLayout;
+      props = WIDGET_LAYOUT;
     } else if (layout && typeof layout === "string") {
       props = { ...JSON.parse(layout) };
     } else if (typeof layout !== "string") {
@@ -86,40 +93,6 @@ export class Widget {
   static get modelName() {
     return "Widget";
   }
-}
-
-const defaultProperties: WidgetProperties = {};
-
-const defaultLayout: WidgetLayout = {
-  rows: 5,
-  columns: 10,
-};
-
-export interface WidgetLayout {
-  rows: number;
-  columns: number;
-  x?: number;
-  y?: number;
-}
-
-export interface WidgetProperties {
-  //depends on which widgetType
-  dimensions?: any; //order of display
-  inRange?: {
-    color: string[];
-    type: string;
-  };
-  outOfRange?: {
-    color: string[];
-    type: string;
-  };
-  reverseColors?: boolean;
-  displayType?: string; //worst, channel, stoplight
-  numSplits?: number;
-  // show_legend: boolean; TODO: add these
-  // show_tooltips: boolean;
-  // zoom: boolean;
-  // sampling: string;
 }
 
 @Injectable({

@@ -8,10 +8,7 @@ import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
-import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-} from "@squacapi/interfaces/archivetypes";
+import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
 
 // Individual dashboard
 @Component({
@@ -25,8 +22,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   status: string;
   error: string = null;
   // dashboard params
-  archiveType: ArchiveTypes;
-  archiveStat: ArchiveStatTypes;
+  archiveType: ArchiveType;
+  archiveStat: ArchiveStatType;
   startTime: string;
   endTime: string;
   channelGroupId: number;
@@ -112,16 +109,16 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.error = "";
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.archiveType = ArchiveTypes.MONTH;
-        this.archiveStat = ArchiveStatTypes.MEAN;
+        this.archiveType = ArchiveType.MONTH;
+        this.archiveStat = ArchiveStatType.MEAN;
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.archiveType = ArchiveTypes.WEEK;
-        this.archiveStat = ArchiveStatTypes.MEAN;
+        this.archiveType = ArchiveType.WEEK;
+        this.archiveStat = ArchiveStatType.MEAN;
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = ArchiveTypes.DAY;
-        this.archiveStat = ArchiveStatTypes.MEAN;
+        this.archiveType = ArchiveType.DAY;
+        this.archiveStat = ArchiveStatType.MEAN;
       } else {
-        this.archiveType = ArchiveTypes.RAW;
+        this.archiveType = ArchiveType.RAW;
         this.archiveStat = null;
       }
 

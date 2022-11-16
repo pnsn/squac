@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { Monitor } from "./monitor";
-import { Trigger, TriggerAdapter } from "./trigger";
-import { ReadAlert } from "../interfaces/squac-types";
+import { Adapter, ReadAlert } from "../interfaces";
+import { Monitor, Trigger } from "../models";
+import { TriggerAdapter } from "../models/trigger";
 
 export class Alert {
   constructor(

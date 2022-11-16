@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
+import { Adapter } from "../interfaces";
 import {
   ReadOnlyTriggerSerializer,
   WriteOnlyTriggerSerializer,
   Trigger as ApiTrigger,
 } from "@pnsn/ngx-squacapi-client";
-import { Alert } from "./alert";
-import { Monitor } from "./monitor";
+import { Alert, Monitor } from "../models";
 
 export class Trigger {
   constructor(

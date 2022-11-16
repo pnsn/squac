@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { WriteableApiService } from "../interfaces/api-service.interface";
+import { WriteableApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Metric, MetricAdapter } from "../models/metric";
+import { Metric, MetricAdapter } from "../models";
 import {
   ApiService,
   MeasurementMetricsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class MetricService
   implements WriteableApiService<Metric>
 {
   constructor(protected adapter: MetricAdapter, protected api: ApiService) {
-    super(ApiEndpoints.METRIC, api);
+    super(ApiEndpoint.METRIC, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Metric> {

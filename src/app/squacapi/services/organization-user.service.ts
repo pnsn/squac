@@ -4,12 +4,11 @@ import {
   OrganizationUsersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { BaseApiService } from "./generic-api.service";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
-import { WriteableApiService } from "@squacapi/interfaces/api-service.interface";
+import { ApiEndpoint } from "../enums";
+import { WriteableApiService } from "../interfaces";
 
-import { User } from "@squacapi/models";
+import { User, UserAdapter } from "../models";
 import { Observable } from "rxjs";
-import { UserAdapter } from "@squacapi/models/user";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +18,7 @@ export class OrganizationUserService
   implements WriteableApiService<User>
 {
   constructor(protected adapter: UserAdapter, protected api: ApiService) {
-    super(ApiEndpoints.ORGANIZATION_USER, api);
+    super(ApiEndpoint.ORGANIZATION_USER, api);
   }
 
   read(id: number, refresh?: boolean): Observable<User> {

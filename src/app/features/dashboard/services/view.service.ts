@@ -3,13 +3,7 @@
 import { Injectable } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Ability } from "@casl/ability";
-import { Channel } from "@squacapi/models";
-import { ChannelGroup } from "@squacapi/models";
-import { Dashboard } from "@squacapi/models";
-import { DashboardService } from "@squacapi/services";
-import { ChannelGroupService } from "@squacapi/services";
-import { Widget } from "@squacapi/models";
-import { WidgetService } from "@squacapi/services";
+import { Channel, ChannelGroup, Dashboard, Widget } from "@squacapi/models";
 import * as dayjs from "dayjs";
 import {
   BehaviorSubject,
@@ -25,10 +19,12 @@ import {
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
+import { ArchiveStatType, ArchiveType } from "@squacapi/enums";
 import {
-  ArchiveStatTypes,
-  ArchiveTypes,
-} from "@squacapi/interfaces/archivetypes";
+  ChannelGroupService,
+  DashboardService,
+  WidgetService,
+} from "@squacapi/services";
 
 @Injectable({
   providedIn: "root",
@@ -127,12 +123,12 @@ export class ViewService {
   }
 
   // returns the dashboard archive type
-  get archiveType(): ArchiveTypes {
+  get archiveType(): ArchiveType {
     return this.dashboard?.properties.archiveType;
   }
 
   // returns the dashboard archive stat
-  get archiveStat(): ArchiveStatTypes {
+  get archiveStat(): ArchiveStatType {
     return this.dashboard?.properties.archiveStat;
   }
 
@@ -315,7 +311,7 @@ export class ViewService {
   }
 
   // stores archive options
-  setArchive(archiveType: ArchiveTypes, archiveStat: ArchiveStatTypes) {
+  setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType) {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
     this.hasUnsavedChanges = true;

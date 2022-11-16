@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ListService } from "../interfaces/api-service.interface";
+import { ListService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   MeasurementMeasurementsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Measurement, MeasurementAdapter } from "../models/measurement";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { Measurement, MeasurementAdapter } from "../models";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +20,7 @@ export class MeasurementService
     protected adapter: MeasurementAdapter,
     protected api: ApiService
   ) {
-    super(ApiEndpoints.MEASUREMENT, api);
+    super(ApiEndpoint.MEASUREMENT, api);
   }
 
   // gets data from squac, returns measurements or archives

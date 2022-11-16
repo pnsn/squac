@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces/api-service.interface";
+import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -9,8 +9,8 @@ import {
   NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { MatchingRule, MatchingRuleAdapter } from "../models/matching-rule";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { MatchingRule, MatchingRuleAdapter } from "../models";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +23,7 @@ export class MatchingRuleService
     protected api: ApiService,
     protected adapter: MatchingRuleAdapter
   ) {
-    super(ApiEndpoints.MATCHING_RULE, api);
+    super(ApiEndpoint.MATCHING_RULE, api);
   }
 
   // matching rules is weird and uses number ids unlike other endpoints

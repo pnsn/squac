@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { Channel, ChannelAdapter } from "./channel";
 import {
+  Adapter,
   ApiChannel,
   ReadChannelGroup,
   WriteChannelGroup,
-} from "../interfaces/squac-types";
+} from "../interfaces";
+import { Channel } from "../models";
+import { ChannelAdapter } from "../models/channel";
+
 // Describes a channel group object
 
 export class ChannelGroup {

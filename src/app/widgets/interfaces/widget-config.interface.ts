@@ -1,3 +1,5 @@
+import { WidgetDisplayOption } from "../interfaces";
+
 /**
  * Info that describes a widget type
  */
@@ -12,10 +14,4 @@ export interface WidgetConfig {
   minMetrics: number;
   defaultDisplay?: string;
   displayOptions?: { [type: string]: WidgetDisplayOption };
-}
-
-export interface WidgetDisplayOption {
-  dimensions: string[];
-  description: string;
-  name?: string;
 }

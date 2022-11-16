@@ -1,6 +1,5 @@
-import { Channel } from "@squacapi/models";
-import { Metric } from "@squacapi/models";
-import { WidgetProperties } from "@squacapi/models/widget";
+import { Channel, Metric } from "@squacapi/models";
+import { WidgetProperties } from "@squacapi/interfaces";
 
 export interface WidgetTypeComponent {
   data: any;

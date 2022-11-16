@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces/adapter.interface";
-import { ReadUser, WriteUser } from "../interfaces/squac-types";
+import { Adapter, ReadUser, WriteUser } from "../interfaces";
 
 // Describes a user object
 export class User {

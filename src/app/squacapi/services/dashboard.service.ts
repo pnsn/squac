@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces/api-service.interface";
+import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Dashboard, DashboardAdapter } from "../models/dashboard";
+import { Dashboard, DashboardAdapter } from "../models";
 import {
   ApiService,
   DashboardDashboardsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { ApiEndpoints } from "@squacapi/interfaces/api.interface";
+import { ApiEndpoint } from "../enums";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class DashboardService
   implements SquacApiService<Dashboard>
 {
   constructor(protected api: ApiService, protected adapter: DashboardAdapter) {
-    super(ApiEndpoints.DASHBOARD, api);
+    super(ApiEndpoint.DASHBOARD, api);
   }
 
   read(id: number, refresh?: boolean): Observable<Dashboard> {

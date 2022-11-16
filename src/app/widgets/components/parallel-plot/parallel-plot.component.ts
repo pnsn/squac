@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetConnectService } from "../../services/widget-connect.service";
-import { WidgetManagerService } from "../../services/widget-manager.service";
-import { WidgetConfigService } from "../../services/widget-config.service";
-import { EChartComponent } from "../e-chart.component";
-import { WidgetTypeComponent } from "../../interfaces/widget-type.interface";
+import {
+  WidgetConnectService,
+  WidgetManagerService,
+  WidgetConfigService,
+} from "../../services";
+import { EChartComponent } from "../abstract-components";
+import { WidgetTypeComponent } from "../../interfaces";
 
 @Component({
   selector: "widget-parallel-plot",
-  templateUrl: "../e-chart.component.html",
-  styleUrls: ["../e-chart.component.scss"],
+  templateUrl: "../e-chart/e-chart.component.html",
+  styleUrls: ["../e-chart/e-chart.component.scss"],
 })
 export class ParallelPlotComponent
   extends EChartComponent
