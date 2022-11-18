@@ -26,7 +26,7 @@ export class HttpCacheService implements HttpCache {
    * Get an item from the cache
    * @param req -
    */
-  get(req: HttpRequest<any>): HttpResponse<any> {
+  get(req: HttpRequest<any>): HttpResponse<any> | null {
     const urlWithParams = this.stripUrl(req.urlWithParams);
     const storageLocation = this.whichStorageToUse(urlWithParams);
 
@@ -36,6 +36,7 @@ export class HttpCacheService implements HttpCache {
     if (cachedItem && cachedItem instanceof HttpResponse) {
       return cachedItem;
     }
+    return null;
   }
 
   /**
@@ -78,8 +79,8 @@ export class HttpCacheService implements HttpCache {
   }
 
   matchRoutes(urlWithParams: string) {
-    let matchingRoute;
-    let pattern;
+    let matchingRoute: any;
+    let pattern = "";
     Object.keys(this.cachableRoutes).forEach((cacheRoute) => {
       const route = new Route(cacheRoute);
       const routeMatch = route.match(urlWithParams);
@@ -89,7 +90,7 @@ export class HttpCacheService implements HttpCache {
         pattern = cacheRoute;
       }
     });
-    return { route: matchingRoute, pattern };
+    return { route: matchingRoute, pattern: pattern };
   }
 
   /**

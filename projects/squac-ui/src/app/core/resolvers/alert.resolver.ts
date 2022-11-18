@@ -18,9 +18,9 @@ export class AlertResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Alert> | Observable<Alert[]> {
-    const id = +route.paramMap.get("alertId");
+    const id = route.paramMap.get("alertId");
     if (id) {
-      return this.alertService.read(id).pipe(
+      return this.alertService.read(+id).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
@@ -36,7 +36,7 @@ export class AlertResolver implements Resolve<Observable<any>> {
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });
   }

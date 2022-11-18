@@ -1,6 +1,5 @@
 import { LocalStorageTypes } from "./services/local-storage.service";
-// FIXME: shouldn't be importing from core
-export const CACHEABLE_ROUTE_PATTERNS = {
+export const CACHEABLE_ROUTE_PATTERNS: { [k: string]: any } = {
   "/dashboard/dashboards/": LocalStorageTypes.SESSION,
   "/dashboard/dashboards/:id/": LocalStorageTypes.SESSION,
   "/measurement/metrics/": LocalStorageTypes.SESSION,

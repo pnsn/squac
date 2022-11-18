@@ -13,9 +13,9 @@ export class MonitorResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Monitor> | Observable<Monitor[]> {
-    const id = +route.paramMap.get("monitorId");
+    const id = route.paramMap.get("monitorId");
     if (id) {
-      return this.monitorService.read(id).pipe(
+      return this.monitorService.read(+id).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
@@ -30,7 +30,7 @@ export class MonitorResolver implements Resolve<Observable<any>> {
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     return of({ error });
   }
 }

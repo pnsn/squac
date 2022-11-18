@@ -4,7 +4,7 @@ import { Dayjs } from "dayjs";
 import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
-import { DEFAULT_LOCALE } from "@core/locale.constant";
+import { DEFAULT_LOCALE, Locale } from "@core/locale.constant";
 
 //service to help reduce imports of dayjs
 @Injectable({
@@ -15,7 +15,7 @@ export class DateService {
   // "displayFormat": "YYYY/MM/DD HH:mm"
   // "direction": "ltr"
 
-  locale = DEFAULT_LOCALE;
+  locale: Locale = DEFAULT_LOCALE;
 
   constructor() {
     dayjs.extend(utc);
@@ -62,7 +62,7 @@ export class DateService {
   }
 
   //subtract duration
-  subtractDuration(start: Dayjs, duration): Dayjs {
+  subtractDuration(start: Dayjs, duration: any): Dayjs {
     return start.utc().subtract(duration).clone();
   }
 

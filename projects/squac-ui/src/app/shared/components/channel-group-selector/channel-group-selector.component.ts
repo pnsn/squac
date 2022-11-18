@@ -11,12 +11,12 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
   styleUrls: ["./channel-group-selector.component.scss"],
 })
 export class ChannelGroupSelectorComponent implements OnInit {
-  @Input() channelGroupId: number | string;
+  @Input() channelGroupId: number | string | undefined;
   @Input() label = "Channel Group";
   @Input() required = false;
   @Input() appearance: MatFormFieldAppearance = "standard";
   @Input() dense = false;
-  channelGroups: ChannelGroup[];
+  channelGroups: ChannelGroup[] | undefined;
   @Output() channelGroupIdChange = new EventEmitter<any>();
   groups: any;
   /*{

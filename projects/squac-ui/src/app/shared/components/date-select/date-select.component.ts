@@ -8,9 +8,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { Locale } from "@core/locale.constant";
 import { DateService } from "@core/services/date.service";
-import dayjs from "dayjs";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import * as timezone from "dayjs/plugin/timezone";
 import * as utc from "dayjs/plugin/utc";
 import { DaterangepickerDirective } from "ngx-daterangepicker-material";
@@ -24,36 +24,40 @@ import { TimeRange } from "./time-range.interface";
 })
 export class DateSelectComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerDirective, { static: true })
-  pickerDirective: DaterangepickerDirective;
+  pickerDirective!: DaterangepickerDirective;
   @Output() datesChanged = new EventEmitter<any>();
-  @Input() secondsAgoFromNow: number;
-  @Input() initialStartDate: string;
-  @Input() initialEndDate: string;
-  @Input() timeRanges: TimeRange[];
+  @Input() secondsAgoFromNow: number | undefined;
+  @Input() initialStartDate: string | undefined;
+  @Input() initialEndDate: string | undefined;
+  @Input() timeRanges: TimeRange[] = [];
   startDate: Dayjs;
   maxDate: Dayjs;
   // settings for date select
-  locale: any;
-  ranges: any = {};
+  locale: Locale;
 
-  selected: {
-    startDate: Dayjs;
-    endDate: Dayjs;
-  };
+  selected:
+    | {
+        startDate: Dayjs;
+        endDate: Dayjs;
+      }
+    | undefined;
   selectedRange: any;
   rangesForDatePicker: { [key: string]: [Dayjs, Dayjs] } = {};
-  liveMode: boolean;
+  liveMode: boolean | undefined;
 
   constructor(private dateService: DateService) {
     dayjs.extend(utc);
     dayjs.extend(timezone);
+    this.maxDate = this.dateService.now();
+    this.startDate = this.dateService.now();
+    this.locale = this.dateService.locale;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      changes.secondsAgoFromNow ||
-      changes.initialEndDate ||
-      changes.initialStartDate
+      changes["secondsAgoFromNow"] ||
+      changes["initialEndDate"] ||
+      changes["initialStartDate"]
     ) {
       this.setUpInitialValues();
     }
@@ -61,10 +65,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     //config datepicker
-    this.maxDate = this.dateService.now();
-    this.startDate = this.dateService.now();
     this.makeTimeRanges();
-    this.locale = this.dateService.locale;
     this.setUpInitialValues();
   }
 
@@ -96,21 +97,20 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
-  findRangeFromSeconds(seconds) {
-    const range = this.timeRanges.find((range) => {
+  findRangeFromSeconds(seconds: number): TimeRange | undefined {
+    const timeRange = this.timeRanges.find((range) => {
       const rangeInSeconds = this.getRangeAsSeconds(range);
       return rangeInSeconds === seconds;
     });
 
-    return range;
+    return timeRange;
   }
 
-  getRangeAsSeconds(range) {
+  getRangeAsSeconds(range: TimeRange): number {
     return this.dateService.duration(range.amount, range.unit).asSeconds();
   }
 
-  makeTimeRanges() {
-    //range=[{ amount; unit}]
+  makeTimeRanges(): void {
     this.timeRanges.forEach((range) => {
       this.rangesForDatePicker[range.amount + " " + range.unit] = [
         this.dateService.subtractFromNow(+range.amount, range.unit),
@@ -119,7 +119,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     });
   }
 
-  toggleRange(event) {
+  toggleRange(event: any) {
     if (event.value !== "custom" && event.value !== "relative") {
       const range = event.value;
       const rangeInSeconds = this.getRangeAsSeconds(range);
@@ -145,10 +145,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * @param rangeInSeconds - width of time range in seconds
    */
   datesUpdated(
-    startDate: Dayjs,
-    endDate: Dayjs,
+    startDate: Dayjs | null,
+    endDate: Dayjs | null,
     liveMode: boolean,
-    rangeInSeconds: number
+    rangeInSeconds: number | null
   ) {
     this.datesChanged.emit({
       startDate,
@@ -162,7 +162,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * Opens date picker
    * @param e - instance of event
    */
-  openDatePicker(e): void {
+  openDatePicker(e: any): void {
     this.pickerDirective.open(e);
   }
 }
