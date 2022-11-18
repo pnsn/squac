@@ -19,16 +19,16 @@ export class DashboardResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Dashboard> | Observable<Dashboard[]> {
-    const id = +route.paramMap.get("dashboardId");
+    const id = route.paramMap.get("dashboardId");
     if (id) {
-      return this.dashboardService.read(id).pipe(catchError(this.handleError));
+      return this.dashboardService.read(+id).pipe(catchError(this.handleError));
     } else {
       return this.dashboardService.list().pipe(catchError(this.handleError));
       // return all of them
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     return of({ error });
   }
 }

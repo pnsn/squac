@@ -8,8 +8,8 @@ import { User } from "squacapi";
   styleUrls: ["./menu.component.scss"],
 })
 export class MenuComponent {
-  @Input() user: User;
-  @Input() isSidenav: boolean;
+  @Input() user!: User;
+  @Input() isSidenav?: boolean;
   constructor(private authService: AuthService) {}
   logout() {
     this.authService.logout();

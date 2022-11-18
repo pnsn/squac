@@ -8,12 +8,12 @@ import { filter } from "rxjs/operators";
   styleUrls: ["./not-found.component.scss"],
 })
 export class NotFoundComponent {
-  previousUrl;
+  previousUrl = "";
   constructor(router: Router) {
     // listen for navigation end events to show last url
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
+      .subscribe((event: any) => {
         this.previousUrl = event.url;
       });
   }

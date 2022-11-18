@@ -14,11 +14,11 @@ export class WidgetResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Widget> | Observable<Widget[]> | Observable<any> {
-    const dashboardId = +route.paramMap.get("dashboardId");
-    const widgetId = +route.paramMap.get("widgetId");
+    const dashboardId = route.paramMap.get("dashboardId");
+    const widgetId = route.paramMap.get("widgetId");
 
     if (widgetId) {
-      return this.widgetService.read(widgetId).pipe(
+      return this.widgetService.read(+widgetId).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
@@ -37,7 +37,7 @@ export class WidgetResolver implements Resolve<Observable<any>> {
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     console.error("widget error ", error);
     // TODO: route to show error
     return of({ error });

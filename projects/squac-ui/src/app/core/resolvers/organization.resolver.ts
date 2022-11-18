@@ -11,9 +11,9 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(private orgService: OrganizationService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    const id = +route.paramMap.get("orgId");
+    const id = route.paramMap.get("orgId");
     if (id) {
-      return this.orgService.read(id).pipe(
+      return this.orgService.read(+id).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
@@ -27,7 +27,7 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });
   }

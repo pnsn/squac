@@ -14,7 +14,7 @@ export class UserResolver implements Resolve<Observable<any>> {
     return this.userService.getUser().pipe(catchError(this.handleError));
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });
   }

@@ -14,9 +14,9 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<ChannelGroup | ChannelGroup[]> {
-    const id = +route.paramMap.get("channelGroupId");
+    const id = route.paramMap.get("channelGroupId");
     if (id) {
-      return this.channelGroupService.read(id).pipe(
+      return this.channelGroupService.read(+id).pipe(
         catchError((error) => {
           return this.handleError(error);
         })
@@ -31,7 +31,7 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
     }
   }
 
-  handleError(error): Observable<any> {
+  handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });
   }
