@@ -20,7 +20,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "squacapi",
+            "prefix": "lib",
             "style": "camelCase"
           }
         ],
@@ -28,7 +28,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "squacapi",
+            "prefix": "lib",
             "style": "kebab-case"
           }
         ]

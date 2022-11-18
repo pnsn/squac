@@ -1,19 +1,18 @@
+
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "useDefineForClassFields": false,
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["es2018", "dom"],
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
     "paths": {
       "squacapi": [
         "./dist/squacapi"
@@ -31,7 +30,19 @@
       "@metric/*": ["./projects/squac-ui/src/app/features/metric/*"],
       "@monitor/*": ["./projects/squac-ui/src/app/features/monitor/*"],
       "@user/*": ["./projects/squac-ui/src/app/features/user/*"]
-    }
+    },
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

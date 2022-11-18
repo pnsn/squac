@@ -12,8 +12,7 @@
         "project": [
           "projects/squac-ui/tsconfig.app.json",
           "projects/squac-ui/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
+        ]
       },
       "rules" : {
         "@angular-eslint/component-selector": [

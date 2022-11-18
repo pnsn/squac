@@ -4,10 +4,8 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
-
-  "exclude": ["src/test.ts", "**/*.mock.ts", "**/*.spec.ts"],
-  "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"],
   "typeAcquisition": {
     "enable": true
   }
