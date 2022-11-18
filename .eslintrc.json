@@ -6,9 +6,7 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "tsconfig.eslint.json",
-          "src/tsconfig.spec.json",
-          "e2e/tsconfig.e2e.json"
+          "tsconfig.eslint.json"
         ],
         "createDefaultProgram": true
       },
@@ -28,22 +26,6 @@
         "unused-imports/no-unused-vars": [
           "warn",
           { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "prefix": ["app", "shared", "dashboard", "widget", "monitor", "user", "channel", "metric"],
-            "style": "kebab-case",
-            "type": "element"
-          }
-        ],
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "prefix": ["app", "shared", "widget"],
-            "style": "camelCase",
-            "type": "attribute"
-          }
         ],
         "tsdoc/syntax": "warn"
       }

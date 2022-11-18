@@ -1,27 +1,42 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "./",
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2020",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": false,
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
+    "module": "ES2022",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@core/*": ["app/core/*"],
-      "@shared/*": ["app/shared/*"],
-      "@squacapi/*": ["app/squacapi/*"],
-      "@dashboard/*": ["app/features/dashboard/*"],
-      "@channelGroup/*": ["app/features/channel-group/*"],
-      "@metric/*": ["app/features/metric/*"],
-      "@monitor/*": ["app/features/monitor/*"],
-      "@user/*": ["app/features/user/*"],
+      "squacapi": [
+        "./dist/squacapi"
+      ],
+      "widgets" : [
+        "./dist/widgets"
+      ],
+      "@core": ["./projects/squac-ui/src/app/core"],
+      "@core/*": ["./projects/squac-ui/src/app/core/*"],
+
+      "@shared/*": ["./projects/squac-ui/src/app/shared/*"],
+      "@squacapi/*": ["./projects/squac-ui/src/app/squacapi/*"],
+      "@dashboard/*": ["./projects/squac-ui/src/app/features/dashboard/*"],
+      "@channelGroup/*": ["./projects/squac-ui/src/app/features/channel-group/*"],
+      "@metric/*": ["./projects/squac-ui/src/app/features/metric/*"],
+      "@monitor/*": ["./projects/squac-ui/src/app/features/monitor/*"],
+      "@user/*": ["./projects/squac-ui/src/app/features/user/*"]
     }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

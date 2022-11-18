@@ -1,0 +1,47 @@
+{
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "projects/squac-ui/tsconfig.app.json",
+          "projects/squac-ui/tsconfig.spec.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules" : {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "prefix": ["app", "shared", "dashboard", "monitor", "user", "channel", "metric", "widget"],
+            "style": "kebab-case",
+            "type": "element"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "prefix": ["app", "shared"],
+            "style": "camelCase",
+            "type": "attribute"
+          }
+        ]
+      }
+
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "rules": {}
+    }
+  ]
+}
+
+

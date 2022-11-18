@@ -4,8 +4,8 @@
   "newProjectRoot": "projects",
   "projects": {
     "squac-ui": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/squac-ui",
+      "sourceRoot": "projects/squac-ui/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {
@@ -17,43 +17,42 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/squac-ui",
+            "index": "projects/squac-ui/src/index.html",
+            "main": "projects/squac-ui/src/main.ts",
+            "polyfills": "projects/squac-ui/src/polyfills.ts",
+            "tsConfig": "projects/squac-ui/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/squac-ui/src/favicon.ico",
+              "projects/squac-ui/src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles/material.scss",
-              "src/styles/datatables.scss",
-              "src/styles/date-range-picker.scss"
+              "projects/squac-ui/src/styles.scss",
+              "projects/squac-ui/src/styles/material.scss",
+              "projects/squac-ui/src/styles/datatables.scss",
+              "projects/squac-ui/src/styles/date-range-picker.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/styles"
+                "projects/squac-ui/src/styles"
               ]
             },
             "allowedCommonJsDependencies": [
-              "dayjs", "colormap", "leaflet"
+              "dayjs",
+              "colormap",
+              "leaflet",
+              "route-parser"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/squac-ui/src/environments/environment.ts",
+                  "with": "projects/squac-ui/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -61,17 +60,26 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "4mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
             },
             "staging": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.staging.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/squac-ui/src/environments/environment.ts",
+                  "with": "projects/squac-ui/src/environments/environment.staging.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -79,25 +87,36 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "4mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "development": {
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "squac-ui:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "squac-ui:build:production"
+            },
+            "development": {
+              "browserTarget": "squac-ui:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -108,22 +127,22 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "projects/squac-ui/src/test.ts",
+            "polyfills": "projects/squac-ui/src/polyfills.ts",
+            "tsConfig": "projects/squac-ui/src/tsconfig.spec.json",
+            "karmaConfig": "projects/squac-ui/src/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "projects/squac-ui/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/styles"
+                "projects/squac-ui/src/styles"
               ]
             },
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/squac-ui/src/favicon.ico",
+              "projects/squac-ui/src/assets"
             ]
           }
         },
@@ -131,8 +150,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "src/app/**/*.ts",
-              "src/app/**/*.html"
+              "projects/squac-ui/**/*.ts",
+              "projects/squac-ui/**/*.html"
             ]
           }
         }
@@ -153,6 +172,86 @@
             "production": {
               "devServerTarget": "squac-ui:serve:production"
             }
+          }
+        }
+      }
+    },
+    "widgets": {
+      "projectType": "library",
+      "root": "projects/widgets",
+      "sourceRoot": "projects/widgets/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/widgets/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/widgets/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/widgets/src/test.ts",
+            "tsConfig": "projects/widgets/tsconfig.spec.json",
+            "karmaConfig": "projects/widgets/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/widgets/**/*.ts",
+              "projects/widgets/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "squacapi": {
+      "projectType": "library",
+      "root": "projects/squacapi",
+      "sourceRoot": "projects/squacapi/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/squacapi/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/squacapi/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/squacapi/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/squacapi/src/test.ts",
+            "tsConfig": "projects/squacapi/tsconfig.spec.json",
+            "karmaConfig": "projects/squacapi/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/squacapi/**/*.ts",
+              "projects/squacapi/**/*.html"
+            ]
           }
         }
       }

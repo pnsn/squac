@@ -1,0 +1,52 @@
+<mat-form-field class="dense-form-field-select" appearance="outline">
+  <mat-label>Data Type</mat-label>
+  <input
+    matInput
+    placeholder="data type"
+    [matMenuTriggerFor]="dataTypeMenu"
+    readonly
+    [value]="displayString"
+  />
+</mat-form-field>
+<mat-menu
+  class="mat-menu-dense"
+  #dataTypeMenu="matMenu"
+  panelClass="stat-type-menu"
+>
+  <ng-container *ngFor="let type of ArchiveType">
+    <button
+      [ngClass]="type === dataType ? 'active' : ''"
+      *ngIf="type === 'raw'"
+      mat-menu-item
+      (click)="selectDataType(type, null)"
+    >
+      {{ archiveTypeOptions[type].full }}
+    </button>
+
+    <button
+      mat-menu-item
+      [ngClass]="type === dataType ? 'active' : ''"
+      *ngIf="type !== 'raw'"
+      [matMenuTriggerFor]="statTypeMenu"
+      [matMenuTriggerData]="{ type }"
+    >
+      {{ archiveTypeOptions[type].full }}
+    </button>
+  </ng-container>
+</mat-menu>
+
+<mat-menu class="mat-menu-dense" #statTypeMenu="matMenu" overlapTrigger="false">
+  <ng-template matMenuContent let-type="type">
+    <button mat-menu-item disabled readonly>
+      {{ archiveTypeOptions[type].full }}
+    </button>
+    <button
+      mat-menu-item
+      *ngFor="let stat of StatTypes"
+      [ngClass]="type === dataType && stat === statType ? 'active' : ''"
+      (click)="selectDataType(type, stat)"
+    >
+      {{ stat }}
+    </button>
+  </ng-template>
+</mat-menu>
