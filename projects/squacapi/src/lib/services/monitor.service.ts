@@ -16,12 +16,12 @@ export class MonitorService
   extends BaseApiService<Monitor>
   implements SquacApiService<Monitor>
 {
-  constructor(protected adapter: MonitorAdapter, protected api: ApiService) {
+  constructor(override adapter: MonitorAdapter, override api: ApiService) {
     super(ApiEndpoint.MONITOR, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Monitor> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Monitor> {
+    return super.read(id, refresh);
   }
   list(
     params?: MeasurementMonitorsListRequestParams,
@@ -32,7 +32,7 @@ export class MonitorService
   updateOrCreate(t: Monitor): Observable<Monitor> {
     return super._updateOrCreate(t);
   }
-  delete(id: number): Observable<Monitor> {
+  override delete(id: number): Observable<Monitor> {
     return super.delete(id);
   }
 }

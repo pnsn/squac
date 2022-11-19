@@ -3,22 +3,20 @@ import { Adapter, ReadArchive } from "../interfaces";
 
 // Describes an archive
 export class Archive {
-  public value: number;
-  constructor(
-    public id: number,
-    public metricId: number,
-    public channelId: number,
-    public min: number,
-    public max: number,
-    public mean: number,
-    public median: number,
-    public stdev: number,
-    public numSamps: number,
-    public minabs: number,
-    public maxabs: number,
-    public starttime: string,
-    public endtime: string
-  ) {}
+  value?: number;
+  id?: number;
+  metricId!: number;
+  channelId!: number;
+  min!: number;
+  max!: number;
+  mean!: number;
+  median!: number;
+  stdev!: number;
+  num_samps!: number;
+  minabs?: number;
+  maxabs?: number;
+  starttime!: string;
+  endtime!: string;
 
   static get modelName() {
     return "Archive";
@@ -28,26 +26,28 @@ export class Archive {
 @Injectable({
   providedIn: "root",
 })
-export class ArchiveAdapter implements Adapter<Archive> {
-  adaptFromApi(item: ReadArchive, stat: string): Archive {
-    const archive = new Archive(
-      +item.id,
-      item.metric,
-      item.channel,
-      item.min,
-      item.max,
-      item.mean,
-      item.median,
-      item.stdev,
-      item.num_samps,
-      +item.minabs,
-      +item.maxabs,
-      item.starttime,
-      item.endtime
-    );
-    if (stat) {
-      archive.value = item[stat];
-    }
+export class ArchiveAdapter implements Adapter<Archive, ReadArchive, unknown> {
+  adaptFromApi(item: ReadArchive): Archive {
+    // squacapi openapi thinks min & maxabs are strings
+    const id = item.id ? +item.id : undefined;
+    const minabs = item.minabs ? +item.minabs : undefined;
+    const maxabs = item.maxabs ? +item.maxabs : undefined;
+
+    const archive: Archive = {
+      id,
+      metricId: item.metric,
+      channelId: item.channel,
+      min: item.min,
+      max: item.max,
+      mean: item.mean,
+      median: item.median,
+      stdev: item.stdev,
+      num_samps: item.num_samps,
+      minabs,
+      maxabs,
+      starttime: item.starttime,
+      endtime: item.endtime,
+    };
     return archive;
   }
 }

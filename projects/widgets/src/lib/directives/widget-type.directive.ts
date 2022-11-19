@@ -59,7 +59,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       }
     );
 
-    this.dataSub = this.widgetDataService.data
+    this.dataSub = this.widgetDataService.data$
       .pipe(
         tap({
           next: (data: Map<number, any> | WidgetErrors) => {

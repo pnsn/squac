@@ -16,10 +16,7 @@ export class MeasurementService
   extends BaseApiService<Measurement>
   implements ListService<Measurement>
 {
-  constructor(
-    protected adapter: MeasurementAdapter,
-    protected api: ApiService
-  ) {
+  constructor(override adapter: MeasurementAdapter, override api: ApiService) {
     super(ApiEndpoint.MEASUREMENT, api);
   }
 

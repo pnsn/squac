@@ -11,8 +11,8 @@ export class Metric {
     public refUrl: string,
     public unit: string,
     public sampleRate: number, //seconds
-    public minVal?: number,
-    public maxVal?: number
+    public minVal?: number | null,
+    public maxVal?: number | null
   ) {}
 
   static get modelName() {
@@ -23,17 +23,17 @@ export class Metric {
 @Injectable({
   providedIn: "root",
 })
-export class MetricAdapter implements Adapter<Metric> {
+export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
-      item.id,
-      item.user,
+      item.id ? +item.id : 0,
+      item.user ? +item.user : 0,
       item.name,
       item.code,
-      item.description,
+      item.description ?? "",
       item.reference_url,
       item.unit,
-      item.sample_rate,
+      item.sample_rate ?? 0,
       item.default_minval,
       item.default_maxval
     );

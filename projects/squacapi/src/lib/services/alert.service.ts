@@ -16,12 +16,12 @@ export class AlertService
   extends BaseApiService<Alert>
   implements ReadOnlyApiService<Alert>
 {
-  constructor(protected adapter: AlertAdapter, protected api: ApiService) {
+  constructor(override adapter: AlertAdapter, override api: ApiService) {
     super(ApiEndpoint.ALERT, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Alert> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Alert> {
+    return super.read(id, refresh);
   }
 
   list(

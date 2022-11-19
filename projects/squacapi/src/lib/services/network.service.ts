@@ -19,7 +19,7 @@ export class NetworkService
   implements ListService<Network>
 {
   constructor(
-    protected api: ApiService,
+    override api: ApiService,
     protected networkAdapter: NetworkAdapter
   ) {
     super(ApiEndpoint.NETWORK, api);

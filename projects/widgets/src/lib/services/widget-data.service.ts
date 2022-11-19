@@ -12,7 +12,7 @@ import {
   tap,
 } from "rxjs";
 
-import { Metric, Archive, Aggregate, Measurement, Widget } from "squacapi";
+import { Metric, Archive, Aggregate, Measurement } from "squacapi";
 import {
   AggregateService,
   DayArchiveService,
@@ -26,29 +26,30 @@ import { BehaviorSubject } from "rxjs";
 import { ArchiveType, ArchiveStatType, WidgetStatType } from "squacapi";
 
 type MeasurementType = Measurement | Aggregate | Archive;
+export type ProcessedData = Map<number, Map<number, MeasurementType[]>>;
+type DataRange = Record<number, { min?: number; max?: number; count: number }>;
+
 @Injectable()
 export class WidgetDataService implements OnDestroy {
-  subscription: Subscription = new Subscription();
-  private measurementReq: Observable<any>;
+  private subscription: Subscription = new Subscription();
+  private measurementReq$: Observable<ProcessedData | WidgetErrors>;
   private measurementReqSub: Subscription;
 
   isLoading$ = new BehaviorSubject<boolean>(false);
-  params = new Subject<MeasurementParams>();
-  private $params = this.params.asObservable();
+  params$ = new Subject<MeasurementParams>();
+  private paramsObs$ = this.params$.asObservable();
 
   // actual data
-
-  data = new ReplaySubject<WidgetErrors | Map<any, any>>(1);
+  data$ = new ReplaySubject<WidgetErrors | ProcessedData>(1);
   measurementsWithData: number[] = [];
 
   // data info
   selectedMetrics: Metric[] = [];
-  widget: Widget;
-  archiveType: ArchiveType;
-  useAggregate: boolean;
-  stat: string | WidgetStatType | ArchiveStatType;
+  archiveType!: ArchiveType;
+  useAggregate!: boolean;
+  stat!: string | WidgetStatType | ArchiveStatType;
 
-  private ranges = {};
+  private ranges: DataRange = {};
 
   constructor(
     private measurementService: MeasurementService,
@@ -58,10 +59,10 @@ export class WidgetDataService implements OnDestroy {
     private weekArchiveService: WeekArchiveService
   ) {
     // listen to param changes
-    this.measurementReq = this.$params.pipe(
+    this.measurementReq$ = this.paramsObs$.pipe(
       filter((params: MeasurementParams) => {
         //only make request when all params present
-        return !!this.widget && this.checkParams(params);
+        return this.checkParams(params);
       }),
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
@@ -76,16 +77,16 @@ export class WidgetDataService implements OnDestroy {
     );
 
     //destroyed after failed loading
-    this.measurementReqSub = this.measurementReq.subscribe({
-      next: (data) => {
+    this.measurementReqSub = this.measurementReq$.subscribe({
+      next: (processedData: ProcessedData | WidgetErrors) => {
         //process data when returned
-        this.finishedLoading(data);
+        this.finishedLoading(processedData);
       },
     });
     this.subscription.add(this.measurementReqSub);
   }
 
-  get dataRange(): any {
+  get dataRange(): DataRange {
     return this.ranges;
   }
 
@@ -102,7 +103,9 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // returns correct request type
-  private dataRequest(params): Observable<Array<MeasurementType>> {
+  private dataRequest(
+    params: MeasurementParams
+  ): Observable<MeasurementType[]> {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
@@ -117,26 +120,27 @@ export class WidgetDataService implements OnDestroy {
 
       case "month":
         return this.monthArchiveService.list(params);
+
       case "raw":
         if (useAggregate) {
           //stat: widgetStat
           return this.aggregateService.list(params);
         }
         return this.measurementService.list(params);
-
       default:
+        return this.measurementService.list(params);
     }
   }
 
   // send data & clear the loading statuses
-  private finishedLoading(data?: Map<any, any>) {
+  private finishedLoading(data?: ProcessedData | WidgetErrors): void {
     if (!data) {
-      this.data.next(WidgetErrors.SQUAC_ERROR);
+      this.data$.next(WidgetErrors.SQUAC_ERROR);
       //squac error
-    } else if (data.size === 0) {
-      this.data.next(WidgetErrors.NO_MEASUREMENTS);
+    } else if (data instanceof Map && data.size === 0) {
+      this.data$.next(WidgetErrors.NO_MEASUREMENTS);
     } else {
-      this.data.next(data);
+      this.data$.next(data);
     }
     this.isLoading$.next(false);
   }
@@ -149,36 +153,40 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // format raw squacapi data
-  mapData(response: Array<MeasurementType>) {
-    const dataMap = new Map<number, Map<number, Array<MeasurementType>>>();
+  mapData(response: MeasurementType[]): ProcessedData | WidgetErrors {
+    const dataMap: ProcessedData = new Map<
+      number,
+      Map<number, MeasurementType[]>
+    >();
     try {
       response.forEach((item: MeasurementType) => {
         //for archive/aggregate populate value
-        const channelId = item.channelId;
-        const metricId = item.metricId;
-        if (!dataMap.has(channelId)) {
-          const newMap = new Map<number, Array<MeasurementType>>();
-          dataMap.set(channelId, newMap);
+        const channelId: number = item.channelId;
+        const metricId: number = item.metricId;
+
+        let channelMap = dataMap.get(channelId);
+
+        if (!channelMap) {
+          channelMap = new Map<number, MeasurementType[]>();
+          dataMap.set(channelId, channelMap);
         }
 
-        if (this.stat && !item.value) {
-          item.value = item[this.stat];
+        const metricValues = channelMap.get(metricId) ?? [];
+
+        if (!this.measurementsWithData.includes(metricId)) {
+          this.measurementsWithData.push(metricId);
         }
 
-        const channelMap = dataMap.get(channelId);
-        if (!channelMap.get(metricId)) {
-          channelMap.set(metricId, []);
-          if (this.measurementsWithData.indexOf(metricId) < 0) {
-            this.measurementsWithData.push(metricId);
-          }
-        }
-        const metricMap = channelMap.get(metricId);
-        metricMap.push(item);
-        this.calculateDataRange(metricId, item.value);
+        const value = item.value ?? item[this.stat];
+        metricValues.push(value);
+
+        channelMap.set(metricId, metricValues);
+
+        this.calculateDataRange(metricId, value);
       });
-    } catch (e) {
+    } catch (e: unknown) {
       console.error("Error in widget response", e);
-      return response;
+      return WidgetErrors.SQUAC_ERROR;
     }
     return dataMap;
   }
@@ -194,22 +202,19 @@ export class WidgetDataService implements OnDestroy {
    * @param value - measurement value to add
    */
   private calculateDataRange(metricId: number, value: number): void {
-    if (!this.ranges[metricId]) {
-      this.ranges[metricId] = {
-        min: null,
-        max: null,
-        count: 0,
-      };
-    }
+    const metricRange =
+      metricId in this.ranges ? this.ranges[metricId] : { count: 0 };
 
-    const metricRange = this.ranges[metricId];
-    if (metricRange.min === null || value < metricRange.min) {
+    if (metricRange.min === undefined || value < metricRange.min) {
       metricRange.min = value;
     }
-    if (metricRange.max === null || value > metricRange.max) {
+    if (metricRange.max === undefined || value > metricRange.max) {
       metricRange.max = value;
     }
+    if (metricRange.count) metricRange.count++;
 
-    metricRange.count++;
+    this.ranges[metricId] = metricRange;
+
+    console.log("Data range", metricRange);
   }
 }

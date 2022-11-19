@@ -7,8 +7,8 @@ export class AggregateListParams
 
 // Describes an aggregate
 export class Aggregate {
-  id: number;
-  public value: number;
+  id?: number;
+  public value?: number;
   constructor(
     public metricId: number,
     public channelId: number,
@@ -17,7 +17,7 @@ export class Aggregate {
     public mean: number,
     public median: number,
     public stdev: number,
-    public numSamps: number,
+    public num_samps: number,
     public p05: number,
     public p10: number,
     public p90: number,
@@ -37,7 +37,9 @@ export class Aggregate {
 @Injectable({
   providedIn: "root",
 })
-export class AggregateAdapter implements Adapter<Aggregate> {
+export class AggregateAdapter
+  implements Adapter<Aggregate, ReadAggregate, unknown>
+{
   adaptFromApi(item: ReadAggregate): Aggregate {
     const aggregate = new Aggregate(
       item.metric,

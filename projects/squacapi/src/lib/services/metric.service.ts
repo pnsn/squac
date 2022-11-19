@@ -16,12 +16,12 @@ export class MetricService
   extends BaseApiService<Metric>
   implements WriteableApiService<Metric>
 {
-  constructor(protected adapter: MetricAdapter, protected api: ApiService) {
+  constructor(override adapter: MetricAdapter, override api: ApiService) {
     super(ApiEndpoint.METRIC, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Metric> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Metric> {
+    return super.read(id, refresh);
   }
   list(
     params?: MeasurementMetricsListRequestParams,

@@ -19,31 +19,28 @@ export class MatchingRuleService
   extends BaseApiService<MatchingRule>
   implements SquacApiService<MatchingRule>
 {
-  constructor(
-    protected api: ApiService,
-    protected adapter: MatchingRuleAdapter
-  ) {
+  constructor(override api: ApiService, override adapter: MatchingRuleAdapter) {
     super(ApiEndpoint.MATCHING_RULE, api);
   }
 
   // matching rules is weird and uses number ids unlike other endpoints
-  readParams(id: number): NslcMatchingRulesReadRequestParams {
+  override readParams(id: number): NslcMatchingRulesReadRequestParams {
     return { id };
   }
 
-  deleteParams(id: number): NslcMatchingRulesDeleteRequestParams {
+  override deleteParams(id: number): NslcMatchingRulesDeleteRequestParams {
     return { id };
   }
 
-  updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
+  override updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
     return {
       id: m.id,
       data: this.adapter.adaptToApi(m),
     };
   }
 
-  read(id: number, refresh?: boolean): Observable<MatchingRule> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<MatchingRule> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -57,7 +54,7 @@ export class MatchingRuleService
     return super._updateOrCreate(t);
   }
 
-  delete(id: number): Observable<MatchingRule> {
+  override delete(id: number): Observable<MatchingRule> {
     return super.delete(id);
   }
 

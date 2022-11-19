@@ -17,12 +17,12 @@ export class OrganizationUserService
   extends BaseApiService<User>
   implements WriteableApiService<User>
 {
-  constructor(protected adapter: UserAdapter, protected api: ApiService) {
+  constructor(override adapter: UserAdapter, override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<User> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<User> {
+    return super.read(id, refresh);
   }
 
   list(

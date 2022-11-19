@@ -1,19 +1,15 @@
 import { Injectable } from "@angular/core";
-import { Adapter } from "../interfaces";
-import {
-  ReadOnlyTriggerSerializer,
-  WriteOnlyTriggerSerializer,
-  Trigger as ApiTrigger,
-} from "@pnsn/ngx-squacapi-client";
+import { Adapter, ReadTrigger, WriteTrigger } from "../interfaces";
+import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from "../models";
 
 export class Trigger {
   constructor(
     public id: number,
     public monitorId: number,
-    public valueOperator: ApiTrigger.ValueOperatorEnum, //outsideof, within, ==, <, <=, >, >=
+    public valueOperator: ApiTrigger.ValueOperatorEnum | undefined, //outsideof, within, ==, <, <=, >, >=
     public numChannels: number,
-    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum, //any, ==, <, >
+    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum | undefined, //any, ==, <, >
     public alertOnOutOfAlarm: boolean,
     public emailList: string, //comma separated
     public val1: number,
@@ -26,17 +22,19 @@ export class Trigger {
   // get conditionString(): string {
   //   return `Alarm if ${this.num_channels_operator} ${this.num_channels}`
   // }
-  lastAlarm: Alert;
-  monitor: Monitor;
+  lastAlarm?: Alert;
+  monitor?: Monitor;
 }
 
 @Injectable({
   providedIn: "root",
 })
-export class TriggerAdapter implements Adapter<Trigger> {
-  adaptFromApi(item: ReadOnlyTriggerSerializer | ApiTrigger): Trigger {
+export class TriggerAdapter
+  implements Adapter<Trigger, ReadTrigger, WriteTrigger>
+{
+  adaptFromApi(item: ReadTrigger): Trigger {
     const trigger = new Trigger(
-      item.id,
+      item.id ? +item.id : 0,
       item.monitor,
       item.value_operator, //outsideof, within, ==, <, <=, >, >=
       item.num_channels,
@@ -49,7 +47,7 @@ export class TriggerAdapter implements Adapter<Trigger> {
     return trigger;
   }
 
-  adaptToApi(item: Trigger): WriteOnlyTriggerSerializer {
+  adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,
       val1: item.val1,

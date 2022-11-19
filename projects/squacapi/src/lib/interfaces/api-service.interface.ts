@@ -1,15 +1,15 @@
 import { Observable } from "rxjs";
 
 export interface ListService<T> {
-  list(params?: any): Observable<Array<T>>;
+  list(params?: unknown): Observable<Array<T>>;
 }
 
 export interface ReadService<T> {
-  read(params: any): Observable<T>;
+  read(params: unknown): Observable<T>;
 }
 
 export interface UpdateService<T> {
-  update(params: any): Observable<T>;
+  update(params: unknown): Observable<T>;
 }
 
 export interface WriteService<T> {
@@ -17,7 +17,7 @@ export interface WriteService<T> {
 }
 
 export interface DeleteService<T> {
-  delete(params: any): Observable<T>;
+  delete(params: unknown): Observable<T>;
 }
 
 export interface ReadOnlyApiService<T> extends ReadService<T>, ListService<T> {}

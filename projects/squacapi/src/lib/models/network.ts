@@ -17,7 +17,7 @@ export class Network {
 @Injectable({
   providedIn: "root",
 })
-export class NetworkAdapter implements Adapter<Network> {
+export class NetworkAdapter implements Adapter<Network, ReadNetwork, unknown> {
   adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }

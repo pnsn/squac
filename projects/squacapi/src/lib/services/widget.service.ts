@@ -20,28 +20,28 @@ export class WidgetService
   extends BaseApiService<Widget>
   implements SquacApiService<Widget>
 {
-  constructor(protected adapter: WidgetAdapter, protected api: ApiService) {
+  constructor(override adapter: WidgetAdapter, override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
   }
 
   // widget is weird and uses number ids unlike other endpoints
-  readParams(id: number): DashboardWidgetsReadRequestParams {
+  override readParams(id: number): DashboardWidgetsReadRequestParams {
     return { id };
   }
 
-  deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
+  override deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
     return { id };
   }
 
-  updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
+  override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
     return {
       id: w.id,
       data: this.adapter.adaptToApi(w),
     };
   }
 
-  read(id: number, refresh?: boolean): Observable<Widget> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Widget> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -55,7 +55,7 @@ export class WidgetService
     return super._updateOrCreate(t);
   }
 
-  delete(id: number): Observable<any> {
+  override delete(id: number): Observable<any> {
     return super.delete(id);
   }
 }

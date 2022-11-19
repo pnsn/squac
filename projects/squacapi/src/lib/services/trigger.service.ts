@@ -16,12 +16,12 @@ export class TriggerService
   extends BaseApiService<Trigger>
   implements SquacApiService<Trigger>
 {
-  constructor(protected adapter: TriggerAdapter, protected api: ApiService) {
+  constructor(override adapter: TriggerAdapter, override api: ApiService) {
     super(ApiEndpoint.TRIGGER, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Trigger> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Trigger> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -35,7 +35,7 @@ export class TriggerService
     return super._updateOrCreate(t);
   }
 
-  delete(id: number): Observable<any> {
+  override delete(id: number): Observable<any> {
     return super.delete(id);
   }
 
@@ -44,8 +44,8 @@ export class TriggerService
     triggers: Trigger[],
     deleteTriggers: number[],
     monitorId: number
-  ): Observable<Trigger>[] {
-    const triggerSubs = [];
+  ): Observable<Trigger | any>[] {
+    const triggerSubs: Observable<Trigger | any>[] = [];
     for (const trigger of triggers) {
       trigger.monitorId = monitorId;
       triggerSubs.push(this.updateOrCreate(trigger));

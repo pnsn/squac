@@ -20,11 +20,13 @@ export class Measurement {
 @Injectable({
   providedIn: "root",
 })
-export class MeasurementAdapter implements Adapter<Measurement> {
+export class MeasurementAdapter
+  implements Adapter<Measurement, ReadMeasurement, unknown>
+{
   adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement = new Measurement(
-      item.id,
-      item.user,
+      item.id ? item.id : 0,
+      item.user ? item.user : 0,
       item.metric,
       item.channel,
       item.value,

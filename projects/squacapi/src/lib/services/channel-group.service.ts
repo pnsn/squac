@@ -17,15 +17,12 @@ export class ChannelGroupService
   extends BaseApiService<ChannelGroup>
   implements SquacApiService<ChannelGroup>
 {
-  constructor(
-    protected adapter: ChannelGroupAdapter,
-    protected api: ApiService
-  ) {
+  constructor(override adapter: ChannelGroupAdapter, override api: ApiService) {
     super(ApiEndpoint.CHANNEL_GROUP, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<ChannelGroup> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<ChannelGroup> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -39,7 +36,7 @@ export class ChannelGroupService
     return super._updateOrCreate(t);
   }
 
-  delete(id: number): Observable<any> {
+  override delete(id: number): Observable<any> {
     return super.delete(id);
   }
 

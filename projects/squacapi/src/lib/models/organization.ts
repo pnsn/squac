@@ -18,10 +18,12 @@ export class Organization {
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationAdapter implements Adapter<Organization> {
+export class OrganizationAdapter
+  implements Adapter<Organization, ReadOrganization, unknown>
+{
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter = new UserAdapter();
-    let users = [];
+    let users: User[] = [];
     if (item.users) {
       users = item.users.map((u: ApiUserSimple) => userAdapter.adaptFromApi(u));
     }

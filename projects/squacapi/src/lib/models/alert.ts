@@ -4,18 +4,16 @@ import { Monitor, Trigger } from "../models";
 import { TriggerAdapter } from "../models/trigger";
 
 export class Alert {
-  constructor(
-    public id: number,
-    public owner: number,
-    public timestamp: string,
-    public message: string,
-    public inAlarm: boolean,
-    public breachingChannels: Array<any>,
-    public triggerId: number
-  ) {}
+  id?: number;
+  owner?: number;
+  timestamp!: string;
+  message!: string;
+  inAlarm?: boolean;
+  breachingChannels!: string[];
+  triggerId?: number;
 
-  monitor: Monitor;
-  trigger: Trigger;
+  monitor?: Monitor;
+  trigger?: Trigger;
 
   static get modelName() {
     return "Alert";
@@ -25,34 +23,38 @@ export class Alert {
 @Injectable({
   providedIn: "root",
 })
-export class AlertAdapter implements Adapter<Alert> {
+export class AlertAdapter implements Adapter<Alert, ReadAlert, unknown> {
   adaptFromApi(item: ReadAlert): Alert {
     const triggerAdapter = new TriggerAdapter();
-    let breachingChannels = [];
+    let breachingChannels: string[] = [];
     let trigger;
     let triggerId;
+
     if (typeof item.breaching_channels === "string") {
-      breachingChannels = JSON.parse(item.breaching_channels) || [];
+      try {
+        breachingChannels = JSON.parse(item.breaching_channels) as string[];
+      } catch {
+        breachingChannels = [];
+      }
     }
 
     if (typeof item.trigger === "number") {
       triggerId = item.trigger;
-    } else {
+    } else if (item.trigger) {
       triggerId = item.trigger.id;
       trigger = triggerAdapter.adaptFromApi(item.trigger);
     }
 
-    const alert = new Alert(
-      item.id,
-      item.user,
-      item.timestamp,
-      item.message,
-      item.in_alarm,
+    const alert: Alert = {
+      id: item.id,
+      owner: item.user,
+      timestamp: item.timestamp,
+      message: item.message,
+      inAlarm: item.in_alarm,
       breachingChannels,
-      triggerId
-    );
-
-    alert.trigger = trigger;
+      triggerId,
+      trigger,
+    };
 
     return alert;
   }

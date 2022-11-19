@@ -1,5 +1,7 @@
+import { MeasurementTypes } from "../types/measurement-types";
+
 // get most recent value
-export function mostRecent(values): number {
+export function mostRecent(values: MeasurementTypes[]): number {
   values.sort((a, b) => {
     return new Date(a.starttime).getTime() - new Date(b.starttime).getTime();
   });
@@ -8,21 +10,23 @@ export function mostRecent(values): number {
 }
 
 // Calculates the median for the channel
-export function median(values): number {
+export function median(values: MeasurementTypes[]): number {
   const midIndex = values.length / 2 - 0.5;
   let med: number;
 
   if (midIndex % 1 === 0) {
     med = values[midIndex].value;
   } else {
-    med = (values[midIndex - 0.5].value + values[midIndex - 0.5].value) / 2;
+    const upperValue: number = values[midIndex + 0.5].value;
+    const lowerValue: number = values[midIndex - 0.5].value;
+    med = (lowerValue + upperValue) / 2;
   }
 
   return med;
 }
 
 // Calculates the average value for the channel
-export function average(values): number {
+export function average(values: MeasurementTypes[]): number {
   let sum = 0;
   for (const value of values) {
     sum += value.value;
@@ -32,24 +36,29 @@ export function average(values): number {
 }
 
 // // Returns requested percentile, probably
-export function percentile(values, percent: number): number {
+export function percentile(
+  values: MeasurementTypes[],
+  percent: number
+): number {
   const index = Math.ceil((percent / 100) * values.length);
-  return index === values.length ? values[index - 1] : values[index];
+  return index === values.length
+    ? values[index - 1].value
+    : values[index].value;
 }
 
 // Returns the channel's maximum value
-export function max(values): number {
+export function max(values: MeasurementTypes[]): number {
   return values[values.length - 1].value;
 }
 
 // Returns the channel's minimum value
-export function min(values): number {
+export function min(values: MeasurementTypes[]): number {
   return values[0].value;
 }
 
 // Returns the max or min (type) of the absolute value of the min and max
 // Most extreme value of the data
-export function absvalue(values, type: string): number {
+export function absvalue(values: MeasurementTypes[], type: string): number {
   const maxValue = max(values);
   const minValue = min(values);
 
@@ -59,7 +68,6 @@ export function absvalue(values, type: string): number {
   if (type === "min") {
     return Math.min(minabs, maxabs);
   }
-  if (type === "max") {
-    return Math.max(minabs, maxabs);
-  }
+
+  return Math.max(minabs, maxabs);
 }

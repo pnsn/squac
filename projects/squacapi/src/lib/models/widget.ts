@@ -34,7 +34,7 @@ export class Widget {
       props = new Array<Threshold>();
     } else if (thresholds && typeof thresholds === "string") {
       try {
-        props = JSON.parse(thresholds).slice();
+        props = { ...(JSON.parse(thresholds) as Threshold[]) };
       } catch {
         props = [];
       }
@@ -54,7 +54,7 @@ export class Widget {
     if (!properties) {
       props = WIDGET_PROPERTIES;
     } else if (properties && typeof properties === "string") {
-      props = { ...JSON.parse(properties) };
+      props = { ...(JSON.parse(properties) as WidgetProperties) };
     } else if (typeof properties !== "string") {
       props = { ...properties };
     }
@@ -66,12 +66,12 @@ export class Widget {
   }
 
   //can be entered as string or properties
-  public set layout(layout: string | Partial<WidgetLayout>) {
+  public set layout(layout: string | Partial<WidgetLayout> | undefined) {
     let props: Partial<WidgetLayout>;
     if (!layout) {
       props = WIDGET_LAYOUT;
     } else if (layout && typeof layout === "string") {
-      props = { ...JSON.parse(layout) };
+      props = { ...(JSON.parse(layout) as WidgetLayout) };
     } else if (typeof layout !== "string") {
       props = { ...layout };
     }
@@ -100,10 +100,10 @@ export class Widget {
 @Injectable({
   providedIn: "root",
 })
-export class WidgetAdapter implements Adapter<Widget> {
+export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
   adaptFromApi(item: ReadWidget): Widget {
     const metricAdapter = new MetricAdapter();
-    let metrics = [];
+    let metrics: Metric[] = [];
 
     if (item.metrics) {
       metrics = item.metrics.map((m: ApiMetric) =>

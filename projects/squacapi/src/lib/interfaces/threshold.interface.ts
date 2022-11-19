@@ -3,7 +3,7 @@ export interface Threshold {
   min: number;
   max: number;
   metricId: number;
-  dimension?: any;
+  dimension?: string;
   inRange?: {
     color: string[];
     type: string;

@@ -17,18 +17,18 @@ export class UserMeService
   extends BaseApiService<User>
   implements ReadUpdateApiService<User>
 {
-  constructor(protected adapter: UserAdapter, protected api: ApiService) {
+  constructor(override adapter: UserAdapter, override api: ApiService) {
     super(ApiEndpoint.USER_ME, api);
   }
 
-  read(): Observable<User> {
+  override read(): Observable<User> {
     return super._read();
   }
 
   update(t: Partial<User>): Observable<User> {
     const params: UserMePartialUpdateRequestParams = {
       data: {
-        organization: t.orgId,
+        organization: t.orgId ?? 0,
         firstname: t.firstName,
         lastname: t.lastName,
       },

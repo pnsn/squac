@@ -19,7 +19,7 @@ export class HourArchiveService
   extends BaseApiService<Archive>
   implements ListService<Archive>
 {
-  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
+  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
 
@@ -38,7 +38,7 @@ export class DayArchiveService
   extends BaseApiService<Archive>
   implements ListService<Archive>
 {
-  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
+  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.DAY_ARCHIVE, api);
   }
 
@@ -57,7 +57,7 @@ export class WeekArchiveService
   extends BaseApiService<Archive>
   implements ListService<Archive>
 {
-  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
+  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
 
@@ -76,7 +76,7 @@ export class MonthArchiveService
   extends BaseApiService<Archive>
   implements ListService<Archive>
 {
-  constructor(protected adapter: ArchiveAdapter, protected api: ApiService) {
+  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.MONTH_ARCHIVE, api);
   }
 

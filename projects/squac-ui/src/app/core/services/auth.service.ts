@@ -23,7 +23,7 @@ export class AuthService {
   redirectUrl: string;
   constructor(
     private router: Router,
-    protected api: ApiService,
+    override api: ApiService,
     private userService: UserService
   ) {}
 

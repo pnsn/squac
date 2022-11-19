@@ -5,20 +5,30 @@ import { Adapter, SquacObject } from "../interfaces";
 import { ApiEndpoint } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
+export interface Options {
+  refresh?: boolean;
+}
+
+export interface HttpOptions {
+  context?: HttpContext;
+}
+
+export type Params = any;
+
 export abstract class BaseApiService<T extends SquacObject> {
   observe = "body";
   reportProgress = false;
 
-  protected adapter: Adapter<T>;
+  protected adapter: Adapter<T, unknown, unknown>;
 
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
 
-  private mapFromApi(apiObject: any) {
+  private mapFromApi(apiObject: any): T {
     return this.adapter.adaptFromApi(apiObject);
   }
 
-  private getHttpOptions(options: any) {
-    const httpOptions: any = {};
+  private getHttpOptions(options: Options): HttpOptions {
+    const httpOptions: HttpOptions = {};
     if (options && options.refresh) {
       httpOptions.context = new HttpContext().set(REFRESH_REQUEST, true);
     }
@@ -30,7 +40,10 @@ export abstract class BaseApiService<T extends SquacObject> {
   //  * @param params - request params, type varies by object
   //  * @returns observable of request results
   //  */
-  protected _list(params: any = {}, options: any = {}): Observable<Array<T>> {
+  protected _list(
+    params: Params = {},
+    options: Options = {}
+  ): Observable<Array<T>> {
     const httpOptions = this.getHttpOptions(options);
     return this.api[`${this.apiEndpoint}List`](
       params,
@@ -45,7 +58,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param id - id of requested resource
    * @returns observable of request result
    */
-  protected _read(params?: any, options?: any): Observable<T> {
+  protected _read(params?: Params, options?: Options): Observable<T> {
     const httpOptions = this.getHttpOptions(options);
     return this.api[`${this.apiEndpoint}Read`](
       params,
@@ -60,7 +73,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param t - object to update in squacapi
    * @returns observable of result of request
    */
-  protected _update(params?: any): Observable<T> {
+  protected _update(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Update`](
       params,
       this.observe,
@@ -73,7 +86,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param t - object to add to squacapi
    * @returns observable of result of request
    */
-  protected _create(params?: any): Observable<T> {
+  protected _create(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Create`](
       params,
       "response",
@@ -91,7 +104,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param id - id of object to delete
    * @returns observable of result of request
    */
-  protected _delete(params?: any): Observable<any> {
+  protected _delete(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Delete`](
       params,
       this.observe,
@@ -100,30 +113,32 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /** override if different params needed */
-  protected readParams(id: number | string): any {
+  protected readParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
   }
 
   /** override if different params needed */
-  protected updateParams(t: T): any {
+  protected updateParams(t: T): { id: string | number; data: unknown } | void {
     const data = this.adapter.adaptToApi(t);
-    return { id: `${t.id}`, data };
+    if (t.id) {
+      return { id: `${t.id}`, data };
+    }
   }
 
   /** override if different params needed */
-  protected createParams(t: T): any {
+  protected createParams(t: T): { data: unknown } {
     const data = this.adapter.adaptToApi(t);
     return { data };
   }
 
   /** override if different params needed */
-  protected deleteParams(id: number | string): any {
+  protected deleteParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
   }
 
-  protected read(id: number, options?: any): Observable<T> {
+  protected read(id: number, refresh?: boolean): Observable<T> {
     const params = this.readParams(id);
-    return this._read(params, options);
+    return this._read(params, { refresh });
   }
 
   protected delete(id: number): Observable<T> {

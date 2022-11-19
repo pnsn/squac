@@ -17,16 +17,13 @@ export class OrganizationService
   implements ReadOnlyApiService<Organization>
 {
   private localOrganizations: Organization[] = [];
-  private orgUsers = {};
-  constructor(
-    protected adapter: OrganizationAdapter,
-    protected api: ApiService
-  ) {
+  private orgUsers: Record<number, { first: string; last: string }> = {};
+  constructor(override adapter: OrganizationAdapter, override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Organization> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Organization> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -48,12 +45,12 @@ export class OrganizationService
     );
   }
 
-  getOrgUserName(id): string {
+  getOrgUserName(id: number): string {
     const orgUser = this.orgUsers[id];
     return orgUser ? orgUser.first + " " + orgUser.last : "unknown";
   }
 
-  getOrgName(id): string {
+  getOrgName(id: number): string {
     const org = this.localOrganizations.find((o) => o.id === id);
     return org ? org.name : "unknown";
   }

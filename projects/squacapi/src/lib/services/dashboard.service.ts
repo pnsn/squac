@@ -16,12 +16,12 @@ export class DashboardService
   extends BaseApiService<Dashboard>
   implements SquacApiService<Dashboard>
 {
-  constructor(protected api: ApiService, protected adapter: DashboardAdapter) {
+  constructor(override api: ApiService, override adapter: DashboardAdapter) {
     super(ApiEndpoint.DASHBOARD, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Dashboard> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Dashboard> {
+    return super.read(id, refresh);
   }
 
   list(
@@ -35,7 +35,7 @@ export class DashboardService
     return super._updateOrCreate(d);
   }
 
-  delete(id: number): Observable<any> {
+  override delete(id: number): Observable<any> {
     return super.delete(id);
   }
 }

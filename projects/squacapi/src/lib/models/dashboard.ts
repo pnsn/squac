@@ -8,10 +8,10 @@ import {
 } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
 export class Dashboard {
-  public channelGroup: ChannelGroup;
-  private _widgets: Array<Widget> = [];
+  public channelGroup?: ChannelGroup;
+  private _widgets: Widget[] = [];
   public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
-  widgetIds: Array<number>;
+  widgetIds?: number[];
   constructor(
     public id: number,
     public owner: number,
@@ -25,11 +25,15 @@ export class Dashboard {
 
   //can be entered as string or properties
   public set properties(properties: string | Partial<DashboardProperties>) {
-    let props: Partial<DashboardProperties>;
+    let props: Partial<DashboardProperties> = {};
     if (!properties) {
       props = DASHBOARD_PROPERTIES;
     } else if (properties && typeof properties === "string") {
-      props = { ...JSON.parse(properties) };
+      try {
+        props = { ...(JSON.parse(properties) as Record<string, unknown>) };
+      } catch {
+        return;
+      }
     } else if (typeof properties !== "string") {
       props = { ...properties };
     }
@@ -40,11 +44,11 @@ export class Dashboard {
     return this._properties;
   }
 
-  public get widgets(): Array<Widget> {
+  public get widgets(): Widget[] {
     return this._widgets;
   }
 
-  public set widgets(widgets: Array<Widget>) {
+  public set widgets(widgets: Widget[]) {
     this._widgets = widgets;
     this.widgetIds = widgets.map((w) => {
       return w.id;
@@ -59,20 +63,22 @@ export class Dashboard {
 @Injectable({
   providedIn: "root",
 })
-export class DashboardAdapter implements Adapter<Dashboard> {
+export class DashboardAdapter
+  implements Adapter<Dashboard, ReadDashboard, WriteDashboard>
+{
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard = new Dashboard(
-      item.id,
-      item.user,
+      item.id ? +item.id : 0,
+      item.user ? +item.user : 0,
       item.name,
-      item.description,
-      item.share_org,
-      item.share_all,
+      item.description ?? "",
+      item.share_org ?? false,
+      item.share_all ?? false,
       item.organization,
       item.channel_group
     );
 
-    dashboard.properties = item.properties || "";
+    dashboard.properties = item.properties ?? "";
 
     return dashboard;
   }

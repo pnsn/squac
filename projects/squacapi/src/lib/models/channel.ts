@@ -18,9 +18,9 @@ export class Channel implements SquacObject {
     public loc: string,
     public sta: string,
     public net: string,
-    public starttime: string,
-    public endttime: string,
-    _nslc: string
+    public starttime?: string,
+    public endttime?: string,
+    _nslc?: string
   ) {
     this.nslc = _nslc ? _nslc : net + "." + sta + "." + loc + "." + code;
   }
@@ -36,19 +36,19 @@ export class Channel implements SquacObject {
 @Injectable({
   providedIn: "root",
 })
-export class ChannelAdapter implements Adapter<Channel> {
+export class ChannelAdapter implements Adapter<Channel, ReadChannel, unknown> {
   adaptFromApi(item: ReadChannel): Channel {
     return new Channel(
-      item.id,
-      item.code?.toUpperCase(),
-      item.name,
-      item.sample_rate,
+      item.id ? +item.id : 0,
+      item.code.toUpperCase(),
+      item.name ?? "",
+      item.sample_rate ?? 0,
       item.lat,
       item.lon,
       item.elev,
-      item.loc?.toUpperCase(),
-      item.station_code?.toUpperCase(),
-      item.network?.toUpperCase(),
+      item.loc ? item.loc.toUpperCase() : "--",
+      item.station_code.toUpperCase(),
+      item.network.toUpperCase(),
       item.starttime,
       item.endtime,
       item.nslc?.toUpperCase()

@@ -8,22 +8,24 @@ export class MatchingRule {
     public channelGroupId: number,
     public isInclude: boolean
   ) {}
-  networkRegex: string;
-  stationRegex: string;
-  locationRegex: string;
-  channelRegex: string;
+  networkRegex?: string;
+  stationRegex?: string;
+  locationRegex?: string;
+  channelRegex?: string;
 }
 
 @Injectable({
   providedIn: "root",
 })
-export class MatchingRuleAdapter implements Adapter<MatchingRule> {
+export class MatchingRuleAdapter
+  implements Adapter<MatchingRule, ReadMatchingRule, WriteMatchingRule>
+{
   adaptFromApi(item: ReadMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
-      item.id,
-      item.user,
+      item.id ? +item.id : 0,
+      item.user ? item.user : 0,
       item.group,
-      item.is_include
+      item.is_include ?? true
     );
 
     matchingRule.channelRegex = item.channel_regex;

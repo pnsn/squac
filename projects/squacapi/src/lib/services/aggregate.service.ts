@@ -16,7 +16,7 @@ export class AggregateService
   extends BaseApiService<Aggregate>
   implements ListService<Aggregate>
 {
-  constructor(protected adapter: AggregateAdapter, protected api: ApiService) {
+  constructor(override adapter: AggregateAdapter, override api: ApiService) {
     super(ApiEndpoint.AGGREGATE, api);
   }
 

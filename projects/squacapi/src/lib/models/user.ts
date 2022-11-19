@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { UserGroup } from "@pnsn/ngx-squacapi-client";
 import { Adapter, ReadUser, WriteUser } from "../interfaces";
 
 // Describes a user object
@@ -10,7 +11,7 @@ export class User {
     public lastName: string,
     public orgId: number,
     public orgAdmin: boolean,
-    groupsArr?: any
+    groupsArr?: (string | UserGroup)[]
   ) {
     this.groups = [];
     if (groupsArr) {
@@ -48,7 +49,7 @@ export class User {
 @Injectable({
   providedIn: "root",
 })
-export class UserAdapter implements Adapter<User> {
+export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
   // Temp until Jon fixes
   private groupIds = [
     { id: 1, name: "viewer" },
@@ -96,11 +97,7 @@ export class UserAdapter implements Adapter<User> {
   adaptToApi(item: User): WriteUser {
     const groups = item.groups.map((g) => {
       const group = this.groupIds.find((groupId) => groupId.name === g);
-      if (group) {
-        return group.id;
-      } else {
-        return;
-      }
+      return group.id;
     });
     return {
       email: item.email,

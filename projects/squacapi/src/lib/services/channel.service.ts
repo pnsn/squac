@@ -18,12 +18,12 @@ export class ChannelService
   extends BaseApiService<Channel>
   implements ReadOnlyApiService<Channel>
 {
-  constructor(protected api: ApiService, protected adapter: ChannelAdapter) {
+  constructor(override api: ApiService, override adapter: ChannelAdapter) {
     super(ApiEndpoint.CHANNEL, api);
   }
 
-  read(id: number, refresh?: boolean): Observable<Channel> {
-    return super.read(id, { refresh });
+  override read(id: number, refresh?: boolean): Observable<Channel> {
+    return super.read(id, refresh);
   }
 
   list(

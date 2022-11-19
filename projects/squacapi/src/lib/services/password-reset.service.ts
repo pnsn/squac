@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class PasswordResetService {
-  private token: string;
+  private token = "";
   constructor(private apiService: ApiService) {}
 
   // send email to squac, it sends token to user
