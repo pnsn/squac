@@ -13,7 +13,13 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import {
+  isPiecewise,
+  VisualMapTypes,
+  WidgetTypeComponent,
+  isContinuous,
+  isStoplight,
+} from "../../interfaces";
 import { GenericWidgetComponent } from "../abstract-components";
 import { ChannelRow, StationRow } from "./types";
 import { MeasurementTypes, Metric } from "squacapi";
@@ -41,9 +47,13 @@ export class MapComponent
   fitBounds: L.LatLngBounds;
   map: L.Map;
   metricLayers: Record<number, L.Marker[]>;
-  displayMap;
+  displayMap: VisualMapTypes;
   legend: L.Control;
   stations: StationRow[];
+
+  isPiecewise = isPiecewise;
+  isStoplight = isStoplight;
+  isContinuous = isContinuous;
 
   constructor(
     private widgetConfigService: WidgetConfigService,
@@ -100,7 +110,7 @@ export class MapComponent
     }
   }
 
-  emphasizeChannel(channel): void {
+  emphasizeChannel(channel: string): void {
     // const layer = this.metricLayers[this.displayMetric.id];
     if (channel && this.stations) {
       const chan = channel.split(".");
@@ -273,7 +283,7 @@ export class MapComponent
               stationRows[staIndex]
             );
 
-            if (visualMap?.type === "stoplight") {
+            if (isStoplight(visualMap)) {
               let color;
               if (station.channelAgg === 0) {
                 color = visualMap.colors.in;
@@ -305,7 +315,10 @@ export class MapComponent
     });
   }
 
-  private findWorstChannel(channel, station): StationRow {
+  private findWorstChannel(
+    channel: ChannelRow,
+    station: StationRow
+  ): StationRow {
     station.count++;
     if (channel.agg > station.agg) {
       station.agg = channel.agg;
@@ -317,13 +330,15 @@ export class MapComponent
     return station;
   }
 
-  addPanes(visualMap): void {
+  addPanes(visualMap: VisualMapTypes): void {
     if (visualMap) {
       switch (visualMap.type) {
         case "stoplight":
-          this.map.createPane(visualMap.colors.in);
-          this.map.createPane(visualMap.colors.out);
-          this.map.createPane(visualMap.colors.middle);
+          if ("colors" in visualMap) {
+            this.map.createPane(visualMap.colors.in);
+            this.map.createPane(visualMap.colors.out);
+            this.map.createPane(visualMap.colors.middle);
+          }
           break;
         case "continuous":
           visualMap.inRange.color.forEach((color) => {
@@ -332,13 +347,13 @@ export class MapComponent
           this.map.createPane(visualMap.outOfRange.color[0]);
           break;
         case "piecewise":
-          visualMap.pieces.forEach((piece) => {
-            this.map.createPane(piece.color);
-          });
+          if ("pieces" in visualMap) {
+            visualMap.pieces.forEach((piece) => {
+              this.map.createPane(piece.color);
+            });
+          }
           this.map.createPane(visualMap.outOfRange.color[0]);
 
-          break;
-        default: //no visualMap pane
           break;
       }
     } else {
@@ -378,7 +393,7 @@ export class MapComponent
     return htmlString;
   }
 
-  private getStyle(value, visualMap): string {
+  private getStyle(value: number, visualMap: VisualMapTypes): string {
     if (value === null || value === undefined) {
       return "transparent";
     }

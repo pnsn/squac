@@ -3,9 +3,10 @@ import { NgModule } from "@angular/core";
 import { SquacapiModule } from "squacapi";
 import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
+import { GuardTypePipe } from "./pipes/guard-type.pipe";
 
 @NgModule({
-  declarations: [PrecisionPipe],
+  declarations: [PrecisionPipe, GuardTypePipe],
   imports: [
     NgxEchartsModule.forRoot({
       echarts: () => import("echarts"),
@@ -14,6 +15,12 @@ import { PrecisionPipe } from "./pipes/precision.pipe";
     CommonModule,
   ],
   providers: [],
-  exports: [PrecisionPipe, NgxEchartsModule, SquacapiModule, CommonModule],
+  exports: [
+    PrecisionPipe,
+    GuardTypePipe,
+    NgxEchartsModule,
+    SquacapiModule,
+    CommonModule,
+  ],
 })
 export class SharedModule {}

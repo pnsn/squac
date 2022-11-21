@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ProcessedData, WidgetConfig } from "../../interfaces";
+import { ProcessedData, VisualMap, WidgetConfig } from "../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { Channel, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";
@@ -16,7 +16,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   channels: Channel[];
   selectedMetrics: Metric[];
   properties: WidgetProperties;
-  visualMaps: any = {};
+  visualMaps: VisualMap = {};
 
   abstract emphasizeChannel(channel: string): void;
   abstract deemphasizeChannel(channel: string): void;
@@ -24,7 +24,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   abstract toggleKey(): void;
 
   abstract changeMetrics(): void;
-  abstract buildChartData(data): Promise<void>;
+  abstract buildChartData(data: ProcessedData): Promise<void>;
   abstract configureChart(): void;
 
   constructor(
@@ -34,7 +34,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.widgetConfig = widgetManager.widgetConfig;
   }
 
-  initToggleKey() {
+  initToggleKey(): void {
     const toggleKeySub = this.widgetManager.toggleKey$.subscribe((show) => {
       this.showKey = show;
       this.toggleKey();
@@ -42,7 +42,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.subscription.add(toggleKeySub);
   }
 
-  initZoom() {
+  initZoom(): void {
     const zoomSub = this.widgetManager.zoomStatus$.subscribe((zoom) => {
       if (zoom !== this.zooming) {
         this.zooming = zoom;
@@ -52,7 +52,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.subscription.add(zoomSub);
   }
 
-  updateData(data: any): void {
+  updateData(data: ProcessedData): void {
     this.data = data;
     this.channels = this.widgetManager.channels;
     this.selectedMetrics = this.widgetManager.selectedMetrics;

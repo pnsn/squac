@@ -1,12 +1,13 @@
-import { Channel, Metric } from "squacapi";
-import { WidgetProperties } from "squacapi";
+import { Channel, Metric, WidgetProperties } from "squacapi";
+import { VisualMap } from "./charts.interface";
+import { ProcessedData } from "./data.interface";
 
 export interface WidgetTypeComponent {
-  data: any;
+  data: ProcessedData;
   channels: Channel[];
   selectedMetrics: Metric[];
   properties: WidgetProperties;
-  visualMaps: any;
+  visualMaps: VisualMap;
   emphasizedChannel?: string;
   deemphasizedChannel?: string;
   zooming?: string;
@@ -14,6 +15,6 @@ export interface WidgetTypeComponent {
   showKey?: boolean;
   ngOnInit(): void;
   resize?(): void;
-  updateData?(data: any): void;
+  updateData?(data: ProcessedData): void;
   configureChart(): void;
 }

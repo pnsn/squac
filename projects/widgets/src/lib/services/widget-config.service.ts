@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Channel, Metric } from "squacapi";
+import { Channel, Color, Metric, WidgetProperties } from "squacapi";
 import { PrecisionPipe } from "../shared/pipes/precision.pipe";
 import colormap from "colormap";
 import { Threshold } from "squacapi";
@@ -11,13 +11,13 @@ import {
   LabelFormatterParams,
   ParallelAxisOption,
   ProcessedData,
+  VisualMapTypes,
+  PiecewiseVisualMapOption,
+  ContinousVisualMapOption,
+  isContinuous,
 } from "../interfaces";
-import {
-  ContinousVisualMapComponentOption,
-  DefaultLabelFormatterCallbackParams,
-  EChartsOption,
-  PiecewiseVisualMapComponentOption,
-} from "echarts";
+import { DefaultLabelFormatterCallbackParams, EChartsOption } from "echarts";
+
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetConfigService {
@@ -26,7 +26,7 @@ export class WidgetConfigService {
   precisionPipe = new PrecisionPipe();
 
   // defaults for piecewise visualmap
-  piecewiseDefaults: PiecewiseVisualMapComponentOption = {
+  piecewiseDefaults: PiecewiseVisualMapOption = {
     type: "piecewise",
     backgroundColor: "rgba(255,255,255,0.8)",
     align: "right",
@@ -47,7 +47,7 @@ export class WidgetConfigService {
   };
 
   // defaults for continuous visualmap
-  continuousDefaults: ContinousVisualMapComponentOption = {
+  continuousDefaults: ContinousVisualMapOption = {
     type: "continuous",
     backgroundColor: "rgba(255,255,255,0.8)",
     align: "auto",
@@ -187,8 +187,8 @@ export class WidgetConfigService {
   //can use this.thresholds or another metric to color?
   getVisualMapFromThresholds(
     metrics: Metric[],
-    properties,
-    dimension
+    properties: WidgetProperties,
+    dimension: number
   ): VisualMap {
     const visualMaps: VisualMap = {};
     if (properties && this.thresholds && this.dataRange) {
@@ -259,7 +259,7 @@ export class WidgetConfigService {
             );
             properties.outOfRange.opacity = 0;
             if (pieces.length > 0) {
-              visualMaps[metricId] = {
+              const option: PiecewiseVisualMapOption = {
                 ...this.piecewiseDefaults,
                 pieces: pieces.reverse(), // reverse for non-echarts legends
                 dimension,
@@ -268,12 +268,13 @@ export class WidgetConfigService {
                 max: max,
                 outOfRange: properties.outOfRange,
               };
+              visualMaps[metricId] = option;
             }
           } else if (numSplits === 0) {
             properties.outOfRange.opacity = 1;
             min = min !== null ? min : this.dataRange[metricId]?.min;
             max = max !== null ? max : this.dataRange[metricId]?.max;
-            visualMaps[metricId] = {
+            const option: ContinousVisualMapOption = {
               ...this.continuousDefaults,
               dimension,
               inRange: {
@@ -285,6 +286,7 @@ export class WidgetConfigService {
               text: [metric.name, `unit: ${metric.unit}`],
               outOfRange: properties.outOfRange,
             };
+            visualMaps[metricId] = option;
           } else {
             console.error("something went wrong");
           }
@@ -296,7 +298,13 @@ export class WidgetConfigService {
     return visualMaps;
   }
 
-  private getPieces(min, max, numSplits, inColors, outColor): VisualPiece[] {
+  private getPieces(
+    min: number,
+    max: number,
+    numSplits: number,
+    inColors: Color[],
+    outColor: string
+  ): VisualPiece[] {
     const pieces = [];
     // piece for -Infinity to min
     if (min !== null) {
@@ -360,10 +368,11 @@ export class WidgetConfigService {
   }
 
   // return if value is inrange
-  checkValue(value, visualMap): boolean {
-    let hasMin;
-    let hasMax;
-    if (visualMap.range) {
+  checkValue(value: number, visualMap: VisualMapTypes): boolean {
+    let hasMin: boolean;
+    let hasMax: boolean;
+
+    if (isContinuous(visualMap)) {
       hasMin = value >= visualMap.range[0];
       hasMax = value <= visualMap.range[1];
     } else {
@@ -374,7 +383,12 @@ export class WidgetConfigService {
   }
 
   // find color corresponding to value
-  getColorFromValue(value, visualMap, _dataMin?, _dataMax?): string {
+  getColorFromValue(
+    value: number,
+    visualMap: VisualMapTypes,
+    _dataMin?: number,
+    _dataMax?: number
+  ): string {
     let color = "";
     if (value === null || value === undefined) {
       return "white";
@@ -382,30 +396,40 @@ export class WidgetConfigService {
     if (!visualMap) {
       return "gray";
     }
-    if (visualMap.type === "piecewise") {
-      visualMap.pieces?.forEach((piece) => {
-        const gtMin = piece.gt || piece.gt === 0 ? value > piece.gt : true;
-        const gteMin = piece.gte || piece.gte === 0 ? value >= piece.gte : true;
-        const ltMax = piece.lt || piece.lt === 0 ? value < piece.lt : true;
-        const lteMax = piece.lte || piece.lte === 0 ? value <= piece.lte : true;
-        color = gtMin && gteMin && ltMax && lteMax ? piece.color : color;
-      });
-    } else if (visualMap.type === "continuous") {
-      const colors = visualMap.inRange.color;
-      if (value <= visualMap.max && value >= visualMap.min) {
-        const i = (value - visualMap.min) / (visualMap.max - visualMap.min);
+    switch (visualMap.type) {
+      case "piecewise":
+        visualMap.pieces?.forEach((piece) => {
+          const gtMin = piece.gt || piece.gt === 0 ? value > piece.gt : true;
+          const gteMin =
+            piece.gte || piece.gte === 0 ? value >= piece.gte : true;
+          const ltMax = piece.lt || piece.lt === 0 ? value < piece.lt : true;
+          const lteMax =
+            piece.lte || piece.lte === 0 ? value <= piece.lte : true;
+          color = gtMin && gteMin && ltMax && lteMax ? piece.color : color;
+        });
+        break;
 
-        const colorIndex =
-          colors.length > 1 ? Math.floor(Math.abs(i) * colors.length) : 0;
-        color = colors[colorIndex];
+      case "continuous": {
+        const colors = visualMap.inRange.color;
+        if (value <= visualMap.max && value >= visualMap.min) {
+          const i = (value - visualMap.min) / (visualMap.max - visualMap.min);
+
+          const colorIndex =
+            colors.length > 1 ? Math.floor(Math.abs(i) * colors.length) : 0;
+          color = colors[colorIndex];
+        }
+        break;
       }
-    } else if (visualMap.type === "stoplight") {
-      const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
-      const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
-      color = hasMin && hasMax ? visualMap.colors.in : visualMap.colors.out;
+
+      case "stoplight": {
+        const hasMin = visualMap.min !== null ? value >= visualMap.min : true;
+        const hasMax = visualMap.max !== null ? value <= visualMap.max : true;
+        color = hasMin && hasMax ? visualMap.colors.in : visualMap.colors.out;
+        break;
+      }
     }
 
-    if (!color) {
+    if (!color && "outOfRange" in visualMap) {
       color = visualMap.outOfRange.color[0];
     }
 

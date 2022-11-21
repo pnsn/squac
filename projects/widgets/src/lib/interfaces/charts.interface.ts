@@ -5,8 +5,48 @@ import {
   SingleAxisComponentOption,
   Color,
 } from "echarts";
+import { TypeGuard } from "../shared/pipes/guard-type.pipe";
 
-export interface StoplightVisualMapOption {
+interface VisualMapBase {
+  type: "stoplight" | "piecewise" | "continuous";
+}
+
+export interface PiecewiseVisualMapOption
+  extends PiecewiseVisualMapComponentOption,
+    VisualMapBase {
+  type: "piecewise";
+}
+
+export interface ContinousVisualMapOption
+  extends ContinousVisualMapComponentOption,
+    VisualMapBase {
+  type: "continuous";
+}
+
+export type VisualMapTypes =
+  | PiecewiseVisualMapOption
+  | ContinousVisualMapOption
+  | StoplightVisualMapOption;
+
+export const isPiecewise: TypeGuard<
+  VisualMapTypes,
+  PiecewiseVisualMapOption
+> = (visualMap: VisualMapTypes): visualMap is PiecewiseVisualMapOption =>
+  visualMap.type === "piecewise";
+
+export const isContinuous: TypeGuard<
+  VisualMapTypes,
+  ContinousVisualMapOption
+> = (visualMap: VisualMapTypes): visualMap is ContinousVisualMapOption =>
+  visualMap.type === "continuous";
+
+export const isStoplight: TypeGuard<
+  VisualMapTypes,
+  StoplightVisualMapOption
+> = (visualMap: VisualMapTypes): visualMap is StoplightVisualMapOption =>
+  visualMap.type === "stoplight";
+
+export interface StoplightVisualMapOption extends VisualMapBase {
   type: "stoplight";
   colors: {
     in: string;
@@ -16,12 +56,7 @@ export interface StoplightVisualMapOption {
   min: number;
   max: number;
 }
-export type VisualMap = Record<
-  number,
-  | PiecewiseVisualMapComponentOption
-  | ContinousVisualMapComponentOption
-  | StoplightVisualMapOption
->;
+export type VisualMap = Record<number, VisualMapTypes>;
 
 // Copied from Echarts because they're not exported
 export interface VisualPiece {

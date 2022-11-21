@@ -4,6 +4,7 @@ interface RowData {
   lon: number;
   metricAgg: number;
   color: string;
+  agg?: number;
 }
 
 export interface ChannelRow extends RowData {

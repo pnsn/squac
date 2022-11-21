@@ -8,12 +8,12 @@
   [leafletFitBounds]="fitBounds"
 ></div>
 
-<div id="map-legend" #legendElement>
-  <div>{{ displayMetric?.name }}</div>
-  <div>unit: {{ displayMetric?.unit }}</div>
-  <ng-container *ngIf="displayMetric && displayMap?.type === 'piecewise'">
+<div id="map-legend" #legendElement *ngIf="displayMetric && displayMap">
+  <div>{{ displayMetric.name }}</div>
+  <div>unit: {{ displayMetric.unit }}</div>
+  <ng-container *ngIf="displayMap | guardType: isPiecewise as piecewise">
     <div
-      *ngFor="let piece of displayMap?.pieces"
+      *ngFor="let piece of piecewise.pieces"
       (click)="toggleColor(piece.color)"
       [class]="piece.color"
     >
@@ -22,66 +22,66 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="displayMetric && displayMap?.type === 'stoplight'">
+  <ng-container *ngIf="displayMap | guardType: isStoplight as stoplight">
     <div
-      (click)="toggleColor(displayMap?.colors.in)"
-      [class]="displayMap?.colors.in"
+      (click)="toggleColor(stoplight.colors.in)"
+      [class]="stoplight.colors.in"
     >
       <span>all in</span>
       <div
         class="map-icon"
-        [style.background-color]="displayMap?.colors.in"
+        [style.background-color]="stoplight.colors.in"
       ></div>
     </div>
     <div
-      (click)="toggleColor(displayMap?.colors.middle)"
-      [class]="displayMap?.colors.middle"
+      (click)="toggleColor(stoplight.colors.middle)"
+      [class]="stoplight.colors.middle"
     >
       <span>some in</span>
       <div
         class="map-icon"
-        [style.background-color]="displayMap?.colors.middle"
+        [style.background-color]="stoplight.colors.middle"
       ></div>
     </div>
     <div
-      (click)="toggleColor(displayMap?.colors.out)"
-      [class]="displayMap?.colors.out"
+      (click)="toggleColor(stoplight.colors.out)"
+      [class]="stoplight.colors.out"
     >
       <span>none in</span>
       <div
         class="map-icon"
-        [style.background-color]="displayMap?.colors.out"
+        [style.background-color]="stoplight.colors.out"
       ></div>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="displayMetric && displayMap?.type === 'continuous'">
+  <ng-container *ngIf="displayMap | guardType: isContinuous as continuous">
     <div class="legend-container">
       <div id="gradient">
         <div class="values">
           <span>
-            {{ displayMap.max | precision: 3 }}
+            {{ continuous.max | precision: 3 }}
           </span>
           <span>
-            {{ displayMap.min | precision: 3 }}
+            {{ continuous.min | precision: 3 }}
           </span>
         </div>
         <div
           [style.background-image]="
-            'linear-gradient(to top, ' + displayMap?.inRange.color + ')'
+            'linear-gradient(to top, ' + continuous?.inRange.color + ')'
           "
           class="gradient-icon"
         ></div>
       </div>
 
       <div
-        (click)="toggleColor(displayMap?.outOfRange.color[0])"
-        [class]="displayMap?.outOfRange.color[0]"
+        (click)="toggleColor(continuous.outOfRange.color[0])"
+        [class]="continuous.outOfRange.color[0]"
       >
         <span>out of range</span>
         <div
           class="map-icon"
-          [style.background-color]="displayMap?.outOfRange.color[0]"
+          [style.background-color]="continuous.outOfRange.color[0]"
         ></div>
       </div>
     </div>
