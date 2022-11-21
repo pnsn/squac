@@ -15,8 +15,13 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import {
+  ProcessedData,
+  VisualMapTypes,
+  WidgetTypeComponent,
+} from "../../interfaces";
 import { GenericWidgetComponent } from "../abstract-components";
+import { ChannelRow, RowMetrics, StationRow } from "./types";
 
 @Component({
   selector: "widget-tabular",
@@ -149,28 +154,28 @@ export class TabularComponent
     return;
   }
 
-  resize() {
+  resize(): void {
     if (this.table) {
       this.table.recalculate();
     }
   }
 
-  private findRowIndex(nslc) {
+  private findRowIndex(nslc): number {
     return this.rows.findIndex((row) => {
       return row.nslc === nslc;
     });
   }
 
-  private metricComparator(propA, propB) {
+  private metricComparator(propA, propB): number {
     const result = propA.value - propB.value;
     return result;
   }
 
-  private channelComparator(propA, propB) {
+  private channelComparator(propA, propB): number {
     return propA.localeCompare(propB);
   }
 
-  buildChartData(data) {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       const rows = [];
       const stations = [];
@@ -186,12 +191,12 @@ export class TabularComponent
         const identifier = channel.staCode;
         const nslc = channel.nslc;
         let agg = 0;
-        const rowMetrics = {};
-        const stationRowMetrics = {};
+        const rowMetrics: RowMetrics = {};
+        const stationRowMetrics: RowMetrics = {};
         this.selectedMetrics.forEach((metric) => {
           if (!metric) return;
           let val: number = null;
-          let count;
+          let count: number;
 
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
@@ -220,14 +225,14 @@ export class TabularComponent
             count, //channel in range for this metric
           };
         });
-        let title;
+        let title: string;
         if (this.properties.displayType === "channel") {
           title = nslc;
         } else {
           title = channel.loc + "." + channel.code;
         }
 
-        let row = {
+        let row: ChannelRow = {
           title,
           id: channel.id,
           nslc: nslc,
@@ -243,7 +248,7 @@ export class TabularComponent
           if (staIndex < 0) {
             staIndex = stations.length;
             stations.push(identifier);
-            const station = {
+            const station: StationRow = {
               ...{
                 title: identifier,
                 id: identifier,
@@ -270,7 +275,11 @@ export class TabularComponent
   }
 
   //FIXME: this needs to be cleaned up
-  private findWorstChannel(channel, station, stationRowMetrics) {
+  private findWorstChannel(
+    channel: ChannelRow,
+    station: StationRow,
+    stationRowMetrics: RowMetrics
+  ): StationRow {
     station.count++;
     if (station.type === "worst") {
       if (channel.agg >= station.agg) {
@@ -307,7 +316,7 @@ export class TabularComponent
     return station;
   }
 
-  onTreeAction(event: any) {
+  onTreeAction(event: { row: StationRow }): void {
     // const index = event.rowIndex;
     const row = event.row;
     if (row.treeStatus === "collapsed") {
@@ -320,19 +329,11 @@ export class TabularComponent
     }
   }
 
-  onSelect(event) {
+  onSelect(event: { selected: StationRow }): void {
     this.onTreeAction({ row: event.selected[0] });
   }
 
-  getRowClass(row) {
-    const temp = {
-      deemphasized: row.nslc === this.deemphasizedChannel,
-      emphasized: row.nslc === this.emphasizedChannel,
-    };
-    return temp;
-  }
-
-  private getStyle(value, visualMap): string {
+  private getStyle(value: number, visualMap: VisualMapTypes): string {
     return this.widgetConfigService.getColorFromValue(value, visualMap);
   }
 }
