@@ -23,7 +23,7 @@ export class TimechartComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }
@@ -61,7 +61,7 @@ export class TimechartComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
-  buildChartData(data) {
+  buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,

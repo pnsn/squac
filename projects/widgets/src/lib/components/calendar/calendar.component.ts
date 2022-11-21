@@ -24,7 +24,7 @@ export class CalendarComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }

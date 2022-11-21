@@ -5,7 +5,11 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { EChartComponent } from "../abstract-components";
-import { WidgetTypeComponent } from "../../interfaces";
+import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import {
+  DefaultLabelFormatterCallbackParams,
+  ParallelSeriesOption,
+} from "echarts";
 
 @Component({
   selector: "widget-parallel-plot",
@@ -19,7 +23,7 @@ export class ParallelPlotComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }
@@ -45,7 +49,7 @@ export class ParallelPlotComponent
       xAxis: false,
       yAxis: false,
       tooltip: {
-        formatter: (params) => {
+        formatter: (params: DefaultLabelFormatterCallbackParams): string => {
           return this.widgetConfigService.multiMetricTooltipFormatting(params);
         },
       },
@@ -54,7 +58,7 @@ export class ParallelPlotComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
-  toggleKey(): void {
+  override toggleKey(): void {
     let temp: any = {};
     if (this.showKey) {
       temp = {
@@ -87,12 +91,11 @@ export class ParallelPlotComponent
     }
   }
 
-  buildChartData(data) {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
-      const metricSeries = {
+      const metricSeries: ParallelSeriesOption = {
         type: "parallel",
         colorBy: "series",
-        large: true,
         legendHoverLink: true,
         lineStyle: {
           opacity: 1,
@@ -107,6 +110,8 @@ export class ParallelPlotComponent
         },
         dimensions: [],
       };
+
+      // TODO: separate axis call
       this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
         this.selectedMetrics,
         this.channels,
@@ -117,7 +122,7 @@ export class ParallelPlotComponent
     });
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     this.updateOptions = {
       ...this.updateOptions,
       series: this.metricSeries.series,

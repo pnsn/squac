@@ -22,8 +22,8 @@ export class TimelineComponent
 {
   constructor(
     private widgetConfigService: WidgetConfigService,
-    protected widgetConnector: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetConnector: WidgetConnectService,
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnector);
   }
@@ -35,7 +35,7 @@ export class TimelineComponent
   configureChart(): void {
     const chartOptions = {
       tooltip: {
-        formatter: (params) => {
+        formatter: (params): string => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
@@ -66,7 +66,7 @@ export class TimelineComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
-  buildChartData(data) {
+  buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(

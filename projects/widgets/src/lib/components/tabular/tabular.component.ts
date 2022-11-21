@@ -56,13 +56,13 @@ export class TabularComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.subscription.add(
-      this.widgetManager.resize.subscribe(this.resize.bind(this))
+      this.widgetManager.resize$.subscribe(this.resize.bind(this))
     );
     super.ngOnInit();
   }

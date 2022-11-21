@@ -7,6 +7,7 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
+import { DefaultLabelFormatterCallbackParams } from "echarts";
 
 @Component({
   selector: "widget-scatter-plot",
@@ -20,7 +21,7 @@ export class ScatterPlotComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }
@@ -32,7 +33,7 @@ export class ScatterPlotComponent
         left: 50,
       },
       xAxis: {
-        formatter: (value) => {
+        formatter: (value: number): string => {
           return value.toPrecision(4);
         },
       },
@@ -41,12 +42,12 @@ export class ScatterPlotComponent
           inside: true,
         },
         nameGap: 10,
-        formatter: (value) => {
+        formatter: (value: number): string => {
           return value.toPrecision(4);
         },
       },
       tooltip: {
-        formatter: (params) => {
+        formatter: (params: DefaultLabelFormatterCallbackParams): string => {
           return this.widgetConfigService.multiMetricTooltipFormatting(params);
         },
       },
@@ -55,7 +56,7 @@ export class ScatterPlotComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
-  buildChartData(data) {
+  buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -99,7 +100,7 @@ export class ScatterPlotComponent
     });
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];

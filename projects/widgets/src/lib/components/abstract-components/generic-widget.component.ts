@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { WidgetConfig } from "../../interfaces";
+import { ProcessedData, WidgetConfig } from "../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { Channel, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";
@@ -12,7 +12,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   showKey = true; //default to key on
   loading: string;
   widgetConfig: WidgetConfig;
-  data: any;
+  data: ProcessedData;
   channels: Channel[];
   selectedMetrics: Metric[];
   properties: WidgetProperties;
@@ -35,7 +35,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   }
 
   initToggleKey() {
-    const toggleKeySub = this.widgetManager.toggleKey.subscribe((show) => {
+    const toggleKeySub = this.widgetManager.toggleKey$.subscribe((show) => {
       this.showKey = show;
       this.toggleKey();
     });
@@ -43,7 +43,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   }
 
   initZoom() {
-    const zoomSub = this.widgetManager.zoomStatus.subscribe((zoom) => {
+    const zoomSub = this.widgetManager.zoomStatus$.subscribe((zoom) => {
       if (zoom !== this.zooming) {
         this.zooming = zoom;
         this.startZoom();

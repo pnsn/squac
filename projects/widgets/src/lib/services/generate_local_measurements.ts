@@ -8,15 +8,29 @@ import {
   MeasurementMeasurementsListRequestParams,
   MeasurementMonthArchivesListRequestParams,
   MeasurementWeekArchivesListRequestParams,
+  ReadOnlyArchiveDaySerializer,
   ReadOnlyArchiveHourSerializer,
   ReadOnlyArchiveMonthSerializer,
   ReadOnlyArchiveWeekSerializer,
-  ReadOnlyMeasurementSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { ReadArchive, ReadAggregate } from "squacapi";
+import {
+  ReadArchive,
+  ReadAggregate,
+  Channel,
+  ReadMeasurement,
+  MeasurementParams,
+} from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import { map, Observable, of } from "rxjs";
 
+type TimeInterval = "minutes" | "day" | "hour" | "week" | "month";
+interface DataParams {
+  starttime: string;
+  endtime: string;
+  maxValue: number;
+  metric: number;
+  channel: number;
+}
 @Injectable({
   providedIn: "root",
 })
@@ -29,45 +43,39 @@ export class FakeMeasurementBackend {
   private channelsFromGroup(group: number): Observable<number[]> {
     return this.channelGroupService.read(group).pipe(
       map((group) => {
-        return group.channels.map((channel) => channel.id);
+        return group.channels.map((channel: Channel) => channel.id);
       })
     );
   }
-  private getRandom(maxValue = 100) {
+  private getRandom(maxValue = 100): number {
     return Math.random() * maxValue;
   }
-  private getChannels(params): Observable<number[]> {
+  private getChannels(params: MeasurementParams): Observable<number[]> {
     if (params.group) {
-      return this.channelsFromGroup(params.group);
+      return this.channelsFromGroup(params.group[0]);
     } else if (params.channel) {
       return of(params.channel);
     }
     return of([]);
   }
 
-  measurement(
-    starttime,
-    endtime,
-    maxValue,
-    metric,
-    channel
-  ): ReadOnlyMeasurementSerializer {
+  measurement(params: DataParams): ReadMeasurement {
     return {
-      starttime,
-      endtime,
-      value: this.getRandom(maxValue),
-      metric,
-      channel,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      value: this.getRandom(params.maxValue),
+      metric: params.metric,
+      channel: params.channel,
     };
   }
 
-  archive(starttime, endtime, maxValue, metric, channel): ReadArchive {
-    const value = this.getRandom(maxValue);
+  archive(params: DataParams): ReadArchive {
+    const value = this.getRandom(params.maxValue);
     return {
-      starttime,
-      endtime,
-      channel,
-      metric,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      metric: params.metric,
+      channel: params.channel,
       min: value,
       max: value,
       mean: value,
@@ -83,13 +91,13 @@ export class FakeMeasurementBackend {
     };
   }
 
-  aggregate(starttime, endtime, maxValue, metric, channel): ReadAggregate {
-    const value = this.getRandom(maxValue);
+  aggregate(params: DataParams): ReadAggregate {
+    const value = this.getRandom(params.maxValue);
     return {
-      starttime,
-      endtime,
-      metric,
-      channel,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      metric: params.metric,
+      channel: params.channel,
       min: value,
       max: value,
       mean: value,
@@ -106,8 +114,14 @@ export class FakeMeasurementBackend {
     };
   }
 
-  getData(channels, params, datafn, time, timeInterval?) {
-    const measurements = [];
+  getData<T>(
+    channels: number[],
+    params: MeasurementParams,
+    datafn,
+    time: number,
+    timeInterval?: TimeInterval
+  ): T[] {
+    const measurements: T[] = [];
     let starttime = parseUtc(params.starttime);
     let endtime = parseUtc(params.endtime);
     if (endtime < starttime) {
@@ -115,9 +129,9 @@ export class FakeMeasurementBackend {
       starttime = endtime;
       endtime = s;
     }
-    params.metric.forEach((m) => {
+    params.metric.forEach((m: number) => {
       const metricMax = this.getRandom();
-      channels.forEach((c) => {
+      channels.forEach((c: number) => {
         let currentTime = starttime;
         while (currentTime < endtime) {
           let newEnd;
@@ -142,49 +156,79 @@ export class FakeMeasurementBackend {
     return measurements;
   }
 
-  getList(params, fn, time?, timeInterval?) {
+  getList<T>(
+    params: MeasurementParams,
+    fn: (params: DataParams) => T[],
+    time?: number,
+    timeInterval?: TimeInterval
+  ): Observable<T[]> {
     // const randomDelay = Math.round(Math.random() * 20) * 1000;
     return this.getChannels(params).pipe(
       // delay(randomDelay),
       map((channels: number[]) => {
-        return this.getData(channels, params, fn, time, timeInterval);
+        return this.getData<T>(channels, params, fn, time, timeInterval);
       })
     );
   }
 
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
-  ): Observable<ReadOnlyMeasurementSerializer[]> {
-    return this.getList(params, this.measurement.bind(this), 10, "minutes");
+  ): Observable<ReadMeasurement[]> {
+    return this.getList<ReadMeasurement>(
+      params,
+      this.measurement.bind(this),
+      10,
+      "minutes"
+    );
   }
 
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
   ): Observable<ReadAggregate[]> {
-    return this.getList(params, this.aggregate.bind(this));
+    return this.getList<ReadAggregate>(params, this.aggregate.bind(this));
   }
 
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
-  ): Observable<any> {
-    return this.getList(params, this.archive.bind(this), 1, "day").pipe();
+  ): Observable<ReadOnlyArchiveDaySerializer[]> {
+    return this.getList<ReadArchive>(
+      params,
+      this.archive.bind(this),
+      1,
+      "day"
+    ).pipe();
   }
 
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable<ReadOnlyArchiveHourSerializer[]> {
-    return this.getList(params, this.archive.bind(this), 1, "hour");
+    return this.getList<ReadArchive>(
+      params,
+      this.archive.bind(this),
+      1,
+      "hour"
+    );
   }
 
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable<ReadOnlyArchiveWeekSerializer[]> {
-    return this.getList(params, this.archive.bind(this), 1, "week");
+    return this.getList<ReadArchive>(
+      params,
+      this.archive.bind(this),
+      1,
+      "week"
+    );
   }
 
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable<ReadOnlyArchiveMonthSerializer[]> {
-    return this.getList(params, this.archive.bind(this), 1, "month");
+    return this.getList<ReadArchive>(
+      params,
+      this.archive.bind(this),
+      1,
+      "month"
+    );
   }
 }

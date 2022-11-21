@@ -15,6 +15,8 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { GenericWidgetComponent } from "../abstract-components";
+import { ChannelRow, StationRow } from "./types";
+import { MeasurementTypes, Metric } from "squacapi";
 
 @Component({
   selector: "widget-map",
@@ -28,26 +30,25 @@ export class MapComponent
   @ViewChild("legendElement", { static: false }) public legendRef: ElementRef;
   @ViewChild("mapElement", { static: false }) public mapRef: ElementRef;
 
-  resizeObserver;
+  resizeObserver: ResizeObserver;
   precisionPipe = new PrecisionPipe();
   stationLayer: L.LayerGroup;
-  displayMetric;
-  options: any;
+  displayMetric: Metric;
+  options: L.MapOptions;
 
   drawOptions: Record<string, never>;
   layers: L.FeatureGroup[];
   fitBounds: L.LatLngBounds;
-  rectLayer: any;
   map: L.Map;
-  metricLayers: { [metricId: number]: L.Marker[] };
+  metricLayers: Record<number, L.Marker[]>;
   displayMap;
-  legend;
-  stations;
+  legend: L.Control;
+  stations: StationRow[];
 
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    protected widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService
   ) {
     super(widgetManager, widgetConnectService);
   }
@@ -77,7 +78,7 @@ export class MapComponent
     };
   }
 
-  toggleKey() {
+  toggleKey(): void {
     //show
     if (this.showKey && this.map) {
       this.legend.addTo(this.map);
@@ -86,7 +87,7 @@ export class MapComponent
     }
   }
 
-  onMapReady(map: L.Map) {
+  onMapReady(map: L.Map): void {
     this.map = map;
     // Do stuff with map
     if (this.selectedMetrics.length > 0) {
@@ -99,7 +100,7 @@ export class MapComponent
     }
   }
 
-  emphasizeChannel(channel) {
+  emphasizeChannel(channel): void {
     // const layer = this.metricLayers[this.displayMetric.id];
     if (channel && this.stations) {
       const chan = channel.split(".");
@@ -121,9 +122,9 @@ export class MapComponent
     }
   }
 
-  private initLegend() {
+  private initLegend(): void {
     const legend = this.legendRef.nativeElement;
-    this.legend.onAdd = () => {
+    this.legend.onAdd = (): any => {
       return legend;
     };
     if (this.map && this.legend) {
@@ -131,7 +132,7 @@ export class MapComponent
     }
   }
 
-  toggleColor(pane) {
+  toggleColor(pane): void {
     const pane1 = this.map.getPane(pane);
     pane1.classList.toggle("hidden");
     const el = this.mapRef.nativeElement.getElementsByClassName(pane);
@@ -143,7 +144,7 @@ export class MapComponent
     }
   }
 
-  toggleStation(i, event) {
+  toggleStation(i, event): void {
     event.preventDefault();
     const el = this.mapRef.nativeElement.getElementsByClassName(i)[0];
     const layer = this.metricLayers[this.displayMetric.id];
@@ -161,7 +162,7 @@ export class MapComponent
     // ;
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
     this.map = null;
     if (this.resizeObserver) {
       this.resizeObserver.unobserve(this.mapRef.nativeElement);
@@ -171,7 +172,7 @@ export class MapComponent
     super.ngOnDestroy();
   }
 
-  hoverStation(i, status) {
+  hoverStation(i, status): void {
     const layer = this.metricLayers[this.displayMetric.id];
     const station = layer[i];
 
@@ -184,7 +185,7 @@ export class MapComponent
     }
   }
 
-  buildChartData(data) {
+  buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.data = data;
       if (this.map) {
@@ -200,10 +201,10 @@ export class MapComponent
         //properties.stationView === 'stoplight' || 'worst'
         this.selectedMetrics.forEach((metric) => {
           if (!metric) return;
-          const channelRows = [];
-          const stations = [];
-          const stationRows = [];
-          const stationChannels = {};
+          const channelRows: ChannelRow[] = [];
+          const stations: string[] = [];
+          const stationRows: StationRow[] = [];
+          const stationChannels: Record<number, string> = {};
 
           this.channels.forEach((channel) => {
             const identifier = channel.staCode;
@@ -211,7 +212,9 @@ export class MapComponent
             let agg = 0;
             let val: number = null;
             if (data.get(channel.id)) {
-              const rowData = data.get(channel.id).get(metric.id);
+              const rowData: MeasurementTypes = data
+                .get(channel.id)
+                .get(metric.id);
               val = rowData && rowData[0] ? rowData[0].value : val;
             }
 
@@ -236,7 +239,7 @@ export class MapComponent
                 val !== null ? this.precisionPipe.transform(val) : "no data"
               }</td></tr>`;
 
-            let channelRow = {
+            let channelRow: ChannelRow = {
               title: nslc,
               id: channel.id,
               parentId: identifier,
@@ -252,21 +255,20 @@ export class MapComponent
             if (staIndex < 0) {
               staIndex = stations.length;
               stations.push(identifier);
-              stationRows.push({
-                ...{
-                  id: identifier,
-                  staCode: channel.staCode,
-                  lat: channel.lat,
-                  lon: channel.lon,
-                  count: 0,
-                  agg,
-                  color,
-                  channelAgg: 0,
-                  metricAgg: 0,
-                },
-              });
+              const sta: StationRow = {
+                id: identifier,
+                staCode: channel.staCode,
+                lat: channel.lat,
+                lon: channel.lon,
+                count: 0,
+                agg,
+                color,
+                channelAgg: 0,
+                metricAgg: 0,
+              };
+              stationRows.push(sta);
             }
-            const station = this.findWorstChannel(
+            const station: StationRow = this.findWorstChannel(
               channelRow,
               stationRows[staIndex]
             );
@@ -303,7 +305,7 @@ export class MapComponent
     });
   }
 
-  private findWorstChannel(channel, station) {
+  private findWorstChannel(channel, station): StationRow {
     station.count++;
     if (channel.agg > station.agg) {
       station.agg = channel.agg;
@@ -315,7 +317,7 @@ export class MapComponent
     return station;
   }
 
-  addPanes(visualMap) {
+  addPanes(visualMap): void {
     if (visualMap) {
       switch (visualMap.type) {
         case "stoplight":
@@ -347,7 +349,7 @@ export class MapComponent
     this.map.createPane("nodata"); //no data pane
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     if (this.map) {
       this.displayMetric = this.selectedMetrics[0];
       this.displayMap = this.visualMaps[this.displayMetric.id];
@@ -367,7 +369,7 @@ export class MapComponent
     }
   }
 
-  private getIconHtml(color?: string) {
+  private getIconHtml(color?: string): string {
     let htmlString = `<div style='background-color: ${color}' class='map-icon `;
     if (color === "white" || color === "transparent") {
       htmlString += "border";
@@ -383,8 +385,8 @@ export class MapComponent
     return this.widgetConfigService.getColorFromValue(value, visualMap);
   }
 
-  private makeStationMarker(station, stationChannels) {
-    const options: any = {
+  private makeStationMarker(station, stationChannels): L.Marker {
+    const options: L.MarkerOptions = {
       autoPan: true,
       riseOnHover: true,
     };

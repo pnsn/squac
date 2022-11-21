@@ -17,8 +17,8 @@ export abstract class EChartComponent
   // abstract buildChartData(data: any): Promise<void>;
 
   constructor(
-    protected widgetManager: WidgetManagerService,
-    protected widgetConnector: WidgetConnectService
+    override widgetManager: WidgetManagerService,
+    override widgetConnector: WidgetConnectService
   ) {
     super(widgetManager, widgetConnector);
   }
@@ -32,16 +32,16 @@ export abstract class EChartComponent
   echartsInstance: any;
   metricSeries: any = {};
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
     this.echartsInstance = null;
     super.ngOnDestroy();
   }
 
-  onChartEvent(event, type) {
+  onChartEvent(event, type): void {
     console.log(event, type);
   }
 
-  toggleKey() {
+  toggleKey(): void {
     if (this.echartsInstance) {
       this.echartsInstance.setOption({
         visualMap: {
@@ -51,11 +51,11 @@ export abstract class EChartComponent
     }
   }
 
-  onChartInit(event) {
+  onChartInit(event): void {
     this.echartsInstance = event;
   }
 
-  emphasizeChannel(channel) {
+  emphasizeChannel(channel): void {
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
         type: "highlight",
@@ -64,7 +64,7 @@ export abstract class EChartComponent
     }
   }
 
-  deemphasizeChannel(channel) {
+  deemphasizeChannel(channel): void {
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
         type: "downplay",
@@ -73,7 +73,7 @@ export abstract class EChartComponent
     }
   }
 
-  startZoom() {
+  startZoom(): void {
     if (this.echartsInstance) {
       if (this.zooming === "start") {
         this.echartsInstance.dispatchAction({
@@ -96,7 +96,7 @@ export abstract class EChartComponent
     }
   }
 
-  resetZoom() {
+  resetZoom(): void {
     this.echartsInstance.dispatchAction({
       type: "dataZoom",
       start: 0,
@@ -104,9 +104,9 @@ export abstract class EChartComponent
     });
   }
 
-  zoomStopped(event) {
+  zoomStopped(event): void {
     if (event.batch?.length !== 1) {
-      this.widgetManager.zoomStatus.next("stop");
+      this.widgetManager.zoomStatus$.next("stop");
     }
   }
 

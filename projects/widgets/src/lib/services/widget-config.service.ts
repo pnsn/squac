@@ -1,21 +1,34 @@
 import { Injectable } from "@angular/core";
-import { Metric } from "squacapi";
+import { Channel, Metric } from "squacapi";
 import { PrecisionPipe } from "../shared/pipes/precision.pipe";
 import colormap from "colormap";
 import { Threshold } from "squacapi";
+import {
+  VisualMap,
+  StoplightVisualMapOption,
+  VisualPiece,
+  DataRange,
+  LabelFormatterParams,
+  ParallelAxisOption,
+  ProcessedData,
+} from "../interfaces";
+import {
+  ContinousVisualMapComponentOption,
+  DefaultLabelFormatterCallbackParams,
+  EChartsOption,
+  PiecewiseVisualMapComponentOption,
+} from "echarts";
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetConfigService {
   thresholds: Threshold[];
-  dataRange;
+  dataRange: DataRange;
   precisionPipe = new PrecisionPipe();
 
   // defaults for piecewise visualmap
-  piecewiseDefaults = {
+  piecewiseDefaults: PiecewiseVisualMapComponentOption = {
     type: "piecewise",
-    border: "rgba(0, 0, 0, 0.2)",
     backgroundColor: "rgba(255,255,255,0.8)",
-    borderWidth: 1,
     align: "right",
     itemGap: 5,
     textGap: 3,
@@ -34,18 +47,15 @@ export class WidgetConfigService {
   };
 
   // defaults for continuous visualmap
-  continuousDefaults = {
+  continuousDefaults: ContinousVisualMapComponentOption = {
     type: "continuous",
-    borderWidth: 1,
-    border: "rgba(0, 0, 0, 0.2)",
     backgroundColor: "rgba(255,255,255,0.8)",
     align: "auto",
     itemWidth: 10,
     itemHeight: 75,
     hoverLink: false, //disable until formatting figured out
-    itemSymbol: "rect",
     calculable: true,
-    formatter: (value) => this.precisionPipe.transform(value, 3),
+    formatter: (value: number) => this.precisionPipe.transform(value, 3),
     textStyle: {
       fontSize: 11,
     },
@@ -55,7 +65,7 @@ export class WidgetConfigService {
   };
 
   // defaults for echarts charts
-  chartDefaults = {
+  chartDefaults: EChartsOption = {
     textStyle: {
       fontSize: 11,
     },
@@ -75,7 +85,7 @@ export class WidgetConfigService {
     },
     useUtc: true,
     xAxis: {
-      nameLocation: "center",
+      nameLocation: "middle",
       name: "Measurement Start Date",
       nameGap: 14,
       nameTextStyle: {
@@ -93,7 +103,7 @@ export class WidgetConfigService {
       },
     },
     yAxis: {
-      nameLocation: "center",
+      nameLocation: "middle",
       axisLabel: {
         fontSize: 11,
       },
@@ -154,7 +164,7 @@ export class WidgetConfigService {
 
   // add new options onto defaults
   // shallow copy
-  chartOptions(options): any {
+  chartOptions(options): EChartsOption {
     const newOptions = { ...this.chartDefaults };
 
     Object.keys(options).forEach((key) => {
@@ -175,8 +185,12 @@ export class WidgetConfigService {
   }
 
   //can use this.thresholds or another metric to color?
-  getVisualMapFromThresholds(metrics: Metric[], properties, dimension): any {
-    const visualMaps = {};
+  getVisualMapFromThresholds(
+    metrics: Metric[],
+    properties,
+    dimension
+  ): VisualMap {
+    const visualMaps: VisualMap = {};
     if (properties && this.thresholds && this.dataRange) {
       let numSplits = properties.numSplits;
 
@@ -224,7 +238,7 @@ export class WidgetConfigService {
             if (inColors.length < 3) {
               inColors = ["green", "yellow", "red"];
             }
-            visualMaps[metricId] = {
+            const option: StoplightVisualMapOption = {
               type: "stoplight",
               colors: {
                 in: inColors[0],
@@ -234,6 +248,7 @@ export class WidgetConfigService {
               min,
               max,
             };
+            visualMaps[metricId] = option;
           } else if (numSplits > 0) {
             const pieces = this.getPieces(
               min,
@@ -281,7 +296,7 @@ export class WidgetConfigService {
     return visualMaps;
   }
 
-  private getPieces(min, max, numSplits, inColors, outColor): any[] {
+  private getPieces(min, max, numSplits, inColors, outColor): VisualPiece[] {
     const pieces = [];
     // piece for -Infinity to min
     if (min !== null) {
@@ -399,10 +414,15 @@ export class WidgetConfigService {
 
   //series for data with no time and multiple metrics
   // parallel and scatter
-  getSeriesForMultipleMetrics(metrics, channels, data, series): any {
+  getSeriesForMultipleMetrics(
+    metrics: Metric[],
+    channels: Channel[],
+    data: ProcessedData,
+    series: any
+  ): { series: any; axis?: ParallelAxisOption[] } {
     const stations = [];
-    const axis = [];
-    metrics.forEach((metric, i) => {
+    const axis: ParallelAxisOption[] = [];
+    metrics.forEach((metric: Metric, i) => {
       if (!metric) return;
       if (series.type === "parallel") {
         let align;
@@ -447,7 +467,7 @@ export class WidgetConfigService {
       series.dimensions.push(metric.name);
     });
 
-    channels.forEach((channel) => {
+    channels.forEach((channel: Channel) => {
       const station = {
         ...series,
         name: channel.nslc,
@@ -476,25 +496,30 @@ export class WidgetConfigService {
 
   // channel & list of metric values
   // used for scatter, parallel etc
-  multiMetricTooltipFormatting(params): string {
+  multiMetricTooltipFormatting(
+    params: DefaultLabelFormatterCallbackParams
+  ): string {
     let str = `<div class='tooltip-name'> ${params.marker} ${params.name}</div>`;
     str +=
       "<table class='tooltip-table'><thead><th>Metric</th> <th>Value</th></thead><tbody>";
 
-    params.value.forEach((data, i) => {
-      str +=
-        "<tr><td>" +
-        params.dimensionNames[i] +
-        "</td><td>" +
-        (data !== null ? this.precisionPipe.transform(data) : "no data") +
-        "</td></tr>";
-    });
+    if (Array.isArray(params.value)) {
+      params.value.forEach((data: number, i) => {
+        str +=
+          "<tr><td>" +
+          params.dimensionNames[i] +
+          "</td><td>" +
+          (data !== null ? this.precisionPipe.transform(data) : "no data") +
+          "</td></tr>";
+      });
+    }
+
     str = str += "</tbody></table>";
     return str;
   }
 
   // tooltips for time x axis
-  timeAxisFormatToolTip(params): string {
+  timeAxisFormatToolTip(params: DefaultLabelFormatterCallbackParams): string {
     let data = [];
     if (Array.isArray(params)) {
       data = [...params];
@@ -523,7 +548,7 @@ export class WidgetConfigService {
   }
 
   // label formatting for time axis ticks
-  timeAxisTickFormatting(val): string {
+  timeAxisTickFormatting(val: string): string {
     const value = new Date(val);
     let formatOptions;
     if (value.getSeconds() !== 0) {
@@ -555,7 +580,7 @@ export class WidgetConfigService {
   }
 
   // label formatting for time axis pointer label
-  timeAxisPointerLabelFormatting(val): string {
+  timeAxisPointerLabelFormatting(val: LabelFormatterParams): string {
     const value = new Date(val.value);
     let formatOptions = {};
     formatOptions = {
@@ -575,10 +600,11 @@ export class WidgetConfigService {
       );
       return string;
     }
+    return "";
   }
 
   //calculate y axis position to prevent overlap
-  yAxisLabelPosition(min, max): number {
+  yAxisLabelPosition(min: number, max: number): number {
     const minLen = (Math.round(min * 10) / 10).toString().length;
     const maxLen = (Math.round(max * 10) / 10).toString().length;
     return Math.min(Math.max(minLen, maxLen) * 9, 50);

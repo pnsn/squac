@@ -53,7 +53,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const managerErrors = this.widgetManager.errors.subscribe(
+    const managerErrors = this.widgetManager.errors$.subscribe(
       (error: WidgetErrors) => {
         this.addError(error);
       }

@@ -12,7 +12,7 @@ import {
   tap,
 } from "rxjs";
 
-import { Metric, Archive, Aggregate, Measurement } from "squacapi";
+import { Metric, MeasurementTypes } from "squacapi";
 import {
   AggregateService,
   DayArchiveService,
@@ -24,10 +24,7 @@ import { MeasurementParams } from "squacapi";
 import { WidgetErrors } from "../enums";
 import { BehaviorSubject } from "rxjs";
 import { ArchiveType, ArchiveStatType, WidgetStatType } from "squacapi";
-
-type MeasurementType = Measurement | Aggregate | Archive;
-export type ProcessedData = Map<number, Map<number, MeasurementType[]>>;
-type DataRange = Record<number, { min?: number; max?: number; count: number }>;
+import { DataRange, ProcessedData } from "../interfaces";
 
 @Injectable()
 export class WidgetDataService implements OnDestroy {
@@ -71,7 +68,9 @@ export class WidgetDataService implements OnDestroy {
             this.finishedLoading();
             return EMPTY;
           }),
-          map(this.mapData.bind(this))
+          map((data) => {
+            return this.mapData(data);
+          })
         );
       })
     );
@@ -105,7 +104,7 @@ export class WidgetDataService implements OnDestroy {
   // returns correct request type
   private dataRequest(
     params: MeasurementParams
-  ): Observable<MeasurementType[]> {
+  ): Observable<MeasurementTypes[]> {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
@@ -153,13 +152,13 @@ export class WidgetDataService implements OnDestroy {
   }
 
   // format raw squacapi data
-  mapData(response: MeasurementType[]): ProcessedData | WidgetErrors {
+  mapData(response: MeasurementTypes[]): ProcessedData | WidgetErrors {
     const dataMap: ProcessedData = new Map<
       number,
-      Map<number, MeasurementType[]>
+      Map<number, MeasurementTypes[]>
     >();
     try {
-      response.forEach((item: MeasurementType) => {
+      response.forEach((item: MeasurementTypes) => {
         //for archive/aggregate populate value
         const channelId: number = item.channelId;
         const metricId: number = item.metricId;
@@ -167,7 +166,7 @@ export class WidgetDataService implements OnDestroy {
         let channelMap = dataMap.get(channelId);
 
         if (!channelMap) {
-          channelMap = new Map<number, MeasurementType[]>();
+          channelMap = new Map<number, MeasurementTypes[]>();
           dataMap.set(channelId, channelMap);
         }
 
@@ -214,7 +213,5 @@ export class WidgetDataService implements OnDestroy {
     if (metricRange.count) metricRange.count++;
 
     this.ranges[metricId] = metricRange;
-
-    console.log("Data range", metricRange);
   }
 }

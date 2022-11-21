@@ -84,7 +84,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       this.initWidget(widget);
     });
 
-    this.widgetManager.zoomStatus.subscribe((status) => {
+    this.widgetManager.zoomStatus$.subscribe((status) => {
       this.zooming = status;
     });
     this.widgetManager.toggleKey.subscribe((show) => {
@@ -94,7 +94,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget && this.widget.id === id))
       .subscribe(() => {
-        this.widgetManager.resize.next(true);
+        this.widgetManager.resize$.next(true);
       });
 
     this.subscription.add(resizeSub);
@@ -131,11 +131,11 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
 
   updateZoom(status?: string) {
     if (status) {
-      this.widgetManager.zoomStatus.next(status);
+      this.widgetManager.zoomStatus$.next(status);
     } else if (this.zooming === "start") {
-      this.widgetManager.zoomStatus.next("stop");
+      this.widgetManager.zoomStatus$.next("stop");
     } else {
-      this.widgetManager.zoomStatus.next("start");
+      this.widgetManager.zoomStatus$.next("start");
     }
   }
 

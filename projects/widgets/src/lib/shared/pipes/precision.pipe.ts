@@ -4,7 +4,19 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "precision",
 })
 export class PrecisionPipe implements PipeTransform {
-  transform(value: number, precision = 4): string {
-    return typeof value == "number" ? value.toPrecision(precision) : "";
+  transform(value: number | string, precision = 4): string {
+    switch (typeof value) {
+      case "number":
+        return value.toPrecision(precision);
+      case "string":
+        try {
+          const val = +value;
+          return val.toPrecision(precision);
+        } catch {
+          return "";
+        }
+      default:
+        return "";
+    }
   }
 }
