@@ -11,8 +11,6 @@ import { DashboardResolver } from "@squacapi/resolvers/dashboard.resolver";
 import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetResolver } from "@squacapi/resolvers/widget.resolver";
 import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
-import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
-import { Widget } from "@squacapi/models/widget";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 
 export const routes: Routes = [

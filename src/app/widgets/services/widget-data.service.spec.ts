@@ -2,7 +2,6 @@ import { TestBed } from "@angular/core/testing";
 import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { of, Subject } from "rxjs";
-import { WidgetModule } from "../../features/widget/widget.module";
 import { MeasurementService } from "@squacapi/services/measurement.service";
 
 import { WidgetDataService } from "./widget-data.service";
@@ -11,7 +10,7 @@ describe("WidgetDataService", () => {
   let service: WidgetDataService;
 
   beforeEach(() => {
-    return MockBuilder(WidgetDataService, WidgetModule)
+    return MockBuilder(WidgetDataService)
       .provide({
         provide: MeasurementService,
         useValue: {

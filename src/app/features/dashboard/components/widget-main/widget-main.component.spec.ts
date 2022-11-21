@@ -5,14 +5,15 @@ import { ActivatedRoute } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MeasurementService } from "@squacapi/services/measurement.service";
-import { WidgetModule } from "app/features/widget/widget.module";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@dashboard/services/view.service";
-import { MockComponent, MockProvider } from "ng-mocks";
+import { MockComponent, MockModule, MockProvider } from "ng-mocks";
 import { WidgetDetailComponent } from "../widget-detail/widget-detail.component";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { ChannelFilterComponent } from "../dashboard-detail/channel-filter/channel-filter.component";
 
 describe("WidgetMainComponent", () => {
   let component: WidgetMainComponent;
@@ -23,10 +24,14 @@ describe("WidgetMainComponent", () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        WidgetModule,
         AbilityModule,
+        MockModule(MatSidenavModule),
       ],
-      declarations: [WidgetMainComponent, MockComponent(WidgetDetailComponent)],
+      declarations: [
+        WidgetMainComponent,
+        MockComponent(WidgetDetailComponent),
+        MockComponent(ChannelFilterComponent),
+      ],
       providers: [
         MockProvider(ViewService, {
           widgetUpdated: new Subject(),
