@@ -5,7 +5,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { PasswordResetService } from "../../services/password-reset.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MockBuilder } from "ng-mocks";
-import { UserModule } from "@features/user/user.module";
+import { UserModule } from "@user/user.module";
 
 describe("PasswordResetComponent", () => {
   let component: PasswordResetComponent;

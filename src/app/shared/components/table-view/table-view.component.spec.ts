@@ -7,7 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { OrganizationService } from "@squacapi/services/organization.service";
-import { UserService } from "@features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { SharedModule } from "@shared/shared.module";
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";

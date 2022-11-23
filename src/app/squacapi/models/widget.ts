@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Adapter } from "../interfaces/adapter";
 import { Metric, MetricAdapter } from "./metric";
 import { ApiMetric, ReadWidget, WriteWidget } from "../interfaces/squac-types";
-import { Threshold } from "./threshold";
+import { Threshold } from "../interfaces/threshold";
 
 export class Widget {
   public _thresholds: Threshold[] = [];
@@ -24,16 +24,20 @@ export class Widget {
     if (!thresholds) {
       props = new Array<Threshold>();
     } else if (thresholds && typeof thresholds === "string") {
-      props = JSON.parse(thresholds);
+      try {
+        props = JSON.parse(thresholds).slice();
+      } catch {
+        props = [];
+      }
     } else if (typeof thresholds !== "string") {
-      props = thresholds;
+      props = thresholds.slice();
     }
 
-    this._thresholds = props;
+    this._thresholds = props.slice();
   }
 
   public get thresholds(): Threshold[] {
-    return this._thresholds;
+    return this._thresholds.slice();
   }
   //can be entered as string or properties
   public set properties(properties: string | Partial<WidgetProperties>) {

@@ -4,7 +4,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 import { Ability } from "@casl/ability";
-import { ViewService } from "@core/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { Dashboard } from "@squacapi/models/dashboard";
 import { UserPipe } from "@squacapi/pipes/user.pipe";
 import { OrganizationPipe } from "@squacapi/pipes/organization.pipe";

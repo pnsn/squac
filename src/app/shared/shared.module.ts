@@ -17,8 +17,6 @@ import { TableViewComponent } from "./components/table-view/table-view.component
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
 import { DateSelectComponent } from "./components/date-select/date-select.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
-import { NgxEchartsModule } from "ngx-echarts";
-import { PrecisionPipe } from "./pipes/precision.pipe";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
@@ -35,7 +33,6 @@ import { SquacapiModule } from "@squacapi/squacapi.module";
     SharedIndicatorComponent,
     TableViewComponent,
     DateSelectComponent,
-    PrecisionPipe,
     ChannelGroupSelectorComponent,
     LoadingOverlayComponent,
     LoadingDirective,
@@ -46,7 +43,6 @@ import { SquacapiModule } from "@squacapi/squacapi.module";
     MaterialModule,
     LeafletModule,
     LeafletDrawModule,
-    NgxEchartsModule,
     AbilityModule,
     NgxDatatableModule,
     ReactiveFormsModule,
@@ -54,9 +50,6 @@ import { SquacapiModule } from "@squacapi/squacapi.module";
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
     SquacapiModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import("echarts"),
-    }),
   ],
   exports: [
     MaterialModule,
@@ -77,8 +70,6 @@ import { SquacapiModule } from "@squacapi/squacapi.module";
     TableViewComponent,
     SearchFilterComponent,
     DateSelectComponent,
-    NgxEchartsModule,
-    PrecisionPipe,
     ChannelGroupSelectorComponent,
     LoadingOverlayComponent,
     LoadingSpinnerComponent,

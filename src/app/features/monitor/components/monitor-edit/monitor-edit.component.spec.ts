@@ -7,7 +7,7 @@ import { of } from "rxjs";
 
 import { MonitorEditComponent } from "./monitor-edit.component";
 import { MockBuilder } from "ng-mocks";
-import { MonitorModule } from "@features/monitor/monitor.module";
+import { MonitorModule } from "@monitor/monitor.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("MonitorEditComponent", () => {

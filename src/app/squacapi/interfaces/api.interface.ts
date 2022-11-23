@@ -39,7 +39,7 @@ export enum InviteApiEndpoints {
   REGISTER = "register",
 }
 
-export const CachableRoutePatterns = {
+export const CACHEABLE_ROUTE_PATTERNS = {
   "/dashboard/dashboards/": LocalStorageTypes.SESSION,
   "/dashboard/dashboards/:id/": LocalStorageTypes.SESSION,
   "/measurement/metrics/": LocalStorageTypes.SESSION,

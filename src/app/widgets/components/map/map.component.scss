@@ -1,0 +1,107 @@
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.map-icon-base {
+  height: 8px !important;
+  width: 8px !important;
+  border-radius: 50%;
+  background-color: transparent;
+  border: solid 1px black;
+  &.selected {
+    height: 13px;
+    width: 13px;
+  }
+}
+:host ::ng-deep #map {
+  .map-icon {
+    @extend .map-icon-base;
+  }
+  .icon-parent {
+    height: 8px !important;
+    width: 8px !important;
+    border-radius: 50%;
+    border: none;
+  }
+
+  .leaflet-popup-content {
+    padding: 3px;
+    margin: 0px;
+  }
+
+  .tooltip-name {
+    font-size: 9pt !important;
+  }
+  .tooltip-table {
+    th,
+    td {
+      font-size: 9pt !important;
+      padding-right: 5px;
+      div {
+        display: inline-block;
+      }
+    }
+    tr th:last-child,
+    tr td:last-child {
+      padding-right: 0px;
+    }
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: 2px;
+  }
+}
+
+#map-legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 9pt !important;
+  padding: 0px 4px;
+  margin: 0px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  div {
+    font-size: inherit;
+    span {
+      font-size: inherit;
+    }
+  }
+
+  div.map-icon {
+    @extend .map-icon-base;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 0px;
+  }
+
+  .layer-hidden {
+    opacity: 50%;
+  }
+
+  .legend-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    div {
+      display: inline-block;
+    }
+    #gradient {
+      display: flex;
+      flex-direction: row;
+      .values {
+        margin: 0px 3px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .gradient-icon {
+        height: 75px;
+        width: 10px;
+      }
+    }
+  }
+}

@@ -16,15 +16,12 @@
     "paths": {
       "@core/*": ["app/core/*"],
       "@shared/*": ["app/shared/*"],
-      "@features/*": ["app/features/*"],
       "@squacapi/*": ["app/squacapi/*"],
-      "@widget/*": ["app/features/widget/*"],
       "@dashboard/*": ["app/features/dashboard/*"],
       "@channelGroup/*": ["app/features/channel-group/*"],
       "@metric/*": ["app/features/metric/*"],
       "@monitor/*": ["app/features/monitor/*"],
       "@user/*": ["app/features/user/*"],
-
     }
   }
 }

@@ -12,8 +12,8 @@ import {
 } from "@angular/forms";
 import { Channel } from "@squacapi/models/channel";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
-import { ViewService } from "@core/services/view.service";
-import { WidgetConnectService } from "@features/widget/services/widget-connect.service";
+import { ViewService } from "@dashboard/services/view.service";
+import { WidgetConnectService } from "app/widgets/services/widget-connect.service";
 
 @Component({
   selector: "dashboard-channel-filter",
