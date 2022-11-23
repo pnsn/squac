@@ -47,6 +47,7 @@ export abstract class EChartComponent
 
   toggleKey(): void {
     if (this.echartsInstance && this.options.visualMap) {
+      console.log(this.options.visualMap);
       this.echartsInstance.setOption({
         visualMap: { show: this.showKey },
       });

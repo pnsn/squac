@@ -9,9 +9,8 @@ import {
   WidgetConnectService,
   WidgetManagerService,
 } from "../../services";
-import { copyChartOptions, parseUtc } from "../../shared/utils";
+import { parseUtc } from "../../shared/utils";
 import { EChartComponent } from "../abstract-components";
-import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-timechart",
@@ -67,6 +66,12 @@ export class TimechartComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
+        },
+        axisLine: {
+          show: true,
+        },
+        axisTick: {
+          show: true,
         },
       },
       tooltip: {
@@ -161,11 +166,14 @@ export class TimechartComponent
 
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
-    const visualMap = this.visualMaps[colorMetric.id];
-
+    const visualMaps = this.visualMaps[colorMetric.id];
+    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
+    //   colorMetric.id,
+    //   visualMap
+    // );
     this.updateOptions = {
       series: this.metricSeries.series,
-      visualMap: [visualMap],
+      visualMap: visualMaps[0],
       xAxis: {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,

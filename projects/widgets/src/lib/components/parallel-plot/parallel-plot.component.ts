@@ -11,8 +11,6 @@ import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { copyChartOptions } from "../../shared/utils";
-import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-parallel-plot",

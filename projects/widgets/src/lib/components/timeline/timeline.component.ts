@@ -11,7 +11,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import { isContinuous, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
 import { parseUtc } from "../../shared/utils";
 import { ProcessedData } from "../../interfaces";
@@ -37,6 +37,7 @@ export class TimelineComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
+  isContinuous = isContinuous;
 
   configureChart(): void {
     const chartOptions: EChartsOption = {
@@ -239,7 +240,11 @@ export class TimelineComponent
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
-    const visualMap = this.visualMaps[colorMetric.id];
+    const visualMaps = this.visualMaps[colorMetric.id];
+    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
+    //   colorMetric.id,
+    //   visualMap
+    // );
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -281,7 +286,7 @@ export class TimelineComponent
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
       series: this.metricSeries[displayMetric.id].series,
-      visualMap: [visualMap],
+      visualMap: visualMaps,
       xAxis,
     };
 

@@ -17,11 +17,9 @@ import {
   isContinuous,
 } from "../interfaces";
 import {
-  DefaultLabelFormatterCallbackParams,
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { TooltipComponent } from "@angular/material/tooltip";
 
 //used to take widget data and transform to different formas
 @Injectable()
@@ -254,8 +252,8 @@ export class WidgetConfigService {
             }
           } else if (numSplits === 0) {
             properties.outOfRange.opacity = 1;
-            min = min !== null ? min : this.dataRange[metricId]?.min;
-            max = max !== null ? max : this.dataRange[metricId]?.max;
+            min = min !== null ? min : this.dataRange[metricId].min;
+            max = max !== null ? max : this.dataRange[metricId].max;
             const option: ContinousVisualMapOption = {
               ...this.continuousDefaults,
               dimension,
@@ -278,6 +276,53 @@ export class WidgetConfigService {
       });
     }
     return visualMaps;
+  }
+
+  getContinuousVisualMap(
+    metricId: number,
+    visualMap: VisualMapTypes
+  ): VisualMapTypes[] {
+    const maps = [];
+    if (isContinuous(visualMap)) {
+      const dataMax = this.dataRange[metricId].max;
+      const dataMin = this.dataRange[metricId].min;
+      if (visualMap.min > dataMin) {
+        const minMap: ContinousVisualMapOption = {
+          type: "continuous",
+          inRange: {
+            color: ["orange", "orange"],
+            symbolSize: [30, 100],
+          },
+          min: dataMin,
+          max: visualMap.min,
+          dimension: visualMap.dimension,
+          show: false,
+        };
+        maps.push(minMap);
+      }
+
+      maps.push(visualMap);
+      // add another map if there's a difference between the max data value and the visual map max
+      if (visualMap.max < dataMax) {
+        //make more visual maps
+        const maxMap: ContinousVisualMapOption = {
+          type: "continuous",
+          inRange: {
+            color: ["purple", "purple"],
+            symbolSize: [30, 100],
+          },
+          dimension: visualMap.dimension,
+          min: visualMap.max,
+          max: dataMax,
+          show: false,
+        };
+        maps.push(maxMap);
+      }
+    }
+    // console.log(maps);
+
+    return maps;
+    // add another map if there's a difference between the min data value and the visual map min
   }
 
   private getPieces(
@@ -355,8 +400,10 @@ export class WidgetConfigService {
     let hasMax: boolean;
 
     if (isContinuous(visualMap)) {
-      hasMin = value >= visualMap.range[0];
-      hasMax = value <= visualMap.range[1];
+      const min = visualMap.range ? visualMap.range[0] : visualMap.min;
+      const max = visualMap.range ? visualMap.range[1] : visualMap.max;
+      hasMin = value >= min;
+      hasMax = value <= max;
     } else {
       hasMin = visualMap.min !== null ? value >= visualMap.min : true;
       hasMax = visualMap.max !== null ? value <= visualMap.max : true;
@@ -506,8 +553,7 @@ export class WidgetConfigService {
     params: TooltipComponentFormatterCallbackParams
   ): string {
     let str = "";
-    if (Array.isArray(params)) {
-    } else {
+    if (!Array.isArray(params)) {
       str = `<div class='tooltip-name'> ${params.marker} ${params.name}</div>`;
       str +=
         "<table class='tooltip-table'><thead><th>Metric</th> <th>Value</th></thead><tbody>";

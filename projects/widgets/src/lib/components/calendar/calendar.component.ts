@@ -13,8 +13,7 @@ import {
 } from "../../services";
 import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { copyChartOptions, parseUtc } from "../../shared/utils";
-import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
+import { parseUtc } from "../../shared/utils";
 
 @Component({
   selector: "widget-calendar-plot",
@@ -94,12 +93,11 @@ export class CalendarComponent
           if (!Array.isArray(params)) {
             str += `<div class='tooltip-name'>${params.marker} ${params.seriesName} </div>`;
             if (params.value) {
-              str +=
-                "<table class='tooltip-table'><tbody><tr><td>" +
-                params.value[0] +
-                "(average):</td><td>" +
-                this.precisionPipe.transform(params.value[2]) +
-                "</td></tr></tbody></table>";
+              str += `<table class='tooltip-table'><tbody><tr><td>${
+                params.value[0]
+              }(average):</td><td>${
+                params.value[2]?.toPrecision(4) ?? "No Data"
+              }</td></tr></tbody></table>`;
             }
           }
           return str;
@@ -251,7 +249,11 @@ export class CalendarComponent
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
-    const visualMap = this.visualMaps[colorMetric.id];
+    const visualMaps = this.visualMaps[colorMetric.id];
+    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
+    //   colorMetric.id,
+    //   visualMap
+    // );
     const axes = [];
 
     let xAxis1: EChartsOption = {
@@ -326,7 +328,7 @@ export class CalendarComponent
     }
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
-      visualMap: [visualMap],
+      visualMap: visualMaps,
       xAxis: axes,
       grid: {
         bottom: axes.length > 1 ? 24 : 38,

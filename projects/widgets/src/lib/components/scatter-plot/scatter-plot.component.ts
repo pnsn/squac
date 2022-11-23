@@ -10,8 +10,6 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { copyChartOptions } from "../../shared/utils";
-import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-scatter-plot",
@@ -120,16 +118,21 @@ export class ScatterPlotComponent
   }
 
   changeMetrics(): void {
+    console.log("scatter plot change metrics");
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
-    const visualMap = this.visualMaps[colorMetric.id] || null;
+    const visualMaps = this.visualMaps[colorMetric.id];
+    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
+    //   colorMetric.id,
+    //   visualMap
+    // );
     this.updateOptions = {
       series: this.metricSeries.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
       },
-      visualMap: [visualMap],
+      visualMap: visualMaps,
       yAxis: {
         name: `${yMetric.name} (${yMetric.unit})`,
       },
