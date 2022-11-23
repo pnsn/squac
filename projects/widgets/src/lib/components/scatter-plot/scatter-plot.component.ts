@@ -5,9 +5,11 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { DefaultLabelFormatterCallbackParams } from "echarts";
+import { EChartsOption } from "echarts";
+import { copyChartOptions } from "../../shared/utils";
+import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-scatter-plot",
@@ -27,36 +29,35 @@ export class ScatterPlotComponent
   }
   precisionPipe = new PrecisionPipe();
   configureChart(): void {
-    const chartOptions = {
+    const chartOptions: EChartsOption = {
       series: [],
       grid: {
         left: 50,
       },
-      xAxis: {
-        formatter: (value: number): string => {
-          return value.toPrecision(4);
-        },
-      },
+      // xAxis: {
+      // formatter: (value: number): string => {
+      //   return value.toPrecision(4);
+      // },
+      // },
       yAxis: {
         axisLabel: {
           inside: true,
         },
         nameGap: 10,
-        formatter: (value: number): string => {
-          return value.toPrecision(4);
-        },
+        // formatter: (value: number): string => {
+        //   return value.toPrecision(4);
+        // },
       },
       tooltip: {
-        formatter: (params: DefaultLabelFormatterCallbackParams): string => {
-          return this.widgetConfigService.multiMetricTooltipFormatting(params);
-        },
+        formatter:
+          this.widgetConfigService.multiMetricTooltipFormatting.bind(this),
       },
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
   }
 
-  buildChartData(data): Promise<void> {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -110,15 +111,13 @@ export class ScatterPlotComponent
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
       },
-      visualMap,
+      visualMap: [visualMap],
       yAxis: {
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
+      this.echartsInstance.setOption(this.updateOptions);
     }
   }
 }

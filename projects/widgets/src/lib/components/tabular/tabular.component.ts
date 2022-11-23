@@ -57,7 +57,7 @@ export class TabularComponent
     // Footer selected message
     selectedMessage: "selected",
   };
-  sorts;
+  sorts = [{ prop: "agg", dir: "desc" }];
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
@@ -118,7 +118,7 @@ export class TabularComponent
       frozenLeft: true,
       resizeable: false,
     });
-    this.sorts = [{ prop: "agg", dir: "desc" }];
+
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
         if (!metric) return;

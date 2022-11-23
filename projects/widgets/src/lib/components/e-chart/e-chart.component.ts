@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
-import { EChartsOption } from "echarts";
+import { EChartsOption, EChartsType } from "echarts";
 
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { GenericWidgetComponent } from "../abstract-components";
@@ -26,10 +26,14 @@ export abstract class EChartComponent
   emphasizedChannel: string;
   deemphasizedChannel: string;
 
-  options: any = {};
+  options: EChartsOption = {};
   updateOptions: EChartsOption = {};
-  initOptions: any = {}; //It may contain devicePixelRatio, renderer, width or height properties.
-  echartsInstance: any;
+  initOptions: {
+    devicePixelRatio?: number;
+    width?: number | string;
+    height?: number | string;
+  } = {}; //It may contain devicePixelRatio, renderer, width or height properties.
+  echartsInstance: EChartsType;
   metricSeries: any = {};
 
   override ngOnDestroy(): void {
@@ -42,11 +46,11 @@ export abstract class EChartComponent
   }
 
   toggleKey(): void {
-    if (this.echartsInstance) {
+    if (this.echartsInstance && this.options.visualMap) {
+      const visualMap = this.options.visualMap[0];
+      visualMap.show = this.showKey;
       this.echartsInstance.setOption({
-        visualMap: {
-          show: this.showKey,
-        },
+        visualMap: [visualMap],
       });
     }
   }
@@ -104,8 +108,9 @@ export abstract class EChartComponent
     });
   }
 
-  zoomStopped(event): void {
-    if (event.batch?.length !== 1) {
+  zoomStopped(event: { batch?: unknown[] }): void {
+    console.log("event in echart", event);
+    if ("batch" in event && event.batch?.length !== 1) {
       this.widgetManager.zoomStatus$.next("stop");
     }
   }

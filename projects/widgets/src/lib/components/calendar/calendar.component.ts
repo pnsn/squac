@@ -2,15 +2,19 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
-
+import {
+  EChartsOption,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 import {
   WidgetConnectService,
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { parseUtc } from "../../shared/utils";
+import { copyChartOptions, parseUtc } from "../../shared/utils";
+import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-calendar-plot",
@@ -36,7 +40,7 @@ export class CalendarComponent
   precisionPipe = new PrecisionPipe();
 
   configureChart(): void {
-    const chartOptions = {
+    const chartOptions: EChartsOption = {
       xAxis: {
         type: "category",
 
@@ -47,10 +51,10 @@ export class CalendarComponent
           show: true,
         },
         axisPointer: {
-          show: "true",
+          show: true,
           label: {
-            formatter: (params) => {
-              params = params.value.split("-");
+            formatter: (params: LabelFormatterParams) => {
+              const pa = (params.value as string).split("-");
               const labels = [
                 "Sunday",
                 "Monday",
@@ -60,15 +64,15 @@ export class CalendarComponent
                 "Friday",
                 "Saturday",
               ];
-              if (params.length > 1) {
-                const week = params[0];
-                const time = params[1];
+              if (pa.length > 1) {
+                const week = pa[0];
+                const time = pa[1];
                 return `${labels[+week]} ${time}:00`;
               } else {
-                if (+params[0]) {
-                  return `${params[0]}:00`;
+                if (+pa[0]) {
+                  return `${pa[0]}:00`;
                 }
-                return `${params[0]}`;
+                return `${pa[0]}`;
               }
             },
           },
@@ -83,16 +87,20 @@ export class CalendarComponent
         nameGap: 40, //max characters
       },
       tooltip: {
-        formatter: (params) => {
+        formatter: (
+          params: TooltipComponentFormatterCallbackParams
+        ): string => {
           let str = "";
-          str += `<div class='tooltip-name'>${params.marker} ${params.seriesName} </div>`;
-          if (params.value) {
-            str +=
-              "<table class='tooltip-table'><tbody><tr><td>" +
-              params.value[0] +
-              "(average):</td><td>" +
-              this.precisionPipe.transform(params.value[2]) +
-              "</td></tr></tbody></table>";
+          if (!Array.isArray(params)) {
+            str += `<div class='tooltip-name'>${params.marker} ${params.seriesName} </div>`;
+            if (params.value) {
+              str +=
+                "<table class='tooltip-table'><tbody><tr><td>" +
+                params.value[0] +
+                "(average):</td><td>" +
+                this.precisionPipe.transform(params.value[2]) +
+                "</td></tr></tbody></table>";
+            }
           }
           return str;
         },
@@ -100,10 +108,10 @@ export class CalendarComponent
       series: [],
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
   }
 
-  buildChartData(data) {
+  buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -240,29 +248,30 @@ export class CalendarComponent
     });
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
     const axes = [];
 
-    let xAxis1: any = {
+    let xAxis1: EChartsOption = {
       type: "category",
 
       axisLine: {
         show: true,
       },
       axisPointer: {
-        show: "true",
+        show: true,
       },
+      name: "",
+      position: "bottom",
     };
     let name = "";
     if (this.properties.displayType) {
       name = this.properties.displayType.replace("-", " of ");
     }
 
-    xAxis1.name = name;
-    xAxis1.position = "bottom";
+    xAxis1["name"] = name;
 
     if (this.xAxisLabels2.length > 0) {
       xAxis1 = {
@@ -270,8 +279,8 @@ export class CalendarComponent
         axisTick: {
           alignWithLabel: false,
           length: 16,
-          align: "left",
-          interval: function (_index, value) {
+          inside: false,
+          interval: function (_index: number, value: string): boolean {
             return value ? true : false;
           },
         },
@@ -279,7 +288,7 @@ export class CalendarComponent
           margin: 16,
           fontSize: 11,
           align: "left",
-          interval: function (_index, value) {
+          interval: function (_index: number, value: string): boolean {
             return value ? true : false;
           },
         },
@@ -288,7 +297,7 @@ export class CalendarComponent
         },
         splitLine: {
           show: true,
-          interval: function (_index, value) {
+          interval: function (_index: number, value: string): boolean {
             return value ? true : false;
           },
         },
@@ -300,24 +309,24 @@ export class CalendarComponent
         name,
         axisLabel: {
           fontSize: 11,
-          formatter: (value, _index) => {
+          formatter: (value: string): string => {
             const val = value.split("-")[1];
             return val === "00" ? "" : val;
           },
         },
       };
-      xAxis1.data = this.xAxisLabels2;
+      xAxis1["data"] = this.xAxisLabels2;
 
       axes.push(xAxis2);
       axes.push(xAxis1);
     } else {
       //just one axis
-      xAxis1.data = this.xAxisLabels;
+      xAxis1["data"] = this.xAxisLabels;
       axes.push(xAxis1);
     }
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
-      visualMap: visualMap,
+      visualMap: [visualMap],
       xAxis: axes,
       grid: {
         bottom: axes.length > 1 ? 24 : 38,

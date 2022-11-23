@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
-import { graphic } from "echarts";
+import { EChartsOption, graphic } from "echarts";
 
 import {
   WidgetConnectService,
@@ -9,7 +9,9 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { parseUtc } from "../../shared/utils";
+import { copyChartOptions, parseUtc } from "../../shared/utils";
+import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
+import { ProcessedData } from "../../interfaces";
 
 @Component({
   selector: "widget-timeline",
@@ -33,14 +35,12 @@ export class TimelineComponent
   xAxisLabels = [];
 
   configureChart(): void {
-    const chartOptions = {
+    const chartOptions: EChartsOption = {
       tooltip: {
-        formatter: (params): string => {
-          return this.widgetConfigService.timeAxisFormatToolTip(params);
-        },
+        formatter: this.widgetConfigService.timeAxisFormatToolTip.bind(this),
       },
       xAxis: {
-        nameLocation: "center",
+        nameLocation: "middle",
         name: "Measurement Start Date",
         nameTextStyle: {
           align: "center",
@@ -63,10 +63,10 @@ export class TimelineComponent
       series: [],
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
   }
 
-  buildChartData(data): Promise<void> {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -143,7 +143,7 @@ export class TimelineComponent
     });
   }
 
-  makeSeriesForFixed(nslc, data, index, width) {
+  makeSeriesForFixed(nslc, data, index, width): EChartsOption {
     const channelObj = {
       type: "heatmap",
       name: nslc,
@@ -196,7 +196,7 @@ export class TimelineComponent
     return channelObj;
   }
 
-  makeSeriesForRaw(nslc, data, index) {
+  makeSeriesForRaw(nslc, data, index): EChartsOption {
     const channelObj = {
       type: "custom",
       name: nslc,
@@ -216,7 +216,7 @@ export class TimelineComponent
     return channelObj;
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
@@ -244,7 +244,7 @@ export class TimelineComponent
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,
         axisLabel: {
-          formatter: this.widgetConfigService.timeAxisTickFormatting,
+          formatter: this.widgetConfigService.timeAxisTickFormatting.bind(this),
           fontSize: 11,
           margin: 3,
         },
@@ -261,18 +261,19 @@ export class TimelineComponent
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
       series: this.metricSeries[displayMetric.id].series,
-      visualMap: visualMap,
+      visualMap: [visualMap],
       xAxis,
     };
 
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
+      // this.echartsInstance.setOption(this.updateOptions, {
+      //   replaceMerge: ["series", "xAxis"],
+      // });
+      this.echartsInstance.setOption(this.updateOptions);
     }
   }
 
-  renderItem(params, api) {
+  renderItem(params, api): unknown {
     const categoryIndex = api.value(3);
     const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
     const end = api.coord([api.value(1), categoryIndex]); //converts to xy coords

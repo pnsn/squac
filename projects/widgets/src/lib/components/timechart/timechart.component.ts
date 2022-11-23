@@ -9,7 +9,9 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { parseUtc } from "../../shared/utils";
+import { copyChartOptions, parseUtc } from "../../shared/utils";
+import { EChartsOption } from "echarts";
+import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-timechart",
@@ -31,7 +33,7 @@ export class TimechartComponent
   maxMeasurementGap = 1.5;
 
   configureChart(): void {
-    const chartOptions: any = {
+    const chartOptions: EChartsOption = {
       yAxis: {
         type: "value",
       },
@@ -52,13 +54,13 @@ export class TimechartComponent
         },
       },
       tooltip: {
-        formatter: (params) => {
+        formatter: (params: unknown) => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
   }
 
   buildChartData(data): Promise<void> {
@@ -141,13 +143,13 @@ export class TimechartComponent
     });
   }
 
-  changeMetrics() {
+  changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMap = this.visualMaps[colorMetric.id];
 
     this.updateOptions = {
       series: this.metricSeries.series,
-      visualMap,
+      visualMap: [visualMap],
       xAxis: {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,
@@ -155,9 +157,7 @@ export class TimechartComponent
     };
 
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
+      this.echartsInstance.setOption(this.updateOptions);
     }
   }
 }

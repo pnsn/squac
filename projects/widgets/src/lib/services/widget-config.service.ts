@@ -16,7 +16,11 @@ import {
   ContinousVisualMapOption,
   isContinuous,
 } from "../interfaces";
-import { DefaultLabelFormatterCallbackParams, EChartsOption } from "echarts";
+import {
+  DefaultLabelFormatterCallbackParams,
+  EChartsOption,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 
 //used to take widget data and transform to different formas
 @Injectable()
@@ -543,7 +547,9 @@ export class WidgetConfigService {
   }
 
   // tooltips for time x axis
-  timeAxisFormatToolTip(params: DefaultLabelFormatterCallbackParams): string {
+  timeAxisFormatToolTip(
+    params: Partial<TooltipComponentFormatterCallbackParams>
+  ): string {
     let data = [];
     if (Array.isArray(params)) {
       data = [...params];

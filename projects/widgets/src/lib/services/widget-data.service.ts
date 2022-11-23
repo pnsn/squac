@@ -184,7 +184,6 @@ export class WidgetDataService implements OnDestroy {
         this.calculateDataRange(metricId, value);
       });
     } catch (e: unknown) {
-      console.error("Error in widget response", e);
       return WidgetErrors.SQUAC_ERROR;
     }
     return dataMap;

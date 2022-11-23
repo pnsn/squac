@@ -134,7 +134,7 @@ export class MapComponent
 
   private initLegend(): void {
     const legend = this.legendRef.nativeElement;
-    this.legend.onAdd = (): any => {
+    this.legend.onAdd = (): HTMLElement => {
       return legend;
     };
     if (this.map && this.legend) {
@@ -177,22 +177,7 @@ export class MapComponent
     if (this.resizeObserver) {
       this.resizeObserver.unobserve(this.mapRef.nativeElement);
     }
-    console.log("destroy");
-
     super.ngOnDestroy();
-  }
-
-  hoverStation(i, status): void {
-    const layer = this.metricLayers[this.displayMetric.id];
-    const station = layer[i];
-
-    if (this.layers[0].hasLayer(station)) {
-      if (status === "open") {
-        station.openTooltip();
-      } else {
-        station.closeTooltip();
-      }
-    }
   }
 
   buildChartData(data): Promise<void> {
@@ -284,7 +269,7 @@ export class MapComponent
             );
 
             if (isStoplight(visualMap)) {
-              let color;
+              let color: string;
               if (station.channelAgg === 0) {
                 color = visualMap.colors.in;
               } else if (station.channelAgg === station.count) {
@@ -405,7 +390,7 @@ export class MapComponent
       autoPan: true,
       riseOnHover: true,
     };
-    let html;
+    let html: string;
     if (station.color) {
       html = this.getIconHtml(station.color);
       if (station.color === "transparent") {

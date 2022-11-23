@@ -6,10 +6,9 @@ import {
 } from "../../services";
 import { EChartComponent } from "../abstract-components";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import {
-  DefaultLabelFormatterCallbackParams,
-  ParallelSeriesOption,
-} from "echarts";
+import { EChartsOption, ParallelSeriesOption } from "echarts";
+import { copyChartOptions } from "../../shared/utils";
+import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
   selector: "widget-parallel-plot",
@@ -29,7 +28,7 @@ export class ParallelPlotComponent
   }
 
   configureChart(): void {
-    const chartOptions = {
+    const chartOptions: EChartsOption = {
       parallel: {
         left: 10,
         bottom: 20,
@@ -38,7 +37,7 @@ export class ParallelPlotComponent
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,
-            overflow: "break",
+            // overflow: "break",
           },
         },
       },
@@ -46,20 +45,29 @@ export class ParallelPlotComponent
       grid: {
         left: 10,
       },
-      xAxis: false,
-      yAxis: false,
+      xAxis: {},
+      yAxis: {},
       tooltip: {
-        formatter: (params: DefaultLabelFormatterCallbackParams): string => {
-          return this.widgetConfigService.multiMetricTooltipFormatting(params);
-        },
+        formatter:
+          this.widgetConfigService.multiMetricTooltipFormatting.bind(this),
       },
       dataZoom: [],
     };
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
   }
 
   override toggleKey(): void {
-    let temp: any = {};
+    let temp = {
+      legend: {
+        show: false,
+      },
+      grid: {
+        right: 20,
+      },
+      parallel: {
+        right: 10,
+      },
+    };
     if (this.showKey) {
       temp = {
         legend: {
@@ -70,18 +78,6 @@ export class ParallelPlotComponent
         },
         parallel: {
           right: 75,
-        },
-      };
-    } else {
-      temp = {
-        legend: {
-          show: false,
-        },
-        grid: {
-          right: 20,
-        },
-        parallel: {
-          right: 10,
         },
       };
     }
@@ -132,6 +128,7 @@ export class ParallelPlotComponent
       this.echartsInstance.setOption(this.updateOptions, {
         replaceMerge: ["series"],
       });
+
       this.resize();
     }
   }
