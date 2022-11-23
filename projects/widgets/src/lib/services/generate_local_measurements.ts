@@ -42,8 +42,8 @@ export class FakeMeasurementBackend {
 
   private channelsFromGroup(group: number): Observable<number[]> {
     return this.channelGroupService.read(group).pipe(
-      map((group) => {
-        return group.channels.map((channel: Channel) => channel.id);
+      map((cg) => {
+        return cg.channels.map((channel: Channel) => channel.id);
       })
     );
   }
@@ -147,7 +147,13 @@ export class FakeMeasurementBackend {
           const start = format(currentTime);
           const end = format(newEnd);
 
-          const measurement = datafn(start, end, metricMax, m, c);
+          const measurement = datafn({
+            starttime: start,
+            endtime: end,
+            maxValue: metricMax,
+            metric: m,
+            channel: c,
+          });
           measurements.push(measurement);
           currentTime = newEnd;
         }

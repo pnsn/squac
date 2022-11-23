@@ -30,11 +30,11 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params
       .pipe(
         switchMap((params) => {
-          this.monitorId = +params.monitorId;
+          this.monitorId = +params["monitorId"];
 
           if (this.route.snapshot && this.route.snapshot.data) {
-            this.monitor = this.route.snapshot.data.monitor;
-            this.metrics = this.route.snapshot.data.metrics;
+            this.monitor = this.route.snapshot.data["monitor"];
+            this.metrics = this.route.snapshot.data["metrics"];
           }
           return this.channelGroupService.getSortedChannelGroups();
         })

@@ -27,7 +27,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.token = params.token;
+      this.token = params["token"];
     });
 
     this.userForm = new UntypedFormGroup({

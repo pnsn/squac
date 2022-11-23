@@ -20,7 +20,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   showChannel: Channel; //channels to show on map
   error: boolean;
   selectedChannels = [];
-
+  channels: Channel[];
   // table config
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -45,7 +45,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((params) => {
           return this.loadingService.doLoading(
-            this.channelGroupService.read(params.channelGroupId).pipe(
+            this.channelGroupService.read(params["channelGroupId"]).pipe(
               catchError((error) => {
                 this.error = error;
                 return EMPTY;
@@ -58,6 +58,7 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (channelGroup: ChannelGroup) => {
           this.channelGroup = channelGroup;
+          this.channels = channelGroup.channels as Channel[];
         },
       });
     this.subscription.add(chanSub);
@@ -80,9 +81,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   //channel selected on map
-  selectChannel(event) {
-    this.selectedRows = this.channelGroup.channels.filter(
-      (channel) => channel.staCode === event.code
+  selectChannel(event): void {
+    this.selectedRows = this.channels.filter(
+      (channel: Channel) => channel.staCode === event.code
     );
   }
 

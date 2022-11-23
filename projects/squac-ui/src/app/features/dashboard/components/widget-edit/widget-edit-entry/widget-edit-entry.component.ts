@@ -26,12 +26,12 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe((params: Params) => {
-      this.widgetId = +params.widgetId;
-      this.dashboardId = +params.dashboardId;
+      this.widgetId = +params["widgetId"];
+      this.dashboardId = +params["dashboardId"];
       const snapshot = this.route.snapshot;
       if (snapshot.data) {
-        this.metrics = snapshot.data.metrics;
-        this.widget = snapshot.data.widget;
+        this.metrics = snapshot.data["metrics"];
+        this.widget = snapshot.data["widget"];
       }
 
       this.openWidget();

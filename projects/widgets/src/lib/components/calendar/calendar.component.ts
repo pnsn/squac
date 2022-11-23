@@ -108,7 +108,7 @@ export class CalendarComponent
       series: [],
     };
 
-    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
+    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   buildChartData(data): Promise<void> {

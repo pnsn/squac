@@ -26,11 +26,11 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // selected dashboard
     this.paramsSub = this.route.params.subscribe((params) => {
-      this.dashboardId = +params.dashboardId;
-      this.dashboard = this.route.snapshot.data.dashboard;
-      this.channelGroups = this.route.snapshot.data.channelGroups;
+      this.dashboardId = +params["dashboardId"];
+      this.dashboard = this.route.snapshot.data["dashboard"];
+      this.channelGroups = this.route.snapshot.data["channelGroups"];
       const queryParams = this.route.snapshot.queryParams;
-      this.channelGroupId = +queryParams.group;
+      this.channelGroupId = +queryParams["group"];
 
       this.openDashboard();
     });

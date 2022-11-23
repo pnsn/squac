@@ -45,8 +45,8 @@ export class LoadingDirective implements OnChanges {
       this.init();
     }
 
-    if (changes.isLoading) {
-      const isLoadingValue = changes.isLoading.currentValue;
+    if (changes["isLoading"]) {
+      const isLoadingValue = changes["isLoading"].currentValue;
       if (isLoadingValue) {
         this.addLoadingIndicator();
       } else {

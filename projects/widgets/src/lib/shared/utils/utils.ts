@@ -7,7 +7,7 @@ export function copyChartOptions(
   defaultOptions: EChartsOption,
   options: EChartsOption
 ): EChartsOption {
-  const newOptions = { ...defaultOptions };
+  const newOptions = Object.assign({}, defaultOptions);
 
   Object.keys(options).forEach((key) => {
     if (!(key in newOptions)) {
@@ -15,13 +15,12 @@ export function copyChartOptions(
     }
     const keyOptions = options[key];
     if (Object.keys(keyOptions).length > 0) {
-      Object.keys(keyOptions).forEach((childKey) => {
+      Object.keys(keyOptions).forEach((childKey: string) => {
         newOptions[key][childKey] = keyOptions[childKey];
       });
     } else {
-      newOptions[key] = options[key];
+      newOptions[key] = keyOptions;
     }
   });
-
   return newOptions as EChartsOption;
 }

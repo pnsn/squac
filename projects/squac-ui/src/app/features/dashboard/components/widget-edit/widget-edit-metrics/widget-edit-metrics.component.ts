@@ -79,11 +79,11 @@ export class WidgetEditMetricsComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     //update metrics
-    if (this.columns && changes.metrics && changes.metrics.currentValue) {
+    if (this.columns && changes["metrics"] && changes["metrics"].currentValue) {
       this.rows = [...this.metrics];
     }
 
-    if (changes.type && this.type) {
+    if (changes["type"] && this.type) {
       const selectedType = WIDGET_TYPE_INFO[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();

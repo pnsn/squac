@@ -56,6 +56,7 @@ export class SearchFilterComponent {
           });
           return props.length > 0;
         }
+        return false;
       });
       //send rows with results to parent component
       this.filterChanged.emit([...temp]);

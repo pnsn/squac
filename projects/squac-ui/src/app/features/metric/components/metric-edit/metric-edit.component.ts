@@ -40,7 +40,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.metric = this.data.metric;
+    this.metric = this.data["metric"];
     this.editMode = !!this.metric;
     this.initForm();
   }

@@ -8,9 +8,9 @@ export const BASE_CHART_CONFIG: EChartsOption = {
   legend: {
     show: false,
   },
-  // visualMap: {
-  //   show: true,
-  // },
+  visualMap: {
+    show: true,
+  },
   grid: {
     containLabel: true,
     top: 5,
@@ -77,7 +77,7 @@ export const BASE_CHART_CONFIG: EChartsOption = {
       realtime: true,
       orient: "horizontal",
       moveHandleSize: 10,
-      // height: 15,
+      height: 15,
       showDetail: false,
       showDataShadow: undefined,
       bottom: 10,
@@ -92,7 +92,7 @@ export const BASE_CHART_CONFIG: EChartsOption = {
       showDataShadow: undefined,
       moveHandleSize: 10,
       showDetail: false,
-      // width: 15,
+      width: 15,
     },
   ],
 };

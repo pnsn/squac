@@ -52,7 +52,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     //only take initial values
-    if (changes.matchingRules && this.matchingRules) {
+    if (changes["matchingRules"] && this.matchingRules) {
       this.initForm();
     }
   }

@@ -51,8 +51,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.data.user;
-    this.orgId = this.data.orgId;
+    this.user = this.data["user"];
+    this.orgId = this.data["orgId"];
 
     this.editMode = !!this.user;
     this.userForm = this.formBuilder.group({

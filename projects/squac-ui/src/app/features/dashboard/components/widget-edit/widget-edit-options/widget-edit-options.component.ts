@@ -93,12 +93,12 @@ export class WidgetEditOptionsComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedMetrics) {
+    if (changes["selectedMetrics"]) {
       this.thresholdArray.clear({ emitEvent: false });
       this.changeMetrics();
     }
 
-    if (changes.type && this.type) {
+    if (changes["type"] && this.type) {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       if (!this.widgetConfig) {
         this.thresholds = [];
@@ -109,7 +109,7 @@ export class WidgetEditOptionsComponent
       //update which display options available
     }
 
-    if (changes.displayType && !changes.type) {
+    if (changes["displayType"] && !changes["displayType"]) {
       this.validateOptions();
       this.validateThresholds();
     }
@@ -242,7 +242,7 @@ export class WidgetEditOptionsComponent
   }
 
   // get color from color option
-  colors(option: any): string[] {
+  colors(option: any): string[] | void {
     if (option.color) {
       return option.color;
     }
@@ -258,7 +258,7 @@ export class WidgetEditOptionsComponent
   }
 
   get thresholdArray(): FormArray<FormGroup<ThresholdForm>> {
-    return this.optionsForm.controls.thresholdArray as FormArray;
+    return this.optionsForm.controls["thresholdArray"] as FormArray;
   }
 
   // Add a new threshold

@@ -48,7 +48,7 @@ export class CacheInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      tap((httpEvent: HttpEvent<any>) => {
+      tap((httpEvent: HttpEvent<any>): void | HttpEvent<any> => {
         if (httpEvent instanceof HttpResponse) {
           this._cache.put(request, httpEvent);
           return httpEvent;

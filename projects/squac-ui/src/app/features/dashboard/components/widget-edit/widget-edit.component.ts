@@ -32,8 +32,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     // check if editing or creating
-    this.editMode = !!this.data.widget;
-    const dashboardId = this.data.dashboardId;
+    this.editMode = !!this.data["widget"];
+    const dashboardId = this.data["dashboardId"];
     this.widget =
       this.data.widget || new Widget(null, null, "", dashboardId, null);
 
@@ -43,7 +43,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
       this.widget.id = null;
       this.widget.dashboardId = dashboardId;
     }
-    this.metrics = this.data.metrics;
+    this.metrics = this.data["metrics"];
   }
 
   ngOnDestroy(): void {

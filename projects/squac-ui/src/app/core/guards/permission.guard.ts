@@ -13,8 +13,8 @@ export class PermissionGuard implements CanActivate {
     return of(true);
     // FIXME: temporarily disabled
     // if (next.data && next.data.action && next.data.subject) {
-    //   const subject = next.data.subject;
-    //   const action = next.data.action;
+    //   const subject = next.data["subject"];
+    //   const action = next.data["action"];
     //   return this.userService.user.pipe(
     //     switchMap(
     //       user => {

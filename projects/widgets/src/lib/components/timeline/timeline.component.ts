@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
-import { EChartsOption, graphic } from "echarts";
+import {
+  EChartsOption,
+  graphic,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 
 import {
   WidgetConnectService,
@@ -9,9 +13,9 @@ import {
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { copyChartOptions, parseUtc } from "../../shared/utils";
-import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
+import { parseUtc } from "../../shared/utils";
 import { ProcessedData } from "../../interfaces";
+import { LabelFormatterParams } from "../../interfaces";
 
 @Component({
   selector: "widget-timeline",
@@ -36,12 +40,24 @@ export class TimelineComponent
 
   configureChart(): void {
     const chartOptions: EChartsOption = {
-      tooltip: {
-        formatter: this.widgetConfigService.timeAxisFormatToolTip.bind(this),
-      },
       xAxis: {
+        type: "time",
         nameLocation: "middle",
         name: "Measurement Start Date",
+        nameGap: 14,
+        axisPointer: {
+          show: true,
+          label: {
+            formatter: (params: LabelFormatterParams) =>
+              this.widgetConfigService.timeAxisPointerLabelFormatting(params),
+          },
+        },
+        axisLabel: {
+          fontSize: 11,
+          margin: 3,
+          formatter: (params: string) =>
+            this.widgetConfigService.timeAxisTickFormatting(params),
+        },
         nameTextStyle: {
           align: "center",
         },
@@ -51,6 +67,10 @@ export class TimelineComponent
         axisLine: {
           show: true,
         },
+      },
+      tooltip: {
+        formatter: (params: TooltipComponentFormatterCallbackParams) =>
+          this.widgetConfigService.timeAxisFormatToolTip(params),
       },
       yAxis: {
         inverse: true,
@@ -63,7 +83,7 @@ export class TimelineComponent
       series: [],
     };
 
-    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
+    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   buildChartData(data: ProcessedData): Promise<void> {
@@ -266,10 +286,9 @@ export class TimelineComponent
     };
 
     if (this.echartsInstance) {
-      // this.echartsInstance.setOption(this.updateOptions, {
-      //   replaceMerge: ["series", "xAxis"],
-      // });
-      this.echartsInstance.setOption(this.updateOptions);
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series", "xAxis"],
+      });
     }
   }
 

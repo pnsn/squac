@@ -1,5 +1,5 @@
 import { LocalStorageTypes } from "./services/local-storage.service";
-export const CACHEABLE_ROUTE_PATTERNS: { [k: string]: any } = {
+export const CACHEABLE_ROUTE_PATTERNS: Record<string, any> = {
   "/dashboard/dashboards/": LocalStorageTypes.SESSION,
   "/dashboard/dashboards/:id/": LocalStorageTypes.SESSION,
   "/measurement/metrics/": LocalStorageTypes.SESSION,

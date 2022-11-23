@@ -32,7 +32,7 @@ export class PasswordResetComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.token = params.token;
+      this.token = params["token"];
       if (this.token) {
         this.emailSent = true;
         this.sendToken(this.token);

@@ -15,7 +15,7 @@ abstract class HttpCache {
   providedIn: "root",
 })
 export class HttpCacheService implements HttpCache {
-  cache: { [key: string]: HttpResponse<any> } = {};
+  cache: Record<string, HttpResponse<any>> = {};
   cachableRoutes = CACHEABLE_ROUTE_PATTERNS;
 
   stripUrl(url: string): string {

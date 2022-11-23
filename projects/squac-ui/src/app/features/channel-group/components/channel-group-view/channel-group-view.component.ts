@@ -91,11 +91,11 @@ export class ChannelGroupViewComponent
     const groupsSub = this.route.params
       .pipe(
         tap(() => {
-          const orgId = this.route.snapshot.data.user.orgId;
+          const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
           this.selectedChannelGroupId =
             this.route.children.length > 0
-              ? +this.route.snapshot.firstChild.params.channelGroupId
+              ? +this.route.snapshot.firstChild.params["channelGroupId"]
               : null;
         }),
         switchMap(() => {

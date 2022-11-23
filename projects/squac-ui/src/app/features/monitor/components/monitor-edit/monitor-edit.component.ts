@@ -92,9 +92,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   ) {}
   // Set up form fields
   ngOnInit(): void {
-    this.metrics = this.data.metrics;
-    this.channelGroups = this.data.channelGroups;
-    this.editMode = !!this.data.monitor;
+    this.metrics = this.data["metrics"];
+    this.channelGroups = this.data["channelGroups"];
+    this.editMode = !!this.data["monitor"];
     this.initForm();
   }
 
@@ -227,7 +227,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   // Fill in metric info
   private initForm(): void {
     if (this.editMode) {
-      this.monitor = this.data.monitor;
+      this.monitor = this.data["monitor"];
       this.id = this.monitor.id;
 
       this.selectedMetric = this.metrics.find(

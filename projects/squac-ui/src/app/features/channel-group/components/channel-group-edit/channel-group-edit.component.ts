@@ -108,8 +108,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const chanSub = this.route.params
       .pipe(
         map((params) => {
-          this.id = params.channelGroupId;
-          this.editMode = !!params.channelGroupId;
+          this.id = params["channelGroupId"];
+          this.editMode = !!params["channelGroupId"];
 
           return this.id;
         }),
@@ -210,8 +210,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         description: this.channelGroup.description,
         share,
       });
-      this.autoExcludeChannels = [...this.channelGroup.autoExcludeChannels];
-      this.autoIncludeChannels = [...this.channelGroup.autoIncludeChannels];
+      this.autoExcludeChannels = [
+        ...this.channelGroup.autoExcludeChannels,
+      ] as Channel[];
+      this.autoIncludeChannels = [
+        ...this.channelGroup.autoIncludeChannels,
+      ] as Channel[];
     }
   }
 
@@ -395,13 +399,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const values = this.channelGroupForm.value;
     const shareAll = values.share === "shareAll";
     const shareOrg = values.share === "shareOrg" || shareAll;
-    const cg = new ChannelGroup(
-      this.id,
-      null,
-      values.name,
-      values.description,
-      this.orgId
-    );
+    const cg = new ChannelGroup();
+
+    cg.id = this.id;
+    cg.name = values.name;
+    cg.description = values.description;
+    cg.orgId = this.orgId;
 
     //need to updatematching rules
 

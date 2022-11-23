@@ -80,14 +80,14 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       )
       .subscribe();
 
-    this.widgetManager.widget.subscribe((widget: Widget) => {
+    this.widgetManager.widget$.subscribe((widget: Widget) => {
       this.initWidget(widget);
     });
 
     this.widgetManager.zoomStatus$.subscribe((status) => {
       this.zooming = status;
     });
-    this.widgetManager.toggleKey.subscribe((show) => {
+    this.widgetManager.toggleKey$.subscribe((show) => {
       this.showKey = show;
     });
 
@@ -103,7 +103,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.widget) {
+    if (changes["widget"]) {
       this.widgetManager.initWidget(this.widget);
     }
   }
@@ -118,18 +118,18 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.thresholds = widget.thresholds.slice();
   }
 
-  metricsChanged(metrics: Metric[]) {
+  metricsChanged(metrics: Metric[]): void {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
     this.widget.thresholds = this.thresholds;
     this.viewService.saveWidget(this.widget, true);
   }
 
-  toggleKey() {
-    this.widgetManager.toggleKey.next(!this.showKey);
+  toggleKey(): void {
+    this.widgetManager.toggleKey$.next(!this.showKey);
   }
 
-  updateZoom(status?: string) {
+  updateZoom(status?: string): void {
     if (status) {
       this.widgetManager.zoomStatus$.next(status);
     } else if (this.zooming === "start") {

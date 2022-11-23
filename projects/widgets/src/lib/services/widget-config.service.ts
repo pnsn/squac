@@ -21,10 +21,12 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
+import { TooltipComponent } from "@angular/material/tooltip";
 
 //used to take widget data and transform to different formas
 @Injectable()
 export class WidgetConfigService {
+  readonly defaultPrecision = 4;
   thresholds: Threshold[];
   dataRange: DataRange;
   precisionPipe = new PrecisionPipe();
@@ -88,30 +90,6 @@ export class WidgetConfigService {
       left: 35,
     },
     useUtc: true,
-    xAxis: {
-      nameLocation: "middle",
-      name: "Measurement Start Date",
-      nameGap: 14,
-      nameTextStyle: {
-        align: "center",
-      },
-      axisTick: {
-        show: true,
-      },
-      axisLine: {
-        show: true,
-      },
-      axisLabel: {
-        margin: 3,
-        fontSize: 11,
-      },
-    },
-    yAxis: {
-      nameLocation: "middle",
-      axisLabel: {
-        fontSize: 11,
-      },
-    },
     toolbox: {
       feature: {
         dataZoom: {
@@ -525,24 +503,29 @@ export class WidgetConfigService {
   // channel & list of metric values
   // used for scatter, parallel etc
   multiMetricTooltipFormatting(
-    params: DefaultLabelFormatterCallbackParams
+    params: TooltipComponentFormatterCallbackParams
   ): string {
-    let str = `<div class='tooltip-name'> ${params.marker} ${params.name}</div>`;
-    str +=
-      "<table class='tooltip-table'><thead><th>Metric</th> <th>Value</th></thead><tbody>";
+    let str = "";
+    if (Array.isArray(params)) {
+    } else {
+      str = `<div class='tooltip-name'> ${params.marker} ${params.name}</div>`;
+      str +=
+        "<table class='tooltip-table'><thead><th>Metric</th> <th>Value</th></thead><tbody>";
 
-    if (Array.isArray(params.value)) {
-      params.value.forEach((data: number, i) => {
-        str +=
-          "<tr><td>" +
-          params.dimensionNames[i] +
-          "</td><td>" +
-          (data !== null ? this.precisionPipe.transform(data) : "no data") +
-          "</td></tr>";
-      });
+      if (Array.isArray(params.value)) {
+        params.value.forEach((data: number, i) => {
+          str +=
+            "<tr><td>" +
+            params.dimensionNames[i] +
+            "</td><td>" +
+            (data !== null ? this.precisionPipe.transform(data) : "no data") +
+            "</td></tr>";
+        });
+      }
+
+      str = str += "</tbody></table>";
     }
 
-    str = str += "</tbody></table>";
     return str;
   }
 
@@ -563,13 +546,10 @@ export class WidgetConfigService {
     data.forEach((param) => {
       if (param.value) {
         const name = param.name ? param.name : param.seriesName;
-        str +=
-          "<tr><td>" +
-          param.marker +
-          name +
-          "</td><td>" +
-          this.precisionPipe.transform(param.value[2]) +
-          "</td></tr>";
+        str += `
+          <tr><td> ${
+            param.marker
+          } ${name} </td><td> ${param.value[2]?.toPrecision(4)}</td></tr>`;
       }
     });
 

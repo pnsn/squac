@@ -131,17 +131,17 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.columns && changes.columns.currentValue) {
+    if (changes["columns"] && changes["columns"].currentValue) {
       this.processColumns();
     }
-    if (changes.rows && changes.rows.currentValue) {
+    if (changes["rows"] && changes["rows"].currentValue) {
       this.processRows();
     }
-    if (changes.selectedRowId && !changes.selectedRowId.firstChange) {
+    if (changes["selectedRowId"] && !changes["selectedRowId"].firstChange) {
       this.selectResource(this.selectedRowId);
     }
 
-    if (changes.resize) {
+    if (changes["resize"]) {
       if (this.table) {
         this.table.recalculate();
       }
@@ -364,6 +364,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (userNameA > userNameB) {
       return 1;
     }
+    return 0;
   }
 
   //sort organizations by name
@@ -377,6 +378,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     if (orgNameA > orgNameB) {
       return 1;
     }
+    return 0;
   }
 
   ngOnDestroy(): void {

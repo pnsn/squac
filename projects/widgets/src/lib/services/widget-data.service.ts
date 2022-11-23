@@ -177,7 +177,9 @@ export class WidgetDataService implements OnDestroy {
         }
 
         const value = item.value ?? item[this.stat];
-        metricValues.push(value);
+
+        item.value = value;
+        metricValues.push(item);
 
         channelMap.set(metricId, metricValues);
 
@@ -210,7 +212,6 @@ export class WidgetDataService implements OnDestroy {
       metricRange.max = value;
     }
     if (metricRange.count) metricRange.count++;
-
     this.ranges[metricId] = metricRange;
   }
 }

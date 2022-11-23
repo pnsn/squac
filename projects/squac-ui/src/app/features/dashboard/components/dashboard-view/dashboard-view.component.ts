@@ -92,7 +92,7 @@ export class DashboardViewComponent
       .pipe(
         tap(() => {
           // this.error = false;
-          const orgId = this.route.snapshot.data.user.orgId;
+          const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
         }),
         switchMap(() => {

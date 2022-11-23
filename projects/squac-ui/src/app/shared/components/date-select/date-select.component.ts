@@ -42,7 +42,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
       }
     | undefined;
   selectedRange: any;
-  rangesForDatePicker: { [key: string]: [Dayjs, Dayjs] } = {};
+  rangesForDatePicker: Record<string, [Dayjs, Dayjs]> = {};
   liveMode: boolean | undefined;
 
   constructor(private dateService: DateService) {

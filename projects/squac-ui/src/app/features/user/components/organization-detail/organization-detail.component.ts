@@ -86,8 +86,8 @@ export class OrganizationDetailComponent
     const orgSub = this.route.data
       .pipe(
         tap(() => {
-          this.user = this.route.snapshot.data.user;
-          this.orgId = this.route.snapshot.params.orgId;
+          this.user = this.route.snapshot.data["user"];
+          this.orgId = this.route.snapshot.params["orgId"];
         }),
         switchMap(() => {
           return this.fetchData();

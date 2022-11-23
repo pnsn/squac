@@ -86,17 +86,17 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
-      if (data.widgets.error) {
+      if (data["widgets"].error) {
         this.error = "Could not load dashboard or widgets";
       } else {
-        if (data.dashboards) {
-          this.dashboards = data.dashboards.filter((d) => {
+        if (data["dashboards"]) {
+          this.dashboards = data["dashboards"].filter((d) => {
             return this.ability.can("update", d);
           });
         }
-        this.addWidgetsToView(data.widgets);
+        this.addWidgetsToView(data["widgets"]);
         // this.options.api.res
-        this.viewService.setWidgets(data.widgets);
+        this.viewService.setWidgets(data["widgets"]);
         // allow dragable and resizable if they have permission to edit dashboard
         this.options.draggable.enabled = this.canUpdate;
         this.options.resizable.enabled = this.canUpdate;
@@ -158,7 +158,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   // update widget or remove widget
   private updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.widgetItems.findIndex((item) => {
-      return widgetId === item.widget.id;
+      return widgetId === item["widget"].id;
     });
     // delete existing widget
     if (index !== -1 && !widget) {
@@ -167,7 +167,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       //add new
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
-      this.widgetItems[index].widget = widget;
+      this.widgetItems[index]["widget"] = widget;
     }
     if (widget) {
       this.viewService.updateData.next({ widget: widgetId });

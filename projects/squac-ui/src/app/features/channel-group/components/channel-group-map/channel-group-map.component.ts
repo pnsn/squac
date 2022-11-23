@@ -57,14 +57,14 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      changes.selectedChannels ||
-      changes.autoIncludeChannels ||
-      changes.autoExcludeChannels ||
-      changes.searchedChannels
+      changes["selectedChannels"] ||
+      changes["autoIncludeChannels"] ||
+      changes["autoExcludeChannels"] ||
+      changes["searchedChannels"]
     ) {
-      this.updateMap(!!changes.showChannel);
+      this.updateMap(!!changes["showChannel"]);
     }
-    if (!changes.selectedChannels && changes.showChannel) {
+    if (!changes["selectedChannels"] && changes["selectedChannels"]) {
       this.selectChannels(this.showChannel);
     }
   }

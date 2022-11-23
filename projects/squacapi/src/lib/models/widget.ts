@@ -29,12 +29,12 @@ export class Widget {
 
   public type: string;
   public set thresholds(thresholds: string | Array<Threshold>) {
-    let props: Threshold[];
+    let props: Threshold[] = [];
     if (!thresholds) {
       props = new Array<Threshold>();
     } else if (thresholds && typeof thresholds === "string") {
       try {
-        props = { ...(JSON.parse(thresholds) as Threshold[]) };
+        props = [...(JSON.parse(thresholds) as Threshold[])];
       } catch {
         props = [];
       }
@@ -50,7 +50,7 @@ export class Widget {
   }
   //can be entered as string or properties
   public set properties(properties: string | Partial<WidgetProperties>) {
-    let props: Partial<WidgetProperties>;
+    let props: Partial<WidgetProperties> = {};
     if (!properties) {
       props = WIDGET_PROPERTIES;
     } else if (properties && typeof properties === "string") {
@@ -67,7 +67,7 @@ export class Widget {
 
   //can be entered as string or properties
   public set layout(layout: string | Partial<WidgetLayout> | undefined) {
-    let props: Partial<WidgetLayout>;
+    let props: Partial<WidgetLayout> = {};
     if (!layout) {
       props = WIDGET_LAYOUT;
     } else if (layout && typeof layout === "string") {
@@ -92,7 +92,7 @@ export class Widget {
     return this.metrics.map((m) => m.id);
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return "Widget";
   }
 }

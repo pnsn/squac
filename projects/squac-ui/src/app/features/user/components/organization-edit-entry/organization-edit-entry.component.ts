@@ -25,8 +25,8 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe(() => {
-      this.userId = +this.route.snapshot.params.userId;
-      this.organization = this.route.snapshot.data.organization;
+      this.userId = +this.route.snapshot.params["userId"];
+      this.organization = this.route.snapshot.data["organization"];
       this.user = this.organization.users.find((u) => {
         return u.id === this.userId;
       });

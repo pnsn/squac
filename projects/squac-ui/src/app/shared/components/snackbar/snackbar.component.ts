@@ -18,9 +18,9 @@ export class SnackbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.message = this.data.message;
-    this.type = this.data.type;
-    this.action = this.data.action;
+    this.message = this.data["message"];
+    this.type = this.data["type"];
+    this.action = this.data["action"];
   }
 
   dismiss(): void {

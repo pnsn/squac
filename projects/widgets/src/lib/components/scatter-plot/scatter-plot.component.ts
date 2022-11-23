@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 import {
   WidgetConnectService,
   WidgetManagerService,
@@ -7,7 +6,10 @@ import {
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
-import { EChartsOption } from "echarts";
+import {
+  EChartsOption,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 import { copyChartOptions } from "../../shared/utils";
 import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
@@ -27,34 +29,50 @@ export class ScatterPlotComponent
   ) {
     super(widgetManager, widgetConnectService);
   }
-  precisionPipe = new PrecisionPipe();
   configureChart(): void {
     const chartOptions: EChartsOption = {
       series: [],
       grid: {
         left: 50,
       },
-      // xAxis: {
-      // formatter: (value: number): string => {
-      //   return value.toPrecision(4);
-      // },
-      // },
-      yAxis: {
+      xAxis: {
         axisLabel: {
+          formatter: (value: number): string => {
+            return value.toPrecision(4);
+          },
+        },
+        nameLocation: "middle",
+        name: "Measurement Start Date",
+        nameGap: 20,
+        nameTextStyle: {
+          align: "center",
+        },
+        axisTick: {
+          show: true,
+        },
+        axisLine: {
+          show: true,
+        },
+      },
+      yAxis: {
+        type: "value",
+        nameLocation: "middle",
+        axisLabel: {
+          fontSize: 11,
           inside: true,
+          formatter: (value: number): string => {
+            return value.toPrecision(4);
+          },
         },
         nameGap: 10,
-        // formatter: (value: number): string => {
-        //   return value.toPrecision(4);
-        // },
       },
       tooltip: {
-        formatter:
-          this.widgetConfigService.multiMetricTooltipFormatting.bind(this),
+        formatter: (params: TooltipComponentFormatterCallbackParams) =>
+          this.widgetConfigService.multiMetricTooltipFormatting(params),
       },
     };
 
-    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
+    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   buildChartData(data: ProcessedData): Promise<void> {
@@ -116,8 +134,11 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
+    console.log(this.updateOptions);
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions);
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series"],
+      });
     }
   }
 }

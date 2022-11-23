@@ -102,7 +102,7 @@
       </div>
       <div *ngIf="rules.controls[i].errors as errors">
         <span class="warn-text">
-          {{ errors.atLeastOne?.message }}
+          {{ errors["atLeastOne"].message }}
         </span>
       </div>
       <ng-container
@@ -110,7 +110,7 @@
       >
         <div *ngIf="rules.controls[i].get(field + 'Regex').errors as errors">
           <span class="warn-text">
-            {{ errors.invalidRegex?.message }} for {{ field }}
+            {{ errors["invalidRegex"].message }} for {{ field }}
           </span>
         </div>
       </ng-container>

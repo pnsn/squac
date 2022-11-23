@@ -13,5 +13,5 @@ export interface WidgetConfig {
   toggleKey?: boolean;
   minMetrics: number;
   defaultDisplay?: string;
-  displayOptions?: { [type: string]: WidgetDisplayOption };
+  displayOptions?: Record<string, WidgetDisplayOption>;
 }

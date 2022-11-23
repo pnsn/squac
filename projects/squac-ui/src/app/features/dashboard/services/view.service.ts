@@ -35,7 +35,7 @@ import { Widget } from "widgets";
 export class ViewService {
   // handle refreshing
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
-  private _channelsList: { [x: string]: boolean }; //{ 'SCNL': boolean }
+  private _channelsList: Record<string, boolean>; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
   private _channelGroupId: number;
   private _widgets: Widget[];
@@ -150,7 +150,7 @@ export class ViewService {
     return this.channelGroupService.read(channelGroupId).pipe(
       distinctUntilChanged(),
       tap((group) => {
-        this._channels = group.channels;
+        this._channels = group.channels as Channel[];
         this.dashboard.channelGroupId = group.id;
         this._channelGroupId = group.id;
       }),
@@ -161,7 +161,7 @@ export class ViewService {
   }
 
   // { NSLC : true/false} from channel select
-  updateChannels(list: { [x: string]: boolean }) {
+  updateChannels(list: Record<string, boolean>) {
     this._channelsList = list;
     this.hasUnsavedChanges = true;
   }

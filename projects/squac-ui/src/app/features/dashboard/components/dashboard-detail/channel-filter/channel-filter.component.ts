@@ -11,9 +11,7 @@ import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 
-interface CheckboxForm {
-  [x: string]: FormControl<boolean>;
-}
+type CheckboxForm = Record<string, FormControl<boolean>>;
 
 @Component({
   selector: "dashboard-channel-filter",
@@ -67,7 +65,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     });
 
     this.form.valueChanges.subscribe(() => {
-      const value = <{ [x: string]: boolean }>this.form.get("checkboxes").value;
+      const value = <Record<string, boolean>>this.form.get("checkboxes").value;
       this.viewService.updateChannels(value);
     });
   }

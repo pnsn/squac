@@ -49,7 +49,7 @@
         <mat-error
           *ngIf="
             userForm.get('passwords').dirty &&
-            userForm.get('passwords').errors?.mismatch
+            userForm.get('passwords').errors['mismatch']
           "
         >
           Passwords do not match

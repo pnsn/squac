@@ -6,7 +6,11 @@ import {
 } from "../../services";
 import { EChartComponent } from "../abstract-components";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartsOption, ParallelSeriesOption } from "echarts";
+import {
+  EChartsOption,
+  ParallelSeriesOption,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 import { copyChartOptions } from "../../shared/utils";
 import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
@@ -48,12 +52,12 @@ export class ParallelPlotComponent
       xAxis: {},
       yAxis: {},
       tooltip: {
-        formatter:
-          this.widgetConfigService.multiMetricTooltipFormatting.bind(this),
+        formatter: (params: TooltipComponentFormatterCallbackParams) =>
+          this.widgetConfigService.multiMetricTooltipFormatting(params),
       },
       dataZoom: [],
     };
-    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
+    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   override toggleKey(): void {

@@ -20,10 +20,13 @@
           [item]="item"
           *ngFor="let item of widgetItems; trackBy: trackBy"
         >
-          <div class="drag-handler" *ngIf="'update' | able: item.widget"></div>
+          <div
+            class="drag-handler"
+            *ngIf="'update' | able: item['widget']"
+          ></div>
           <widget-detail
             class="widget-detail"
-            [widget]="item.widget"
+            [widget]="item['widget']"
             [dashboards]="dashboards"
           ></widget-detail>
         </gridster-item>

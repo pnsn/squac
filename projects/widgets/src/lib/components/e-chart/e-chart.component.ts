@@ -47,10 +47,8 @@ export abstract class EChartComponent
 
   toggleKey(): void {
     if (this.echartsInstance && this.options.visualMap) {
-      const visualMap = this.options.visualMap[0];
-      visualMap.show = this.showKey;
       this.echartsInstance.setOption({
-        visualMap: [visualMap],
+        visualMap: { show: this.showKey },
       });
     }
   }

@@ -125,7 +125,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(monitorsSub);
 
     if (this.route.firstChild) {
-      this.selectedMonitorId = +this.route.firstChild.snapshot.params.monitorId;
+      this.selectedMonitorId =
+        +this.route.firstChild.snapshot.params["monitorId"];
     }
   }
 

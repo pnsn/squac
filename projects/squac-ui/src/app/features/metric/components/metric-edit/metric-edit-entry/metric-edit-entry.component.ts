@@ -25,8 +25,8 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
     // get metric info
     this.paramsSub = this.route.params.subscribe({
       next: () => {
-        this.metricId = +this.route.snapshot.params.metricId;
-        this.metric = this.route.snapshot.data.metric;
+        this.metricId = +this.route.snapshot.params["metricId"];
+        this.metric = this.route.snapshot.data["metric"];
 
         this.openDialog();
       },

@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Measurement } from "squacapi";
 import * as dayjs from "dayjs";
+import { Measurement } from "squacapi";
 
+import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
+import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import {
+  WidgetConfigService,
   WidgetConnectService,
   WidgetManagerService,
-  WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../abstract-components";
 import { copyChartOptions, parseUtc } from "../../shared/utils";
-import { EChartsOption } from "echarts";
+import { EChartComponent } from "../abstract-components";
 import { BASE_CHART_CONFIG } from "../e-chart/chart-config";
 
 @Component({
@@ -34,33 +34,49 @@ export class TimechartComponent
 
   configureChart(): void {
     const chartOptions: EChartsOption = {
-      yAxis: {
-        type: "value",
-      },
       xAxis: {
         type: "time",
-        name: "Measurement Start",
-
+        nameLocation: "middle",
+        name: "Measurement Start Date",
+        nameGap: 14,
         axisPointer: {
           show: true,
           label: {
-            formatter: this.widgetConfigService.timeAxisPointerLabelFormatting,
+            formatter: (params: LabelFormatterParams) =>
+              this.widgetConfigService.timeAxisPointerLabelFormatting(params),
           },
         },
         axisLabel: {
           fontSize: 11,
           margin: 3,
-          formatter: this.widgetConfigService.timeAxisTickFormatting,
+          formatter: (params: string) =>
+            this.widgetConfigService.timeAxisTickFormatting(params),
+        },
+        nameTextStyle: {
+          align: "center",
+        },
+        axisTick: {
+          show: true,
+        },
+        axisLine: {
+          show: true,
+        },
+      },
+      yAxis: {
+        type: "value",
+        nameLocation: "middle",
+        axisLabel: {
+          fontSize: 11,
         },
       },
       tooltip: {
-        formatter: (params: unknown) => {
+        formatter: (params: TooltipComponentPositionCallbackParams) => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
 
-    this.options = copyChartOptions(BASE_CHART_CONFIG, chartOptions);
+    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   buildChartData(data): Promise<void> {
@@ -157,7 +173,9 @@ export class TimechartComponent
     };
 
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions);
+      this.echartsInstance.setOption(this.updateOptions, {
+        replaceMerge: ["series", "xAxis"],
+      });
     }
   }
 }
