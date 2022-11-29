@@ -18,7 +18,7 @@ export class LocalStorageService {
   /**
    * Get the storage facility
    */
-  private static _getStorage(storageType: LocalStorageTypes) {
+  private static _getStorage(storageType: LocalStorageTypes): Storage {
     return storageType === LocalStorageTypes.LOCAL
       ? localStorage
       : sessionStorage;
@@ -52,7 +52,11 @@ export class LocalStorageService {
    * Set a localStorage or sessionStorage item value
 
    */
-  static setItem(storageType: LocalStorageTypes, key: string, value: any) {
+  static setItem(
+    storageType: LocalStorageTypes,
+    key: string,
+    value: any
+  ): void {
     const storage = LocalStorageService._getStorage(storageType);
     const val = typeof value === "string" ? value : JSON.stringify(value);
     storage.setItem(`${PROJECT_NAME}:${key}`, val);
@@ -61,7 +65,7 @@ export class LocalStorageService {
   /**
    * Remove an item from localStorage or sessionStorage
    */
-  static removeItem(storageType: LocalStorageTypes, key: string) {
+  static removeItem(storageType: LocalStorageTypes, key: string): void {
     const storage = LocalStorageService._getStorage(storageType);
     storage.removeItem(`${PROJECT_NAME}:${key}`);
   }
@@ -75,7 +79,7 @@ export class LocalStorageService {
       route: any;
       pattern: string;
     }
-  ) {
+  ): any[] {
     const storage = LocalStorageService._getStorage(storageType);
     let i;
     const results = [];
@@ -112,7 +116,10 @@ export class LocalStorageService {
    * Empty all cache items that match route
    * Empty all cache items if no route
    */
-  static invalidateCache(matchingRoute?: { route: any; pattern: string }) {
+  static invalidateCache(matchingRoute?: {
+    route: any;
+    pattern: string;
+  }): void {
     const results = [];
     const prefix = PROJECT_NAME;
     Object.values(LocalStorageService).forEach((storageType) => {

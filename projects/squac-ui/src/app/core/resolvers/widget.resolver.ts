@@ -38,7 +38,6 @@ export class WidgetResolver implements Resolve<Observable<any>> {
   }
 
   handleError(error: unknown): Observable<any> {
-    console.error("widget error ", error);
     // TODO: route to show error
     return of({ error });
   }

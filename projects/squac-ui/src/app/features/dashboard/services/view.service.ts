@@ -136,7 +136,7 @@ export class ViewService {
     // return dates
   }
 
-  updateChannelGroup(channelGroupId: number) {
+  updateChannelGroup(channelGroupId: number): void {
     this._channelGroupId = channelGroupId;
     this.hasUnsavedChanges = true;
   }
@@ -157,14 +157,14 @@ export class ViewService {
   }
 
   // { NSLC : true/false} from channel select
-  updateChannels(list: Record<string, boolean>) {
+  updateChannels(list: Record<string, boolean>): void {
     this._channelsList = list;
     this.hasUnsavedChanges = true;
   }
 
   // filter _channels that are true in channelsList
   // if no filter list, return all channels
-  private filterChannels() {
+  private filterChannels(): Channel[] {
     return this._channelsList
       ? this._channels.filter((c) => {
           return this._channelsList[c.nslc];
@@ -191,7 +191,7 @@ export class ViewService {
     }
   }
 
-  private sendUpdate() {
+  private sendUpdate(): void {
     this.channelGroupId.next(this._channelGroupId);
     const channels = this.filterChannels();
     this.channels.next(channels);
@@ -234,7 +234,7 @@ export class ViewService {
   //setChannelGroupById
 
   // Sets up dates for dashboard
-  private setIntialDates() {
+  private setIntialDates(): void {
     let startDate;
     let endDate;
     let autoRefresh;
@@ -308,7 +308,7 @@ export class ViewService {
   }
 
   // stores archive options
-  setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType) {
+  setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
     this.hasUnsavedChanges = true;
@@ -348,16 +348,13 @@ export class ViewService {
   }
 
   // Tell widgets to resize
-  saveWidget(widget: Widget, silentUpdate?: boolean) {
+  saveWidget(widget: Widget, silentUpdate?: boolean): void {
     if (this.ability.can("update", widget)) {
       this.widgetService.updateOrCreate(widget).subscribe({
         next: (widget) => {
           if (!silentUpdate) {
             this.resizeWidget(widget.id);
           }
-        },
-        error: (error) => {
-          console.error("error in widget update: ", error);
         },
       });
     }

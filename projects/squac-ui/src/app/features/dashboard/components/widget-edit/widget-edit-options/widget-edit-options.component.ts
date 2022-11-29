@@ -146,7 +146,7 @@ export class WidgetEditOptionsComponent
     );
   }
 
-  validateThresholds(index?: number) {
+  validateThresholds(index?: number): void {
     const thresholds = this.thresholdArray.controls;
     let dimensions = [];
     if (
@@ -199,7 +199,7 @@ export class WidgetEditOptionsComponent
   }
 
   //check if metrics removed
-  changeMetrics() {
+  changeMetrics(): void {
     if (this.selectedMetrics && this.selectedMetrics.length > 0) {
       this.selectedMetrics.forEach((metric) => {
         const threshold = this.thresholds.find((threshold) => {
@@ -222,7 +222,7 @@ export class WidgetEditOptionsComponent
   }
 
   // populate form
-  makeThresholdForm(threshold?: Threshold) {
+  makeThresholdForm(threshold?: Threshold): FormGroup<ThresholdForm> {
     return this.formBuilder.group<ThresholdForm>({
       dimension: new FormControl(threshold ? threshold.dimension : null),
       min: new FormControl(threshold ? threshold.min : null),
@@ -262,13 +262,13 @@ export class WidgetEditOptionsComponent
   }
 
   // Add a new threshold
-  addThreshold(threshold?: Threshold) {
+  addThreshold(threshold?: Threshold): void {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
     this.thresholdArray.push(thresholdFormGroup, { emitEvent: true });
   }
 
   // return metric name
-  getMetricName(metricId: number) {
+  getMetricName(metricId: number): string {
     const metric = this.selectedMetrics?.find((metric) => {
       return metric.id === +metricId;
     });

@@ -1,4 +1,4 @@
-import { LoadingService } from "../projects/squac-ui/src/app/core/services/loading.service";
+import { LoadingService } from "@core/services/loading.service";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 

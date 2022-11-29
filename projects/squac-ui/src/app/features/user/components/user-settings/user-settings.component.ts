@@ -54,9 +54,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.editMode = false;
         this.messageService.message("User information updated.");
       },
-      error: (error) => {
+      error: () => {
         this.messageService.error("Could not save user information.");
-        console.error("error in change user: ", error);
       },
     });
   }

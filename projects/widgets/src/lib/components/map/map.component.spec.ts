@@ -38,7 +38,7 @@ describe("MapComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
-    component.data = {};
+
     component.selectedMetrics = [];
     component.channels = [];
     component.resizeObserver = new ResizeObserver(() => {

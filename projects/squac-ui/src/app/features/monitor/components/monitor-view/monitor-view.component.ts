@@ -16,6 +16,7 @@ import {
   catchError,
   EMPTY,
   forkJoin,
+  Observable,
   Subscription,
   switchMap,
   tap,
@@ -227,7 +228,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<any> {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
       alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
@@ -244,7 +245,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
   // get fresh alerts
-  refresh() {
+  refresh(): void {
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 

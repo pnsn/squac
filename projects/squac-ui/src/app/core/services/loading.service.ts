@@ -131,18 +131,21 @@ export class LoadingService {
     }
   }
 
-  protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId) {
+  protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId): any {
     return (
       this.hasContextLoadingState(context) &&
       this.hasLoaderLoadingState(context, loaderId)
     );
   }
 
-  protected hasContextLoadingState(context: LoadingContext) {
+  protected hasContextLoadingState(context: LoadingContext): any {
     return this.loadingStates.has(context) && this.loadingStates$.has(context);
   }
 
-  protected hasLoaderLoadingState(context: LoadingContext, loaderId: LoaderId) {
+  protected hasLoaderLoadingState(
+    context: LoadingContext,
+    loaderId: LoaderId
+  ): any {
     return (
       this.loadingStates.get(context).has(loaderId) &&
       this.loadingStates$.get(context).has(loaderId)

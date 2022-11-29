@@ -45,8 +45,8 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
         orgId: this.organization.id,
       },
     });
-    this.dialogRef.afterClosed().subscribe(
-      () => {
+    this.dialogRef.afterClosed().subscribe({
+      next: () => {
         if (this.userId) {
           this.router.navigate(["../../../"], { relativeTo: this.route });
         } else {
@@ -55,10 +55,7 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
 
         // route to exit
       },
-      (error) => {
-        console.error("error in monitor detail: ", error);
-      }
-    );
+    });
   }
 
   ngOnDestroy(): void {

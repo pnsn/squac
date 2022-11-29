@@ -58,9 +58,6 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
           this.router.navigate(["../"], { relativeTo: this.route });
         }
       },
-      error: (error) => {
-        console.error("error in monitor detail: ", error);
-      },
     });
   }
 

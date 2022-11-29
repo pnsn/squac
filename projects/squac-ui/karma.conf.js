@@ -15,12 +15,11 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        random: false,
       },
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: require("path").join(__dirname, "../coverage/squac-ui"),
+      dir: require("path").join(__dirname, "../../coverage/squac-ui"),
       reports: ["html", "lcovonly", "text-summary"],
       fixWebpackSourcePaths: true,
     },
@@ -34,7 +33,8 @@ module.exports = function (config) {
     restartOnFileChange: true,
     failOnFailingTestSuite: false,
     specReporter: {
-      maxLogLines: 3
+      maxLogLines: 3,
+      suppressPassed: true
     }
     // browserDisconnectTimeout : 10000, // default 2000
     // browserDisconnectTolerance : 1, // default 0

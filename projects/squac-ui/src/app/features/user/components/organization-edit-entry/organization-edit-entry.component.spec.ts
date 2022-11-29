@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { DashboardService } from "squacapi";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 

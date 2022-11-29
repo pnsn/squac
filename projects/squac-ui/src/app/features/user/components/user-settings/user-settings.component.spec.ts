@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 
 import { UserSettingsComponent } from "./user-settings.component";
 import { MockBuilder } from "ng-mocks";
-import { MessageService } from "../projects/squac-ui/src/app/core/services/message.service";
-import { UserModule } from "../projects/squac-ui/src/app/features/user/user.module";
+import { MessageService } from "@core/services/message.service";
+import { UserModule } from "@user/user.module";
 
 describe("UserSettingsComponent", () => {
   let component: UserSettingsComponent;

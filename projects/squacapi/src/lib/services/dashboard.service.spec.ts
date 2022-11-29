@@ -6,16 +6,15 @@ import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { WidgetService } from "../services/widget.service";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
-import { DashboardModule } from "../../features/dashboard/dashboard.module";
 import { DashboardService } from "./dashboard.service";
 
 describe("DashboardService", () => {
   let dashboardService: DashboardService;
 
-  const testChannelGroup = new ChannelGroup(1, 1, "name", "description", 1);
+  const testChannelGroup = new ChannelGroup();
 
   beforeEach(() => {
-    return MockBuilder(DashboardService, DashboardModule)
+    return MockBuilder(DashboardService)
       .keep(DashboardAdapter)
       .provide({
         provide: ChannelGroupService,

@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardEditComponent } from "./dashboard-edit.component";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { DashboardService } from "squacapi";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { MaterialModule } from "@shared/material.module";
+import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroupSelectorComponent } from "../projects/squac-ui/src/app/shared/components/channel-group-selector/channel-group-selector.component";
+import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;

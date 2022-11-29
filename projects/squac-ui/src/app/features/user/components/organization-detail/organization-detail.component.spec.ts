@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { OrganizationDetailComponent } from "./organization-detail.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { InviteService } from "@squacapi/services/invite.service";
-import { OrganizationService } from "@squacapi/services/organization.service";
-import { TableViewComponent } from "../projects/squac-ui/src/app/shared/components/table-view/table-view.component";
+import { InviteService } from "squacapi";
+import { OrganizationService } from "squacapi";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("OrganizationDetailComponent", () => {

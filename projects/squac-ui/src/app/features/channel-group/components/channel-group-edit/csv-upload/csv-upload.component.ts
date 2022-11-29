@@ -149,7 +149,7 @@ export class CsvUploadComponent {
       });
   }
 
-  addChannels() {
+  addChannels(): void {
     this.channelsChange.emit(this.matchingChannels);
   }
 }

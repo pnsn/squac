@@ -4,6 +4,7 @@ import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Metric } from "squacapi";
 import { MetricService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "metric-view",
@@ -127,7 +128,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<Metric[]> {
     return this.metricService.list({}, refresh).pipe(
       tap((results) => {
         this.metrics = results;

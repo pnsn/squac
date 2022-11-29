@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardViewComponent } from "./dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
-import { DashboardService } from "@squacapi/services/dashboard.service";
-import { DashboardModule } from "../projects/squac-ui/src/app/features/dashboard/dashboard.module";
+import { DashboardService } from "squacapi";
+import { DashboardModule } from "@dashboard/dashboard.module";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 

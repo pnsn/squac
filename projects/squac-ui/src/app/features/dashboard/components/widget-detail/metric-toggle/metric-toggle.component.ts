@@ -25,7 +25,7 @@ export class MetricToggleComponent implements OnChanges {
   @Output() thresholdsChange = new EventEmitter();
   @Output() metricsChange = new EventEmitter();
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.selectMetrics();
   }
 

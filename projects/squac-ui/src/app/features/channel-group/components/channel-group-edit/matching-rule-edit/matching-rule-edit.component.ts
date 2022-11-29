@@ -8,7 +8,11 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { UntypedFormArray, UntypedFormBuilder } from "@angular/forms";
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from "@angular/forms";
 import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
@@ -61,7 +65,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  makeRuleForm(rule?: MatchingRule) {
+  makeRuleForm(rule?: MatchingRule): UntypedFormGroup {
     return this.formBuilder.group(
       {
         id: rule?.id || null,
@@ -102,11 +106,11 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     return this.matchingRulesForm.get("rules") as UntypedFormArray;
   }
 
-  updateRules() {
+  updateRules(): void {
     this.matchingRulesChange.emit(this._matchingRules);
   }
 
-  removeRule(index) {
+  removeRule(index): void {
     const rule = this.rules.at(index).value;
     if (rule.id) {
       this.removeRuleIds.push(+rule.id);
@@ -116,12 +120,12 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     this.matchingRuleDeleteIds.emit(this.removeRuleIds);
   }
 
-  addRule(rule?: MatchingRule) {
+  addRule(rule?: MatchingRule): void {
     const ruleFormGroup = this.makeRuleForm(rule);
     this.rules.push(ruleFormGroup, { emitEvent: false });
   }
 
-  initForm() {
+  initForm(): void {
     // this.rules.clear({ emitEvent: false });
 
     //only take initial matchingRules
@@ -133,13 +137,13 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  uppercase(eventTarget: any, source: string, index: number) {
+  uppercase(eventTarget: any, source: string, index: number): void {
     this.rules.controls[index].patchValue({
       [source]: (eventTarget as HTMLInputElement).value.toUpperCase(),
     });
   }
 
-  previewChannels() {
+  previewChannels(): void {
     this.previewRules.emit(this._matchingRules);
     //request channels
   }

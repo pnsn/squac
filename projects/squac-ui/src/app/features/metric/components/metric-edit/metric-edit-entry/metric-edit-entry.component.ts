@@ -50,9 +50,6 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
         }
         // route to exit
       },
-      error: (error) => {
-        console.error("error in monitor detail: ", error);
-      },
     });
   }
 

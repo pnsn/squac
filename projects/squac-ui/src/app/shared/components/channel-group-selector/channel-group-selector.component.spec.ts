@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { SharedModule } from "../projects/squac-ui/src/app/shared/shared.module";
+import { ChannelGroupService } from "squacapi";
+import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 

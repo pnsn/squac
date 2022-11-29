@@ -6,11 +6,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
-import { OrganizationService } from "@squacapi/services/organization.service";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
-import { SharedModule } from "../projects/squac-ui/src/app/shared/shared.module";
+import { SharedModule } from "@shared/shared.module";
+import { UserService } from "@user/services/user.service";
+
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
+import { OrganizationService } from "squacapi";
 import { SearchFilterComponent } from "../search-filter/search-filter.component";
 import { TableViewComponent } from "./table-view.component";
 

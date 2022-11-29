@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AbilityModule } from "@casl/angular";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { AuthComponent } from "../components/auth/auth.component";
 import { AuthService } from "./auth.service";

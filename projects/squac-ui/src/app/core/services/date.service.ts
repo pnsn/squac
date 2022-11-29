@@ -92,7 +92,7 @@ export class DateService {
   }
 
   // return duration
-  duration(count: number, type: string) {
+  duration(count: number, type: string): duration.Duration {
     return dayjs.duration(count, type as duration.DurationUnitType);
   }
 }

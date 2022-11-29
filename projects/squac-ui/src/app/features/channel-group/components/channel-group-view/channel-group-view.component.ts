@@ -7,7 +7,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
@@ -149,7 +156,7 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<ChannelGroup[]> {
     return this.channelGroupService.list(this.queryParams, refresh).pipe(
       tap((results) => {
         this.channelGroups = results;
@@ -163,7 +170,7 @@ export class ChannelGroupViewComponent
   }
 
   // get fresh groups
-  refresh(filters?) {
+  refresh(filters?): void {
     if (filters) {
       this.queryParams = { ...filters };
     }

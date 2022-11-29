@@ -78,7 +78,7 @@ export class HttpCacheService implements HttpCache {
     return returnVal;
   }
 
-  matchRoutes(urlWithParams: string) {
+  matchRoutes(urlWithParams: string): { route: any; pattern: string } {
     let matchingRoute: any;
     let pattern = "";
     Object.keys(this.cachableRoutes).forEach((cacheRoute) => {
@@ -98,7 +98,7 @@ export class HttpCacheService implements HttpCache {
    *
    * @param urlWithParams -
    */
-  shouldCache(urlWithParams: string) {
+  shouldCache(urlWithParams: string): boolean {
     return !!this.matchRoutes(urlWithParams).route;
   }
 
@@ -107,7 +107,7 @@ export class HttpCacheService implements HttpCache {
    *
    * @param urlWithParams -
    */
-  shouldCacheToSessionStorage(urlWithParams: string) {
+  shouldCacheToSessionStorage(urlWithParams: string): boolean {
     const matchRoutes = this.matchRoutes(urlWithParams);
     return (
       !!matchRoutes.route && this.cachableRoutes[matchRoutes.pattern] === true
@@ -131,7 +131,7 @@ export class HttpCacheService implements HttpCache {
    * @param urlWithParams -
    * @param res -
    */
-  cacheToLocal(urlWithParams: string, res: HttpResponse<any>) {
+  cacheToLocal(urlWithParams: string, res: HttpResponse<any>): void {
     this.cache[urlWithParams] = res;
   }
 
@@ -144,7 +144,7 @@ export class HttpCacheService implements HttpCache {
     storageType: LocalStorageTypes,
     urlWithParams: string,
     res: HttpResponse<any>
-  ) {
+  ): void {
     LocalStorageService.setItem(storageType, urlWithParams, res);
   }
 
@@ -153,7 +153,7 @@ export class HttpCacheService implements HttpCache {
    * @param urlWithParams -
    * @param res -
    */
-  cacheToSessionStorage(urlWithParams: string, res: HttpResponse<any>) {
+  cacheToSessionStorage(urlWithParams: string, res: HttpResponse<any>): void {
     LocalStorageService.setItem(LocalStorageTypes.SESSION, urlWithParams, res);
   }
 }

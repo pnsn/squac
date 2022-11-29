@@ -5,7 +5,7 @@ describe("ChannelGroup", () => {
   let adapter: ChannelGroupAdapter;
 
   it("should create an instance", () => {
-    expect(new ChannelGroup(1, 1, "test", "description", 1)).toBeTruthy();
+    expect(new ChannelGroup()).toBeTruthy();
   });
 
   it("should create new channel group from api", () => {
@@ -31,13 +31,8 @@ describe("ChannelGroup", () => {
 
   it("should return api json from channel group", () => {
     adapter = TestBed.inject(ChannelGroupAdapter);
-    const testGroup: ChannelGroup = new ChannelGroup(
-      1,
-      1,
-      "testName",
-      "description",
-      1
-    );
+    const testGroup: ChannelGroup = new ChannelGroup();
+    testGroup.name = "testName";
     const channelGroupJson = adapter.adaptToApi(testGroup);
     expect(channelGroupJson).toBeDefined();
     expect(channelGroupJson.name).toBe("testName");

@@ -45,7 +45,7 @@ import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
 
 export function initApp(configurationService: ConfigurationService) {
-  return () => configurationService.load().toPromise();
+  return (): Promise<void> => configurationService.load().toPromise();
 }
 
 @NgModule({

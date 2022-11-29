@@ -1,8 +1,8 @@
 import { TestBed } from "@angular/core/testing";
-import { ViewService } from "../projects/squac-ui/src/app/features/dashboard/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { of, Subject } from "rxjs";
-import { MeasurementService } from "@squacapi/services/measurement.service";
+import { MeasurementService } from "squacapi";
 
 import { WidgetDataService } from "./widget-data.service";
 

@@ -6,7 +6,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { of } from "rxjs";
 import { MockBuilder } from "ng-mocks";
 import { WidgetEditComponent } from "../widget-edit.component";
-import { WidgetService } from "@squacapi/services/widget.service";
+import { WidgetService } from "squacapi";
 import { MatDialogModule } from "@angular/material/dialog";
 
 describe("WidgetEditEntryComponent", () => {

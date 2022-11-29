@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
 import { WidgetEditInfoComponent } from "./widget-edit-info.component";

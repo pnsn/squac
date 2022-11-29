@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 import { OrganizationEditComponent } from "./organization-edit.component";
 

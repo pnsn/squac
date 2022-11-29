@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ChannelGroupModule } from "../projects/squac-ui/src/app/features/channel-group/channel-group.module";
-import { ChannelService } from "@squacapi/services/channel.service";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
+import { ChannelService } from "squacapi";
 import { MockBuilder } from "ng-mocks";
 import { NgxCsvParserModule } from "ngx-csv-parser";
 

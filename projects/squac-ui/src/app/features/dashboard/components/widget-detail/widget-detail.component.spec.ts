@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WidgetDetailComponent } from "./widget-detail.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Widget } from "@squacapi/models/widget";
-import { ViewService } from "../projects/squac-ui/src/app/features/dashboard/services/view.service";
+import { Widget } from "widgets";
+import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
-import { WidgetDataService } from "../projects/widgets/src/widgets/services/widget-data.service";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { WidgetDataService } from "widgets";
+import { DashboardService } from "squacapi";
 import { MetricToggleComponent } from "./metric-toggle/metric-toggle.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { AbilityModule } from "@casl/angular";
@@ -46,7 +46,7 @@ describe("WidgetDetailComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetDetailComponent);
     component = fixture.componentInstance;
-    component.widget = new Widget(1, 1, "name", 1, [], "", "");
+    component.widget = new Widget(1, 1, "name", 1, [], "mean");
     fixture.detectChanges();
   });
 

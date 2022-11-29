@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MetricViewComponent } from "./metric-view.component";
-import { MetricService } from "@squacapi/services/metric.service";
+import { MetricService } from "squacapi";
 import { AbilityModule } from "@casl/angular";
 import { MockBuilder } from "ng-mocks";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
-import { TableViewComponent } from "../projects/squac-ui/src/app/shared/components/table-view/table-view.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 

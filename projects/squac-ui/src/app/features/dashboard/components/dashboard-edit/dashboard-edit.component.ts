@@ -100,9 +100,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
         this.messageService.message("Dashboard saved.");
         this.cancel(result.id);
       },
-      error: (error) => {
+      error: () => {
         this.messageService.error("Could not save dashboard.");
-        console.error("error in save dashboard: ", error);
       },
     });
   }

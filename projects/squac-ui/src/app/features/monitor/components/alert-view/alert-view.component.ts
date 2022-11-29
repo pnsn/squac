@@ -21,6 +21,7 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "monitor-alert-view",
@@ -125,7 +126,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
           canAutoResize: false,
           width: 150,
           pipe: {
-            transform: (monitor) => {
+            transform: (monitor): string => {
               return monitor.name;
             },
           },
@@ -147,7 +148,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<any> {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
       forkJoin({

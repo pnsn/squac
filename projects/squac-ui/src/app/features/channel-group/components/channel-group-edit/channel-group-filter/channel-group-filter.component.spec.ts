@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ChannelGroupFilterComponent } from "./channel-group-filter.component";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from "@angular/forms";

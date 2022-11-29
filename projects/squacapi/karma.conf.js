@@ -3,14 +3,15 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '',
+    basePath: 'src',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require("karma-coverage-istanbul-reporter"),
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require("karma-spec-reporter")
     ],
     client: {
       jasmine: {
@@ -24,21 +25,22 @@ module.exports = function (config) {
     jasmineHtmlReporter: {
       suppressAll: true // removes the duplicated traces
     },
-    coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/squacapi'),
-      subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
+    coverageIstanbulReporter: {
+      dir: require("path").join(__dirname, "../../coverage/squacapi"),
+      reports: ["html", "lcovonly", "text-summary"],
+      fixWebpackSourcePaths: true,
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['kjhtml', "coverage-istanbul",'spec'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    specReporter: {
+      maxLogLines: 3,
+      suppressPassed: true
+    }
   });
 };

@@ -1,17 +1,33 @@
+import { Measurement } from "../models";
 import { MeasurementPipe } from "./measurement.pipe";
 describe("MeasurementPipe", () => {
-  const testValues = [
+  const testValues: Measurement[] = [
     {
       value: 1,
       starttime: "2020-12-01T18:43:59.780000Z",
+      id: 1,
+      owner: 2,
+      endtime: "2020-12-01T18:43:59.780000Z",
+      metricId: 1,
+      channelId: 1,
     },
     {
       value: 3,
       starttime: "2020-12-02T18:43:59.780000Z",
+      id: 1,
+      owner: 2,
+      endtime: "2020-12-01T18:43:59.780000Z",
+      metricId: 1,
+      channelId: 1,
     },
     {
       value: 2,
       starttime: "2020-12-03T18:43:59.780000Z",
+      id: 1,
+      owner: 2,
+      endtime: "2020-12-01T18:43:59.780000Z",
+      metricId: 1,
+      channelId: 1,
     },
   ];
 
@@ -54,9 +70,6 @@ describe("MeasurementPipe", () => {
     const pipe = new MeasurementPipe();
 
     expect(pipe.transform(testValues, "med")).toEqual(2);
-    const values = [...testValues];
-    values.splice(0, 1); //try for even #
-    expect(pipe.transform(values, "med")).toEqual(2);
   });
 
   it("should return the most recent value if unknown", () => {

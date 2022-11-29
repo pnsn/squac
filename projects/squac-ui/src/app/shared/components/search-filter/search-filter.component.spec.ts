@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
-import { OrganizationService } from "@squacapi/services/organization.service";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
-import { SharedModule } from "../projects/squac-ui/src/app/shared/shared.module";
+import { OrganizationService } from "squacapi";
+import { UserService } from "@user/services/user.service";
+import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 
 import { SearchFilterComponent } from "./search-filter.component";

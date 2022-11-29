@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { UserPipe } from "./user.pipe";
 

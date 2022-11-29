@@ -2,8 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { AbilityModule } from "@casl/angular";
 import { defineAbilitiesFor, AppAbility } from "./ability";
 import { Ability, PureAbility } from "@casl/ability";
-import { User } from "@squacapi/models/user";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { User } from "squacapi";
+import { Dashboard } from "squacapi";
 
 describe("Ability", () => {
   let testAbility: Ability;

@@ -11,6 +11,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "squacapi";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Dashboard } from "squacapi";
+import { Observable } from "rxjs";
 
 // List of dashboards
 @Component({
@@ -161,7 +162,7 @@ export class DashboardViewComponent
     });
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<Dashboard[]> {
     return this.dashboardService.list(this.queryParams, refresh).pipe(
       tap((dashboards: Dashboard[]) => {
         this.dashboards = [...dashboards];

@@ -58,8 +58,8 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.dialogRef.afterClosed().subscribe(
-      () => {
+    this.dialogRef.afterClosed().subscribe({
+      next: () => {
         if (this.monitorId) {
           this.router.navigate(["../../"], { relativeTo: this.route });
         } else {
@@ -67,10 +67,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
         }
         // route to exit
       },
-      (error) => {
-        console.error("error in monitor detail: ", error);
-      }
-    );
+    });
   }
 
   ngOnDestroy(): void {

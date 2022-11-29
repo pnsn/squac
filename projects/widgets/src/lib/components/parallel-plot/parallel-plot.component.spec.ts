@@ -36,7 +36,7 @@ describe("ParallelPlotComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParallelPlotComponent);
     component = fixture.componentInstance;
-    component.data = {};
+
     component.selectedMetrics = [];
     component.channels = [];
     fixture.detectChanges();

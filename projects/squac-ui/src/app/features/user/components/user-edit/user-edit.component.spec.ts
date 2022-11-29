@@ -2,10 +2,10 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UserEditComponent } from "./user-edit.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ErrorComponent } from "../projects/squac-ui/src/app/shared/components/error/error.component";
+import { ErrorComponent } from "@shared/components/error/error.component";
 
 describe("UserEditComponent", () => {
   let component: UserEditComponent;

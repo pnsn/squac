@@ -219,7 +219,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  includeChannels() {
+  includeChannels(): void {
     this.updateState();
 
     //get all channels that aren't already in add channels
@@ -236,7 +236,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = [];
   }
 
-  excludeChannels() {
+  excludeChannels(): void {
     this.updateState();
     const addChannels = this.findChannelsInGroup(this.autoExcludeChannels);
 
@@ -268,7 +268,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.changeMade = false;
   }
 
-  updateState() {
+  updateState(): void {
     this.changeMade = true;
 
     this.lastState = {
@@ -278,7 +278,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     };
   }
 
-  addChannelsFromCSV(channels) {
+  addChannelsFromCSV(channels): void {
     this.rows = [...channels];
     this.selectedChannels = [...channels];
   }
@@ -302,7 +302,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.getChannelsWithFilters();
   }
 
-  previewRules(rules: MatchingRule[]) {
+  previewRules(rules: MatchingRule[]): void {
     this.error = false;
     const params: any = {};
     if (this.showOnlyCurrent) {
@@ -336,7 +336,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   //return true if channel should be excluded
-  private checkRules(channel, rules) {
+  private checkRules(channel: Channel, rules: MatchingRule[]): boolean {
     //excluded if any of them are true
     const excludeRules = rules.filter((rule) => rule.isInclude !== true);
 
@@ -501,7 +501,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // add user's searched params to the request
-  addFilterToRegex(filter) {
+  addFilterToRegex(filter): void {
     const newRule = new MatchingRule(null, null, this.id, true);
     newRule.networkRegex = filter.netSearch?.toUpperCase();
     newRule.stationRegex = filter.staSearch?.toUpperCase();
@@ -542,7 +542,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = temp;
   }
 
-  deleteMatchingRules(ids: number[]) {
+  deleteMatchingRules(ids: number[]): void {
     this.deleteMatchingRulesIds = ids;
   }
 

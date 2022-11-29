@@ -1,10 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 import { Ability } from "@casl/ability";
-import { Dashboard } from "@squacapi/models/dashboard";
-import { DashboardService } from "@squacapi/services/dashboard.service";
-import { Widget } from "@squacapi/models/widget";
-import { WidgetService } from "@squacapi/services/widget.service";
-import { AppModule } from "../projects/squac-ui/src/app/app.module";
+import { Dashboard } from "squacapi";
+import { DashboardService } from "squacapi";
+import { Widget } from "widgets";
+import { WidgetService } from "squacapi";
 import * as dayjs from "dayjs";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
@@ -12,12 +11,13 @@ import { take } from "rxjs/operators";
 import { DateService } from "../../../core/services/date.service";
 import { MessageService } from "../../../core/services/message.service";
 import { ViewService } from "./view.service";
+import { AppModule } from "../../../app.module";
 
 describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const testWidget = new Widget(1, 1, "name", 1, [], "", "");
+  const testWidget = new Widget(1, 1, "name", 1, [], "mean");
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 

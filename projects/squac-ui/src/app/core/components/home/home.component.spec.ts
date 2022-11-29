@@ -1,9 +1,10 @@
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MessageService } from "../projects/squac-ui/src/app/core/services/message.service";
-import { AppModule } from "../projects/squac-ui/src/app/app.module";
+import { MessageService } from "@core/services/message.service";
+
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
+import { AppModule } from "../../../app.module";
 import { MenuComponent } from "../menu/menu.component";
 import { HomeComponent } from "./home.component";
 

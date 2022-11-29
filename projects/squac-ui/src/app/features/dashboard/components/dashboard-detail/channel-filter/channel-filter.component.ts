@@ -49,7 +49,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     this.channelsSub.unsubscribe();
   }
 
-  initForm() {
+  initForm(): void {
     if (!this.form) {
       this.form = this.formBuilder.group({
         checkboxes: new FormGroup<CheckboxForm>({}),
@@ -69,21 +69,21 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  mouseenter(item) {
+  mouseenter(item): void {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.widgetConnectService.emphasizedChannel.next(null);
       this.widgetConnectService.emphasizedChannel.next(item);
     }, 0);
   }
-  mouseleave(_item) {
+  mouseleave(_item): void {
     this.widgetConnectService.deemphasizeChannel.next(null);
   }
-  toggleSidenav() {
+  toggleSidenav(): void {
     this.closeSidenav.emit(true);
   }
 
-  toggleAll() {
+  toggleAll(): void {
     const checkboxes = this.form["controls"].checkboxes;
     Object.keys(checkboxes.controls).forEach((key) => {
       checkboxes.controls[key].patchValue(!this.toggledAll);

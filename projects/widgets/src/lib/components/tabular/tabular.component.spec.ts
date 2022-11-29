@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TabularComponent } from "./tabular.component";
-import { ViewService } from "../projects/squac-ui/src/app/features/dashboard/services/view.service";
+import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "../../services/widget-connect.service";
@@ -21,9 +21,9 @@ describe("TabularComponent", () => {
       .provide({
         provide: WidgetManagerService,
         useValue: {
-          toggleKey: of(),
+          toggleKey$: of(),
           widgetType: {},
-          resize: of(),
+          resize$: of(),
           widgetConfig: {},
         },
       })
@@ -39,7 +39,7 @@ describe("TabularComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabularComponent);
     component = fixture.componentInstance;
-    component.data = {};
+
     component.selectedMetrics = [];
     component.channels = [];
     component.properties = {};

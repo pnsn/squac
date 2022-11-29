@@ -44,7 +44,7 @@ export class DataTypeSelectorComponent implements OnChanges {
     });
   }
 
-  get displayString() {
+  get displayString(): string {
     let string = "";
     if (this.dataType) {
       const full = this.archiveTypeOptions[this.dataType].full;

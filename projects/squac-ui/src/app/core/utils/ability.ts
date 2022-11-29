@@ -28,7 +28,7 @@ type Subjects =
 export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 
-export function defineAbilitiesFor(user: User) {
+export function defineAbilitiesFor(user: User): any {
   const { can, rules } = new AbilityBuilder(AppAbility);
   can("read", "all");
   if (user.inGroup("viewer")) {

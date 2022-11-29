@@ -53,8 +53,8 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         },
       });
 
-      this.dialogRef.afterClosed().subscribe(
-        () => {
+      this.dialogRef.afterClosed().subscribe({
+        next: () => {
           if (this.widgetId) {
             this.router.navigate(["../../../"], { relativeTo: this.route });
           } else {
@@ -62,10 +62,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
           }
           // route to exit
         },
-        (error) => {
-          console.error("error in widget detail: ", error);
-        }
-      );
+      });
     }
   }
 

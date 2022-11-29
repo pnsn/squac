@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MetricService } from "@squacapi/services/metric.service";
+import { MetricService } from "squacapi";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 

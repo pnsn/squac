@@ -20,14 +20,14 @@ export class ConfirmDialogService implements OnDestroy {
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   // Closes the dialog with a false response
-  public close() {
+  public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close(false);
     }
   }
 
   // Opens a dialog with given options
-  public open(options: ConfirmDialogOptions) {
+  public open(options: ConfirmDialogOptions): void {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: options.title,

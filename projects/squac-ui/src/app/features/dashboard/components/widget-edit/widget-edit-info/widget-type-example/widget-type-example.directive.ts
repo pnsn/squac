@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { WidgetConfig, WidgetTypeComponent } from "widgets";
+import { ProcessedData, WidgetConfig, WidgetTypeComponent } from "widgets";
 import {
   WidgetConfigService,
   WidgetDataService,
@@ -80,24 +80,23 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.updateWidgetType();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.widgetManager) {
       if (changes["displayType"] || changes["displayType"]) {
-        console.log(changes);
         this.updateWidgetType();
       }
     }
   }
 
-  getThresholds(metrics) {
+  getThresholds(metrics): Threshold[] {
     return metrics.map((m) => {
       return { min: m.minVal, max: m.maxVal, metricId: m.id };
     });
   }
 
-  getData() {
+  getData(): ProcessedData {
     this.dataRange = {};
-    const data = new Map<number, any>();
+    const data: ProcessedData = new Map<number, any>();
     const timeInterval = "seconds";
     const start = this.dateService.parseUtc(starttime);
     const end = this.dateService.parseUtc(endtime);
@@ -149,7 +148,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     return data;
   }
 
-  updateWidgetType() {
+  updateWidgetType(): void {
     this.viewContainerRef.clear();
 
     const widgetType = this.type;
@@ -205,7 +204,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     }
   }
 
-  updateData() {
+  updateData(): void {
     if (this.childComponent) {
       this.childComponent.updateData(this.data);
     }

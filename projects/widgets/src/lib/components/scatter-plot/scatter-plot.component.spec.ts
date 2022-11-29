@@ -36,7 +36,7 @@ describe("ScatterPlotComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ScatterPlotComponent);
     component = fixture.componentInstance;
-    component.data = {};
+
     component.selectedMetrics = [];
     component.channels = [];
     fixture.detectChanges();

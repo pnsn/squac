@@ -1,8 +1,8 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { AppModule } from "../projects/squac-ui/src/app/app.module";
 import { MockBuilder, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
+import { AppModule } from "../../app.module";
 import { AuthService } from "../services/auth.service";
 import { AuthInterceptor } from "./auth-interceptor.service";
 

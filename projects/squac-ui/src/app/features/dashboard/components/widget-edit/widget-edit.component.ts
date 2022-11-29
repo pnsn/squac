@@ -72,7 +72,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   }
 
   //TODO: make sure this isn't affecting existing widget
-  cancel(widget?: Widget) {
+  cancel(widget?: Widget): void {
     this.dialogRef.close(widget);
   }
 }

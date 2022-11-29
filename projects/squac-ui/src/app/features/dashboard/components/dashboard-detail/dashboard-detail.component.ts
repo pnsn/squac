@@ -126,12 +126,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.updateArchiveType();
   }
 
-  private updateArchiveType() {
+  private updateArchiveType(): void {
     this.checkArchiveType();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
   }
 
-  private checkArchiveType() {
+  private checkArchiveType(): void {
     if (this.archiveType !== "raw") {
       if (this.viewService.getTimeSpan(this.archiveType) === 0) {
         //archiveType is larger than time window
@@ -172,7 +172,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   //tell view service to get new data & save dashboard
-  updateDashboard() {
+  updateDashboard(): void {
     this.viewService.updateDashboard();
     this.save();
   }
@@ -189,7 +189,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

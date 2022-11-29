@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { DateService } from "../projects/squac-ui/src/app/core/services/date.service";
-import { ViewService } from "../projects/squac-ui/src/app/features/dashboard/services/view.service";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
@@ -15,8 +13,6 @@ describe("CalendarComponent", () => {
   beforeEach(() => {
     return MockBuilder(CalendarComponent)
       .mock(NgxEchartsModule)
-      .mock(ViewService)
-      .mock(DateService)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,
@@ -38,7 +34,6 @@ describe("CalendarComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CalendarComponent);
     component = fixture.componentInstance;
-    component.data = {};
     component.selectedMetrics = [];
     component.channels = [];
     fixture.detectChanges();

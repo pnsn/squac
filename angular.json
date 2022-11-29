@@ -129,8 +129,8 @@
           "options": {
             "main": "projects/squac-ui/src/test.ts",
             "polyfills": "projects/squac-ui/src/polyfills.ts",
-            "tsConfig": "projects/squac-ui/src/tsconfig.spec.json",
-            "karmaConfig": "projects/squac-ui/src/karma.conf.js",
+            "tsConfig": "projects/squac-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/squac-ui/karma.conf.js",
             "styles": [
               "projects/squac-ui/src/styles.scss"
             ],

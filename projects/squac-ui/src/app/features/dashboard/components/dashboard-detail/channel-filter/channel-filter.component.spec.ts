@@ -4,9 +4,9 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { ViewService } from "../projects/squac-ui/src/app/features/dashboard/services/view.service";
-import { DashboardModule } from "../projects/squac-ui/src/app/features/dashboard/dashboard.module";
-import { WidgetConnectService } from "../projects/widgets/src/widgets/services/widget-connect.service";
+import { ViewService } from "@dashboard/services/view.service";
+import { DashboardModule } from "@dashboard/dashboard.module";
+import { WidgetConnectService } from "widgets";
 import { MockBuilder } from "ng-mocks";
 import { Subject } from "rxjs";
 

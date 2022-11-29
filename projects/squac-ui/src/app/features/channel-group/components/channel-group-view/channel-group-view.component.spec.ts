@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ChannelGroupViewComponent } from "./channel-group-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { TableViewComponent } from "../projects/squac-ui/src/app/shared/components/table-view/table-view.component";
+import { ChannelGroupService } from "squacapi";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 describe("ChannelGroupViewComponent", () => {

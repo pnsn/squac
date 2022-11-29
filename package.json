@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --code-coverage",
-    "test-headless": "ng test --watch=false --progress=false --browsers=ChromeHeadless",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint-silent": "ng lint --silent",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,14 +1,14 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { UserComponent } from "./user.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { AbilityModule } from "@casl/angular";
 import { Ability, PureAbility } from "@casl/ability";
-import { AppAbility } from "../projects/squac-ui/src/app/core/utils/ability";
+import { AppAbility } from "@core/utils/ability";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
-import { MessageService } from "../projects/squac-ui/src/app/core/services/message.service";
+import { MessageService } from "@core/services/message.service";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("UserComponent", () => {

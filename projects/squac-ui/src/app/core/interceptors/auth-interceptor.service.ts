@@ -4,8 +4,10 @@ import {
   HttpRequest,
   HttpHandler,
   HttpHeaders,
+  HttpEvent,
 } from "@angular/common/http";
 import { AuthService } from "../services/auth.service";
+import { Observable } from "rxjs";
 
 @Injectable()
 
@@ -13,7 +15,10 @@ import { AuthService } from "../services/auth.service";
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (this.authService.isAuthenticated()) {
       const modifiedReq = req.clone({
         headers: new HttpHeaders({

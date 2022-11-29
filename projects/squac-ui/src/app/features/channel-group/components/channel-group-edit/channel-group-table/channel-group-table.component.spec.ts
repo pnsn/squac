@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ChannelGroupModule } from "../projects/squac-ui/src/app/features/channel-group/channel-group.module";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
+import { MaterialModule } from "@shared/material.module";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { MockBuilder } from "ng-mocks";
 

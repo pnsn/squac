@@ -77,7 +77,7 @@ export class WidgetEditInfoComponent implements OnInit {
     this.initForm();
   }
 
-  updateType() {
+  updateType(): void {
     if (this.type !== this.previewType) {
       this.type === this.previewType;
       this.widgetForm.patchValue(
@@ -134,7 +134,7 @@ export class WidgetEditInfoComponent implements OnInit {
     }
   }
 
-  changePreviewType(e?) {
+  changePreviewType(e?): void {
     if (!e) {
       this.previewType = this.type || this.previewType;
     } else {

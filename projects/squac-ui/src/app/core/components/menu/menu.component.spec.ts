@@ -1,6 +1,6 @@
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthService } from "../projects/squac-ui/src/app/core/services/auth.service";
+import { AuthService } from "@core/services/auth.service";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
 
 import { MenuComponent } from "./menu.component";

@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MetricEditComponent } from "./metric-edit.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MetricService } from "@squacapi/services/metric.service";
+import { MetricService } from "squacapi";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
 describe("MetricEditComponent", () => {

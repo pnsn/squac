@@ -55,7 +55,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.initMap();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["selectedChannels"] ||
       changes["autoIncludeChannels"] ||
@@ -89,7 +89,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     ];
 
     const legend = L.DomUtil.get("legend");
-    this.legend.onAdd = () => {
+    this.legend.onAdd = (): any => {
       return legend;
     };
 

@@ -1,5 +1,5 @@
 import { RouterTestingModule } from "@angular/router/testing";
-import { LoginComponent } from "../projects/squac-ui/src/app/features/user/components/login/login.component";
+import { LoginComponent } from "@user/components/login/login.component";
 import {
   MockBuilder,
   MockInstance,

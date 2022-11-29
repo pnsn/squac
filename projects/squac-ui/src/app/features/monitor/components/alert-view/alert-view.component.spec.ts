@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { DateService } from "../projects/squac-ui/src/app/core/services/date.service";
-import { MonitorModule } from "../projects/squac-ui/src/app/features/monitor/monitor.module";
+import { DateService } from "@core/services/date.service";
+import { MonitorModule } from "@monitor/monitor.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 

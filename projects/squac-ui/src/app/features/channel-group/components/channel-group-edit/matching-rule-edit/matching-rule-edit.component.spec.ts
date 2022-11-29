@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { UntypedFormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { ChannelGroupModule } from "../projects/squac-ui/src/app/features/channel-group/channel-group.module";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MockBuilder } from "ng-mocks";
 
 import { MatchingRuleEditComponent } from "./matching-rule-edit.component";

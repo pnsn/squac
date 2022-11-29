@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { UntypedFormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
-import { UserService } from "../projects/squac-ui/src/app/features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 import { of } from "rxjs";
 
 import { MonitorEditComponent } from "./monitor-edit.component";
 import { MockBuilder } from "ng-mocks";
-import { MonitorModule } from "../projects/squac-ui/src/app/features/monitor/monitor.module";
+import { MonitorModule } from "@monitor/monitor.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("MonitorEditComponent", () => {

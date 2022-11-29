@@ -1,14 +1,14 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DashboardComponent } from "./dashboard.component";
-import { DashboardService } from "@squacapi/services/dashboard.service";
+import { DashboardService } from "squacapi";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { DashboardViewComponent } from "../projects/squac-ui/src/app/features/dashboard/components/dashboard-view/dashboard-view.component";
+import { DashboardViewComponent } from "@dashboard/components/dashboard-view/dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
+import { MaterialModule } from "@shared/material.module";
 import { Ability, PureAbility } from "@casl/ability";
 import { AbilityModule } from "@casl/angular";
-import { AppAbility } from "../projects/squac-ui/src/app/core/utils/ability";
+import { AppAbility } from "@core/utils/ability";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatToolbarModule } from "@angular/material/toolbar";
 

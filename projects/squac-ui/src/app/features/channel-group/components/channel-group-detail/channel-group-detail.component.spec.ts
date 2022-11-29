@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupDetailComponent } from "./channel-group-detail.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
-import { ChannelGroup } from "@squacapi/models/channel-group";
+import { ChannelGroup } from "squacapi";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
-import { ChannelGroupModule } from "../projects/squac-ui/src/app/features/channel-group/channel-group.module";
-import { MessageService } from "../projects/squac-ui/src/app/core/services/message.service";
-import { ConfirmDialogService } from "../projects/squac-ui/src/app/core/services/confirm-dialog.service";
-import { ChannelGroupService } from "@squacapi/services/channel-group.service";
-import { LoadingService } from "../projects/squac-ui/src/app/core/services/loading.service";
+import { ChannelGroupModule } from "@channelGroup/channel-group.module";
+import { MessageService } from "@core/services/message.service";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { ChannelGroupService } from "squacapi";
+import { LoadingService } from "@core/services/loading.service";
 
 describe("ChannelGroupDetailComponent", () => {
   let component: ChannelGroupDetailComponent;
@@ -32,7 +32,7 @@ describe("ChannelGroupDetailComponent", () => {
         useValue: {
           snapshot: {},
           params: of({
-            channelGroup: new ChannelGroup(1, 1, "name", "description", 1),
+            channelGroup: new ChannelGroup(),
           }),
         },
       });

@@ -1,7 +1,7 @@
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthService } from "../projects/squac-ui/src/app/core/services/auth.service";
-import { UserModule } from "../projects/squac-ui/src/app/features/user/user.module";
+import { AuthService } from "@core/services/auth.service";
+import { UserModule } from "@user/user.module";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { of } from "rxjs";
 import { LoginComponent } from "./login.component";

@@ -2,10 +2,10 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./core/services/auth.service";
 import { LoadingOverlayComponent } from "./shared/components/loading-overlay/loading-overlay.component";
-import { ConfigurationService } from "../projects/squac-ui/src/app/core/services/configuration.service";
+import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
-import { MaterialModule } from "../projects/squac-ui/src/app/shared/material.module";
-import { LoadingDirective } from "../projects/squac-ui/src/app/shared/directives/loading-directive.directive";
+import { MaterialModule } from "@shared/material.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 describe("AppComponent", () => {
   MockInstance.scope();

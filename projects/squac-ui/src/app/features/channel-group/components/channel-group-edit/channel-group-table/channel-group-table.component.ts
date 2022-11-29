@@ -107,12 +107,12 @@ export class ChannelGroupTableComponent implements OnInit {
       // }
     }, 0);
   }
-  selectRow($event) {
+  selectRow($event): void {
     this.selected = [...$event.selected];
     this.selectedChange.emit(this.selected);
   }
 
-  removeSelected() {
+  removeSelected(): void {
     this.rows = this.rows.filter(
       (channel: Channel) =>
         this.selected.findIndex((c: Channel) => c.id === channel.id) < 0
@@ -121,7 +121,7 @@ export class ChannelGroupTableComponent implements OnInit {
     this.rowsChange.emit(this.rows);
   }
 
-  removeRow(row) {
+  removeRow(row): void {
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;
     });
