@@ -79,12 +79,6 @@ describe("ViewService", () => {
     expect(dateSpy).toHaveBeenCalled();
   });
 
-  it("should return update ability", () => {
-    expect(service.canUpdate).toBeUndefined();
-    service.setDashboard(testDashboard);
-    expect(service.canUpdate).toBe(true);
-  });
-
   it("should return live", () => {
     expect(service.isLive).toBeUndefined();
     service.setDashboard(testDashboard);
