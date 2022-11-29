@@ -4,7 +4,7 @@ import { Widget } from "widgets";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Dashboard } from "@squacapi/models/dashboard";
+import { Dashboard } from "squacapi";
 import { AppAbility } from "@core/utils/ability";
 @Component({
   selector: "widget-main",
@@ -84,6 +84,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
+      const dashboardId = +this.route.snapshot.params["dashboardId"];
       if (data["widgets"].error) {
         this.error = "Could not load dashboard or widgets";
       } else {

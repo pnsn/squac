@@ -3,7 +3,14 @@ import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationService } from "squacapi";
 import { Organization } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
 
 @Component({
   selector: "user-organizations-view",
@@ -34,7 +41,7 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
     this.subscription.add(orgSub);
   }
 
-  fetchData() {
+  fetchData(): Observable<Organization[]> {
     return this.loadingService
       .doLoading(this.organizationsService.list(), this)
       .pipe(

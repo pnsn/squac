@@ -2,9 +2,11 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   ApiService,
+  Token,
   UserTokenCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
+import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import {
   LocalStorageService,
@@ -38,7 +40,7 @@ export class AuthService {
   }
 
   // Checks if user data exists in browser
-  autologin() {
+  autologin(): void {
     const authData: {
       token: string;
       tokenExpirationDate: string;
@@ -52,7 +54,7 @@ export class AuthService {
   }
 
   // after user enters data, log them in
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<Token> {
     const params: UserTokenCreateRequestParams = {
       data: {
         email,
@@ -74,7 +76,7 @@ export class AuthService {
   }
 
   // after user hits log out, wipe data
-  logout() {
+  logout(): void {
     this.userService.logout();
     this.token = null;
     this.router.navigate(["/login"]);
@@ -83,7 +85,7 @@ export class AuthService {
   }
 
   // after login, save user data
-  private handleAuth(token: string) {
+  private handleAuth(token: string): void {
     const msToExpire = DEFAULT_MAX_LOGIN * 60 * 60 * 1000;
     const expirationDate = new Date(new Date().getTime() + msToExpire);
     const authData = {

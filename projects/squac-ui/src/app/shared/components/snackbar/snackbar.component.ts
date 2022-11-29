@@ -13,7 +13,7 @@ export class SnackbarComponent implements OnInit {
   type: string;
   action: string;
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: any,
+    @Inject(MAT_SNACK_BAR_DATA) public data: object,
     private matSnackBarRef: MatSnackBarRef<SnackbarComponent>
   ) {}
 

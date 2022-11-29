@@ -8,6 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationUserService } from "squacapi";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "user-organization-detail",
@@ -132,7 +133,7 @@ export class OrganizationDetailComponent
     }, 0);
   }
 
-  fetchData(refresh?: boolean) {
+  fetchData(refresh?: boolean): Observable<Organization> {
     return this.loadingService
       .doLoading(this.orgService.read(this.orgId, refresh), this)
       .pipe(
@@ -155,7 +156,7 @@ export class OrganizationDetailComponent
           // canAutoResize: false,
           // width: 70,
           pipe: {
-            transform: (row) => {
+            transform: (row): string => {
               return row ? row.firstName + " " + row.lastName : "";
             },
           },
@@ -167,7 +168,7 @@ export class OrganizationDetailComponent
         {
           name: "Groups",
           pipe: {
-            transform: (groups) => {
+            transform: (groups): string => {
               return groups ? groups.join(", ") : "";
             },
           },
@@ -176,7 +177,7 @@ export class OrganizationDetailComponent
           name: "Last Login",
           prop: "lastLogin",
           pipe: {
-            transform: (value) => {
+            transform: (value): string => {
               return value
                 ? new Date(value).toLocaleString("en-US").split(",")[0]
                 : "";
@@ -206,7 +207,7 @@ export class OrganizationDetailComponent
           // canAutoResize: false,
           // width: 70,
           pipe: {
-            transform: (row) => {
+            transform: (row): string => {
               return row ? row.firstName + " " + row.lastName : "";
             },
           },
@@ -214,7 +215,7 @@ export class OrganizationDetailComponent
         {
           name: "Groups",
           pipe: {
-            transform: (groups) => {
+            transform: (groups): string => {
               return groups ? groups.join(", ") : "";
             },
           },

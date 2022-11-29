@@ -7,6 +7,9 @@ import {
 } from "@angular/core";
 import {
   ColumnMode,
+  DataTableColumnCellDirective,
+  DataTableColumnHeaderDirective,
+  DatatableComponent,
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
@@ -32,9 +35,11 @@ export class TabularComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  @ViewChild("dataTable") table: any;
-  @ViewChild("cellTemplate") cellTemplate: TemplateRef<any>;
-  @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
+  @ViewChild("dataTable") table: DatatableComponent;
+  @ViewChild("cellTemplate")
+  cellTemplate: TemplateRef<DataTableColumnCellDirective>;
+  @ViewChild("headerTemplate")
+  headerTemplate: TemplateRef<DataTableColumnHeaderDirective>;
 
   emphasizedChannel: string;
   deemphasizedChannel: string;
@@ -147,7 +152,7 @@ export class TabularComponent
     this.emphasizedChannel = channel;
     this.selectedRow = [row];
     this.table.element.querySelector(".datatable-body").scrollTop =
-      index * this.table.rowHeight;
+      index * (this.table.rowHeight as number);
   }
 
   configureChart(): void {

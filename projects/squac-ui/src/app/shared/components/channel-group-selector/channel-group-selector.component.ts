@@ -38,7 +38,7 @@ export class ChannelGroupSelectorComponent implements OnInit {
       });
   }
 
-  selectionChange() {
+  selectionChange(): void {
     this.channelGroupIdChange.emit(this.channelGroupId);
 
     const url = this.router

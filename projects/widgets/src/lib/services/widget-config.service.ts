@@ -267,11 +267,7 @@ export class WidgetConfigService {
               outOfRange: properties.outOfRange,
             };
             visualMaps[metricId] = option;
-          } else {
-            console.error("something went wrong");
           }
-        } else {
-          console.warn("no data");
         }
       });
     }

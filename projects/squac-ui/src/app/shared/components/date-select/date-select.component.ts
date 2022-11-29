@@ -53,7 +53,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     this.locale = this.dateService.locale;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["secondsAgoFromNow"] ||
       changes["initialEndDate"] ||
@@ -69,7 +69,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     this.setUpInitialValues();
   }
 
-  setUpInitialValues() {
+  setUpInitialValues(): void {
     //has time range
     //range is saved as window_seconds on squacapi
     if (this.secondsAgoFromNow) {
@@ -119,7 +119,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     });
   }
 
-  toggleRange(event: any) {
+  toggleRange(event: any): void {
     if (event.value !== "custom" && event.value !== "relative") {
       const range = event.value;
       const rangeInSeconds = this.getRangeAsSeconds(range);
@@ -127,7 +127,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
-  datePickerChange(dates: TimePeriod) {
+  datePickerChange(dates: TimePeriod): void {
     const startCopy = dayjs(dates.startDate as Dayjs).clone();
     const endCopy = dayjs(dates.endDate as Dayjs).clone();
     if (dates.startDate && dates.endDate) {
@@ -149,7 +149,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     endDate: Dayjs | null,
     liveMode: boolean,
     rangeInSeconds: number | null
-  ) {
+  ): void {
     this.datesChanged.emit({
       startDate,
       endDate,

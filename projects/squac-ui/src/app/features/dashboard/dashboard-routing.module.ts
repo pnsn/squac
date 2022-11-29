@@ -11,6 +11,7 @@ import { DashboardResolver } from "@core/resolvers/dashboard.resolver";
 import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetResolver } from "@core/resolvers/widget.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
+import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 
 export const routes: Routes = [
   {

@@ -118,7 +118,6 @@ export class ScatterPlotComponent
   }
 
   changeMetrics(): void {
-    console.log("scatter plot change metrics");
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
@@ -137,7 +136,6 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
-    console.log(this.updateOptions);
     if (this.echartsInstance) {
       this.echartsInstance.setOption(this.updateOptions, {
         replaceMerge: ["series"],

@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     this.title = configService.getValue("appTitle", "SQUAC");
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.autologin();
   }
 }

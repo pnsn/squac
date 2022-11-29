@@ -41,13 +41,12 @@ export abstract class EChartComponent
     super.ngOnDestroy();
   }
 
-  onChartEvent(event, type): void {
-    console.log(event, type);
+  onChartEvent(_event, _type): void {
+    return;
   }
 
   toggleKey(): void {
     if (this.echartsInstance && this.options.visualMap) {
-      console.log(this.options.visualMap);
       this.echartsInstance.setOption({
         visualMap: { show: this.showKey },
       });
@@ -108,7 +107,6 @@ export abstract class EChartComponent
   }
 
   zoomStopped(event: { batch?: unknown[] }): void {
-    console.log("event in echart", event);
     if ("batch" in event && event.batch?.length !== 1) {
       this.widgetManager.zoomStatus$.next("stop");
     }

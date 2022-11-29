@@ -7,7 +7,12 @@ import {
 } from "squacapi";
 import { MeasurementService } from "squacapi";
 
-export function MeasurementFactory(path, adapter, service, fakeService) {
+export function MeasurementFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): MeasurementService {
   if (path === "http://localhost:8000") {
     return new MeasurementService(adapter, fakeService);
   } else {
@@ -15,7 +20,12 @@ export function MeasurementFactory(path, adapter, service, fakeService) {
   }
 }
 
-export function AggregateFactory(path, adapter, service, fakeService) {
+export function AggregateFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): AggregateService {
   if (path === "http://localhost:8000") {
     return new AggregateService(adapter, fakeService);
   } else {
@@ -23,21 +33,36 @@ export function AggregateFactory(path, adapter, service, fakeService) {
   }
 }
 
-export function DayArchiveFactory(path, adapter, service, fakeService) {
+export function DayArchiveFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): DayArchiveService {
   if (path === "http://localhost:8000") {
     return new DayArchiveService(adapter, fakeService);
   } else {
     return new DayArchiveService(adapter, service);
   }
 }
-export function HourArchiveFactory(path, adapter, service, fakeService) {
+export function HourArchiveFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): HourArchiveService {
   if (path === "http://localhost:8000") {
     return new HourArchiveService(adapter, fakeService);
   } else {
     return new HourArchiveService(adapter, service);
   }
 }
-export function WeekArchiveFactory(path, adapter, service, fakeService) {
+export function WeekArchiveFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): WeekArchiveService {
   if (path === "http://localhost:8000") {
     return new WeekArchiveService(adapter, fakeService);
   } else {
@@ -45,7 +70,12 @@ export function WeekArchiveFactory(path, adapter, service, fakeService) {
   }
 }
 
-export function MonthArchiveFactory(path, adapter, service, fakeService) {
+export function MonthArchiveFactory(
+  path,
+  adapter,
+  service,
+  fakeService
+): MonthArchiveService {
   if (path === "http://localhost:8000") {
     return new MonthArchiveService(adapter, fakeService);
   } else {

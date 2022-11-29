@@ -97,7 +97,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.orgPipe = new OrganizationPipe(orgService);
   }
   //doubleclick on row to view detail?
-  ngOnInit() {
+  ngOnInit(): void {
     Object.keys(this.options).forEach((key) => {
       this.tableOptions[key] = this.options[key];
     });

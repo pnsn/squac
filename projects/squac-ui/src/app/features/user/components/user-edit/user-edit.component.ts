@@ -47,7 +47,7 @@ export class UserEditComponent implements OnInit {
   }
 
   // check passwords match
-  passwordValidator(group: UntypedFormGroup) {
+  passwordValidator(group: UntypedFormGroup): { mismatch: boolean } {
     if (
       group.value.password &&
       group.value.confirm &&

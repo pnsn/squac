@@ -129,7 +129,7 @@ export class WidgetManagerService {
   }
 
   updateChannels(group: number, channels: Channel[]): void {
-    if (group !== this._group) {
+    if (group && group !== this._group) {
       //group has changed, use for next request
       delete this._params.channel;
       this._params.group = [group];

@@ -51,7 +51,7 @@ export class UserService {
   }
 
   // User needs to enter password to make changes
-  update(user: Partial<User>): Observable<any> {
+  update(user: Partial<User>): Observable<User> {
     user.orgId = this.userOrg;
     // other user ifo
     return this.userMeService.update(user);

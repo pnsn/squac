@@ -58,7 +58,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     private dateService: DateService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.widgetManager = {
       toggleKey: of(),
       zoomStatus: of(),

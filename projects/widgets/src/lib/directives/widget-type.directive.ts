@@ -16,7 +16,7 @@ import { WidgetConfigService } from "../services/widget-config.service";
 // import { ErrorComponent } from "../projects/squac-ui/src/app/shared/components/error/error.component";
 import { Widget } from "squacapi";
 import { Subscription, tap } from "rxjs";
-import { WidgetTypeComponent } from "../interfaces";
+import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WIDGET_TYPE_INFO } from "../constants";
 
 /**
@@ -52,7 +52,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.hostElement = this.elementRef.nativeElement;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const managerErrors = this.widgetManager.errors$.subscribe(
       (error: WidgetErrors) => {
         this.addError(error);
@@ -62,7 +62,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.dataSub = this.widgetDataService.data$
       .pipe(
         tap({
-          next: (data: Map<number, any> | WidgetErrors) => {
+          next: (data: ProcessedData | WidgetErrors) => {
             if (data instanceof Map) {
               this.addWidget(this.widgetManager.widgetType);
               this.widgetConfigService.thresholds =
@@ -82,11 +82,11 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.subscription.add(this.dataSub);
   }
 
-  private clearChildComponents() {
+  private clearChildComponents(): void {
     this.viewContainerRef.clear();
   }
 
-  addWidget(widgetType: WidgetType) {
+  addWidget(widgetType: WidgetType): void {
     this.error = "";
     const injector = Injector.create({
       providers: [
@@ -113,7 +113,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent = this.childComponentRef.instance;
   }
 
-  addError(error: WidgetErrors) {
+  addError(error: WidgetErrors): void {
     if (!this.error) {
       this.clearChildComponents();
 

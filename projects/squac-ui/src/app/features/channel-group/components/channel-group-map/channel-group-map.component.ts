@@ -51,7 +51,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
   constructor(private zone: NgZone) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initMap();
   }
 

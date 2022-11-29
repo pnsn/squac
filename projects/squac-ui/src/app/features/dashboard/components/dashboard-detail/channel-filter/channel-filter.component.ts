@@ -50,7 +50,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    console.log("CHECK IF THIS STILL WORKS");
     if (!this.form) {
       this.form = this.formBuilder.group({
         checkboxes: new FormGroup<CheckboxForm>({}),
