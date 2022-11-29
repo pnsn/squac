@@ -104,6 +104,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
+        console.log(this.user);
         this.processRows();
       },
     });

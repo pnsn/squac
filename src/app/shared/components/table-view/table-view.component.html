@@ -82,7 +82,9 @@
           [(ngModel)]="shareFilter"
         >
           <mat-button-toggle value="user">User</mat-button-toggle>
-          <mat-button-toggle value="org">PNSN</mat-button-toggle>
+          <mat-button-toggle value="org">{{
+            user?.orgId | organization
+          }}</mat-button-toggle>
           <mat-button-toggle value="all">All</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
