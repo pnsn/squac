@@ -11,7 +11,7 @@ export class Organization {
     public users: User[]
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return "Organization";
   }
 }

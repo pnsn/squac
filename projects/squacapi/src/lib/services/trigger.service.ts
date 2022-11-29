@@ -35,7 +35,7 @@ export class TriggerService
     return super._updateOrCreate(t);
   }
 
-  override delete(id: number): Observable<any> {
+  override delete(id: number): Observable<Trigger> {
     return super.delete(id);
   }
 
@@ -44,8 +44,8 @@ export class TriggerService
     triggers: Trigger[],
     deleteTriggers: number[],
     monitorId: number
-  ): Observable<Trigger | any>[] {
-    const triggerSubs: Observable<Trigger | any>[] = [];
+  ): Observable<Trigger>[] {
+    const triggerSubs: Observable<Trigger>[] = [];
     for (const trigger of triggers) {
       trigger.monitorId = monitorId;
       triggerSubs.push(this.updateOrCreate(trigger));

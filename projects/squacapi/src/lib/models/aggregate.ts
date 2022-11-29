@@ -29,7 +29,7 @@ export class Aggregate {
     public endtime: string
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return "Aggregate";
   }
 }

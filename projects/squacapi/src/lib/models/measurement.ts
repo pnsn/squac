@@ -12,7 +12,7 @@ export class Measurement {
     public endtime: string
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return "Measurement";
   }
 }

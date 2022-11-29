@@ -55,7 +55,7 @@ export class WidgetService
     return super._updateOrCreate(t);
   }
 
-  override delete(id: number): Observable<any> {
+  override delete(id: number): Observable<Widget> {
     return super.delete(id);
   }
 }

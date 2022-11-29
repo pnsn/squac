@@ -18,7 +18,7 @@ export class Archive {
   starttime!: string;
   endtime!: string;
 
-  static get modelName() {
+  static get modelName(): string {
     return "Archive";
   }
 }

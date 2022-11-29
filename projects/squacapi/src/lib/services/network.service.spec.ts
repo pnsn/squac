@@ -4,7 +4,7 @@ import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { NetworkService } from "./network.service";
 
 describe("NetworkService", () => {
-  let networkService: NetworkService;
+  let networkService: NetworkService = undefined;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

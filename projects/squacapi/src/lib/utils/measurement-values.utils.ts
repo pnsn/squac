@@ -12,7 +12,7 @@ export function mostRecent(values: MeasurementTypes[]): number {
 // Calculates the median for the channel
 export function median(values: MeasurementTypes[]): number {
   const midIndex = values.length / 2 - 0.5;
-  let med: number;
+  let med: number = undefined;
 
   if (midIndex % 1 === 0) {
     med = values[midIndex].value;

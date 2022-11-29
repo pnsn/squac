@@ -4,7 +4,7 @@ import { MockBuilder } from "ng-mocks";
 import { PasswordResetService } from "./password-reset.service";
 
 describe("PasswordResetService", () => {
-  let service: PasswordResetService;
+  let service: PasswordResetService = undefined;
 
   beforeEach(() => {
     return MockBuilder(PasswordResetService).mock(ApiService);

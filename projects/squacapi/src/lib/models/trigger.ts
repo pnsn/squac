@@ -15,7 +15,7 @@ export class Trigger {
     public val1: number,
     public val2?: number
   ) {}
-  static get modelName() {
+  static get modelName(): string {
     return "Trigger";
   }
 

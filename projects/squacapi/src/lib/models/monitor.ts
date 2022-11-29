@@ -31,7 +31,7 @@ export class Monitor {
   metric?: Metric;
   alerts?: Alert[];
   inAlarm?: boolean;
-  static get modelName() {
+  static get modelName(): string {
     return "Monitor";
   }
 }

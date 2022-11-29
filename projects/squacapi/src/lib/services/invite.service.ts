@@ -14,7 +14,7 @@ export class InviteService {
   constructor(private inviteApi: InviteApi) {}
 
   // tells squac to send an invite to existing user
-  sendInviteToUser(user: number): Observable<any> {
+  sendInviteToUser(user: number): Observable<object> {
     const params: InviteCreateRequestParams = {
       data: {
         user,
@@ -29,7 +29,7 @@ export class InviteService {
     lastname: string,
     token: string,
     password: string
-  ): Observable<any> {
+  ): Observable<object> {
     const params: RegisterCreateRequestParams = {
       data: {
         firstname,

@@ -4,7 +4,7 @@ import { MockBuilder } from "ng-mocks";
 import { TriggerService } from "./trigger.service";
 
 describe("TriggerService", () => {
-  let service: TriggerService;
+  let service: TriggerService = undefined;
 
   beforeEach(() => {
     return MockBuilder(TriggerService).mock(ApiService);

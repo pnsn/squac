@@ -27,7 +27,7 @@ export class ChannelGroup {
   autoIncludeChannels?: (Channel | number)[];
   autoExcludeChannels?: (Channel | number)[];
 
-  static get modelName() {
+  static get modelName(): string {
     return "ChannelGroup";
   }
 }

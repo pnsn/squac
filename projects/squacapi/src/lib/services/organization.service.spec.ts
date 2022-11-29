@@ -4,7 +4,7 @@ import { TestBed } from "@angular/core/testing";
 import { OrganizationService } from "./organization.service";
 
 describe("OrganizationService", () => {
-  let service: OrganizationService;
+  let service: OrganizationService = undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });

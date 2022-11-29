@@ -15,7 +15,7 @@ export class Alert {
   monitor?: Monitor;
   trigger?: Trigger;
 
-  static get modelName() {
+  static get modelName(): string {
     return "Alert";
   }
 }

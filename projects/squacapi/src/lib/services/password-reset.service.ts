@@ -4,6 +4,9 @@ import {
   PasswordResetConfirmCreateRequestParams,
   PasswordResetCreateRequestParams,
   PasswordResetValidateTokenCreateRequestParams,
+  ReadOnlyEmailSerializer,
+  ReadOnlyPasswordTokenSerializer,
+  ReadOnlyTokenSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
@@ -15,7 +18,7 @@ export class PasswordResetService {
   constructor(private apiService: ApiService) {}
 
   // send email to squac, it sends token to user
-  resetPassword(email: string): Observable<any> {
+  resetPassword(email: string): Observable<ReadOnlyEmailSerializer> {
     const params: PasswordResetCreateRequestParams = {
       data: { email },
     };
@@ -23,7 +26,7 @@ export class PasswordResetService {
   }
 
   // check token is valid
-  validateToken(token: string): Observable<any> {
+  validateToken(token: string): Observable<ReadOnlyTokenSerializer> {
     this.token = token;
     const params: PasswordResetValidateTokenCreateRequestParams = {
       data: { token },
@@ -32,7 +35,9 @@ export class PasswordResetService {
   }
 
   // send new password
-  confirmPassword(password: string): Observable<any> {
+  confirmPassword(
+    password: string
+  ): Observable<ReadOnlyPasswordTokenSerializer> {
     const params: PasswordResetConfirmCreateRequestParams = {
       data: {
         password,

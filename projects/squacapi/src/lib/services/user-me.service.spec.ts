@@ -5,7 +5,7 @@ import { MockBuilder } from "ng-mocks";
 import { UserMeService } from "./user-me.service";
 
 describe("UserMeService", () => {
-  let service: UserMeService;
+  let service: UserMeService = undefined;
 
   beforeEach(() => {
     return MockBuilder(UserMeService).mock(ApiService);

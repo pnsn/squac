@@ -9,7 +9,7 @@ export class Network {
     public description: string
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return "Network";
   }
 }

@@ -29,7 +29,7 @@ export class Channel implements SquacObject {
     return this.net + "." + this.sta;
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return "Channel";
   }
 }

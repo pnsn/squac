@@ -35,7 +35,7 @@ export class DashboardService
     return super._updateOrCreate(d);
   }
 
-  override delete(id: number): Observable<any> {
+  override delete(id: number): Observable<Dashboard> {
     return super.delete(id);
   }
 }

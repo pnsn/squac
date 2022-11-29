@@ -41,7 +41,7 @@ export class User {
     return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return "User";
   }
 }

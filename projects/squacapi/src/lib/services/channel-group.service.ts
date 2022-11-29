@@ -36,7 +36,7 @@ export class ChannelGroupService
     return super._updateOrCreate(t);
   }
 
-  override delete(id: number): Observable<any> {
+  override delete(id: number): Observable<ChannelGroup> {
     return super.delete(id);
   }
 
@@ -46,7 +46,9 @@ export class ChannelGroupService
   groups: [channelGroups]
   }
   */
-  getSortedChannelGroups(params?: NslcGroupsListRequestParams) {
+  getSortedChannelGroups(
+    params?: NslcGroupsListRequestParams
+  ): Observable<unknown[]> {
     const privateGroups: ChannelGroup[] = [];
     const publicGroups: ChannelGroup[] = [];
     const organizationGroups: ChannelGroup[] = [];
