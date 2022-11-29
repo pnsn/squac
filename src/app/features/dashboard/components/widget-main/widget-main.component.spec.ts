@@ -14,6 +14,7 @@ import { MockComponent, MockModule, MockProvider } from "ng-mocks";
 import { WidgetDetailComponent } from "../widget-detail/widget-detail.component";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ChannelFilterComponent } from "../dashboard-detail/channel-filter/channel-filter.component";
+import { LoadingComponent } from "@shared/components/loading/loading.component";
 
 describe("WidgetMainComponent", () => {
   let component: WidgetMainComponent;
@@ -28,6 +29,7 @@ describe("WidgetMainComponent", () => {
         MockModule(MatSidenavModule),
       ],
       declarations: [
+        MockComponent(LoadingComponent),
         WidgetMainComponent,
         MockComponent(WidgetDetailComponent),
         MockComponent(ChannelFilterComponent),
