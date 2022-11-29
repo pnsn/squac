@@ -4,12 +4,11 @@ import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { WidgetAdapter } from "../models/widget";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
-import { WidgetModule } from "../../features/widget/widget.module";
 import { WidgetService } from "./widget.service";
 
 describe("WidgetService", () => {
   beforeEach(() => {
-    return MockBuilder(WidgetService, WidgetModule)
+    return MockBuilder(WidgetService)
       .keep(WidgetAdapter)
       .mock(ApiService)
       .provide({

@@ -26,7 +26,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   subscription = new Subscription();
   @Input() widget: Widget;
   @Input() dashboards: Dashboard[];
-
+  @Input() canUpdate: boolean;
   error: boolean | string;
 
   selected: number[] = [];
@@ -74,7 +74,9 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
             this.viewService.startTime,
             this.viewService.endTime
           );
+
           this.widgetManager.updateChannels(group, channels);
+
           this.widgetManager.fetchData();
         })
       )

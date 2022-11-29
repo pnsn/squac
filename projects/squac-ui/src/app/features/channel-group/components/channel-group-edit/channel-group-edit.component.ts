@@ -79,7 +79,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     autoIncludeChannels: Channel[];
     autoExcludeChannels: Channel[];
   };
-  matchingRules: MatchingRule[];
+  matchingRules: MatchingRule[] = [];
   autoIncludeChannels: Channel[] = [];
   autoExcludeChannels: Channel[] = [];
   @ViewChild("availableTable") availableTable: any;

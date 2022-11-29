@@ -1,7 +1,7 @@
 // Handles communication between dashboard and widget
 
 import { Injectable } from "@angular/core";
-import { Ability } from "@casl/ability";
+import { AppAbility } from "@core/utils/ability";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
@@ -58,7 +58,7 @@ export class ViewService {
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
-    private ability: Ability,
+    private ability: AppAbility,
     private dateService: DateService,
     private messageService: MessageService,
     private channelGroupService: ChannelGroupService,
@@ -67,11 +67,6 @@ export class ViewService {
 
   get dashboard(): Dashboard {
     return this._dashboard;
-  }
-
-  // returns if current user can update the current dashboard
-  get canUpdate(): boolean {
-    return this.ability.can("update", this.dashboard);
   }
 
   // returns if dashboard is live
@@ -155,6 +150,7 @@ export class ViewService {
         this._channelGroupId = group.id;
       }),
       catchError(() => {
+        this._channels = [];
         return of(null);
       })
     );
@@ -183,6 +179,7 @@ export class ViewService {
       this._channelGroupId &&
       this._channelGroupId !== this.dashboard.channelGroupId
     ) {
+      this._channelGroupId;
       this.dashboard.channelGroupId = this._channelGroupId;
       this.loadingService
         .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
@@ -197,7 +194,6 @@ export class ViewService {
   private sendUpdate() {
     this.channelGroupId.next(this._channelGroupId);
     const channels = this.filterChannels();
-
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges = false;
@@ -210,6 +206,8 @@ export class ViewService {
     channelGroupId: number
   ): Observable<ChannelGroup> {
     this._widgets = [];
+    this._channelGroupId = null;
+    this._channels = [];
     return this.dashboardService.read(dashboardId).pipe(
       tap({
         next: (dashboard) => {

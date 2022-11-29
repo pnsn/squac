@@ -58,7 +58,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 if (channelGroup) {
                   this.channelGroupId = channelGroup.id;
                 }
-
                 this.dashboard = this.viewService.dashboard;
                 this.archiveStat = this.viewService.archiveStat;
                 this.archiveType = this.viewService.archiveType;

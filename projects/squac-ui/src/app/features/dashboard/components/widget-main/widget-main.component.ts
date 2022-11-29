@@ -4,9 +4,8 @@ import { Widget } from "widgets";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Dashboard } from "squacapi";
-import { Ability } from "@casl/ability";
-
+import { Dashboard } from "@squacapi/models/dashboard";
+import { AppAbility } from "@core/utils/ability";
 @Component({
   selector: "widget-main",
   templateUrl: "./widget-main.component.html",
@@ -72,7 +71,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private route: ActivatedRoute,
     private router: Router,
-    private ability: Ability
+    private ability: AppAbility
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +81,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.updateWidget(widgetId, widget);
       }
     );
-    this.canUpdate = this.viewService.canUpdate;
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
@@ -91,7 +89,11 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       } else {
         if (data["dashboards"]) {
           this.dashboards = data["dashboards"].filter((d) => {
-            return this.ability.can("update", d);
+            const canUpdate = this.ability.can("update", d);
+            if (d.id === dashboardId) {
+              this.canUpdate = canUpdate;
+            }
+            return canUpdate;
           });
         }
         this.addWidgetsToView(data["widgets"]);

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditOptionsComponent } from "./widget-edit-options.component";
 import { MockBuilder } from "ng-mocks";
-import { WidgetModule } from "app/features/widget/widget.module";
 import { ReactiveFormsModule } from "@angular/forms";
 
 describe("WidgetEditOptionsComponent", () => {
@@ -10,9 +9,7 @@ describe("WidgetEditOptionsComponent", () => {
   let fixture: ComponentFixture<WidgetEditOptionsComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetEditOptionsComponent, WidgetModule).keep(
-      ReactiveFormsModule
-    );
+    return MockBuilder(WidgetEditOptionsComponent).keep(ReactiveFormsModule);
   });
 
   beforeEach(() => {
