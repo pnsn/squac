@@ -8,10 +8,10 @@ import { DashboardViewComponent } from "./components/dashboard-view/dashboard-vi
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@squacapi/resolvers/channel-group.resolver";
 import { DashboardResolver } from "@squacapi/resolvers/dashboard.resolver";
-import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 import { WidgetResolver } from "@squacapi/resolvers/widget.resolver";
 import { MetricResolver } from "@squacapi/resolvers/metric.resolver";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
+import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
 
 export const routes: Routes = [
   {

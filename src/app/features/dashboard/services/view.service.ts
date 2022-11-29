@@ -155,6 +155,7 @@ export class ViewService {
         this._channelGroupId = group.id;
       }),
       catchError(() => {
+        this._channels = [];
         return of(null);
       })
     );
@@ -183,6 +184,7 @@ export class ViewService {
       this._channelGroupId &&
       this._channelGroupId !== this.dashboard.channelGroupId
     ) {
+      this._channelGroupId;
       this.dashboard.channelGroupId = this._channelGroupId;
       this.loadingService
         .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
@@ -197,7 +199,6 @@ export class ViewService {
   private sendUpdate() {
     this.channelGroupId.next(this._channelGroupId);
     const channels = this.filterChannels();
-
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges = false;
@@ -210,6 +211,8 @@ export class ViewService {
     channelGroupId: number
   ): Observable<ChannelGroup> {
     this._widgets = [];
+    this._channelGroupId = null;
+    this._channels = [];
     return this.dashboardService.read(dashboardId).pipe(
       tap({
         next: (dashboard) => {

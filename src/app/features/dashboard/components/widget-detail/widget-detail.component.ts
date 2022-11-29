@@ -82,7 +82,9 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
             this.viewService.startTime,
             this.viewService.endTime
           );
+
           this.widgetManager.updateChannels(group, channels);
+
           this.widgetManager.fetchData();
         })
       )
