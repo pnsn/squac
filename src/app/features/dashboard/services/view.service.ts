@@ -2,7 +2,7 @@
 
 import { Injectable } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
-import { Ability } from "@casl/ability";
+import { AppAbility } from "@core/utils/ability";
 import { Channel } from "@squacapi/models/channel";
 import { ChannelGroup } from "@squacapi/models/channel-group";
 import { Dashboard } from "@squacapi/models/dashboard";
@@ -60,7 +60,7 @@ export class ViewService {
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
-    private ability: Ability,
+    private ability: AppAbility,
     private dateService: DateService,
     private messageService: MessageService,
     private channelGroupService: ChannelGroupService,
@@ -72,11 +72,6 @@ export class ViewService {
 
   get dashboard(): Dashboard {
     return this._dashboard;
-  }
-
-  // returns if current user can update the current dashboard
-  get canUpdate(): boolean {
-    return this.ability.can("update", this.dashboard);
   }
 
   // returns if dashboard is live

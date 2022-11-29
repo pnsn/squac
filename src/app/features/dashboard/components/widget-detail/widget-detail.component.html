@@ -60,11 +60,7 @@
       yPosition="below"
       xPosition="before"
     >
-      <button
-        mat-menu-item
-        (click)="editWidget()"
-        *ngIf="'update' | able: widget"
-      >
+      <button mat-menu-item (click)="editWidget()" *ngIf="canUpdate">
         Edit Widget
       </button>
       <!-- TODO: add option for no dashboards -->
@@ -81,7 +77,7 @@
         class="warn"
         (click)="deleteWidget()"
         color="warn"
-        *ngIf="'delete' | able: widget"
+        *ngIf="canUpdate"
       >
         Delete Widget
       </button>
@@ -90,13 +86,8 @@
 
   <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
     <ng-template matMenuContent let-dashboards="dashboards">
-      <!-- <button mat-menu-item *ngIf="'create' | able: Dashboard">Create New Dashboard</button> -->
       <ng-container *ngFor="let dashboard of dashboards">
-        <button
-          mat-menu-item
-          (click)="addWidgetToDashboard(dashboard.id)"
-          *ngIf="'update' | able: dashboard"
-        >
+        <button mat-menu-item (click)="addWidgetToDashboard(dashboard.id)">
           {{ dashboard.name }}
         </button>
       </ng-container>

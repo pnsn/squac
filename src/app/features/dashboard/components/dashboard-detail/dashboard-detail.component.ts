@@ -53,7 +53,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((params) => {
           const dashboardId = +params.dashboardId;
-
           const groupId = +this.route.snapshot.queryParams.group;
           return this.loadingService.doLoading(
             this.viewService.setDashboardById(dashboardId, groupId).pipe(
@@ -61,7 +60,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 if (channelGroup) {
                   this.channelGroupId = channelGroup.id;
                 }
-
                 this.dashboard = this.viewService.dashboard;
                 this.archiveStat = this.viewService.archiveStat;
                 this.archiveType = this.viewService.archiveType;
