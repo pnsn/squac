@@ -53,6 +53,7 @@ export class AuthService {
     }
   }
 
+  // Verify token by requesting user information
   validateToken(token: string): Observable<User> {
     this.token = token;
     return this.userService.getUser().pipe(
