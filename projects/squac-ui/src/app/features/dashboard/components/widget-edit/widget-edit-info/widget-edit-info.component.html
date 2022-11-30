@@ -55,9 +55,8 @@
           </div>
 
           <div id="stat-type-container" *ngIf="config.useAggregate">
-            <div class="label">Select aggregation type:</div>
+            <div class="label">Select measurement aggregation:</div>
             <mat-form-field class="dense-form-field-select">
-              <mat-label>Stat type</mat-label>
               <mat-select formControlName="stat" required>
                 <mat-option
                   *ngFor="let statType of WidgetStatType"
