@@ -2,13 +2,12 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   ApiService,
-  Token,
   UserTokenCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
 import { Observable } from "rxjs";
 import { switchMap, tap } from "rxjs/operators";
-import { PasswordResetService, User } from "squacapi";
+import { User } from "squacapi";
 import {
   LocalStorageService,
   LocalStorageTypes,
