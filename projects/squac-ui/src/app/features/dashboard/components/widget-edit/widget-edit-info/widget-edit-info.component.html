@@ -44,8 +44,11 @@
     <ng-container *ngIf="previewType; else selectWidget">
       <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
         <div id="type-detail-container" (click)="updateType()">
+          <div class="label">
+            {{ WidgetTypeInfo[previewType].config.name | titlecase }}:
+          </div>
           <div id="description">
-            <div class="label">Description:</div>
+            <!-- <div class="label">Description:</div> -->
             <p class="help-text">
               {{ config.description }}
             </p>
