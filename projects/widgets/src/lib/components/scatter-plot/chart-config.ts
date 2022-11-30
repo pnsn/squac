@@ -11,7 +11,7 @@ export const CONFIG: WidgetTypeInfo = {
     useAggregate: true,
     minMetrics: 3,
     description:
-      "Chart with measurements on each axis. Channels are plotted as dots. Values are aggregates of the measurements over the time range.",
+      "Chart comparing 3 metrics measurements on x-axis, y-axis, and color. Values are aggregates of the measurements over the time range.",
     displayInfo: "channels as dots",
     defaultDisplay: "channel",
     displayOptions: {

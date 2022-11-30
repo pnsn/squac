@@ -11,18 +11,18 @@ export const CONFIG: WidgetTypeInfo = {
     zoomControls: false,
     minMetrics: 1,
     description:
-      "Map with icons representing stations. Value for a station is determined by the channel that is 'out of range' for the most metrics",
+      "The map displays stations as icons on a map with colors indicating channel values. Values for channels are aggregated over the time range.",
     displayInfo: "station stoplight, station worst",
     defaultDisplay: "worst",
     displayOptions: {
       worst: {
         description:
-          "each map icon is a station - color reflects the aggregate value for the 'worst' channel",
+          "Station icon color shows the value for the 'worst' (most out of range) channel",
         dimensions: ["display"],
       },
       stoplight: {
         description:
-          "each map icon is a station - symbol color shows if all, some, or no channels are in/out of range",
+          "Station icon color indicates if all, some, or no channels are in/out of range",
         dimensions: ["display"],
       },
     },

@@ -64,7 +64,7 @@ export const WIDGET_GRADIENT_COLORS = [
   },
   {
     label: "Green and Red",
-    color: ["green", "green", "green", "red", "red", "red"],
+    color: ["green", "red"],
   },
   {
     label: "Viridis",

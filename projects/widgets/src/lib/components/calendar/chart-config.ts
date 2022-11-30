@@ -11,20 +11,20 @@ export const CONFIG: WidgetTypeInfo = {
     toggleKey: true,
     minMetrics: 1,
     description:
-      "Chart with average measurement values on the y-axis and the selected display type on the x-axis. Each channel is a separate line.",
+      "The calendar chart displays the average measurement values for each channel over the selected time periods.",
     displayInfo: "channels as dots",
     defaultDisplay: "days-week",
     displayOptions: {
       "days-week": {
-        description: "days of week",
+        description: "calculate average for each day of the week",
         dimensions: ["display"],
       },
       "hours-week": {
-        description: "hour of week",
+        description: "calculate average for each hour of the week",
         dimensions: ["display"],
       },
       "hours-day": {
-        description: "hours of day",
+        description: "calculate average for each hour of the day",
         dimensions: ["display"],
       },
     },
