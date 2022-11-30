@@ -14,7 +14,7 @@ import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
 // import { ErrorComponent } from "@shared/components/error/error.component";
-import { Widget } from "widgets";
+import { Widget } from "../models";
 import { Subscription, tap } from "rxjs";
 import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WIDGET_TYPE_INFO } from "../constants";

@@ -31,13 +31,13 @@ describe("AuthService", () => {
       getItem: (key: string): string => {
         return key in store ? store[key] : null;
       },
-      setItem: (key: string, value: string) => {
+      setItem: (key: string, value: string): void => {
         store[key] = `${value}`;
       },
-      removeItem: (key: string) => {
+      removeItem: (key: string): void => {
         delete store[key];
       },
-      clear: () => {
+      clear: (): void => {
         store = {};
       },
     };

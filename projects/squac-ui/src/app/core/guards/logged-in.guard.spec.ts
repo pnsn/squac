@@ -35,7 +35,7 @@ describe("LoggedInGuard", () => {
 
   it("should not allow user to access log in page after logged in", () => {
     MockInstance(AuthService, () => ({
-      isAuthenticated: () => true,
+      isAuthenticated: (): boolean => true,
     }));
     guard = MockRender(LoggedInGuard).point.componentInstance;
     expect(guard.canActivate()).toEqual(false);
@@ -43,7 +43,7 @@ describe("LoggedInGuard", () => {
 
   it("should allow user to access log in after logging out", () => {
     MockInstance(AuthService, () => ({
-      isAuthenticated: () => false,
+      isAuthenticated: (): boolean => false,
     }));
     guard = MockRender(LoggedInGuard).point.componentInstance;
     expect(guard.canActivate()).toEqual(true);

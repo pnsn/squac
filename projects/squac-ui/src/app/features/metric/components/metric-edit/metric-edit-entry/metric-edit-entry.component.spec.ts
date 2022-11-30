@@ -21,15 +21,15 @@ describe("MetricEditEntryComponent", () => {
         useValue: {
           open: (_ref, _options) => {
             return {
-              close: (_value) => {
+              close: (_value): any => {
                 return;
               },
-              afterClosed: () => {
+              afterClosed: (): any => {
                 return of(true);
               },
             };
           },
-          closeAll: () => {
+          closeAll: (): any => {
             return;
           },
         },

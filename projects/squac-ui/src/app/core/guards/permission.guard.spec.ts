@@ -11,11 +11,11 @@ import { ReplaySubject } from "rxjs";
 class TestUserService {
   testUser;
   user = new ReplaySubject();
-  setUser(user) {
+  setUser(user): void {
     this.testUser = user;
     this.user.next(this.testUser);
   }
-  getUser() {
+  getUser(): any {
     return this.testUser;
   }
 }

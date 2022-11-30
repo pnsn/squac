@@ -7,6 +7,7 @@ import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
 import { OrganizationEditEntryComponent } from "./organization-edit-entry.component";
+import { Observable } from "rxjs";
 
 describe("OrganizationEditEntryComponent", () => {
   let component: OrganizationEditEntryComponent;
@@ -23,15 +24,15 @@ describe("OrganizationEditEntryComponent", () => {
         useValue: {
           open: (_ref, _options) => {
             return {
-              close: (_value) => {
+              close: (_value): any => {
                 return;
               },
-              afterClosed: () => {
+              afterClosed: (): Observable<any> => {
                 return of(true);
               },
             };
           },
-          closeAll: () => {
+          closeAll: (): any => {
             return;
           },
         },
