@@ -15,5 +15,5 @@ ng build widgets
 echo "Linting squac-ui app..."
 npm run lint-silent squac-ui
 
-echo "Testing libraries and app..."
+echo "Running tests..."
 npm run test-headless
