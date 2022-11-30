@@ -100,9 +100,6 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.addWidgetsToView(data["widgets"]);
         // this.options.api.res
         this.viewService.setWidgets(data["widgets"]);
-        // allow dragable and resizable if they have permission to edit dashboard
-        this.options.draggable.enabled = this.canUpdate;
-        this.options.resizable.enabled = this.canUpdate;
         if (this.options.api) {
           this.options.api.optionsChanged();
         }
@@ -119,7 +116,9 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.rows = item.rows;
     item.widget.layout.x = item.x;
     item.widget.layout.y = item.y;
-    this.viewService.saveWidget(item.widget);
+    if (this.canUpdate) {
+      this.viewService.saveWidget(item.widget);
+    }
   }
 
   addWidget(): void {

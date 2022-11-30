@@ -60,9 +60,9 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.widgetManager = {
-      toggleKey: of(),
-      zoomStatus: of(),
-      resize: of(),
+      toggleKey$: of(),
+      zoomStatus$: of(),
+      resize$: of(),
       starttime: starttime,
       endtime: endtime,
       channels: this.channels,

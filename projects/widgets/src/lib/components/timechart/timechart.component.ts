@@ -167,13 +167,9 @@ export class TimechartComponent
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
-    //   colorMetric.id,
-    //   visualMap
-    // );
     this.updateOptions = {
       series: this.metricSeries.series,
-      visualMap: visualMaps[0],
+      visualMap: visualMaps,
       xAxis: {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,

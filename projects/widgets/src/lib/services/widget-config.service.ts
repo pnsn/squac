@@ -254,14 +254,18 @@ export class WidgetConfigService {
             properties.outOfRange.opacity = 1;
             min = min !== null ? min : this.dataRange[metricId].min;
             max = max !== null ? max : this.dataRange[metricId].max;
+
+            //make just *slightly* outside min & max or default continuous won't show out of range
+            const rangeMax = 1.000000001 * max;
+            const rangeMin = 0.999999999 * min;
             const option: ContinousVisualMapOption = {
               ...this.continuousDefaults,
               dimension,
               inRange: {
                 color: inColors,
               },
-              min,
-              max,
+              min: rangeMin,
+              max: rangeMax,
               range: [min, max],
               text: [metric.name, `unit: ${metric.unit}`],
               outOfRange: properties.outOfRange,
@@ -272,53 +276,6 @@ export class WidgetConfigService {
       });
     }
     return visualMaps;
-  }
-
-  getContinuousVisualMap(
-    metricId: number,
-    visualMap: VisualMapTypes
-  ): VisualMapTypes[] {
-    const maps = [];
-    if (isContinuous(visualMap)) {
-      const dataMax = this.dataRange[metricId].max;
-      const dataMin = this.dataRange[metricId].min;
-      if (visualMap.min > dataMin) {
-        const minMap: ContinousVisualMapOption = {
-          type: "continuous",
-          inRange: {
-            color: ["orange", "orange"],
-            symbolSize: [30, 100],
-          },
-          min: dataMin,
-          max: visualMap.min,
-          dimension: visualMap.dimension,
-          show: false,
-        };
-        maps.push(minMap);
-      }
-
-      maps.push(visualMap);
-      // add another map if there's a difference between the max data value and the visual map max
-      if (visualMap.max < dataMax) {
-        //make more visual maps
-        const maxMap: ContinousVisualMapOption = {
-          type: "continuous",
-          inRange: {
-            color: ["purple", "purple"],
-            symbolSize: [30, 100],
-          },
-          dimension: visualMap.dimension,
-          min: visualMap.max,
-          max: dataMax,
-          show: false,
-        };
-        maps.push(maxMap);
-      }
-    }
-    // console.log(maps);
-
-    return maps;
-    // add another map if there's a difference between the min data value and the visual map min
   }
 
   private getPieces(
