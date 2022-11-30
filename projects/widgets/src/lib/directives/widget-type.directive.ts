@@ -18,6 +18,7 @@ import { Widget } from "../models";
 import { Subscription, tap } from "rxjs";
 import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WIDGET_TYPE_INFO } from "../constants";
+import { ErrorComponent } from "../components/error/error.component";
 
 /**
  * solely responsible for showing either error component or the correct widget type
@@ -114,14 +115,12 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
   }
 
   addError(error: WidgetErrors): void {
-    if (!this.error) {
-      this.clearChildComponents();
+    this.clearChildComponents();
 
-      // const errorComp =
-      //   this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
-      // errorComp.instance.errorMsg = error;
-      this.error = error;
-    }
+    const errorComp =
+      this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
+    errorComp.instance.errorMsg = error;
+    this.error = error;
   }
 
   ngOnDestroy(): void {

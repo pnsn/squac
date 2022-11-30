@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { ErrorComponent } from "./components/error/error.component";
 import { SquacapiModule } from "squacapi";
 import {
   Calendar,
@@ -12,7 +13,7 @@ import {
 import { WidgetTypeDirective } from "./directives/widget-type.directive";
 
 @NgModule({
-  declarations: [WidgetTypeDirective],
+  declarations: [WidgetTypeDirective, ErrorComponent],
   imports: [
     Tabular.TabularModule,
     Timeline.TimelineModule,

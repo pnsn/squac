@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "squacapi";
-import { distinctUntilChanged, Observable, Subscription } from "rxjs";
+import { distinctUntilChanged, Observable, Subscription, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 
