@@ -37,6 +37,7 @@
         }"
       >
         <button
+          *ngIf="metric"
           mat-menu-item
           (click)="changeThreshold($event, threshold, index, metric)"
         >

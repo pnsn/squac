@@ -7,7 +7,8 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
+import { PasswordResetService, User } from "squacapi";
 import {
   LocalStorageService,
   LocalStorageTypes,
@@ -49,12 +50,26 @@ export class AuthService {
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
     } else {
-      this.handleAuth(authData.token);
+      this.validateToken(authData.token).subscribe();
     }
   }
 
+  validateToken(token: string): Observable<User> {
+    this.token = token;
+    return this.userService.getUser().pipe(
+      tap({
+        next: () => {
+          this.handleAuth(token);
+        },
+        error: () => {
+          this.logout();
+        },
+      })
+    );
+  }
+
   // after user enters data, log them in
-  login(email: string, password: string): Observable<Token> {
+  login(email: string, password: string): Observable<User> {
     const params: UserTokenCreateRequestParams = {
       data: {
         email,
@@ -62,9 +77,10 @@ export class AuthService {
       },
     };
     return this.api.userTokenCreate(params).pipe(
-      tap((resData) => {
-        this.handleAuth(resData.token);
-
+      switchMap((resData) => {
+        return this.validateToken(resData.token);
+      }),
+      tap(() => {
         if (this.redirectUrl) {
           this.router.navigate([this.redirectUrl]);
           this.redirectUrl = null;
@@ -93,6 +109,5 @@ export class AuthService {
       tokenExpirationDate: expirationDate,
     };
     LocalStorageService.setItem(LocalStorageTypes.LOCAL, "userData", authData);
-    this.token = authData.token;
   }
 }

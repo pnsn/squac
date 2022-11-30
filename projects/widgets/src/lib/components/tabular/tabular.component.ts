@@ -62,7 +62,7 @@ export class TabularComponent
     // Footer selected message
     selectedMessage: "selected",
   };
-  sorts = [{ prop: "agg", dir: "desc" }];
+  sorts = [{ prop: "title", dir: "asc" }];
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
