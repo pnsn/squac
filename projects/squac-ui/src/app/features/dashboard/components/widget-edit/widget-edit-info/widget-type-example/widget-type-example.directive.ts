@@ -81,7 +81,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (this.widgetManager) {
       if (changes["displayType"] || changes["type"]) {
         this.updateWidgetType();
