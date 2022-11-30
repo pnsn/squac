@@ -20,6 +20,10 @@ export interface DeleteService<T> {
   delete(params: unknown): Observable<T>;
 }
 
+export interface PartialUpdateService<T> {
+  partialUpdate(params: unknown): Observable<T>;
+}
+
 export interface ReadOnlyApiService<T> extends ReadService<T>, ListService<T> {}
 
 export interface ReadUpdateApiService<T>

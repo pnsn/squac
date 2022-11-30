@@ -6,16 +6,16 @@ import {
 import { ApiEndpoint } from "../enums";
 import { User, UserAdapter } from "../models";
 
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { BaseApiService } from "./generic-api.service";
-import { ReadUpdateApiService } from "../interfaces";
+import { PartialUpdateService, ReadService } from "../interfaces";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserMeService
   extends BaseApiService<User>
-  implements ReadUpdateApiService<User>
+  implements ReadService<User>, PartialUpdateService<User>
 {
   constructor(override adapter: UserAdapter, override api: ApiService) {
     super(ApiEndpoint.USER_ME, api);
@@ -25,7 +25,7 @@ export class UserMeService
     return super._read();
   }
 
-  update(t: Partial<User>): Observable<User> {
+  partialUpdate(t: Partial<User>): Observable<User> {
     const params: UserMePartialUpdateRequestParams = {
       data: {
         organization: t.orgId ?? 0,
@@ -33,6 +33,10 @@ export class UserMeService
         lastname: t.lastName,
       },
     };
-    return super._update(params);
+    return this.api[`${this.apiEndpoint}PartialUpdate`](
+      params,
+      this.observe,
+      this.reportProgress
+    ).pipe(map(this.adapter.adaptFromApi.bind(this)));
   }
 }
