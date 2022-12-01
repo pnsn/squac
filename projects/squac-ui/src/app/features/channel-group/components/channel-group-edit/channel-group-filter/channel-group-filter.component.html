@@ -1,0 +1,100 @@
+<div id="filter-container" class="row wrap space-between">
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="net"
+      placeholder="Network"
+      (input)="net = net.toUpperCase()"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      [class]="net ? 'has-input' : 'no-input'"
+      aria-label="Clear"
+      (click)="net = null"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="sta"
+      placeholder="Station"
+      (input)="sta = sta.toUpperCase()"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      [class]="sta ? 'has-input' : 'no-input'"
+      (click)="sta = null"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="loc"
+      placeholder="Location"
+      (input)="loc = loc.toUpperCase()"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      [class]="loc ? 'has-input' : 'no-input'"
+      (click)="loc = null"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="chan"
+      placeholder="Channel"
+      (input)="chan = chan.toUpperCase()"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      [class]="chan ? 'has-input' : 'no-input'"
+      aria-label="Clear"
+      (click)="chan = null"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <div>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="updateFilters()"
+      matTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      <mat-icon>search</mat-icon>
+      search
+    </button>
+
+    <button
+      mat-stroked-button
+      (click)="removeFilters()"
+      matTooltip="Clear filters"
+      aria-label="Button that clears form input "
+    >
+      clear
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="addToRegex()"
+      matTooltip="Add filters to rules"
+      aria-label="Button that searches for channels matching filters"
+    >
+      add to rules
+    </button>
+  </div>
+</div>

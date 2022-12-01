@@ -1,0 +1,102 @@
+<div mat-dialog-title class="dialog-title">
+  <h3>{{ editMode ? "Edit Metric" : "New Metric" }}</h3>
+  <button mat-icon-button (click)="cancel()" type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <form class="form" action="" [formGroup]="metricForm">
+    <mat-form-field class="large">
+      <input
+        matInput
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Display Name"
+      />
+    </mat-form-field>
+    <mat-form-field class="large">
+      <input
+        matInput
+        type="text"
+        id="code"
+        formControlName="code"
+        placeholder="Code (must be unique, no spaces)"
+      />
+    </mat-form-field>
+    <mat-form-field class="large">
+      <textarea
+        matInput
+        id="description"
+        placeholder="Description"
+        formControlName="description"
+        class="form-control"
+      >
+      </textarea>
+      <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        id="refUrl"
+        formControlName="refUrl"
+        placeholder="Reference URL"
+      />
+    </mat-form-field>
+    <mat-form-field class="medium">
+      <input
+        matInput
+        type="text"
+        id="unit"
+        formControlName="unit"
+        placeholder="Unit"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="medium">
+      <input
+        matInput
+        type="number"
+        id="sampleRate"
+        formControlName="sampleRate"
+        placeholder="Sample Rate"
+      />
+    </mat-form-field>
+
+    <div id="value-container">
+      <!-- defaultmin and max -->
+      <mat-form-field class="small">
+        <input
+          matInput
+          type="number"
+          formControlName="minVal"
+          placeholder="Default Min Value"
+        />
+      </mat-form-field>
+      <mat-form-field class="small">
+        <input
+          matInput
+          type="number"
+          formControlName="maxVal"
+          placeholder="Default Max Value"
+        />
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions class="dialog-options">
+  <div>
+    <button
+      class="save"
+      mat-flat-button
+      color="accent"
+      (click)="save()"
+      [disabled]="!metricForm.valid"
+    >
+      Save
+    </button>
+  </div>
+</div>

@@ -6,13 +6,11 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "tsconfig.eslint.json",
-          "src/tsconfig.spec.json",
-          "e2e/tsconfig.e2e.json"
+          "tsconfig.json"
         ],
         "createDefaultProgram": true
       },
-      "plugins": ["unused-imports"],
+      "plugins": ["unused-imports", "eslint-plugin-tsdoc"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -22,29 +20,21 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "no-console": "warn",
+        "init-declarations": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-extraneous-class": "off",
+        "@typescript-eslint/init-declarations": "off",
         "@typescript-eslint/no-unused-vars" : "off",
-        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/consistent-indexed-object-style": "warn",
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/no-explicit-any":"off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "warn",
           { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
         ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "prefix": ["app", "shared", "dashboard", "widget", "monitor", "user", "channel", "metric"],
-            "style": "kebab-case",
-            "type": "element"
-          }
-        ],
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "prefix": ["app", "shared", "widget"],
-            "style": "camelCase",
-            "type": "attribute"
-          }
-        ]
+        "tsdoc/syntax": "warn"
       }
     },
     {

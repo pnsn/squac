@@ -1,0 +1,232 @@
+// Angular Material overrides
+@import "variables";
+
+//default icon sizing
+mat-icon.mat-icon {
+  height: 22px !important;
+  width: 20px !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}
+
+//get rid of rounded corners
+.mat-button,
+.mat-flat-button,
+.mat-stroked-button,
+.mat-raised-button {
+  border-radius: 0 !important;
+  padding: 0px 8px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.mat-form-field-appearance-outline {
+  .mat-form-field-outline {
+    background-color: white;
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-end {
+      border-radius: 0;
+    }
+    &.mat-form-field-outline-thick {
+      color: $sq-blue;
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+.dense-form-field {
+  .mat-form-field-flex {
+    align-items: center;
+    height: 37px;
+    padding: 0 0 0 5px !important;
+    margin-top: 3px;
+  }
+  .mat-form-field-wrapper {
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .mat-form-field-infix {
+    padding: 3px 0 0 0 !important;
+    border-top: none;
+    .mat-form-field-label-wrapper {
+      padding-top: 0 !important;
+    }
+  }
+  .mat-form-field-prefix,
+  .mat-form-field-suffix {
+    top: 0.15em !important;
+  }
+  .mat-select-trigger {
+    .mat-select-arrow-wrapper {
+      transform: unset;
+    }
+  }
+  .mat-form-field-underline {
+    bottom: 0.4em !important;
+  }
+}
+
+.dense-form-field-select {
+  @extend .dense-form-field;
+}
+
+.dense-radio-button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .mat-radio-container,
+  .mat-radio-inner-circle,
+  .mat-radio-outer-circle {
+    height: 15px !important;
+    width: 15px !important;
+  }
+}
+
+mat-option {
+  height: 25pt !important;
+  line-height: 25pt !important;
+  span {
+    line-height: 25pt;
+  }
+}
+
+mat-form-field {
+  &.xsmall {
+    width: 100px;
+  }
+  &.small {
+    width: 150px;
+  }
+  &.smedium {
+    width: 200px;
+  }
+  &.medium {
+    width: 250px;
+  }
+  &.large {
+    width: 400px;
+  }
+}
+
+// Material overrides
+.mat-list-item.active {
+  color: $sq-dk-blue;
+  background-color: $sq-lt-gray;
+}
+
+mat-sidenav {
+  &[color="primary"] {
+    background-color: $sq-blue;
+    color: white;
+  }
+}
+button[mat-menu-item] {
+  &:not([disabled]) {
+    &[color="accent"] {
+      color: $sq-yellow;
+    }
+    &[color="warn"] {
+      color: $sq-warn;
+    }
+    &[color="primary"] {
+      color: $sq-blue;
+    }
+    &[color="gray"] {
+      color: $sq-lt-gray;
+    }
+  }
+  &.active {
+    background-color: lighten($sq-lt-blue, 30%) !important;
+  }
+  &.active:hover {
+    background-color: lighten($sq-lt-blue, 20%) !important;
+  }
+  &[disabled]:hover {
+    background-color: transparent !important;
+  }
+  &:hover {
+    background-color: $sq-lt-gray !important;
+  }
+}
+
+.dense-button-toggle {
+  height: 33px;
+  &.mat-button-toggle-group-appearance-standard {
+    border-radius: 0px;
+  }
+  .mat-button-toggle-button {
+    span {
+      min-width: 36px;
+      padding: 0px 6px !important;
+      line-height: 2 !important;
+    }
+  }
+}
+
+.mat-menu-dense {
+  &.mat-menu-panel {
+    min-width: 150px;
+    min-height: 46px;
+  }
+  .mat-menu-submenu-icon {
+    // right: 8px;
+  }
+  button.mat-menu-item {
+    &.accent {
+      color: $sq-dk-yellow;
+    }
+    &.warn {
+      color: $sq-warn;
+    }
+    .mat-icon {
+      margin-right: 8px;
+    }
+    height: 30px !important;
+    line-height: 10px;
+  }
+
+  a.mat-menu-item {
+    height: 30px !important;
+    line-height: 30px;
+  }
+}
+.mat-nav-list-dense {
+  .mat-nav-list {
+    a {
+      height: 30px !important;
+    }
+  }
+}
+
+.mat-snack-bar-themed {
+  background-color: $sq-dk-gray !important;
+}
+
+.mat-horizontal-stepper-header-container,
+.mat-horizontal-stepper-header,
+.mat-step-header,
+mat-step-header {
+  height: 40px !important;
+}
+
+mat-horizontal-stepper {
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.mat-horizontal-content-container {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.mat-dialog-container {
+  padding-top: 10px !important;
+}
+
+// .mat-dialog-actions {
+//   min-height: 36px !important;
+//   margin-bottom: 0px !important;
+// }

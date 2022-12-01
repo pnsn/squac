@@ -1,0 +1,18 @@
+#monitor-body {
+  mat-form-field {
+    margin: 0px 10px;
+  }
+  div {
+    display: inline-block;
+  }
+}
+#table-container {
+  width: 100%;
+  overflow: auto;
+}
+#trigger-table {
+  width: 100%;
+  th {
+    text-align: left;
+  }
+}
