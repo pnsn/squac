@@ -1,0 +1,104 @@
+<div class="widget-container box" *ngIf="widget">
+  <div class="widget-header row space-between">
+    <span>{{ widget.name }}</span>
+    <div id="controls" *ngIf="!error">
+      <button
+        *ngIf="widgetType && widgetType.zoomControls"
+        mat-icon-button
+        class="icon-button"
+        [color]="zooming === 'start' ? 'accent' : ''"
+        (click)="updateZoom()"
+        matTooltip="start zoom"
+        aria-label="button that enables zoom"
+      >
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+      <button
+        *ngIf="widgetType && widgetType.zoomControls"
+        mat-icon-button
+        class="icon-button"
+        (click)="updateZoom('reset')"
+        matTooltip="reset zoom"
+        aria-label="button that resets zoom"
+      >
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+      <button
+        *ngIf="widgetType && widgetType.toggleKey"
+        class="icon-button"
+        mat-icon-button
+        [color]="showKey ? 'primary' : 'gray'"
+        matTooltip="toggle key"
+        aria-label="button that toggles key"
+        (click)="toggleKey()"
+      >
+        <mat-icon>legend_toggle</mat-icon>
+      </button>
+      <widget-metric-toggle
+        *ngIf="initialMetrics?.length > 0"
+        [dimensions]="displayType?.dimensions"
+        [(thresholds)]="thresholds"
+        [initialMetrics]="initialMetrics"
+        (metricsChange)="metricsChanged($event)"
+        [expectedMetrics]="expectedMetrics"
+      ></widget-metric-toggle>
+      <button
+        class="icon-button"
+        mat-icon-button
+        [matMenuTriggerFor]="widgetMenu"
+        color="primary"
+        aria-label="change widget settings"
+        matTooltip="widget options"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu
+      #widgetMenu="matMenu"
+      class="mat-menu-dense"
+      yPosition="below"
+      xPosition="before"
+    >
+      <button mat-menu-item (click)="editWidget()" *ngIf="canUpdate">
+        Edit Widget
+      </button>
+      <!-- TODO: add option for no dashboards -->
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="dashboardMenu"
+        [matMenuTriggerData]="{ dashboards: dashboards }"
+        *ngIf="dashboards && dashboards.length > 0"
+      >
+        Add Widget to Dashboard
+      </button>
+      <button
+        mat-menu-item
+        class="warn"
+        (click)="deleteWidget()"
+        color="warn"
+        *ngIf="canUpdate"
+      >
+        Delete Widget
+      </button>
+    </mat-menu>
+  </div>
+
+  <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
+    <ng-template matMenuContent let-dashboards="dashboards">
+      <ng-container *ngFor="let dashboard of dashboards">
+        <button mat-menu-item (click)="addWidgetToDashboard(dashboard.id)">
+          {{ dashboard.name }}
+        </button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <div
+    class="widget-content"
+    [appIsLoading]="widgetManager.isLoading$ | async"
+    spinnerType="buffer"
+  >
+    <div widgetContainer class="widget"></div>
+  </div>
+</div>

@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
-if [[ $# -lt 1 ]] 
+if [[ $# -lt 1 ]]
 then
   stage=staging
-else 
+else
   stage=$1
 fi
 echo "Building with configuration for $stage"
-if ng build --configuration=$stage
+if ng build --configuration=$stage squac-ui
 then
   echo "Build successful for: $stage"
 else

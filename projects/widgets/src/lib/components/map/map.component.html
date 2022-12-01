@@ -1,0 +1,102 @@
+<div
+  id="map"
+  #mapElement
+  leaflet
+  [leafletOptions]="options"
+  [leafletLayers]="layers"
+  (leafletMapReady)="onMapReady($event)"
+  [leafletFitBounds]="fitBounds"
+></div>
+
+<div id="map-legend" #legendElement>
+  <div>{{ displayMetric?.name }}</div>
+  <div>unit: {{ displayMetric?.unit }}</div>
+  <ng-container *ngIf="displayMap">
+    <ng-container *ngIf="displayMap | guardType: isPiecewise as piecewise">
+      <div
+        *ngFor="let piece of piecewise.pieces"
+        (click)="toggleColor(piece.color)"
+        [class]="piece.color"
+      >
+        <span>{{ piece.label }}</span>
+        <div class="map-icon" [style.background-color]="piece.color"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="displayMap | guardType: isStoplight as stoplight">
+      <div
+        (click)="toggleColor(stoplight.colors.in)"
+        [class]="stoplight.colors.in"
+      >
+        <span>all in</span>
+        <div
+          class="map-icon"
+          [style.background-color]="stoplight.colors.in"
+        ></div>
+      </div>
+      <div
+        (click)="toggleColor(stoplight.colors.middle)"
+        [class]="stoplight.colors.middle"
+      >
+        <span>some in</span>
+        <div
+          class="map-icon"
+          [style.background-color]="stoplight.colors.middle"
+        ></div>
+      </div>
+      <div
+        (click)="toggleColor(stoplight.colors.out)"
+        [class]="stoplight.colors.out"
+      >
+        <span>none in</span>
+        <div
+          class="map-icon"
+          [style.background-color]="stoplight.colors.out"
+        ></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="displayMap | guardType: isContinuous as continuous">
+      <div class="legend-container">
+        <div id="gradient">
+          <div class="values">
+            <span>
+              {{ continuous.max | precision: 3 }}
+            </span>
+            <span>
+              {{ continuous.min | precision: 3 }}
+            </span>
+          </div>
+          <div
+            [style.background-image]="
+              'linear-gradient(to top, ' + continuous?.inRange.color + ')'
+            "
+            class="gradient-icon"
+          ></div>
+        </div>
+
+        <div
+          (click)="toggleColor(continuous.outOfRange.color[0])"
+          [class]="continuous.outOfRange.color[0]"
+        >
+          <span>out of range</span>
+          <div
+            class="map-icon"
+            [style.background-color]="continuous.outOfRange.color[0]"
+          ></div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="displayMetric && !displayMap">
+    <div (click)="toggleColor('gray')">
+      <span> no range</span>
+      <div class="map-icon" [style.background-color]="'gray'"></div>
+    </div>
+  </ng-container>
+  <div (click)="toggleColor('nodata')" class="white nodata">
+    <span> no data</span>
+    <div class="map-icon border" [style.background-color]="'white'"></div>
+  </div>
+</div>

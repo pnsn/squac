@@ -1,0 +1,6 @@
+{
+  "appTitle": "SQUAC",
+  "dataRefreshIntervalMinutes": 10,
+  "userExpirationTimeHours": 6,
+  "defaultTimeRange": 3600
+}
