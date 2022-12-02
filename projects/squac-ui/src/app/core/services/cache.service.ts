@@ -48,6 +48,7 @@ export class HttpCacheService implements HttpCache {
 
     const shouldCache = this.shouldCache(urlWithParams);
     const storageLocation = this.whichStorageToUse(urlWithParams);
+
     if (shouldCache && storageLocation) {
       this.cacheToStorage(storageLocation, urlWithParams, res);
     } else if (shouldCache) {

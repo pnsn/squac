@@ -64,7 +64,7 @@ export class WidgetDataService implements OnDestroy {
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
         return this.dataRequest(params).pipe(
-          catchError(() => {
+          catchError((e) => {
             this.finishedLoading();
             return EMPTY;
           }),
@@ -185,7 +185,8 @@ export class WidgetDataService implements OnDestroy {
 
         this.calculateDataRange(metricId, value);
       });
-    } catch {
+    } catch (e) {
+      console.log(e);
       return WidgetErrors.SQUAC_ERROR;
     }
     return dataMap;

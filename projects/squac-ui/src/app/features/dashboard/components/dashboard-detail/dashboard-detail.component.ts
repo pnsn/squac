@@ -108,20 +108,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.error = "";
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.archiveType = "month";
-        this.archiveStat = "mean";
+        this.error = `Raw data request may be too large for this time range, try using month archives.`;
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.archiveType = "week";
-        this.archiveStat = "mean";
+        this.error = `Raw data request may be too large for this time range, try using week archives.`;
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = "day";
-        this.archiveStat = "mean";
-      } else {
-        this.archiveType = "raw";
-        this.archiveStat = null;
+        this.error = `Raw data request may be too large for this time range, try using day archives.`;
       }
-
-      this.error = `Data type defaulted to ${this.archiveType} archive.`;
     }
     this.updateArchiveType();
   }
