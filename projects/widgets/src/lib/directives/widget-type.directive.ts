@@ -65,12 +65,22 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
         tap({
           next: (data: ProcessedData | WidgetErrors) => {
             if (data instanceof Map) {
-              this.addWidget(this.widgetManager.widgetType);
-              this.widgetConfigService.thresholds =
-                this.widgetManager.thresholds;
-              this.widgetConfigService.dataRange =
-                this.widgetDataService.dataRange;
-              this.childComponent.updateData(data);
+              const minMetrics = this.widgetManager.widgetConfig.minMetrics;
+              const metricsWithData =
+                this.widgetDataService.measurementsWithData.length;
+              if (minMetrics > metricsWithData) {
+                //not enough metrics with Data
+                this.addError(
+                  `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
+                );
+              } else {
+                this.addWidget(this.widgetManager.widgetType);
+                this.widgetConfigService.thresholds =
+                  this.widgetManager.thresholds;
+                this.widgetConfigService.dataRange =
+                  this.widgetDataService.dataRange;
+                this.childComponent.updateData(data);
+              }
             } else {
               this.addError(data);
             }
@@ -114,7 +124,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent = this.childComponentRef.instance;
   }
 
-  addError(error: WidgetErrors): void {
+  addError(error: WidgetErrors | string): void {
     this.clearChildComponents();
 
     const errorComp =

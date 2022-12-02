@@ -1,6 +1,6 @@
 {
   "name": "squac",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
@@ -29,7 +29,7 @@
     "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^6.3.1",
     "@casl/angular": "^8.1.0",
-    "@pnsn/ngx-squacapi-client": "^0.0.8",
+    "@pnsn/ngx-squacapi-client": "~2.1.10-alpha.1",
     "@types/d3": "^7.1.0",
     "angular-gridster2": "^14.1.2",
     "colormap": "^2.3.2",

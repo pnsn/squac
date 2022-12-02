@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+# empty dist folder
+rm -rf dist
+
 echo "Linting squacapi library..."
 npm run lint-silent squacapi
 
