@@ -59,7 +59,7 @@ export class LocalStorageService {
   ): void {
     const storage = LocalStorageService._getStorage(storageType);
     const val = typeof value === "string" ? value : JSON.stringify(value);
-    storage.setItem(`${PROJECT_NAME}:${key}`, val);
+    return storage.setItem(`${PROJECT_NAME}:${key}`, val);
   }
 
   /**

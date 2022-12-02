@@ -29,7 +29,6 @@ export class HttpCacheService implements HttpCache {
   get(req: HttpRequest<any>): HttpResponse<any> | null {
     const urlWithParams = this.stripUrl(req.urlWithParams);
     const storageLocation = this.whichStorageToUse(urlWithParams);
-
     const cachedItem = storageLocation
       ? LocalStorageService.getItem(storageLocation, urlWithParams)
       : this.cache[urlWithParams];
@@ -50,7 +49,7 @@ export class HttpCacheService implements HttpCache {
     const shouldCache = this.shouldCache(urlWithParams);
     const storageLocation = this.whichStorageToUse(urlWithParams);
     if (shouldCache && storageLocation) {
-      this.cacheToSessionStorage(urlWithParams, res);
+      this.cacheToStorage(storageLocation, urlWithParams, res);
     } else if (shouldCache) {
       this.cacheToLocal(urlWithParams, res);
     }
@@ -145,15 +144,10 @@ export class HttpCacheService implements HttpCache {
     urlWithParams: string,
     res: HttpResponse<any>
   ): void {
-    LocalStorageService.setItem(storageType, urlWithParams, res);
-  }
-
-  /**
-   * Place the response in sessionStorage
-   * @param urlWithParams -
-   * @param res -
-   */
-  cacheToSessionStorage(urlWithParams: string, res: HttpResponse<any>): void {
-    LocalStorageService.setItem(LocalStorageTypes.SESSION, urlWithParams, res);
+    try {
+      LocalStorageService.setItem(storageType, urlWithParams, res);
+    } catch (e) {
+      this.cacheToLocal(urlWithParams, res);
+    }
   }
 }
