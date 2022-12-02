@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/squac-ui",
             "index": "projects/squac-ui/src/index.html",
             "main": "projects/squac-ui/src/main.ts",
             "polyfills": "projects/squac-ui/src/polyfills.ts",
