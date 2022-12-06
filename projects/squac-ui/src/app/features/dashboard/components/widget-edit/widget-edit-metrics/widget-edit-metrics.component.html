@@ -1,0 +1,35 @@
+<div id="metric-edit-container">
+  <div id="metric-header" class="row">
+    <input
+      type="text"
+      class="metric-filter"
+      placeholder="Filter by metric name..."
+      (keyup)="updateFilter($event)"
+    />
+
+    <div class="help-text">Metrics can be toggled after widget creation.</div>
+  </div>
+  <mat-error *ngIf="selected.length < minLength"
+    >Select at least {{ minLength }} metric{{
+      minLength > 1 ? "s" : ""
+    }}.</mat-error
+  >
+  <div id="table-container">
+    <ngx-datatable
+      id="metric-select-table"
+      #metricTable
+      class="material"
+      [rows]="rows"
+      [columns]="columns"
+      [headerHeight]="30"
+      [columnMode]="ColumnMode.flex"
+      [footerHeight]="30"
+      rowHeight="auto"
+      [selected]="selected"
+      [selectionType]="SelectionType.multiClick"
+      [selectAllRowsOnPage]="false"
+      (select)="metricsSelected($event)"
+    >
+    </ngx-datatable>
+  </div>
+</div>
