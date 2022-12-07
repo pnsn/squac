@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
+import { SearchFilterConfig } from "./interfaces";
 
 @Component({
   selector: "shared-search-filter",
@@ -15,7 +16,7 @@ export class SearchFilterComponent {
   iterateCount = 0;
   @Output() filterChanged = new EventEmitter<any[]>();
   @Input() rows: any[];
-  @Input() config;
+  @Input() config: SearchFilterConfig;
 
   constructor(orgService: OrganizationService) {
     this.userPipe = new UserPipe(orgService);
@@ -49,7 +50,11 @@ export class SearchFilterComponent {
                   return this.hasValue(row[prop], val);
               }
               // prop has child props and row has child prop value
-            } else if (prop.prop && row[prop.prop]) {
+            } else if (
+              typeof prop !== "string" &&
+              prop.prop &&
+              row[prop.prop]
+            ) {
               return this.iterateProps(val, prop, row[prop.prop]);
             }
             return false;

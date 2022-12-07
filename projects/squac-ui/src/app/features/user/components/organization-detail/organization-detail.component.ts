@@ -9,6 +9,11 @@ import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationUserService } from "squacapi";
 import { Observable } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 @Component({
   selector: "user-organization-detail",
@@ -34,7 +39,7 @@ export class OrganizationDetailComponent
   selectedId: number;
   selected: User;
 
-  controls = {
+  controls: TableControls = {
     resource: "Organization",
     add: {
       text: "Add User", //      *ngIf="isAdmin"
@@ -45,15 +50,14 @@ export class OrganizationDetailComponent
     links: [{ text: "View All Organizations", path: "../" }],
   };
 
-  filters = {};
+  filters: TableFilters = {};
 
-  options = {
+  options: TableOptions = {
     autoRouteToDetail: false,
     messages: {
       emptyMessage: "No users found.",
     },
     footerLabel: "Users",
-    selectionType: "single",
   };
 
   // group options

@@ -18,6 +18,11 @@ import {
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 // Table of channel groups
 @Component({
@@ -36,16 +41,15 @@ export class ChannelGroupViewComponent
   // config for table
   columns = [];
   rows = [];
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No channel groups found.",
     },
     footerLabel: "Channel Groups",
-    selectionType: "single",
     displayCheck: true,
   };
   // controls in table head
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     basePath: "/channel-groups",
     resource: "ChannelGroup",
@@ -76,7 +80,7 @@ export class ChannelGroupViewComponent
   };
 
   // settings for which filters to show
-  filters = {
+  filters: TableFilters = {
     toggleShared: true,
     searchField: {
       text: "Filter channel groups...",

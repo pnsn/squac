@@ -5,6 +5,11 @@ import { Metric } from "squacapi";
 import { MetricService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 @Component({
   selector: "metric-view",
@@ -20,28 +25,26 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   rows = [];
 
   //table options
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No metrics found.",
     },
-    selectionType: "single",
     autoRouteToDetail: false,
     footerLabel: "Metrics",
   };
-  controls = {
-    listenToRouterEvents: true,
+  controls: TableControls = {
+    listenToRouter: true,
     basePath: "/metrics",
     resource: "Metric",
     add: {
       text: "Add Metric",
     },
-    actionMenu: {},
     edit: {
       text: "Edit Metric",
     },
     refresh: false,
   };
-  filters = {
+  filters: TableFilters = {
     toggleShared: false,
     searchField: {
       text: "Filter metrics...",

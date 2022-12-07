@@ -17,8 +17,13 @@ import { OrganizationService } from "squacapi";
 import { UserService } from "@user/services/user.service";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
-import { ColumnMode } from "@boring.devs/ngx-datatable";
+import { ColumnMode, SortType } from "@boring.devs/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
+import { TableControls, TableFilters, TableOptions } from "./interfaces";
+
+/**
+ * Reusable table view component
+ */
 @Component({
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
@@ -27,11 +32,11 @@ import { Subscription, tap, filter } from "rxjs";
 export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   subscription = new Subscription();
   @Input() title: string;
-  @Input() options: any;
+  @Input() options: TableOptions;
   @Input() rows: any[];
   @Input() columns: any[];
-  @Input() controls: any;
-  @Input() filters: any;
+  @Input() controls: TableControls;
+  @Input() filters: TableFilters;
   @Input() selectedRowId: number;
   @Input() resize: boolean;
   @Input() groupHeaderTemplate: TemplateRef<any>;
@@ -61,17 +66,17 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   shareFilter = "org";
 
   //defaultOptions
-  tableOptions: any = {
+  tableOptions: TableOptions = {
     columnMode: ColumnMode.force,
     selectionType: undefined,
-    headerHeight: "30",
-    footerHeight: "30",
+    headerHeight: 30,
+    footerHeight: 30,
     rowHeight: "auto",
     limit: undefined,
     reorderable: false,
     scrollbarH: false,
     scrollbarV: true,
-    sortType: "single",
+    sortType: SortType.single,
     sorts: [],
     groupRowsBy: undefined,
     groupExpansionDefault: false,
@@ -97,6 +102,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.orgPipe = new OrganizationPipe(orgService);
   }
   //doubleclick on row to view detail?
+
+  /**
+   * Init
+   */
   ngOnInit(): void {
     Object.keys(this.options).forEach((key) => {
       this.tableOptions[key] = this.options[key];
@@ -128,6 +137,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  /**
+   * Respond to input changes
+   *
+   * @param changes changes object
+   */
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -148,7 +162,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // build columns
+  /**
+   * Build table columns
+   */
   private processColumns(): void {
     this.columns.forEach((col) => {
       if (col.prop === "owner" || col.name === "Owner") {
@@ -169,7 +185,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.tableColumns = [...this.columns];
   }
 
-  // filter rows
+  /**
+   * Set up table rows and select default row
+   */
   private processRows(): void {
     this.tableRows = [...this.rows];
     if (this.selectedRowId && this.tableRows.length > 0) {
@@ -177,7 +195,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // selected id, view resource if doubleclicked
+  /**
+   * Respond to select row event and emit row id
+   *
+   * @param event click event
+   */
   onSelect(event): void {
     if (event.selected && event.selected[0]) {
       if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
@@ -200,7 +222,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // select the group header
+  /**
+   * When group header option is enabled, will respond to selects
+   * on group header
+   *
+   * @param group id of group
+   */
   selectGroupHeader(group): void {
     if (this.tableOptions.groupParentType) {
       this.selectedGroupKey = group.key;
@@ -214,7 +241,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // select resource in table
+  /**
+   * Select resource in table by id
+   *
+   * @param id id of resource
+   */
   private selectResource(id: number): void {
     this.selected = [];
     this.selected = this.tableRows.filter((row) => {
@@ -224,7 +255,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.itemSelected.next(this.selectedRow);
   }
 
-  // choose method based on action
+  // FIXME: make into types
+  /**
+   * Respond to menu option
+   *
+   * @param action menu action
+   */
   menuOption(action: string): void {
     if (action === "edit") {
       this.editResource();
@@ -239,7 +275,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // delete resource
+  /**
+   * Delete selected resource
+   */
   deleteResource(): void {
     this.confirmDialog.open({
       title: `Delete ${this.selectedRow.name}`,
@@ -254,7 +292,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  // emit view resource and route to resource
+  /**
+   * Route to selected resource
+   */
   viewResource(): void {
     this.controlClicked.emit("view");
     let path;
@@ -264,7 +304,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(this.selectedRow.id, null, path);
   }
 
-  // emit edit resource and route to 'edit' path
+  /**
+   * Emit edit event and route to edit path
+   */
   editResource(): void {
     this.controlClicked.emit("edit");
     let path;
@@ -276,7 +318,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(this.selectedRow.id, "edit", path);
   }
 
-  // emit add resource and route to 'new' path
+  /**
+   * Emit add resource event and route to 'new' path
+   */
   addResource(): void {
     this.controlClicked.emit("add");
     let path;
@@ -288,11 +332,14 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.routeTo(null, "new", path);
   }
 
-  // set up route to resource
-  // path: monitors
-  // action: edit
-  // resource: monitor
-  routeTo(resource, action?, path?): void {
+  /**
+   * Handles routing to a resource
+   *
+   * @param resource resource to route to
+   * @param action route action
+   * @param path additional path config
+   */
+  routeTo(resource: string, action?: string, path?: string): void {
     const route = [];
     if (path) {
       route.push(path);
@@ -308,29 +355,46 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  // update rows after search
-  searchFieldChanged(rows): void {
+  /**
+   * Update rows after search performed
+   *
+   * @param rows filtered rows from search
+   */
+  searchFieldChanged(rows: any[]): void {
     this.hideShared = false;
     this.tableRows = [...rows];
   }
 
-  // emit refresh
+  /**
+   * Emit refresh event
+   */
   refreshResource(): void {
     this.refresh.emit(true);
   }
 
-  // emit control click event with type
-  controlClick(type): void {
+  /**
+   * Emit control click event
+   *
+   * @param type type of click event
+   */
+  controlClick(type: string): void {
     this.controlClicked.emit(type);
   }
 
-  // expand group
+  /**
+   * Toggle expand or collapse group
+   *
+   * @param group group id
+   * @returns if should toggle
+   */
   toggleExpandGroup(group): boolean {
     this.table.groupHeader.toggleExpandGroup(group);
     return false;
   }
 
-  // change sharing settings and filter table to match
+  /**
+   * Change sharing settings and filter table to match
+   */
   toggleSharing(): void {
     const params: {
       user?: number;
@@ -353,7 +417,14 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
       this.filtersChanged.emit(params);
     }
   }
-  //sort users by name
+
+  /**
+   * Sort users by name
+   *
+   * @param userIdA first user
+   * @param userIdB second user
+   * @returns sort number
+   */
   private userComparator(userIdA, userIdB): number {
     const userNameA = this.userPipe.transform(userIdA).toLowerCase();
     const userNameB = this.userPipe.transform(userIdB).toLowerCase();
@@ -367,7 +438,13 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     return 0;
   }
 
-  //sort organizations by name
+  /**
+   * Sort organization by name
+   *
+   * @param orgIdA first org
+   * @param orgIdB second org
+   * @returns sort numbera
+   */
   private orgComparator(orgIdA, orgIdB): number {
     const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
     const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
@@ -381,37 +458,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     return 0;
   }
 
+  /**
+   * Destroy
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }
-
-// options = {
-//  **any of table options**
-//   autoRouteToDetail: false,
-//   footerLabel: "Metrics",
-// };
-// controls = {
-//   resource: "Metric",
-//   add: {
-//     text: "Add Metric",
-//     path?: "/metric"
-//   },
-//   actionMenu: {},
-//   edit: {
-//     text: "Edit Metric",
-//   },
-//   refresh: false,
-// };
-// filters = {
-//   toggleShared: true,
-//   searchField: {
-//     text: "Type to filter...",
-//     props: [""]
-//   },
-//   dateFilter: {}
-//   propToggle: {
-//
-//   }
-//
-// };

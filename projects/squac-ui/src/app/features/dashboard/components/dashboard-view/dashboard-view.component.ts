@@ -12,6 +12,11 @@ import { DashboardService } from "squacapi";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Dashboard } from "squacapi";
 import { Observable } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 // List of dashboards
 @Component({
@@ -32,16 +37,15 @@ export class DashboardViewComponent
   selectedDashboardId: number;
 
   // table config
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No dashboards found.",
     },
     footerLabel: "Dashboards",
-    selectionType: "single",
   };
 
   // controls in table head
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     basePath: "/dashboards",
     resource: "Dashboard",
@@ -72,7 +76,7 @@ export class DashboardViewComponent
   };
 
   // search filters
-  filters = {
+  filters: TableFilters = {
     toggleShared: true,
     searchField: {
       text: "Filter dashboards...",

@@ -21,6 +21,11 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 @Component({
   selector: "monitor-view",
@@ -39,7 +44,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   rows = [];
   columns = [];
 
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     basePath: "/monitors",
     resource: "Monitor",
@@ -65,7 +70,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     links: [{ text: "View All Alerts", path: "alerts" }],
   };
 
-  filters = {
+  filters: TableFilters = {
     searchField: {
       text: "Filter monitors...",
       props: [
@@ -84,7 +89,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
-  options = {
+  options: TableOptions = {
     groupRowsBy: "monitorId",
     groupParentType: "monitor",
     groupExpansionDefault: true,

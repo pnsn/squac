@@ -22,6 +22,11 @@ import {
   tap,
 } from "rxjs";
 import { Observable } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
 @Component({
   selector: "monitor-alert-view",
@@ -39,7 +44,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   rows = [];
   columns = [];
 
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",
     add: {
@@ -50,8 +55,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     links: [{ text: "View All Monitors", path: "/monitors" }],
   };
 
-  filters = {
-    dateFilter: {},
+  filters: TableFilters = {
     searchField: {
       text: "Filter alerts...",
       props: [
@@ -71,7 +75,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No alerts found.",
     },
