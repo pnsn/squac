@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -61,28 +61,34 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
-                            <a href="#ApiEndpoints" title="src/app/squacapi/interfaces/api.interface.ts" ><b>ApiEndpoints</b>&nbsp;&nbsp;&nbsp;(src/.../api.interface.ts)</a>
+                            <a href="#ApiEndpoint" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>ApiEndpoint</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#ApiMethod" title="src/app/squacapi/interfaces/api.interface.ts" ><b>ApiMethod</b>&nbsp;&nbsp;&nbsp;(src/.../api.interface.ts)</a>
+                            <a href="#ApiMethod" title="projects/squacapi/src/lib/enums/api-method.enum.ts" ><b>ApiMethod</b>&nbsp;&nbsp;&nbsp;(projects/.../api-method.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveTypes" title="src/app/features/widget/services/widget-data.service.ts" ><b>ArchiveTypes</b>&nbsp;&nbsp;&nbsp;(src/.../widget-data.service.ts)</a>
+                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/enums/archive-stat-type.enum.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#DashboardErrors" title="src/app/features/dashboard/interfaces/errors.ts" ><b>DashboardErrors</b>&nbsp;&nbsp;&nbsp;(src/.../errors.ts)</a>
+                            <a href="#ArchiveType" title="projects/squacapi/src/lib/enums/archive-type.enum.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#InviteApiEndpoints" title="src/app/squacapi/interfaces/api.interface.ts" ><b>InviteApiEndpoints</b>&nbsp;&nbsp;&nbsp;(src/.../api.interface.ts)</a>
+                            <a href="#DashboardErrors" title="projects/squac-ui/src/app/features/dashboard/interfaces/errors.ts" ><b>DashboardErrors</b>&nbsp;&nbsp;&nbsp;(projects/.../errors.ts)</a>
                         </li>
                         <li>
-                            <a href="#LoadingIndicator" title="src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(src/.../channel-group-edit.component.ts)</a>
+                            <a href="#InviteApiEndpoint" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>InviteApiEndpoint</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#LocalStorageTypes" title="src/app/core/services/local-storage.service.ts" ><b>LocalStorageTypes</b>&nbsp;&nbsp;&nbsp;(src/.../local-storage.service.ts)</a>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-group-edit.component.ts)</a>
                         </li>
                         <li>
-                            <a href="#WidgetErrors" title="src/app/features/widget/services/widget-errors.ts" ><b>WidgetErrors</b>&nbsp;&nbsp;&nbsp;(src/.../widget-errors.ts)</a>
+                            <a href="#LocalStorageTypes" title="projects/squac-ui/src/app/core/services/local-storage.service.ts" ><b>LocalStorageTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../local-storage.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#WidgetErrors" title="projects/widgets/src/lib/enums/widget-errors.enum.ts" ><b>WidgetErrors</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-errors.enum.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#WidgetType" title="projects/widgets/src/lib/enums/widget-type.enum.ts" ><b>WidgetType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type.enum.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -91,14 +97,14 @@
     </table>
 </section>
 
-    <h3>src/app/squacapi/interfaces/api.interface.ts</h3>
+    <h3>projects/squacapi/src/lib/enums/api-endpoints.enum.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="ApiEndpoints"></a>
-                        <span class="name "><b>ApiEndpoints</b><a href="#ApiEndpoints"><span class="icon ion-ios-link"></span></a></span>
+                        <a name="ApiEndpoint"></a>
+                        <span class="name "><b>ApiEndpoint</b><a href="#ApiEndpoint"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
                     <tr>
@@ -313,6 +319,39 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="InviteApiEndpoint"></a>
+                        <span class="name "><b>InviteApiEndpoint</b><a href="#InviteApiEndpoint"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;INVITE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>invite</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;REGISTER
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>register</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squacapi/src/lib/enums/api-method.enum.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="ApiMethod"></a>
                         <span class="name "><b>ApiMethod</b><a href="#ApiMethod"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -379,47 +418,172 @@
                         </tr>
             </tbody>
         </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="InviteApiEndpoints"></a>
-                        <span class="name "><b>InviteApiEndpoints</b><a href="#InviteApiEndpoints"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;INVITE
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>invite</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;REGISTER
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>register</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
 </section>
-    <h3>src/app/features/widget/services/widget-data.service.ts</h3>
+    <h3>projects/squacapi/src/lib/enums/archive-stat-type.enum.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="ArchiveTypes"></a>
-                        <span class="name "><b>ArchiveTypes</b><a href="#ArchiveTypes"><span class="icon ion-ios-link"></span></a></span>
+                        <a name="ArchiveStatType"></a>
+                        <span class="name "><b>ArchiveStatType</b><a href="#ArchiveStatType"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Stat types available for archive types type</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MEAN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>mean</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LATEST
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>latest</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;NUM_SAMPS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>num_samps</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MEDIAN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>median</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MIN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>min</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAX
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>max</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MIN_ABS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>minabs</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAX_ABS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>maxabs</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;P95
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>p95</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;P90
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>p90</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;p10
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>p10</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;p05
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>p05</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;STDEV
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>stdev</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squacapi/src/lib/enums/archive-type.enum.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ArchiveType"></a>
+                        <span class="name "><b>ArchiveType</b><a href="#ArchiveType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Data types available in SQUAC</p>
+</div>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;DAY
@@ -428,16 +592,6 @@
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>day</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;HOUR
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>hour</code>
                             </td>
                         </tr>
                         <tr>
@@ -473,7 +627,7 @@
             </tbody>
         </table>
 </section>
-    <h3>src/app/features/dashboard/interfaces/errors.ts</h3>
+    <h3>projects/squac-ui/src/app/features/dashboard/interfaces/errors.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -496,7 +650,7 @@
             </tbody>
         </table>
 </section>
-    <h3>src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</h3>
+    <h3>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -519,7 +673,7 @@
             </tbody>
         </table>
 </section>
-    <h3>src/app/core/services/local-storage.service.ts</h3>
+    <h3>projects/squac-ui/src/app/core/services/local-storage.service.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -558,7 +712,7 @@
             </tbody>
         </table>
 </section>
-    <h3>src/app/features/widget/services/widget-errors.ts</h3>
+    <h3>projects/widgets/src/lib/enums/widget-errors.enum.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -626,6 +780,89 @@
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>Could not get data from SQUAC.</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/widgets/src/lib/enums/widget-type.enum.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="WidgetType"></a>
+                        <span class="name "><b>WidgetType</b><a href="#WidgetType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;TABULAR
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>tabular</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;TIMELINE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>timeline</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;TIMESERIES
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>timeseries</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAP
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>map</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;PARALLEL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>parallel-plot</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SCATTER
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>scatter-plot</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CALENDAR
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>calendar-plot</code>
                             </td>
                         </tr>
             </tbody>

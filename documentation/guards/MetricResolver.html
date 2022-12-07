@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/squacapi/resolvers/metric.resolver.ts</code>
+                <code>projects/squac-ui/src/app/core/resolvers/metric.resolver.ts</code>
             </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/squacapi/resolvers/metric.resolver.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -174,7 +174,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/squacapi/resolvers/metric.resolver.ts:23</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:23</a></div>
                 </td>
             </tr>
 
@@ -239,7 +239,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/squacapi/resolvers/metric.resolver.ts:13</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:13</a></div>
                 </td>
             </tr>
 
@@ -296,7 +296,7 @@
 import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
-import { MetricService } from &quot;../services/metric.service&quot;;
+import { MetricService } from &quot;squacapi&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -305,16 +305,16 @@ export class MetricResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
   constructor(private metricService: MetricService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable&lt;any&gt; {
-    const id &#x3D; +route.paramMap.get(&quot;metricId&quot;);
+    const id &#x3D; route.paramMap.get(&quot;metricId&quot;);
     if (id) {
-      return this.metricService.read(id).pipe(catchError(this.handleError));
+      return this.metricService.read(+id).pipe(catchError(this.handleError));
     } else {
       return this.metricService.list().pipe(catchError(this.handleError));
       // return all of them
     }
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     // TODO: route to show error
     return of({ error });
   }

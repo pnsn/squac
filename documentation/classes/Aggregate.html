@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/aggregate.ts</code>
+            <code>projects/squacapi/src/lib/models/aggregate.ts</code>
         </p>
 
 
@@ -91,6 +91,7 @@
                                 <a href="#endtime" >endtime</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#id" >id</a>
                             </li>
                             <li>
@@ -127,7 +128,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#numSamps" >numSamps</a>
+                                <a href="#num_samps" >num_samps</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -155,6 +156,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
                                 <a href="#value" >value</a>
                             </li>
                         </ul>
@@ -190,12 +192,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(metricId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, channelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, min: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, max: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, mean: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, median: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, stdev: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, numSamps: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p05: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p10: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p90: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p95: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, minabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, maxabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, latest: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, starttime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endtime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>constructor(metricId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, channelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, min: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, max: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, mean: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, median: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, stdev: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, num_samps: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p05: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p10: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p90: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, p95: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, minabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, maxabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, latest: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, starttime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endtime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/squacapi/models/aggregate.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -297,7 +299,7 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>numSamps</td>
+                                                        <td>num_samps</td>
                                                   
                                                         <td>
                                                                         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
@@ -450,7 +452,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/squacapi/models/aggregate.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -477,7 +479,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/squacapi/models/aggregate.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -490,6 +492,7 @@
                 <td class="col-md-4">
                     <a name="id"></a>
                     <span class="name">
+                            <span class="modifier">Optional</span>
                         <span ><b>id</b></span>
                         <a href="#id"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -503,7 +506,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/squacapi/models/aggregate.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:10</a></div>
                         </td>
                     </tr>
 
@@ -530,7 +533,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/squacapi/models/aggregate.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -557,7 +560,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/squacapi/models/aggregate.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -584,7 +587,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/squacapi/models/aggregate.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -611,7 +614,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/squacapi/models/aggregate.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -638,7 +641,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/squacapi/models/aggregate.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -665,7 +668,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/squacapi/models/aggregate.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -692,7 +695,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/squacapi/models/aggregate.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -719,7 +722,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/squacapi/models/aggregate.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -730,11 +733,11 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="numSamps"></a>
+                    <a name="num_samps"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
-                        <span ><b>numSamps</b></span>
-                        <a href="#numSamps"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>num_samps</b></span>
+                        <a href="#num_samps"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -746,7 +749,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/squacapi/models/aggregate.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -773,7 +776,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/squacapi/models/aggregate.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -800,7 +803,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/squacapi/models/aggregate.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -827,7 +830,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/squacapi/models/aggregate.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -854,7 +857,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/squacapi/models/aggregate.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -881,7 +884,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/squacapi/models/aggregate.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -908,7 +911,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/squacapi/models/aggregate.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -922,6 +925,7 @@
                     <a name="value"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
                         <span ><b>value</b></span>
                         <a href="#value"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -935,7 +939,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/squacapi/models/aggregate.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -970,7 +974,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/squacapi/models/aggregate.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:32</a></div>
                                 </td>
                             </tr>
 
@@ -982,7 +986,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
+import { Adapter, ReadAggregate } from &quot;../interfaces&quot;;
 import { MeasurementAggregatedListRequestParams } from &quot;@pnsn/ngx-squacapi-client&quot;;
 
 export class AggregateListParams
@@ -990,8 +994,8 @@ export class AggregateListParams
 
 // Describes an aggregate
 export class Aggregate {
-  id: number;
-  public value: number;
+  id?: number;
+  public value?: number;
   constructor(
     public metricId: number,
     public channelId: number,
@@ -1000,7 +1004,7 @@ export class Aggregate {
     public mean: number,
     public median: number,
     public stdev: number,
-    public numSamps: number,
+    public num_samps: number,
     public p05: number,
     public p10: number,
     public p90: number,
@@ -1012,35 +1016,17 @@ export class Aggregate {
     public endtime: string
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Aggregate&quot;;
   }
-}
-
-export interface ReadAggregate {
-  channel: number;
-  metric: number;
-  min: number;
-  max: number;
-  mean: number;
-  median: number;
-  stdev: number;
-  num_samps: number;
-  p05: number;
-  p10: number;
-  p90: number;
-  p95: number;
-  minabs: number;
-  maxabs: number;
-  latest: number;
-  starttime: string;
-  endtime: string;
 }
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class AggregateAdapter implements Adapter&lt;Aggregate&gt; {
+export class AggregateAdapter
+  implements Adapter&lt;Aggregate, ReadAggregate, unknown&gt;
+{
   adaptFromApi(item: ReadAggregate): Aggregate {
     const aggregate &#x3D; new Aggregate(
       item.metric,

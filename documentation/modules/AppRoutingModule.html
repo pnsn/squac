@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/app-routing.module.ts</code>
+            <code>projects/squac-ui/src/app/app-routing.module.ts</code>
         </p>
 
 
@@ -74,14 +74,14 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &quot;@angular/core&quot;;
 import { Routes, RouterModule } from &quot;@angular/router&quot;;
-import { AuthComponent } from &quot;./core/components/auth/auth.component&quot;;
-import { AuthGuard } from &quot;./core/guards/auth.guard&quot;;
-import { LoggedInGuard } from &quot;./core/guards/logged-in.guard&quot;;
+import { AuthComponent } from &quot;@core/components/auth/auth.component&quot;;
+import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
+import { LoggedInGuard } from &quot;@core/guards/logged-in.guard&quot;;
 import { PasswordResetComponent } from &quot;@user/components/password-reset/password-reset.component&quot;;
 import { LoginComponent } from &quot;@user/components/login/login.component&quot;;
 import { UserEditComponent } from &quot;@user/components/user-edit/user-edit.component&quot;;
-import { UserResolver } from &quot;@squacapi/resolvers/user.resolver&quot;;
-import { OrganizationResolver } from &quot;@squacapi/resolvers/organization.resolver&quot;;
+import { UserResolver } from &quot;@core/resolvers/user.resolver&quot;;
+import { OrganizationResolver } from &quot;@core/resolvers/organization.resolver&quot;;
 import { NotFoundComponent } from &quot;@core/components/not-found/not-found.component&quot;;
 import { HomeComponent } from &quot;@core/components/home/home.component&quot;;
 

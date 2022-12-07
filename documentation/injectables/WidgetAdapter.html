@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/widget.ts</code>
+            <code>projects/squacapi/src/lib/models/widget.ts</code>
         </p>
 
 
@@ -115,15 +115,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>adaptFromApi(item: <a href="../classes/Widget.html" target="_self">ReadWidget</a>)</code>
+<code>adaptFromApi(item: <a href="../undefineds/ReadWidget.html" target="_self">ReadWidget</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">src/app/squacapi/models/widget.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:104</a></div>
                 </td>
             </tr>
 
@@ -146,7 +146,7 @@
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >ReadWidget</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#ReadWidget" target="_self" >ReadWidget</a></code>
                                     </td>
 
                                     <td>
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">src/app/squacapi/models/widget.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:132</a></div>
                 </td>
             </tr>
 
@@ -230,7 +230,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Widget.html" target="_self" >WriteWidget</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#WriteWidget" target="_self" >WriteWidget</a></code>
 
                     </div>
                     <div class="io-description">
@@ -247,49 +247,62 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { Metric, MetricAdapter } from &quot;./metric&quot;;
-import { ApiMetric, ReadWidget, WriteWidget } from &quot;../interfaces/squac-types&quot;;
-import { Threshold } from &quot;./threshold&quot;;
+import { Threshold } from &quot;../interfaces&quot;;
+import { Metric, MetricAdapter } from &quot;../models&quot;;
+import {
+  Adapter,
+  ApiMetric,
+  ReadWidget,
+  WriteWidget,
+  WidgetProperties,
+  WidgetLayout,
+} from &quot;../interfaces&quot;;
+import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from &quot;../constants&quot;;
+import { WidgetStatType } from &quot;../types&quot;;
 
 export class Widget {
   public _thresholds: Threshold[] &#x3D; [];
-  public _layout: WidgetLayout &#x3D; defaultLayout;
-  public _properties: WidgetProperties &#x3D; defaultProperties;
+  public _layout: WidgetLayout &#x3D; WIDGET_LAYOUT;
+  public _properties: WidgetProperties &#x3D; WIDGET_PROPERTIES;
   constructor(
     public id: number,
     public owner: number,
     public name: string,
     public dashboardId: number,
     public metrics: Metric[],
-    public type: string,
-    public stat: string //if use aggregate
+    public stat?: WidgetStatType //if use aggregate
   ) {
     //this will override settings when created
   }
+
+  public type: string;
   public set thresholds(thresholds: string | Array&lt;Threshold&gt;) {
-    let props: Threshold[];
+    let props: Threshold[] &#x3D; [];
     if (!thresholds) {
       props &#x3D; new Array&lt;Threshold&gt;();
     } else if (thresholds &amp;&amp; typeof thresholds &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; JSON.parse(thresholds);
+      try {
+        props &#x3D; [...(JSON.parse(thresholds) as Threshold[])];
+      } catch {
+        props &#x3D; [];
+      }
     } else if (typeof thresholds !&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; thresholds;
+      props &#x3D; thresholds.slice();
     }
 
-    this._thresholds &#x3D; props;
+    this._thresholds &#x3D; props.slice();
   }
 
   public get thresholds(): Threshold[] {
-    return this._thresholds;
+    return this._thresholds.slice();
   }
   //can be entered as string or properties
   public set properties(properties: string | Partial&lt;WidgetProperties&gt;) {
-    let props: Partial&lt;WidgetProperties&gt;;
+    let props: Partial&lt;WidgetProperties&gt; &#x3D; {};
     if (!properties) {
-      props &#x3D; defaultProperties;
+      props &#x3D; WIDGET_PROPERTIES;
     } else if (properties &amp;&amp; typeof properties &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...JSON.parse(properties) };
+      props &#x3D; { ...(JSON.parse(properties) as WidgetProperties) };
     } else if (typeof properties !&#x3D;&#x3D; &quot;string&quot;) {
       props &#x3D; { ...properties };
     }
@@ -301,12 +314,12 @@ export class Widget {
   }
 
   //can be entered as string or properties
-  public set layout(layout: string | Partial&lt;WidgetLayout&gt;) {
-    let props: Partial&lt;WidgetLayout&gt;;
+  public set layout(layout: string | Partial&lt;WidgetLayout&gt; | undefined) {
+    let props: Partial&lt;WidgetLayout&gt; &#x3D; {};
     if (!layout) {
-      props &#x3D; defaultLayout;
+      props &#x3D; WIDGET_LAYOUT;
     } else if (layout &amp;&amp; typeof layout &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...JSON.parse(layout) };
+      props &#x3D; { ...(JSON.parse(layout) as WidgetLayout) };
     } else if (typeof layout !&#x3D;&#x3D; &quot;string&quot;) {
       props &#x3D; { ...layout };
     }
@@ -327,52 +340,18 @@ export class Widget {
     return this.metrics.map((m) &#x3D;&gt; m.id);
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Widget&quot;;
   }
-}
-
-const defaultProperties: WidgetProperties &#x3D; {};
-
-const defaultLayout: WidgetLayout &#x3D; {
-  rows: 5,
-  columns: 10,
-};
-
-export interface WidgetLayout {
-  rows: number;
-  columns: number;
-  x?: number;
-  y?: number;
-}
-
-export interface WidgetProperties {
-  //depends on which widgetType
-  dimensions?: any; //order of display
-  inRange?: {
-    color: string[];
-    type: string;
-  };
-  outOfRange?: {
-    color: string[];
-    type: string;
-  };
-  reverseColors?: boolean;
-  displayType?: string; //worst, channel, stoplight
-  numSplits?: number;
-  // show_legend: boolean; TODO: add these
-  // show_tooltips: boolean;
-  // zoom: boolean;
-  // sampling: string;
 }
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class WidgetAdapter implements Adapter&lt;Widget&gt; {
+export class WidgetAdapter implements Adapter&lt;Widget, ReadWidget, WriteWidget&gt; {
   adaptFromApi(item: ReadWidget): Widget {
     const metricAdapter &#x3D; new MetricAdapter();
-    let metrics &#x3D; [];
+    let metrics: Metric[] &#x3D; [];
 
     if (item.metrics) {
       metrics &#x3D; item.metrics.map((m: ApiMetric) &#x3D;&gt;
@@ -380,18 +359,17 @@ export class WidgetAdapter implements Adapter&lt;Widget&gt; {
       );
     }
 
-    const type &#x3D; item.type;
-    const stat &#x3D; item.stat;
+    const stat &#x3D; item.stat as WidgetStatType;
     const widget &#x3D; new Widget(
       item.id,
       item.user,
       item.name,
       item.dashboard,
       metrics,
-      type,
       stat
     );
 
+    widget.type &#x3D; item.type;
     widget.thresholds &#x3D; item.thresholds || [];
 
     widget.layout &#x3D; item.layout;

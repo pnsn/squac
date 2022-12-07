@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,13 +60,13 @@
 <title>cluster_AppModule_declarations</title>
 <polygon fill="none" stroke="black" points="827,-40.8 827,-92.8 1497,-92.8 1497,-40.8 827,-40.8"/>
 </g>
-<g id="clust10" class="cluster">
-<title>cluster_AppModule_bootstrap</title>
-<polygon fill="none" stroke="black" points="759,-170.8 759,-222.8 883,-222.8 883,-170.8 759,-170.8"/>
-</g>
 <g id="clust11" class="cluster">
 <title>cluster_AppModule_providers</title>
 <polygon fill="none" stroke="black" points="285,-40.8 285,-92.8 819,-92.8 819,-40.8 285,-40.8"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="black" points="759,-170.8 759,-222.8 883,-222.8 883,-170.8 759,-170.8"/>
 </g>
 <g id="clust8" class="cluster">
 <title>cluster_AppModule_imports</title>
@@ -240,7 +240,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/app.module.ts</code>
+            <code>projects/squac-ui/src/app/app.module.ts</code>
         </p>
 
 
@@ -316,44 +316,52 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClientModule, HTTP_INTERCEPTORS } from &quot;@angular/common/http&quot;;
 import { APP_INITIALIZER, NgModule } from &quot;@angular/core&quot;;
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from &quot;@angular/material/core&quot;;
 import { BrowserModule } from &quot;@angular/platform-browser&quot;;
 import { BrowserAnimationsModule } from &quot;@angular/platform-browser/animations&quot;;
 import { LeafletModule } from &quot;@asymmetrik/ngx-leaflet&quot;;
 import { LeafletDrawModule } from &quot;@asymmetrik/ngx-leaflet-draw&quot;;
 import { Ability, PureAbility } from &quot;@casl/ability&quot;;
-import { NotFoundComponent } from &quot;@core/components/not-found/not-found.component&quot;;
+import { NotFoundComponent } from &quot;@core/components&quot;;
+import { ApiModule, ApiService, BASE_PATH } from &quot;@pnsn/ngx-squacapi-client&quot;;
+import { SharedModule } from &quot;@shared/shared.module&quot;;
+import {
+  AggregateAdapter,
+  AggregateService,
+  ArchiveAdapter,
+  DayArchiveService,
+  HourArchiveService,
+  MeasurementAdapter,
+  MeasurementService,
+  MonthArchiveService,
+  WeekArchiveService,
+} from &quot;squacapi&quot;;
+import {
+  AggregateFactory,
+  DayArchiveFactory,
+  FakeMeasurementBackend,
+  HourArchiveFactory,
+  MeasurementFactory,
+  MonthArchiveFactory,
+  WeekArchiveFactory,
+} from &quot;widgets&quot;;
+import { environment } from &quot;../environments/environment&quot;;
+import { AppRoutingModule } from &quot;./app-routing.module&quot;;
+import { AppComponent } from &quot;./app.component&quot;;
+import { AuthComponent } from &quot;@core/components/auth/auth.component&quot;;
+import { HomeComponent } from &quot;@core/components/home/home.component&quot;;
+import { MenuComponent } from &quot;@core/components/menu/menu.component&quot;;
+import { AuthInterceptor } from &quot;@core/interceptors/auth-interceptor.service&quot;;
 import { CacheInterceptor } from &quot;@core/interceptors/cache-interceptor.service&quot;;
 import { HttpErrorInterceptor } from &quot;@core/interceptors/http-error-interceptor.service&quot;;
 import { ConfigurationService } from &quot;@core/services/configuration.service&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
-import { FakeMeasurementBackend } from &quot;@features/widget/services/generate_local_measurements&quot;;
-import {
-  AggregateFactory,
-  ArchiveFactory,
-  MeasurementFactory,
-} from &quot;@features/widget/services/measurementFactories&quot;;
-import { ApiModule, ApiService, BASE_PATH } from &quot;@pnsn/ngx-squacapi-client&quot;;
-import { SharedModule } from &quot;@shared/shared.module&quot;;
-import { AggregateAdapter } from &quot;@squacapi/models/aggregate&quot;;
-import { ArchiveAdapter } from &quot;@squacapi/models/archive&quot;;
-import { MeasurementAdapter } from &quot;@squacapi/models/measurement&quot;;
-import { AggregateService } from &quot;@squacapi/services/aggregate.service&quot;;
-import { DayArchiveService } from &quot;@squacapi/services/archive.service&quot;;
-import { MeasurementService } from &quot;@squacapi/services/measurement.service&quot;;
-import { environment } from &quot;environments/environment&quot;;
-import { AppRoutingModule } from &quot;./app-routing.module&quot;;
-import { AppComponent } from &quot;./app.component&quot;;
-import { AuthComponent } from &quot;./core/components/auth/auth.component&quot;;
-import { HomeComponent } from &quot;./core/components/home/home.component&quot;;
-import { AuthInterceptor } from &quot;./core/interceptors/auth-interceptor.service&quot;;
-import { MenuComponent } from &quot;@core/components/menu/menu.component&quot;;
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from &quot;@angular/material/core&quot;;
 
 export function initApp(configurationService: ConfigurationService) {
-  return () &#x3D;&gt; configurationService.load().toPromise();
+  return (): Promise&lt;void&gt; &#x3D;&gt; configurationService.load().toPromise();
 }
 
 @NgModule({
@@ -412,7 +420,22 @@ export function initApp(configurationService: ConfigurationService) {
     },
     {
       provide: DayArchiveService,
-      useFactory: ArchiveFactory,
+      useFactory: DayArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: HourArchiveService,
+      useFactory: HourArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: WeekArchiveService,
+      useFactory: WeekArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: MonthArchiveService,
+      useFactory: MonthArchiveFactory,
       deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
     },
     {

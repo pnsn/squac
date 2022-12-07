@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/metric.ts</code>
+            <code>projects/squacapi/src/lib/models/metric.ts</code>
         </p>
 
 
@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/squacapi/models/metric.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:27</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/squacapi/models/metric.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:42</a></div>
                 </td>
             </tr>
 
@@ -247,8 +247,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { ReadMetric, WriteMetric } from &quot;../interfaces/squac-types&quot;;
+import { Adapter, ReadMetric, WriteMetric } from &quot;../interfaces&quot;;
 // Describes a metric object
 export class Metric {
   constructor(
@@ -259,12 +258,12 @@ export class Metric {
     public description: string,
     public refUrl: string,
     public unit: string,
-    public sampleRate: number,
-    public minVal?: number,
-    public maxVal?: number
+    public sampleRate: number, //seconds
+    public minVal?: number | null,
+    public maxVal?: number | null
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Metric&quot;;
   }
 }
@@ -272,17 +271,17 @@ export class Metric {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class MetricAdapter implements Adapter&lt;Metric&gt; {
+export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric&gt; {
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
-      item.id,
-      item.user,
+      item.id ? +item.id : 0,
+      item.user ? +item.user : 0,
       item.name,
       item.code,
-      item.description,
+      item.description ?? &quot;&quot;,
       item.reference_url,
       item.unit,
-      item.sample_rate,
+      item.sample_rate ?? 0,
       item.default_minval,
       item.default_maxval
     );

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/services/user-me.service.ts</code>
+            <code>projects/squacapi/src/lib/services/user-me.service.ts</code>
         </p>
 
 
@@ -106,10 +106,11 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#read" >read</a>
+                                <a href="#partialUpdate" >partialUpdate</a>
                             </li>
                             <li>
-                                <a href="#update" >update</a>
+                                    <span class="modifier"></span>
+                                <a href="#read" >read</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -186,7 +187,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/squacapi/services/user-me.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/squacapi/src/lib/services/user-me.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -245,67 +246,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="read"></a>
+                    <a name="partialUpdate"></a>
                     <span class="name">
-                        <span ><b>read</b></span>
-                        <a href="#read"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>partialUpdate</b></span>
+                        <a href="#partialUpdate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>read()</code>
+<code>partialUpdate(t: <a href="../classes/User.html" target="_self">Partial&lt;User&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:23</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Observable&lt;User&gt;</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="update"></a>
-                    <span class="name">
-                        <span ><b>update</b></span>
-                        <a href="#update"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>update(t: <a href="../classes/User.html" target="_self">Partial&lt;User&gt;</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/squacapi/services/user-me.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squacapi/src/lib/services/user-me.service.ts:28</a></div>
                 </td>
             </tr>
 
@@ -357,18 +315,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="_create"></a>
+                    <a name="read"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_create</b></span>
-                        <a href="#_create"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier"></span>
+                        <span ><b>read</b></span>
+                        <a href="#read"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_create(params?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>read()</code>
                 </td>
             </tr>
 
@@ -381,7 +339,52 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:82</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:24</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Observable&lt;User&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_create"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>_create</b></span>
+                        <a href="#_create"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_create(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:89</a></code>
 </div>
                 </td>
             </tr>
@@ -407,7 +410,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
                                     </td>
 
                                     <td>
@@ -448,7 +451,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_delete(params?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>_delete(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
                 </td>
             </tr>
 
@@ -461,7 +464,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:100</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:107</a></code>
 </div>
                 </td>
             </tr>
@@ -487,7 +490,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
                                     </td>
 
                                     <td>
@@ -502,7 +505,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -528,7 +531,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_list(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, options: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>_list(params: <a href="../undefineds/Params.html" target="_self">Params</a>, options: <a href="../interfaces/Options.html" target="_self">Options</a>)</code>
                 </td>
             </tr>
 
@@ -541,7 +544,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:39</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:43</a></code>
 </div>
                 </td>
             </tr>
@@ -566,7 +569,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
                                     </td>
 
                                     <td>
@@ -581,7 +584,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
                                     </td>
 
                                     <td>
@@ -624,7 +627,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_read(params?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, options?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>_read(params?: <a href="../undefineds/Params.html" target="_self">Params</a>, options?: <a href="../interfaces/Options.html" target="_self">Options</a>)</code>
                 </td>
             </tr>
 
@@ -637,7 +640,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:54</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:61</a></code>
 </div>
                 </td>
             </tr>
@@ -663,7 +666,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
                                     </td>
 
                                     <td>
@@ -675,7 +678,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
                                     </td>
 
                                     <td>
@@ -716,7 +719,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_update(params?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>_update(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
                 </td>
             </tr>
 
@@ -729,7 +732,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:69</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:76</a></code>
 </div>
                 </td>
             </tr>
@@ -755,7 +758,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
                                     </td>
 
                                     <td>
@@ -809,7 +812,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:145</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:154</a></code>
 </div>
                 </td>
             </tr>
@@ -896,7 +899,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:120</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:129</a></code>
 </div>
                 </td>
             </tr>
@@ -937,7 +940,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
@@ -975,7 +978,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:135</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:144</a></code>
 </div>
                 </td>
             </tr>
@@ -1052,7 +1055,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:126</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:135</a></code>
 </div>
                 </td>
             </tr>
@@ -1093,7 +1096,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
@@ -1118,7 +1121,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getHttpOptions(options: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getHttpOptions(options: <a href="../interfaces/Options.html" target="_self">Options</a>)</code>
                 </td>
             </tr>
 
@@ -1131,7 +1134,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:26</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:30</a></code>
 </div>
                 </td>
             </tr>
@@ -1155,7 +1158,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
                                     </td>
 
                                     <td>
@@ -1170,7 +1173,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/HttpOptions.html" target="_self" >HttpOptions</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1208,7 +1211,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:22</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:26</a></code>
 </div>
                 </td>
             </tr>
@@ -1247,7 +1250,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>T</code>
 
                     </div>
                     <div class="io-description">
@@ -1285,7 +1288,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:109</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:116</a></code>
 </div>
                 </td>
             </tr>
@@ -1326,7 +1329,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
@@ -1364,7 +1367,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:114</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:121</a></code>
 </div>
                 </td>
             </tr>
@@ -1405,7 +1408,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>literal type | void</code>
 
                     </div>
                     <div class="io-description">
@@ -1435,7 +1438,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/Adapter.html" target="_self" >Adapter&lt;T&gt;</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/Adapter.html" target="_self" >Adapter&lt;T |  | &gt;</a></code>
 
                     </td>
                 </tr>
@@ -1447,7 +1450,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:18</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:22</a></code>
 </div>
                         </td>
                     </tr>
@@ -1485,7 +1488,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:15</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -1517,7 +1520,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:16</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -1536,36 +1539,41 @@ import {
   ApiService,
   UserMePartialUpdateRequestParams,
 } from &quot;@pnsn/ngx-squacapi-client&quot;;
-import { ApiEndpoints } from &quot;@squacapi/interfaces/api.interface&quot;;
-import { User, UserAdapter } from &quot;@squacapi/models/user&quot;;
-import { Observable } from &quot;rxjs&quot;;
+import { ApiEndpoint } from &quot;../enums&quot;;
+import { User, UserAdapter } from &quot;../models&quot;;
+
+import { map, Observable } from &quot;rxjs&quot;;
 import { BaseApiService } from &quot;./generic-api.service&quot;;
-import { ReadUpdateApiService } from &quot;@squacapi/interfaces/api-service.interface&quot;;
+import { PartialUpdateService, ReadService } from &quot;../interfaces&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class UserMeService
   extends BaseApiService&lt;User&gt;
-  implements ReadUpdateApiService&lt;User&gt;
+  implements ReadService&lt;User&gt;, PartialUpdateService&lt;User&gt;
 {
-  constructor(protected adapter: UserAdapter, protected api: ApiService) {
-    super(ApiEndpoints.USER_ME, api);
+  constructor(override adapter: UserAdapter, override api: ApiService) {
+    super(ApiEndpoint.USER_ME, api);
   }
 
-  read(): Observable&lt;User&gt; {
+  override read(): Observable&lt;User&gt; {
     return super._read();
   }
 
-  update(t: Partial&lt;User&gt;): Observable&lt;User&gt; {
+  partialUpdate(t: Partial&lt;User&gt;): Observable&lt;User&gt; {
     const params: UserMePartialUpdateRequestParams &#x3D; {
       data: {
-        organization: t.orgId,
+        organization: t.orgId ?? 0,
         firstname: t.firstName,
         lastname: t.lastName,
       },
     };
-    return super._update(params);
+    return this.api[&#x60;${this.apiEndpoint}PartialUpdate&#x60;](
+      params,
+      this.observe,
+      this.reportProgress
+    ).pipe(map(this.adapter.adaptFromApi.bind(this)));
   }
 }
 </code></pre>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/aggregate.ts</code>
+            <code>projects/squacapi/src/lib/interfaces/squacapi.types.ts</code>
         </p>
 
 
@@ -762,41 +762,86 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { MeasurementAggregatedListRequestParams } from &quot;@pnsn/ngx-squacapi-client&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  MeasurementAggregatedListRequestParams,
+  MeasurementMeasurementsListRequestParams,
+} from &quot;@pnsn/ngx-squacapi-client&quot;;
+import * as squacapi from &quot;@pnsn/ngx-squacapi-client/model/models&quot;;
 
-export class AggregateListParams
-  implements MeasurementAggregatedListRequestParams {}
+// channels
+export type ApiChannel &#x3D; squacapi.Channel;
+export type ReadChannel &#x3D; squacapi.ReadOnlyChannelSerializer | ApiChannel;
 
-// Describes an aggregate
-export class Aggregate {
-  id: number;
-  public value: number;
-  constructor(
-    public metricId: number,
-    public channelId: number,
-    public min: number,
-    public max: number,
-    public mean: number,
-    public median: number,
-    public stdev: number,
-    public numSamps: number,
-    public p05: number,
-    public p10: number,
-    public p90: number,
-    public p95: number,
-    public minabs: number,
-    public maxabs: number,
-    public latest: number,
-    public starttime: string,
-    public endtime: string
-  ) {}
+// channel groups
+export type ApiChannelGroup &#x3D; squacapi.NslcGroup;
+export type ReadChannelGroup &#x3D;
+  | squacapi.ReadOnlyGroupDetailSerializer
+  | squacapi.ReadOnlyGroupSerializer
+  | squacapi.NslcGroup;
+export type WriteChannelGroup &#x3D; squacapi.WriteOnlyGroupSerializer;
 
-  static get modelName() {
-    return &quot;Aggregate&quot;;
-  }
-}
+// metrics
+export type ApiMetric &#x3D; squacapi.Metric;
+export type ReadMetric &#x3D; squacapi.ReadOnlyMetricSerializer | ApiMetric;
+export type WriteMetric &#x3D; squacapi.WriteOnlyMetricSerializer;
+
+// matching rules
+export type ReadMatchingRule &#x3D; squacapi.ReadOnlyMatchingRuleSerializer;
+export type WriteMatchingRule &#x3D; squacapi.WriteOnlyMatchingRuleSerializer;
+// networks
+export type ReadNetwork &#x3D; squacapi.ReadOnlyNetworkSerializer;
+
+// dashboards
+export type ReadDashboard &#x3D;
+  | squacapi.ReadOnlyDashboardDetailSerializer
+  | squacapi.ReadOnlyDashboardSerializer;
+export type WriteDashboard &#x3D; squacapi.WriteOnlyDashboardSerializer;
+
+// Alerts
+export type ReadAlert &#x3D;
+  | squacapi.ReadOnlyAlertDetailSerializer
+  | squacapi.ReadOnlyAlertSerializer;
+
+// monitors
+export type ReadMonitor &#x3D;
+  | squacapi.ReadOnlyMonitorDetailSerializer
+  | squacapi.ReadOnlyMonitorSerializer;
+
+export type WriteMonitor &#x3D; squacapi.WriteOnlyMonitorSerializer;
+
+// triggers
+export type ApiTrigger &#x3D; squacapi.Trigger;
+export type ReadTrigger &#x3D; ApiTrigger | squacapi.ReadOnlyTriggerSerializer;
+export type WriteTrigger &#x3D; squacapi.WriteOnlyTriggerSerializer;
+
+// organization
+export type ReadOrganization &#x3D; squacapi.ReadOnlyOrganizationSerializer;
+
+// users
+export type ApiUserSimple &#x3D; squacapi.UserSimple;
+export type ApiUserGroup &#x3D; squacapi.UserGroup;
+export type ReadUser &#x3D;
+  | squacapi.ReadOnlyUserMeSerializer
+  | squacapi.ReadOnlyUserSerializer
+  | squacapi.ReadOnlyUserSimpleSerializer
+  | squacapi.ReadOnlyUserUpdateSerializer
+  | ApiUserSimple;
+export type WriteUser &#x3D; squacapi.WriteOnlyUserSerializer;
+
+// measurements
+export type ReadArchive &#x3D;
+  | squacapi.ReadOnlyArchiveDaySerializer
+  | squacapi.ReadOnlyArchiveHourSerializer
+  | squacapi.ReadOnlyArchiveWeekSerializer
+  | squacapi.ReadOnlyArchiveMonthSerializer;
+
+export type ReadMeasurement &#x3D; squacapi.ReadOnlyMeasurementSerializer;
+
+//widgets
+export type ReadWidget &#x3D; squacapi.ReadOnlyWidgetDetailSerializer;
+export type WriteWidget &#x3D; squacapi.WriteOnlyWidgetSerializer;
+
+export type ApiToken &#x3D; squacapi.Token;
 
 export interface ReadAggregate {
   channel: number;
@@ -818,33 +863,10 @@ export interface ReadAggregate {
   endtime: string;
 }
 
-@Injectable({
-  providedIn: &quot;root&quot;,
-})
-export class AggregateAdapter implements Adapter&lt;Aggregate&gt; {
-  adaptFromApi(item: ReadAggregate): Aggregate {
-    const aggregate &#x3D; new Aggregate(
-      item.metric,
-      item.channel,
-      item.min,
-      item.max,
-      item.mean,
-      item.median,
-      item.stdev,
-      item.num_samps,
-      item.p05,
-      item.p10,
-      item.p90,
-      item.p95,
-      item.minabs,
-      item.maxabs,
-      item.latest,
-      item.starttime,
-      item.endtime
-    );
-    return aggregate;
-  }
-}
+//FIXME: should not import from core
+export type MeasurementParams &#x3D;
+  | MeasurementMeasurementsListRequestParams
+  | MeasurementAggregatedListRequestParams;
 </code></pre>
     </div>
 </div>

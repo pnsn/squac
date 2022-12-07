@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/features/widget/services/generate_local_measurements.ts</code>
+            <code>projects/widgets/src/lib/services/generate_local_measurements.ts</code>
         </p>
 
 
@@ -141,12 +141,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>)</code>
+<code>constructor(channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -163,18 +163,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>dateService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/DateService.html" target="_self" >DateService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>channelGroupService</td>
                                                   
@@ -214,15 +202,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>aggregate(starttime, endtime, maxValue, metric, channel)</code>
+<code>aggregate(params: <a href="../interfaces/DataParams.html" target="_self">DataParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:93</a></div>
                 </td>
             </tr>
 
@@ -237,48 +225,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>starttime</td>
-
+                                    <td>params</td>
                                     <td>
-                                        No
+                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
                                     </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>endtime</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>maxValue</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>metric</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>channel</td>
 
                                     <td>
                                         No
@@ -315,15 +271,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>archive(starttime, endtime, maxValue, metric, channel)</code>
+<code>archive(params: <a href="../interfaces/DataParams.html" target="_self">DataParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:71</a></div>
                 </td>
             </tr>
 
@@ -338,48 +294,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>starttime</td>
-
+                                    <td>params</td>
                                     <td>
-                                        No
+                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
                                     </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>endtime</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>maxValue</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>metric</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>channel</td>
 
                                     <td>
                                         No
@@ -425,8 +349,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:42</a></div>
                 </td>
             </tr>
 
@@ -489,15 +413,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getChannels(params)</code>
+                    <code>getChannels(params: <a href="../classes/Measurement.html" target="_self">MeasurementParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:52</a></div>
                 </td>
             </tr>
 
@@ -512,12 +436,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementParams</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -554,18 +482,26 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getData(channels, params, datafn, time, timeInterval?)</code>
+<code>getData(channels: number[], params: <a href="../classes/Measurement.html" target="_self">MeasurementParams</a>, datafn, time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, timeInterval?: <a href="../undefineds/TimeInterval.html" target="_self">TimeInterval</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:116</a></div>
                 </td>
             </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
 
             <tr>
                 <td class="col-md-4">
@@ -577,12 +513,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>channels</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
 
                                     <td>
                                         No
@@ -592,6 +532,9 @@
                                 </tr>
                                 <tr>
                                     <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementParams</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -601,6 +544,8 @@
                                 </tr>
                                 <tr>
                                     <td>datafn</td>
+                                    <td>
+                                    </td>
 
                                     <td>
                                         No
@@ -610,6 +555,9 @@
                                 </tr>
                                 <tr>
                                     <td>time</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -619,6 +567,9 @@
                                 </tr>
                                 <tr>
                                     <td>timeInterval</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
+                                    </td>
 
                                     <td>
                                         Yes
@@ -632,7 +583,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>{}</code>
+                        <b>Returns : </b>    <code>T[]</code>
 
                     </div>
                     <div class="io-description">
@@ -655,18 +606,26 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getList(params, fn, time?, timeInterval?)</code>
+<code>getList(params: <a href="../classes/Measurement.html" target="_self">MeasurementParams</a>, fn: (params: <a href="../interfaces/DataParams.html">DataParams</a>) => void, time?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, timeInterval?: <a href="../undefineds/TimeInterval.html" target="_self">TimeInterval</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:164</a></div>
                 </td>
             </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
 
             <tr>
                 <td class="col-md-4">
@@ -678,12 +637,16 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>params</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementParams</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -693,6 +656,9 @@
                                 </tr>
                                 <tr>
                                     <td>fn</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -702,6 +668,9 @@
                                 </tr>
                                 <tr>
                                     <td>time</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
                                     <td>
                                         Yes
@@ -711,6 +680,9 @@
                                 </tr>
                                 <tr>
                                     <td>timeInterval</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
+                                    </td>
 
                                     <td>
                                         Yes
@@ -724,7 +696,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;T[]&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -756,8 +728,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:49</a></div>
                 </td>
             </tr>
 
@@ -822,116 +794,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurement(starttime, endtime, maxValue, metric, channel)</code>
+<code>measurement(params: <a href="../interfaces/DataParams.html" target="_self">DataParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:48</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>starttime</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>endtime</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>maxValue</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>metric</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>channel</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >ReadOnlyMeasurementSerializer</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="measurementAggregatedList"></a>
-                    <span class="name">
-                        <span ><b>measurementAggregatedList</b></span>
-                        <a href="#measurementAggregatedList"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>measurementAggregatedList(params: MeasurementAggregatedListRequestParams)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:61</a></div>
                 </td>
             </tr>
 
@@ -954,7 +825,76 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                            <code>MeasurementAggregatedListRequestParams</code>
+                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >ReadMeasurement</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="measurementAggregatedList"></a>
+                    <span class="name">
+                        <span ><b>measurementAggregatedList</b></span>
+                        <a href="#measurementAggregatedList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>measurementAggregatedList(params: <a href="../undefineds/Params.html" target="_self">MeasurementAggregatedListRequestParams</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:190</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementAggregatedListRequestParams</a></code>
                                     </td>
 
                                     <td>
@@ -992,15 +932,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementDayArchivesList(params: MeasurementDayArchivesListRequestParams)</code>
+<code>measurementDayArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementDayArchivesListRequestParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:196</a></div>
                 </td>
             </tr>
 
@@ -1023,7 +963,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                            <code>MeasurementDayArchivesListRequestParams</code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementDayArchivesListRequestParams</a></code>
                                     </td>
 
                                     <td>
@@ -1038,7 +978,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/Archive.html" target="_self" >Observable&lt;ReadOnlyArchiveDaySerializer[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1061,15 +1001,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementHourArchivesList(params: MeasurementHourArchivesListRequestParams)</code>
+<code>measurementHourArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementHourArchivesListRequestParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:207</a></div>
                 </td>
             </tr>
 
@@ -1092,7 +1032,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                            <code>MeasurementHourArchivesListRequestParams</code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementHourArchivesListRequestParams</a></code>
                                     </td>
 
                                     <td>
@@ -1137,8 +1077,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:179</a></div>
                 </td>
             </tr>
 
@@ -1176,7 +1116,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >Observable&lt;ReadOnlyMeasurementSerializer[]&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >Observable&lt;ReadMeasurement[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1199,15 +1139,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementMonthArchivesList(params: MeasurementMonthArchivesListRequestParams)</code>
+<code>measurementMonthArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementMonthArchivesListRequestParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="229"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:229</a></div>
                 </td>
             </tr>
 
@@ -1230,7 +1170,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                            <code>MeasurementMonthArchivesListRequestParams</code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMonthArchivesListRequestParams</a></code>
                                     </td>
 
                                     <td>
@@ -1268,15 +1208,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementWeekArchivesList(params: MeasurementWeekArchivesListRequestParams)</code>
+<code>measurementWeekArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementWeekArchivesListRequestParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">src/app/features/widget/services/generate_local_measurements.ts:179</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:218</a></div>
                 </td>
             </tr>
 
@@ -1299,7 +1239,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                            <code>MeasurementWeekArchivesListRequestParams</code>
+                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementWeekArchivesListRequestParams</a></code>
                                     </td>
 
                                     <td>
@@ -1331,7 +1271,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { DateService } from &quot;@core/services/date.service&quot;;
+import { parseUtc, format } from &quot;../shared/utils&quot;;
 import {
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,
@@ -1339,67 +1279,74 @@ import {
   MeasurementMeasurementsListRequestParams,
   MeasurementMonthArchivesListRequestParams,
   MeasurementWeekArchivesListRequestParams,
+  ReadOnlyArchiveDaySerializer,
   ReadOnlyArchiveHourSerializer,
   ReadOnlyArchiveMonthSerializer,
   ReadOnlyArchiveWeekSerializer,
-  ReadOnlyMeasurementSerializer,
 } from &quot;@pnsn/ngx-squacapi-client&quot;;
-import { ReadArchive } from &quot;@squacapi/interfaces/squac-types&quot;;
-import { ReadAggregate } from &quot;@squacapi/models/aggregate&quot;;
-import { ChannelGroupService } from &quot;@squacapi/services/channel-group.service&quot;;
+import {
+  ReadArchive,
+  ReadAggregate,
+  Channel,
+  ReadMeasurement,
+  MeasurementParams,
+} from &quot;squacapi&quot;;
+import { ChannelGroupService } from &quot;squacapi&quot;;
 import { map, Observable, of } from &quot;rxjs&quot;;
 
+type TimeInterval &#x3D; &quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;;
+interface DataParams {
+  starttime: string;
+  endtime: string;
+  maxValue: number;
+  metric: number;
+  channel: number;
+}
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class FakeMeasurementBackend {
   constructor(
-    private dateService: DateService,
+    // private dateService: DateService,
     private channelGroupService: ChannelGroupService
   ) {}
 
   private channelsFromGroup(group: number): Observable&lt;number[]&gt; {
     return this.channelGroupService.read(group).pipe(
-      map((group) &#x3D;&gt; {
-        return group.channels.map((channel) &#x3D;&gt; channel.id);
+      map((cg) &#x3D;&gt; {
+        return cg.channels.map((channel: Channel) &#x3D;&gt; channel.id);
       })
     );
   }
-  private getRandom(maxValue &#x3D; 100) {
+  private getRandom(maxValue &#x3D; 100): number {
     return Math.random() * maxValue;
   }
-  private getChannels(params): Observable&lt;number[]&gt; {
+  private getChannels(params: MeasurementParams): Observable&lt;number[]&gt; {
     if (params.group) {
-      return this.channelsFromGroup(params.group);
+      return this.channelsFromGroup(params.group[0]);
     } else if (params.channel) {
       return of(params.channel);
     }
     return of([]);
   }
 
-  measurement(
-    starttime,
-    endtime,
-    maxValue,
-    metric,
-    channel
-  ): ReadOnlyMeasurementSerializer {
+  measurement(params: DataParams): ReadMeasurement {
     return {
-      starttime,
-      endtime,
-      value: this.getRandom(maxValue),
-      metric,
-      channel,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      value: this.getRandom(params.maxValue),
+      metric: params.metric,
+      channel: params.channel,
     };
   }
 
-  archive(starttime, endtime, maxValue, metric, channel): ReadArchive {
-    const value &#x3D; this.getRandom(maxValue);
+  archive(params: DataParams): ReadArchive {
+    const value &#x3D; this.getRandom(params.maxValue);
     return {
-      starttime,
-      endtime,
-      channel,
-      metric,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      metric: params.metric,
+      channel: params.channel,
       min: value,
       max: value,
       mean: value,
@@ -1415,13 +1362,13 @@ export class FakeMeasurementBackend {
     };
   }
 
-  aggregate(starttime, endtime, maxValue, metric, channel): ReadAggregate {
-    const value &#x3D; this.getRandom(maxValue);
+  aggregate(params: DataParams): ReadAggregate {
+    const value &#x3D; this.getRandom(params.maxValue);
     return {
-      starttime,
-      endtime,
-      metric,
-      channel,
+      starttime: params.starttime,
+      endtime: params.endtime,
+      metric: params.metric,
+      channel: params.channel,
       min: value,
       max: value,
       mean: value,
@@ -1438,18 +1385,24 @@ export class FakeMeasurementBackend {
     };
   }
 
-  getData(channels, params, datafn, time, timeInterval?) {
-    const measurements &#x3D; [];
-    let starttime &#x3D; this.dateService.parseUtc(params.starttime);
-    let endtime &#x3D; this.dateService.parseUtc(params.endtime);
+  getData&lt;T&gt;(
+    channels: number[],
+    params: MeasurementParams,
+    datafn,
+    time: number,
+    timeInterval?: TimeInterval
+  ): T[] {
+    const measurements: T[] &#x3D; [];
+    let starttime &#x3D; parseUtc(params.starttime);
+    let endtime &#x3D; parseUtc(params.endtime);
     if (endtime &lt; starttime) {
       const s &#x3D; starttime;
       starttime &#x3D; endtime;
       endtime &#x3D; s;
     }
-    params.metric.forEach((m) &#x3D;&gt; {
-      const metricMax &#x3D; this.getRandom();
-      channels.forEach((c) &#x3D;&gt; {
+    params.metric.forEach((m: number) &#x3D;&gt; {
+      channels.forEach((c: number) &#x3D;&gt; {
+        const metricMax &#x3D; this.getRandom();
         let currentTime &#x3D; starttime;
         while (currentTime &lt; endtime) {
           let newEnd;
@@ -1462,10 +1415,16 @@ export class FakeMeasurementBackend {
             newEnd &#x3D; endtime;
           }
 
-          const start &#x3D; this.dateService.format(currentTime);
-          const end &#x3D; this.dateService.format(newEnd);
+          const start &#x3D; format(currentTime);
+          const end &#x3D; format(newEnd);
 
-          const measurement &#x3D; datafn(start, end, metricMax, m, c);
+          const measurement &#x3D; datafn({
+            starttime: start,
+            endtime: end,
+            maxValue: metricMax,
+            metric: m,
+            channel: c,
+          });
           measurements.push(measurement);
           currentTime &#x3D; newEnd;
         }
@@ -1474,50 +1433,80 @@ export class FakeMeasurementBackend {
     return measurements;
   }
 
-  getList(params, fn, time?, timeInterval?) {
+  getList&lt;T&gt;(
+    params: MeasurementParams,
+    fn: (params: DataParams) &#x3D;&gt; T[],
+    time?: number,
+    timeInterval?: TimeInterval
+  ): Observable&lt;T[]&gt; {
     // const randomDelay &#x3D; Math.round(Math.random() * 20) * 1000;
     return this.getChannels(params).pipe(
       // delay(randomDelay),
       map((channels: number[]) &#x3D;&gt; {
-        return this.getData(channels, params, fn, time, timeInterval);
+        return this.getData&lt;T&gt;(channels, params, fn, time, timeInterval);
       })
     );
   }
 
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
-  ): Observable&lt;ReadOnlyMeasurementSerializer[]&gt; {
-    return this.getList(params, this.measurement.bind(this), 10, &quot;minutes&quot;);
+  ): Observable&lt;ReadMeasurement[]&gt; {
+    return this.getList&lt;ReadMeasurement&gt;(
+      params,
+      this.measurement.bind(this),
+      10,
+      &quot;minutes&quot;
+    );
   }
 
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
   ): Observable&lt;ReadAggregate[]&gt; {
-    return this.getList(params, this.aggregate.bind(this));
+    return this.getList&lt;ReadAggregate&gt;(params, this.aggregate.bind(this));
   }
 
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
-  ): Observable&lt;any&gt; {
-    return this.getList(params, this.archive.bind(this), 1, &quot;day&quot;).pipe();
+  ): Observable&lt;ReadOnlyArchiveDaySerializer[]&gt; {
+    return this.getList&lt;ReadArchive&gt;(
+      params,
+      this.archive.bind(this),
+      1,
+      &quot;day&quot;
+    ).pipe();
   }
 
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveHourSerializer[]&gt; {
-    return this.getList(params, this.archive.bind(this), 1, &quot;hour&quot;);
+    return this.getList&lt;ReadArchive&gt;(
+      params,
+      this.archive.bind(this),
+      1,
+      &quot;hour&quot;
+    );
   }
 
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveWeekSerializer[]&gt; {
-    return this.getList(params, this.archive.bind(this), 1, &quot;week&quot;);
+    return this.getList&lt;ReadArchive&gt;(
+      params,
+      this.archive.bind(this),
+      1,
+      &quot;week&quot;
+    );
   }
 
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveMonthSerializer[]&gt; {
-    return this.getList(params, this.archive.bind(this), 1, &quot;month&quot;);
+    return this.getList&lt;ReadArchive&gt;(
+      params,
+      this.archive.bind(this),
+      1,
+      &quot;month&quot;
+    );
   }
 }
 </code></pre>

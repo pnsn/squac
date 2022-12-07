@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -59,7 +59,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/interceptors/auth-interceptor.service.ts</code>
+            <code>projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts</code>
         </p>
 
 
@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/core/interceptors/auth-interceptor.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -167,8 +167,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/app/core/interceptors/auth-interceptor.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -218,7 +218,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;HttpEvent&lt;any&gt;&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -240,8 +240,10 @@ import {
   HttpRequest,
   HttpHandler,
   HttpHeaders,
+  HttpEvent,
 } from &quot;@angular/common/http&quot;;
 import { AuthService } from &quot;../services/auth.service&quot;;
+import { Observable } from &quot;rxjs&quot;;
 
 @Injectable()
 
@@ -249,7 +251,10 @@ import { AuthService } from &quot;../services/auth.service&quot;;
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
-  intercept(req: HttpRequest&lt;any&gt;, next: HttpHandler) {
+  intercept(
+    req: HttpRequest&lt;any&gt;,
+    next: HttpHandler
+  ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
     if (this.authService.isAuthenticated()) {
       const modifiedReq &#x3D; req.clone({
         headers: new HttpHeaders({

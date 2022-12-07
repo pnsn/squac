@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/dashboard.ts</code>
+            <code>projects/squacapi/src/lib/models/dashboard.ts</code>
         </p>
 
 
@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/app/squacapi/models/dashboard.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:69</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/app/squacapi/models/dashboard.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:86</a></div>
                 </td>
             </tr>
 
@@ -247,15 +247,19 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { ChannelGroup } from &quot;./channel-group&quot;;
-import { ReadDashboard, WriteDashboard } from &quot;../interfaces/squac-types&quot;;
-import { Widget } from &quot;./widget&quot;;
+import { ChannelGroup, Widget } from &quot;../models&quot;;
+import {
+  Adapter,
+  ReadDashboard,
+  WriteDashboard,
+  DashboardProperties,
+} from &quot;../interfaces&quot;;
+import { DASHBOARD_PROPERTIES } from &quot;../constants&quot;;
 export class Dashboard {
-  public channelGroup: ChannelGroup;
-  private _widgets: Array&lt;Widget&gt; &#x3D; [];
-  public _properties: DashboardProperties &#x3D; defaultProperties;
-  widgetIds: Array&lt;number&gt;;
+  public channelGroup?: ChannelGroup;
+  private _widgets: Widget[] &#x3D; [];
+  public _properties: DashboardProperties &#x3D; DASHBOARD_PROPERTIES;
+  widgetIds?: number[];
   constructor(
     public id: number,
     public owner: number,
@@ -269,11 +273,15 @@ export class Dashboard {
 
   //can be entered as string or properties
   public set properties(properties: string | Partial&lt;DashboardProperties&gt;) {
-    let props: Partial&lt;DashboardProperties&gt;;
+    let props: Partial&lt;DashboardProperties&gt; &#x3D; {};
     if (!properties) {
-      props &#x3D; defaultProperties;
+      props &#x3D; DASHBOARD_PROPERTIES;
     } else if (properties &amp;&amp; typeof properties &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...JSON.parse(properties) };
+      try {
+        props &#x3D; { ...(JSON.parse(properties) as Record&lt;string, unknown&gt;) };
+      } catch {
+        return;
+      }
     } else if (typeof properties !&#x3D;&#x3D; &quot;string&quot;) {
       props &#x3D; { ...properties };
     }
@@ -284,54 +292,41 @@ export class Dashboard {
     return this._properties;
   }
 
-  public get widgets(): Array&lt;Widget&gt; {
+  public get widgets(): Widget[] {
     return this._widgets;
   }
 
-  public set widgets(widgets: Array&lt;Widget&gt;) {
+  public set widgets(widgets: Widget[]) {
     this._widgets &#x3D; widgets;
     this.widgetIds &#x3D; widgets.map((w) &#x3D;&gt; {
       return w.id;
     });
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Dashboard&quot;;
   }
-}
-
-const defaultProperties: DashboardProperties &#x3D; {
-  timeRange: 3600,
-  archiveType: &quot;raw&quot;,
-  autoRefresh: true,
-};
-
-export interface DashboardProperties {
-  timeRange?: number;
-  startTime?: string;
-  endTime?: string;
-  archiveStat?: string;
-  archiveType: string;
-  autoRefresh: boolean;
 }
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class DashboardAdapter implements Adapter&lt;Dashboard&gt; {
+export class DashboardAdapter
+  implements Adapter&lt;Dashboard, ReadDashboard, WriteDashboard&gt;
+{
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard &#x3D; new Dashboard(
-      item.id,
-      item.user,
+      item.id ? +item.id : 0,
+      item.user ? +item.user : 0,
       item.name,
-      item.description,
-      item.share_org,
-      item.share_all,
+      item.description ?? &quot;&quot;,
+      item.share_org ?? false,
+      item.share_all ?? false,
       item.organization,
       item.channel_group
     );
 
-    dashboard.properties &#x3D; item.properties || &quot;&quot;;
+    dashboard.properties &#x3D; item.properties ?? &quot;&quot;;
 
     return dashboard;
   }

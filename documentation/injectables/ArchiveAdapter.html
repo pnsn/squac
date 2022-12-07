@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/archive.ts</code>
+            <code>projects/squacapi/src/lib/models/archive.ts</code>
         </p>
 
 
@@ -112,15 +112,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>adaptFromApi(item: <a href="../classes/Archive.html" target="_self">ReadArchive</a>, stat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>adaptFromApi(item: <a href="../classes/Archive.html" target="_self">ReadArchive</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/app/squacapi/models/archive.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/squacapi/src/lib/models/archive.ts:30</a></div>
                 </td>
             </tr>
 
@@ -152,18 +152,6 @@
 
 
                                 </tr>
-                                <tr>
-                                    <td>stat</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -187,29 +175,26 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { ReadArchive } from &quot;../interfaces/squac-types&quot;;
+import { Adapter, ReadArchive } from &quot;../interfaces&quot;;
 
 // Describes an archive
 export class Archive {
-  public value: number;
-  constructor(
-    public id: number,
-    public metricId: number,
-    public channelId: number,
-    public min: number,
-    public max: number,
-    public mean: number,
-    public median: number,
-    public stdev: number,
-    public numSamps: number,
-    public minabs: number,
-    public maxabs: number,
-    public starttime: string,
-    public endtime: string
-  ) {}
+  value?: number;
+  id?: number;
+  metricId!: number;
+  channelId!: number;
+  min!: number;
+  max!: number;
+  mean!: number;
+  median!: number;
+  stdev!: number;
+  num_samps!: number;
+  minabs?: number;
+  maxabs?: number;
+  starttime!: string;
+  endtime!: string;
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Archive&quot;;
   }
 }
@@ -217,26 +202,28 @@ export class Archive {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class ArchiveAdapter implements Adapter&lt;Archive&gt; {
-  adaptFromApi(item: ReadArchive, stat: string): Archive {
-    const archive &#x3D; new Archive(
-      +item.id,
-      item.metric,
-      item.channel,
-      item.min,
-      item.max,
-      item.mean,
-      item.median,
-      item.stdev,
-      item.num_samps,
-      +item.minabs,
-      +item.maxabs,
-      item.starttime,
-      item.endtime
-    );
-    if (stat) {
-      archive.value &#x3D; item[stat];
-    }
+export class ArchiveAdapter implements Adapter&lt;Archive, ReadArchive, unknown&gt; {
+  adaptFromApi(item: ReadArchive): Archive {
+    // squacapi openapi thinks min &amp; maxabs are strings
+    const id &#x3D; item.id ? +item.id : undefined;
+    const minabs &#x3D; item.minabs ? +item.minabs : undefined;
+    const maxabs &#x3D; item.maxabs ? +item.maxabs : undefined;
+
+    const archive: Archive &#x3D; {
+      id,
+      metricId: item.metric,
+      channelId: item.channel,
+      min: item.min,
+      max: item.max,
+      mean: item.mean,
+      median: item.median,
+      stdev: item.stdev,
+      num_samps: item.num_samps,
+      minabs,
+      maxabs,
+      starttime: item.starttime,
+      endtime: item.endtime,
+    };
     return archive;
   }
 }

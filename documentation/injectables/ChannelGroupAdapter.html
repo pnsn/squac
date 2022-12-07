@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/channel-group.ts</code>
+            <code>projects/squacapi/src/lib/models/channel-group.ts</code>
         </p>
 
 
@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/squacapi/models/channel-group.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:41</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/app/squacapi/models/channel-group.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:80</a></div>
                 </td>
             </tr>
 
@@ -247,36 +247,35 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { Channel, ChannelAdapter } from &quot;./channel&quot;;
 import {
+  Adapter,
   ApiChannel,
   ReadChannelGroup,
   WriteChannelGroup,
-} from &quot;../interfaces/squac-types&quot;;
+} from &quot;../interfaces&quot;;
+import { Channel } from &quot;../models&quot;;
+import { ChannelAdapter } from &quot;../models/channel&quot;;
+
 // Describes a channel group object
 
 export class ChannelGroup {
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public description: string,
-    public orgId: number
-  ) {}
-
+  id?: number;
+  owner?: number;
+  name &#x3D; &quot;&quot;;
+  description? &#x3D; &quot;&quot;;
+  orgId &#x3D; 0;
   shareAll &#x3D; false;
   shareOrg &#x3D; false;
 
   // eventually group list wont return array of channels
   // which is why i&#x27;ve got these instead of channels.length
-  channelsCount &#x3D; 0;
+  channelsCount? &#x3D; 0;
 
-  channels: Channel[] &#x3D; [];
-  autoIncludeChannels: Channel[] &#x3D; [];
-  autoExcludeChannels: Channel[] &#x3D; [];
+  channels?: (Channel | number)[];
+  autoIncludeChannels?: (Channel | number)[];
+  autoExcludeChannels?: (Channel | number)[];
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;ChannelGroup&quot;;
   }
 }
@@ -284,36 +283,40 @@ export class ChannelGroup {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class ChannelGroupAdapter implements Adapter&lt;ChannelGroup&gt; {
+export class ChannelGroupAdapter
+  implements Adapter&lt;ChannelGroup, ReadChannelGroup, WriteChannelGroup&gt;
+{
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter &#x3D; new ChannelAdapter();
-    const channelGroup &#x3D; new ChannelGroup(
-      item.id,
-      item.user,
-      item.name,
-      item.description,
-      item.organization
-    );
-    channelGroup.channelsCount &#x3D; item.channels_count;
-    channelGroup.shareAll &#x3D; item.share_all;
-    channelGroup.shareOrg &#x3D; item.share_org;
+    const id &#x3D; item.id ? +item.id : undefined;
 
-    if (&quot;channels&quot; in item) {
+    const channelGroup: ChannelGroup &#x3D; {
+      id,
+      owner: item.user,
+      name: item.name,
+      description: item.description,
+      orgId: item.organization,
+      channelsCount: item.channels_count,
+      shareAll: item.share_all ?? false,
+      shareOrg: item.share_org ?? false,
+    };
+
+    if (&quot;channels&quot; in item &amp;&amp; item.channels) {
       channelGroup.channels &#x3D; item.channels.map((c: ApiChannel) &#x3D;&gt;
         channelAdapter.adaptFromApi(c)
       );
     }
-    if (&quot;auto_exclude_channels&quot; in item) {
+    if (&quot;auto_exclude_channels&quot; in item &amp;&amp; item.auto_exclude_channels) {
       channelGroup.autoExcludeChannels &#x3D; [...item.auto_exclude_channels].map(
-        (c: ApiChannel) &#x3D;&gt; {
+        (c: ApiChannel | number) &#x3D;&gt; {
           return typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : channelAdapter.adaptFromApi(c);
         }
       );
     }
 
-    if (&quot;auto_include_channels&quot; in item) {
+    if (&quot;auto_include_channels&quot; in item &amp;&amp; item.auto_include_channels) {
       channelGroup.autoIncludeChannels &#x3D; [...item.auto_include_channels].map(
-        (c: ApiChannel) &#x3D;&gt; {
+        (c: ApiChannel | number) &#x3D;&gt; {
           return typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : channelAdapter.adaptFromApi(c);
         }
       );
@@ -323,15 +326,19 @@ export class ChannelGroupAdapter implements Adapter&lt;ChannelGroup&gt; {
   }
 
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl &#x3D; item.autoExcludeChannels?.map((c) &#x3D;&gt; c.id);
-    const ex &#x3D; item.autoExcludeChannels?.map((c) &#x3D;&gt; c.id);
+    const incl &#x3D; item.autoExcludeChannels?.map((c): number &#x3D;&gt;
+      typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : c.id
+    );
+    const ex &#x3D; item.autoExcludeChannels?.map((c) &#x3D;&gt;
+      typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : c.id
+    );
 
     return {
       name: item.name,
       description: item.description,
       organization: item.orgId,
-      auto_exclude_channels: incl,
-      auto_include_channels: ex,
+      auto_exclude_channels: incl ?? [],
+      auto_include_channels: ex ?? [],
       share_org: item.shareAll,
       share_all: item.shareOrg,
     };

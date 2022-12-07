@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/features/user/services/user.service.ts</code>
+            <code>projects/squac-ui/src/app/features/user/services/user.service.ts</code>
         </p>
 
 
@@ -145,7 +145,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/features/user/services/user.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -221,7 +221,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/features/user/services/user.service.ts:42</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:42</a></div>
                 </td>
             </tr>
 
@@ -258,7 +258,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/features/user/services/user.service.ts:27</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -295,7 +295,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/features/user/services/user.service.ts:47</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -332,7 +332,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/features/user/services/user.service.ts:54</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -370,7 +370,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Observable&lt;User&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -406,7 +406,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/features/user/services/user.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -431,7 +431,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/features/user/services/user.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -460,7 +460,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/user/services/user.service.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/squac-ui/src/app/features/user/services/user.service.ts:22</a></div>
                                 </td>
                             </tr>
 
@@ -476,8 +476,8 @@ import { AppAbility, defineAbilitiesFor } from &quot;@core/utils/ability&quot;;
 
 import { BehaviorSubject, Observable, of } from &quot;rxjs&quot;;
 import { tap } from &quot;rxjs/operators&quot;;
-import { User } from &quot;@squacapi/models/user&quot;;
-import { UserMeService } from &quot;@squacapi/services/user-me.service&quot;;
+import { User } from &quot;squacapi&quot;;
+import { UserMeService } from &quot;squacapi&quot;;
 
 // Service to get user info &amp; reset things
 @Injectable({
@@ -524,10 +524,10 @@ export class UserService {
   }
 
   // User needs to enter password to make changes
-  update(user: Partial&lt;User&gt;): Observable&lt;any&gt; {
+  update(user: Partial&lt;User&gt;): Observable&lt;User&gt; {
     user.orgId &#x3D; this.userOrg;
     // other user ifo
-    return this.userMeService.update(user);
+    return this.userMeService.partialUpdate(user);
     // TODO: after it puts, update current user
   }
 }

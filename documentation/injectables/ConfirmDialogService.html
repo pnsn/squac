@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/services/confirm-dialog.service.ts</code>
+            <code>projects/squac-ui/src/app/core/services/confirm-dialog.service.ts</code>
         </p>
 
 
@@ -130,7 +130,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -196,7 +196,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:23</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -235,7 +235,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:42</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:42</a></div>
                 </td>
             </tr>
 
@@ -272,7 +272,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:46</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -311,7 +311,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:30</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -384,7 +384,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/core/services/confirm-dialog.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -419,14 +419,14 @@ export class ConfirmDialogService implements OnDestroy {
   dialogRef: MatDialogRef&lt;ConfirmDialogComponent&gt;;
 
   // Closes the dialog with a false response
-  public close() {
+  public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close(false);
     }
   }
 
   // Opens a dialog with given options
-  public open(options: ConfirmDialogOptions) {
+  public open(options: ConfirmDialogOptions): void {
     this.dialogRef &#x3D; this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: options.title,

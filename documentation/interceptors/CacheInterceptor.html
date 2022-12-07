@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -59,7 +59,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/interceptors/cache-interceptor.service.ts</code>
+            <code>projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts</code>
         </p>
 
 
@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/interceptors/cache-interceptor.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -187,7 +187,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/core/interceptors/cache-interceptor.service.ts:29</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -265,9 +265,9 @@ stop loading on error</p>
   HttpResponse,
 } from &quot;@angular/common/http&quot;;
 import { Injectable } from &quot;@angular/core&quot;;
-import { HttpCacheService } from &quot;@core/services/cache.service&quot;;
-import { LoadingService } from &quot;@core/services/loading.service&quot;;
-import { REFRESH_REQUEST } from &quot;@squacapi/services/generic-api.service&quot;;
+import { HttpCacheService } from &quot;../services/cache.service&quot;;
+import { LoadingService } from &quot;../services/loading.service&quot;;
+import { REFRESH_REQUEST } from &quot;squacapi&quot;;
 import { Observable, of, tap } from &quot;rxjs&quot;;
 
 /**
@@ -307,7 +307,7 @@ export class CacheInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      tap((httpEvent: HttpEvent&lt;any&gt;) &#x3D;&gt; {
+      tap((httpEvent: HttpEvent&lt;any&gt;): void | HttpEvent&lt;any&gt; &#x3D;&gt; {
         if (httpEvent instanceof HttpResponse) {
           this._cache.put(request, httpEvent);
           return httpEvent;

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/shared/pipes/precision.pipe.ts</code>
+            <code>projects/widgets/src/lib/shared/pipes/precision.pipe.ts</code>
         </p>
 
 
@@ -98,7 +98,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>transform(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, precision: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>transform(value: number | string, precision: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -106,7 +106,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">src/app/shared/pipes/precision.pipe.ts:7</a></div>
+                            class="link-to-prism">projects/widgets/src/lib/shared/pipes/precision.pipe.ts:7</a></div>
                 </td>
             </tr>
 
@@ -130,7 +130,7 @@
                                 <tr>
                                     <td>value</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            <code>number | string</code>
                                     </td>
 
                                     <td>
@@ -184,8 +184,20 @@
   name: &quot;precision&quot;,
 })
 export class PrecisionPipe implements PipeTransform {
-  transform(value: number, precision &#x3D; 4): string {
-    return typeof value &#x3D;&#x3D; &quot;number&quot; ? value.toPrecision(precision) : &quot;&quot;;
+  transform(value: number | string, precision &#x3D; 4): string {
+    switch (typeof value) {
+      case &quot;number&quot;:
+        return value.toPrecision(precision);
+      case &quot;string&quot;:
+        try {
+          const val &#x3D; +value;
+          return val.toPrecision(precision);
+        } catch {
+          return &quot;&quot;;
+        }
+      default:
+        return &quot;&quot;;
+    }
   }
 }
 </code></pre>

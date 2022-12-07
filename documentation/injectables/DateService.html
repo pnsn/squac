@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/services/date.service.ts</code>
+            <code>projects/squac-ui/src/app/core/services/date.service.ts</code>
         </p>
 
 
@@ -93,9 +93,6 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#correctForLocal" >correctForLocal</a>
-                            </li>
-                            <li>
                                 <a href="#diff" >diff</a>
                             </li>
                             <li>
@@ -105,10 +102,19 @@
                                 <a href="#duration" >duration</a>
                             </li>
                             <li>
+                                <a href="#fakeLocalFromUtc" >fakeLocalFromUtc</a>
+                            </li>
+                            <li>
+                                <a href="#fakeUtcFromLocal" >fakeUtcFromLocal</a>
+                            </li>
+                            <li>
                                 <a href="#format" >format</a>
                             </li>
                             <li>
                                 <a href="#now" >now</a>
+                            </li>
+                            <li>
+                                <a href="#parse" >parse</a>
                             </li>
                             <li>
                                 <a href="#parseUtc" >parseUtc</a>
@@ -136,26 +142,6 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#dateRanges" >dateRanges</a>
-                                </li>
-                                <li>
-                                    <a href="#datePickerTimeRanges" >datePickerTimeRanges</a>
-                                </li>
-                                <li>
-                                    <a href="#defaultTimeRange" >defaultTimeRange</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
         </tbody>
     </table>
 </section>
@@ -166,45 +152,15 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(configService: <a href="../injectables/ConfigurationService.html" target="_self">ConfigurationService</a>)</code>
+<code>constructor()</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/core/services/date.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:18</a></div>
                             </td>
                         </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>configService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ConfigurationService.html" target="_self" >ConfigurationService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
             </tbody>
         </table>
 </section>
@@ -218,75 +174,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="correctForLocal"></a>
-                    <span class="name">
-                        <span ><b>correctForLocal</b></span>
-                        <a href="#correctForLocal"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>correctForLocal(localDate: dayjs.Dayjs)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/app/core/services/date.service.ts:25</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>localDate</td>
-                                    <td>
-                                            <code>dayjs.Dayjs</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="diff"></a>
                     <span class="name">
                         <span ><b>diff</b></span>
@@ -296,15 +183,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs, unit?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>diff(date1: Dayjs, date2: Dayjs, unit?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/app/core/services/date.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -327,7 +214,7 @@
                                 <tr>
                                     <td>date1</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -339,7 +226,7 @@
                                 <tr>
                                     <td>date2</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -389,15 +276,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>displayFormat(date: dayjs.Dayjs)</code>
+<code>displayFormat(date: Dayjs)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">src/app/core/services/date.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -420,7 +307,7 @@
                                 <tr>
                                     <td>date</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -465,8 +352,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/app/core/services/date.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -516,7 +403,145 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>duration.Duration</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fakeLocalFromUtc"></a>
+                    <span class="name">
+                        <span ><b>fakeLocalFromUtc</b></span>
+                        <a href="#fakeLocalFromUtc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fakeLocalFromUtc(localDate: Dayjs)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>localDate</td>
+                                    <td>
+                                            <code>Dayjs</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Dayjs</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fakeUtcFromLocal"></a>
+                    <span class="name">
+                        <span ><b>fakeUtcFromLocal</b></span>
+                        <a href="#fakeUtcFromLocal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fakeUtcFromLocal(localDate: Dayjs)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:28</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>localDate</td>
+                                    <td>
+                                            <code>Dayjs</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -539,15 +564,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>format(date: dayjs.Dayjs)</code>
+<code>format(date: Dayjs)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/app/core/services/date.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:80</a></div>
                 </td>
             </tr>
 
@@ -570,7 +595,7 @@
                                 <tr>
                                     <td>date</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -615,8 +640,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/core/services/date.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -625,7 +650,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                 </td>
@@ -636,24 +661,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="parseUtc"></a>
+                    <a name="parse"></a>
                     <span class="name">
-                        <span ><b>parseUtc</b></span>
-                        <a href="#parseUtc"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>parse</b></span>
+                        <a href="#parse"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>parseUtc(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>parse(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">src/app/core/services/date.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:70</a></div>
                 </td>
             </tr>
 
@@ -691,7 +716,76 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseUtc"></a>
+                    <span class="name">
+                        <span ><b>parseUtc</b></span>
+                        <a href="#parseUtc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseUtc(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>date</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -714,15 +808,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>subtract(start: dayjs.Dayjs, amount: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, unit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>subtract(start: Dayjs, amount: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, unit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/core/services/date.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -745,7 +839,7 @@
                                 <tr>
                                     <td>start</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -784,7 +878,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -807,15 +901,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>subtractDuration(start: dayjs.Dayjs, duration)</code>
+<code>subtractDuration(start: Dayjs, duration: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/core/services/date.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -838,7 +932,7 @@
                                 <tr>
                                     <td>start</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -850,6 +944,7 @@
                                 <tr>
                                     <td>duration</td>
                                     <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -864,7 +959,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -894,8 +989,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">src/app/core/services/date.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -945,7 +1040,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -968,15 +1063,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>toUtc(localDate: dayjs.Dayjs)</code>
+<code>toUtc(localDate: Dayjs)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/core/services/date.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -999,7 +1094,7 @@
                                 <tr>
                                     <td>localDate</td>
                                     <td>
-                                            <code>dayjs.Dayjs</code>
+                                            <code>Dayjs</code>
                                     </td>
 
                                     <td>
@@ -1014,7 +1109,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>dayjs.Dayjs</code>
+                        <b>Returns : </b>    <code>Dayjs</code>
 
                     </div>
                     <div class="io-description">
@@ -1044,8 +1139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/core/services/date.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -1110,9 +1205,20 @@
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>DEFAULT_LOCALE</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/core/services/date.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -1121,86 +1227,17 @@
     </table>
 </section>
 
-            <section>
-    <h3 id="accessors">
-        Accessors
-    </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="dateRanges"></a>
-                        <span class="name"><b>dateRanges</b><a href="#dateRanges"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>dateRanges()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/core/services/date.service.ts:87</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="datePickerTimeRanges"></a>
-                        <span class="name"><b>datePickerTimeRanges</b><a href="#datePickerTimeRanges"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>datePickerTimeRanges()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/core/services/date.service.ts:92</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="defaultTimeRange"></a>
-                        <span class="name"><b>defaultTimeRange</b><a href="#defaultTimeRange"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>defaultTimeRange()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/core/services/date.service.ts:97</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import * as dayjs from &quot;dayjs&quot;;
+import { Dayjs } from &quot;dayjs&quot;;
 import * as duration from &quot;dayjs/plugin/duration&quot;;
 import * as utc from &quot;dayjs/plugin/utc&quot;;
-import { ConfigurationService } from &quot;./configuration.service&quot;;
+import * as timezone from &quot;dayjs/plugin/timezone&quot;;
+import { DEFAULT_LOCALE, Locale } from &quot;@core/locale.constant&quot;;
 
 //service to help reduce imports of dayjs
 @Injectable({
@@ -1211,21 +1248,27 @@ export class DateService {
   // &quot;displayFormat&quot;: &quot;YYYY/MM/DD HH:mm&quot;
   // &quot;direction&quot;: &quot;ltr&quot;
 
-  locale;
+  locale: Locale &#x3D; DEFAULT_LOCALE;
 
-  constructor(private configService: ConfigurationService) {
+  constructor() {
     dayjs.extend(utc);
     dayjs.extend(duration);
-    this.locale &#x3D; configService.getValue(&quot;locale&quot;);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault(&quot;Etc/UTC&quot;);
   }
 
   // adjust date using utc offset
-  correctForLocal(localDate: dayjs.Dayjs): dayjs.Dayjs {
+  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
     return localDate.add(localDate.utcOffset(), &quot;minutes&quot;).utc();
   }
 
+  // adjust date using utc offset
+  fakeLocalFromUtc(localDate: Dayjs): Dayjs {
+    return localDate.subtract(localDate.utcOffset(), &quot;minutes&quot;).utc();
+  }
+
   // change dayjs object to utc mode
-  toUtc(localDate: dayjs.Dayjs): dayjs.Dayjs {
+  toUtc(localDate: Dayjs): Dayjs {
     return localDate.utc();
   }
 
@@ -1235,65 +1278,55 @@ export class DateService {
   }
 
   // get current time
-  now(): dayjs.Dayjs {
+  now(): Dayjs {
     return dayjs.utc().clone();
   }
 
   // subtract time from start
-  subtract(start: dayjs.Dayjs, amount: number, unit: string): dayjs.Dayjs {
+  subtract(start: Dayjs, amount: number, unit: string): Dayjs {
     const manipulateType &#x3D; unit as dayjs.ManipulateType;
     return start.utc().subtract(amount, manipulateType);
   }
 
   // subtract time from now
-  subtractFromNow(amount: number, unit: string): dayjs.Dayjs {
+  subtractFromNow(amount: number, unit: string): Dayjs {
     const manipulateType &#x3D; unit as dayjs.ManipulateType;
     return this.now().subtract(amount, manipulateType);
   }
 
   //subtract duration
-  subtractDuration(start: dayjs.Dayjs, duration): dayjs.Dayjs {
+  subtractDuration(start: Dayjs, duration: any): Dayjs {
     return start.utc().subtract(duration).clone();
   }
 
+  // parse date from string
+  parse(date: string): Dayjs {
+    return dayjs(date).clone();
+  }
+
   // parse utc date from string
-  parseUtc(date: string): dayjs.Dayjs {
+  parseUtc(date: string): Dayjs {
     return dayjs.utc(date).clone();
   }
 
   // format date
-  format(date: dayjs.Dayjs): string {
+  format(date: Dayjs): string {
     return date.utc().format(this.locale.format);
   }
 
   //format date but prettier
-  displayFormat(date: dayjs.Dayjs): string {
+  displayFormat(date: Dayjs): string {
     return date.utc().format(this.locale.displayFormat);
   }
 
   // return difference in &#x27;unit&#x27; between two dates
-  diff(date1: dayjs.Dayjs, date2: dayjs.Dayjs, unit?: any): number {
+  diff(date1: Dayjs, date2: Dayjs, unit?: any): number {
     return date1.diff(date2, unit || &quot;seconds&quot;);
   }
 
   // return duration
-  duration(count: number, type: string) {
+  duration(count: number, type: string): duration.Duration {
     return dayjs.duration(count, type as duration.DurationUnitType);
-  }
-
-  // get dateranges from config
-  get dateRanges() {
-    return this.configService.getValue(&quot;dateRanges&quot;);
-  }
-
-  // get time ranges for date picker
-  get datePickerTimeRanges() {
-    return this.configService.getValue(&quot;datePickerTimeRanges&quot;);
-  }
-
-  // get default dashboard time range
-  get defaultTimeRange() {
-    return this.configService.getValue(&quot;defaultTimeRange&quot;, 3);
   }
 }
 </code></pre>

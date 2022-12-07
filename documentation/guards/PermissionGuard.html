@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/core/guards/permission.guard.ts</code>
+                <code>projects/squac-ui/src/app/core/guards/permission.guard.ts</code>
             </p>
 
 
@@ -102,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, ability: Ability)</code>
+<code>constructor(ability: Ability)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/core/guards/permission.guard.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/squac-ui/src/app/core/guards/permission.guard.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -124,18 +124,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>userService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>ability</td>
                                                   
@@ -182,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/core/guards/permission.guard.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/squac-ui/src/app/core/guards/permission.guard.ts:12</a></div>
                 </td>
             </tr>
 
@@ -239,21 +227,20 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { CanActivate, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
-import { UserService } from &quot;@user/services/user.service&quot;;
 import { Ability } from &quot;@casl/ability&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class PermissionGuard implements CanActivate {
-  constructor(private userService: UserService, private ability: Ability) {}
+  constructor(private ability: Ability) {}
   // Returns true if there is a user and allows user to navigate
   canActivate(_next: ActivatedRouteSnapshot): Observable&lt;boolean&gt; {
     return of(true);
     // FIXME: temporarily disabled
     // if (next.data &amp;&amp; next.data.action &amp;&amp; next.data.subject) {
-    //   const subject &#x3D; next.data.subject;
-    //   const action &#x3D; next.data.action;
+    //   const subject &#x3D; next.data[&quot;subject&quot;];
+    //   const action &#x3D; next.data[&quot;action&quot;];
     //   return this.userService.user.pipe(
     //     switchMap(
     //       user &#x3D;&gt; {

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/widget.ts</code>
+            <code>projects/squacapi/src/lib/interfaces/widget-layout.interface.ts</code>
         </p>
 
 
@@ -267,171 +267,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { Metric, MetricAdapter } from &quot;./metric&quot;;
-import { ApiMetric, ReadWidget, WriteWidget } from &quot;../interfaces/squac-types&quot;;
-import { Threshold } from &quot;./threshold&quot;;
-
-export class Widget {
-  public _thresholds: Threshold[] &#x3D; [];
-  public _layout: WidgetLayout &#x3D; defaultLayout;
-  public _properties: WidgetProperties &#x3D; defaultProperties;
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public dashboardId: number,
-    public metrics: Metric[],
-    public type: string,
-    public stat: string //if use aggregate
-  ) {
-    //this will override settings when created
-  }
-  public set thresholds(thresholds: string | Array&lt;Threshold&gt;) {
-    let props: Threshold[];
-    if (!thresholds) {
-      props &#x3D; new Array&lt;Threshold&gt;();
-    } else if (thresholds &amp;&amp; typeof thresholds &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; JSON.parse(thresholds);
-    } else if (typeof thresholds !&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; thresholds;
-    }
-
-    this._thresholds &#x3D; props;
-  }
-
-  public get thresholds(): Threshold[] {
-    return this._thresholds;
-  }
-  //can be entered as string or properties
-  public set properties(properties: string | Partial&lt;WidgetProperties&gt;) {
-    let props: Partial&lt;WidgetProperties&gt;;
-    if (!properties) {
-      props &#x3D; defaultProperties;
-    } else if (properties &amp;&amp; typeof properties &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...JSON.parse(properties) };
-    } else if (typeof properties !&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...properties };
-    }
-    this._properties &#x3D; { ...props };
-  }
-
-  public get properties(): WidgetProperties {
-    return this._properties;
-  }
-
-  //can be entered as string or properties
-  public set layout(layout: string | Partial&lt;WidgetLayout&gt;) {
-    let props: Partial&lt;WidgetLayout&gt;;
-    if (!layout) {
-      props &#x3D; defaultLayout;
-    } else if (layout &amp;&amp; typeof layout &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...JSON.parse(layout) };
-    } else if (typeof layout !&#x3D;&#x3D; &quot;string&quot;) {
-      props &#x3D; { ...layout };
-    }
-
-    this._layout &#x3D; { ...this._layout, ...props };
-  }
-
-  public get layout(): WidgetLayout {
-    return this._layout;
-  }
-
-  public get isValid(): boolean {
-    return !!this.name &amp;&amp; !!this.metrics &amp;&amp; !!this.type &amp;&amp; !!this.stat;
-  }
-
-  // get ids from the metrics
-  get metricsIds(): number[] {
-    return this.metrics.map((m) &#x3D;&gt; m.id);
-  }
-
-  static get modelName() {
-    return &quot;Widget&quot;;
-  }
-}
-
-const defaultProperties: WidgetProperties &#x3D; {};
-
-const defaultLayout: WidgetLayout &#x3D; {
-  rows: 5,
-  columns: 10,
-};
-
-export interface WidgetLayout {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface WidgetLayout {
   rows: number;
   columns: number;
   x?: number;
   y?: number;
-}
-
-export interface WidgetProperties {
-  //depends on which widgetType
-  dimensions?: any; //order of display
-  inRange?: {
-    color: string[];
-    type: string;
-  };
-  outOfRange?: {
-    color: string[];
-    type: string;
-  };
-  reverseColors?: boolean;
-  displayType?: string; //worst, channel, stoplight
-  numSplits?: number;
-  // show_legend: boolean; TODO: add these
-  // show_tooltips: boolean;
-  // zoom: boolean;
-  // sampling: string;
-}
-
-@Injectable({
-  providedIn: &quot;root&quot;,
-})
-export class WidgetAdapter implements Adapter&lt;Widget&gt; {
-  adaptFromApi(item: ReadWidget): Widget {
-    const metricAdapter &#x3D; new MetricAdapter();
-    let metrics &#x3D; [];
-
-    if (item.metrics) {
-      metrics &#x3D; item.metrics.map((m: ApiMetric) &#x3D;&gt;
-        metricAdapter.adaptFromApi(m)
-      );
-    }
-
-    const type &#x3D; item.type;
-    const stat &#x3D; item.stat;
-    const widget &#x3D; new Widget(
-      item.id,
-      item.user,
-      item.name,
-      item.dashboard,
-      metrics,
-      type,
-      stat
-    );
-
-    widget.thresholds &#x3D; item.thresholds || [];
-
-    widget.layout &#x3D; item.layout;
-    widget.properties &#x3D; item.properties;
-    return widget;
-  }
-
-  adaptToApi(item: Widget): WriteWidget {
-    return {
-      name: item.name,
-      metrics: item.metricsIds,
-      dashboard: item.dashboardId,
-      type: item.type,
-      stat: item.stat,
-      layout: JSON.stringify(item.layout),
-      properties: JSON.stringify(item.properties),
-      thresholds: JSON.stringify(item.thresholds),
-    };
-  }
 }
 </code></pre>
     </div>

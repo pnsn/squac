@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/resolvers/dashboard.resolver.ts</code>
+            <code>projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts</code>
         </p>
 
 
@@ -185,10 +185,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
-import { DashboardService } from &quot;../services/dashboard.service&quot;;
+import { DashboardService } from &quot;squacapi&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
-import { Dashboard } from &quot;../models/dashboard&quot;;
+import { Dashboard } from &quot;squacapi&quot;;
 
 export interface DashboardResolved {
   dashboard: Dashboard;
@@ -204,16 +204,16 @@ export class DashboardResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable&lt;Dashboard&gt; | Observable&lt;Dashboard[]&gt; {
-    const id &#x3D; +route.paramMap.get(&quot;dashboardId&quot;);
+    const id &#x3D; route.paramMap.get(&quot;dashboardId&quot;);
     if (id) {
-      return this.dashboardService.read(id).pipe(catchError(this.handleError));
+      return this.dashboardService.read(+id).pipe(catchError(this.handleError));
     } else {
       return this.dashboardService.list().pipe(catchError(this.handleError));
       // return all of them
     }
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     return of({ error });
   }
 }

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/features/dashboard/dashboard-routing.module.ts</code>
+            <code>projects/squac-ui/src/app/features/dashboard/dashboard-routing.module.ts</code>
         </p>
 
 
@@ -73,22 +73,28 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &quot;@angular/core&quot;;
-import { DashboardComponent } from &quot;./components/dashboard/dashboard.component&quot;;
+import { DashboardComponent } from &quot;./components/dashboard-main/dashboard.component&quot;;
 import { DashboardDetailComponent } from &quot;./components/dashboard-detail/dashboard-detail.component&quot;;
 import { Routes, RouterModule } from &quot;@angular/router&quot;;
 import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
 import { PermissionGuard } from &quot;@core/guards/permission.guard&quot;;
-import { widgetRoutes } from &quot;app/features/widget/widget.routes&quot;;
 import { DashboardViewComponent } from &quot;./components/dashboard-view/dashboard-view.component&quot;;
 import { DashboardEditEntryComponent } from &quot;./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component&quot;;
-import { ChannelGroupResolver } from &quot;@squacapi/resolvers/channel-group.resolver&quot;;
-import { DashboardResolver } from &quot;@squacapi/resolvers/dashboard.resolver&quot;;
+import { ChannelGroupResolver } from &quot;@core/resolvers/channel-group.resolver&quot;;
+import { DashboardResolver } from &quot;@core/resolvers/dashboard.resolver&quot;;
+import { WidgetMainComponent } from &quot;./components/widget-main/widget-main.component&quot;;
+import { WidgetResolver } from &quot;@core/resolvers/widget.resolver&quot;;
+import { MetricResolver } from &quot;@core/resolvers/metric.resolver&quot;;
+import { WidgetEditEntryComponent } from &quot;./components/widget-edit/widget-edit-entry/widget-edit-entry.component&quot;;
 
 export const routes: Routes &#x3D; [
   {
     path: &quot;&quot;,
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      dashboards: DashboardResolver,
+    },
     children: [
       {
         path: &quot;&quot;,
@@ -119,37 +125,38 @@ export const routes: Routes &#x3D; [
         component: DashboardDetailComponent,
         canActivate: [PermissionGuard],
         runGuardsAndResolvers: &quot;paramsChange&quot;,
+        resolve: {
+          widgets: WidgetResolver,
+          metrics: MetricResolver,
+        },
         data: { subject: &quot;Dashboard&quot;, action: &quot;read&quot; },
-        children: [{
-                path: &quot;&quot;,
-                redirectTo: &quot;widgets&quot;,
-                pathMatch: &quot;full&quot;,
-              }, {
-                path: &quot;widgets&quot;,
-                component: WidgetMainComponent,
-                resolve: {
-                  widgets: WidgetResolver,
-                  metrics: MetricResolver,
-                },
-                runGuardsAndResolvers: &quot;paramsOrQueryParamsChange&quot;,
-                children: [
-                  {
-                    path: &quot;new&quot;,
-                    component: WidgetEditEntryComponent,
-                    canActivate: [PermissionGuard],
-                    data: { subject: &quot;Widget&quot;, action: &quot;create&quot; },
-                  },
-                  {
-                    path: &quot;:widgetId/edit&quot;,
-                    resolve: {
-                      widget: WidgetResolver,
-                    },
-                    component: WidgetEditEntryComponent,
-                    canActivate: [PermissionGuard],
-                    data: { subject: &quot;Widget&quot;, action: &quot;update&quot; },
-                  },
-                ],
-              }],
+        children: [
+          {
+            path: &quot;&quot;,
+            redirectTo: &quot;widgets&quot;,
+            pathMatch: &quot;full&quot;,
+          },
+          {
+            path: &quot;widgets&quot;,
+            component: WidgetMainComponent,
+            runGuardsAndResolvers: &quot;paramsOrQueryParamsChange&quot;,
+          },
+          {
+            path: &quot;widgets/new&quot;,
+            component: WidgetEditEntryComponent,
+            canActivate: [PermissionGuard],
+            data: { subject: &quot;Widget&quot;, action: &quot;create&quot; },
+          },
+          {
+            path: &quot;widgets/:widgetId/edit&quot;,
+            resolve: {
+              widget: WidgetResolver,
+            },
+            component: WidgetEditEntryComponent,
+            canActivate: [PermissionGuard],
+            data: { subject: &quot;Widget&quot;, action: &quot;update&quot; },
+          },
+        ],
       },
     ],
   },

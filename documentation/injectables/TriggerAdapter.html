@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/trigger.ts</code>
+            <code>projects/squacapi/src/lib/models/trigger.ts</code>
         </p>
 
 
@@ -115,15 +115,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>adaptFromApi(item: <a href="../classes/Trigger.html" target="_self">ReadOnlyTriggerSerializer | ApiTrigger</a>)</code>
+<code>adaptFromApi(item: <a href="../classes/Trigger.html" target="_self">ReadTrigger</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/squacapi/models/trigger.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:35</a></div>
                 </td>
             </tr>
 
@@ -146,7 +146,7 @@
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../classes/Trigger.html" target="_self" >ReadOnlyTriggerSerializer | ApiTrigger</a></code>
+                                                <code><a href="../classes/Trigger.html" target="_self" >ReadTrigger</a></code>
                                     </td>
 
                                     <td>
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/app/squacapi/models/trigger.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:50</a></div>
                 </td>
             </tr>
 
@@ -230,7 +230,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Trigger.html" target="_self" >WriteOnlyTriggerSerializer</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Trigger.html" target="_self" >WriteTrigger</a></code>
 
                     </div>
                     <div class="io-description">
@@ -247,45 +247,42 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import {
-  ReadOnlyTriggerSerializer,
-  WriteOnlyTriggerSerializer,
-  Trigger as ApiTrigger,
-} from &quot;@pnsn/ngx-squacapi-client&quot;;
-import { Alert } from &quot;./alert&quot;;
-import { Monitor } from &quot;./monitor&quot;;
+import { Adapter, ReadTrigger, WriteTrigger } from &quot;../interfaces&quot;;
+import { Trigger as ApiTrigger } from &quot;@pnsn/ngx-squacapi-client&quot;;
+import { Alert, Monitor } from &quot;../models&quot;;
 
 export class Trigger {
   constructor(
     public id: number,
     public monitorId: number,
-    public valueOperator: ApiTrigger.ValueOperatorEnum, //outsideof, within, &#x3D;&#x3D;, &lt;, &lt;&#x3D;, &gt;, &gt;&#x3D;
+    public valueOperator: ApiTrigger.ValueOperatorEnum | undefined, //outsideof, within, &#x3D;&#x3D;, &lt;, &lt;&#x3D;, &gt;, &gt;&#x3D;
     public numChannels: number,
-    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum, //any, &#x3D;&#x3D;, &lt;, &gt;
+    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum | undefined, //any, &#x3D;&#x3D;, &lt;, &gt;
     public alertOnOutOfAlarm: boolean,
     public emailList: string, //comma separated
     public val1: number,
     public val2?: number
   ) {}
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Trigger&quot;;
   }
 
   // get conditionString(): string {
   //   return &#x60;Alarm if ${this.num_channels_operator} ${this.num_channels}&#x60;
   // }
-  lastAlarm: Alert;
-  monitor: Monitor;
+  lastAlarm?: Alert;
+  monitor?: Monitor;
 }
 
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class TriggerAdapter implements Adapter&lt;Trigger&gt; {
-  adaptFromApi(item: ReadOnlyTriggerSerializer | ApiTrigger): Trigger {
+export class TriggerAdapter
+  implements Adapter&lt;Trigger, ReadTrigger, WriteTrigger&gt;
+{
+  adaptFromApi(item: ReadTrigger): Trigger {
     const trigger &#x3D; new Trigger(
-      item.id,
+      item.id ? +item.id : 0,
       item.monitor,
       item.value_operator, //outsideof, within, &#x3D;&#x3D;, &lt;, &lt;&#x3D;, &gt;, &gt;&#x3D;
       item.num_channels,
@@ -298,7 +295,7 @@ export class TriggerAdapter implements Adapter&lt;Trigger&gt; {
     return trigger;
   }
 
-  adaptToApi(item: Trigger): WriteOnlyTriggerSerializer {
+  adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,
       val1: item.val1,

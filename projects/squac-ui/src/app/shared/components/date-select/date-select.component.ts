@@ -137,13 +137,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
-  /**
-   *
-   * @param startDate - dayjs date, start of time range
-   * @param endDate - dayjs date, end of time range
-   * @param liveMode - use live data
-   * @param rangeInSeconds - width of time range in seconds
-   */
   datesUpdated(
     startDate: Dayjs | null,
     endDate: Dayjs | null,
@@ -158,10 +151,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
     });
   }
 
-  /**
-   * Opens date picker
-   * @param e - instance of event
-   */
   openDatePicker(e: any): void {
     this.pickerDirective.open(e);
   }

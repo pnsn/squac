@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/organization.ts</code>
+            <code>projects/squacapi/src/lib/models/organization.ts</code>
         </p>
 
 
@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/squacapi/models/organization.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:24</a></div>
                 </td>
             </tr>
 
@@ -175,9 +175,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { User, UserAdapter } from &quot;./user&quot;;
-import { ReadOrganization, ApiUserSimple } from &quot;../interfaces/squac-types&quot;;
+import { User, UserAdapter } from &quot;../models&quot;;
+import { Adapter, ReadOrganization, ApiUserSimple } from &quot;../interfaces&quot;;
 
 // Describes a user object
 export class Organization {
@@ -188,17 +187,19 @@ export class Organization {
     public users: User[]
   ) {}
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Organization&quot;;
   }
 }
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class OrganizationAdapter implements Adapter&lt;Organization&gt; {
+export class OrganizationAdapter
+  implements Adapter&lt;Organization, ReadOrganization, unknown&gt;
+{
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter &#x3D; new UserAdapter();
-    let users &#x3D; [];
+    let users: User[] &#x3D; [];
     if (item.users) {
       users &#x3D; item.users.map((u: ApiUserSimple) &#x3D;&gt; userAdapter.adaptFromApi(u));
     }

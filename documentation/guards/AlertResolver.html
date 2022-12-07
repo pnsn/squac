@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/squacapi/resolvers/alert.resolver.ts</code>
+                <code>projects/squac-ui/src/app/core/resolvers/alert.resolver.ts</code>
             </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/squacapi/resolvers/alert.resolver.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -185,8 +185,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/squacapi/resolvers/alert.resolver.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:39</a></div>
                 </td>
             </tr>
 
@@ -251,7 +251,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/app/squacapi/resolvers/alert.resolver.ts:18</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:18</a></div>
                 </td>
             </tr>
 
@@ -309,9 +309,9 @@ import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
-import { Alert } from &quot;../models/alert&quot;;
-import { AlertService } from &quot;../services/alert.service&quot;;
-
+import { Alert } from &quot;squacapi&quot;;
+import { AlertService } from &quot;squacapi&quot;;
+//FIXME: remove import from@core
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -324,19 +324,17 @@ export class AlertResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable&lt;Alert&gt; | Observable&lt;Alert[]&gt; {
-    const id &#x3D; +route.paramMap.get(&quot;alertId&quot;);
+    const id &#x3D; route.paramMap.get(&quot;alertId&quot;);
     if (id) {
-      return this.alertService.read(id).pipe(
+      return this.alertService.read(+id).pipe(
         catchError((error) &#x3D;&gt; {
-          this.messageService.error(&quot;Could not load alert.&quot;);
           return this.handleError(error);
         })
       );
     } else {
       const lastday &#x3D; this.dateService.subtractFromNow(1, &quot;day&quot;).format();
-      return this.alertService.list({ starttime: lastday }).pipe(
+      return this.alertService.list({ timestampGte: lastday }).pipe(
         catchError((error) &#x3D;&gt; {
-          this.messageService.error(&quot;Could not load alerts.&quot;);
           return this.handleError(error);
         })
       );
@@ -344,7 +342,7 @@ export class AlertResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
     }
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     // TODO: route to show error
     return of({ error });
   }

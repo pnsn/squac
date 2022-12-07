@@ -1,5 +1,5 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
@@ -41,12 +41,7 @@ import { MenuComponent } from "@core/components/menu/menu.component";
 import { AuthInterceptor } from "@core/interceptors/auth-interceptor.service";
 import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
-import { ConfigurationService } from "@core/services/configuration.service";
 import { AppAbility } from "@core/utils/ability";
-
-export function initApp(configurationService: ConfigurationService) {
-  return (): Promise<void> => configurationService.load().toPromise();
-}
 
 @NgModule({
   declarations: [
@@ -74,12 +69,6 @@ export function initApp(configurationService: ConfigurationService) {
     },
 
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [ConfigurationService],
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

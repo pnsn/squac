@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ConfigurationService } from "@core/services/configuration.service";
 import { LoadingService } from "@core/services/loading.service";
-
 import { AuthService } from "@core/services/auth.service";
 
 @Component({
@@ -11,14 +9,11 @@ import { AuthService } from "@core/services/auth.service";
 
 // App parent component
 export class AppComponent implements OnInit {
-  title;
+  title = "SQUAC";
   constructor(
     private authService: AuthService,
-    configService: ConfigurationService,
     public loadingService: LoadingService
-  ) {
-    this.title = configService.getValue("appTitle", "SQUAC");
-  }
+  ) {}
 
   ngOnInit(): void {
     this.authService.autologin();

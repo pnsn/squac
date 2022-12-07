@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/squacapi/resolvers/monitor.resolver.ts</code>
+                <code>projects/squac-ui/src/app/core/resolvers/monitor.resolver.ts</code>
             </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/squacapi/resolvers/monitor.resolver.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/monitor.resolver.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -173,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/squacapi/resolvers/monitor.resolver.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/monitor.resolver.ts:33</a></div>
                 </td>
             </tr>
 
@@ -238,8 +238,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/app/squacapi/resolvers/monitor.resolver.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/monitor.resolver.ts:13</a></div>
                 </td>
             </tr>
 
@@ -296,8 +296,7 @@
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
-import { Monitor } from &quot;../models/monitor&quot;;
-import { MonitorService } from &quot;../services/monitor.service&quot;;
+import { Monitor, MonitorService } from &quot;squacapi&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -308,9 +307,9 @@ export class MonitorResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable&lt;Monitor&gt; | Observable&lt;Monitor[]&gt; {
-    const id &#x3D; +route.paramMap.get(&quot;monitorId&quot;);
+    const id &#x3D; route.paramMap.get(&quot;monitorId&quot;);
     if (id) {
-      return this.monitorService.read(id).pipe(
+      return this.monitorService.read(+id).pipe(
         catchError((error) &#x3D;&gt; {
           return this.handleError(error);
         })
@@ -325,7 +324,7 @@ export class MonitorResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
     }
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     return of({ error });
   }
 }

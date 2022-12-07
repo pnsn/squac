@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/monitor.ts</code>
+            <code>projects/squacapi/src/lib/models/monitor.ts</code>
         </p>
 
 
@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/app/squacapi/models/monitor.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:45</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">src/app/squacapi/models/monitor.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:93</a></div>
                 </td>
             </tr>
 
@@ -247,40 +247,39 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
+import { ReadOnlyMonitorDetailSerializer } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import {
   // ApiGetChannelGroup,
   ChannelGroup,
   ChannelGroupAdapter,
-} from &quot;./channel-group&quot;;
-import { Metric, MetricAdapter } from &quot;./metric&quot;;
-import {
-  ApiTrigger,
-  ReadMonitor,
-  ReadOnlyMonitorDetailSerializer,
-  WriteMonitor,
-} from &quot;../interfaces/squac-types&quot;;
-import { Alert } from &quot;./alert&quot;;
-import { Trigger, TriggerAdapter } from &quot;./trigger&quot;;
+  Metric,
+  MetricAdapter,
+  Alert,
+  Trigger,
+  TriggerAdapter,
+} from &quot;../models&quot;;
+import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from &quot;../interfaces&quot;;
 
 export class Monitor {
   constructor(
     public id: number,
-    public name: string,
-    public channelGroupId: number,
-    public metricId: number,
-    public intervalType: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum,
+    public name: string | undefined,
+    public channelGroupId: number | undefined,
+    public metricId: number | undefined,
+    public intervalType:
+      | ReadOnlyMonitorDetailSerializer.IntervalTypeEnum
+      | undefined,
     public intervalCount: number,
-    public stat: ReadOnlyMonitorDetailSerializer.StatEnum,
-    public owner: number,
+    public stat: ReadOnlyMonitorDetailSerializer.StatEnum | undefined,
+    public owner: number | undefined,
     public triggers: Trigger[]
   ) {}
 
-  channelGroup: ChannelGroup;
-  metric: Metric;
-  alerts: Alert[];
-  inAlarm: boolean;
-  static get modelName() {
+  channelGroup?: ChannelGroup;
+  metric?: Metric;
+  alerts?: Alert[];
+  inAlarm?: boolean;
+  static get modelName(): string {
     return &quot;Monitor&quot;;
   }
 }
@@ -288,7 +287,9 @@ export class Monitor {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class MonitorAdapter implements Adapter&lt;Monitor&gt; {
+export class MonitorAdapter
+  implements Adapter&lt;Monitor, ReadMonitor, WriteMonitor&gt;
+{
   adaptFromApi(item: ReadMonitor): Monitor {
     const channelGroupAdapter &#x3D; new ChannelGroupAdapter();
     const metricAdapter &#x3D; new MetricAdapter();
@@ -297,30 +298,30 @@ export class MonitorAdapter implements Adapter&lt;Monitor&gt; {
     let metricId;
     let channelGroup: ChannelGroup;
     let metric: Metric;
-    let triggers: Trigger[];
+    let triggers: Trigger[] &#x3D; [];
     // sometimes API returns number, sometimes group
     if (typeof item.channel_group &#x3D;&#x3D;&#x3D; &quot;number&quot;) {
       channelGroupId &#x3D; item.channel_group;
-    } else {
+    } else if (item.channel_group) {
       channelGroupId &#x3D; item.channel_group.id;
       channelGroup &#x3D; channelGroupAdapter.adaptFromApi(item.channel_group);
     }
 
     if (typeof item.metric &#x3D;&#x3D;&#x3D; &quot;number&quot;) {
       metricId &#x3D; item.metric;
-    } else {
+    } else if (item.metric) {
       metricId &#x3D; item.metric.id;
       metric &#x3D; metricAdapter.adaptFromApi(item.metric);
     }
 
-    if (&quot;triggers&quot; in item) {
+    if (&quot;triggers&quot; in item &amp;&amp; item.triggers) {
       triggers &#x3D; item.triggers.map((t: ApiTrigger) &#x3D;&gt;
         triggerAdapter.adaptFromApi(t)
       );
     }
 
     const monitor &#x3D; new Monitor(
-      item.id,
+      item.id ? +item.id : 0,
       item.name,
       channelGroupId,
       metricId,

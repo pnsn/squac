@@ -64,7 +64,7 @@ export class WidgetDataService implements OnDestroy {
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
         return this.dataRequest(params).pipe(
-          catchError((e) => {
+          catchError(() => {
             this.finishedLoading();
             return EMPTY;
           }),
@@ -151,7 +151,12 @@ export class WidgetDataService implements OnDestroy {
     this.isLoading$.next(true);
   }
 
-  // format raw squacapi data
+  /**
+   * Maps and sorts raw json response from squacapi into Measurement types
+   *
+   * @param {MeasurementTypes[]} response - response data from squacapi
+   * @returns {ProcessedData | WidgetErrors} processed data or widget error
+   */
   mapData(response: MeasurementTypes[]): ProcessedData | WidgetErrors {
     const dataMap: ProcessedData = new Map<
       number,
@@ -185,8 +190,7 @@ export class WidgetDataService implements OnDestroy {
 
         this.calculateDataRange(metricId, value);
       });
-    } catch (e) {
-      console.log(e);
+    } catch {
       return WidgetErrors.SQUAC_ERROR;
     }
     return dataMap;
@@ -199,8 +203,8 @@ export class WidgetDataService implements OnDestroy {
   /**
    * Calculates the min, max, and count of data for the metric after including the given value
    *
-   * @param metricId - id of metric
-   * @param value - measurement value to add
+   * @param {number} metricId - id of metric
+   * @param {number} value - measurement value to add
    */
   private calculateDataRange(metricId: number, value: number): void {
     const metricRange =

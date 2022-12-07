@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/squacapi/resolvers/user.resolver.ts</code>
+                <code>projects/squac-ui/src/app/core/resolvers/user.resolver.ts</code>
             </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/squacapi/resolvers/user.resolver.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -174,7 +174,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/squacapi/resolvers/user.resolver.ts:17</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:17</a></div>
                 </td>
             </tr>
 
@@ -239,7 +239,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/squacapi/resolvers/user.resolver.ts:13</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:13</a></div>
                 </td>
             </tr>
 
@@ -276,7 +276,7 @@ export class UserResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
     return this.userService.getUser().pipe(catchError(this.handleError));
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     // TODO: route to show error
     return of({ error });
   }

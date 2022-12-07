@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/app/squacapi/resolvers/channel-group.resolver.ts</code>
+                <code>projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts</code>
             </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/squacapi/resolvers/channel-group.resolver.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -174,7 +174,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/squacapi/resolvers/channel-group.resolver.ts:34</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:34</a></div>
                 </td>
             </tr>
 
@@ -239,7 +239,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/app/squacapi/resolvers/channel-group.resolver.ts:14</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:14</a></div>
                 </td>
             </tr>
 
@@ -294,10 +294,10 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
-import { ChannelGroup } from &quot;../models/channel-group&quot;;
+import { ChannelGroup } from &quot;squacapi&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
-import { ChannelGroupService } from &quot;../services/channel-group.service&quot;;
+import { ChannelGroupService } from &quot;squacapi&quot;;
 
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -308,9 +308,9 @@ export class ChannelGroupResolver implements Resolve&lt;Observable&lt;any&gt;&gt
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable&lt;ChannelGroup | ChannelGroup[]&gt; {
-    const id &#x3D; +route.paramMap.get(&quot;channelGroupId&quot;);
+    const id &#x3D; route.paramMap.get(&quot;channelGroupId&quot;);
     if (id) {
-      return this.channelGroupService.read(id).pipe(
+      return this.channelGroupService.read(+id).pipe(
         catchError((error) &#x3D;&gt; {
           return this.handleError(error);
         })
@@ -325,7 +325,7 @@ export class ChannelGroupResolver implements Resolve&lt;Observable&lt;any&gt;&gt
     }
   }
 
-  handleError(error): Observable&lt;any&gt; {
+  handleError(error: unknown): Observable&lt;any&gt; {
     // TODO: route to show error
     return of({ error });
   }

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/user.ts</code>
+            <code>projects/squacapi/src/lib/models/user.ts</code>
         </p>
 
 
@@ -138,7 +138,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/app/squacapi/models/user.ts:61</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:61</a></div>
                 </td>
             </tr>
 
@@ -207,7 +207,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/app/squacapi/models/user.ts:97</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:97</a></div>
                 </td>
             </tr>
 
@@ -291,7 +291,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/squacapi/models/user.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squacapi/src/lib/models/user.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -305,8 +305,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { ReadUser, WriteUser } from &quot;../interfaces/squac-types&quot;;
+import { UserGroup } from &quot;@pnsn/ngx-squacapi-client&quot;;
+import { Adapter, ReadUser, WriteUser } from &quot;../interfaces&quot;;
 
 // Describes a user object
 export class User {
@@ -317,7 +317,7 @@ export class User {
     public lastName: string,
     public orgId: number,
     public orgAdmin: boolean,
-    groupsArr?: any
+    groupsArr?: (string | UserGroup)[]
   ) {
     this.groups &#x3D; [];
     if (groupsArr) {
@@ -347,7 +347,7 @@ export class User {
     return this.groups ? this.groups.indexOf(group) &gt;&#x3D; 0 : false;
   }
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;User&quot;;
   }
 }
@@ -355,7 +355,7 @@ export class User {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class UserAdapter implements Adapter&lt;User&gt; {
+export class UserAdapter implements Adapter&lt;User, ReadUser, WriteUser&gt; {
   // Temp until Jon fixes
   private groupIds &#x3D; [
     { id: 1, name: &quot;viewer&quot; },
@@ -403,11 +403,7 @@ export class UserAdapter implements Adapter&lt;User&gt; {
   adaptToApi(item: User): WriteUser {
     const groups &#x3D; item.groups.map((g) &#x3D;&gt; {
       const group &#x3D; this.groupIds.find((groupId) &#x3D;&gt; groupId.name &#x3D;&#x3D;&#x3D; g);
-      if (group) {
-        return group.id;
-      } else {
-        return;
-      }
+      return group.id;
     });
     return {
       email: item.email,

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/interfaces/adapter.ts</code>
+            <code>projects/squacapi/src/lib/interfaces/adapter.interface.ts</code>
         </p>
 
 
@@ -121,7 +121,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>adaptFromApi(item: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, stat?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>adaptFromApi(item: R)</code>
                 </td>
             </tr>
 
@@ -129,7 +129,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="4"
-                            class="link-to-prism">src/app/squacapi/interfaces/adapter.ts:4</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/interfaces/adapter.interface.ts:4</a></div>
                 </td>
             </tr>
 
@@ -152,23 +152,11 @@
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>R</code>
                                     </td>
 
                                     <td>
                                         No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>stat</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
                                     </td>
 
 
@@ -211,7 +199,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="5"
-                            class="link-to-prism">src/app/squacapi/interfaces/adapter.ts:5</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/interfaces/adapter.interface.ts:5</a></div>
                 </td>
             </tr>
 
@@ -249,7 +237,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>S</code>
 
                     </div>
                     <div class="io-description">
@@ -265,9 +253,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface Adapter&lt;T&gt; {
-  adaptFromApi(item: any, stat?: any): T;
-  adaptToApi?(item: T): any;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface Adapter&lt;T, R, S&gt; {
+  adaptFromApi(item: R): T;
+  adaptToApi?(item: T): S;
 }
 </code></pre>
     </div>

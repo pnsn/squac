@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/services/invite.service.ts</code>
+            <code>projects/squacapi/src/lib/services/invite.service.ts</code>
         </p>
 
 
@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/squacapi/services/invite.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -171,7 +171,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/squacapi/services/invite.service.ts:27</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -245,7 +245,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;object&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -276,7 +276,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/squacapi/services/invite.service.ts:17</a></div>
+                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:17</a></div>
                 </td>
             </tr>
 
@@ -314,7 +314,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;object&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -346,7 +346,7 @@ export class InviteService {
   constructor(private inviteApi: InviteApi) {}
 
   // tells squac to send an invite to existing user
-  sendInviteToUser(user: number): Observable&lt;any&gt; {
+  sendInviteToUser(user: number): Observable&lt;object&gt; {
     const params: InviteCreateRequestParams &#x3D; {
       data: {
         user,
@@ -361,7 +361,7 @@ export class InviteService {
     lastname: string,
     token: string,
     password: string
-  ): Observable&lt;any&gt; {
+  ): Observable&lt;object&gt; {
     const params: RegisterCreateRequestParams &#x3D; {
       data: {
         firstname,

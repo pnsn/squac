@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/interfaces/api-service.interface.ts</code>
+            <code>projects/squacapi/src/lib/interfaces/api-service.interface.ts</code>
         </p>
 
 
@@ -87,15 +87,15 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &quot;rxjs&quot;;
 
 export interface ListService&lt;T&gt; {
-  list(params?: any): Observable&lt;Array&lt;T&gt;&gt;;
+  list(params?: unknown): Observable&lt;Array&lt;T&gt;&gt;;
 }
 
 export interface ReadService&lt;T&gt; {
-  read(params: any): Observable&lt;T&gt;;
+  read(params: unknown): Observable&lt;T&gt;;
 }
 
 export interface UpdateService&lt;T&gt; {
-  update(params: any): Observable&lt;T&gt;;
+  update(params: unknown): Observable&lt;T&gt;;
 }
 
 export interface WriteService&lt;T&gt; {
@@ -103,7 +103,11 @@ export interface WriteService&lt;T&gt; {
 }
 
 export interface DeleteService&lt;T&gt; {
-  delete(params: any): Observable&lt;T&gt;;
+  delete(params: unknown): Observable&lt;T&gt;;
+}
+
+export interface PartialUpdateService&lt;T&gt; {
+  partialUpdate(params: unknown): Observable&lt;T&gt;;
 }
 
 export interface ReadOnlyApiService&lt;T&gt; extends ReadService&lt;T&gt;, ListService&lt;T&gt; {}

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/squacapi/models/alert.ts</code>
+            <code>projects/squacapi/src/lib/models/alert.ts</code>
         </p>
 
 
@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/squacapi/models/alert.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/squacapi/src/lib/models/alert.ts:27</a></div>
                 </td>
             </tr>
 
@@ -175,26 +175,23 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Adapter } from &quot;../interfaces/adapter&quot;;
-import { Monitor } from &quot;./monitor&quot;;
-import { Trigger, TriggerAdapter } from &quot;./trigger&quot;;
-import { ReadAlert } from &quot;../interfaces/squac-types&quot;;
+import { Adapter, ReadAlert } from &quot;../interfaces&quot;;
+import { Monitor, Trigger } from &quot;../models&quot;;
+import { TriggerAdapter } from &quot;../models/trigger&quot;;
 
 export class Alert {
-  constructor(
-    public id: number,
-    public owner: number,
-    public timestamp: string,
-    public message: string,
-    public inAlarm: boolean,
-    public breachingChannels: Array&lt;any&gt;,
-    public triggerId: number
-  ) {}
+  id?: number;
+  owner?: number;
+  timestamp!: string;
+  message!: string;
+  inAlarm?: boolean;
+  breachingChannels!: string[];
+  triggerId?: number;
 
-  monitor: Monitor;
-  trigger: Trigger;
+  monitor?: Monitor;
+  trigger?: Trigger;
 
-  static get modelName() {
+  static get modelName(): string {
     return &quot;Alert&quot;;
   }
 }
@@ -202,34 +199,38 @@ export class Alert {
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class AlertAdapter implements Adapter&lt;Alert&gt; {
+export class AlertAdapter implements Adapter&lt;Alert, ReadAlert, unknown&gt; {
   adaptFromApi(item: ReadAlert): Alert {
     const triggerAdapter &#x3D; new TriggerAdapter();
-    let breachingChannels &#x3D; [];
+    let breachingChannels: string[] &#x3D; [];
     let trigger;
     let triggerId;
+
     if (typeof item.breaching_channels &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-      breachingChannels &#x3D; JSON.parse(item.breaching_channels) || [];
+      try {
+        breachingChannels &#x3D; JSON.parse(item.breaching_channels) as string[];
+      } catch {
+        breachingChannels &#x3D; [];
+      }
     }
 
     if (typeof item.trigger &#x3D;&#x3D;&#x3D; &quot;number&quot;) {
       triggerId &#x3D; item.trigger;
-    } else {
+    } else if (item.trigger) {
       triggerId &#x3D; item.trigger.id;
       trigger &#x3D; triggerAdapter.adaptFromApi(item.trigger);
     }
 
-    const alert &#x3D; new Alert(
-      item.id,
-      item.user,
-      item.timestamp,
-      item.message,
-      item.in_alarm,
+    const alert: Alert &#x3D; {
+      id: item.id,
+      owner: item.user,
+      timestamp: item.timestamp,
+      message: item.message,
+      inAlarm: item.in_alarm,
       breachingChannels,
-      triggerId
-    );
-
-    alert.trigger &#x3D; trigger;
+      triggerId,
+      trigger,
+    };
 
     return alert;
   }

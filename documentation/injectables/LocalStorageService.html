@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/services/local-storage.service.ts</code>
+            <code>projects/squac-ui/src/app/core/services/local-storage.service.ts</code>
         </p>
 
 
@@ -145,7 +145,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:21</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -185,7 +185,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Storage</code>
 
                     </div>
                     <div class="io-description">
@@ -218,7 +218,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:30</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -302,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:119</a></div>
                 </td>
             </tr>
 
@@ -376,8 +376,8 @@ Empty all cache items if no route</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -461,8 +461,8 @@ Empty all cache items if no route</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -514,7 +514,7 @@ Empty all cache items if no route</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>{}</code>
+                        <b>Returns : </b>    <code>any[]</code>
 
                     </div>
                     <div class="io-description">
@@ -547,7 +547,7 @@ Empty all cache items if no route</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/core/services/local-storage.service.ts:55</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/local-storage.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -647,7 +647,7 @@ export class LocalStorageService {
   /**
    * Get the storage facility
    */
-  private static _getStorage(storageType: LocalStorageTypes) {
+  private static _getStorage(storageType: LocalStorageTypes): Storage {
     return storageType &#x3D;&#x3D;&#x3D; LocalStorageTypes.LOCAL
       ? localStorage
       : sessionStorage;
@@ -681,16 +681,20 @@ export class LocalStorageService {
    * Set a localStorage or sessionStorage item value
 
    */
-  static setItem(storageType: LocalStorageTypes, key: string, value: any) {
+  static setItem(
+    storageType: LocalStorageTypes,
+    key: string,
+    value: any
+  ): void {
     const storage &#x3D; LocalStorageService._getStorage(storageType);
     const val &#x3D; typeof value &#x3D;&#x3D;&#x3D; &quot;string&quot; ? value : JSON.stringify(value);
-    storage.setItem(&#x60;${PROJECT_NAME}:${key}&#x60;, val);
+    return storage.setItem(&#x60;${PROJECT_NAME}:${key}&#x60;, val);
   }
 
   /**
    * Remove an item from localStorage or sessionStorage
    */
-  static removeItem(storageType: LocalStorageTypes, key: string) {
+  static removeItem(storageType: LocalStorageTypes, key: string): void {
     const storage &#x3D; LocalStorageService._getStorage(storageType);
     storage.removeItem(&#x60;${PROJECT_NAME}:${key}&#x60;);
   }
@@ -704,7 +708,7 @@ export class LocalStorageService {
       route: any;
       pattern: string;
     }
-  ) {
+  ): any[] {
     const storage &#x3D; LocalStorageService._getStorage(storageType);
     let i;
     const results &#x3D; [];
@@ -741,7 +745,10 @@ export class LocalStorageService {
    * Empty all cache items that match route
    * Empty all cache items if no route
    */
-  static invalidateCache(matchingRoute?: { route: any; pattern: string }) {
+  static invalidateCache(matchingRoute?: {
+    route: any;
+    pattern: string;
+  }): void {
     const results &#x3D; [];
     const prefix &#x3D; PROJECT_NAME;
     Object.values(LocalStorageService).forEach((storageType) &#x3D;&gt; {

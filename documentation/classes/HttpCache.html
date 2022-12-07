@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>squac-ui documentation</title>
+        <title>squac documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,7 +14,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">squac-ui documentation</a>
+            <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/services/cache.service.ts</code>
+            <code>projects/squac-ui/src/app/core/services/cache.service.ts</code>
         </p>
 
 
@@ -137,7 +137,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/app/core/services/cache.service.ts:11</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:11</a></div>
                 </td>
             </tr>
 
@@ -208,7 +208,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">src/app/core/services/cache.service.ts:9</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:9</a></div>
                 </td>
             </tr>
 
@@ -279,7 +279,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">src/app/core/services/cache.service.ts:10</a></div>
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:10</a></div>
                 </td>
             </tr>
 
@@ -353,7 +353,7 @@
 import { Injectable } from &quot;@angular/core&quot;;
 import { LocalStorageTypes } from &quot;@core/services/local-storage.service&quot;;
 import { LocalStorageService } from &quot;@core/services/local-storage.service&quot;;
-import { CachableRoutePatterns } from &quot;@squacapi/interfaces/api.interface&quot;;
+import { CACHEABLE_ROUTE_PATTERNS } from &quot;../cacheable-route-patterns.constant&quot;;
 import * as Route from &quot;route-parser&quot;;
 
 abstract class HttpCache {
@@ -366,8 +366,8 @@ abstract class HttpCache {
   providedIn: &quot;root&quot;,
 })
 export class HttpCacheService implements HttpCache {
-  cache: { [key: string]: HttpResponse&lt;any&gt; } &#x3D; {};
-  cachableRoutes &#x3D; CachableRoutePatterns;
+  cache: Record&lt;string, HttpResponse&lt;any&gt;&gt; &#x3D; {};
+  cachableRoutes &#x3D; CACHEABLE_ROUTE_PATTERNS;
 
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, &quot;&quot;);
@@ -377,16 +377,16 @@ export class HttpCacheService implements HttpCache {
    * Get an item from the cache
    * @param req -
    */
-  get(req: HttpRequest&lt;any&gt;): HttpResponse&lt;any&gt; {
+  get(req: HttpRequest&lt;any&gt;): HttpResponse&lt;any&gt; | null {
     const urlWithParams &#x3D; this.stripUrl(req.urlWithParams);
     const storageLocation &#x3D; this.whichStorageToUse(urlWithParams);
-
     const cachedItem &#x3D; storageLocation
       ? LocalStorageService.getItem(storageLocation, urlWithParams)
       : this.cache[urlWithParams];
     if (cachedItem &amp;&amp; cachedItem instanceof HttpResponse) {
       return cachedItem;
     }
+    return null;
   }
 
   /**
@@ -399,8 +399,9 @@ export class HttpCacheService implements HttpCache {
 
     const shouldCache &#x3D; this.shouldCache(urlWithParams);
     const storageLocation &#x3D; this.whichStorageToUse(urlWithParams);
+
     if (shouldCache &amp;&amp; storageLocation) {
-      this.cacheToSessionStorage(urlWithParams, res);
+      this.cacheToStorage(storageLocation, urlWithParams, res);
     } else if (shouldCache) {
       this.cacheToLocal(urlWithParams, res);
     }
@@ -428,9 +429,9 @@ export class HttpCacheService implements HttpCache {
     return returnVal;
   }
 
-  matchRoutes(urlWithParams: string) {
-    let matchingRoute;
-    let pattern;
+  matchRoutes(urlWithParams: string): { route: any; pattern: string } {
+    let matchingRoute: any;
+    let pattern &#x3D; &quot;&quot;;
     Object.keys(this.cachableRoutes).forEach((cacheRoute) &#x3D;&gt; {
       const route &#x3D; new Route(cacheRoute);
       const routeMatch &#x3D; route.match(urlWithParams);
@@ -440,7 +441,7 @@ export class HttpCacheService implements HttpCache {
         pattern &#x3D; cacheRoute;
       }
     });
-    return { route: matchingRoute, pattern };
+    return { route: matchingRoute, pattern: pattern };
   }
 
   /**
@@ -448,7 +449,7 @@ export class HttpCacheService implements HttpCache {
    *
    * @param urlWithParams -
    */
-  shouldCache(urlWithParams: string) {
+  shouldCache(urlWithParams: string): boolean {
     return !!this.matchRoutes(urlWithParams).route;
   }
 
@@ -457,7 +458,7 @@ export class HttpCacheService implements HttpCache {
    *
    * @param urlWithParams -
    */
-  shouldCacheToSessionStorage(urlWithParams: string) {
+  shouldCacheToSessionStorage(urlWithParams: string): boolean {
     const matchRoutes &#x3D; this.matchRoutes(urlWithParams);
     return (
       !!matchRoutes.route &amp;&amp; this.cachableRoutes[matchRoutes.pattern] &#x3D;&#x3D;&#x3D; true
@@ -466,7 +467,7 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Determine if a url should be place in local or sessions storage and which one
-   * It must match a route pattern provided in CachableRoutePatterns
+   * It must match a route pattern provided in CACHEABLE_ROUTE_PATTERNS
    * @param urlWithParams -
    * @returns
    */
@@ -481,7 +482,7 @@ export class HttpCacheService implements HttpCache {
    * @param urlWithParams -
    * @param res -
    */
-  cacheToLocal(urlWithParams: string, res: HttpResponse&lt;any&gt;) {
+  cacheToLocal(urlWithParams: string, res: HttpResponse&lt;any&gt;): void {
     this.cache[urlWithParams] &#x3D; res;
   }
 
@@ -494,17 +495,12 @@ export class HttpCacheService implements HttpCache {
     storageType: LocalStorageTypes,
     urlWithParams: string,
     res: HttpResponse&lt;any&gt;
-  ) {
-    LocalStorageService.setItem(storageType, urlWithParams, res);
-  }
-
-  /**
-   * Place the response in sessionStorage
-   * @param urlWithParams -
-   * @param res -
-   */
-  cacheToSessionStorage(urlWithParams: string, res: HttpResponse&lt;any&gt;) {
-    LocalStorageService.setItem(LocalStorageTypes.SESSION, urlWithParams, res);
+  ): void {
+    try {
+      LocalStorageService.setItem(storageType, urlWithParams, res);
+    } catch (e) {
+      this.cacheToLocal(urlWithParams, res);
+    }
   }
 }
 </code></pre>
