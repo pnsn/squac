@@ -12,10 +12,12 @@ import { Widget, WidgetAdapter } from "../models";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
+/**
+ * Service for requesting widget data from squacapi
+ */
 @Injectable({
   providedIn: "root",
 })
-// Class for widget interaction with squac
 export class WidgetService
   extends BaseApiService<Widget>
   implements SquacApiService<Widget>
@@ -24,15 +26,23 @@ export class WidgetService
     super(ApiEndpoint.WIDGET, api);
   }
 
-  // widget is weird and uses number ids unlike other endpoints
+  /**
+   * @override
+   */
   override readParams(id: number): DashboardWidgetsReadRequestParams {
     return { id };
   }
 
+  /**
+   * @override
+   */
   override deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
     return { id };
   }
 
+  /**
+   * @override
+   */
   override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
     return {
       id: w.id,
@@ -40,10 +50,20 @@ export class WidgetService
     };
   }
 
+  /**
+   * @override
+   */
   override read(id: number, refresh?: boolean): Observable<Widget> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params - squacapi widget request params
+   * @param refresh - fresh request, default false
+   * @returns array of widgets
+   * @override
+   */
   list(
     params?: DashboardWidgetsListRequestParams,
     refresh?: boolean
@@ -51,10 +71,16 @@ export class WidgetService
     return super._list(params, { refresh });
   }
 
+  /**
+   * @override
+   */
   updateOrCreate(t: Widget): Observable<Widget> {
     return super._updateOrCreate(t);
   }
 
+  /**
+   * @override
+   */
   override delete(id: number): Observable<Widget> {
     return super.delete(id);
   }

@@ -12,6 +12,9 @@ import {
 } from "./components";
 import { WidgetTypeDirective } from "./directives/widget-type.directive";
 
+/**
+ * Module for squac widgets
+ */
 @NgModule({
   declarations: [WidgetTypeDirective, ErrorComponent],
   imports: [

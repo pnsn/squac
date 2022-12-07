@@ -13,8 +13,8 @@ dayjs.tz.setDefault("Etc/UTC");
 /**
  * Parse date string and return utc dayjs object
  *
- * @param {string} date - string in date format
- * @returns {Dayjs} Dayjs date object from date
+ * @param date - string in date format
+ * @returns Dayjs date object from date
  */
 export function parseUtc(date: string): Dayjs {
   return dayjs.utc(date).clone();
@@ -33,8 +33,8 @@ export const DEFAULT_LOCALE = {
  * Formats date object and returns formatted date string
  * format set with {@link DEFAULT_LOCALE}
  *
- * @param {Dayjs} date - Dayjs date
- * @returns {string} string formatted date
+ * @param date - Dayjs date
+ * @returns string formatted date
  */
 export function format(date: Dayjs): string {
   return date.format(DEFAULT_LOCALE.format);

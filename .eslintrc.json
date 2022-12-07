@@ -48,8 +48,8 @@
           }
         ],
         "jsdoc/no-types": "warn",
-        "jsdoc/require-param-types": "off",
-        "jsdoc/require-returns-types": "off",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns-type": "off",
         "jsdoc/require-jsdoc": [
           "warn",
           {
@@ -60,7 +60,8 @@
               "FunctionDeclaration": true,
               "FunctionExpression": true,
               "MethodDefinition": true
-            }
+            },
+            "checkConstructors": false
           }
         ]
       }

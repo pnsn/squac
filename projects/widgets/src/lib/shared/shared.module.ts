@@ -5,6 +5,9 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { PrecisionPipe } from "./pipes/precision.pipe";
 import { GuardTypePipe } from "./pipes/guard-type.pipe";
 
+/**
+ * Module for shared objects
+ */
 @NgModule({
   declarations: [PrecisionPipe, GuardTypePipe],
   imports: [
