@@ -9,6 +9,9 @@ import { Observable } from "rxjs";
 import { Measurement, MeasurementAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -20,7 +23,12 @@ export class MeasurementService
     super(ApiEndpoint.MEASUREMENT, api);
   }
 
-  // gets data from squac, returns measurements or archives
+  /**
+   * Request list of measurements
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementMeasurementsListRequestParams,
     refresh?: boolean

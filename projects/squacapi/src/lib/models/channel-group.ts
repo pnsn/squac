@@ -10,6 +10,9 @@ import { ChannelAdapter } from "../models/channel";
 
 // Describes a channel group object
 
+/**
+ *
+ */
 export class ChannelGroup {
   id?: number;
   owner?: number;
@@ -27,17 +30,27 @@ export class ChannelGroup {
   autoIncludeChannels?: (Channel | number)[];
   autoExcludeChannels?: (Channel | number)[];
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "ChannelGroup";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ChannelGroupAdapter
   implements Adapter<ChannelGroup, ReadChannelGroup, WriteChannelGroup>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
@@ -77,6 +90,10 @@ export class ChannelGroupAdapter
     return channelGroup;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
     const incl = item.autoExcludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id

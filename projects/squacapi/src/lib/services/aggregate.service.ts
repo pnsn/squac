@@ -9,6 +9,9 @@ import { Aggregate, AggregateAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 import { BaseApiService } from "./generic-api.service";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -20,6 +23,11 @@ export class AggregateService
     super(ApiEndpoint.AGGREGATE, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementAggregatedListRequestParams,
     refresh?: boolean

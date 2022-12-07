@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadMeasurement } from "../interfaces";
 
+/**
+ *
+ */
 export class Measurement {
   constructor(
     public id: number,
@@ -12,17 +15,27 @@ export class Measurement {
     public endtime: string
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Measurement";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MeasurementAdapter
   implements Adapter<Measurement, ReadMeasurement, unknown>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement = new Measurement(
       item.id ? item.id : 0,

@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadMetric, WriteMetric } from "../interfaces";
 // Describes a metric object
+/**
+ *
+ */
 export class Metric {
   constructor(
     public id: number,
@@ -15,15 +18,25 @@ export class Metric {
     public maxVal?: number | null
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Metric";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
@@ -39,6 +52,10 @@ export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
     );
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,

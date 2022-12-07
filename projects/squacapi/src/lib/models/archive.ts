@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadArchive } from "../interfaces";
 
-// Describes an archive
+/** Describes an archive */
 export class Archive {
   value?: number;
   id?: number;
@@ -18,15 +18,18 @@ export class Archive {
   starttime!: string;
   endtime!: string;
 
+  /** @returns model name */
   static get modelName(): string {
     return "Archive";
   }
 }
 
+/** adapt archive */
 @Injectable({
   providedIn: "root",
 })
 export class ArchiveAdapter implements Adapter<Archive, ReadArchive, unknown> {
+  /** @override */
   adaptFromApi(item: ReadArchive): Archive {
     // squacapi openapi thinks min & maxabs are strings
     const id = item.id ? +item.id : undefined;

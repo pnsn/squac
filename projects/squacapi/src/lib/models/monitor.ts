@@ -12,6 +12,9 @@ import {
 } from "../models";
 import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
+/**
+ *
+ */
 export class Monitor {
   constructor(
     public id: number,
@@ -31,17 +34,27 @@ export class Monitor {
   metric?: Metric;
   alerts?: Alert[];
   inAlarm?: boolean;
+  /**
+   *
+   */
   static get modelName(): string {
     return "Monitor";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MonitorAdapter
   implements Adapter<Monitor, ReadMonitor, WriteMonitor>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMonitor): Monitor {
     const channelGroupAdapter = new ChannelGroupAdapter();
     const metricAdapter = new MetricAdapter();
@@ -90,6 +103,10 @@ export class MonitorAdapter
     return monitor;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Monitor): WriteMonitor {
     return {
       interval_type: item.intervalType,

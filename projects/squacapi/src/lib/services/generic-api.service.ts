@@ -15,6 +15,11 @@ export interface HttpOptions {
 
 export type Params = any;
 
+/**
+ * Abstract service for interacting with squacapi models
+ *
+ * @template T model type
+ */
 export abstract class BaseApiService<T extends SquacObject> {
   observe = "body";
   reportProgress = false;
@@ -23,10 +28,22 @@ export abstract class BaseApiService<T extends SquacObject> {
 
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
 
+  /**
+   * Convert api object to model
+   *
+   * @param apiObject api item
+   * @returns model
+   */
   private mapFromApi(apiObject: any): T {
     return this.adapter.adaptFromApi(apiObject);
   }
 
+  /**
+   * Adds context to options
+   *
+   * @param options request options
+   * @returns options with context
+   */
   private getHttpOptions(options: Options): HttpOptions {
     const httpOptions: HttpOptions = {};
     if (options && options.refresh) {
@@ -38,10 +55,10 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Request list of objects of type T from squacapi
    *
-   * @template T - type of model to be requested
-   * @param {Params} params - http params for request
-   * @param {Options} options - http options for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be requested
+   * @param params  http params for request
+   * @param options - http options for request
+   * @returns results of http request
    */
   protected _list(
     params: Params = {},
@@ -59,10 +76,10 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Request single object detail of type T from squacapi
    *
-   * @template T - type of model to be requested
-   * @param {Params} params - http params for request
-   * @param {Options} options - http options for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be requested
+   * @param params  http params for request
+   * @param options - http options for request
+   * @returns - results of http request
    */
   protected _read(params?: Params, options?: Options): Observable<T> {
     const httpOptions = this.getHttpOptions(options);
@@ -77,9 +94,9 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Update single object of type T from squacapi
    *
-   * @template T - type of model to be updated
-   * @param {Params} params - http params for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be updated
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _update(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Update`](
@@ -92,9 +109,9 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Create objects of type T from squacapi
    *
-   * @template T - type of model to be created
-   * @param {Params} params - http params for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be created
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _create(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Create`](
@@ -112,9 +129,9 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Delete object of type T from squacapi
    *
-   * @template T - type of model to be deleted
-   * @param {Params} params - http params for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be deleted
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _delete(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Delete`](
@@ -127,8 +144,8 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Convert inputted id to correct param format for squacapi
    *
-   * @param {string | number} id - id of object
-   * @returns {{id: string}} id params
+   * @param id - id of object
+   * @returns id params
    */
   protected readParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
@@ -137,23 +154,21 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Formats inputted object for squacapi
    *
-   * @template T - type of object to update
-   * @param {T} t - object to update
-   * @returns {{id: string | number, data: unknown} | void} returns data object
+   * @template T type of object to update
+   * @param t object to update
+   * @returns returns data object
    */
-  protected updateParams(t: T): { id: string | number; data: unknown } | void {
+  protected updateParams(t: T): { id: string | number; data: unknown } {
     const data = this.adapter.adaptToApi(t);
-    if (t.id) {
-      return { id: `${t.id}`, data };
-    }
+    return { id: `${t.id}`, data };
   }
 
   /**
    * Formats inputted object for squacapi
    *
-   * @template T - type of object to create
-   * @param {T} t - object to create
-   * @returns {{data: unknown}} returns data object
+   * @template T type of object to create
+   * @param t object to create
+   * @returns returns data object
    */
   protected createParams(t: T): { data: unknown } {
     const data = this.adapter.adaptToApi(t);
@@ -163,18 +178,31 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Convert inputted id to correct param format for squacapi
    *
-   * @param {string | number} id - id of object
-   * @returns {{id: string}} id params
+   * @param id  id of object
+   * @returns id params
    */
   protected deleteParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
   }
 
+  /**
+   * Create read request
+   *
+   * @param id id of object to request
+   * @param refresh refresh request
+   * @returns observable for request
+   */
   protected read(id: number, refresh?: boolean): Observable<T> {
     const params = this.readParams(id);
     return this._read(params, { refresh });
   }
 
+  /**
+   * Create delete request
+   *
+   * @param id id of object to delete
+   * @returns delete request
+   */
   protected delete(id: number): Observable<T> {
     const params = this.deleteParams(id);
     return this._delete(params);
@@ -183,9 +211,9 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Create or update object of type T from squacapi
    *
-   * @template T - type of model to be created
-   * @param {T} t - http params for request
-   * @returns {Observable<T>} - results of http request
+   * @template T type of model to be created
+   * @param t http params for request
+   * @returns results of http request
    */
   protected _updateOrCreate(t: T): Observable<T> {
     if (t.id) {

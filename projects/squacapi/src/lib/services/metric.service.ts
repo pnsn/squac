@@ -9,6 +9,9 @@ import {
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -20,15 +23,29 @@ export class MetricService
     super(ApiEndpoint.METRIC, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<Metric> {
     return super.read(id, refresh);
   }
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params?: MeasurementMetricsListRequestParams,
     refresh?: boolean
   ): Observable<Metric[]> {
     return super._list(params, { refresh });
   }
+  /**
+   *
+   * @param t
+   */
   updateOrCreate(t: Metric): Observable<Metric> {
     return super._updateOrCreate(t);
   }

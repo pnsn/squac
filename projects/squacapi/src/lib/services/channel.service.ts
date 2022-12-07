@@ -11,6 +11,9 @@ import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -22,10 +25,20 @@ export class ChannelService
     super(ApiEndpoint.CHANNEL, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<Channel> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: NslcChannelsListRequestParams,
     refresh?: boolean
@@ -33,6 +46,11 @@ export class ChannelService
     return super._list(params, { refresh });
   }
 
+  /**
+   *
+   * @param rules
+   * @param params
+   */
   getChannelsByRules(
     rules: MatchingRule[],
     params?: Params

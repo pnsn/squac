@@ -10,6 +10,9 @@ import { WriteableApiService } from "../interfaces";
 import { User, UserAdapter } from "../models";
 import { Observable } from "rxjs";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -21,10 +24,20 @@ export class OrganizationUserService
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<User> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: OrganizationUsersListRequestParams,
     refresh?: boolean
@@ -32,6 +45,10 @@ export class OrganizationUserService
     return super._list(params, { refresh });
   }
 
+  /**
+   *
+   * @param t
+   */
   updateOrCreate(t: User): Observable<User> {
     return super._updateOrCreate(t);
   }

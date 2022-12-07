@@ -3,6 +3,9 @@ import { Adapter, SquacObject, ReadChannel } from "../interfaces";
 
 // Describes a channel object
 
+/**
+ *
+ */
 export class Channel implements SquacObject {
   nslc: string;
   constructor(
@@ -25,18 +28,31 @@ export class Channel implements SquacObject {
     this.nslc = _nslc ? _nslc : net + "." + sta + "." + loc + "." + code;
   }
 
+  /**
+   *
+   */
   get staCode(): string {
     return this.net + "." + this.sta;
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Channel";
   }
 }
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ChannelAdapter implements Adapter<Channel, ReadChannel, unknown> {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadChannel): Channel {
     return new Channel(
       item.id ? +item.id : 0,

@@ -12,6 +12,9 @@ import { Observable } from "rxjs";
 import { Archive, ArchiveAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -23,6 +26,11 @@ export class HourArchiveService
     super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementHourArchivesListRequestParams,
     refresh?: boolean
@@ -31,6 +39,9 @@ export class HourArchiveService
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -42,6 +53,11 @@ export class DayArchiveService
     super(ApiEndpoint.DAY_ARCHIVE, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementDayArchivesListRequestParams,
     refresh?: boolean
@@ -50,6 +66,9 @@ export class DayArchiveService
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -61,6 +80,11 @@ export class WeekArchiveService
     super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementWeekArchivesListRequestParams,
     refresh?: boolean
@@ -69,6 +93,9 @@ export class WeekArchiveService
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -80,6 +107,11 @@ export class MonthArchiveService
     super(ApiEndpoint.MONTH_ARCHIVE, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params: MeasurementMonthArchivesListRequestParams,
     refresh?: boolean

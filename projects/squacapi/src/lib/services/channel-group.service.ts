@@ -10,6 +10,9 @@ import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -21,10 +24,20 @@ export class ChannelGroupService
     super(ApiEndpoint.CHANNEL_GROUP, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<ChannelGroup> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params?: NslcGroupsListRequestParams,
     refresh?: boolean
@@ -32,10 +45,18 @@ export class ChannelGroupService
     return super._list(params, { refresh });
   }
 
+  /**
+   *
+   * @param t
+   */
   updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {
     return super._updateOrCreate(t);
   }
 
+  /**
+   *
+   * @param id
+   */
   override delete(id: number): Observable<ChannelGroup> {
     return super.delete(id);
   }
@@ -46,6 +67,10 @@ export class ChannelGroupService
   groups: [channelGroups]
   }
   */
+  /**
+   *
+   * @param params
+   */
   getSortedChannelGroups(
     params?: NslcGroupsListRequestParams
   ): Observable<unknown[]> {
