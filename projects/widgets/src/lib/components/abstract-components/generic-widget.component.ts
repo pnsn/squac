@@ -5,6 +5,9 @@ import { Channel, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";
 import { Subscription } from "rxjs";
 
+/**
+ * Abstract widget class for widget components
+ */
 @Component({ template: "" })
 export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
@@ -18,13 +21,42 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   properties: WidgetProperties;
   visualMaps: VisualMap = {};
 
+  /**
+   * Trigger emphasis action for channel
+   *
+   * @param channel - channel nslc to emphasize
+   */
   abstract emphasizeChannel(channel: string): void;
+
+  /**
+   * Trigger deemphasize action for channel
+   *
+   * @param channel - channel nslc to deemphasize
+   */
   abstract deemphasizeChannel(channel: string): void;
+
+  /** Trigger zoom event */
   abstract startZoom(): void;
+
+  /** Trigger key or legend toggle */
   abstract toggleKey(): void;
 
+  /**
+   * Change metrics in the chart
+   */
   abstract changeMetrics(): void;
+
+  /**
+   * Takes in processed data and convert to format for chart
+   *
+   * @param data - date to update chart with
+   * @returns - promise
+   */
   abstract buildChartData(data: ProcessedData): Promise<void>;
+
+  /**
+   * Set up chart
+   */
   abstract configureChart(): void;
 
   constructor(
@@ -34,6 +66,9 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.widgetConfig = widgetManager.widgetConfig;
   }
 
+  /**
+   * Initializes toggle key subscription and functionality
+   */
   initToggleKey(): void {
     const toggleKeySub = this.widgetManager.toggleKey$.subscribe((show) => {
       this.showKey = show;
@@ -42,6 +77,9 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.subscription.add(toggleKeySub);
   }
 
+  /**
+   * Intializes zoom subscription and functionality
+   */
   initZoom(): void {
     const zoomSub = this.widgetManager.zoomStatus$.subscribe((zoom) => {
       if (zoom !== this.zooming) {
@@ -52,6 +90,11 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.subscription.add(zoomSub);
   }
 
+  /**
+   * Update widget data
+   *
+   * @param data - data for widget to update
+   */
   updateData(data: ProcessedData): void {
     this.data = data;
     this.channels = this.widgetManager.channels;
@@ -62,6 +105,9 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Set up initial subscriptions
+   */
   ngOnInit(): void {
     this.configureChart();
     if (this.widgetConfig.toggleKey) {
@@ -83,10 +129,9 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
   }
 
+  /** Unsubscribe on destroy */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

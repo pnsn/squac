@@ -19,11 +19,15 @@ import {
   WidgetTypeComponent,
   isContinuous,
   isStoplight,
+  ProcessedData,
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../abstract-components";
-import { ChannelRow, StationRow } from "./types";
+import { ChannelRow, StationChannels, StationRow } from "./types";
 import { MeasurementTypes, Metric } from "squacapi";
 
+/**
+ * Leaflet map widget
+ */
 @Component({
   selector: "widget-map",
   templateUrl: "./map.component.html",
@@ -63,14 +67,23 @@ export class MapComponent
     super(widgetManager, widgetConnectService);
   }
 
+  /**
+   * @override
+   */
   deemphasizeChannel(_channel: string): void {
     return;
   }
 
+  /**
+   * Should trigger zoom, but currently not available
+   */
   startZoom(): void {
     return;
   }
 
+  /**
+   * @override
+   */
   configureChart(): void {
     // Add all the layers to the array that will be fed to options
     const baseLayers = [
@@ -88,6 +101,9 @@ export class MapComponent
     };
   }
 
+  /**
+   * @override
+   */
   toggleKey(): void {
     //show
     if (this.showKey && this.map) {
@@ -97,6 +113,11 @@ export class MapComponent
     }
   }
 
+  /**
+   * Store map once ready
+   *
+   * @param map - Leaflet map referencea
+   */
   onMapReady(map: L.Map): void {
     this.map = map;
     // Do stuff with map
@@ -110,6 +131,9 @@ export class MapComponent
     }
   }
 
+  /**
+   * @override
+   */
   emphasizeChannel(channel: string): void {
     // const layer = this.metricLayers[this.displayMetric.id];
     if (channel && this.stations) {
@@ -132,6 +156,9 @@ export class MapComponent
     }
   }
 
+  /**
+   * set up legend elemend and add to map
+   */
   private initLegend(): void {
     const legend = this.legendRef.nativeElement;
     this.legend.onAdd = (): HTMLElement => {
@@ -142,7 +169,12 @@ export class MapComponent
     }
   }
 
-  toggleColor(pane): void {
+  /**
+   * Toggle map pane with inputted color
+   *
+   * @param pane - string name of pane (will be color)
+   */
+  toggleColor(pane: string): void {
     const pane1 = this.map.getPane(pane);
     pane1.classList.toggle("hidden");
     const el = this.mapRef.nativeElement.getElementsByClassName(pane);
@@ -154,7 +186,13 @@ export class MapComponent
     }
   }
 
-  toggleStation(i, event): void {
+  /**
+   * Toggle individual station, currently unused
+   *
+   * @param i - index of station
+   * @param event - click event
+   */
+  toggleStation(i: number, event: any): void {
     event.preventDefault();
     const el = this.mapRef.nativeElement.getElementsByClassName(i)[0];
     const layer = this.metricLayers[this.displayMetric.id];
@@ -172,6 +210,9 @@ export class MapComponent
     // ;
   }
 
+  /**
+   * @override
+   */
   override ngOnDestroy(): void {
     this.map = null;
     if (this.resizeObserver) {
@@ -180,26 +221,27 @@ export class MapComponent
     super.ngOnDestroy();
   }
 
-  buildChartData(data): Promise<void> {
+  /**
+   * @override
+   */
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.data = data;
       if (this.map) {
         this.metricLayers = {};
 
-        //this.properties.displayType
         this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
           this.selectedMetrics,
           this.properties,
           3
         );
 
-        //properties.stationView === 'stoplight' || 'worst'
         this.selectedMetrics.forEach((metric) => {
           if (!metric) return;
           const channelRows: ChannelRow[] = [];
           const stations: string[] = [];
           const stationRows: StationRow[] = [];
-          const stationChannels: Record<number, string> = {};
+          const stationChannels: StationChannels = {};
 
           this.channels.forEach((channel) => {
             const identifier = channel.staCode;
@@ -207,7 +249,7 @@ export class MapComponent
             let agg = 0;
             let val: number = null;
             if (data.get(channel.id)) {
-              const rowData: MeasurementTypes = data
+              const rowData: MeasurementTypes[] = data
                 .get(channel.id)
                 .get(metric.id);
               val = rowData && rowData[0] ? rowData[0].value : val;
@@ -300,6 +342,14 @@ export class MapComponent
     });
   }
 
+  /**
+   * Commpares station value and channel value, updates station
+   * with channel values if channel values are worse than station values
+   *
+   * @param channel - channel to compare against station
+   * @param station - current station data
+   * @returns station updated with data for the worst channel
+   */
   private findWorstChannel(
     channel: ChannelRow,
     station: StationRow
@@ -315,6 +365,11 @@ export class MapComponent
     return station;
   }
 
+  /**
+   * Add panes to map
+   *
+   * @param visualMap - visual map type
+   */
   addPanes(visualMap: VisualMapTypes): void {
     if (visualMap) {
       switch (visualMap.type) {
@@ -349,6 +404,9 @@ export class MapComponent
     this.map.createPane("nodata"); //no data pane
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     if (this.map) {
       this.displayMetric = this.selectedMetrics[0];
@@ -369,6 +427,12 @@ export class MapComponent
     }
   }
 
+  /**
+   * Returns html string for map icon
+   *
+   * @param color - string color of icon
+   * @returns html string for map icon
+   */
   private getIconHtml(color?: string): string {
     let htmlString = `<div style='background-color: ${color}' class='map-icon `;
     if (color === "white" || color === "transparent") {
@@ -378,6 +442,13 @@ export class MapComponent
     return htmlString;
   }
 
+  /**
+   * Finds correct color for given value based on visualmap
+   *
+   * @param value - value to check
+   * @param visualMap - visual map to use
+   * @returns string color
+   */
   private getStyle(value: number, visualMap: VisualMapTypes): string {
     if (value === null || value === undefined) {
       return "transparent";
@@ -385,7 +456,17 @@ export class MapComponent
     return this.widgetConfigService.getColorFromValue(value, visualMap);
   }
 
-  private makeStationMarker(station, stationChannels): L.Marker {
+  /**
+   * Makes leaflet marker for a station
+   *
+   * @param station - station to make marker for
+   * @param stationChannels - station channels
+   * @returns leaflet marker for map
+   */
+  private makeStationMarker(
+    station: StationRow,
+    stationChannels: StationChannels
+  ): L.Marker {
     const options: L.MarkerOptions = {
       autoPan: true,
       riseOnHover: true,

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Measurement } from "squacapi";
+import { Measurement, MeasurementTypes } from "squacapi";
 import {
+  CustomSeriesRenderItemAPI,
+  CustomSeriesRenderItemReturn,
   EChartsOption,
   graphic,
   TooltipComponentFormatterCallbackParams,
@@ -16,7 +18,11 @@ import { EChartComponent } from "../abstract-components";
 import { parseUtc } from "../../shared/utils";
 import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
+import { OpUnitType } from "dayjs";
 
+/**
+ * Custom echart widget
+ */
 @Component({
   selector: "widget-timeline",
   templateUrl: "../e-chart/e-chart.component.html",
@@ -39,6 +45,9 @@ export class TimelineComponent
   xAxisLabels = [];
   isContinuous = isContinuous;
 
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption = {
       xAxis: {
@@ -87,6 +96,9 @@ export class TimelineComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
@@ -134,7 +146,7 @@ export class TimelineComponent
                   nslc,
                   measurements,
                   index,
-                  "hour"
+                  "hour" as OpUnitType
                 );
                 break;
               case "day":
@@ -142,7 +154,7 @@ export class TimelineComponent
                   nslc,
                   measurements,
                   index,
-                  "day"
+                  "day" as OpUnitType
                 );
                 break;
               default:
@@ -164,7 +176,21 @@ export class TimelineComponent
     });
   }
 
-  makeSeriesForFixed(nslc, data, index, width): EChartsOption {
+  /**
+   * Generate echart series for fixed width time ranges
+   *
+   * @param nslc - nslc of channel
+   * @param data - channel data
+   * @param index - index of series
+   * @param width - width of time range
+   * @returns series configuration
+   */
+  makeSeriesForFixed(
+    nslc: string,
+    data: MeasurementTypes[],
+    index: number,
+    width: OpUnitType
+  ): EChartsOption {
     const channelObj = {
       type: "heatmap",
       name: nslc,
@@ -175,7 +201,7 @@ export class TimelineComponent
     let count = 0;
     let total = 0;
     //trusts that measurements are in order of time
-    data.forEach((measurement: Measurement, mIndex: number) => {
+    data.forEach((measurement: MeasurementTypes, mIndex: number) => {
       if (!start) {
         start = parseUtc(measurement.starttime).startOf(width);
       }
@@ -217,7 +243,19 @@ export class TimelineComponent
     return channelObj;
   }
 
-  makeSeriesForRaw(nslc, data, index): EChartsOption {
+  /**
+   * Make echarts series for raw measurements
+   *
+   * @param nslc - nslc of channel
+   * @param data - channel data
+   * @param index - series index
+   * @returns echarts configuration
+   */
+  makeSeriesForRaw(
+    nslc: string,
+    data: MeasurementTypes[],
+    index: number
+  ): EChartsOption {
     const channelObj = {
       type: "custom",
       name: nslc,
@@ -237,14 +275,14 @@ export class TimelineComponent
     return channelObj;
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
-    //   colorMetric.id,
-    //   visualMap
-    // );
+
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -297,7 +335,17 @@ export class TimelineComponent
     }
   }
 
-  renderItem(params, api): unknown {
+  /**
+   * Render function for echart
+   *
+   * @param params - customs series params
+   * @param api - api for render
+   * @returns custom series render
+   */
+  renderItem(
+    params: any,
+    api: CustomSeriesRenderItemAPI
+  ): CustomSeriesRenderItemReturn {
     const categoryIndex = api.value(3);
     const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
     const end = api.coord([api.value(1), categoryIndex]); //converts to xy coords
@@ -332,7 +380,9 @@ export class TimelineComponent
           width: end[0] - start[0],
           height: height,
         },
-        style: api.style(),
+        style: {
+          fill: api.visual("color"),
+        },
       }
     );
   }

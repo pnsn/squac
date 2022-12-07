@@ -14,8 +14,6 @@ export abstract class EChartComponent
   extends GenericWidgetComponent
   implements WidgetTypeComponent, OnDestroy
 {
-  // abstract buildChartData(data: any): Promise<void>;
-
   constructor(
     override widgetManager: WidgetManagerService,
     override widgetConnector: WidgetConnectService
@@ -36,15 +34,27 @@ export abstract class EChartComponent
   echartsInstance: EChartsType;
   metricSeries: any = {};
 
+  /**
+   * @override
+   */
   override ngOnDestroy(): void {
     this.echartsInstance = null;
     super.ngOnDestroy();
   }
 
-  onChartEvent(_event, _type): void {
+  /**
+   * Listener for e-chart events, see echart docs
+   *
+   * @param _event - event
+   * @param _type - type
+   */
+  onChartEvent(_event: unknown, _type: unknown): void {
     return;
   }
 
+  /**
+   * Toggle visual map component
+   */
   toggleKey(): void {
     if (this.echartsInstance && this.options.visualMap) {
       this.echartsInstance.setOption({
@@ -53,10 +63,18 @@ export abstract class EChartComponent
     }
   }
 
+  /**
+   * Store echart reference on chart init
+   *
+   * @param event - echart reference
+   */
   onChartInit(event): void {
     this.echartsInstance = event;
   }
 
+  /**
+   * @override
+   */
   emphasizeChannel(channel): void {
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
@@ -66,6 +84,9 @@ export abstract class EChartComponent
     }
   }
 
+  /**
+   * @override
+   */
   deemphasizeChannel(channel): void {
     if (this.echartsInstance) {
       this.echartsInstance.dispatchAction({
@@ -75,6 +96,9 @@ export abstract class EChartComponent
     }
   }
 
+  /**
+   * Start chart zooming
+   */
   startZoom(): void {
     if (this.echartsInstance) {
       if (this.zooming === "start") {
@@ -98,6 +122,9 @@ export abstract class EChartComponent
     }
   }
 
+  /**
+   * Reset chart zoom to start
+   */
   resetZoom(): void {
     this.echartsInstance.dispatchAction({
       type: "dataZoom",
@@ -106,12 +133,21 @@ export abstract class EChartComponent
     });
   }
 
+  /**
+   * Respond to zoom stop event
+   *
+   * @param event - echart event
+   * @param event.batch - event batch
+   */
   zoomStopped(event: { batch?: unknown[] }): void {
     if ("batch" in event && event.batch?.length !== 1) {
       this.widgetManager.zoomStatus$.next("stop");
     }
   }
 
+  /**
+   * Trigger resize of chart
+   */
   resize(): void {
     if (this.echartsInstance) {
       this.echartsInstance.resize();

@@ -24,8 +24,11 @@ import {
   WidgetTypeComponent,
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../abstract-components";
-import { ChannelRow, RowMetrics, StationRow } from "./types";
+import { ChannelRow, RowMetric, RowMetrics, StationRow } from "./types";
 
+/**
+ * Table based widget
+ */
 @Component({
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
@@ -70,6 +73,10 @@ export class TabularComponent
   ) {
     super(widgetManager, widgetConnectService);
   }
+
+  /**
+   * Init
+   */
   override ngOnInit(): void {
     this.subscription.add(
       this.widgetManager.resize$.subscribe(this.resize.bind(this))
@@ -77,13 +84,23 @@ export class TabularComponent
     super.ngOnInit();
   }
 
+  /**
+   * Disabled zoom
+   */
   startZoom(): void {
     return;
   }
+
+  /**
+   * Disabled toggle key
+   */
   toggleKey(): void {
     return;
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     let name;
     let isTreeColumn;
@@ -124,6 +141,7 @@ export class TabularComponent
       resizeable: false,
     });
 
+    // Using set timeout because sometimes fails in onchanges binding
     setTimeout(() => {
       this.selectedMetrics.forEach((metric) => {
         if (!metric) return;
@@ -142,10 +160,16 @@ export class TabularComponent
     }, 0);
   }
 
+  /**
+   * @override
+   */
   deemphasizeChannel(channel: string): void {
     this.deemphasizedChannel = channel;
   }
 
+  /**
+   * @override
+   */
   emphasizeChannel(channel: string): void {
     const index = this.findRowIndex(channel);
     const row = this.rows[index];
@@ -155,31 +179,59 @@ export class TabularComponent
       index * (this.table.rowHeight as number);
   }
 
+  /**
+   * disabled
+   */
   configureChart(): void {
     return;
   }
 
+  /**
+   * redraw table on resize
+   */
   resize(): void {
     if (this.table) {
       this.table.recalculate();
     }
   }
 
-  private findRowIndex(nslc): number {
+  /**
+   * Finds index of row that has matching nslc
+   *
+   * @param nslc - channel nslc to find
+   * @returns index of row
+   */
+  private findRowIndex(nslc: string): number {
     return this.rows.findIndex((row) => {
       return row.nslc === nslc;
     });
   }
 
-  private metricComparator(propA, propB): number {
-    const result = propA.value - propB.value;
-    return result;
+  /**
+   * Sort function for metric values
+   *
+   * @param propA first value
+   * @param propB second value
+   * @returns difference
+   */
+  private metricComparator(propA: RowMetric, propB: RowMetric): number {
+    return propA.value - propB.value;
   }
 
-  private channelComparator(propA, propB): number {
+  /**
+   * Sort function for channels/station rows
+   *
+   * @param propA first value
+   * @param propB second value
+   * @returns difference
+   */
+  private channelComparator(propA: string, propB: string): number {
     return propA.localeCompare(propB);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       const rows = [];
@@ -279,7 +331,16 @@ export class TabularComponent
     });
   }
 
-  //FIXME: this needs to be cleaned up
+  //FIXME: this needs to be cleaned up - can this use widget properties instead of station
+  // properties
+  /**
+   * Finds worst channel value to represent station
+   *
+   * @param channel - channel to compare against station
+   * @param station - station to compare
+   * @param stationRowMetrics - metrics for station
+   * @returns updated station row
+   */
   private findWorstChannel(
     channel: ChannelRow,
     station: StationRow,
@@ -321,8 +382,13 @@ export class TabularComponent
     return station;
   }
 
+  /**
+   * Table tree action, shows or collapses selected row
+   *
+   * @param event - table event
+   * @param event.row - selected row
+   */
   onTreeAction(event: { row: StationRow }): void {
-    // const index = event.rowIndex;
     const row = event.row;
     if (row.treeStatus === "collapsed") {
       row.treeStatus = "loading";
@@ -334,10 +400,23 @@ export class TabularComponent
     }
   }
 
+  /**
+   * On select event, triggers tree action
+   *
+   * @param event - table event
+   * @param event.selected - selected row
+   */
   onSelect(event: { selected: StationRow }): void {
     this.onTreeAction({ row: event.selected[0] });
   }
 
+  /**
+   * Finds color for value from visualmap
+   *
+   * @param value - value to check
+   * @param visualMap - visual map
+   * @returns color string
+   */
   private getStyle(value: number, visualMap: VisualMapTypes): string {
     return this.widgetConfigService.getColorFromValue(value, visualMap);
   }

@@ -19,3 +19,4 @@ export interface StationRow extends RowData {
   channelAgg: number;
   count: number;
 }
+export type StationChannels = Record<number, string>;

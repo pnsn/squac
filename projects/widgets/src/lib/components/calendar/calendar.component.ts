@@ -15,6 +15,10 @@ import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../abstract-components";
 import { parseUtc } from "../../shared/utils";
 
+/**
+ * Chart that plots channels as the y axis and time,
+ * grouped into chunks of time on x axis
+ */
 @Component({
   selector: "widget-calendar-plot",
   templateUrl: "../e-chart/e-chart.component.html",
@@ -38,6 +42,9 @@ export class CalendarComponent
   maxMeasurementGap: number = 1 * 1000;
   precisionPipe = new PrecisionPipe();
 
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption = {
       xAxis: {
@@ -109,6 +116,9 @@ export class CalendarComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
@@ -246,14 +256,13 @@ export class CalendarComponent
     });
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
-    //   colorMetric.id,
-    //   visualMap
-    // );
     const axes = [];
 
     let xAxis1: EChartsOption = {
@@ -282,7 +291,7 @@ export class CalendarComponent
           alignWithLabel: false,
           length: 16,
           inside: false,
-          interval: function (_index: number, value: string): boolean {
+          interval: (_index: number, value: string): boolean => {
             return value ? true : false;
           },
         },
@@ -290,7 +299,7 @@ export class CalendarComponent
           margin: 16,
           fontSize: 11,
           align: "left",
-          interval: function (_index: number, value: string): boolean {
+          interval: (_index: number, value: string): boolean => {
             return value ? true : false;
           },
         },
@@ -299,7 +308,7 @@ export class CalendarComponent
         },
         splitLine: {
           show: true,
-          interval: function (_index: number, value: string): boolean {
+          interval: (_index: number, value: string): boolean => {
             return value ? true : false;
           },
         },

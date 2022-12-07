@@ -12,6 +12,9 @@ import {
 import { parseUtc } from "../../shared/utils";
 import { EChartComponent } from "../abstract-components";
 
+/**
+ * Time series widget with channels as lines
+ */
 @Component({
   selector: "widget-timechart",
   templateUrl: "../e-chart/e-chart.component.html",
@@ -31,6 +34,9 @@ export class TimechartComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
 
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption = {
       xAxis: {
@@ -84,6 +90,9 @@ export class TimechartComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -164,6 +173,9 @@ export class TimechartComponent
     });
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];

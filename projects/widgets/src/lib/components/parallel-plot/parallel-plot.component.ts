@@ -12,6 +12,9 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 
+/**
+ * Parallel plot widget
+ */
 @Component({
   selector: "widget-parallel-plot",
   templateUrl: "../e-chart/e-chart.component.html",
@@ -29,6 +32,9 @@ export class ParallelPlotComponent
     super(widgetManager, widgetConnectService);
   }
 
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption = {
       parallel: {
@@ -58,6 +64,9 @@ export class ParallelPlotComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   override toggleKey(): void {
     let temp = {
       legend: {
@@ -89,6 +98,9 @@ export class ParallelPlotComponent
     }
   }
 
+  /**
+   * @override
+   */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       const metricSeries: ParallelSeriesOption = {
@@ -120,6 +132,9 @@ export class ParallelPlotComponent
     });
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     this.updateOptions = {
       ...this.updateOptions,

@@ -1,5 +1,8 @@
 import { Component, Input } from "@angular/core";
 
+/**
+ *
+ */
 @Component({
   selector: "widget-error",
   template:

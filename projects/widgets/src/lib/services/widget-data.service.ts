@@ -12,7 +12,7 @@ import {
   tap,
 } from "rxjs";
 
-import { Metric, MeasurementTypes } from "squacapi";
+import { MeasurementTypes } from "squacapi";
 import {
   AggregateService,
   DayArchiveService,
@@ -26,26 +26,35 @@ import { BehaviorSubject } from "rxjs";
 import { ArchiveType, ArchiveStatType, WidgetStatType } from "squacapi";
 import { DataRange, ProcessedData } from "../interfaces";
 
+/**
+ * Service for requesting and processing data for a widget
+ */
 @Injectable()
 export class WidgetDataService implements OnDestroy {
   private subscription: Subscription = new Subscription();
+
+  // Actual requests
   private measurementReq$: Observable<ProcessedData | WidgetErrors>;
   private measurementReqSub: Subscription;
 
+  // Tracks request progress
   isLoading$ = new BehaviorSubject<boolean>(false);
+
+  // Request params, will trigger new request
   params$ = new Subject<MeasurementParams>();
   private paramsObs$ = this.params$.asObservable();
 
   // actual data
   data$ = new ReplaySubject<WidgetErrors | ProcessedData>(1);
+  // ids of measurements that have data
   measurementsWithData: number[] = [];
 
   // data info
-  selectedMetrics: Metric[] = [];
   archiveType!: ArchiveType;
   useAggregate!: boolean;
   stat!: string | WidgetStatType | ArchiveStatType;
 
+  // ranges of data for metrics
   private ranges: DataRange = {};
 
   constructor(
@@ -55,7 +64,7 @@ export class WidgetDataService implements OnDestroy {
     private monthArchiveService: MonthArchiveService,
     private weekArchiveService: WeekArchiveService
   ) {
-    // listen to param changes
+    // listen to param changes and make request
     this.measurementReq$ = this.paramsObs$.pipe(
       filter((params: MeasurementParams) => {
         //only make request when all params present
@@ -63,19 +72,22 @@ export class WidgetDataService implements OnDestroy {
       }),
       tap(this.startedLoading.bind(this)), // show loading icon
       switchMap((params) => {
+        // make data request
         return this.dataRequest(params).pipe(
           catchError(() => {
+            // stop loading on error
             this.finishedLoading();
             return EMPTY;
           }),
           map((data) => {
+            // map data on success
             return this.mapData(data);
           })
         );
       })
     );
 
-    //destroyed after failed loading
+    // FIXME: destroyed after failed loading
     this.measurementReqSub = this.measurementReq$.subscribe({
       next: (processedData: ProcessedData | WidgetErrors) => {
         //process data when returned
@@ -85,11 +97,18 @@ export class WidgetDataService implements OnDestroy {
     this.subscription.add(this.measurementReqSub);
   }
 
+  /** @returns data range */
   get dataRange(): DataRange {
     return this.ranges;
   }
 
   // check params have all data before requesting
+  /**
+   * Validates request params
+   *
+   * @param params - request parameters
+   * @returns true if request parameters are valid
+   */
   private checkParams(params: MeasurementParams): boolean {
     const valid: boolean =
       params.metric &&
@@ -101,16 +120,18 @@ export class WidgetDataService implements OnDestroy {
     return valid; //try again once more
   }
 
-  // returns correct request type
+  /**
+   * Returns list request from correct service
+   *
+   * @param params - request parameters
+   * @returns - request observable
+   */
   private dataRequest(
     params: MeasurementParams
   ): Observable<MeasurementTypes[]> {
     const archiveType = this.archiveType;
     const useAggregate = this.useAggregate;
     switch (archiveType) {
-      // case ArchiveType.HOUR:
-      //   return this.hourArchiveService.list(params);
-
       case "day":
         return this.dayArchiveService.list(params);
 
@@ -122,7 +143,6 @@ export class WidgetDataService implements OnDestroy {
 
       case "raw":
         if (useAggregate) {
-          //stat: widgetStat
           return this.aggregateService.list(params);
         }
         return this.measurementService.list(params);
@@ -131,7 +151,11 @@ export class WidgetDataService implements OnDestroy {
     }
   }
 
-  // send data & clear the loading statuses
+  /**
+   * Emits data or error and stops loading
+   *
+   * @param data - processed data or error message
+   */
   private finishedLoading(data?: ProcessedData | WidgetErrors): void {
     if (!data) {
       this.data$.next(WidgetErrors.SQUAC_ERROR);
@@ -144,7 +168,9 @@ export class WidgetDataService implements OnDestroy {
     this.isLoading$.next(false);
   }
 
-  // clear existing data
+  /**
+   * Clear existing data and start request
+   */
   private startedLoading(): void {
     this.measurementsWithData = [];
     this.ranges = {};
@@ -154,8 +180,8 @@ export class WidgetDataService implements OnDestroy {
   /**
    * Maps and sorts raw json response from squacapi into Measurement types
    *
-   * @param {MeasurementTypes[]} response - response data from squacapi
-   * @returns {ProcessedData | WidgetErrors} processed data or widget error
+   * @param response - response data from squacapi
+   * @returns processed data or widget error
    */
   mapData(response: MeasurementTypes[]): ProcessedData | WidgetErrors {
     const dataMap: ProcessedData = new Map<
@@ -164,7 +190,6 @@ export class WidgetDataService implements OnDestroy {
     >();
     try {
       response.forEach((item: MeasurementTypes) => {
-        //for archive/aggregate populate value
         const channelId: number = item.channelId;
         const metricId: number = item.metricId;
 
@@ -181,13 +206,12 @@ export class WidgetDataService implements OnDestroy {
           this.measurementsWithData.push(metricId);
         }
 
+        //for archive/aggregate populate value
         const value = item.value ?? item[this.stat];
-
         item.value = value;
+
         metricValues.push(item);
-
         channelMap.set(metricId, metricValues);
-
         this.calculateDataRange(metricId, value);
       });
     } catch {
@@ -196,6 +220,9 @@ export class WidgetDataService implements OnDestroy {
     return dataMap;
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -203,8 +230,8 @@ export class WidgetDataService implements OnDestroy {
   /**
    * Calculates the min, max, and count of data for the metric after including the given value
    *
-   * @param {number} metricId - id of metric
-   * @param {number} value - measurement value to add
+   * @param metricId - id of metric
+   * @param value - measurement value to add
    */
   private calculateDataRange(metricId: number, value: number): void {
     const metricRange =

@@ -11,6 +11,9 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 
+/**
+ * Scatter plot widget
+ */
 @Component({
   selector: "widget-scatter-plot",
   templateUrl: "../e-chart/e-chart.component.html",
@@ -27,6 +30,10 @@ export class ScatterPlotComponent
   ) {
     super(widgetManager, widgetConnectService);
   }
+
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption = {
       series: [],
@@ -73,6 +80,9 @@ export class ScatterPlotComponent
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
@@ -117,15 +127,14 @@ export class ScatterPlotComponent
     });
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     const xMetric = this.selectedMetrics[0];
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
-    // const visualMaps = this.widgetConfigService.getContinuousVisualMap(
-    //   colorMetric.id,
-    //   visualMap
-    // );
     this.updateOptions = {
       series: this.metricSeries.series,
       xAxis: {
