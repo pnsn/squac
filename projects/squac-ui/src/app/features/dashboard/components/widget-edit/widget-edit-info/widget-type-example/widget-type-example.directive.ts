@@ -10,7 +10,12 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
-import { ProcessedData, WidgetConfig, WidgetTypeComponent } from "widgets";
+import {
+  DataRange,
+  ProcessedData,
+  WidgetConfig,
+  WidgetTypeComponent,
+} from "widgets";
 import {
   WidgetConfigService,
   WidgetDataService,
@@ -28,6 +33,9 @@ import {
 import { WidgetType } from "widgets";
 import { WIDGET_TYPE_INFO } from "widgets";
 
+/**
+ * Directive for adding a widget with fake data
+ */
 @Directive({
   selector: "[appWidgetTypeExample]",
   providers: [WidgetConfigService, WidgetDataService],
@@ -45,10 +53,10 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   _thresholds;
   widgetConfig: WidgetConfig;
   widgetManager;
-  dataRange;
+  dataRange: DataRange;
   childComponentRef: ComponentRef<WidgetTypeComponent>;
   childComponent: WidgetTypeComponent;
-  data;
+  data: ProcessedData;
 
   constructor(
     protected readonly elementRef: ElementRef,
@@ -58,6 +66,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     private dateService: DateService
   ) {}
 
+  /** set up widget manager and metrics */
   ngOnInit(): void {
     this.widgetManager = {
       toggleKey$: of(),
@@ -80,6 +89,11 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this.updateWidgetType();
   }
 
+  /**
+   * listen to type changes and update
+   *
+   * @param changes type changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (this.widgetManager) {
       if (changes["displayType"] || changes["type"]) {
@@ -88,12 +102,23 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     }
   }
 
-  getThresholds(metrics): Threshold[] {
+  /**
+   * Generate thresholds from metrics
+   *
+   * @param metrics selected metrics
+   * @returns array of thresholds
+   */
+  getThresholds(metrics: Metric[]): Threshold[] {
     return metrics.map((m) => {
       return { min: m.minVal, max: m.maxVal, metricId: m.id };
     });
   }
 
+  /**
+   * Creates fake data for the widget
+   *
+   * @returns generated data
+   */
   getData(): ProcessedData {
     this.dataRange = {};
     const data: ProcessedData = new Map<number, any>();
@@ -148,9 +173,10 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     return data;
   }
 
+  /**
+   * Set up new widget
+   */
   updateWidgetType(): void {
-    this.viewContainerRef.clear();
-
     const widgetType = this.type;
     if (widgetType) {
       this.widgetManager.widgetType = widgetType;
@@ -167,23 +193,14 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         this.properties.displayType =
           this.widgetManager.widgetConfig.defaultDisplay;
       }
-      const widgetConfigService = new WidgetConfigService();
 
-      widgetConfigService.thresholds = this._thresholds;
-      widgetConfigService.dataRange = this.dataRange;
-      widgetConfigService.chartDefaults.dataZoom = [];
-
-      widgetConfigService.chartDefaults.grid = {
-        ...widgetConfigService.chartDefaults.grid,
-        left: 10,
-        bottom: 15,
-      };
       this.widgetManager.properties = this.properties;
+
       const injector = Injector.create({
         providers: [
           {
             provide: WidgetConfigService,
-            useValue: widgetConfigService,
+            useValue: this.createConfigService,
           },
           {
             provide: WidgetManagerService,
@@ -192,38 +209,54 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         ],
       });
       const componentType = WIDGET_TYPE_INFO[widgetType].component;
-      this.childComponentRef =
-        this.viewContainerRef.createComponent<WidgetTypeComponent>(
-          componentType,
-          {
-            injector,
-          }
-        );
-      this.childComponent = this.childComponentRef.instance;
-      this.childComponent.updateData(this.data);
+      this.addWidgetComponent(componentType, injector);
     }
   }
 
+  /**
+   * Creates a fake config service
+   *
+   * @returns mocked config service
+   */
+  createConfigService(): WidgetConfigService {
+    const configService = new WidgetConfigService();
+
+    configService.thresholds = this._thresholds;
+    configService.dataRange = this.dataRange;
+    configService.chartDefaults.dataZoom = [];
+
+    configService.chartDefaults.grid = {
+      ...configService.chartDefaults.grid,
+      left: 10,
+      bottom: 15,
+    };
+
+    return configService;
+  }
+
+  /**
+   * Add new widget component
+   *
+   * @param componentType type of widget to create
+   * @param injector service injector
+   */
+  addWidgetComponent(componentType: any, injector: Injector): void {
+    this.viewContainerRef.clear();
+    this.childComponentRef =
+      this.viewContainerRef.createComponent<WidgetTypeComponent>(
+        componentType,
+        {
+          injector,
+        }
+      );
+    this.childComponent = this.childComponentRef.instance;
+    this.childComponent.updateData(this.data);
+  }
+
+  /** update widget data */
   updateData(): void {
     if (this.childComponent) {
       this.childComponent.updateData(this.data);
     }
   }
-
-  // updateThresholds() {
-  //   this._thresholds = this.getThresholds(this._metrics);
-  //   this.widgetConfigService.thresholds = this._thresholds;
-  //   this.updateData();
-  // }
-
-  // updateMetrics() {
-  //   this._metrics =
-  //     this.selectedMetrics && this.selectedMetrics.length > 0
-  //       ? this.selectedMetrics
-  //       : selectedMetrics;
-  //   this.data = this.getData();
-  //   this.widgetManager.selectedMetrics = this._metrics;
-  //   this.widgetConfigService.dataRange = this.dataRange;
-  //   this.updateThresholds();
-  // }
 }

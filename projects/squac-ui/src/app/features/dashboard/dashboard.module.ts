@@ -23,6 +23,7 @@ import { GridsterModule } from "angular-gridster2";
 import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 
+/** Dashboard feature module */
 @NgModule({
   declarations: [
     DashboardComponent,

@@ -14,6 +14,10 @@ import { Metric } from "squacapi";
 import { WIDGET_TYPE_INFO } from "widgets";
 import { WidgetType } from "widgets";
 
+// TODO: make sortable/draggable
+/**
+ * Component for selecting metrics for widgets
+ */
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
@@ -38,6 +42,7 @@ export class WidgetEditMetricsComponent
   rows: Metric[] = [];
   columns: any[] = [];
 
+  /** init columns */
   ngOnInit(): void {
     this.columns = [
       {
@@ -65,9 +70,9 @@ export class WidgetEditMetricsComponent
       },
     ];
   }
+
+  /** after ciontent checked, update selected metrics */
   ngAfterContentChecked(): void {
-    //Called after every check of the component's or directive's content.
-    //Add 'implements AfterContentChecked' to the class.
     if (this.selectedMetrics) {
       const temp = this.metrics.filter((metric) => {
         return this.selectedMetrics.findIndex((m) => m.id === metric.id) > -1;
@@ -77,12 +82,18 @@ export class WidgetEditMetricsComponent
     }
   }
 
+  /**
+   * listen to changed in widget config
+   *
+   * @param changes config changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     //update metrics
     if (this.columns && changes["metrics"] && changes["metrics"].currentValue) {
       this.rows = [...this.metrics];
     }
 
+    // change min length when type changes
     if (changes["type"] && this.type) {
       const selectedType = WIDGET_TYPE_INFO[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
@@ -90,20 +101,32 @@ export class WidgetEditMetricsComponent
     }
   }
 
-  // emit metrics when changed
+  /**
+   * emit metrics when changed
+   *
+   * @param event selection
+   * @param event.selected selected metrics
+   */
   metricsSelected({ selected }): void {
     this.selected = [...selected];
     this.selectedMetricsChange.emit(selected);
     this.checkValid();
   }
 
-  // make sure there are metrics
+  /**
+   * Checks there are the minimum number of metrics for widgets
+   */
   checkValid(): void {
     this.done =
       this.selectedMetrics && this.selectedMetrics.length >= this.minLength;
   }
 
-  // search for metrics
+  //TODO: replace with shared filter component
+  /**
+   * Searches for metrics in table
+   *
+   * @param event html event
+   */
   updateFilter(event): void {
     const val = event.target.value.toLowerCase();
 
