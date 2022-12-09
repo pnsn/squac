@@ -5,9 +5,10 @@ import {
   ValidatorFn,
 } from "@angular/forms";
 
-// return true if control has valid regex
 /**
+ * Checks that the form control has valid regex
  *
+ * @returns validator function
  */
 export function regexValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -24,10 +25,11 @@ export function regexValidator(): ValidatorFn {
   };
 }
 
-// return true if at least input from fiels is filled
 /**
+ * Checks that at least one of the form fields has a value
  *
- * @param fields
+ * @param fields array of form field names
+ * @returns function that resolves to true if at least one field is populated
  */
 export function atLeastOneValidator(fields: string[]): ValidatorFn {
   return (formGroup: UntypedFormGroup): ValidationErrors | null => {

@@ -29,8 +29,10 @@ export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 
 /**
+ * Defines ability for a given user
  *
- * @param user
+ * @param user current user
+ * @returns permissions
  */
 export function defineAbilitiesFor(user: User): any {
   const { can, rules } = new AbilityBuilder(AppAbility);

@@ -49,7 +49,7 @@ export class CsvUploadComponent {
   /**
    * Listen to uploads of files
    *
-   * @param $event
+   * @param $event file uploaded event
    */
   fileChangeListener($event: any): void {
     this.missingChannels = [];

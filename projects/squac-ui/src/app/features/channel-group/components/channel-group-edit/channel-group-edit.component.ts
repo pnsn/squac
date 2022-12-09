@@ -527,7 +527,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   /**
    * Cancels and exits edit page
-   * @param id
+   *
+   * @param id group id
    */
   cancel(id?: number): void {
     if (id && !this.id) {

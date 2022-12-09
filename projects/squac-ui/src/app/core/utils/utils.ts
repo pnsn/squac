@@ -1,10 +1,11 @@
 import { Observable } from "rxjs";
 import { defer } from "rxjs";
 
-// helps when testing responses to observables
 /**
+ * Helps when testing responses to observables
  *
- * @param data
+ * @param data test data
+ * @returns observable of test data
  */
 export function fakeAsyncResponse<T>(data: T): Observable<T> {
   return defer(() => Promise.resolve(data));
