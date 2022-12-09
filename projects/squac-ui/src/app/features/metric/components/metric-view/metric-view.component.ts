@@ -61,7 +61,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     public loadingService: LoadingService
   ) {}
 
-  /** subscruve to params */
+  /** subscribe to params */
   ngOnInit(): void {
     const monitorsSub = this.route.params
       .pipe(

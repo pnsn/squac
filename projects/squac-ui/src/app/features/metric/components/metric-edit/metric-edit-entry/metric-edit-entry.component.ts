@@ -5,6 +5,10 @@ import { MetricEditComponent } from "../metric-edit.component";
 import { Subscription } from "rxjs";
 import { Metric } from "squacapi";
 
+/**
+ * Entry component for metric edit
+ * Used for routing
+ */
 @Component({
   selector: "metric-edit-entry",
   template: "",
@@ -21,6 +25,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  /** subscribe to route */
   ngOnInit(): void {
     // get metric info
     this.paramsSub = this.route.params.subscribe({
@@ -33,6 +38,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** open edit dialog */
   openDialog(): void {
     this.dialogRef = this.dialog.open(MetricEditComponent, {
       closeOnNavigation: true,
@@ -53,6 +59,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** close dialog on exit */
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

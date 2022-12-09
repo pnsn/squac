@@ -29,11 +29,15 @@ import {
 } from "squacapi";
 import { Widget } from "widgets";
 
+/**
+ * Service for managing dashboard and widget data
+ * Some of this functionality might be better replaced
+ * with ngrx or similar
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ViewService {
-  // handle refreshing
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
   private _channelsList: Record<string, boolean>; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
@@ -65,21 +69,22 @@ export class ViewService {
     private loadingService: LoadingService
   ) {}
 
+  /** @returns current dashboard */
   get dashboard(): Dashboard {
     return this._dashboard;
   }
 
-  // returns if dashboard is live
+  /** @returns is dashboard using live data */
   get isLive(): boolean {
     return this.autoRefresh;
   }
 
-  // returns the dashboard time range
+  /** @returns time range of dashboard */
   get range(): number {
     return this.dashboard?.properties.timeRange;
   }
 
-  // returns the dashboard starttime
+  /** @returns start time of dashboard */
   get startTime(): string {
     let startTime;
     if (this.range) {
@@ -91,7 +96,7 @@ export class ViewService {
     return startTime;
   }
 
-  // returns the dashboard end date
+  /** @returns end time of dashboard */
   get endTime(): string {
     let endTime;
     if (this.range) {
@@ -104,43 +109,66 @@ export class ViewService {
     return endTime;
   }
 
-  // get all available channels
+  /** @returns all available channels on dashboard */
   get allChannels(): Channel[] {
     return [...this._channels];
   }
 
-  //get amount of time between start and end
+  /**
+   * Difference between starttime and endtime in unit
+   *
+   * @param unit Dayjs duration
+   * @returns length of time span
+   */
   getTimeSpan(unit: any): number {
     const start = this.dateService.parseUtc(this.startTime);
     const end = this.dateService.parseUtc(this.endTime);
     return this.dateService.diff(end, start, unit);
   }
 
-  // returns the dashboard archive type
+  /** @returns dashboard archive type */
   get archiveType(): ArchiveType {
     return this.dashboard?.properties.archiveType;
   }
 
-  // returns the dashboard archive stat
+  /** @returns dashboard archive stat type */
   get archiveStat(): ArchiveStatType {
     return this.dashboard?.properties.archiveStat;
   }
 
-  // sets the given dashboard and sets up dates
+  /**
+   * Sets new dashboard and initial dates
+   *
+   * @param dashboard new dashboard to intialize
+   */
   setDashboard(dashboard: Dashboard): void {
-    this.currentWidgets.next([]);
     // clear old widgets
+    this.currentWidgets.next([]);
     this.queuedWidgets = 0;
+
+    // set dashboard
     this._dashboard = dashboard;
+
+    // set dates
     this.setIntialDates();
-    // return dates
   }
 
+  /**
+   * Updates stored channel group
+   *
+   * @param channelGroupId new channel group id
+   */
   updateChannelGroup(channelGroupId: number): void {
     this._channelGroupId = channelGroupId;
     this.hasUnsavedChanges = true;
   }
 
+  /**
+   * Gets channel group detail from squacapi and stores channels
+   *
+   * @param channelGroupId id of group to fetch
+   * @returns observable of channel group if found
+   */
   getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
     return this.channelGroupService.read(channelGroupId).pipe(
       distinctUntilChanged(),
@@ -156,14 +184,22 @@ export class ViewService {
     );
   }
 
-  // { NSLC : true/false} from channel select
+  /**
+   * Updates list of channels from channel selecta
+   *
+   * @param list record of nslcs that are active
+   */
   updateChannels(list: Record<string, boolean>): void {
     this._channelsList = list;
     this.hasUnsavedChanges = true;
   }
 
-  // filter _channels that are true in channelsList
-  // if no filter list, return all channels
+  /**
+   * Return all channels that are true in channelsList,
+   * will return all channels if channels list is empty
+   *
+   * @returns filtered channels
+   */
   private filterChannels(): Channel[] {
     return this._channelsList
       ? this._channels.filter((c) => {
@@ -172,9 +208,11 @@ export class ViewService {
       : [...this._channels];
   }
 
-  // send updates and reset values
+  /**
+   * Update after changes are confirmed on dashboard
+   */
   updateDashboard(): void {
-    //get new channelgroup info if its changed
+    // Get new channel group if there is a different id
     if (
       this._channelGroupId &&
       this._channelGroupId !== this.dashboard.channelGroupId
@@ -187,20 +225,30 @@ export class ViewService {
           this.sendUpdate();
         });
     } else {
+      // otherwise just send updated info
       this.sendUpdate();
     }
   }
 
+  /**
+   * Emits new channels and group id, tells widgets to
+   * fetch new data
+   */
   private sendUpdate(): void {
     this.channelGroupId.next(this._channelGroupId);
     const channels = this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges = false;
-    // this._channelsList = undefined;
-    // this._channelGroupId = null;
   }
 
+  /**
+   * Gets info for dashboard and channel group
+   *
+   * @param dashboardId dashboard id to fetch
+   * @param channelGroupId channel group id to find
+   * @returns observable of channel group
+   */
   setDashboardById(
     dashboardId: number,
     channelGroupId: number
@@ -231,38 +279,49 @@ export class ViewService {
     );
   }
 
-  //setChannelGroupById
-
-  // Sets up dates for dashboard
+  /**
+   * Sets up initial dates for dashboard
+   */
   private setIntialDates(): void {
     let startDate;
     let endDate;
     let autoRefresh;
     let range;
 
-    // make date range selector
     if (this.dashboard.properties.timeRange) {
+      // has a time range
       autoRefresh = this.dashboard.properties.autoRefresh;
       range = this.dashboard.properties.timeRange;
-      // set default dates
     } else if (
+      // has start and end dates
       this.dashboard.properties.startTime &&
       this.dashboard.properties.endTime
     ) {
+      // has start and end dates
       autoRefresh = false;
       startDate = this.dateService.parseUtc(
         this.dashboard.properties.startTime
       );
       endDate = this.dateService.parseUtc(this.dashboard.properties.endTime);
     } else {
-      // default dates
+      // use default dates
       autoRefresh = true;
       range = this.defaultTimeRange;
     }
+
+    // update dates
     this.datesChanged(startDate, endDate, autoRefresh, range);
   }
 
   // takes given date config and saves it, emits changed dates
+  /**
+   * Takes date params and saves, emits changed dates
+   *
+   * @param startDate start date object
+   * @param endDate end date object
+   * @param autoRefresh true if data should auto refresh
+   * @param rangeInSeconds width of time range in seconds
+   */
   datesChanged(
     startDate: Dayjs,
     endDate: Dayjs,
@@ -282,32 +341,56 @@ export class ViewService {
     this.hasUnsavedChanges = true;
   }
 
-  // returns the wdiget index
+  /**
+   * Returns widget index
+   *
+   * @param id widget id
+   * @returns widget index
+   */
   private getWidgetIndexById(id: number): number {
     return this._widgets?.findIndex((w) => w.id === id);
   }
 
-  // return widget with given id
+  /**
+   * Finds widget with id
+   *
+   * @param id widget id
+   * @returns widget
+   */
   getWidgetById(id: number): Widget {
     return this._widgets.find((w) => w.id === id);
   }
 
-  // send id to resize subscribers
+  /**
+   * Emits resize event with widget id
+   *
+   * @param widgetId id of widget to resize
+   */
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
   }
 
   // sends resize with no id
+  /** Emits resize event with no id */
   resizeAll(): void {
     this.resize.next(null);
   }
 
-  // saves the given widgets
+  /**
+   * Saves given widgets
+   *
+   * @param widgets widgets to storea
+   */
   setWidgets(widgets: Widget[]): void {
     this._widgets = widgets;
   }
 
-  // stores archive options
+  /**
+   * Saves archive options
+   *
+   * @param archiveType new archive type
+   * @param archiveStat new archive stat
+   */
   setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
@@ -315,19 +398,31 @@ export class ViewService {
   }
 
   // broadcast id of changed widget
+  /**
+   * Emits id of changed widget and clears errors
+   *
+   * @param widgetId id to emit
+   */
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
     this.error.next(null);
   }
 
-  // updates the widget
+  /**
+   * Adds, updates or deletes a widget. If no widget is passed,
+   * it will be removed from the saved widgets.
+   *
+   * @param widgetId id to update
+   * @param widget widget toupdate
+   */
   updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.getWidgetIndexById(widgetId);
     if (index > -1 && !widget) {
       this._widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
-      // get widget data since incomplete widget is coming in
+      // get widget data since incomplete widget is coming in from
+      // update request
       this.widgetService.read(widgetId).subscribe({
         next: (newWidget: Widget) => {
           if (index > -1) {
@@ -347,7 +442,13 @@ export class ViewService {
     }
   }
 
-  // Tell widgets to resize
+  /**
+   * Saves widget and tells widget to resize unless silentUpdate
+   * is true
+   *
+   * @param widget widget to update
+   * @param silentUpdate true if widget should not resize after update
+   */
   saveWidget(widget: Widget, silentUpdate?: boolean): void {
     if (this.ability.can("update", widget)) {
       this.widgetService.updateOrCreate(widget).subscribe({
@@ -360,7 +461,11 @@ export class ViewService {
     }
   }
 
-  // deletes given widget
+  /**
+   * Sends delete request to squacapi
+   *
+   * @param widgetId widget to delete
+   */
   deleteWidget(widgetId): void {
     this.widgetService.delete(widgetId).subscribe({
       next: () => {
@@ -373,12 +478,15 @@ export class ViewService {
     });
   }
 
-  // deletes the dashboard
+  /**
+   * Sends delete request to squacapi
+   *
+   * @param dashboardId dashboard to delete
+   */
   deleteDashboard(dashboardId): void {
     this.dashboardService.delete(dashboardId).subscribe({
       next: () => {
         this.messageService.message("Dashboard deleted.");
-        // redirect to dashboards
       },
       error: () => {
         this.messageService.error("Could not delete dashboard.");
@@ -386,7 +494,9 @@ export class ViewService {
     });
   }
 
-  // saves the dashboard to squac
+  /**
+   * Saves current dashboard to squacapi
+   */
   saveDashboard(): void {
     this.dashboardService.updateOrCreate(this.dashboard).subscribe({
       error: () => {
@@ -394,5 +504,4 @@ export class ViewService {
       },
     });
   }
-  // save and refresh in here
 }
