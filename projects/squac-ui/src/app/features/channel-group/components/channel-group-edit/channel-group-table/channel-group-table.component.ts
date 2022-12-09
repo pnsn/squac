@@ -15,7 +15,7 @@ import {
 } from "@boring.devs/ngx-datatable";
 
 /**
- *
+ * Channel group edit table
  */
 @Component({
   selector: "channel-group-edit-table",
@@ -41,7 +41,7 @@ export class ChannelGroupTableComponent implements OnInit {
   };
 
   /**
-   *
+   * Init table columns
    */
   ngOnInit(): void {
     // table columns
@@ -114,8 +114,9 @@ export class ChannelGroupTableComponent implements OnInit {
     }, 0);
   }
   /**
+   * Select row in table
    *
-   * @param $event
+   * @param $event selected row
    */
   selectRow($event): void {
     this.selected = [...$event.selected];
@@ -123,7 +124,7 @@ export class ChannelGroupTableComponent implements OnInit {
   }
 
   /**
-   *
+   * Remove selected rows from rows
    */
   removeSelected(): void {
     this.rows = this.rows.filter(
@@ -135,10 +136,11 @@ export class ChannelGroupTableComponent implements OnInit {
   }
 
   /**
+   * Remove row from rows
    *
-   * @param row
+   * @param row row to remove
    */
-  removeRow(row): void {
+  removeRow(row: Channel): void {
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;
     });

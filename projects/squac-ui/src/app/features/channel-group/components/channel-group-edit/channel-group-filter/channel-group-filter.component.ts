@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import { SearchFilter } from "../interfaces";
 
-// Search boxes for getting channels
 /**
- *
+ * Search boxes for channel group editing
  */
 @Component({
   selector: "channel-group-filter",
@@ -10,10 +10,10 @@ import { Component, EventEmitter, Output } from "@angular/core";
   styleUrls: ["./channel-group-filter.component.scss"],
 })
 export class ChannelGroupFilterComponent {
-  @Output() filtersChanged = new EventEmitter<any>();
-  @Output() addFilterToRegex = new EventEmitter<any>();
+  @Output() filtersChanged = new EventEmitter<SearchFilter>();
+  @Output() addFilterToRegex = new EventEmitter<SearchFilter>();
   // regex strings for each param
-  filters: any = {
+  filters: SearchFilter = {
     netSearch: "",
     chanSearch: "",
     staSearch: "",
@@ -26,10 +26,11 @@ export class ChannelGroupFilterComponent {
   sta: string;
   loc: string;
 
-  // add formatting to match squacapi
   /**
+   * Add formatting to match squacapi
    *
-   * @param value
+   * @param value filter value
+   * @returns formatted filter
    */
   formatFilter(value: string): string {
     let filter;
@@ -42,9 +43,8 @@ export class ChannelGroupFilterComponent {
     return filter;
   }
 
-  // clear filters
   /**
-   *
+   * Remove all filters
    */
   removeFilters(): void {
     this.net = "";
@@ -54,19 +54,17 @@ export class ChannelGroupFilterComponent {
     this.updateFilters();
   }
 
-  //
   /**
-   *
+   * Emit filters
    */
   addToRegex(): void {
     this.populateFilters();
-
     this.addFilterToRegex.next(this.filters);
   }
 
   // send filters to parent on submit
   /**
-   *
+   * Send filters to parent on submit
    */
   updateFilters(): void {
     this.populateFilters();
@@ -74,7 +72,7 @@ export class ChannelGroupFilterComponent {
   }
 
   /**
-   *
+   * Populate filter object
    */
   populateFilters(): void {
     if (!this.net && !this.chan && !this.sta && !this.loc) {

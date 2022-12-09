@@ -204,7 +204,7 @@ export class ChannelGroupViewComponent
   /**
    * Onselect function for datatable selection
    *
-   * @param channelGroup
+   * @param channelGroup selected channel group
    */
   onSelect(channelGroup: ChannelGroup): void {
     this.selectedChannelGroupId = channelGroup ? channelGroup.id : null;
@@ -213,7 +213,7 @@ export class ChannelGroupViewComponent
   /**
    * Click event emitted from table
    *
-   * @param event
+   * @param event menu event
    */
   onClick(event: MenuAction): void {
     if (event === "delete" && this.selectedChannelGroupId) {
