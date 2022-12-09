@@ -4,12 +4,19 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { MetricService } from "squacapi";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MetricResolver implements Resolve<Observable<any>> {
   constructor(private metricService: MetricService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = route.paramMap.get("metricId");
     if (id) {
@@ -20,6 +27,10 @@ export class MetricResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });

@@ -13,7 +13,6 @@ import { WidgetResolver } from "@core/resolvers/widget.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
 import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
 
-/** Dashboard routing module */
 export const routes: Routes = [
   {
     path: "",
@@ -89,6 +88,7 @@ export const routes: Routes = [
   },
 ];
 
+/** Dashboard routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

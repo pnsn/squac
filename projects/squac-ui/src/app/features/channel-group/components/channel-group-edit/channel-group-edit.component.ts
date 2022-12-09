@@ -38,6 +38,9 @@ enum LoadingIndicator {
   MAIN,
   RESULTS,
 }
+/**
+ *
+ */
 @Component({
   selector: "channel-group-edit",
   templateUrl: "./channel-group-edit.component.html",
@@ -99,6 +102,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     public loadingService: LoadingService
   ) {}
 
+  /**
+   *
+   */
   ngOnInit(): void {
     this.channelGroupForm = this.formBuilder.group({
       name: new UntypedFormControl("", Validators.required),
@@ -196,6 +202,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Inits group edit form
+  /**
+   *
+   */
   private initForm(): void {
     // if editing existing group, populate with the info
     if (this.editMode) {
@@ -219,6 +228,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   *
+   */
   includeChannels(): void {
     this.updateState();
 
@@ -236,6 +248,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = [];
   }
 
+  /**
+   *
+   */
   excludeChannels(): void {
     this.updateState();
     const addChannels = this.findChannelsInGroup(this.autoExcludeChannels);
@@ -251,6 +266,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // returns channels that are not already in groupChannels
+  /**
+   *
+   * @param group
+   */
   private findChannelsInGroup(group): Channel[] {
     return this.selectedChannels.filter((channel) => {
       const index = group.findIndex((c) => c.id === channel.id);
@@ -259,6 +278,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // restore channels to last cversion
+  /**
+   *
+   */
   undoSelectRemove(): void {
     this.autoExcludeChannels = this.lastState.autoExcludeChannels;
     this.autoIncludeChannels = this.lastState.autoIncludeChannels;
@@ -268,6 +290,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.changeMade = false;
   }
 
+  /**
+   *
+   */
   updateState(): void {
     this.changeMade = true;
 
@@ -278,18 +303,30 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     };
   }
 
+  /**
+   *
+   * @param channels
+   */
   addChannelsFromCSV(channels): void {
     this.rows = [...channels];
     this.selectedChannels = [...channels];
   }
 
   // row selected on table
+  /**
+   *
+   * @param selectedChannels
+   */
   selectRow(selectedChannels: Channel[]): void {
     this.showChannel = selectedChannels[selectedChannels.length - 1];
     this.selectedChannels = [...selectedChannels];
   }
 
   // filters changed in filter componenet
+  /**
+   *
+   * @param searchFilters
+   */
   filtersChanged(searchFilters: any): void {
     //clear all filters
     this.searchFilters = searchFilters;
@@ -302,6 +339,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.getChannelsWithFilters();
   }
 
+  /**
+   *
+   * @param rules
+   */
   previewRules(rules: MatchingRule[]): void {
     this.error = false;
     const params: any = {};
@@ -336,6 +377,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   //return true if channel should be excluded
+  /**
+   *
+   * @param channel
+   * @param rules
+   */
   private checkRules(channel: Channel, rules: MatchingRule[]): boolean {
     //excluded if any of them are true
     const excludeRules = rules.filter((rule) => rule.isInclude !== true);
@@ -367,6 +413,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // get channels with filters and/or bounds
+  /**
+   *
+   */
   getChannelsWithFilters(): void {
     const searchFilters = { ...this.bounds, ...this.searchFilters };
     if (Object.keys(searchFilters).length !== 0) {
@@ -395,6 +444,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Save channel information
+  /**
+   *
+   */
   save(): void {
     const values = this.channelGroupForm.value;
     const shareAll = values.share === "shareAll";
@@ -458,6 +510,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Delete channel group
+  /**
+   *
+   */
   delete(): void {
     this.channelGroupService.delete(this.id).subscribe({
       next: () => {
@@ -471,6 +526,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Exit page
+  /**
+   *
+   * @param id
+   */
   cancel(id?: number): void {
     if (id && !this.id) {
       this.router.navigate(["../", id], { relativeTo: this.route });
@@ -480,6 +539,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Check if form has unsaved fields
+  /**
+   *
+   */
   formUnsaved(): void {
     if (this.channelGroupForm.dirty || this.changeMade) {
       this.confirmDialog.open({
@@ -501,6 +563,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // add user's searched params to the request
+  /**
+   *
+   * @param filter
+   */
   addFilterToRegex(filter): void {
     const newRule = new MatchingRule(null, null, this.id, true);
     newRule.networkRegex = filter.netSearch?.toUpperCase();
@@ -511,6 +577,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Give a warning to user that delete will also delete widgets
+  /**
+   *
+   */
   onDelete(): void {
     this.confirmDialog.open({
       title: `Delete ${
@@ -530,6 +599,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   // Filter searched channels using the map bounds
+  /**
+   *
+   */
   filterBounds(): void {
     const temp = this.selectedChannels.filter((channel) => {
       const latCheck =
@@ -542,11 +614,19 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.selectedChannels = temp;
   }
 
+  /**
+   *
+   * @param ids
+   */
   deleteMatchingRules(ids: number[]): void {
     this.deleteMatchingRulesIds = ids;
   }
 
   // Update bounds for filtering channels with map
+  /**
+   *
+   * @param newBounds
+   */
   updateBounds(newBounds: MapBounds): void {
     this.bounds = newBounds;
     if (!this.bounds) {
@@ -556,6 +636,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

@@ -28,6 +28,10 @@ type Subjects =
 export type AppAbility = Ability<[Actions, Subjects]>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 
+/**
+ *
+ * @param user
+ */
 export function defineAbilitiesFor(user: User): any {
   const { can, rules } = new AbilityBuilder(AppAbility);
   can("read", "all");

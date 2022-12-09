@@ -12,6 +12,9 @@ interface ConfirmDialogOptions {
 }
 
 // Manages confirmation dialogs
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -20,6 +23,9 @@ export class ConfirmDialogService implements OnDestroy {
   dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   // Closes the dialog with a false response
+  /**
+   *
+   */
   public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close(false);
@@ -27,6 +33,10 @@ export class ConfirmDialogService implements OnDestroy {
   }
 
   // Opens a dialog with given options
+  /**
+   *
+   * @param options
+   */
   public open(options: ConfirmDialogOptions): void {
     this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -39,10 +49,16 @@ export class ConfirmDialogService implements OnDestroy {
   }
 
   // Observable response is true if confirm, false if cancel
+  /**
+   *
+   */
   public confirmed(): Observable<any> {
     return this.dialogRef.afterClosed().pipe(take(1));
   }
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.

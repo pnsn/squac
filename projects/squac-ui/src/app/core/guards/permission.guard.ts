@@ -3,12 +3,19 @@ import { CanActivate, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { Ability } from "@casl/ability";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class PermissionGuard implements CanActivate {
   constructor(private ability: Ability) {}
   // Returns true if there is a user and allows user to navigate
+  /**
+   *
+   * @param _next
+   */
   canActivate(_next: ActivatedRouteSnapshot): Observable<boolean> {
     return of(true);
     // FIXME: temporarily disabled

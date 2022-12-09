@@ -19,12 +19,15 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import {
+  MenuAction,
   TableControls,
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 
-// Table of channel groups
+/**
+ * Table of channel groups
+ */
 @Component({
   selector: "channel-group-view",
   templateUrl: "./channel-group-view.component.html",
@@ -97,6 +100,9 @@ export class ChannelGroupViewComponent
     public loadingService: LoadingService
   ) {}
 
+  /**
+   * listen to route param changes
+   */
   ngOnInit(): void {
     //TODO: prevent loading everytime you go back...but also respond to changes
     const groupsSub = this.route.params
@@ -118,6 +124,9 @@ export class ChannelGroupViewComponent
     this.subscription.add(groupsSub);
   }
 
+  /**
+   * Build channel group columns
+   */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.columns = [
@@ -160,6 +169,12 @@ export class ChannelGroupViewComponent
     }, 0);
   }
 
+  /**
+   * Request channel groups
+   *
+   * @param refresh will use cache if false
+   * @returns requested channel groups
+   */
   fetchData(refresh?: boolean): Observable<ChannelGroup[]> {
     return this.channelGroupService.list(this.queryParams, refresh).pipe(
       tap((results) => {
@@ -173,7 +188,11 @@ export class ChannelGroupViewComponent
     );
   }
 
-  // get fresh groups
+  /**
+   * Request channel groups without cache
+   *
+   * @param filters existing search filters
+   */
   refresh(filters?): void {
     if (filters) {
       this.queryParams = { ...filters };
@@ -182,19 +201,29 @@ export class ChannelGroupViewComponent
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
-  // onSelect function for data table selection
-  onSelect(channelGroup): void {
+  /**
+   * Onselect function for datatable selection
+   *
+   * @param channelGroup
+   */
+  onSelect(channelGroup: ChannelGroup): void {
     this.selectedChannelGroupId = channelGroup ? channelGroup.id : null;
   }
 
-  // event emitted from table
-  onClick(event): void {
+  /**
+   * Click event emitted from table
+   *
+   * @param event
+   */
+  onClick(event: MenuAction): void {
     if (event === "delete" && this.selectedChannelGroupId) {
       this.onDelete();
     }
   }
 
-  // delete channel group
+  /**
+   * Delete selected channel group
+   */
   onDelete(): void {
     this.channelGroupService
       .delete(this.selectedChannelGroupId)
@@ -206,16 +235,23 @@ export class ChannelGroupViewComponent
       });
   }
 
-  // route to create group
+  /**
+   * Navigates to create channel group
+   */
   addChannelGroup(): void {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 
-  // deselect group
+  /**
+   * Deselected channel group
+   */
   clearSelectedChannelGroup(): void {
     this.selectedChannelGroupId = null;
   }
 
+  /**
+   * unsubscribes
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

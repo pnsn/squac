@@ -4,12 +4,19 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { OrganizationService } from "squacapi";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class OrganizationResolver implements Resolve<Observable<any>> {
   constructor(private orgService: OrganizationService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const id = route.paramMap.get("orgId");
     if (id) {
@@ -27,6 +34,10 @@ export class OrganizationResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });

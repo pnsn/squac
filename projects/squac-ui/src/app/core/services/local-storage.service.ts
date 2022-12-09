@@ -11,12 +11,17 @@ export enum LocalStorageTypes {
   SESSION = "session",
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class LocalStorageService {
   /**
    * Get the storage facility
+   *
+   * @param storageType
    */
   private static _getStorage(storageType: LocalStorageTypes): Storage {
     return storageType === LocalStorageTypes.LOCAL
@@ -26,6 +31,9 @@ export class LocalStorageService {
 
   /**
    * Get a localStorage or sessionStorage item value
+   *
+   * @param storageType
+   * @param key
    */
   static getItem(
     storageType: LocalStorageTypes,
@@ -50,7 +58,10 @@ export class LocalStorageService {
 
   /**
    * Set a localStorage or sessionStorage item value
-
+   
+   * @param storageType
+   * @param key
+   * @param value
    */
   static setItem(
     storageType: LocalStorageTypes,
@@ -64,6 +75,9 @@ export class LocalStorageService {
 
   /**
    * Remove an item from localStorage or sessionStorage
+   *
+   * @param storageType
+   * @param key
    */
   static removeItem(storageType: LocalStorageTypes, key: string): void {
     const storage = LocalStorageService._getStorage(storageType);
@@ -72,6 +86,11 @@ export class LocalStorageService {
 
   /**
    * Remove an items with matching pattern from localStorage or sessionStorage
+   *
+   * @param storageType
+   * @param matchingRoute
+   * @param matchingRoute.route
+   * @param matchingRoute.pattern
    */
   static removeMatchingItems(
     storageType: LocalStorageTypes,
@@ -115,6 +134,10 @@ export class LocalStorageService {
   /**
    * Empty all cache items that match route
    * Empty all cache items if no route
+   *
+   * @param matchingRoute
+   * @param matchingRoute.route
+   * @param matchingRoute.pattern
    */
   static invalidateCache(matchingRoute?: {
     route: any;

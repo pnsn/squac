@@ -12,6 +12,9 @@ const DEFAULT_CONTEXT: LoadingContext = { _DEFAULT: true };
  * the loading flags in case an error happens using the clearLoadings() method.
  */
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -36,6 +39,12 @@ export class LoadingService {
   // Context can be any object, though in practice, components and services will be the most common contexts.
   // loaderId is a non-mandatory parameter - when not specified, a default loaderId is used.
   // Such a scenario is used when your context has contains only one loading indicator.
+  /**
+   *
+   * @param source$
+   * @param context
+   * @param loaderId
+   */
   doLoading<V>(
     source$: Observable<V>,
     context?: LoadingContext,
@@ -53,6 +62,11 @@ export class LoadingService {
   // Returns a boolean indicating whether a given loader is active in a given context.
   // If loaderId is unspecified, the method will return a logical disjunction of all
   // loader states in the context.
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   isLoading(context?: LoadingContext, loaderId?: LoaderId): boolean {
     context = context || DEFAULT_CONTEXT;
     const loaderStates = this.loadingStates.get(context);
@@ -69,6 +83,11 @@ export class LoadingService {
 
   // To be used in your html templates with async pipes.
   // Returns an Observable of booleans indicating whether a given loader is active in a given context.
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   isLoading$(
     context?: LoadingContext,
     loaderId?: LoaderId
@@ -85,15 +104,28 @@ export class LoadingService {
 
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   endLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, false, this.getLoaderId(loaderId));
   }
 
   // To be called by middleware code (HTTP interceptors/routing listeners, etc.).
+  /**
+   *
+   */
   clearLoadings(): void {
     this.loadingStates = new WeakMap<LoadingContext, Map<LoaderId, boolean>>();
     this.loadingStates$ = new WeakMap<
@@ -102,6 +134,12 @@ export class LoadingService {
     >();
   }
 
+  /**
+   *
+   * @param context
+   * @param state
+   * @param loaderId
+   */
   protected setLoadingState(
     context: LoadingContext,
     state: boolean,
@@ -131,6 +169,11 @@ export class LoadingService {
     }
   }
 
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId): any {
     return (
       this.hasContextLoadingState(context) &&
@@ -138,10 +181,19 @@ export class LoadingService {
     );
   }
 
+  /**
+   *
+   * @param context
+   */
   protected hasContextLoadingState(context: LoadingContext): any {
     return this.loadingStates.has(context) && this.loadingStates$.has(context);
   }
 
+  /**
+   *
+   * @param context
+   * @param loaderId
+   */
   protected hasLoaderLoadingState(
     context: LoadingContext,
     loaderId: LoaderId
@@ -152,6 +204,10 @@ export class LoadingService {
     );
   }
 
+  /**
+   *
+   * @param loaderId
+   */
   protected getLoaderId(loaderId?: LoaderId): LoaderId {
     return loaderId ?? DEFAULT_LOADER_ID;
   }

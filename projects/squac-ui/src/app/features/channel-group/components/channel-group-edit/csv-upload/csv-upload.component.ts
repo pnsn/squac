@@ -12,6 +12,9 @@ import { ChannelService } from "squacapi";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
 
+/**
+ *
+ */
 @Component({
   selector: "channel-group-csv-upload",
   templateUrl: "./csv-upload.component.html",
@@ -43,6 +46,10 @@ export class CsvUploadComponent {
 
   @ViewChild("fileImportInput") fileImportInput: any;
 
+  /**
+   *
+   * @param $event
+   */
   fileChangeListener($event: any): void {
     this.missingChannels = [];
     this.matchingChannels = [];
@@ -149,6 +156,9 @@ export class CsvUploadComponent {
       });
   }
 
+  /**
+   *
+   */
   addChannels(): void {
     this.channelsChange.emit(this.matchingChannels);
   }

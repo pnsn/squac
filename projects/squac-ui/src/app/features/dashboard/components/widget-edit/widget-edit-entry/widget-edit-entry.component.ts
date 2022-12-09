@@ -6,6 +6,9 @@ import { Subscription } from "rxjs";
 import { Metric } from "squacapi";
 import { Widget } from "widgets";
 
+/**
+ *
+ */
 @Component({
   selector: "widget-edit-entry",
   template: "",
@@ -24,6 +27,9 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  /**
+   *
+   */
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe((params: Params) => {
       this.widgetId = +params["widgetId"];
@@ -38,6 +44,9 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   *
+   */
   openWidget(): void {
     if (this.dashboardId && this.metrics) {
       // get dashboard && widget from url
@@ -66,6 +75,9 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

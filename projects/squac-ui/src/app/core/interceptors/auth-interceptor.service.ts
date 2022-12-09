@@ -9,12 +9,20 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Observable } from "rxjs";
 
+/**
+ *
+ */
 @Injectable()
 
 // Intercepts http requests and adds auth token.
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
+  /**
+   *
+   * @param req
+   * @param next
+   */
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler

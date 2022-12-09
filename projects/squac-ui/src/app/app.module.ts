@@ -43,6 +43,9 @@ import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { AppAbility } from "@core/utils/ability";
 
+/**
+ *
+ */
 @NgModule({
   declarations: [
     AppComponent,

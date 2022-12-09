@@ -8,13 +8,23 @@ import { Ability, PureAbility } from "@casl/ability";
 import { AppAbility } from "../utils/ability";
 import { ReplaySubject } from "rxjs";
 
+/**
+ *
+ */
 class TestUserService {
   testUser;
   user = new ReplaySubject();
+  /**
+   *
+   * @param user
+   */
   setUser(user): void {
     this.testUser = user;
     this.user.next(this.testUser);
   }
+  /**
+   *
+   */
   getUser(): any {
     return this.testUser;
   }

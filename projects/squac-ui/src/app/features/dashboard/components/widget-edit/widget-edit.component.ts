@@ -78,6 +78,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   /**
    * Cancel without saving widget
+   *
    * @param widget widget getting edited
    */
   cancel(widget?: Widget): void {

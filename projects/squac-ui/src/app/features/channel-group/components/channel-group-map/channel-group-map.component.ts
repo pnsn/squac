@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { Channel } from "squacapi";
 import * as L from "leaflet";
+import { MapStation } from "./interfaces";
 
 export interface MapBounds {
   latMin: number;
@@ -17,7 +18,10 @@ export interface MapBounds {
   lonMin: number;
   lonMax: number;
 }
-// shared map for channels
+
+/**
+ * Shared map for channels
+ */
 @Component({
   selector: "channel-group-map",
   templateUrl: "./channel-group-map.component.html",
@@ -51,10 +55,18 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
 
   constructor(private zone: NgZone) {}
 
+  /**
+   * init
+   */
   ngOnInit(): void {
     this.initMap();
   }
 
+  /**
+   * Listen to channel changes
+   *
+   * @param changes input changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["selectedChannels"] ||
@@ -69,6 +81,9 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Set up leaflet map
+   */
   initMap(): void {
     // Setup the groups for map markers and the drawn square
     this.stationLayer = new L.FeatureGroup();
@@ -117,8 +132,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     };
   }
 
-  // leaflet event for when map has loaded
-  // can save map and init things on map now
+  /**
+   * leaflet event for when map has loaded
+   * can save map and init things on map now
+   *
+   * @param map leaflet map reference
+   */
   onMapReady(map: L.Map): void {
     this.map = map;
     this.legend.addTo(this.map);
@@ -128,7 +147,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  // find station to show when channel is selected
+  /**
+   * Find station using channel nslc and show when
+   * channel is selected
+   *
+   * @param channel selected channel
+   */
   selectChannels(channel: Channel): void {
     if (channel) {
       let stationMarker;
@@ -145,9 +169,14 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
-  // Create markers for each station
+  //TODO: too many iterations over similar groups
+  /**
+   * Create channel markers for each station
+   *
+   * @param showChannel true if there is a channel selected
+   */
   updateMap(showChannel: boolean): void {
-    const stations = [];
+    const stations: MapStation[] = [];
     if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array
@@ -288,30 +317,35 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
-  // Make leaflet marker for station
-  makeMarker(station): L.Marker {
+  /**
+   * Make leaflet markes for station
+   *
+   * @param station station
+   * @returns leaflet marker
+   */
+  makeMarker(station: MapStation): L.Marker {
     let selectedChannelString = "";
     let inGroupChannelString = "";
-    station.searchedChannels.forEach((channel) => {
+    station.searchedChannels.forEach((channel: Channel) => {
       inGroupChannelString +=
         "<div> <div class='searched-channels map-icon'></div>" +
         channel.nslc +
         "</div>";
     });
 
-    station.autoIncludeChannels.forEach((channel) => {
+    station.autoIncludeChannels.forEach((channel: Channel) => {
       inGroupChannelString +=
         "<div> <div class='included-channels map-icon'></div>" +
         channel.nslc +
         "</div>";
     });
-    station.autoExcludeChannels.forEach((channel) => {
+    station.autoExcludeChannels.forEach((channel: Channel) => {
       inGroupChannelString +=
         "<div> <div class='excluded-channels map-icon'></div>" +
         channel.nslc +
         "</div>";
     });
-    station.selectedChannels.forEach((channel) => {
+    station.selectedChannels.forEach((channel: Channel) => {
       selectedChannelString +=
         "<div> <div class='new-channels map-icon'></div>" +
         channel.nslc +
@@ -351,8 +385,10 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     return marker;
   }
 
-  // after zoom triggers
-  // if user changed bounds, don't override
+  /**
+   * After zoom triggers, if user changed bounds
+   * don't override, otherwise reset
+   */
   onZoomEnd(): void {
     if (this.lastZoom === "auto") {
       this.lastZoom = null;
@@ -360,13 +396,18 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.lastZoom = "user";
     }
   }
-  // Clear out old stuff and remove bounds
+
+  /**
+   * Clear old drawn items
+   */
   onDrawStart(): void {
     this.drawnItems.clearLayers();
     // this.boundsChange.emit("");
   }
 
-  // take leaflet rectangle and get bounds and emit results
+  /**
+   * Get bounds from leaflet rectangle and emit results
+   */
   getBoundsFromRectangle(): void {
     const rectangleNE = this.rectLayer._bounds._northEast; // Northeast corner lat lng
     const rectangleSW = this.rectLayer._bounds._southWest; // Southwest corner lat lng
@@ -379,7 +420,11 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.boundsChange.emit(bounds);
   }
 
-  // Send out newly drawn bounds
+  /**
+   * Emit newly drawn bounds
+   *
+   * @param e draw event
+   */
   onRectangleCreated(e: any): void {
     this.rectLayer = e.layer;
     this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
@@ -387,12 +432,16 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     this.getBoundsFromRectangle();
   }
 
-  // Listen to rectangle edit and change bounds
+  /**
+   * Listen to rectangle edit and change bounds
+   */
   onRectangleEdited(): void {
     this.getBoundsFromRectangle();
   }
 
-  // clear bounds when rectangle deleted
+  /**
+   * Clear bounds when rectangle deleted
+   */
   onRectangleDeleted(): void {
     this.boundsChange.emit(); // Clear old bounds
   }

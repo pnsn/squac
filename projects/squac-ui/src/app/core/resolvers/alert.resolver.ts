@@ -6,6 +6,9 @@ import { catchError } from "rxjs/operators";
 import { Alert } from "squacapi";
 import { AlertService } from "squacapi";
 //FIXME: remove import from@core
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -15,6 +18,10 @@ export class AlertResolver implements Resolve<Observable<any>> {
     private dateService: DateService
   ) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Alert> | Observable<Alert[]> {
@@ -36,6 +43,10 @@ export class AlertResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });

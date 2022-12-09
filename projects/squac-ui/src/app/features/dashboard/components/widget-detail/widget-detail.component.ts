@@ -16,6 +16,9 @@ import { WidgetDataService, WidgetManagerService } from "widgets";
 import { Threshold } from "squacapi";
 import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
 
+/**
+ * Component for displaying a single widget
+ */
 @Component({
   selector: "widget-detail",
   templateUrl: "./widget-detail.component.html",
@@ -50,9 +53,11 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     private viewService: ViewService
   ) {}
 
+  /**
+   * Sets up widget subscriptions
+   */
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    // listen for changes to data
     const updateSub = this.viewService.updateData
       .pipe(
         filter((data: any) => {
@@ -63,6 +68,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           );
         }),
         tap(() => {
+          // update values
           const group = this.viewService.channelGroupId.getValue();
           const channels = this.viewService.channels.getValue();
 
@@ -82,17 +88,22 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       )
       .subscribe();
 
-    this.widgetManager.widget$.subscribe((widget: Widget) => {
+    // listen to widget changes
+    const widgetSub = this.widgetManager.widget$.subscribe((widget: Widget) => {
       this.initWidget(widget);
     });
 
-    this.widgetManager.zoomStatus$.subscribe((status) => {
+    // listen to zoom changes
+    const zoomSub = this.widgetManager.zoomStatus$.subscribe((status) => {
       this.zooming = status;
     });
-    this.widgetManager.toggleKey$.subscribe((show) => {
+
+    // listen to toggle key changes
+    const toggleSub = this.widgetManager.toggleKey$.subscribe((show) => {
       this.showKey = show;
     });
 
+    // listen to resize changes
     const resizeSub = this.viewService.resize
       .pipe(filter((id) => this.widget && this.widget.id === id))
       .subscribe(() => {
@@ -100,18 +111,29 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       });
 
     this.subscription.add(resizeSub);
-
+    this.subscription.add(zoomSub);
+    this.subscription.add(toggleSub);
+    this.subscription.add(widgetSub);
     this.subscription.add(updateSub);
   }
 
+  /**
+   * Listen to input changes in widget and update
+   *
+   * @param changes input changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["widget"]) {
       this.widgetManager.initWidget(this.widget);
     }
   }
 
-  // set up widget after it's validated
-  initWidget(widget): void {
+  /**
+   * Set up widget after it has been validated
+   *
+   * @param widget widget to add
+   */
+  initWidget(widget: Widget): void {
     // widget manager will check if valid
     this.widgetType = this.widgetManager.widgetConfig;
     this.displayType = this.widgetManager.widgetDisplayOption;
@@ -120,6 +142,11 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.thresholds = widget.thresholds.slice();
   }
 
+  /**
+   * Send values to widget manager after metric changes
+   *
+   * @param metrics changed metrics
+   */
   metricsChanged(metrics: Metric[]): void {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
@@ -127,10 +154,18 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.viewService.saveWidget(this.widget, true);
   }
 
+  /**
+   * Toggle key event
+   */
   toggleKey(): void {
     this.widgetManager.toggleKey$.next(!this.showKey);
   }
 
+  /**
+   * Emit zoom change event
+   *
+   * @param status zoom status
+   */
   updateZoom(status?: string): void {
     if (status) {
       this.widgetManager.zoomStatus$.next(status);
@@ -141,11 +176,18 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     }
   }
 
+  /**
+   * unsubscribe on destroy
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  // Route to widget edit for given dashboard
+  /**
+   * Route to widget add for given dashboard
+   *
+   * @param dashboardId dashboard id
+   */
   addWidgetToDashboard(dashboardId: number): void {
     // select dashboard
     // navigate to dashboard
@@ -158,12 +200,16 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     ]);
   }
 
-  // route to edit
+  /**
+   * Navigate to edit widget
+   */
   editWidget(): void {
     this.router.navigate([this.widget.id, "edit"], { relativeTo: this.route });
   }
 
-  // confirm & delete widget
+  /**
+   * Confirm widget and delete
+   */
   deleteWidget(): void {
     this.confirmDialog.open({
       title: `Delete: ${this.widget.name}`,

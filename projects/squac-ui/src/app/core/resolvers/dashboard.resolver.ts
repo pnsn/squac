@@ -10,12 +10,19 @@ export interface DashboardResolved {
   error?: any;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class DashboardResolver implements Resolve<Observable<any>> {
   constructor(private dashboardService: DashboardService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Dashboard> | Observable<Dashboard[]> {
@@ -28,6 +35,10 @@ export class DashboardResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     return of({ error });
   }

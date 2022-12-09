@@ -14,6 +14,9 @@ import {
   SortType,
 } from "@boring.devs/ngx-datatable";
 
+/**
+ *
+ */
 @Component({
   selector: "channel-group-edit-table",
   templateUrl: "./channel-group-table.component.html",
@@ -37,6 +40,9 @@ export class ChannelGroupTableComponent implements OnInit {
     emptyMessage: "No channels found.",
   };
 
+  /**
+   *
+   */
   ngOnInit(): void {
     // table columns
     setTimeout(() => {
@@ -107,11 +113,18 @@ export class ChannelGroupTableComponent implements OnInit {
       // }
     }, 0);
   }
+  /**
+   *
+   * @param $event
+   */
   selectRow($event): void {
     this.selected = [...$event.selected];
     this.selectedChange.emit(this.selected);
   }
 
+  /**
+   *
+   */
   removeSelected(): void {
     this.rows = this.rows.filter(
       (channel: Channel) =>
@@ -121,6 +134,10 @@ export class ChannelGroupTableComponent implements OnInit {
     this.rowsChange.emit(this.rows);
   }
 
+  /**
+   *
+   * @param row
+   */
   removeRow(row): void {
     this.rows = this.rows.filter((channel) => {
       return channel.id !== row.id;

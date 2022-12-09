@@ -21,9 +21,9 @@ export class CacheInterceptor implements HttpInterceptor {
    * Intercepts all http requests and checks if they should be cached
    * will return the cached response or will return the request
    *
-   * @param {HttpRequest<any>} request - Http request
-   * @param {HttpHandler} next - Http handler
-   * @returns {Observable<HttpEvent<any>>} - Http event
+   * @param request - Http request
+   * @param next - Http handler
+   * @returns - Http event
    */
   intercept(
     request: HttpRequest<any>,

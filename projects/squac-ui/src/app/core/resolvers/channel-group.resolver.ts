@@ -5,12 +5,19 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ChannelGroupService } from "squacapi";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ChannelGroupResolver implements Resolve<Observable<any>> {
   constructor(private channelGroupService: ChannelGroupService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<ChannelGroup | ChannelGroup[]> {
@@ -31,6 +38,10 @@ export class ChannelGroupResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });

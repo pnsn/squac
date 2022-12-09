@@ -7,6 +7,9 @@ import {
 } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -16,6 +19,11 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   // Returns true if there is a user and allows user to navigate
+  /**
+   *
+   * @param _next
+   * @param state
+   */
   canActivate(
     _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,6 +32,10 @@ export class AuthGuard implements CanActivate {
     return this.checkLogin(url);
   }
 
+  /**
+   *
+   * @param url
+   */
   checkLogin(url: string): boolean {
     if (this.authService.isAuthenticated()) {
       return true;

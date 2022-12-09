@@ -16,6 +16,9 @@ import {
 const DEFAULT_MAX_LOGIN = 6; //hours
 
 // Handles log in logic and API requests for login
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -30,16 +33,25 @@ export class AuthService {
   ) {}
 
   // True if a user logged in
+  /**
+   *
+   */
   isAuthenticated(): boolean {
     return !!this.token;
   }
 
   // returns auth token
+  /**
+   *
+   */
   get auth(): string {
     return this.token;
   }
 
   // Checks if user data exists in browser
+  /**
+   *
+   */
   autologin(): void {
     const authData: {
       token: string;
@@ -54,6 +66,10 @@ export class AuthService {
   }
 
   // Verify token by requesting user information
+  /**
+   *
+   * @param token
+   */
   validateToken(token: string): Observable<User> {
     this.token = token;
     return this.userService.getUser().pipe(
@@ -69,6 +85,11 @@ export class AuthService {
   }
 
   // after user enters data, log them in
+  /**
+   *
+   * @param email
+   * @param password
+   */
   login(email: string, password: string): Observable<User> {
     const params: UserTokenCreateRequestParams = {
       data: {
@@ -92,6 +113,9 @@ export class AuthService {
   }
 
   // after user hits log out, wipe data
+  /**
+   *
+   */
   logout(): void {
     this.userService.logout();
     this.token = null;
@@ -101,6 +125,10 @@ export class AuthService {
   }
 
   // after login, save user data
+  /**
+   *
+   * @param token
+   */
   private handleAuth(token: string): void {
     const msToExpire = DEFAULT_MAX_LOGIN * 60 * 60 * 1000;
     const expirationDate = new Date(new Date().getTime() + msToExpire);

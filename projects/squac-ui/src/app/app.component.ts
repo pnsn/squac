@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { LoadingService } from "@core/services/loading.service";
 import { AuthService } from "@core/services/auth.service";
 
+/**
+ *
+ */
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -15,6 +18,9 @@ export class AppComponent implements OnInit {
     public loadingService: LoadingService
   ) {}
 
+  /**
+   *
+   */
   ngOnInit(): void {
     this.authService.autologin();
   }

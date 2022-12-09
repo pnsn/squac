@@ -5,12 +5,19 @@ import { catchError } from "rxjs/operators";
 import { Widget } from "widgets";
 import { WidgetService } from "squacapi";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class WidgetResolver implements Resolve<Observable<any>> {
   constructor(private widgetService: WidgetService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Widget> | Observable<Widget[]> | Observable<any> {
@@ -37,6 +44,10 @@ export class WidgetResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     // TODO: route to show error
     return of({ error });

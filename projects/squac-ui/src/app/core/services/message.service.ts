@@ -4,6 +4,9 @@ import { SnackbarComponent } from "@shared/components/snackbar/snackbar.componen
 
 // Handles snackbars for showing messages to user
 // Shows a popup at the top of the page that can have an action/button
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -13,6 +16,13 @@ export class MessageService implements OnDestroy {
   constructor(private snackBar: MatSnackBar) {} //make close on navigation
 
   // opens a snackbar and passes data to component
+  /**
+   *
+   * @param type
+   * @param message
+   * @param duration
+   * @param action
+   */
   openSnackBar(type, message, duration, action?): void {
     this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
       data: {
@@ -27,6 +37,9 @@ export class MessageService implements OnDestroy {
   }
 
   // Closes any open snackbar
+  /**
+   *
+   */
   close(): void {
     if (this.snackBarRef) {
       this.snackBarRef.dismiss();
@@ -34,21 +47,36 @@ export class MessageService implements OnDestroy {
   }
 
   // open standard snack bar
+  /**
+   *
+   * @param message
+   */
   message(message: string): void {
     this.openSnackBar("default", message, this.durationInSeconds, null);
   }
 
   // opens snack bar with red text
+  /**
+   *
+   * @param message
+   */
   error(message: string): void {
     this.openSnackBar("error", message, 10, "Dismiss");
   }
 
   // opens snack bar with close option
+  /**
+   *
+   * @param message
+   */
   alert(message: string): void {
     this.openSnackBar("alert", message, 10, "Dismiss");
   }
 
   // Close all snackbars on destroy
+  /**
+   *
+   */
   ngOnDestroy(): void {
     this.close();
   }

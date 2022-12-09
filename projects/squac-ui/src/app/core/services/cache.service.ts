@@ -5,12 +5,18 @@ import { LocalStorageService } from "@core/services/local-storage.service";
 import { CACHEABLE_ROUTE_PATTERNS } from "../cacheable-route-patterns.constant";
 import * as Route from "route-parser";
 
+/**
+ *
+ */
 abstract class HttpCache {
   abstract get(req: HttpRequest<any>): HttpResponse<any> | null;
   abstract put(req: HttpRequest<any>, res: HttpResponse<any>): void;
   abstract delete(req: HttpRequest<any>): boolean;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -18,12 +24,17 @@ export class HttpCacheService implements HttpCache {
   cache: Record<string, HttpResponse<any>> = {};
   cachableRoutes = CACHEABLE_ROUTE_PATTERNS;
 
+  /**
+   *
+   * @param url
+   */
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, "");
   }
 
   /**
    * Get an item from the cache
+   *
    * @param req -
    */
   get(req: HttpRequest<any>): HttpResponse<any> | null {
@@ -40,6 +51,7 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Put an item in the cache
+   *
    * @param req -
    * @param res -
    */
@@ -58,6 +70,7 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Delete an item from the cache
+   *
    * @param req -
    */
   delete(req: HttpRequest<any>): boolean {
@@ -78,6 +91,10 @@ export class HttpCacheService implements HttpCache {
     return returnVal;
   }
 
+  /**
+   *
+   * @param urlWithParams
+   */
   matchRoutes(urlWithParams: string): { route: any; pattern: string } {
     let matchingRoute: any;
     let pattern = "";
@@ -117,6 +134,7 @@ export class HttpCacheService implements HttpCache {
   /**
    * Determine if a url should be place in local or sessions storage and which one
    * It must match a route pattern provided in CACHEABLE_ROUTE_PATTERNS
+   *
    * @param urlWithParams -
    * @returns
    */
@@ -137,6 +155,8 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Place the response in localStorage
+   *
+   * @param storageType
    * @param urlWithParams -
    * @param res -
    */

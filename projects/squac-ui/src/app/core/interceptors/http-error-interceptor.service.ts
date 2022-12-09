@@ -10,8 +10,16 @@ import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 // Intercepts and formats http error responses for uniformity
+/**
+ *
+ */
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  /**
+   *
+   * @param request
+   * @param next
+   */
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler

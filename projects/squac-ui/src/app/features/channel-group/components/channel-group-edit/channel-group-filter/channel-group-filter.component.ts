@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 
 // Search boxes for getting channels
+/**
+ *
+ */
 @Component({
   selector: "channel-group-filter",
   templateUrl: "./channel-group-filter.component.html",
@@ -24,6 +27,10 @@ export class ChannelGroupFilterComponent {
   loc: string;
 
   // add formatting to match squacapi
+  /**
+   *
+   * @param value
+   */
   formatFilter(value: string): string {
     let filter;
     if (value) {
@@ -36,6 +43,9 @@ export class ChannelGroupFilterComponent {
   }
 
   // clear filters
+  /**
+   *
+   */
   removeFilters(): void {
     this.net = "";
     this.chan = "";
@@ -45,6 +55,9 @@ export class ChannelGroupFilterComponent {
   }
 
   //
+  /**
+   *
+   */
   addToRegex(): void {
     this.populateFilters();
 
@@ -52,11 +65,17 @@ export class ChannelGroupFilterComponent {
   }
 
   // send filters to parent on submit
+  /**
+   *
+   */
   updateFilters(): void {
     this.populateFilters();
     this.filtersChanged.next(this.filters);
   }
 
+  /**
+   *
+   */
   populateFilters(): void {
     if (!this.net && !this.chan && !this.sta && !this.loc) {
       this.filters = {};

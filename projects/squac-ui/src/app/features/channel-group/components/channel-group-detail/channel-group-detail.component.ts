@@ -9,6 +9,9 @@ import { ChannelGroupService } from "squacapi";
 import { Channel } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 
+/**
+ *
+ */
 @Component({
   selector: "channel-group-detail",
   templateUrl: "./channel-group-detail.component.html",
@@ -35,6 +38,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     public loadingService: LoadingService
   ) {}
 
+  /**
+   *
+   */
   ngOnInit(): void {
     // get channel group info from route
 
@@ -65,10 +71,16 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   // route to edit path
+  /**
+   *
+   */
   editChannelGroup(): void {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
@@ -76,17 +88,28 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   //channel selected on table
+  /**
+   *
+   * @param _event
+   */
   onSelect(_event): void {
     this.showChannel = this.selectedRows[0];
   }
 
   //channel selected on map
+  /**
+   *
+   * @param event
+   */
   selectChannel(event): void {
     this.selectedRows = this.channels.filter(
       (channel: Channel) => channel.staCode === event.code
     );
   }
 
+  /**
+   *
+   */
   addToDashboard(): void {
     this.router.navigate(["/", "dashboards", "new"], {
       relativeTo: this.route,
@@ -95,11 +118,17 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   // close container and route to parent
+  /**
+   *
+   */
   closeChannelGroup(): void {
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 
   // Give a warning to user that delete will also delete widgets
+  /**
+   *
+   */
   onDelete(): void {
     this.confirmDialog.open({
       title: `Delete ${this.channelGroup.name}`,
@@ -115,6 +144,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   }
 
   // Delete channel group
+  /**
+   *
+   */
   delete(): void {
     this.channelGroupService.delete(this.channelGroup.id).subscribe({
       next: () => {

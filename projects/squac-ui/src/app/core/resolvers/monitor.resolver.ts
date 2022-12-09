@@ -4,12 +4,19 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Monitor, MonitorService } from "squacapi";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MonitorResolver implements Resolve<Observable<any>> {
   constructor(private monitorService: MonitorService) {}
 
+  /**
+   *
+   * @param route
+   */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<Monitor> | Observable<Monitor[]> {
@@ -30,6 +37,10 @@ export class MonitorResolver implements Resolve<Observable<any>> {
     }
   }
 
+  /**
+   *
+   * @param error
+   */
   handleError(error: unknown): Observable<any> {
     return of({ error });
   }

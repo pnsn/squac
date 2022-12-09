@@ -9,6 +9,9 @@ import {
 import { ARCHIVE_TYPE_OPTIONS } from "squacapi";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 
+/**
+ * Component for selecting archive type
+ */
 @Component({
   selector: "dashboard-data-type-selector",
   templateUrl: "./data-type-selector.component.html",
@@ -24,16 +27,25 @@ export class DataTypeSelectorComponent implements OnChanges {
   ArchiveType = ArchiveType;
   archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
 
+  /**
+   * Listen to input changes
+   *
+   * @param changes stattype changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes["statType"] || changes["statType"]) {
+    if (changes["dataType"] || changes["statType"]) {
       if (this.dataType === "raw") {
         this.statType = null;
       }
     }
   }
 
+  /**
+   * Emit new datatypes after selection
+   *
+   * @param type selected archive type
+   * @param stat selected stat type
+   */
   selectDataType(type: ArchiveType, stat: ArchiveStatType): void {
     this.statType = stat;
     this.dataType = type;
@@ -44,6 +56,7 @@ export class DataTypeSelectorComponent implements OnChanges {
     });
   }
 
+  /** @returns formatted string */
   get displayString(): string {
     let string = "";
     if (this.dataType) {

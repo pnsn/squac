@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -9,6 +12,9 @@ export class LoggedInGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   // returns prevents user from accessing certain pages when logged in
+  /**
+   *
+   */
   canActivate(): boolean {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(["/"]);
