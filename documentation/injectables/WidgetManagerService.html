@@ -68,6 +68,9 @@
             <p class="comment">
                 <p>Keeps track of data shared between widget tree components
 Needs to be provided at WidgetDetail Level</p>
+<p>The intent for this class was to have a service independent
+from view controls to manage settings and data for widgets, but there&#39;s
+some redundancies between places storing data that should be reduced</p>
 
             </p>
 
@@ -234,7 +237,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -297,14 +300,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:220</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Send request to data service with updated params</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -334,14 +339,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:101</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Initializes widget and checks if it is valid.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -352,6 +359,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -366,6 +374,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>widget to save</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -403,14 +417,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:173</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates channels and group in params</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -421,6 +437,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -435,6 +452,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>id of channel group</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>channels</td>
@@ -447,6 +470,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>array of channels</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -484,14 +513,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:146</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Stores metrics and triggers request for data</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -502,6 +533,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -516,6 +548,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>array of metrics to request</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -553,14 +591,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:197</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Stores stat and archive type</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -571,6 +611,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -585,6 +626,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>stat type</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>archiveType</td>
@@ -597,6 +644,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>archive or datat type</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -634,14 +687,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:163</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Stores widget thresholds</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -652,6 +707,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -666,6 +722,10 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>widget thresholds</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -703,14 +763,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:212</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Stores start and end time</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -721,6 +783,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -735,6 +798,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>starttime string</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>end</td>
@@ -747,6 +816,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>endtime string</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -784,14 +859,16 @@ Needs to be provided at WidgetDetail Level</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:119</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>updates widget properties and config based on widget type</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -802,6 +879,7 @@ Needs to be provided at WidgetDetail Level</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -816,6 +894,12 @@ Needs to be provided at WidgetDetail Level</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>type of set widget</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -864,7 +948,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -892,7 +976,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -924,7 +1008,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -956,7 +1040,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -983,7 +1067,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1010,7 +1094,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1037,7 +1121,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1065,7 +1149,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1090,7 +1174,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1116,7 +1200,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -1141,7 +1225,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1166,7 +1250,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1191,7 +1275,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -1216,7 +1300,7 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1245,9 +1329,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:52</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1267,9 +1362,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:57</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1289,9 +1395,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:62</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/WidgetDisplayOption.html" target="_self" >WidgetDisplayOption</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1311,9 +1428,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:67</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/Threshold.html" target="_self" >Threshold[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1333,9 +1461,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:61</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:72</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/WidgetProperties.html" target="_self" >WidgetProperties</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1355,9 +1494,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:77</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>string | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1377,9 +1527,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:82</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>string | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1399,9 +1560,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:73</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:87</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/WidgetConfig.html" target="_self" >WidgetConfig</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1421,9 +1593,20 @@ Needs to be provided at WidgetDetail Level</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:77</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/widgets/src/lib/services/widget-manager.service.ts:92</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#WidgetType" target="_self" >WidgetType | undefined</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -1453,6 +1636,10 @@ import { BehaviorSubject } from &quot;rxjs&quot;;
 /**
  * Keeps track of data shared between widget tree components
  * Needs to be provided at WidgetDetail Level
+ *
+ * The intent for this class was to have a service independent
+ * from view controls to manage settings and data for widgets, but there&#x27;s
+ * some redundancies between places storing data that should be reduced
  */
 @Injectable()
 export class WidgetManagerService {
@@ -1478,52 +1665,74 @@ export class WidgetManagerService {
   private _selectedMetrics: Metric[] &#x3D; [];
   private _widgetConfig!: WidgetConfig;
 
+  /** @returns selected channels */
   get channels(): Channel[] {
     return this._channels;
   }
 
+  /** @returns selected metrics */
   get selectedMetrics(): Metric[] {
     return this._selectedMetrics;
   }
+
+  /** @returns widget display option */
   get widgetDisplayOption(): WidgetDisplayOption {
     return this._widgetDisplayOption;
   }
+
+  /** @returns widget thresholds */
   get thresholds(): Threshold[] {
     return this._widget.thresholds;
   }
 
+  /** @returns widget properties */
   get properties(): WidgetProperties {
     return this._widget.properties;
   }
 
+  /** @returns starttime or undefined */
   get starttime(): string | undefined {
     return this._params.starttime;
   }
 
+  /** @returns endtime or undefined */
   get endtime(): string | undefined {
     return this._params.endtime;
   }
 
+  /** @returns widget config or undefined */
   get widgetConfig(): WidgetConfig {
     return this._widgetConfig;
   }
 
+  /** @returns widget type or undefined */
   get widgetType(): WidgetType | undefined {
     return this._widgetType;
   }
 
+  /**
+   * Initializes widget and checks if it is valid.
+   *
+   * @param widget - widget to save
+   */
   initWidget(widget: Widget): void {
     if (widget.isValid) {
       this._widget &#x3D; widget;
       this.updateWidgetType(widget.type as WidgetType);
 
+      // send widget
       this.widget$.next(this._widget);
     } else {
-      this.errors$.next(WidgetErrors.BAD_CONFIGURATION);
       //emit error
+      this.errors$.next(WidgetErrors.BAD_CONFIGURATION);
     }
   }
 
+  /**
+   * updates widget properties and config based on widget type
+   *
+   * @param widgetType - type of set widget
+   */
   updateWidgetType(widgetType: WidgetType): void {
     this._widgetType &#x3D; widgetType;
 
@@ -1546,6 +1755,11 @@ export class WidgetManagerService {
       this.widgetConfig.useAggregate ?? false;
   }
 
+  /**
+   * Stores metrics and triggers request for data
+   *
+   * @param metrics - array of metrics to request
+   */
   updateMetrics(metrics: Metric[]): void {
     //do stuff with metrics
     this._selectedMetrics &#x3D; metrics;
@@ -1558,10 +1772,21 @@ export class WidgetManagerService {
     this.fetchData();
   }
 
+  /**
+   * Stores widget thresholds
+   *
+   * @param thresholds widget thresholds
+   */
   updateThresholds(thresholds: Threshold[]): void {
     this._widget.thresholds &#x3D; thresholds;
   }
 
+  /**
+   * Updates channels and group in params
+   *
+   * @param group - id of channel group
+   * @param channels - array of channels
+   */
   updateChannels(group: number, channels: Channel[]): void {
     if (group &amp;&amp; group !&#x3D;&#x3D; this._group) {
       //group has changed, use for next request
@@ -1580,6 +1805,12 @@ export class WidgetManagerService {
     }
   }
 
+  /**
+   * Stores stat and archive type
+   *
+   * @param stat - stat type
+   * @param archiveType - archive or datat type
+   */
   updateStat(
     stat: ArchiveStatType | WidgetStatType | string,
     archiveType: ArchiveType
@@ -1589,11 +1820,20 @@ export class WidgetManagerService {
     this.widgetDataService.archiveType &#x3D; archiveType;
   }
 
+  /**
+   * Stores start and end time
+   *
+   * @param start - starttime string
+   * @param end - endtime string
+   */
   updateTimes(start: string, end: string): void {
     this._params.starttime &#x3D; start;
     this._params.endtime &#x3D; end;
   }
 
+  /**
+   * Send request to data service with updated params
+   */
   fetchData(): void {
     this.widgetDataService.params$.next(this._params);
   }

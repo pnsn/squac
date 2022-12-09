@@ -315,7 +315,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClientModule, HTTP_INTERCEPTORS } from &quot;@angular/common/http&quot;;
-import { APP_INITIALIZER, NgModule } from &quot;@angular/core&quot;;
+import { NgModule } from &quot;@angular/core&quot;;
 import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
@@ -357,12 +357,7 @@ import { MenuComponent } from &quot;@core/components/menu/menu.component&quot;;
 import { AuthInterceptor } from &quot;@core/interceptors/auth-interceptor.service&quot;;
 import { CacheInterceptor } from &quot;@core/interceptors/cache-interceptor.service&quot;;
 import { HttpErrorInterceptor } from &quot;@core/interceptors/http-error-interceptor.service&quot;;
-import { ConfigurationService } from &quot;@core/services/configuration.service&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
-
-export function initApp(configurationService: ConfigurationService) {
-  return (): Promise&lt;void&gt; &#x3D;&gt; configurationService.load().toPromise();
-}
 
 @NgModule({
   declarations: [
@@ -390,12 +385,6 @@ export function initApp(configurationService: ConfigurationService) {
     },
 
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [ConfigurationService],
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:141</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">projects/squacapi/src/lib/models/widget.ts:173</a></div>
                 </td>
             </tr>
 
@@ -260,6 +260,9 @@ import {
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from &quot;../constants&quot;;
 import { WidgetStatType } from &quot;../types&quot;;
 
+/**
+ *
+ */
 export class Widget {
   public _thresholds: Threshold[] &#x3D; [];
   public _layout: WidgetLayout &#x3D; WIDGET_LAYOUT;
@@ -276,6 +279,9 @@ export class Widget {
   }
 
   public type: string;
+  /**
+   *
+   */
   public set thresholds(thresholds: string | Array&lt;Threshold&gt;) {
     let props: Threshold[] &#x3D; [];
     if (!thresholds) {
@@ -293,10 +299,16 @@ export class Widget {
     this._thresholds &#x3D; props.slice();
   }
 
+  /**
+   *
+   */
   public get thresholds(): Threshold[] {
     return this._thresholds.slice();
   }
   //can be entered as string or properties
+  /**
+   *
+   */
   public set properties(properties: string | Partial&lt;WidgetProperties&gt;) {
     let props: Partial&lt;WidgetProperties&gt; &#x3D; {};
     if (!properties) {
@@ -309,11 +321,17 @@ export class Widget {
     this._properties &#x3D; { ...props };
   }
 
+  /**
+   *
+   */
   public get properties(): WidgetProperties {
     return this._properties;
   }
 
   //can be entered as string or properties
+  /**
+   *
+   */
   public set layout(layout: string | Partial&lt;WidgetLayout&gt; | undefined) {
     let props: Partial&lt;WidgetLayout&gt; &#x3D; {};
     if (!layout) {
@@ -327,28 +345,47 @@ export class Widget {
     this._layout &#x3D; { ...this._layout, ...props };
   }
 
+  /**
+   *
+   */
   public get layout(): WidgetLayout {
     return this._layout;
   }
 
+  /**
+   *
+   */
   public get isValid(): boolean {
     return !!this.name &amp;&amp; !!this.metrics &amp;&amp; !!this.type &amp;&amp; !!this.stat;
   }
 
   // get ids from the metrics
+  /**
+   *
+   */
   get metricsIds(): number[] {
     return this.metrics.map((m) &#x3D;&gt; m.id);
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Widget&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class WidgetAdapter implements Adapter&lt;Widget, ReadWidget, WriteWidget&gt; {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadWidget): Widget {
     const metricAdapter &#x3D; new MetricAdapter();
     let metrics: Metric[] &#x3D; [];
@@ -377,6 +414,10 @@ export class WidgetAdapter implements Adapter&lt;Widget, ReadWidget, WriteWidget
     return widget;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Widget): WriteWidget {
     return {
       name: item.name,

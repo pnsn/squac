@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Replaces characters in strings</p>
+
+            </p>
 
 
         <section>
@@ -105,14 +112,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">projects/squac-ui/src/app/shared/pipes/replace.pipe.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/pipes/replace.pipe.ts:19</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Replaces given string in value with replacement</p>
+<div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -123,6 +132,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +147,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>search string</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>strToReplace</td>
@@ -149,6 +163,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>string to replace</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>replacementStr</td>
@@ -161,18 +179,27 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>replacement</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
+                        <b>Example :</b>
+                        <div>
+                            <pre class="line-numbers"><code class="language-html">{{ header| replace : &amp;#39;_&amp;#39; : &amp;#39; &amp;#39; }}</code></pre>
+                        </div>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>string with replacements</p>
+
                     </div>
                 </td>
             </tr>
@@ -186,10 +213,22 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &quot;@angular/core&quot;;
 
+/**
+ * Replaces characters in strings
+ */
 @Pipe({
   name: &quot;replace&quot;,
 })
 export class ReplacePipe implements PipeTransform {
+  /**
+   * Replaces given string in value with replacement
+   *
+   * @param value search string
+   * @param strToReplace string to replace
+   * @param replacementStr replacement
+   * @returns string with replacements
+   * @example {{ header| replace : &#x27;_&#x27; : &#x27; &#x27; }}
+   */
   transform(
     value: string,
     strToReplace: string,
@@ -202,8 +241,6 @@ export class ReplacePipe implements PipeTransform {
     return value.replace(new RegExp(strToReplace, &quot;g&quot;), replacementStr);
   }
 }
-
-// {{ header| replace : &#x27;_&#x27; : &#x27; &#x27; }}
 </code></pre>
     </div>
 

@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Type guard for union types</p>
+
+            </p>
 
 
         <section>
@@ -105,8 +112,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/widgets/src/lib/shared/pipes/guard-type.pipe.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/widgets/src/lib/shared/pipes/guard-type.pipe.ts:21</a></div>
                 </td>
             </tr>
 
@@ -122,6 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks and returns type for member of union type</p>
+<div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -132,6 +141,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -146,6 +156,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>value to type check</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>typeGuard</td>
@@ -158,18 +174,29 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>typeguard function</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
+                        <b>Example :</b>
+                        <div>
+                            <pre class="line-numbers"><code class="language-html">&amp;quot;displayMap | guardType: isPiecewise as piecewise&amp;quot;</code></pre>
+                        </div>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>B | undefined</code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>type B if value of type A is of type B, else undefined</p>
+
                     </div>
                 </td>
             </tr>
@@ -185,10 +212,22 @@
 
 export type TypeGuard&lt;A, B extends A&gt; &#x3D; (a: A) &#x3D;&gt; a is B;
 
+/**
+ * Type guard for union types
+ */
 @Pipe({
   name: &quot;guardType&quot;,
 })
 export class GuardTypePipe implements PipeTransform {
+  /**
+   * Checks and returns type for member of union type
+   *
+   * @template A - union type
+   * @param value - value to type check
+   * @param typeGuard - typeguard function
+   * @returns type B if value of type A is of type B, else undefined
+   * @example &quot;displayMap | guardType: isPiecewise as piecewise&quot;
+   */
   transform&lt;A, B extends A&gt;(
     value: A,
     typeGuard: TypeGuard&lt;A, B&gt;

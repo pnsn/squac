@@ -11,6 +11,9 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 
+/**
+ * Shows list of metrics
+ */
 @Component({
   selector: "metric-view",
   templateUrl: "./metric-view.component.html",
@@ -58,14 +61,12 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     public loadingService: LoadingService
   ) {}
 
+  /** subscruve to params */
   ngOnInit(): void {
     const monitorsSub = this.route.params
       .pipe(
-        tap(() => {
-          // this.error = false;
-        }),
         switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
+          return this.fetchData();
         })
       )
       .subscribe();
@@ -73,6 +74,7 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(monitorsSub);
   }
 
+  /** init columns */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.columns = [
@@ -131,23 +133,33 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  /**
+   * Get new data
+   *
+   * @param refresh true if cache should not be used
+   * @returns observable of metrics
+   */
   fetchData(refresh?: boolean): Observable<Metric[]> {
-    return this.metricService.list({}, refresh).pipe(
-      tap((results) => {
-        this.metrics = results;
-        this.rows = [...this.metrics];
-      }),
-      catchError(() => {
-        return EMPTY;
-      })
+    return this.loadingService.doLoading(
+      this.metricService.list({}, refresh).pipe(
+        tap((results) => {
+          this.metrics = results;
+          this.rows = [...this.metrics];
+        }),
+        catchError(() => {
+          return EMPTY;
+        })
+      ),
+      this
     );
   }
 
-  // get fresh metrics
+  /** Get fresh metrics */
   refresh(): void {
-    this.loadingService.doLoading(this.fetchData(true), this).subscribe();
+    this.fetchData(true).subscribe();
   }
 
+  /** unsubsribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

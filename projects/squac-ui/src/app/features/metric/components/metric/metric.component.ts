@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-// container for routing
+/** metric container component */
 @Component({
   selector: "metric-main",
   template:

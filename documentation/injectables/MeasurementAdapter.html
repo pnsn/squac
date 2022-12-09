@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/squacapi/src/lib/models/measurement.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/squacapi/src/lib/models/measurement.ts:39</a></div>
                 </td>
             </tr>
 
@@ -177,6 +177,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMeasurement } from &quot;../interfaces&quot;;
 
+/**
+ *
+ */
 export class Measurement {
   constructor(
     public id: number,
@@ -188,17 +191,27 @@ export class Measurement {
     public endtime: string
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Measurement&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MeasurementAdapter
   implements Adapter&lt;Measurement, ReadMeasurement, unknown&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement &#x3D; new Measurement(
       item.id ? item.id : 0,

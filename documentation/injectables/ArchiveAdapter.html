@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>adapt archive</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/squacapi/src/lib/models/archive.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squacapi/src/lib/models/archive.ts:33</a></div>
                 </td>
             </tr>
 
@@ -177,7 +184,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadArchive } from &quot;../interfaces&quot;;
 
-// Describes an archive
+/** Describes an archive */
 export class Archive {
   value?: number;
   id?: number;
@@ -194,15 +201,18 @@ export class Archive {
   starttime!: string;
   endtime!: string;
 
+  /** @returns model name */
   static get modelName(): string {
     return &quot;Archive&quot;;
   }
 }
 
+/** adapt archive */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ArchiveAdapter implements Adapter&lt;Archive, ReadArchive, unknown&gt; {
+  /** @override */
   adaptFromApi(item: ReadArchive): Archive {
     // squacapi openapi thinks min &amp; maxabs are strings
     const id &#x3D; item.id ? +item.id : undefined;

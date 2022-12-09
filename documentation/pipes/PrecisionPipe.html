@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Pipe to transform numbers to a given precision</p>
+
+            </p>
 
 
         <section>
@@ -105,14 +112,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">projects/widgets/src/lib/shared/pipes/precision.pipe.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/widgets/src/lib/shared/pipes/precision.pipe.ts:18</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Transforms numeric value into string using toPrecision</p>
+<div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -124,6 +133,7 @@
                                     <td>Type</td>
                                     <td>Optional</td>
                                     <td>Default value</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,6 +150,12 @@
                                     <td>
                                     </td>
 
+                                    <td>
+                                        <ul>
+<li>number to format</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>precision</td>
@@ -155,18 +171,29 @@
                                         <code>4</code>
                                     </td>
 
+                                    <td>
+                                        <ul>
+<li>default 4, precision to use</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
+                        <b>Example :</b>
+                        <div>
+                            <pre class="line-numbers"><code class="language-html">Invoking 1.93842 | precision:3 in a template will produce 1.93</code></pre>
+                        </div>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>formatted value</p>
+
                     </div>
                 </td>
             </tr>
@@ -180,10 +207,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &quot;@angular/core&quot;;
 
+/**
+ * Pipe to transform numbers to a given precision
+ */
 @Pipe({
   name: &quot;precision&quot;,
 })
 export class PrecisionPipe implements PipeTransform {
+  /**
+   * Transforms numeric value into string using toPrecision
+   *
+   * @param value - number to format
+   * @param  precision - default 4, precision to use
+   * @returns formatted value
+   * @example Invoking 1.93842 | precision:3 in a template will produce 1.93
+   */
   transform(value: number | string, precision &#x3D; 4): string {
     switch (typeof value) {
       case &quot;number&quot;:

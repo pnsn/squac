@@ -10,11 +10,15 @@ import { LoadingService } from "@core/services/loading.service";
 import { OrganizationUserService } from "squacapi";
 import { Observable } from "rxjs";
 import {
+  MenuAction,
   TableControls,
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 
+/**
+ * Displays info for single organization, mostly list of users
+ */
 @Component({
   selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
@@ -87,6 +91,9 @@ export class OrganizationDetailComponent
     private loadingService: LoadingService
   ) {}
 
+  /**
+   * init data and user info
+   */
   ngOnInit(): void {
     const orgSub = this.route.data
       .pipe(
@@ -131,12 +138,19 @@ export class OrganizationDetailComponent
     this.subscription.add(orgSub);
   }
 
+  /** Set timeout used to get around angular weirdness */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.buildColumns();
     }, 0);
   }
 
+  /**
+   * Get new organization data
+   *
+   * @param refresh true if cache should not be used
+   * @returns Observable of current organization
+   */
   fetchData(refresh?: boolean): Observable<Organization> {
     return this.loadingService
       .doLoading(this.orgService.read(this.orgId, refresh), this)
@@ -150,7 +164,10 @@ export class OrganizationDetailComponent
         })
       );
   }
-  // make columns for table
+
+  /**
+   * Make columns for table
+   */
   buildColumns(): void {
     if (this.isAdmin) {
       this.columns = [
@@ -240,8 +257,12 @@ export class OrganizationDetailComponent
     }
   }
 
-  // click event from table
-  onClick(event): void {
+  /**
+   * Click event from table
+   *
+   * @param event html click event
+   */
+  onClick(event: MenuAction): void {
     if (event === "deactivate" && this.selectedId) {
       this.deactivateUser();
     } else if (event === "invite" && this.selectedId) {
@@ -249,13 +270,19 @@ export class OrganizationDetailComponent
     }
   }
 
-  // select event from table
+  /**
+   * User selected in table
+   *
+   * @param row selected row with user info
+   */
   onSelect(row: User): void {
     this.selectedId = row.id;
     this.selected = row;
   }
 
-  // send deactivation for user
+  /**
+   * Marks users as inactive and sends to squacapi
+   */
   deactivateUser(): void {
     if (this.selected) {
       this.selected.isActive = false;
@@ -271,12 +298,14 @@ export class OrganizationDetailComponent
     }
   }
 
-  // get fresh user info
+  /** Refreshes data */
   refresh(): void {
     this.fetchData(true).subscribe();
   }
 
-  // send invitation to user
+  /**
+   * Sends invitation to selected user
+   */
   sendInvite(): void {
     this.inviteService.sendInviteToUser(this.selectedId).subscribe({
       next: () => {
@@ -289,6 +318,7 @@ export class OrganizationDetailComponent
     });
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

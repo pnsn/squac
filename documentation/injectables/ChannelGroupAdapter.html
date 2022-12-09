@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:54</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:97</a></div>
                 </td>
             </tr>
 
@@ -258,6 +258,9 @@ import { ChannelAdapter } from &quot;../models/channel&quot;;
 
 // Describes a channel group object
 
+/**
+ *
+ */
 export class ChannelGroup {
   id?: number;
   owner?: number;
@@ -275,17 +278,27 @@ export class ChannelGroup {
   autoIncludeChannels?: (Channel | number)[];
   autoExcludeChannels?: (Channel | number)[];
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;ChannelGroup&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ChannelGroupAdapter
   implements Adapter&lt;ChannelGroup, ReadChannelGroup, WriteChannelGroup&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter &#x3D; new ChannelAdapter();
     const id &#x3D; item.id ? +item.id : undefined;
@@ -325,6 +338,10 @@ export class ChannelGroupAdapter
     return channelGroup;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
     const incl &#x3D; item.autoExcludeChannels?.map((c): number &#x3D;&gt;
       typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : c.id

@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:48</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:67</a></div>
                 </td>
             </tr>
 
@@ -251,6 +251,9 @@ import { Adapter, ReadTrigger, WriteTrigger } from &quot;../interfaces&quot;;
 import { Trigger as ApiTrigger } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { Alert, Monitor } from &quot;../models&quot;;
 
+/**
+ *
+ */
 export class Trigger {
   constructor(
     public id: number,
@@ -263,6 +266,9 @@ export class Trigger {
     public val1: number,
     public val2?: number
   ) {}
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Trigger&quot;;
   }
@@ -274,12 +280,19 @@ export class Trigger {
   monitor?: Monitor;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class TriggerAdapter
   implements Adapter&lt;Trigger, ReadTrigger, WriteTrigger&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadTrigger): Trigger {
     const trigger &#x3D; new Trigger(
       item.id ? +item.id : 0,
@@ -295,6 +308,10 @@ export class TriggerAdapter
     return trigger;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,

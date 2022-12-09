@@ -65,7 +65,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>solely responsible for showing either error component or the correct widget type</p>
+                <p>Directive for inserting error component or correct widget type</p>
 
             </p>
 
@@ -334,14 +334,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:145</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Add error component</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -352,6 +354,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -366,6 +369,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>error message</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -403,14 +412,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:113</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Add widget of given type</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -421,6 +432,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -435,6 +447,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>type of widget</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -474,14 +492,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:104</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>clear existing components</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -511,14 +531,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:157</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Destroy components and unsubscribe</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -548,14 +570,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:59</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Set up subscriptions</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -831,7 +855,7 @@ import { WIDGET_TYPE_INFO } from &quot;../constants&quot;;
 import { ErrorComponent } from &quot;../components/error/error.component&quot;;
 
 /**
- * solely responsible for showing either error component or the correct widget type
+ * Directive for inserting error component or correct widget type
  */
 @Directive({
   selector: &quot;[widgetContainer]&quot;,
@@ -863,6 +887,9 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.hostElement &#x3D; this.elementRef.nativeElement;
   }
 
+  /**
+   * Set up subscriptions
+   */
   ngOnInit(): void {
     const managerErrors &#x3D; this.widgetManager.errors$.subscribe(
       (error: WidgetErrors) &#x3D;&gt; {
@@ -870,10 +897,12 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       }
     );
 
+    // listen to data changes
     this.dataSub &#x3D; this.widgetDataService.data$
       .pipe(
         tap({
           next: (data: ProcessedData | WidgetErrors) &#x3D;&gt; {
+            //check if data is a map and has data
             if (data instanceof Map) {
               const minMetrics &#x3D; this.widgetManager.widgetConfig.minMetrics;
               const metricsWithData &#x3D;
@@ -903,10 +932,18 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.subscription.add(this.dataSub);
   }
 
+  /**
+   * clear existing components
+   */
   private clearChildComponents(): void {
     this.viewContainerRef.clear();
   }
 
+  /**
+   * Add widget of given type
+   *
+   * @param widgetType - type of widget
+   */
   addWidget(widgetType: WidgetType): void {
     this.error &#x3D; &quot;&quot;;
     const injector &#x3D; Injector.create({
@@ -934,6 +971,11 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent &#x3D; this.childComponentRef.instance;
   }
 
+  /**
+   * Add error component
+   *
+   * @param error - error message
+   */
   addError(error: WidgetErrors | string): void {
     this.clearChildComponents();
 
@@ -943,11 +985,12 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.error &#x3D; error;
   }
 
+  /**
+   * Destroy components and unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.clearChildComponents();
-    //Called once, before the instance is destroyed.
-    //Add &#x27;implements OnDestroy&#x27; to the class.
   }
 }
 </code></pre>

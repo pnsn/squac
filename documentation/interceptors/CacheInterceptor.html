@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(_loading: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, _cache: <a href="../injectables/HttpCacheService.html" target="_self">HttpCacheService</a>)</code>
+<code>constructor(_cache: <a href="../injectables/HttpCacheService.html" target="_self">HttpCacheService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -128,18 +128,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>_loading</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>_cache</td>
                                                   
@@ -186,17 +174,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:28</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>intercept request
-return cached data if available
-stop loading on error</p>
+                    <div class="io-description"><p>Intercepts all http requests and checks if they should be cached
+will return the cached response or will return the request</p>
 </div>
 
                     <div class="io-description">
@@ -208,6 +195,7 @@ stop loading on error</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -222,6 +210,12 @@ stop loading on error</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Http request</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>next</td>
@@ -234,6 +228,12 @@ stop loading on error</p>
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Http handler</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -245,7 +245,10 @@ stop loading on error</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Http event</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -266,7 +269,6 @@ stop loading on error</p>
 } from &quot;@angular/common/http&quot;;
 import { Injectable } from &quot;@angular/core&quot;;
 import { HttpCacheService } from &quot;../services/cache.service&quot;;
-import { LoadingService } from &quot;../services/loading.service&quot;;
 import { REFRESH_REQUEST } from &quot;squacapi&quot;;
 import { Observable, of, tap } from &quot;rxjs&quot;;
 
@@ -275,15 +277,15 @@ import { Observable, of, tap } from &quot;rxjs&quot;;
  */
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  constructor(
-    private _loading: LoadingService,
-    private _cache: HttpCacheService
-  ) {}
+  constructor(private _cache: HttpCacheService) {}
 
   /**
-   * intercept request
-   * return cached data if available
-   * stop loading on error
+   * Intercepts all http requests and checks if they should be cached
+   * will return the cached response or will return the request
+   *
+   * @param {HttpRequest&lt;any&gt;} request - Http request
+   * @param {HttpHandler} next - Http handler
+   * @returns {Observable&lt;HttpEvent&lt;any&gt;&gt;} - Http event
    */
   intercept(
     request: HttpRequest&lt;any&gt;,

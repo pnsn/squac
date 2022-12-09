@@ -5,6 +5,9 @@ import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import { MatFormFieldAppearance } from "@angular/material/form-field";
 
+/**
+ * Shared selector for channel group
+ */
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
@@ -30,6 +33,9 @@ export class ChannelGroupSelectorComponent implements OnInit {
     private location: Location
   ) {}
 
+  /**
+   * Subscrive to channel groups
+   */
   ngOnInit(): void {
     this.channelGroupService
       .getSortedChannelGroups()
@@ -38,6 +44,9 @@ export class ChannelGroupSelectorComponent implements OnInit {
       });
   }
 
+  /**
+   * Emit selected channel group id and update url with id
+   */
   selectionChange(): void {
     this.channelGroupIdChange.emit(this.channelGroupId);
 

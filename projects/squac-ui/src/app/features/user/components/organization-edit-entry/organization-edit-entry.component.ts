@@ -6,6 +6,10 @@ import { User } from "squacapi";
 import { Subscription } from "rxjs";
 import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
 
+/**
+ * Entry component for edit modal
+ * Used as routing endpoint
+ */
 @Component({
   selector: "user-organization-edit-entry",
   template: "",
@@ -23,6 +27,9 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  /**
+   * Subscribe to route params
+   */
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe(() => {
       this.userId = +this.route.snapshot.params["userId"];
@@ -37,6 +44,9 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Opens user edit modal
+   */
   openUser(): void {
     this.dialogRef = this.dialog.open(OrganizationEditComponent, {
       closeOnNavigation: true,
@@ -52,12 +62,11 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
         } else {
           this.router.navigate(["../../"], { relativeTo: this.route });
         }
-
-        // route to exit
       },
     });
   }
 
+  /** closes modal and unsubscribes */
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

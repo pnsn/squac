@@ -65,6 +65,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Mat snackbar component</p>
+
+    </p>
 
 
     <p class="comment">
@@ -180,7 +187,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -259,14 +266,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:31</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Close snackbar</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -296,14 +305,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Init</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -338,7 +349,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -374,7 +385,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -400,7 +411,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -426,7 +437,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -445,6 +456,9 @@ import {
   MAT_SNACK_BAR_DATA,
 } from &quot;@angular/material/snack-bar&quot;;
 
+/**
+ * Mat snackbar component
+ */
 @Component({
   selector: &quot;shared-snackbar&quot;,
   templateUrl: &quot;./snackbar.component.html&quot;,
@@ -458,12 +472,14 @@ export class SnackbarComponent implements OnInit {
     private matSnackBarRef: MatSnackBarRef&lt;SnackbarComponent&gt;
   ) {}
 
+  /** Init */
   ngOnInit(): void {
     this.message &#x3D; this.data[&quot;message&quot;];
     this.type &#x3D; this.data[&quot;type&quot;];
     this.action &#x3D; this.data[&quot;action&quot;];
   }
 
+  /** Close snackbar */
   dismiss(): void {
     this.matSnackBarRef.dismiss();
   }

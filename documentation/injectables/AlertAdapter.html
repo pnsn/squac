@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapt alert</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/squacapi/src/lib/models/alert.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squacapi/src/lib/models/alert.ts:33</a></div>
                 </td>
             </tr>
 
@@ -179,6 +186,9 @@ import { Adapter, ReadAlert } from &quot;../interfaces&quot;;
 import { Monitor, Trigger } from &quot;../models&quot;;
 import { TriggerAdapter } from &quot;../models/trigger&quot;;
 
+/**
+ * Describes an alert
+ */
 export class Alert {
   id?: number;
   owner?: number;
@@ -191,15 +201,18 @@ export class Alert {
   monitor?: Monitor;
   trigger?: Trigger;
 
+  /** @returns model name */
   static get modelName(): string {
     return &quot;Alert&quot;;
   }
 }
 
+/** Adapt alert */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class AlertAdapter implements Adapter&lt;Alert, ReadAlert, unknown&gt; {
+  /** @override */
   adaptFromApi(item: ReadAlert): Alert {
     const triggerAdapter &#x3D; new TriggerAdapter();
     let breachingChannels: string[] &#x3D; [];

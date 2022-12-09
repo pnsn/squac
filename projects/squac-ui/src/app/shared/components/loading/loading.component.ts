@@ -1,5 +1,8 @@
 import { Component, Input } from "@angular/core";
 
+/**
+ * Component for displaying loading indicator
+ */
 @Component({
   selector: "shared-loading",
   templateUrl: "./loading.component.html",

@@ -326,15 +326,19 @@ interface DataParams {
   metric: number;
   channel: number;
 }
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class FakeMeasurementBackend {
-  constructor(
-    // private dateService: DateService,
-    private channelGroupService: ChannelGroupService
-  ) {}
+  constructor(private channelGroupService: ChannelGroupService) {}
 
+  /**
+   *
+   * @param group
+   */
   private channelsFromGroup(group: number): Observable&lt;number[]&gt; {
     return this.channelGroupService.read(group).pipe(
       map((cg) &#x3D;&gt; {
@@ -342,9 +346,17 @@ export class FakeMeasurementBackend {
       })
     );
   }
+  /**
+   *
+   * @param maxValue
+   */
   private getRandom(maxValue &#x3D; 100): number {
     return Math.random() * maxValue;
   }
+  /**
+   *
+   * @param params
+   */
   private getChannels(params: MeasurementParams): Observable&lt;number[]&gt; {
     if (params.group) {
       return this.channelsFromGroup(params.group[0]);
@@ -354,6 +366,10 @@ export class FakeMeasurementBackend {
     return of([]);
   }
 
+  /**
+   *
+   * @param params
+   */
   measurement(params: DataParams): ReadMeasurement {
     return {
       starttime: params.starttime,
@@ -364,6 +380,10 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   *
+   * @param params
+   */
   archive(params: DataParams): ReadArchive {
     const value &#x3D; this.getRandom(params.maxValue);
     return {
@@ -386,6 +406,10 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   *
+   * @param params
+   */
   aggregate(params: DataParams): ReadAggregate {
     const value &#x3D; this.getRandom(params.maxValue);
     return {
@@ -409,6 +433,14 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   *
+   * @param channels
+   * @param params
+   * @param datafn
+   * @param time
+   * @param timeInterval
+   */
   getData&lt;T&gt;(
     channels: number[],
     params: MeasurementParams,
@@ -457,6 +489,13 @@ export class FakeMeasurementBackend {
     return measurements;
   }
 
+  /**
+   *
+   * @param params
+   * @param fn
+   * @param time
+   * @param timeInterval
+   */
   getList&lt;T&gt;(
     params: MeasurementParams,
     fn: (params: DataParams) &#x3D;&gt; T[],
@@ -472,6 +511,10 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   *
+   * @param params
+   */
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
   ): Observable&lt;ReadMeasurement[]&gt; {
@@ -483,12 +526,20 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   *
+   * @param params
+   */
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
   ): Observable&lt;ReadAggregate[]&gt; {
     return this.getList&lt;ReadAggregate&gt;(params, this.aggregate.bind(this));
   }
 
+  /**
+   *
+   * @param params
+   */
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveDaySerializer[]&gt; {
@@ -500,6 +551,10 @@ export class FakeMeasurementBackend {
     ).pipe();
   }
 
+  /**
+   *
+   * @param params
+   */
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveHourSerializer[]&gt; {
@@ -511,6 +566,10 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   *
+   * @param params
+   */
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveWeekSerializer[]&gt; {

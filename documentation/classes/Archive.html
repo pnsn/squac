@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes an archive</p>
+
+            </p>
 
 
 
@@ -557,9 +564,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/squacapi/src/lib/models/archive.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/squacapi/src/lib/models/archive.ts:22</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -571,7 +589,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadArchive } from &quot;../interfaces&quot;;
 
-// Describes an archive
+/** Describes an archive */
 export class Archive {
   value?: number;
   id?: number;
@@ -588,15 +606,18 @@ export class Archive {
   starttime!: string;
   endtime!: string;
 
+  /** @returns model name */
   static get modelName(): string {
     return &quot;Archive&quot;;
   }
 }
 
+/** adapt archive */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ArchiveAdapter implements Adapter&lt;Archive, ReadArchive, unknown&gt; {
+  /** @override */
   adaptFromApi(item: ReadArchive): Archive {
     // squacapi openapi thinks min &amp; maxabs are strings
     const id &#x3D; item.id ? +item.id : undefined;

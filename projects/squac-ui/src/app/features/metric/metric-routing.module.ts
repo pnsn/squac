@@ -39,6 +39,7 @@ export const routes: Routes = [
   },
 ];
 
+/** Metric routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

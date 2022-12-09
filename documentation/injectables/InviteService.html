@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service for interacting with invite endpoints</p>
+
+            </p>
 
 
 
@@ -107,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -170,14 +177,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:42</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Send user registration information to SQUAC</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -188,6 +197,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -202,6 +212,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>user first name</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>lastname</td>
@@ -214,6 +228,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>user last name</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>token</td>
@@ -226,6 +244,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>token</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>password</td>
@@ -238,6 +260,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>new password</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -249,7 +275,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>create request observable</p>
+
                     </div>
                 </td>
             </tr>
@@ -275,14 +302,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/squacapi/src/lib/services/invite.service.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Send invite to existing user</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -293,6 +322,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -307,6 +337,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>id of user to invite</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -318,7 +352,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Request observable</p>
+
                     </div>
                 </td>
             </tr>
@@ -338,14 +373,21 @@ import {
 } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { Observable } from &quot;rxjs&quot;;
 
-// Service to get user info &amp; reset things
+/**
+ * Service for interacting with invite endpoints
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class InviteService {
   constructor(private inviteApi: InviteApi) {}
 
-  // tells squac to send an invite to existing user
+  /**
+   * Send invite to existing user
+   *
+   * @param user id of user to invite
+   * @returns Request observable
+   */
   sendInviteToUser(user: number): Observable&lt;object&gt; {
     const params: InviteCreateRequestParams &#x3D; {
       data: {
@@ -355,7 +397,15 @@ export class InviteService {
     return this.inviteApi.inviteCreate(params);
   }
 
-  // sends registration info to squac
+  /**
+   * Send user registration information to SQUAC
+   *
+   * @param firstname user first name
+   * @param lastname user last name
+   * @param token token
+   * @param password new password
+   * @returns create request observable
+   */
   registerUser(
     firstname: string,
     lastname: string,

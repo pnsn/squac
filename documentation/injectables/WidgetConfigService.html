@@ -62,6 +62,14 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service to configure widgets
+Consider refactoring</p>
+
+            </p>
 
 
 
@@ -142,9 +150,6 @@
                             <li>
                                 <a href="#timeAxisTickFormatting" >timeAxisTickFormatting</a>
                             </li>
-                            <li>
-                                <a href="#yAxisLabelPosition" >yAxisLabelPosition</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -176,21 +181,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>chartOptions(options)</code>
+<code>chartOptions(options: EChartsOption)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:156</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Copy new options onto defaults</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -199,18 +206,29 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>options</td>
+                                    <td>
+                                            <code>EChartsOption</code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>options to add</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -222,7 +240,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>combined options</p>
+
                     </div>
                 </td>
             </tr>
@@ -248,14 +267,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="351"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:351</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:384</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks if value is inside of range for visual map</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -266,6 +287,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -280,6 +302,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>number to check</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>visualMap</td>
@@ -292,6 +318,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>visual map to check</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -303,7 +333,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>true if value is in range</p>
+
                     </div>
                 </td>
             </tr>
@@ -329,14 +360,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="368"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:368</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:409</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Find color that corresponds to the correct value</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -347,6 +380,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -361,6 +395,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>value to check</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>visualMap</td>
@@ -373,6 +411,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>visual map to use</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>_dataMin</td>
@@ -385,6 +427,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>min value of the data</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>_dataMax</td>
@@ -397,6 +443,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>max value of the data</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -408,7 +458,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>color string</p>
+
                     </div>
                 </td>
             </tr>
@@ -436,14 +487,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="281"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:281</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="308"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:308</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates visual map pieces</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -454,6 +507,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -468,6 +522,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>min value for map</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>max</td>
@@ -480,6 +540,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>max value for map</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>numSplits</td>
@@ -492,6 +558,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>number of pieces</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>inColors</td>
@@ -504,6 +576,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>colors for in</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>outColor</td>
@@ -516,6 +594,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>colors for out</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -527,7 +611,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>array of pieces for visual map</p>
+
                     </div>
                 </td>
             </tr>
@@ -553,14 +638,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="423"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:423</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="473"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:473</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates echarts series for parallel and scatter charts</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -571,6 +658,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -585,6 +673,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>metrics to use</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>channels</td>
@@ -597,6 +689,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>channels to use</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>data</td>
@@ -609,6 +705,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>data</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>series</td>
@@ -621,6 +721,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>initial series data</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -632,7 +736,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>processed series config</p>
+
                     </div>
                 </td>
             </tr>
@@ -658,14 +763,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:185</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates visual maps for each metric using the widget properties</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -676,6 +783,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -690,6 +798,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>metrics</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>properties</td>
@@ -702,6 +816,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>widget properties</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>dimension</td>
@@ -714,6 +834,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>series dimension</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -725,7 +851,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>visual maps</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -751,14 +880,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:505</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="561"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:561</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Formats tooltips for multiple metric charts</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -769,6 +900,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -783,6 +915,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>toolip component callback params</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -794,7 +930,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>html string for tooltip</p>
+
                     </div>
                 </td>
             </tr>
@@ -820,14 +957,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="532"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:532</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="593"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:593</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Tooltip formatter for chart with time x axis</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -838,6 +977,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -852,6 +992,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>tooltip formatter params</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -863,7 +1007,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>html string for tooltip</p>
+
                     </div>
                 </td>
             </tr>
@@ -889,14 +1034,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="592"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:592</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="663"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:663</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Hover pointer for time axis</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -907,6 +1054,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -921,6 +1069,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>params for label</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -932,7 +1086,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>formatted label string</p>
+
                     </div>
                 </td>
             </tr>
@@ -958,14 +1113,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="560"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:560</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="626"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:626</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Label formatting for x axis</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -976,6 +1133,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -990,6 +1148,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>unformatted string date</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1001,88 +1163,8 @@
 
                     </div>
                     <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="yAxisLabelPosition"></a>
-                    <span class="name">
-                        <span ><b>yAxisLabelPosition</b></span>
-                        <a href="#yAxisLabelPosition"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>yAxisLabelPosition(min: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, max: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
+                        <p>formatted date string</p>
 
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="616"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:616</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>min</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>max</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -1159,7 +1241,7 @@
         moveOnMouseWheel: true,
         zoomOnMouseWheel: false,
         orient: &quot;vertical&quot;,
-        filterMode: &quot;filter&quot;,
+        filterMode: &quot;none&quot;,
       },
       {
         type: &quot;slider&quot;,
@@ -1172,6 +1254,7 @@
         bottom: 10,
         right: 20,
         xAxisIndex: [0, 1],
+        filterMode: &quot;none&quot;,
       },
       {
         type: &quot;slider&quot;,
@@ -1182,6 +1265,7 @@
         moveHandleSize: 10,
         showDetail: false,
         width: 15,
+        filterMode: &quot;none&quot;,
       },
     ],
   }</code>
@@ -1189,7 +1273,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -1235,7 +1319,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1261,7 +1345,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -1293,7 +1377,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -1342,7 +1426,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1367,7 +1451,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -1393,7 +1477,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -1429,7 +1513,10 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from &quot;echarts&quot;;
 
-//used to take widget data and transform to different formas
+/**
+ * Service to configure widgets
+ * Consider refactoring
+ */
 @Injectable()
 export class WidgetConfigService {
   readonly defaultPrecision &#x3D; 4;
@@ -1523,7 +1610,7 @@ export class WidgetConfigService {
         moveOnMouseWheel: true,
         zoomOnMouseWheel: false,
         orient: &quot;vertical&quot;,
-        filterMode: &quot;filter&quot;,
+        filterMode: &quot;none&quot;,
       },
       {
         type: &quot;slider&quot;,
@@ -1536,6 +1623,7 @@ export class WidgetConfigService {
         bottom: 10,
         right: 20,
         xAxisIndex: [0, 1],
+        filterMode: &quot;none&quot;,
       },
       {
         type: &quot;slider&quot;,
@@ -1546,13 +1634,18 @@ export class WidgetConfigService {
         moveHandleSize: 10,
         showDetail: false,
         width: 15,
+        filterMode: &quot;none&quot;,
       },
     ],
   };
 
-  // add new options onto defaults
-  // shallow copy
-  chartOptions(options): EChartsOption {
+  /**
+   * Copy new options onto defaults
+   *
+   * @param options - options to add
+   * @returns combined options
+   */
+  chartOptions(options: EChartsOption): EChartsOption {
     const newOptions &#x3D; { ...this.chartDefaults };
 
     Object.keys(options).forEach((key) &#x3D;&gt; {
@@ -1573,6 +1666,14 @@ export class WidgetConfigService {
   }
 
   //can use this.thresholds or another metric to color?
+  /**
+   * Creates visual maps for each metric using the widget properties
+   *
+   * @param metrics - metrics
+   * @param properties - widget properties
+   * @param dimension - series dimension
+   * @returns - visual maps
+   */
   getVisualMapFromThresholds(
     metrics: Metric[],
     properties: WidgetProperties,
@@ -1686,6 +1787,16 @@ export class WidgetConfigService {
     return visualMaps;
   }
 
+  /**
+   * Creates visual map pieces
+   *
+   * @param min - min value for map
+   * @param max - max value for map
+   * @param numSplits - number of pieces
+   * @param inColors - colors for in
+   * @param outColor - colors for out
+   * @returns array of pieces for visual map
+   */
   private getPieces(
     min: number,
     max: number,
@@ -1755,7 +1866,13 @@ export class WidgetConfigService {
     return pieces;
   }
 
-  // return if value is inrange
+  /**
+   * Checks if value is inside of range for visual map
+   *
+   * @param value number to check
+   * @param visualMap visual map to check
+   * @returns true if value is in range
+   */
   checkValue(value: number, visualMap: VisualMapTypes): boolean {
     let hasMin: boolean;
     let hasMax: boolean;
@@ -1772,7 +1889,15 @@ export class WidgetConfigService {
     return hasMin &amp;&amp; hasMax;
   }
 
-  // find color corresponding to value
+  /**
+   * Find color that corresponds to the correct value
+   *
+   * @param value value to check
+   * @param visualMap visual map to use
+   * @param _dataMin min value of the data
+   * @param _dataMax max value of the data
+   * @returns color string
+   */
   getColorFromValue(
     value: number,
     visualMap: VisualMapTypes,
@@ -1828,6 +1953,15 @@ export class WidgetConfigService {
 
   //series for data with no time and multiple metrics
   // parallel and scatter
+  /**
+   * Creates echarts series for parallel and scatter charts
+   *
+   * @param metrics metrics to use
+   * @param channels channels to use
+   * @param data data
+   * @param series initial series data
+   * @returns processed series config
+   */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
@@ -1910,6 +2044,12 @@ export class WidgetConfigService {
 
   // channel &amp; list of metric values
   // used for scatter, parallel etc
+  /**
+   * Formats tooltips for multiple metric charts
+   *
+   * @param params toolip component callback params
+   * @returns html string for tooltip
+   */
   multiMetricTooltipFormatting(
     params: TooltipComponentFormatterCallbackParams
   ): string {
@@ -1936,7 +2076,12 @@ export class WidgetConfigService {
     return str;
   }
 
-  // tooltips for time x axis
+  /**
+   * Tooltip formatter for chart with time x axis
+   *
+   * @param params tooltip formatter params
+   * @returns html string for tooltip
+   */
   timeAxisFormatToolTip(
     params: Partial&lt;TooltipComponentFormatterCallbackParams&gt;
   ): string {
@@ -1964,7 +2109,12 @@ export class WidgetConfigService {
     return str;
   }
 
-  // label formatting for time axis ticks
+  /**
+   * Label formatting for x axis
+   *
+   * @param val unformatted string date
+   * @returns formatted date string
+   */
   timeAxisTickFormatting(val: string): string {
     const value &#x3D; new Date(val);
     let formatOptions;
@@ -1996,12 +2146,15 @@ export class WidgetConfigService {
     return string;
   }
 
-  // label formatting for time axis pointer label
+  /**
+   * Hover pointer for time axis
+   *
+   * @param val - params for label
+   * @returns formatted label string
+   */
   timeAxisPointerLabelFormatting(val: LabelFormatterParams): string {
     const value &#x3D; new Date(val.value);
-    let formatOptions &#x3D; {};
-    formatOptions &#x3D; {
-      //have to reassign it this way or linter won&#x27;t allow it set
+    const formatOptions: Intl.DateTimeFormatOptions &#x3D; {
       second: &quot;2-digit&quot;,
       minute: &quot;2-digit&quot;,
       hour: &quot;2-digit&quot;,
@@ -2018,13 +2171,6 @@ export class WidgetConfigService {
       return string;
     }
     return &quot;&quot;;
-  }
-
-  //calculate y axis position to prevent overlap
-  yAxisLabelPosition(min: number, max: number): number {
-    const minLen &#x3D; (Math.round(min * 10) / 10).toString().length;
-    const maxLen &#x3D; (Math.round(max * 10) / 10).toString().length;
-    return Math.min(Math.max(minLen, maxLen) * 9, 50);
   }
 }
 </code></pre>

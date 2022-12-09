@@ -68,6 +68,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Custom echart widget</p>
+
+    </p>
 
     <p class="comment">
         <h3>Extends</h3>
@@ -297,7 +304,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -394,7 +401,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:90</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:102</a></code>
 </div>
                 </td>
             </tr>
@@ -469,7 +476,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:240</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:281</a></code>
 </div>
                 </td>
             </tr>
@@ -512,7 +519,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:51</a></code>
 </div>
                 </td>
             </tr>
@@ -542,21 +549,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>makeSeriesForFixed(nslc, data, index, width)</code>
+<code>makeSeriesForFixed(nslc: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/Measurement.html" target="_self">MeasurementTypes[]</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, width: OpUnitType)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:188</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Generate echart series for fixed width time ranges</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -565,45 +574,83 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>nslc</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>nslc of channel</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementTypes[]</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>channel data</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>index of series</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>width</td>
+                                    <td>
+                                            <code>OpUnitType</code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>width of time range</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -615,7 +662,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>series configuration</p>
+
                     </div>
                 </td>
             </tr>
@@ -634,21 +682,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>makeSeriesForRaw(nslc, data, index)</code>
+<code>makeSeriesForRaw(nslc: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/Measurement.html" target="_self">MeasurementTypes[]</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:254</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Make echarts series for raw measurements</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -657,36 +707,65 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>nslc</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>nslc of channel</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>data</td>
+                                    <td>
+                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementTypes[]</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>channel data</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>series index</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -698,7 +777,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>echarts configuration</p>
+
                     </div>
                 </td>
             </tr>
@@ -717,21 +797,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>renderItem(params, api)</code>
+<code>renderItem(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, api: CustomSeriesRenderItemAPI)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="300"
-                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:300</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="345"
+                            class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:345</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Render function for echart</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -740,32 +822,60 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>params</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>customs series params</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>api</td>
+                                    <td>
+                                            <code>CustomSeriesRenderItemAPI</code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>api for render</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>CustomSeriesRenderItemReturn</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>custom series render</p>
+
                     </div>
                 </td>
             </tr>
@@ -797,7 +907,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:69</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:90</a></code>
 </div>
                 </td>
             </tr>
@@ -868,7 +978,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:60</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:78</a></code>
 </div>
                 </td>
             </tr>
@@ -941,7 +1051,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:39</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:40</a></code>
 </div>
                 </td>
             </tr>
@@ -984,7 +1094,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:44</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:51</a></code>
 </div>
                 </td>
             </tr>
@@ -992,6 +1102,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Listener for e-chart events, see echart docs</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1001,6 +1113,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1012,6 +1125,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>event</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>_type</td>
@@ -1021,6 +1140,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>type</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1064,7 +1189,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:56</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:71</a></code>
 </div>
                 </td>
             </tr>
@@ -1072,6 +1197,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Store echart reference on chart init</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1081,6 +1208,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1092,6 +1220,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>echart reference</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1135,7 +1269,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:101</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:128</a></code>
 </div>
                 </td>
             </tr>
@@ -1143,6 +1277,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Reset chart zoom to start</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1178,7 +1314,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:115</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:151</a></code>
 </div>
                 </td>
             </tr>
@@ -1186,6 +1322,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Trigger resize of chart</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1221,7 +1359,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:78</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:102</a></code>
 </div>
                 </td>
             </tr>
@@ -1229,6 +1367,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Start chart zooming</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1264,7 +1404,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:48</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:58</a></code>
 </div>
                 </td>
             </tr>
@@ -1272,6 +1412,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Toggle visual map component</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1307,7 +1449,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:109</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:142</a></code>
 </div>
                 </td>
             </tr>
@@ -1315,6 +1457,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Respond to zoom stop event</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1325,6 +1469,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1339,6 +1484,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>echart event</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1382,7 +1533,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:37</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:72</a></code>
 </div>
                 </td>
             </tr>
@@ -1390,6 +1541,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1425,7 +1578,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:45</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:83</a></code>
 </div>
                 </td>
             </tr>
@@ -1433,6 +1586,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Intializes zoom subscription and functionality</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1468,7 +1623,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:65</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:111</a></code>
 </div>
                 </td>
             </tr>
@@ -1476,6 +1631,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Set up initial subscriptions</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1511,7 +1668,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:55</a></code>
+                        <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:98</a></code>
 </div>
                 </td>
             </tr>
@@ -1519,6 +1676,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Update widget data</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1529,6 +1688,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1543,6 +1703,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>data for widget to update</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1584,7 +1750,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1615,7 +1781,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1646,7 +1812,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/components/timeline/timeline.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1678,7 +1844,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:27</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -1711,7 +1877,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:36</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:34</a></code>
 </div>
                         </td>
                     </tr>
@@ -1744,7 +1910,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:26</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:24</a></code>
 </div>
                         </td>
                     </tr>
@@ -1782,7 +1948,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:31</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -1820,7 +1986,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:37</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:35</a></code>
 </div>
                         </td>
                     </tr>
@@ -1858,7 +2024,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:29</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:27</a></code>
 </div>
                         </td>
                     </tr>
@@ -1896,7 +2062,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -1929,7 +2095,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:16</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -1962,7 +2128,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:15</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:18</a></code>
 </div>
                         </td>
                     </tr>
@@ -1995,7 +2161,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:13</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:16</a></code>
 </div>
                         </td>
                     </tr>
@@ -2028,7 +2194,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:18</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -2061,7 +2227,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -2093,7 +2259,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:12</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:15</a></code>
 </div>
                         </td>
                     </tr>
@@ -2125,7 +2291,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:10</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:13</a></code>
 </div>
                         </td>
                     </tr>
@@ -2163,7 +2329,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:19</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:22</a></code>
 </div>
                         </td>
                     </tr>
@@ -2196,7 +2362,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:14</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:17</a></code>
 </div>
                         </td>
                     </tr>
@@ -2229,7 +2395,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:11</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:14</a></code>
 </div>
                         </td>
                     </tr>
@@ -2244,8 +2410,10 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit } from &quot;@angular/core&quot;;
-import { Measurement } from &quot;squacapi&quot;;
+import { Measurement, MeasurementTypes } from &quot;squacapi&quot;;
 import {
+  CustomSeriesRenderItemAPI,
+  CustomSeriesRenderItemReturn,
   EChartsOption,
   graphic,
   TooltipComponentFormatterCallbackParams,
@@ -2261,7 +2429,11 @@ import { EChartComponent } from &quot;../abstract-components&quot;;
 import { parseUtc } from &quot;../../shared/utils&quot;;
 import { ProcessedData } from &quot;../../interfaces&quot;;
 import { LabelFormatterParams } from &quot;../../interfaces&quot;;
+import { OpUnitType } from &quot;dayjs&quot;;
 
+/**
+ * Custom echart widget
+ */
 @Component({
   selector: &quot;widget-timeline&quot;,
   templateUrl: &quot;../e-chart/e-chart.component.html&quot;,
@@ -2284,6 +2456,9 @@ export class TimelineComponent
   xAxisLabels &#x3D; [];
   isContinuous &#x3D; isContinuous;
 
+  /**
+   * @override
+   */
   configureChart(): void {
     const chartOptions: EChartsOption &#x3D; {
       xAxis: {
@@ -2332,6 +2507,9 @@ export class TimelineComponent
     this.options &#x3D; this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  /**
+   * @override
+   */
   buildChartData(data: ProcessedData): Promise&lt;void&gt; {
     return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
       this.metricSeries &#x3D; {};
@@ -2379,7 +2557,7 @@ export class TimelineComponent
                   nslc,
                   measurements,
                   index,
-                  &quot;hour&quot;
+                  &quot;hour&quot; as OpUnitType
                 );
                 break;
               case &quot;day&quot;:
@@ -2387,7 +2565,7 @@ export class TimelineComponent
                   nslc,
                   measurements,
                   index,
-                  &quot;day&quot;
+                  &quot;day&quot; as OpUnitType
                 );
                 break;
               default:
@@ -2409,7 +2587,21 @@ export class TimelineComponent
     });
   }
 
-  makeSeriesForFixed(nslc, data, index, width): EChartsOption {
+  /**
+   * Generate echart series for fixed width time ranges
+   *
+   * @param nslc - nslc of channel
+   * @param data - channel data
+   * @param index - index of series
+   * @param width - width of time range
+   * @returns series configuration
+   */
+  makeSeriesForFixed(
+    nslc: string,
+    data: MeasurementTypes[],
+    index: number,
+    width: OpUnitType
+  ): EChartsOption {
     const channelObj &#x3D; {
       type: &quot;heatmap&quot;,
       name: nslc,
@@ -2420,7 +2612,7 @@ export class TimelineComponent
     let count &#x3D; 0;
     let total &#x3D; 0;
     //trusts that measurements are in order of time
-    data.forEach((measurement: Measurement, mIndex: number) &#x3D;&gt; {
+    data.forEach((measurement: MeasurementTypes, mIndex: number) &#x3D;&gt; {
       if (!start) {
         start &#x3D; parseUtc(measurement.starttime).startOf(width);
       }
@@ -2462,7 +2654,19 @@ export class TimelineComponent
     return channelObj;
   }
 
-  makeSeriesForRaw(nslc, data, index): EChartsOption {
+  /**
+   * Make echarts series for raw measurements
+   *
+   * @param nslc - nslc of channel
+   * @param data - channel data
+   * @param index - series index
+   * @returns echarts configuration
+   */
+  makeSeriesForRaw(
+    nslc: string,
+    data: MeasurementTypes[],
+    index: number
+  ): EChartsOption {
     const channelObj &#x3D; {
       type: &quot;custom&quot;,
       name: nslc,
@@ -2482,14 +2686,14 @@ export class TimelineComponent
     return channelObj;
   }
 
+  /**
+   * @override
+   */
   changeMetrics(): void {
     const displayMetric &#x3D; this.selectedMetrics[0];
     const colorMetric &#x3D; this.selectedMetrics[0];
     const visualMaps &#x3D; this.visualMaps[colorMetric.id];
-    // const visualMaps &#x3D; this.widgetConfigService.getContinuousVisualMap(
-    //   colorMetric.id,
-    //   visualMap
-    // );
+
     let xAxis &#x3D; { ...this.options.xAxis };
     if (
       this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;hour&quot; ||
@@ -2542,7 +2746,17 @@ export class TimelineComponent
     }
   }
 
-  renderItem(params, api): unknown {
+  /**
+   * Render function for echart
+   *
+   * @param params - customs series params
+   * @param api - api for render
+   * @returns custom series render
+   */
+  renderItem(
+    params: any,
+    api: CustomSeriesRenderItemAPI
+  ): CustomSeriesRenderItemReturn {
     const categoryIndex &#x3D; api.value(3);
     const start &#x3D; api.coord([api.value(0), categoryIndex]); //converts to xy coords
     const end &#x3D; api.coord([api.value(1), categoryIndex]); //converts to xy coords
@@ -2577,7 +2791,9 @@ export class TimelineComponent
           width: end[0] - start[0],
           height: height,
         },
-        style: api.style(),
+        style: {
+          fill: api.visual(&quot;color&quot;),
+        },
       }
     );
   }

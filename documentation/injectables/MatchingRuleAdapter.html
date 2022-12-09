@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/squacapi/src/lib/models/matching-rule.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squacapi/src/lib/models/matching-rule.ts:33</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/squacapi/src/lib/models/matching-rule.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/squacapi/src/lib/models/matching-rule.ts:53</a></div>
                 </td>
             </tr>
 
@@ -249,6 +249,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMatchingRule, WriteMatchingRule } from &quot;../interfaces&quot;;
 // Rules for building channel groups
+/**
+ *
+ */
 export class MatchingRule {
   constructor(
     public id: number,
@@ -262,12 +265,19 @@ export class MatchingRule {
   channelRegex?: string;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MatchingRuleAdapter
   implements Adapter&lt;MatchingRule, ReadMatchingRule, WriteMatchingRule&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMatchingRule): MatchingRule {
     const matchingRule &#x3D; new MatchingRule(
       item.id ? +item.id : 0,
@@ -284,6 +294,10 @@ export class MatchingRuleAdapter
     return matchingRule;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: MatchingRule): WriteMatchingRule {
     return {
       group: item.channelGroupId,

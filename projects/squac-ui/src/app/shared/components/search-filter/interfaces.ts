@@ -1,9 +1,11 @@
 export interface SearchFilterConfig {
   text: string;
-  props: (string | SearchProps)[];
+  props: SearchProp[];
 }
 
 export interface SearchProps {
   prop: string;
-  props: (string | SearchProps)[];
+  props: SearchProp[];
 }
+
+export type SearchProp = string | SearchProps;

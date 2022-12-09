@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:40</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:59</a></div>
                 </td>
             </tr>
 
@@ -249,6 +249,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMetric, WriteMetric } from &quot;../interfaces&quot;;
 // Describes a metric object
+/**
+ *
+ */
 export class Metric {
   constructor(
     public id: number,
@@ -263,15 +266,25 @@ export class Metric {
     public maxVal?: number | null
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Metric&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric&gt; {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
@@ -287,6 +300,10 @@ export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric
     );
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,

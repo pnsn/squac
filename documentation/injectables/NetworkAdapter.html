@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/squacapi/src/lib/models/network.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/squacapi/src/lib/models/network.ts:34</a></div>
                 </td>
             </tr>
 
@@ -177,6 +177,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadNetwork } from &quot;../interfaces&quot;;
 
+/**
+ *
+ */
 export class Network {
   id: number;
   constructor(
@@ -185,15 +188,25 @@ export class Network {
     public description: string
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Network&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class NetworkAdapter implements Adapter&lt;Network, ReadNetwork, unknown&gt; {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }

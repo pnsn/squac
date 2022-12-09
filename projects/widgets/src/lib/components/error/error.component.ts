@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 /**
- *
+ * Component for showing error messages
  */
 @Component({
   selector: "widget-error",
@@ -10,5 +10,6 @@ import { Component, Input } from "@angular/core";
   styleUrls: ["./error.component.scss"],
 })
 export class ErrorComponent {
+  /** Message to display */
   @Input() errorMsg: string;
 }

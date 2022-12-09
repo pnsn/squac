@@ -112,10 +112,13 @@
                             <a href="#MeasurementParams" title="projects/squacapi/src/lib/interfaces/squacapi.types.ts" ><b>MeasurementParams</b>&nbsp;&nbsp;&nbsp;(projects/.../squacapi.types.ts)</a>
                         </li>
                         <li>
-                            <a href="#MeasurementTypes" title="projects/squacapi/src/lib/pipes/measurement.pipe.ts" ><b>MeasurementTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement.pipe.ts)</a>
+                            <a href="#MeasurementTypes" title="projects/squacapi/src/lib/types/measurement-types.ts" ><b>MeasurementTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-types.ts)</a>
                         </li>
                         <li>
-                            <a href="#MeasurementTypes" title="projects/squacapi/src/lib/types/measurement-types.ts" ><b>MeasurementTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-types.ts)</a>
+                            <a href="#MenuAction" title="projects/squac-ui/src/app/shared/components/table-view/interfaces.ts" ><b>MenuAction</b>&nbsp;&nbsp;&nbsp;(projects/.../interfaces.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MenuPermission" title="projects/squac-ui/src/app/shared/components/table-view/interfaces.ts" ><b>MenuPermission</b>&nbsp;&nbsp;&nbsp;(projects/.../interfaces.ts)</a>
                         </li>
                         <li>
                             <a href="#ParallelAxisOption" title="projects/widgets/src/lib/interfaces/charts.interface.ts" ><b>ParallelAxisOption</b>&nbsp;&nbsp;&nbsp;(projects/.../charts.interface.ts)</a>
@@ -170,6 +173,12 @@
                         </li>
                         <li>
                             <a href="#RowMetrics" title="projects/widgets/src/lib/components/tabular/types.ts" ><b>RowMetrics</b>&nbsp;&nbsp;&nbsp;(projects/.../types.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SearchProp" title="projects/squac-ui/src/app/shared/components/search-filter/interfaces.ts" ><b>SearchProp</b>&nbsp;&nbsp;&nbsp;(projects/.../interfaces.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StationChannels" title="projects/widgets/src/lib/components/map/types.ts" ><b>StationChannels</b>&nbsp;&nbsp;&nbsp;(projects/.../types.ts)</a>
                         </li>
                         <li>
                             <a href="#Subjects" title="projects/squac-ui/src/app/core/utils/ability.ts" ><b>Subjects</b>&nbsp;&nbsp;&nbsp;(projects/.../ability.ts)</a>
@@ -943,7 +952,7 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/pipes/measurement.pipe.ts</h3>
+</section>    <h3>projects/squacapi/src/lib/types/measurement-types.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
         <tbody>
@@ -961,19 +970,35 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/types/measurement-types.ts</h3>
+</section>    <h3>projects/squac-ui/src/app/shared/components/table-view/interfaces.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="MeasurementTypes"></a>
-                    <span class="name "><b>MeasurementTypes</b><a href="#MeasurementTypes"><span class="icon ion-ios-link"></span></a></span>
+                    <a name="MenuAction"></a>
+                    <span class="name "><b>MenuAction</b><a href="#MenuAction"><span class="icon ion-ios-link"></span></a></span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>Measurement | Aggregate | Archive</code>
+                    <code>    <code>&quot;edit&quot; | &quot;add&quot; | &quot;view&quot; | &quot;delete&quot; | string</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MenuPermission"></a>
+                    <span class="name "><b>MenuPermission</b><a href="#MenuPermission"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;read&quot; | &quot;create&quot; | &quot;update&quot; | &quot;delete&quot;</code>
 </code>
                 </td>
             </tr>
@@ -1015,6 +1040,42 @@
             </tr>
         </tbody>
     </table>
+</section>    <h3>projects/squac-ui/src/app/shared/components/search-filter/interfaces.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SearchProp"></a>
+                    <span class="name "><b>SearchProp</b><a href="#SearchProp"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/SearchProps.html" target="_self" >string | SearchProps</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>projects/widgets/src/lib/components/map/types.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StationChannels"></a>
+                    <span class="name "><b>StationChannels</b><a href="#StationChannels"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Record&lt;number | string&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>    <h3>projects/widgets/src/lib/services/generate_local_measurements.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
@@ -1027,7 +1088,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>        <code><a href="../miscellaneous/functions.html#min" target="_self" >&quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;</a></code>
+                    <code>    <code>&quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;</code>
 </code>
                 </td>
             </tr>

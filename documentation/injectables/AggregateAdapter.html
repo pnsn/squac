@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapt aggregate</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/squacapi/src/lib/models/aggregate.ts:55</a></div>
                 </td>
             </tr>
 
@@ -178,10 +185,15 @@
 import { Adapter, ReadAggregate } from &quot;../interfaces&quot;;
 import { MeasurementAggregatedListRequestParams } from &quot;@pnsn/ngx-squacapi-client&quot;;
 
+/**
+ * Aggregate list params
+ */
 export class AggregateListParams
   implements MeasurementAggregatedListRequestParams {}
 
-// Describes an aggregate
+/**
+ * Describes an aggregate
+ */
 export class Aggregate {
   id?: number;
   public value?: number;
@@ -205,17 +217,24 @@ export class Aggregate {
     public endtime: string
   ) {}
 
+  /** @returns model name */
   static get modelName(): string {
     return &quot;Aggregate&quot;;
   }
 }
 
+/**
+ * Adapt aggregate
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class AggregateAdapter
   implements Adapter&lt;Aggregate, ReadAggregate, unknown&gt;
 {
+  /**
+   * @override
+   */
   adaptFromApi(item: ReadAggregate): Aggregate {
     const aggregate &#x3D; new Aggregate(
       item.metric,

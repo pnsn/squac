@@ -1,5 +1,8 @@
 import { Component, Input } from "@angular/core";
 
+/**
+ * Indicates sharing level
+ */
 @Component({
   selector: "shared-sharing-indicator",
   templateUrl: "./shared-indicator.component.html",

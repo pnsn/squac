@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:37</a></div>
                 </td>
             </tr>
 
@@ -179,6 +179,9 @@ import { User, UserAdapter } from &quot;../models&quot;;
 import { Adapter, ReadOrganization, ApiUserSimple } from &quot;../interfaces&quot;;
 
 // Describes a user object
+/**
+ *
+ */
 export class Organization {
   constructor(
     public id: number,
@@ -187,16 +190,26 @@ export class Organization {
     public users: User[]
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Organization&quot;;
   }
 }
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class OrganizationAdapter
   implements Adapter&lt;Organization, ReadOrganization, unknown&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter &#x3D; new UserAdapter();
     let users: User[] &#x3D; [];

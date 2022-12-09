@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/squacapi/src/lib/models/channel.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel.ts:56</a></div>
                 </td>
             </tr>
 
@@ -179,6 +179,9 @@ import { Adapter, SquacObject, ReadChannel } from &quot;../interfaces&quot;;
 
 // Describes a channel object
 
+/**
+ *
+ */
 export class Channel implements SquacObject {
   nslc: string;
   constructor(
@@ -201,18 +204,31 @@ export class Channel implements SquacObject {
     this.nslc &#x3D; _nslc ? _nslc : net + &quot;.&quot; + sta + &quot;.&quot; + loc + &quot;.&quot; + code;
   }
 
+  /**
+   *
+   */
   get staCode(): string {
     return this.net + &quot;.&quot; + this.sta;
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Channel&quot;;
   }
 }
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ChannelAdapter implements Adapter&lt;Channel, ReadChannel, unknown&gt; {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadChannel): Channel {
     return new Channel(
       item.id ? +item.id : 0,

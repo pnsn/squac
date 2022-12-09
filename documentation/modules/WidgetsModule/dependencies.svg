@@ -18,13 +18,13 @@
 <title>cluster_WidgetsModule_declarations</title>
 <polygon fill="none" stroke="black" points="710,-40.8 710,-92.8 992,-92.8 992,-40.8 710,-40.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_WidgetsModule_exports</title>
-<polygon fill="none" stroke="black" points="392,-170.8 392,-222.8 550,-222.8 550,-170.8 392,-170.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_WidgetsModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 702,-92.8 702,-40.8 16,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_WidgetsModule_exports</title>
+<polygon fill="none" stroke="black" points="392,-170.8 392,-222.8 550,-222.8 550,-170.8 392,-170.8"/>
 </g>
 <!-- ErrorComponent -->
 <g id="node1" class="node">

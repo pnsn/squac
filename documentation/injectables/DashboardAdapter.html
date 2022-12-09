@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:94</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:115</a></div>
                 </td>
             </tr>
 
@@ -255,6 +255,9 @@ import {
   DashboardProperties,
 } from &quot;../interfaces&quot;;
 import { DASHBOARD_PROPERTIES } from &quot;../constants&quot;;
+/**
+ *
+ */
 export class Dashboard {
   public channelGroup?: ChannelGroup;
   private _widgets: Widget[] &#x3D; [];
@@ -272,6 +275,9 @@ export class Dashboard {
   ) {}
 
   //can be entered as string or properties
+  /**
+   *
+   */
   public set properties(properties: string | Partial&lt;DashboardProperties&gt;) {
     let props: Partial&lt;DashboardProperties&gt; &#x3D; {};
     if (!properties) {
@@ -288,14 +294,23 @@ export class Dashboard {
     this._properties &#x3D; { ...this._properties, ...props };
   }
 
+  /**
+   *
+   */
   public get properties(): DashboardProperties {
     return this._properties;
   }
 
+  /**
+   *
+   */
   public get widgets(): Widget[] {
     return this._widgets;
   }
 
+  /**
+   *
+   */
   public set widgets(widgets: Widget[]) {
     this._widgets &#x3D; widgets;
     this.widgetIds &#x3D; widgets.map((w) &#x3D;&gt; {
@@ -303,17 +318,27 @@ export class Dashboard {
     });
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Dashboard&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class DashboardAdapter
   implements Adapter&lt;Dashboard, ReadDashboard, WriteDashboard&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard &#x3D; new Dashboard(
       item.id ? +item.id : 0,
@@ -331,6 +356,10 @@ export class DashboardAdapter
     return dashboard;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Dashboard): WriteDashboard {
     const d: WriteDashboard &#x3D; {
       name: item.name,

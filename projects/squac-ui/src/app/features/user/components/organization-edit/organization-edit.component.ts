@@ -11,6 +11,9 @@ import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";
 
+/**
+ * Edit or add users to organizations
+ */
 @Component({
   selector: "user-organization-edit",
   templateUrl: "./organization-edit.component.html",
@@ -50,6 +53,9 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * init data
+   */
   ngOnInit(): void {
     this.user = this.data["user"];
     this.orgId = this.data["orgId"];
@@ -69,11 +75,12 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  // setup form
+  /** Set up form values */
   private initForm(): void {
     if (this.editMode) {
       this.userForm.patchValue({
@@ -87,12 +94,12 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // set user status to deactivate
+  /** deactivates user */
   deactivate(): void {
     this.userIsActive = false;
   }
 
-  // save new user
+  /** saves new user */
   save(): void {
     const values = this.userForm.value;
     const user = new User(
@@ -132,8 +139,13 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  // send invite to user
-  sendInvite(id, email): void {
+  /**
+   * sends invite to new user
+   *
+   * @param id user id
+   * @param email user email
+   */
+  sendInvite(id: number, email: string): void {
     this.inviteService.sendInviteToUser(id).subscribe({
       next: () => {
         this.messageService.message(`Invitation email sent to ${email}.`);
@@ -143,7 +155,12 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       },
     });
   }
-  // Cancel and don't save changes
+
+  /**
+   * cancels without saving changes
+   *
+   * @param userId number
+   */
   cancel(userId?): void {
     this.dialogRef.close(userId);
     // route out of edit

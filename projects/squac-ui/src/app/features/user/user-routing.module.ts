@@ -56,6 +56,9 @@ export const routes: Routes = [
   },
 ];
 
+/**
+ * Module for user feature
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

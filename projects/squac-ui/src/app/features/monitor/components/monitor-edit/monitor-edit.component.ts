@@ -17,6 +17,9 @@ import { TriggerService } from "squacapi";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
+/**
+ * Component for editing monitors
+ */
 @Component({
   selector: "monitor-edit",
   templateUrl: "./monitor-edit.component.html",
@@ -90,7 +93,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-  // Set up form fields
+
+  /** Get initial data */
   ngOnInit(): void {
     this.metrics = this.data["metrics"];
     this.channelGroups = this.data["channelGroups"];
@@ -98,13 +102,17 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  // emitModelToViewChange: true,
-  // // Access triggers
+  /** @returns Trigger form array */
   get triggers(): UntypedFormArray {
     return this.monitorForm.get("triggers") as UntypedFormArray;
   }
 
-  // Add trigger info to form
+  /**
+   * Add a new trigger to the form
+   *
+   * @param trigger trigger to add, empty if blank form
+   * @returns trigger form group
+   */
   makeTriggerForm(trigger?: Trigger): UntypedFormGroup {
     return this.formBuilder.group(
       {
@@ -134,7 +142,11 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Add a new trigger
+  /**
+   * Add new trigger and subscribe to changes
+   *
+   * @param trigger trigger to add
+   */
   addTrigger(trigger?: Trigger): void {
     const triggerFormGroup = this.makeTriggerForm(trigger);
     triggerFormGroup.valueChanges.subscribe((value) => {
@@ -145,9 +157,18 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   // enable and disable trigger form controls
+  /**
+   * Enable and disables trigger from controls depending
+   * on which values are set
+   *
+   * @param values form values
+   * @param triggerFormGroup changed form group
+   */
   validateTrigger(values, triggerFormGroup): void {
     const val2 = triggerFormGroup.get("val2");
     const numChannels = triggerFormGroup.get("numChannels");
+
+    // if not outside of or within, val2 not required
     if (
       values.valueOperator !== "outsideof" &&
       values.valueOperator !== "within"
@@ -159,6 +180,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       val2.addValidators(Validators.required, { emitEvent: false });
       val2.enable({ emitEvent: false });
     }
+
+    // if not any or all, numChannels not required
     if (
       values.numChannelsOperator === "any" ||
       values.numChannelsOperator === "all"
@@ -171,8 +194,13 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       numChannels.addValidators(Validators.required, { emitEvent: false });
     }
   }
-  // Remove given trigger
-  removeTrigger(index): void {
+
+  /**
+   * Removes trigger at index
+   *
+   * @param index index in form array
+   */
+  removeTrigger(index: number): void {
     const trigger = this.triggers.at(index).value;
     if (trigger.id) {
       this.removeTriggerIDs.push(+trigger.id);
@@ -180,7 +208,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     this.triggers.removeAt(index);
   }
 
-  // Save monitor to SQUACapi
+  /** Saves monitor to squacapi */
   save(): void {
     const values = this.monitorForm.value;
     const monitor = new Monitor(
@@ -218,13 +246,18 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  // Cancel and don't save changes
+  /**
+   * Cancel without saving changes
+   *
+   * @param monitor monitor if editing
+   */
   cancel(monitor?: Monitor): void {
     this.dialogRef.close(monitor);
-    // route out of edit
   }
 
-  // Fill in metric info
+  /**
+   * Populate monitor info in form
+   */
   private initForm(): void {
     if (this.editMode) {
       this.monitor = this.data["monitor"];
@@ -251,7 +284,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Kill any open subs
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

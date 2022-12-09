@@ -14,10 +14,6 @@
 <title>cluster_SharedModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 2455,-230.8 2455,-32.8 8,-32.8"/>
 </g>
-<g id="clust16" class="cluster">
-<title>cluster_SharedModule_exports</title>
-<polygon fill="none" stroke="black" points="113,-170.8 113,-222.8 2421,-222.8 2421,-170.8 113,-170.8"/>
-</g>
 <g id="clust15" class="cluster">
 <title>cluster_SharedModule_imports</title>
 <polygon fill="none" stroke="black" points="2026,-40.8 2026,-92.8 2447,-92.8 2447,-40.8 2026,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_SharedModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 2018,-92.8 2018,-40.8 16,-40.8"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="113,-170.8 113,-222.8 2421,-222.8 2421,-170.8 113,-170.8"/>
 </g>
 <!-- ChannelGroupSelectorComponent -->
 <g id="node1" class="node">

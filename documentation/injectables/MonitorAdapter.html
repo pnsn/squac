@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:58</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:110</a></div>
                 </td>
             </tr>
 
@@ -260,6 +260,9 @@ import {
 } from &quot;../models&quot;;
 import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from &quot;../interfaces&quot;;
 
+/**
+ *
+ */
 export class Monitor {
   constructor(
     public id: number,
@@ -279,17 +282,27 @@ export class Monitor {
   metric?: Metric;
   alerts?: Alert[];
   inAlarm?: boolean;
+  /**
+   *
+   */
   static get modelName(): string {
     return &quot;Monitor&quot;;
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MonitorAdapter
   implements Adapter&lt;Monitor, ReadMonitor, WriteMonitor&gt;
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMonitor): Monitor {
     const channelGroupAdapter &#x3D; new ChannelGroupAdapter();
     const metricAdapter &#x3D; new MetricAdapter();
@@ -338,6 +351,10 @@ export class MonitorAdapter
     return monitor;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Monitor): WriteMonitor {
     return {
       interval_type: item.intervalType,

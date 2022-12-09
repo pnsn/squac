@@ -7,13 +7,14 @@ import {
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
+/**
+ * View for logging into squacapi
+ */
 @Component({
   selector: "user-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-
-// This component handles the login page
 export class LoginComponent implements OnDestroy {
   subscription = new Subscription();
   error: string = null; // Has there been an error?
@@ -30,7 +31,9 @@ export class LoginComponent implements OnDestroy {
     private formBuilder: UntypedFormBuilder
   ) {}
 
-  // Form submit
+  /**
+   * Submits form info
+   */
   onSubmit(): void {
     if (!this.loginForm.valid) {
       return;
@@ -54,6 +57,7 @@ export class LoginComponent implements OnDestroy {
     this.subscription.add(loginSub);
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
