@@ -8,7 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 
 /**
- *
+ * Guard to prevent access to routes requiring authentication
  */
 @Injectable({
   providedIn: "root",
@@ -20,9 +20,11 @@ export class AuthGuard implements CanActivate {
 
   // Returns true if there is a user and allows user to navigate
   /**
+   * Returns true if a user is allowed to activate the given route
    *
-   * @param _next
-   * @param state
+   * @param _next activated route
+   * @param state router state
+   * @returns true if can activate
    */
   canActivate(
     _next: ActivatedRouteSnapshot,
@@ -33,8 +35,11 @@ export class AuthGuard implements CanActivate {
   }
 
   /**
+   * Checks user is logged in, redirects to login page
+   * if user is not logged in
    *
-   * @param url
+   * @param url requested url
+   * @returns true if user is logged in
    */
   checkLogin(url: string): boolean {
     if (this.authService.isAuthenticated()) {

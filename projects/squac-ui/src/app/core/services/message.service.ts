@@ -16,6 +16,7 @@ export class MessageService implements OnDestroy {
 
   /**
    * Opens a snackbar and passes the data to component
+   *
    * @param type snackbar type
    * @param message snackbar message
    * @param duration duration to be open

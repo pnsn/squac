@@ -1,47 +1,31 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
 import { Monitor, MonitorService } from "squacapi";
 
 /**
- *
+ * Resolver for monitors
  */
 @Injectable({
   providedIn: "root",
 })
-export class MonitorResolver implements Resolve<Observable<any>> {
+export class MonitorResolver
+  implements Resolve<Observable<Monitor | Monitor[]>>
+{
   constructor(private monitorService: MonitorService) {}
 
   /**
+   * Resolve monitor or list of monitors
    *
-   * @param route
+   * @param route activated route
+   * @returns observable of results
    */
-  resolve(
-    route: ActivatedRouteSnapshot
-  ): Observable<Monitor> | Observable<Monitor[]> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Monitor | Monitor[]> {
     const id = route.paramMap.get("monitorId");
     if (id) {
-      return this.monitorService.read(+id).pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+      return this.monitorService.read(+id);
     } else {
-      return this.monitorService.list().pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
-      // return all of them
+      return this.monitorService.list();
     }
-  }
-
-  /**
-   *
-   * @param error
-   */
-  handleError(error: unknown): Observable<any> {
-    return of({ error });
   }
 }

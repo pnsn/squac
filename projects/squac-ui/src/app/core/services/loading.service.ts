@@ -6,14 +6,12 @@ type LoadingContext = object;
 type LoaderId = string | number; // expected enum values
 const DEFAULT_LOADER_ID: LoaderId = "_DEFAULT";
 const DEFAULT_CONTEXT: LoadingContext = { _DEFAULT: true };
+
 /**
+ * I got this from the internet...
  * Used for centrally setting/unsetting loading flags for components or services.
  * Should be connected to global HTTP interceptor which will unset
  * the loading flags in case an error happens using the clearLoadings() method.
- */
-
-/**
- *
  */
 @Injectable({
   providedIn: "root",
@@ -34,16 +32,15 @@ export class LoadingService {
 
   constructor(protected zoneRef: NgZone) {}
 
-  // Observable creation operator.
-  // LoaderId can be used when there are multiple loading indicators associated to a single context.
-  // Context can be any object, though in practice, components and services will be the most common contexts.
-  // loaderId is a non-mandatory parameter - when not specified, a default loaderId is used.
-  // Such a scenario is used when your context has contains only one loading indicator.
   /**
+   * Observable creation operator, use to start loading with an observable
+   * LoaderId can be used when there are multiple loading indicators associated to a single context.
    *
-   * @param source$
-   * @param context
-   * @param loaderId
+   * @param source$ source observable to use for tracking loading
+   * @param context any object to use for loading
+   * @param loaderId optional, used if there are multiple loaders using same context
+   * @returns observable with result of source
+   * @example loadingService.doLoading(desiredObservable, context, id).subscribe()
    */
   doLoading<V>(
     source$: Observable<V>,
@@ -58,14 +55,14 @@ export class LoadingService {
     );
   }
 
-  // To be used in your html templates.
-  // Returns a boolean indicating whether a given loader is active in a given context.
-  // If loaderId is unspecified, the method will return a logical disjunction of all
-  // loader states in the context.
   /**
+   * Use in html templates, returns a boolean indicating if a given loader is active in
+   * a given context
    *
-   * @param context
-   * @param loaderId
+   * @param context loading context to check
+   * @param loaderId If loaderId is unspecified, the method will return a logical disjunction of all
+   *  loader states in the context.
+   * @returns true if loader is stil loading
    */
   isLoading(context?: LoadingContext, loaderId?: LoaderId): boolean {
     context = context || DEFAULT_CONTEXT;
@@ -81,12 +78,12 @@ export class LoadingService {
     }
   }
 
-  // To be used in your html templates with async pipes.
-  // Returns an Observable of booleans indicating whether a given loader is active in a given context.
   /**
+   * Use in html templates with async pipes
    *
-   * @param context
-   * @param loaderId
+   * @param context context to check
+   * @param loaderId id of loader
+   * @returns observable of booleans indicating if loader is active
    */
   isLoading$(
     context?: LoadingContext,
@@ -104,27 +101,30 @@ export class LoadingService {
 
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
+
   /**
+   * Start loading manually
    *
-   * @param context
-   * @param loaderId
+   * @param context context to start loading for
+   * @param loaderId loader id to use
    */
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
   /**
+   * End loading manually
    *
-   * @param context
-   * @param loaderId
+   * @param context context to end
+   * @param loaderId loader id to end
    */
   endLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, false, this.getLoaderId(loaderId));
   }
 
-  // To be called by middleware code (HTTP interceptors/routing listeners, etc.).
   /**
-   *
+   * Clear all loadings
+   * To be called by middleware code (HTTP interceptors/routing listeners, etc.).
    */
   clearLoadings(): void {
     this.loadingStates = new WeakMap<LoadingContext, Map<LoaderId, boolean>>();
@@ -135,10 +135,11 @@ export class LoadingService {
   }
 
   /**
+   * Sets loading state for a context
    *
-   * @param context
-   * @param state
-   * @param loaderId
+   * @param context loading context
+   * @param state true if loading
+   * @param loaderId loader id
    */
   protected setLoadingState(
     context: LoadingContext,
@@ -170,9 +171,11 @@ export class LoadingService {
   }
 
   /**
+   * Checks context and loader id for loading states
    *
-   * @param context
-   * @param loaderId
+   * @param context context to check
+   * @param loaderId loader id to check
+   * @returns if there are states
    */
   protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId): any {
     return (
@@ -182,17 +185,21 @@ export class LoadingService {
   }
 
   /**
+   * Checks if there is context loading state for context
    *
-   * @param context
+   * @param context loading context
+   * @returns boolean
    */
   protected hasContextLoadingState(context: LoadingContext): any {
     return this.loadingStates.has(context) && this.loadingStates$.has(context);
   }
 
   /**
+   * Checks if loader has loading state
    *
-   * @param context
-   * @param loaderId
+   * @param context loading context
+   * @param loaderId loader id
+   * @returns boolean probably
    */
   protected hasLoaderLoadingState(
     context: LoadingContext,
@@ -205,8 +212,10 @@ export class LoadingService {
   }
 
   /**
+   * Gets loader id or returns default
    *
-   * @param loaderId
+   * @param loaderId loader if
+   * @returns given loader id if exists or defaults
    */
   protected getLoaderId(loaderId?: LoaderId): LoaderId {
     return loaderId ?? DEFAULT_LOADER_ID;

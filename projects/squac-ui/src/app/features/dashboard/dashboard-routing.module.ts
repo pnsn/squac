@@ -3,7 +3,6 @@ import { DashboardComponent } from "./components/dashboard-main/dashboard.compon
 import { DashboardDetailComponent } from "./components/dashboard-detail/dashboard-detail.component";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { PermissionGuard } from "@core/guards/permission.guard";
 import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
 import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
@@ -25,12 +24,10 @@ export const routes: Routes = [
       {
         path: "",
         component: DashboardViewComponent,
-        canActivate: [PermissionGuard],
         children: [
           {
             path: "new",
             component: DashboardEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: "Dashboard", action: "create" },
           },
         ],
@@ -38,7 +35,6 @@ export const routes: Routes = [
       {
         path: ":dashboardId/edit",
         component: DashboardEditEntryComponent,
-        canActivate: [PermissionGuard],
         data: { subject: "Dashboard", action: "update" },
         resolve: {
           channelGroups: ChannelGroupResolver,
@@ -49,7 +45,6 @@ export const routes: Routes = [
       {
         path: ":dashboardId",
         component: DashboardDetailComponent,
-        canActivate: [PermissionGuard],
         runGuardsAndResolvers: "paramsChange",
         resolve: {
           widgets: WidgetResolver,
@@ -70,7 +65,6 @@ export const routes: Routes = [
           {
             path: "widgets/new",
             component: WidgetEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: "Widget", action: "create" },
           },
           {
@@ -79,7 +73,6 @@ export const routes: Routes = [
               widget: WidgetResolver,
             },
             component: WidgetEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: "Widget", action: "update" },
           },
         ],

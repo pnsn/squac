@@ -3,7 +3,7 @@ import { CanActivate, Router } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 
 /**
- *
+ * Guard to prevent access to pages when user is logged in
  */
 @Injectable({
   providedIn: "root",
@@ -11,9 +11,8 @@ import { AuthService } from "../services/auth.service";
 export class LoggedInGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  // returns prevents user from accessing certain pages when logged in
   /**
-   *
+   * @returns true if the user is not logged in
    */
   canActivate(): boolean {
     if (this.authService.isAuthenticated()) {

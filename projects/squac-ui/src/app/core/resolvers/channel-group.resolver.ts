@@ -1,49 +1,35 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "squacapi";
-import { Observable, of } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
 import { ChannelGroupService } from "squacapi";
 
 /**
- *
+ * Resolves a channel group or list of channel groups
  */
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupResolver implements Resolve<Observable<any>> {
+export class ChannelGroupResolver
+  implements Resolve<Observable<ChannelGroup | ChannelGroup[]>>
+{
   constructor(private channelGroupService: ChannelGroupService) {}
 
   /**
+   * Resolve a channel group or list of channel group
    *
-   * @param route
+   * @param route activated route
+   * @returns observable of results
    */
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = route.paramMap.get("channelGroupId");
     if (id) {
-      return this.channelGroupService.read(+id).pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+      return this.channelGroupService.read(+id);
     } else {
-      return this.channelGroupService.list().pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+      return this.channelGroupService.list();
       // return all of them
     }
-  }
-
-  /**
-   *
-   * @param error
-   */
-  handleError(error: unknown): Observable<any> {
-    // TODO: route to show error
-    return of({ error });
   }
 }
