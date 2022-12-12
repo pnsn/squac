@@ -77,7 +77,6 @@ import { DashboardComponent } from &quot;./components/dashboard-main/dashboard.c
 import { DashboardDetailComponent } from &quot;./components/dashboard-detail/dashboard-detail.component&quot;;
 import { Routes, RouterModule } from &quot;@angular/router&quot;;
 import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
-import { PermissionGuard } from &quot;@core/guards/permission.guard&quot;;
 import { DashboardViewComponent } from &quot;./components/dashboard-view/dashboard-view.component&quot;;
 import { DashboardEditEntryComponent } from &quot;./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component&quot;;
 import { ChannelGroupResolver } from &quot;@core/resolvers/channel-group.resolver&quot;;
@@ -99,12 +98,10 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;&quot;,
         component: DashboardViewComponent,
-        canActivate: [PermissionGuard],
         children: [
           {
             path: &quot;new&quot;,
             component: DashboardEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;Dashboard&quot;, action: &quot;create&quot; },
           },
         ],
@@ -112,7 +109,6 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;:dashboardId/edit&quot;,
         component: DashboardEditEntryComponent,
-        canActivate: [PermissionGuard],
         data: { subject: &quot;Dashboard&quot;, action: &quot;update&quot; },
         resolve: {
           channelGroups: ChannelGroupResolver,
@@ -123,7 +119,6 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;:dashboardId&quot;,
         component: DashboardDetailComponent,
-        canActivate: [PermissionGuard],
         runGuardsAndResolvers: &quot;paramsChange&quot;,
         resolve: {
           widgets: WidgetResolver,
@@ -144,7 +139,6 @@ export const routes: Routes &#x3D; [
           {
             path: &quot;widgets/new&quot;,
             component: WidgetEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;Widget&quot;, action: &quot;create&quot; },
           },
           {
@@ -153,7 +147,6 @@ export const routes: Routes &#x3D; [
               widget: WidgetResolver,
             },
             component: WidgetEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;Widget&quot;, action: &quot;update&quot; },
           },
         ],
@@ -162,6 +155,7 @@ export const routes: Routes &#x3D; [
   },
 ];
 
+/** Dashboard routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Resolver for single alert or last day of alerts</p>
+
+                </p>
 
 
 
@@ -81,9 +88,6 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#handleError" >handleError</a>
-                            </li>
                             <li>
                                 <a href="#resolve" >resolve</a>
                             </li>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -169,71 +173,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
-                    <span class="name">
-                        <span ><b>handleError</b></span>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>handleError(error)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:39</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolve"></a>
                     <span class="name">
                         <span ><b>resolve</b></span>
@@ -250,14 +189,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:26</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolves a single alert or last day of alerts</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -268,6 +209,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -282,6 +224,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>activated route</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -289,11 +235,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | Observable</code>
+                        <b>Returns : </b>        <code><a href="../classes/Alert.html" target="_self" >Observable&lt;Alert | []&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>array of results</p>
+
                     </div>
                 </td>
             </tr>
@@ -307,44 +254,37 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
+import { Observable } from &quot;rxjs&quot;;
 import { Alert } from &quot;squacapi&quot;;
 import { AlertService } from &quot;squacapi&quot;;
 //FIXME: remove import from@core
+/**
+ * Resolver for single alert or last day of alerts
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class AlertResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
+export class AlertResolver implements Resolve&lt;Observable&lt;Alert | Alert[]&gt;&gt; {
   constructor(
     private alertService: AlertService,
     private dateService: DateService
   ) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot
-  ): Observable&lt;Alert&gt; | Observable&lt;Alert[]&gt; {
+  /**
+   * Resolves a single alert or last day of alerts
+   *
+   * @param route activated route
+   * @returns array of results
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable&lt;Alert | Alert[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;alertId&quot;);
     if (id) {
-      return this.alertService.read(+id).pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
+      return this.alertService.read(+id);
     } else {
       const lastday &#x3D; this.dateService.subtractFromNow(1, &quot;day&quot;).format();
-      return this.alertService.list({ timestampGte: lastday }).pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
+      return this.alertService.list({ timestampGte: lastday });
       // return all of them
     }
-  }
-
-  handleError(error: unknown): Observable&lt;any&gt; {
-    // TODO: route to show error
-    return of({ error });
   }
 }
 </code></pre>

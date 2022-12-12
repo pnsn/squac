@@ -268,7 +268,27 @@ interface ConfirmDialogOptions {
   confirmText: string;
 }
 
-// Manages confirmation dialogs
+/**
+ * Service for managing confirmation dialogs
+ *
+ * @example
+ * this.confirmDialog.open(
+ *   {
+ *     title: &quot;Delete&quot;,
+ *     message: &quot;This action is permanent.&quot;,
+ *     cancelText: &quot;No, cancel.&quot;,
+ *     confirmText: &quot;Yes, delete.&quot;
+ *   }
+ * );
+ * this.confirmDialog.confirmed().subscribe(
+ *   confirm &#x3D;&gt; {
+ *     if(confirm) {
+ *       this.viewService.deleteDashboard(this.dashboard);
+ *       this.router.navigate([&#x27;/dashboards&#x27;]);
+ *     }
+ * });
+ * Returns true if confirm, false for cancel
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -276,14 +296,20 @@ export class ConfirmDialogService implements OnDestroy {
   constructor(private dialog: MatDialog) {}
   dialogRef: MatDialogRef&lt;ConfirmDialogComponent&gt;;
 
-  // Closes the dialog with a false response
+  /**
+   * Closes the dialog with a false response
+   */
   public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close(false);
     }
   }
 
-  // Opens a dialog with given options
+  /**
+   * Opens a dialog with the given options
+   *
+   * @param options dialog config options
+   */
   public open(options: ConfirmDialogOptions): void {
     this.dialogRef &#x3D; this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -295,35 +321,22 @@ export class ConfirmDialogService implements OnDestroy {
     });
   }
 
-  // Observable response is true if confirm, false if cancel
+  /**
+   * Observable of dialog response
+   *
+   * @returns Observable that resolves to true if confirm, false if cancel
+   */
   public confirmed(): Observable&lt;any&gt; {
     return this.dialogRef.afterClosed().pipe(take(1));
   }
 
+  /**
+   * close all dialogs on destroy
+   */
   ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add &#x27;implements OnDestroy&#x27; to the class.
     this.dialog.closeAll();
   }
 }
-
-// EXAMPLE USE
-// this.confirmDialog.open(
-//   {
-//     title: &quot;Delete&quot;,
-//     message: &quot;This action is permanent.&quot;,
-//     cancelText: &quot;No, cancel.&quot;,
-//     confirmText: &quot;Yes, delete.&quot;
-//   }
-// );
-// this.confirmDialog.confirmed().subscribe(
-//   confirm &#x3D;&gt; {
-//     if(confirm) {
-//       this.viewService.deleteDashboard(this.dashboard);
-//       this.router.navigate([&#x27;/dashboards&#x27;]);
-//     }
-// });
-// Returns true if confirm, false for cancel
 </code></pre>
     </div>
 </div>

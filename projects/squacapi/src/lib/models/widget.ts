@@ -13,7 +13,7 @@ import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
 
 /**
- *
+ * Model for a widget
  */
 export class Widget {
   public _thresholds: Threshold[] = [];

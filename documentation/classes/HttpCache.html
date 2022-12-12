@@ -136,8 +136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:15</a></div>
                 </td>
             </tr>
 
@@ -207,8 +207,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:13</a></div>
                 </td>
             </tr>
 
@@ -278,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:14</a></div>
                 </td>
             </tr>
 
@@ -355,13 +355,20 @@ import { LocalStorageTypes } from &quot;@core/services/local-storage.service&quo
 import { LocalStorageService } from &quot;@core/services/local-storage.service&quot;;
 import { CACHEABLE_ROUTE_PATTERNS } from &quot;../cacheable-route-patterns.constant&quot;;
 import * as Route from &quot;route-parser&quot;;
+import { MatchingRoute } from &quot;./interfaces&quot;;
 
+/**
+ *
+ */
 abstract class HttpCache {
   abstract get(req: HttpRequest&lt;any&gt;): HttpResponse&lt;any&gt; | null;
   abstract put(req: HttpRequest&lt;any&gt;, res: HttpResponse&lt;any&gt;): void;
   abstract delete(req: HttpRequest&lt;any&gt;): boolean;
 }
 
+/**
+ * Service to manage request caching
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -369,13 +376,21 @@ export class HttpCacheService implements HttpCache {
   cache: Record&lt;string, HttpResponse&lt;any&gt;&gt; &#x3D; {};
   cachableRoutes &#x3D; CACHEABLE_ROUTE_PATTERNS;
 
+  /**
+   * Removes everything before api in request
+   *
+   * @param url url to strip
+   * @returns altered string
+   */
   stripUrl(url: string): string {
     return url.replace(/.*\/api/, &quot;&quot;);
   }
 
   /**
    * Get an item from the cache
-   * @param req -
+   *
+   * @param req http request to search for
+   * @returns cached request if found
    */
   get(req: HttpRequest&lt;any&gt;): HttpResponse&lt;any&gt; | null {
     const urlWithParams &#x3D; this.stripUrl(req.urlWithParams);
@@ -391,8 +406,9 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Put an item in the cache
-   * @param req -
-   * @param res -
+   *
+   * @param req request
+   * @param res response
    */
   put(req: HttpRequest&lt;any&gt;, res: HttpResponse&lt;any&gt;): void {
     const urlWithParams &#x3D; this.stripUrl(req.urlWithParams);
@@ -409,7 +425,9 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Delete an item from the cache
-   * @param req -
+   *
+   * @param req request
+   * @returns true if successfullty removed
    */
   delete(req: HttpRequest&lt;any&gt;): boolean {
     const urlWithParams &#x3D; this.stripUrl(req.urlWithParams);
@@ -429,7 +447,13 @@ export class HttpCacheService implements HttpCache {
     return returnVal;
   }
 
-  matchRoutes(urlWithParams: string): { route: any; pattern: string } {
+  /**
+   * Finds matching route for url
+   *
+   * @param urlWithParams url to match
+   * @returns matching route if found
+   */
+  matchRoutes(urlWithParams: string): MatchingRoute {
     let matchingRoute: any;
     let pattern &#x3D; &quot;&quot;;
     Object.keys(this.cachableRoutes).forEach((cacheRoute) &#x3D;&gt; {
@@ -445,18 +469,22 @@ export class HttpCacheService implements HttpCache {
   }
 
   /**
-   * Determine if a url SHOULD be cached or not. It must match a route pattern provided in
+   * Determine if a url SHOULD be cached or not.
+   * It must match a route pattern provided in
    *
-   * @param urlWithParams -
+   * @param urlWithParams url to check
+   * @returns true if route should be cached
    */
   shouldCache(urlWithParams: string): boolean {
     return !!this.matchRoutes(urlWithParams).route;
   }
 
   /**
-   * Determine if a url SHOUlD be placed in sessionStorage or not. It must match a route pattern provided in
+   * Determine if a url SHOUlD be placed in sessionStorage or not.
+   * It must match a route pattern provided in
    *
-   * @param urlWithParams -
+   * @param urlWithParams url to check
+   * @returns true if route should be cached to session storage
    */
   shouldCacheToSessionStorage(urlWithParams: string): boolean {
     const matchRoutes &#x3D; this.matchRoutes(urlWithParams);
@@ -468,8 +496,9 @@ export class HttpCacheService implements HttpCache {
   /**
    * Determine if a url should be place in local or sessions storage and which one
    * It must match a route pattern provided in CACHEABLE_ROUTE_PATTERNS
-   * @param urlWithParams -
-   * @returns
+   *
+   * @param urlWithParams url to cache
+   * @returns which storage to use
    */
   whichStorageToUse(urlWithParams: string): LocalStorageTypes {
     const matchRoutes &#x3D; this.matchRoutes(urlWithParams);
@@ -479,8 +508,8 @@ export class HttpCacheService implements HttpCache {
   /**
    * Place the response in the local &#x60;cache&#x60; variable
    *
-   * @param urlWithParams -
-   * @param res -
+   * @param urlWithParams url to cache
+   * @param res response
    */
   cacheToLocal(urlWithParams: string, res: HttpResponse&lt;any&gt;): void {
     this.cache[urlWithParams] &#x3D; res;
@@ -488,8 +517,10 @@ export class HttpCacheService implements HttpCache {
 
   /**
    * Place the response in localStorage
-   * @param urlWithParams -
-   * @param res -
+   *
+   * @param storageType storage type
+   * @param urlWithParams url to cache
+   * @param res http response
    */
   cacheToStorage(
     storageType: LocalStorageTypes,

@@ -5,7 +5,7 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../abstract-components";
+import { EChartComponent } from "../../shared/components";
 import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
@@ -16,8 +16,8 @@ import {
  */
 @Component({
   selector: "widget-scatter-plot",
-  templateUrl: "../e-chart/e-chart.component.html",
-  styleUrls: ["../e-chart/e-chart.component.scss"],
+  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
+  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
 })
 export class ScatterPlotComponent
   extends EChartComponent

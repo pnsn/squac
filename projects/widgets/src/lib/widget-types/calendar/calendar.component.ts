@@ -12,7 +12,7 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../abstract-components";
+import { EChartComponent } from "../../shared/components";
 import { parseUtc } from "../../shared/utils";
 
 /**
@@ -21,8 +21,8 @@ import { parseUtc } from "../../shared/utils";
  */
 @Component({
   selector: "widget-calendar-plot",
-  templateUrl: "../e-chart/e-chart.component.html",
-  styleUrls: ["../e-chart/e-chart.component.scss"],
+  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
+  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
 })
 export class CalendarComponent
   extends EChartComponent

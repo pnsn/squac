@@ -21,7 +21,7 @@ import {
   isStoplight,
   ProcessedData,
 } from "../../interfaces";
-import { GenericWidgetComponent } from "../abstract-components";
+import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, StationChannels, StationRow } from "./types";
 import { MeasurementTypes, Metric } from "squacapi";
 

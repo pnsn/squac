@@ -66,7 +66,8 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Used for centrally setting/unsetting loading flags for components or services.
+                <p>I got this from the internet...
+Used for centrally setting/unsetting loading flags for components or services.
 Should be connected to global HTTP interceptor which will unset
 the loading flags in case an error happens using the clearLoadings() method.</p>
 
@@ -167,7 +168,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -230,14 +231,17 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:129</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Clear all loadings
+To be called by middleware code (HTTP interceptors/routing listeners, etc.).</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -267,8 +271,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -283,6 +287,9 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Observable creation operator, use to start loading with an observable
+LoaderId can be used when there are multiple loading indicators associated to a single context.</p>
+<div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -293,6 +300,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -307,6 +315,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>source observable to use for tracking loading</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>context</td>
@@ -319,6 +331,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>any object to use for loading</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -331,18 +347,27 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>optional, used if there are multiple loaders using same context</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
+                        <b>Example :</b>
+                        <div>
+                            <pre class="line-numbers"><code class="language-html">loadingService.doLoading(desiredObservable, context, id).subscribe()</code></pre>
+                        </div>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;V&gt;</code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable with result of source</p>
+
                     </div>
                 </td>
             </tr>
@@ -368,14 +393,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:121</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>End loading manually</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -386,6 +413,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -400,6 +428,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>context to end</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -412,6 +444,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader id to end</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -451,14 +487,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:220</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Gets loader id or returns default</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -469,6 +507,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -483,6 +522,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader if</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -494,7 +537,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>given loader id if exists or defaults</p>
+
                     </div>
                 </td>
             </tr>
@@ -522,14 +566,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:193</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks if there is context loading state for context</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -540,6 +586,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -554,6 +601,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loading context</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -565,7 +616,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>boolean</p>
+
                     </div>
                 </td>
             </tr>
@@ -593,14 +645,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:204</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks if loader has loading state</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -611,6 +665,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -625,6 +680,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loading context</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -637,6 +696,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -648,7 +711,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>boolean probably</p>
+
                     </div>
                 </td>
             </tr>
@@ -676,14 +740,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:180</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks context and loader id for loading states</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -694,6 +760,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -708,6 +775,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>context to check</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -720,6 +791,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader id to check</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -731,7 +806,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>if there are states</p>
+
                     </div>
                 </td>
             </tr>
@@ -757,14 +833,18 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Use in html templates, returns a boolean indicating if a given loader is active in
+a given context</p>
+<p> loader states in the context.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -775,6 +855,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -789,6 +870,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loading context to check</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -801,6 +886,11 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>If loaderId is unspecified, the method will return a logical disjunction of all
+loader states in the context.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -812,7 +902,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>true if loader is stil loading</p>
+
                     </div>
                 </td>
             </tr>
@@ -838,14 +929,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:88</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Use in html templates with async pipes</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -856,6 +949,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -870,6 +964,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>context to check</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -882,6 +980,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>id of loader</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -893,7 +995,8 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of booleans indicating if loader is active</p>
+
                     </div>
                 </td>
             </tr>
@@ -921,14 +1024,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:144</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets loading state for a context</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -939,6 +1044,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -953,6 +1059,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loading context</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>state</td>
@@ -965,6 +1075,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>true if loading</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -977,6 +1091,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1014,14 +1132,16 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:111</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Start loading manually</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1032,6 +1152,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1046,6 +1167,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>context to start loading for</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>loaderId</td>
@@ -1058,6 +1183,10 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>loader id to use</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1103,7 +1232,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -1132,7 +1261,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -1153,12 +1282,13 @@ type LoadingContext &#x3D; object;
 type LoaderId &#x3D; string | number; // expected enum values
 const DEFAULT_LOADER_ID: LoaderId &#x3D; &quot;_DEFAULT&quot;;
 const DEFAULT_CONTEXT: LoadingContext &#x3D; { _DEFAULT: true };
+
 /**
+ * I got this from the internet...
  * Used for centrally setting/unsetting loading flags for components or services.
  * Should be connected to global HTTP interceptor which will unset
  * the loading flags in case an error happens using the clearLoadings() method.
  */
-
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -1178,11 +1308,16 @@ export class LoadingService {
 
   constructor(protected zoneRef: NgZone) {}
 
-  // Observable creation operator.
-  // LoaderId can be used when there are multiple loading indicators associated to a single context.
-  // Context can be any object, though in practice, components and services will be the most common contexts.
-  // loaderId is a non-mandatory parameter - when not specified, a default loaderId is used.
-  // Such a scenario is used when your context has contains only one loading indicator.
+  /**
+   * Observable creation operator, use to start loading with an observable
+   * LoaderId can be used when there are multiple loading indicators associated to a single context.
+   *
+   * @param source$ source observable to use for tracking loading
+   * @param context any object to use for loading
+   * @param loaderId optional, used if there are multiple loaders using same context
+   * @returns observable with result of source
+   * @example loadingService.doLoading(desiredObservable, context, id).subscribe()
+   */
   doLoading&lt;V&gt;(
     source$: Observable&lt;V&gt;,
     context?: LoadingContext,
@@ -1196,10 +1331,15 @@ export class LoadingService {
     );
   }
 
-  // To be used in your html templates.
-  // Returns a boolean indicating whether a given loader is active in a given context.
-  // If loaderId is unspecified, the method will return a logical disjunction of all
-  // loader states in the context.
+  /**
+   * Use in html templates, returns a boolean indicating if a given loader is active in
+   * a given context
+   *
+   * @param context loading context to check
+   * @param loaderId If loaderId is unspecified, the method will return a logical disjunction of all
+   *  loader states in the context.
+   * @returns true if loader is stil loading
+   */
   isLoading(context?: LoadingContext, loaderId?: LoaderId): boolean {
     context &#x3D; context || DEFAULT_CONTEXT;
     const loaderStates &#x3D; this.loadingStates.get(context);
@@ -1214,8 +1354,13 @@ export class LoadingService {
     }
   }
 
-  // To be used in your html templates with async pipes.
-  // Returns an Observable of booleans indicating whether a given loader is active in a given context.
+  /**
+   * Use in html templates with async pipes
+   *
+   * @param context context to check
+   * @param loaderId id of loader
+   * @returns observable of booleans indicating if loader is active
+   */
   isLoading$(
     context?: LoadingContext,
     loaderId?: LoaderId
@@ -1232,15 +1377,31 @@ export class LoadingService {
 
   // The startLoading and endLoading methods are intended to be used when handling
   // complex scenarios where a need for extended usage flexibility is desired.
+
+  /**
+   * Start loading manually
+   *
+   * @param context context to start loading for
+   * @param loaderId loader id to use
+   */
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 
+  /**
+   * End loading manually
+   *
+   * @param context context to end
+   * @param loaderId loader id to end
+   */
   endLoading(context: LoadingContext, loaderId?: LoaderId): void {
     this.setLoadingState(context, false, this.getLoaderId(loaderId));
   }
 
-  // To be called by middleware code (HTTP interceptors/routing listeners, etc.).
+  /**
+   * Clear all loadings
+   * To be called by middleware code (HTTP interceptors/routing listeners, etc.).
+   */
   clearLoadings(): void {
     this.loadingStates &#x3D; new WeakMap&lt;LoadingContext, Map&lt;LoaderId, boolean&gt;&gt;();
     this.loadingStates$ &#x3D; new WeakMap&lt;
@@ -1249,6 +1410,13 @@ export class LoadingService {
     &gt;();
   }
 
+  /**
+   * Sets loading state for a context
+   *
+   * @param context loading context
+   * @param state true if loading
+   * @param loaderId loader id
+   */
   protected setLoadingState(
     context: LoadingContext,
     state: boolean,
@@ -1278,6 +1446,13 @@ export class LoadingService {
     }
   }
 
+  /**
+   * Checks context and loader id for loading states
+   *
+   * @param context context to check
+   * @param loaderId loader id to check
+   * @returns if there are states
+   */
   protected hasLoadingStates(context: LoadingContext, loaderId: LoaderId): any {
     return (
       this.hasContextLoadingState(context) &amp;&amp;
@@ -1285,10 +1460,23 @@ export class LoadingService {
     );
   }
 
+  /**
+   * Checks if there is context loading state for context
+   *
+   * @param context loading context
+   * @returns boolean
+   */
   protected hasContextLoadingState(context: LoadingContext): any {
     return this.loadingStates.has(context) &amp;&amp; this.loadingStates$.has(context);
   }
 
+  /**
+   * Checks if loader has loading state
+   *
+   * @param context loading context
+   * @param loaderId loader id
+   * @returns boolean probably
+   */
   protected hasLoaderLoadingState(
     context: LoadingContext,
     loaderId: LoaderId
@@ -1299,6 +1487,12 @@ export class LoadingService {
     );
   }
 
+  /**
+   * Gets loader id or returns default
+   *
+   * @param loaderId loader if
+   * @returns given loader id if exists or defaults
+   */
   protected getLoaderId(loaderId?: LoaderId): LoaderId {
     return loaderId ?? DEFAULT_LOADER_ID;
   }

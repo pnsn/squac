@@ -1,3 +1,5 @@
+import { WidgetType } from "../enums";
+import { WidgetConfig } from "../interfaces";
 import {
   Calendar,
   Map,
@@ -6,14 +8,18 @@ import {
   Tabular,
   Timechart,
   Timeline,
-} from "../components";
-import { WidgetType } from "../enums";
-import { WidgetConfig } from "../interfaces";
+} from "../widget-types";
 
+/**
+ * Widget type info
+ */
 export type WidgetTypeInfo = {
+  /** widget component */
   component: any;
+  /** widget config */
   config: WidgetConfig;
 };
+
 /**
  * Associate widget types with the corresponding component
  */

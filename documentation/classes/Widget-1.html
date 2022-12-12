@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Widget model</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -131,10 +138,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/widgets/src/lib/models/widget.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/widgets/src/lib/models/widget.ts:7</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>widget type</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -153,10 +166,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Widget as ApiWidget } from &quot;squacapi&quot;;
 import { WidgetType } from &quot;../enums&quot;;
 
-/**
- *
- */
+/** Widget model */
 export class Widget extends ApiWidget {
+  /** widget type */
   override type: WidgetType;
 }
 </code></pre>

@@ -4,7 +4,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { EChartComponent } from "../abstract-components";
+import { EChartComponent } from "../../shared/components";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import {
   EChartsOption,
@@ -17,8 +17,8 @@ import {
  */
 @Component({
   selector: "widget-parallel-plot",
-  templateUrl: "../e-chart/e-chart.component.html",
-  styleUrls: ["../e-chart/e-chart.component.scss"],
+  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
+  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
 })
 export class ParallelPlotComponent
   extends EChartComponent

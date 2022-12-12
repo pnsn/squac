@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Guard to prevent access to pages when user is logged in</p>
+
+                </p>
 
 
 
@@ -107,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/squac-ui/src/app/core/guards/logged-in.guard.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squac-ui/src/app/core/guards/logged-in.guard.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -182,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/squac-ui/src/app/core/guards/logged-in.guard.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/squac-ui/src/app/core/guards/logged-in.guard.ts:17</a></div>
                 </td>
             </tr>
 
@@ -191,8 +198,14 @@
             <tr>
                 <td class="col-md-4">
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if the user is not logged in</p>
 
                     </div>
                 </td>
@@ -208,13 +221,18 @@
 import { CanActivate, Router } from &quot;@angular/router&quot;;
 import { AuthService } from &quot;../services/auth.service&quot;;
 
+/**
+ * Guard to prevent access to pages when user is logged in
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class LoggedInGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  // returns prevents user from accessing certain pages when logged in
+  /**
+   * @returns true if the user is not logged in
+   */
   canActivate(): boolean {
     if (this.authService.isAuthenticated()) {
       this.router.navigate([&quot;/&quot;]);

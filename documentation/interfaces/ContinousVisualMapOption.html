@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>continuous option</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -147,58 +154,86 @@
 } from &quot;echarts&quot;;
 import { TypeGuard } from &quot;../shared/pipes/guard-type.pipe&quot;;
 
+/** Visual map base types */
 interface VisualMapBase {
   type: &quot;stoplight&quot; | &quot;piecewise&quot; | &quot;continuous&quot;;
 }
 
+/** Piecewise option */
 export interface PiecewiseVisualMapOption
   extends PiecewiseVisualMapComponentOption,
     VisualMapBase {
   type: &quot;piecewise&quot;;
 }
 
+/** continuous option */
 export interface ContinousVisualMapOption
   extends ContinousVisualMapComponentOption,
     VisualMapBase {
   type: &quot;continuous&quot;;
 }
 
+//** Visual map types */
 export type VisualMapTypes &#x3D;
   | PiecewiseVisualMapOption
   | ContinousVisualMapOption
   | StoplightVisualMapOption;
 
+/**
+ * typeguard for piecewise
+ *
+ * @param visualMap visual map to check
+ * @returns true if visualmap is piecewise
+ */
 export const isPiecewise: TypeGuard&lt;
   VisualMapTypes,
   PiecewiseVisualMapOption
 &gt; &#x3D; (visualMap: VisualMapTypes): visualMap is PiecewiseVisualMapOption &#x3D;&gt;
   visualMap.type &#x3D;&#x3D;&#x3D; &quot;piecewise&quot;;
 
+/**
+ * typeguard for continuous
+ *
+ * @param visualMap visual map to check
+ * @returns true if visualmap is continuous
+ */
 export const isContinuous: TypeGuard&lt;
   VisualMapTypes,
   ContinousVisualMapOption
 &gt; &#x3D; (visualMap: VisualMapTypes): visualMap is ContinousVisualMapOption &#x3D;&gt;
   visualMap.type &#x3D;&#x3D;&#x3D; &quot;continuous&quot;;
 
+/**
+ * typeguard for stoplight
+ *
+ * @param visualMap visual map to check
+ * @returns true if visualmap is stoplight
+ */
 export const isStoplight: TypeGuard&lt;
   VisualMapTypes,
   StoplightVisualMapOption
 &gt; &#x3D; (visualMap: VisualMapTypes): visualMap is StoplightVisualMapOption &#x3D;&gt;
   visualMap.type &#x3D;&#x3D;&#x3D; &quot;stoplight&quot;;
 
+/** options for stoplight visualmap */
 export interface StoplightVisualMapOption extends VisualMapBase {
+  /** type */
   type: &quot;stoplight&quot;;
+  /** colors */
   colors: {
     in: string;
     middle: string;
     out: string;
   };
+  /** visual map min */
   min: number;
+  /** visual map max */
   max: number;
 }
+
 export type VisualMap &#x3D; Record&lt;number, VisualMapTypes&gt;;
 
-// Copied from Echarts because they&#x27;re not exported
+/** Copied from Echarts because they&#x27;re not exported */
 export interface VisualPiece {
   min?: number;
   max?: number;

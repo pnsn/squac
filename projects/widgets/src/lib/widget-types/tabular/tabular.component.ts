@@ -23,7 +23,7 @@ import {
   VisualMapTypes,
   WidgetTypeComponent,
 } from "../../interfaces";
-import { GenericWidgetComponent } from "../abstract-components";
+import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, RowMetric, RowMetrics, StationRow } from "./types";
 
 /**

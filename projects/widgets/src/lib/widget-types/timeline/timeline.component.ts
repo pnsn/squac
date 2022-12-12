@@ -14,7 +14,7 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../abstract-components";
+import { EChartComponent } from "../../shared/components";
 import { parseUtc } from "../../shared/utils";
 import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
@@ -25,8 +25,8 @@ import { OpUnitType } from "dayjs";
  */
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../e-chart/e-chart.component.html",
-  styleUrls: ["../e-chart/e-chart.component.scss"],
+  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
+  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
 })
 export class TimelineComponent
   extends EChartComponent

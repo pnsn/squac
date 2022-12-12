@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Resolver for organization or list of organizations</p>
+
+                </p>
 
 
 
@@ -81,9 +88,6 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#handleError" >handleError</a>
-                            </li>
                             <li>
                                 <a href="#resolve" >resolve</a>
                             </li>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -157,71 +161,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
-                    <span class="name">
-                        <span ><b>handleError</b></span>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>handleError(error)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:30</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolve"></a>
                     <span class="name">
                         <span ><b>resolve</b></span>
@@ -238,14 +177,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:23</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolve organization or list of organizations</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -256,6 +197,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -270,6 +212,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>activated route</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,11 +223,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/Organization.html" target="_self" >Observable&lt;Organization | []&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of results</p>
+
                     </div>
                 </td>
             </tr>
@@ -294,36 +241,35 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
-import { OrganizationService } from &quot;squacapi&quot;;
+import { Observable } from &quot;rxjs&quot;;
+import { Organization, OrganizationService } from &quot;squacapi&quot;;
 
+/**
+ * Resolver for organization or list of organizations
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class OrganizationResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
+export class OrganizationResolver
+  implements Resolve&lt;Observable&lt;Organization | Organization[]&gt;&gt;
+{
   constructor(private orgService: OrganizationService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable&lt;any&gt; {
+  /**
+   * Resolve organization or list of organizations
+   *
+   * @param route activated route
+   * @returns observable of results
+   */
+  resolve(
+    route: ActivatedRouteSnapshot
+  ): Observable&lt;Organization | Organization[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;orgId&quot;);
     if (id) {
-      return this.orgService.read(+id).pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
+      return this.orgService.read(+id);
     } else {
-      return this.orgService.list().pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
+      return this.orgService.list();
     }
-  }
-
-  handleError(error: unknown): Observable&lt;any&gt; {
-    // TODO: route to show error
-    return of({ error });
   }
 }
 </code></pre>

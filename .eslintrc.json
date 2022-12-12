@@ -50,6 +50,7 @@
         "jsdoc/no-types": "warn",
         "jsdoc/require-param-type": "off",
         "jsdoc/require-returns-type": "off",
+        "jsdoc/require-property-type": "off",
         "jsdoc/require-jsdoc": [
           "warn",
           {

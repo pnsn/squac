@@ -10,15 +10,15 @@ import {
   WidgetManagerService,
 } from "../../services";
 import { parseUtc } from "../../shared/utils";
-import { EChartComponent } from "../abstract-components";
+import { EChartComponent } from "../../shared/components";
 
 /**
  * Time series widget with channels as lines
  */
 @Component({
   selector: "widget-timechart",
-  templateUrl: "../e-chart/e-chart.component.html",
-  styleUrls: ["../e-chart/e-chart.component.scss"],
+  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
+  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
 })
 export class TimechartComponent
   extends EChartComponent

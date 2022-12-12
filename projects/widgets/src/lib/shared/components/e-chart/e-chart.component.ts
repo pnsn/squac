@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from "@angular/core";
 import { EChartsOption, EChartsType } from "echarts";
 
-import { WidgetConnectService, WidgetManagerService } from "../../services";
-import { GenericWidgetComponent } from "../abstract-components";
-import { WidgetTypeComponent } from "../../interfaces";
+import { WidgetConnectService, WidgetManagerService } from "../../../services";
+import { GenericWidgetComponent } from "..";
+import { WidgetTypeComponent } from "../../../interfaces";
 
 /**
  * Abstract class to make creation of Echart widgets simpler

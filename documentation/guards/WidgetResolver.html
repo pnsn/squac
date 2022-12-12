@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Resolves widget data</p>
+
+                </p>
 
 
 
@@ -81,9 +88,6 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#handleError" >handleError</a>
-                            </li>
                             <li>
                                 <a href="#resolve" >resolve</a>
                             </li>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -157,71 +161,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
-                    <span class="name">
-                        <span ><b>handleError</b></span>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>handleError(error)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:40</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolve"></a>
                     <span class="name">
                         <span ><b>resolve</b></span>
@@ -238,14 +177,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:25</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolves a widget or multiple widgets for a dashboard</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -256,6 +197,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -270,6 +212,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>activated route</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,11 +223,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | Observable | Observable</code>
+                        <b>Returns : </b>        <code><a href="../guards/WidgetResolver.html" target="_self" >Observable&lt;WidgetResolverResponses&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of data or error</p>
+
                     </div>
                 </td>
             </tr>
@@ -295,45 +242,40 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { Observable, of } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
 import { Widget } from &quot;widgets&quot;;
 import { WidgetService } from &quot;squacapi&quot;;
 
+type WidgetResolverResponses &#x3D; Widget | Widget[] | any;
+/**
+ * Resolves widget data
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class WidgetResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
+export class WidgetResolver
+  implements Resolve&lt;Observable&lt;WidgetResolverResponses&gt;&gt;
+{
   constructor(private widgetService: WidgetService) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot
-  ): Observable&lt;Widget&gt; | Observable&lt;Widget[]&gt; | Observable&lt;any&gt; {
+  /**
+   * Resolves a widget or multiple widgets for a dashboard
+   *
+   * @param route activated route
+   * @returns observable of data or error
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable&lt;WidgetResolverResponses&gt; {
     const dashboardId &#x3D; route.paramMap.get(&quot;dashboardId&quot;);
     const widgetId &#x3D; route.paramMap.get(&quot;widgetId&quot;);
 
     if (widgetId) {
-      return this.widgetService.read(+widgetId).pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
+      return this.widgetService.read(+widgetId);
     } else if (dashboardId) {
-      return this.widgetService.list({ dashboard: &#x60;${dashboardId}&#x60; }).pipe(
-        catchError((error) &#x3D;&gt; {
-          return this.handleError(error);
-        })
-      );
-      // return all of them
+      return this.widgetService.list({ dashboard: &#x60;${dashboardId}&#x60; });
     } else {
       return of({
         error: &quot;Could not load dashboard widgets.&quot;,
       });
     }
-  }
-
-  handleError(error: unknown): Observable&lt;any&gt; {
-    // TODO: route to show error
-    return of({ error });
   }
 }
 </code></pre>

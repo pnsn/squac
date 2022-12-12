@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Data params</p>
+
+            </p>
 
 
         <section>
@@ -155,6 +162,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -188,6 +201,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>end time of data range</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -221,6 +240,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>maximum value of data</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -254,6 +279,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>metric id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -287,6 +318,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>start time of data range</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -319,15 +356,23 @@ import { ChannelGroupService } from &quot;squacapi&quot;;
 import { map, Observable, of } from &quot;rxjs&quot;;
 
 type TimeInterval &#x3D; &quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;;
+
+/** Data params */
 interface DataParams {
+  /** start time of data range */
   starttime: string;
+  /** end time of data range */
   endtime: string;
+  /** maximum value of data */
   maxValue: number;
+  /** metric id */
   metric: number;
+  /** channel id */
   channel: number;
 }
+
 /**
- *
+ * Fakes measurement backends for local
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -336,8 +381,10 @@ export class FakeMeasurementBackend {
   constructor(private channelGroupService: ChannelGroupService) {}
 
   /**
+   * Request channels for channel group and maps ids
    *
-   * @param group
+   * @param group group id
+   * @returns observable of channel ids
    */
   private channelsFromGroup(group: number): Observable&lt;number[]&gt; {
     return this.channelGroupService.read(group).pipe(
@@ -347,15 +394,19 @@ export class FakeMeasurementBackend {
     );
   }
   /**
+   * Returns random number between 0 and maxValue
    *
-   * @param maxValue
+   * @param maxValue max value to generate
+   * @returns random number
    */
   private getRandom(maxValue &#x3D; 100): number {
     return Math.random() * maxValue;
   }
   /**
+   * Returns channel parameters from group id or channel ids
    *
-   * @param params
+   * @param params measurement params
+   * @returns observable of channel ids array
    */
   private getChannels(params: MeasurementParams): Observable&lt;number[]&gt; {
     if (params.group) {
@@ -367,8 +418,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * creates a measurement
    *
-   * @param params
+   * @param params measurement params
+   * @returns measurement
    */
   measurement(params: DataParams): ReadMeasurement {
     return {
@@ -381,8 +434,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * creates an archive
    *
-   * @param params
+   * @param params archive params
+   * @returns archive
    */
   archive(params: DataParams): ReadArchive {
     const value &#x3D; this.getRandom(params.maxValue);
@@ -407,8 +462,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * creates an aggregate
    *
-   * @param params
+   * @param params aggregate params
+   * @returns aggregate
    */
   aggregate(params: DataParams): ReadAggregate {
     const value &#x3D; this.getRandom(params.maxValue);
@@ -434,12 +491,14 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Creates fake data using the given params
    *
-   * @param channels
-   * @param params
-   * @param datafn
-   * @param time
-   * @param timeInterval
+   * @param channels channel ids
+   * @param params measurement request params
+   * @param datafn datafunction to generate data with
+   * @param time amount of time
+   * @param timeInterval time interval to use
+   * @returns array of data type
    */
   getData&lt;T&gt;(
     channels: number[],
@@ -490,11 +549,13 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Get list of type
    *
-   * @param params
-   * @param fn
-   * @param time
-   * @param timeInterval
+   * @param params request params
+   * @param fn data function
+   * @param time amount of time
+   * @param timeInterval interval of time
+   * @returns observable of typea
    */
   getList&lt;T&gt;(
     params: MeasurementParams,
@@ -512,8 +573,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Measurement list function
    *
-   * @param params
+   * @param params measurement params
+   * @returns observable of measurement data
    */
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
@@ -527,8 +590,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Aggregated list function
    *
-   * @param params
+   * @param params aggregated params
+   * @returns observable of aggregated data
    */
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
@@ -537,8 +602,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Archive list function
    *
-   * @param params
+   * @param params archive params
+   * @returns observable of archives data
    */
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
@@ -552,8 +619,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Archive list function
    *
-   * @param params
+   * @param params archive params
+   * @returns observable of archives data
    */
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
@@ -567,8 +636,10 @@ export class FakeMeasurementBackend {
   }
 
   /**
+   * Archive list function
    *
-   * @param params
+   * @param params archive params
+   * @returns observable of archives data
    */
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
@@ -581,6 +652,12 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   * Archive list function
+   *
+   * @param params archive params
+   * @returns observable of archives data
+   */
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable&lt;ReadOnlyArchiveMonthSerializer[]&gt; {

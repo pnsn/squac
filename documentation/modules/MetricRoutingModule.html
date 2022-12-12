@@ -75,7 +75,6 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { RouterModule, Routes } from &quot;@angular/router&quot;;
 import { NgModule } from &quot;@angular/core&quot;;
 import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
-import { PermissionGuard } from &quot;@core/guards/permission.guard&quot;;
 import { MetricComponent } from &quot;./components/metric/metric.component&quot;;
 import { MetricResolver } from &quot;@core/resolvers/metric.resolver&quot;;
 import { MetricViewComponent } from &quot;./components/metric-view/metric-view.component&quot;;
@@ -85,7 +84,7 @@ export const routes: Routes &#x3D; [
   {
     path: &quot;&quot;,
     component: MetricComponent,
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard],
     data: { subject: &quot;Metric&quot;, action: &quot;read&quot; },
     children: [
       {
@@ -95,13 +94,11 @@ export const routes: Routes &#x3D; [
           {
             path: &quot;new&quot;,
             component: MetricEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;Metric&quot;, action: &quot;create&quot; },
           },
           {
             path: &quot;:metricId/edit&quot;,
             component: MetricEditEntryComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;Metric&quot;, action: &quot;update&quot; },
             resolve: {
               metric: MetricResolver,
@@ -113,6 +110,7 @@ export const routes: Routes &#x3D; [
   },
 ];
 
+/** Metric routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

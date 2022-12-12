@@ -62,6 +62,15 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service for managing dashboard and widget data
+Some of this functionality might be better replaced
+with ngrx or similar</p>
+
+            </p>
 
 
 
@@ -284,7 +293,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -419,14 +428,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="266"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:266</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="325"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:325</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Takes date params and saves, emits changed dates</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -437,6 +448,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -451,6 +463,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>start date object</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>endDate</td>
@@ -463,6 +479,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>end date object</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>autoRefresh</td>
@@ -475,6 +495,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>true if data should auto refresh</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>rangeInSeconds</td>
@@ -487,6 +511,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>width of time range in seconds</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -524,14 +552,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="377"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:377</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="486"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:486</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sends delete request to squacapi</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -541,6 +571,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -552,6 +583,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>dashboard to delete</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -589,14 +624,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="469"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:469</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sends delete request to squacapi</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -606,6 +643,7 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -617,6 +655,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widget to delete</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -656,17 +698,26 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:203</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Return all channels that are true in channelsList,
+will return all channels if channels list is empty</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>filtered channels</p>
 
                     </div>
                 </td>
@@ -693,14 +744,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:172</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Gets channel group detail from squacapi and stores channels</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -711,6 +764,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -725,6 +779,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>id of group to fetch</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -736,7 +794,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of channel group if found</p>
+
                     </div>
                 </td>
             </tr>
@@ -762,14 +821,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:123</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Difference between starttime and endtime in unit</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -780,6 +841,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -794,6 +856,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Dayjs duration</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -805,7 +871,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>length of time span</p>
+
                     </div>
                 </td>
             </tr>
@@ -831,14 +898,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="291"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:291</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="360"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:360</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Finds widget with id</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -849,6 +918,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -863,6 +933,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widget id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -874,7 +948,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>widget</p>
+
                     </div>
                 </td>
             </tr>
@@ -902,14 +977,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="286"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:286</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="350"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:350</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns widget index</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -920,6 +997,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -934,6 +1012,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widget id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -945,7 +1027,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>widget index</p>
+
                     </div>
                 </td>
             </tr>
@@ -971,14 +1054,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="375"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:375</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits resize event with no id</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1008,14 +1093,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="296"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="369"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:369</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits resize event with widget id</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1026,6 +1113,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1040,6 +1128,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>id of widget to resize</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1077,14 +1169,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="500"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:500</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves current dashboard to squacapi</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1114,14 +1208,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="351"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:351</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="452"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:452</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves widget and tells widget to resize unless silentUpdate
+is true</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1132,6 +1229,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1146,6 +1244,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widget to update</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>silentUpdate</td>
@@ -1158,6 +1260,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>true if widget should not resize after update</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1197,14 +1303,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="237"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:237</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits new channels and group id, tells widgets to
+fetch new data</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1234,14 +1343,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="311"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:311</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:394</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves archive options</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1252,6 +1363,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1266,6 +1378,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>new archive type</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>archiveStat</td>
@@ -1278,6 +1394,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>new archive stat</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1315,14 +1435,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:144</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets new dashboard and initial dates</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1333,6 +1455,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1347,6 +1470,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>new dashboard to intialize</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1384,14 +1511,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:204</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="252"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:252</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Gets info for dashboard and channel group</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1402,6 +1531,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1416,6 +1546,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>dashboard id to fetch</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>channelGroupId</td>
@@ -1428,6 +1562,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>channel group id to find</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1439,7 +1577,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of channel group</p>
+
                     </div>
                 </td>
             </tr>
@@ -1467,14 +1606,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="237"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:237</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:285</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets up initial dates for dashboard</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1504,14 +1645,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="306"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:306</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:384</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves given widgets</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1522,6 +1665,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1536,6 +1680,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widgets to storea</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1573,14 +1721,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:161</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates stored channel group</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1591,6 +1741,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1605,6 +1756,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>new channel group id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1642,14 +1797,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:192</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates list of channels from channel selecta</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1660,6 +1817,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1674,6 +1832,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>record of nslcs that are active</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1711,14 +1873,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:214</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Update after changes are confirmed on dashboard</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1748,14 +1912,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="324"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:324</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="418"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:418</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Adds, updates or deletes a widget. If no widget is passed,
+it will be removed from the saved widgets.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1766,6 +1933,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1780,6 +1948,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>id to update</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>widget</td>
@@ -1792,6 +1964,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>widget toupdate</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1831,14 +2007,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="318"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:318</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="406"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:406</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Emits id of changed widget and clears errors</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1849,6 +2027,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1863,6 +2042,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>id to emit</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1906,7 +2089,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1938,7 +2121,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -1965,7 +2148,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1992,7 +2175,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -2019,7 +2202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -2046,7 +2229,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -2071,7 +2254,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -2096,7 +2279,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -2121,7 +2304,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -2152,7 +2335,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -2177,7 +2360,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -2202,7 +2385,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -2233,7 +2416,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -2253,7 +2436,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -2284,7 +2467,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -2309,7 +2492,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -2334,7 +2517,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -2359,7 +2542,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -2384,7 +2567,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -2413,9 +2596,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:73</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Dashboard.html" target="_self" >Dashboard</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2435,9 +2629,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:73</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:78</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2457,9 +2662,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:78</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:83</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2479,9 +2695,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:83</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:88</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2501,9 +2728,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:95</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:100</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2523,9 +2761,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:108</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:113</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2545,9 +2794,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:120</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:130</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Archive.html" target="_self" >ArchiveType</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2567,9 +2827,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:125</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/services/view.service.ts:135</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../classes/Archive.html" target="_self" >ArchiveStatType</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -2607,11 +2878,15 @@ import {
 } from &quot;squacapi&quot;;
 import { Widget } from &quot;widgets&quot;;
 
+/**
+ * Service for managing dashboard and widget data
+ * Some of this functionality might be better replaced
+ * with ngrx or similar
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class ViewService {
-  // handle refreshing
   channels &#x3D; new BehaviorSubject&lt;Channel[]&gt;([]); //actual channels used
   private _channelsList: Record&lt;string, boolean&gt;; //{ &#x27;SCNL&#x27;: boolean }
   private _channels: Channel[] &#x3D; []; //all available channels
@@ -2643,21 +2918,22 @@ export class ViewService {
     private loadingService: LoadingService
   ) {}
 
+  /** @returns current dashboard */
   get dashboard(): Dashboard {
     return this._dashboard;
   }
 
-  // returns if dashboard is live
+  /** @returns is dashboard using live data */
   get isLive(): boolean {
     return this.autoRefresh;
   }
 
-  // returns the dashboard time range
+  /** @returns time range of dashboard */
   get range(): number {
     return this.dashboard?.properties.timeRange;
   }
 
-  // returns the dashboard starttime
+  /** @returns start time of dashboard */
   get startTime(): string {
     let startTime;
     if (this.range) {
@@ -2669,7 +2945,7 @@ export class ViewService {
     return startTime;
   }
 
-  // returns the dashboard end date
+  /** @returns end time of dashboard */
   get endTime(): string {
     let endTime;
     if (this.range) {
@@ -2682,43 +2958,66 @@ export class ViewService {
     return endTime;
   }
 
-  // get all available channels
+  /** @returns all available channels on dashboard */
   get allChannels(): Channel[] {
     return [...this._channels];
   }
 
-  //get amount of time between start and end
+  /**
+   * Difference between starttime and endtime in unit
+   *
+   * @param unit Dayjs duration
+   * @returns length of time span
+   */
   getTimeSpan(unit: any): number {
     const start &#x3D; this.dateService.parseUtc(this.startTime);
     const end &#x3D; this.dateService.parseUtc(this.endTime);
     return this.dateService.diff(end, start, unit);
   }
 
-  // returns the dashboard archive type
+  /** @returns dashboard archive type */
   get archiveType(): ArchiveType {
     return this.dashboard?.properties.archiveType;
   }
 
-  // returns the dashboard archive stat
+  /** @returns dashboard archive stat type */
   get archiveStat(): ArchiveStatType {
     return this.dashboard?.properties.archiveStat;
   }
 
-  // sets the given dashboard and sets up dates
+  /**
+   * Sets new dashboard and initial dates
+   *
+   * @param dashboard new dashboard to intialize
+   */
   setDashboard(dashboard: Dashboard): void {
-    this.currentWidgets.next([]);
     // clear old widgets
+    this.currentWidgets.next([]);
     this.queuedWidgets &#x3D; 0;
+
+    // set dashboard
     this._dashboard &#x3D; dashboard;
+
+    // set dates
     this.setIntialDates();
-    // return dates
   }
 
+  /**
+   * Updates stored channel group
+   *
+   * @param channelGroupId new channel group id
+   */
   updateChannelGroup(channelGroupId: number): void {
     this._channelGroupId &#x3D; channelGroupId;
     this.hasUnsavedChanges &#x3D; true;
   }
 
+  /**
+   * Gets channel group detail from squacapi and stores channels
+   *
+   * @param channelGroupId id of group to fetch
+   * @returns observable of channel group if found
+   */
   getChannelGroup(channelGroupId: number): Observable&lt;ChannelGroup&gt; {
     return this.channelGroupService.read(channelGroupId).pipe(
       distinctUntilChanged(),
@@ -2734,14 +3033,22 @@ export class ViewService {
     );
   }
 
-  // { NSLC : true/false} from channel select
+  /**
+   * Updates list of channels from channel selecta
+   *
+   * @param list record of nslcs that are active
+   */
   updateChannels(list: Record&lt;string, boolean&gt;): void {
     this._channelsList &#x3D; list;
     this.hasUnsavedChanges &#x3D; true;
   }
 
-  // filter _channels that are true in channelsList
-  // if no filter list, return all channels
+  /**
+   * Return all channels that are true in channelsList,
+   * will return all channels if channels list is empty
+   *
+   * @returns filtered channels
+   */
   private filterChannels(): Channel[] {
     return this._channelsList
       ? this._channels.filter((c) &#x3D;&gt; {
@@ -2750,9 +3057,11 @@ export class ViewService {
       : [...this._channels];
   }
 
-  // send updates and reset values
+  /**
+   * Update after changes are confirmed on dashboard
+   */
   updateDashboard(): void {
-    //get new channelgroup info if its changed
+    // Get new channel group if there is a different id
     if (
       this._channelGroupId &amp;&amp;
       this._channelGroupId !&#x3D;&#x3D; this.dashboard.channelGroupId
@@ -2765,20 +3074,30 @@ export class ViewService {
           this.sendUpdate();
         });
     } else {
+      // otherwise just send updated info
       this.sendUpdate();
     }
   }
 
+  /**
+   * Emits new channels and group id, tells widgets to
+   * fetch new data
+   */
   private sendUpdate(): void {
     this.channelGroupId.next(this._channelGroupId);
     const channels &#x3D; this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.hasUnsavedChanges &#x3D; false;
-    // this._channelsList &#x3D; undefined;
-    // this._channelGroupId &#x3D; null;
   }
 
+  /**
+   * Gets info for dashboard and channel group
+   *
+   * @param dashboardId dashboard id to fetch
+   * @param channelGroupId channel group id to find
+   * @returns observable of channel group
+   */
   setDashboardById(
     dashboardId: number,
     channelGroupId: number
@@ -2809,38 +3128,49 @@ export class ViewService {
     );
   }
 
-  //setChannelGroupById
-
-  // Sets up dates for dashboard
+  /**
+   * Sets up initial dates for dashboard
+   */
   private setIntialDates(): void {
     let startDate;
     let endDate;
     let autoRefresh;
     let range;
 
-    // make date range selector
     if (this.dashboard.properties.timeRange) {
+      // has a time range
       autoRefresh &#x3D; this.dashboard.properties.autoRefresh;
       range &#x3D; this.dashboard.properties.timeRange;
-      // set default dates
     } else if (
+      // has start and end dates
       this.dashboard.properties.startTime &amp;&amp;
       this.dashboard.properties.endTime
     ) {
+      // has start and end dates
       autoRefresh &#x3D; false;
       startDate &#x3D; this.dateService.parseUtc(
         this.dashboard.properties.startTime
       );
       endDate &#x3D; this.dateService.parseUtc(this.dashboard.properties.endTime);
     } else {
-      // default dates
+      // use default dates
       autoRefresh &#x3D; true;
       range &#x3D; this.defaultTimeRange;
     }
+
+    // update dates
     this.datesChanged(startDate, endDate, autoRefresh, range);
   }
 
   // takes given date config and saves it, emits changed dates
+  /**
+   * Takes date params and saves, emits changed dates
+   *
+   * @param startDate start date object
+   * @param endDate end date object
+   * @param autoRefresh true if data should auto refresh
+   * @param rangeInSeconds width of time range in seconds
+   */
   datesChanged(
     startDate: Dayjs,
     endDate: Dayjs,
@@ -2860,32 +3190,56 @@ export class ViewService {
     this.hasUnsavedChanges &#x3D; true;
   }
 
-  // returns the wdiget index
+  /**
+   * Returns widget index
+   *
+   * @param id widget id
+   * @returns widget index
+   */
   private getWidgetIndexById(id: number): number {
     return this._widgets?.findIndex((w) &#x3D;&gt; w.id &#x3D;&#x3D;&#x3D; id);
   }
 
-  // return widget with given id
+  /**
+   * Finds widget with id
+   *
+   * @param id widget id
+   * @returns widget
+   */
   getWidgetById(id: number): Widget {
     return this._widgets.find((w) &#x3D;&gt; w.id &#x3D;&#x3D;&#x3D; id);
   }
 
-  // send id to resize subscribers
+  /**
+   * Emits resize event with widget id
+   *
+   * @param widgetId id of widget to resize
+   */
   resizeWidget(widgetId: number): void {
     this.resize.next(widgetId);
   }
 
   // sends resize with no id
+  /** Emits resize event with no id */
   resizeAll(): void {
     this.resize.next(null);
   }
 
-  // saves the given widgets
+  /**
+   * Saves given widgets
+   *
+   * @param widgets widgets to storea
+   */
   setWidgets(widgets: Widget[]): void {
     this._widgets &#x3D; widgets;
   }
 
-  // stores archive options
+  /**
+   * Saves archive options
+   *
+   * @param archiveType new archive type
+   * @param archiveStat new archive stat
+   */
   setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat &#x3D; archiveStat;
     this._dashboard.properties.archiveType &#x3D; archiveType;
@@ -2893,19 +3247,31 @@ export class ViewService {
   }
 
   // broadcast id of changed widget
+  /**
+   * Emits id of changed widget and clears errors
+   *
+   * @param widgetId id to emit
+   */
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
     this.error.next(null);
   }
 
-  // updates the widget
+  /**
+   * Adds, updates or deletes a widget. If no widget is passed,
+   * it will be removed from the saved widgets.
+   *
+   * @param widgetId id to update
+   * @param widget widget toupdate
+   */
   updateWidget(widgetId: number, widget?: Widget): void {
     const index &#x3D; this.getWidgetIndexById(widgetId);
     if (index &gt; -1 &amp;&amp; !widget) {
       this._widgets.splice(index, 1);
       this.widgetChanged(widgetId);
     } else {
-      // get widget data since incomplete widget is coming in
+      // get widget data since incomplete widget is coming in from
+      // update request
       this.widgetService.read(widgetId).subscribe({
         next: (newWidget: Widget) &#x3D;&gt; {
           if (index &gt; -1) {
@@ -2925,7 +3291,13 @@ export class ViewService {
     }
   }
 
-  // Tell widgets to resize
+  /**
+   * Saves widget and tells widget to resize unless silentUpdate
+   * is true
+   *
+   * @param widget widget to update
+   * @param silentUpdate true if widget should not resize after update
+   */
   saveWidget(widget: Widget, silentUpdate?: boolean): void {
     if (this.ability.can(&quot;update&quot;, widget)) {
       this.widgetService.updateOrCreate(widget).subscribe({
@@ -2938,7 +3310,11 @@ export class ViewService {
     }
   }
 
-  // deletes given widget
+  /**
+   * Sends delete request to squacapi
+   *
+   * @param widgetId widget to delete
+   */
   deleteWidget(widgetId): void {
     this.widgetService.delete(widgetId).subscribe({
       next: () &#x3D;&gt; {
@@ -2951,12 +3327,15 @@ export class ViewService {
     });
   }
 
-  // deletes the dashboard
+  /**
+   * Sends delete request to squacapi
+   *
+   * @param dashboardId dashboard to delete
+   */
   deleteDashboard(dashboardId): void {
     this.dashboardService.delete(dashboardId).subscribe({
       next: () &#x3D;&gt; {
         this.messageService.message(&quot;Dashboard deleted.&quot;);
-        // redirect to dashboards
       },
       error: () &#x3D;&gt; {
         this.messageService.error(&quot;Could not delete dashboard.&quot;);
@@ -2964,7 +3343,9 @@ export class ViewService {
     });
   }
 
-  // saves the dashboard to squac
+  /**
+   * Saves current dashboard to squacapi
+   */
   saveDashboard(): void {
     this.dashboardService.updateOrCreate(this.dashboard).subscribe({
       error: () &#x3D;&gt; {
@@ -2972,7 +3353,6 @@ export class ViewService {
       },
     });
   }
-  // save and refresh in here
 }
 </code></pre>
     </div>

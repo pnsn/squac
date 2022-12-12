@@ -1,4 +1,3 @@
-export * from "./abstract-components";
 export * as Calendar from "./calendar";
 export * as Map from "./map";
 export * as Parallel from "./parallel-plot";

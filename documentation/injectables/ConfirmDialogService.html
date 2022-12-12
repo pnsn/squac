@@ -62,6 +62,28 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service for managing confirmation dialogs</p>
+<div><pre class="line-numbers"><code class="language-html">this.confirmDialog.open(
+  {
+    title: &quot;Delete&quot;,
+    message: &quot;This action is permanent.&quot;,
+    cancelText: &quot;No, cancel.&quot;,
+    confirmText: &quot;Yes, delete.&quot;
+  }
+);
+this.confirmDialog.confirmed().subscribe(
+  confirm =&gt; {
+    if(confirm) {
+      this.viewService.deleteDashboard(this.dashboard);
+      this.router.navigate([&#39;/dashboards&#39;]);
+    }
+});
+Returns true if confirm, false for cancel</code></pre></div>
+            </p>
 
 
 
@@ -130,7 +152,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -195,14 +217,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Closes the dialog with a false response</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -234,17 +258,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:72</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Observable of dialog response</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable that resolves to true if confirm, false if cancel</p>
 
                     </div>
                 </td>
@@ -271,14 +303,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:79</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>close all dialogs on destroy</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -310,14 +344,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:56</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Opens a dialog with the given options</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -328,6 +364,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -342,6 +379,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>dialog config options</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -384,7 +425,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -410,7 +451,27 @@ interface ConfirmDialogOptions {
   confirmText: string;
 }
 
-// Manages confirmation dialogs
+/**
+ * Service for managing confirmation dialogs
+ *
+ * @example
+ * this.confirmDialog.open(
+ *   {
+ *     title: &quot;Delete&quot;,
+ *     message: &quot;This action is permanent.&quot;,
+ *     cancelText: &quot;No, cancel.&quot;,
+ *     confirmText: &quot;Yes, delete.&quot;
+ *   }
+ * );
+ * this.confirmDialog.confirmed().subscribe(
+ *   confirm &#x3D;&gt; {
+ *     if(confirm) {
+ *       this.viewService.deleteDashboard(this.dashboard);
+ *       this.router.navigate([&#x27;/dashboards&#x27;]);
+ *     }
+ * });
+ * Returns true if confirm, false for cancel
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -418,14 +479,20 @@ export class ConfirmDialogService implements OnDestroy {
   constructor(private dialog: MatDialog) {}
   dialogRef: MatDialogRef&lt;ConfirmDialogComponent&gt;;
 
-  // Closes the dialog with a false response
+  /**
+   * Closes the dialog with a false response
+   */
   public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close(false);
     }
   }
 
-  // Opens a dialog with given options
+  /**
+   * Opens a dialog with the given options
+   *
+   * @param options dialog config options
+   */
   public open(options: ConfirmDialogOptions): void {
     this.dialogRef &#x3D; this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -437,35 +504,22 @@ export class ConfirmDialogService implements OnDestroy {
     });
   }
 
-  // Observable response is true if confirm, false if cancel
+  /**
+   * Observable of dialog response
+   *
+   * @returns Observable that resolves to true if confirm, false if cancel
+   */
   public confirmed(): Observable&lt;any&gt; {
     return this.dialogRef.afterClosed().pipe(take(1));
   }
 
+  /**
+   * close all dialogs on destroy
+   */
   ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add &#x27;implements OnDestroy&#x27; to the class.
     this.dialog.closeAll();
   }
 }
-
-// EXAMPLE USE
-// this.confirmDialog.open(
-//   {
-//     title: &quot;Delete&quot;,
-//     message: &quot;This action is permanent.&quot;,
-//     cancelText: &quot;No, cancel.&quot;,
-//     confirmText: &quot;Yes, delete.&quot;
-//   }
-// );
-// this.confirmDialog.confirmed().subscribe(
-//   confirm &#x3D;&gt; {
-//     if(confirm) {
-//       this.viewService.deleteDashboard(this.dashboard);
-//       this.router.navigate([&#x27;/dashboards&#x27;]);
-//     }
-// });
-// Returns true if confirm, false for cancel
 </code></pre>
     </div>
 

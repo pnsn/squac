@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Resolves a dashboard or list of dashboards</p>
+
+                </p>
 
 
 
@@ -81,9 +88,6 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#handleError" >handleError</a>
-                            </li>
                             <li>
                                 <a href="#resolve" >resolve</a>
                             </li>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -157,71 +161,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
-                    <span class="name">
-                        <span ><b>handleError</b></span>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>handleError(error)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:31</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolve"></a>
                     <span class="name">
                         <span ><b>resolve</b></span>
@@ -238,14 +177,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolve a dashboard or list of dashboards</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -256,6 +197,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -270,6 +212,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>activated route</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,11 +223,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | Observable</code>
+                        <b>Returns : </b>        <code><a href="../classes/Dashboard.html" target="_self" >Observable&lt;Dashboard | []&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>observable of results</p>
+
                     </div>
                 </td>
             </tr>
@@ -295,35 +242,34 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { DashboardService } from &quot;squacapi&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
+import { Observable } from &quot;rxjs&quot;;
 import { Dashboard } from &quot;squacapi&quot;;
 
-export interface DashboardResolved {
-  dashboard: Dashboard;
-  error?: any;
-}
-
+/**
+ * Resolves a dashboard or list of dashboards
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class DashboardResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
+export class DashboardResolver
+  implements Resolve&lt;Observable&lt;Dashboard | Dashboard[]&gt;&gt;
+{
   constructor(private dashboardService: DashboardService) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot
-  ): Observable&lt;Dashboard&gt; | Observable&lt;Dashboard[]&gt; {
+  /**
+   * Resolve a dashboard or list of dashboards
+   *
+   * @param route activated route
+   * @returns observable of results
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable&lt;Dashboard | Dashboard[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;dashboardId&quot;);
     if (id) {
-      return this.dashboardService.read(+id).pipe(catchError(this.handleError));
+      return this.dashboardService.read(+id);
     } else {
-      return this.dashboardService.list().pipe(catchError(this.handleError));
+      return this.dashboardService.list();
       // return all of them
     }
-  }
-
-  handleError(error: unknown): Observable&lt;any&gt; {
-    return of({ error });
   }
 }
 </code></pre>

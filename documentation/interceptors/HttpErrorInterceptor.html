@@ -63,6 +63,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Intercepts and formats http error responses for uniformity</p>
+
+            </p>
 
 
             <section>
@@ -119,14 +126,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Intercepts request and catches errors</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -137,6 +146,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,6 +161,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>http request</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>next</td>
@@ -163,6 +177,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>http handler</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -174,7 +192,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>throws error with formatted message</p>
+
                     </div>
                 </td>
             </tr>
@@ -197,9 +216,18 @@ import { Injectable } from &quot;@angular/core&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { catchError } from &quot;rxjs/operators&quot;;
 
-// Intercepts and formats http error responses for uniformity
+/**
+ * Intercepts and formats http error responses for uniformity
+ */
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  /**
+   * Intercepts request and catches errors
+   *
+   * @param request http request
+   * @param next http handler
+   * @returns throws error with formatted message
+   */
   intercept(
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler

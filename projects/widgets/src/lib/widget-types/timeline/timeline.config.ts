@@ -1,6 +1,7 @@
 import { WidgetTypeInfo } from "../../constants";
 import { TimelineComponent } from "./timeline.component";
 
+/** Config for timeline widget */
 export const CONFIG: WidgetTypeInfo = {
   component: TimelineComponent,
   config: {

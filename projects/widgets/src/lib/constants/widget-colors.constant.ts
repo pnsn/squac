@@ -1,3 +1,4 @@
+/** Solid widget color options */
 export const WIDGET_SOLID_COLORS = [
   {
     color: ["lightgray"],
@@ -41,6 +42,7 @@ export const WIDGET_SOLID_COLORS = [
   },
 ];
 
+/** gradient widget color options */
 export const WIDGET_GRADIENT_COLORS = [
   {
     label: "Rainbow",

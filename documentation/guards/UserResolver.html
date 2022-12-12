@@ -64,6 +64,13 @@
             </p>
 
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Resolver for currently logged in user</p>
+
+                </p>
 
 
 
@@ -81,9 +88,6 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#handleError" >handleError</a>
-                            </li>
                             <li>
                                 <a href="#resolve" >resolve</a>
                             </li>
@@ -110,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -157,71 +161,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
-                    <span class="name">
-                        <span ><b>handleError</b></span>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>handleError(error)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:17</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolve"></a>
                     <span class="name">
                         <span ><b>resolve</b></span>
@@ -238,17 +177,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/user.resolver.ts:21</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolve the current user</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Observable&lt;User&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable of current user</p>
 
                     </div>
                 </td>
@@ -262,23 +209,26 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Resolve } from &quot;@angular/router&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
-import { catchError } from &quot;rxjs/operators&quot;;
+import { Observable } from &quot;rxjs&quot;;
+import { User } from &quot;squacapi&quot;;
 import { UserService } from &quot;../../features/user/services/user.service&quot;;
 
+/**
+ * Resolver for currently logged in user
+ */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class UserResolver implements Resolve&lt;Observable&lt;any&gt;&gt; {
+export class UserResolver implements Resolve&lt;Observable&lt;User&gt;&gt; {
   constructor(private userService: UserService) {}
 
-  resolve(): Observable&lt;any&gt; {
-    return this.userService.getUser().pipe(catchError(this.handleError));
-  }
-
-  handleError(error: unknown): Observable&lt;any&gt; {
-    // TODO: route to show error
-    return of({ error });
+  /**
+   * Resolve the current user
+   *
+   * @returns Observable of current user
+   */
+  resolve(): Observable&lt;User&gt; {
+    return this.userService.getUser();
   }
 }
 </code></pre>
